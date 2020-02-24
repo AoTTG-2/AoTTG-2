@@ -1,0 +1,553 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{A67A7649-639C-D4A9-E40D-45770B1A3C78}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_7;UNITY_5_6;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Code\AHSSShotGunCollider.cs" />
+     <Compile Include="Assets\Code\AbnormalType.cs" />
+     <Compile Include="Assets\Code\ActiveAnimation.cs" />
+     <Compile Include="Assets\Code\ActorProperties.cs" />
+     <Compile Include="Assets\Code\Affector.cs" />
+     <Compile Include="Assets\Code\AnimatedAlpha.cs" />
+     <Compile Include="Assets\Code\AnimatedColor.cs" />
+     <Compile Include="Assets\Code\AnimationOrTween\Direction.cs" />
+     <Compile Include="Assets\Code\AnimationOrTween\DisableCondition.cs" />
+     <Compile Include="Assets\Code\AnimationOrTween\EnableCondition.cs" />
+     <Compile Include="Assets\Code\AnimationOrTween\Trigger.cs" />
+     <Compile Include="Assets\Code\AssemblyInfo.cs" />
+     <Compile Include="Assets\Code\AttractionForceAffector.cs" />
+     <Compile Include="Assets\Code\AuthenticationValues.cs" />
+     <Compile Include="Assets\Code\BMFont.cs" />
+     <Compile Include="Assets\Code\BMGlyph.cs" />
+     <Compile Include="Assets\Code\BMSymbol.cs" />
+     <Compile Include="Assets\Code\BODY_PARTS.cs" />
+     <Compile Include="Assets\Code\BTN_BackToMain.cs" />
+     <Compile Include="Assets\Code\BTN_ChangePassword.cs" />
+     <Compile Include="Assets\Code\BTN_Connect_To_Server_On_List.cs" />
+     <Compile Include="Assets\Code\BTN_Create_Game.cs" />
+     <Compile Include="Assets\Code\BTN_Enter_PWD.cs" />
+     <Compile Include="Assets\Code\BTN_FORGET_PASSWORD.cs" />
+     <Compile Include="Assets\Code\BTN_Join_LAN.cs" />
+     <Compile Include="Assets\Code\BTN_LEADERBOARD.cs" />
+     <Compile Include="Assets\Code\BTN_LEADERBOARD_QUIT.cs" />
+     <Compile Include="Assets\Code\BTN_LOAD_CC.cs" />
+     <Compile Include="Assets\Code\BTN_LOGIN.cs" />
+     <Compile Include="Assets\Code\BTN_PAUSE_MENU_CONTINUE.cs" />
+     <Compile Include="Assets\Code\BTN_PAUSE_MENU_QUIT.cs" />
+     <Compile Include="Assets\Code\BTN_QUICKMATCH.cs" />
+     <Compile Include="Assets\Code\BTN_REGISTER.cs" />
+     <Compile Include="Assets\Code\BTN_RESULT_TO_MAIN.cs" />
+     <Compile Include="Assets\Code\BTN_RefreshList.cs" />
+     <Compile Include="Assets\Code\BTN_SAVE_CC.cs" />
+     <Compile Include="Assets\Code\BTN_SET_GUILD_NAME.cs" />
+     <Compile Include="Assets\Code\BTN_SIGNOUT.cs" />
+     <Compile Include="Assets\Code\BTN_SSR_Down.cs" />
+     <Compile Include="Assets\Code\BTN_SSR_up.cs" />
+     <Compile Include="Assets\Code\BTN_START_MULTI_SERVER.cs" />
+     <Compile Include="Assets\Code\BTN_START_SINGLE_GAMEPLAY.cs" />
+     <Compile Include="Assets\Code\BTN_ServerUS.cs" />
+     <Compile Include="Assets\Code\BTN_Server_ASIA.cs" />
+     <Compile Include="Assets\Code\BTN_Server_EU.cs" />
+     <Compile Include="Assets\Code\BTN_Server_JPN.cs" />
+     <Compile Include="Assets\Code\BTN_Server_List_PgDn.cs" />
+     <Compile Include="Assets\Code\BTN_Server_List_PgUp.cs" />
+     <Compile Include="Assets\Code\BTN_SetDefault.cs" />
+     <Compile Include="Assets\Code\BTN_TO_LOGIN.cs" />
+     <Compile Include="Assets\Code\BTN_TO_REGISTER.cs" />
+     <Compile Include="Assets\Code\BTN_ToCredit.cs" />
+     <Compile Include="Assets\Code\BTN_ToJoin.cs" />
+     <Compile Include="Assets\Code\BTN_ToLAN.cs" />
+     <Compile Include="Assets\Code\BTN_ToOption.cs" />
+     <Compile Include="Assets\Code\BTN_ToServer.cs" />
+     <Compile Include="Assets\Code\BTN_To_SSR.cs" />
+     <Compile Include="Assets\Code\BTN_choose_human.cs" />
+     <Compile Include="Assets\Code\BTN_choose_titan.cs" />
+     <Compile Include="Assets\Code\BTN_leave_lobby.cs" />
+     <Compile Include="Assets\Code\BTN_rotate_character.cs" />
+     <Compile Include="Assets\Code\BTN_save_snapshot.cs" />
+     <Compile Include="Assets\Code\BTN_toPublicServer.cs" />
+     <Compile Include="Assets\Code\BTN_toSingleSet.cs" />
+     <Compile Include="Assets\Code\BUFF.cs" />
+     <Compile Include="Assets\Code\BetterList!1.cs" />
+     <Compile Include="Assets\Code\BillboardScript.cs" />
+     <Compile Include="Assets\Code\BloodSplatterScript.cs" />
+     <Compile Include="Assets\Code\BodyPushBox.cs" />
+     <Compile Include="Assets\Code\Bomb.cs" />
+     <Compile Include="Assets\Code\BombExplode.cs" />
+     <Compile Include="Assets\Code\BottomType.cs" />
+     <Compile Include="Assets\Code\BtnSSNext.cs" />
+     <Compile Include="Assets\Code\BtnSSPrev.cs" />
+     <Compile Include="Assets\Code\Btn_CreateLanGame.cs" />
+     <Compile Include="Assets\Code\Btn_TO_CC.cs" />
+     <Compile Include="Assets\Code\Btn_to_Main_from_CC.cs" />
+     <Compile Include="Assets\Code\Bullet.cs" />
+     <Compile Include="Assets\Code\ButtonImageFitText.cs" />
+     <Compile Include="Assets\Code\ButtonTextEffect.cs" />
+     <Compile Include="Assets\Code\ByteReader.cs" />
+     <Compile Include="Assets\Code\CAMERA_TYPE.cs" />
+     <Compile Include="Assets\Code\CB_cameraTilt.cs" />
+     <Compile Include="Assets\Code\CB_invertMouseY.cs" />
+     <Compile Include="Assets\Code\CLZF2.cs" />
+     <Compile Include="Assets\Code\COLOR_GRADUAL_TYPE.cs" />
+     <Compile Include="Assets\Code\COLOSSAL_TITAN.cs" />
+     <Compile Include="Assets\Code\CameraFacingBillboard.cs" />
+     <Compile Include="Assets\Code\CameraForLeftEye.cs" />
+     <Compile Include="Assets\Code\CameraShake.cs" />
+     <Compile Include="Assets\Code\Cannon.cs" />
+     <Compile Include="Assets\Code\CannonBall.cs" />
+     <Compile Include="Assets\Code\CannonPropRegion.cs" />
+     <Compile Include="Assets\Code\CannonValues.cs" />
+     <Compile Include="Assets\Code\CatchDestroy.cs" />
+     <Compile Include="Assets\Code\ChangeQuality.cs" />
+     <Compile Include="Assets\Code\CharacterCreateAnimationControl.cs" />
+     <Compile Include="Assets\Code\CharacterCreationComponent.cs" />
+     <Compile Include="Assets\Code\CharacterMaterials.cs" />
+     <Compile Include="Assets\Code\CharacterStatComponent.cs" />
+     <Compile Include="Assets\Code\ChatInput.cs" />
+     <Compile Include="Assets\Code\CheckBoxCamera.cs" />
+     <Compile Include="Assets\Code\CheckBoxCostume.cs" />
+     <Compile Include="Assets\Code\CheckBoxEnableSS.cs" />
+     <Compile Include="Assets\Code\CheckBoxShowSSInGame.cs" />
+     <Compile Include="Assets\Code\CheckHitGround.cs" />
+     <Compile Include="Assets\Code\CheckPointState.cs" />
+     <Compile Include="Assets\Code\ClickToMove.cs" />
+     <Compile Include="Assets\Code\ClothFactory.cs" />
+     <Compile Include="Assets\Code\CloudRegionCode.cs" />
+     <Compile Include="Assets\Code\ColorAffector.cs" />
+     <Compile Include="Assets\Code\ColorSet.cs" />
+     <Compile Include="Assets\Code\CompressString\StringCompressor.cs" />
+     <Compile Include="Assets\Code\ConnectAndJoinRandom.cs" />
+     <Compile Include="Assets\Code\ConnectionState.cs" />
+     <Compile Include="Assets\Code\CostumeConeveter.cs" />
+     <Compile Include="Assets\Code\CostumeHair.cs" />
+     <Compile Include="Assets\Code\CreatePart.cs" />
+     <Compile Include="Assets\Code\CreateStat.cs" />
+     <Compile Include="Assets\Code\CubeCollector.cs" />
+     <Compile Include="Assets\Code\CustomAuthenticationType.cs" />
+     <Compile Include="Assets\Code\CustomCharacterManager.cs" />
+     <Compile Include="Assets\Code\CustomTypes.cs" />
+     <Compile Include="Assets\Code\DIVISION.cs" />
+     <Compile Include="Assets\Code\DayLight.cs" />
+     <Compile Include="Assets\Code\DaylightChange.cs" />
+     <Compile Include="Assets\Code\DisconnectCause.cs" />
+     <Compile Include="Assets\Code\DownloadTexture.cs" />
+     <Compile Include="Assets\Code\DragDropContainer.cs" />
+     <Compile Include="Assets\Code\DragDropItem.cs" />
+     <Compile Include="Assets\Code\DragDropRoot.cs" />
+     <Compile Include="Assets\Code\DragDropSurface.cs" />
+     <Compile Include="Assets\Code\EMITTYPE.cs" />
+     <Compile Include="Assets\Code\EanAnimation.cs" />
+     <Compile Include="Assets\Code\EanFile.cs" />
+     <Compile Include="Assets\Code\EanFrame.cs" />
+     <Compile Include="Assets\Code\EffectController.cs" />
+     <Compile Include="Assets\Code\EffectLayer.cs" />
+     <Compile Include="Assets\Code\EffectNode.cs" />
+     <Compile Include="Assets\Code\Emitter.cs" />
+     <Compile Include="Assets\Code\EnemyCheckCollider.cs" />
+     <Compile Include="Assets\Code\EnemyfxIDcontainer.cs" />
+     <Compile Include="Assets\Code\EquipItems.cs" />
+     <Compile Include="Assets\Code\EquipRandomItem.cs" />
+     <Compile Include="Assets\Code\ErrorCode.cs" />
+     <Compile Include="Assets\Code\EventCallback.cs" />
+     <Compile Include="Assets\Code\EventCode.cs" />
+     <Compile Include="Assets\Code\ExitGames.Client.DemoParticle\TimeKeeper.cs" />
+     <Compile Include="Assets\Code\ExitGames.Client.Photon\SocketUdp.cs" />
+     <Compile Include="Assets\Code\Extensions.cs" />
+     <Compile Include="Assets\Code\FEMALE_TITAN.cs" />
+     <Compile Include="Assets\Code\FengColor.cs" />
+     <Compile Include="Assets\Code\FengCustomInputs.cs" />
+     <Compile Include="Assets\Code\FengGameManagerMKII.cs" />
+     <Compile Include="Assets\Code\FengMath.cs" />
+     <Compile Include="Assets\Code\FlareMovement.cs" />
+     <Compile Include="Assets\Code\FriendInfo.cs" />
+     <Compile Include="Assets\Code\GAMEMODE.cs" />
+     <Compile Include="Assets\Code\GAMETYPE.cs" />
+     <Compile Include="Assets\Code\GROUP.cs" />
+     <Compile Include="Assets\Code\GameObjectExtensions.cs" />
+     <Compile Include="Assets\Code\GameProperties.cs" />
+     <Compile Include="Assets\Code\HERO.cs" />
+     <Compile Include="Assets\Code\HERO_DEAD_BODY_SETUP.cs" />
+     <Compile Include="Assets\Code\HERO_ON_MENU.cs" />
+     <Compile Include="Assets\Code\HERO_SETUP.cs" />
+     <Compile Include="Assets\Code\HERO_STATE.cs" />
+     <Compile Include="Assets\Code\HeroCostume.cs" />
+     <Compile Include="Assets\Code\HeroStat.cs" />
+     <Compile Include="Assets\Code\HintType.cs" />
+     <Compile Include="Assets\Code\HitBox.cs" />
+     <Compile Include="Assets\Code\Horse.cs" />
+     <Compile Include="Assets\Code\IComparerPVPchkPtID.cs" />
+     <Compile Include="Assets\Code\IComparerRacingResult.cs" />
+     <Compile Include="Assets\Code\IN_GAME_MAIN_CAMERA.cs" />
+     <Compile Include="Assets\Code\IPunObservable.cs" />
+     <Compile Include="Assets\Code\IgnoreTimeScale.cs" />
+     <Compile Include="Assets\Code\InRoomChat.cs" />
+     <Compile Include="Assets\Code\InRoomRoundTimer.cs" />
+     <Compile Include="Assets\Code\InputCode.cs" />
+     <Compile Include="Assets\Code\InputCodeRC.cs" />
+     <Compile Include="Assets\Code\InputManagerRC.cs" />
+     <Compile Include="Assets\Code\InputToEvent.cs" />
+     <Compile Include="Assets\Code\InstantiateTracker.cs" />
+     <Compile Include="Assets\Code\InvAttachmentPoint.cs" />
+     <Compile Include="Assets\Code\InvBaseItem.cs" />
+     <Compile Include="Assets\Code\InvDatabase.cs" />
+     <Compile Include="Assets\Code\InvEquipment.cs" />
+     <Compile Include="Assets\Code\InvGameItem.cs" />
+     <Compile Include="Assets\Code\InvStat.cs" />
+     <Compile Include="Assets\Code\JetAffector.cs" />
+     <Compile Include="Assets\Code\JoinType.cs" />
+     <Compile Include="Assets\Code\KickState.cs" />
+     <Compile Include="Assets\Code\KillInfoComponent.cs" />
+     <Compile Include="Assets\Code\LagPosition.cs" />
+     <Compile Include="Assets\Code\LagRotation.cs" />
+     <Compile Include="Assets\Code\Language.cs" />
+     <Compile Include="Assets\Code\LanguageChangeListener.cs" />
+     <Compile Include="Assets\Code\LanguageSelection.cs" />
+     <Compile Include="Assets\Code\LevelBottom.cs" />
+     <Compile Include="Assets\Code\LevelInfo.cs" />
+     <Compile Include="Assets\Code\LevelMovingBrick.cs" />
+     <Compile Include="Assets\Code\LevelTeleport.cs" />
+     <Compile Include="Assets\Code\LevelTriggerCheckPoint.cs" />
+     <Compile Include="Assets\Code\LevelTriggerGas.cs" />
+     <Compile Include="Assets\Code\LevelTriggerHint.cs" />
+     <Compile Include="Assets\Code\LevelTriggerRacingEnd.cs" />
+     <Compile Include="Assets\Code\LinearForceAffector.cs" />
+     <Compile Include="Assets\Code\LoadLevelOnClick.cs" />
+     <Compile Include="Assets\Code\LoadbalancingPeer.cs" />
+     <Compile Include="Assets\Code\LobbyType.cs" />
+     <Compile Include="Assets\Code\Localization.cs" />
+     <Compile Include="Assets\Code\LoginFengKAI.cs" />
+     <Compile Include="Assets\Code\LookAtTarget.cs" />
+     <Compile Include="Assets\Code\ManualPhotonViewAllocator.cs" />
+     <Compile Include="Assets\Code\MapNameChange.cs" />
+     <Compile Include="Assets\Code\MatchmakingMode.cs" />
+     <Compile Include="Assets\Code\MaxCamera.cs" />
+     <Compile Include="Assets\Code\Minimap.cs" />
+     <Compile Include="Assets\Code\MoveByKeys.cs" />
+     <Compile Include="Assets\Code\MoveSample.cs" />
+     <Compile Include="Assets\Code\MovementUpdate.cs" />
+     <Compile Include="Assets\Code\MovementUpdate1.cs" />
+     <Compile Include="Assets\Code\NGUIDebug.cs" />
+     <Compile Include="Assets\Code\NGUIMath.cs" />
+     <Compile Include="Assets\Code\NGUITools.cs" />
+     <Compile Include="Assets\Code\NetworkingPeer.cs" />
+     <Compile Include="Assets\Code\ORIPOINT.cs" />
+     <Compile Include="Assets\Code\OnAwakeUsePhotonView.cs" />
+     <Compile Include="Assets\Code\OnClickDestroy.cs" />
+     <Compile Include="Assets\Code\OnClickInstantiate.cs" />
+     <Compile Include="Assets\Code\OnClickLoadSomething.cs" />
+     <Compile Include="Assets\Code\OnJoinedInstantiate.cs" />
+     <Compile Include="Assets\Code\OnSerializeRigidBody.cs" />
+     <Compile Include="Assets\Code\OnSerializeTransform.cs" />
+     <Compile Include="Assets\Code\OnStartDelete.cs" />
+     <Compile Include="Assets\Code\OperationCode.cs" />
+     <Compile Include="Assets\Code\PBitStream.cs" />
+     <Compile Include="Assets\Code\PVPcheckPoint.cs" />
+     <Compile Include="Assets\Code\PVPchkPtPreset.cs" />
+     <Compile Include="Assets\Code\PanWithMouse.cs" />
+     <Compile Include="Assets\Code\PanelCredits.cs" />
+     <Compile Include="Assets\Code\PanelEnterGame.cs" />
+     <Compile Include="Assets\Code\PanelGroupManager.cs" />
+     <Compile Include="Assets\Code\PanelJoinPrivate.cs" />
+     <Compile Include="Assets\Code\PanelLoginGroupManager.cs" />
+     <Compile Include="Assets\Code\PanelMain.cs" />
+     <Compile Include="Assets\Code\PanelMultiJoin.cs" />
+     <Compile Include="Assets\Code\PanelMultiJoinPWD.cs" />
+     <Compile Include="Assets\Code\PanelMultiSet.cs" />
+     <Compile Include="Assets\Code\PanelMultiStart.cs" />
+     <Compile Include="Assets\Code\PanelMultiWait.cs" />
+     <Compile Include="Assets\Code\PanelOption.cs" />
+     <Compile Include="Assets\Code\PanelResult.cs" />
+     <Compile Include="Assets\Code\PanelServerList.cs" />
+     <Compile Include="Assets\Code\PanelSingleSet.cs" />
+     <Compile Include="Assets\Code\ParameterCode.cs" />
+     <Compile Include="Assets\Code\ParentFollow.cs" />
+     <Compile Include="Assets\Code\ParticleScaling.cs" />
+     <Compile Include="Assets\Code\PeerStates.cs" />
+     <Compile Include="Assets\Code\Photon\MonoBehaviour.cs" />
+     <Compile Include="Assets\Code\PhotonHandler.cs" />
+     <Compile Include="Assets\Code\PhotonLagSimulationGui.cs" />
+     <Compile Include="Assets\Code\PhotonLogLevel.cs" />
+     <Compile Include="Assets\Code\PhotonMessageInfo.cs" />
+     <Compile Include="Assets\Code\PhotonNetwork.cs" />
+     <Compile Include="Assets\Code\PhotonNetworkingMessage.cs" />
+     <Compile Include="Assets\Code\PhotonPingManager.cs" />
+     <Compile Include="Assets\Code\PhotonPlayer.cs" />
+     <Compile Include="Assets\Code\PhotonPlayerProperty.cs" />
+     <Compile Include="Assets\Code\PhotonStatsGui.cs" />
+     <Compile Include="Assets\Code\PhotonStream.cs" />
+     <Compile Include="Assets\Code\PhotonTargets.cs" />
+     <Compile Include="Assets\Code\PhotonView.cs" />
+     <Compile Include="Assets\Code\PickupItem.cs" />
+     <Compile Include="Assets\Code\PickupItemSimple.cs" />
+     <Compile Include="Assets\Code\PickupItemSyncer.cs" />
+     <Compile Include="Assets\Code\PingMonoEditor.cs" />
+     <Compile Include="Assets\Code\PlanetMouseOrbit.cs" />
+     <Compile Include="Assets\Code\PlayIdleAnimations.cs" />
+     <Compile Include="Assets\Code\PlayerInfoPHOTON.cs" />
+     <Compile Include="Assets\Code\PointedAtGameObjectInfo.cs" />
+     <Compile Include="Assets\Code\PopListCamera.cs" />
+     <Compile Include="Assets\Code\PopuplistCharacterSelection.cs" />
+     <Compile Include="Assets\Code\PunEvent.cs" />
+     <Compile Include="Assets\Code\PunPlayerScores.cs" />
+     <Compile Include="Assets\Code\PunTeams.cs" />
+     <Compile Include="Assets\Code\QuitOnEscapeOrBack.cs" />
+     <Compile Include="Assets\Code\RCAction.cs" />
+     <Compile Include="Assets\Code\RCActionHelper.cs" />
+     <Compile Include="Assets\Code\RCCondition.cs" />
+     <Compile Include="Assets\Code\RCEvent.cs" />
+     <Compile Include="Assets\Code\RCGeneralEffect.cs" />
+     <Compile Include="Assets\Code\RCGlobals.cs" />
+     <Compile Include="Assets\Code\RCParameters.cs" />
+     <Compile Include="Assets\Code\RCRegion.cs" />
+     <Compile Include="Assets\Code\RCRegionLabel.cs" />
+     <Compile Include="Assets\Code\RCSettings.cs" />
+     <Compile Include="Assets\Code\RCStatic.cs" />
+     <Compile Include="Assets\Code\RCextensions.cs" />
+     <Compile Include="Assets\Code\RSTYPE.cs" />
+     <Compile Include="Assets\Code\RacingCheckpointTrigger.cs" />
+     <Compile Include="Assets\Code\RacingKillTrigger.cs" />
+     <Compile Include="Assets\Code\RacingResult.cs" />
+     <Compile Include="Assets\Code\RaiseEventOptions.cs" />
+     <Compile Include="Assets\Code\RandomHouse.cs" />
+     <Compile Include="Assets\Code\Region.cs" />
+     <Compile Include="Assets\Code\RegionTrigger.cs" />
+     <Compile Include="Assets\Code\RespawnMode.cs" />
+     <Compile Include="Assets\Code\RibbonTrail.cs" />
+     <Compile Include="Assets\Code\RockScript.cs" />
+     <Compile Include="Assets\Code\RockThrow.cs" />
+     <Compile Include="Assets\Code\Room.cs" />
+     <Compile Include="Assets\Code\RoomInfo.cs" />
+     <Compile Include="Assets\Code\RoomOptions.cs" />
+     <Compile Include="Assets\Code\RotateAffector.cs" />
+     <Compile Include="Assets\Code\RotateSample.cs" />
+     <Compile Include="Assets\Code\SEX.cs" />
+     <Compile Include="Assets\Code\STEREO_3D_TYPE.cs" />
+     <Compile Include="Assets\Code\STYPE.cs" />
+     <Compile Include="Assets\Code\STransform.cs" />
+     <Compile Include="Assets\Code\SampleInfo.cs" />
+     <Compile Include="Assets\Code\ScaleAffector.cs" />
+     <Compile Include="Assets\Code\ScoreExtensions.cs" />
+     <Compile Include="Assets\Code\SelfDestroy.cs" />
+     <Compile Include="Assets\Code\ServerConnection.cs" />
+     <Compile Include="Assets\Code\ServerTime.cs" />
+     <Compile Include="Assets\Code\SetColorOnSelection.cs" />
+     <Compile Include="Assets\Code\SettingReciveInput.cs" />
+     <Compile Include="Assets\Code\ShaderQuality.cs" />
+     <Compile Include="Assets\Code\ShowInfoOfPlayer.cs" />
+     <Compile Include="Assets\Code\SimpleAES.cs" />
+     <Compile Include="Assets\Code\SliderCameraDist.cs" />
+     <Compile Include="Assets\Code\SliderMouseSensitivity.cs" />
+     <Compile Include="Assets\Code\SmoothSyncMovement.cs" />
+     <Compile Include="Assets\Code\SmoothSyncMovement2.cs" />
+     <Compile Include="Assets\Code\SmoothSyncMovement3.cs" />
+     <Compile Include="Assets\Code\SnapShotReview.cs" />
+     <Compile Include="Assets\Code\SnapShotSaves.cs" />
+     <Compile Include="Assets\Code\SpectatorMovement.cs" />
+     <Compile Include="Assets\Code\Spin.cs" />
+     <Compile Include="Assets\Code\SpinWithMouse.cs" />
+     <Compile Include="Assets\Code\SpringPanel.cs" />
+     <Compile Include="Assets\Code\SpringPosition.cs" />
+     <Compile Include="Assets\Code\Sprite.cs" />
+     <Compile Include="Assets\Code\StyledComboBox.cs" />
+     <Compile Include="Assets\Code\StyledComboBoxPrefab.cs" />
+     <Compile Include="Assets\Code\StyledItem.cs" />
+     <Compile Include="Assets\Code\StyledItemButtonImageText.cs" />
+     <Compile Include="Assets\Code\StylishComponent.cs" />
+     <Compile Include="Assets\Code\SupportLogger.cs" />
+     <Compile Include="Assets\Code\SupportLogging.cs" />
+     <Compile Include="Assets\Code\SynchronizeLights.cs" />
+     <Compile Include="Assets\Code\TITAN.cs" />
+     <Compile Include="Assets\Code\TITAN_CONTROLLER.cs" />
+     <Compile Include="Assets\Code\TITAN_EREN.cs" />
+     <Compile Include="Assets\Code\TITAN_SETUP.cs" />
+     <Compile Include="Assets\Code\TeamExtensions.cs" />
+     <Compile Include="Assets\Code\TestDontDestroyOnLoad.cs" />
+     <Compile Include="Assets\Code\TestStyledComboBox.cs" />
+     <Compile Include="Assets\Code\Test_CSharp.cs" />
+     <Compile Include="Assets\Code\TitanSpawner.cs" />
+     <Compile Include="Assets\Code\TitanState.cs" />
+     <Compile Include="Assets\Code\TitanTrigger.cs" />
+     <Compile Include="Assets\Code\TriggerColliderWeapon.cs" />
+     <Compile Include="Assets\Code\TweenAlpha.cs" />
+     <Compile Include="Assets\Code\TweenColor.cs" />
+     <Compile Include="Assets\Code\TweenFOV.cs" />
+     <Compile Include="Assets\Code\TweenOrthoSize.cs" />
+     <Compile Include="Assets\Code\TweenPosition.cs" />
+     <Compile Include="Assets\Code\TweenRotation.cs" />
+     <Compile Include="Assets\Code\TweenScale.cs" />
+     <Compile Include="Assets\Code\TweenTransform.cs" />
+     <Compile Include="Assets\Code\TweenVolume.cs" />
+     <Compile Include="Assets\Code\TypedLobby.cs" />
+     <Compile Include="Assets\Code\TypewriterEffect.cs" />
+     <Compile Include="Assets\Code\UIAnchor.cs" />
+     <Compile Include="Assets\Code\UIAtlas.cs" />
+     <Compile Include="Assets\Code\UIButton.cs" />
+     <Compile Include="Assets\Code\UIButtonActivate.cs" />
+     <Compile Include="Assets\Code\UIButtonColor.cs" />
+     <Compile Include="Assets\Code\UIButtonKeyBinding.cs" />
+     <Compile Include="Assets\Code\UIButtonKeys.cs" />
+     <Compile Include="Assets\Code\UIButtonMessage.cs" />
+     <Compile Include="Assets\Code\UIButtonOffset.cs" />
+     <Compile Include="Assets\Code\UIButtonPlayAnimation.cs" />
+     <Compile Include="Assets\Code\UIButtonRotation.cs" />
+     <Compile Include="Assets\Code\UIButtonScale.cs" />
+     <Compile Include="Assets\Code\UIButtonSound.cs" />
+     <Compile Include="Assets\Code\UIButtonTween.cs" />
+     <Compile Include="Assets\Code\UICamera.cs" />
+     <Compile Include="Assets\Code\UICenterOnChild.cs" />
+     <Compile Include="Assets\Code\UICheckbox.cs" />
+     <Compile Include="Assets\Code\UICheckboxControlledComponent.cs" />
+     <Compile Include="Assets\Code\UICheckboxControlledObject.cs" />
+     <Compile Include="Assets\Code\UICursor.cs" />
+     <Compile Include="Assets\Code\UIDragCamera.cs" />
+     <Compile Include="Assets\Code\UIDragObject.cs" />
+     <Compile Include="Assets\Code\UIDragPanelContents.cs" />
+     <Compile Include="Assets\Code\UIDraggableCamera.cs" />
+     <Compile Include="Assets\Code\UIDraggablePanel.cs" />
+     <Compile Include="Assets\Code\UIDrawCall.cs" />
+     <Compile Include="Assets\Code\UIEquipmentSlot.cs" />
+     <Compile Include="Assets\Code\UIEventListener.cs" />
+     <Compile Include="Assets\Code\UIFilledSprite.cs" />
+     <Compile Include="Assets\Code\UIFont.cs" />
+     <Compile Include="Assets\Code\UIForwardEvents.cs" />
+     <Compile Include="Assets\Code\UIGeometry.cs" />
+     <Compile Include="Assets\Code\UIGrid.cs" />
+     <Compile Include="Assets\Code\UIImageButton.cs" />
+     <Compile Include="Assets\Code\UIInput.cs" />
+     <Compile Include="Assets\Code\UIInputSaved.cs" />
+     <Compile Include="Assets\Code\UIInputValidator.cs" />
+     <Compile Include="Assets\Code\UIItemSlot.cs" />
+     <Compile Include="Assets\Code\UIItemStorage.cs" />
+     <Compile Include="Assets\Code\UILabel.cs" />
+     <Compile Include="Assets\Code\UILocalize.cs" />
+     <Compile Include="Assets\Code\UIMainReferences.cs" />
+     <Compile Include="Assets\Code\UIOrthoCamera.cs" />
+     <Compile Include="Assets\Code\UIPanel.cs" />
+     <Compile Include="Assets\Code\UIPopupList.cs" />
+     <Compile Include="Assets\Code\UIReferArray.cs" />
+     <Compile Include="Assets\Code\UIRoot.cs" />
+     <Compile Include="Assets\Code\UISavedOption.cs" />
+     <Compile Include="Assets\Code\UIScrollBar.cs" />
+     <Compile Include="Assets\Code\UISlicedSprite.cs" />
+     <Compile Include="Assets\Code\UISlider.cs" />
+     <Compile Include="Assets\Code\UISliderColors.cs" />
+     <Compile Include="Assets\Code\UISoundVolume.cs" />
+     <Compile Include="Assets\Code\UISprite.cs" />
+     <Compile Include="Assets\Code\UISpriteAnimation.cs" />
+     <Compile Include="Assets\Code\UIStorageSlot.cs" />
+     <Compile Include="Assets\Code\UIStretch.cs" />
+     <Compile Include="Assets\Code\UITable.cs" />
+     <Compile Include="Assets\Code\UITextList.cs" />
+     <Compile Include="Assets\Code\UITexture.cs" />
+     <Compile Include="Assets\Code\UITiledSprite.cs" />
+     <Compile Include="Assets\Code\UITooltip.cs" />
+     <Compile Include="Assets\Code\UITweener.cs" />
+     <Compile Include="Assets\Code\UIViewport.cs" />
+     <Compile Include="Assets\Code\UIWidget.cs" />
+     <Compile Include="Assets\Code\UIadjustment.cs" />
+     <Compile Include="Assets\Code\UNIFORM_TYPE.cs" />
+     <Compile Include="Assets\Code\UVAffector.cs" />
+     <Compile Include="Assets\Code\UVAnimation.cs" />
+     <Compile Include="Assets\Code\UpdateManager.cs" />
+     <Compile Include="Assets\Code\VertexPool.cs" />
+     <Compile Include="Assets\Code\ViewSynchronization.cs" />
+     <Compile Include="Assets\Code\VortexAffector.cs" />
+     <Compile Include="Assets\Code\WebRpcResponse.cs" />
+     <Compile Include="Assets\Code\WindowAutoYaw.cs" />
+     <Compile Include="Assets\Code\WindowDragTilt.cs" />
+     <Compile Include="Assets\Code\XWeaponTrailDemo.cs" />
+     <Compile Include="Assets\Code\Xffect.cs" />
+     <Compile Include="Assets\Code\XffectCache.cs" />
+     <Compile Include="Assets\Code\Xft\Spline.cs" />
+     <Compile Include="Assets\Code\Xft\SplineControlPoint.cs" />
+     <Compile Include="Assets\Code\Xft\VertexPool.cs" />
+     <Compile Include="Assets\Code\Xft\XWeaponTrail.cs" />
+     <Compile Include="Assets\Code\_PrivateImplementationDetails_{0D0DBC2D-4703-4E37-9980-7CCCB6954E08}.cs" />
+     <Compile Include="Assets\Code\custom_inputs.cs" />
+     <Compile Include="Assets\Code\iTween.cs" />
+     <Compile Include="Assets\Code\supplyCheck.cs" />
+     <Compile Include="Assets\Code\titanTypes.cs" />
+     <Compile Include="Assets\Scripts\ServerSettings.cs" />
+     <None Include="Assets\Resources\lang.txt" />
+     <None Include="Assets\output_log.txt" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>C:/Program Files/Unity/Hub/Editor/5.6.7f1/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="ICSharpCode.SharpZipLib">
+ <HintPath>C:/Users/nickw/source/repos/Lithrun/AoTTG 2/Assets/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ </Reference>
+ <Reference Include="Photon3Unity3D">
+ <HintPath>C:/Users/nickw/source/repos/Lithrun/AoTTG 2/Assets/Plugins/Photon3Unity3D.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
