@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_Name: Shadow Material
+  m_Shader: {fileID: 4800000, guid: d653a2b15a01a6e4d91aa32c4b7c2bb5, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ShadowTex:
+        m_Texture: {fileID: 2800000, guid: 63dc470b0cea7ae47bb971e463c7b1bf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FalloffTex:
+        m_Texture: {fileID: 2800000, guid: 6b6074956e4bda044b7e1401cd96f1ea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Shininess: 0.078125
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - BumpMapScale: {r: 1, g: 1, b: 1, a: 1}
+    - _ProjectorClip_0: {r: -0.01543823, g: -0.02586669, b: 0.1446061, a: 0.2936097}
+    - _ProjectorClip_1: {r: 0.004758252, g: 0.1452381, b: 0.02648774, a: 0.003064126}
+    - _ProjectorClip_2: {r: -0.01543823, g: -0.02586669, b: 0.1446061, a: 0.2936097}
+    - _ProjectorClip_3: {r: 0, g: 0, b: 0, a: 1}
+    - _ProjectorDistance_0: {r: -0.01521351, g: -0.02549018, b: 0.1425013, a: 0.303892}
+    - _ProjectorDistance_1: {r: 0.004688991, g: 0.1431241, b: 0.02610219, a: 0.01757544}
+    - _ProjectorDistance_2: {r: -0.01521351, g: -0.02549018, b: 0.1425013, a: 0.303892}
+    - _ProjectorDistance_3: {r: 0, g: 0, b: 0, a: 1}
+    - _Projector_0: {r: 1.671005, g: -0.1747249, b: 0.6578766, a: 1.066212}
+    - _Projector_1: {r: -0.001437549, g: 1.463669, b: 0.7723966, a: 1.234358}
+    - _Projector_2: {r: -0.1076045, g: -0.1802909, b: 1.007905, a: 1.946462}
+    - _Projector_3: {r: -0.1045169, g: -0.1751176, b: 0.9789842, a: 2.087739}
