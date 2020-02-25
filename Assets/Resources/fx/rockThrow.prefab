@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1576382807002691}
+  m_IsPrefabParent: 1
+--- !u!1 &1576382807002691
+GameObject:
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4874131915601813}
+  - component: {fileID: 114783275536401369}
+  - component: {fileID: 114483786675580011}
+  - component: {fileID: 114678539729605035}
+  m_Layer: 13
+  m_Name: rockThrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4874131915601813
+Transform:
+  m_GameObject: {fileID: 1576382807002691}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4686942556052900}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114783275536401369
+MonoBehaviour:
+  m_GameObject: {fileID: 1576382807002691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af5dd4e969e1674dbde1a7e1f6981a2, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!114 &114483786675580011
+MonoBehaviour:
+  m_GameObject: {fileID: 1576382807002691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fec2f608dff94374d8b6c07349938b47, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!114 &114678539729605035
+MonoBehaviour:
+  m_GameObject: {fileID: 1576382807002691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 210dd113bda5be548a8dce74d19a455c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!1 &1377280906169119
+GameObject:
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4686942556052900}
+  - component: {fileID: 23170442460705151}
+  - component: {fileID: 33845584573300398}
+  m_Layer: 13
+  m_Name: Icosphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4686942556052900
+Transform:
+  m_GameObject: {fileID: 1377280906169119}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.738079, y: 1.940959, z: 0.4636207}
+  m_LocalScale: {x: 0.06845875, y: 0.06845878, z: 0.06845878}
+  m_Children: []
+  m_Father: {fileID: 4874131915601813}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23170442460705151
+MeshRenderer:
+  m_GameObject: {fileID: 1377280906169119}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 9bc1a959378180646bfbd93aed06e8d6, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33845584573300398
+MeshFilter:
+  m_GameObject: {fileID: 1377280906169119}
+  m_Mesh: {fileID: 4300000, guid: 4832f9d3645561843aa2848ef40262b3, type: 2}
