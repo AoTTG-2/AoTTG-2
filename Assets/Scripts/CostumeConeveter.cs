@@ -104,6 +104,12 @@ public class CostumeConeveter
 
     public static void HeroCostumeToPhotonData2(HeroCostume costume, PhotonPlayer player)
     {
+        // HACK
+        if (costume == null)
+        {
+            HeroCostume.init2();
+            costume = HeroCostume.costume[0];
+        }
         Hashtable propertiesToSet = new Hashtable();
         propertiesToSet.Add(PhotonPlayerProperty.sex, SexToInt(costume.sex));
         player.SetCustomProperties(propertiesToSet);

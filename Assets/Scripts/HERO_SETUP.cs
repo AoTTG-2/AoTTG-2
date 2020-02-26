@@ -58,7 +58,7 @@ public class HERO_SETUP : MonoBehaviour
 
     private void Awake()
     {
-        this.part_head.transform.parent = base.transform.Find("Controller_Body/hip/spine/chest/neck/head").transform;
+        this.part_head.transform.parent = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
         this.mount_3dmg = new GameObject();
         this.mount_3dmg_gas_l = new GameObject();
         this.mount_3dmg_gas_r = new GameObject();
@@ -68,25 +68,25 @@ public class HERO_SETUP : MonoBehaviour
         this.mount_weapon_r = new GameObject();
         this.mount_3dmg.transform.position = base.transform.position;
         this.mount_3dmg.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg.transform.parent = base.transform.Find("Controller_Body/hip/spine/chest").transform;
+        this.mount_3dmg.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest").transform;
         this.mount_3dmg_gas_l.transform.position = base.transform.position;
         this.mount_3dmg_gas_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gas_l.transform.parent = base.transform.Find("Controller_Body/hip/spine").transform;
+        this.mount_3dmg_gas_l.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine").transform;
         this.mount_3dmg_gas_r.transform.position = base.transform.position;
         this.mount_3dmg_gas_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gas_r.transform.parent = base.transform.Find("Controller_Body/hip/spine").transform;
+        this.mount_3dmg_gas_r.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine").transform;
         this.mount_3dmg_gun_mag_l.transform.position = base.transform.position;
         this.mount_3dmg_gun_mag_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gun_mag_l.transform.parent = base.transform.Find("Controller_Body/hip/thigh_L").transform;
+        this.mount_3dmg_gun_mag_l.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/thigh_L").transform;
         this.mount_3dmg_gun_mag_r.transform.position = base.transform.position;
         this.mount_3dmg_gun_mag_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gun_mag_r.transform.parent = base.transform.Find("Controller_Body/hip/thigh_R").transform;
+        this.mount_3dmg_gun_mag_r.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/thigh_R").transform;
         this.mount_weapon_l.transform.position = base.transform.position;
         this.mount_weapon_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_weapon_l.transform.parent = base.transform.Find("Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
+        this.mount_weapon_l.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
         this.mount_weapon_r.transform.position = base.transform.position;
         this.mount_weapon_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_weapon_r.transform.parent = base.transform.Find("Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
+        this.mount_weapon_r.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
     }
 
     private void combineSMR(GameObject go, GameObject go2)

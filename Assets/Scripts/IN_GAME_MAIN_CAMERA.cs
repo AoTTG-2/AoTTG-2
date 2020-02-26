@@ -101,7 +101,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             //base.GetComponent<TiltShift>().enabled = true;
         }
-        this.CreateMinimap();
+        //HACK
+        //this.CreateMinimap();
     }
 
     private void camareMovement()
@@ -365,6 +366,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void setHUDposition()
     {
+        return;
         GameObject.Find("Flare").transform.localPosition = new Vector3((float) (((int) (-Screen.width * 0.5f)) + 14), (float) ((int) (-Screen.height * 0.5f)), 0f);
         GameObject obj2 = GameObject.Find("LabelInfoBottomRight");
         obj2.transform.localPosition = new Vector3((float) ((int) (Screen.width * 0.5f)), (float) ((int) (-Screen.height * 0.5f)), 0f);
@@ -1165,7 +1167,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
                 else
                 {
-                    this.locker.transform.localPosition = new Vector3(0f, (-Screen.height * 0.5f) - 50f, 0f);
+                    //HACK
+                    //this.locker.transform.localPosition = new Vector3(0f, (-Screen.height * 0.5f) - 50f, 0f);
                 }
                 Vector3 end = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
                 Vector3 vector5 = ((this.head == null) ? this.main_object.transform.position : this.head.transform.position) - base.transform.position;
