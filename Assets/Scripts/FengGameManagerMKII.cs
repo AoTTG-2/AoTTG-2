@@ -195,7 +195,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         ClothFactory.ClearClothCache();
         this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
-        this.chatRoom = GameObject.Find("Chatroom").GetComponent<InRoomChat>();
+        //HACK
+        //this.chatRoom = GameObject.Find("Chatroom").GetComponent<InRoomChat>();
         this.playersRPC.Clear();
         this.titanSpawners.Clear();
         this.groundList.Clear();
@@ -5285,14 +5286,27 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             if (isAssetLoaded)
             {
+                GUI.backgroundColor = new Color(0f, 0f, 0f, 1f);
+                float left = (Screen.width / 2) - 115f;
+                float top = (Screen.height / 2) - 45f;
+                GUI.Box(new Rect(left, top, 230f, 90f), string.Empty);
+                GUI.DrawTexture(new Rect(left + 2f, top + 2f, 226f, 86f), this.textureBackgroundBlack);
+                GUI.Label(new Rect(left + 13f, top + 20f, 172f, 70f), "Verifying client...please wait before joining the server.");
+
+                if (GUI.Button(new Rect(left + 13f, top - 20f, 172f, 70f), "Testing"))
+                {
+                    settings[0x40] = 0x65;
+                    Application.LoadLevel("The City I");
+                }
+
                 string text = GameObject.Find("VERSION").GetComponent<UILabel>().text;
                 if (text != null)
                 {
                     if (text.StartsWith("Verifying"))
                     {
                         GUI.backgroundColor = new Color(0f, 0f, 0f, 1f);
-                        float left = (Screen.width / 2) - 115f;
-                        float top = (Screen.height / 2) - 45f;
+                        left = (Screen.width / 2) - 115f;
+                        top = (Screen.height / 2) - 45f;
                         GUI.Box(new Rect(left, top, 230f, 90f), string.Empty);
                         GUI.DrawTexture(new Rect(left + 2f, top + 2f, 226f, 86f), this.textureBackgroundBlack);
                         GUI.Label(new Rect(left + 13f, top + 20f, 172f, 70f), "Verifying client...please wait before joining the server.");
@@ -8960,13 +8974,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             obj3.name = "MainCamera";
             Screen.lockCursor = true;
             Cursor.visible = true;
-            this.ui = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI_IN_GAME"));
-            this.ui.name = "UI_IN_GAME";
-            this.ui.SetActive(true);
-            NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[0], true);
-            NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[1], false);
-            NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[2], false);
-            NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[3], false);
+            //this.ui = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI_IN_GAME"));
+            //this.ui.name = "UI_IN_GAME";
+            //this.ui.SetActive(true);
+            //NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[0], true);
+            //NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[1], false);
+            //NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[2], false);
+            //NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[3], false);
             LevelInfo info = LevelInfo.getInfo(FengGameManagerMKII.level);
             this.cache();
             this.loadskin();
@@ -12061,6 +12075,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void SpawnPlayer(string id, string tag = "playerRespawn")
     {
+        if (id == null)
+        {
+            id = "1";
+        }
         if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
         {
             this.SpawnPlayerAt2(id, this.checkpoint);
@@ -12218,7 +12236,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void SpawnPlayerAt2(string id, GameObject pos)
     {
-        if (!logicLoaded || !customLevelLoaded)
+        // HACK
+        if (false)
+        //if (!logicLoaded || !customLevelLoaded)
         {
             this.NOTSpawnPlayerRC(id);
         }

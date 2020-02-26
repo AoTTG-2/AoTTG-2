@@ -31,7 +31,8 @@ public class LevelInfo
                 return info;
             }
         }
-        return null;
+        //HACK
+        return levels[0];
     }
 
     private static void initData()

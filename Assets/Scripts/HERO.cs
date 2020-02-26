@@ -5152,8 +5152,9 @@ public class HERO : Photon.MonoBehaviour
         this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
         this.smoke_3dmg.enableEmission = false;
         this.sparks.enableEmission = false;
-        this.speedFXPS = this.speedFX1.GetComponent<ParticleSystem>();
-        this.speedFXPS.enableEmission = false;
+        //HACK
+        //this.speedFXPS = this.speedFX1.GetComponent<ParticleSystem>();
+        //this.speedFXPS.enableEmission = false;
         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
         {
             if (PhotonNetwork.isMasterClient)
@@ -5168,10 +5169,12 @@ public class HERO : Photon.MonoBehaviour
                     FengGameManagerMKII.heroHash.Add(iD, this);
                 }
             }
-            GameObject obj2 = GameObject.Find("UI_IN_GAME");
+            //HACK
+            //GameObject obj2 = GameObject.Find("UI_IN_GAME");
             this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
             this.myNetWorkName.name = "LabelNameOverHead";
-            this.myNetWorkName.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
+            //HACK
+            //this.myNetWorkName.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
             this.myNetWorkName.transform.localScale = new Vector3(14f, 14f, 14f);
             this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
             if (base.photonView.isMine)
@@ -5186,53 +5189,54 @@ public class HERO : Photon.MonoBehaviour
             else
             {
                 bool flag2 = false;
-                if (base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam] != null)
-                {
-                    switch (RCextensions.returnIntFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam]))
-                    {
-                        case 1:
-                            flag2 = true;
-                            if (Minimap.instance != null)
-                            {
-                                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.cyan, false, true, Minimap.IconStyle.CIRCLE);
-                            }
-                            break;
+                //HACK
+                //if (base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam] != null)
+                //{
+                //    switch (RCextensions.returnIntFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam]))
+                //    {
+                //        case 1:
+                //            flag2 = true;
+                //            if (Minimap.instance != null)
+                //            {
+                //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.cyan, false, true, Minimap.IconStyle.CIRCLE);
+                //            }
+                //            break;
 
-                        case 2:
-                            flag2 = true;
-                            if (Minimap.instance != null)
-                            {
-                                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.magenta, false, true, Minimap.IconStyle.CIRCLE);
-                            }
-                            break;
-                    }
-                }
-                if (RCextensions.returnIntFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.team]) == 2)
-                {
-                    this.myNetWorkName.GetComponent<UILabel>().text = "[FF0000]AHSS\n[FFFFFF]";
-                    if (!flag2 && (Minimap.instance != null))
-                    {
-                        Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.red, false, true, Minimap.IconStyle.CIRCLE);
-                    }
-                }
-                else if (!flag2 && (Minimap.instance != null))
-                {
-                    Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.blue, false, true, Minimap.IconStyle.CIRCLE);
-                }
+                //        case 2:
+                //            flag2 = true;
+                //            if (Minimap.instance != null)
+                //            {
+                //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.magenta, false, true, Minimap.IconStyle.CIRCLE);
+                //            }
+                //            break;
+                //    }
+                //}
+                //if (RCextensions.returnIntFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.team]) == 2)
+                //{
+                //    this.myNetWorkName.GetComponent<UILabel>().text = "[FF0000]AHSS\n[FFFFFF]";
+                //    if (!flag2 && (Minimap.instance != null))
+                //    {
+                //        Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.red, false, true, Minimap.IconStyle.CIRCLE);
+                //    }
+                //}
+                //else if (!flag2 && (Minimap.instance != null))
+                //{
+                //    Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.blue, false, true, Minimap.IconStyle.CIRCLE);
+                //}
             }
-            string str = RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.guildName]);
-            if (str != string.Empty)
-            {
-                UILabel component = this.myNetWorkName.GetComponent<UILabel>();
-                string text = component.text;
-                string[] strArray2 = new string[] { text, "[FFFF00]", str, "\n[FFFFFF]", RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.name]) };
-                component.text = string.Concat(strArray2);
-            }
-            else
-            {
-                UILabel label2 = this.myNetWorkName.GetComponent<UILabel>();
-                label2.text = label2.text + RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.name]);
-            }
+            //string str = RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.guildName]);
+            //if (str != string.Empty)
+            //{
+            //    UILabel component = this.myNetWorkName.GetComponent<UILabel>();
+            //    string text = component.text;
+            //    string[] strArray2 = new string[] { text, "[FFFF00]", str, "\n[FFFFFF]", RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.name]) };
+            //    component.text = string.Concat(strArray2);
+            //}
+            //else
+            //{
+            //    UILabel label2 = this.myNetWorkName.GetComponent<UILabel>();
+            //    label2.text = label2.text + RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.name]);
+            //}
         }
         else if (Minimap.instance != null)
         {

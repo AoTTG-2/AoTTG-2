@@ -411,6 +411,8 @@ public class Minimap : MonoBehaviour
 
     private void Initialize()
     {
+        //HACK
+        return;
         Vector3 pivot = new Vector3(0.5f, 0.5f);
         Texture2D texture = (Texture2D)FengGameManagerMKII.RCassets.LoadAsset("icon");
         Rect rect = new Rect(0f, 0f, (float)texture.width, (float)texture.height);
