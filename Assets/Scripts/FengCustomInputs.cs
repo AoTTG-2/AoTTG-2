@@ -629,10 +629,11 @@ public class FengCustomInputs : MonoBehaviour
 
     private void Update()
     {
-        if (!this.menuOn)
-        {
+        //HACK
+        //if (!this.menuOn)
+        //{
             this.inputSetBools();
-        }
+        //}
     }
 }
 
