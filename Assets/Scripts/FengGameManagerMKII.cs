@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using Assets.Scripts.UI;
 using UnityEngine;
 using Debug = System.Diagnostics.Debug;
 
@@ -5282,22 +5283,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         float num7;
         float num8;
+        AottgUi.Init(this);
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.STOP) && (Application.loadedLevelName != "characterCreation"))
         {
             if (isAssetLoaded)
             {
-                GUI.backgroundColor = new Color(0f, 0f, 0f, 1f);
-                float left = (Screen.width / 2) - 115f;
-                float top = (Screen.height / 2) - 45f;
-                GUI.Box(new Rect(left, top, 230f, 90f), string.Empty);
-                GUI.DrawTexture(new Rect(left + 2f, top + 2f, 226f, 86f), this.textureBackgroundBlack);
-                GUI.Label(new Rect(left + 13f, top + 20f, 172f, 70f), "Verifying client...please wait before joining the server.");
-
-                if (GUI.Button(new Rect(left + 13f, top - 20f, 172f, 70f), "Testing"))
-                {
-                    settings[0x40] = 0x65;
-                    Application.LoadLevel("The City I");
-                }
+                
 
                 string text = GameObject.Find("VERSION").GetComponent<UILabel>().text;
                 if (text != null)
@@ -5305,8 +5296,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     if (text.StartsWith("Verifying"))
                     {
                         GUI.backgroundColor = new Color(0f, 0f, 0f, 1f);
-                        left = (Screen.width / 2) - 115f;
-                        top = (Screen.height / 2) - 45f;
+                        var left = (Screen.width / 2) - 115f;
+                        var top = (Screen.height / 2) - 45f;
                         GUI.Box(new Rect(left, top, 230f, 90f), string.Empty);
                         GUI.DrawTexture(new Rect(left + 2f, top + 2f, 226f, 86f), this.textureBackgroundBlack);
                         GUI.Label(new Rect(left + 13f, top + 20f, 172f, 70f), "Verifying client...please wait before joining the server.");
@@ -5489,7 +5480,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             bool flag6;
             int num30;
             bool flag10;
-            if (((int) settings[0x40]) >= 100)
+            //HACK
+            //Disable map editor
+            //if (((int) settings[0x40]) >= 100)
+            if (false)
             {
                 GameObject obj4;
                 float num14;
@@ -6675,7 +6669,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     GUI.FocusControl(null);
                 }
             }
-            else if ((this.inputManager != null) && this.inputManager.menuOn)
+            //HACK
+            //Disable RC menu
+            //else if ((this.inputManager != null) && this.inputManager.menuOn)
+            else if (false)
             {
                 Cursor.visible = true;
                 Screen.lockCursor = false;
@@ -8781,7 +8778,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            else if (false)
+            //HACK
+            //Disable pausing
+            //else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
                 if (Time.timeScale <= 0.1f)
                 {
@@ -8843,38 +8843,39 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.maxPlayers = PhotonNetwork.room.maxPlayers;
         this.playerList = string.Empty;
         char[] separator = new char[] { "`"[0] };
-        UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
+        //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
         this.gameTimesUp = false;
         char[] chArray3 = new char[] { "`"[0] };
-        string[] strArray = PhotonNetwork.room.name.Split(chArray3);
-        level = strArray[1];
-        if (strArray[2] == "normal")
-        {
-            this.difficulty = 0;
-        }
-        else if (strArray[2] == "hard")
-        {
-            this.difficulty = 1;
-        }
-        else if (strArray[2] == "abnormal")
-        {
-            this.difficulty = 2;
-        }
+        //string[] strArray = PhotonNetwork.room.name.Split(chArray3);
+        level = "The City I";//strArray[1];
+        this.difficulty = 0;
+        //if (strArray[2] == "normal")
+        //{
+        //    this.difficulty = 0;
+        //}
+        //else if (strArray[2] == "hard")
+        //{
+        //    this.difficulty = 1;
+        //}
+        //else if (strArray[2] == "abnormal")
+        //{
+        //    this.difficulty = 2;
+        //}
         IN_GAME_MAIN_CAMERA.difficulty = this.difficulty;
-        this.time = int.Parse(strArray[3]);
+        this.time = 5000;//int.Parse(strArray[3]);
         this.time *= 60;
-        if (strArray[4] == "day")
-        {
-            IN_GAME_MAIN_CAMERA.dayLight = DayLight.Day;
-        }
-        else if (strArray[4] == "dawn")
-        {
-            IN_GAME_MAIN_CAMERA.dayLight = DayLight.Dawn;
-        }
-        else if (strArray[4] == "night")
-        {
-            IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
-        }
+        //if (strArray[4] == "day")
+        //{
+        //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Day;
+        //}
+        //else if (strArray[4] == "dawn")
+        //{
+        //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Dawn;
+        //}
+        //else if (strArray[4] == "night")
+        //{
+        //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
+        //}
         IN_GAME_MAIN_CAMERA.gamemode = LevelInfo.getInfo(level).type;
         PhotonNetwork.LoadLevel(LevelInfo.getInfo(level).mapName);
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
@@ -8983,7 +8984,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             //NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[3], false);
             LevelInfo info = LevelInfo.getInfo(FengGameManagerMKII.level);
             this.cache();
-            this.loadskin();
+            //this.loadskin();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
@@ -9139,7 +9140,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 if (!PhotonNetwork.isMasterClient)
                 {
-                    base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
+                    //HACK
+                    //base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
                 }
                 if (LevelInfo.getInfo(FengGameManagerMKII.level).lavaMode)
                 {
@@ -12982,7 +12984,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //}
         this.setBackground();
         ChangeQuality.setCurrentQuality();
-        spawnTitan(1, new Vector3(1, 1, 1), new Quaternion());
+        //spawnTitan(1, new Vector3(1, 1, 1), new Quaternion());
+        PhotonNetwork.ConnectToMaster("app-eu.exitgamescloud.com", 0x13bf, FengGameManagerMKII.applicationId, UIMainReferences.version);
         UnityEngine.Debug.Log("Loading done2");
     }
 

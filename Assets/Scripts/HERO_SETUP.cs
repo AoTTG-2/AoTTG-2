@@ -87,6 +87,7 @@ public class HERO_SETUP : MonoBehaviour
         this.mount_weapon_r.transform.position = base.transform.position;
         this.mount_weapon_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
         this.mount_weapon_r.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
+        reference = this.transform.gameObject;
     }
 
     private void combineSMR(GameObject go, GameObject go2)
@@ -200,16 +201,16 @@ public class HERO_SETUP : MonoBehaviour
             this.part_blade_l.transform.rotation = this.mount_weapon_l.transform.rotation;
             this.part_blade_l.transform.parent = this.mount_weapon_l.transform.parent;
             this.part_blade_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-            if (this.part_blade_l.transform.Find("X-WeaponTrailA") != null)
-            {
-                this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>().Deactivate();
-                this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>().Deactivate();
-                if (base.gameObject.GetComponent<HERO>() != null)
-                {
-                    base.gameObject.GetComponent<HERO>().leftbladetrail = this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>();
-                    base.gameObject.GetComponent<HERO>().leftbladetrail2 = this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
-                }
-            }
+            //if (this.part_blade_l.transform.Find("X-WeaponTrailA") != null)
+            //{
+            //    this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>().Deactivate();
+            //    this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>().Deactivate();
+            //    if (base.gameObject.GetComponent<HERO>() != null)
+            //    {
+            //        base.gameObject.GetComponent<HERO>().leftbladetrail = this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>();
+            //        base.gameObject.GetComponent<HERO>().leftbladetrail2 = this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
+            //    }
+            //}
         }
         if (this.myCostume.weapon_r_mesh.Length > 0)
         {
@@ -218,16 +219,16 @@ public class HERO_SETUP : MonoBehaviour
             this.part_blade_r.transform.rotation = this.mount_weapon_r.transform.rotation;
             this.part_blade_r.transform.parent = this.mount_weapon_r.transform.parent;
             this.part_blade_r.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-            if (this.part_blade_r.transform.Find("X-WeaponTrailA") != null)
-            {
-                this.part_blade_r.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>().Deactivate();
-                this.part_blade_r.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>().Deactivate();
-                if (base.gameObject.GetComponent<HERO>() != null)
-                {
-                    base.gameObject.GetComponent<HERO>().rightbladetrail = this.part_blade_r.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>();
-                    base.gameObject.GetComponent<HERO>().rightbladetrail2 = this.part_blade_r.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
-                }
-            }
+            //if (this.part_blade_r.transform.Find("X-WeaponTrailA") != null)
+            //{
+            //    this.part_blade_r.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>().Deactivate();
+            //    this.part_blade_r.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>().Deactivate();
+            //    if (base.gameObject.GetComponent<HERO>() != null)
+            //    {
+            //        base.gameObject.GetComponent<HERO>().rightbladetrail = this.part_blade_r.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>();
+            //        base.gameObject.GetComponent<HERO>().rightbladetrail2 = this.part_blade_r.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
+            //    }
+            //}
         }
     }
 
@@ -602,10 +603,18 @@ public class HERO_SETUP : MonoBehaviour
 
     private GameObject GenerateCloth(GameObject go, string res)
     {
-        if (go.GetComponent<SkinnedMeshRenderer>() == null)
+        try
         {
-            go.AddComponent<SkinnedMeshRenderer>();
+            if (go.GetComponent<SkinnedMeshRenderer>() == null)
+            {
+                go.AddComponent<SkinnedMeshRenderer>();
+            }
         }
+        catch (UnassignedReferenceException e)
+        {
+            Debug.LogError("We are missing:" + res);
+        }
+
         SkinnedMeshRenderer component = go.GetComponent<SkinnedMeshRenderer>();
         Transform[] bones = component.bones;
         SkinnedMeshRenderer renderer2 = ((GameObject) UnityEngine.Object.Instantiate(Resources.Load(res))).GetComponent<SkinnedMeshRenderer>();

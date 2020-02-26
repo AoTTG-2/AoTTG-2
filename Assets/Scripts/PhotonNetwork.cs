@@ -12,7 +12,7 @@ public static class PhotonNetwork
     private static bool isOfflineMode = false;
     internal static int lastUsedViewSubId = 0;
     internal static int lastUsedViewSubIdStatic = 0;
-    public static PhotonLogLevel logLevel = PhotonLogLevel.ErrorsOnly;
+    public static PhotonLogLevel logLevel = PhotonLogLevel.Full;
     private static bool m_autoCleanUpPlayerObjects = true;
     private static bool m_isMessageQueueRunning = true;
     internal static List<int> manuallyAllocatedViewIds = new List<int>();
@@ -41,7 +41,7 @@ public static class PhotonNetwork
         GameObject obj2 = new GameObject();
         photonMono = obj2.AddComponent<PhotonHandler>();
         obj2.name = "PhotonMono";
-        obj2.hideFlags = HideFlags.HideInHierarchy;
+        //obj2.hideFlags = HideFlags.HideInHierarchy;
         networkingPeer = new NetworkingPeer(photonMono, string.Empty, ConnectionProtocol.Udp);
         CustomTypes.Register();
     }
