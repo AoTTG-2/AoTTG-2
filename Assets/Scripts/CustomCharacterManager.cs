@@ -212,9 +212,9 @@ public class CustomCharacterManager : MonoBehaviour
         float r = this.setup.myCostume.hair_color.r;
         float g = this.setup.myCostume.hair_color.g;
         float b = this.setup.myCostume.hair_color.b;
-        this.hairR.GetComponent<UISlider>().sliderValue = r;
-        this.hairG.GetComponent<UISlider>().sliderValue = g;
-        this.hairB.GetComponent<UISlider>().sliderValue = b;
+        //this.hairR.GetComponent<UISlider>().sliderValue = r;
+        //this.hairG.GetComponent<UISlider>().sliderValue = g;
+        //this.hairB.GetComponent<UISlider>().sliderValue = b;
         for (index = 0; index < this.skillOption.Length; index++)
         {
             if (this.skillOption[index] == this.setup.myCostume.stat.skillId)
@@ -227,21 +227,21 @@ public class CustomCharacterManager : MonoBehaviour
 
     private void freshLabel()
     {
-        this.labelSex.GetComponent<UILabel>().text = this.sexOption[this.sexId].ToString();
-        this.labelEye.GetComponent<UILabel>().text = "eye_" + this.eyeId.ToString();
-        this.labelFace.GetComponent<UILabel>().text = "face_" + this.faceId.ToString();
-        this.labelGlass.GetComponent<UILabel>().text = "glass_" + this.glassId.ToString();
-        this.labelHair.GetComponent<UILabel>().text = "hair_" + this.hairId.ToString();
-        this.labelSkin.GetComponent<UILabel>().text = "skin_" + this.skinId.ToString();
-        this.labelCostume.GetComponent<UILabel>().text = "costume_" + this.costumeId.ToString();
-        this.labelCape.GetComponent<UILabel>().text = "cape_" + this.capeId.ToString();
-        this.labelDivision.GetComponent<UILabel>().text = this.divisionOption[this.divisionId].ToString();
-        this.labelPOINT.GetComponent<UILabel>().text = "Points: " + ((400 - this.calTotalPoints())).ToString();
-        this.labelSPD.GetComponent<UILabel>().text = "SPD " + this.setup.myCostume.stat.SPD.ToString();
-        this.labelGAS.GetComponent<UILabel>().text = "GAS " + this.setup.myCostume.stat.GAS.ToString();
-        this.labelBLA.GetComponent<UILabel>().text = "BLA " + this.setup.myCostume.stat.BLA.ToString();
-        this.labelACL.GetComponent<UILabel>().text = "ACL " + this.setup.myCostume.stat.ACL.ToString();
-        this.labelSKILL.GetComponent<UILabel>().text = "SKILL " + this.setup.myCostume.stat.skillId.ToString();
+        //this.labelSex.GetComponent<UILabel>().text = this.sexOption[this.sexId].ToString();
+        //this.labelEye.GetComponent<UILabel>().text = "eye_" + this.eyeId.ToString();
+        //this.labelFace.GetComponent<UILabel>().text = "face_" + this.faceId.ToString();
+        //this.labelGlass.GetComponent<UILabel>().text = "glass_" + this.glassId.ToString();
+        //this.labelHair.GetComponent<UILabel>().text = "hair_" + this.hairId.ToString();
+        //this.labelSkin.GetComponent<UILabel>().text = "skin_" + this.skinId.ToString();
+        //this.labelCostume.GetComponent<UILabel>().text = "costume_" + this.costumeId.ToString();
+        //this.labelCape.GetComponent<UILabel>().text = "cape_" + this.capeId.ToString();
+        //this.labelDivision.GetComponent<UILabel>().text = this.divisionOption[this.divisionId].ToString();
+        //this.labelPOINT.GetComponent<UILabel>().text = "Points: " + ((400 - this.calTotalPoints())).ToString();
+        //this.labelSPD.GetComponent<UILabel>().text = "SPD " + this.setup.myCostume.stat.SPD.ToString();
+        //this.labelGAS.GetComponent<UILabel>().text = "GAS " + this.setup.myCostume.stat.GAS.ToString();
+        //this.labelBLA.GetComponent<UILabel>().text = "BLA " + this.setup.myCostume.stat.BLA.ToString();
+        //this.labelACL.GetComponent<UILabel>().text = "ACL " + this.setup.myCostume.stat.ACL.ToString();
+        //this.labelSKILL.GetComponent<UILabel>().text = "SKILL " + this.setup.myCostume.stat.skillId.ToString();
     }
 
     public void LoadData()

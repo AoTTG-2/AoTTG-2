@@ -129,16 +129,16 @@ public class LoginFengKAI : MonoBehaviour
             player = new PlayerInfoPHOTON();
             player.initAsGuest();
         }
-        if (playerName != string.Empty)
-        {
-            NGUITools.SetActive(this.panelLogin, false);
-            NGUITools.SetActive(this.panelStatus, true);
-            base.StartCoroutine(this.getInfo());
-        }
-        else
-        {
-            this.output.GetComponent<UILabel>().text = "Welcome," + player.name;
-        }
+        //if (playerName != string.Empty)
+        //{
+        //    NGUITools.SetActive(this.panelLogin, false);
+        //    NGUITools.SetActive(this.panelStatus, true);
+        //    base.StartCoroutine(this.getInfo());
+        //}
+        //else
+        //{
+        //    this.output.GetComponent<UILabel>().text = "Welcome," + player.name;
+        //}
     }
 
     [CompilerGenerated]
