@@ -2312,7 +2312,7 @@ public class TITAN : Photon.MonoBehaviour
         }
         else
         {
-            this.crossFade("idle", 0.2f);
+            this.crossFade("idle_2", 0.2f);
         }
     }
 

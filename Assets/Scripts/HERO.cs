@@ -527,7 +527,7 @@ public class HERO : Photon.MonoBehaviour
                 this.buffTime = 0f;
                 if ((this.currentBuff == BUFF.SpeedUp) && base.GetComponent<Animation>().IsPlaying("run_sasha"))
                 {
-                    this.crossFade("run", 0.1f);
+                    this.crossFade("run_1", 0.1f);
                 }
                 this.currentBuff = BUFF.NoBuff;
             }
@@ -1195,10 +1195,10 @@ public class HERO : Photon.MonoBehaviour
                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                 this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
-                this.leftbladetrail.StopSmoothly(0.2f);
-                this.rightbladetrail.StopSmoothly(0.2f);
-                this.leftbladetrail2.StopSmoothly(0.2f);
-                this.rightbladetrail2.StopSmoothly(0.2f);
+                //this.leftbladetrail.StopSmoothly(0.2f);
+                //this.rightbladetrail.StopSmoothly(0.2f);
+                //this.leftbladetrail2.StopSmoothly(0.2f);
+                //this.rightbladetrail2.StopSmoothly(0.2f);
             }
             this.attackLoop = 0;
             if (!this.attackReleased)
@@ -1325,7 +1325,7 @@ public class HERO : Photon.MonoBehaviour
                     }
                     bool flag2 = false;
                     bool flag3 = false;
-                    bool flag4 = false;
+                    bool flag4 = false; //TODO Because of this you always reel in for some reason
                     this.isLeftHandHooked = false;
                     this.isRightHandHooked = false;
                     if (this.isLaunchLeft)
@@ -1506,7 +1506,7 @@ public class HERO : Photon.MonoBehaviour
                             }
                             if ((x != 0f) || (z != 0f))
                             {
-                                if (((!this.baseAnimation.IsPlaying("run") && !this.baseAnimation.IsPlaying("jump")) && !this.baseAnimation.IsPlaying("run_sasha")) && (!this.baseAnimation.IsPlaying("horse_geton") || (this.baseAnimation["horse_geton"].normalizedTime >= 0.5f)))
+                                if (((!this.baseAnimation.IsPlaying("run_1") && !this.baseAnimation.IsPlaying("jump")) && !this.baseAnimation.IsPlaying("run_sasha")) && (!this.baseAnimation.IsPlaying("horse_geton") || (this.baseAnimation["horse_geton"].normalizedTime >= 0.5f)))
                                 {
                                     if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
                                     {
@@ -1514,7 +1514,7 @@ public class HERO : Photon.MonoBehaviour
                                     }
                                     else
                                     {
-                                        this.crossFade("run", 0.1f);
+                                        this.crossFade("run_1", 0.1f);
                                     }
                                 }
                             }
@@ -1773,7 +1773,7 @@ public class HERO : Photon.MonoBehaviour
                         }
                     }
                     this.spinning = false;
-                    if (flag3 && flag4)
+                    if (flag3 && flag4) //HACK TO PREVENT ENDLESS REEL IN flag4
                     {
                         float num14 = this.currentSpeed + 0.1f;
                         this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
@@ -1798,7 +1798,7 @@ public class HERO : Photon.MonoBehaviour
                         this.spinning = true;
                         this.baseRigidBody.velocity = (Vector3) (vector14 * num14);
                     }
-                    else if (flag3)
+                    else if (flag3) //HACK TO PREVENT ENDLESS REEL-IN - flag3
                     {
                         float num17 = this.currentSpeed + 0.1f;
                         this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
@@ -1823,7 +1823,7 @@ public class HERO : Photon.MonoBehaviour
                         this.spinning = true;
                         this.baseRigidBody.velocity = (Vector3) (vector16 * num17);
                     }
-                    else if (flag4)
+                    else if (flag4) //HACK TO RPEVENT ENDLESS REEL-IN flag4
                     {
                         float num20 = this.currentSpeed + 0.1f;
                         this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
@@ -2053,7 +2053,7 @@ public class HERO : Photon.MonoBehaviour
 
     public void getSupply()
     {
-        if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || base.GetComponent<Animation>().IsPlaying("run")) || base.GetComponent<Animation>().IsPlaying("run_sasha")) && (((this.currentBladeSta != this.totalBladeSta) || (this.currentBladeNum != this.totalBladeNum)) || (((this.currentGas != this.totalGas) || (this.leftBulletLeft != this.bulletMAX)) || (this.rightBulletLeft != this.bulletMAX))))
+        if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || base.GetComponent<Animation>().IsPlaying("run_1")) || base.GetComponent<Animation>().IsPlaying("run_sasha")) && (((this.currentBladeSta != this.totalBladeSta) || (this.currentBladeNum != this.totalBladeNum)) || (((this.currentGas != this.totalGas) || (this.leftBulletLeft != this.bulletMAX)) || (this.rightBulletLeft != this.bulletMAX))))
         {
             this.state = HERO_STATE.FillGas;
             this.crossFade("supply", 0.1f);
@@ -2076,10 +2076,10 @@ public class HERO : Photon.MonoBehaviour
         }
         if (!this.useGun && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
         {
-            this.leftbladetrail.Deactivate();
-            this.rightbladetrail.Deactivate();
-            this.leftbladetrail2.Deactivate();
-            this.rightbladetrail2.Deactivate();
+            //this.leftbladetrail.Deactivate();
+            //this.rightbladetrail.Deactivate();
+            //this.leftbladetrail2.Deactivate();
+            //this.rightbladetrail2.Deactivate();
         }
         this.smoke_3dmg.enableEmission = false;
         this.sparks.enableEmission = false;
@@ -5780,10 +5780,10 @@ public class HERO : Photon.MonoBehaviour
                                             this.slash.Play();
                                             if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                             {
-                                                this.leftbladetrail2.Activate();
-                                                this.rightbladetrail2.Activate();
-                                                this.leftbladetrail.Activate();
-                                                this.rightbladetrail.Activate();
+                                                //this.leftbladetrail2.Activate();
+                                                //this.rightbladetrail2.Activate();
+                                                //this.leftbladetrail.Activate();
+                                                //this.rightbladetrail.Activate();
                                             }
                                         }
                                         if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me)
@@ -5797,10 +5797,10 @@ public class HERO : Photon.MonoBehaviour
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                                         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
-                                        this.leftbladetrail2.StopSmoothly(0.1f);
-                                        this.rightbladetrail2.StopSmoothly(0.1f);
-                                        this.leftbladetrail.StopSmoothly(0.1f);
-                                        this.rightbladetrail.StopSmoothly(0.1f);
+                                        //this.leftbladetrail2.StopSmoothly(0.1f);
+                                        //this.rightbladetrail2.StopSmoothly(0.1f);
+                                        //this.leftbladetrail.StopSmoothly(0.1f);
+                                        //this.rightbladetrail.StopSmoothly(0.1f);
                                     }
                                     if ((this.attackLoop > 0) && (this.baseAnimation[this.attackAnimation].normalizedTime > num))
                                     {
@@ -6338,10 +6338,10 @@ public class HERO : Photon.MonoBehaviour
             {
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
                 {
-                    this.leftbladetrail.Deactivate();
-                    this.rightbladetrail.Deactivate();
-                    this.leftbladetrail2.Deactivate();
-                    this.rightbladetrail2.Deactivate();
+                    //this.leftbladetrail.Deactivate();
+                    //this.rightbladetrail.Deactivate();
+                    //this.leftbladetrail2.Deactivate();
+                    //this.rightbladetrail2.Deactivate();
                     this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                     this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                 }

@@ -432,6 +432,7 @@ public class FengCustomInputs : MonoBehaviour
 
     private void loadConfig()
     {
+        return;
         string str = PlayerPrefs.GetString("KeyCodes");
         string str2 = PlayerPrefs.GetString("Joystick_input");
         string str3 = PlayerPrefs.GetString("Names_input");
@@ -549,6 +550,7 @@ public class FengCustomInputs : MonoBehaviour
 
     public void setToDefault()
     {
+        return;
         this.reset2defaults();
         this.loadConfig();
         this.saveInputs();
@@ -590,7 +592,7 @@ public class FengCustomInputs : MonoBehaviour
     {
         this.inputBool = new bool[this.DescriptionString.Length];
         this.inputString = new string[this.DescriptionString.Length];
-        this.inputKey = new KeyCode[this.DescriptionString.Length];
+        //this.inputKey = new KeyCode[this.DescriptionString.Length];
         this.joystickActive = new bool[this.DescriptionString.Length];
         this.joystickString = new string[this.DescriptionString.Length];
         this.isInput = new bool[this.DescriptionString.Length];

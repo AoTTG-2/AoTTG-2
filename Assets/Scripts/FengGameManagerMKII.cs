@@ -13,6 +13,8 @@ using Debug = System.Diagnostics.Debug;
 
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
+    public static bool showHackMenu = true;
+
     public Dictionary<int, CannonValues> allowedToCannon;
     public static readonly string applicationId = "f1f6195c-df4a-40f9-bae5-4744c32901ef";
     public Dictionary<string, Texture2D> assetCacheTextures;
@@ -12985,7 +12987,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.setBackground();
         ChangeQuality.setCurrentQuality();
         //spawnTitan(1, new Vector3(1, 1, 1), new Quaternion());
-        PhotonNetwork.ConnectToMaster("app-eu.exitgamescloud.com", 0x13bf, FengGameManagerMKII.applicationId, UIMainReferences.version);
+        PhotonNetwork.ConnectToMaster("app-us.exitgamescloud.com", 0x13bf, FengGameManagerMKII.applicationId, UIMainReferences.version);
         UnityEngine.Debug.Log("Loading done2");
     }
 
