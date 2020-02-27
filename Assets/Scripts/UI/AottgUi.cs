@@ -8,6 +8,8 @@ namespace Assets.Scripts.UI
     {
         public static void Init(FengGameManagerMKII manager)
         {
+            if (!FengGameManagerMKII.showHackMenu) return;
+
             GUI.backgroundColor = new Color(0f, 0f, 0f, 1f);
             float left = (Screen.width / 2) - 115f;
             float top = (Screen.height / 2) - 45f;
@@ -21,13 +23,15 @@ namespace Assets.Scripts.UI
 
             if (GUI.Button(new Rect(left + 13f, top - 70f, 172f, 70f), "MultiPlayer"))
             {
-                //PhotonNetwork.ConnectToMaster("app-eu.exitgamescloud.com", 0x13bf, FengGameManagerMKII.applicationId, UIMainReferences.version);
-                PhotonNetwork.CreateRoom("Test", true, true, 1);
+                //PhotonNetwork.ConnectToMaster("app-us.exitgamescloud.com", 0x13bf, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                PhotonNetwork.CreateRoom("Test7", true, true, 1);
+                //PhotonNetwork.JoinRoom("Test");
             }
 
             if (GUI.Button(new Rect(left + 13f, top - 120f, 172f, 70f), "Spawn"))
             {
                 SpawnHuman();
+                FengGameManagerMKII.showHackMenu = false;
             }
         }
 
