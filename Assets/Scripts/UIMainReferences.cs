@@ -75,7 +75,6 @@ public class UIMainReferences : MonoBehaviour
             UnityEngine.Object.DontDestroyOnLoad(target);
             GameObject.Find("VERSION").GetComponent<UILabel>().text = "Client verified. Last updated " + versionShow + ".";
             FengGameManagerMKII.s = "verified343,hair,character_eye,glass,character_face,character_head,character_hand,character_body,character_arm,character_leg,character_chest,character_cape,character_brand,character_3dmg,r,character_blade_l,character_3dmg_gas_r,character_blade_r,3dmg_smoke,HORSE,hair,body_001,Cube,Plane_031,mikasa_asset,character_cap_,character_gun".Split(new char[] { ',' });
-            base.StartCoroutine(this.request(versionShow, versionForm));
             FengGameManagerMKII.loginstate = 0;
         }
     }

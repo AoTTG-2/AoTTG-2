@@ -170,6 +170,26 @@ public static class PhotonNetwork
         return networkingPeer.Connect(networkingPeer.MasterServerAddress, ServerConnection.MasterServer);
     }
 
+    public static bool ConnectToMaster(CloudRegionCode region)
+    {
+        Disconnect();
+        switch (region)
+        {
+            case CloudRegionCode.eu:
+                return ConnectToMaster("app-eu.exitgamescloud.com", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+            case CloudRegionCode.us:
+                return ConnectToMaster("app-us.exitgamescloud.com", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+            case CloudRegionCode.asia:
+                return ConnectToMaster("app-asia.exitgamescloud.com", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+            case CloudRegionCode.jp:
+                return ConnectToMaster("app-jp.exitgamescloud.com", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+            case CloudRegionCode.none:
+                return false;
+            default:
+                throw new ArgumentOutOfRangeException("region", region, null);
+        }
+    }
+
     public static bool ConnectUsingSettings(string gameVersion)
     {
         if (PhotonServerSettings == null)
