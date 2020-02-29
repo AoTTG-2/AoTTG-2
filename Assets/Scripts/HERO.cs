@@ -241,7 +241,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void backToHumanRPC()
     {
         this.titanForm = false;
@@ -249,14 +249,14 @@ public class HERO : Photon.MonoBehaviour
         base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
     }
 
-    [RPC]
+    [PunRPC]
     public void badGuyReleaseMe()
     {
         this.hookBySomeOne = false;
         this.badGuy = null;
     }
 
-    [RPC]
+    [PunRPC]
     public void blowAway(Vector3 force)
     {
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
@@ -2061,7 +2061,7 @@ public class HERO : Photon.MonoBehaviour
         base.photonView.RPC("RPCHookedByHuman", base.photonView.owner, parameters);
     }
 
-    [RPC]
+    [PunRPC]
     public void hookFail()
     {
         this.hookTarget = null;
@@ -2134,7 +2134,7 @@ public class HERO : Photon.MonoBehaviour
         return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (base.gameObject.transform.up * 3f)), base.gameObject.transform.forward, (float) 1.2f, mask3.value);
     }
 
-    [RPC]
+    [PunRPC]
     private void killObject()
     {
         UnityEngine.Object.Destroy(base.gameObject);
@@ -3234,7 +3234,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void loadskinRPC(int horse, string url)
     {
         if (((int) FengGameManagerMKII.settings[0]) == 1)
@@ -3249,7 +3249,7 @@ public class HERO : Photon.MonoBehaviour
         this.state = HERO_STATE.Die;
     }
 
-    [RPC]
+    [PunRPC]
     public void moveToRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -3258,7 +3258,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void net3DMGSMOKE(bool ifON)
     {
         if (this.smoke_3dmg != null)
@@ -3267,7 +3267,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netContinueAnimation()
     {
         IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
@@ -3294,7 +3294,7 @@ public class HERO : Photon.MonoBehaviour
         this.playAnimation(this.currentPlayingClipName());
     }
 
-    [RPC]
+    [PunRPC]
     private void netCrossFade(string aniName, float time)
     {
         this.currentAnimation = aniName;
@@ -3304,10 +3304,10 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
-    public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = null)
+    [PunRPC]
+    public void netDie(PhotonMessageInfo info, Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true)
     {
-        if ((base.photonView.isMine && (info != null)) && (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.BOSS_FIGHT_CT))
+        if ((base.photonView.isMine && (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.BOSS_FIGHT_CT)))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3435,11 +3435,11 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
-    private void netDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = null)
+    [PunRPC]
+    private void netDie2(PhotonMessageInfo info, int viewID = -1, string titanName = "")
     {
         GameObject obj2;
-        if ((base.photonView.isMine && (info != null)) && (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.BOSS_FIGHT_CT))
+        if ((base.photonView.isMine) && (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.BOSS_FIGHT_CT))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3660,14 +3660,14 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netGrabbed(int id, bool leftHand)
     {
         this.titanWhoGrabMeID = id;
         this.grabbed(PhotonView.Find(id).gameObject, leftHand);
     }
 
-    [RPC]
+    [PunRPC]
     private void netlaughAttack()
     {
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
@@ -3679,7 +3679,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netPauseAnimation()
     {
         IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
@@ -3701,7 +3701,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimation(string aniName)
     {
         this.currentAnimation = aniName;
@@ -3711,7 +3711,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimationAt(string aniName, float normalizedTime)
     {
         this.currentAnimation = aniName;
@@ -3722,13 +3722,13 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netSetIsGrabbedFalse()
     {
         this.state = HERO_STATE.Idle;
     }
 
-    [RPC]
+    [PunRPC]
     private void netTauntAttack(float tauntTime, float distance = 100f)
     {
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
@@ -3740,7 +3740,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netUngrabbed()
     {
         this.ungrabbed();
@@ -3935,7 +3935,7 @@ public class HERO : Photon.MonoBehaviour
         this.customAnimationSpeed();
     }
 
-    [RPC]
+    [PunRPC]
     public void ReturnFromCannon(PhotonMessageInfo info)
     {
         if (info.sender == base.photonView.owner)
@@ -3956,7 +3956,7 @@ public class HERO : Photon.MonoBehaviour
         this.upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * 57.29578f), Mathf.Atan2(num2, num4) * 57.29578f);
     }
 
-    [RPC]
+    [PunRPC]
     private void RPCHookedByHuman(int hooker, Vector3 hookPosition)
     {
         this.hookBySomeOne = true;
@@ -4090,7 +4090,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void SetMyCannon(int viewID, PhotonMessageInfo info)
     {
         if (info.sender == base.photonView.owner)
@@ -4109,7 +4109,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void SetMyPhotonCamera(float offset, PhotonMessageInfo info)
     {
         if (base.photonView.owner == info.sender)
@@ -4120,7 +4120,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void setMyTeam(int val)
     {
         this.myTeam = val;
@@ -4755,7 +4755,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void showHitDamage()
     {
         GameObject target = GameObject.Find("LabelScore");
@@ -4782,7 +4782,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void SpawnCannonRPC(string settings, PhotonMessageInfo info)
     {
         if ((info.sender.isMasterClient && base.photonView.isMine) && (this.myCannon == null))
@@ -6314,7 +6314,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void whoIsMyErenTitan(int id)
     {
         this.eren_titan = PhotonView.Find(id).gameObject;

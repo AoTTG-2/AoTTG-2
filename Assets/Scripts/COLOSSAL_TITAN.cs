@@ -217,7 +217,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void changeDoor()
     {
         this.door_broken.SetActive(true);
@@ -334,7 +334,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void labelRPC(int health, int maxHealth)
     {
         if (health < 0)
@@ -432,7 +432,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void loadskinRPC(string url)
     {
         if ((((int) FengGameManagerMKII.settings[1]) == 1) && ((url.EndsWith(".jpg") || url.EndsWith(".png")) || url.EndsWith(".jpeg")))
@@ -474,13 +474,13 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netCrossFade(string aniName, float time)
     {
         base.GetComponent<Animation>().CrossFade(aniName, time);
     }
 
-    [RPC]
+    [PunRPC]
     public void netDie()
     {
         if (!this.hasDie)
@@ -489,13 +489,13 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimation(string aniName)
     {
         base.GetComponent<Animation>().Play(aniName);
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimationAt(string aniName, float normalizedTime)
     {
         base.GetComponent<Animation>().Play(aniName);
@@ -550,19 +550,19 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void playsoundRPC(string sndname)
     {
         base.transform.Find(sndname).GetComponent<AudioSource>().Play();
     }
 
-    [RPC]
+    [PunRPC]
     private void removeMe()
     {
         UnityEngine.Object.Destroy(base.gameObject);
     }
 
-    [RPC]
+    [PunRPC]
     public void setSize(float size, PhotonMessageInfo info)
     {
         size = Mathf.Clamp(size, 0.1f, 50f);
@@ -705,14 +705,14 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         this.door_closed.SetActive(true);
     }
 
-    [RPC]
+    [PunRPC]
     private void startNeckSteam()
     {
         this.neckSteamObject.GetComponent<ParticleSystem>().Stop();
         this.neckSteamObject.GetComponent<ParticleSystem>().Play();
     }
 
-    [RPC]
+    [PunRPC]
     private void startSweepSmoke()
     {
         this.sweepSmokeObject.GetComponent<ParticleSystem>().enableEmission = true;
@@ -729,14 +729,14 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         this.attackChkOnce = false;
     }
 
-    [RPC]
+    [PunRPC]
     private void stopSweepSmoke()
     {
         this.sweepSmokeObject.GetComponent<ParticleSystem>().enableEmission = false;
         this.sweepSmokeObject.GetComponent<ParticleSystem>().Stop();
     }
 
-    [RPC]
+    [PunRPC]
     public void titanGetHit(int viewID, int speed)
     {
         Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
@@ -799,7 +799,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     {
                         this.idle();
                     }
-                    else if (!FengGameManagerMKII.LAN ? base.photonView.isMine : base.networkView.isMine)
+                    else if (!FengGameManagerMKII.LAN ? base.photonView.isMine : base.photonView.isMine)
                     {
                         this.idle();
                     }
@@ -995,7 +995,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                             }
                             else if (FengGameManagerMKII.LAN)
                             {
-                                if (!base.networkView.isMine)
+                                if (!base.photonView.isMine)
                                 {
                                 }
                             }
@@ -1144,10 +1144,10 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     {
                         this.idle();
                     }
-                    else if (!FengGameManagerMKII.LAN ? base.photonView.isMine : base.networkView.isMine)
-                    {
-                        this.idle();
-                    }
+                    //else if (!FengGameManagerMKII.LAN ? base.photonView.isMine : base.networkView.isMine)
+                    //{
+                    //    this.idle();
+                    //}
                     else
                     {
                         this.state = "null";
@@ -1340,7 +1340,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                             }
                             else if (FengGameManagerMKII.LAN)
                             {
-                                if (base.networkView.isMine)
+                                if (base.photonView.isMine)
                                 {
                                 }
                             }

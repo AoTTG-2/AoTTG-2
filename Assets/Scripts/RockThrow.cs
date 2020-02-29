@@ -67,7 +67,7 @@ public class RockThrow : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void initRPC(int viewID, Vector3 scale, Vector3 pos, float level)
     {
         GameObject gameObject = PhotonView.Find(viewID).gameObject;
@@ -89,7 +89,7 @@ public class RockThrow : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void launchRPC(Vector3 v, Vector3 p)
     {
         this.launched = true;

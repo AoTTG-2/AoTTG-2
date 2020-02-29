@@ -25,17 +25,7 @@ public class UIAnchor : MonoBehaviour
 
     private void Start()
     {
-        this.mRoot = NGUITools.FindInParents<UIRoot>(base.gameObject);
-        this.mNeedsHalfPixelOffset = (((Application.platform == RuntimePlatform.WindowsPlayer) || (Application.platform == RuntimePlatform.XBOX360)) || (Application.platform == RuntimePlatform.WindowsWebPlayer)) || (Application.platform == RuntimePlatform.WindowsEditor);
-        if (this.mNeedsHalfPixelOffset)
-        {
-            this.mNeedsHalfPixelOffset = SystemInfo.graphicsShaderLevel < 40;
-        }
-        if (this.uiCamera == null)
-        {
-            this.uiCamera = NGUITools.FindCameraForLayer(base.gameObject.layer);
-        }
-        this.Update();
+
     }
 
     private void Update()

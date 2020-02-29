@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InRoomChat : Photon.MonoBehaviour
+public class InRoomChat2 : Photon.MonoBehaviour
 {
     private bool AlignBottom = true;
     public static readonly string ChatRPC = "Chat";
@@ -28,7 +28,7 @@ public class InRoomChat : Photon.MonoBehaviour
     public void OnGUI()
     {
         int num4;
-        if (!this.IsVisible || (PhotonNetwork.connectionStatesDetailed != PeerStates.Joined))
+        if (!this.IsVisible || (PhotonNetwork.connectionState != ConnectionState.Connected))
         {
             return;
         }

@@ -8,7 +8,6 @@ public static class NGUIMath
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsPlayer:
-            case RuntimePlatform.WindowsWebPlayer:
             case RuntimePlatform.WindowsEditor:
             case RuntimePlatform.XBOX360:
                 pos.x -= 0.5f;
@@ -23,7 +22,6 @@ public static class NGUIMath
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsPlayer:
-            case RuntimePlatform.WindowsWebPlayer:
             case RuntimePlatform.WindowsEditor:
             case RuntimePlatform.XBOX360:
                 if (Mathf.RoundToInt(scale.x) == (Mathf.RoundToInt(scale.x * 0.5f) * 2))

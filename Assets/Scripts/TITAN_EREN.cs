@@ -99,7 +99,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void endMovingRock()
     {
         this.isROCKMOVE = false;
@@ -372,7 +372,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
         base.photonView.RPC("hitByFTRPC", PhotonTargets.All, parameters);
     }
 
-    [RPC]
+    [PunRPC]
     private void hitByFTRPC(int phase)
     {
         if (base.photonView.isMine)
@@ -409,7 +409,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
         base.photonView.RPC("hitByTitanRPC", PhotonTargets.All, new object[0]);
     }
 
-    [RPC]
+    [PunRPC]
     private void hitByTitanRPC()
     {
         if (base.photonView.isMine)
@@ -491,7 +491,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void loadskinRPC(string url)
     {
         if ((((int) FengGameManagerMKII.settings[1]) == 1) && ((url.EndsWith(".jpg") || url.EndsWith(".png")) || url.EndsWith(".jpeg")))
@@ -500,26 +500,26 @@ public class TITAN_EREN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netCrossFade(string aniName, float time)
     {
         base.GetComponent<Animation>().CrossFade(aniName, time);
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimation(string aniName)
     {
         base.GetComponent<Animation>().Play(aniName);
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimationAt(string aniName, float normalizedTime)
     {
         base.GetComponent<Animation>().Play(aniName);
         base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
     }
 
-    [RPC]
+    [PunRPC]
     private void netTauntAttack(float tauntTime, float distance = 100f)
     {
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
@@ -574,20 +574,20 @@ public class TITAN_EREN : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void playsoundRPC(string sndname)
     {
         base.transform.Find(sndname).GetComponent<AudioSource>().Play();
     }
 
-    [RPC]
+    [PunRPC]
     private void removeMe()
     {
         PhotonNetwork.RemoveRPCs(base.photonView);
         UnityEngine.Object.Destroy(base.gameObject);
     }
 
-    [RPC]
+    [PunRPC]
     private void rockPlayAnimation(string anim)
     {
         this.rock.GetComponent<Animation>().Play(anim);
@@ -847,7 +847,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
         this.hasSpawn = true;
     }
 
-    [RPC]
+    [PunRPC]
     private void startMovingRock()
     {
         this.isROCKMOVE = true;

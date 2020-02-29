@@ -1,10 +1,10 @@
-using System;
+//using System;
 
-internal enum JoinType
-{
-    CreateGame,
-    JoinGame,
-    JoinRandomGame,
-    JoinOrCreateOnDemand
-}
+//internal enum JoinType
+//{
+//    CreateGame,
+//    JoinGame,
+//    JoinRandomGame,
+//    JoinOrCreateOnDemand
+//}
 

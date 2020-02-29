@@ -39,7 +39,7 @@ namespace Assets.Scripts.UI
 
         private static void SpawnHuman()
         {
-            string selection = null;
+            string selection = "23";
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
             if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
             {

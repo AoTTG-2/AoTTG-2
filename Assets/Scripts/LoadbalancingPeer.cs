@@ -1,6 +1,4 @@
 using ExitGames.Client.Photon;
-using ExitGames.Client.Photon.Lite;
-using System;
 using System.Collections.Generic;
 
 internal class LoadbalancingPeer : PhotonPeer
@@ -9,56 +7,56 @@ internal class LoadbalancingPeer : PhotonPeer
     {
     }
 
-    public virtual bool OpAuthenticate(string appId, string appVersion, string userId, AuthenticationValues authValues, string regionCode)
-    {
-        bool flag;
-        if (base.DebugOut >= DebugLevel.INFO)
-        {
-            base.Listener.DebugReturn(DebugLevel.INFO, "OpAuthenticate()");
-        }
-        Dictionary<byte, object> customOpParameters = new Dictionary<byte, object>();
-        if ((authValues != null) && (authValues.Secret != null))
-        {
-            customOpParameters[0xdd] = authValues.Secret;
-            return this.OpCustom(230, customOpParameters, true, 0, false);
-        }
-        customOpParameters[220] = appVersion;
-        customOpParameters[0xe0] = appId;
-        if (!string.IsNullOrEmpty(regionCode))
-        {
-            customOpParameters[210] = regionCode;
-        }
-        if (!string.IsNullOrEmpty(userId))
-        {
-            customOpParameters[0xe1] = userId;
-        }
-        if ((authValues != null) && (authValues.AuthType != CustomAuthenticationType.None))
-        {
-            if (!base.IsEncryptionAvailable)
-            {
-                base.Listener.DebugReturn(DebugLevel.ERROR, "OpAuthenticate() failed. When you want Custom Authentication encryption is mandatory.");
-                return false;
-            }
-            customOpParameters[0xd9] = (byte) authValues.AuthType;
-            if (!string.IsNullOrEmpty(authValues.Secret))
-            {
-                customOpParameters[0xdd] = authValues.Secret;
-            }
-            if (!string.IsNullOrEmpty(authValues.AuthParameters))
-            {
-                customOpParameters[0xd8] = authValues.AuthParameters;
-            }
-            if (authValues.AuthPostData != null)
-            {
-                customOpParameters[0xd6] = authValues.AuthPostData;
-            }
-        }
-        if (!(flag = this.OpCustom(230, customOpParameters, true, 0, base.IsEncryptionAvailable)))
-        {
-            base.Listener.DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, CustomAuthenticationValues and if you're connected.");
-        }
-        return flag;
-    }
+    //public virtual bool OpAuthenticate(string appId, string appVersion, string userId, AuthenticationValues authValues, string regionCode)
+    //{
+    //    bool flag;
+    //    if (base.DebugOut >= DebugLevel.INFO)
+    //    {
+    //        base.Listener.DebugReturn(DebugLevel.INFO, "OpAuthenticate()");
+    //    }
+    //    Dictionary<byte, object> customOpParameters = new Dictionary<byte, object>();
+    //    if ((authValues != null) && (authValues.Secret != null))
+    //    {
+    //        customOpParameters[0xdd] = authValues.Secret;
+    //        return this.OpCustom(230, customOpParameters, true, 0, false);
+    //    }
+    //    customOpParameters[220] = appVersion;
+    //    customOpParameters[0xe0] = appId;
+    //    if (!string.IsNullOrEmpty(regionCode))
+    //    {
+    //        customOpParameters[210] = regionCode;
+    //    }
+    //    if (!string.IsNullOrEmpty(userId))
+    //    {
+    //        customOpParameters[0xe1] = userId;
+    //    }
+    //    if ((authValues != null) && (authValues.AuthType != CustomAuthenticationType.None))
+    //    {
+    //        if (!base.IsEncryptionAvailable)
+    //        {
+    //            base.Listener.DebugReturn(DebugLevel.ERROR, "OpAuthenticate() failed. When you want Custom Authentication encryption is mandatory.");
+    //            return false;
+    //        }
+    //        customOpParameters[0xd9] = (byte) authValues.AuthType;
+    //        if (!string.IsNullOrEmpty(authValues.Secret))
+    //        {
+    //            customOpParameters[0xdd] = authValues.Secret;
+    //        }
+    //        if (!string.IsNullOrEmpty(authValues.AuthParameters))
+    //        {
+    //            customOpParameters[0xd8] = authValues.AuthParameters;
+    //        }
+    //        if (authValues.AuthPostData != null)
+    //        {
+    //            customOpParameters[0xd6] = authValues.AuthPostData;
+    //        }
+    //    }
+    //    if (!(flag = this.OpCustom(230, customOpParameters, true, 0, base.IsEncryptionAvailable)))
+    //    {
+    //        base.Listener.DebugReturn(DebugLevel.ERROR, "Error calling OpAuthenticate! Did not work. Check log output, CustomAuthenticationValues and if you're connected.");
+    //    }
+    //    return flag;
+    //}
 
     public virtual bool OpChangeGroups(byte[] groupsToRemove, byte[] groupsToAdd)
     {

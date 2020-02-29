@@ -21,7 +21,7 @@ public static class ClothFactory
                 if (component.isActiveInScene)
                 {
                     cachedObject.GetComponent<SkinnedMeshRenderer>().enabled = false;
-                    cachedObject.GetComponent<Cloth>().enabled = false;
+                    //cachedObject.GetComponent<Cloth>().enabled = false;
                     component.isActiveInScene = false;
                     cachedObject.transform.position = new Vector3(0f, -99999f, 0f);
                     cachedObject.GetComponent<ParentFollow>().RemoveParent();

@@ -495,7 +495,6 @@ public class UIPanel : MonoBehaviour
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsPlayer:
-            case RuntimePlatform.WindowsWebPlayer:
             case RuntimePlatform.WindowsEditor:
                 zero.x -= 0.5f;
                 zero.y += 0.5f;

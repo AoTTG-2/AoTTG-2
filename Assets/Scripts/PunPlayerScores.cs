@@ -1,8 +1,8 @@
-using System;
-using UnityEngine;
+//using System;
+//using UnityEngine;
 
-public class PunPlayerScores : MonoBehaviour
-{
-    public const string PlayerScoreProp = "score";
-}
+//public class PunPlayerScores : MonoBehaviour
+//{
+//    public const string PlayerScoreProp = "score";
+//}
 

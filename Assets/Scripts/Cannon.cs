@@ -114,7 +114,7 @@ public class Cannon : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void SetSize(string settings, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
