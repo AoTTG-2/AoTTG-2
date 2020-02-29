@@ -88,10 +88,6 @@
      <Compile Include="Assets\Scripts\BTN_SSR_up.cs" />
      <Compile Include="Assets\Scripts\BTN_START_MULTI_SERVER.cs" />
      <Compile Include="Assets\Scripts\BTN_START_SINGLE_GAMEPLAY.cs" />
-     <Compile Include="Assets\Scripts\BTN_ServerUS.cs" />
-     <Compile Include="Assets\Scripts\BTN_Server_ASIA.cs" />
-     <Compile Include="Assets\Scripts\BTN_Server_EU.cs" />
-     <Compile Include="Assets\Scripts\BTN_Server_JPN.cs" />
      <Compile Include="Assets\Scripts\BTN_Server_List_PgDn.cs" />
      <Compile Include="Assets\Scripts\BTN_Server_List_PgUp.cs" />
      <Compile Include="Assets\Scripts\BTN_SetDefault.cs" />
@@ -424,6 +420,12 @@
      <Compile Include="Assets\Scripts\TypedLobby.cs" />
      <Compile Include="Assets\Scripts\TypewriterEffect.cs" />
      <Compile Include="Assets\Scripts\UI\AottgUi.cs" />
+     <Compile Include="Assets\Scripts\UI\Credits.cs" />
+     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\ServerList.cs" />
+     <Compile Include="Assets\Scripts\UI\ServerRegion.cs" />
+     <Compile Include="Assets\Scripts\UI\UiElement.cs" />
+     <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
      <Compile Include="Assets\Scripts\UIAnchor.cs" />
      <Compile Include="Assets\Scripts\UIAtlas.cs" />
      <Compile Include="Assets\Scripts\UIButton.cs" />

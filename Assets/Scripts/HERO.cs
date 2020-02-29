@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using Xft;
+using Debug = UnityEngine.Debug;
 
 public class HERO : Photon.MonoBehaviour
 {
@@ -1171,6 +1172,8 @@ public class HERO : Photon.MonoBehaviour
 
     private void FixedUpdate()
     {
+        //FixedUpdate2();
+        //return;
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
@@ -1329,7 +1332,7 @@ public class HERO : Photon.MonoBehaviour
                                 this.baseRigidBody.AddForce(vector5);
                                 if (Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f)
                                 {
-                                    this.baseRigidBody.AddForce((Vector3) (-this.baseRigidBody.velocity * 2f), ForceMode.Acceleration);
+                                    this.baseRigidBody.AddForce((Vector3)(-this.baseRigidBody.velocity * 2f), ForceMode.Acceleration);
                                 }
                             }
                         }
@@ -1711,15 +1714,16 @@ public class HERO : Photon.MonoBehaviour
                     this.spinning = false;
                     if (flag3 && flag4) //HACK TO PREVENT ENDLESS REEL IN flag4
                     {
+                        Debug.LogWarning("Unexpected behavior from flag 3 && 4 == true");
                         float num14 = this.currentSpeed + 0.1f;
                         this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
-                        Vector3 vector13 = ((Vector3) ((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
+                        Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
                         float num15 = 0f;
-                        if ((((int) FengGameManagerMKII.settings[0x61]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if ((((int)FengGameManagerMKII.settings[0x61]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
                         {
                             num15 = -1f;
                         }
-                        else if ((((int) FengGameManagerMKII.settings[0x74]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if ((((int)FengGameManagerMKII.settings[0x74]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
                         {
                             num15 = 1f;
                         }
@@ -1732,19 +1736,20 @@ public class HERO : Photon.MonoBehaviour
                         Vector3 vector14 = Vector3.RotateTowards(vector13, this.baseRigidBody.velocity, 1.53938f * num16, 1.53938f * num16);
                         vector14.Normalize();
                         this.spinning = true;
-                        this.baseRigidBody.velocity = (Vector3) (vector14 * num14);
+                        this.baseRigidBody.velocity = (Vector3)(vector14 * num14);
                     }
                     else if (flag3) //HACK TO PREVENT ENDLESS REEL-IN - flag3
                     {
+                        Debug.LogWarning("Unexpected behavior from flag 3 == true");
                         float num17 = this.currentSpeed + 0.1f;
                         this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
                         Vector3 vector15 = this.bulletLeft.transform.position - this.baseTransform.position;
                         float num18 = 0f;
-                        if ((((int) FengGameManagerMKII.settings[0x61]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if ((((int)FengGameManagerMKII.settings[0x61]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
                         {
                             num18 = -1f;
                         }
-                        else if ((((int) FengGameManagerMKII.settings[0x74]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if ((((int)FengGameManagerMKII.settings[0x74]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
                         {
                             num18 = 1f;
                         }
@@ -1757,19 +1762,20 @@ public class HERO : Photon.MonoBehaviour
                         Vector3 vector16 = Vector3.RotateTowards(vector15, this.baseRigidBody.velocity, 1.53938f * num19, 1.53938f * num19);
                         vector16.Normalize();
                         this.spinning = true;
-                        this.baseRigidBody.velocity = (Vector3) (vector16 * num17);
+                        this.baseRigidBody.velocity = (Vector3)(vector16 * num17);
                     }
                     else if (flag4) //HACK TO RPEVENT ENDLESS REEL-IN flag4
                     {
+                        Debug.LogWarning("Unexpected behavior from flag 4 == true");
                         float num20 = this.currentSpeed + 0.1f;
                         this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
                         Vector3 vector17 = this.bulletRight.transform.position - this.baseTransform.position;
                         float num21 = 0f;
-                        if ((((int) FengGameManagerMKII.settings[0x61]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if ((((int)FengGameManagerMKII.settings[0x61]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
                         {
                             num21 = -1f;
                         }
-                        else if ((((int) FengGameManagerMKII.settings[0x74]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if ((((int)FengGameManagerMKII.settings[0x74]) == 1) && FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
                         {
                             num21 = 1f;
                         }
@@ -1782,7 +1788,7 @@ public class HERO : Photon.MonoBehaviour
                         Vector3 vector18 = Vector3.RotateTowards(vector17, this.baseRigidBody.velocity, 1.53938f * num22, 1.53938f * num22);
                         vector18.Normalize();
                         this.spinning = true;
-                        this.baseRigidBody.velocity = (Vector3) (vector18 * num20);
+                        this.baseRigidBody.velocity = (Vector3)(vector18 * num20);
                     }
                     if (((this.state == HERO_STATE.Attack) && ((this.attackAnimation == "attack5") || (this.attackAnimation == "special_petra"))) && ((this.baseAnimation[this.attackAnimation].normalizedTime > 0.4f) && !this.attackMove))
                     {
@@ -1876,6 +1882,11 @@ public class HERO : Photon.MonoBehaviour
                 }
             }
         }
+    }
+
+    private void FixedUpdate2()
+    {
+
     }
 
     public string getDebugInfo()

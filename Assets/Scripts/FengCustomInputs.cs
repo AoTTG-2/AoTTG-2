@@ -590,6 +590,7 @@ public class FengCustomInputs : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
         this.inputBool = new bool[this.DescriptionString.Length];
         this.inputString = new string[this.DescriptionString.Length];
         //this.inputKey = new KeyCode[this.DescriptionString.Length];
