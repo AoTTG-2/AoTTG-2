@@ -32,13 +32,13 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     public float titanPt;
     public float titanPtMax = 40f;
 
-    [RPC]
+    [PunRPC]
     private void changeHumanPt(float pt)
     {
         this.humanPt = pt;
     }
 
-    [RPC]
+    [PunRPC]
     private void changeState(int num)
     {
         if (num == 0)
@@ -55,7 +55,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void changeTitanPt(float pt)
     {
         this.titanPt = pt;
@@ -78,7 +78,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     if (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint != base.gameObject)
                     {
                         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
-                        GameObject.Find("Chatroom").GetComponent<InRoomChat>().addLINE("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        //GameObject.Find("Chatroom").GetComponent<InRoomChat>().addLINE("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
                     }
                     break;
                 }
@@ -94,7 +94,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     if (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint != base.gameObject)
                     {
                         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
-                        GameObject.Find("Chatroom").GetComponent<InRoomChat>().addLINE("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        //GameObject.Find("Chatroom").GetComponent<InRoomChat>().addLINE("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
                     }
                     break;
                 }

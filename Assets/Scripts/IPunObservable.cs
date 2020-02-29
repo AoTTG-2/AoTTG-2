@@ -1,7 +1,7 @@
-using System;
+//using System;
 
-public interface IPunObservable
-{
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info);
-}
+//public interface IPunObservable
+//{
+//    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info);
+//}
 

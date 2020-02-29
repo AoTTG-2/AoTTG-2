@@ -1,9 +1,9 @@
-using System;
+//using System;
 
-public enum OnSerializeRigidBody
-{
-    OnlyVelocity,
-    OnlyAngularVelocity,
-    All
-}
+//public enum OnSerializeRigidBody
+//{
+//    OnlyVelocity,
+//    OnlyAngularVelocity,
+//    All
+//}
 

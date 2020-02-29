@@ -9,12 +9,12 @@ namespace Assets.Scripts.UI
     {
         public void CreateLobby()
         {
-            PhotonNetwork.CreateRoom("Test7", true, true, 2);
+            PhotonNetwork.CreateRoom("Test7"); //, true, true, 2);
         }
 
         public void JoinLobby()
         {
-            PhotonNetwork.JoinRoom("Test");
+            PhotonNetwork.JoinRoom("Test7");
         }
     }
 }

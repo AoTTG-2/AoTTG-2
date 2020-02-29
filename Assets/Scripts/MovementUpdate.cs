@@ -59,7 +59,7 @@ public class MovementUpdate : MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void updateMovement(Vector3 newPosition, Quaternion newRotation, Vector3 newScale, Vector3 veloctiy)
     {
         this.targetPosition = newPosition;

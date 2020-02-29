@@ -248,7 +248,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.RecompilePlayerList(0.5f);
     }
 
-    [RPC]
+    [PunRPC]
     private void Chat(string content, string sender, PhotonMessageInfo info)
     {
         if (sender != string.Empty)
@@ -259,7 +259,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.chatRoom.addLINE(content);
     }
 
-    [RPC]
+    [PunRPC]
     private void ChatPM(string sender, string content, PhotonMessageInfo info)
     {
         content = sender + ":" + content;
@@ -563,7 +563,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void clearlevel(string[] link, int gametype, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -2616,7 +2616,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void customlevelRPC(string[] content, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -2943,7 +2943,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return this.heroes;
     }
 
-    [RPC]
+    [PunRPC]
     private void getRacingResult(string player, float time)
     {
         RacingResult result = new RacingResult {
@@ -2968,7 +2968,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return ("Male " + lol);
     }
 
-    [RPC]
+    [PunRPC]
     private void ignorePlayer(int ID, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -2992,7 +2992,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.RecompilePlayerList(0.1f);
     }
 
-    [RPC]
+    [PunRPC]
     private void ignorePlayerArray(int[] IDS, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -3717,7 +3717,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void labelRPC(int setting, PhotonMessageInfo info)
     {
         if (PhotonView.Find(setting) != null)
@@ -4847,41 +4847,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void loadskinRPC(string n, string url, string url2, string[] skybox, PhotonMessageInfo info)
     {
         if ((((int) settings[2]) == 1) && info.sender.isMasterClient)
         {
             base.StartCoroutine(this.loadskinE(n, url, url2, skybox));
-        }
-    }
-
-    private IEnumerator loginFeng()
-    {
-        WWW iteratorVariable1;
-        WWWForm form = new WWWForm();
-        form.AddField("userid", usernameField);
-        form.AddField("password", passwordField);
-        if (!Application.isWebPlayer)
-        {
-            iteratorVariable1 = new WWW("http://fenglee.com/game/aog/require_user_info.php", form);
-        }
-        else
-        {
-            iteratorVariable1 = new WWW("http://aotskins.com/version/getinfo.php", form);
-        }
-        yield return iteratorVariable1;
-        if ((iteratorVariable1.error != null) || iteratorVariable1.text.Contains("Error,please sign in again."))
-        {
-            loginstate = 2;
-        }
-        else
-        {
-            char[] separator = new char[] { '|' };
-            string[] strArray = iteratorVariable1.text.Split(separator);
-            LoginFengKAI.player.name = usernameField;
-            LoginFengKAI.player.guildname = strArray[0];
-            loginstate = 3;
         }
     }
 
@@ -4913,7 +4884,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.gameWin2();
     }
 
-    [RPC]
+    [PunRPC]
     private void netGameLose(int score, PhotonMessageInfo info)
     {
         this.isLosing = true;
@@ -4929,7 +4900,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netGameWin(int score, PhotonMessageInfo info)
     {
         this.humanScore = score;
@@ -4965,13 +4936,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netRefreshRacingResult(string tmp)
     {
         this.localRacingResult = tmp;
     }
 
-    [RPC]
+    [PunRPC]
     public void netShowDamage(int speed)
     {
         //HACK
@@ -5048,7 +5019,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
     }
 
-    public void NOTSpawnPlayer(string id)
+    public void NOTSpawnPlayer(string id = "2")
     {
         this.myLastHero = id.ToUpper();
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
@@ -5146,7 +5117,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Cursor.visible = true;
     }
 
-    [RPC]
+    [PunRPC]
     public void oneTitanDown(string name1, bool onPlayerLeave)
     {
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient)
@@ -5360,7 +5331,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.needChooseSide = true;
         this.chatContent = new ArrayList();
         this.killInfoGO = new ArrayList();
-        InRoomChat.messages = new List<string>();
+        //InRoomChat.messages = new List<string>();
         if (!PhotonNetwork.isMasterClient)
         {
             base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
@@ -6788,7 +6759,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return new RCEvent(condition, sentTrueActions, eventClass, eventType);
     }
 
-    [RPC]
+    [PunRPC]
     public void pauseRPC(bool pause, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -6887,14 +6858,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void refreshPVPStatus(int score1, int score2)
     {
         this.PVPhumanScore = score1;
         this.PVPtitanScore = score2;
     }
 
-    [RPC]
+    [PunRPC]
     private void refreshPVPStatus_AHSS(int[] score1)
     {
         UnityEngine.MonoBehaviour.print(score1);
@@ -6939,7 +6910,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
     }
 
-    [RPC]
+    [PunRPC]
     private void refreshStatus(int score1, int score2, int wav, int highestWav, float time1, float time2, bool startRacin, bool endRacin)
     {
         this.humanScore = score1;
@@ -6997,7 +6968,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.titans.Remove(titan);
     }
 
-    [RPC]
+    [PunRPC]
     private void RequireStatus()
     {
         object[] parameters = new object[] { this.humanScore, this.titanScore, this.wave, this.highestwave, this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing };
@@ -7113,7 +7084,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void respawnHeroInNewRound()
     {
         if (!this.needChooseSide && GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
@@ -7196,7 +7167,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void restartGameByClient()
     {
     }
@@ -7640,7 +7611,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return PeerStates.ConnectingToMasterserver;
     }
 
-    [RPC]
+    [PunRPC]
     private void RPCLoadLevel(PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -8127,24 +8098,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    private IEnumerator setGuildFeng()
-    {
-        WWW iteratorVariable1;
-        WWWForm form = new WWWForm();
-        form.AddField("name", LoginFengKAI.player.name);
-        form.AddField("guildname", LoginFengKAI.player.guildname);
-        if (!Application.isWebPlayer)
-        {
-            iteratorVariable1 = new WWW("http://fenglee.com/game/aog/change_guild_name.php", form);
-        }
-        else
-        {
-            iteratorVariable1 = new WWW("http://aotskins.com/version/guild.php", form);
-        }
-        yield return iteratorVariable1;
-    }
-
-    [RPC]
+    [PunRPC]
     private void setMasterRC(PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -8237,7 +8191,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void setTeamRPC(int setting, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient || info.sender.isLocal)
@@ -8246,7 +8200,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void settingRPC(ExitGames.Client.Photon.Hashtable hash, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -8255,7 +8209,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void showChatContent(string content)
     {
         this.chatContent.Add(content);
@@ -8337,7 +8291,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
     {
         if (!(this.gameTimesUp || !t.sender.isMasterClient))
@@ -8384,7 +8338,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void someOneIsDead(int id = -1)
     {
         if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
@@ -8881,7 +8835,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
 
-    [RPC]
+    [PunRPC]
     public void spawnPlayerAtRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
     {
         if (((info.sender.isMasterClient && logicLoaded) && (customLevelLoaded && !this.needChooseSide)) && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
@@ -9331,7 +9285,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
     }
 
-    [RPC]
+    [PunRPC]
     private void spawnTitanRPC(PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
@@ -9428,7 +9382,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         ChangeQuality.setCurrentQuality();
     }
 
-    [RPC]
+    [PunRPC]
     public void titanGetKill(PhotonPlayer player, int Damage, string name)
     {
         Damage = Mathf.Max(10, Damage);
@@ -9487,7 +9441,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (GameObject.Find("LabelNetworkStatus") != null))
         {
-            GameObject.Find("LabelNetworkStatus").GetComponent<UILabel>().text = PhotonNetwork.connectionStatesDetailed.ToString();
+            GameObject.Find("LabelNetworkStatus").GetComponent<UILabel>().text = PhotonNetwork.connectionState.ToString();
             if (PhotonNetwork.connected)
             {
                 UILabel component = GameObject.Find("LabelNetworkStatus").GetComponent<UILabel>();
@@ -9615,7 +9569,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
     {
         //HACK
@@ -9651,7 +9605,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     public void verifyPlayerHasLeft(int ID, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient && (PhotonPlayer.Find(ID) != null))

@@ -239,19 +239,19 @@ public class Horse : Photon.MonoBehaviour
         base.gameObject.GetComponent<TITAN_CONTROLLER>().enabled = true;
     }
 
-    [RPC]
+    [PunRPC]
     private void netCrossFade(string aniName, float time)
     {
         base.GetComponent<Animation>().CrossFade(aniName, time);
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimation(string aniName)
     {
         base.GetComponent<Animation>().Play(aniName);
     }
 
-    [RPC]
+    [PunRPC]
     private void netPlayAnimationAt(string aniName, float normalizedTime)
     {
         base.GetComponent<Animation>().Play(aniName);
@@ -279,7 +279,7 @@ public class Horse : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void setDust(bool enable)
     {
         if (this.dust.GetComponent<ParticleSystem>().enableEmission)

@@ -222,7 +222,7 @@ public class Bullet : Photon.MonoBehaviour
         return (this.phase == 1);
     }
 
-    [RPC]
+    [PunRPC]
     private void killObject()
     {
         UnityEngine.Object.Destroy(this.rope);
@@ -277,7 +277,7 @@ public class Bullet : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void myMasterIs(int id, string launcherRef)
     {
         this.master = PhotonView.Find(id).gameObject;
@@ -299,14 +299,14 @@ public class Bullet : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netLaunch(Vector3 newPosition)
     {
         this.nodes = new ArrayList();
         this.nodes.Add(newPosition);
     }
 
-    [RPC]
+    [PunRPC]
     private void netUpdateLeviSpiral(Vector3 newPosition, Vector3 masterPosition, Vector3 masterrotation)
     {
         this.phase = 2;
@@ -330,7 +330,7 @@ public class Bullet : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void netUpdatePhase1(Vector3 newPosition, Vector3 masterPosition)
     {
         this.lineRenderer.SetVertexCount(2);
@@ -389,13 +389,13 @@ public class Bullet : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void setPhase(int value)
     {
         this.phase = value;
     }
 
-    [RPC]
+    [PunRPC]
     private void setVelocityAndLeft(Vector3 value, Vector3 v2, bool l)
     {
         this.velocity = value;
@@ -411,13 +411,13 @@ public class Bullet : Photon.MonoBehaviour
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addHook(this);
     }
 
-    [RPC]
+    [PunRPC]
     private void tieMeTo(Vector3 p)
     {
         base.transform.position = p;
     }
 
-    [RPC]
+    [PunRPC]
     private void tieMeToOBJ(int id)
     {
         base.transform.parent = PhotonView.Find(id).gameObject.transform;

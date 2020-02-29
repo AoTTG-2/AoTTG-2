@@ -1,11 +1,11 @@
-using System;
+//using System;
 
-public enum ConnectionState
-{
-    Disconnected,
-    Connecting,
-    Connected,
-    Disconnecting,
-    InitializingApplication
-}
+//public enum ConnectionState
+//{
+//    Disconnected,
+//    Connecting,
+//    Connected,
+//    Disconnecting,
+//    InitializingApplication
+//}
 

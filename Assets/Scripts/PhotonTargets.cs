@@ -1,13 +1,13 @@
-using System;
+//using System;
 
-public enum PhotonTargets
-{
-    All,
-    Others,
-    MasterClient,
-    AllBuffered,
-    OthersBuffered,
-    AllViaServer,
-    AllBufferedViaServer
-}
+//public enum PhotonTargets
+//{
+//    All,
+//    Others,
+//    MasterClient,
+//    AllBuffered,
+//    OthersBuffered,
+//    AllViaServer,
+//    AllBufferedViaServer
+//}
 

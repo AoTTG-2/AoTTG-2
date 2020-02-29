@@ -35,7 +35,7 @@ public class MovementUpdate1 : MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void updateMovement1(Vector3 newPosition, Quaternion newRotation, Vector3 newScale)
     {
         base.transform.position = newPosition;

@@ -1,11 +1,11 @@
-using System;
+//using System;
 
-public enum OnSerializeTransform
-{
-    OnlyPosition,
-    OnlyRotation,
-    OnlyScale,
-    PositionAndRotation,
-    All
-}
+//public enum OnSerializeTransform
+//{
+//    OnlyPosition,
+//    OnlyRotation,
+//    OnlyScale,
+//    PositionAndRotation,
+//    All
+//}
 

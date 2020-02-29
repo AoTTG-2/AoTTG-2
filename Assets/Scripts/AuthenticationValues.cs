@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-public class AuthenticationValues
+public class AuthenticationValues2
 {
     public string AuthParameters;
     public CustomAuthenticationType AuthType;

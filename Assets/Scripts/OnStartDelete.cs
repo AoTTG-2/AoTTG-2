@@ -1,11 +1,11 @@
-using System;
-using UnityEngine;
+//using System;
+//using UnityEngine;
 
-public class OnStartDelete : MonoBehaviour
-{
-    private void Start()
-    {
-        UnityEngine.Object.DestroyObject(base.gameObject);
-    }
-}
+//public class OnStartDelete : MonoBehaviour
+//{
+//    private void Start()
+//    {
+//        UnityEngine.Object.DestroyObject(base.gameObject);
+//    }
+//}
 

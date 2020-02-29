@@ -31,7 +31,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
         this.hair_go_ref.transform.parent = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head").transform;
     }
 
-    [RPC]
+    [PunRPC]
     public IEnumerator loadskinE(int hair, int eye, string hairlink)
     {
         bool iteratorVariable0 = false;
@@ -225,7 +225,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void setHairPRC(int type, int eye_type, float c1, float c2, float c3)
     {
         UnityEngine.Object.Destroy(this.part_hair);
@@ -245,7 +245,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
         this.setFacialTexture(this.eye, eye_type);
     }
 
-    [RPC]
+    [PunRPC]
     public void setHairRPC2(int hair, int eye, string hairlink)
     {
         if (((int) FengGameManagerMKII.settings[1]) == 1)
