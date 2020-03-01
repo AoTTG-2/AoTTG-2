@@ -106,7 +106,7 @@ public class InstantiateTracker
                 return false;
 
             case "titan_eren":
-                if (!(RCextensions.returnStringFromObject(photonPlayer.customProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
+                if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
                     if (RCSettings.banEren > 0)
                     {
@@ -130,7 +130,7 @@ public class InstantiateTracker
                 return this.Instantiated(photonPlayer, GameResource.effect);
 
             case "hitmeatbig":
-                if (!(RCextensions.returnStringFromObject(photonPlayer.customProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
+                if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
                     if (RCSettings.banEren > 0)
                     {

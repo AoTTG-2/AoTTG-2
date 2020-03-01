@@ -25,10 +25,10 @@ namespace Assets.Scripts.UI
             int num2 = 0;
             foreach (PhotonPlayer player in PhotonNetwork.playerList)
             {
-                if (RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.isTitan]) == 1)
+                if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1)
                 {
                     num++;
-                    if (RCextensions.returnBoolFromObject(player.customProperties[PhotonPlayerProperty.dead]))
+                    if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
                     {
                         num2++;
                     }
