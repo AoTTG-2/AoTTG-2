@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: "[BUG]"
-labels: bug
+labels: Bug, Development Team
 assignees: ''
 
 ---
@@ -23,9 +23,8 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. Windows, Mac]
-- Version: [e.g. Windows 7, 8, 10]
+**Log file**
+Include a log file
 
 **Additional context**
 Add any other context about the problem here.
