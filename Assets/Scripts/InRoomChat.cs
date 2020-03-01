@@ -74,17 +74,17 @@ public class InRoomChat2 : Photon.MonoBehaviour
                 }
                 if (!this.inputLine.StartsWith("/"))
                 {
-                    str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]).hexColor();
+                    str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor();
                     if (str2 == string.Empty)
                     {
-                        str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]);
-                        if (PhotonNetwork.player.customProperties[PhotonPlayerProperty.RCteam] != null)
+                        str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]);
+                        if (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)
                         {
-                            if (RCextensions.returnIntFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.RCteam]) == 1)
+                            if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                             {
                                 str2 = "<color=#00FFFF>" + str2 + "</color>";
                             }
-                            else if (RCextensions.returnIntFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.RCteam]) == 2)
+                            else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2)
                             {
                                 str2 = "<color=#FF00FF>" + str2 + "</color>";
                             }
@@ -164,7 +164,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
                     {
                         foreach (PhotonPlayer player in PhotonNetwork.playerList)
                         {
-                            this.addLINE(RCextensions.returnStringFromObject(player.customProperties[PhotonPlayerProperty.currentLevel]));
+                            this.addLINE(RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.currentLevel]));
                         }
                     }
                     else if (this.inputLine == "/isrc")
@@ -248,33 +248,33 @@ public class InRoomChat2 : Photon.MonoBehaviour
                     {
                         string[] strArray = this.inputLine.Split(new char[] { ' ' });
                         PhotonPlayer targetPlayer = PhotonPlayer.Find(Convert.ToInt32(strArray[1]));
-                        str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]).hexColor();
+                        str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor();
                         if (str2 == string.Empty)
                         {
-                            str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]);
-                            if (PhotonNetwork.player.customProperties[PhotonPlayerProperty.RCteam] != null)
+                            str2 = RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]);
+                            if (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)
                             {
-                                if (RCextensions.returnIntFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.RCteam]) == 1)
+                                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                                 {
                                     str2 = "<color=#00FFFF>" + str2 + "</color>";
                                 }
-                                else if (RCextensions.returnIntFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.RCteam]) == 2)
+                                else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2)
                                 {
                                     str2 = "<color=#FF00FF>" + str2 + "</color>";
                                 }
                             }
                         }
-                        string str3 = RCextensions.returnStringFromObject(targetPlayer.customProperties[PhotonPlayerProperty.name]).hexColor();
+                        string str3 = RCextensions.returnStringFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.name]).hexColor();
                         if (str3 == string.Empty)
                         {
-                            str3 = RCextensions.returnStringFromObject(targetPlayer.customProperties[PhotonPlayerProperty.name]);
-                            if (targetPlayer.customProperties[PhotonPlayerProperty.RCteam] != null)
+                            str3 = RCextensions.returnStringFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.name]);
+                            if (targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam] != null)
                             {
-                                if (RCextensions.returnIntFromObject(targetPlayer.customProperties[PhotonPlayerProperty.RCteam]) == 1)
+                                if (RCextensions.returnIntFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                                 {
                                     str3 = "<color=#00FFFF>" + str3 + "</color>";
                                 }
-                                else if (RCextensions.returnIntFromObject(targetPlayer.customProperties[PhotonPlayerProperty.RCteam]) == 2)
+                                else if (RCextensions.returnIntFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam]) == 2)
                                 {
                                     str3 = "<color=#FF00FF>" + str3 + "</color>";
                                 }
@@ -415,7 +415,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                         FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray5);
                                         foreach (PhotonPlayer player in PhotonNetwork.playerList)
                                         {
-                                            if (((player.customProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.customProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.isTitan]) != 2))
+                                            if (((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
                                             {
                                                 FengGameManagerMKII.instance.photonView.RPC("respawnHeroInNewRound", player, new object[0]);
                                             }
@@ -429,7 +429,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                             if (player.ID == num8)
                                             {
                                                 this.addLINE("<color=#FFCC00>Player " + num8.ToString() + " has been revived.</color>");
-                                                if (((player.customProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.customProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.isTitan]) != 2))
+                                                if (((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
                                                 {
                                                     objArray5 = new object[] { "<color=#FFCC00>You have been revived by the master client.</color>", string.Empty };
                                                     FengGameManagerMKII.instance.photonView.RPC("Chat", player, objArray5);
@@ -615,7 +615,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                                 else if (PhotonNetwork.isMasterClient)
                                                 {
                                                     FengGameManagerMKII.instance.kickPlayerRC(player3, false, "");
-                                                    objArray7 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player3.customProperties[PhotonPlayerProperty.name]) + " has been kicked from the server!</color>", string.Empty };
+                                                    objArray7 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player3.CustomProperties[PhotonPlayerProperty.name]) + " has been kicked from the server!</color>", string.Empty };
                                                     FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray7);
                                                 }
                                             }
@@ -663,7 +663,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                                     else if (PhotonNetwork.isMasterClient)
                                                     {
                                                         FengGameManagerMKII.instance.kickPlayerRC(player3, true, "");
-                                                        objArray7 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player3.customProperties[PhotonPlayerProperty.name]) + " has been banned from the server!</color>", string.Empty };
+                                                        objArray7 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player3.CustomProperties[PhotonPlayerProperty.name]) + " has been banned from the server!</color>", string.Empty };
                                                         FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray7);
                                                     }
                                                 }

@@ -753,7 +753,7 @@ public class TITAN : Photon.MonoBehaviour
                     propertiesToSet.Add(PhotonPlayerProperty.dead, true);
                     PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                    propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
+                    propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
                     PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 }
             }
@@ -786,7 +786,7 @@ public class TITAN : Photon.MonoBehaviour
             }
             if (this.nonAI)
             {
-                FengGameManagerMKII.instance.titanGetKill(view.owner, damage, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]);
+                FengGameManagerMKII.instance.titanGetKill(view.owner, damage, (string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]);
             }
             else
             {
@@ -877,7 +877,7 @@ public class TITAN : Photon.MonoBehaviour
                     propertiesToSet.Add(PhotonPlayerProperty.dead, true);
                     PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                    propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
+                    propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
                     PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 }
             }
@@ -2802,7 +2802,7 @@ public class TITAN : Photon.MonoBehaviour
                 propertiesToSet.Add(PhotonPlayerProperty.dead, true);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
+                propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             }
             this.dieAnimation();
@@ -3674,7 +3674,7 @@ public class TITAN : Photon.MonoBehaviour
         this.netDie();
         if (this.nonAI)
         {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name], 0);
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name], 0);
         }
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = true;
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().justSuicide = true;
@@ -3730,7 +3730,7 @@ public class TITAN : Photon.MonoBehaviour
                     this.netDie();
                     if (this.nonAI)
                     {
-                        FengGameManagerMKII.instance.titanGetKill(view.owner, speed, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]);
+                        FengGameManagerMKII.instance.titanGetKill(view.owner, speed, (string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]);
                     }
                     else
                     {

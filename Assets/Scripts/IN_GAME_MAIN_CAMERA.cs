@@ -643,6 +643,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 30;
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
         sensitivityMulti = PlayerPrefs.GetFloat("MouseSensitivity");

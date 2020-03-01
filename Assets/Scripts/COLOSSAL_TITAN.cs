@@ -774,7 +774,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, (string) view.owner.customProperties[PhotonPlayerProperty.name], true, "Colossal Titan's neck", speed);
+                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Colossal Titan's neck", speed);
                     object[] parameters = new object[] { speed };
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("netShowDamage", view.owner, parameters);
                 }

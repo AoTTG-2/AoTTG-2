@@ -2786,371 +2786,371 @@ public class HERO : Photon.MonoBehaviour
                 iteratorVariable12.enabled = false;
             }
         }
-        foreach (Renderer iteratorVariable15 in this.GetComponentsInChildren<Renderer>())
-        {
-            if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[1]))
-            {
-                if ((iteratorVariable2[1].EndsWith(".jpg") || iteratorVariable2[1].EndsWith(".png")) || iteratorVariable2[1].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
-                    {
-                        WWW iteratorVariable16 = new WWW(iteratorVariable2[1]);
-                        yield return iteratorVariable16;
-                        Texture2D iteratorVariable17 = RCextensions.loadimage(iteratorVariable16, mipmap, 0x30d40);
-                        iteratorVariable16.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
-                        {
-                            iteratorVariable1 = true;
-                            if (this.setup.myCostume.hairInfo.id >= 0)
-                            {
-                                iteratorVariable15.material = CharacterMaterials.materials[this.setup.myCostume.hairInfo.texture];
-                            }
-                            iteratorVariable15.material.mainTexture = iteratorVariable17;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[1], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                    }
-                }
-                else if (iteratorVariable2[1].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[2]))
-            {
-                if ((iteratorVariable2[2].EndsWith(".jpg") || iteratorVariable2[2].EndsWith(".png")) || iteratorVariable2[2].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[2]))
-                    {
-                        WWW iteratorVariable18 = new WWW(iteratorVariable2[2]);
-                        yield return iteratorVariable18;
-                        Texture2D iteratorVariable19 = RCextensions.loadimage(iteratorVariable18, mipmap, 0x30d40);
-                        iteratorVariable18.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[2]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
-                            iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
-                            iteratorVariable15.material.mainTexture = iteratorVariable19;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[2], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
-                    }
-                }
-                else if (iteratorVariable2[2].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[3]))
-            {
-                if ((iteratorVariable2[3].EndsWith(".jpg") || iteratorVariable2[3].EndsWith(".png")) || iteratorVariable2[3].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[3]))
-                    {
-                        WWW iteratorVariable20 = new WWW(iteratorVariable2[3]);
-                        yield return iteratorVariable20;
-                        Texture2D iteratorVariable21 = RCextensions.loadimage(iteratorVariable20, mipmap, 0x30d40);
-                        iteratorVariable20.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[3]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
-                            iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
-                            iteratorVariable15.material.mainTexture = iteratorVariable21;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[3], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
-                    }
-                }
-                else if (iteratorVariable2[3].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[4]))
-            {
-                if ((iteratorVariable2[4].EndsWith(".jpg") || iteratorVariable2[4].EndsWith(".png")) || iteratorVariable2[4].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[4]))
-                    {
-                        WWW iteratorVariable22 = new WWW(iteratorVariable2[4]);
-                        yield return iteratorVariable22;
-                        Texture2D iteratorVariable23 = RCextensions.loadimage(iteratorVariable22, mipmap, 0x30d40);
-                        iteratorVariable22.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[4]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
-                            iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
-                            iteratorVariable15.material.mainTexture = iteratorVariable23;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[4], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
-                    }
-                }
-                else if (iteratorVariable2[4].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[5]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[6])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[10]))
-            {
-                if ((iteratorVariable2[5].EndsWith(".jpg") || iteratorVariable2[5].EndsWith(".png")) || iteratorVariable2[5].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[5]))
-                    {
-                        WWW iteratorVariable24 = new WWW(iteratorVariable2[5]);
-                        yield return iteratorVariable24;
-                        Texture2D iteratorVariable25 = RCextensions.loadimage(iteratorVariable24, mipmap, 0x30d40);
-                        iteratorVariable24.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[5]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable25;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[5], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
-                    }
-                }
-                else if (iteratorVariable2[5].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (((iteratorVariable15.name.Contains(FengGameManagerMKII.s[7]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[8])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[9])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x18]))
-            {
-                if ((iteratorVariable2[6].EndsWith(".jpg") || iteratorVariable2[6].EndsWith(".png")) || iteratorVariable2[6].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
-                    {
-                        WWW iteratorVariable26 = new WWW(iteratorVariable2[6]);
-                        yield return iteratorVariable26;
-                        Texture2D iteratorVariable27 = RCextensions.loadimage(iteratorVariable26, mipmap, 0x7a120);
-                        iteratorVariable26.Dispose();
-                        if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable27;
-                            FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[6], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                    }
-                }
-                else if (iteratorVariable2[6].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[11]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[12]))
-            {
-                if ((iteratorVariable2[7].EndsWith(".jpg") || iteratorVariable2[7].EndsWith(".png")) || iteratorVariable2[7].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
-                    {
-                        WWW iteratorVariable28 = new WWW(iteratorVariable2[7]);
-                        yield return iteratorVariable28;
-                        Texture2D iteratorVariable29 = RCextensions.loadimage(iteratorVariable28, mipmap, 0x30d40);
-                        iteratorVariable28.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable29;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[7], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                    }
-                }
-                else if (iteratorVariable2[7].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[15]) || ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[13]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x1a])) && !iteratorVariable15.name.Contains("_r")))
-            {
-                if ((iteratorVariable2[8].EndsWith(".jpg") || iteratorVariable2[8].EndsWith(".png")) || iteratorVariable2[8].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[8]))
-                    {
-                        WWW iteratorVariable30 = new WWW(iteratorVariable2[8]);
-                        yield return iteratorVariable30;
-                        Texture2D iteratorVariable31 = RCextensions.loadimage(iteratorVariable30, mipmap, 0x7a120);
-                        iteratorVariable30.Dispose();
-                        if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[8]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable31;
-                            FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[8], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
-                    }
-                }
-                else if (iteratorVariable2[8].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x11]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x10])) || (iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x1a]) && iteratorVariable15.name.Contains("_r")))
-            {
-                if ((iteratorVariable2[9].EndsWith(".jpg") || iteratorVariable2[9].EndsWith(".png")) || iteratorVariable2[9].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[9]))
-                    {
-                        WWW iteratorVariable32 = new WWW(iteratorVariable2[9]);
-                        yield return iteratorVariable32;
-                        Texture2D iteratorVariable33 = RCextensions.loadimage(iteratorVariable32, mipmap, 0x7a120);
-                        iteratorVariable32.Dispose();
-                        if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[9]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable33;
-                            FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[9], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
-                    }
-                }
-                else if (iteratorVariable2[9].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if ((iteratorVariable15.name == FengGameManagerMKII.s[0x12]) && iteratorVariable3)
-            {
-                if ((iteratorVariable2[10].EndsWith(".jpg") || iteratorVariable2[10].EndsWith(".png")) || iteratorVariable2[10].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[10]))
-                    {
-                        WWW iteratorVariable34 = new WWW(iteratorVariable2[10]);
-                        yield return iteratorVariable34;
-                        Texture2D iteratorVariable35 = RCextensions.loadimage(iteratorVariable34, mipmap, 0x30d40);
-                        iteratorVariable34.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[10]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable35;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[10], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
-                    }
-                }
-                else if (iteratorVariable2[10].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x19]))
-            {
-                if ((iteratorVariable2[11].EndsWith(".jpg") || iteratorVariable2[11].EndsWith(".png")) || iteratorVariable2[11].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[11]))
-                    {
-                        WWW iteratorVariable36 = new WWW(iteratorVariable2[11]);
-                        yield return iteratorVariable36;
-                        Texture2D iteratorVariable37 = RCextensions.loadimage(iteratorVariable36, mipmap, 0x30d40);
-                        iteratorVariable36.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[11]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable37;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[11], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
-                    }
-                }
-                else if (iteratorVariable2[11].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-        }
+        //foreach (Renderer iteratorVariable15 in this.GetComponentsInChildren<Renderer>())
+        //{
+        //    if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[1]))
+        //    {
+        //        if ((iteratorVariable2[1].EndsWith(".jpg") || iteratorVariable2[1].EndsWith(".png")) || iteratorVariable2[1].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
+        //            {
+        //                WWW iteratorVariable16 = new WWW(iteratorVariable2[1]);
+        //                yield return iteratorVariable16;
+        //                Texture2D iteratorVariable17 = RCextensions.loadimage(iteratorVariable16, mipmap, 0x30d40);
+        //                iteratorVariable16.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    if (this.setup.myCostume.hairInfo.id >= 0)
+        //                    {
+        //                        iteratorVariable15.material = CharacterMaterials.materials[this.setup.myCostume.hairInfo.texture];
+        //                    }
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable17;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[1], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[1].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[2]))
+        //    {
+        //        if ((iteratorVariable2[2].EndsWith(".jpg") || iteratorVariable2[2].EndsWith(".png")) || iteratorVariable2[2].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[2]))
+        //            {
+        //                WWW iteratorVariable18 = new WWW(iteratorVariable2[2]);
+        //                yield return iteratorVariable18;
+        //                Texture2D iteratorVariable19 = RCextensions.loadimage(iteratorVariable18, mipmap, 0x30d40);
+        //                iteratorVariable18.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[2]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
+        //                    iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable19;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[2], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[2].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[3]))
+        //    {
+        //        if ((iteratorVariable2[3].EndsWith(".jpg") || iteratorVariable2[3].EndsWith(".png")) || iteratorVariable2[3].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[3]))
+        //            {
+        //                WWW iteratorVariable20 = new WWW(iteratorVariable2[3]);
+        //                yield return iteratorVariable20;
+        //                Texture2D iteratorVariable21 = RCextensions.loadimage(iteratorVariable20, mipmap, 0x30d40);
+        //                iteratorVariable20.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[3]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
+        //                    iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable21;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[3], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[3].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[4]))
+        //    {
+        //        if ((iteratorVariable2[4].EndsWith(".jpg") || iteratorVariable2[4].EndsWith(".png")) || iteratorVariable2[4].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[4]))
+        //            {
+        //                WWW iteratorVariable22 = new WWW(iteratorVariable2[4]);
+        //                yield return iteratorVariable22;
+        //                Texture2D iteratorVariable23 = RCextensions.loadimage(iteratorVariable22, mipmap, 0x30d40);
+        //                iteratorVariable22.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[4]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
+        //                    iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable23;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[4], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[4].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[5]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[6])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[10]))
+        //    {
+        //        if ((iteratorVariable2[5].EndsWith(".jpg") || iteratorVariable2[5].EndsWith(".png")) || iteratorVariable2[5].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[5]))
+        //            {
+        //                WWW iteratorVariable24 = new WWW(iteratorVariable2[5]);
+        //                yield return iteratorVariable24;
+        //                Texture2D iteratorVariable25 = RCextensions.loadimage(iteratorVariable24, mipmap, 0x30d40);
+        //                iteratorVariable24.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[5]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable25;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[5], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[5].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if (((iteratorVariable15.name.Contains(FengGameManagerMKII.s[7]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[8])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[9])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x18]))
+        //    {
+        //        if ((iteratorVariable2[6].EndsWith(".jpg") || iteratorVariable2[6].EndsWith(".png")) || iteratorVariable2[6].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
+        //            {
+        //                WWW iteratorVariable26 = new WWW(iteratorVariable2[6]);
+        //                yield return iteratorVariable26;
+        //                Texture2D iteratorVariable27 = RCextensions.loadimage(iteratorVariable26, mipmap, 0x7a120);
+        //                iteratorVariable26.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable27;
+        //                    FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[6], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[6].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[11]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[12]))
+        //    {
+        //        if ((iteratorVariable2[7].EndsWith(".jpg") || iteratorVariable2[7].EndsWith(".png")) || iteratorVariable2[7].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
+        //            {
+        //                WWW iteratorVariable28 = new WWW(iteratorVariable2[7]);
+        //                yield return iteratorVariable28;
+        //                Texture2D iteratorVariable29 = RCextensions.loadimage(iteratorVariable28, mipmap, 0x30d40);
+        //                iteratorVariable28.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable29;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[7], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[7].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[15]) || ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[13]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x1a])) && !iteratorVariable15.name.Contains("_r")))
+        //    {
+        //        if ((iteratorVariable2[8].EndsWith(".jpg") || iteratorVariable2[8].EndsWith(".png")) || iteratorVariable2[8].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[8]))
+        //            {
+        //                WWW iteratorVariable30 = new WWW(iteratorVariable2[8]);
+        //                yield return iteratorVariable30;
+        //                Texture2D iteratorVariable31 = RCextensions.loadimage(iteratorVariable30, mipmap, 0x7a120);
+        //                iteratorVariable30.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[8]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable31;
+        //                    FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[8], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[8].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x11]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x10])) || (iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x1a]) && iteratorVariable15.name.Contains("_r")))
+        //    {
+        //        if ((iteratorVariable2[9].EndsWith(".jpg") || iteratorVariable2[9].EndsWith(".png")) || iteratorVariable2[9].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[9]))
+        //            {
+        //                WWW iteratorVariable32 = new WWW(iteratorVariable2[9]);
+        //                yield return iteratorVariable32;
+        //                Texture2D iteratorVariable33 = RCextensions.loadimage(iteratorVariable32, mipmap, 0x7a120);
+        //                iteratorVariable32.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[9]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable33;
+        //                    FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[9], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[9].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if ((iteratorVariable15.name == FengGameManagerMKII.s[0x12]) && iteratorVariable3)
+        //    {
+        //        if ((iteratorVariable2[10].EndsWith(".jpg") || iteratorVariable2[10].EndsWith(".png")) || iteratorVariable2[10].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[10]))
+        //            {
+        //                WWW iteratorVariable34 = new WWW(iteratorVariable2[10]);
+        //                yield return iteratorVariable34;
+        //                Texture2D iteratorVariable35 = RCextensions.loadimage(iteratorVariable34, mipmap, 0x30d40);
+        //                iteratorVariable34.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[10]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable35;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[10], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[10].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //    else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x19]))
+        //    {
+        //        if ((iteratorVariable2[11].EndsWith(".jpg") || iteratorVariable2[11].EndsWith(".png")) || iteratorVariable2[11].EndsWith(".jpeg"))
+        //        {
+        //            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[11]))
+        //            {
+        //                WWW iteratorVariable36 = new WWW(iteratorVariable2[11]);
+        //                yield return iteratorVariable36;
+        //                Texture2D iteratorVariable37 = RCextensions.loadimage(iteratorVariable36, mipmap, 0x30d40);
+        //                iteratorVariable36.Dispose();
+        //                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[11]))
+        //                {
+        //                    iteratorVariable1 = true;
+        //                    iteratorVariable15.material.mainTexture = iteratorVariable37;
+        //                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[11], iteratorVariable15.material);
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
+        //                }
+        //                else
+        //                {
+        //                    iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
+        //            }
+        //        }
+        //        else if (iteratorVariable2[11].ToLower() == "transparent")
+        //        {
+        //            iteratorVariable15.enabled = false;
+        //        }
+        //    }
+        //}
         if (iteratorVariable4 && (horse >= 0))
         {
             GameObject gameObject = PhotonView.Find(horse).gameObject;
@@ -3316,7 +3316,7 @@ public class HERO : Photon.MonoBehaviour
             }
             if (!info.sender.isLocal && !info.sender.isMasterClient)
             {
-                if ((info.sender.customProperties[PhotonPlayerProperty.name] == null) || (info.sender.customProperties[PhotonPlayerProperty.isTitan] == null))
+                if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                 {
                     FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
@@ -3409,7 +3409,7 @@ public class HERO : Photon.MonoBehaviour
             propertiesToSet.Add(PhotonPlayerProperty.dead, true);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
             FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
@@ -3418,15 +3418,15 @@ public class HERO : Photon.MonoBehaviour
                 PhotonView view2 = PhotonView.Find(viewID);
                 if (view2 != null)
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.customProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                    propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.customProperties[PhotonPlayerProperty.kills]) + 1);
+                    propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                     view2.owner.SetCustomProperties(propertiesToSet);
                 }
             }
             else
             {
-                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]), 0);
+                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
         }
         if (base.photonView.isMine)
@@ -3448,7 +3448,7 @@ public class HERO : Photon.MonoBehaviour
             }
             if (!info.sender.isLocal && !info.sender.isMasterClient)
             {
-                if ((info.sender.customProperties[PhotonPlayerProperty.name] == null) || (info.sender.customProperties[PhotonPlayerProperty.isTitan] == null))
+                if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                 {
                     FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
@@ -3523,22 +3523,22 @@ public class HERO : Photon.MonoBehaviour
             propertiesToSet.Add(PhotonPlayerProperty.dead, true);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             if (viewID != -1)
             {
                 PhotonView view2 = PhotonView.Find(viewID);
                 if (view2 != null)
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.customProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                    propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.customProperties[PhotonPlayerProperty.kills]) + 1);
+                    propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                     view2.owner.SetCustomProperties(propertiesToSet);
                 }
             }
             else
             {
-                FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]), 0);
+                FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
             object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
             FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
@@ -3625,7 +3625,7 @@ public class HERO : Photon.MonoBehaviour
             propertiesToSet.Add(PhotonPlayerProperty.dead, true);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
             FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
@@ -3634,15 +3634,15 @@ public class HERO : Photon.MonoBehaviour
                 PhotonView view = PhotonView.Find(viewID);
                 if (view != null)
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, RCextensions.returnStringFromObject(view.owner.customProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, RCextensions.returnStringFromObject(view.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                    propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view.owner.customProperties[PhotonPlayerProperty.kills]) + 1);
+                    propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                     view.owner.SetCustomProperties(propertiesToSet);
                 }
             }
             else
             {
-                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]), 0);
+                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
         }
         if (base.photonView.isMine)
@@ -4140,9 +4140,9 @@ public class HERO : Photon.MonoBehaviour
             else if (RCSettings.pvpMode == 1)
             {
                 int num = 0;
-                if (base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam] != null)
+                if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
                 {
-                    num = RCextensions.returnIntFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam]);
+                    num = RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                 }
                 if (val != num)
                 {
@@ -4220,7 +4220,7 @@ public class HERO : Photon.MonoBehaviour
                     int num = 0;
                     foreach (PhotonPlayer player in PhotonNetwork.playerList)
                     {
-                        if ((RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnStringFromObject(player.customProperties[PhotonPlayerProperty.character]).ToUpper() == "EREN"))
+                        if ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.character]).ToUpper() == "EREN"))
                         {
                             num++;
                         }
@@ -4884,9 +4884,9 @@ public class HERO : Photon.MonoBehaviour
             {
                 bool flag2 = false;
                 //HACK
-                //if (base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam] != null)
+                //if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
                 //{
-                //    switch (RCextensions.returnIntFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.RCteam]))
+                //    switch (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam]))
                 //    {
                 //        case 1:
                 //            flag2 = true;
@@ -4905,7 +4905,7 @@ public class HERO : Photon.MonoBehaviour
                 //            break;
                 //    }
                 //}
-                //if (RCextensions.returnIntFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.team]) == 2)
+                //if (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.team]) == 2)
                 //{
                 //    this.myNetWorkName.GetComponent<UILabel>().text = "[FF0000]AHSS\n[FFFFFF]";
                 //    if (!flag2 && (Minimap.instance != null))
@@ -4918,18 +4918,18 @@ public class HERO : Photon.MonoBehaviour
                 //    Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.blue, false, true, Minimap.IconStyle.CIRCLE);
                 //}
             }
-            //string str = RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.guildName]);
+            //string str = RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.guildName]);
             //if (str != string.Empty)
             //{
             //    UILabel component = this.myNetWorkName.GetComponent<UILabel>();
             //    string text = component.text;
-            //    string[] strArray2 = new string[] { text, "[FFFF00]", str, "\n[FFFFFF]", RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.name]) };
+            //    string[] strArray2 = new string[] { text, "[FFFF00]", str, "\n[FFFFFF]", RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.name]) };
             //    component.text = string.Concat(strArray2);
             //}
             //else
             //{
             //    UILabel label2 = this.myNetWorkName.GetComponent<UILabel>();
-            //    label2.text = label2.text + RCextensions.returnStringFromObject(base.photonView.owner.customProperties[PhotonPlayerProperty.name]);
+            //    label2.text = label2.text + RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.name]);
             //}
         }
         else if (Minimap.instance != null)
