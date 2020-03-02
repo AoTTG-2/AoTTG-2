@@ -451,71 +451,31 @@
      <Compile Include="Assets\Scripts\UI\ServerRegion.cs" />
      <Compile Include="Assets\Scripts\UI\UiElement.cs" />
      <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
-     <Compile Include="Assets\Scripts\UIadjustment.cs" />
-     <Compile Include="Assets\Scripts\UIAnchor.cs" />
      <Compile Include="Assets\Scripts\UIAtlas.cs" />
-     <Compile Include="Assets\Scripts\UIButton.cs" />
-     <Compile Include="Assets\Scripts\UIButtonActivate.cs" />
-     <Compile Include="Assets\Scripts\UIButtonColor.cs" />
-     <Compile Include="Assets\Scripts\UIButtonKeyBinding.cs" />
      <Compile Include="Assets\Scripts\UIButtonKeys.cs" />
-     <Compile Include="Assets\Scripts\UIButtonMessage.cs" />
-     <Compile Include="Assets\Scripts\UIButtonOffset.cs" />
-     <Compile Include="Assets\Scripts\UIButtonPlayAnimation.cs" />
-     <Compile Include="Assets\Scripts\UIButtonRotation.cs" />
-     <Compile Include="Assets\Scripts\UIButtonScale.cs" />
      <Compile Include="Assets\Scripts\UIButtonSound.cs" />
-     <Compile Include="Assets\Scripts\UIButtonTween.cs" />
      <Compile Include="Assets\Scripts\UICamera.cs" />
-     <Compile Include="Assets\Scripts\UICenterOnChild.cs" />
      <Compile Include="Assets\Scripts\UICheckbox.cs" />
-     <Compile Include="Assets\Scripts\UICheckboxControlledComponent.cs" />
-     <Compile Include="Assets\Scripts\UICheckboxControlledObject.cs" />
-     <Compile Include="Assets\Scripts\UICursor.cs" />
-     <Compile Include="Assets\Scripts\UIDragCamera.cs" />
-     <Compile Include="Assets\Scripts\UIDraggableCamera.cs" />
      <Compile Include="Assets\Scripts\UIDraggablePanel.cs" />
-     <Compile Include="Assets\Scripts\UIDragObject.cs" />
-     <Compile Include="Assets\Scripts\UIDragPanelContents.cs" />
      <Compile Include="Assets\Scripts\UIDrawCall.cs" />
-     <Compile Include="Assets\Scripts\UIEquipmentSlot.cs" />
      <Compile Include="Assets\Scripts\UIEventListener.cs" />
-     <Compile Include="Assets\Scripts\UIFilledSprite.cs" />
      <Compile Include="Assets\Scripts\UIFont.cs" />
-     <Compile Include="Assets\Scripts\UIForwardEvents.cs" />
      <Compile Include="Assets\Scripts\UIGeometry.cs" />
-     <Compile Include="Assets\Scripts\UIGrid.cs" />
-     <Compile Include="Assets\Scripts\UIImageButton.cs" />
      <Compile Include="Assets\Scripts\UIInput.cs" />
-     <Compile Include="Assets\Scripts\UIInputSaved.cs" />
-     <Compile Include="Assets\Scripts\UIInputValidator.cs" />
-     <Compile Include="Assets\Scripts\UIItemSlot.cs" />
-     <Compile Include="Assets\Scripts\UIItemStorage.cs" />
      <Compile Include="Assets\Scripts\UILabel.cs" />
-     <Compile Include="Assets\Scripts\UILocalize.cs" />
      <Compile Include="Assets\Scripts\UIMainReferences.cs" />
      <Compile Include="Assets\Scripts\UIOrthoCamera.cs" />
      <Compile Include="Assets\Scripts\UIPanel.cs" />
      <Compile Include="Assets\Scripts\UIPopupList.cs" />
      <Compile Include="Assets\Scripts\UIReferArray.cs" />
      <Compile Include="Assets\Scripts\UIRoot.cs" />
-     <Compile Include="Assets\Scripts\UISavedOption.cs" />
      <Compile Include="Assets\Scripts\UIScrollBar.cs" />
-     <Compile Include="Assets\Scripts\UISlicedSprite.cs" />
      <Compile Include="Assets\Scripts\UISlider.cs" />
-     <Compile Include="Assets\Scripts\UISliderColors.cs" />
-     <Compile Include="Assets\Scripts\UISoundVolume.cs" />
      <Compile Include="Assets\Scripts\UISprite.cs" />
-     <Compile Include="Assets\Scripts\UISpriteAnimation.cs" />
-     <Compile Include="Assets\Scripts\UIStorageSlot.cs" />
-     <Compile Include="Assets\Scripts\UIStretch.cs" />
      <Compile Include="Assets\Scripts\UITable.cs" />
      <Compile Include="Assets\Scripts\UITextList.cs" />
      <Compile Include="Assets\Scripts\UITexture.cs" />
-     <Compile Include="Assets\Scripts\UITiledSprite.cs" />
-     <Compile Include="Assets\Scripts\UITooltip.cs" />
      <Compile Include="Assets\Scripts\UITweener.cs" />
-     <Compile Include="Assets\Scripts\UIViewport.cs" />
      <Compile Include="Assets\Scripts\UIWidget.cs" />
      <Compile Include="Assets\Scripts\UNIFORM_TYPE.cs" />
      <Compile Include="Assets\Scripts\UpdateManager.cs" />
@@ -733,22 +693,22 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2017.4.37f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>C:/Users/flame/Desktop/AoTTG/AoTTG-2/Assets/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="Photon3Unity3D">
- <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/Photon3Unity3D.dll</HintPath>
+ <HintPath>C:/Users/flame/Desktop/AoTTG/AoTTG-2/Assets/Plugins/Photon3Unity3D.dll</HintPath>
  </Reference>
  <Reference Include="websocket-sharp">
- <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
+ <HintPath>C:/Users/flame/Desktop/AoTTG/AoTTG-2/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Users/nickw/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.13/UnityEngine.Analytics.dll</HintPath>
+ <HintPath>C:/Users/flame/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.13/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Users/nickw/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/UnityEngine.Purchasing.dll</HintPath>
+ <HintPath>C:/Users/flame/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
- <HintPath>C:/Users/nickw/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ <HintPath>C:/Users/flame/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
