@@ -158,7 +158,7 @@ public class RCActionHelper
                     switch (this.helperType)
                     {
                         case 0:
-                            return this.nextHelper.returnBool(titan.abnormalType);
+                            return this.nextHelper.returnBool(titan.TitanType);
 
                         case 1:
                             return this.nextHelper.returnBool(titan.myLevel);
@@ -361,7 +361,7 @@ public class RCActionHelper
                     switch (this.helperType)
                     {
                         case 0:
-                            return this.nextHelper.returnFloat(titan.abnormalType);
+                            return this.nextHelper.returnFloat(titan.TitanType);
 
                         case 1:
                             return titan.myLevel;
@@ -564,7 +564,7 @@ public class RCActionHelper
                     switch (this.helperType)
                     {
                         case 0:
-                            return (int) titan.abnormalType;
+                            return (int) titan.TitanType;
 
                         case 1:
                             return this.nextHelper.returnInt(titan.myLevel);
@@ -788,7 +788,7 @@ public class RCActionHelper
                     switch (this.helperType)
                     {
                         case 0:
-                            return this.nextHelper.returnString(titan.abnormalType);
+                            return this.nextHelper.returnString(titan.TitanType);
 
                         case 1:
                             return this.nextHelper.returnString(titan.myLevel);

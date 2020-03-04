@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+//TODO Not a better list. Doesn't implement IEnumerable or ICollection. Rather use built in classes.
 public class BetterList<T>
 {
     public T[] buffer;
