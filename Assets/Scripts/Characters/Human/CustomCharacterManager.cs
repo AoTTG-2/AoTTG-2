@@ -266,7 +266,7 @@ public class CustomCharacterManager : MonoBehaviour
             this.CostumeDataToMyID();
             this.setup.deleteCharacterComponent2();
             this.setup.setCharacterComponent();
-            this.labelPreset.GetComponent<UILabel>().text = HeroCostume.costume[this.presetId].name;
+            //this.labelPreset.GetComponent<UILabel>().text = HeroCostume.costume[this.presetId].name;
             this.freshLabel();
         }
         else
@@ -331,7 +331,7 @@ public class CustomCharacterManager : MonoBehaviour
             this.CostumeDataToMyID();
             this.setup.deleteCharacterComponent2();
             this.setup.setCharacterComponent();
-            this.labelPreset.GetComponent<UILabel>().text = HeroCostume.costume[this.presetId].name;
+            //this.labelPreset.GetComponent<UILabel>().text = HeroCostume.costume[this.presetId].name;
             this.freshLabel();
         }
         else

@@ -4436,7 +4436,7 @@ public class HERO : Photon.MonoBehaviour
                 {
                     str = str + "\n" + ((this.currentSpeed / 100f)).ToString("F1") + "K";
                 }
-                obj11.GetComponent<UILabel>().text = str;
+                //obj11.GetComponent<UILabel>().text = str;
                 if (magnitude > 120f)
                 {
                     Transform transform11 = obj9.transform;
@@ -4759,7 +4759,7 @@ public class HERO : Photon.MonoBehaviour
         if (target != null)
         {
             this.speed = Mathf.Max(10f, this.speed);
-            target.GetComponent<UILabel>().text = this.speed.ToString();
+            //target.GetComponent<UILabel>().text = this.speed.ToString();
             target.transform.localScale = Vector3.zero;
             this.speed = (int) (this.speed * 0.1f);
             this.speed = Mathf.Clamp(this.speed, 40f, 150f);
@@ -4860,14 +4860,14 @@ public class HERO : Photon.MonoBehaviour
                     FengGameManagerMKII.heroHash.Add(iD, this);
                 }
             }
-            //HACK
-            //GameObject obj2 = GameObject.Find("UI_IN_GAME");
-            this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
-            this.myNetWorkName.name = "LabelNameOverHead";
-            //HACK
-            //this.myNetWorkName.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
-            this.myNetWorkName.transform.localScale = new Vector3(14f, 14f, 14f);
-            this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
+            ////HACK
+            ////GameObject obj2 = GameObject.Find("UI_IN_GAME");
+            //this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
+            //this.myNetWorkName.name = "LabelNameOverHead";
+            ////HACK
+            ////this.myNetWorkName.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
+            //this.myNetWorkName.transform.localScale = new Vector3(14f, 14f, 14f);
+            //this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
             if (base.photonView.isMine)
             {
                 if (Minimap.instance != null)

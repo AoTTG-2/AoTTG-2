@@ -8,7 +8,7 @@ namespace Assets.Scripts.UI
         public void JoinRegion(string region)
         {
             var cloudRegion = (CloudRegionCode) Enum.Parse(typeof(CloudRegionCode), region.ToLower());
-            if (PhotonNetwork.ConnectToRegion(cloudRegion, UIMainReferences.version))
+            if (PhotonNetwork.ConnectToRegion(cloudRegion, "2020"))
             {
                 // Succeeded    
                 Navigate(typeof(ServerList));

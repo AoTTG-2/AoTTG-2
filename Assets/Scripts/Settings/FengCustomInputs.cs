@@ -555,7 +555,7 @@ public class FengCustomInputs : MonoBehaviour
         this.loadConfig();
         this.saveInputs();
         PlayerPrefs.SetFloat("MouseSensitivity", 0.5f);
-        PlayerPrefs.SetString("version", UIMainReferences.version);
+        //PlayerPrefs.SetString("version", UIMainReferences.version);
         PlayerPrefs.SetInt("invertMouseY", 1);
         PlayerPrefs.SetInt("cameraTilt", 1);
         PlayerPrefs.SetFloat("GameQuality", 0.9f);
@@ -567,25 +567,25 @@ public class FengCustomInputs : MonoBehaviour
         {
             if (GameObject.Find("CInput" + i) != null)
             {
-                GameObject.Find("CInput" + i).transform.Find("Label").gameObject.GetComponent<UILabel>().text = this.inputString[i];
+                //GameObject.Find("CInput" + i).transform.Find("Label").gameObject.GetComponent<UILabel>().text = this.inputString[i];
             }
         }
-        if (GameObject.Find("ChangeQuality") != null)
-        {
-            GameObject.Find("ChangeQuality").GetComponent<UISlider>().sliderValue = PlayerPrefs.GetFloat("GameQuality");
-        }
-        if (GameObject.Find("MouseSensitivity") != null)
-        {
-            GameObject.Find("MouseSensitivity").GetComponent<UISlider>().sliderValue = PlayerPrefs.GetFloat("MouseSensitivity");
-        }
-        if (GameObject.Find("CheckboxSettings") != null)
-        {
-            GameObject.Find("CheckboxSettings").GetComponent<UICheckbox>().isChecked = PlayerPrefs.GetInt("invertMouseY") != 1;
-        }
-        if (GameObject.Find("CheckboxCameraTilt") != null)
-        {
-            GameObject.Find("CheckboxCameraTilt").GetComponent<UICheckbox>().isChecked = PlayerPrefs.GetInt("cameraTilt") == 1;
-        }
+        //if (GameObject.Find("ChangeQuality") != null)
+        //{
+        //    GameObject.Find("ChangeQuality").GetComponent<UISlider>().sliderValue = PlayerPrefs.GetFloat("GameQuality");
+        //}
+        //if (GameObject.Find("MouseSensitivity") != null)
+        //{
+        //    GameObject.Find("MouseSensitivity").GetComponent<UISlider>().sliderValue = PlayerPrefs.GetFloat("MouseSensitivity");
+        //}
+        //if (GameObject.Find("CheckboxSettings") != null)
+        //{
+        //    GameObject.Find("CheckboxSettings").GetComponent<UICheckbox>().isChecked = PlayerPrefs.GetInt("invertMouseY") != 1;
+        //}
+        //if (GameObject.Find("CheckboxCameraTilt") != null)
+        //{
+        //    GameObject.Find("CheckboxCameraTilt").GetComponent<UICheckbox>().isChecked = PlayerPrefs.GetInt("cameraTilt") == 1;
+        //}
     }
 
     private void Start()
