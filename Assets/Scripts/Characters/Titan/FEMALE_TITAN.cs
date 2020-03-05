@@ -1128,7 +1128,7 @@ public class FEMALE_TITAN : PhotonView
             {
                 str = "[ff3333]";
             }
-            this.healthLabel.GetComponent<UILabel>().text = str + Convert.ToString(health);
+            //this.healthLabel.GetComponent<UILabel>().text = str + Convert.ToString(health);
         }
     }
 
@@ -1874,7 +1874,7 @@ public class FEMALE_TITAN : PhotonView
 
     public void updateLabel()
     {
-        if ((this.healthLabel != null) && this.healthLabel.GetComponent<UILabel>().isVisible)
+        if ((this.healthLabel != null)) //&& this.healthLabel.GetComponent<UILabel>().isVisible)
         {
             this.healthLabel.transform.LookAt(((Vector3) (2f * this.healthLabel.transform.position)) - Camera.main.transform.position);
         }

@@ -40,12 +40,7 @@ public class Localization : MonoBehaviour
         this.mLanguage = asset.name;
         PlayerPrefs.SetString("Language", this.mLanguage);
         this.mDictionary = new ByteReader(asset).ReadDictionary();
-        UIRoot.Broadcast("OnLocalize", this);
-    }
-
-    public static string Localize(string key)
-    {
-        return ((instance == null) ? key : instance.Get(key));
+        //UIRoot.Broadcast("OnLocalize", this);
     }
 
     private void OnDestroy()
@@ -120,14 +115,6 @@ public class Localization : MonoBehaviour
                 }
             }
             return mInstance;
-        }
-    }
-
-    public static bool isActive
-    {
-        get
-        {
-            return (mInstance != null);
         }
     }
 }
