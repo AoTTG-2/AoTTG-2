@@ -96,7 +96,7 @@ public class Horse : Photon.MonoBehaviour
                     }
                     if (!this.myHero.GetComponent<Animation>().IsPlaying("horse_Run"))
                     {
-                        this.myHero.GetComponent<HERO>().crossFade("horse_run", 0.1f);
+                        this.myHero.GetComponent<Hero>().crossFade("horse_run", 0.1f);
                     }
                     if (!this.dust.GetComponent<ParticleSystem>().enableEmission)
                     {
@@ -113,7 +113,7 @@ public class Horse : Photon.MonoBehaviour
                     }
                     if (!this.myHero.GetComponent<Animation>().IsPlaying("horse_idle"))
                     {
-                        this.myHero.GetComponent<HERO>().crossFade("horse_idle", 0.1f);
+                        this.myHero.GetComponent<Hero>().crossFade("horse_idle", 0.1f);
                     }
                     if (this.dust.GetComponent<ParticleSystem>().enableEmission)
                     {
@@ -130,12 +130,12 @@ public class Horse : Photon.MonoBehaviour
                 {
                     if (!this.myHero.GetComponent<Animation>().IsPlaying("horse_Run"))
                     {
-                        this.myHero.GetComponent<HERO>().crossFade("horse_run", 0.1f);
+                        this.myHero.GetComponent<Hero>().crossFade("horse_run", 0.1f);
                     }
                 }
                 else if (!this.myHero.GetComponent<Animation>().IsPlaying("horse_idle"))
                 {
-                    this.myHero.GetComponent<HERO>().crossFade("horse_idle", 0.1f);
+                    this.myHero.GetComponent<Hero>().crossFade("horse_idle", 0.1f);
                 }
             }
             if ((this.controller.isAttackDown || this.controller.isAttackIIDown) && this.IsGrounded())

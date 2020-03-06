@@ -11,7 +11,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
     public bool destroyed;
     public bool disabled;
     public string settings;
-    public HERO storedHero;
+    public Hero storedHero;
 
     public void OnDestroy()
     {
@@ -27,7 +27,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
         GameObject gameObject = collider.transform.root.gameObject;
         if ((gameObject.layer == 8) && gameObject.GetPhotonView().isMine)
         {
-            HERO component = gameObject.GetComponent<HERO>();
+            Hero component = gameObject.GetComponent<Hero>();
             if ((component != null) && !component.isCannon)
             {
                 if (component.myCannonRegion != null)
@@ -45,7 +45,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
         GameObject gameObject = collider.transform.root.gameObject;
         if ((gameObject.layer == 8) && gameObject.GetPhotonView().isMine)
         {
-            HERO component = gameObject.GetComponent<HERO>();
+            Hero component = gameObject.GetComponent<Hero>();
             if (((component != null) && (this.storedHero != null)) && (component == this.storedHero))
             {
                 component.myCannonRegion = null;
@@ -60,7 +60,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
     {
         if (!((!base.photonView.isMine || !PhotonNetwork.isMasterClient) || this.disabled))
         {
-            HERO component = PhotonView.Find(viewID).gameObject.GetComponent<HERO>();
+            Hero component = PhotonView.Find(viewID).gameObject.GetComponent<Hero>();
             if (((component != null) && (component.photonView.owner == info.sender)) && !FengGameManagerMKII.instance.allowedToCannon.ContainsKey(info.sender.ID))
             {
                 this.disabled = true;

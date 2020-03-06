@@ -174,7 +174,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.fT.Add(titan);
     }
 
-    public void addHero(HERO hero)
+    public void addHero(Hero hero)
     {
         this.heroes.Add(hero);
     }
@@ -2271,7 +2271,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     item.SetActive(false);
                 }
             }
-            foreach (HERO hero in instance.getPlayers())
+            foreach (Hero hero in instance.getPlayers())
             {
                 if (hero.photonView.isMine)
                 {
@@ -2296,7 +2296,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 Cursor.visible = false;
             }
             GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
-            if ((obj4 != null) && (obj4.GetComponent<HERO>() != null))
+            if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
             {
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj4, true, false);
             }
@@ -3028,7 +3028,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 for (int i = 0; i < this.heroes.Count; i++)
                                 {
-                                    HERO hero = (HERO) this.heroes[i];
+                                    Hero hero = (Hero) this.heroes[i];
                                     if (hero.photonView.owner == targetPlayer)
                                     {
                                         hero.markDie();
@@ -3251,7 +3251,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 GameObject gameObject = PhotonView.Find(setting).gameObject;
                 if (gameObject != null)
                 {
-                    HERO component = gameObject.GetComponent<HERO>();
+                    Hero component = gameObject.GetComponent<Hero>();
                     if (component != null)
                     {
                         if (str != string.Empty)
@@ -3277,7 +3277,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 while (enumerator.MoveNext())
                 {
-                    var current = (HERO) enumerator.Current;
+                    var current = (Hero) enumerator.Current;
                     if (current != null)
                         current.lateUpdate2();
                 }
@@ -6467,7 +6467,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.fT.Remove(titan);
     }
 
-    public void removeHero(HERO hero)
+    public void removeHero(Hero hero)
     {
         this.heroes.Remove(hero);
     }
@@ -7267,13 +7267,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (RCSettings.ahssReload != ((int) hash["ahssReload"]))
             {
                 RCSettings.ahssReload = (int) hash["ahssReload"];
-                this.chatRoom.addLINE("<color=#FFCC00>AHSS Air-Reload disabled.</color>");
+                this.chatRoom.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation disabled.</color>");
             }
         }
         else if (RCSettings.ahssReload != 0)
         {
             RCSettings.ahssReload = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>AHSS Air-Reload allowed.</color>");
+            this.chatRoom.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation allowed.</color>");
         }
         if (hash.ContainsKey("team"))
         {
@@ -7957,21 +7957,21 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(IN_GAME_MAIN_CAMERA.singleCharacter);
                     costume.checkstat();
                     CostumeConeveter.HeroCostumeToLocalData(costume, IN_GAME_MAIN_CAMERA.singleCharacter);
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
                     if (costume != null)
                     {
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume;
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
                     }
                     else
                     {
                         costume = HeroCostume.costumeOption[3];
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume;
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
                     }
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                    component.main_object.GetComponent<HERO>().setStat2();
-                    component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                    component.main_object.GetComponent<Hero>().setStat2();
+                    component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                 }
                 else
                 {
@@ -7984,12 +7984,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 index = HeroCostume.costume[i].id + 1;
                             }
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[index];
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[index].name.ToUpper());
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                            component.main_object.GetComponent<HERO>().setStat2();
-                            component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[index];
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[index].name.ToUpper());
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                            component.main_object.GetComponent<Hero>().setStat2();
+                            component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                             break;
                         }
                     }
@@ -8005,21 +8005,21 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
                 costume2.checkstat();
                 CostumeConeveter.HeroCostumeToLocalData(costume2, id);
-                component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
+                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
                 if (costume2 != null)
                 {
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = costume2.stat;
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume2.stat;
                 }
                 else
                 {
                     costume2 = HeroCostume.costumeOption[3];
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume2.name.ToUpper());
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume2.name.ToUpper());
                 }
-                component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                component.main_object.GetComponent<HERO>().setStat2();
-                component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                component.main_object.GetComponent<Hero>().setStat2();
+                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
             }
             else
             {
@@ -8036,17 +8036,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         {
                             num4 = HeroCostume.costume[j].id + 1;
                         }
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[num4];
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<HERO>().setStat2();
-                        component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[num4];
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                        component.main_object.GetComponent<Hero>().setStat2();
+                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                         break;
                     }
                 }
             }
-            CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
+            CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
             if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
             {
                 Transform transform = component.main_object.transform;
@@ -8142,21 +8142,21 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(IN_GAME_MAIN_CAMERA.singleCharacter);
                         costume.checkstat();
                         CostumeConeveter.HeroCostumeToLocalData(costume, IN_GAME_MAIN_CAMERA.singleCharacter);
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
                         if (costume != null)
                         {
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
                         }
                         else
                         {
                             costume = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
                         }
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<HERO>().setStat2();
-                        component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                        component.main_object.GetComponent<Hero>().setStat2();
+                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                     }
                     else
                     {
@@ -8169,12 +8169,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                 {
                                     index = HeroCostume.costume[i].id + 1;
                                 }
-                                component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
-                                component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[index];
-                                component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[index].name.ToUpper());
-                                component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                                component.main_object.GetComponent<HERO>().setStat2();
-                                component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[index];
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[index].name.ToUpper());
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                                component.main_object.GetComponent<Hero>().setStat2();
+                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                                 break;
                             }
                         }
@@ -8190,21 +8190,21 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
                     costume2.checkstat();
                     CostumeConeveter.HeroCostumeToLocalData(costume2, id);
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
                     if (costume2 != null)
                     {
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = costume2.stat;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume2.stat;
                     }
                     else
                     {
                         costume2 = HeroCostume.costumeOption[3];
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume2.name.ToUpper());
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume2.name.ToUpper());
                     }
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                    component.main_object.GetComponent<HERO>().setStat2();
-                    component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                    component.main_object.GetComponent<Hero>().setStat2();
+                    component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                 }
                 else
                 {
@@ -8221,17 +8221,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 num4 = HeroCostume.costume[j].id + 1;
                             }
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[num4];
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                            component.main_object.GetComponent<HERO>().setStat2();
-                            component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[num4];
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                            component.main_object.GetComponent<Hero>().setStat2();
+                            component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                             break;
                         }
                     }
                 }
-                CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
+                CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
                 if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
                 {
                     Transform transform = component.main_object.transform;
@@ -8285,21 +8285,21 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(slot);
                     costume.checkstat();
                     CostumeConeveter.HeroCostumeToLocalData(costume, slot);
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
                     if (costume != null)
                     {
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume;
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
                     }
                     else
                     {
                         costume = HeroCostume.costumeOption[3];
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = costume;
-                        component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
                     }
-                    component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                    component.main_object.GetComponent<HERO>().setStat2();
-                    component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                    component.main_object.GetComponent<Hero>().setStat2();
+                    component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                     break;
                 }
                 default:
@@ -8316,18 +8316,18 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 id = HeroCostume.costume[i].id + 1;
                             }
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().init();
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[id];
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[id].name.ToUpper());
-                            component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                            component.main_object.GetComponent<HERO>().setStat2();
-                            component.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[id];
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[id].name.ToUpper());
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                            component.main_object.GetComponent<Hero>().setStat2();
+                            component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                             break;
                         }
                     }
                     break;
             }
-            CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<HERO>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
+            CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
             if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
             {
                 Transform transform = component.main_object.transform;
@@ -8889,7 +8889,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 while (enumerator.MoveNext())
                 {
-                    var current = (HERO) enumerator.Current;
+                    var current = (Hero) enumerator.Current;
                     if (current != null)
                         current.update2();
                 }
@@ -9465,7 +9465,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 for (int k = 0; k < this.heroes.Count; k++)
                                 {
-                                    HERO hero = (HERO) this.heroes[k];
+                                    Hero hero = (Hero) this.heroes[k];
                                     if (hero.photonView.owner == targetPlayer)
                                     {
                                         hero.markDie();

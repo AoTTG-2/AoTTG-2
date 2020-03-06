@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+[Obsolete]
 public class HeroStat
 {
     public int ACL;

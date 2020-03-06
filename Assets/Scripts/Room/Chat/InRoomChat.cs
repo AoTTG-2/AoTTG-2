@@ -300,8 +300,8 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                 {
                                     if (obj2.GetPhotonView().isMine)
                                     {
-                                        obj2.GetComponent<HERO>().markDie();
-                                        obj2.GetComponent<HERO>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                                        obj2.GetComponent<Hero>().markDie();
+                                        obj2.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
                                     }
                                 }
                             }
@@ -313,8 +313,8 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                 {
                                     if (obj3.GetPhotonView().isMine)
                                     {
-                                        obj3.GetComponent<HERO>().markDie();
-                                        obj3.GetComponent<HERO>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                                        obj3.GetComponent<Hero>().markDie();
+                                        obj3.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
                                     }
                                 }
                             }
@@ -326,8 +326,8 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                 {
                                     if (obj4.GetPhotonView().isMine)
                                     {
-                                        obj4.GetComponent<HERO>().markDie();
-                                        obj4.GetComponent<HERO>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                                        obj4.GetComponent<Hero>().markDie();
+                                        obj4.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
                                     }
                                 }
                             }
@@ -560,7 +560,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
                                 }
                                 if (RCSettings.ahssReload > 0)
                                 {
-                                    this.addLINE("<color=#FFCC00>AHSS Air-Reload disabled.</color>");
+                                    this.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation disabled.</color>");
                                 }
                                 if (RCSettings.punkWaves > 0)
                                 {

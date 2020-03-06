@@ -120,12 +120,12 @@ public class Bullet : Photon.MonoBehaviour
                         object[] parameters = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
                         base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, parameters);
                     }
-                    this.master.GetComponent<HERO>().lastHook = hit.collider.transform.root;
+                    this.master.GetComponent<Hero>().lastHook = hit.collider.transform.root;
                     base.transform.parent = hit.collider.transform;
                 }
                 else if (hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
-                    this.master.GetComponent<HERO>().lastHook = null;
+                    this.master.GetComponent<Hero>().lastHook = null;
                 }
                 else if (((hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("NetworkObject")) && (hit.collider.transform.gameObject.tag == "Player")) && !this.leviMode)
                 {
@@ -134,9 +134,9 @@ public class Bullet : Photon.MonoBehaviour
                         object[] objArray3 = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
                         base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, objArray3);
                     }
-                    this.master.GetComponent<HERO>().hookToHuman(hit.collider.transform.root.gameObject, base.transform.position);
+                    this.master.GetComponent<Hero>().hookToHuman(hit.collider.transform.root.gameObject, base.transform.position);
                     base.transform.parent = hit.collider.transform;
-                    this.master.GetComponent<HERO>().lastHook = null;
+                    this.master.GetComponent<Hero>().lastHook = null;
                 }
                 else
                 {
@@ -148,7 +148,7 @@ public class Bullet : Photon.MonoBehaviour
                 }
                 if (flag4)
                 {
-                    this.master.GetComponent<HERO>().launch(hit.point, this.left, this.leviMode);
+                    this.master.GetComponent<Hero>().launch(hit.point, this.left, this.leviMode);
                     base.transform.position = hit.point;
                     if (this.phase != 2)
                     {
@@ -246,19 +246,19 @@ public class Bullet : Photon.MonoBehaviour
             }
             if (launcher_ref == "hookRefL1")
             {
-                this.myRef = hero.GetComponent<HERO>().hookRefL1;
+                this.myRef = hero.GetComponent<Hero>().hookRefL1;
             }
             if (launcher_ref == "hookRefL2")
             {
-                this.myRef = hero.GetComponent<HERO>().hookRefL2;
+                this.myRef = hero.GetComponent<Hero>().hookRefL2;
             }
             if (launcher_ref == "hookRefR1")
             {
-                this.myRef = hero.GetComponent<HERO>().hookRefR1;
+                this.myRef = hero.GetComponent<Hero>().hookRefR1;
             }
             if (launcher_ref == "hookRefR2")
             {
-                this.myRef = hero.GetComponent<HERO>().hookRefR2;
+                this.myRef = hero.GetComponent<Hero>().hookRefR2;
             }
             this.nodes = new ArrayList();
             this.nodes.Add(this.myRef.transform.position);
@@ -267,7 +267,7 @@ public class Bullet : Photon.MonoBehaviour
             this.left = isLeft;
             if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
             {
-                object[] parameters = new object[] { hero.GetComponent<HERO>().photonView.viewID, launcher_ref };
+                object[] parameters = new object[] { hero.GetComponent<Hero>().photonView.viewID, launcher_ref };
                 base.photonView.RPC("myMasterIs", PhotonTargets.Others, parameters);
                 object[] objArray2 = new object[] { v, this.velocity2, this.left };
                 base.photonView.RPC("setVelocityAndLeft", PhotonTargets.Others, objArray2);
@@ -283,19 +283,19 @@ public class Bullet : Photon.MonoBehaviour
         this.master = PhotonView.Find(id).gameObject;
         if (launcherRef == "hookRefL1")
         {
-            this.myRef = this.master.GetComponent<HERO>().hookRefL1;
+            this.myRef = this.master.GetComponent<Hero>().hookRefL1;
         }
         if (launcherRef == "hookRefL2")
         {
-            this.myRef = this.master.GetComponent<HERO>().hookRefL2;
+            this.myRef = this.master.GetComponent<Hero>().hookRefL2;
         }
         if (launcherRef == "hookRefR1")
         {
-            this.myRef = this.master.GetComponent<HERO>().hookRefR1;
+            this.myRef = this.master.GetComponent<Hero>().hookRefR1;
         }
         if (launcherRef == "hookRefR2")
         {
-            this.myRef = this.master.GetComponent<HERO>().hookRefR2;
+            this.myRef = this.master.GetComponent<Hero>().hookRefR2;
         }
     }
 

@@ -13,7 +13,7 @@ public class CannonBall : Photon.MonoBehaviour
     public bool disabled;
     public Transform firingPoint;
     public bool isCollider;
-    public HERO myHero;
+    public Hero myHero;
     public List<TitanTrigger> myTitanTriggers;
     public float SmoothingDelay = 10f;
 
@@ -44,7 +44,7 @@ public class CannonBall : Photon.MonoBehaviour
             }
             if (RCSettings.deadlyCannons == 1)
             {
-                foreach (HERO hero in FengGameManagerMKII.instance.getPlayers())
+                foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
                 {
                     if (((hero != null) && (Vector3.Distance(hero.transform.position, base.transform.position) <= 20f)) && !hero.photonView.isMine)
                     {
@@ -56,15 +56,15 @@ public class CannonBall : Photon.MonoBehaviour
                             int num3 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                             if ((num2 == 0) || (num2 != num3))
                             {
-                                gameObject.GetComponent<HERO>().markDie();
-                                gameObject.GetComponent<HERO>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
+                                gameObject.GetComponent<Hero>().markDie();
+                                gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
                                 FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
                             }
                         }
                         else
                         {
-                            gameObject.GetComponent<HERO>().markDie();
-                            gameObject.GetComponent<HERO>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
+                            gameObject.GetComponent<Hero>().markDie();
+                            gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
                             FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
                         }
                     }

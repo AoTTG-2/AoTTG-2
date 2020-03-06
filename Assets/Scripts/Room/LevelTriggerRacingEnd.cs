@@ -14,7 +14,7 @@ public class LevelTriggerRacingEnd : MonoBehaviour
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
                 this.disable = true;
             }
-            else if (other.gameObject.GetComponent<HERO>().photonView.isMine)
+            else if (other.gameObject.GetComponent<Hero>().photonView.isMine)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().multiplayerRacingFinsih();
                 this.disable = true;

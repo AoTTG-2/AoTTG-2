@@ -1,17 +1,16 @@
-using ExitGames.Client.Photon;
-using Photon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using Xft;
-using Debug = UnityEngine.Debug;
 
-public class HERO : Photon.MonoBehaviour
+public class Hero : Human
 {
+    public Equipment Equipment { get; set; }
+    public EquipmentType EquipmentType;
+
+    public List<HeroSkill> Skills;
+
     public HERO_STATE _state;
     private bool almostSingleHook;
     private string attackAnimation;
@@ -48,8 +47,9 @@ public class HERO : Photon.MonoBehaviour
     public GameObject crossR1;
     public GameObject crossR2;
     public string currentAnimation;
-    private int currentBladeNum = 5;
-    private float currentBladeSta = 100f;
+    [Obsolete]
+    public int currentBladeNum = 5;
+    public float currentBladeSta = 100f;
     private BUFF currentBuff;
     public Camera currentCamera;
     private float currentGas = 100f;
@@ -75,7 +75,7 @@ public class HERO : Photon.MonoBehaviour
     private Transform forearmL;
     private Transform forearmR;
     private float gravity = 20f;
-    private bool grounded;
+    public bool grounded;
     private GameObject gunDummy;
     private Vector3 gunTarget;
     private Transform handL;
@@ -111,8 +111,9 @@ public class HERO : Photon.MonoBehaviour
     private bool leftArmAim;
     public XWeaponTrail leftbladetrail;
     public XWeaponTrail leftbladetrail2;
-    private int leftBulletLeft = 7;
-    private bool leftGunHasBullet = true;
+    [Obsolete]
+    public int leftBulletLeft = 7;
+    public bool leftGunHasBullet = true;
     private float lTapTime = -1f;
     public GameObject maincamera;
     public float maxVelocityChange = 10f;
@@ -132,12 +133,13 @@ public class HERO : Photon.MonoBehaviour
     private Quaternion oldHeadRotation;
     private float originVM;
     private bool QHold;
-    private string reloadAnimation = string.Empty;
+    public string reloadAnimation = string.Empty;
     private bool rightArmAim;
     public XWeaponTrail rightbladetrail;
     public XWeaponTrail rightbladetrail2;
-    private int rightBulletLeft = 7;
-    private bool rightGunHasBullet = true;
+    [Obsolete]
+    public int rightBulletLeft = 7;
+    public bool rightGunHasBullet = true;
     public AudioSource rope;
     private float rTapTime = -1f;
     public HERO_SETUP setup;
@@ -160,7 +162,7 @@ public class HERO : Photon.MonoBehaviour
     private Quaternion targetHeadRotation;
     private Quaternion targetRotation;
     public Vector3 targetV;
-    private bool throwedBlades;
+    public bool throwedBlades;
     public bool titanForm;
     private GameObject titanWhoGrabMe;
     private int titanWhoGrabMeID;
@@ -224,6 +226,7 @@ public class HERO : Photon.MonoBehaviour
         this.forearmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R");
         this.upperarmL = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
         this.upperarmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
+        Equipment = gameObject.AddComponent<Equipment>();
     }
 
     public void backToHuman()
@@ -552,68 +555,7 @@ public class HERO : Photon.MonoBehaviour
         {
             this.state = HERO_STATE.ChangeBlade;
             this.throwedBlades = false;
-            if (this.useGun)
-            {
-                if (!this.leftGunHasBullet && !this.rightGunHasBullet)
-                {
-                    if (this.grounded)
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_both";
-                    }
-                    else
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_both_air";
-                    }
-                }
-                else if (!this.leftGunHasBullet)
-                {
-                    if (this.grounded)
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_l";
-                    }
-                    else
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_l_air";
-                    }
-                }
-                else if (!this.rightGunHasBullet)
-                {
-                    if (this.grounded)
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_r";
-                    }
-                    else
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_r_air";
-                    }
-                }
-                else
-                {
-                    if (this.grounded)
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_both";
-                    }
-                    else
-                    {
-                        this.reloadAnimation = "AHSS_gun_reload_both_air";
-                    }
-                    this.rightGunHasBullet = false;
-                    this.leftGunHasBullet = false;
-                }
-                this.crossFade(this.reloadAnimation, 0.05f);
-            }
-            else
-            {
-                if (!this.grounded)
-                {
-                    this.reloadAnimation = "changeBlade_air";
-                }
-                else
-                {
-                    this.reloadAnimation = "changeBlade";
-                }
-                this.crossFade(this.reloadAnimation, 0.1f);
-            }
+            Equipment.Weapon.PlayReloadAnimation();
         }
     }
 
@@ -826,6 +768,14 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
+    public void TryCrossFade(string animationName, float time)
+    {
+        if (!this.baseAnimation.IsPlaying(animationName))
+        {
+            this.crossFade(animationName, time);
+        }
+    }
+
     public string currentPlayingClipName()
     {
         IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
@@ -962,60 +912,6 @@ public class HERO : Photon.MonoBehaviour
             GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
             obj2.transform.position = base.transform.position;
             UnityEngine.Object.Destroy(base.gameObject);
-        }
-    }
-
-    private void dodge(bool offTheWall = false)
-    {
-        if (((this.myHorse != null) && !this.isMounted) && (Vector3.Distance(this.myHorse.transform.position, base.transform.position) < 15f))
-        {
-            this.getOnHorse();
-        }
-        else
-        {
-            this.state = HERO_STATE.GroundDodge;
-            if (!offTheWall)
-            {
-                float num;
-                float num2;
-                if (this.inputManager.isInput[InputCode.up])
-                {
-                    num = 1f;
-                }
-                else if (this.inputManager.isInput[InputCode.down])
-                {
-                    num = -1f;
-                }
-                else
-                {
-                    num = 0f;
-                }
-                if (this.inputManager.isInput[InputCode.left])
-                {
-                    num2 = -1f;
-                }
-                else if (this.inputManager.isInput[InputCode.right])
-                {
-                    num2 = 1f;
-                }
-                else
-                {
-                    num2 = 0f;
-                }
-                float num3 = this.getGlobalFacingDirection(num2, num);
-                if ((num2 != 0f) || (num != 0f))
-                {
-                    this.facingDirection = num3 + 180f;
-                    this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
-                }
-                this.crossFade("dodge", 0.1f);
-            }
-            else
-            {
-                this.playAnimation("dodge");
-                this.playAnimationAt("dodge", 0.2f);
-            }
-            this.sparks.enableEmission = false;
         }
     }
 
@@ -1172,8 +1068,6 @@ public class HERO : Photon.MonoBehaviour
 
     private void FixedUpdate()
     {
-        //FixedUpdate2();
-        //return;
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
@@ -1264,7 +1158,7 @@ public class HERO : Photon.MonoBehaviour
                     }
                     bool flag2 = false;
                     bool flag3 = false;
-                    bool flag4 = false; //TODO Because of this you always reel in for some reason
+                    bool flag4 = false;
                     this.isLeftHandHooked = false;
                     this.isRightHandHooked = false;
                     if (this.isLaunchLeft)
@@ -1578,44 +1472,18 @@ public class HERO : Photon.MonoBehaviour
                                         this.crossFade("air2_backward", 0.2f);
                                     }
                                 }
-                                else if (this.useGun)
-                                {
-                                    if (!this.isRightHandHooked)
-                                    {
-                                        if (!this.baseAnimation.IsPlaying("AHSS_hook_forward_l"))
-                                        {
-                                            this.crossFade("AHSS_hook_forward_l", 0.1f);
-                                        }
-                                    }
-                                    else if (!this.isLeftHandHooked)
-                                    {
-                                        if (!this.baseAnimation.IsPlaying("AHSS_hook_forward_r"))
-                                        {
-                                            this.crossFade("AHSS_hook_forward_r", 0.1f);
-                                        }
-                                    }
-                                    else if (!this.baseAnimation.IsPlaying("AHSS_hook_forward_both"))
-                                    {
-                                        this.crossFade("AHSS_hook_forward_both", 0.1f);
-                                    }
-                                }
+                                
                                 else if (!this.isRightHandHooked)
                                 {
-                                    if (!this.baseAnimation.IsPlaying("air_hook_l"))
-                                    {
-                                        this.crossFade("air_hook_l", 0.1f);
-                                    }
+                                    TryCrossFade(Equipment.Weapon.HookForwardLeft, 0.1f);
                                 }
                                 else if (!this.isLeftHandHooked)
                                 {
-                                    if (!this.baseAnimation.IsPlaying("air_hook_r"))
-                                    {
-                                        this.crossFade("air_hook_r", 0.1f);
-                                    }
+                                    TryCrossFade(Equipment.Weapon.HookForwardRight, 0.1f);
                                 }
-                                else if (!this.baseAnimation.IsPlaying("air_hook"))
+                                else if (!this.baseAnimation.IsPlaying(Equipment.Weapon.HookForward))
                                 {
-                                    this.crossFade("air_hook", 0.1f);
+                                    TryCrossFade(Equipment.Weapon.HookForward, 0.1f);
                                 }
                             }
                         }
@@ -1881,11 +1749,6 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    private void FixedUpdate2()
-    {
-
-    }
-
     public string getDebugInfo()
     {
         string str = "\n";
@@ -2070,9 +1933,9 @@ public class HERO : Photon.MonoBehaviour
         this.releaseIfIHookSb();
         this.hookTarget = target;
         this.hookSomeOne = true;
-        if (target.GetComponent<HERO>() != null)
+        if (target.GetComponent<Hero>() != null)
         {
-            target.GetComponent<HERO>().hookedByHuman(base.photonView.viewID, hookPosition);
+            target.GetComponent<Hero>().hookedByHuman(base.photonView.viewID, hookPosition);
         }
         this.launchForce = hookPosition - base.transform.position;
         float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
@@ -4991,37 +4854,6 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
-    private void throwBlades()
-    {
-        Transform transform = this.setup.part_blade_l.transform;
-        Transform transform2 = this.setup.part_blade_r.transform;
-        GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-        GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
-        obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-        obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-        Vector3 force = (base.transform.forward + ((Vector3) (base.transform.up * 2f))) - base.transform.right;
-        obj2.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-        Vector3 vector2 = (base.transform.forward + ((Vector3) (base.transform.up * 2f))) + base.transform.right;
-        obj3.GetComponent<Rigidbody>().AddForce(vector2, ForceMode.Impulse);
-        Vector3 torque = new Vector3((float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100));
-        torque.Normalize();
-        obj2.GetComponent<Rigidbody>().AddTorque(torque);
-        torque = new Vector3((float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100));
-        torque.Normalize();
-        obj3.GetComponent<Rigidbody>().AddTorque(torque);
-        this.setup.part_blade_l.SetActive(false);
-        this.setup.part_blade_r.SetActive(false);
-        this.currentBladeNum--;
-        if (this.currentBladeNum == 0)
-        {
-            this.currentBladeSta = 0f;
-        }
-        if (this.state == HERO_STATE.Attack)
-        {
-            this.falseAttack();
-        }
-    }
-
     public void ungrabbed()
     {
         this.facingDirection = 0f;
@@ -5877,96 +5709,10 @@ public class HERO : Photon.MonoBehaviour
                         }
                         else if (this.state == HERO_STATE.ChangeBlade)
                         {
-                            if (this.useGun)
+                            Equipment.Weapon.Reload();
+                            if (this.baseAnimation[this.reloadAnimation].normalizedTime >= 1f)
                             {
-                                if (this.baseAnimation[this.reloadAnimation].normalizedTime > 0.22f)
-                                {
-                                    if (!(this.leftGunHasBullet || !this.setup.part_blade_l.activeSelf))
-                                    {
-                                        this.setup.part_blade_l.SetActive(false);
-                                        Transform transform = this.setup.part_blade_l.transform;
-                                        GameObject obj5 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
-                                        obj5.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-                                        Vector3 force = ((Vector3) ((-this.baseTransform.forward * 10f) + (this.baseTransform.up * 5f))) - this.baseTransform.right;
-                                        obj5.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-                                        Vector3 torque = new Vector3((float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100));
-                                        obj5.GetComponent<Rigidbody>().AddTorque(torque, ForceMode.Acceleration);
-                                    }
-                                    if (!(this.rightGunHasBullet || !this.setup.part_blade_r.activeSelf))
-                                    {
-                                        this.setup.part_blade_r.SetActive(false);
-                                        Transform transform5 = this.setup.part_blade_r.transform;
-                                        GameObject obj6 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform5.position, transform5.rotation);
-                                        obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-                                        Vector3 vector3 = ((Vector3) ((-this.baseTransform.forward * 10f) + (this.baseTransform.up * 5f))) + this.baseTransform.right;
-                                        obj6.GetComponent<Rigidbody>().AddForce(vector3, ForceMode.Impulse);
-                                        Vector3 vector4 = new Vector3((float) UnityEngine.Random.Range(-300, 300), (float) UnityEngine.Random.Range(-300, 300), (float) UnityEngine.Random.Range(-300, 300));
-                                        obj6.GetComponent<Rigidbody>().AddTorque(vector4, ForceMode.Acceleration);
-                                    }
-                                }
-                                if ((this.baseAnimation[this.reloadAnimation].normalizedTime > 0.62f) && !this.throwedBlades)
-                                {
-                                    this.throwedBlades = true;
-                                    if (!((this.leftBulletLeft <= 0) || this.leftGunHasBullet))
-                                    {
-                                        this.leftBulletLeft--;
-                                        this.setup.part_blade_l.SetActive(true);
-                                        this.leftGunHasBullet = true;
-                                    }
-                                    if (!((this.rightBulletLeft <= 0) || this.rightGunHasBullet))
-                                    {
-                                        this.setup.part_blade_r.SetActive(true);
-                                        this.rightBulletLeft--;
-                                        this.rightGunHasBullet = true;
-                                    }
-                                    this.updateRightMagUI();
-                                    this.updateLeftMagUI();
-                                }
-                                if (this.baseAnimation[this.reloadAnimation].normalizedTime > 1f)
-                                {
-                                    this.idle();
-                                }
-                            }
-                            else
-                            {
-                                if (!this.grounded)
-                                {
-                                    if (!((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime < 0.2f) || this.throwedBlades))
-                                    {
-                                        this.throwedBlades = true;
-                                        if (this.setup.part_blade_l.activeSelf)
-                                        {
-                                            this.throwBlades();
-                                        }
-                                    }
-                                    if ((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime >= 0.56f) && (this.currentBladeNum > 0))
-                                    {
-                                        this.setup.part_blade_l.SetActive(true);
-                                        this.setup.part_blade_r.SetActive(true);
-                                        this.currentBladeSta = this.totalBladeSta;
-                                    }
-                                }
-                                else
-                                {
-                                    if (!((this.baseAnimation[this.reloadAnimation].normalizedTime < 0.13f) || this.throwedBlades))
-                                    {
-                                        this.throwedBlades = true;
-                                        if (this.setup.part_blade_l.activeSelf)
-                                        {
-                                            this.throwBlades();
-                                        }
-                                    }
-                                    if ((this.baseAnimation[this.reloadAnimation].normalizedTime >= 0.37f) && (this.currentBladeNum > 0))
-                                    {
-                                        this.setup.part_blade_l.SetActive(true);
-                                        this.setup.part_blade_r.SetActive(true);
-                                        this.currentBladeSta = this.totalBladeSta;
-                                    }
-                                }
-                                if (this.baseAnimation[this.reloadAnimation].normalizedTime >= 1f)
-                                {
-                                    this.idle();
-                                }
+                                this.idle();
                             }
                         }
                         else if (this.state == HERO_STATE.Salute)
@@ -6268,6 +6014,7 @@ public class HERO : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Using a weapon should be moved within Weapon class...")]
     public void useBlade(int amount = 0)
     {
         if (amount == 0)
@@ -6290,7 +6037,7 @@ public class HERO : Photon.MonoBehaviour
                     this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                 }
                 this.currentBladeSta = 0f;
-                this.throwBlades();
+                //this.throwBlades();
             }
         }
     }

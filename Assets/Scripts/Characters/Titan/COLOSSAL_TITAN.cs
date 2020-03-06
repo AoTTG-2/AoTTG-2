@@ -90,12 +90,12 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         float num = 20f;
         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
-            player.GetComponent<HERO>().blowAway((Vector3) ((vector.normalized * num) + (Vector3.up * 1f)));
+            player.GetComponent<Hero>().blowAway((Vector3) ((vector.normalized * num) + (Vector3.up * 1f)));
         }
         else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { (Vector3) ((vector.normalized * num) + (Vector3.up * 1f)) };
-            player.GetComponent<HERO>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
+            player.GetComponent<Hero>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
         }
     }
 
@@ -244,7 +244,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     }
                     return gameObject;
                 }
-                if ((gameObject.GetComponent<HERO>() != null) && !gameObject.GetComponent<HERO>().isInvincible())
+                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
                 {
                     return gameObject;
                 }
@@ -275,7 +275,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         float positiveInfinity = float.PositiveInfinity;
         foreach (GameObject obj3 in objArray)
         {
-            if (((obj3.GetComponent<HERO>() == null) || !obj3.GetComponent<HERO>().HasDied()) && ((obj3.GetComponent<TITAN_EREN>() == null) || !obj3.GetComponent<TITAN_EREN>().hasDied))
+            if (((obj3.GetComponent<Hero>() == null) || !obj3.GetComponent<Hero>().HasDied()) && ((obj3.GetComponent<TITAN_EREN>() == null) || !obj3.GetComponent<TITAN_EREN>().hasDied))
             {
                 float num3 = Mathf.Sqrt(((obj3.transform.position.x - base.transform.position.x) * (obj3.transform.position.x - base.transform.position.x)) + ((obj3.transform.position.z - base.transform.position.z) * (obj3.transform.position.z - base.transform.position.z)));
                 if (((obj3.transform.position.y - base.transform.position.y) < 450f) && (num3 < positiveInfinity))
@@ -310,25 +310,25 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                if (!hitHero.GetComponent<HERO>().HasDied())
+                if (!hitHero.GetComponent<Hero>().HasDied())
                 {
-                    hitHero.GetComponent<HERO>().die((Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false);
+                    hitHero.GetComponent<Hero>().die((Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false);
                 }
             }
             else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
                 if (FengGameManagerMKII.LAN)
                 {
-                    if (!hitHero.GetComponent<HERO>().HasDied())
+                    if (!hitHero.GetComponent<Hero>().HasDied())
                     {
-                        hitHero.GetComponent<HERO>().markDie();
+                        hitHero.GetComponent<Hero>().markDie();
                     }
                 }
-                else if (!hitHero.GetComponent<HERO>().HasDied())
+                else if (!hitHero.GetComponent<Hero>().HasDied())
                 {
-                    hitHero.GetComponent<HERO>().markDie();
+                    hitHero.GetComponent<Hero>().markDie();
                     object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Colossal Titan", true };
-                    hitHero.GetComponent<HERO>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                    hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
                 }
             }
         }
@@ -466,7 +466,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             if (collider.transform.root.tag == "Player")
             {
                 GameObject gameObject = collider.transform.root.gameObject;
-                if ((gameObject.GetComponent<TITAN_EREN>() == null) && (gameObject.GetComponent<HERO>() != null))
+                if ((gameObject.GetComponent<TITAN_EREN>() == null) && (gameObject.GetComponent<Hero>() != null))
                 {
                     this.blowPlayer(gameObject, neck);
                 }
