@@ -14,7 +14,7 @@ public class Cannon : Photon.MonoBehaviour
     public bool isCannonGround;
     public GameObject myCannonBall;
     public LineRenderer myCannonLine;
-    public HERO myHero;
+    public Hero myHero;
     public string settings;
     public float SmoothingDelay = 5f;
 

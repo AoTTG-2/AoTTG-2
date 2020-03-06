@@ -62,7 +62,7 @@ public class RCActionHelper
                 PhotonPlayer player = (PhotonPlayer) parameters;
                 if (player != null)
                 {
-                    HERO hero;
+                    Hero hero;
                     switch (this.helperType)
                     {
                         case 0:
@@ -112,7 +112,7 @@ public class RCActionHelper
                             int iD = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[iD];
+                                hero = (Hero) FengGameManagerMKII.heroHash[iD];
                                 return this.nextHelper.returnBool(hero.transform.position.x);
                             }
                             return false;
@@ -122,7 +122,7 @@ public class RCActionHelper
                             int key = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(key))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[key];
+                                hero = (Hero) FengGameManagerMKII.heroHash[key];
                                 return this.nextHelper.returnBool(hero.transform.position.y);
                             }
                             return false;
@@ -132,7 +132,7 @@ public class RCActionHelper
                             int num6 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num6))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num6];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num6];
                                 return this.nextHelper.returnBool(hero.transform.position.z);
                             }
                             return false;
@@ -142,7 +142,7 @@ public class RCActionHelper
                             int num7 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num7))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num7];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num7];
                                 return this.nextHelper.returnBool(hero.GetComponent<UnityEngine.Rigidbody>().velocity.magnitude);
                             }
                             return false;
@@ -265,7 +265,7 @@ public class RCActionHelper
                 PhotonPlayer player = (PhotonPlayer) parameters;
                 if (player != null)
                 {
-                    HERO hero;
+                    Hero hero;
                     switch (this.helperType)
                     {
                         case 0:
@@ -315,7 +315,7 @@ public class RCActionHelper
                             int iD = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[iD];
+                                hero = (Hero) FengGameManagerMKII.heroHash[iD];
                                 return hero.transform.position.x;
                             }
                             return 0f;
@@ -325,7 +325,7 @@ public class RCActionHelper
                             int key = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(key))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[key];
+                                hero = (Hero) FengGameManagerMKII.heroHash[key];
                                 return hero.transform.position.y;
                             }
                             return 0f;
@@ -335,7 +335,7 @@ public class RCActionHelper
                             int num7 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num7))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num7];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num7];
                                 return hero.transform.position.z;
                             }
                             return 0f;
@@ -345,7 +345,7 @@ public class RCActionHelper
                             int num8 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num8))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num8];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num8];
                                 return hero.GetComponent<UnityEngine.Rigidbody>().velocity.magnitude;
                             }
                             return 0f;
@@ -468,7 +468,7 @@ public class RCActionHelper
                 PhotonPlayer player = (PhotonPlayer) parameters;
                 if (player != null)
                 {
-                    HERO hero;
+                    Hero hero;
                     switch (this.helperType)
                     {
                         case 0:
@@ -518,7 +518,7 @@ public class RCActionHelper
                             int iD = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[iD];
+                                hero = (Hero) FengGameManagerMKII.heroHash[iD];
                                 return this.nextHelper.returnInt(hero.transform.position.x);
                             }
                             return 0;
@@ -528,7 +528,7 @@ public class RCActionHelper
                             int key = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(key))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[key];
+                                hero = (Hero) FengGameManagerMKII.heroHash[key];
                                 return this.nextHelper.returnInt(hero.transform.position.y);
                             }
                             return 0;
@@ -538,7 +538,7 @@ public class RCActionHelper
                             int num7 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num7))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num7];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num7];
                                 return this.nextHelper.returnInt(hero.transform.position.z);
                             }
                             return 0;
@@ -548,7 +548,7 @@ public class RCActionHelper
                             int num8 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num8))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num8];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num8];
                                 return this.nextHelper.returnInt(hero.GetComponent<UnityEngine.Rigidbody>().velocity.magnitude);
                             }
                             return 0;
@@ -692,7 +692,7 @@ public class RCActionHelper
                 PhotonPlayer player = (PhotonPlayer) parameters;
                 if (player != null)
                 {
-                    HERO hero;
+                    Hero hero;
                     switch (this.helperType)
                     {
                         case 0:
@@ -742,7 +742,7 @@ public class RCActionHelper
                             int iD = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[iD];
+                                hero = (Hero) FengGameManagerMKII.heroHash[iD];
                                 return this.nextHelper.returnString(hero.transform.position.x);
                             }
                             return string.Empty;
@@ -752,7 +752,7 @@ public class RCActionHelper
                             int key = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(key))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[key];
+                                hero = (Hero) FengGameManagerMKII.heroHash[key];
                                 return this.nextHelper.returnString(hero.transform.position.y);
                             }
                             return string.Empty;
@@ -762,7 +762,7 @@ public class RCActionHelper
                             int num6 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num6))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num6];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num6];
                                 return this.nextHelper.returnString(hero.transform.position.z);
                             }
                             return string.Empty;
@@ -772,7 +772,7 @@ public class RCActionHelper
                             int num7 = player.ID;
                             if (FengGameManagerMKII.heroHash.ContainsKey(num7))
                             {
-                                hero = (HERO) FengGameManagerMKII.heroHash[num7];
+                                hero = (Hero) FengGameManagerMKII.heroHash[num7];
                                 return this.nextHelper.returnString(hero.GetComponent<UnityEngine.Rigidbody>().velocity.magnitude);
                             }
                             return string.Empty;

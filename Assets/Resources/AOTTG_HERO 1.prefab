@@ -2253,6 +2253,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ade5059944e77468ce66f0f1fb36c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
+  EquipmentType: 0
   _state: 0
   audio_ally: {fileID: 82332380670417956}
   audio_hitwall: {fileID: 82382316316879980}
@@ -2279,10 +2294,13 @@ MonoBehaviour:
   crossR1: {fileID: 0}
   crossR2: {fileID: 0}
   currentAnimation: 
+  currentBladeNum: 5
+  currentBladeSta: 100
   currentCamera: {fileID: 0}
   currentSpeed: 0
   currentV: {x: 0, y: 0, z: 0}
   detonate: 0
+  grounded: 0
   hasspawn: 0
   hookRefL1: {fileID: 1954239205722258}
   hookRefL2: {fileID: 0}
@@ -2296,6 +2314,8 @@ MonoBehaviour:
   lastHook: {fileID: 0}
   leftbladetrail: {fileID: 0}
   leftbladetrail2: {fileID: 0}
+  leftBulletLeft: 7
+  leftGunHasBullet: 1
   maincamera: {fileID: 0}
   maxVelocityChange: 10
   meatDie: {fileID: 82771787021510608}
@@ -2309,8 +2329,11 @@ MonoBehaviour:
   myScale: 1
   myTeam: 1
   myTitans: []
+  reloadAnimation: 
   rightbladetrail: {fileID: 0}
   rightbladetrail2: {fileID: 0}
+  rightBulletLeft: 7
+  rightGunHasBullet: 1
   rope: {fileID: 82378982903755218}
   setup: {fileID: 0}
   skillCDDuration: 0
@@ -2324,6 +2347,7 @@ MonoBehaviour:
   speedFX1: {fileID: 0}
   spinning: 0
   targetV: {x: 0, y: 0, z: 0}
+  throwedBlades: 0
   titanForm: 0
   totalBladeSta: 100
   totalGas: 100

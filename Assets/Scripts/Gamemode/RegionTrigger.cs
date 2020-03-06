@@ -26,7 +26,7 @@ public class RegionTrigger : MonoBehaviour
         {
             if (this.playerEventEnter != null)
             {
-                HERO component = gameObject.GetComponent<HERO>();
+                Hero component = gameObject.GetComponent<Hero>();
                 if (component != null)
                 {
                     str = (string) FengGameManagerMKII.RCVariableNames["OnPlayerEnterRegion[" + this.myName + "]"];
@@ -69,7 +69,7 @@ public class RegionTrigger : MonoBehaviour
         {
             if (this.playerEventExit != null)
             {
-                HERO component = gameObject.GetComponent<HERO>();
+                Hero component = gameObject.GetComponent<Hero>();
                 if (component != null)
                 {
                     str = (string) FengGameManagerMKII.RCVariableNames["OnPlayerLeaveRegion[" + this.myName + "]"];

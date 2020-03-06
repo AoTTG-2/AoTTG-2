@@ -591,7 +591,7 @@ public class FEMALE_TITAN : PhotonView
                     }
                     return gameObject;
                 }
-                if ((gameObject.GetComponent<HERO>() != null) && !gameObject.GetComponent<HERO>().isInvincible())
+                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
                 {
                     return gameObject;
                 }
@@ -605,7 +605,7 @@ public class FEMALE_TITAN : PhotonView
         float num = rad * 4f;
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if ((obj2.GetComponent<TITAN_EREN>() == null) && !obj2.GetComponent<HERO>().isInvincible())
+            if ((obj2.GetComponent<TITAN_EREN>() == null) && !obj2.GetComponent<Hero>().isInvincible())
             {
                 float num3 = obj2.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(obj2.transform.position + ((Vector3) (Vector3.up * num3)), head.transform.position + ((Vector3) ((Vector3.up * 1.5f) * 4f))) < (num + num3))
@@ -629,7 +629,7 @@ public class FEMALE_TITAN : PhotonView
 
     private void eatSet(GameObject grabTarget)
     {
-        if (!grabTarget.GetComponent<HERO>().isGrabbed)
+        if (!grabTarget.GetComponent<Hero>().isGrabbed)
         {
             this.grabToRight();
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
@@ -642,15 +642,15 @@ public class FEMALE_TITAN : PhotonView
             }
             else
             {
-                grabTarget.GetComponent<HERO>().grabbed(base.gameObject, false);
-                grabTarget.GetComponent<HERO>().GetComponent<Animation>().Play("grabbed");
+                grabTarget.GetComponent<Hero>().grabbed(base.gameObject, false);
+                grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
             }
         }
     }
 
     private void eatSetL(GameObject grabTarget)
     {
-        if (!grabTarget.GetComponent<HERO>().isGrabbed)
+        if (!grabTarget.GetComponent<Hero>().isGrabbed)
         {
             this.grabToLeft();
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
@@ -663,8 +663,8 @@ public class FEMALE_TITAN : PhotonView
             }
             else
             {
-                grabTarget.GetComponent<HERO>().grabbed(base.gameObject, true);
-                grabTarget.GetComponent<HERO>().GetComponent<Animation>().Play("grabbed");
+                grabTarget.GetComponent<Hero>().grabbed(base.gameObject, true);
+                grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
             }
         }
     }
@@ -749,7 +749,7 @@ public class FEMALE_TITAN : PhotonView
         Vector3 position = base.transform.position;
         foreach (GameObject obj3 in objArray)
         {
-            if (((obj3.GetComponent<HERO>() == null) || !obj3.GetComponent<HERO>().HasDied()) && ((obj3.GetComponent<TITAN_EREN>() == null) || !obj3.GetComponent<TITAN_EREN>().hasDied))
+            if (((obj3.GetComponent<Hero>() == null) || !obj3.GetComponent<Hero>().HasDied()) && ((obj3.GetComponent<TITAN_EREN>() == null) || !obj3.GetComponent<TITAN_EREN>().hasDied))
             {
                 Vector3 vector2 = obj3.transform.position - position;
                 float sqrMagnitude = vector2.sqrMagnitude;
@@ -1049,16 +1049,16 @@ public class FEMALE_TITAN : PhotonView
     {
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
         {
-            if (!target.GetComponent<HERO>().HasDied())
+            if (!target.GetComponent<Hero>().HasDied())
             {
-                target.GetComponent<HERO>().markDie();
+                target.GetComponent<Hero>().markDie();
                 object[] parameters = new object[] { -1, "Female Titan" };
-                target.GetComponent<HERO>().photonView.RPC("netDie2", PhotonTargets.All, parameters);
+                target.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, parameters);
             }
         }
         else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
-            target.GetComponent<HERO>().die2(hand);
+            target.GetComponent<Hero>().die2(hand);
         }
     }
 
@@ -1074,16 +1074,16 @@ public class FEMALE_TITAN : PhotonView
             Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                if (!hitHero.GetComponent<HERO>().HasDied())
+                if (!hitHero.GetComponent<Hero>().HasDied())
                 {
-                    hitHero.GetComponent<HERO>().die((Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false);
+                    hitHero.GetComponent<Hero>().die((Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false);
                 }
             }
-            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient) && !hitHero.GetComponent<HERO>().HasDied())
+            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient) && !hitHero.GetComponent<Hero>().HasDied())
             {
-                hitHero.GetComponent<HERO>().markDie();
+                hitHero.GetComponent<Hero>().markDie();
                 object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Female Titan", true };
-                hitHero.GetComponent<HERO>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
             }
         }
     }

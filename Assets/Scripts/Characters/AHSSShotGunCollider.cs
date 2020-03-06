@@ -46,19 +46,19 @@ public class AHSSShotGunCollider : MonoBehaviour
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);
                     HitBox component = other.gameObject.GetComponent<HitBox>();
-                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<HERO>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<HERO>().isInvincible())
+                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            if (!component.transform.root.GetComponent<HERO>().isGrabbed)
+                            if (!component.transform.root.GetComponent<Hero>().isGrabbed)
                             {
                                 Vector3 vector = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<HERO>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
+                                component.transform.root.GetComponent<Hero>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<HERO>().HasDied()) && !component.transform.root.GetComponent<HERO>().isGrabbed)
+                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
                         {
-                            component.transform.root.GetComponent<HERO>().markDie();
+                            component.transform.root.GetComponent<Hero>().markDie();
                             object[] parameters = new object[5];
                             Vector3 vector2 = component.transform.root.position - base.transform.position;
                             parameters[0] = (Vector3) (((vector2.normalized * b) * 1000f) + (Vector3.up * 50f));
@@ -66,7 +66,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             parameters[2] = this.viewID;
                             parameters[3] = this.ownerName;
                             parameters[4] = false;
-                            component.transform.root.GetComponent<HERO>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
                         }
                     }
                 }
@@ -353,12 +353,12 @@ public class AHSSShotGunCollider : MonoBehaviour
             {
                 this.viewID = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID;
                 this.ownerName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
-                this.myTeam = PhotonView.Find(this.viewID).gameObject.GetComponent<HERO>().myTeam;
+                this.myTeam = PhotonView.Find(this.viewID).gameObject.GetComponent<Hero>().myTeam;
             }
         }
         else
         {
-            this.myTeam = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<HERO>().myTeam;
+            this.myTeam = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Hero>().myTeam;
         }
         this.active_me = true;
         this.count = 0;

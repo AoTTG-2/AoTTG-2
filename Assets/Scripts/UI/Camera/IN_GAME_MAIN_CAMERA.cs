@@ -168,7 +168,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
     }
 
-    public void CameraMovementLive(HERO hero)
+    public void CameraMovementLive(Hero hero)
     {
         float magnitude = hero.GetComponent<Rigidbody>().velocity.magnitude;
         if (magnitude > 10f)
@@ -403,15 +403,15 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             GameObject.Find("stamina_titan").transform.localPosition = new Vector3(0f, 9999f, 0f);
             GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(0f, 9999f, 0f);
         }
-        if ((this.main_object != null) && (this.main_object.GetComponent<HERO>() != null))
+        if ((this.main_object != null) && (this.main_object.GetComponent<Hero>() != null))
         {
             if (gametype == GAMETYPE.SINGLE)
             {
-                this.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
             }
             else if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
             {
-                this.main_object.GetComponent<HERO>().setSkillHUDPosition2();
+                this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
             }
         }
         if (stereoType == STEREO_3D_TYPE.SIDE_BY_SIDE)
@@ -1086,7 +1086,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         Screen.lockCursor = false;
                     }
                     this.verticalRotationOffset = 0f;
-                    if ((((int) FengGameManagerMKII.settings[0xf5]) == 1) || (this.main_object.GetComponent<HERO>() == null))
+                    if ((((int) FengGameManagerMKII.settings[0xf5]) == 1) || (this.main_object.GetComponent<Hero>() == null))
                     {
                         Cursor.visible = false;
                     }
@@ -1121,7 +1121,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                             FengGameManagerMKII.settings[0x107] = 0;
                         }
                     }
-                    HERO component = this.main_object.GetComponent<HERO>();
+                    Hero component = this.main_object.GetComponent<Hero>();
                     if ((((component != null) && (((int) FengGameManagerMKII.settings[0x107]) == 1)) && component.GetComponent<SmoothSyncMovement>().enabled) && component.isPhotonCamera)
                     {
                         this.CameraMovementLive(component);

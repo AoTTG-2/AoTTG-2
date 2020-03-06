@@ -882,7 +882,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
                     {
                         if (this.realBody != null)
                         {
-                            this.realBody.GetComponent<HERO>().backToHuman();
+                            this.realBody.GetComponent<Hero>().backToHuman();
                             this.realBody.transform.position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position + ((Vector3)(Vector3.up * 2f));
                             this.realBody = null;
                         }

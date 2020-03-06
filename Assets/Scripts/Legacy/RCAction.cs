@@ -373,7 +373,7 @@ public class RCAction
                         int iD = targetPlayer.ID;
                         if (FengGameManagerMKII.heroHash.ContainsKey(iD))
                         {
-                            HERO hero = (HERO) FengGameManagerMKII.heroHash[iD];
+                            Hero hero = (Hero) FengGameManagerMKII.heroHash[iD];
                             hero.markDie();
                             hero.photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, this.parameters[1].returnString(null) + " " });
                         }
@@ -396,7 +396,7 @@ public class RCAction
                         int num6 = targetPlayer.ID;
                         if (FengGameManagerMKII.heroHash.ContainsKey(num6))
                         {
-                            HERO hero2 = (HERO) FengGameManagerMKII.heroHash[num6];
+                            Hero hero2 = (Hero) FengGameManagerMKII.heroHash[num6];
                             hero2.photonView.RPC("moveToRPC", targetPlayer, new object[] { this.parameters[1].returnFloat(null), this.parameters[2].returnFloat(null), this.parameters[3].returnFloat(null) });
                         }
                         else

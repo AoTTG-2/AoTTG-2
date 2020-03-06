@@ -11,7 +11,7 @@ public class LevelTriggerCheckPoint : MonoBehaviour
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
             }
-            else if (other.gameObject.GetComponent<HERO>().photonView.isMine)
+            else if (other.gameObject.GetComponent<Hero>().photonView.isMine)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
             }

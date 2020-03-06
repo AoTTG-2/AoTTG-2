@@ -46,7 +46,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                 if (other.gameObject.transform.root.gameObject.tag == "titan")
                 {
                     GameObject obj2;
-                    this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<HERO>().slashHit.Play();
+                    this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Hero>().slashHit.Play();
                     if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
                     {
                         obj2 = PhotonNetwork.Instantiate("hitMeat", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
@@ -56,7 +56,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat"));
                     }
                     obj2.transform.position = base.transform.position;
-                    base.transform.root.GetComponent<HERO>().useBlade(0);
+                    base.transform.root.GetComponent<Hero>().useBlade(0);
                 }
             }
             if (other.gameObject.tag == "playerHitbox")
@@ -66,19 +66,19 @@ public class TriggerColliderWeapon : MonoBehaviour
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);
                     HitBox component = other.gameObject.GetComponent<HitBox>();
-                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<HERO>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<HERO>().isInvincible())
+                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            if (!component.transform.root.GetComponent<HERO>().isGrabbed)
+                            if (!component.transform.root.GetComponent<Hero>().isGrabbed)
                             {
                                 Vector3 vector = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<HERO>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
+                                component.transform.root.GetComponent<Hero>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<HERO>().HasDied()) && !component.transform.root.GetComponent<HERO>().isGrabbed)
+                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
                         {
-                            component.transform.root.GetComponent<HERO>().markDie();
+                            component.transform.root.GetComponent<Hero>().markDie();
                             object[] parameters = new object[5];
                             Vector3 vector2 = component.transform.root.position - base.transform.position;
                             parameters[0] = (Vector3) (((vector2.normalized * b) * 1000f) + (Vector3.up * 50f));
@@ -86,7 +86,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                             parameters[2] = base.transform.root.gameObject.GetPhotonView().viewID;
                             parameters[3] = PhotonView.Find(base.transform.root.gameObject.GetPhotonView().viewID).owner.CustomProperties[PhotonPlayerProperty.name];
                             parameters[4] = false;
-                            component.transform.root.GetComponent<HERO>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
                         }
                     }
                 }
@@ -136,7 +136,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         }
                         else if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
                         {
-                            base.transform.root.GetComponent<HERO>().useBlade(0x7fffffff);
+                            base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
                             Vector3 vector5 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num4 = (int) ((vector5.magnitude * 10f) * this.scoreMulti);
                             num4 = Mathf.Max(10, num4);
@@ -148,7 +148,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         }
                         else if (item.transform.root.GetComponent<COLOSSAL_TITAN>() != null)
                         {
-                            base.transform.root.GetComponent<HERO>().useBlade(0x7fffffff);
+                            base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
                             if (!item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                             {
                                 Vector3 vector6 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
@@ -175,7 +175,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     }
                     else if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
                     {
-                        base.transform.root.GetComponent<HERO>().useBlade(0x7fffffff);
+                        base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
                         if (!item.transform.root.GetComponent<FEMALE_TITAN>().hasDie)
                         {
                             Vector3 vector8 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
@@ -190,7 +190,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     }
                     else if (item.transform.root.GetComponent<COLOSSAL_TITAN>() != null)
                     {
-                        base.transform.root.GetComponent<HERO>().useBlade(0x7fffffff);
+                        base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
                         if (!item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                         {
                             Vector3 vector9 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
