@@ -10,6 +10,7 @@ namespace Assets.Scripts.UI
         public void CreateLobby()
         {
             PhotonNetwork.CreateRoom("Test7"); //, true, true, 2);
+            gameObject.SetActive(false);
         }
 
         public void JoinLobby()

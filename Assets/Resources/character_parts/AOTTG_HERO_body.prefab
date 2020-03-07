@@ -1188,27 +1188,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc810eaaddec9f4f9bfb0c81e71b60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blood_arm_l: {fileID: 0}
-  blood_arm_r: {fileID: 0}
-  blood_lower: {fileID: 0}
-  blood_upper: {fileID: 0}
-  blood_upper1: {fileID: 0}
-  blood_upper2: {fileID: 0}
-  chest: {fileID: 0}
-  col_chest: {fileID: 0}
-  col_head: {fileID: 0}
-  col_lower_arm_l: {fileID: 0}
-  col_lower_arm_r: {fileID: 0}
-  col_shin_l: {fileID: 0}
-  col_shin_r: {fileID: 0}
-  col_thigh_l: {fileID: 0}
-  col_thigh_r: {fileID: 0}
-  col_upper_arm_l: {fileID: 0}
-  col_upper_arm_r: {fileID: 0}
-  hand_l: {fileID: 0}
-  hand_r: {fileID: 0}
-  head: {fileID: 0}
-  leg: {fileID: 0}
+  blood_arm_l: {fileID: 1037248616960566}
+  blood_arm_r: {fileID: 1034148065716040}
+  blood_lower: {fileID: 1855722064590862}
+  blood_upper: {fileID: 1382519103019368}
+  blood_upper1: {fileID: 1382519103019368}
+  blood_upper2: {fileID: 1884515227421133}
+  chest: {fileID: 1090551113219024}
+  col_chest: {fileID: 1945095199232851}
+  col_head: {fileID: 1327504944603983}
+  col_lower_arm_l: {fileID: 1636706452555470}
+  col_lower_arm_r: {fileID: 1595090748842002}
+  col_shin_l: {fileID: 1907026473530563}
+  col_shin_r: {fileID: 1791179870709028}
+  col_thigh_l: {fileID: 1469185499077642}
+  col_thigh_r: {fileID: 1513348708252158}
+  col_upper_arm_l: {fileID: 1458118991906337}
+  col_upper_arm_r: {fileID: 1653563935404128}
+  hand_l: {fileID: 1455448077783646}
+  hand_r: {fileID: 1374904272870474}
+  head: {fileID: 1620163313711676}
+  leg: {fileID: 1016638638210912}
 --- !u!114 &114400356440433794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1223,7 +1223,7 @@ MonoBehaviour:
   aniname: 
   anitime: 0
   change: 0
-  chest_info: {fileID: 0}
+  chest_info: {fileID: 1287567248330089}
   currentOne: 0
   isDeadBody: 0
   part_3dmg: {fileID: 0}
@@ -1241,7 +1241,7 @@ MonoBehaviour:
   part_brand_3: {fileID: 0}
   part_brand_4: {fileID: 0}
   part_cape: {fileID: 0}
-  part_chest: {fileID: 0}
+  part_chest: {fileID: 1090551113219024}
   part_chest_1: {fileID: 0}
   part_chest_2: {fileID: 0}
   part_chest_3: {fileID: 0}
@@ -1253,8 +1253,8 @@ MonoBehaviour:
   part_hair_2: {fileID: 0}
   part_hand_l: {fileID: 0}
   part_hand_r: {fileID: 0}
-  part_head: {fileID: 0}
-  part_leg: {fileID: 0}
+  part_head: {fileID: 1620163313711676}
+  part_leg: {fileID: 1016638638210912}
   part_upper_body: {fileID: 0}
   reference: {fileID: 0}
   timer: 0
@@ -11562,7 +11562,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: 1099733358
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -11718,7 +11718,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -11759,7 +11759,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
