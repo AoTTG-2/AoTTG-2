@@ -234,9 +234,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1497507051487863}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0e57cb2f5751c514b8559c9f679123c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active_me: 0
+  dmg: 1
+  isThisBite: 0
 --- !u!114 &114191735076852016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,18 +248,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1081017998962063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9170c84cde4c7c147bbe513754462be2, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  group: 0
-  instantiationId: 0
-  observed: {fileID: 0}
-  onSerializeRigidBodyOption: 2
-  onSerializeTransformOption: 3
   ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
   prefixBackup: -1
-  subId: 0
   synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114447930271681456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -287,9 +296,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1036099152810042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0e57cb2f5751c514b8559c9f679123c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active_me: 0
+  dmg: 1
+  isThisBite: 0
 --- !u!114 &114958038139405534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -385,7 +397,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 79860781
+  randomSeed: -1208178144
   InitialModule:
     serializedVersion: 3
     enabled: 1

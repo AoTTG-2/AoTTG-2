@@ -1,8 +1,6 @@
-using Photon;
-using System;
 using UnityEngine;
 
-public class Horse : Photon.MonoBehaviour
+public class Horse : PhotonView
 {
     private float awayTimer;
     private TITAN_CONTROLLER controller;
@@ -369,7 +367,7 @@ public class Horse : Photon.MonoBehaviour
             }
             base.GetComponent<Rigidbody>().AddForce(-base.GetComponent<Rigidbody>().velocity, ForceMode.VelocityChange);
         }
-    }
+    }   
 
     public void unmounted()
     {
