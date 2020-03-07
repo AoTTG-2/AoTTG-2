@@ -24,5 +24,6 @@ public class InputCode
     public static int rightRope = 7;
     public static int salute = 12;
     public static int up;
+    public static int interactionWheel = 22;
 }
 

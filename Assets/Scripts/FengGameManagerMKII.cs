@@ -11,6 +11,7 @@ using Assets.Scripts.UI;
 using UnityEngine;
 using Debug = System.Diagnostics.Debug;
 
+[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
     public static bool showHackMenu = true;

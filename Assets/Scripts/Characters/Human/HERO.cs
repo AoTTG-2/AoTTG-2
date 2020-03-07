@@ -4693,6 +4693,7 @@ public class Hero : Human
     private void Start()
     {
         FengGameManagerMKII.instance.addHero(this);
+        gameObject.AddComponent<PlayerInteractable>();
         if (((LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode == 1)) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && base.photonView.isMine)
         {
             this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3) (Vector3.up * 5f)), this.baseTransform.rotation, 0);
