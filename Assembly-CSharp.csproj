@@ -305,6 +305,7 @@
      <Compile Include="Assets\Scripts\Gamemode\RegionTrigger.cs" />
      <Compile Include="Assets\Scripts\Gamemode\RespawnMode.cs" />
      <Compile Include="Assets\Scripts\InstantiateTracker.cs" />
+     <Compile Include="Assets\Scripts\Interactable.cs" />
      <Compile Include="Assets\Scripts\Items\FlareMovement.cs" />
      <Compile Include="Assets\Scripts\iTween.cs" />
      <Compile Include="Assets\Scripts\KickState.cs" />
@@ -330,6 +331,7 @@
      <Compile Include="Assets\Scripts\LoginFengKAI.cs" />
      <Compile Include="Assets\Scripts\NGUIMath.cs" />
      <Compile Include="Assets\Scripts\NGUITools.cs" />
+     <Compile Include="Assets\Scripts\PlayerInteractable.cs" />
      <Compile Include="Assets\Scripts\Room\BottomType.cs" />
      <Compile Include="Assets\Scripts\Room\ChangeQuality.cs" />
      <Compile Include="Assets\Scripts\Room\Chat\InRoomChat.cs" />
@@ -356,9 +358,11 @@
      <Compile Include="Assets\Scripts\Settings\InputCode.cs" />
      <Compile Include="Assets\Scripts\Settings\InputCodeRC.cs" />
      <Compile Include="Assets\Scripts\Settings\InputManagerRC.cs" />
+     <Compile Include="Assets\Scripts\Settings\KeyBindings.cs" />
      <Compile Include="Assets\Scripts\Settings\Language.cs" />
      <Compile Include="Assets\Scripts\Settings\Localization.cs" />
      <Compile Include="Assets\Scripts\Settings\RCSettings.cs" />
+     <Compile Include="Assets\Scripts\SupplyStationInteractable.cs" />
      <Compile Include="Assets\Scripts\UI\AottgUi.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CAMERA_TYPE.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CameraFacingBillboard.cs" />
@@ -370,11 +374,14 @@
      <Compile Include="Assets\Scripts\UI\Camera\SpectatorMovement.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\STEREO_3D_TYPE.cs" />
      <Compile Include="Assets\Scripts\UI\Credits.cs" />
+     <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenuElement.cs" />
      <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
      <Compile Include="Assets\Scripts\UI\ServerList.cs" />
      <Compile Include="Assets\Scripts\UI\ServerRegion.cs" />
      <Compile Include="Assets\Scripts\UI\UiElement.cs" />
      <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
+     <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
      <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
      <Compile Include="Assets\Scripts\Usable\CannonBall.cs" />
      <Compile Include="Assets\Scripts\Usable\CannonPropRegion.cs" />

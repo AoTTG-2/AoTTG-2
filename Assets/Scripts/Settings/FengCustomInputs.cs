@@ -207,6 +207,7 @@ public class FengCustomInputs : MonoBehaviour
                     this.checDoubleAxis(this.joystickString[i], i, 1);
                 }
             }
+            //TODO These aren't set within project settings. Do we need them?
             //if ((Input.GetAxis("JoystickUp") > 0.5f) && this.inputBool[i])
             //{
             //    this.inputKey[i] = KeyCode.None;
