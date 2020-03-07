@@ -1,8 +1,5 @@
-using Photon;
-using System;
 using UnityEngine;
 
-[Obsolete]
 public class SelfDestroy : Photon.MonoBehaviour
 {
     public float CountDown = 5f;

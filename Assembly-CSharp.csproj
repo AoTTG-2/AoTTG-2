@@ -259,6 +259,7 @@
      <Compile Include="Assets\Scripts\Characters\Titan\TitanType.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\titanTypes.cs" />
      <Compile Include="Assets\Scripts\CompressString\StringCompressor.cs" />
+     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
      <Compile Include="Assets\Scripts\Effects\Affector.cs" />
      <Compile Include="Assets\Scripts\Effects\AttractionForceAffector.cs" />
      <Compile Include="Assets\Scripts\Effects\BillboardScript.cs" />
@@ -319,7 +320,6 @@
      <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
      <Compile Include="Assets\Scripts\Legacy\RCRegion.cs" />
      <Compile Include="Assets\Scripts\Legacy\RCRegionLabel.cs" />
-     <Compile Include="Assets\Scripts\Legacy\SelfDestroy.cs" />
      <Compile Include="Assets\Scripts\Legacy\SnapShotReview.cs" />
      <Compile Include="Assets\Scripts\Legacy\SnapShotSaves.cs" />
      <Compile Include="Assets\Scripts\Legacy\StylishComponent.cs" />
@@ -350,6 +350,7 @@
      <Compile Include="Assets\Scripts\Room\Minimap\CatchDestroy.cs" />
      <Compile Include="Assets\Scripts\Room\Minimap\Minimap.cs" />
      <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
+     <Compile Include="Assets\Scripts\SelfDestroy.cs" />
      <Compile Include="Assets\Scripts\Settings\CheckBoxCostume.cs" />
      <Compile Include="Assets\Scripts\Settings\ColorSet.cs" />
      <Compile Include="Assets\Scripts\Settings\custom_inputs.cs" />

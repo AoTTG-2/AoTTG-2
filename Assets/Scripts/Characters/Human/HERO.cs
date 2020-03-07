@@ -3165,7 +3165,7 @@ public class Hero : Human
     }
 
     [PunRPC]
-    public void netDie(PhotonMessageInfo info, Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true)
+    public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
     {
         if ((base.photonView.isMine && (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.BOSS_FIGHT_CT)))
         {
@@ -3241,10 +3241,11 @@ public class Hero : Human
         this.meatDie.Play();
         if (!(this.useGun || ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && !base.photonView.isMine)))
         {
-            this.leftbladetrail.Deactivate();
-            this.rightbladetrail.Deactivate();
-            this.leftbladetrail2.Deactivate();
-            this.rightbladetrail2.Deactivate();
+            //TODO: Re-enable these again
+            //this.leftbladetrail.Deactivate();
+            //this.rightbladetrail.Deactivate();
+            //this.leftbladetrail2.Deactivate();
+            //this.rightbladetrail2.Deactivate();
         }
         this.falseAttack();
         this.breakApart2(v, isBite);
@@ -3296,7 +3297,7 @@ public class Hero : Human
     }
 
     [PunRPC]
-    private void netDie2(PhotonMessageInfo info, int viewID = -1, string titanName = "")
+    private void netDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
     {
         GameObject obj2;
         if ((base.photonView.isMine) && (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.BOSS_FIGHT_CT))
@@ -4694,12 +4695,12 @@ public class Hero : Human
     {
         FengGameManagerMKII.instance.addHero(this);
         gameObject.AddComponent<PlayerInteractable>();
-        if (((LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode == 1)) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && base.photonView.isMine)
-        {
+        //if (((LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode == 1)) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && base.photonView.isMine)
+        //{
             this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3) (Vector3.up * 5f)), this.baseTransform.rotation, 0);
             this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
             this.myHorse.GetComponent<TITAN_CONTROLLER>().isHorse = true;
-        }
+        //}
         this.sparks = this.baseTransform.Find("slideSparks").GetComponent<ParticleSystem>();
         this.smoke_3dmg = this.baseTransform.Find("3dmg_smoke").GetComponent<ParticleSystem>();
         this.baseTransform.localScale = new Vector3(this.myScale, this.myScale, this.myScale);
