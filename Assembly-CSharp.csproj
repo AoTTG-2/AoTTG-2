@@ -306,7 +306,9 @@
      <Compile Include="Assets\Scripts\Gamemode\RegionTrigger.cs" />
      <Compile Include="Assets\Scripts\Gamemode\RespawnMode.cs" />
      <Compile Include="Assets\Scripts\InstantiateTracker.cs" />
-     <Compile Include="Assets\Scripts\Interactable.cs" />
+     <Compile Include="Assets\Scripts\Interactable\Interactable.cs" />
+     <Compile Include="Assets\Scripts\Interactable\PlayerInteractable.cs" />
+     <Compile Include="Assets\Scripts\Interactable\SupplyStationInteractable.cs" />
      <Compile Include="Assets\Scripts\Items\FlareMovement.cs" />
      <Compile Include="Assets\Scripts\iTween.cs" />
      <Compile Include="Assets\Scripts\KickState.cs" />
@@ -331,7 +333,6 @@
      <Compile Include="Assets\Scripts\LoginFengKAI.cs" />
      <Compile Include="Assets\Scripts\NGUIMath.cs" />
      <Compile Include="Assets\Scripts\NGUITools.cs" />
-     <Compile Include="Assets\Scripts\PlayerInteractable.cs" />
      <Compile Include="Assets\Scripts\Room\BottomType.cs" />
      <Compile Include="Assets\Scripts\Room\ChangeQuality.cs" />
      <Compile Include="Assets\Scripts\Room\Chat\InRoomChat.cs" />
@@ -363,7 +364,6 @@
      <Compile Include="Assets\Scripts\Settings\Language.cs" />
      <Compile Include="Assets\Scripts\Settings\Localization.cs" />
      <Compile Include="Assets\Scripts\Settings\RCSettings.cs" />
-     <Compile Include="Assets\Scripts\SupplyStationInteractable.cs" />
      <Compile Include="Assets\Scripts\UI\AottgUi.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CAMERA_TYPE.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CameraFacingBillboard.cs" />
