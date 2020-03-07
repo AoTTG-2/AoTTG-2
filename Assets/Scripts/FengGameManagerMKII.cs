@@ -8186,7 +8186,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0), true, false);
                 id = id.ToUpper();
-                if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3"))
+                if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
                 {
                     HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
                     costume2.checkstat();
