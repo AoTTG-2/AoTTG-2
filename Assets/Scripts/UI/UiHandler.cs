@@ -11,6 +11,7 @@ namespace Assets.Scripts.UI
 
         public void Start()
         {
+            DontDestroyOnLoad(gameObject);
             Elements = gameObject.GetComponentsInChildren<UiElement>(true);
             foreach (var element in Elements)
             {

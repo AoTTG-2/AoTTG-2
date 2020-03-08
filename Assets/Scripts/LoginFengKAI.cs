@@ -27,52 +27,16 @@ public class LoginFengKAI : MonoBehaviour
     private static string playerPassword = string.Empty;
     private string RegisterURL = "http://fenglee.com/game/aog/signup_check.php";
 
-    public void cGuild(string name)
-    {
-        if (playerName == string.Empty)
-        {
-            this.logout();
-            NGUITools.SetActive(this.panelChangeGUILDNAME, false);
-            NGUITools.SetActive(this.panelLogin, true);
-            this.output.GetComponent<UILabel>().text = "Please sign in.";
-        }
-        else
-        {
-            base.StartCoroutine(this.changeGuild(name));
-        }
-    }
-
     [DebuggerHidden]
     private IEnumerator changeGuild(string name)
     {
         return new changeGuildc__Iterator5 { name = name, f__this = this };
     }
 
-    [DebuggerHidden]
-    private IEnumerator changePassword(string oldpassword, string password, string password2)
-    {
-        return new changePasswordc__Iterator4 { oldpassword = oldpassword, password = password, password2 = password2, f__this = this };
-    }
-
     private void clearCOOKIE()
     {
         playerName = string.Empty;
         playerPassword = string.Empty;
-    }
-
-    public void cpassword(string oldpassword, string password, string password2)
-    {
-        if (playerName == string.Empty)
-        {
-            this.logout();
-            NGUITools.SetActive(this.panelChangePassword, false);
-            NGUITools.SetActive(this.panelLogin, true);
-            this.output.GetComponent<UILabel>().text = "Please sign in.";
-        }
-        else
-        {
-            base.StartCoroutine(this.changePassword(oldpassword, password, password2));
-        }
     }
 
     [DebuggerHidden]
@@ -103,7 +67,6 @@ public class LoginFengKAI : MonoBehaviour
         this.clearCOOKIE();
         player = new PlayerInfoPHOTON();
         player.initAsGuest();
-        this.output.GetComponent<UILabel>().text = "Welcome," + player.name;
     }
 
     [DebuggerHidden]
@@ -175,7 +138,7 @@ public class LoginFengKAI : MonoBehaviour
                 case 1:
                     if (this.w__1.error == null)
                     {
-                        this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
+                        //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         if (this.w__1.text.Contains("Guild thisName set."))
                         {
                             NGUITools.SetActive(this.f__this.panelChangeGUILDNAME, false);
@@ -259,7 +222,7 @@ public class LoginFengKAI : MonoBehaviour
                 case 1:
                     if (this.w__1.error == null)
                     {
-                        this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
+                        //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         if (this.w__1.text.Contains("Thanks, Your password changed successfully"))
                         {
                             NGUITools.SetActive(this.f__this.panelChangePassword, false);
@@ -337,7 +300,7 @@ public class LoginFengKAI : MonoBehaviour
                 case 1:
                     if (this.w__1.error == null)
                     {
-                        this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
+                        //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         this.w__1.Dispose();
                         NGUITools.SetActive(this.f__this.panelForget, false);
                         NGUITools.SetActive(this.f__this.panelLogin, true);
@@ -418,7 +381,7 @@ public class LoginFengKAI : MonoBehaviour
                         {
                             NGUITools.SetActive(this.f__this.panelLogin, true);
                             NGUITools.SetActive(this.f__this.panelStatus, false);
-                            this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
+                            //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                             LoginFengKAI.playerName = string.Empty;
                             LoginFengKAI.playerPassword = string.Empty;
                         }
@@ -427,7 +390,7 @@ public class LoginFengKAI : MonoBehaviour
                             char[] separator = new char[] { '|' };
                             this.result__2 = this.w__1.text.Split(separator);
                             LoginFengKAI.playerGUILDName = this.result__2[0];
-                            this.f__this.output2.GetComponent<UILabel>().text = this.result__2[1];
+                            //this.f__this.output2.GetComponent<UILabel>().text = this.result__2[1];
                             LoginFengKAI.player.name = LoginFengKAI.playerName;
                             LoginFengKAI.player.guildname = LoginFengKAI.playerGUILDName;
                         }
@@ -497,7 +460,7 @@ public class LoginFengKAI : MonoBehaviour
                     this.form__0 = new WWWForm();
                     this.form__0.AddField("userid", this.name);
                     this.form__0.AddField("password", this.password);
-                    this.form__0.AddField("version", UIMainReferences.version);
+                    //this.form__0.AddField("version", UIMainReferences.version);
                     this.w__1 = new WWW(this.f__this.CheckUserURL, this.form__0);
                     this.Scurrent = this.w__1;
                     this.SPC = 1;
@@ -507,7 +470,7 @@ public class LoginFengKAI : MonoBehaviour
                     this.f__this.clearCOOKIE();
                     if (this.w__1.error == null)
                     {
-                        this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
+                        //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         this.f__this.formText = this.w__1.text;
                         this.w__1.Dispose();
                         if (this.f__this.formText.Contains("Welcome back") && this.f__this.formText.Contains("(^o^)/~"))
@@ -595,7 +558,7 @@ public class LoginFengKAI : MonoBehaviour
                 case 1:
                     if (this.w__1.error == null)
                     {
-                        this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
+                        //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         if (this.w__1.text.Contains("Final step,to activate your account, please click the link in the activation email"))
                         {
                             NGUITools.SetActive(this.f__this.panelRegister, false);

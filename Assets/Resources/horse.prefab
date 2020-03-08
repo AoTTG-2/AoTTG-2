@@ -883,7 +883,6 @@ GameObject:
   - component: {fileID: 54005744515832989}
   - component: {fileID: 136902303604188331}
   - component: {fileID: 114713276086319258}
-  - component: {fileID: 114513312074201054}
   m_Layer: 8
   m_Name: horse
   m_TagString: Untagged
@@ -1862,20 +1861,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965692679872925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 3e900cdaad0d4f648ad199b5410f9407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114513312074201054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1965692679872925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
+  dust: {fileID: 1420590395356996}
+  myHero: {fileID: 0}
 --- !u!114 &114563645587361564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1884,9 +1888,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965692679872925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 1a11a4234755e5c4f9cc345b44d9961f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bite: 0
+  bitel: 0
+  biter: 0
+  chopl: 0
+  chopr: 0
+  choptl: 0
+  choptr: 0
+  cover: 0
+  currentCamera: {fileID: 0}
+  currentDirection: 0
+  grabbackl: 0
+  grabbackr: 0
+  grabfrontl: 0
+  grabfrontr: 0
+  grabnapel: 0
+  grabnaper: 0
+  inputManager: {fileID: 0}
+  isAttackDown: 0
+  isAttackIIDown: 0
+  isHorse: 1
+  isJumpDown: 0
+  isSuicide: 0
+  isWALKDown: 0
+  sit: 0
+  targetDirection: 0
 --- !u!114 &114713276086319258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2235,7 +2264,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -2276,7 +2305,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -2317,7 +2346,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -2358,7 +2387,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
