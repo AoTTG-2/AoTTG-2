@@ -9,13 +9,13 @@ namespace Assets.Scripts.UI
     {
         public void CreateLobby()
         {
-            PhotonNetwork.CreateRoom("Test7"); //, true, true, 2);
+            PhotonNetwork.CreateRoom("Test8"); //, true, true, 2);
             gameObject.SetActive(false);
         }
 
         public void JoinLobby()
         {
-            PhotonNetwork.JoinRoom("Test7");
+            PhotonNetwork.JoinRoom("Test8");
         }
     }
 }
