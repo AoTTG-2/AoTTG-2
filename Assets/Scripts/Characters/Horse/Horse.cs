@@ -175,7 +175,7 @@ public class Horse : PhotonView
                 }
             }
 
-            var horizontalVector = transform.position - setPoint;
+            var horizontalVector = setPoint - transform.position;
             var horizontalAngle = -Mathf.Atan2(horizontalVector.z, horizontalVector.x) * 57.29578f;
             float num = -Mathf.DeltaAngle(horizontalAngle, base.gameObject.transform.rotation.eulerAngles.y - 90f);
             base.gameObject.transform.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, base.gameObject.transform.rotation.eulerAngles.y + num, 0f), (200f * Time.deltaTime) / (base.GetComponent<Rigidbody>().velocity.magnitude + 20f));
