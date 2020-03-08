@@ -646,8 +646,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         QualitySettings.vSyncCount = 0;
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
-        sensitivityMulti = PlayerPrefs.GetFloat("MouseSensitivity");
-        invertY = PlayerPrefs.GetInt("invertMouseY");
+        if (PlayerPrefs.HasKey("MouseSensitivity"))
+        { 
+            sensitivityMulti = PlayerPrefs.GetFloat("MouseSensitivity"); 
+        }
+        if (PlayerPrefs.HasKey("invertMouseY"))
+        {
+            invertY = PlayerPrefs.GetInt("invertMouseY");
+        }
         this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
         this.setDayLight(dayLight);
         this.locker = GameObject.Find("locker");
