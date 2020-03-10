@@ -104,15 +104,15 @@ namespace AoTExtensions
         /// </summary>
         public static string RemoveAll(this string x)
         {
-            return Regex.Replace(x, @"((\[([0-9a-f]{6})\])|(<(\/|)(color(?(?=\=).*?)>))|(<size=(\\w*)?>?|<\/size>?)|(<\/?[bi]>))", "");
+            return Regex.Replace(x, @"((\[([0-9a-f]{6})\])|(\[\-\])|(<(\/|)(color(?(?=\=).*?)>))|(<size=(\w*)?>?|<\/size>?)|(<\/?[bi]>))", "");
         }
 
         /// <summary>
         /// Remove size tags from a string. 
         /// </summary>
-        internal static string RemoveSize(this string str)
+        public static string RemoveSize(this string str)
         {
-            return Regex.Replace(str, "<size=(\\w*)?>?|<\\/size>?", string.Empty, RegexOptions.IgnoreCase);
+            return Regex.Replace(str, "<size=(\w*)?>?|<\\/size>?", string.Empty, RegexOptions.IgnoreCase);
         }
 
         /// <summary>
