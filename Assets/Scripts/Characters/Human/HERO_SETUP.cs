@@ -438,15 +438,6 @@ public class HERO_SETUP : MonoBehaviour
     {
         Debug.Log("Running init");
         CharacterMaterials.init();
-        /*if (myCostume != null)
-        {
-            myCostume.setEquipmentType(equipmentType);
-        }
-        else
-        {
-            myCostume = new HeroCostume();
-            myCostume.setEquipmentType(equipmentType);
-        }*/
     }
 
     public void setCharacterComponent()
