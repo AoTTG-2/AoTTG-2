@@ -5713,11 +5713,19 @@ public class Hero : Human
                                 {
                                     this.falseAttack();
                                     this.idle();
+                                    if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
+                                    {
+                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                    }
                                 }
                                 if (!this.baseAnimation.IsPlaying(this.attackAnimation))
                                 {
                                     this.falseAttack();
                                     this.idle();
+                                    if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
+                                    {
+                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                    }
                                 }
                             }
                         }
