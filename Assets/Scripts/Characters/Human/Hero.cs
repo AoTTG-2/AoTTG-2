@@ -5662,6 +5662,13 @@ public class Hero : Human
                                     bool flag7 = false;
                                     if ((this.attackAnimation == "AHSS_shoot_both") || (this.attackAnimation == "AHSS_shoot_both_air"))
                                     {
+                                        //Should use AHSSShotgunCollider instead of TriggerColliderWeapon.  
+                                        //Apply that change when abstracting weapons from this class.
+                                        //Note, when doing the abstraction, the relationship between the weapon collider and the abstracted weapon class should be carefully considered.
+                                        if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
+                                        {  //Added weapons collider for AHSS.
+                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                        }
                                         flag7 = true;
                                         this.leftGunHasBullet = false;
                                         this.rightGunHasBullet = false;
@@ -5669,6 +5676,10 @@ public class Hero : Human
                                     }
                                     else
                                     {
+                                        if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
+                                        {  //Added weapons collider for AHSS.
+                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                        }
                                         if ((this.attackAnimation == "AHSS_shoot_l") || (this.attackAnimation == "AHSS_shoot_l_air"))
                                         {
                                             this.leftGunHasBullet = false;
