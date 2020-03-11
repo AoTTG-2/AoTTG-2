@@ -24,7 +24,6 @@ public class KillTitansGamemode : GamemodeBase
     {
         if (!PhotonNetwork.isMasterClient) return;
 
-        PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
         if ((info.name == "Annie") || (info.name == "Annie II"))
         {
             PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
