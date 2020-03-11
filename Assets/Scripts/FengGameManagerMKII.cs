@@ -154,6 +154,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public int wave = 1;
 
     public new string name { get; set; }
+    public static GamemodeBase Gamemode { get; set; }
 
     public void addCamera(IN_GAME_MAIN_CAMERA c)
     {
@@ -4637,6 +4638,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient)
         {
+            Gamemode.OnTitanKilled(name1);
             if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
             {
                 if (name1 != string.Empty)
@@ -4672,15 +4674,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             else if (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.CAGE_FIGHT)
             {
-                if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.KILL_TITAN)
-                {
-                    if (this.checkIsTitanAllDie())
-                    {
-                        this.gameWin2();
-                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-                    }
-                }
-                else if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE)
+                if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE)
                 {
                     if (this.checkIsTitanAllDie())
                     {
@@ -4822,6 +4816,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
         //}
         IN_GAME_MAIN_CAMERA.gamemode = LevelInfo.getInfo(level).type;
+        Gamemode = LevelInfo.getInfo(level).GameMode;
         PhotonNetwork.LoadLevel(LevelInfo.getInfo(level).mapName);
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add(PhotonPlayerProperty.name, LoginFengKAI.player.name);
@@ -5013,6 +5008,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
                     }
                 }
+                
+                Gamemode.OnLevelWasLoaded(info);
+
                 if (info.type == GAMEMODE.BOSS_FIGHT_CT)
                 {
                     UnityEngine.Object.Destroy(GameObject.Find("rock"));
@@ -5050,7 +5048,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             PhotonNetwork.Instantiate("COLOSSAL_TITAN", (Vector3) (-Vector3.up * 10000f), Quaternion.Euler(0f, 180f, 0f), 0);
                         }
                     }
-                    else if (((info.type == GAMEMODE.KILL_TITAN) || (info.type == GAMEMODE.ENDLESS_TITAN)) || (info.type == GAMEMODE.SURVIVE_MODE))
+                    else if (info.type == GAMEMODE.ENDLESS_TITAN || info.type == GAMEMODE.SURVIVE_MODE)
                     {
                         if ((info.name == "Annie") || (info.name == "Annie II"))
                         {
@@ -7774,6 +7772,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void someOneIsDead(int id = -1)
     {
+        Gamemode.OnPlayerKilled(id);
         if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
         {
             if (id != 0)
@@ -7788,7 +7787,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             this.titanScore++;
         }
-        else if (((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.KILL_TITAN) || (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE)) || ((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.BOSS_FIGHT_CT) || (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.TROST)))
+        else if (((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE)) || ((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.BOSS_FIGHT_CT) || (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.TROST)))
         {
             if (this.isPlayerAllDead2())
             {

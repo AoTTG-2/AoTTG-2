@@ -551,7 +551,7 @@ public class Hero : Human
 
     private void changeBlade()
     {
-        if ((!this.useGun || this.grounded) || (LevelInfo.getInfo(FengGameManagerMKII.level).type != GAMEMODE.PVP_AHSS))
+        if ((!this.useGun || this.grounded) || FengGameManagerMKII.Gamemode.AhssAirReload)
         {
             this.state = HERO_STATE.ChangeBlade;
             this.throwedBlades = false;
