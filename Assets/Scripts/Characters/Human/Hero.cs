@@ -5654,6 +5654,8 @@ public class Hero : Human
                             }
                             else
                             {
+                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                                 this.baseTransform.rotation = Quaternion.Lerp(this.baseTransform.rotation, this.gunDummy.transform.rotation, Time.deltaTime * 30f);
                                 if (!this.attackReleased && (this.baseAnimation[this.attackAnimation].normalizedTime > 0.167f))
                                 {
@@ -5665,10 +5667,8 @@ public class Hero : Human
                                         //Should use AHSSShotgunCollider instead of TriggerColliderWeapon.  
                                         //Apply that change when abstracting weapons from this class.
                                         //Note, when doing the abstraction, the relationship between the weapon collider and the abstracted weapon class should be carefully considered.
-                                        if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
-                                        {  //Added weapons collider for AHSS.
-                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                        }
+                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
                                         flag7 = true;
                                         this.leftGunHasBullet = false;
                                         this.rightGunHasBullet = false;
@@ -5676,16 +5676,14 @@ public class Hero : Human
                                     }
                                     else
                                     {
-                                        if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
-                                        {  //Added weapons collider for AHSS.
-                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                        }
                                         if ((this.attackAnimation == "AHSS_shoot_l") || (this.attackAnimation == "AHSS_shoot_l_air"))
                                         {
+                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
                                             this.leftGunHasBullet = false;
                                         }
                                         else
                                         {
+                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
                                             this.rightGunHasBullet = false;
                                         }
                                         this.baseRigidBody.AddForce((Vector3) (-this.baseTransform.forward * 600f), ForceMode.Acceleration);
@@ -5713,19 +5711,15 @@ public class Hero : Human
                                 {
                                     this.falseAttack();
                                     this.idle();
-                                    if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
-                                    {
-                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                    }
+                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                                 }
                                 if (!this.baseAnimation.IsPlaying(this.attackAnimation))
                                 {
                                     this.falseAttack();
                                     this.idle();
-                                    if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
-                                    {
-                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                    }
+                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                                 }
                             }
                         }
