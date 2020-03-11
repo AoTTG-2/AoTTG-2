@@ -5052,6 +5052,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                     else if (((info.type == GAMEMODE.KILL_TITAN) || (info.type == GAMEMODE.ENDLESS_TITAN)) || (info.type == GAMEMODE.SURVIVE_MODE))
                     {
+                        //HACK for Junior Developers to work on Issue #40. Remove the below line before Pull Request.
+                        PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
                         if ((info.name == "Annie") || (info.name == "Annie II"))
                         {
                             PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
