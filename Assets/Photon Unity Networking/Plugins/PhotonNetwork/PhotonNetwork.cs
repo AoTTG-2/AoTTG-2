@@ -94,6 +94,21 @@ public static class PhotonNetwork
         }
     }
 
+    public static bool JoinedRoomOrLobby()
+    {
+        return Joined() || JoinedLobby();
+    }
+
+    public static bool Joined()
+    {
+        return networkingPeer.State == ClientState.Joined;
+    }
+
+    public static bool JoinedLobby()
+    {
+        return networkingPeer.State == ClientState.JoinedLobby;
+    }
+
     /// <summary>
     /// True when you called ConnectUsingSettings (or similar) until the low level connection to Photon gets established.
     /// </summary>

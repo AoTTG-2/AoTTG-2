@@ -3,18 +3,29 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public static class AottgUi
+    public class AottgUi:MonoBehaviour
     {
-        public static void Init(FengGameManagerMKII manager)
+        public void Start()
+        {
+            UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
+        }
+
+        public static void TestSpawn()
+        {
+            SpawnHuman();
+            "The Hero has been spawned!".SendProcessing(true);
+        }
+
+        public void OnGUI()
         {
             if (!FengGameManagerMKII.showHackMenu) return;
 
             GUI.backgroundColor = new Color(0f, 0f, 0f, 1f);
             float left = (Screen.width / 2) - 115f;
             float top = (Screen.height / 2) - 45f;
-            if (GUI.Button(new Rect(left + 13f, top - 120f, 172f, 70f), "Spawn"))
+            if (GUI.Button(new Rect(left + 13f, top - 120f, 172f, 70f), "Load/spawn..."))
             {
-                SpawnHuman();
+                FengGameManagerMKII.instance.StartCoroutine(EMCli.ConnectAndJoinIE(true));
                 FengGameManagerMKII.showHackMenu = false;
             }
         }
