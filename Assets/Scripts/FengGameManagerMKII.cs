@@ -4772,7 +4772,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnGUI()
     {
-        AottgUi.Init(this);
+        //AottgUi.Init(this); // You dont need that. Just create new object.
     }
 
     public void OnJoinedLobby()
