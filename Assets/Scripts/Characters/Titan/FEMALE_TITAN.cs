@@ -1858,7 +1858,7 @@ public class FEMALE_TITAN : MonoBehaviour
                     {
                         this.crossFade("ft_legHurt_loop", 0.2f);
                     }
-                    if (base.GetComponent<Animation>()["legHurt_loop"].normalizedTime >= 3f)
+                    if (base.GetComponent<Animation>()["ft_legHurt_loop"].normalizedTime >= 3f)
                     {
                         this.crossFade("ft_legHurt_getup", 0.2f);
                     }
