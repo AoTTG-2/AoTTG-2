@@ -16,6 +16,7 @@ namespace Assets.Scripts.UI
         public void JoinLobby()
         {
             PhotonNetwork.JoinRoom("Test7");
+            gameObject.SetActive(false);
         }
     }
 }
