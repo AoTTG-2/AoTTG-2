@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 
-public static class Extensions2
+public static class ConsoleExtensions
 {
     private static readonly string Green = "[00ff00]";
     private static readonly string Error = "[ff0000]";
@@ -38,35 +38,35 @@ public static class Extensions2
 
     public static string RepaintError(this string input, bool bold = false)
     {
-        string colored = string.Concat(Error, input).hexColor2();
+        string colored = string.Concat(Error, input).HexColor2();
         if (bold) return string.Concat("<b>", colored, "</b>");
         return colored;
     }
     public static string RepaintWarning(this string input, bool bold = false)
     {
-        string colored = string.Concat(Warning, input).hexColor2();
+        string colored = string.Concat(Warning, input).HexColor2();
         if (bold) return string.Concat("<b>", colored, "</b>");
         return colored;
     }
     public static string RepaintGreen(this string input, bool bold = false)
     {
-        string colored = string.Concat(Green, input).hexColor2();
+        string colored = string.Concat(Green, input).HexColor2();
         if (bold) return string.Concat("<b>", colored, "</b>");
         return colored;
     }
     public static string RepaintYellow(this string input, bool bold = false)
     {
-        string colored = string.Concat(Yellow, input).hexColor2();
+        string colored = string.Concat(Yellow, input).HexColor2();
         if (bold) return string.Concat("<b>", colored, "</b>");
         return colored;
     }
     public static string RepaintProcessing(this string input, bool bold = false)
     {
-        string colored = string.Concat(Processing, input).hexColor2();
+        string colored = string.Concat(Processing, input).HexColor2();
         if (bold) return string.Concat("<b>", colored, "</b>");
         return colored;
     }
-    public static string hexColor2(this string text)
+    public static string HexColor2(this string text)
     {
         int clrs = 0;
         text = Regex.Replace(text, @"<(\/|)(x|y)>", string.Empty);
@@ -87,5 +87,22 @@ public static class Extensions2
             text = string.Concat(text, "</color>");
         }
         return text;
+    }
+
+    public static string[] SplitCommand(this string commandLine)
+    {
+        string[] args = commandLine.Split(new char[] { ' ' });
+        return args;
+    }
+
+    public static string[] GetArgs(this string commandLine)
+    {
+        string[] buf = commandLine.Split(new char[] { ' ' });
+        string[] args = new string[buf.Length - 1];
+        for (int i = 0; i < args.Length; i++)
+        {
+            args[i] = buf[i + 1];
+        }
+        return args;
     }
 }
