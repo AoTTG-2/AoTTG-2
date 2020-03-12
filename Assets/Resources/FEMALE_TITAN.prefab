@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 54858931385425865}
   - component: {fileID: 114369564575539480}
   - component: {fileID: 114815033948019352}
-  - component: {fileID: 114154800854467464}
+  - component: {fileID: 114287856357017212}
   m_Layer: 15
   m_Name: FEMALE_TITAN
   m_TagString: titan
@@ -2444,8 +2444,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 8
-  instantiationId: 8
+  viewIdField: 0
+  instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114122411306930370
@@ -2460,7 +2460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 0
---- !u!114 &114154800854467464
+--- !u!114 &114287856357017212
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2468,24 +2468,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1501045975914121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 7
-  instantiationId: 7
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  correctCameraPos: {x: 0, y: 0, z: 0}
+  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
+  disabled: 0
+  noVelocity: 0
+  PhotonCamera: 0
+  SmoothingDelay: 5
 --- !u!114 &114369564575539480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2540,8 +2531,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 6
-  instantiationId: 7
+  viewIdField: 0
+  instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!135 &135437980593630962
