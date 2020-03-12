@@ -1,4 +1,3 @@
-using Photon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,8 +5,9 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using MonoBehaviour = Photon.MonoBehaviour;
 
-public class FEMALE_TITAN : PhotonView
+public class FEMALE_TITAN : MonoBehaviour
 {
     [CompilerGenerated]
     public static Dictionary<string, int> f__switchSmap1;
