@@ -1,13 +1,13 @@
-using Photon;
-using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PVPcheckPoint : Photon.MonoBehaviour
 {
     private bool annie;
-    public GameObject[] chkPtNextArr;
-    public GameObject[] chkPtPreviousArr;
+    public List<GameObject> nextCheckpoints;
+    public List<GameObject> previousCheckpoints = new List<GameObject>();
     public static ArrayList chkPts;
     private float getPtsInterval = 20f;
     private float getPtsTimer;
@@ -31,6 +31,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private bool titanOn;
     public float titanPt;
     public float titanPtMax = 40f;
+    private readonly CaptureGamemode gamemode = FengGameManagerMKII.Gamemode as CaptureGamemode; 
 
     [PunRPC]
     private void changeHumanPt(float pt)
@@ -41,18 +42,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     [PunRPC]
     private void changeState(int num)
     {
-        if (num == 0)
-        {
-            this.state = CheckPointState.Non;
-        }
-        if (num == 1)
-        {
-            this.state = CheckPointState.Human;
-        }
-        if (num == 2)
-        {
-            this.state = CheckPointState.Titan;
-        }
+        state = (CheckPointState) num;
     }
 
     [PunRPC]
@@ -213,52 +203,51 @@ public class PVPcheckPoint : Photon.MonoBehaviour
 
     private void Start()
     {
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        if (gamemode == null)
         {
-            UnityEngine.Object.Destroy(base.gameObject);
+            Destroy(gameObject);
+            return;
         }
-        else if (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.PVP_CAPTURE)
+        SetPreviousCheckpoints();
+        chkPts.Add(this);
+        IComparer comparer = new IComparerPVPchkPtID();
+        chkPts.Sort(comparer);
+        if (this.humanPt == this.humanPtMax)
         {
-            if (base.photonView.isMine)
+            this.state = CheckPointState.Human;
+            if (base.photonView.isMine && (LevelInfo.getInfo(FengGameManagerMKII.level).mapName != "The City I"))
             {
-                UnityEngine.Object.Destroy(base.gameObject);
+                this.supply = PhotonNetwork.Instantiate("aot_supply", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
             }
-            UnityEngine.Object.Destroy(base.gameObject);
         }
-        else
+        else if (base.photonView.isMine && !this.hasAnnie)
         {
-            chkPts.Add(this);
-            IComparer comparer = new IComparerPVPchkPtID();
-            chkPts.Sort(comparer);
-            if (this.humanPt == this.humanPtMax)
+            if (UnityEngine.Random.Range(0, 100) < 50)
             {
-                this.state = CheckPointState.Human;
-                if (base.photonView.isMine && (LevelInfo.getInfo(FengGameManagerMKII.level).mapName != "The City I"))
-                {
-                    this.supply = PhotonNetwork.Instantiate("aot_supply", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
-                }
-            }
-            else if (base.photonView.isMine && !this.hasAnnie)
-            {
-                if (UnityEngine.Random.Range(0, 100) < 50)
-                {
-                    int num = UnityEngine.Random.Range(1, 2);
-                    for (int i = 0; i < num; i++)
-                    {
-                        this.newTitan();
-                    }
-                }
-                if (this.isBase)
+                int num = UnityEngine.Random.Range(1, 2);
+                for (int i = 0; i < num; i++)
                 {
                     this.newTitan();
                 }
             }
-            if (this.titanPt == this.titanPtMax)
+            if (this.isBase)
             {
-                this.state = CheckPointState.Titan;
+                this.newTitan();
             }
-            this.hitTestR = 15f * this.size;
-            base.transform.localScale = new Vector3(this.size, this.size, this.size);
+        }
+        if (this.titanPt == this.titanPtMax)
+        {
+            this.state = CheckPointState.Titan;
+        }
+        this.hitTestR = 15f * this.size;
+        base.transform.localScale = new Vector3(this.size, this.size, this.size);
+    }
+
+    private void SetPreviousCheckpoints()
+    {
+        foreach (var checkpoint in nextCheckpoints.Select(nextCheckpoint => nextCheckpoint.gameObject.GetComponent<PVPcheckPoint>()))
+        {
+            checkpoint.previousCheckpoints.Add(gameObject);
         }
     }
 
@@ -444,28 +433,8 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         }
     }
 
-    public GameObject chkPtNext
-    {
-        get
-        {
-            if (this.chkPtNextArr.Length <= 0)
-            {
-                return null;
-            }
-            return this.chkPtNextArr[UnityEngine.Random.Range(0, this.chkPtNextArr.Length)];
-        }
-    }
+    public GameObject chkPtNext => nextCheckpoints.Count <= 0 ? null : nextCheckpoints[Random.Range(0, nextCheckpoints.Count)];
 
-    public GameObject chkPtPrevious
-    {
-        get
-        {
-            if (this.chkPtPreviousArr.Length <= 0)
-            {
-                return null;
-            }
-            return this.chkPtPreviousArr[UnityEngine.Random.Range(0, this.chkPtPreviousArr.Length)];
-        }
-    }
+    public GameObject chkPtPrevious => previousCheckpoints.Count <= 0 ? null : previousCheckpoints[Random.Range(0, previousCheckpoints.Count)];
 }
 

@@ -33,7 +33,7 @@ public class LevelInfo
             }
         }
         //HACK
-        return levels[0];
+        return levels[0x15];
     }
 
     private static void initData2()
@@ -209,6 +209,7 @@ public class LevelInfo
             levels[20].supply = true;
             levels[20].horse = true;
             levels[20].teamTitan = true;
+            levels[20].GameMode = new CaptureGamemode();
             levels[0x15].name = "The City III";
             levels[0x15].mapName = "The City I";
             levels[0x15].desc = "Capture Checkpoint mode.";
@@ -218,6 +219,7 @@ public class LevelInfo
             levels[0x15].supply = true;
             levels[0x15].horse = false;
             levels[0x15].teamTitan = true;
+            levels[0x15].GameMode = new CaptureGamemode();
             levels[0x16].name = "Cave Fight";
             levels[0x16].mapName = "CaveFight";
             levels[0x16].desc = "***Spoiler Alarm!***";

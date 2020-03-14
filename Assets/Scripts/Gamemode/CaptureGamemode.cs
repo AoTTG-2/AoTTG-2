@@ -1,0 +1,137 @@
+﻿
+using UnityEngine;
+
+public class CaptureGamemode : GamemodeBase
+{
+    public CaptureGamemode()
+    {
+        GamemodeType = GamemodeType.Capture;
+        RespawnTime = 20f;
+        PlayerTitanShifters = false;
+        TitanLimit = 25;
+    }
+
+    public int PvpTitanScoreLimit = 200;
+    public int PvpHumanScoreLimit = 200;
+
+    public int PvpTitanScore = 0;
+    public int PvpHumanScore = 0;
+
+    private const string HumanStart = "CheckpointStartHuman";
+    private const string TitanStart = "CheckpointStartTitan";
+
+    public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+    {
+        string str2 = "| ";
+        for (int i = 0; i < PVPcheckPoint.chkPts.Count; i++)
+        {
+            str2 = str2 + (PVPcheckPoint.chkPts[i] as PVPcheckPoint).getStateString() + " ";
+        }
+        str2 = str2 + "|";
+        var length = totalRoomTime - time;
+        return $"{PvpTitanScoreLimit - PvpTitanScore} {str2} {PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
+    }
+
+    public override void OnTitanKilled(string titanName)
+    {
+        if (titanName != string.Empty)
+        {
+            switch (titanName)
+            {
+                case "Titan":
+                    PvpHumanScore++;
+                    break;
+                case "Aberrant":
+                    PvpHumanScore += 2;
+                    break;
+                case "Jumper":
+                    PvpHumanScore += 3;
+                    break;
+                case "Crawler":
+                    PvpHumanScore += 4;
+                    break;
+                case "Female Titan":
+                    PvpHumanScore += 10;
+                    break;
+                default:
+                    PvpHumanScore += 3;
+                    break;
+            }
+        }
+        this.checkPVPpts();
+        object[] parameters = { PvpHumanScore, PvpTitanScore };
+        FengGameManagerMKII.instance.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, parameters);
+    }
+
+    private void checkPVPpts()
+    {
+        if (PvpTitanScore >= PvpTitanScoreLimit)
+        {
+            PvpTitanScore = PvpTitanScoreLimit;
+            FengGameManagerMKII.instance.gameLose2();
+        }
+        else if (PvpHumanScore >= PvpHumanScoreLimit)
+        {
+            PvpHumanScore = PvpHumanScoreLimit;
+            FengGameManagerMKII.instance.gameWin2();
+        }
+    }
+
+    public override void OnLevelWasLoaded(LevelInfo info)
+    {
+        if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
+        {
+            if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
+            {
+                FengGameManagerMKII.instance.checkpoint = GameObject.Find(TitanStart);
+            }
+            else
+            {
+                FengGameManagerMKII.instance.checkpoint = GameObject.Find(HumanStart);
+            }
+        }
+
+        if (PhotonNetwork.isMasterClient && LevelInfo.getInfo(FengGameManagerMKII.level).mapName == "OutSide")
+        {
+            GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("titanRespawn");
+            if (objArray3.Length <= 0)
+            {
+                return;
+            }
+            for (int i = 0; i < objArray3.Length; i++)
+            {
+                spawnTitanRaw(objArray3[i].transform.position, objArray3[i].transform.rotation).GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
+            }
+        }
+    }
+
+    public override GameObject SpawnNonAiTitan(Vector3 position, GameObject randomTitanRespawn)
+    {
+        return PhotonNetwork.Instantiate("TITAN_VER3.1", FengGameManagerMKII.instance.checkpoint.transform.position + new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20)), FengGameManagerMKII.instance.checkpoint.transform.rotation, 0);
+    }
+
+    public override GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
+    {
+        return FengGameManagerMKII.instance.checkpoint;
+    }
+
+    private GameObject spawnTitanRaw(Vector3 position, Quaternion rotation)
+    {
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        {
+            return (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_VER3.1"), position, rotation);
+        }
+        return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
+    }
+
+    public override void OnPlayerKilled(int id)
+    {
+        if (id != 0)
+        {
+            PvpTitanScore += 2;
+        }
+        this.checkPVPpts();
+        object[] parameters = { PvpHumanScore, PvpTitanScore };
+        FengGameManagerMKII.instance.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, parameters);
+    }
+}

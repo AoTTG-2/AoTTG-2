@@ -3,5 +3,7 @@
     Titans,
     Capture,
     Wave,
-    Racing
+    Racing,
+    Trost,
+    PvpAhss
 }

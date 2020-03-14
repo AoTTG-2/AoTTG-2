@@ -3,5 +3,6 @@
     public Racing()
     {
         GamemodeType = GamemodeType.Racing;
+        PlayerTitanShifters = false;
     }
 }

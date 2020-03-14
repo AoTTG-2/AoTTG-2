@@ -4072,7 +4072,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                if ((LevelInfo.getInfo(FengGameManagerMKII.level).teamTitan || (LevelInfo.getInfo(FengGameManagerMKII.level).type == GAMEMODE.RACING)) || ((LevelInfo.getInfo(FengGameManagerMKII.level).type == GAMEMODE.PVP_CAPTURE) || (LevelInfo.getInfo(FengGameManagerMKII.level).type == GAMEMODE.TROST)))
+                if ((LevelInfo.getInfo(FengGameManagerMKII.level).teamTitan || !FengGameManagerMKII.Gamemode.PlayerTitanShifters))
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;

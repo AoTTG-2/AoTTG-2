@@ -291,7 +291,7 @@
      <Compile Include="Assets\Scripts\Effects\Xffect.cs" />
      <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
      <Compile Include="Assets\Scripts\FengGameManagerMKII.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Capture.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\CaptureGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\GamemodeBase.cs" />
      <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
      <Compile Include="Assets\Scripts\Gamemode\KillTitansGamemode.cs" />
@@ -309,8 +309,10 @@
      <Compile Include="Assets\Scripts\Gamemode\Legacy\RacingResult.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\RegionTrigger.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\RespawnMode.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Racing.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Wave.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\PvPAhssGamemode.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\TrostGamemode.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\WaveGamemode.cs" />
      <Compile Include="Assets\Scripts\InstantiateTracker.cs" />
      <Compile Include="Assets\Scripts\Interactable\Interactable.cs" />
      <Compile Include="Assets\Scripts\Interactable\PlayerInteractable.cs" />
