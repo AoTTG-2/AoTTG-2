@@ -6,27 +6,34 @@ using UnityEngine.SceneManagement;
 
 public class EMCli : Photon.MonoBehaviour
 {
-    private static Rect windowRect = new Rect(Screen.width - 320f, 0, 300f, 430f);
-    private static GUILayoutOption[] guiLayoutOption = new GUILayoutOption[] { GUILayout.Width(320f), GUILayout.MaxHeight(430f) };
-    private static GUI.WindowFunction windowFunction = new GUI.WindowFunction(WindowLayout);
+    private static float layoutWidth = 300f;
+    private static float floatShift = layoutWidth + 25;
+    private static Rect rectMainGUI = new Rect(Screen.width - 320f, 0, layoutWidth, 430f);
+    private static Rect rectSuggestionLayout = rectMainGUI;
+    private static Rect rectSuggestionsLayoutShift = new Rect(320f, 0, layoutWidth, 430f);
+    private static GUILayoutOption[] guiLayoutOptionMainGUI = new GUILayoutOption[] { GUILayout.Width(320f), GUILayout.MaxHeight(430f) };
+    private static GUI.WindowFunction windowFunctionMainGUI = new GUI.WindowFunction(WindowLayoutMainGUI);
     private static string layout = string.Empty;
     private static Vector2 scrollPosition = Vector2.zero;
-    //private static string inputLine = string.Empty;
     private static string nameOfControle = "CLI";
     private static string head = "Command Line".RepaintGreen(true);
+    private static string arrow = ">".RepaintGreen(true);
+    private static string delete = "x".RepaintError(true);
     public bool Visible = true;
     private static bool readyToJoinOrCreateRoom = false;
+    private static Vector2 scrollPositionSuggestions = Vector2.zero;
+    private static string suggestions = string.Empty;
 
     // Use this for initialization
     void Start()
     {
-        
+        EnterCommand("/info");
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.F3))
+        //if (Input.GetKeyDown(KeyCode.F3)) //Does not work here
         //{
         //    Visible = !Visible;
         //}
@@ -58,9 +65,20 @@ public class EMCli : Photon.MonoBehaviour
                 else
                 {
                     GUI.FocusControl(nameOfControle);
-                    //GUI.GetNameOfFocusedControl().SendCli();
                 }
             }
+
+            if (GUI.GetNameOfFocusedControl() == nameOfControle) //logic for command suggestions
+            {
+                if (!InputLine.IsEmpty())
+                {
+                    if (Event.current.keyCode == KeyCode.RightControl)
+                    {
+                        InputLine.Switch(); 
+                    }
+                }
+            }
+
             if (Event.current.keyCode == KeyCode.UpArrow)
             {
                 InputLine.Up();
@@ -73,32 +91,55 @@ public class EMCli : Photon.MonoBehaviour
             {
                 Visible = !Visible;
             }
-        }
-        //else if (Event.current.type == EventType.KeyDown)
-        //{
 
-        //}
+        }
+        else if (Event.current.type == EventType.KeyDown)
+        {
+            
+        }
+        
+        if(GUI.GetNameOfFocusedControl() != nameOfControle && InputLine.IsSuggestionModeEnabled)
+        {
+            InputLine.Switch();
+        }
 
          if (Visible) EMCliGUI();
     }
 
     public static void AddLine(string line)
     {
-        layout = string.Concat(layout, '\n', line);
+        layout = string.Concat(layout, '\n', ">".RepaintGreen(true), line);
         scrollPosition += new Vector2(0, 150);
     }
 
     public void EMCliGUI()
     {
         GUI.backgroundColor = Color.green;
-        windowRect = GUILayout.Window(208, windowRect, windowFunction, head, guiLayoutOption);
+        rectMainGUI = GUILayout.Window(208, rectMainGUI, windowFunctionMainGUI, head, guiLayoutOptionMainGUI);
+        if (!string.IsNullOrEmpty(InputLine.inputLine))
+        {
+            GUI.Label(rectMainGUI.ShiftToRight(floatShift), getRelevantSuggestions().RepaintYellow(true));
+        }
+    }
+
+    private static string getRelevantSuggestions()
+    {
+        string relevantSuggestions = string.Empty;
+        foreach(Command command in CommandHandler.Instance.Commands)
+        {
+            if (command.Format.StartsWith(InputLine.inputLine))
+            {
+                relevantSuggestions = string.Concat(relevantSuggestions, command.Format, "\n");
+            }
+        }
+        return relevantSuggestions;
     }
     
-    public static void WindowLayout(int windowID)
+    public static void WindowLayoutMainGUI(int windowID)
     {
         GUI.backgroundColor = Color.green;
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button(">", GUILayout.MaxWidth(25)))
+        if (GUILayout.Button(arrow, GUILayout.MaxWidth(25)))
         {
             try
             {
@@ -116,7 +157,7 @@ public class EMCli : Photon.MonoBehaviour
         }
         GUI.SetNextControlName(nameOfControle);
         InputLine.inputLine = GUILayout.TextField(InputLine.inputLine, new GUILayoutOption[0]);
-        if (GUILayout.Button("X".RepaintError(true), GUILayout.MaxWidth(25)))
+        if (GUILayout.Button(delete, GUILayout.MaxWidth(25)))
         {
             InputLine.inputLine = string.Empty;
         }
@@ -126,7 +167,6 @@ public class EMCli : Photon.MonoBehaviour
         {
             if (Event.current.type == EventType.KeyUp)
             {
-                //Event.current.keyCode.ToString().SendCli();
                 if ((Event.current.keyCode == KeyCode.Return) && GUI.GetNameOfFocusedControl().Equals(nameOfControle))
                 {
                     if (!string.IsNullOrEmpty(InputLine.inputLine))
@@ -152,45 +192,19 @@ public class EMCli : Photon.MonoBehaviour
         GUILayout.Label(layout);
         GUILayout.EndScrollView();
 
-        //GUILayout.Button(ScrollPosition.ToString());
-
         GUI.DragWindow();
     }
 
     public static void EnterCommand(string command)
     {
-        //if (command.StartsWith("/"))
-        //{
-        //    if (command.StartsWith("/sp"))
-        //    {
-        //        AottgUi.TestSpawn();
-        //    }
-        //    else if (command.StartsWith("/cn"))
-        //    {
-        //        FengGameManagerMKII.instance.StartCoroutine(EMCli.ConnectAndJoinIE(false));
-        //        FengGameManagerMKII.showHackMenu = false;
-        //    }
-        //    else if (command.StartsWith("/dc"))
-        //    {
-        //        PhotonNetwork.Disconnect();
-        //    }
-
-        //    else
-        //    {
-        //        $"[{command}] - there is no such command!".SendError(true);
-        //    }
-        //}
-        //else
-        //{
-        //    $"[{command}] is not a command!".SendError(true);
-        //}
-        InputLine.AddInput(command);
+        if (!InputLine.IsSuggestionModeEnabled) InputLine.AddInput(command);
+        else InputLine.AddInputToCopy(command);
         CommandHandler.ExecuteLine(command);
     }
 
     public static IEnumerator ConnectAndJoinIE(bool spawnAfterLoad)
     {
-        if(spawnAfterLoad) SceneManager.sceneLoaded += onLevelWasLoaded;
+        if (spawnAfterLoad) SceneManager.sceneLoaded += onLevelWasLoaded;
         if (PhotonNetwork.JoinedRoomOrLobby()) PhotonNetwork.Disconnect();
 
         while (PhotonNetwork.JoinedRoomOrLobby())

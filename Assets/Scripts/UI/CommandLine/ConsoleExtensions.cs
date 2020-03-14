@@ -105,4 +105,38 @@ public static class ConsoleExtensions
         }
         return args;
     }
+
+    public static Rect ShiftToLeft(this Rect rect, float left)
+    {
+        return Shift(rect, left, 0);
+    }
+
+    public static Rect ShiftToRight(this Rect rect, float right)
+    {
+        return Shift(rect, -right, 0);
+    }
+
+    private static Rect Shift(Rect rect, float x, float y)
+    {
+        float newX = rect.x - x;
+        float newY = rect.y - y;
+        float width = rect.width;
+        float height = rect.height;
+        Rect newRect = new Rect(newX, newY, width, height);
+        return newRect;
+    }
+
+    public static Command GetCommand(this string line)
+    {
+        string nameOfCommand = line.SplitCommand()[0];
+        foreach (Command command in CommandHandler.Instance.Commands)
+        {
+            if (command.Name.Equals(nameOfCommand))
+            {
+                return command;
+            }
+        }
+        $"Command {nameOfCommand} not found!".SendError(true);
+        return null;
+    }
 }

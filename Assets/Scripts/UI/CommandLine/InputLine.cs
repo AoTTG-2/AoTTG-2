@@ -5,10 +5,68 @@ using System.Collections.Generic;
 public static class InputLine
 {
     public static List<string> Inputs = new List<string>();
+    private static List<string> inputsCopy = new List<string>();
+    private static string inputLineCopy = string.Empty;
     public static string inputLine = string.Empty;
-
+    public static bool IsSuggestionModeEnabled = false;
     public static int pointer = 0;
+
+    public static bool IsEmpty()
+    {
+        return string.IsNullOrEmpty(inputLine);
+    }
+
+    public static void Switch()
+    {
+        if (IsSuggestionModeEnabled)
+        {
+            SwitchToDefault();
+        }
+        else
+        {
+            SwitchToSuggestions();
+        }
+    }
+
+    public static void SwitchToSuggestions()
+    {
+        inputsCopy = Inputs;
+        inputLineCopy = inputLine;
+        Inputs = new List<string>();
+        foreach(Command command in CommandHandler.Instance.Commands)
+        {
+            if (command.Name.StartsWith(inputLine))
+            {
+                AddInput(command.Name);
+            }
+        }
+        pointer = 0;
+
+        if (Inputs.Count != 0) inputLine = Inputs[pointer];
+        else
+        {
+            $"Commands not found!".SendError(true);
+        }
+        IsSuggestionModeEnabled = true;
+    }
+
+    public static void SwitchToDefault()
+    {
+        Inputs = inputsCopy;
+        inputLine = inputLineCopy;
+        pointer = 0;
+        IsSuggestionModeEnabled = false;
+    }
     
+    public static void AddInputToCopy(string input)
+    {
+        if (inputsCopy.Contains(input))
+        {
+            inputsCopy.Remove(input);
+        }
+        inputsCopy.Add(input);
+    }
+
     public static void AddInput(string input)
     {
         if (Inputs.Contains(input))
