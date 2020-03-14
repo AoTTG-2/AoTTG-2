@@ -38,8 +38,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private ArrayList eT;
     public static ExitGames.Client.Photon.Hashtable floatVariables;
     private ArrayList fT;
-    private float gameEndCD;
-    private float gameEndTotalCDtime = 9f;
+    public float gameEndCD;
+    public float gameEndTotalCDtime = 9f;
     public bool gameStart;
     private bool gameTimesUp;
     public static ExitGames.Client.Photon.Hashtable globalVariables;
@@ -49,6 +49,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static ExitGames.Client.Photon.Hashtable heroHash;
     private int highestwave = 1;
     private ArrayList hooks;
+    [Obsolete("Replace with Gamemode.HumanScore")]
     private int humanScore;
     public static List<int> ignoreList;
     public static ExitGames.Client.Photon.Hashtable imatitan;
@@ -2265,22 +2266,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
     }
-
-    public void gameLose()
-    {
-        if (!this.isWinning && !this.isLosing)
-        {
-            this.isLosing = true;
-            this.titanScore++;
-            this.gameEndCD = this.gameEndTotalCDtime;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-            {
-                object[] parameters = new object[] { this.titanScore };
-                base.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
-            }
-        }
-    }
-
+    
     public void gameLose2()
     {
         if (!(this.isWinning || this.isLosing))
@@ -2300,96 +2286,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public void gameWin()
-    {
-        if (!this.isLosing && !this.isWinning)
-        {
-            this.isWinning = true;
-            this.humanScore++;
-            if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.RACING)
-            {
-                this.gameEndCD = 20f;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                {
-                    object[] parameters = new object[] { 0 };
-                    base.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-                }
-            }
-            else if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_AHSS)
-            {
-                this.gameEndCD = this.gameEndTotalCDtime;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                {
-                    object[] objArray2 = new object[] { this.teamWinner };
-                    base.photonView.RPC("netGameWin", PhotonTargets.Others, objArray2);
-                }
-                this.teamScores[this.teamWinner - 1]++;
-            }
-            else
-            {
-                this.gameEndCD = this.gameEndTotalCDtime;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                {
-                    object[] objArray3 = new object[] { this.humanScore };
-                    base.photonView.RPC("netGameWin", PhotonTargets.Others, objArray3);
-                }
-            }
-        }
-    }
-
     public void gameWin2()
     {
         if (!this.isLosing && !this.isWinning)
         {
             this.isWinning = true;
             this.humanScore++;
-            if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.RACING)
-            {
-                if (RCSettings.racingStatic == 1)
-                {
-                    this.gameEndCD = 1000f;
-                }
-                else
-                {
-                    this.gameEndCD = 20f;
-                }
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                {
-                    object[] parameters = new object[] { 0 };
-                    base.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-                    if (((int) settings[0xf4]) == 1)
-                    {
-                        this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-                    }
-                }
-            }
-            else if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_AHSS)
-            {
-                this.gameEndCD = this.gameEndTotalCDtime;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                {
-                    object[] objArray3 = new object[] { this.teamWinner };
-                    base.photonView.RPC("netGameWin", PhotonTargets.Others, objArray3);
-                    if (((int) settings[0xf4]) == 1)
-                    {
-                        this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-                    }
-                }
-                this.teamScores[this.teamWinner - 1]++;
-            }
-            else
-            {
-                this.gameEndCD = this.gameEndTotalCDtime;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                {
-                    object[] objArray4 = new object[] { this.humanScore };
-                    base.photonView.RPC("netGameWin", PhotonTargets.Others, objArray4);
-                    if (((int) settings[0xf4]) == 1)
-                    {
-                        this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-                    }
-                }
-            }
+            Gamemode.OnGameWon();
         }
     }
 
@@ -4361,27 +4264,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         this.humanScore = score;
         this.isWinning = true;
-        if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_AHSS)
-        {
-            this.teamWinner = score;
-            this.teamScores[this.teamWinner - 1]++;
-            this.gameEndCD = this.gameEndTotalCDtime;
-        }
-        else if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.RACING)
-        {
-            if (RCSettings.racingStatic == 1)
-            {
-                this.gameEndCD = 1000f;
-            }
-            else
-            {
-                this.gameEndCD = 20f;
-            }
-        }
-        else
-        {
-            this.gameEndCD = this.gameEndTotalCDtime;
-        }
+        Gamemode.OnNetGameWon();
         if (((int) settings[0xf4]) == 1)
         {
             this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
@@ -6260,26 +6143,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         UnityEngine.MonoBehaviour.print(score1);
         this.teamScores = score1;
     }
-
-    private void refreshRacingResult()
-    {
-        this.localRacingResult = "Result\n";
-        IComparer comparer = new IComparerRacingResult();
-        this.racingResult.Sort(comparer);
-        int num = Mathf.Min(this.racingResult.Count, 6);
-        for (int i = 0; i < num; i++)
-        {
-            string localRacingResult = this.localRacingResult;
-            object[] objArray1 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
-            this.localRacingResult = string.Concat(objArray1);
-            this.localRacingResult = this.localRacingResult + (this.racingResult[i] as RacingResult).name;
-            this.localRacingResult = this.localRacingResult + "   " + ((((int) ((this.racingResult[i] as RacingResult).time * 100f)) * 0.01f)).ToString() + "s";
-            this.localRacingResult = this.localRacingResult + "\n";
-        }
-        object[] parameters = new object[] { this.localRacingResult };
-        base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
-    }
-
+    
     private void refreshRacingResult2()
     {
         this.localRacingResult = "Result\n";
@@ -6490,37 +6354,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.restartGame2(false);
     }
 
-    public void restartGame(bool masterclientSwitched = false)
-    {
-        UnityEngine.MonoBehaviour.print("reset game :" + this.gameTimesUp);
-        if (!this.gameTimesUp)
-        {
-            this.PVPtitanScore = 0;
-            this.PVPhumanScore = 0;
-            this.startRacing = false;
-            this.endRacing = false;
-            this.checkpoint = null;
-            this.timeElapse = 0f;
-            this.roundTime = 0f;
-            this.isWinning = false;
-            this.isLosing = false;
-            this.isPlayer1Winning = false;
-            this.isPlayer2Winning = false;
-            this.wave = 1;
-            this.myRespawnTime = 0f;
-            this.kicklist = new ArrayList();
-            this.killInfoGO = new ArrayList();
-            this.racingResult = new ArrayList();
-            this.ShowHUDInfoCenter(string.Empty);
-            PhotonNetwork.DestroyAll();
-            base.photonView.RPC("RPCLoadLevel", PhotonTargets.All, new object[0]);
-            if (masterclientSwitched)
-            {
-                this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]);
-            }
-        }
-    }
-
     public void restartGame2(bool masterclientSwitched = false)
     {
         if (!this.gameTimesUp)
@@ -6559,27 +6392,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void restartGameByClient()
     {
-    }
-
-    public void restartGameSingle()
-    {
-        this.startRacing = false;
-        this.endRacing = false;
-        this.checkpoint = null;
-        this.single_kills = 0;
-        this.single_maxDamage = 0;
-        this.single_totalDamage = 0;
-        this.timeElapse = 0f;
-        this.roundTime = 0f;
-        this.timeTotalServer = 0f;
-        this.isWinning = false;
-        this.isLosing = false;
-        this.isPlayer1Winning = false;
-        this.isPlayer2Winning = false;
-        this.wave = 1;
-        this.myRespawnTime = 0f;
-        this.ShowHUDInfoCenter(string.Empty);
-        Application.LoadLevel(Application.loadedLevel);
     }
 
     public void restartGameSingle2()

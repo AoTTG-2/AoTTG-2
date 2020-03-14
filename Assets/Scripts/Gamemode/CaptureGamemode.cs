@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CaptureGamemode : GamemodeBase
 {
@@ -9,13 +8,16 @@ public class CaptureGamemode : GamemodeBase
         RespawnTime = 20f;
         PlayerTitanShifters = false;
         TitanLimit = 25;
+        TitanChaseDistance = 120f;
     }
 
     public int PvpTitanScoreLimit = 200;
     public int PvpHumanScoreLimit = 200;
 
-    public int PvpTitanScore = 0;
-    public int PvpHumanScore = 0;
+    public int PvpTitanScore;
+    public int PvpHumanScore;
+
+    public bool SpawnSupplyStationOnHumanCapture;
 
     private const string HumanStart = "CheckpointStartHuman";
     private const string TitanStart = "CheckpointStartTitan";
@@ -58,12 +60,12 @@ public class CaptureGamemode : GamemodeBase
                     break;
             }
         }
-        this.checkPVPpts();
+        CheckWinConditions();
         object[] parameters = { PvpHumanScore, PvpTitanScore };
         FengGameManagerMKII.instance.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, parameters);
     }
 
-    private void checkPVPpts()
+    private void CheckWinConditions()
     {
         if (PvpTitanScore >= PvpTitanScoreLimit)
         {
@@ -130,7 +132,7 @@ public class CaptureGamemode : GamemodeBase
         {
             PvpTitanScore += 2;
         }
-        this.checkPVPpts();
+        CheckWinConditions();
         object[] parameters = { PvpHumanScore, PvpTitanScore };
         FengGameManagerMKII.instance.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, parameters);
     }

@@ -200,6 +200,7 @@ public class LevelInfo
             levels[0x13].respawnMode = RespawnMode.NEVER;
             levels[0x13].supply = false;
             levels[0x13].pvp = true;
+            levels[0x13].GameMode = new RacingGamemode();
             levels[20].name = "Outside The Walls";
             levels[20].mapName = "OutSide";
             levels[20].desc = "Capture Checkpoint mode.";

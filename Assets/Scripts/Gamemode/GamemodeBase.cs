@@ -7,6 +7,7 @@ public abstract class GamemodeBase
     //Titan Specific logic might be moved into a abstract Gamemode which implements an abstract TitanGamemode. Some gamemodes may not need titans, like Blades vs Blades pvp
     public int Titans = 25;
     public int TitanLimit = 25;
+    public float TitanChaseDistance = 100f;
 
     public int HumanScore = 0;
     public int TitanScore = 0;
@@ -67,6 +68,28 @@ public abstract class GamemodeBase
     public virtual void OnAllTitansDead() { }
 
     public virtual void OnLevelWasLoaded(LevelInfo info) { }
+
+    public virtual void OnGameWon()
+    {
+        FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+        {
+            var parameters = new object[] { HumanScore };
+            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+            if (((int)FengGameManagerMKII.settings[0xf4]) == 1)
+            {
+                //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
+            }
+        }
+    }
+
+    public virtual void OnNetGameWon()
+    {
+        FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
+    }
+
+    [PunRPC]
+    public virtual void OnGameWon(int score, PhotonMessageInfo info) { }
 
     public virtual GameObject SpawnNonAiTitan(Vector3 position, GameObject randomTitanRespawn)
     {

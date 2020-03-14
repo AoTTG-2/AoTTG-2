@@ -32,6 +32,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     public float titanPt;
     public float titanPtMax = 40f;
     private readonly CaptureGamemode gamemode = FengGameManagerMKII.Gamemode as CaptureGamemode; 
+    private readonly FengGameManagerMKII gameManager = FengGameManagerMKII.instance;
 
     [PunRPC]
     private void changeHumanPt(float pt)
@@ -65,9 +66,9 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 this.playerOn = true;
                 if ((this.state == CheckPointState.Human) && objArray[num].GetPhotonView().isMine)
                 {
-                    if (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint != base.gameObject)
+                    if (gameManager.checkpoint != gameObject)
                     {
-                        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
+                        gameManager.checkpoint = gameObject;
                         //GameObject.Find("Chatroom").GetComponent<InRoomChat>().addLINE("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
                     }
                     break;
@@ -81,9 +82,9 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 this.titanOn = true;
                 if (((this.state == CheckPointState.Titan) && objArray2[num].GetPhotonView().isMine) && ((objArray2[num].GetComponent<TITAN>() != null) && objArray2[num].GetComponent<TITAN>().nonAI))
                 {
-                    if (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint != base.gameObject)
+                    if (gameManager.checkpoint != base.gameObject)
                     {
-                        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
+                        gameManager.checkpoint = base.gameObject;
                         //GameObject.Find("Chatroom").GetComponent<InRoomChat>().addLINE("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
                     }
                     break;
@@ -150,12 +151,12 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.state = CheckPointState.Human;
             object[] parameters = new object[] { 1 };
             base.photonView.RPC("changeState", PhotonTargets.All, parameters);
-            if (LevelInfo.getInfo(FengGameManagerMKII.level).mapName != "The City I")
+            if (gamemode.SpawnSupplyStationOnHumanCapture)
             {
-                this.supply = PhotonNetwork.Instantiate("aot_supply", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
+                supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
             }
-            FengGameManagerMKII component = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>();
-            component.PVPhumanScore += 2;
+
+            gamemode.PvpHumanScore += 2;
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkPVPpts();
             if (this.checkIfHumanWins())
             {
@@ -190,14 +191,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private void newTitan()
     {
         GameObject obj2 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(this.normalTitanRate, base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, false);
-        if (LevelInfo.getInfo(FengGameManagerMKII.level).mapName == "The City I")
-        {
-            obj2.GetComponent<TITAN>().chaseDistance = 120f;
-        }
-        else
-        {
-            obj2.GetComponent<TITAN>().chaseDistance = 200f;
-        }
+        obj2.GetComponent<TITAN>().chaseDistance = gamemode.TitanChaseDistance;
         obj2.GetComponent<TITAN>().PVPfromCheckPt = this;
     }
 
@@ -406,14 +400,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.spawnTitanTimer > this.titanInterval)
                 {
                     this.spawnTitanTimer = 0f;
-                    if (LevelInfo.getInfo(FengGameManagerMKII.level).mapName == "The City I")
-                    {
-                        if (GameObject.FindGameObjectsWithTag("titan").Length < 12)
-                        {
-                            this.newTitan();
-                        }
-                    }
-                    else if (GameObject.FindGameObjectsWithTag("titan").Length < 20)
+                    if (GameObject.FindGameObjectsWithTag("titan").Length < gamemode.TitanLimit)
                     {
                         this.newTitan();
                     }
