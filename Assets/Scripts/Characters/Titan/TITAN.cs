@@ -3338,127 +3338,6 @@ public class TITAN : MonoBehaviour
         this.asClientLookTarget = bo;
     }
 
-    private void setLevel(float level, int AI, int skinColor)
-    {
-        this.myLevel = level;
-        this.myLevel = Mathf.Clamp(this.myLevel, 0.7f, 3f);
-        this.attackWait += UnityEngine.Random.Range((float) 0f, (float) 2f);
-        this.chaseDistance += this.myLevel * 10f;
-        base.transform.localScale = new Vector3(this.myLevel, this.myLevel, this.myLevel);
-        float x = Mathf.Min(Mathf.Pow(2f / this.myLevel, 0.35f), 1.25f);
-        this.headscale = new Vector3(x, x, x);
-        this.head = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
-        this.head.localScale = this.headscale;
-        if (skinColor != 0)
-        {
-            this.mainMaterial.GetComponent<SkinnedMeshRenderer>().material.color = (skinColor != 1) ? ((skinColor != 2) ? FengColor.titanSkin3 : FengColor.titanSkin2) : FengColor.titanSkin1;
-        }
-        float num2 = 1.4f - ((this.myLevel - 0.7f) * 0.15f);
-        num2 = Mathf.Clamp(num2, 0.9f, 1.5f);
-        IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
-        try
-        {
-            while (enumerator.MoveNext())
-            {
-                AnimationState current = (AnimationState) enumerator.Current;
-                if (current != null)
-                    current.speed = num2;
-            }
-        }
-        finally
-        {
-            IDisposable disposable = enumerator as IDisposable;
-            if (disposable != null)
-            {
-            	disposable.Dispose();
-            }
-        }
-        Rigidbody rigidbody = base.GetComponent<Rigidbody>();
-        rigidbody.mass *= this.myLevel;
-        base.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0f, (float) UnityEngine.Random.Range(0, 360), 0f);
-        if (this.myLevel > 1f)
-        {
-            this.speed *= Mathf.Sqrt(this.myLevel);
-        }
-        this.myDifficulty = AI;
-        if ((this.myDifficulty == 1) || (this.myDifficulty == 2))
-        {
-            IEnumerator enumerator2 = base.GetComponent<Animation>().GetEnumerator();
-            try
-            {
-                while (enumerator2.MoveNext())
-                {
-                    AnimationState state2 = (AnimationState) enumerator2.Current;
-                    if (state2 != null)
-                        state2.speed = num2 * 1.05f;
-                }
-            }
-            finally
-            {
-                IDisposable disposable2 = enumerator2 as IDisposable;
-                if (disposable2 != null)
-                {
-                	disposable2.Dispose();
-                }
-            }
-            if (this.nonAI)
-            {
-                this.speed *= 1.1f;
-            }
-            else
-            {
-                this.speed *= 1.4f;
-            }
-            this.chaseDistance *= 1.15f;
-        }
-        if (this.myDifficulty == 2)
-        {
-            IEnumerator enumerator3 = base.GetComponent<Animation>().GetEnumerator();
-            try
-            {
-                while (enumerator3.MoveNext())
-                {
-                    AnimationState state3 = (AnimationState) enumerator3.Current;
-                    if (state3 != null)
-                        state3.speed = num2 * 1.05f;
-                }
-            }
-            finally
-            {
-                IDisposable disposable3 = enumerator3 as IDisposable;
-                if (disposable3 != null)
-                {
-                	disposable3.Dispose();
-                }
-            }
-            if (this.nonAI)
-            {
-                this.speed *= 1.1f;
-            }
-            else
-            {
-                this.speed *= 1.5f;
-            }
-            this.chaseDistance *= 1.3f;
-        }
-        if ((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.ENDLESS_TITAN) || (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE))
-        {
-            this.chaseDistance = 999999f;
-        }
-        if (this.nonAI)
-        {
-            if (this.TitanType == TitanType.TYPE_CRAWLER)
-            {
-                this.speed = Mathf.Min(70f, this.speed);
-            }
-            else
-            {
-                this.speed = Mathf.Min(60f, this.speed);
-            }
-        }
-        this.attackDistance = Vector3.Distance(base.transform.position, base.transform.Find("ap_front_ground").position) * 1.65f;
-    }
-
     private void setLevel2(float level, int AI, int skinColor)
     {
         this.myLevel = level;
@@ -3520,9 +3399,10 @@ public class TITAN : MonoBehaviour
             }
             this.chaseDistance *= 1.3f;
         }
-        if ((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.ENDLESS_TITAN) || (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE))
+
+        if (!FengGameManagerMKII.Gamemode.TitanChaseDistanceEnabled)
         {
-            this.chaseDistance = 999999f;
+            chaseDistance = 999999f;
         }
         if (this.nonAI)
         {
@@ -4353,7 +4233,7 @@ public class TITAN : MonoBehaviour
                         }
                         else if (!this.longRangeAttackCheck2())
                         {
-                            if (((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE) && (this.PVPfromCheckPt != null)) && (this.myDistance > this.chaseDistance))
+                            if ((FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Capture && (this.PVPfromCheckPt != null)) && (this.myDistance > this.chaseDistance))
                             {
                                 this.idle(0f);
                             }
@@ -4508,9 +4388,6 @@ public class TITAN : MonoBehaviour
                         {
                             this.chase();
                         }
-
-                        var distance = Vector3.Distance(this.baseTransform.position, this.targetCheckPt);
-                        UnityEngine.Debug.Log($"Distance to checkpoint: {distance}. My targetR = {targetR}");
                         if (Vector3.Distance(this.baseTransform.position, this.targetCheckPt) < this.targetR)
                         {
                             this.idle(0f);

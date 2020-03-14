@@ -1,4 +1,5 @@
 using System;
+using Assets.Scripts.Gamemode;
 using UnityEngine;
 
 public class LevelInfo
@@ -33,7 +34,7 @@ public class LevelInfo
             }
         }
         //HACK
-        return levels[0x15];
+        return levels[0];
     }
 
     private static void initData2()
@@ -49,12 +50,12 @@ public class LevelInfo
             levels[0].mapName = "The City I";
             levels[0].desc = "kill all the titans with your friends.(No RESPAWN/SUPPLY/PLAY AS TITAN)";
             levels[0].enemyNumber = 10;
-            levels[0].type = GAMEMODE.KILL_TITAN;
+            levels[0].type = GAMEMODE.ENDLESS_TITAN;
             levels[0].respawnMode = RespawnMode.NEVER;
             levels[0].supply = true;
             levels[0].teamTitan = true;
             levels[0].pvp = true;
-            levels[0].GameMode = new KillTitansGamemode();
+            levels[0].GameMode = new EndlessGamemode();
 
             levels[1].name = "The City II";
             levels[1].mapName = "The City I";
@@ -205,7 +206,6 @@ public class LevelInfo
             levels[20].mapName = "OutSide";
             levels[20].desc = "Capture Checkpoint mode.";
             levels[20].enemyNumber = 0;
-            levels[20].type = GAMEMODE.PVP_CAPTURE;
             levels[20].respawnMode = RespawnMode.DEATHMATCH;
             levels[20].supply = true;
             levels[20].horse = true;
@@ -215,7 +215,6 @@ public class LevelInfo
             levels[0x15].mapName = "The City I";
             levels[0x15].desc = "Capture Checkpoint mode.";
             levels[0x15].enemyNumber = 0;
-            levels[0x15].type = GAMEMODE.PVP_CAPTURE;
             levels[0x15].respawnMode = RespawnMode.DEATHMATCH;
             levels[0x15].supply = true;
             levels[0x15].horse = false;

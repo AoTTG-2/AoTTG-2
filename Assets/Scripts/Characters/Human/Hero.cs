@@ -5452,7 +5452,7 @@ public class Hero : Human
                                     this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
                                     this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                 }
-                                else if (flag5 && (this.grounded || ((LevelInfo.getInfo(FengGameManagerMKII.level).type != GAMEMODE.PVP_AHSS) && (RCSettings.ahssReload == 0))))
+                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.AhssAirReload && (RCSettings.ahssReload == 0))))
                                 {
                                     this.changeBlade();
                                 }

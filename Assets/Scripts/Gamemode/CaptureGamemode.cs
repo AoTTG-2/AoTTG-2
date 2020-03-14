@@ -9,6 +9,9 @@ public class CaptureGamemode : GamemodeBase
         PlayerTitanShifters = false;
         TitanLimit = 25;
         TitanChaseDistance = 120f;
+        SpawnTitansOnFemaleTitanDefeat = false;
+        FemaleTitanDespawnTimer = 20f;
+        FemaleTitanHealthModifier = 0.8f;
     }
 
     public int PvpTitanScoreLimit = 200;
@@ -34,7 +37,7 @@ public class CaptureGamemode : GamemodeBase
         return $"{PvpTitanScoreLimit - PvpTitanScore} {str2} {PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
     }
 
-    public override void OnTitanKilled(string titanName)
+    public override void OnTitanKilled(string titanName, bool onPlayerLeave)
     {
         if (titanName != string.Empty)
         {
@@ -114,7 +117,17 @@ public class CaptureGamemode : GamemodeBase
 
     public override GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
     {
+        if (FengGameManagerMKII.instance.checkpoint == null)
+        {
+            FengGameManagerMKII.instance.checkpoint = GameObject.Find("CheckpointStartHuman");
+        }
         return FengGameManagerMKII.instance.checkpoint;
+    }
+
+    public override void OnPlayerSpawned(GameObject player)
+    {
+        var transform = player.transform;
+        transform.position += new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20));
     }
 
     private GameObject spawnTitanRaw(Vector3 position, Quaternion rotation)

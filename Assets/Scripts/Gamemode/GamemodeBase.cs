@@ -8,6 +8,11 @@ public abstract class GamemodeBase
     public int Titans = 25;
     public int TitanLimit = 25;
     public float TitanChaseDistance = 100f;
+    public bool TitanChaseDistanceEnabled = true;
+
+    public bool SpawnTitansOnFemaleTitanDefeat = true;
+    public float FemaleTitanDespawnTimer = 5f;
+    public float FemaleTitanHealthModifier = 1f;
 
     public int HumanScore = 0;
     public int TitanScore = 0;
@@ -20,10 +25,16 @@ public abstract class GamemodeBase
 
     public virtual void OnPlayerKilled(int id)
     {
-        if (FengGameManagerMKII.instance.isPlayerAllDead2())
+        if (IsAllPlayersDead())
         {
             FengGameManagerMKII.instance.gameLose2();
         }
+    }
+
+    public virtual void OnPlayerSpawned(GameObject player)
+    {
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
+
     }
 
     public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
@@ -32,7 +43,12 @@ public abstract class GamemodeBase
         return objArray[Random.Range(0, objArray.Length)];
     }
 
-    public virtual void OnTitanKilled(string titanName)
+    public virtual string GetVictoryMessage(float timeUntilRestart)
+    {
+        return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
+    }
+
+    public virtual void OnTitanKilled(string titanName, bool onPlayerLeave)
     {
         if (RestartOnTitansKilled && IsAllTitansDead())
         {
@@ -83,20 +99,36 @@ public abstract class GamemodeBase
         }
     }
 
-    public virtual void OnNetGameWon()
+    public virtual void OnNetGameWon(int score)
     {
+        HumanScore = score;
         FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
     }
-
-    [PunRPC]
-    public virtual void OnGameWon(int score, PhotonMessageInfo info) { }
 
     public virtual GameObject SpawnNonAiTitan(Vector3 position, GameObject randomTitanRespawn)
     {
         return PhotonNetwork.Instantiate("TITAN_VER3.1", position, randomTitanRespawn.transform.rotation, 0);
     }
 
-    private static bool IsAllTitansDead()
+    internal bool IsAllPlayersDead()
+    {
+        int num = 0;
+        int num2 = 0;
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        {
+            if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1)
+            {
+                num++;
+                if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+                {
+                    num2++;
+                }
+            }
+        }
+        return (num == num2);
+    }
+
+    internal bool IsAllTitansDead()
     {
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
         {

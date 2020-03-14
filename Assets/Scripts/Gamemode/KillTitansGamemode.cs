@@ -14,12 +14,6 @@ public class KillTitansGamemode : GamemodeBase
         Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
     }
 
-    public override void OnPlayerKilled(int id)
-    {
-        base.OnPlayerKilled(id);
-        // If we wanted to, KillTitansGamemode could add additional logic besides the default logic defined in our base Gamemode class, or completely override it.
-    }
-
     public override void OnLevelWasLoaded(LevelInfo info)
     {
         if (!PhotonNetwork.isMasterClient) return;

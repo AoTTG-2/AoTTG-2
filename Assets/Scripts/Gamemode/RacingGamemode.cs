@@ -6,6 +6,8 @@
         PlayerTitanShifters = false;
     }
 
+    public string localRacingResult = string.Empty;
+
     public override void OnGameWon()
     {
         FengGameManagerMKII.instance.gameEndCD = RCSettings.racingStatic == 1
@@ -23,7 +25,12 @@
         }
     }
 
-    public override void OnNetGameWon()
+    public override string GetVictoryMessage(float timeUntilRestart)
+    {
+        return $"{localRacingResult}\n\nGame Restart in {(int) timeUntilRestart}";
+    }
+
+    public override void OnNetGameWon(int score)
     {
         FengGameManagerMKII.instance.gameEndCD = RCSettings.racingStatic == 1
             ? 1000f
