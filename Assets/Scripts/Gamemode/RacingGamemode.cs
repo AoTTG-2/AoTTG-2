@@ -4,6 +4,10 @@
     {
         GamemodeType = GamemodeType.Racing;
         PlayerTitanShifters = false;
+        Pvp = false;
+        Supply = false;
+        RespawnMode = RespawnMode.NEVER;
+        Titans = 0;
     }
 
     public string localRacingResult = string.Empty;

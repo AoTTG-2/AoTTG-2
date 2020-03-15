@@ -8,6 +8,7 @@ namespace Assets.Scripts.Gamemode
         public TitanRushGamemode()
         {
             GamemodeType = GamemodeType.TitanRush;
+            Titans = 2;
         }
 
         public override void OnLevelWasLoaded(LevelInfo info, bool isMasterClient = false)

@@ -4,6 +4,10 @@
     {
         GamemodeType = GamemodeType.PvpAhss;
         AhssAirReload = false;
+        Titans = -1;
+        Pvp = true;
+        PlayerTitanShifters = true;
+        Horse = false;
     }
 
     private int teamWinner;

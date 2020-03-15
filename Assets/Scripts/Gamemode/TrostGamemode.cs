@@ -6,6 +6,8 @@ public class TrostGamemode : GamemodeBase
     {
         GamemodeType = GamemodeType.Trost;
         PlayerTitanShifters = false;
+        Titans = 2;
+        Punks = false;
     }
 
     public override void OnLevelWasLoaded(LevelInfo info, bool isMasterClient = false)

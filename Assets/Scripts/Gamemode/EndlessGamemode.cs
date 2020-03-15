@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Scripts.Gamemode
+﻿namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
         public EndlessGamemode()
         {
             GamemodeType = GamemodeType.Endless;
+            RespawnMode = RespawnMode.NEVER;
+            AllowPlayerTitans = true;
+            Pvp = false;
         }
 
         public override void OnTitanKilled(string titanName, bool onPlayerLeave)

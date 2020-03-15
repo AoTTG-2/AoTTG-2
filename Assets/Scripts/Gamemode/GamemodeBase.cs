@@ -3,6 +3,8 @@
 public abstract class GamemodeBase
 {
     public GamemodeType GamemodeType;
+    public string Name;
+    public string Description;
 
     //Titan Specific logic might be moved into a abstract Gamemode which implements an abstract TitanGamemode. Some gamemodes may not need titans, like Blades vs Blades pvp
     public int Titans = 25;
@@ -13,6 +15,17 @@ public abstract class GamemodeBase
     public bool SpawnTitansOnFemaleTitanDefeat = true;
     public float FemaleTitanDespawnTimer = 5f;
     public float FemaleTitanHealthModifier = 1f;
+
+    //LevelInfo attributes
+    public bool Hint;
+    public bool Horse;
+    public bool LavaMode;
+    public bool Crawlers;
+    public bool Punks = true;
+    public bool Pvp;
+    public RespawnMode RespawnMode = RespawnMode.DEATHMATCH;
+    public bool Supply = true;
+    public bool AllowPlayerTitans; //LevelInfo.teamTitan
 
     public int HumanScore = 0;
     public int TitanScore = 0;

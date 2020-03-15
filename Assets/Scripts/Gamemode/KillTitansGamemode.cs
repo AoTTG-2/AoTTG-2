@@ -6,6 +6,7 @@ public class KillTitansGamemode : GamemodeBase
     {
         GamemodeType = GamemodeType.Titans;
         RestartOnTitansKilled = true;
+        RespawnMode = RespawnMode.NEVER;
     }
 
     public override void OnAllTitansDead()
@@ -18,7 +19,7 @@ public class KillTitansGamemode : GamemodeBase
     {
         if (!isMasterClient) return;
 
-        if ((info.name == "Annie") || (info.name == "Annie II"))
+        if (info.name.Contains("Annie"))
         {
             PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
         }

@@ -5,11 +5,14 @@ public class WaveGamemode : GamemodeBase
     public int Wave = 1;
     public int MaxWave = 20;
     public int HighestWave = 1;
+    public int WaveIncrement = 2;
 
     public WaveGamemode()
     {
         GamemodeType = GamemodeType.Wave;
         TitanChaseDistanceEnabled = false;
+        Titans = 3;
+        RespawnMode = RespawnMode.NEWROUND;
     }
 
     public override string GetGamemodeStatusTop(int totalRoomTime = 0, int timeLeft = 0)

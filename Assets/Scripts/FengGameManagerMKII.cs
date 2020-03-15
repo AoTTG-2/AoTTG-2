@@ -2775,9 +2775,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                     }
                 }
-                if ((num20 <= 0) && (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.KILL_TITAN))
+                if ((num20 <= 0)) //&& (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.KILL_TITAN))
                 {
-                    //TODO Why does infection have a limitation on this?
+                    //TODO: Why does infection have a limitation on this?
+                    // If infection should only work on KillTitan, then we should move that logic into kill titan.
                     this.gameWin2();
                 }
             }
