@@ -6,5 +6,6 @@
     Wave,
     Racing,
     Trost,
+    TitanRush,
     PvpAhss
 }

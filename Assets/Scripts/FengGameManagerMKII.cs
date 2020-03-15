@@ -32,6 +32,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private float currentSpeed;
     public static bool customLevelLoaded;
     public int cyanKills;
+    [Obsolete("Please use Gamemode.Difficulty")]
     public int difficulty;
     public float distanceSlider;
     private bool endRacing;
@@ -263,7 +264,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             content = sender + ":" + content;
         }
         content = "<color=#FFC000>[" + Convert.ToString(info.sender.ID) + "]</color> " + content;
-        this.chatRoom.addLINE(content);
+        //this.chatRoom.addLINE(content);
     }
 
     [PunRPC]
@@ -561,23 +562,29 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             if (gametype == 0)
             {
-                IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.KILL_TITAN;
+                Gamemode = new KillTitansGamemode();
+                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.KILL_TITAN;
             }
             else if (gametype == 1)
             {
-                IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.SURVIVE_MODE;
+                Gamemode = new WaveGamemode();
+                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.SURVIVE_MODE;
             }
             else if (gametype == 2)
             {
-                IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.PVP_AHSS;
+                Gamemode = new PvPAhssGamemode();
+                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.PVP_AHSS;
             }
             else if (gametype == 3)
             {
-                IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.RACING;
+                Gamemode = new RacingGamemode();
+                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.RACING;
             }
             else if (gametype == 4)
             {
-                IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.None;
+                //TODO: Gamemode none doesn't seem to do anything in the code?
+                Gamemode = new KillTitansGamemode();
+                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.None;
             }
             if (info.sender.isMasterClient && (link.Length > 6))
             {
@@ -1299,12 +1306,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.timeElapse--;
                     var content = Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time);
-                    if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.BOSS_FIGHT_CT)
-                    {
-                        content = "Time : ";
-                        length = this.time - ((int) this.timeTotalServer);
-                        content = content + length.ToString() + "\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
-                    }
                     if (RCSettings.teamMode > 0)
                     {
                         content = content + "\n[00FFFF]Cyan:" + Convert.ToString(this.cyanKills) + "       [FF00FF]Magenta:" + Convert.ToString(this.magentaKills) + "[ffffff]";
@@ -4517,7 +4518,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             //NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[3], false);
             LevelInfo info = LevelInfo.getInfo(FengGameManagerMKII.level);
             this.cache();
-            //this.loadskin();
+            this.loadskin();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
@@ -4553,20 +4554,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
                 Camera.main.GetComponent<CameraShake>().enabled = false;
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.MULTIPLAYER;
-                if (info.type == GAMEMODE.TROST)
-                {
-                    GameObject.Find("playerRespawn").SetActive(false);
-                    UnityEngine.Object.Destroy(GameObject.Find("playerRespawn"));
-                    GameObject.Find("rock").GetComponent<Animation>()["lift"].speed = 0f;
-                    GameObject.Find("door_fine").SetActive(false);
-                    GameObject.Find("door_broke").SetActive(true);
-                    UnityEngine.Object.Destroy(GameObject.Find("ppl"));
-                }
-                else if (info.type == GAMEMODE.BOSS_FIGHT_CT)
-                {
-                    GameObject.Find("playerRespawnTrost").SetActive(false);
-                    UnityEngine.Object.Destroy(GameObject.Find("playerRespawnTrost"));
-                }
                 if (this.needChooseSide)
                 {
                     this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
@@ -4591,45 +4578,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
 
-                Gamemode.OnLevelWasLoaded(info);
-                if (info.type == GAMEMODE.BOSS_FIGHT_CT)
-                {
-                    UnityEngine.Object.Destroy(GameObject.Find("rock"));
-                }
+                Gamemode.OnLevelWasLoaded(info, PhotonNetwork.isMasterClient);
                 if (PhotonNetwork.isMasterClient)
                 {
-                    if (info.type == GAMEMODE.TROST)
-                    {
-                        if (!this.isPlayerAllDead2())
-                        {
-                            PhotonNetwork.Instantiate("TITAN_EREN_trost", new Vector3(-200f, 0f, -194f), Quaternion.Euler(0f, 180f, 0f), 0).GetComponent<TITAN_EREN>().rockLift = true;
-                            int rate = 90;
-                            if (this.difficulty == 1)
-                            {
-                                rate = 70;
-                            }
-                            GameObject[] objArray2 = GameObject.FindGameObjectsWithTag("titanRespawn");
-                            GameObject obj4 = GameObject.Find("titanRespawnTrost");
-                            if (obj4 != null)
-                            {
-                                foreach (GameObject obj5 in objArray2)
-                                {
-                                    if (obj5.transform.parent.gameObject == obj4)
-                                    {
-                                        this.spawnTitan(rate, obj5.transform.position, obj5.transform.rotation, false);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (info.type == GAMEMODE.BOSS_FIGHT_CT)
-                    {
-                        if (!this.isPlayerAllDead2())
-                        {
-                            PhotonNetwork.Instantiate("COLOSSAL_TITAN", (Vector3) (-Vector3.up * 10000f), Quaternion.Euler(0f, 180f, 0f), 0);
-                        }
-                    }
-                    else if (info.type == GAMEMODE.ENDLESS_TITAN || info.type == GAMEMODE.SURVIVE_MODE)
+                    if (info.type == GAMEMODE.ENDLESS_TITAN || info.type == GAMEMODE.SURVIVE_MODE)
                     {
                         if ((info.name == "Annie") || (info.name == "Annie II"))
                         {

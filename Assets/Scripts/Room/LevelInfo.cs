@@ -34,7 +34,7 @@ public class LevelInfo
             }
         }
         //HACK
-        return levels[0];
+        return levels[9];
     }
 
     private static void initData2()
@@ -50,12 +50,12 @@ public class LevelInfo
             levels[0].mapName = "The City I";
             levels[0].desc = "kill all the titans with your friends.(No RESPAWN/SUPPLY/PLAY AS TITAN)";
             levels[0].enemyNumber = 10;
-            levels[0].type = GAMEMODE.ENDLESS_TITAN;
+            levels[0].type = GAMEMODE.KILL_TITAN;
             levels[0].respawnMode = RespawnMode.NEVER;
             levels[0].supply = true;
             levels[0].teamTitan = true;
             levels[0].pvp = true;
-            levels[0].GameMode = new EndlessGamemode();
+            levels[0].GameMode = new KillTitansGamemode();
 
             levels[1].name = "The City II";
             levels[1].mapName = "The City I";
@@ -115,28 +115,27 @@ public class LevelInfo
             levels[8].mapName = "Colossal Titan";
             levels[8].desc = "Defeat the Colossal Titan.\nPrevent the abnormal titan from running to the north gate.\n Nape Armor:\n Normal:2000\nHard:3500\nAbnormal:5000\n";
             levels[8].enemyNumber = 2;
-            levels[8].type = GAMEMODE.BOSS_FIGHT_CT;
             levels[8].respawnMode = RespawnMode.NEVER;
+            levels[8].GameMode = new TitanRushGamemode();
             levels[9].name = "Colossal Titan II";
             levels[9].mapName = "Colossal Titan";
             levels[9].desc = "Defeat the Colossal Titan.\nPrevent the abnormal titan from running to the north gate.\n Nape Armor:\n Normal:5000\nHard:8000\nAbnormal:12000\n(RESPAWN AFTER 10 SECONDS)";
             levels[9].enemyNumber = 2;
-            levels[9].type = GAMEMODE.BOSS_FIGHT_CT;
             levels[9].respawnMode = RespawnMode.DEATHMATCH;
+            levels[9].GameMode = new TitanRushGamemode();
             levels[10].name = "Trost";
             levels[10].mapName = "Colossal Titan";
             levels[10].desc = "Escort Titan Eren";
             levels[10].enemyNumber = 2;
-            levels[10].type = GAMEMODE.TROST;
             levels[10].respawnMode = RespawnMode.NEVER;
             levels[10].punk = false;
             levels[11].name = "Trost II";
             levels[11].mapName = "Colossal Titan";
             levels[11].desc = "Escort Titan Eren(RESPAWN AFTER 10 SECONDS)";
             levels[11].enemyNumber = 2;
-            levels[11].type = GAMEMODE.TROST;
             levels[11].respawnMode = RespawnMode.DEATHMATCH;
             levels[11].punk = false;
+            levels[11].GameMode = new TrostGamemode();
             levels[12].name = "[S]City";
             levels[12].mapName = "The City I";
             levels[12].desc = "Kill all 15 Titans";

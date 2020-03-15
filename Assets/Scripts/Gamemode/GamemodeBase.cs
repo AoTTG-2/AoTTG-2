@@ -23,6 +23,8 @@ public abstract class GamemodeBase
 
     public bool RestartOnTitansKilled = true;
 
+    public int Difficulty = 1;
+
     public virtual void OnPlayerKilled(int id)
     {
         if (IsAllPlayersDead())
@@ -83,7 +85,7 @@ public abstract class GamemodeBase
 
     public virtual void OnAllTitansDead() { }
 
-    public virtual void OnLevelWasLoaded(LevelInfo info) { }
+    public virtual void OnLevelWasLoaded(LevelInfo info, bool isMasterClient = false) { }
 
     public virtual void OnGameWon()
     {

@@ -4358,7 +4358,8 @@ public class TITAN : MonoBehaviour
                             {
                                 if (this.checkPoints.Count == 1)
                                 {
-                                    if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.BOSS_FIGHT_CT)
+                                    //TODO: Move this somewhere else
+                                    if (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
                                     {
                                         this.MultiplayerManager.gameLose2();
                                         this.checkPoints = new ArrayList();

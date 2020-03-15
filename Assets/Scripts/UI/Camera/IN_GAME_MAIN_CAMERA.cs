@@ -270,8 +270,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void flashBlind()
     {
-        GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
-        this.flashDuration = 2f;
+        //GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
+        //this.flashDuration = 2f;
     }
 
     private int getReverse()

@@ -82,7 +82,7 @@ public class CaptureGamemode : GamemodeBase
         }
     }
 
-    public override void OnLevelWasLoaded(LevelInfo info)
+    public override void OnLevelWasLoaded(LevelInfo info, bool isMasterClient = false)
     {
         if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
         {
@@ -96,7 +96,7 @@ public class CaptureGamemode : GamemodeBase
             }
         }
 
-        if (PhotonNetwork.isMasterClient && LevelInfo.getInfo(FengGameManagerMKII.level).mapName == "OutSide")
+        if (isMasterClient && LevelInfo.getInfo(FengGameManagerMKII.level).mapName == "OutSide")
         {
             GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("titanRespawn");
             if (objArray3.Length <= 0)

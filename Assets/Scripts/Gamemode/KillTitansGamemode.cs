@@ -14,9 +14,9 @@ public class KillTitansGamemode : GamemodeBase
         Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
     }
 
-    public override void OnLevelWasLoaded(LevelInfo info)
+    public override void OnLevelWasLoaded(LevelInfo info, bool isMasterClient = false)
     {
-        if (!PhotonNetwork.isMasterClient) return;
+        if (!isMasterClient) return;
 
         if ((info.name == "Annie") || (info.name == "Annie II"))
         {
