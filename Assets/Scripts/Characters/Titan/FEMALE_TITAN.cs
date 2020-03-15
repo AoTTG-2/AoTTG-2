@@ -1,4 +1,3 @@
-using Photon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,8 +5,9 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using MonoBehaviour = Photon.MonoBehaviour;
 
-public class FEMALE_TITAN : PhotonView
+public class FEMALE_TITAN : MonoBehaviour
 {
     [CompilerGenerated]
     public static Dictionary<string, int> f__switchSmap1;
@@ -90,12 +90,12 @@ public class FEMALE_TITAN : PhotonView
         if (this.attackAnimation == type)
         {
             this.attackAnimation = type;
-            this.playAnimationAt("attack_" + type, 0f);
+            this.playAnimationAt("ft_attack_" + type, 0f);
         }
         else
         {
             this.attackAnimation = type;
-            this.playAnimationAt("attack_" + type, 0f);
+            this.playAnimationAt("ft_attack_" + type, 0f);
         }
         this.startJump = false;
         this.attackChkOnce = false;
@@ -334,22 +334,22 @@ public class FEMALE_TITAN : PhotonView
             {
                 if (((num4 > 0f) && (num4 < 12f)) && (this.myDistance < 22f))
                 {
-                    list.Add("attack_sweep");
+                    list.Add("ft_attack_sweep");
                 }
                 if ((num4 >= 55f) && (num4 < 90f))
                 {
-                    list.Add("attack_jumpCombo_1");
+                    list.Add("ft_attack_jumpCombo_1");
                 }
             }
             if (((Mathf.Abs(f) < 90f) && (num4 > 12f)) && (num4 < 40f))
             {
-                list.Add("attack_combo_1");
+                list.Add("ft_attack_combo_1");
             }
             if (Mathf.Abs(f) < 30f)
             {
                 if (((num4 > 0f) && (num4 < 12f)) && ((this.myDistance > 20f) && (this.myDistance < 30f)))
                 {
-                    list.Add("attack_front");
+                    list.Add("ft_attack_front");
                 }
                 if (((this.myDistance < 12f) && (num4 > 33f)) && (num4 < 51f))
                 {
@@ -358,7 +358,7 @@ public class FEMALE_TITAN : PhotonView
             }
             if (((Mathf.Abs(f) > 100f) && (this.myDistance < 11f)) && ((num4 >= 15f) && (num4 < 32f)))
             {
-                list.Add("attack_sweep_back");
+                list.Add("ft_attack_sweep_back");
             }
             num5 = num3;
             switch (num5)
@@ -385,7 +385,7 @@ public class FEMALE_TITAN : PhotonView
                     }
                     if ((num4 >= 21f) && (num4 < 32f))
                     {
-                        list.Add("attack_sweep_front_right");
+                        list.Add("ft_attack_sweep_front_right");
                     }
                     break;
 
@@ -411,31 +411,31 @@ public class FEMALE_TITAN : PhotonView
                     }
                     if ((num4 >= 21f) && (num4 < 32f))
                     {
-                        list.Add("attack_sweep_front_left");
+                        list.Add("ft_attack_sweep_front_left");
                     }
                     break;
 
                 case 3:
                     if (this.myDistance >= 11f)
                     {
-                        list.Add("turn180");
+                        list.Add("ft_turn180");
                         break;
                     }
                     if ((num4 >= 33f) && (num4 < 51f))
                     {
-                        list.Add("attack_sweep_head_b_l");
+                        list.Add("ft_attack_sweep_head_b_l");
                     }
                     break;
 
                 case 4:
                     if (this.myDistance >= 11f)
                     {
-                        list.Add("turn180");
+                        list.Add("ft_turn180");
                         break;
                     }
                     if ((num4 >= 33f) && (num4 < 51f))
                     {
-                        list.Add("attack_sweep_head_b_r");
+                        list.Add("ft_attack_sweep_head_b_r");
                     }
                     break;
             }
@@ -464,7 +464,7 @@ public class FEMALE_TITAN : PhotonView
                 dictionary.Add("grab_up", 4);
                 dictionary.Add("grab_up_left", 5);
                 dictionary.Add("grab_up_right", 6);
-                dictionary.Add("attack_combo_1", 7);
+                dictionary.Add("ft_attack_combo_1", 7);
                 dictionary.Add("attack_front", 8);
                 dictionary.Add("attack_jumpCombo_1", 9);
                 dictionary.Add("attack_sweep", 10);
@@ -568,7 +568,7 @@ public class FEMALE_TITAN : PhotonView
     private void chase()
     {
         this.state = "chase";
-        this.crossFade("run", 0.5f);
+        this.crossFade("ft_run", 0.5f);
     }
 
     private RaycastHit[] checkHitCapsule(Vector3 start, Vector3 end, float r)
@@ -717,7 +717,7 @@ public class FEMALE_TITAN : PhotonView
                     float num2 = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                     base.gameObject.transform.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, base.gameObject.transform.rotation.eulerAngles.y + num2, 0f), this.speed * Time.deltaTime);
                 }
-                else if (this.grounded && !base.GetComponent<Animation>().IsPlaying("attack_jumpCombo_1"))
+                else if (this.grounded && !base.GetComponent<Animation>().IsPlaying("ft_attack_jumpCombo_1"))
                 {
                     base.GetComponent<Rigidbody>().AddForce(new Vector3(-base.GetComponent<Rigidbody>().velocity.x, 0f, -base.GetComponent<Rigidbody>().velocity.z), ForceMode.VelocityChange);
                 }
@@ -735,7 +735,7 @@ public class FEMALE_TITAN : PhotonView
     private void getDown()
     {
         this.state = "anklehurt";
-        this.playAnimation("legHurt");
+        this.playAnimation("ft_legHurt");
         this.AnkleRHP = this.AnkleRHPMAX;
         this.AnkleLHP = this.AnkleLHPMAX;
         this.needFreshCorePosition = true;
@@ -785,14 +785,14 @@ public class FEMALE_TITAN : PhotonView
         this.state = "grab";
         this.attacked = false;
         this.attackAnimation = type;
-        if (base.GetComponent<Animation>().IsPlaying("attack_grab_" + type))
+        if (base.GetComponent<Animation>().IsPlaying("ft_attack_grab_" + type))
         {
-            base.GetComponent<Animation>()["attack_grab_" + type].normalizedTime = 0f;
-            this.playAnimation("attack_grab_" + type);
+            base.GetComponent<Animation>()["ft_attack_grab_" + type].normalizedTime = 0f;
+            this.playAnimation("ft_attack_grab_" + type);
         }
         else
         {
-            this.crossFade("attack_grab_" + type, 0.1f);
+            this.crossFade("ft_attack_grab_" + type, 0.1f);
         }
         this.isGrabHandLeft = true;
         this.grabbedTarget = null;
@@ -1037,7 +1037,7 @@ public class FEMALE_TITAN : PhotonView
         this.sbtime = sbtime;
         this.sbtime = Mathf.Max(0.5f, this.sbtime);
         this.state = "idle";
-        this.crossFade("idle", 0.2f);
+        this.crossFade("ft_idle", 0.2f);
     }
 
     public bool IsGrounded()
@@ -1136,16 +1136,16 @@ public class FEMALE_TITAN : PhotonView
     {
         if (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
         {
-            if (base.GetComponent<Animation>().IsPlaying("run"))
+            if (base.GetComponent<Animation>().IsPlaying("ft_run"))
             {
-                if ((((base.GetComponent<Animation>()["run"].normalizedTime % 1f) > 0.1f) && ((base.GetComponent<Animation>()["run"].normalizedTime % 1f) < 0.6f)) && (this.stepSoundPhase == 2))
+                if ((((base.GetComponent<Animation>()["ft_run"].normalizedTime % 1f) > 0.1f) && ((base.GetComponent<Animation>()["ft_run"].normalizedTime % 1f) < 0.6f)) && (this.stepSoundPhase == 2))
                 {
                     this.stepSoundPhase = 1;
                     Transform transform = base.transform.Find("snd_titan_foot");
                     transform.GetComponent<AudioSource>().Stop();
                     transform.GetComponent<AudioSource>().Play();
                 }
-                if (((base.GetComponent<Animation>()["run"].normalizedTime % 1f) > 0.6f) && (this.stepSoundPhase == 1))
+                if (((base.GetComponent<Animation>()["ft_run"].normalizedTime % 1f) > 0.6f) && (this.stepSoundPhase == 1))
                 {
                     this.stepSoundPhase = 2;
                     Transform transform2 = base.transform.Find("snd_titan_foot");
@@ -1163,16 +1163,16 @@ public class FEMALE_TITAN : PhotonView
     {
         if (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
         {
-            if (base.GetComponent<Animation>().IsPlaying("run"))
+            if (base.GetComponent<Animation>().IsPlaying("ft_run"))
             {
-                if ((((base.GetComponent<Animation>()["run"].normalizedTime % 1f) > 0.1f) && ((base.GetComponent<Animation>()["run"].normalizedTime % 1f) < 0.6f)) && (this.stepSoundPhase == 2))
+                if ((((base.GetComponent<Animation>()["ft_run"].normalizedTime % 1f) > 0.1f) && ((base.GetComponent<Animation>()["ft_run"].normalizedTime % 1f) < 0.6f)) && (this.stepSoundPhase == 2))
                 {
                     this.stepSoundPhase = 1;
                     Transform transform = base.transform.Find("snd_titan_foot");
                     transform.GetComponent<AudioSource>().Stop();
                     transform.GetComponent<AudioSource>().Play();
                 }
-                if (((base.GetComponent<Animation>()["run"].normalizedTime % 1f) > 0.6f) && (this.stepSoundPhase == 1))
+                if (((base.GetComponent<Animation>()["ft_run"].normalizedTime % 1f) > 0.6f) && (this.stepSoundPhase == 1))
                 {
                     this.stepSoundPhase = 2;
                     Transform transform2 = base.transform.Find("snd_titan_foot");
@@ -1257,7 +1257,7 @@ public class FEMALE_TITAN : PhotonView
         if (!this.hasDie)
         {
             this.hasDie = true;
-            this.crossFade("die", 0.05f);
+            this.crossFade("ft_die", 0.05f);
         }
     }
 
@@ -1394,7 +1394,7 @@ public class FEMALE_TITAN : PhotonView
                 disposable.Dispose();
             }
         }
-        base.GetComponent<Animation>()["turn180"].speed = 0.5f;
+        base.GetComponent<Animation>()["ft_turn180"].speed = 0.5f;
         this.NapeArmor = 0x3e8;
         this.AnkleLHP = 50;
         this.AnkleRHP = 50;
@@ -1434,7 +1434,7 @@ public class FEMALE_TITAN : PhotonView
                     disposable2.Dispose();
                 }
             }
-            base.GetComponent<Animation>()["turn180"].speed = 0.7f;
+            base.GetComponent<Animation>()["ft_turn180"].speed = 0.7f;
         }
         else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
         {
@@ -1459,15 +1459,15 @@ public class FEMALE_TITAN : PhotonView
                     disposable3.Dispose();
                 }
             }
-            base.GetComponent<Animation>()["turn180"].speed = 0.9f;
+            base.GetComponent<Animation>()["ft_turn180"].speed = 0.9f;
         }
         if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
         {
             this.NapeArmor = (int) (this.NapeArmor * 0.8f);
         }
-        base.GetComponent<Animation>()["legHurt"].speed = 1f;
-        base.GetComponent<Animation>()["legHurt_loop"].speed = 1f;
-        base.GetComponent<Animation>()["legHurt_getup"].speed = 1f;
+        base.GetComponent<Animation>()["ft_legHurt"].speed = 1f;
+        base.GetComponent<Animation>()["ft_legHurt_loop"].speed = 1f;
+        base.GetComponent<Animation>()["ft_legHurt_getup"].speed = 1f;
     }
 
     [PunRPC]
@@ -1517,11 +1517,11 @@ public class FEMALE_TITAN : PhotonView
     {
         if (d > 0f)
         {
-            this.turnAnimation = "turnaround1";
+            this.turnAnimation = "ft_turnaround1";
         }
         else
         {
-            this.turnAnimation = "turnaround2";
+            this.turnAnimation = "ft_turnaround2";
         }
         this.playAnimation(this.turnAnimation);
         base.GetComponent<Animation>()[this.turnAnimation].time = 0f;
@@ -1533,7 +1533,7 @@ public class FEMALE_TITAN : PhotonView
 
     private void turn180()
     {
-        this.turnAnimation = "turn180";
+        this.turnAnimation = "ft_turn180";
         this.playAnimation(this.turnAnimation);
         base.GetComponent<Animation>()[this.turnAnimation].time = 0f;
         this.state = "turn180";
@@ -1547,9 +1547,9 @@ public class FEMALE_TITAN : PhotonView
             if (this.hasDie)
             {
                 this.dieTime += Time.deltaTime;
-                if (base.GetComponent<Animation>()["die"].normalizedTime >= 1f)
+                if (base.GetComponent<Animation>()["ft_die"].normalizedTime >= 1f)
                 {
-                    this.playAnimation("die_cry");
+                    this.playAnimation("ft_die_cry");
                     if (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.PVP_CAPTURE)
                     {
                         for (int i = 0; i < 15; i++)
@@ -1673,7 +1673,7 @@ public class FEMALE_TITAN : PhotonView
                 }
                 else if (this.state == "attack")
                 {
-                    if ((!this.attacked && (this.attackCheckTime != 0f)) && (base.GetComponent<Animation>()["attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTime))
+                    if ((!this.attacked && (this.attackCheckTime != 0f)) && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTime))
                     {
                         GameObject obj7;
                         this.attacked = true;
@@ -1691,7 +1691,7 @@ public class FEMALE_TITAN : PhotonView
                         b = Mathf.Min(1f, b);
                         this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(b, b, 0.95f);
                     }
-                    if ((this.attackCheckTimeA != 0f) && (((base.GetComponent<Animation>()["attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA) && (base.GetComponent<Animation>()["attack_" + this.attackAnimation].normalizedTime <= this.attackCheckTimeB)) || (!this.attackChkOnce && (base.GetComponent<Animation>()["attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA))))
+                    if ((this.attackCheckTimeA != 0f) && (((base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA) && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime <= this.attackCheckTimeB)) || (!this.attackChkOnce && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA))))
                     {
                         if (!this.attackChkOnce)
                         {
@@ -1777,12 +1777,12 @@ public class FEMALE_TITAN : PhotonView
                     }
                     if (this.attackAnimation == "jumpCombo_3")
                     {
-                        if ((base.GetComponent<Animation>()["attack_" + this.attackAnimation].normalizedTime >= 1f) && this.IsGrounded())
+                        if ((base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= 1f) && this.IsGrounded())
                         {
                             this.attack("jumpCombo_4");
                         }
                     }
-                    else if (base.GetComponent<Animation>()["attack_" + this.attackAnimation].normalizedTime >= 1f)
+                    else if (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= 1f)
                     {
                         if (this.nextAttackAnimation != null)
                         {
@@ -1801,7 +1801,7 @@ public class FEMALE_TITAN : PhotonView
                 }
                 else if (this.state == "grab")
                 {
-                    if (((base.GetComponent<Animation>()["attack_grab_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA) && (base.GetComponent<Animation>()["attack_grab_" + this.attackAnimation].normalizedTime <= this.attackCheckTimeB)) && (this.grabbedTarget == null))
+                    if (((base.GetComponent<Animation>()["ft_attack_grab_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA) && (base.GetComponent<Animation>()["ft_attack_grab_" + this.attackAnimation].normalizedTime <= this.attackCheckTimeB)) && (this.grabbedTarget == null))
                     {
                         GameObject grabTarget = this.checkIfHitHand(this.currentGrabHand);
                         if (grabTarget != null)
@@ -1818,12 +1818,12 @@ public class FEMALE_TITAN : PhotonView
                             }
                         }
                     }
-                    if ((base.GetComponent<Animation>()["attack_grab_" + this.attackAnimation].normalizedTime > this.attackCheckTime) && (this.grabbedTarget != null))
+                    if ((base.GetComponent<Animation>()["ft_attack_grab_" + this.attackAnimation].normalizedTime > this.attackCheckTime) && (this.grabbedTarget != null))
                     {
                         this.justEatHero(this.grabbedTarget, this.currentGrabHand);
                         this.grabbedTarget = null;
                     }
-                    if (base.GetComponent<Animation>()["attack_grab_" + this.attackAnimation].normalizedTime >= 1f)
+                    if (base.GetComponent<Animation>()["ft_attack_grab_" + this.attackAnimation].normalizedTime >= 1f)
                     {
                         this.idle(0f);
                     }
@@ -1849,23 +1849,23 @@ public class FEMALE_TITAN : PhotonView
                     {
                         base.gameObject.transform.rotation = Quaternion.Euler(base.gameObject.transform.rotation.eulerAngles.x, base.gameObject.transform.rotation.eulerAngles.y + 180f, base.gameObject.transform.rotation.eulerAngles.z);
                         this.idle(0f);
-                        this.playAnimation("idle");
+                        this.playAnimation("ft_idle");
                     }
                 }
                 else if (this.state == "anklehurt")
                 {
-                    if (base.GetComponent<Animation>()["legHurt"].normalizedTime >= 1f)
+                    if (base.GetComponent<Animation>()["ft_legHurt"].normalizedTime >= 1f)
                     {
-                        this.crossFade("legHurt_loop", 0.2f);
+                        this.crossFade("ft_legHurt_loop", 0.2f);
                     }
-                    if (base.GetComponent<Animation>()["legHurt_loop"].normalizedTime >= 3f)
+                    if (base.GetComponent<Animation>()["ft_legHurt_loop"].normalizedTime >= 3f)
                     {
-                        this.crossFade("legHurt_getup", 0.2f);
+                        this.crossFade("ft_legHurt_getup", 0.2f);
                     }
-                    if (base.GetComponent<Animation>()["legHurt_getup"].normalizedTime >= 1f)
+                    if (base.GetComponent<Animation>()["ft_legHurt_getup"].normalizedTime >= 1f)
                     {
                         this.idle(0f);
-                        this.playAnimation("idle");
+                        this.playAnimation("ft_idle");
                     }
                 }
             }
