@@ -29,8 +29,13 @@
         }
     }
 
-    public override string GetVictoryMessage(float timeUntilRestart)
+    public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
     {
+        if (IsSinglePlayer)
+        {
+            var num = (((int)(totalServerTime * 10f)) * 0.1f) - 5f;
+            return $"{num}s !!\n Press {FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart]}  to Restart.\n\n\n";
+        }
         return $"{localRacingResult}\n\nGame Restart in {(int) timeUntilRestart}";
     }
 

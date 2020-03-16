@@ -3122,97 +3122,7 @@ public class TITAN : MonoBehaviour
         this.myLevel = level;
         this.setmyLevel();
     }
-
-    public void setAbnormalType(TitanType type, bool forceCrawler = false)
-    {
-        int num = 0;
-        float num2 = 0.02f * (IN_GAME_MAIN_CAMERA.difficulty + 1);
-        if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_AHSS)
-        {
-            num2 = 100f;
-        }
-        if (type == TitanType.NORMAL)
-        {
-            if (UnityEngine.Random.Range((float) 0f, (float) 1f) < num2)
-            {
-                num = 4;
-            }
-            else
-            {
-                num = 0;
-            }
-        }
-        else if (type == TitanType.TYPE_I)
-        {
-            if (UnityEngine.Random.Range((float) 0f, (float) 1f) < num2)
-            {
-                num = 4;
-            }
-            else
-            {
-                num = 1;
-            }
-        }
-        else if (type == TitanType.TYPE_JUMPER)
-        {
-            if (UnityEngine.Random.Range((float) 0f, (float) 1f) < num2)
-            {
-                num = 4;
-            }
-            else
-            {
-                num = 2;
-            }
-        }
-        else if (type == TitanType.TYPE_CRAWLER)
-        {
-            num = 3;
-            if ((GameObject.Find("Crawler") != null) && (UnityEngine.Random.Range(0, 0x3e8) > 5))
-            {
-                num = 2;
-            }
-        }
-        else if (type == TitanType.TYPE_PUNK)
-        {
-            num = 4;
-        }
-        if (forceCrawler)
-        {
-            num = 3;
-        }
-        if (num == 4)
-        {
-            if (!LevelInfo.getInfo(FengGameManagerMKII.level).punk)
-            {
-                num = 1;
-            }
-            else
-            {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && (this.getPunkNumber() >= 3))
-                {
-                    num = 1;
-                }
-                if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE)
-                {
-                    int wave = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().wave;
-                    if (((wave != 5) && (wave != 10)) && ((wave != 15) && (wave != 20)))
-                    {
-                        num = 1;
-                    }
-                }
-            }
-        }
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
-        {
-            object[] parameters = new object[] { num };
-            base.photonView.RPC("netSetAbnormalType", PhotonTargets.AllBuffered, parameters);
-        }
-        else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            this.netSetAbnormalType(num);
-        }
-    }
-
+    
     public void setAbnormalType2(TitanType type, bool forceCrawler)
     {
         bool flag = false;
@@ -3226,7 +3136,8 @@ public class TITAN : MonoBehaviour
         }
         int num = 0;
         float num2 = 0.02f * (IN_GAME_MAIN_CAMERA.difficulty + 1);
-        if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_AHSS)
+        //TODO Why is this check here? Might want to remove this limitation?
+        if (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.PvpAhss)
         {
             num2 = 100f;
         }
@@ -3307,20 +3218,13 @@ public class TITAN : MonoBehaviour
                 {
                     num = 1;
                 }
-                if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.SURVIVE_MODE)
-                {
-                    int wave = FengGameManagerMKII.instance.wave;
-                    if (((wave != 5) && (wave != 10)) && ((wave != 15) && (wave != 20)))
-                    {
-                        num = 1;
-                    }
-                }
             }
             if (flag)
             {
                 num = 4;
             }
         }
+        FengGameManagerMKII.Gamemode.OnSetTitanType(ref num, flag);
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
         {
             object[] parameters = new object[] { num };

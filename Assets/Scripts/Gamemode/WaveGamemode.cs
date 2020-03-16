@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class WaveGamemode : GamemodeBase
 {
@@ -38,9 +39,53 @@ public class WaveGamemode : GamemodeBase
         return base.GetGamemodeStatusTopRight(time, totalRoomTime);
     }
 
-    public override string GetVictoryMessage(float timeUntilRestart)
+    public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
     {
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        {
+            return "Survive All Waves!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
+        }
         return $"Survive All Waves!\nGame Restart in {(int) timeUntilRestart}s\n\n";
+    }
+
+    public override string GetDefeatMessage(float gameEndCd)
+    {
+        if (IsSinglePlayer)
+        {
+            return $"Survive {Wave} Waves!\n Press {FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart]} to Restart.\n\n\n";
+        }
+        return $"Survive {Wave} Waves!\nGame Restart in {(int) gameEndCd}s\n\n";
+    }
+
+    public override string GetRoundEndedMessage()
+    {
+        return $"Highest Wave : {HighestWave}";
+    }
+
+    public override void OnLevelWasLoaded(LevelInfo info, bool isMasterClient = false)
+    {
+        if (!isMasterClient) return;
+        if (info.name.Contains("Annie"))
+        {
+            PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
+        }
+        else
+        {
+            int num4 = 90;
+            if (Difficulty == 1)
+            {
+                num4 = 70;
+            }
+            FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num4, Titans, false);
+        }
+    }
+
+    public override void OnSetTitanType(ref int titanType, bool flag)
+    {
+        if (Wave % 5 != 0 && !flag)
+        {
+            titanType = 1;
+        }
     }
 
     public override void OnTitanKilled(string titanName, bool onPlayerLeave)
@@ -77,7 +122,7 @@ public class WaveGamemode : GamemodeBase
         else
         {
             int abnormal = 90;
-            if (FengGameManagerMKII.instance.difficulty == 1)
+            if (Difficulty == 1)
             {
                 abnormal = 70;
             }

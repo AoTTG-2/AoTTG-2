@@ -21,7 +21,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float duration;
     private float flashDuration;
     private bool flip;
-    public static GAMEMODE gamemode;
     public bool gameOver;
     public static GAMETYPE gametype = GAMETYPE.STOP;
     private bool hasSnapShot;

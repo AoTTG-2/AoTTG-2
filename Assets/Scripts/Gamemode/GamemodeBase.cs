@@ -38,6 +38,7 @@ public abstract class GamemodeBase
 
     public int Difficulty = 1;
 
+    public bool IsSinglePlayer = IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE;
     public virtual void OnPlayerKilled(int id)
     {
         if (IsAllPlayersDead())
@@ -58,8 +59,12 @@ public abstract class GamemodeBase
         return objArray[Random.Range(0, objArray.Length)];
     }
 
-    public virtual string GetVictoryMessage(float timeUntilRestart)
+    public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
     {
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        {
+            return "Humanity Win!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
+        }
         return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
     }
 
@@ -70,6 +75,8 @@ public abstract class GamemodeBase
             OnAllTitansDead();
         }
     }
+
+    public virtual void OnSetTitanType(ref int titanType, bool flag) { }
 
     public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
     {
@@ -94,6 +101,11 @@ public abstract class GamemodeBase
     {
         return string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
 
+    }
+
+    public virtual string GetRoundEndedMessage()
+    {
+        return $"Humanity {HumanScore} : Titan {TitanScore}";
     }
 
     public virtual void OnAllTitansDead() { }
@@ -157,5 +169,14 @@ public abstract class GamemodeBase
             }
         }
         return true;
+    }
+
+    public virtual string GetDefeatMessage(float gameEndCd)
+    {
+        if (IsSinglePlayer)
+        {
+            return "Humanity Fail!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
+        }
+        return "Humanity Fail!\nAgain!\nGame Restart in " + ((int) gameEndCd) + "s\n\n";
     }
 }

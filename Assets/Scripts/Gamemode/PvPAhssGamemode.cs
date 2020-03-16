@@ -25,6 +25,16 @@
         return content;
     }
 
+    public override string GetRoundEndedMessage()
+    {
+        var result = string.Empty;
+        for (int k = 0; k < this.teamScores.Length; k++)
+        {
+            result += ((k == 0) ? string.Concat(new object[] { "Team", k + 1, " ", this.teamScores[k], " " }) : " : ");
+        }
+        return result;
+    }
+
     public override void OnPlayerKilled(int id)
     {
         if (RCSettings.pvpMode != 0 || RCSettings.bombMode != 0) return;
@@ -45,7 +55,7 @@
         }
     }
 
-    public override string GetVictoryMessage(float timeUntilRestart)
+    public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
     {
         if (RCSettings.pvpMode == 0 && RCSettings.bombMode == 0)
         {
