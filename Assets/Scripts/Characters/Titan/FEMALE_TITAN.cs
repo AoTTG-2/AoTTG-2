@@ -1461,10 +1461,7 @@ public class FEMALE_TITAN : MonoBehaviour
             }
             base.GetComponent<Animation>()["ft_turn180"].speed = 0.9f;
         }
-        if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
-        {
-            this.NapeArmor = (int) (this.NapeArmor * 0.8f);
-        }
+        NapeArmor *= (int) FengGameManagerMKII.Gamemode.FemaleTitanHealthModifier;
         base.GetComponent<Animation>()["ft_legHurt"].speed = 1f;
         base.GetComponent<Animation>()["ft_legHurt_loop"].speed = 1f;
         base.GetComponent<Animation>()["ft_legHurt_getup"].speed = 1f;
@@ -1550,7 +1547,7 @@ public class FEMALE_TITAN : MonoBehaviour
                 if (base.GetComponent<Animation>()["ft_die"].normalizedTime >= 1f)
                 {
                     this.playAnimation("ft_die_cry");
-                    if (IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.PVP_CAPTURE)
+                    if (FengGameManagerMKII.Gamemode.SpawnTitansOnFemaleTitanDefeat)
                     {
                         for (int i = 0; i < 15; i++)
                         {
@@ -1572,7 +1569,7 @@ public class FEMALE_TITAN : MonoBehaviour
                         PhotonNetwork.Instantiate("FX/FXtitanDie1", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                     }
                 }
-                if (this.dieTime > ((IN_GAME_MAIN_CAMERA.gamemode != GAMEMODE.PVP_CAPTURE) ? 20f : 5f))
+                if (this.dieTime > FengGameManagerMKII.Gamemode.FemaleTitanDespawnTimer)
                 {
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
