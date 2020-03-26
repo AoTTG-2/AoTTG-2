@@ -13,5 +13,10 @@ namespace Assets.Scripts.UI
         {
             Navigate(typeof(Credits));
         }
+
+        public void MapEditor()
+        {
+            //TODO: Switch to MapEditor scene
+        }
     }
 }
