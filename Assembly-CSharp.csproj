@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\FillPlayers.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Extensions.cs" />
@@ -311,10 +312,17 @@
      <Compile Include="Assets\Scripts\UI\Camera\PlanetMouseOrbit.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\SpectatorMovement.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\STEREO_3D_TYPE.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\Command.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\CommandHandler.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleCommands.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleExtensions.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
      <Compile Include="Assets\Scripts\UI\Credits.cs" />
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenuElement.cs" />
      <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\RoomRow.cs" />
      <Compile Include="Assets\Scripts\UI\ServerList.cs" />
      <Compile Include="Assets\Scripts\UI\ServerRegion.cs" />
      <Compile Include="Assets\Scripts\UI\UiElement.cs" />
@@ -328,6 +336,7 @@
      <Compile Include="Assets\Scripts\Xft\SplineControlPoint.cs" />
      <Compile Include="Assets\Scripts\Xft\VertexPool.cs" />
      <Compile Include="Assets\Scripts\Xft\XWeaponTrail.cs" />
+     <Compile Include="Assets\Ui\Lobby\TestGrid.cs" />
      <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (SoftClip).shader" />
      <None Include="Assets\Shader\TiltShift.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
