@@ -212,7 +212,8 @@ public class EMCli : Photon.MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         "Connecting...".SendProcessing(true);
-        PhotonNetwork.ConnectToMaster("app-eu.exitgamescloud.com", 5055, "f1f6195c-df4a-40f9-bae5-4744c32901ef", "Test");
+        PhotonNetwork.PhotonServerSettings.JoinLobby = false;
+        PhotonNetwork.ConnectToRegion(CloudRegionCode.eu, "2020");
         while (!readyToJoinOrCreateRoom)
         {
             yield return new WaitForEndOfFrame();
@@ -220,11 +221,11 @@ public class EMCli : Photon.MonoBehaviour
         //"Connected to master...".SendProcessing(true);
         RoomOptions roomOptions = new RoomOptions
         {
-            isVisible = true,
-            isOpen = true,
-            maxPlayers = 10
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = 10
         };
-
+        PhotonNetwork.PhotonServerSettings.JoinLobby = true;
         PhotonNetwork.JoinOrCreateRoom("TestServer`The City`abnormal`999999`day``1", roomOptions, TypedLobby.Default);
         //ServerList.instance.gameObject.SetActive(false);
         "Creating a room...".SendProcessing(true);
