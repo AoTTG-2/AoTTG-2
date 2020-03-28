@@ -3,7 +3,14 @@
 public abstract class GamemodeBase
 {
     public GamemodeType GamemodeType;
-    public string Name;
+
+    private string name;
+    public string Name
+    {
+        get { return name ?? GamemodeType.ToString(); }
+        set { name = value; }
+    }
+
     public string Description;
 
     //Titan Specific logic might be moved into a abstract Gamemode which implements an abstract TitanGamemode. Some gamemodes may not need titans, like Blades vs Blades pvp

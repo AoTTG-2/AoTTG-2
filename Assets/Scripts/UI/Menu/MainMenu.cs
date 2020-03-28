@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-
-namespace Assets.Scripts.UI
+﻿namespace Assets.Scripts.UI.Menu
 {
     public class MainMenu : UiElement
     {
         public void Multiplayer()
         {
-            Navigate(typeof(ServerRegion));
+            Navigate(typeof(Lobby));
         }
 
         public void Credits()

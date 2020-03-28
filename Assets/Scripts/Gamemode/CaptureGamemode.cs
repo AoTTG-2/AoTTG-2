@@ -97,7 +97,7 @@ public class CaptureGamemode : GamemodeBase
             }
         }
 
-        if (isMasterClient && LevelInfo.getInfo(FengGameManagerMKII.level).mapName == "OutSide")
+        if (isMasterClient && FengGameManagerMKII.Level.SceneName == "OutSide")
         {
             GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("titanRespawn");
             if (objArray3.Length <= 0)

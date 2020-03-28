@@ -1,15 +1,9 @@
-using ExitGames.Client.Photon;
-using Photon;
+using Assets.Scripts.Room;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using Assets.Scripts.UI;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
@@ -73,6 +67,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private ArrayList kicklist;
     private ArrayList killInfoGO = new ArrayList();
     public static bool LAN;
+    [Obsolete("Use FengGameManagerMKII.Level or FengGameManagerMKII.Gamemode")]
     public static string level = string.Empty;
     public List<string[]> levelCache;
     public static ExitGames.Client.Photon.Hashtable[] linkHash;
@@ -162,6 +157,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public new string name { get; set; }
     public static GamemodeBase Gamemode { get; set; }
+    public static Level Level { get; set; }
 
     public void addCamera(IN_GAME_MAIN_CAMERA c)
     {
@@ -4329,14 +4325,16 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnJoinedRoom()
     {
-        this.maxPlayers = PhotonNetwork.room.maxPlayers;
+        Level = PhotonNetwork.room.GetLevel();
+        Gamemode = PhotonNetwork.room.GetGamemode(Level);
+        this.maxPlayers = PhotonNetwork.room.MaxPlayers;
         this.playerList = string.Empty;
         char[] separator = new char[] { "`"[0] };
         //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
         this.gameTimesUp = false;
         char[] chArray3 = new char[] { "`"[0] };
-        //string[] strArray = PhotonNetwork.room.name.Split(chArray3);
-        level = "The City I";//strArray[1];
+        string[] strArray = PhotonNetwork.room.name.Split(chArray3);
+        level = Level.Name;
         this.difficulty = 0;
         //if (strArray[2] == "normal")
         //{
@@ -4365,8 +4363,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //{
         //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
         //}
-        Gamemode = LevelInfo.getInfo(level).GameMode;
-        PhotonNetwork.LoadLevel(LevelInfo.getInfo(level).mapName);
+        PhotonNetwork.LoadLevel(Level.SceneName);
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add(PhotonPlayerProperty.name, LoginFengKAI.player.name);
         hashtable.Add(PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname);

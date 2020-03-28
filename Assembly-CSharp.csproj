@@ -289,6 +289,7 @@
      <Compile Include="Assets\Scripts\Room\Minimap\CatchDestroy.cs" />
      <Compile Include="Assets\Scripts\Room\Minimap\Minimap.cs" />
      <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
+     <Compile Include="Assets\Scripts\Room\RoomExtensions.cs" />
      <Compile Include="Assets\Scripts\SelfDestroy.cs" />
      <Compile Include="Assets\Scripts\Settings\CheckBoxCostume.cs" />
      <Compile Include="Assets\Scripts\Settings\ColorSet.cs" />
@@ -318,13 +319,13 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleExtensions.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
-     <Compile Include="Assets\Scripts\UI\Credits.cs" />
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenuElement.cs" />
-     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
-     <Compile Include="Assets\Scripts\UI\RoomRow.cs" />
-     <Compile Include="Assets\Scripts\UI\ServerList.cs" />
-     <Compile Include="Assets\Scripts\UI\ServerRegion.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\RoomRow.cs" />
      <Compile Include="Assets\Scripts\UI\UiElement.cs" />
      <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
      <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
@@ -350,6 +351,7 @@
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (AlphaClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed).shader" />
+     <None Include="Assets\Ui\Fonts\SIL Open Font License.txt" />
      <None Include="Assets\output_log.txt" />
      <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
