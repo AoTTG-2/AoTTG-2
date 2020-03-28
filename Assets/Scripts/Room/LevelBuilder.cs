@@ -1,12 +1,11 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Gamemode;
 using System.Collections.Generic;
-using Assets.Scripts.Gamemode;
 using UnityEngine;
 
 public class LevelBuilder
 {
-    private List<Level> levels;
-    public List<Level> GetAllLevels()
+    private static List<Level> levels;
+    public static List<Level> GetAllLevels()
     {
         if (levels != null) return levels;
         levels = new List<Level>();
@@ -14,7 +13,7 @@ public class LevelBuilder
         return levels;
     }
 
-    private void AddClassicMaps()
+    private static void AddClassicMaps()
     {
         levels.Add(new Level
         {
@@ -92,9 +91,9 @@ public class LevelBuilder
 
         levels.Add(new Level
         {
-            Name = "Akina",
-            Description = "Most famous racing map",
-            SceneName = "track - akina",
+            Name = "Outside the Walls",
+            Description = "Classic Outside the Walls map",
+            SceneName = "OutSide",
             Gamemodes = new List<GamemodeBase>
             {
                 new CaptureGamemode
