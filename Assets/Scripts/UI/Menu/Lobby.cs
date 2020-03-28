@@ -1,12 +1,18 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Room;
+using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace Assets.Scripts.UI.Menu
 {
-    public class ServerRegion : UiElement
+    public class Lobby : UiElement
     {
         public GameObject ScrollViewContent;
         public GameObject Row;
         private int Region { get; set; }
+
+        public void CreateRoom()
+        {
+            Navigate(typeof(CreateRoom));
+        }
 
         public void OnEnable()
         {
@@ -44,7 +50,7 @@ namespace Assets.Scripts.UI
             {
                 var row = Instantiate(Row, ScrollViewContent.transform);
                 var room = row.GetComponent<RoomRow>();
-                room.Room = "No Lobbies available...";
+                room.DisplayName = "No Lobbies available...";
                 room.IsJoinable = false;
                 return;
             }
@@ -52,7 +58,9 @@ namespace Assets.Scripts.UI
             foreach (var roomInfo in rooms)
             {
                 var row = Instantiate(Row, ScrollViewContent.transform);
-                row.GetComponent<RoomRow>().Room = roomInfo.Name;
+                var roomRow = row.GetComponent<RoomRow>();
+                roomRow.Room = roomInfo.Name;
+                roomRow.DisplayName = $"{roomInfo.GetName()} | {roomInfo.GetLevel()} | {roomInfo.GetGamemode()} | {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
             }
         }
     }
