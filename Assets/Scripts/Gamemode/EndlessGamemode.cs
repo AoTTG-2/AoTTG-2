@@ -8,6 +8,7 @@
             RespawnMode = RespawnMode.NEVER;
             AllowPlayerTitans = true;
             Pvp = false;
+            Titans = 10;
         }
 
         public override void OnTitanKilled(string titanName, bool onPlayerLeave)

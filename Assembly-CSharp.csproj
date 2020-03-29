@@ -288,6 +288,7 @@
      <Compile Include="Assets\Scripts\Room\LevelTriggerRacingEnd.cs" />
      <Compile Include="Assets\Scripts\Room\Minimap\CatchDestroy.cs" />
      <Compile Include="Assets\Scripts\Room\Minimap\Minimap.cs" />
+     <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
      <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
      <Compile Include="Assets\Scripts\Room\RoomExtensions.cs" />
      <Compile Include="Assets\Scripts\SelfDestroy.cs" />
@@ -319,6 +320,8 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleExtensions.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\InGameUi.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\InGameUiText.cs" />
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenuElement.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
@@ -352,6 +355,7 @@
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed).shader" />
      <None Include="Assets\Ui\Fonts\SIL Open Font License.txt" />
      <None Include="Assets\output_log.txt" />
+     <None Include="Assets\Shader\3d text.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />

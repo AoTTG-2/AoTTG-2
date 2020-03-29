@@ -2,7 +2,9 @@ using Assets.Scripts.Room;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
+using Assets.Scripts.UI.InGame;
 using UnityEngine;
 
 //[Obsolete]
@@ -154,6 +156,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static string usernameField;
     [Obsolete("Please use WaveGamemode.Wave")]
     public int wave = 1;
+
+    public InGameUi InGameUI;
 
     public new string name { get; set; }
     public static GamemodeBase Gamemode { get; set; }
@@ -1397,7 +1401,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     Time.timeScale = 1f;
                 }
             }
-            this.justRecompileThePlayerList();
+            this.ReloadPlayerlist();
         }
     }
 
@@ -2301,7 +2305,57 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         return (num == num2);
     }
-    
+
+
+    private void ReloadPlayerlist()
+    {
+        var playerList = "";
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        {
+            if (ignoreList.Contains(player.ID))
+            {
+                playerList += "<color=red>[X]</color> ";
+            }
+            playerList += "[" + Convert.ToString(player.ID) + "] ";
+            if (player.IsMasterClient)
+            {
+                playerList += "[M] ";
+            }
+            if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+            {
+                playerList += "<color=red>*dead*</color> ";
+            }
+            if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) < 2)
+            {
+                var team = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]);
+                if (team < 2)
+                {
+                    playerList += $"<color=#{ColorSet.color_human}> <H> </color> ";
+                }
+                else if (team == 2)
+                {
+                    playerList += $"<color=#{ColorSet.color_human_1}> <A> </color> ";
+                }
+            }
+            else if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
+            {
+                playerList += $"<color=#{ColorSet.color_titan_player}> <T> </color> ";
+            }
+            var name = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
+            var kills = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]);
+            var deaths = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.deaths]);
+            var maxDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]);
+            var totalDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]);
+            playerList += $"{name} {kills}/{deaths}/{maxDamage}/{totalDamage}";
+            if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+            {
+                playerList += "[-]";
+            }
+            playerList += "\n";
+        }
+        this.playerList = playerList;
+    }
+
     public void justRecompileThePlayerList()
     {
         int num15;
@@ -4400,7 +4454,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.name = nameField;
             if ((!this.name.StartsWith("[") || (this.name.Length < 8)) || (this.name.Substring(7, 1) != "]"))
             {
-                this.name = "[9999FF]" + this.name;
+                this.name = $"<color=#9999ff>{this.name}</color>";
             }
             this.name = this.name.Replace("[-]", "");
             LoginFengKAI.player.name = this.name;
@@ -7101,6 +7155,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void ShowHUDInfoCenter(string content)
     {
+        InGameUI.InGameUiText.Center.text = content;
 
     }
 
@@ -7111,7 +7166,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void ShowHUDInfoTopCenter(string content)
     {
-
+        InGameUI.InGameUiText.Top.text = content;
     }
 
     private void ShowHUDInfoTopCenterADD(string content)
@@ -7121,12 +7176,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void ShowHUDInfoTopLeft(string content)
     {
-
+        InGameUI.InGameUiText.TopLeft.text = content;
     }
 
     private void ShowHUDInfoTopRight(string content)
     {
-
+        InGameUI.InGameUiText.TopRight.text = content;
     }
 
     private void ShowHUDInfoTopRightMAPNAME(string content)
@@ -8570,7 +8625,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
         }
-        this.playerList = iteratorVariable1;
+        ReloadPlayerlist();
         if (PhotonNetwork.isMasterClient && ((!this.isWinning && !this.isLosing) && (this.roundTime >= 5f)))
         {
             int num22;

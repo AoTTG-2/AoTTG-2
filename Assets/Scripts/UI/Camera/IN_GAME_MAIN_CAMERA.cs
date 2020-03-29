@@ -100,8 +100,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             //base.GetComponent<TiltShift>().enabled = true;
         }
+
+        return;
         //HACK
-        //this.CreateMinimap();
+        this.CreateMinimap();
     }
 
     private void camareMovement()
@@ -204,7 +206,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 Minimap.instance.myCam.enabled = false;
             }
             minimap.CreateMinimap(Minimap.instance.myCam, 0x200, 0.3f, info.minimapPreset);
-            if ((((int) FengGameManagerMKII.settings[0xe7]) == 0) || (RCSettings.globalDisableMinimap == 1))
+            if ((((int)FengGameManagerMKII.settings[0xe7]) == 0) || (RCSettings.globalDisableMinimap == 1))
             {
                 minimap.SetEnabled(false);
             }
