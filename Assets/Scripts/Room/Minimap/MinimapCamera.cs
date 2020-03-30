@@ -6,17 +6,24 @@ namespace Assets.Scripts.Room.Minimap
     {
         public int Height = 500;
         public bool Rotate = true;
-        private GameObject MainCamera;
+        private GameObject mainCamera;
+        private Camera minimapCamera;
 
         void OnEnable()
         {
-            MainCamera = GameObject.Find("MainCamera");
+            mainCamera = GameObject.Find("MainCamera");
+            minimapCamera = gameObject.GetComponent<Camera>();
         }
         
         public void FixedUpdate()
         {
-            var mainCameraVector = MainCamera.transform.position;
-            var mainCameraRotation = MainCamera.transform.rotation;
+            if (mainCamera == null)
+            {
+                OnEnable();
+            }
+            var mainCameraVector = mainCamera.transform.position;
+            var mainCameraRotation = mainCamera.transform.rotation;
+            minimapCamera.orthographicSize = Height;
             transform.position = new Vector3(mainCameraVector.x, mainCameraVector.y + Height, mainCameraVector.z);
             transform.eulerAngles = Rotate
                 ? new Vector3(90, mainCameraRotation.eulerAngles.y)

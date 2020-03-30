@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Xft;
 
 public class Hero : Human
@@ -35,7 +36,7 @@ public class Hero : Human
     private int bulletMAX = 7;
     public GameObject bulletRight;
     private bool buttonAttackRelease;
-    public Dictionary<string, UISprite> cachedSprites;
+    public Dictionary<string, Image> cachedSprites;
     public float CameraMultiplier;
     public bool canJump = true;
     public GameObject checkBoxLeft;
@@ -177,6 +178,8 @@ public class Hero : Human
     private bool wallJump;
     private float wallRunTime;
 
+    public GameObject InGameUI;
+
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
         GO.GetComponent<Rigidbody>().AddForce(v);
@@ -216,6 +219,7 @@ public class Hero : Human
 
     private void Awake()
     {
+        InGameUI = GameObject.Find("InGameUi");
         this.cache();
         this.setup = base.gameObject.GetComponent<HERO_SETUP>();
         this.baseRigidBody.freezeRotation = true;
@@ -489,16 +493,33 @@ public class Hero : Human
             this.crossR1 = GameObject.Find("crossR1");
             this.crossR2 = GameObject.Find("crossR2");
             this.LabelDistance = GameObject.Find("LabelDistance");
-            this.cachedSprites = new Dictionary<string, UISprite>();
-            foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+            this.cachedSprites = new Dictionary<string, Image>();
+            //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+            //{
+            //    if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
+            //    {
+            //        string name = obj2.name;
+            //        if (!((((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd")) ? this.cachedSprites.ContainsKey(name) : true))
+            //        {
+            //            this.cachedSprites.Add(name, obj2.GetComponent<UISprite>());
+            //        }
+            //    }
+            //}
+            //foreach (var obj in Resources.FindObjectsOfTypeAll<GameObject>() )
+            //{
+            //    var image = obj.GetComponent<Image>();
+            //    if (image == null || !obj.activeInHierarchy) continue;
+            //    if (obj.name.Contains("Gas"))
+            //    {
+            //        cachedSprites.Add(obj.name, image);
+            //    }
+            //}
+            foreach (Image image in InGameUI.GetComponentsInChildren(typeof(Image), true))
             {
-                if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
+                if (image == null) continue;
+                if (image.gameObject.name.Contains("Gas"))
                 {
-                    string name = obj2.name;
-                    if (!((((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd")) ? this.cachedSprites.ContainsKey(name) : true))
-                    {
-                        this.cachedSprites.Add(name, obj2.GetComponent<UISprite>());
-                    }
+                    cachedSprites.Add(image.gameObject.name, image);
                 }
             }
         }
@@ -4393,228 +4414,128 @@ public class Hero : Human
         }
     }
 
-    private void showGas()
-    {
-        float num = this.currentGas / this.totalGas;
-        float num2 = this.currentBladeSta / this.totalBladeSta;
-        GameObject.Find("gasL1").GetComponent<UISprite>().fillAmount = this.currentGas / this.totalGas;
-        GameObject.Find("gasR1").GetComponent<UISprite>().fillAmount = this.currentGas / this.totalGas;
-        if (!this.useGun)
-        {
-            GameObject.Find("bladeCL").GetComponent<UISprite>().fillAmount = this.currentBladeSta / this.totalBladeSta;
-            GameObject.Find("bladeCR").GetComponent<UISprite>().fillAmount = this.currentBladeSta / this.totalBladeSta;
-            if (num <= 0f)
-            {
-                GameObject.Find("gasL").GetComponent<UISprite>().color = Color.red;
-                GameObject.Find("gasR").GetComponent<UISprite>().color = Color.red;
-            }
-            else if (num < 0.3f)
-            {
-                GameObject.Find("gasL").GetComponent<UISprite>().color = Color.yellow;
-                GameObject.Find("gasR").GetComponent<UISprite>().color = Color.yellow;
-            }
-            else
-            {
-                GameObject.Find("gasL").GetComponent<UISprite>().color = Color.white;
-                GameObject.Find("gasR").GetComponent<UISprite>().color = Color.white;
-            }
-            if (num2 <= 0f)
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().color = Color.red;
-                GameObject.Find("blader1").GetComponent<UISprite>().color = Color.red;
-            }
-            else if (num2 < 0.3f)
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().color = Color.yellow;
-                GameObject.Find("blader1").GetComponent<UISprite>().color = Color.yellow;
-            }
-            else
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().color = Color.white;
-                GameObject.Find("blader1").GetComponent<UISprite>().color = Color.white;
-            }
-            if (this.currentBladeNum <= 4)
-            {
-                GameObject.Find("bladel5").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader5").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel5").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader5").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 3)
-            {
-                GameObject.Find("bladel4").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader4").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel4").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader4").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 2)
-            {
-                GameObject.Find("bladel3").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader3").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel3").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader3").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 1)
-            {
-                GameObject.Find("bladel2").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader2").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel2").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader2").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 0)
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader1").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader1").GetComponent<UISprite>().enabled = true;
-            }
-        }
-        else
-        {
-            if (this.leftGunHasBullet)
-            {
-                GameObject.Find("bulletL").GetComponent<UISprite>().enabled = true;
-            }
-            else
-            {
-                GameObject.Find("bulletL").GetComponent<UISprite>().enabled = false;
-            }
-            if (this.rightGunHasBullet)
-            {
-                GameObject.Find("bulletR").GetComponent<UISprite>().enabled = true;
-            }
-            else
-            {
-                GameObject.Find("bulletR").GetComponent<UISprite>().enabled = false;
-            }
-        }
-    }
-
     private void showGas2()
     {
         float num = this.currentGas / this.totalGas;
         float num2 = this.currentBladeSta / this.totalBladeSta;
-        this.cachedSprites["gasL1"].fillAmount = this.currentGas / this.totalGas;
-        this.cachedSprites["gasR1"].fillAmount = this.currentGas / this.totalGas;
-        if (!this.useGun)
+        cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentGas / totalGas;
+        if (num <= 0.25f)
         {
-            this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-            this.cachedSprites["bladeCR"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-            if (num <= 0f)
-            {
-                this.cachedSprites["gasL"].color = Color.red;
-                this.cachedSprites["gasR"].color = Color.red;
-            }
-            else if (num < 0.3f)
-            {
-                this.cachedSprites["gasL"].color = Color.yellow;
-                this.cachedSprites["gasR"].color = Color.yellow;
-            }
-            else
-            {
-                this.cachedSprites["gasL"].color = Color.white;
-                this.cachedSprites["gasR"].color = Color.white;
-            }
-            if (num2 <= 0f)
-            {
-                this.cachedSprites["bladel1"].color = Color.red;
-                this.cachedSprites["blader1"].color = Color.red;
-            }
-            else if (num2 < 0.3f)
-            {
-                this.cachedSprites["bladel1"].color = Color.yellow;
-                this.cachedSprites["blader1"].color = Color.yellow;
-            }
-            else
-            {
-                this.cachedSprites["bladel1"].color = Color.white;
-                this.cachedSprites["blader1"].color = Color.white;
-            }
-            if (this.currentBladeNum <= 4)
-            {
-                this.cachedSprites["bladel5"].enabled = false;
-                this.cachedSprites["blader5"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel5"].enabled = true;
-                this.cachedSprites["blader5"].enabled = true;
-            }
-            if (this.currentBladeNum <= 3)
-            {
-                this.cachedSprites["bladel4"].enabled = false;
-                this.cachedSprites["blader4"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel4"].enabled = true;
-                this.cachedSprites["blader4"].enabled = true;
-            }
-            if (this.currentBladeNum <= 2)
-            {
-                this.cachedSprites["bladel3"].enabled = false;
-                this.cachedSprites["blader3"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel3"].enabled = true;
-                this.cachedSprites["blader3"].enabled = true;
-            }
-            if (this.currentBladeNum <= 1)
-            {
-                this.cachedSprites["bladel2"].enabled = false;
-                this.cachedSprites["blader2"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel2"].enabled = true;
-                this.cachedSprites["blader2"].enabled = true;
-            }
-            if (this.currentBladeNum <= 0)
-            {
-                this.cachedSprites["bladel1"].enabled = false;
-                this.cachedSprites["blader1"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel1"].enabled = true;
-                this.cachedSprites["blader1"].enabled = true;
-            }
+            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.red;
+        }
+        else if (num < 0.5f)
+        {
+            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.yellow;
         }
         else
         {
-            if (this.leftGunHasBullet)
-            {
-                this.cachedSprites["bulletL"].enabled = true;
-            }
-            else
-            {
-                this.cachedSprites["bulletL"].enabled = false;
-            }
-            if (this.rightGunHasBullet)
-            {
-                this.cachedSprites["bulletR"].enabled = true;
-            }
-            else
-            {
-                this.cachedSprites["bulletR"].enabled = false;
-            }
+            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
         }
+        Equipment.Weapon.UpdateSupplyUi(InGameUI);
+        //if (!this.useGun)
+        //{
+        //    this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
+        //    this.cachedSprites["bladeCR"].fillAmount = this.currentBladeSta / this.totalBladeSta;
+        //    if (num <= 0f)
+        //    {
+        //        this.cachedSprites["gasL"].color = Color.red;
+        //        this.cachedSprites["gasR"].color = Color.red;
+        //    }
+        //    else if (num < 0.3f)
+        //    {
+        //        this.cachedSprites["gasL"].color = Color.yellow;
+        //        this.cachedSprites["gasR"].color = Color.yellow;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["gasL"].color = Color.white;
+        //        this.cachedSprites["gasR"].color = Color.white;
+        //    }
+        //    if (num2 <= 0f)
+        //    {
+        //        this.cachedSprites["bladel1"].color = Color.red;
+        //        this.cachedSprites["blader1"].color = Color.red;
+        //    }
+        //    else if (num2 < 0.3f)
+        //    {
+        //        this.cachedSprites["bladel1"].color = Color.yellow;
+        //        this.cachedSprites["blader1"].color = Color.yellow;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel1"].color = Color.white;
+        //        this.cachedSprites["blader1"].color = Color.white;
+        //    }
+        //    if (this.currentBladeNum <= 4)
+        //    {
+        //        this.cachedSprites["bladel5"].enabled = false;
+        //        this.cachedSprites["blader5"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel5"].enabled = true;
+        //        this.cachedSprites["blader5"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 3)
+        //    {
+        //        this.cachedSprites["bladel4"].enabled = false;
+        //        this.cachedSprites["blader4"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel4"].enabled = true;
+        //        this.cachedSprites["blader4"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 2)
+        //    {
+        //        this.cachedSprites["bladel3"].enabled = false;
+        //        this.cachedSprites["blader3"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel3"].enabled = true;
+        //        this.cachedSprites["blader3"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 1)
+        //    {
+        //        this.cachedSprites["bladel2"].enabled = false;
+        //        this.cachedSprites["blader2"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel2"].enabled = true;
+        //        this.cachedSprites["blader2"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 0)
+        //    {
+        //        this.cachedSprites["bladel1"].enabled = false;
+        //        this.cachedSprites["blader1"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel1"].enabled = true;
+        //        this.cachedSprites["blader1"].enabled = true;
+        //    }
+        //}
+        //else
+        //{
+        //    if (this.leftGunHasBullet)
+        //    {
+        //        this.cachedSprites["bulletL"].enabled = true;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bulletL"].enabled = false;
+        //    }
+        //    if (this.rightGunHasBullet)
+        //    {
+        //        this.cachedSprites["bulletR"].enabled = true;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bulletR"].enabled = false;
+        //    }
+        //}
     }
 
     [PunRPC]
@@ -5765,6 +5686,7 @@ public class Hero : Human
                             {
                                 this.currentBladeSta = this.totalBladeSta;
                                 this.currentBladeNum = this.totalBladeNum;
+                                Equipment.Weapon.AmountLeft = Equipment.Weapon.AmountRight = totalBladeNum;
                                 this.currentGas = this.totalGas;
                                 if (!this.useGun)
                                 {
@@ -5930,7 +5852,7 @@ public class Hero : Human
                         {
                             //this.showSkillCD();
                             //this.showFlareCD2();
-                            //this.showGas2();
+                            this.showGas2();
                             //this.showAimUI2();
                         }
                     }

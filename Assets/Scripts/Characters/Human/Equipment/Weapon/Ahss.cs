@@ -109,4 +109,9 @@ public class Ahss : Weapon
             }
         }
     }
+
+    public override void UpdateSupplyUi(GameObject inGameUi)
+    {
+        throw new System.NotImplementedException();
+    }
 }

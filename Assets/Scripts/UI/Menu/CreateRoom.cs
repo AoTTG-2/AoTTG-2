@@ -86,7 +86,6 @@ namespace Assets.Scripts.UI.Menu
 
         private void SceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            AottgUi.TestSpawn();
             Canvas.ShowInGameUi();
         }
     }

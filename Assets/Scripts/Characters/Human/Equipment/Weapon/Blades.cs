@@ -57,6 +57,12 @@ public class Blades : Weapon
         }
     }
 
+    public override void UpdateSupplyUi(GameObject inGameUi)
+    {
+        var bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
+        bladesUi.SetBlades(AmountLeft);
+    }
+
     private void ThrowBlades()
     {
         var transform = Hero.setup.part_blade_l.transform;
