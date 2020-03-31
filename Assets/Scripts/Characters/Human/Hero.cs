@@ -101,7 +101,7 @@ public class Hero : Human
     private bool isRightHandHooked;
     public float jumpHeight = 2f;
     private bool justGrounded;
-    public GameObject LabelDistance;
+    public Text LabelDistance;
     public Transform lastHook;
     private float launchElapsedTimeL;
     private float launchElapsedTimeR;
@@ -492,7 +492,7 @@ public class Hero : Human
             this.crossL2 = GameObject.Find("crossL2");
             this.crossR1 = GameObject.Find("crossR1");
             this.crossR2 = GameObject.Find("crossR2");
-            this.LabelDistance = GameObject.Find("LabelDistance");
+            this.LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
             this.cachedSprites = new Dictionary<string, Image>();
             //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
             //{
@@ -4283,13 +4283,13 @@ public class Hero : Human
             GameObject obj5 = this.crossL2;
             GameObject obj6 = this.crossR1;
             GameObject obj7 = this.crossR2;
-            GameObject labelDistance = this.LabelDistance;
+            var labelDistance = this.LabelDistance;
             vector = (Vector3) (Vector3.up * 10000f);
             obj7.transform.localPosition = vector;
             obj6.transform.localPosition = vector;
             obj5.transform.localPosition = vector;
             obj4.transform.localPosition = vector;
-            labelDistance.transform.localPosition = vector;
+            labelDistance.gameObject.transform.localPosition = vector;
             obj3.transform.localPosition = vector;
             obj2.transform.localPosition = vector;
         }
@@ -4312,7 +4312,6 @@ public class Hero : Human
                 obj10.transform.localPosition = obj9.transform.localPosition;
                 vector = hit.point - this.baseTransform.position;
                 float magnitude = vector.magnitude;
-                GameObject obj11 = this.LabelDistance;
                 string str = (magnitude <= 1000f) ? ((int) magnitude).ToString() : "???";
                 if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
                 {
@@ -4322,20 +4321,20 @@ public class Hero : Human
                 {
                     str = str + "\n" + ((this.currentSpeed / 100f)).ToString("F1") + "K";
                 }
-                //obj11.GetComponent<UILabel>().text = str;
+                LabelDistance.text = str;
                 if (magnitude > 120f)
                 {
                     Transform transform11 = obj9.transform;
                     transform11.localPosition += (Vector3) (Vector3.up * 10000f);
-                    obj11.transform.localPosition = obj10.transform.localPosition;
+                    LabelDistance.gameObject.transform.localPosition = obj10.transform.localPosition;
                 }
                 else
                 {
                     Transform transform12 = obj10.transform;
                     transform12.localPosition += (Vector3) (Vector3.up * 10000f);
-                    obj11.transform.localPosition = obj9.transform.localPosition;
+                    LabelDistance.gameObject.transform.localPosition = obj9.transform.localPosition;
                 }
-                Transform transform13 = obj11.transform;
+                Transform transform13 = LabelDistance.gameObject.transform;
                 transform13.localPosition -= new Vector3(0f, 15f, 0f);
                 Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
                 vector2 -= (Vector3) (this.baseTransform.right * 0.3f);
@@ -5853,7 +5852,7 @@ public class Hero : Human
                             //this.showSkillCD();
                             //this.showFlareCD2();
                             this.showGas2();
-                            //this.showAimUI2();
+                            this.showAimUI2();
                         }
                     }
                     else if (this.isCannon && !IN_GAME_MAIN_CAMERA.isPausing)

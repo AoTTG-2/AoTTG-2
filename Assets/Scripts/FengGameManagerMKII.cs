@@ -265,7 +265,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             content = sender + ":" + content;
         }
         content = "<color=#FFC000>[" + Convert.ToString(info.sender.ID) + "]</color> " + content;
-        //this.chatRoom.addLINE(content);
+        this.chatRoom.addLINE(content);
     }
 
     [PunRPC]

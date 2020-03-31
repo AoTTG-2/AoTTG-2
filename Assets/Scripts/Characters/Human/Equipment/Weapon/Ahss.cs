@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ahss : Weapon 
 {
@@ -112,6 +110,7 @@ public class Ahss : Weapon
 
     public override void UpdateSupplyUi(GameObject inGameUi)
     {
-        throw new System.NotImplementedException();
+        var bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.AHSS>();
+        bladesUi.SetAHSS(AmountLeft, AmountRight);
     }
 }

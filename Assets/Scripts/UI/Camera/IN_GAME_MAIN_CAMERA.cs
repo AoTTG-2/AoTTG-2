@@ -373,10 +373,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         GameObject.Find("LabelNetworkStatus").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (Screen.height * 0.5f)), 0f);
         GameObject.Find("LabelInfoTopLeft").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) ((Screen.height * 0.5f) - 20f)), 0f);
         GameObject.Find("Chatroom").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (-Screen.height * 0.5f)), 0f);
-        if (GameObject.Find("Chatroom") != null)
-        {
-            GameObject.Find("Chatroom").GetComponent<InRoomChat>().setPosition();
-        }
         if (usingTitan && (gametype != GAMETYPE.SINGLE))
         {
             Vector3 vector = new Vector3(0f, 9999f, 0f);
