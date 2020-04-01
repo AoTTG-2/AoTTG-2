@@ -8,25 +8,35 @@ public class EMCli : Photon.MonoBehaviour
 {
     private static float layoutWidth = 300f;
     private static float floatShift = layoutWidth + 25;
-    private static Rect rectMainGUI = new Rect(Screen.width - 320f, 0, layoutWidth, 430f);
+    private static Rect rectMainGUI = new Rect(0, 0, layoutWidth, 430f);
     private static Rect rectSuggestionLayout = rectMainGUI;
     private static Rect rectSuggestionsLayoutShift = new Rect(320f, 0, layoutWidth, 430f);
     private static GUILayoutOption[] guiLayoutOptionMainGUI = new GUILayoutOption[] { GUILayout.Width(320f), GUILayout.MaxHeight(430f) };
     private static GUI.WindowFunction windowFunctionMainGUI = new GUI.WindowFunction(WindowLayoutMainGUI);
     private static string layout = string.Empty;
     private static Vector2 scrollPosition = Vector2.zero;
-    private static string nameOfControle = "CLI";
-    private static string head = "Command Line".RepaintGreen(true);
-    private static string arrow = ">".RepaintGreen(true);
-    private static string delete = "x".RepaintError(true);
     public bool Visible = true;
     private static bool readyToJoinOrCreateRoom = false;
     private static Vector2 scrollPositionSuggestions = Vector2.zero;
     private static string suggestions = string.Empty;
 
+    private static Color backgroundColor = Color.black; //use whatever color you like
+    private static string textColorCode = "[00FF00]";
+    private static string crossColorCode = "[ff0000]";
+    private static string enterColorCode = "[00ff00]";
+
+    private static string nameOfControle = "CLI";
+    private static string head = "Command Line".RepaintCustom(textColorCode, true);
+    private static string arrow = ">".RepaintCustom(enterColorCode, true);
+    private static string delete = "x".RepaintCustom(crossColorCode, true);
+    private static KeyCode keyCodeShowHide = KeyCode.BackQuote; //Show/Hide console
+    private static KeyCode keyCodeFocus = KeyCode.RightAlt; //Press this and start typing right away
+    private static KeyCode keyCodeEnter = KeyCode.Return; //Enter a command
+
     // Use this for initialization
     void Start()
     {
+        UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
         EnterCommand("/info");
     }
 
@@ -56,7 +66,7 @@ public class EMCli : Photon.MonoBehaviour
     {
         if (Event.current.type == EventType.KeyUp)
         {
-            if (Event.current.keyCode == KeyCode.RightAlt)
+            if (Event.current.keyCode == keyCodeFocus)
             {
                 if (GUI.GetNameOfFocusedControl() == nameOfControle)
                 {
@@ -87,7 +97,7 @@ public class EMCli : Photon.MonoBehaviour
             {
                 InputLine.Down();
             }
-            else if (Event.current.keyCode == KeyCode.F3)
+            else if (Event.current.keyCode == keyCodeShowHide)
             {
                 Visible = !Visible;
             }
@@ -114,7 +124,7 @@ public class EMCli : Photon.MonoBehaviour
 
     public void EMCliGUI()
     {
-        GUI.backgroundColor = Color.green;
+        GUI.backgroundColor = backgroundColor;
         rectMainGUI = GUILayout.Window(208, rectMainGUI, windowFunctionMainGUI, head, guiLayoutOptionMainGUI);
         if (!string.IsNullOrEmpty(InputLine.inputLine))
         {
@@ -137,7 +147,7 @@ public class EMCli : Photon.MonoBehaviour
     
     public static void WindowLayoutMainGUI(int windowID)
     {
-        GUI.backgroundColor = Color.green;
+        GUI.backgroundColor = backgroundColor;
         GUILayout.BeginHorizontal();
         if (GUILayout.Button(arrow, GUILayout.MaxWidth(25)))
         {
@@ -167,7 +177,7 @@ public class EMCli : Photon.MonoBehaviour
         {
             if (Event.current.type == EventType.KeyUp)
             {
-                if ((Event.current.keyCode == KeyCode.Return) && GUI.GetNameOfFocusedControl().Equals(nameOfControle))
+                if ((Event.current.keyCode == keyCodeEnter) && GUI.GetNameOfFocusedControl().Equals(nameOfControle))
                 {
                     if (!string.IsNullOrEmpty(InputLine.inputLine))
                     {
@@ -227,7 +237,6 @@ public class EMCli : Photon.MonoBehaviour
         };
         PhotonNetwork.PhotonServerSettings.JoinLobby = true;
         PhotonNetwork.JoinOrCreateRoom("TestServer`The City`abnormal`999999`day``1", roomOptions, TypedLobby.Default);
-        //ServerList.instance.gameObject.SetActive(false);
         "Creating a room...".SendProcessing(true);
     }
     
