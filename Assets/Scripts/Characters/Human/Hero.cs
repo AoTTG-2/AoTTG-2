@@ -179,6 +179,7 @@ public class Hero : Human
     private float wallRunTime;
 
     public GameObject InGameUI;
+    public TextMesh PlayerName;
 
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
@@ -3300,7 +3301,7 @@ public class Hero : Human
                 PhotonView view2 = PhotonView.Find(viewID);
                 if (view2 != null)
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, $"<color=#ffc000>[{info.sender.ID}]</color> " + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                     propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                     view2.owner.SetCustomProperties(propertiesToSet);
@@ -3308,7 +3309,7 @@ public class Hero : Human
             }
             else
             {
-                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), $"<color=#ffc000>[{info.sender.ID}]</color> " + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
         }
         if (base.photonView.isMine)
@@ -3412,7 +3413,7 @@ public class Hero : Human
                 PhotonView view2 = PhotonView.Find(viewID);
                 if (view2 != null)
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(true, $"<color=#ffc000>[{info.sender.ID}]</color> " + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                     propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                     view2.owner.SetCustomProperties(propertiesToSet);
@@ -3420,7 +3421,7 @@ public class Hero : Human
             }
             else
             {
-                FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                FengGameManagerMKII.instance.sendKillInfo(true, $"<color=#ffc000>[{info.sender.ID}]</color> " + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
             object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
             FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
@@ -4646,6 +4647,7 @@ public class Hero : Human
                     FengGameManagerMKII.heroHash.Add(iD, this);
                 }
             }
+            PlayerName.GetComponent<TextMesh>().text = FengGameManagerMKII.instance.name;
             ////HACK
             ////GameObject obj2 = GameObject.Find("UI_IN_GAME");
             //this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));

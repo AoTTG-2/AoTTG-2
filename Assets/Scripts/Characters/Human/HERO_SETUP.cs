@@ -436,7 +436,6 @@ public class HERO_SETUP : MonoBehaviour
 
     public void init()
     {
-        Debug.Log("Running init");
         CharacterMaterials.init();
     }
 

@@ -1,10 +1,10 @@
 using Assets.Scripts.Room;
+using Assets.Scripts.UI.InGame;
+using Assets.Scripts.UI.InGame.HUD;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
-using Assets.Scripts.UI.InGame;
 using UnityEngine;
 
 //[Obsolete]
@@ -4183,25 +4183,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void netShowDamage(int speed)
+    public void netShowDamage(int damage)
     {
-        //HACK
-        // Stylish is an UI object, which is replaced.
-        return;
-        GameObject.Find("Stylish").GetComponent<StylishComponent>().Style(speed);
-        GameObject target = GameObject.Find("LabelScore");
-        if (target != null)
-        {
-            target.transform.localScale = Vector3.zero;
-            speed = (int) (speed * 0.1f);
-            speed = Mathf.Max(40, speed);
-            speed = Mathf.Min(150, speed);
-            iTween.Stop(target);
-            object[] args = new object[] { "x", speed, "y", speed, "z", speed, "easetype", iTween.EaseType.easeOutElastic, "time", 1f };
-            iTween.ScaleTo(target, iTween.Hash(args));
-            object[] objArray2 = new object[] { "x", 0, "y", 0, "z", 0, "easetype", iTween.EaseType.easeInBounce, "time", 0.5f, "delay", 2f };
-            iTween.ScaleTo(target, iTween.Hash(objArray2));
-        }
+        InGameUI.HUD.SetDamage(damage);
     }
 
     public void NOTSpawnNonAITitan(string id)
@@ -7155,7 +7139,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void ShowHUDInfoCenter(string content)
     {
-        InGameUI.InGameUiText.Center.text = content;
+        InGameUI.HUD.Labels.Center.text = content;
 
     }
 
@@ -7166,7 +7150,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void ShowHUDInfoTopCenter(string content)
     {
-        InGameUI.InGameUiText.Top.text = content;
+        InGameUI.HUD.Labels.Top.text = content;
     }
 
     private void ShowHUDInfoTopCenterADD(string content)
@@ -7176,12 +7160,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void ShowHUDInfoTopLeft(string content)
     {
-        InGameUI.InGameUiText.TopLeft.text = content;
+        InGameUI.HUD.Labels.TopLeft.text = content;
     }
 
     private void ShowHUDInfoTopRight(string content)
     {
-        InGameUI.InGameUiText.TopRight.text = content;
+        InGameUI.HUD.Labels.TopRight.text = content;
     }
 
     private void ShowHUDInfoTopRightMAPNAME(string content)
@@ -8195,17 +8179,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
     {
-        //HACK
-        return;
         GameObject obj4;
-        GameObject obj2 = GameObject.Find("UI_IN_GAME");
+        GameObject obj2 = GameObject.Find("KillFeed");
         GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
         for (int i = 0; i < this.killInfoGO.Count; i++)
         {
             obj4 = (GameObject) this.killInfoGO[i];
             if (obj4 != null)
             {
-                obj4.GetComponent<KillInfoComponent>().moveOn();
+                obj4.GetComponent<KillInfo>().MoveOn();
             }
         }
         if (this.killInfoGO.Count > 4)
@@ -8213,12 +8195,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             obj4 = (GameObject) this.killInfoGO[0];
             if (obj4 != null)
             {
-                obj4.GetComponent<KillInfoComponent>().destory();
+                obj4.GetComponent<KillInfo>().Destroy();
             }
             this.killInfoGO.RemoveAt(0);
         }
-        //obj3.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
-        obj3.GetComponent<KillInfoComponent>().show(t1, killer, t2, victim, dmg);
+
+        obj3.transform.parent = obj2.transform;
+        obj3.transform.position = new Vector3();
+        obj3.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
         this.killInfoGO.Add(obj3);
         if (((int) settings[0xf4]) == 1)
         {

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.InGame
+namespace Assets.Scripts.UI.InGame.HUD
 {
-    public class InGameUiText : MonoBehaviour
+    public class Labels : MonoBehaviour
     {
         public Text Center;
         public Text Top;
