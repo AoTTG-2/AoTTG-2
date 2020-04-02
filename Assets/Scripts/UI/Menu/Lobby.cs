@@ -61,6 +61,7 @@ namespace Assets.Scripts.UI.Menu
                 var roomRow = row.GetComponent<RoomRow>();
                 roomRow.Room = roomInfo.Name;
                 roomRow.DisplayName = $"{roomInfo.GetName()} | {roomInfo.GetLevel()} | {roomInfo.GetGamemode()} | {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
+                roomRow.Lobby = this;
             }
         }
     }

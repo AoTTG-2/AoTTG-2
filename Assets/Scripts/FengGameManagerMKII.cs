@@ -1,4 +1,6 @@
 using Assets.Scripts.Room;
+using Assets.Scripts.UI.InGame;
+using Assets.Scripts.UI.InGame.HUD;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -155,6 +157,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [Obsolete("Please use WaveGamemode.Wave")]
     public int wave = 1;
 
+    public InGameUi InGameUI;
+
     public new string name { get; set; }
     public static GamemodeBase Gamemode { get; set; }
     public static Level Level { get; set; }
@@ -261,7 +265,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             content = sender + ":" + content;
         }
         content = "<color=#FFC000>[" + Convert.ToString(info.sender.ID) + "]</color> " + content;
-        //this.chatRoom.addLINE(content);
+        this.chatRoom.addLINE(content);
     }
 
     [PunRPC]
@@ -1397,7 +1401,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     Time.timeScale = 1f;
                 }
             }
-            this.justRecompileThePlayerList();
+            this.ReloadPlayerlist();
         }
     }
 
@@ -2301,7 +2305,57 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         return (num == num2);
     }
-    
+
+
+    private void ReloadPlayerlist()
+    {
+        var playerList = "";
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+        {
+            if (ignoreList.Contains(player.ID))
+            {
+                playerList += "<color=red>[X]</color> ";
+            }
+            playerList += "[" + Convert.ToString(player.ID) + "] ";
+            if (player.IsMasterClient)
+            {
+                playerList += "[M] ";
+            }
+            if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+            {
+                playerList += "<color=red>*dead*</color> ";
+            }
+            if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) < 2)
+            {
+                var team = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]);
+                if (team < 2)
+                {
+                    playerList += $"<color=#{ColorSet.color_human}> <H> </color> ";
+                }
+                else if (team == 2)
+                {
+                    playerList += $"<color=#{ColorSet.color_human_1}> <A> </color> ";
+                }
+            }
+            else if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
+            {
+                playerList += $"<color=#{ColorSet.color_titan_player}> <T> </color> ";
+            }
+            var name = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
+            var kills = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]);
+            var deaths = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.deaths]);
+            var maxDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]);
+            var totalDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]);
+            playerList += $"{name} {kills}/{deaths}/{maxDamage}/{totalDamage}";
+            if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+            {
+                playerList += "[-]";
+            }
+            playerList += "\n";
+        }
+        this.playerList = playerList;
+    }
+
     public void justRecompileThePlayerList()
     {
         int num15;
@@ -4129,25 +4183,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void netShowDamage(int speed)
+    public void netShowDamage(int damage)
     {
-        //HACK
-        // Stylish is an UI object, which is replaced.
-        return;
-        GameObject.Find("Stylish").GetComponent<StylishComponent>().Style(speed);
-        GameObject target = GameObject.Find("LabelScore");
-        if (target != null)
-        {
-            target.transform.localScale = Vector3.zero;
-            speed = (int) (speed * 0.1f);
-            speed = Mathf.Max(40, speed);
-            speed = Mathf.Min(150, speed);
-            iTween.Stop(target);
-            object[] args = new object[] { "x", speed, "y", speed, "z", speed, "easetype", iTween.EaseType.easeOutElastic, "time", 1f };
-            iTween.ScaleTo(target, iTween.Hash(args));
-            object[] objArray2 = new object[] { "x", 0, "y", 0, "z", 0, "easetype", iTween.EaseType.easeInBounce, "time", 0.5f, "delay", 2f };
-            iTween.ScaleTo(target, iTween.Hash(objArray2));
-        }
+        InGameUI.HUD.SetDamage(damage);
     }
 
     public void NOTSpawnNonAITitan(string id)
@@ -4400,7 +4438,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.name = nameField;
             if ((!this.name.StartsWith("[") || (this.name.Length < 8)) || (this.name.Substring(7, 1) != "]"))
             {
-                this.name = "[9999FF]" + this.name;
+                this.name = $"<color=#9999ff>{this.name}</color>";
             }
             this.name = this.name.Replace("[-]", "");
             LoginFengKAI.player.name = this.name;
@@ -7101,6 +7139,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void ShowHUDInfoCenter(string content)
     {
+        InGameUI.HUD.Labels.Center.text = content;
 
     }
 
@@ -7111,7 +7150,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void ShowHUDInfoTopCenter(string content)
     {
-
+        InGameUI.HUD.Labels.Top.text = content;
     }
 
     private void ShowHUDInfoTopCenterADD(string content)
@@ -7121,12 +7160,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void ShowHUDInfoTopLeft(string content)
     {
-
+        InGameUI.HUD.Labels.TopLeft.text = content;
     }
 
     private void ShowHUDInfoTopRight(string content)
     {
-
+        InGameUI.HUD.Labels.TopRight.text = content;
     }
 
     private void ShowHUDInfoTopRightMAPNAME(string content)
@@ -8140,17 +8179,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
     {
-        //HACK
-        return;
         GameObject obj4;
-        GameObject obj2 = GameObject.Find("UI_IN_GAME");
+        GameObject obj2 = GameObject.Find("KillFeed");
         GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
         for (int i = 0; i < this.killInfoGO.Count; i++)
         {
             obj4 = (GameObject) this.killInfoGO[i];
             if (obj4 != null)
             {
-                obj4.GetComponent<KillInfoComponent>().moveOn();
+                obj4.GetComponent<KillInfo>().MoveOn();
             }
         }
         if (this.killInfoGO.Count > 4)
@@ -8158,12 +8195,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             obj4 = (GameObject) this.killInfoGO[0];
             if (obj4 != null)
             {
-                obj4.GetComponent<KillInfoComponent>().destory();
+                obj4.GetComponent<KillInfo>().Destroy();
             }
             this.killInfoGO.RemoveAt(0);
         }
-        //obj3.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
-        obj3.GetComponent<KillInfoComponent>().show(t1, killer, t2, victim, dmg);
+
+        obj3.transform.parent = obj2.transform;
+        obj3.transform.position = new Vector3();
+        obj3.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
         this.killInfoGO.Add(obj3);
         if (((int) settings[0xf4]) == 1)
         {
@@ -8570,7 +8609,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
         }
-        this.playerList = iteratorVariable1;
+        ReloadPlayerlist();
         if (PhotonNetwork.isMasterClient && ((!this.isWinning && !this.isLosing) && (this.roundTime >= 5f)))
         {
             int num22;

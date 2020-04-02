@@ -2381,7 +2381,7 @@ public class TITAN : MonoBehaviour
             if (this.healthLabel == null)
             {
                 this.healthLabel = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
-                this.healthLabel.name = "LabelNameOverHead";
+                this.healthLabel.name = "HealthLabel";
                 this.healthLabel.transform.parent = base.transform;
                 this.healthLabel.transform.localPosition = new Vector3(0f, 20f + (1f / this.myLevel), 0f);
                 if (this.TitanType == TitanType.TYPE_CRAWLER)
@@ -2393,24 +2393,27 @@ public class TITAN : MonoBehaviour
                 {
                     x = 1f / this.myLevel;
                 }
+
+                x *= 0.08f;
                 this.healthLabel.transform.localScale = new Vector3(x, x, x);
                 this.healthLabelEnabled = true;
             }
-            string str = "[7FFF00]";
+
+            var color = "7FFF00";
             float num2 = ((float) health) / ((float) maxHealth);
             if ((num2 < 0.75f) && (num2 >= 0.5f))
             {
-                str = "[f2b50f]";
+                color = "f2b50f";
             }
             else if ((num2 < 0.5f) && (num2 >= 0.25f))
             {
-                str = "[ff8100]";
+                color = "ff8100";
             }
             else if (num2 < 0.25f)
             {
-                str = "[ff3333]";
+                color = "ff3333";
             }
-            //this.healthLabel.GetComponent<UILabel>().text = str + Convert.ToString(health);
+            this.healthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{health}</color>";
         }
     }
 
@@ -2525,7 +2528,7 @@ public class TITAN : MonoBehaviour
             }
             this.headMovement2();
             this.grounded = false;
-            this.updateLabel();
+            //this.updateLabel();
             this.updateCollider();
         }
     }

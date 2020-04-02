@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public abstract class Weapon
 {
@@ -13,4 +14,5 @@ public abstract class Weapon
 
     public abstract void PlayReloadAnimation();
     public abstract void Reload();
+    public abstract void UpdateSupplyUi(GameObject inGameUi);
 }

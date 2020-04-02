@@ -1,19 +1,19 @@
 using ExitGames.Client.Photon;
-using Photon;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InRoomChat2 : Photon.MonoBehaviour
+public class InRoomChat : Photon.MonoBehaviour
 {
     private bool AlignBottom = true;
     public static readonly string ChatRPC = "Chat";
-    public static Rect GuiRect = new Rect(0f, 100f, 300f, 470f);
-    public static Rect GuiRect2 = new Rect(30f, 575f, 300f, 25f);
     private string inputLine = string.Empty;
     public bool IsVisible = true;
     public static List<string> messages = new List<string>();
     private Vector2 scrollPos = Vector2.zero;
+    public InputField ChatInputField;
+    public Text ChatText;
 
     public void addLINE(string newLine)
     {
@@ -44,7 +44,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
         if ((Event.current.type == EventType.KeyUp) && (((Event.current.keyCode != KeyCode.None) && (Event.current.keyCode == FengGameManagerMKII.inputRC.humanKeys[InputCodeRC.chat])) && (GUI.GetNameOfFocusedControl() != "ChatInput")))
         {
             this.inputLine = string.Empty;
-            GUI.FocusControl("ChatInput");
+            ChatInputField.gameObject.GetComponent<Text>().text = string.Empty;
             goto Label_013D;
         }
     Label_00E1:
@@ -56,7 +56,7 @@ public class InRoomChat2 : Photon.MonoBehaviour
                 if (this.inputLine == "\t")
                 {
                     this.inputLine = string.Empty;
-                    GUI.FocusControl(string.Empty);
+                    ChatInputField.gameObject.GetComponent<Text>().text = string.Empty;
                     return;
                 }
                 if (FengGameManagerMKII.RCEvents.ContainsKey("OnChatInput"))
@@ -680,16 +680,14 @@ public class InRoomChat2 : Photon.MonoBehaviour
                     }
                 }
                 this.inputLine = string.Empty;
-                GUI.FocusControl(string.Empty);
+                ChatInputField?.Select();
+                ChatInputField.text = string.Empty;
                 return;
             }
             this.inputLine = "\t";
-            GUI.FocusControl("ChatInput");
+            ChatInputField?.Select();
         }
     Label_013D:
-        GUI.SetNextControlName(string.Empty);
-        GUILayout.BeginArea(GuiRect);
-        GUILayout.FlexibleSpace();
         string text = string.Empty;
         if (messages.Count < 15)
         {
@@ -705,28 +703,9 @@ public class InRoomChat2 : Photon.MonoBehaviour
                 text = text + messages[i] + "\n";
             }
         }
-        GUILayout.Label(text, new GUILayoutOption[0]);
-        GUILayout.EndArea();
-        GUILayout.BeginArea(GuiRect2);
-        GUILayout.BeginHorizontal(new GUILayoutOption[0]);
-        GUI.SetNextControlName("ChatInput");
-        this.inputLine = GUILayout.TextField(this.inputLine, new GUILayoutOption[0]);
-        GUILayout.EndHorizontal();
-        GUILayout.EndArea();
-    }
 
-    public void setPosition()
-    {
-        if (this.AlignBottom)
-        {
-            GuiRect = new Rect(0f, (float) (Screen.height - 500), 300f, 470f);
-            GuiRect2 = new Rect(30f, (float) ((Screen.height - 300) + 0x113), 300f, 25f);
-        }
-    }
-
-    public void Start()
-    {
-        this.setPosition();
+        if (ChatText != null) ChatText.text = text;
+        this.inputLine = ChatInputField?.text;
     }
 }
 
