@@ -48,6 +48,12 @@ public static class ConsoleExtensions
         if (bold) return string.Concat("<b>", colored, "</b>");
         return colored;
     }
+    public static string RepaintCustom(this string input, string colorCode, bool bold = false)
+    {
+        string colored = string.Concat(colorCode, input).HexColor2();
+        if (bold) return string.Concat("<b>", colored, "</b>");
+        return colored;
+    }
     public static string RepaintGreen(this string input, bool bold = false)
     {
         string colored = string.Concat(Green, input).HexColor2();
