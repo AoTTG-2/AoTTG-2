@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Xft;
 
 public class Hero : Human
@@ -35,7 +36,7 @@ public class Hero : Human
     private int bulletMAX = 7;
     public GameObject bulletRight;
     private bool buttonAttackRelease;
-    public Dictionary<string, UISprite> cachedSprites;
+    public Dictionary<string, Image> cachedSprites;
     public float CameraMultiplier;
     public bool canJump = true;
     public GameObject checkBoxLeft;
@@ -100,7 +101,7 @@ public class Hero : Human
     private bool isRightHandHooked;
     public float jumpHeight = 2f;
     private bool justGrounded;
-    public GameObject LabelDistance;
+    public Text LabelDistance;
     public Transform lastHook;
     private float launchElapsedTimeL;
     private float launchElapsedTimeR;
@@ -177,6 +178,9 @@ public class Hero : Human
     private bool wallJump;
     private float wallRunTime;
 
+    public GameObject InGameUI;
+    public TextMesh PlayerName;
+
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
         GO.GetComponent<Rigidbody>().AddForce(v);
@@ -216,6 +220,7 @@ public class Hero : Human
 
     private void Awake()
     {
+        InGameUI = GameObject.Find("InGameUi");
         this.cache();
         this.setup = base.gameObject.GetComponent<HERO_SETUP>();
         this.baseRigidBody.freezeRotation = true;
@@ -488,17 +493,34 @@ public class Hero : Human
             this.crossL2 = GameObject.Find("crossL2");
             this.crossR1 = GameObject.Find("crossR1");
             this.crossR2 = GameObject.Find("crossR2");
-            this.LabelDistance = GameObject.Find("LabelDistance");
-            this.cachedSprites = new Dictionary<string, UISprite>();
-            foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+            this.LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
+            this.cachedSprites = new Dictionary<string, Image>();
+            //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+            //{
+            //    if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
+            //    {
+            //        string name = obj2.name;
+            //        if (!((((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd")) ? this.cachedSprites.ContainsKey(name) : true))
+            //        {
+            //            this.cachedSprites.Add(name, obj2.GetComponent<UISprite>());
+            //        }
+            //    }
+            //}
+            //foreach (var obj in Resources.FindObjectsOfTypeAll<GameObject>() )
+            //{
+            //    var image = obj.GetComponent<Image>();
+            //    if (image == null || !obj.activeInHierarchy) continue;
+            //    if (obj.name.Contains("Gas"))
+            //    {
+            //        cachedSprites.Add(obj.name, image);
+            //    }
+            //}
+            foreach (Image image in InGameUI.GetComponentsInChildren(typeof(Image), true))
             {
-                if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
+                if (image == null) continue;
+                if (image.gameObject.name.Contains("Gas"))
                 {
-                    string name = obj2.name;
-                    if (!((((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd")) ? this.cachedSprites.ContainsKey(name) : true))
-                    {
-                        this.cachedSprites.Add(name, obj2.GetComponent<UISprite>());
-                    }
+                    cachedSprites.Add(image.gameObject.name, image);
                 }
             }
         }
@@ -3279,7 +3301,7 @@ public class Hero : Human
                 PhotonView view2 = PhotonView.Find(viewID);
                 if (view2 != null)
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(killByTitan, $"<color=#ffc000>[{info.sender.ID}]</color> " + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                     propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                     view2.owner.SetCustomProperties(propertiesToSet);
@@ -3287,7 +3309,7 @@ public class Hero : Human
             }
             else
             {
-                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), $"<color=#ffc000>[{info.sender.ID}]</color> " + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
         }
         if (base.photonView.isMine)
@@ -3391,7 +3413,7 @@ public class Hero : Human
                 PhotonView view2 = PhotonView.Find(viewID);
                 if (view2 != null)
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(true, $"<color=#ffc000>[{info.sender.ID}]</color> " + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                     propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                     propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                     view2.owner.SetCustomProperties(propertiesToSet);
@@ -3399,7 +3421,7 @@ public class Hero : Human
             }
             else
             {
-                FengGameManagerMKII.instance.sendKillInfo(true, "[FFC000][" + info.sender.ID.ToString() + "][FFFFFF]" + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                FengGameManagerMKII.instance.sendKillInfo(true, $"<color=#ffc000>[{info.sender.ID}]</color> " + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
             object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
             FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
@@ -4262,13 +4284,13 @@ public class Hero : Human
             GameObject obj5 = this.crossL2;
             GameObject obj6 = this.crossR1;
             GameObject obj7 = this.crossR2;
-            GameObject labelDistance = this.LabelDistance;
+            var labelDistance = this.LabelDistance;
             vector = (Vector3) (Vector3.up * 10000f);
             obj7.transform.localPosition = vector;
             obj6.transform.localPosition = vector;
             obj5.transform.localPosition = vector;
             obj4.transform.localPosition = vector;
-            labelDistance.transform.localPosition = vector;
+            labelDistance.gameObject.transform.localPosition = vector;
             obj3.transform.localPosition = vector;
             obj2.transform.localPosition = vector;
         }
@@ -4291,7 +4313,6 @@ public class Hero : Human
                 obj10.transform.localPosition = obj9.transform.localPosition;
                 vector = hit.point - this.baseTransform.position;
                 float magnitude = vector.magnitude;
-                GameObject obj11 = this.LabelDistance;
                 string str = (magnitude <= 1000f) ? ((int) magnitude).ToString() : "???";
                 if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
                 {
@@ -4301,20 +4322,20 @@ public class Hero : Human
                 {
                     str = str + "\n" + ((this.currentSpeed / 100f)).ToString("F1") + "K";
                 }
-                //obj11.GetComponent<UILabel>().text = str;
+                LabelDistance.text = str;
                 if (magnitude > 120f)
                 {
                     Transform transform11 = obj9.transform;
                     transform11.localPosition += (Vector3) (Vector3.up * 10000f);
-                    obj11.transform.localPosition = obj10.transform.localPosition;
+                    LabelDistance.gameObject.transform.localPosition = obj10.transform.localPosition;
                 }
                 else
                 {
                     Transform transform12 = obj10.transform;
                     transform12.localPosition += (Vector3) (Vector3.up * 10000f);
-                    obj11.transform.localPosition = obj9.transform.localPosition;
+                    LabelDistance.gameObject.transform.localPosition = obj9.transform.localPosition;
                 }
-                Transform transform13 = obj11.transform;
+                Transform transform13 = LabelDistance.gameObject.transform;
                 transform13.localPosition -= new Vector3(0f, 15f, 0f);
                 Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
                 vector2 -= (Vector3) (this.baseTransform.right * 0.3f);
@@ -4393,228 +4414,128 @@ public class Hero : Human
         }
     }
 
-    private void showGas()
-    {
-        float num = this.currentGas / this.totalGas;
-        float num2 = this.currentBladeSta / this.totalBladeSta;
-        GameObject.Find("gasL1").GetComponent<UISprite>().fillAmount = this.currentGas / this.totalGas;
-        GameObject.Find("gasR1").GetComponent<UISprite>().fillAmount = this.currentGas / this.totalGas;
-        if (!this.useGun)
-        {
-            GameObject.Find("bladeCL").GetComponent<UISprite>().fillAmount = this.currentBladeSta / this.totalBladeSta;
-            GameObject.Find("bladeCR").GetComponent<UISprite>().fillAmount = this.currentBladeSta / this.totalBladeSta;
-            if (num <= 0f)
-            {
-                GameObject.Find("gasL").GetComponent<UISprite>().color = Color.red;
-                GameObject.Find("gasR").GetComponent<UISprite>().color = Color.red;
-            }
-            else if (num < 0.3f)
-            {
-                GameObject.Find("gasL").GetComponent<UISprite>().color = Color.yellow;
-                GameObject.Find("gasR").GetComponent<UISprite>().color = Color.yellow;
-            }
-            else
-            {
-                GameObject.Find("gasL").GetComponent<UISprite>().color = Color.white;
-                GameObject.Find("gasR").GetComponent<UISprite>().color = Color.white;
-            }
-            if (num2 <= 0f)
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().color = Color.red;
-                GameObject.Find("blader1").GetComponent<UISprite>().color = Color.red;
-            }
-            else if (num2 < 0.3f)
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().color = Color.yellow;
-                GameObject.Find("blader1").GetComponent<UISprite>().color = Color.yellow;
-            }
-            else
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().color = Color.white;
-                GameObject.Find("blader1").GetComponent<UISprite>().color = Color.white;
-            }
-            if (this.currentBladeNum <= 4)
-            {
-                GameObject.Find("bladel5").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader5").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel5").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader5").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 3)
-            {
-                GameObject.Find("bladel4").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader4").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel4").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader4").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 2)
-            {
-                GameObject.Find("bladel3").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader3").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel3").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader3").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 1)
-            {
-                GameObject.Find("bladel2").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader2").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel2").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader2").GetComponent<UISprite>().enabled = true;
-            }
-            if (this.currentBladeNum <= 0)
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().enabled = false;
-                GameObject.Find("blader1").GetComponent<UISprite>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("bladel1").GetComponent<UISprite>().enabled = true;
-                GameObject.Find("blader1").GetComponent<UISprite>().enabled = true;
-            }
-        }
-        else
-        {
-            if (this.leftGunHasBullet)
-            {
-                GameObject.Find("bulletL").GetComponent<UISprite>().enabled = true;
-            }
-            else
-            {
-                GameObject.Find("bulletL").GetComponent<UISprite>().enabled = false;
-            }
-            if (this.rightGunHasBullet)
-            {
-                GameObject.Find("bulletR").GetComponent<UISprite>().enabled = true;
-            }
-            else
-            {
-                GameObject.Find("bulletR").GetComponent<UISprite>().enabled = false;
-            }
-        }
-    }
-
     private void showGas2()
     {
         float num = this.currentGas / this.totalGas;
         float num2 = this.currentBladeSta / this.totalBladeSta;
-        this.cachedSprites["gasL1"].fillAmount = this.currentGas / this.totalGas;
-        this.cachedSprites["gasR1"].fillAmount = this.currentGas / this.totalGas;
-        if (!this.useGun)
+        cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentGas / totalGas;
+        if (num <= 0.25f)
         {
-            this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-            this.cachedSprites["bladeCR"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-            if (num <= 0f)
-            {
-                this.cachedSprites["gasL"].color = Color.red;
-                this.cachedSprites["gasR"].color = Color.red;
-            }
-            else if (num < 0.3f)
-            {
-                this.cachedSprites["gasL"].color = Color.yellow;
-                this.cachedSprites["gasR"].color = Color.yellow;
-            }
-            else
-            {
-                this.cachedSprites["gasL"].color = Color.white;
-                this.cachedSprites["gasR"].color = Color.white;
-            }
-            if (num2 <= 0f)
-            {
-                this.cachedSprites["bladel1"].color = Color.red;
-                this.cachedSprites["blader1"].color = Color.red;
-            }
-            else if (num2 < 0.3f)
-            {
-                this.cachedSprites["bladel1"].color = Color.yellow;
-                this.cachedSprites["blader1"].color = Color.yellow;
-            }
-            else
-            {
-                this.cachedSprites["bladel1"].color = Color.white;
-                this.cachedSprites["blader1"].color = Color.white;
-            }
-            if (this.currentBladeNum <= 4)
-            {
-                this.cachedSprites["bladel5"].enabled = false;
-                this.cachedSprites["blader5"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel5"].enabled = true;
-                this.cachedSprites["blader5"].enabled = true;
-            }
-            if (this.currentBladeNum <= 3)
-            {
-                this.cachedSprites["bladel4"].enabled = false;
-                this.cachedSprites["blader4"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel4"].enabled = true;
-                this.cachedSprites["blader4"].enabled = true;
-            }
-            if (this.currentBladeNum <= 2)
-            {
-                this.cachedSprites["bladel3"].enabled = false;
-                this.cachedSprites["blader3"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel3"].enabled = true;
-                this.cachedSprites["blader3"].enabled = true;
-            }
-            if (this.currentBladeNum <= 1)
-            {
-                this.cachedSprites["bladel2"].enabled = false;
-                this.cachedSprites["blader2"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel2"].enabled = true;
-                this.cachedSprites["blader2"].enabled = true;
-            }
-            if (this.currentBladeNum <= 0)
-            {
-                this.cachedSprites["bladel1"].enabled = false;
-                this.cachedSprites["blader1"].enabled = false;
-            }
-            else
-            {
-                this.cachedSprites["bladel1"].enabled = true;
-                this.cachedSprites["blader1"].enabled = true;
-            }
+            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.red;
+        }
+        else if (num < 0.5f)
+        {
+            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.yellow;
         }
         else
         {
-            if (this.leftGunHasBullet)
-            {
-                this.cachedSprites["bulletL"].enabled = true;
-            }
-            else
-            {
-                this.cachedSprites["bulletL"].enabled = false;
-            }
-            if (this.rightGunHasBullet)
-            {
-                this.cachedSprites["bulletR"].enabled = true;
-            }
-            else
-            {
-                this.cachedSprites["bulletR"].enabled = false;
-            }
+            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
         }
+        Equipment.Weapon.UpdateSupplyUi(InGameUI);
+        //if (!this.useGun)
+        //{
+        //    this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
+        //    this.cachedSprites["bladeCR"].fillAmount = this.currentBladeSta / this.totalBladeSta;
+        //    if (num <= 0f)
+        //    {
+        //        this.cachedSprites["gasL"].color = Color.red;
+        //        this.cachedSprites["gasR"].color = Color.red;
+        //    }
+        //    else if (num < 0.3f)
+        //    {
+        //        this.cachedSprites["gasL"].color = Color.yellow;
+        //        this.cachedSprites["gasR"].color = Color.yellow;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["gasL"].color = Color.white;
+        //        this.cachedSprites["gasR"].color = Color.white;
+        //    }
+        //    if (num2 <= 0f)
+        //    {
+        //        this.cachedSprites["bladel1"].color = Color.red;
+        //        this.cachedSprites["blader1"].color = Color.red;
+        //    }
+        //    else if (num2 < 0.3f)
+        //    {
+        //        this.cachedSprites["bladel1"].color = Color.yellow;
+        //        this.cachedSprites["blader1"].color = Color.yellow;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel1"].color = Color.white;
+        //        this.cachedSprites["blader1"].color = Color.white;
+        //    }
+        //    if (this.currentBladeNum <= 4)
+        //    {
+        //        this.cachedSprites["bladel5"].enabled = false;
+        //        this.cachedSprites["blader5"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel5"].enabled = true;
+        //        this.cachedSprites["blader5"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 3)
+        //    {
+        //        this.cachedSprites["bladel4"].enabled = false;
+        //        this.cachedSprites["blader4"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel4"].enabled = true;
+        //        this.cachedSprites["blader4"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 2)
+        //    {
+        //        this.cachedSprites["bladel3"].enabled = false;
+        //        this.cachedSprites["blader3"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel3"].enabled = true;
+        //        this.cachedSprites["blader3"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 1)
+        //    {
+        //        this.cachedSprites["bladel2"].enabled = false;
+        //        this.cachedSprites["blader2"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel2"].enabled = true;
+        //        this.cachedSprites["blader2"].enabled = true;
+        //    }
+        //    if (this.currentBladeNum <= 0)
+        //    {
+        //        this.cachedSprites["bladel1"].enabled = false;
+        //        this.cachedSprites["blader1"].enabled = false;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bladel1"].enabled = true;
+        //        this.cachedSprites["blader1"].enabled = true;
+        //    }
+        //}
+        //else
+        //{
+        //    if (this.leftGunHasBullet)
+        //    {
+        //        this.cachedSprites["bulletL"].enabled = true;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bulletL"].enabled = false;
+        //    }
+        //    if (this.rightGunHasBullet)
+        //    {
+        //        this.cachedSprites["bulletR"].enabled = true;
+        //    }
+        //    else
+        //    {
+        //        this.cachedSprites["bulletR"].enabled = false;
+        //    }
+        //}
     }
 
     [PunRPC]
@@ -4726,6 +4647,7 @@ public class Hero : Human
                     FengGameManagerMKII.heroHash.Add(iD, this);
                 }
             }
+            PlayerName.GetComponent<TextMesh>().text = FengGameManagerMKII.instance.name;
             ////HACK
             ////GameObject obj2 = GameObject.Find("UI_IN_GAME");
             //this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
@@ -5765,6 +5687,7 @@ public class Hero : Human
                             {
                                 this.currentBladeSta = this.totalBladeSta;
                                 this.currentBladeNum = this.totalBladeNum;
+                                Equipment.Weapon.AmountLeft = Equipment.Weapon.AmountRight = totalBladeNum;
                                 this.currentGas = this.totalGas;
                                 if (!this.useGun)
                                 {
@@ -5930,8 +5853,8 @@ public class Hero : Human
                         {
                             //this.showSkillCD();
                             //this.showFlareCD2();
-                            //this.showGas2();
-                            //this.showAimUI2();
+                            this.showGas2();
+                            this.showAimUI2();
                         }
                     }
                     else if (this.isCannon && !IN_GAME_MAIN_CAMERA.isPausing)
