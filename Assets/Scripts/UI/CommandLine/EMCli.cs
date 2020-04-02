@@ -21,9 +21,9 @@ public class EMCli : Photon.MonoBehaviour
     private static string suggestions = string.Empty;
 
     private static Color backgroundColor = Color.black; //use whatever color you like
-    private static string textColorCode = "[00FF00]";
+    private static string textColorCode = "[ffffff]";
     private static string crossColorCode = "[ff0000]";
-    private static string enterColorCode = "[00ff00]";
+    private static string enterColorCode = "[ffffff]";
 
     private static string nameOfControle = "CLI";
     private static string head = "Command Line".RepaintCustom(textColorCode, true);
@@ -118,7 +118,7 @@ public class EMCli : Photon.MonoBehaviour
 
     public static void AddLine(string line)
     {
-        layout = string.Concat(layout, '\n', ">".RepaintGreen(true), line);
+        layout = string.Concat(layout, '\n', arrow, line);
         scrollPosition += new Vector2(0, 150);
     }
 
