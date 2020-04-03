@@ -2085,18 +2085,18 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.spectateSprites = new List<GameObject>();
             foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
             {
-                if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
-                {
-                    string name = obj2.name;
-                    if (((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd"))
-                    {
-                        if (!this.spectateSprites.Contains(obj2))
-                        {
-                            this.spectateSprites.Add(obj2);
-                        }
-                        obj2.SetActive(false);
-                    }
-                }
+                //if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
+                //{
+                //    string name = obj2.name;
+                //    if (((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd"))
+                //    {
+                //        if (!this.spectateSprites.Contains(obj2))
+                //        {
+                //            this.spectateSprites.Add(obj2);
+                //        }
+                //        obj2.SetActive(false);
+                //    }
+                //}
             }
             string[] strArray2 = new string[] { "Flare", "LabelInfoBottomRight" };
             foreach (string str2 in strArray2)

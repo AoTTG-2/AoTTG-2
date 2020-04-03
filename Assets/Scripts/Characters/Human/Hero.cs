@@ -4398,9 +4398,9 @@ public class Hero : Human
     {
         if (GameObject.Find("UIflare1") != null)
         {
-            GameObject.Find("UIflare1").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare1CD) / this.flareTotalCD;
-            GameObject.Find("UIflare2").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare2CD) / this.flareTotalCD;
-            GameObject.Find("UIflare3").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare3CD) / this.flareTotalCD;
+            //GameObject.Find("UIflare1").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare1CD) / this.flareTotalCD;
+            //GameObject.Find("UIflare2").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare2CD) / this.flareTotalCD;
+            //GameObject.Find("UIflare3").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare3CD) / this.flareTotalCD;
         }
     }
 
@@ -4561,7 +4561,7 @@ public class Hero : Human
     {
         if (this.skillCD != null)
         {
-            this.skillCD.GetComponent<UISprite>().fillAmount = (this.skillCDLast - this.skillCDDuration) / this.skillCDLast;
+            //this.skillCD.GetComponent<UISprite>().fillAmount = (this.skillCDLast - this.skillCDDuration) / this.skillCDLast;
         }
     }
 
@@ -5934,11 +5934,11 @@ public class Hero : Human
         return;
         for (int i = 1; i <= this.bulletMAX; i++)
         {
-            GameObject.Find("bulletL" + i).GetComponent<UISprite>().enabled = false;
+            //GameObject.Find("bulletL" + i).GetComponent<UISprite>().enabled = false;
         }
         for (int j = 1; j <= this.leftBulletLeft; j++)
         {
-            GameObject.Find("bulletL" + j).GetComponent<UISprite>().enabled = true;
+            //GameObject.Find("bulletL" + j).GetComponent<UISprite>().enabled = true;
         }
     }
 
@@ -5947,11 +5947,11 @@ public class Hero : Human
         return;
         for (int i = 1; i <= this.bulletMAX; i++)
         {
-            GameObject.Find("bulletR" + i).GetComponent<UISprite>().enabled = false;
+            //GameObject.Find("bulletR" + i).GetComponent<UISprite>().enabled = false;
         }
         for (int j = 1; j <= this.rightBulletLeft; j++)
         {
-            GameObject.Find("bulletR" + j).GetComponent<UISprite>().enabled = true;
+            //GameObject.Find("bulletR" + j).GetComponent<UISprite>().enabled = true;
         }
     }
 
