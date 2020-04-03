@@ -240,7 +240,7 @@ public class StylishComponent : MonoBehaviour
             if (stylePoints > 0f)
             {
                 setRankText();
-                bar.GetComponent<UISprite>().fillAmount = GetRankPercentage() * 0.01f;
+                //bar.GetComponent<UISprite>().fillAmount = GetRankPercentage() * 0.01f;
                 stylePoints -= (GetStyleDepletionRate() * Time.deltaTime) * 10f;
                 SetRank();
             }
