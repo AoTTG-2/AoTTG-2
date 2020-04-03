@@ -723,7 +723,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             {
                 this.flashDuration = 0f;
             }
-            GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
+            //GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
         }
         if (gametype == GAMETYPE.STOP)
         {
