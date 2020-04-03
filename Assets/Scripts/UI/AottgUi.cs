@@ -3,18 +3,29 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public static class AottgUi
+    public class AottgUi:MonoBehaviour
     {
-        public static void Init(FengGameManagerMKII manager)
+        public void Start()
+        {
+            UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
+        }
+
+        public static void TestSpawn()
+        {
+            SpawnHuman();
+            "The Hero has been spawned!".SendProcessing(true);
+        }
+
+        public void OnGUI()
         {
             if (!FengGameManagerMKII.showHackMenu) return;
 
             GUI.backgroundColor = new Color(0f, 0f, 0f, 1f);
             float left = (Screen.width / 2) - 115f;
             float top = (Screen.height / 2) - 45f;
-            if (GUI.Button(new Rect(left + 13f, top - 120f, 172f, 70f), "Spawn"))
+            if (GUI.Button(new Rect(left + 13f, top - 120f, 172f, 70f), "Load/spawn..."))
             {
-                SpawnHuman();
+                FengGameManagerMKII.instance.StartCoroutine(EMCli.ConnectAndJoinIE(true));
                 FengGameManagerMKII.showHackMenu = false;
             }
         }
@@ -41,10 +52,6 @@ namespace Assets.Scripts.UI
         {
             string selection = "23";
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
-            if (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE)
-            {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = GameObject.Find("PVPchkPtH");
-            }
             if (!PhotonNetwork.isMasterClient && (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().roundTime > 60f))
             {
                 if (!isPlayerAllDead2())
@@ -57,16 +64,13 @@ namespace Assets.Scripts.UI
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("restartGameByClient", PhotonTargets.MasterClient, new object[0]);
                 }
             }
-            else if (((IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.BOSS_FIGHT_CT) || (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.TROST)) || (IN_GAME_MAIN_CAMERA.gamemode == GAMEMODE.PVP_CAPTURE))
+            else if (((FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Capture)
             {
+                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())
                 {
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("restartGameByClient", PhotonTargets.MasterClient, new object[0]);
-                }
-                else
-                {
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 }
             }
             else

@@ -822,7 +822,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
 
     private void showSkillCD()
     {
-        GameObject.Find("skill_cd_eren").GetComponent<UISprite>().fillAmount = this.lifeTime / this.lifeTimeMax;
+        //GameObject.Find("skill_cd_eren").GetComponent<UISprite>().fillAmount = this.lifeTime / this.lifeTimeMax;
     }
 
     private void Start()

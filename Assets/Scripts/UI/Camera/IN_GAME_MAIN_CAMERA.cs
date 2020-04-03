@@ -21,7 +21,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float duration;
     private float flashDuration;
     private bool flip;
-    public static GAMEMODE gamemode;
     public bool gameOver;
     public static GAMETYPE gametype = GAMETYPE.STOP;
     private bool hasSnapShot;
@@ -101,8 +100,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             //base.GetComponent<TiltShift>().enabled = true;
         }
-        //HACK
-        //this.CreateMinimap();
     }
 
     private void camareMovement()
@@ -205,7 +202,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 Minimap.instance.myCam.enabled = false;
             }
             minimap.CreateMinimap(Minimap.instance.myCam, 0x200, 0.3f, info.minimapPreset);
-            if ((((int) FengGameManagerMKII.settings[0xe7]) == 0) || (RCSettings.globalDisableMinimap == 1))
+            if ((((int)FengGameManagerMKII.settings[0xe7]) == 0) || (RCSettings.globalDisableMinimap == 1))
             {
                 minimap.SetEnabled(false);
             }
@@ -270,8 +267,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void flashBlind()
     {
-        GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
-        this.flashDuration = 2f;
+        //GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
+        //this.flashDuration = 2f;
     }
 
     private int getReverse()
@@ -376,10 +373,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         GameObject.Find("LabelNetworkStatus").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (Screen.height * 0.5f)), 0f);
         GameObject.Find("LabelInfoTopLeft").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) ((Screen.height * 0.5f) - 20f)), 0f);
         GameObject.Find("Chatroom").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (-Screen.height * 0.5f)), 0f);
-        if (GameObject.Find("Chatroom") != null)
-        {
-            GameObject.Find("Chatroom").GetComponent<InRoomChat>().setPosition();
-        }
         if (usingTitan && (gametype != GAMETYPE.SINGLE))
         {
             Vector3 vector = new Vector3(0f, 9999f, 0f);
@@ -721,236 +714,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
     }
 
-    public void update()
-    {
-        if (this.flashDuration > 0f)
-        {
-            this.flashDuration -= Time.deltaTime;
-            if (this.flashDuration <= 0f)
-            {
-                this.flashDuration = 0f;
-            }
-            GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
-        }
-        if (gametype == GAMETYPE.STOP)
-        {
-            Cursor.visible = true;
-            Screen.lockCursor = false;
-        }
-        else
-        {
-            if ((gametype != GAMETYPE.SINGLE) && this.gameOver)
-            {
-                if (this.inputManager.isInputDown[InputCode.attack1])
-                {
-                    if (this.spectatorMode)
-                    {
-                        this.setSpectorMode(false);
-                    }
-                    else
-                    {
-                        this.setSpectorMode(true);
-                    }
-                }
-                if (this.inputManager.isInputDown[InputCode.flare1])
-                {
-                    this.currentPeekPlayerIndex++;
-                    int length = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= length)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (length > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
-                        this.lockAngle = false;
-                    }
-                }
-                if (this.inputManager.isInputDown[InputCode.flare2])
-                {
-                    this.currentPeekPlayerIndex--;
-                    int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= num2)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (this.currentPeekPlayerIndex < 0)
-                    {
-                        this.currentPeekPlayerIndex = num2;
-                    }
-                    if (num2 > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
-                        this.lockAngle = false;
-                    }
-                }
-                if (this.spectatorMode)
-                {
-                    return;
-                }
-            }
-            if (this.inputManager.isInputDown[InputCode.pause])
-            {
-                if (isPausing)
-                {
-                    if (this.main_object != null)
-                    {
-                        Vector3 position = base.transform.position;
-                        position = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
-                        position += (Vector3) (Vector3.up * this.heightMulti);
-                        base.transform.position = Vector3.Lerp(base.transform.position, position - ((Vector3) (base.transform.forward * 5f)), 0.2f);
-                    }
-                    return;
-                }
-                isPausing = !isPausing;
-                if (isPausing)
-                {
-                    if (gametype == GAMETYPE.SINGLE)
-                    {
-                        Time.timeScale = 0f;
-                    }
-                    GameObject obj3 = GameObject.Find("UI_IN_GAME");
-                    //NGUITools.SetActive(obj3.GetComponent<UIReferArray>().panels[0], false);
-                    //NGUITools.SetActive(obj3.GetComponent<UIReferArray>().panels[1], true);
-                    //NGUITools.SetActive(obj3.GetComponent<UIReferArray>().panels[2], false);
-                    //NGUITools.SetActive(obj3.GetComponent<UIReferArray>().panels[3], false);
-                    GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().showKeyMap();
-                    GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().justUPDATEME();
-                    GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
-                    Cursor.visible = true;
-                    Screen.lockCursor = false;
-                }
-            }
-            if (this.needSetHUD)
-            {
-                this.needSetHUD = false;
-                this.setHUDposition();
-            }
-            if (this.inputManager.isInputDown[InputCode.fullscreen])
-            {
-                Screen.fullScreen = !Screen.fullScreen;
-                if (Screen.fullScreen)
-                {
-                    Screen.SetResolution(960, 600, false);
-                }
-                else
-                {
-                    Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
-                }
-                this.needSetHUD = true;
-            }
-            if (this.inputManager.isInputDown[InputCode.restart])
-            {
-                this.reset();
-            }
-            if (this.main_object != null)
-            {
-                RaycastHit hit;
-                if (this.inputManager.isInputDown[InputCode.camera])
-                {
-                    if (cameraMode == CAMERA_TYPE.ORIGINAL)
-                    {
-                        cameraMode = CAMERA_TYPE.WOW;
-                        Screen.lockCursor = false;
-                    }
-                    else if (cameraMode == CAMERA_TYPE.WOW)
-                    {
-                        cameraMode = CAMERA_TYPE.TPS;
-                        Screen.lockCursor = true;
-                    }
-                    else if (cameraMode == CAMERA_TYPE.TPS)
-                    {
-                        cameraMode = CAMERA_TYPE.ORIGINAL;
-                        Screen.lockCursor = false;
-                    }
-                    this.verticalRotationOffset = 0f;
-                }
-                if (this.inputManager.isInputDown[InputCode.hideCursor])
-                {
-                    Cursor.visible = !Cursor.visible;
-                }
-                if (this.inputManager.isInputDown[InputCode.focus])
-                {
-                    triggerAutoLock = !triggerAutoLock;
-                    if (triggerAutoLock)
-                    {
-                        this.lockTarget = this.findNearestTitan();
-                        if (this.closestDistance >= 150f)
-                        {
-                            this.lockTarget = null;
-                            triggerAutoLock = false;
-                        }
-                    }
-                }
-                if ((this.gameOver && this.lockAngle) && (this.main_object != null))
-                {
-                    base.transform.rotation = Quaternion.Lerp(base.transform.rotation, this.main_object.transform.rotation, 0.2f);
-                    base.transform.position = Vector3.Lerp(base.transform.position, this.main_object.transform.position - ((Vector3) (this.main_object.transform.forward * 5f)), 0.2f);
-                }
-                else
-                {
-                    this.camareMovement();
-                }
-                if (triggerAutoLock && (this.lockTarget != null))
-                {
-                    float z = base.transform.eulerAngles.z;
-                    Transform transform = this.lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                    Vector3 vector3 = transform.position - ((this.head == null) ? this.main_object.transform.position : this.head.transform.position);
-                    vector3.Normalize();
-                    this.lockCameraPosition = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
-                    this.lockCameraPosition -= (Vector3) (((vector3 * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
-                    this.lockCameraPosition += (Vector3) (((Vector3.up * 3f) * this.heightMulti) * this.distanceOffsetMulti);
-                    base.transform.position = Vector3.Lerp(base.transform.position, this.lockCameraPosition, Time.deltaTime * 4f);
-                    if (this.head != null)
-                    {
-                        base.transform.LookAt((Vector3) ((this.head.transform.position * 0.8f) + (transform.position * 0.2f)));
-                    }
-                    else
-                    {
-                        base.transform.LookAt((Vector3) ((this.main_object.transform.position * 0.8f) + (transform.position * 0.2f)));
-                    }
-                    base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
-                    Vector2 vector7 = base.GetComponent<Camera>().WorldToScreenPoint(transform.position - ((Vector3) (transform.forward * this.lockTarget.transform.localScale.x)));
-                    this.locker.transform.localPosition = new Vector3(vector7.x - (Screen.width * 0.5f), vector7.y - (Screen.height * 0.5f), 0f);
-                    if ((this.lockTarget.GetComponent<TITAN>() != null) && this.lockTarget.GetComponent<TITAN>().hasDie)
-                    {
-                        this.lockTarget = null;
-                    }
-                }
-                else
-                {
-                    this.locker.transform.localPosition = new Vector3(0f, (-Screen.height * 0.5f) - 50f, 0f);
-                }
-                Vector3 end = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
-                Vector3 vector9 = ((this.head == null) ? this.main_object.transform.position : this.head.transform.position) - base.transform.position;
-                Vector3 normalized = vector9.normalized;
-                end -= (Vector3) ((this.distance * normalized) * this.distanceMulti);
-                LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                LayerMask mask3 = mask | mask2;
-                if (this.head != null)
-                {
-                    if (Physics.Linecast(this.head.transform.position, end, out hit, (int) mask))
-                    {
-                        base.transform.position = hit.point;
-                    }
-                    else if (Physics.Linecast(this.head.transform.position - ((Vector3) ((normalized * this.distanceMulti) * 3f)), end, out hit, (int) mask2))
-                    {
-                        base.transform.position = hit.point;
-                    }
-                    Debug.DrawLine(this.head.transform.position - ((Vector3) ((normalized * this.distanceMulti) * 3f)), end, Color.red);
-                }
-                else if (Physics.Linecast(this.main_object.transform.position + Vector3.up, end, out hit, (int) mask3))
-                {
-                    base.transform.position = hit.point;
-                }
-                this.shakeUpdate();
-            }
-        }
-    }
-
     public void update2()
     {
         if (this.flashDuration > 0f)
@@ -960,7 +723,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             {
                 this.flashDuration = 0f;
             }
-            GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
+            //GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
         }
         if (gametype == GAMETYPE.STOP)
         {

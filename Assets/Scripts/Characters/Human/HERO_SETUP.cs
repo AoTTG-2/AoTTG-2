@@ -436,7 +436,6 @@ public class HERO_SETUP : MonoBehaviour
 
     public void init()
     {
-        Debug.Log("Running init");
         CharacterMaterials.init();
     }
 
@@ -468,6 +467,10 @@ public class HERO_SETUP : MonoBehaviour
         this.part_chest.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.skin_texture];
         this.part_hand_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.skin_texture];
         this.part_hand_r.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.skin_texture];
+    }
+
+    public EquipmentType getEquipmentType() {
+        return equipmentType;
     }
 }
 

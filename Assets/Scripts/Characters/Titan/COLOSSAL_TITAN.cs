@@ -691,14 +691,14 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         this.state = "wait";
         Transform transform = base.transform;
         transform.position += (Vector3)(-Vector3.up * 10000f);
-        if (FengGameManagerMKII.LAN)
-        {
-            base.GetComponent<PhotonView>().enabled = false;
-        }
-        else
-        {
-            base.GetComponent<NetworkView>().enabled = false;
-        }
+        //if (FengGameManagerMKII.LAN)
+        //{
+        //    base.GetComponent<PhotonView>().enabled = false;
+        //}
+        //else
+        //{
+        //    base.GetComponent<NetworkView>().enabled = false;
+        //}
         this.door_broken = GameObject.Find("door_broke");
         this.door_closed = GameObject.Find("door_fine");
         this.door_broken.SetActive(false);
@@ -801,10 +801,10 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     {
                         this.idle();
                     }
-                    //else if (!FengGameManagerMKII.LAN ? base.photonView.isMine : base.networkView.isMine)
-                    //{
-                    //    this.idle();
-                    //}
+                    else if (base.photonView.isMine)
+                    {
+                        this.idle();
+                    }
                     else
                     {
                         this.state = "null";
