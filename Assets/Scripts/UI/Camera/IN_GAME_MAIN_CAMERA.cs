@@ -190,23 +190,23 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void CreateMinimap()
     {
-        LevelInfo info = LevelInfo.getInfo(FengGameManagerMKII.level);
-        if (info != null)
-        {
-            Minimap minimap = base.gameObject.AddComponent<Minimap>();
-            if (Minimap.instance.myCam == null)
-            {
-                Minimap.instance.myCam = new GameObject().AddComponent<Camera>();
-                Minimap.instance.myCam.nearClipPlane = 0.3f;
-                Minimap.instance.myCam.farClipPlane = 1000f;
-                Minimap.instance.myCam.enabled = false;
-            }
-            minimap.CreateMinimap(Minimap.instance.myCam, 0x200, 0.3f, info.minimapPreset);
-            if ((((int)FengGameManagerMKII.settings[0xe7]) == 0) || (RCSettings.globalDisableMinimap == 1))
-            {
-                minimap.SetEnabled(false);
-            }
-        }
+        //LevelInfo info = LevelInfo.getInfo(FengGameManagerMKII.level);
+        //if (info != null)
+        //{
+        //    Minimap minimap = base.gameObject.AddComponent<Minimap>();
+        //    if (Minimap.instance.myCam == null)
+        //    {
+        //        Minimap.instance.myCam = new GameObject().AddComponent<Camera>();
+        //        Minimap.instance.myCam.nearClipPlane = 0.3f;
+        //        Minimap.instance.myCam.farClipPlane = 1000f;
+        //        Minimap.instance.myCam.enabled = false;
+        //    }
+        //    //minimap.CreateMinimap(Minimap.instance.myCam, 0x200, 0.3f, info.minimapPreset);
+        //    if ((((int)FengGameManagerMKII.settings[0xe7]) == 0) || (RCSettings.globalDisableMinimap == 1))
+        //    {
+        //        minimap.SetEnabled(false);
+        //    }
+        //}
     }
 
     public void createSnapShotRT()

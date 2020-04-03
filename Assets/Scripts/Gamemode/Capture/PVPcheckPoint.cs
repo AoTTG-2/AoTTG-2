@@ -1,3 +1,4 @@
+using Assets.Scripts.Gamemode;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -209,7 +210,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         if (this.humanPt == this.humanPtMax)
         {
             this.state = CheckPointState.Human;
-            if (base.photonView.isMine && (LevelInfo.getInfo(FengGameManagerMKII.level).mapName != "The City I"))
+            if (base.photonView.isMine && (FengGameManagerMKII.Level.SceneName != "The City I"))
             {
                 this.supply = PhotonNetwork.Instantiate("aot_supply", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
             }

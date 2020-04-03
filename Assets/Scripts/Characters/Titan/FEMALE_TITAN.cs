@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
@@ -1400,11 +1398,7 @@ public class FEMALE_TITAN : MonoBehaviour
         this.AnkleRHP = 50;
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
-        bool flag = false;
-        if (LevelInfo.getInfo(FengGameManagerMKII.level).respawnMode == RespawnMode.NEVER)
-        {
-            flag = true;
-        }
+        var flag = FengGameManagerMKII.Gamemode.RespawnMode == RespawnMode.NEVER;
         if (IN_GAME_MAIN_CAMERA.difficulty == 0)
         {
             this.NapeArmor = !flag ? 0x3e8 : 0x3e8;

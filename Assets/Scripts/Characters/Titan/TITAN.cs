@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 public class TITAN : MonoBehaviour
@@ -3211,7 +3210,7 @@ public class TITAN : MonoBehaviour
         }
         if (num == 4)
         {
-            if (!LevelInfo.getInfo(FengGameManagerMKII.level).punk)
+            if (FengGameManagerMKII.Gamemode.IsEnabled(TitanType.TYPE_PUNK))
             {
                 num = 1;
             }

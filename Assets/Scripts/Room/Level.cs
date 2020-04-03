@@ -1,6 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Gamemode;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Level
 {

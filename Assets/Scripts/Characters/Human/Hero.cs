@@ -2556,7 +2556,7 @@ public class Hero : Human
             iteratorVariable3 = true;
         }
         bool iteratorVariable4 = false;
-        if (LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode == 1))
+        if (FengGameManagerMKII.Gamemode.Horse || (RCSettings.horseMode == 1))
         {
             iteratorVariable4 = true;
         }
@@ -4094,7 +4094,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                if ((LevelInfo.getInfo(FengGameManagerMKII.level).teamTitan || !FengGameManagerMKII.Gamemode.PlayerTitanShifters))
+                if ((FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || !FengGameManagerMKII.Gamemode.PlayerTitanShifters))
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;
