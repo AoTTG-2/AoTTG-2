@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
+using Assets.Scripts.Gamemode;
+using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -8,6 +12,11 @@ namespace Assets.Scripts.UI.InGame
         public void ShowGameSettingsMenu()
         {
             GameSettingsMenu.gameObject.SetActive(true);
+
+        }
+
+        private void SetGameSettingsMenu()
+        {
         }
 
         public void Quit()

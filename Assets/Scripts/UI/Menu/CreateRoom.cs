@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
-    public class CreateRoom : UiElement
+    public class CreateRoom : UiNavigationElement
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;

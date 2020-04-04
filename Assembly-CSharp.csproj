@@ -310,6 +310,9 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiCheckbox.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiElement.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiElementAttribute.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiInput.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\GameSettingsMenu.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\HUD.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\KillInfo.cs" />
@@ -326,9 +329,9 @@
      <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\RoomRow.cs" />
-     <Compile Include="Assets\Scripts\UI\UiElement.cs" />
      <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
      <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
+     <Compile Include="Assets\Scripts\UI\UiNavigationElement.cs" />
      <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
      <Compile Include="Assets\Scripts\Usable\CannonBall.cs" />
      <Compile Include="Assets\Scripts\Usable\CannonPropRegion.cs" />

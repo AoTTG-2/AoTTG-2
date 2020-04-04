@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts.UI
 {
-    public class Credits : UiElement
+    public class Credits : UiNavigationElement
     {
 
     }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class UiElement : MonoBehaviour
+    public class UiNavigationElement : MonoBehaviour
     {
         public GameObject PreviousPage { get; set; }
         public UiHandler Canvas { get; set; }

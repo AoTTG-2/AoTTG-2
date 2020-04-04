@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.Menu
 {
-    public class Lobby : UiElement
+    public class Lobby : UiNavigationElement
     {
         public GameObject ScrollViewContent;
         public GameObject Row;

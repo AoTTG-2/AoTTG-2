@@ -11,9 +11,9 @@ namespace Assets.Scripts.UI.InGame
 
         void OnEnable()
         {
-            HUD.gameObject.SetActive(true);
-            SpawnMenu.gameObject.SetActive(true);
-            Menu.gameObject.SetActive(false);
+            //HUD.gameObject.SetActive(true);
+            //SpawnMenu.gameObject.SetActive(true);
+            //Menu.gameObject.SetActive(false);
         }
 
         void Update()

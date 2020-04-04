@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Assets.Scripts.UI.Elements;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -19,15 +19,12 @@ namespace Assets.Scripts.Gamemode
 
         public string Description;
 
-        [Description("A list of titan types that are disabled. Only works on Punks and Crawlers atm.")]
-        public List<TitanType> DisabledTitanTypes;
+        public List<TitanType> DisabledTitanTypes { get; set; }
 
-        //Titan Specific logic might be moved into a abstract Gamemode which implements an abstract TitanGamemode. Some gamemodes may not need titans, like Blades vs Blades pvp
-        [Description("The base amount of titans that will spawn")]
-        public int Titans = 25;
+        [UiElement("Start Titans", "The amount of titans that will spawn at the start")]
+        public int Titans { get; set; } = 25;
 
-        [Description("The max amount of titans that can spawn onto the map")]
-        public int TitanLimit = 25;
+        public int TitanLimit { get; set; } = 30;
         public float TitanChaseDistance = 100f;
         public bool TitanChaseDistanceEnabled = true;
 
@@ -37,8 +34,12 @@ namespace Assets.Scripts.Gamemode
 
         //LevelInfo attributes
         public bool Hint;
-        public bool Horse;
-        public bool LavaMode;
+
+        [UiElement("Horses", "Enables/Disables horses in the game")]
+        public bool Horse { get; set; }
+
+        [UiElement("Lava mode", "The floor is lava! Touching the floor means that you will die...")]
+        public bool LavaMode { get; set; }
         public bool Crawlers;
         public bool Punks = true;
         public bool Pvp = true;

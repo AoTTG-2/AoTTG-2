@@ -13,6 +13,8 @@ public class UIInputHandler : MonoBehaviour
     void Update()
     {
 
+        if (inputManager == null) return;
+
         if (inputManager.isInput[InputCode.interactionWheel])
         {
             if (!interactionWheel.activeSelf)

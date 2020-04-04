@@ -7,7 +7,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
@@ -4365,10 +4364,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnJoinedLobby()
     {
-        //HACK
-        //NGUITools.SetActive(GameObject.Find("UIRefer").GetComponent<UIMainReferences>().panelMultiStart, false);
-        //NGUITools.SetActive(GameObject.Find("UIRefer").GetComponent<UIMainReferences>().panelMultiROOM, true);
-        //NGUITools.SetActive(GameObject.Find("UIRefer").GetComponent<UIMainReferences>().PanelMultiJoinPrivate, false);
     }
 
     public void OnJoinedRoom()
@@ -4439,6 +4434,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (!PhotonNetwork.isMasterClient)
         {
             base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
+            base.photonView.RPC("RequestSettings", PhotonTargets.MasterClient, new object[0]);
         }
         this.assetCacheTextures = new Dictionary<string, Texture2D>();
         this.isFirstLoad = true;
@@ -4570,12 +4566,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
 
-                Gamemode.OnLevelWasLoaded(Level, PhotonNetwork.isMasterClient);
                 if (!PhotonNetwork.isMasterClient)
                 {
-                    //HACK
-                    //base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
+                    base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
                 }
+                Gamemode.OnLevelWasLoaded(Level, PhotonNetwork.isMasterClient);
                 if (((int)settings[0xf5]) == 1)
                 {
                     this.EnterSpecMode(true);
@@ -7105,7 +7100,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    private void SyncSettings(string gamemodeRaw, PhotonMessageInfo info)
+    private void SyncSettings(string gamemodeRaw, GamemodeType type, PhotonMessageInfo info)
     {
         var gamemode = (KillTitansGamemode)JsonUtility.FromJson(gamemodeRaw, typeof(KillTitansGamemode));
         if (info.sender.IsMasterClient)
@@ -7114,6 +7109,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             mainCamera.main_object.GetComponent<Hero>().SetHorse();
             Debug.LogWarning($"Horses are {gamemode.Horse}");
         }
+    }
+
+    [PunRPC]
+    private void RequestSettings(PhotonMessageInfo info)
+    {
+        var json = JsonUtility.ToJson(Gamemode);
+        photonView.RPC("SyncSettings", info.sender, json, Gamemode.GamemodeType);
     }
 
     public void ShowHUDInfoCenter(string content)
