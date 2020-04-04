@@ -1,5 +1,6 @@
 using System;
 
+[Obsolete("Please is Gamemode instead")]
 public static class RCSettings
 {
     public static int ahssReload;
@@ -15,12 +16,11 @@ public static class RCSettings
     public static int explodeMode;
     public static int friendlyMode;
     public static int gameType;
-    public static int globalDisableMinimap;
-    public static int healthLower;
-    public static int healthMode;
-    public static int healthUpper;
-    public static int horseMode;
-    public static int infectionMode;
+    public static int globalDisableMinimap; // Enable Minimap
+    public static int healthLower; // Min Health
+    public static int healthMode; // 1 = random health between healthLower - healthUpper, 2 = health is based on titan size. (size / 4) * random health
+    public static int healthUpper; // Max Health
+    public static int infectionMode; //Infection mode 1 = enable, 0 = disable
     public static float jRate;
     public static int maxWave;
     public static int moreTitans;
@@ -31,13 +31,12 @@ public static class RCSettings
     public static int punkWaves;
     public static int pvpMode;
     public static int racingStatic;
-    public static float sizeLower;
-    public static int sizeMode;
-    public static float sizeUpper;
+    public static float sizeLower; //Minimun titan size
+    public static int sizeMode; //Are custom sizes enabled? If true, then sizeLower and sizeUpper are used.
+    public static float sizeUpper; //Max titan size
     public static int spawnMode;
     public static int teamMode;
     public static int titanCap;
     public static int waveModeNum;
     public static int waveModeOn;
 }
-

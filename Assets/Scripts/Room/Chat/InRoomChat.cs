@@ -61,7 +61,7 @@ public class InRoomChat : Photon.MonoBehaviour
                 }
                 if (FengGameManagerMKII.RCEvents.ContainsKey("OnChatInput"))
                 {
-                    string key = (string) FengGameManagerMKII.RCVariableNames["OnChatInput"];
+                    string key = (string)FengGameManagerMKII.RCVariableNames["OnChatInput"];
                     if (FengGameManagerMKII.stringVariables.ContainsKey(key))
                     {
                         FengGameManagerMKII.stringVariables[key] = this.inputLine;
@@ -70,7 +70,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     {
                         FengGameManagerMKII.stringVariables.Add(key, this.inputLine);
                     }
-                    ((RCEvent) FengGameManagerMKII.RCEvents["OnChatInput"]).checkEvent();
+                    ((RCEvent)FengGameManagerMKII.RCEvents["OnChatInput"]).checkEvent();
                 }
                 if (!this.inputLine.StartsWith("/"))
                 {
@@ -356,7 +356,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     }
                     else if (this.inputLine.StartsWith("/specmode"))
                     {
-                        if (((int) FengGameManagerMKII.settings[0xf5]) == 0)
+                        if (((int)FengGameManagerMKII.settings[0xf5]) == 0)
                         {
                             FengGameManagerMKII.settings[0xf5] = 1;
                             FengGameManagerMKII.instance.EnterSpecMode(true);
@@ -455,7 +455,7 @@ public class InRoomChat : Photon.MonoBehaviour
                                     int num9 = Convert.ToInt32(this.inputLine.Substring(7));
                                     if (FengGameManagerMKII.banHash.ContainsKey(num9))
                                     {
-                                        objArray5 = new object[] { "<color=#FFCC00>" + ((string) FengGameManagerMKII.banHash[num9]) + " has been unbanned from the server. </color>", string.Empty };
+                                        objArray5 = new object[] { "<color=#FFCC00>" + ((string)FengGameManagerMKII.banHash[num9]) + " has been unbanned from the server. </color>", string.Empty };
                                         FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray5);
                                         FengGameManagerMKII.banHash.Remove(num9);
                                     }
@@ -554,7 +554,7 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     this.addLINE("<color=#FFCC00>Max Wave set to " + RCSettings.maxWave.ToString() + "</color>");
                                 }
-                                if (RCSettings.horseMode > 0)
+                                if (FengGameManagerMKII.Gamemode.Horse)
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");
                                 }
@@ -633,7 +633,7 @@ public class InRoomChat : Photon.MonoBehaviour
                                         this.addLINE("<color=#FFCC00>List of banned players:</color>");
                                         foreach (int num10 in FengGameManagerMKII.banHash.Keys)
                                         {
-                                            this.addLINE("<color=#FFCC00>" + Convert.ToString(num10) + ":" + ((string) FengGameManagerMKII.banHash[num10]) + "</color>");
+                                            this.addLINE("<color=#FFCC00>" + Convert.ToString(num10) + ":" + ((string)FengGameManagerMKII.banHash[num10]) + "</color>");
                                         }
                                     }
                                     else

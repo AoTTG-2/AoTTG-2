@@ -167,7 +167,7 @@ public class InstantiateTracker
                 return false;
 
             case "horse":
-                if (FengGameManagerMKII.Gamemode.Horse || (RCSettings.horseMode != 0))
+                if (FengGameManagerMKII.Gamemode.Horse)
                 {
                     return this.Instantiated(photonPlayer, GameResource.general);
                 }
