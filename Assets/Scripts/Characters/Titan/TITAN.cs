@@ -4544,7 +4544,6 @@ public class TITAN : MonoBehaviour
                             }
                             if (this.PVPfromCheckPt != null)
                             {
-                                UnityEngine.Debug.Log($"Titan ({skin}) is at Checkpoint{PVPfromCheckPt.id} ({PVPfromCheckPt.state})");
                                 if (this.PVPfromCheckPt.state == CheckPointState.Titan)
                                 {
                                     GameObject chkPtNext;
@@ -4553,7 +4552,6 @@ public class TITAN : MonoBehaviour
                                         chkPtNext = this.PVPfromCheckPt.chkPtNext;
                                         if ((chkPtNext != null) && ((chkPtNext.GetComponent<PVPcheckPoint>().state != CheckPointState.Titan) || (UnityEngine.Random.Range(0, 100) < 20)))
                                         {
-                                            UnityEngine.Debug.Log($"Titan ({skin}) is going to Checkpoint{chkPtNext.GetComponent<PVPcheckPoint>().id} ({chkPtNext.GetComponent<PVPcheckPoint>().state})");
                                             this.toPVPCheckPoint(chkPtNext.transform.position, 15f);
                                             this.PVPfromCheckPt = chkPtNext.GetComponent<PVPcheckPoint>();
                                         }
@@ -4563,7 +4561,6 @@ public class TITAN : MonoBehaviour
                                         chkPtNext = this.PVPfromCheckPt.chkPtPrevious;
                                         if ((chkPtNext != null) && ((chkPtNext.GetComponent<PVPcheckPoint>().state != CheckPointState.Titan) || (UnityEngine.Random.Range(0, 100) < 5)))
                                         {
-                                            UnityEngine.Debug.Log($"Titan ({skin}) is going back to Checkpoint{chkPtNext.GetComponent<PVPcheckPoint>().id} ({chkPtNext.GetComponent<PVPcheckPoint>().state})");
                                             this.toPVPCheckPoint(chkPtNext.transform.position, 15f);
                                             this.PVPfromCheckPt = chkPtNext.GetComponent<PVPcheckPoint>();
                                         }

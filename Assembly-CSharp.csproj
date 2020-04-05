@@ -293,6 +293,7 @@
      <Compile Include="Assets\Scripts\Settings\KeyBindings.cs" />
      <Compile Include="Assets\Scripts\Settings\Language.cs" />
      <Compile Include="Assets\Scripts\Settings\RCSettings.cs" />
+     <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
      <Compile Include="Assets\Scripts\UI\AottgUi.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CAMERA_TYPE.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CameraFacingBillboard.cs" />
@@ -310,10 +311,12 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiCheckbox.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiDropdown.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiElementAttribute.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiInput.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\GameSettingsMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\GameSettingMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\HUD.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\KillInfo.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\Labels.cs" />

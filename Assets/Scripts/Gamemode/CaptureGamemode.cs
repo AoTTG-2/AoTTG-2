@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.Elements;
+using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -17,13 +18,17 @@ namespace Assets.Scripts.Gamemode
             FemaleTitanHealthModifier = 0.8f;
         }
 
-        public int PvpTitanScoreLimit = 200;
-        public int PvpHumanScoreLimit = 200;
+        [UiElement("Titan Point Limit", "Max Points titans can have")]
+        public int PvpTitanScoreLimit { get; set; } = 200;
+        [UiElement("Human Point Limit", "Max Points humans can have")]
+        public int PvpHumanScoreLimit { get; set; } = 200;
+
+
+        [UiElement("Supply Station on Capture", "Should Supply stations spawn when a point is captured by humans?")]
+        public bool SpawnSupplyStationOnHumanCapture { get; set; }
 
         public int PvpTitanScore;
         public int PvpHumanScore;
-
-        public bool SpawnSupplyStationOnHumanCapture;
 
         private const string HumanStart = "CheckpointStartHuman";
         private const string TitanStart = "CheckpointStartTitan";

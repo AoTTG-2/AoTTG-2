@@ -13,7 +13,7 @@ namespace Assets.Scripts.UI.Elements
             gameObject.GetComponent<Toggle>().isOn = Value;
         }
 
-        public void SetValue(bool value)
+        public void OnValueChanged(bool value)
         {
             Value = value;
         }

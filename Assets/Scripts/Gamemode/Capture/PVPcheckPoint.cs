@@ -133,13 +133,13 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     {
         if (this.state == CheckPointState.Human)
         {
-            return ("[" + ColorSet.color_human + "]H[-]");
+            return $"<color=#{ColorSet.color_human}>H</color>[-]";
         }
         if (this.state == CheckPointState.Titan)
         {
-            return ("[" + ColorSet.color_titan_player + "]T[-]");
+            return $"<color=#{ColorSet.color_titan_player}>T</color>[-]";
         }
-        return ("[" + ColorSet.color_D + "]_[-]");
+        return $"<color=#{ColorSet.color_D}>_</color>[-]";
     }
 
     private void humanGetsPoint()

@@ -1,12 +1,16 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.Elements;
+using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
     public class WaveGamemode : GamemodeBase
     {
-        public int Wave = 1;
-        public int MaxWave = 20;
-        public int HighestWave = 1;
+
+        [UiElement("Current Wave", "What is the current wave?")]
+        public int Wave { get; set; } = 1;
+        [UiElement("Max Wave", "What is the current wave?")]
+        public int MaxWave { get; set; } = 20;
+        private int highestWave = 1;
         public int WaveIncrement = 2;
 
         public WaveGamemode()
@@ -60,7 +64,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetRoundEndedMessage()
         {
-            return $"Highest Wave : {HighestWave}";
+            return $"Highest Wave : {highestWave}";
         }
 
         public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
@@ -109,9 +113,9 @@ namespace Assets.Scripts.Gamemode
             {
                 //this.sendChatContentInfo("<color=#A8FF24>Wave : " + this.wave + "</color>");
             }
-            if (Wave > HighestWave)
+            if (Wave > highestWave)
             {
-                HighestWave = Wave;
+                highestWave = Wave;
             }
             if (PhotonNetwork.isMasterClient)
             {

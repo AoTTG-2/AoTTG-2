@@ -15,6 +15,8 @@ namespace Assets.Scripts.UI.Elements
         {
             LabelText.text = Label;
             ValueText.text = Value.ToString();
+            InputField.placeholder.GetComponent<Text>().text = Value.ToString();
+            InputField.text = Value.ToString();
             var isNumeric = Value is sbyte
                             || Value is byte
                             || Value is short
@@ -30,7 +32,6 @@ namespace Assets.Scripts.UI.Elements
             {
                 InputField.characterValidation = InputField.CharacterValidation.Integer;
             }
-
         }
     }
 }

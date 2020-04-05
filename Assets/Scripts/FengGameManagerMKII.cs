@@ -7102,12 +7102,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void SyncSettings(string gamemodeRaw, GamemodeType type, PhotonMessageInfo info)
     {
-        var gamemode = (KillTitansGamemode)JsonUtility.FromJson(gamemodeRaw, typeof(KillTitansGamemode));
+        
+        var gamemode = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
         if (info.sender.IsMasterClient)
         {
-            Gamemode.Horse = gamemode.Horse;
+            Gamemode = gamemode;
             mainCamera.main_object.GetComponent<Hero>().SetHorse();
-            Debug.LogWarning($"Horses are {gamemode.Horse}");
         }
     }
 

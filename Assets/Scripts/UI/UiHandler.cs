@@ -14,7 +14,7 @@ namespace Assets.Scripts.UI
 
         public void Start()
         {
-            //ShowMenu();
+            ShowMenu();
             DontDestroyOnLoad(gameObject);
             Elements = gameObject.GetComponentsInChildren<UiNavigationElement>(true);
             foreach (var element in Elements)
