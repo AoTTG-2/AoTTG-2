@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DUMMY_TITAN : Photon.MonoBehaviour
+public class DummyTitan : Photon.MonoBehaviour
 {
     public int health = 300;
     private FengGameManagerMKII MultiplayerManager;

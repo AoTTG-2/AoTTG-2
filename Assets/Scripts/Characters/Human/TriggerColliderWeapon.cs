@@ -29,7 +29,7 @@ public class TriggerColliderWeapon : MonoBehaviour
         return false;
     }
 
-    public void DummyNapeHit(DUMMY_TITAN titan)
+    public void DummyNapeHit(DummyTitan titan)
     {
         Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity;
         int num2 = (int)((vector3.magnitude * 10f) * this.scoreMulti);
@@ -185,9 +185,9 @@ public class TriggerColliderWeapon : MonoBehaviour
                                 item.transform.root.GetComponent<COLOSSAL_TITAN>().photonView.RPC("titanGetHit", item.transform.root.GetComponent<COLOSSAL_TITAN>().photonView.owner, objArray4);
                             }
                         }
-                        else if (item.transform.root.GetComponent<DUMMY_TITAN>())
+                        else if (item.transform.root.GetComponent<DummyTitan>())
                         {
-                            DummyNapeHit(item.transform.root.GetComponent<DUMMY_TITAN>());
+                            DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
                         }
                     }
                     else if (item.transform.root.GetComponent<TITAN>() != null)
@@ -234,9 +234,9 @@ public class TriggerColliderWeapon : MonoBehaviour
                             item.transform.root.GetComponent<COLOSSAL_TITAN>().titanGetHit(base.transform.root.gameObject.GetPhotonView().viewID, num8);
                         }
                     }
-                    else if (item.transform.root.GetComponent<DUMMY_TITAN>())
+                    else if (item.transform.root.GetComponent<DummyTitan>())
                     {
-                        DummyNapeHit(item.transform.root.GetComponent<DUMMY_TITAN>());
+                        DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
                     }
                     this.showCriticalHitFX();
                 }
@@ -376,7 +376,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     }
                     this.showCriticalHitFX();
                 }
-                else if(obj4.GetComponent<DUMMY_TITAN>())
+                else if(obj4.GetComponent<DummyTitan>())
                 {
                     this.showCriticalHitFX();
                 }
