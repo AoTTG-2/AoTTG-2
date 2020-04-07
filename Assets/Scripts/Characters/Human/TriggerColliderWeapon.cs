@@ -14,16 +14,19 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     private bool checkIfBehind(GameObject titan)
     {
-        if(titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
+        if (titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
         {
             Transform transform = titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
             Vector3 to = base.transform.position - transform.transform.position;
             return (Vector3.Angle(-transform.transform.forward, to) < 70f);
         }
-        else // dummy titan
+        else if (titan.transform.Find("BodyPivot/HeadPos") != null)// dummy titan
         {
-            return true; // temp
+            Transform transform = titan.transform.Find("BodyPivot/HeadPos");
+            Vector3 to = base.transform.position - transform.transform.position;
+            return (Vector3.Angle(-transform.transform.forward, to) < 70f);
         }
+        return false;
     }
 
     public void DummyNapeHit(DUMMY_TITAN titan)
@@ -31,9 +34,16 @@ public class TriggerColliderWeapon : MonoBehaviour
         Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity;
         int num2 = (int)((vector3.magnitude * 10f) * this.scoreMulti);
         num2 = Mathf.Max(10, num2);
-        titan.Die();
+        
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        {
+            titan.GetHit(num2);
+        }
+        else
+        {
+            titan.photonView.RPC("GetHit", PhotonTargets.All, new object[] { num2 });
+        }
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().netShowDamage(num2);
-        titan.Die(); //temporary until health script
     }
 
     public void clearHits()
@@ -288,7 +298,11 @@ public class TriggerColliderWeapon : MonoBehaviour
             {
                 this.currentHits.Add(other.gameObject);
                 GameObject obj4 = other.gameObject.transform.root.gameObject;
-                Vector3 vector10 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - obj4.GetComponent<Rigidbody>().velocity;
+                Vector3 vector10 = Vector3.zero;
+                if (obj4.GetComponent<Rigidbody>())//patch for dummy titan
+                {
+                    vector10 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - obj4.GetComponent<Rigidbody>().velocity;
+                }
                 int num9 = (int) ((vector10.magnitude * 10f) * this.scoreMulti);
                 num9 = Mathf.Max(10, num9);
                 if ((obj4.GetComponent<TITAN>() != null) && (obj4.GetComponent<TITAN>().TitanType != TitanType.TYPE_CRAWLER))
@@ -360,6 +374,10 @@ public class TriggerColliderWeapon : MonoBehaviour
                     {
                         obj4.GetComponent<FEMALE_TITAN>().hitAnkleLRPC(base.transform.root.gameObject.GetPhotonView().viewID, num9);
                     }
+                    this.showCriticalHitFX();
+                }
+                else if(obj4.GetComponent<DUMMY_TITAN>())
+                {
                     this.showCriticalHitFX();
                 }
             }
