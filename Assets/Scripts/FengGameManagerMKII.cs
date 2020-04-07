@@ -1085,6 +1085,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.coreadd();
                     this.ShowHUDInfoTopLeft(this.playerList);
+                    showHUDInfoMiddleRight(IN_GAME_MAIN_CAMERA.cameraMode.ToString());
                     if ((((Camera.main != null) && (Gamemode.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int) settings[0xf5]) == 0))
                     {
                         this.ShowHUDInfoCenter("Press [F7D358]" + this.inputManager.inputString[InputCode.flare1] + "[-] to spectate the next player. \nPress [F7D358]" + this.inputManager.inputString[InputCode.flare2] + "[-] to spectate the previous player.\nPress [F7D358]" + this.inputManager.inputString[InputCode.attack1] + "[-] to enter the spectator mode.\n\n\n\n");
@@ -7171,6 +7172,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private void ShowHUDInfoTopRightMAPNAME(string content)
     {
 
+    }
+
+    private void showHUDInfoMiddleRight(string content)
+    {
+        InGameUI.HUD.Labels.MiddleRight.text = content;
     }
 
     [PunRPC]
