@@ -110,54 +110,56 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         transform.position += (Vector3) (Vector3.up * this.heightMulti);
         Transform transform2 = base.transform;
         transform2.position -= (Vector3) ((Vector3.up * (0.6f - cameraDistance)) * 2f);
-        if (cameraMode == CAMERA_TYPE.WOW)
+        switch (cameraMode)
         {
-            if (Input.GetKey(KeyCode.Mouse1))
-            {
-                float angle = (Input.GetAxis("Mouse X") * 10f) * this.getSensitivityMulti();
-                float num2 = ((-Input.GetAxis("Mouse Y") * 10f) * this.getSensitivityMulti()) * this.getReverse();
-                base.transform.RotateAround(base.transform.position, Vector3.up, angle);
-                base.transform.RotateAround(base.transform.position, base.transform.right, num2);
-            }
-            Transform transform3 = base.transform;
-            transform3.position -= (Vector3) (((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+            case CAMERA_TYPE.WOW:
+                if (Input.GetKey(KeyCode.Mouse1))
+                {
+                    float angle = (Input.GetAxis("Mouse X") * 10f) * this.getSensitivityMulti();
+                    float num2 = ((-Input.GetAxis("Mouse Y") * 10f) * this.getSensitivityMulti()) * this.getReverse();
+                    base.transform.RotateAround(base.transform.position, Vector3.up, angle);
+                    base.transform.RotateAround(base.transform.position, base.transform.right, num2);
+                }
+                Transform transform3 = base.transform;
+                transform3.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+                break;
+
+            case CAMERA_TYPE.ORIGINAL:
+                float num3 = 0f;
+                if (Input.mousePosition.x < (Screen.width * 0.4f))
+                {
+                    num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / ((float)Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
+                    base.transform.RotateAround(base.transform.position, Vector3.up, num3);
+                }
+                else if (Input.mousePosition.x > (Screen.width * 0.6f))
+                {
+                    num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / ((float)Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
+                    base.transform.RotateAround(base.transform.position, Vector3.up, num3);
+                }
+                float x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / ((float)Screen.height)) * 0.5f;
+                base.transform.rotation = Quaternion.Euler(x, base.transform.rotation.eulerAngles.y, base.transform.rotation.eulerAngles.z);
+                Transform transform4 = base.transform;
+                transform4.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+                break;
+            case CAMERA_TYPE.TPS:
+                if (!this.inputManager.menuOn)
+                {
+                    Screen.lockCursor = true;
+                }
+                float num5 = (Input.GetAxis("Mouse X") * 10f) * this.getSensitivityMulti();
+                float num6 = ((-Input.GetAxis("Mouse Y") * 10f) * this.getSensitivityMulti()) * this.getReverse();
+                base.transform.RotateAround(base.transform.position, Vector3.up, num5);
+                float num7 = base.transform.rotation.eulerAngles.x % 360f;
+                float num8 = num7 + num6;
+                if (((num6 <= 0f) || (((num7 >= 260f) || (num8 <= 260f)) && ((num7 >= 80f) || (num8 <= 80f)))) && ((num6 >= 0f) || (((num7 <= 280f) || (num8 >= 280f)) && ((num7 <= 100f) || (num8 >= 100f)))))
+                {
+                    base.transform.RotateAround(base.transform.position, base.transform.right, num6);
+                }
+                Transform transform5 = base.transform;
+                transform5.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+                break;
         }
-        else if (cameraMode == CAMERA_TYPE.ORIGINAL)
-        {
-            float num3 = 0f;
-            if (Input.mousePosition.x < (Screen.width * 0.4f))
-            {
-                num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / ((float) Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
-                base.transform.RotateAround(base.transform.position, Vector3.up, num3);
-            }
-            else if (Input.mousePosition.x > (Screen.width * 0.6f))
-            {
-                num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / ((float) Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
-                base.transform.RotateAround(base.transform.position, Vector3.up, num3);
-            }
-            float x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / ((float) Screen.height)) * 0.5f;
-            base.transform.rotation = Quaternion.Euler(x, base.transform.rotation.eulerAngles.y, base.transform.rotation.eulerAngles.z);
-            Transform transform4 = base.transform;
-            transform4.position -= (Vector3) (((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
-        }
-        else if (cameraMode == CAMERA_TYPE.TPS)
-        {
-            if (!this.inputManager.menuOn)
-            {
-                Screen.lockCursor = true;
-            }
-            float num5 = (Input.GetAxis("Mouse X") * 10f) * this.getSensitivityMulti();
-            float num6 = ((-Input.GetAxis("Mouse Y") * 10f) * this.getSensitivityMulti()) * this.getReverse();
-            base.transform.RotateAround(base.transform.position, Vector3.up, num5);
-            float num7 = base.transform.rotation.eulerAngles.x % 360f;
-            float num8 = num7 + num6;
-            if (((num6 <= 0f) || (((num7 >= 260f) || (num8 <= 260f)) && ((num7 >= 80f) || (num8 <= 80f)))) && ((num6 >= 0f) || (((num7 <= 280f) || (num8 >= 280f)) && ((num7 <= 100f) || (num8 >= 100f)))))
-            {
-                base.transform.RotateAround(base.transform.position, base.transform.right, num6);
-            }
-            Transform transform5 = base.transform;
-            transform5.position -= (Vector3) (((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
-        }
+        
         if (cameraDistance < 0.65f)
         {
             Transform transform6 = base.transform;
