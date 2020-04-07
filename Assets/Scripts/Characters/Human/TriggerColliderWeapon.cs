@@ -14,9 +14,26 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     private bool checkIfBehind(GameObject titan)
     {
-        Transform transform = titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
-        Vector3 to = base.transform.position - transform.transform.position;
-        return (Vector3.Angle(-transform.transform.forward, to) < 70f);
+        if(titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
+        {
+            Transform transform = titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
+            Vector3 to = base.transform.position - transform.transform.position;
+            return (Vector3.Angle(-transform.transform.forward, to) < 70f);
+        }
+        else // dummy titan
+        {
+            return true; // temp
+        }
+    }
+
+    public void DummyNapeHit(DUMMY_TITAN titan)
+    {
+        Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity;
+        int num2 = (int)((vector3.magnitude * 10f) * this.scoreMulti);
+        num2 = Mathf.Max(10, num2);
+        titan.Die();
+        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().netShowDamage(num2);
+        titan.Die(); //temporary until health script
     }
 
     public void clearHits()
@@ -158,6 +175,10 @@ public class TriggerColliderWeapon : MonoBehaviour
                                 item.transform.root.GetComponent<COLOSSAL_TITAN>().photonView.RPC("titanGetHit", item.transform.root.GetComponent<COLOSSAL_TITAN>().photonView.owner, objArray4);
                             }
                         }
+                        else if (item.transform.root.GetComponent<DUMMY_TITAN>())
+                        {
+                            DummyNapeHit(item.transform.root.GetComponent<DUMMY_TITAN>());
+                        }
                     }
                     else if (item.transform.root.GetComponent<TITAN>() != null)
                     {
@@ -202,6 +223,10 @@ public class TriggerColliderWeapon : MonoBehaviour
                             }
                             item.transform.root.GetComponent<COLOSSAL_TITAN>().titanGetHit(base.transform.root.gameObject.GetPhotonView().viewID, num8);
                         }
+                    }
+                    else if (item.transform.root.GetComponent<DUMMY_TITAN>())
+                    {
+                        DummyNapeHit(item.transform.root.GetComponent<DUMMY_TITAN>());
                     }
                     this.showCriticalHitFX();
                 }
