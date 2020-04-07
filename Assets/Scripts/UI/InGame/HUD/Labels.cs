@@ -9,6 +9,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public Text Top;
         public Text TopRight;
         public Text TopLeft;
+        public Text MiddleRight;
 
         public void OnEnable()
         {
@@ -16,6 +17,7 @@ namespace Assets.Scripts.UI.InGame.HUD
                 = Top.text
                 = TopRight.text
                 = TopLeft.text
+                = MiddleRight.text
                 = "";
         }
     }
