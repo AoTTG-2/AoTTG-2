@@ -45,8 +45,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static bool hasLogged;
     private ArrayList heroes;
     public static ExitGames.Client.Photon.Hashtable heroHash;
-    [Obsolete("Please use WaveGamemode.HighestWave")]
-    private int highestwave = 1;
     private ArrayList hooks;
     [Obsolete("Replace with Gamemode.HumanScore")]
     private int humanScore;
@@ -155,8 +153,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private GameObject ui;
     public float updateTime;
     public static string usernameField;
-    [Obsolete("Please use WaveGamemode.Wave")]
-    public int wave = 1;
 
     public InGameUi InGameUI;
 
@@ -4424,8 +4420,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.titanScore = 0;
         this.PVPtitanScore = 0;
         this.PVPhumanScore = 0;
-        this.wave = 1;
-        this.highestwave = 1;
         this.localRacingResult = string.Empty;
         this.needChooseSide = true;
         this.chatContent = new ArrayList();
@@ -4673,12 +4667,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 int num2 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statBLA]);
                 int num3 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statGAS]);
                 int num4 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statSPD]);
-                if ((((num > 150) || (num2 > 0x7d)) || (num3 > 150)) || (num4 > 140))
+                if ((((num > 150) || (num2 > 125)) || (num3 > 150)) || (num4 > 140))
                 {
                     this.kickPlayerRC(player, true, "excessive stats.");
                     return;
                 }
-                if (RCSettings.asoPreservekdr == 1)
+                if (Gamemode.SaveKDROnDisconnect)
                 {
                     base.StartCoroutine(this.WaitAndReloadKDR(player));
                 }
@@ -4748,11 +4742,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     hashtable.Add("cRate", RCSettings.cRate);
                     hashtable.Add("pRate", RCSettings.pRate);
                 }
-                if (RCSettings.waveModeOn > 0)
-                {
-                    hashtable.Add("waveModeOn", 1);
-                    hashtable.Add("waveModeNum", RCSettings.waveModeNum);
-                }
                 if (RCSettings.friendlyMode > 0)
                 {
                     hashtable.Add("friendly", 1);
@@ -4760,10 +4749,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (RCSettings.pvpMode > 0)
                 {
                     hashtable.Add("pvp", RCSettings.pvpMode);
-                }
-                if (RCSettings.maxWave > 0)
-                {
-                    hashtable.Add("maxwave", RCSettings.maxWave);
                 }
                 if (RCSettings.endlessMode > 0)
                 {
@@ -4776,10 +4761,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (RCSettings.ahssReload > 0)
                 {
                     hashtable.Add("ahssReload", RCSettings.ahssReload);
-                }
-                if (RCSettings.punkWaves > 0)
-                {
-                    hashtable.Add("punkWaves", RCSettings.punkWaves);
                 }
                 if (RCSettings.deadlyCannons > 0)
                 {
@@ -4822,7 +4803,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             base.photonView.RPC("verifyPlayerHasLeft", PhotonTargets.All, new object[] { player.ID });
         }
-        if (RCSettings.asoPreservekdr == 1)
+        if (Gamemode.SaveKDROnDisconnect)
         {
             string key = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
             if (this.PreservedPlayerKDR.ContainsKey(key))
@@ -5876,12 +5857,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    private void refreshStatus(int score1, int score2, int wav, int highestWav, float time1, float time2, bool startRacin, bool endRacin)
+    private void refreshStatus(int score1, int score2, float time1, float time2, bool startRacin, bool endRacin)
     {
         this.humanScore = score1;
         this.titanScore = score2;
-        this.wave = wav;
-        this.highestwave = highestWav;
         this.roundTime = time1;
         this.timeTotalServer = time2;
         this.startRacing = startRacin;
@@ -5936,7 +5915,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void RequireStatus()
     {
-        object[] parameters = new object[] { this.humanScore, this.titanScore, this.wave, this.highestwave, this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing };
+        object[] parameters = new object[] { this.humanScore, this.titanScore, this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing };
         base.photonView.RPC("refreshStatus", PhotonTargets.Others, parameters);
         object[] objArray2 = new object[] { this.PVPhumanScore, this.PVPtitanScore };
         base.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, objArray2);
@@ -5967,18 +5946,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         RCSettings.jRate = 0f;
         RCSettings.cRate = 0f;
         RCSettings.pRate = 0f;
-        RCSettings.waveModeOn = 0;
-        RCSettings.waveModeNum = 0;
         RCSettings.friendlyMode = 0;
         RCSettings.pvpMode = 0;
-        RCSettings.maxWave = 0;
         RCSettings.endlessMode = 0;
         RCSettings.ahssReload = 0;
-        RCSettings.punkWaves = 0;
         RCSettings.globalDisableMinimap = 0;
         RCSettings.motd = string.Empty;
         RCSettings.deadlyCannons = 0;
-        RCSettings.asoPreservekdr = 0;
         RCSettings.racingStatic = 0;
     }
 
@@ -6080,7 +6054,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.isLosing = false;
             this.isPlayer1Winning = false;
             this.isPlayer2Winning = false;
-            this.wave = 1;
             this.myRespawnTime = 0f;
             this.kicklist = new ArrayList();
             this.killInfoGO = new ArrayList();
@@ -6120,7 +6093,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.isLosing = false;
         this.isPlayer1Winning = false;
         this.isPlayer2Winning = false;
-        this.wave = 1;
         this.myRespawnTime = 0f;
         this.ShowHUDInfoCenter(string.Empty);
         this.DestroyAllExistingCloths();
@@ -6631,19 +6603,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             RCSettings.globalDisableMinimap = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Minimaps are allowed.</color>");
         }
-        if (hash.ContainsKey("punkWaves"))
-        {
-            if (RCSettings.punkWaves != ((int)hash["punkWaves"]))
-            {
-                RCSettings.punkWaves = (int)hash["punkWaves"];
-                this.chatRoom.addLINE("<color=#FFCC00>Punk override every 5 waves enabled.</color>");
-            }
-        }
-        else if (RCSettings.punkWaves != 0)
-        {
-            RCSettings.punkWaves = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Punk override every 5 waves disabled.</color>");
-        }
         if (hash.ContainsKey("ahssReload"))
         {
             if (RCSettings.ahssReload != ((int)hash["ahssReload"]))
@@ -6856,21 +6815,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             RCSettings.pRate = 0f;
             this.chatRoom.addLINE("<color=#FFCC00>Custom spawn rate disabled.</color>");
         }
-        if (hash.ContainsKey("waveModeOn") && hash.ContainsKey("waveModeNum"))
-        {
-            if ((RCSettings.waveModeOn != ((int)hash["waveModeOn"])) || (RCSettings.waveModeNum != ((int)hash["waveModeNum"])))
-            {
-                RCSettings.waveModeOn = (int)hash["waveModeOn"];
-                RCSettings.waveModeNum = (int)hash["waveModeNum"];
-                this.chatRoom.addLINE("<color=#FFCC00>Custom wave mode (" + RCSettings.waveModeNum.ToString() + ") enabled.</color>");
-            }
-        }
-        else if ((RCSettings.waveModeOn != 0) || (RCSettings.waveModeNum != 0))
-        {
-            RCSettings.waveModeOn = 0;
-            RCSettings.waveModeNum = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Custom wave mode disabled.</color>");
-        }
         if (hash.ContainsKey("friendly"))
         {
             if (RCSettings.friendlyMode != ((int)hash["friendly"]))
@@ -6905,19 +6849,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             RCSettings.pvpMode = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Blade/AHSS PVP disabled.</color>");
-        }
-        if (hash.ContainsKey("maxwave"))
-        {
-            if (RCSettings.maxWave != ((int)hash["maxwave"]))
-            {
-                RCSettings.maxWave = (int)hash["maxwave"];
-                this.chatRoom.addLINE("<color=#FFCC00>Max wave is " + RCSettings.maxWave.ToString() + ".</color>");
-            }
-        }
-        else if (RCSettings.maxWave != 0)
-        {
-            RCSettings.maxWave = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Max wave set to default.</color>");
         }
         if (hash.ContainsKey("endless"))
         {
@@ -7102,7 +7033,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void SyncSettings(string gamemodeRaw, GamemodeType type, PhotonMessageInfo info)
     {
-        
         var gamemode = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
         if (info.sender.IsMasterClient)
         {
@@ -7719,9 +7649,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             moreTitans = RCSettings.moreTitans;
         }
 
-        //TODO: Determine how RC "gamemode"s should be implemented.
+        //TODO: Move this into Gamemode: OnSpawnTitan
         if (Gamemode.GamemodeType == GamemodeType.Wave)
         {
+            var wavesGamemode = (WaveGamemode) Gamemode;
             if (punk)
             {
                 moreTitans = rate;
@@ -7732,24 +7663,18 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (RCSettings.moreTitans == 0)
                 {
                     waveModeNum = 1;
-                    if (RCSettings.waveModeOn == 1)
-                    {
-                        waveModeNum = RCSettings.waveModeNum;
-                    }
-                    moreTitans += (this.wave - 1) * (waveModeNum - 1);
+                    waveModeNum = wavesGamemode.WaveIncrement;
+                    moreTitans += (wavesGamemode.Wave - 1) * (waveModeNum - 1);
                 }
                 else if (RCSettings.moreTitans > 0)
                 {
                     waveModeNum = 1;
-                    if (RCSettings.waveModeOn == 1)
-                    {
-                        waveModeNum = RCSettings.waveModeNum;
-                    }
-                    moreTitans += (this.wave - 1) * waveModeNum;
+                    waveModeNum = wavesGamemode.WaveIncrement;
+                    moreTitans += (wavesGamemode.Wave - 1) * waveModeNum;
                 }
             }
         }
-        moreTitans = Math.Min(50, moreTitans);
+        moreTitans = Math.Min(Gamemode.TitanLimit, moreTitans);
         if (RCSettings.spawnMode == 1)
         {
             float nRate = RCSettings.nRate;
@@ -7757,7 +7682,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             float jRate = RCSettings.jRate;
             float cRate = RCSettings.cRate;
             float pRate = RCSettings.pRate;
-            if (punk && (RCSettings.punkWaves == 1))
+            bool isPunkWaves = false;
+            if (Gamemode.GamemodeType == GamemodeType.Wave)
+            {
+                isPunkWaves = ((WaveGamemode) Gamemode).PunkWave;
+            }
+            if (punk && isPunkWaves)
             {
                 nRate = 0f;
                 aRate = 0f;

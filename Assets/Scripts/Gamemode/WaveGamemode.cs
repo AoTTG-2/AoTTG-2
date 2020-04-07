@@ -11,7 +11,9 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Max Wave", "What is the current wave?")]
         public int MaxWave { get; set; } = 20;
         private int highestWave = 1;
-        public int WaveIncrement = 2;
+        [UiElement("Wave Increment", "How many titans will spawn per wave?")]
+        public int WaveIncrement { get; set; } = 2;
+        public bool PunkWave { get; set; } = true;
 
         public WaveGamemode()
         {
@@ -121,7 +123,7 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.RequireStatus();
             }
-            if (!(((RCSettings.maxWave != 0) || (Wave <= MaxWave)) && ((RCSettings.maxWave <= 0) || (Wave <= RCSettings.maxWave))))
+            if (!((MaxWave != 0 || Wave <= MaxWave) && (MaxWave <= 0 || Wave <= MaxWave)))
             {
                 FengGameManagerMKII.instance.gameWin2();
             }

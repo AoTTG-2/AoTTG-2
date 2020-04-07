@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.UI.Elements;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -95,7 +96,7 @@ namespace Assets.Scripts.UI.InGame
         {
             if (!PhotonNetwork.isMasterClient) return;
             var gamemode = GetGamemodeFromSettings();
-            var json = JsonUtility.ToJson(gamemode);
+            var json = JsonConvert.SerializeObject(gamemode);
             FengGameManagerMKII.instance.photonView.RPC("SyncSettings", PhotonTargets.All, json, gamemode.GamemodeType);
         }
     }

@@ -104,14 +104,14 @@ public class InRoomChat : Photon.MonoBehaviour
                         switch (this.inputLine.Substring(5))
                         {
                             case "kdr":
-                                if (RCSettings.asoPreservekdr == 0)
+                                if (!FengGameManagerMKII.Gamemode.SaveKDROnDisconnect)
                                 {
-                                    RCSettings.asoPreservekdr = 1;
+                                    FengGameManagerMKII.Gamemode.SaveKDROnDisconnect = true;
                                     this.addLINE("<color=#FFCC00>KDRs will be preserved from disconnects.</color>");
                                 }
                                 else
                                 {
-                                    RCSettings.asoPreservekdr = 0;
+                                    FengGameManagerMKII.Gamemode.SaveKDROnDisconnect = false;
                                     this.addLINE("<color=#FFCC00>KDRs will not be preserved from disconnects.</color>");
                                 }
                                 break;
@@ -531,10 +531,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     this.addLINE("<color=#FFCC00>Anti-Eren is on. Using Titan eren will get you kicked.</color>");
                                 }
-                                if (RCSettings.waveModeOn == 1)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom wave mode is on (" + Convert.ToString(RCSettings.waveModeNum) + ").</color>");
-                                }
                                 if (RCSettings.friendlyMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Friendly-Fire disabled. PVP is prohibited.</color>");
@@ -550,10 +546,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                         this.addLINE("<color=#FFCC00>AHSS/Blade PVP is on (FFA).</color>");
                                     }
                                 }
-                                if (RCSettings.maxWave > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Max Wave set to " + RCSettings.maxWave.ToString() + "</color>");
-                                }
                                 if (FengGameManagerMKII.Gamemode.Horse)
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");
@@ -561,10 +553,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                 if (RCSettings.ahssReload > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation disabled.</color>");
-                                }
-                                if (RCSettings.punkWaves > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Punk override every 5 waves enabled.</color>");
                                 }
                                 if (RCSettings.endlessMode > 0)
                                 {

@@ -5,7 +5,6 @@ public static class RCSettings
 {
     public static int ahssReload;
     public static float aRate;
-    public static int asoPreservekdr;
     public static int banEren;
     public static int bombMode;
     public static float cRate;
@@ -22,13 +21,11 @@ public static class RCSettings
     public static int healthUpper; // Max Health
     public static int infectionMode; //Infection mode 1 = enable, 0 = disable
     public static float jRate;
-    public static int maxWave;
     public static int moreTitans;
     public static string motd;
     public static float nRate;
     public static int pointMode;
     public static float pRate;
-    public static int punkWaves;
     public static int pvpMode;
     public static int racingStatic;
     public static float sizeLower; //Minimun titan size
@@ -37,6 +34,4 @@ public static class RCSettings
     public static int spawnMode;
     public static int teamMode;
     public static int titanCap;
-    public static int waveModeNum;
-    public static int waveModeOn;
 }

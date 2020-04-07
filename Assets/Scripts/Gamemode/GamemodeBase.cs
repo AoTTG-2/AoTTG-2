@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Elements;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,9 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Respawn Mode", "The Respawn mode", Category = SettingCategory.Respawn)]
         public RespawnMode RespawnMode { get; set; } = RespawnMode.DEATHMATCH;
 
+        [UiElement("Save KDR on DC", "When a player disconnects, should their KDR be saved?")]
+        public bool SaveKDROnDisconnect { get; set; } = true;
+
         public bool Supply { get; set; } = true;
         public bool AllowPlayerTitans;
         public bool IsPlayerTitanEnabled;
@@ -89,28 +93,28 @@ namespace Assets.Scripts.Gamemode
             switch (type)
             {
                 case GamemodeType.Racing:
-                    gamemode = JsonUtility.FromJson<RacingGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<RacingGamemode>(json);
                     break;
                 case GamemodeType.Capture:
-                    gamemode = JsonUtility.FromJson<CaptureGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<CaptureGamemode>(json);
                     break;
                 case GamemodeType.Titans:
-                    gamemode = JsonUtility.FromJson<KillTitansGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<KillTitansGamemode>(json);
                     break;
                 case GamemodeType.Endless:
-                    gamemode = JsonUtility.FromJson<EndlessGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<EndlessGamemode>(json);
                     break;
                 case GamemodeType.Wave:
-                    gamemode = JsonUtility.FromJson<WaveGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<WaveGamemode>(json);
                     break;
                 case GamemodeType.Trost:
-                    gamemode = JsonUtility.FromJson<TrostGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<TrostGamemode>(json);
                     break;
                 case GamemodeType.TitanRush:
-                    gamemode = JsonUtility.FromJson<TitanRushGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<TitanRushGamemode>(json);
                     break;
                 case GamemodeType.PvpAhss:
-                    gamemode = JsonUtility.FromJson<PvPAhssGamemode>(json);
+                    gamemode = JsonConvert.DeserializeObject<PvPAhssGamemode>(json);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
