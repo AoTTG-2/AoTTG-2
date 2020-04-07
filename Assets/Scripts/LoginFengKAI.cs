@@ -141,8 +141,8 @@ public class LoginFengKAI : MonoBehaviour
                         //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         if (this.w__1.text.Contains("Guild thisName set."))
                         {
-                            NGUITools.SetActive(this.f__this.panelChangeGUILDNAME, false);
-                            NGUITools.SetActive(this.f__this.panelStatus, true);
+                            //SetActive(this.f__this.panelChangeGUILDNAME, false);
+                            //SetActive(this.f__this.panelStatus, true);
                             this.f__this.StartCoroutine(this.f__this.getInfo());
                         }
                         this.w__1.Dispose();
@@ -225,8 +225,8 @@ public class LoginFengKAI : MonoBehaviour
                         //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         if (this.w__1.text.Contains("Thanks, Your password changed successfully"))
                         {
-                            NGUITools.SetActive(this.f__this.panelChangePassword, false);
-                            NGUITools.SetActive(this.f__this.panelLogin, true);
+                            //SetActive(this.f__this.panelChangePassword, false);
+                            //SetActive(this.f__this.panelLogin, true);
                         }
                         this.w__1.Dispose();
                         break;
@@ -302,8 +302,8 @@ public class LoginFengKAI : MonoBehaviour
                     {
                         //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         this.w__1.Dispose();
-                        NGUITools.SetActive(this.f__this.panelForget, false);
-                        NGUITools.SetActive(this.f__this.panelLogin, true);
+                        //SetActive(this.f__this.panelForget, false);
+                        //SetActive(this.f__this.panelLogin, true);
                         break;
                     }
                     MonoBehaviour.print(this.w__1.error);
@@ -379,8 +379,8 @@ public class LoginFengKAI : MonoBehaviour
                     {
                         if (this.w__1.text.Contains("Error,please sign in again."))
                         {
-                            NGUITools.SetActive(this.f__this.panelLogin, true);
-                            NGUITools.SetActive(this.f__this.panelStatus, false);
+                            //SetActive(this.f__this.panelLogin, true);
+                            //SetActive(this.f__this.panelStatus, false);
                             //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                             LoginFengKAI.playerName = string.Empty;
                             LoginFengKAI.playerPassword = string.Empty;
@@ -475,8 +475,8 @@ public class LoginFengKAI : MonoBehaviour
                         this.w__1.Dispose();
                         if (this.f__this.formText.Contains("Welcome back") && this.f__this.formText.Contains("(^o^)/~"))
                         {
-                            NGUITools.SetActive(this.f__this.panelLogin, false);
-                            NGUITools.SetActive(this.f__this.panelStatus, true);
+                            //SetActive(this.f__this.panelLogin, false);
+                            //SetActive(this.f__this.panelStatus, true);
                             LoginFengKAI.playerName = this.name;
                             LoginFengKAI.playerPassword = this.password;
                             this.f__this.StartCoroutine(this.f__this.getInfo());
@@ -561,8 +561,8 @@ public class LoginFengKAI : MonoBehaviour
                         //this.f__this.output.GetComponent<UILabel>().text = this.w__1.text;
                         if (this.w__1.text.Contains("Final step,to activate your account, please click the link in the activation email"))
                         {
-                            NGUITools.SetActive(this.f__this.panelRegister, false);
-                            NGUITools.SetActive(this.f__this.panelLogin, true);
+                            //SetActive(this.f__this.panelRegister, false);
+                            //SetActive(this.f__this.panelLogin, true);
                         }
                         this.w__1.Dispose();
                         break;
