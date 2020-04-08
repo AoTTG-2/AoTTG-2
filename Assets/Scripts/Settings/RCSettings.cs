@@ -21,12 +21,10 @@ public static class RCSettings
     public static int healthUpper; // Max Health
     public static int infectionMode; //Infection mode 1 = enable, 0 = disable
     public static float jRate;
-    public static int moreTitans;
     public static string motd;
     public static float nRate;
     public static int pointMode;
     public static float pRate;
-    public static int pvpMode;
     public static int racingStatic;
     public static float sizeLower; //Minimun titan size
     public static int sizeMode; //Are custom sizes enabled? If true, then sizeLower and sizeUpper are used.

@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.Gamemode
+﻿using Assets.Scripts.Gamemode.Options;
+
+namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
@@ -6,7 +8,7 @@
         {
             GamemodeType = GamemodeType.Racing;
             PlayerTitanShifters = false;
-            Pvp = false;
+            Pvp = PvpMode.Disabled;
             Supply = false;
             RespawnMode = RespawnMode.NEVER;
             Titans = 0;

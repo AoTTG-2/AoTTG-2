@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.Gamemode
+﻿using Assets.Scripts.Gamemode.Options;
+
+namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
@@ -7,7 +9,7 @@
             GamemodeType = GamemodeType.Endless;
             RespawnMode = RespawnMode.NEVER;
             AllowPlayerTitans = true;
-            Pvp = false;
+            Pvp = PvpMode.Disabled;
             Titans = 10;
         }
 

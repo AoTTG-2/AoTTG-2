@@ -1,7 +1,9 @@
 using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Room;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1089,7 +1091,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     if ((((Camera.main != null) && (Gamemode.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int)settings[0xf5]) == 0))
                     {
                         this.ShowHUDInfoCenter("Press [F7D358]" + this.inputManager.inputString[InputCode.flare1] + "[-] to spectate the next player. \nPress [F7D358]" + this.inputManager.inputString[InputCode.flare2] + "[-] to spectate the previous player.\nPress [F7D358]" + this.inputManager.inputString[InputCode.attack1] + "[-] to enter the spectator mode.\n\n\n\n");
-                        if (((Gamemode.RespawnMode == RespawnMode.DEATHMATCH) || (RCSettings.endlessMode > 0)) || !(((RCSettings.bombMode == 1) || (RCSettings.pvpMode > 0)) ? (RCSettings.pointMode <= 0) : true))
+                        if (((Gamemode.RespawnMode == RespawnMode.DEATHMATCH) || (RCSettings.endlessMode > 0)) || !(((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)) ? (RCSettings.pointMode <= 0) : true))
                         {
                             this.myRespawnTime += Time.deltaTime;
                             int endlessMode = 5;
@@ -2822,7 +2824,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if ((RCSettings.pointMode <= 0) && ((RCSettings.bombMode == 1) || (RCSettings.pvpMode > 0)))
+            else if ((RCSettings.pointMode <= 0) && ((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)))
             {
                 if ((RCSettings.teamMode > 0) && (PhotonNetwork.playerList.Length > 1))
                 {
@@ -4428,7 +4430,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (!PhotonNetwork.isMasterClient)
         {
             base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
-            base.photonView.RPC("RequestSettings", PhotonTargets.MasterClient, new object[0]);
+            base.photonView.RPC("RequestSettings", PhotonTargets.MasterClient);
         }
         this.assetCacheTextures = new Dictionary<string, Texture2D>();
         this.isFirstLoad = true;
@@ -4719,10 +4721,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     hashtable.Add("eren", RCSettings.banEren);
                 }
-                if (RCSettings.moreTitans > 0)
-                {
-                    hashtable.Add("titanc", RCSettings.moreTitans);
-                }
                 if (RCSettings.damageMode > 0)
                 {
                     hashtable.Add("damage", RCSettings.damageMode);
@@ -4745,10 +4743,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (RCSettings.friendlyMode > 0)
                 {
                     hashtable.Add("friendly", 1);
-                }
-                if (RCSettings.pvpMode > 0)
-                {
-                    hashtable.Add("pvp", RCSettings.pvpMode);
                 }
                 if (RCSettings.endlessMode > 0)
                 {
@@ -5935,7 +5929,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         RCSettings.healthUpper = 0;
         RCSettings.infectionMode = 0;
         RCSettings.banEren = 0;
-        RCSettings.moreTitans = 0;
         RCSettings.damageMode = 0;
         RCSettings.sizeMode = 0;
         RCSettings.sizeLower = 0f;
@@ -5947,7 +5940,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         RCSettings.cRate = 0f;
         RCSettings.pRate = 0f;
         RCSettings.friendlyMode = 0;
-        RCSettings.pvpMode = 0;
         RCSettings.endlessMode = 0;
         RCSettings.ahssReload = 0;
         RCSettings.globalDisableMinimap = 0;
@@ -6749,19 +6741,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             RCSettings.banEren = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Anti-Eren disabled. Eren transform is allowed.</color>");
         }
-        if (hash.ContainsKey("titanc"))
-        {
-            if (RCSettings.moreTitans != ((int)hash["titanc"]))
-            {
-                RCSettings.moreTitans = (int)hash["titanc"];
-                this.chatRoom.addLINE("<color=#FFCC00>" + Convert.ToString(RCSettings.moreTitans) + " titans will spawn each round.</color>");
-            }
-        }
-        else if (RCSettings.moreTitans != 0)
-        {
-            RCSettings.moreTitans = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Default titans will spawn each round.</color>");
-        }
         if (hash.ContainsKey("damage"))
         {
             if (RCSettings.damageMode != ((int)hash["damage"]))
@@ -6827,28 +6806,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             RCSettings.friendlyMode = 0;
             this.chatRoom.addLINE("<color=#FFCC00>PVP is allowed.</color>");
-        }
-        if (hash.ContainsKey("pvp"))
-        {
-            if (RCSettings.pvpMode != ((int)hash["pvp"]))
-            {
-                RCSettings.pvpMode = (int)hash["pvp"];
-                str = string.Empty;
-                if (RCSettings.pvpMode == 1)
-                {
-                    str = "Team-Based";
-                }
-                else if (RCSettings.pvpMode == 2)
-                {
-                    str = "FFA";
-                }
-                this.chatRoom.addLINE("<color=#FFCC00>Blade/AHSS PVP enabled (" + str + ").</color>");
-            }
-        }
-        else if (RCSettings.pvpMode != 0)
-        {
-            RCSettings.pvpMode = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Blade/AHSS PVP disabled.</color>");
         }
         if (hash.ContainsKey("endless"))
         {
@@ -7044,7 +7001,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void RequestSettings(PhotonMessageInfo info)
     {
-        var json = JsonUtility.ToJson(Gamemode);
+        var json = JsonConvert.SerializeObject(Gamemode);
         photonView.RPC("SyncSettings", info.sender, json, Gamemode.GamemodeType);
     }
 
@@ -7644,9 +7601,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 moreTitans = 0;
             }
         }
-        if ((RCSettings.moreTitans > 0) || (((RCSettings.moreTitans == 0) && level.StartsWith("Custom")) && (RCSettings.gameType >= 2)))
+        if ((Gamemode.Titans > 0) || (((Gamemode.Titans == 0) && level.StartsWith("Custom")) && (RCSettings.gameType >= 2)))
         {
-            moreTitans = RCSettings.moreTitans;
+            moreTitans = Gamemode.Titans;
         }
 
         //TODO: Move this into Gamemode: OnSpawnTitan
@@ -7660,13 +7617,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             else
             {
                 int waveModeNum;
-                if (RCSettings.moreTitans == 0)
+                if (Gamemode.Titans == 0)
                 {
                     waveModeNum = 1;
                     waveModeNum = wavesGamemode.WaveIncrement;
                     moreTitans += (wavesGamemode.Wave - 1) * (waveModeNum - 1);
                 }
-                else if (RCSettings.moreTitans > 0)
+                else if (Gamemode.Titans > 0)
                 {
                     waveModeNum = 1;
                     waveModeNum = wavesGamemode.WaveIncrement;
@@ -8601,85 +8558,88 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if ((RCSettings.pointMode <= 0) && ((RCSettings.bombMode == 1) || (RCSettings.pvpMode > 0)))
+            else if ((RCSettings.pointMode <= 0) && ((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)))
             {
-                if ((RCSettings.teamMode > 0) && (PhotonNetwork.playerList.Length > 1))
+                if (Gamemode.PvPWinOnEnemiesDead)
                 {
-                    int num24 = 0;
-                    int num25 = 0;
-                    int num26 = 0;
-                    int num27 = 0;
-                    for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
+                    if ((RCSettings.teamMode > 0) && (PhotonNetwork.playerList.Length > 1))
                     {
-                        PhotonPlayer player10 = PhotonNetwork.playerList[num22];
-                        if ((!ignoreList.Contains(player10.ID) && (player10.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (player10.CustomProperties[PhotonPlayerProperty.dead] != null))
+                        int num24 = 0;
+                        int num25 = 0;
+                        int num26 = 0;
+                        int num27 = 0;
+                        for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
                         {
-                            if (RCextensions.returnIntFromObject(player10.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
+                            PhotonPlayer player10 = PhotonNetwork.playerList[num22];
+                            if ((!ignoreList.Contains(player10.ID) && (player10.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (player10.CustomProperties[PhotonPlayerProperty.dead] != null))
                             {
-                                num26++;
-                                if (!RCextensions.returnBoolFromObject(player10.CustomProperties[PhotonPlayerProperty.dead]))
+                                if (RCextensions.returnIntFromObject(player10.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                                 {
-                                    num24++;
+                                    num26++;
+                                    if (!RCextensions.returnBoolFromObject(player10.CustomProperties[PhotonPlayerProperty.dead]))
+                                    {
+                                        num24++;
+                                    }
+                                }
+                                else if (RCextensions.returnIntFromObject(player10.CustomProperties[PhotonPlayerProperty.RCteam]) == 2)
+                                {
+                                    num27++;
+                                    if (!RCextensions.returnBoolFromObject(player10.CustomProperties[PhotonPlayerProperty.dead]))
+                                    {
+                                        num25++;
+                                    }
                                 }
                             }
-                            else if (RCextensions.returnIntFromObject(player10.CustomProperties[PhotonPlayerProperty.RCteam]) == 2)
+                        }
+                        if ((num26 > 0) && (num27 > 0))
+                        {
+                            if (num24 == 0)
                             {
-                                num27++;
-                                if (!RCextensions.returnBoolFromObject(player10.CustomProperties[PhotonPlayerProperty.dead]))
+                                object[] objArray5 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
+                                this.photonView.RPC("Chat", PhotonTargets.All, objArray5);
+                                this.gameWin2();
+                            }
+                            else if (num25 == 0)
+                            {
+                                object[] objArray6 = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
+                                this.photonView.RPC("Chat", PhotonTargets.All, objArray6);
+                                this.gameWin2();
+                            }
+                        }
+                    }
+                    else if ((RCSettings.teamMode == 0) && (PhotonNetwork.playerList.Length > 1))
+                    {
+                        int num28 = 0;
+                        string text = "Nobody";
+                        PhotonPlayer player11 = PhotonNetwork.playerList[0];
+                        for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
+                        {
+                            PhotonPlayer player12 = PhotonNetwork.playerList[num22];
+                            if (!((player12.CustomProperties[PhotonPlayerProperty.dead] == null) || RCextensions.returnBoolFromObject(player12.CustomProperties[PhotonPlayerProperty.dead])))
+                            {
+                                text = RCextensions.returnStringFromObject(player12.CustomProperties[PhotonPlayerProperty.name]).hexColor();
+                                player11 = player12;
+                                num28++;
+                            }
+                        }
+                        if (num28 <= 1)
+                        {
+                            string str4 = " 5 points added.";
+                            if (text == "Nobody")
+                            {
+                                str4 = string.Empty;
+                            }
+                            else
+                            {
+                                for (num22 = 0; num22 < 5; num22++)
                                 {
-                                    num25++;
+                                    this.playerKillInfoUpdate(player11, 0);
                                 }
                             }
-                        }
-                    }
-                    if ((num26 > 0) && (num27 > 0))
-                    {
-                        if (num24 == 0)
-                        {
-                            object[] objArray5 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
-                            this.photonView.RPC("Chat", PhotonTargets.All, objArray5);
+                            object[] objArray7 = new object[] { "<color=#FFCC00>" + text.hexColor() + " wins." + str4 + "</color>", string.Empty };
+                            this.photonView.RPC("Chat", PhotonTargets.All, objArray7);
                             this.gameWin2();
                         }
-                        else if (num25 == 0)
-                        {
-                            object[] objArray6 = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
-                            this.photonView.RPC("Chat", PhotonTargets.All, objArray6);
-                            this.gameWin2();
-                        }
-                    }
-                }
-                else if ((RCSettings.teamMode == 0) && (PhotonNetwork.playerList.Length > 1))
-                {
-                    int num28 = 0;
-                    string text = "Nobody";
-                    PhotonPlayer player11 = PhotonNetwork.playerList[0];
-                    for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
-                    {
-                        PhotonPlayer player12 = PhotonNetwork.playerList[num22];
-                        if (!((player12.CustomProperties[PhotonPlayerProperty.dead] == null) || RCextensions.returnBoolFromObject(player12.CustomProperties[PhotonPlayerProperty.dead])))
-                        {
-                            text = RCextensions.returnStringFromObject(player12.CustomProperties[PhotonPlayerProperty.name]).hexColor();
-                            player11 = player12;
-                            num28++;
-                        }
-                    }
-                    if (num28 <= 1)
-                    {
-                        string str4 = " 5 points added.";
-                        if (text == "Nobody")
-                        {
-                            str4 = string.Empty;
-                        }
-                        else
-                        {
-                            for (num22 = 0; num22 < 5; num22++)
-                            {
-                                this.playerKillInfoUpdate(player11, 0);
-                            }
-                        }
-                        object[] objArray7 = new object[] { "<color=#FFCC00>" + text.hexColor() + " wins." + str4 + "</color>", string.Empty };
-                        this.photonView.RPC("Chat", PhotonTargets.All, objArray7);
-                        this.gameWin2();
                     }
                 }
             }

@@ -230,6 +230,7 @@
      <Compile Include="Assets\Scripts\Gamemode\Legacy\GAMETYPE.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerPVPchkPtID.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerRacingResult.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Options\PvpMode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\PvPAhssGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Racing\RacingCheckpointTrigger.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Racing\RacingKillTrigger.cs" />
@@ -547,6 +548,9 @@
  <Reference Include="Photon3Unity3D">
  <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/Photon3Unity3D.dll</HintPath>
  </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+ </Reference>
  <Reference Include="websocket-sharp">
  <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
  </Reference>
@@ -558,9 +562,6 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/nickw/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
- </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

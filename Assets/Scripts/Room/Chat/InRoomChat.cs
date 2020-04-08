@@ -519,10 +519,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     this.addLINE("<color=#FFCC00>Minimum nape damage is on (" + Convert.ToString(RCSettings.damageMode) + ").</color>");
                                 }
-                                if (RCSettings.moreTitans > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom titan # is on (" + Convert.ToString(RCSettings.moreTitans) + ").</color>");
-                                }
                                 if (RCSettings.sizeMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Custom titan size is on (" + RCSettings.sizeLower.ToString("F2") + "," + RCSettings.sizeUpper.ToString("F2") + ").</color>");
@@ -534,17 +530,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                 if (RCSettings.friendlyMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Friendly-Fire disabled. PVP is prohibited.</color>");
-                                }
-                                if (RCSettings.pvpMode > 0)
-                                {
-                                    if (RCSettings.pvpMode == 1)
-                                    {
-                                        this.addLINE("<color=#FFCC00>AHSS/Blade PVP is on (team-based).</color>");
-                                    }
-                                    else if (RCSettings.pvpMode == 2)
-                                    {
-                                        this.addLINE("<color=#FFCC00>AHSS/Blade PVP is on (FFA).</color>");
-                                    }
                                 }
                                 if (FengGameManagerMKII.Gamemode.Horse)
                                 {

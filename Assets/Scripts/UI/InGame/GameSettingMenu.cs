@@ -22,6 +22,15 @@ namespace Assets.Scripts.UI.InGame
             Pages[0].gameObject.SetActive(true);
         }
 
+        private void OnDisable()
+        {
+            foreach (var page in Pages)
+            {
+                Destroy(page.gameObject);
+            }
+            Pages.Clear();
+        }
+
         private GamemodeBase GetGamemodeFromSettings()
         {
             foreach (var page in Pages)

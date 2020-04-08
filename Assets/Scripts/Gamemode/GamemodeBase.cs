@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Elements;
 using Newtonsoft.Json;
 using System;
@@ -55,7 +56,10 @@ namespace Assets.Scripts.Gamemode
         public bool Punks = true;
 
         [UiElement("PvP", "Can players kill each other?")]
-        public bool Pvp { get; set; } = true;
+        public PvpMode Pvp { get; set; } = PvpMode.Disabled;
+
+        [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?")]
+        public bool PvPWinOnEnemiesDead { get; set; } = false;
 
         [UiElement("Respawn Mode", "The Respawn mode", Category = SettingCategory.Respawn)]
         public RespawnMode RespawnMode { get; set; } = RespawnMode.DEATHMATCH;

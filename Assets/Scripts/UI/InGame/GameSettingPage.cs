@@ -74,6 +74,7 @@ namespace Assets.Scripts.UI.InGame
                 uiObject = Instantiate(Dropdown.gameObject);
                 var input = uiObject.GetComponent<UiDropdown>();
                 input.Label = attribute.Label;
+                input.Value = (int) property.GetValue(Gamemode);
                 input.gameObject.name = property.Name;
                 input.Initialize(property.PropertyType);
             }
@@ -82,7 +83,7 @@ namespace Assets.Scripts.UI.InGame
 
             if (uiObject != null)
             {
-                uiObject.transform.parent = Content.transform;
+                uiObject.transform.SetParent(Content.transform);
                 uiObject.transform.localScale = new Vector3(1 , 1 ,1);
                 uiObject.SetActive(true);
             }
@@ -97,13 +98,13 @@ namespace Assets.Scripts.UI.InGame
             if (childCount == 0)
             {
                 CreateEmptyGridItem();
-                categoryUi.transform.parent = Content.transform;
+                categoryUi.transform.SetParent(Content.transform);
                 CreateEmptyGridItem();
                 return;
             }
             var currentColumn = childCount % _columnCount;
             CreateEmptyGridItem(4 - currentColumn);
-            categoryUi.transform.parent = Content.transform;
+            categoryUi.transform.SetParent(Content.transform);
             CreateEmptyGridItem();
         }
 

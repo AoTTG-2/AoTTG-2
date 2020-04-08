@@ -10,6 +10,7 @@ namespace Assets.Scripts.UI.Elements
         public Type Type;
         public Text LabelText;
 
+        public int Value;
         public string Label;
 
         public void Initialize(Type type)
@@ -22,8 +23,8 @@ namespace Assets.Scripts.UI.Elements
                 {
                     Dropdown.options.Add(new Dropdown.OptionData() { text = enumObject.ToString() });
                 }
-                Dropdown.value = 0;
-                DisplayValue.text = Dropdown.options[0].text;
+                Dropdown.value = Value;
+                DisplayValue.text = Dropdown.options[Value].text;
                 LabelText.text = Label;
 
             }

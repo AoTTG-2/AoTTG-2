@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Options;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,13 +26,11 @@ public class LevelBuilder
             {
                 new KillTitansGamemode
                 {
-                    Titans = 10,
-                    Pvp = true,
+                    Titans = 10
                 },
                 new EndlessGamemode
                 {
-                    Titans = 10,
-                    Pvp = false,
+                    Titans = 10
                 },
                 new WaveGamemode(),
                 new CaptureGamemode()
@@ -51,7 +50,7 @@ public class LevelBuilder
                     Description = "Classic map where you fight the Female Titan",
                     Titans = 15,
                     Punks = false,
-                    Pvp = true
+                    Pvp = PvpMode.AhssVsBlades
                 },
                 new WaveGamemode()
             }

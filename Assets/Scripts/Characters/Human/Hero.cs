@@ -1,3 +1,4 @@
+using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -4020,7 +4021,7 @@ public class Hero : Human
                     base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
                 }
             }
-            else if (RCSettings.pvpMode == 1)
+            else if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.AhssVsBlades)
             {
                 int num = 0;
                 if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
@@ -4033,7 +4034,7 @@ public class Hero : Human
                     base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
                 }
             }
-            else if ((RCSettings.pvpMode == 2) && (val != base.photonView.owner.ID))
+            else if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
             {
                 objArray = new object[] { base.photonView.owner.ID };
                 base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);

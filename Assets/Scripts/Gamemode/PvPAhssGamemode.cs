@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.Gamemode
+﻿using Assets.Scripts.Gamemode.Options;
+
+namespace Assets.Scripts.Gamemode
 {
     public class PvPAhssGamemode : GamemodeBase
     {
@@ -7,7 +9,7 @@
             GamemodeType = GamemodeType.PvpAhss;
             AhssAirReload = false;
             Titans = -1;
-            Pvp = true;
+            Pvp = PvpMode.AhssVsBlades;
             PlayerTitanShifters = true;
             Horse = false;
         }
@@ -39,7 +41,7 @@
 
         public override void OnPlayerKilled(int id)
         {
-            if (RCSettings.pvpMode != 0 || RCSettings.bombMode != 0) return;
+            if (Pvp != PvpMode.Disabled || RCSettings.bombMode != 0) return;
             if (IsAllPlayersDead())
             {
                 FengGameManagerMKII.instance.gameLose2();
@@ -59,7 +61,7 @@
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (RCSettings.pvpMode == 0 && RCSettings.bombMode == 0)
+            if (Pvp == PvpMode.Disabled && RCSettings.bombMode == 0)
             {
                 return $"Team {teamWinner}, Win!\nGame Restart in {(int)timeUntilRestart}s\n\n";
             }
