@@ -482,18 +482,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     this.addLINE("<color=#FFCC00>Point mode is on (" + Convert.ToString(RCSettings.pointMode) + ").</color>");
                                 }
-                                if (RCSettings.disableRock > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Punk Rock-Throwing is disabled.</color>");
-                                }
-                                if (RCSettings.spawnMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom spawn rate is on (" + RCSettings.nRate.ToString("F2") + "% Normal, " + RCSettings.aRate.ToString("F2") + "% Abnormal, " + RCSettings.jRate.ToString("F2") + "% Jumper, " + RCSettings.cRate.ToString("F2") + "% Crawler, " + RCSettings.pRate.ToString("F2") + "% Punk </color>");
-                                }
-                                if (RCSettings.explodeMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Titan explode mode is on (" + Convert.ToString(RCSettings.explodeMode) + ").</color>");
-                                }
                                 if (RCSettings.infectionMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Infection mode is on (" + Convert.ToString(RCSettings.infectionMode) + ").</color>");

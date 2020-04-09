@@ -1320,7 +1320,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     TitanSpawner item = this.titanSpawners[i];
                     item.time -= Time.deltaTime;
-                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Math.Min(RCSettings.titanCap, 80)))
+                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.TitanLimit))
                     {
                         string name = item.name;
                         if (name == "spawnAnnie")
@@ -3562,16 +3562,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         strArray3[num] = (string)settings[num + 0xaf];
                     }
                     strArray3[6] = (string)settings[0xa2];
-                    if (int.TryParse((string)settings[0x55], out num6))
-                    {
-                        RCSettings.titanCap = num6;
-                    }
-                    else
-                    {
-                        RCSettings.titanCap = 0;
-                        settings[0x55] = "0";
-                    }
-                    RCSettings.titanCap = Math.Min(50, RCSettings.titanCap);
                     base.photonView.RPC("clearlevel", PhotonTargets.AllBuffered, new object[] { strArray3 });
                     RCRegions.Clear();
                     if (oldScript != currentScript)
@@ -4669,14 +4659,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     hashtable.Add("point", RCSettings.pointMode);
                 }
-                if (RCSettings.disableRock > 0)
-                {
-                    hashtable.Add("rock", RCSettings.disableRock);
-                }
-                if (RCSettings.explodeMode > 0)
-                {
-                    hashtable.Add("explode", RCSettings.explodeMode);
-                }
                 if (RCSettings.infectionMode > 0)
                 {
                     hashtable.Add("infection", RCSettings.infectionMode);
@@ -4688,15 +4670,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (RCSettings.damageMode > 0)
                 {
                     hashtable.Add("damage", RCSettings.damageMode);
-                }
-                if (RCSettings.spawnMode > 0)
-                {
-                    hashtable.Add("spawnMode", RCSettings.spawnMode);
-                    hashtable.Add("nRate", RCSettings.nRate);
-                    hashtable.Add("aRate", RCSettings.aRate);
-                    hashtable.Add("jRate", RCSettings.jRate);
-                    hashtable.Add("cRate", RCSettings.cRate);
-                    hashtable.Add("pRate", RCSettings.pRate);
                 }
                 if (RCSettings.friendlyMode > 0)
                 {
@@ -5871,17 +5844,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         RCSettings.teamMode = 0;
         RCSettings.pointMode = 0;
-        RCSettings.disableRock = 0;
-        RCSettings.explodeMode = 0;
         RCSettings.infectionMode = 0;
         RCSettings.banEren = 0;
         RCSettings.damageMode = 0;
-        RCSettings.spawnMode = 0;
-        RCSettings.nRate = 0f;
-        RCSettings.aRate = 0f;
-        RCSettings.jRate = 0f;
-        RCSettings.cRate = 0f;
-        RCSettings.pRate = 0f;
         RCSettings.friendlyMode = 0;
         RCSettings.endlessMode = 0;
         RCSettings.motd = string.Empty;
@@ -6549,32 +6514,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             RCSettings.pointMode = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Point limit disabled.</color>");
         }
-        if (hash.ContainsKey("rock"))
-        {
-            if (RCSettings.disableRock != ((int)hash["rock"]))
-            {
-                RCSettings.disableRock = (int)hash["rock"];
-                this.chatRoom.addLINE("<color=#FFCC00>Punk rock throwing disabled.</color>");
-            }
-        }
-        else if (RCSettings.disableRock != 0)
-        {
-            RCSettings.disableRock = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Punk rock throwing enabled.</color>");
-        }
-        if (hash.ContainsKey("explode"))
-        {
-            if (RCSettings.explodeMode != ((int)hash["explode"]))
-            {
-                RCSettings.explodeMode = (int)hash["explode"];
-                this.chatRoom.addLINE("<color=#FFCC00>Titan Explode Mode enabled (Radius " + Convert.ToString(RCSettings.explodeMode) + ").</color>");
-            }
-        }
-        else if (RCSettings.explodeMode != 0)
-        {
-            RCSettings.explodeMode = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Titan Explode Mode disabled.</color>");
-        }
         if (hash.ContainsKey("infection"))
         {
             if (RCSettings.infectionMode != ((int)hash["infection"]))
@@ -6628,29 +6567,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             RCSettings.damageMode = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Nape minimum damage disabled.</color>");
-        }
-        if ((((hash.ContainsKey("spawnMode") && hash.ContainsKey("nRate")) && (hash.ContainsKey("aRate") && hash.ContainsKey("jRate"))) && hash.ContainsKey("cRate")) && hash.ContainsKey("pRate"))
-        {
-            if (((((RCSettings.spawnMode != ((int)hash["spawnMode"])) || (RCSettings.nRate != ((float)hash["nRate"]))) || ((RCSettings.aRate != ((float)hash["aRate"])) || (RCSettings.jRate != ((float)hash["jRate"])))) || (RCSettings.cRate != ((float)hash["cRate"]))) || (RCSettings.pRate != ((float)hash["pRate"])))
-            {
-                RCSettings.spawnMode = (int)hash["spawnMode"];
-                RCSettings.nRate = (float)hash["nRate"];
-                RCSettings.aRate = (float)hash["aRate"];
-                RCSettings.jRate = (float)hash["jRate"];
-                RCSettings.cRate = (float)hash["cRate"];
-                RCSettings.pRate = (float)hash["pRate"];
-                this.chatRoom.addLINE("<color=#FFCC00>Custom spawn rate enabled (" + RCSettings.nRate.ToString("F2") + "% Normal, " + RCSettings.aRate.ToString("F2") + "% Abnormal, " + RCSettings.jRate.ToString("F2") + "% Jumper, " + RCSettings.cRate.ToString("F2") + "% Crawler, " + RCSettings.pRate.ToString("F2") + "% Punk </color>");
-            }
-        }
-        else if (((((RCSettings.spawnMode != 0) || (RCSettings.nRate != 0f)) || ((RCSettings.aRate != 0f) || (RCSettings.jRate != 0f))) || (RCSettings.cRate != 0f)) || (RCSettings.pRate != 0f))
-        {
-            RCSettings.spawnMode = 0;
-            RCSettings.nRate = 0f;
-            RCSettings.aRate = 0f;
-            RCSettings.jRate = 0f;
-            RCSettings.cRate = 0f;
-            RCSettings.pRate = 0f;
-            this.chatRoom.addLINE("<color=#FFCC00>Custom spawn rate disabled.</color>");
         }
         if (hash.ContainsKey("friendly"))
         {
@@ -7473,13 +7389,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
         moreTitans = Math.Min(Gamemode.TitanLimit, moreTitans);
-        if (RCSettings.spawnMode == 1)
+        if (Gamemode.CustomTitanRatio)
         {
-            float nRate = RCSettings.nRate;
-            float aRate = RCSettings.aRate;
-            float jRate = RCSettings.jRate;
-            float cRate = RCSettings.cRate;
-            float pRate = RCSettings.pRate;
+            float nRate = Gamemode.TitanNormalRatio;
+            float aRate = Gamemode.TitanAbberantRatio;
+            float jRate = Gamemode.TitanJumperRatio;
+            float cRate = Gamemode.TitanCrawlerRatio;
+            float pRate = Gamemode.TitanPunkRatio;
             bool isPunkWaves = false;
             if (Gamemode.GamemodeType == GamemodeType.Wave)
             {

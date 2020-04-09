@@ -55,6 +55,31 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Titan Maximum Health", "", SettingCategory.Titans)]
         public int TitanHealthMaximum { get; set; } = 500;
 
+        [UiElement("Punk rock throwing", "", SettingCategory.Titans)]
+        public bool PunkRockThrow { get; set; } = true;
+
+        [UiElement("Custom Titans", "Should custom titan rates be used?", SettingCategory.Titans)]
+        public bool CustomTitanRatio { get; set; } = false;
+
+        [UiElement("Normal Ratio", "", SettingCategory.Titans)]
+        public float TitanNormalRatio { get; set; } = 20f;
+
+        [UiElement("Abberant Ratio", "", SettingCategory.Titans)]
+        public float TitanAbberantRatio { get; set; } = 20f;
+
+        [UiElement("Jumper Ratio", "", SettingCategory.Titans)]
+        public float TitanJumperRatio { get; set; } = 20f;
+
+        [UiElement("Crawler Ratio", "", SettingCategory.Titans)]
+        public float TitanCrawlerRatio { get; set; } = 20f;
+
+        [UiElement("Punk Ratio", "", SettingCategory.Titans)]
+        public float TitanPunkRatio { get; set; } = 20f;
+
+        //If the explode mode <= 0, then it's disabled, 0 > then it's enabled.
+        [UiElement("Explode mode", "", SettingCategory.Titans)]
+        public int TitanExplodeMode { get; set; } = 0;
+
         public bool TitansEnabled { get; set; } = true;
 
         [UiElement("Spawn Titans on FT Defeat", "Should titans spawn when the Female Titan is killed?", SettingCategory.Advanced)]

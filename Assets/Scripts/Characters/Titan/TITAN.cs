@@ -1175,7 +1175,7 @@ public class TITAN : MonoBehaviour
 
     public void explode()
     {
-        if (((RCSettings.explodeMode > 0) && this.hasDie) && ((this.dieTime >= 1f) && !this.hasExplode))
+        if (((FengGameManagerMKII.Gamemode.TitanExplodeMode > 0) && this.hasDie) && ((this.dieTime >= 1f) && !this.hasExplode))
         {
             int num = 0;
             float num2 = this.myLevel * 10f;
@@ -1200,7 +1200,7 @@ public class TITAN : MonoBehaviour
                 PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
                 foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    if (Vector3.Distance(obj2.transform.position, position) < RCSettings.explodeMode)
+                    if (Vector3.Distance(obj2.transform.position, position) < FengGameManagerMKII.Gamemode.TitanExplodeMode)
                     {
                         obj2.GetComponent<Hero>().markDie();
                         obj2.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Server " });
@@ -2756,7 +2756,7 @@ public class TITAN : MonoBehaviour
                 Vector3 vector3 = this.myHero.transform.position + line;
                 Vector3 vector4 = vector3 - this.baseTransform.position;
                 float sqrMagnitude = vector4.sqrMagnitude;
-                if (((sqrMagnitude > 8000f) && (sqrMagnitude < 90000f)) && (RCSettings.disableRock == 0))
+                if (((sqrMagnitude > 8000f) && (sqrMagnitude < 90000f)) && (FengGameManagerMKII.Gamemode.PunkRockThrow))
                 {
                     this.attack2("throw");
                     this.rockInterval = 2f;
@@ -3129,7 +3129,7 @@ public class TITAN : MonoBehaviour
     public void setAbnormalType2(TitanType type, bool forceCrawler)
     {
         bool flag = false;
-        if ((RCSettings.spawnMode > 0) || (((((int) FengGameManagerMKII.settings[0x5b]) == 1) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient))
+        if (FengGameManagerMKII.Gamemode.CustomTitanRatio || (((((int) FengGameManagerMKII.settings[0x5b]) == 1) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient))
         {
             flag = true;
         }
