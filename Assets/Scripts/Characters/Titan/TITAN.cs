@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -3392,6 +3393,7 @@ public class TITAN : MonoBehaviour
     private void Start()
     {
         this.MultiplayerManager.addTitan(this);
+        EventManager.OnTitanSpawned.Invoke(this);
         if (Minimap.instance != null)
         {
             Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.yellow, false, true, Minimap.IconStyle.CIRCLE);
@@ -3405,17 +3407,6 @@ public class TITAN : MonoBehaviour
         this.oldHeadRotation = this.head.rotation;
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || base.photonView.isMine)
         {
-            if (!this.hasSetLevel)
-            {
-                this.myLevel = UnityEngine.Random.Range((float) 0.7f, (float) 3f);
-                if (RCSettings.sizeMode > 0)
-                {
-                    float sizeLower = RCSettings.sizeLower;
-                    float sizeUpper = RCSettings.sizeUpper;
-                    this.myLevel = UnityEngine.Random.Range(sizeLower, sizeUpper);
-                }
-                this.hasSetLevel = true;
-            }
             this.spawnPt = this.baseTransform.position;
             this.setmyLevel();
             this.setAbnormalType2(this.TitanType, false);
@@ -3427,17 +3418,6 @@ public class TITAN : MonoBehaviour
             if (this.nonAI)
             {
                 base.StartCoroutine(this.reloadSky());
-            }
-        }
-        if ((this.maxHealth == 0) && (RCSettings.healthMode > 0))
-        {
-            if (RCSettings.healthMode == 1)
-            {
-                this.maxHealth = this.currentHealth = UnityEngine.Random.Range(RCSettings.healthLower, RCSettings.healthUpper + 1);
-            }
-            else if (RCSettings.healthMode == 2)
-            {
-                this.maxHealth = this.currentHealth = Mathf.Clamp(Mathf.RoundToInt((this.myLevel / 4f) * UnityEngine.Random.Range(RCSettings.healthLower, RCSettings.healthUpper + 1)), RCSettings.healthLower, RCSettings.healthUpper);
             }
         }
         this.lagMax = 150f + (this.myLevel * 3f);

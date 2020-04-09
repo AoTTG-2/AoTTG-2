@@ -12,6 +12,7 @@ namespace Assets.Scripts.Gamemode
             Pvp = PvpMode.AhssVsBlades;
             PlayerTitanShifters = true;
             Horse = false;
+            TitansEnabled = false;
         }
 
         private int teamWinner;

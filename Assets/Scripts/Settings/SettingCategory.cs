@@ -6,6 +6,7 @@
         General,
         Titans,
         Respawn,
+        Pvp,
         Advanced
     }
 }

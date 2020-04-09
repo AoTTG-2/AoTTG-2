@@ -31,11 +31,31 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Titan Limit", "The max amount of titans", SettingCategory.Titans)]
         public int TitanLimit { get; set; } = 30;
 
+        [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
+        public float TitanMinimumSize { get; set; } = 0.7f;
+
+        [UiElement("Max size", "Maximun titan size", SettingCategory.Titans)]
+        public float TitanMaximumSize { get; set; } = 3f;
+
+        [UiElement("Custom Size", "Enable custom titan sizes", SettingCategory.Titans)]
+        public bool TitanCustomSize { get; set; } = true;
+
         [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
         public float TitanChaseDistance { get; set; } = 100f;
 
         [UiElement("Enable Titan Chase Distance", "", SettingCategory.Titans)]
         public bool TitanChaseDistanceEnabled { get; set; } = true;
+
+        [UiElement("Titan Health Mode", "", SettingCategory.Titans)]
+        public TitanHealthMode TitanHealthMode { get; set; } = TitanHealthMode.Disabled;
+
+        [UiElement("Titan Minimum Health", "", SettingCategory.Titans)]
+        public int TitanHealthMinimum { get; set; } = 200;
+
+        [UiElement("Titan Maximum Health", "", SettingCategory.Titans)]
+        public int TitanHealthMaximum { get; set; } = 500;
+
+        public bool TitansEnabled { get; set; } = true;
 
         [UiElement("Spawn Titans on FT Defeat", "Should titans spawn when the Female Titan is killed?", SettingCategory.Advanced)]
         public bool SpawnTitansOnFemaleTitanDefeat { get; set; } = true;
@@ -55,10 +75,10 @@ namespace Assets.Scripts.Gamemode
         public bool Crawlers;
         public bool Punks = true;
 
-        [UiElement("PvP", "Can players kill each other?")]
+        [UiElement("PvP", "Can players kill each other?", SettingCategory.Pvp)]
         public PvpMode Pvp { get; set; } = PvpMode.Disabled;
 
-        [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?")]
+        [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?", SettingCategory.Pvp)]
         public bool PvPWinOnEnemiesDead { get; set; } = false;
 
         [UiElement("Respawn Mode", "The Respawn mode", Category = SettingCategory.Respawn)]
@@ -75,7 +95,8 @@ namespace Assets.Scripts.Gamemode
         public int TitanScore = 0;
 
         public float RespawnTime = 5f;
-        public bool AhssAirReload = true;
+        [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?", SettingCategory.Pvp)]
+        public bool AhssAirReload { get; set; } = true;
         public bool PlayerTitanShifters = true;
 
         public bool RestartOnTitansKilled = true;
@@ -129,7 +150,34 @@ namespace Assets.Scripts.Gamemode
         public virtual void OnPlayerSpawned(GameObject player)
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
+        }
 
+        public virtual void OnTitanSpawned(TITAN titan)
+        {
+            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || titan.photonView.isMine)
+            {
+                if (!titan.hasSetLevel)
+                {
+                    titan.myLevel = UnityEngine.Random.Range((float)0.7f, (float)3f);
+                    if (TitanCustomSize)
+                    {
+                        titan.myLevel = UnityEngine.Random.Range(TitanMinimumSize, TitanMaximumSize);
+                    }
+                    titan.hasSetLevel = true;
+                }
+            }
+            if (titan.maxHealth == 0)
+            {
+                switch (TitanHealthMode)
+                {
+                    case TitanHealthMode.Fixed:
+                        titan.maxHealth = titan.currentHealth = UnityEngine.Random.Range(TitanHealthMinimum, TitanHealthMaximum + 1);
+                        break;
+                    case TitanHealthMode.Scaled:
+                        titan.maxHealth = titan.currentHealth = Mathf.Clamp(Mathf.RoundToInt((titan.myLevel / 4f) * UnityEngine.Random.Range(TitanHealthMinimum, TitanHealthMaximum + 1)), TitanHealthMinimum, TitanHealthMaximum);
+                        break;
+                }
+            }
         }
 
         public bool IsEnabled(TitanType titanType)

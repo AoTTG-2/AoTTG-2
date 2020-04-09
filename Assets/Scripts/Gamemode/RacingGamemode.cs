@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.UI.Elements;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -12,15 +13,19 @@ namespace Assets.Scripts.Gamemode
             Supply = false;
             RespawnMode = RespawnMode.NEVER;
             Titans = 0;
+            TitansEnabled = false;
         }
+
+        [UiElement("Restart on Finish", "Should the game restart in 10s upon someone finishing?")]
+        public bool RestartOnFinish { get; set; } = true;
 
         public string localRacingResult = string.Empty;
 
         public override void OnGameWon()
         {
-            FengGameManagerMKII.instance.gameEndCD = RCSettings.racingStatic == 1
-                ? 1000f
-                : 20f;
+            FengGameManagerMKII.instance.gameEndCD = RestartOnFinish
+                ? 20f
+                : 9999f;
 
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
@@ -45,9 +50,9 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnNetGameWon(int score)
         {
-            FengGameManagerMKII.instance.gameEndCD = RCSettings.racingStatic == 1
-                ? 1000f
-                : 20f;
+            FengGameManagerMKII.instance.gameEndCD = RestartOnFinish
+                ? 20f
+                : 9999f;
         }
     }
 }

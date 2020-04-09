@@ -115,19 +115,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                     this.addLINE("<color=#FFCC00>KDRs will not be preserved from disconnects.</color>");
                                 }
                                 break;
-
-                            case "racing":
-                                if (RCSettings.racingStatic == 0)
-                                {
-                                    RCSettings.racingStatic = 1;
-                                    this.addLINE("<color=#FFCC00>Racing will not end on finish.</color>");
-                                }
-                                else
-                                {
-                                    RCSettings.racingStatic = 0;
-                                    this.addLINE("<color=#FFCC00>Racing will end on finish.</color>");
-                                }
-                                break;
                         }
                     }
                 }
@@ -507,10 +494,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     this.addLINE("<color=#FFCC00>Titan explode mode is on (" + Convert.ToString(RCSettings.explodeMode) + ").</color>");
                                 }
-                                if (RCSettings.healthMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Titan health mode is on (" + Convert.ToString(RCSettings.healthLower) + "-" + Convert.ToString(RCSettings.healthUpper) + ").</color>");
-                                }
                                 if (RCSettings.infectionMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Infection mode is on (" + Convert.ToString(RCSettings.infectionMode) + ").</color>");
@@ -518,10 +501,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                 if (RCSettings.damageMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Minimum nape damage is on (" + Convert.ToString(RCSettings.damageMode) + ").</color>");
-                                }
-                                if (RCSettings.sizeMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom titan size is on (" + RCSettings.sizeLower.ToString("F2") + "," + RCSettings.sizeUpper.ToString("F2") + ").</color>");
                                 }
                                 if (RCSettings.banEren > 0)
                                 {
@@ -535,17 +514,9 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");
                                 }
-                                if (RCSettings.ahssReload > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation disabled.</color>");
-                                }
                                 if (RCSettings.endlessMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Endless Respawn is enabled (" + RCSettings.endlessMode.ToString() + " seconds).</color>");
-                                }
-                                if (RCSettings.globalDisableMinimap > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Minimaps are disabled.</color>");
                                 }
                                 if (RCSettings.motd != string.Empty)
                                 {

@@ -1,3 +1,4 @@
+using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -597,19 +598,19 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
         if (base.photonView.isMine)
         {
-            if (RCSettings.sizeMode > 0)
+            if (FengGameManagerMKII.Gamemode.TitanCustomSize)
             {
-                float sizeLower = RCSettings.sizeLower;
-                float sizeUpper = RCSettings.sizeUpper;
+                float sizeLower = FengGameManagerMKII.Gamemode.TitanMinimumSize;
+                float sizeUpper = FengGameManagerMKII.Gamemode.TitanMaximumSize;
                 this.size = UnityEngine.Random.Range(sizeLower, sizeUpper);
                 base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             }
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
-            if (RCSettings.healthMode > 0)
+            if (FengGameManagerMKII.Gamemode.TitanHealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(RCSettings.healthLower, RCSettings.healthUpper);
+                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.TitanHealthMinimum, FengGameManagerMKII.Gamemode.TitanHealthMaximum);
             }
             if (this.NapeArmor > 0)
             {

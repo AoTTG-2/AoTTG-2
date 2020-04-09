@@ -534,10 +534,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             hashtable.Add("deadlycannons", (int)settings[0x105]);
         }
-        if (RCSettings.racingStatic > 0)
-        {
-            hashtable.Add("asoracing", 1);
-        }
         return hashtable;
     }
 
@@ -556,36 +552,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    private void clearlevel(string[] link, int gametype, PhotonMessageInfo info)
+    private void clearlevel(string[] link, PhotonMessageInfo info)
     {
         if (info.sender.isMasterClient)
         {
-            if (gametype == 0)
-            {
-                Gamemode = new KillTitansGamemode();
-                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.KILL_TITAN;
-            }
-            else if (gametype == 1)
-            {
-                Gamemode = new WaveGamemode();
-                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.SURVIVE_MODE;
-            }
-            else if (gametype == 2)
-            {
-                Gamemode = new PvPAhssGamemode();
-                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.PVP_AHSS;
-            }
-            else if (gametype == 3)
-            {
-                Gamemode = new RacingGamemode();
-                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.RACING;
-            }
-            else if (gametype == 4)
-            {
-                //TODO: Gamemode none doesn't seem to do anything in the code?
-                Gamemode = new KillTitansGamemode();
-                //IN_GAME_MAIN_CAMERA.gamemode = GAMEMODE.None;
-            }
             if (info.sender.isMasterClient && (link.Length > 6))
             {
                 base.StartCoroutine(this.clearlevelE(link));
@@ -3602,7 +3572,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         settings[0x55] = "0";
                     }
                     RCSettings.titanCap = Math.Min(50, RCSettings.titanCap);
-                    base.photonView.RPC("clearlevel", PhotonTargets.AllBuffered, new object[] { strArray3, RCSettings.gameType });
+                    base.photonView.RPC("clearlevel", PhotonTargets.AllBuffered, new object[] { strArray3 });
                     RCRegions.Clear();
                     if (oldScript != currentScript)
                     {
@@ -4687,10 +4657,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     hashtable.Add("bomb", 1);
                 }
-                if (RCSettings.globalDisableMinimap == 1)
-                {
-                    hashtable.Add("globalDisableMinimap", 1);
-                }
                 if (RCSettings.teamMode > 0)
                 {
                     hashtable.Add("team", RCSettings.teamMode);
@@ -4707,12 +4673,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     hashtable.Add("explode", RCSettings.explodeMode);
                 }
-                if (RCSettings.healthMode > 0)
-                {
-                    hashtable.Add("healthMode", RCSettings.healthMode);
-                    hashtable.Add("healthLower", RCSettings.healthLower);
-                    hashtable.Add("healthUpper", RCSettings.healthUpper);
-                }
                 if (RCSettings.infectionMode > 0)
                 {
                     hashtable.Add("infection", RCSettings.infectionMode);
@@ -4724,12 +4684,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (RCSettings.damageMode > 0)
                 {
                     hashtable.Add("damage", RCSettings.damageMode);
-                }
-                if (RCSettings.sizeMode > 0)
-                {
-                    hashtable.Add("sizeMode", RCSettings.sizeMode);
-                    hashtable.Add("sizeLower", RCSettings.sizeLower);
-                    hashtable.Add("sizeUpper", RCSettings.sizeUpper);
                 }
                 if (RCSettings.spawnMode > 0)
                 {
@@ -4752,17 +4706,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     hashtable.Add("motd", RCSettings.motd);
                 }
-                if (RCSettings.ahssReload > 0)
-                {
-                    hashtable.Add("ahssReload", RCSettings.ahssReload);
-                }
                 if (RCSettings.deadlyCannons > 0)
                 {
                     hashtable.Add("deadlycannons", RCSettings.deadlyCannons);
-                }
-                if (RCSettings.racingStatic > 0)
-                {
-                    hashtable.Add("asoracing", RCSettings.racingStatic);
                 }
                 if ((ignoreList != null) && (ignoreList.Count > 0))
                 {
@@ -5919,20 +5865,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void resetGameSettings()
     {
-        RCSettings.bombMode = 0;
         RCSettings.teamMode = 0;
         RCSettings.pointMode = 0;
         RCSettings.disableRock = 0;
         RCSettings.explodeMode = 0;
-        RCSettings.healthMode = 0;
-        RCSettings.healthLower = 0;
-        RCSettings.healthUpper = 0;
         RCSettings.infectionMode = 0;
         RCSettings.banEren = 0;
         RCSettings.damageMode = 0;
-        RCSettings.sizeMode = 0;
-        RCSettings.sizeLower = 0f;
-        RCSettings.sizeUpper = 0f;
         RCSettings.spawnMode = 0;
         RCSettings.nRate = 0f;
         RCSettings.aRate = 0f;
@@ -5941,11 +5880,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         RCSettings.pRate = 0f;
         RCSettings.friendlyMode = 0;
         RCSettings.endlessMode = 0;
-        RCSettings.ahssReload = 0;
-        RCSettings.globalDisableMinimap = 0;
         RCSettings.motd = string.Empty;
         RCSettings.deadlyCannons = 0;
-        RCSettings.racingStatic = 0;
     }
 
     private void resetSettings(bool isLeave)
@@ -6565,49 +6501,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.restartingBomb = false;
         this.restartingHorse = false;
         this.restartingTitan = false;
-        if (hash.ContainsKey("bomb"))
-        {
-            if (RCSettings.bombMode != ((int)hash["bomb"]))
-            {
-                RCSettings.bombMode = (int)hash["bomb"];
-                this.chatRoom.addLINE("<color=#FFCC00>PVP Bomb Mode enabled.</color>");
-            }
-        }
-        else if (RCSettings.bombMode != 0)
-        {
-            RCSettings.bombMode = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>PVP Bomb Mode disabled.</color>");
-            if (PhotonNetwork.isMasterClient)
-            {
-                this.restartingBomb = true;
-            }
-        }
-        if (hash.ContainsKey("globalDisableMinimap"))
-        {
-            if (RCSettings.globalDisableMinimap != ((int)hash["globalDisableMinimap"]))
-            {
-                RCSettings.globalDisableMinimap = (int)hash["globalDisableMinimap"];
-                this.chatRoom.addLINE("<color=#FFCC00>Minimaps are not allowed.</color>");
-            }
-        }
-        else if (RCSettings.globalDisableMinimap != 0)
-        {
-            RCSettings.globalDisableMinimap = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Minimaps are allowed.</color>");
-        }
-        if (hash.ContainsKey("ahssReload"))
-        {
-            if (RCSettings.ahssReload != ((int)hash["ahssReload"]))
-            {
-                RCSettings.ahssReload = (int)hash["ahssReload"];
-                this.chatRoom.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation disabled.</color>");
-            }
-        }
-        else if (RCSettings.ahssReload != 0)
-        {
-            RCSettings.ahssReload = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation allowed.</color>");
-        }
         if (hash.ContainsKey("team"))
         {
             if (RCSettings.teamMode != ((int)hash["team"]))
@@ -6678,28 +6571,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             RCSettings.explodeMode = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Titan Explode Mode disabled.</color>");
         }
-        if ((hash.ContainsKey("healthMode") && hash.ContainsKey("healthLower")) && hash.ContainsKey("healthUpper"))
-        {
-            if (((RCSettings.healthMode != ((int)hash["healthMode"])) || (RCSettings.healthLower != ((int)hash["healthLower"]))) || (RCSettings.healthUpper != ((int)hash["healthUpper"])))
-            {
-                RCSettings.healthMode = (int)hash["healthMode"];
-                RCSettings.healthLower = (int)hash["healthLower"];
-                RCSettings.healthUpper = (int)hash["healthUpper"];
-                str = "Static";
-                if (RCSettings.healthMode == 2)
-                {
-                    str = "Scaled";
-                }
-                this.chatRoom.addLINE("<color=#FFCC00>Titan Health (" + str + ", " + RCSettings.healthLower.ToString() + " to " + RCSettings.healthUpper.ToString() + ") enabled.</color>");
-            }
-        }
-        else if (((RCSettings.healthMode != 0) || (RCSettings.healthLower != 0)) || (RCSettings.healthUpper != 0))
-        {
-            RCSettings.healthMode = 0;
-            RCSettings.healthLower = 0;
-            RCSettings.healthUpper = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Titan Health disabled.</color>");
-        }
         if (hash.ContainsKey("infection"))
         {
             if (RCSettings.infectionMode != ((int)hash["infection"]))
@@ -6753,23 +6624,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             RCSettings.damageMode = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Nape minimum damage disabled.</color>");
-        }
-        if ((hash.ContainsKey("sizeMode") && hash.ContainsKey("sizeLower")) && hash.ContainsKey("sizeUpper"))
-        {
-            if (((RCSettings.sizeMode != ((int)hash["sizeMode"])) || (RCSettings.sizeLower != ((float)hash["sizeLower"]))) || (RCSettings.sizeUpper != ((float)hash["sizeUpper"])))
-            {
-                RCSettings.sizeMode = (int)hash["sizeMode"];
-                RCSettings.sizeLower = (float)hash["sizeLower"];
-                RCSettings.sizeUpper = (float)hash["sizeUpper"];
-                this.chatRoom.addLINE("<color=#FFCC00>Custom titan size (" + RCSettings.sizeLower.ToString("F2") + "," + RCSettings.sizeUpper.ToString("F2") + ") enabled.</color>");
-            }
-        }
-        else if (((RCSettings.sizeMode != 0) || (RCSettings.sizeLower != 0f)) || (RCSettings.sizeUpper != 0f))
-        {
-            RCSettings.sizeMode = 0;
-            RCSettings.sizeLower = 0f;
-            RCSettings.sizeUpper = 0f;
-            this.chatRoom.addLINE("<color=#FFCC00>Custom titan size disabled.</color>");
         }
         if ((((hash.ContainsKey("spawnMode") && hash.ContainsKey("nRate")) && (hash.ContainsKey("aRate") && hash.ContainsKey("jRate"))) && hash.ContainsKey("cRate")) && hash.ContainsKey("pRate"))
         {
@@ -6844,19 +6698,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             RCSettings.deadlyCannons = 0;
             this.chatRoom.addLINE("<color=#FFCC00>Cannons will no longer kill players.</color>");
-        }
-        if (hash.ContainsKey("asoracing"))
-        {
-            if (RCSettings.racingStatic != ((int)hash["asoracing"]))
-            {
-                RCSettings.racingStatic = (int)hash["asoracing"];
-                this.chatRoom.addLINE("<color=#FFCC00>Racing will not restart on win.</color>");
-            }
-        }
-        else if (RCSettings.racingStatic != 0)
-        {
-            RCSettings.racingStatic = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Racing will restart on win.</color>");
         }
     }
 
@@ -7592,16 +7433,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (level.StartsWith("Custom"))
         {
             moreTitans = 5;
-            if (RCSettings.gameType == 1)
-            {
-                moreTitans = 3;
-            }
-            else if ((RCSettings.gameType == 2) || (RCSettings.gameType == 3))
+            if (!Gamemode.TitansEnabled)
             {
                 moreTitans = 0;
             }
         }
-        if ((Gamemode.Titans > 0) || (((Gamemode.Titans == 0) && level.StartsWith("Custom")) && (RCSettings.gameType >= 2)))
+        if ((Gamemode.Titans > 0) || (((Gamemode.Titans == 0) && level.StartsWith("Custom")) && !Gamemode.TitansEnabled))
         {
             moreTitans = Gamemode.Titans;
         }
