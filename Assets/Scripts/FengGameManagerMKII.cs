@@ -4328,6 +4328,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnGUI()
     {
         //AottgUi.Init(this); // You dont need that. Just create new object.
+        if(GUILayout.Button("Photon Spawn Test!"))
+        {
+            PhotonNetwork.Instantiate("DummyTitanPrefab", GameObject.FindGameObjectWithTag("Player").transform.position, Quaternion.identity, 0);
+        }
     }
 
     public void OnJoinedLobby()
