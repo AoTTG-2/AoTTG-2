@@ -478,10 +478,6 @@ public class InRoomChat : Photon.MonoBehaviour
                                         this.addLINE("<color=#FFCC00>Team mode is on (sort by skill).</color>");
                                     }
                                 }
-                                if (RCSettings.infectionMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Infection mode is on (" + Convert.ToString(RCSettings.infectionMode) + ").</color>");
-                                }
                                 if (FengGameManagerMKII.Gamemode.Horse)
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");

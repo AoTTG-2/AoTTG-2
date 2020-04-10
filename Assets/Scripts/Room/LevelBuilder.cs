@@ -33,7 +33,8 @@ public class LevelBuilder
                     Titans = 10
                 },
                 new WaveGamemode(),
-                new CaptureGamemode()
+                new CaptureGamemode(),
+                new InfectionGamemode()
             }
         });
 
@@ -112,7 +113,14 @@ public class LevelBuilder
             SceneName = "The Forest",
             Gamemodes = new List<GamemodeBase>
             {
-                new KillTitansGamemode()
+                new KillTitansGamemode(),
+                new WaveGamemode(),
+                new InfectionGamemode(),
+                new RacingGamemode(),
+                new CaptureGamemode(),
+                new EndlessGamemode(),
+                new TitanRushGamemode(),
+                new PvPAhssGamemode()
             }
         });
 

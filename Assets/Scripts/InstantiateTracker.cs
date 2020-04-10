@@ -68,11 +68,11 @@ public class InstantiateTracker
             case "fx/boom5":
             case "fx/rockthrow":
             case "fx/bite":
-                if ((FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || (RCSettings.infectionMode > 0)) || (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush))
+                if (FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 {
                     return this.Instantiated(photonPlayer, GameResource.effect);
                 }
-                if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingTitan))
+                if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan effects.");
                 }
@@ -171,7 +171,7 @@ public class InstantiateTracker
                 {
                     return this.Instantiated(photonPlayer, GameResource.general);
                 }
-                if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingHorse))
+                if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.Gamemode.Horse)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning horse (" + key + ").");
                 }
@@ -198,7 +198,7 @@ public class InstantiateTracker
                     }
                     break;
                 }
-                if (((FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || (RCSettings.infectionMode > 0)) || (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)) || FengGameManagerMKII.instance.restartingTitan)
+                if (FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 {
                     if (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
                     {

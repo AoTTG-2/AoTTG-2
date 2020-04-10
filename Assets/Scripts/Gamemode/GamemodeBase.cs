@@ -119,8 +119,6 @@ namespace Assets.Scripts.Gamemode
         [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?", SettingCategory.Pvp)]
         public bool PvPWinOnEnemiesDead { get; set; } = false;
 
-        [UiElement("Respawn Mode", "The Respawn mode", Category = SettingCategory.Respawn)]
-        public RespawnMode RespawnMode { get; set; } = RespawnMode.DEATHMATCH;
 
         [UiElement("Save KDR on DC", "When a player disconnects, should their KDR be saved?")]
         public bool SaveKDROnDisconnect { get; set; } = true;
@@ -133,6 +131,7 @@ namespace Assets.Scripts.Gamemode
 
         public bool Supply { get; set; } = true;
         public bool IsPlayerTitanEnabled { get; set; }
+        public RespawnMode RespawnMode { get; set; } = RespawnMode.DEATHMATCH;
 
         public int HumanScore = 0;
         public int TitanScore = 0;
@@ -154,6 +153,27 @@ namespace Assets.Scripts.Gamemode
                 FengGameManagerMKII.instance.gameLose2();
             }
         }
+
+        public virtual void OnRestart()
+        {
+            if (PointMode > 0)
+            {
+                for (int i = 0; i < PhotonNetwork.playerList.Length; i++)
+                {
+                    PhotonPlayer player = PhotonNetwork.playerList[i];
+                    ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                    propertiesToSet.Add(PhotonPlayerProperty.kills, 0);
+                    propertiesToSet.Add(PhotonPlayerProperty.deaths, 0);
+                    propertiesToSet.Add(PhotonPlayerProperty.max_dmg, 0);
+                    propertiesToSet.Add(PhotonPlayerProperty.total_dmg, 0);
+                    player.SetCustomProperties(propertiesToSet);
+                }
+            }
+            FengGameManagerMKII.instance.gameEndCD = 0f;
+            FengGameManagerMKII.instance.restartGame2();
+        }
+
+        public virtual void OnUpdate(float interval) { }
 
         public static GamemodeBase ConvertToGamemode(string json, GamemodeType type)
         {
@@ -183,6 +203,9 @@ namespace Assets.Scripts.Gamemode
                     break;
                 case GamemodeType.PvpAhss:
                     gamemode = JsonConvert.DeserializeObject<PvPAhssGamemode>(json);
+                    break;
+                case GamemodeType.Infection:
+                    gamemode = JsonConvert.DeserializeObject<InfectionGamemode>(json);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

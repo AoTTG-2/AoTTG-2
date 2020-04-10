@@ -3692,7 +3692,8 @@ public class TITAN : MonoBehaviour
                     }
                     if (!IN_GAME_MAIN_CAMERA.isPausing)
                     {
-                        GameObject.Find("stamina_titan").transform.localScale = new Vector3(this.stamina, 16f);
+                        //TODO: Player Titan stamina bar
+                        //GameObject.Find("stamina_titan").transform.localScale = new Vector3(this.stamina, 16f);
                     }
                 }
                 if (this.state == TitanState.laugh)
