@@ -33,6 +33,16 @@ public class LevelInfo
             }
         }
         //HACK
+        return new LevelInfo
+        {
+            name = "Utgard",
+            mapName = "Utgard",
+            enemyNumber = 10,
+            respawnMode = RespawnMode.DEATHMATCH,
+            supply = true,
+            pvp = true,
+            GameMode = new WaveGamemode()
+        };
         return levels[0];
     }
 

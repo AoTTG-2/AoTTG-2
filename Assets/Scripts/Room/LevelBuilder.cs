@@ -10,6 +10,7 @@ public class LevelBuilder
         if (levels != null) return levels;
         levels = new List<Level>();
         AddClassicMaps();
+        AddAoTTG2Maps();
         return levels;
     }
 
@@ -136,6 +137,31 @@ public class LevelBuilder
             Gamemodes = new List<GamemodeBase>
             {
                 new PvPAhssGamemode()
+            }
+        });
+    }
+
+    private static void AddAoTTG2Maps()
+    {
+        levels.Add(new Level
+        {
+            Name = "Utgard Castle",
+            Description = "",
+            SceneName = "Utgard",
+            Gamemodes = new List<GamemodeBase>
+            {
+                new KillTitansGamemode
+                {
+                    Titans = 10,
+                    Pvp = true,
+                },
+                new EndlessGamemode
+                {
+                    Titans = 10,
+                    Pvp = false,
+                },
+                new WaveGamemode(),
+                new CaptureGamemode()
             }
         });
     }

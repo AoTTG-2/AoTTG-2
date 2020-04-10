@@ -7881,7 +7881,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         else
         {
-            this.randomSpawnTitan("titanRespawn", abnormal, moreTitans, punk);
+            this.randomSpawnTitan("titanRespawn", abnormal, 5, punk);
         }
     }
 
