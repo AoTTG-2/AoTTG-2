@@ -58,11 +58,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b65f9f2a4f1a341ad8fcc842a42597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circle: {fileID: 114749152056072484}
-  icon: {fileID: 114804818905361182}
-  myMenu: {fileID: 0}
-  speed: 8
-  myAction: {fileID: 0}
+  Circle: {fileID: 114749152056072484}
+  Icon: {fileID: 114804818905361182}
+  InteractionWheel: {fileID: 0}
+  Speed: 8
+  MyAction: {fileID: 0}
+  BaseColor: {r: 1, g: 1, b: 1, a: 1}
+  HoverColor: {r: 0.9, g: 1, b: 0.1, a: 1}
 --- !u!114 &114641626371410560
 MonoBehaviour:
   m_ObjectHideFlags: 1
