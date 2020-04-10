@@ -9,8 +9,12 @@ namespace Assets.Scripts.UI
         [HideInInspector]
         public UiElement[] Elements;
 
+        public GameObject MenuUi;
+        public GameObject InGameUi;
+
         public void Start()
         {
+            ShowMenu();
             DontDestroyOnLoad(gameObject);
             Elements = gameObject.GetComponentsInChildren<UiElement>(true);
             foreach (var element in Elements)
@@ -19,6 +23,18 @@ namespace Assets.Scripts.UI
                 element.gameObject.SetActive(false);
             }
             Elements[0].gameObject.SetActive(true);
+        }
+
+        public void ShowMenu()
+        {
+            MenuUi.SetActive(true);
+            InGameUi.SetActive(false);
+        }
+
+        public void ShowInGameUi()
+        {
+            InGameUi.SetActive(true);
+            MenuUi.SetActive(false);
         }
 
         public UiElement Find(Type t)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -138,7 +139,8 @@ public class Minimap : MonoBehaviour
 
     private void CheckUserInput()
     {
-        if ((((int)FengGameManagerMKII.settings[0xe7]) == 1) && (RCSettings.globalDisableMinimap == 0))
+        //if ((((int)FengGameManagerMKII.settings[0xe7]) == 1) && (RCSettings.globalDisableMinimap == 0))
+        if (true)
         {
             if (this.minimapIsCreated)
             {
@@ -411,9 +413,11 @@ public class Minimap : MonoBehaviour
 
     private void Initialize()
     {
-        //HACK
-        return;
         Vector3 pivot = new Vector3(0.5f, 0.5f);
+        if (FengGameManagerMKII.RCassets == null)
+        {
+            FengGameManagerMKII.RCassets = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "RCAssets.unity3d"));
+        }
         Texture2D texture = (Texture2D)FengGameManagerMKII.RCassets.LoadAsset("icon");
         Rect rect = new Rect(0f, 0f, (float)texture.width, (float)texture.height);
         whiteIconSprite = UnityEngine.Sprite.Create(texture, rect, pivot);
