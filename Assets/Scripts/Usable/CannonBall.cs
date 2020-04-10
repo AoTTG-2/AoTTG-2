@@ -1,9 +1,6 @@
-using Photon;
-using System;
+using Assets.Scripts.Gamemode.Options;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CannonBall : Photon.MonoBehaviour
@@ -50,7 +47,7 @@ public class CannonBall : Photon.MonoBehaviour
                     {
                         GameObject gameObject = hero.gameObject;
                         PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                        if (((RCSettings.teamMode > 0) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                        if (((FengGameManagerMKII.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                         {
                             int num2 = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                             int num3 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);

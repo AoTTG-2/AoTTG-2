@@ -336,7 +336,7 @@ public class Hero : Human
     {
         this.skillIDHUD = this.skillId;
         this.skillCDDuration = this.skillCDLast;
-        if (RCSettings.bombMode == 1)
+        if (FengGameManagerMKII.Gamemode.PvPBomb)
         {
             int num = (int)FengGameManagerMKII.settings[250];
             int num2 = (int)FengGameManagerMKII.settings[0xfb];
@@ -3342,7 +3342,7 @@ public class Hero : Human
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
-                    else if ((RCSettings.bombMode == 0) && (!FengGameManagerMKII.Gamemode.PvpCannons))
+                    else if ((FengGameManagerMKII.Gamemode.PvPBomb) && (!FengGameManagerMKII.Gamemode.PvpCannons))
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
@@ -4056,7 +4056,7 @@ public class Hero : Human
         {
             this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
         }
-        if (this.useGun && (RCSettings.bombMode == 0))
+        if (this.useGun && (FengGameManagerMKII.Gamemode.PvPBomb))
         {
             this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
         }
@@ -4757,7 +4757,7 @@ public class Hero : Human
             base.StartCoroutine(this.reloadSky());
         }
         this.bombImmune = false;
-        if (RCSettings.bombMode == 1)
+        if (FengGameManagerMKII.Gamemode.PvPBomb)
         {
             this.bombImmune = true;
             base.StartCoroutine(this.stopImmunity());

@@ -119,6 +119,11 @@ namespace Assets.Scripts.Gamemode
         [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?", SettingCategory.Pvp)]
         public bool PvPWinOnEnemiesDead { get; set; } = false;
 
+        [UiElement("Bomb PvP", "", SettingCategory.Pvp)]
+        public bool PvPBomb { get; set; }
+
+        [UiElement("Team mode", "Enable teams", SettingCategory.Pvp)]
+        public TeamMode TeamMode { get; set; }
 
         [UiElement("Save KDR on DC", "When a player disconnects, should their KDR be saved?")]
         public bool SaveKDROnDisconnect { get; set; } = true;

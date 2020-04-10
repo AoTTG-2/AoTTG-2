@@ -31,9 +31,9 @@ public class InstantiateTracker
         {
             case "rcasset/bombmain":
             case "rcasset/bombexplodemain":
-                if (RCSettings.bombMode <= 0)
+                if (!FengGameManagerMKII.Gamemode.PvPBomb)
                 {
-                    if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingBomb))
+                    if (PhotonNetwork.isMasterClient)
                     {
                         FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning bomb item (" + key + ").");
                     }

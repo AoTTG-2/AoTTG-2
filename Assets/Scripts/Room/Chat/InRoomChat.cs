@@ -1,6 +1,7 @@
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -277,7 +278,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     }
                     else if (this.inputLine.StartsWith("/team"))
                     {
-                        if (RCSettings.teamMode == 1)
+                        if (FengGameManagerMKII.Gamemode.TeamMode == TeamMode.NoSort)
                         {
                             if ((this.inputLine.Substring(6) == "1") || (this.inputLine.Substring(6) == "cyan"))
                             {
@@ -459,25 +460,6 @@ public class InRoomChat : Photon.MonoBehaviour
                             else if (this.inputLine.StartsWith("/rules"))
                             {
                                 this.addLINE("<color=#FFCC00>Currently activated gamemodes:</color>");
-                                if (RCSettings.bombMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Bomb mode is on.</color>");
-                                }
-                                if (RCSettings.teamMode > 0)
-                                {
-                                    if (RCSettings.teamMode == 1)
-                                    {
-                                        this.addLINE("<color=#FFCC00>Team mode is on (no sort).</color>");
-                                    }
-                                    else if (RCSettings.teamMode == 2)
-                                    {
-                                        this.addLINE("<color=#FFCC00>Team mode is on (sort by size).</color>");
-                                    }
-                                    else if (RCSettings.teamMode == 3)
-                                    {
-                                        this.addLINE("<color=#FFCC00>Team mode is on (sort by skill).</color>");
-                                    }
-                                }
                                 if (FengGameManagerMKII.Gamemode.Horse)
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");
