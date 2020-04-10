@@ -108,9 +108,9 @@ public class InstantiateTracker
             case "titan_eren":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if (RCSettings.banEren > 0)
+                    if(!FengGameManagerMKII.Gamemode.TitanShifters)
                     {
-                        if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingEren))
+                        if (PhotonNetwork.isMasterClient)
                         {
                             FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan eren (" + key + ").");
                         }
@@ -132,9 +132,9 @@ public class InstantiateTracker
             case "hitmeatbig":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if (RCSettings.banEren > 0)
+                    if (!FengGameManagerMKII.Gamemode.TitanShifters)
                     {
-                        if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingEren))
+                        if (PhotonNetwork.isMasterClient)
                         {
                             FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning eren effect (" + key + ").");
                         }

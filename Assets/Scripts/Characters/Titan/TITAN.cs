@@ -3472,7 +3472,7 @@ public class TITAN : MonoBehaviour
             if (((vector.magnitude < this.lagMax) && !this.hasDie) && ((Time.time - this.healthTime) > 0.2f))
             {
                 this.healthTime = Time.time;
-                if ((speed >= RCSettings.damageMode) || (this.TitanType == TitanType.TYPE_CRAWLER))
+                if ((speed >= FengGameManagerMKII.Gamemode.DamageMode) || (this.TitanType == TitanType.TYPE_CRAWLER))
                 {
                     this.currentHealth -= speed;
                 }

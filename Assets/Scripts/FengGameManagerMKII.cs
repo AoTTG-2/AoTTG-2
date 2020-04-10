@@ -119,7 +119,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static ExitGames.Client.Photon.Hashtable RCVariableNames;
     public List<float> restartCount;
     public bool restartingBomb;
-    public bool restartingEren;
     public bool restartingHorse;
     public bool restartingMC;
     public bool restartingTitan;
@@ -241,10 +240,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (this.isFirstLoad)
                 {
                     this.setGameSettings(this.checkGameGUI());
-                }
-                if (RCSettings.endlessMode > 0)
-                {
-                    base.StartCoroutine(this.respawnE((float)RCSettings.endlessMode));
                 }
             }
             if (((int)settings[0xf4]) == 1)
@@ -1061,7 +1056,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     if ((((Camera.main != null) && (Gamemode.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int)settings[0xf5]) == 0))
                     {
                         this.ShowHUDInfoCenter("Press [F7D358]" + this.inputManager.inputString[InputCode.flare1] + "[-] to spectate the next player. \nPress [F7D358]" + this.inputManager.inputString[InputCode.flare2] + "[-] to spectate the previous player.\nPress [F7D358]" + this.inputManager.inputString[InputCode.attack1] + "[-] to enter the spectator mode.\n\n\n\n");
-                        if (((Gamemode.RespawnMode == RespawnMode.DEATHMATCH) || (RCSettings.endlessMode > 0)) || !(((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)) ? (RCSettings.pointMode <= 0) : true))
+                        if (((Gamemode.RespawnMode == RespawnMode.DEATHMATCH) || (Gamemode.EndlessRevive > 0)) || !(((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)) ? (Gamemode.PointMode <= 0) : true))
                         {
                             this.myRespawnTime += Time.deltaTime;
                             int endlessMode = 5;
@@ -1069,9 +1064,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 endlessMode = 10;
                             }
-                            if (RCSettings.endlessMode > 0)
+                            if (Gamemode.EndlessRevive > 0)
                             {
-                                endlessMode = RCSettings.endlessMode;
+                                endlessMode = Gamemode.EndlessRevive;
                             }
                             length = endlessMode - ((int)this.myRespawnTime);
                             this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
@@ -2033,7 +2028,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void endGameRC()
     {
-        if (RCSettings.pointMode > 0)
+        if (Gamemode.PointMode > 0)
         {
             for (int i = 0; i < PhotonNetwork.playerList.Length; i++)
             {
@@ -2763,17 +2758,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     this.gameWin2();
                 }
             }
-            else if (RCSettings.pointMode > 0)
+            else if (Gamemode.PointMode > 0)
             {
                 if (RCSettings.teamMode > 0)
                 {
-                    if (this.cyanKills >= RCSettings.pointMode)
+                    if (this.cyanKills >= Gamemode.PointMode)
                     {
                         object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                         base.photonView.RPC("Chat", PhotonTargets.All, parameters);
                         this.gameWin2();
                     }
-                    else if (this.magentaKills >= RCSettings.pointMode)
+                    else if (this.magentaKills >= Gamemode.PointMode)
                     {
                         object[] objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                         base.photonView.RPC("Chat", PhotonTargets.All, objArray2);
@@ -2785,7 +2780,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     for (num21 = 0; num21 < PhotonNetwork.playerList.Length; num21++)
                     {
                         PhotonPlayer player9 = PhotonNetwork.playerList[num21];
-                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= RCSettings.pointMode)
+                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= Gamemode.PointMode)
                         {
                             object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
                             base.photonView.RPC("Chat", PhotonTargets.All, objArray4);
@@ -2794,7 +2789,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if ((RCSettings.pointMode <= 0) && ((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)))
+            else if ((Gamemode.PointMode <= 0) && ((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)))
             {
                 if ((RCSettings.teamMode > 0) && (PhotonNetwork.playerList.Length > 1))
                 {
@@ -4554,10 +4549,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.restartingBomb = true;
                 }
-                if (RCSettings.banEren == 0)
-                {
-                    this.restartingEren = true;
-                }
             }
             this.resetSettings(false);
             if (!Gamemode.IsPlayerTitanEnabled)
@@ -4655,37 +4646,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     hashtable.Add("team", RCSettings.teamMode);
                 }
-                if (RCSettings.pointMode > 0)
-                {
-                    hashtable.Add("point", RCSettings.pointMode);
-                }
                 if (RCSettings.infectionMode > 0)
                 {
                     hashtable.Add("infection", RCSettings.infectionMode);
-                }
-                if (RCSettings.banEren == 1)
-                {
-                    hashtable.Add("eren", RCSettings.banEren);
-                }
-                if (RCSettings.damageMode > 0)
-                {
-                    hashtable.Add("damage", RCSettings.damageMode);
-                }
-                if (RCSettings.friendlyMode > 0)
-                {
-                    hashtable.Add("friendly", 1);
-                }
-                if (RCSettings.endlessMode > 0)
-                {
-                    hashtable.Add("endless", RCSettings.endlessMode);
-                }
-                if (RCSettings.motd != string.Empty)
-                {
-                    hashtable.Add("motd", RCSettings.motd);
-                }
-                if (RCSettings.deadlyCannons > 0)
-                {
-                    hashtable.Add("deadlycannons", RCSettings.deadlyCannons);
                 }
                 if ((ignoreList != null) && (ignoreList.Count > 0))
                 {
@@ -5842,15 +5805,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void resetGameSettings()
     {
-        RCSettings.teamMode = 0;
-        RCSettings.pointMode = 0;
-        RCSettings.infectionMode = 0;
-        RCSettings.banEren = 0;
-        RCSettings.damageMode = 0;
-        RCSettings.friendlyMode = 0;
-        RCSettings.endlessMode = 0;
-        RCSettings.motd = string.Empty;
-        RCSettings.deadlyCannons = 0;
     }
 
     private void resetSettings(bool isLeave)
@@ -5887,7 +5841,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.restartingTitan = false;
             this.restartingMC = false;
             this.restartingHorse = false;
-            this.restartingEren = false;
             this.restartingBomb = false;
         }
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
@@ -6466,7 +6419,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         string str;
         ExitGames.Client.Photon.Hashtable hashtable;
-        this.restartingEren = false;
         this.restartingBomb = false;
         this.restartingHorse = false;
         this.restartingTitan = false;
@@ -6501,19 +6453,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.setTeam(0);
             this.chatRoom.addLINE("<color=#FFCC00>Team mode disabled.</color>");
         }
-        if (hash.ContainsKey("point"))
-        {
-            if (RCSettings.pointMode != ((int)hash["point"]))
-            {
-                RCSettings.pointMode = (int)hash["point"];
-                this.chatRoom.addLINE("<color=#FFCC00>Point limit enabled (" + Convert.ToString(RCSettings.pointMode) + ").</color>");
-            }
-        }
-        else if (RCSettings.pointMode != 0)
-        {
-            RCSettings.pointMode = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Point limit disabled.</color>");
-        }
         if (hash.ContainsKey("infection"))
         {
             if (RCSettings.infectionMode != ((int)hash["infection"]))
@@ -6537,87 +6476,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 this.restartingTitan = true;
             }
-        }
-        if (hash.ContainsKey("eren"))
-        {
-            if (RCSettings.banEren != ((int)hash["eren"]))
-            {
-                RCSettings.banEren = (int)hash["eren"];
-                this.chatRoom.addLINE("<color=#FFCC00>Anti-Eren enabled. Using eren transform will get you kicked.</color>");
-                if (PhotonNetwork.isMasterClient)
-                {
-                    this.restartingEren = true;
-                }
-            }
-        }
-        else if (RCSettings.banEren != 0)
-        {
-            RCSettings.banEren = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Anti-Eren disabled. Eren transform is allowed.</color>");
-        }
-        if (hash.ContainsKey("damage"))
-        {
-            if (RCSettings.damageMode != ((int)hash["damage"]))
-            {
-                RCSettings.damageMode = (int)hash["damage"];
-                this.chatRoom.addLINE("<color=#FFCC00>Nape minimum damage (" + Convert.ToString(RCSettings.damageMode) + ") enabled.</color>");
-            }
-        }
-        else if (RCSettings.damageMode != 0)
-        {
-            RCSettings.damageMode = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Nape minimum damage disabled.</color>");
-        }
-        if (hash.ContainsKey("friendly"))
-        {
-            if (RCSettings.friendlyMode != ((int)hash["friendly"]))
-            {
-                RCSettings.friendlyMode = (int)hash["friendly"];
-                this.chatRoom.addLINE("<color=#FFCC00>PVP is prohibited.</color>");
-            }
-        }
-        else if (RCSettings.friendlyMode != 0)
-        {
-            RCSettings.friendlyMode = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>PVP is allowed.</color>");
-        }
-        if (hash.ContainsKey("endless"))
-        {
-            if (RCSettings.endlessMode != ((int)hash["endless"]))
-            {
-                RCSettings.endlessMode = (int)hash["endless"];
-                this.chatRoom.addLINE("<color=#FFCC00>Endless respawn enabled (" + RCSettings.endlessMode.ToString() + " seconds).</color>");
-            }
-        }
-        else if (RCSettings.endlessMode != 0)
-        {
-            RCSettings.endlessMode = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Endless respawn disabled.</color>");
-        }
-        if (hash.ContainsKey("motd"))
-        {
-            if (RCSettings.motd != ((string)hash["motd"]))
-            {
-                RCSettings.motd = (string)hash["motd"];
-                this.chatRoom.addLINE("<color=#FFCC00>MOTD:" + RCSettings.motd + "</color>");
-            }
-        }
-        else if (RCSettings.motd != string.Empty)
-        {
-            RCSettings.motd = string.Empty;
-        }
-        if (hash.ContainsKey("deadlycannons"))
-        {
-            if (RCSettings.deadlyCannons != ((int)hash["deadlycannons"]))
-            {
-                RCSettings.deadlyCannons = (int)hash["deadlycannons"];
-                this.chatRoom.addLINE("<color=#FFCC00>Cannons will now kill players.</color>");
-            }
-        }
-        else if (RCSettings.deadlyCannons != 0)
-        {
-            RCSettings.deadlyCannons = 0;
-            this.chatRoom.addLINE("<color=#FFCC00>Cannons will no longer kill players.</color>");
         }
     }
 
@@ -6756,6 +6614,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             Gamemode = gamemode;
             mainCamera.main_object.GetComponent<Hero>().SetHorse();
+            if (Gamemode.EndlessRevive > 0)
+            {
+                StartCoroutine(respawnE(Gamemode.EndlessRevive));
+            }
+            else
+            {
+                StopCoroutine(respawnE(Gamemode.EndlessRevive));
+            }
         }
     }
 
@@ -8284,17 +8150,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     this.gameWin2();
                 }
             }
-            else if (RCSettings.pointMode > 0)
+            else if (Gamemode.PointMode > 0)
             {
                 if (RCSettings.teamMode > 0)
                 {
-                    if (this.cyanKills >= RCSettings.pointMode)
+                    if (this.cyanKills >= Gamemode.PointMode)
                     {
                         object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, parameters);
                         this.gameWin2();
                     }
-                    else if (this.magentaKills >= RCSettings.pointMode)
+                    else if (this.magentaKills >= Gamemode.PointMode)
                     {
                         objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, objArray2);
@@ -8306,7 +8172,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
                     {
                         PhotonPlayer player9 = PhotonNetwork.playerList[num22];
-                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= RCSettings.pointMode)
+                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= Gamemode.PointMode)
                         {
                             object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
                             this.photonView.RPC("Chat", PhotonTargets.All, objArray4);
@@ -8315,7 +8181,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if ((RCSettings.pointMode <= 0) && ((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)))
+            else if ((Gamemode.PointMode <= 0) && ((RCSettings.bombMode == 1) || (Gamemode.Pvp != PvpMode.Disabled)))
             {
                 if (Gamemode.PvPWinOnEnemiesDead)
                 {
@@ -8425,7 +8291,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         yield return new WaitForSeconds(10f);
         this.restartingBomb = false;
-        this.restartingEren = false;
         this.restartingHorse = false;
         this.restartingMC = false;
         this.restartingTitan = false;

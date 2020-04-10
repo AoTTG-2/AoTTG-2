@@ -42,7 +42,7 @@ public class CannonBall : Photon.MonoBehaviour
             {
                 collider.dmg = 0;
             }
-            if (RCSettings.deadlyCannons == 1)
+            if (FengGameManagerMKII.Gamemode.PvpCannons)
             {
                 foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
                 {

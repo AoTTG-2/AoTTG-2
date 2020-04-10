@@ -3342,7 +3342,7 @@ public class Hero : Human
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
-                    else if ((RCSettings.bombMode == 0) && (RCSettings.deadlyCannons == 0))
+                    else if ((RCSettings.bombMode == 0) && (!FengGameManagerMKII.Gamemode.PvpCannons))
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
@@ -4013,16 +4013,8 @@ public class Hero : Human
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
         {
             object[] objArray;
-            if (RCSettings.friendlyMode > 0)
-            {
-                if (val != 1)
-                {
-                    objArray = new object[] { 1 };
-                    base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
-                }
-            }
             //TODO: Sync these upon gamemode syncSettings
-            else if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.AhssVsBlades)
+            if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.AhssVsBlades)
             {
                 int num = 0;
                 if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)

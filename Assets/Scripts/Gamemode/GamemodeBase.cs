@@ -23,6 +23,9 @@ namespace Assets.Scripts.Gamemode
 
         public string Description;
 
+        [UiElement("MOTD", "Message of the Day")]
+        public string Motd { get; set; } = string.Empty;
+
         public List<TitanType> DisabledTitanTypes { get; set; } = new List<TitanType>();
 
         [UiElement("Start Titans", "The amount of titans that will spawn at the start", SettingCategory.Titans)]
@@ -76,9 +79,15 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Punk Ratio", "", SettingCategory.Titans)]
         public float TitanPunkRatio { get; set; } = 20f;
 
+        [UiElement("Damage Mode", "Minimum damage you need to do", SettingCategory.Titans)]
+        public int DamageMode { get; set; }
+
         //If the explode mode <= 0, then it's disabled, 0 > then it's enabled.
         [UiElement("Explode mode", "", SettingCategory.Titans)]
         public int TitanExplodeMode { get; set; } = 0;
+
+        [UiElement("Allow Titan Shifters", "")]
+        public bool TitanShifters { get; set; } = true;
 
         public bool TitansEnabled { get; set; } = true;
 
@@ -87,6 +96,10 @@ namespace Assets.Scripts.Gamemode
 
         [UiElement("Female Titan Despawn Time", "How long (in seconds), will the FT be on the map after dying?", SettingCategory.Advanced)]
         public float FemaleTitanDespawnTimer { get; set; } = 5f;
+
+        [UiElement("PvP Cannons", "Can cannons kill humans?", SettingCategory.Pvp)]
+        public bool PvpCannons { get; set; }
+
         public float FemaleTitanHealthModifier = 1f;
 
         //LevelInfo attributes
@@ -112,9 +125,14 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Save KDR on DC", "When a player disconnects, should their KDR be saved?")]
         public bool SaveKDROnDisconnect { get; set; } = true;
 
+        [UiElement("Endless Revive", "")]
+        public int EndlessRevive { get; set; }
+
+        [UiElement("Point mode", "", SettingCategory.Advanced)]
+        public int PointMode { get; set; }
+
         public bool Supply { get; set; } = true;
-        public bool AllowPlayerTitans;
-        public bool IsPlayerTitanEnabled;
+        public bool IsPlayerTitanEnabled { get; set; }
 
         public int HumanScore = 0;
         public int TitanScore = 0;

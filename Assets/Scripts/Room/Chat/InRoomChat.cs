@@ -478,41 +478,17 @@ public class InRoomChat : Photon.MonoBehaviour
                                         this.addLINE("<color=#FFCC00>Team mode is on (sort by skill).</color>");
                                     }
                                 }
-                                if (RCSettings.pointMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Point mode is on (" + Convert.ToString(RCSettings.pointMode) + ").</color>");
-                                }
                                 if (RCSettings.infectionMode > 0)
                                 {
                                     this.addLINE("<color=#FFCC00>Infection mode is on (" + Convert.ToString(RCSettings.infectionMode) + ").</color>");
-                                }
-                                if (RCSettings.damageMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Minimum nape damage is on (" + Convert.ToString(RCSettings.damageMode) + ").</color>");
-                                }
-                                if (RCSettings.banEren > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Anti-Eren is on. Using Titan eren will get you kicked.</color>");
-                                }
-                                if (RCSettings.friendlyMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Friendly-Fire disabled. PVP is prohibited.</color>");
                                 }
                                 if (FengGameManagerMKII.Gamemode.Horse)
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");
                                 }
-                                if (RCSettings.endlessMode > 0)
+                                if (FengGameManagerMKII.Gamemode.Motd != string.Empty)
                                 {
-                                    this.addLINE("<color=#FFCC00>Endless Respawn is enabled (" + RCSettings.endlessMode.ToString() + " seconds).</color>");
-                                }
-                                if (RCSettings.motd != string.Empty)
-                                {
-                                    this.addLINE("<color=#FFCC00>MOTD:" + RCSettings.motd + "</color>");
-                                }
-                                if (RCSettings.deadlyCannons > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Cannons will kill humans.</color>");
+                                    this.addLINE("<color=#FFCC00>MOTD:" + FengGameManagerMKII.Gamemode.Motd + "</color>");
                                 }
                             }
                             else

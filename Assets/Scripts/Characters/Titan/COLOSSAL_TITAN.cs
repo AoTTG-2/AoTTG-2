@@ -738,7 +738,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             Vector3 vector = view.gameObject.transform.position - transform.transform.position;
             if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
             {
-                if (speed >= RCSettings.damageMode)
+                if (speed >= FengGameManagerMKII.Gamemode.DamageMode)
                 {
                     this.NapeArmor -= speed;
                 }
