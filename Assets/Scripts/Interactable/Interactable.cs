@@ -6,9 +6,9 @@ public abstract class Interactable : MonoBehaviour
     public int Radius = 7;
 
     //Text displayed on Interactable wheel.
-    public string context = "";
+    public string Context = "";
     //Icon displayed on Interactable wheel button.
-    public UnityEngine.Sprite icon;
+    public UnityEngine.Sprite Icon;
 
     void Awake()
     {
@@ -19,8 +19,8 @@ public abstract class Interactable : MonoBehaviour
         collider.isTrigger = true;
         interactableObject.transform.parent = transform;
         interactableObject.transform.localPosition = new Vector3();
-        if(string.IsNullOrEmpty(context))
-            context = name;
+        if(string.IsNullOrEmpty(Context))
+            Context = name;
     }
 
     public abstract void Action(GameObject target);

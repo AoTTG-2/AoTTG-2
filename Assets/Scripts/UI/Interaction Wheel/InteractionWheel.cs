@@ -15,6 +15,8 @@ public class InteractionWheel : MonoBehaviour
 
 	public void OnEnable ()
 	{
+		if (!Label)
+			Label = GetComponentInChildren<Text>();
 		Label.text = "";
 		base.StartCoroutine(SpawnButtons());
 	}
@@ -28,7 +30,8 @@ public class InteractionWheel : MonoBehaviour
 			WheelButton newButton = Instantiate(ButtonPrefab) as WheelButton;
 			newButton.transform.SetParent(transform, false);
 			newButton.InteractionWheel = this;
-			newButton.myAction = interactables[i];
+			newButton.MyAction = interactables[i];
+			newButton.Icon.sprite = interactables[i].Icon;
 			float theta = (2 * Mathf.PI / interactables.Count) * i;
 			float xPos = Mathf.Sin(theta);
 			float yPos = Mathf.Cos(theta);

@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1837897498978116
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,10 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd109604078d10b4e8c0543faffd9082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: {fileID: 114791788293938054}
-  buttonPrefab: {fileID: 114390860223681688, guid: 55f2b5ec516e16a40ba9a7e4f174c46e,
+  Label: {fileID: 114791788293938054}
+  ButtonPrefab: {fileID: 114390860223681688, guid: 55f2b5ec516e16a40ba9a7e4f174c46e,
     type: 2}
-  selected: {fileID: 0}
+  Selected: {fileID: 0}
 --- !u!222 &222291679419601508
 CanvasRenderer:
   m_ObjectHideFlags: 1

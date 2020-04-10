@@ -5,12 +5,12 @@ public class UIInputHandler : MonoBehaviour
     public FengCustomInputs inputManager;
     private GameObject interactionWheel;
 
-    void Start()
+    private void Start()
     {
-        interactionWheel = gameObject.GetComponentInChildren<InteractableWheel>(true).gameObject;
+        interactionWheel = gameObject.GetComponentInChildren<InteractionWheel>(true).gameObject;
     }
 
-    void Update()
+    private void Update()
     {
 
         if (inputManager == null) return;
