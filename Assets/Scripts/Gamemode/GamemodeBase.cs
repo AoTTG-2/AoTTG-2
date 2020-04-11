@@ -359,7 +359,7 @@ namespace Assets.Scripts.Gamemode
                 }
             }
         }
-
+        
         public virtual void OnNetGameLost(int score)
         {
             TitanScore = score;

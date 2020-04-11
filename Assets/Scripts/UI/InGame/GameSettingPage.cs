@@ -19,7 +19,7 @@ namespace Assets.Scripts.UI.InGame
         public GameObject Category;
         public GameObject EmptyGridItem;
 
-        public GamemodeBase Gamemode;
+        public object Data;
         private SettingCategory category = SettingCategory.None;
         private readonly int _columnCount = 3;
 
@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI.InGame
 
         private void SetSettings()
         {
-            var properties = Gamemode.GetType().GetProperties().Where(
+            var properties = Data.GetType().GetProperties().Where(
                     prop => Attribute.IsDefined(prop, typeof(UiElementAttribute)))
                 .OrderBy(x =>
                     ((UiElementAttribute)x.GetCustomAttributes(typeof(UiElementAttribute), true)[0]).Category);
@@ -56,7 +56,7 @@ namespace Assets.Scripts.UI.InGame
                 var checkbox = uiObject.GetComponent<UiCheckbox>();
 
                 checkbox.Label = attribute.Label;
-                checkbox.Value = (bool) property.GetValue(Gamemode);
+                checkbox.Value = (bool) property.GetValue(Data);
                 checkbox.gameObject.name = property.Name;
                 checkbox.Initialize();
             } else if (property.PropertyType == typeof(string) 
@@ -66,7 +66,7 @@ namespace Assets.Scripts.UI.InGame
                 uiObject = Instantiate(Input.gameObject);
                 var input = uiObject.GetComponent<UiInput>();
                 input.Label = attribute.Label;
-                input.Value = property.GetValue(Gamemode);
+                input.Value = property.GetValue(Data);
                 input.gameObject.name = property.Name;
                 input.Initialize();
             } else if (property.PropertyType.IsEnum)
@@ -74,7 +74,7 @@ namespace Assets.Scripts.UI.InGame
                 uiObject = Instantiate(Dropdown.gameObject);
                 var input = uiObject.GetComponent<UiDropdown>();
                 input.Label = attribute.Label;
-                input.Value = (int) property.GetValue(Gamemode);
+                input.Value = (int) property.GetValue(Data);
                 input.gameObject.name = property.Name;
                 input.Initialize(property.PropertyType);
             }

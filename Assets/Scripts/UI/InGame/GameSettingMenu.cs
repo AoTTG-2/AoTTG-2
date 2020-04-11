@@ -16,7 +16,7 @@ namespace Assets.Scripts.UI.InGame
         private void OnEnable()
         {
             var page = Instantiate(GameSettingPage, gameObject.transform);
-            page.Gamemode = Gamemode = FengGameManagerMKII.Gamemode;
+            page.Data = Gamemode = FengGameManagerMKII.Gamemode;
             page.Initialize();
             Pages.Add(page);
             Pages[0].gameObject.SetActive(true);

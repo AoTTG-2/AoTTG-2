@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using ExitGames.Client.Photon;
 using UnityEngine;
 
 //[Obsolete]
@@ -143,6 +144,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public new string name { get; set; }
     public static GamemodeBase Gamemode { get; set; }
     public static Level Level { get; set; }
+
+    public static Level NewRoundLevel { get; set; }
+    public static GamemodeBase NewRoundGamemode { get; set; }
 
     public void addCamera(IN_GAME_MAIN_CAMERA c)
     {
@@ -4960,6 +4964,31 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void restartRC()
     {
+        //NewRoundLevel = LevelBuilder.GetAllLevels()[1];
+        //NewRoundGamemode = LevelBuilder.GetAllLevels()[].Gamemodes[1];
+        NewRoundGamemode = Level.Gamemodes[3];
+        if (Gamemode != NewRoundGamemode && PhotonNetwork.isMasterClient)
+        {
+            Gamemode = NewRoundGamemode;
+            var hash = new ExitGames.Client.Photon.Hashtable
+            {
+                {"level", Level.Name},
+                {"gamemode", Gamemode.GamemodeType.ToString()}
+            };
+            PhotonNetwork.room.SetCustomProperties(hash);
+            var json = JsonConvert.SerializeObject(Gamemode);
+            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.GamemodeType);
+        }
+
+        //if (Level != NewRoundLevel)
+        //{
+        //    Level = NewRoundLevel;
+        //    PhotonNetwork.LoadLevel(Level.SceneName);
+        //    var hash = new ExitGames.Client.Photon.Hashtable();
+        //    hash.Add("level", Level.Name);
+        //    hash.Add("gamemode", Gamemode.GamemodeType.ToString());
+        //    PhotonNetwork.room.SetCustomProperties(hash);
+        //}
         intVariables.Clear();
         boolVariables.Clear();
         stringVariables.Clear();

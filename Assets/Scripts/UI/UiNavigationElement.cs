@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI
         public GameObject PreviousPage { get; set; }
         public UiHandler Canvas { get; set; }
 
-        public void Back()
+        public virtual void Back()
         {
             gameObject.SetActive(false);
             PreviousPage.SetActive(true);

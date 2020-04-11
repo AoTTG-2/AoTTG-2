@@ -42,6 +42,12 @@ namespace Assets.Scripts.UI.Menu
             OnLevelSelected(levels[0]);
         }
 
+        public override void Back()
+        {
+            base.Back();
+            PhotonNetwork.offlineMode = false;
+        }
+
         public void Create()
         {
             var roomOptions = new RoomOptions

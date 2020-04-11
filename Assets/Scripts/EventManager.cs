@@ -5,8 +5,8 @@ namespace Assets.Scripts
 
     public delegate void OnTitanSpawned(TITAN titan);
     public delegate void OnTitanKilled(string titanName);
-    public delegate void OnRestart();
     public delegate void OnUpdate(float interval);
+    public delegate void OnRestart();
     public delegate void OnGameWon();
     public delegate void OnGameLost();
 
@@ -59,6 +59,5 @@ namespace Assets.Scripts
         {
             FengGameManagerMKII.Gamemode.OnTitanKilled(titanName);
         }
-
     }
 }
