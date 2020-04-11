@@ -674,7 +674,7 @@ public class TITAN : MonoBehaviour
             return false;
         }
         this.hasDie = true;
-        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty, false);
+        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty);
         this.dieAnimation();
         return true;
     }
@@ -735,7 +735,7 @@ public class TITAN : MonoBehaviour
             base.GetComponent<Animation>()[this.hitAnimation].time = 0f;
             base.GetComponent<Animation>()[this.hitAnimation].speed = 0f;
             this.needFreshCorePosition = true;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty, false);
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty);
             if (base.photonView.isMine)
             {
                 if (this.grabbedTarget != null)
@@ -830,7 +830,7 @@ public class TITAN : MonoBehaviour
             this.playAnimation(this.hitAnimation);
             base.GetComponent<Animation>()[this.hitAnimation].time = 0f;
             base.GetComponent<Animation>()[this.hitAnimation].speed = 0f;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty, false);
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty);
             this.needFreshCorePosition = true;
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
             {

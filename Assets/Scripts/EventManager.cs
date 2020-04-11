@@ -4,6 +4,7 @@ namespace Assets.Scripts
 {
 
     public delegate void OnTitanSpawned(TITAN titan);
+    public delegate void OnTitanKilled(string titanName);
     public delegate void OnRestart();
     public delegate void OnUpdate(float interval);
     public delegate void OnGameWon();
@@ -17,10 +18,12 @@ namespace Assets.Scripts
         public static OnUpdate OnUpdate;
         public static OnGameLost OnGameLost;
         public static OnGameWon OnGameWon;
+        public static OnTitanKilled OnTitanKilled;
 
         void Start()
         {
             OnTitanSpawned += EventManager_OnTitanSpawned;
+            OnTitanKilled += EventManager_OnTitanKilled;
             OnRestart += EventManager_OnRestart;
             OnUpdate += EventManager_OnUpdate;
             OnGameWon += EventManager_OnGameWon;
@@ -52,6 +55,10 @@ namespace Assets.Scripts
             FengGameManagerMKII.Gamemode.OnGameLost();
         }
 
+        private void EventManager_OnTitanKilled(string titanName)
+        {
+            FengGameManagerMKII.Gamemode.OnTitanKilled(titanName);
+        }
 
     }
 }

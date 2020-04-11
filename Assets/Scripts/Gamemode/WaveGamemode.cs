@@ -14,6 +14,7 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Wave Increment", "How many titans will spawn per wave?")]
         public int WaveIncrement { get; set; } = 2;
         public bool PunkWave { get; set; } = true;
+        private readonly int _punkWave = 5;
 
         public WaveGamemode()
         {
@@ -90,13 +91,13 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnSetTitanType(ref int titanType, bool flag)
         {
-            if (Wave % 5 != 0 && !flag)
+            if (Wave % _punkWave != 0 && !flag)
             {
                 titanType = 1;
             }
         }
 
-        public override void OnTitanKilled(string titanName, bool onPlayerLeave)
+        public override void OnTitanKilled(string titanName)
         {
             if (!IsAllTitansDead()) return;
             Wave++;
@@ -137,22 +138,10 @@ namespace Assets.Scripts.Gamemode
                 if (!IsEnabled(TitanType.TYPE_PUNK))
                 {
                     FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, Wave + 2, false);
-                }
-                else if (Wave == 5)
+                } 
+                else if (Wave % _punkWave == 0)
                 {
-                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, 1, true);
-                }
-                else if (Wave == 10)
-                {
-                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, 2, true);
-                }
-                else if (Wave == 15)
-                {
-                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, 3, true);
-                }
-                else if (Wave == 20)
-                {
-                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, 4, true);
+                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, Wave / _punkWave, true);
                 }
                 else
                 {

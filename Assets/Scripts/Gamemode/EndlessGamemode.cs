@@ -12,18 +12,15 @@ namespace Assets.Scripts.Gamemode
             Titans = 10;
         }
 
-        public override void OnTitanKilled(string titanName, bool onPlayerLeave)
+        public override void OnTitanKilled(string titanName)
         {
-            if (!onPlayerLeave)
+            HumanScore++;
+            int num2 = 90;
+            if (FengGameManagerMKII.instance.difficulty == 1)
             {
-                HumanScore++;
-                int num2 = 90;
-                if (FengGameManagerMKII.instance.difficulty == 1)
-                {
-                    num2 = 70;
-                }
-                FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num2, 1, false);
+                num2 = 70;
             }
+            FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num2, 1, false);
         }
     }
 }

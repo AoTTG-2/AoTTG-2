@@ -271,7 +271,7 @@ namespace Assets.Scripts.Gamemode
             return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
         }
 
-        public virtual void OnTitanKilled(string titanName, bool onPlayerLeave)
+        public virtual void OnTitanKilled(string titanName)
         {
             if (RestartOnTitansKilled && IsAllTitansDead())
             {

@@ -45,7 +45,7 @@ namespace Assets.Scripts.Gamemode
             return $"{PvpTitanScoreLimit - PvpTitanScore} {str2} {PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
         }
 
-        public override void OnTitanKilled(string titanName, bool onPlayerLeave)
+        public override void OnTitanKilled(string titanName)
         {
             if (titanName != string.Empty)
             {

@@ -17,7 +17,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static bool showHackMenu = true;
 
     public Dictionary<int, CannonValues> allowedToCannon;
-    public static readonly string applicationId = "f1f6195c-df4a-40f9-bae5-4744c32901ef";
     public Dictionary<string, Texture2D> assetCacheTextures;
     public static ExitGames.Client.Photon.Hashtable banHash;
     public static ExitGames.Client.Photon.Hashtable boolVariables;
@@ -3355,11 +3354,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void oneTitanDown(string name1, bool onPlayerLeave)
+    public void oneTitanDown(string titanName)
     {
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient)
         {
-            Gamemode.OnTitanKilled(name1, onPlayerLeave);
+            EventManager.OnTitanKilled.Invoke(titanName);
         }
     }
 
@@ -3526,7 +3525,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 Camera.main.GetComponent<SpectatorMovement>().disable = true;
                 //TODO MouseLook
                 //Camera.main.GetComponent<MouseLook>().disable = true;
-                this.SpawnPlayer(IN_GAME_MAIN_CAMERA.singleCharacter.ToUpper(), "playerRespawn");
+                //this.SpawnPlayer(IN_GAME_MAIN_CAMERA.singleCharacter.ToUpper(), "playerRespawn");
+                SpawnPlayer(null);
                 if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
                 {
                     Screen.lockCursor = true;
@@ -3703,7 +3703,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (!this.gameTimesUp)
         {
-            this.oneTitanDown(string.Empty, true);
+            this.oneTitanDown(string.Empty);
             this.someOneIsDead(0);
         }
         if (ignoreList.Contains(player.ID))
@@ -6449,8 +6449,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Damage = Mathf.Max(10, Damage);
         object[] parameters = new object[] { Damage };
         base.photonView.RPC("netShowDamage", player, parameters);
-        object[] objArray2 = new object[] { name, false };
-        base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, objArray2);
+        base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, name);
         this.sendKillInfo(false, (string)player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
         this.playerKillInfoUpdate(player, Damage);
     }
@@ -6460,7 +6459,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Damage = Mathf.Max(10, Damage);
         this.sendKillInfo(false, LoginFengKAI.player.name, true, name, Damage);
         this.netShowDamage(Damage);
-        this.oneTitanDown(name, false);
+        this.oneTitanDown(name);
         this.playerKillInfoUpdate(PhotonNetwork.player, Damage);
     }
 
