@@ -2937,7 +2937,7 @@ public class TITAN : MonoBehaviour
         {
             this.headscale = new Vector3(1f, 1f, 1f);
         }
-        else if ((level < 1f) && FengGameManagerMKII.level.StartsWith("Custom"))
+        else if ((level < 1f) && FengGameManagerMKII.Level.Name.StartsWith("Custom"))
         {
             CapsuleCollider component = this.myTitanTrigger.GetComponent<CapsuleCollider>();
             component.radius *= 2.5f - level;
@@ -3133,7 +3133,7 @@ public class TITAN : MonoBehaviour
         {
             flag = true;
         }
-        if (FengGameManagerMKII.level.StartsWith("Custom"))
+        if (FengGameManagerMKII.Level.Name.StartsWith("Custom"))
         {
             flag = true;
         }

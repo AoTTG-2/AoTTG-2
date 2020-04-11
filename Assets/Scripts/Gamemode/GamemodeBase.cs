@@ -333,6 +333,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnGameWon()
         {
+            HumanScore++;
             FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
@@ -345,10 +346,28 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
+        public virtual void OnGameLost()
+        {
+            TitanScore++;
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            {
+                var parameters = new object[] { TitanScore };
+                FengGameManagerMKII.instance.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
+                if ((int)FengGameManagerMKII.settings[0xf4] == 1)
+                {
+                    //FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
+                }
+            }
+        }
+
+        public virtual void OnNetGameLost(int score)
+        {
+            TitanScore = score;
+        }
+
         public virtual void OnNetGameWon(int score)
         {
             HumanScore = score;
-            FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
         }
 
         public virtual GameObject SpawnNonAiTitan(Vector3 position, GameObject randomTitanRespawn)

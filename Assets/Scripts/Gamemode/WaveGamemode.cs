@@ -100,7 +100,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (!IsAllTitansDead()) return;
             Wave++;
-            var level = FengGameManagerMKII.level;
+            var level = FengGameManagerMKII.Level.Name;
             if (!(RespawnMode != RespawnMode.NEWROUND && (!level.StartsWith("Custom")) || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER)))
             {
                 foreach (var player in PhotonNetwork.playerList)

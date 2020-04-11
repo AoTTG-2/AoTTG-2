@@ -49,8 +49,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private ArrayList heroes;
     public static ExitGames.Client.Photon.Hashtable heroHash;
     private ArrayList hooks;
-    [Obsolete("Replace with Gamemode.HumanScore")]
-    private int humanScore;
     public static List<int> ignoreList;
     public static ExitGames.Client.Photon.Hashtable imatitan;
     public FengCustomInputs inputManager;
@@ -68,11 +66,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public bool isUnloading;
     private bool isWinning;
     public bool justSuicide;
-    private ArrayList kicklist;
     private ArrayList killInfoGO = new ArrayList();
     public static bool LAN;
-    [Obsolete("Use FengGameManagerMKII.Level or FengGameManagerMKII.Gamemode")]
-    public static string level = string.Empty;
     public List<string[]> levelCache;
     public static ExitGames.Client.Photon.Hashtable[] linkHash;
     [Obsolete("Use RacingGamemode.localRacingResult")]
@@ -104,10 +99,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public Dictionary<string, int[]> PreservedPlayerKDR;
     public static string PrivateServerAuthPass;
     public static string privateServerField;
-    public int PVPhumanScore;
-    private int PVPhumanScoreMax = 200;
-    public int PVPtitanScore;
-    private int PVPtitanScoreMax = 200;
     public float qualitySlider;
     public List<GameObject> racingDoors;
     private ArrayList racingResult;
@@ -135,22 +126,16 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public List<GameObject> spectateSprites;
     private bool startRacing;
     public static ExitGames.Client.Photon.Hashtable stringVariables;
-    [Obsolete("Use PvpAhssGamemode.teamScores")]
-    private int[] teamScores;
-    private int teamWinner;
     public Texture2D textureBackgroundBlack;
     public Texture2D textureBackgroundBlue;
     public int time = 600;
     private float timeElapse;
     private float timeTotalServer;
     private ArrayList titans;
-    [Obsolete("Please use Gamemode.TitanScore")]
-    private int titanScore;
     public List<TitanSpawner> titanSpawners;
     public List<Vector3> titanSpawns;
     public static ExitGames.Client.Photon.Hashtable titanVariables;
     public float transparencySlider;
-    private GameObject ui;
     public float updateTime;
     public static string usernameField;
 
@@ -230,7 +215,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
         {
             this.roundTime = 0f;
-            if (level.StartsWith("Custom"))
+            if (Level.Name.StartsWith("Custom"))
             {
                 customLevelLoaded = false;
             }
@@ -279,20 +264,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         float num9;
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         return hashtable;
-    }
-
-    public void checkPVPpts()
-    {
-        if (this.PVPtitanScore >= this.PVPtitanScoreMax)
-        {
-            this.PVPtitanScore = this.PVPtitanScoreMax;
-            this.gameLose2();
-        }
-        else if (this.PVPhumanScore >= this.PVPhumanScoreMax)
-        {
-            this.PVPhumanScore = this.PVPhumanScoreMax;
-            this.gameWin2();
-        }
     }
 
     [PunRPC]
@@ -1000,7 +971,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     content = Gamemode.GetGamemodeStatusTopRight((int)timeTotalServer, time);
                     this.ShowHUDInfoTopRight(content);
                     string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0) ? ((IN_GAME_MAIN_CAMERA.difficulty != 0) ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard") : "Normal") : "Trainning";
-                    this.ShowHUDInfoTopRightMAPNAME("\n" + level + " : " + str4);
+                    this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                     {
                         char[] separator = new char[] { "`"[0] };
@@ -1846,18 +1817,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (!(this.isWinning || this.isLosing))
         {
+            EventManager.OnGameLost.Invoke();
             this.isLosing = true;
-            this.titanScore++;
             this.gameEndCD = this.gameEndTotalCDtime;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-            {
-                object[] parameters = new object[] { this.titanScore };
-                base.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
-                if (((int)settings[0xf4]) == 1)
-                {
-                    this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
-                }
-            }
         }
     }
 
@@ -1865,9 +1827,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (!this.isLosing && !this.isWinning)
         {
+            EventManager.OnGameWon.Invoke();
             this.isWinning = true;
-            this.humanScore++;
-            Gamemode.OnGameWon();
         }
     }
 
@@ -2556,7 +2517,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.racingSpawnPointSet = false;
             this.racingDoors = new List<GameObject>();
             this.allowedToCannon = new Dictionary<int, CannonValues>();
-            if ((!level.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
+            if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
             {
                 obj4 = GameObject.Find("aot_supply");
                 if ((obj4 != null) && (Minimap.instance != null))
@@ -2625,7 +2586,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
                 }
             }
-            else if (level.StartsWith("Custom") && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
+            else if (Level.Name.StartsWith("Custom") && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
             {
                 GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("playerRespawn");
                 for (num = 0; num < objArray3.Length; num++)
@@ -3209,7 +3170,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private void netGameLose(int score, PhotonMessageInfo info)
     {
         this.isLosing = true;
-        this.titanScore = score;
+        Gamemode.OnNetGameLost(score);
         this.gameEndCD = this.gameEndTotalCDtime;
         if (((int)settings[0xf4]) == 1)
         {
@@ -3224,9 +3185,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void netGameWin(int score, PhotonMessageInfo info)
     {
-        this.humanScore = score;
         this.isWinning = true;
         Gamemode.OnNetGameWon(score);
+        this.gameEndCD = this.gameEndTotalCDtime;
         if (((int)settings[0xf4]) == 1)
         {
             this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
@@ -3377,9 +3338,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnCreatedRoom()
     {
-        this.kicklist = new ArrayList();
         this.racingResult = new ArrayList();
-        this.teamScores = new int[2];
         UnityEngine.MonoBehaviour.print("OnCreatedRoom");
     }
 
@@ -3433,7 +3392,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.gameTimesUp = false;
         char[] chArray3 = new char[] { "`"[0] };
         string[] strArray = PhotonNetwork.room.name.Split(chArray3);
-        level = Level.Name;
         this.difficulty = 0;
         //if (strArray[2] == "normal")
         //{
@@ -3476,11 +3434,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         hashtable.Add(PhotonPlayerProperty.currentLevel, string.Empty);
         ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        this.humanScore = 0;
-        this.titanScore = 0;
-        this.PVPtitanScore = 0;
-        this.PVPhumanScore = 0;
-        this.localRacingResult = string.Empty;
         this.needChooseSide = true;
         this.chatContent = new ArrayList();
         this.killInfoGO = new ArrayList();
@@ -3724,7 +3677,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     base.StartCoroutine(this.WaitAndReloadKDR(player));
                 }
-                if (level.StartsWith("Custom"))
+                if (Level.Name.StartsWith("Custom"))
                 {
                     base.StartCoroutine(this.customlevelE(new List<PhotonPlayer> { player }));
                 }
@@ -4747,12 +4700,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 int index = UnityEngine.Random.Range(0, objArray.Length);
                 GameObject obj2 = objArray[index];
-                while (objArray[index] == null)
+                if (num <= objArray.Length)
                 {
-                    index = UnityEngine.Random.Range(0, objArray.Length);
-                    obj2 = objArray[index];
+                    while (objArray[index] == null)
+                    {
+                        index = UnityEngine.Random.Range(0, objArray.Length);
+                        obj2 = objArray[index];
+                    }
+                    objArray[index] = null;
                 }
-                objArray[index] = null;
                 this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, punk);
             }
         }
@@ -4782,20 +4738,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [PunRPC]
-    private void refreshPVPStatus(int score1, int score2)
-    {
-        this.PVPhumanScore = score1;
-        this.PVPtitanScore = score2;
-    }
-
-    [PunRPC]
-    private void refreshPVPStatus_AHSS(int[] score1)
-    {
-        UnityEngine.MonoBehaviour.print(score1);
-        this.teamScores = score1;
-    }
-
     private void refreshRacingResult2()
     {
         this.localRacingResult = "Result\n";
@@ -4816,10 +4758,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    private void refreshStatus(int score1, int score2, float time1, float time2, bool startRacin, bool endRacin)
+    private void refreshStatus(float time1, float time2, bool startRacin, bool endRacin)
     {
-        this.humanScore = score1;
-        this.titanScore = score2;
         this.roundTime = time1;
         this.timeTotalServer = time2;
         this.startRacing = startRacin;
@@ -4874,12 +4814,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void RequireStatus()
     {
-        object[] parameters = new object[] { this.humanScore, this.titanScore, this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing };
+        object[] parameters = new object[] { this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing };
         base.photonView.RPC("refreshStatus", PhotonTargets.Others, parameters);
-        object[] objArray2 = new object[] { this.PVPhumanScore, this.PVPtitanScore };
-        base.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, objArray2);
-        object[] objArray3 = new object[] { this.teamScores };
-        base.photonView.RPC("refreshPVPStatus_AHSS", PhotonTargets.Others, objArray3);
     }
 
     private void resetGameSettings()
@@ -4969,8 +4905,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (!this.gameTimesUp)
         {
-            this.PVPtitanScore = 0;
-            this.PVPhumanScore = 0;
             this.startRacing = false;
             this.endRacing = false;
             this.checkpoint = null;
@@ -4981,7 +4915,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.isPlayer1Winning = false;
             this.isPlayer2Winning = false;
             this.myRespawnTime = 0f;
-            this.kicklist = new ArrayList();
             this.killInfoGO = new ArrayList();
             this.racingResult = new ArrayList();
             this.ShowHUDInfoCenter(string.Empty);
@@ -5732,7 +5665,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             GameObject[] objArray = GameObject.FindGameObjectsWithTag(tag);
             GameObject obj2 = objArray[UnityEngine.Random.Range(0, objArray.Length)];
             Vector3 position = obj2.transform.position;
-            if (level.StartsWith("Custom") && (this.titanSpawns.Count > 0))
+            if (Level.Name.StartsWith("Custom") && (this.titanSpawns.Count > 0))
             {
                 position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
             }
@@ -5802,7 +5735,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 position = this.racingSpawnPoint;
             }
-            else if (level.StartsWith("Custom"))
+            else if (Level.Name.StartsWith("Custom"))
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                 {
@@ -6248,7 +6181,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         int num9;
         GameObject obj2;
         int moreTitans = rate;
-        if (level.StartsWith("Custom"))
+        if (Level.Name.StartsWith("Custom"))
         {
             moreTitans = 5;
             if (!Gamemode.TitansEnabled)
@@ -6256,7 +6189,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 moreTitans = 0;
             }
         }
-        if ((Gamemode.Titans > 0) || (((Gamemode.Titans == 0) && level.StartsWith("Custom")) && !Gamemode.TitansEnabled))
+        if ((Gamemode.Titans > 0) || (((Gamemode.Titans == 0) && Level.Name.StartsWith("Custom")) && !Gamemode.TitansEnabled))
         {
             moreTitans = Gamemode.Titans;
         }
@@ -6368,7 +6301,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
         }
-        else if (level.StartsWith("Custom"))
+        else if (Level.Name.StartsWith("Custom"))
         {
             for (num8 = 0; num8 < moreTitans; num8++)
             {

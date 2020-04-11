@@ -18,9 +18,9 @@ namespace Assets.Scripts.Gamemode
             FemaleTitanHealthModifier = 0.8f;
         }
 
-        [UiElement("Titan Point Limit", "Max Points titans can have")]
+        [UiElement("Human Point Limit", "Once this reaches 0, the titans win")]
         public int PvpTitanScoreLimit { get; set; } = 200;
-        [UiElement("Human Point Limit", "Max Points humans can have")]
+        [UiElement("Titan Point Limit", "Once this reaches 0, the humans win")]
         public int PvpHumanScoreLimit { get; set; } = 200;
 
 
@@ -72,12 +72,23 @@ namespace Assets.Scripts.Gamemode
                 }
             }
             CheckWinConditions();
-            object[] parameters = { PvpHumanScore, PvpTitanScore };
-            FengGameManagerMKII.instance.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, parameters);
+        }
+
+        [PunRPC]
+        public void RefreshCaptureScore(int humanScore, int titanScore, PhotonMessageInfo info)
+        {
+            if (!info.sender.IsMasterClient) return;
+            PvpHumanScore = humanScore;
+            PvpTitanScore = titanScore;
         }
 
         private void CheckWinConditions()
         {
+            if (PhotonNetwork.isMasterClient)
+            {
+                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, HumanScore, TitanScore);
+            }
+
             if (PvpTitanScore >= PvpTitanScoreLimit)
             {
                 PvpTitanScore = PvpTitanScoreLimit;
@@ -88,6 +99,18 @@ namespace Assets.Scripts.Gamemode
                 PvpHumanScore = PvpHumanScoreLimit;
                 FengGameManagerMKII.instance.gameWin2();
             }
+        }
+
+        public void AddHumanScore(int score)
+        {
+            PvpHumanScore += score;
+            CheckWinConditions();
+        }
+
+        public void AddTitanScore(int score)
+        {
+            PvpTitanScore += score;
+            CheckWinConditions();
         }
 
         public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
@@ -139,6 +162,32 @@ namespace Assets.Scripts.Gamemode
             transform.position += new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20));
         }
 
+        public override void OnGameWon()
+        {
+            base.OnGameWon();
+            ResetScore();
+        }
+
+        public override void OnGameLost()
+        {
+            base.OnGameLost();
+            ResetScore();
+        }
+
+        public override void OnRestart()
+        {
+            base.OnRestart();
+            ResetScore();
+        }
+
+        private void ResetScore()
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, PvpHumanScoreLimit, PvpTitanScoreLimit);
+            }
+        }
+
         private GameObject spawnTitanRaw(Vector3 position, Quaternion rotation)
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
@@ -155,8 +204,6 @@ namespace Assets.Scripts.Gamemode
                 PvpTitanScore += 2;
             }
             CheckWinConditions();
-            object[] parameters = { PvpHumanScore, PvpTitanScore };
-            FengGameManagerMKII.instance.photonView.RPC("refreshPVPStatus", PhotonTargets.Others, parameters);
         }
     }
 }
