@@ -7,9 +7,25 @@ public static class InputLine
     public static List<string> Inputs = new List<string>();
     private static List<string> inputsCopy = new List<string>();
     private static string inputLineCopy = string.Empty;
+    private static string inputLineBackup = string.Empty;
     public static string inputLine = string.Empty;
     public static bool IsSuggestionModeEnabled = false;
     public static int pointer = 0;
+
+    public static void Backup()
+    {
+        inputLineBackup = inputLine;
+    }
+
+    public static void OnSwitchFix() // Let me know if you know better solution
+    {
+        inputLine = inputLine.Replace("`", string.Empty);
+    }
+
+    public static void Restore()
+    {
+        inputLine = inputLineBackup;
+    }
 
     public static bool IsEmpty()
     {

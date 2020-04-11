@@ -4,6 +4,12 @@ using Assets.Scripts.UI;
 
 public class ConsoleCommands
 {
+    public static void SwitchDebugLevel(Command command)
+    {
+        EMCli.SwitchDebugLevel((DebugLevel)command.LastArgAsByte);
+        EMCli.RefreshLayout();
+    }
+
     public static void FastLoadAndSpawn(Command command)
     {
         FengGameManagerMKII.instance.StartCoroutine(EMCli.ConnectAndJoinIE(true));
@@ -16,9 +22,10 @@ public class ConsoleCommands
         "Commands history has been cleaned!".SendProcessing(true);
     }
 
-    public static void ClearCLILayout(Command command)
+    public static void ClearCLIMessages(Command command)
     {
-        EMCli.ClearLayout();
+        EMCli.ClearMessages();
+        EMCli.RefreshLayout();
     }
 
     public static void Spawn(Command command)
@@ -58,7 +65,7 @@ public class ConsoleCommands
 
         foreach(Command command1 in CommandHandler.Instance.Commands)
         {
-            if (command1.Name.StartsWith(startWith))
+            if (command1.Name.Equals(startWith))
             {
                 $"Name: [{command1.Name }] \n Description: [{command1.Description}] \n Format: [{command1.Format}]".SendProcessing(true);
             }
