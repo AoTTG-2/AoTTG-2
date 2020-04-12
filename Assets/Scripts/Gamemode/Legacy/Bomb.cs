@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 
 public class Bomb : Photon.MonoBehaviour
@@ -26,7 +27,7 @@ public class Bomb : Photon.MonoBehaviour
             this.correctPlayerPos = base.transform.position;
             this.correctPlayerRot = Quaternion.identity;
             PhotonPlayer owner = base.photonView.owner;
-            if (RCSettings.teamMode > 0)
+            if (FengGameManagerMKII.Gamemode.TeamMode != TeamMode.Disabled)
             {
                 int num = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                 if (num == 1)
@@ -79,7 +80,7 @@ public class Bomb : Photon.MonoBehaviour
             if (((Vector3.Distance(gameObject.transform.position, position) < radius) && !gameObject.GetPhotonView().isMine) && !hero.bombImmune)
             {
                 PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                if (((RCSettings.teamMode > 0) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                if (((FengGameManagerMKII.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                 {
                     int num = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                     int num2 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);

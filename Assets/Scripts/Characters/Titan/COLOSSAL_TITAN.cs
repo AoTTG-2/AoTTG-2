@@ -1,10 +1,6 @@
-using Photon;
+using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class COLOSSAL_TITAN : Photon.MonoBehaviour
@@ -602,19 +598,19 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
         if (base.photonView.isMine)
         {
-            if (RCSettings.sizeMode > 0)
+            if (FengGameManagerMKII.Gamemode.TitanCustomSize)
             {
-                float sizeLower = RCSettings.sizeLower;
-                float sizeUpper = RCSettings.sizeUpper;
+                float sizeLower = FengGameManagerMKII.Gamemode.TitanMinimumSize;
+                float sizeUpper = FengGameManagerMKII.Gamemode.TitanMaximumSize;
                 this.size = UnityEngine.Random.Range(sizeLower, sizeUpper);
                 base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             }
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
-            if (RCSettings.healthMode > 0)
+            if (FengGameManagerMKII.Gamemode.TitanHealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(RCSettings.healthLower, RCSettings.healthUpper);
+                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.TitanHealthMinimum, FengGameManagerMKII.Gamemode.TitanHealthMaximum);
             }
             if (this.NapeArmor > 0)
             {
@@ -634,11 +630,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
         base.name = "COLOSSAL_TITAN";
         this.NapeArmor = 0x3e8;
-        bool flag = false;
-        if (LevelInfo.getInfo(FengGameManagerMKII.level).respawnMode == RespawnMode.NEVER)
-        {
-            flag = true;
-        }
+        var flag = FengGameManagerMKII.Gamemode.RespawnMode == RespawnMode.NEVER;
         if (IN_GAME_MAIN_CAMERA.difficulty == 0)
         {
             this.NapeArmor = !flag ? 0x1388 : 0x7d0;
@@ -746,7 +738,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             Vector3 vector = view.gameObject.transform.position - transform.transform.position;
             if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
             {
-                if (speed >= RCSettings.damageMode)
+                if (speed >= FengGameManagerMKII.Gamemode.DamageMode)
                 {
                     this.NapeArmor -= speed;
                 }

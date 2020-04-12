@@ -31,9 +31,9 @@ public class InstantiateTracker
         {
             case "rcasset/bombmain":
             case "rcasset/bombexplodemain":
-                if (RCSettings.bombMode <= 0)
+                if (!FengGameManagerMKII.Gamemode.PvPBomb)
                 {
-                    if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingBomb))
+                    if (PhotonNetwork.isMasterClient)
                     {
                         FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning bomb item (" + key + ").");
                     }
@@ -68,11 +68,11 @@ public class InstantiateTracker
             case "fx/boom5":
             case "fx/rockthrow":
             case "fx/bite":
-                if ((LevelInfo.getInfo(FengGameManagerMKII.level).teamTitan || (RCSettings.infectionMode > 0)) || (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush))
+                if (FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 {
                     return this.Instantiated(photonPlayer, GameResource.effect);
                 }
-                if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingTitan))
+                if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan effects.");
                 }
@@ -108,9 +108,9 @@ public class InstantiateTracker
             case "titan_eren":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if (RCSettings.banEren > 0)
+                    if(!FengGameManagerMKII.Gamemode.TitanShifters)
                     {
-                        if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingEren))
+                        if (PhotonNetwork.isMasterClient)
                         {
                             FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan eren (" + key + ").");
                         }
@@ -132,9 +132,9 @@ public class InstantiateTracker
             case "hitmeatbig":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if (RCSettings.banEren > 0)
+                    if (!FengGameManagerMKII.Gamemode.TitanShifters)
                     {
-                        if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingEren))
+                        if (PhotonNetwork.isMasterClient)
                         {
                             FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning eren effect (" + key + ").");
                         }
@@ -167,11 +167,11 @@ public class InstantiateTracker
                 return false;
 
             case "horse":
-                if (LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode != 0))
+                if (FengGameManagerMKII.Gamemode.Horse)
                 {
                     return this.Instantiated(photonPlayer, GameResource.general);
                 }
-                if (!(!PhotonNetwork.isMasterClient || FengGameManagerMKII.instance.restartingHorse))
+                if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.Gamemode.Horse)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning horse (" + key + ").");
                 }
@@ -198,7 +198,7 @@ public class InstantiateTracker
                     }
                     break;
                 }
-                if (((LevelInfo.getInfo(FengGameManagerMKII.level).teamTitan || (RCSettings.infectionMode > 0)) || (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)) || FengGameManagerMKII.instance.restartingTitan)
+                if (FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 {
                     if (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
                     {

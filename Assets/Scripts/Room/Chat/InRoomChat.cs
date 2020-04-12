@@ -1,6 +1,7 @@
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,7 +62,7 @@ public class InRoomChat : Photon.MonoBehaviour
                 }
                 if (FengGameManagerMKII.RCEvents.ContainsKey("OnChatInput"))
                 {
-                    string key = (string) FengGameManagerMKII.RCVariableNames["OnChatInput"];
+                    string key = (string)FengGameManagerMKII.RCVariableNames["OnChatInput"];
                     if (FengGameManagerMKII.stringVariables.ContainsKey(key))
                     {
                         FengGameManagerMKII.stringVariables[key] = this.inputLine;
@@ -70,7 +71,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     {
                         FengGameManagerMKII.stringVariables.Add(key, this.inputLine);
                     }
-                    ((RCEvent) FengGameManagerMKII.RCEvents["OnChatInput"]).checkEvent();
+                    ((RCEvent)FengGameManagerMKII.RCEvents["OnChatInput"]).checkEvent();
                 }
                 if (!this.inputLine.StartsWith("/"))
                 {
@@ -104,28 +105,15 @@ public class InRoomChat : Photon.MonoBehaviour
                         switch (this.inputLine.Substring(5))
                         {
                             case "kdr":
-                                if (RCSettings.asoPreservekdr == 0)
+                                if (!FengGameManagerMKII.Gamemode.SaveKDROnDisconnect)
                                 {
-                                    RCSettings.asoPreservekdr = 1;
+                                    FengGameManagerMKII.Gamemode.SaveKDROnDisconnect = true;
                                     this.addLINE("<color=#FFCC00>KDRs will be preserved from disconnects.</color>");
                                 }
                                 else
                                 {
-                                    RCSettings.asoPreservekdr = 0;
+                                    FengGameManagerMKII.Gamemode.SaveKDROnDisconnect = false;
                                     this.addLINE("<color=#FFCC00>KDRs will not be preserved from disconnects.</color>");
-                                }
-                                break;
-
-                            case "racing":
-                                if (RCSettings.racingStatic == 0)
-                                {
-                                    RCSettings.racingStatic = 1;
-                                    this.addLINE("<color=#FFCC00>Racing will not end on finish.</color>");
-                                }
-                                else
-                                {
-                                    RCSettings.racingStatic = 0;
-                                    this.addLINE("<color=#FFCC00>Racing will end on finish.</color>");
                                 }
                                 break;
                         }
@@ -290,7 +278,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     }
                     else if (this.inputLine.StartsWith("/team"))
                     {
-                        if (RCSettings.teamMode == 1)
+                        if (FengGameManagerMKII.Gamemode.TeamMode == TeamMode.NoSort)
                         {
                             if ((this.inputLine.Substring(6) == "1") || (this.inputLine.Substring(6) == "cyan"))
                             {
@@ -356,7 +344,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     }
                     else if (this.inputLine.StartsWith("/specmode"))
                     {
-                        if (((int) FengGameManagerMKII.settings[0xf5]) == 0)
+                        if (((int)FengGameManagerMKII.settings[0xf5]) == 0)
                         {
                             FengGameManagerMKII.settings[0xf5] = 1;
                             FengGameManagerMKII.instance.EnterSpecMode(true);
@@ -455,7 +443,7 @@ public class InRoomChat : Photon.MonoBehaviour
                                     int num9 = Convert.ToInt32(this.inputLine.Substring(7));
                                     if (FengGameManagerMKII.banHash.ContainsKey(num9))
                                     {
-                                        objArray5 = new object[] { "<color=#FFCC00>" + ((string) FengGameManagerMKII.banHash[num9]) + " has been unbanned from the server. </color>", string.Empty };
+                                        objArray5 = new object[] { "<color=#FFCC00>" + ((string)FengGameManagerMKII.banHash[num9]) + " has been unbanned from the server. </color>", string.Empty };
                                         FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray5);
                                         FengGameManagerMKII.banHash.Remove(num9);
                                     }
@@ -472,115 +460,13 @@ public class InRoomChat : Photon.MonoBehaviour
                             else if (this.inputLine.StartsWith("/rules"))
                             {
                                 this.addLINE("<color=#FFCC00>Currently activated gamemodes:</color>");
-                                if (RCSettings.bombMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Bomb mode is on.</color>");
-                                }
-                                if (RCSettings.teamMode > 0)
-                                {
-                                    if (RCSettings.teamMode == 1)
-                                    {
-                                        this.addLINE("<color=#FFCC00>Team mode is on (no sort).</color>");
-                                    }
-                                    else if (RCSettings.teamMode == 2)
-                                    {
-                                        this.addLINE("<color=#FFCC00>Team mode is on (sort by size).</color>");
-                                    }
-                                    else if (RCSettings.teamMode == 3)
-                                    {
-                                        this.addLINE("<color=#FFCC00>Team mode is on (sort by skill).</color>");
-                                    }
-                                }
-                                if (RCSettings.pointMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Point mode is on (" + Convert.ToString(RCSettings.pointMode) + ").</color>");
-                                }
-                                if (RCSettings.disableRock > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Punk Rock-Throwing is disabled.</color>");
-                                }
-                                if (RCSettings.spawnMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom spawn rate is on (" + RCSettings.nRate.ToString("F2") + "% Normal, " + RCSettings.aRate.ToString("F2") + "% Abnormal, " + RCSettings.jRate.ToString("F2") + "% Jumper, " + RCSettings.cRate.ToString("F2") + "% Crawler, " + RCSettings.pRate.ToString("F2") + "% Punk </color>");
-                                }
-                                if (RCSettings.explodeMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Titan explode mode is on (" + Convert.ToString(RCSettings.explodeMode) + ").</color>");
-                                }
-                                if (RCSettings.healthMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Titan health mode is on (" + Convert.ToString(RCSettings.healthLower) + "-" + Convert.ToString(RCSettings.healthUpper) + ").</color>");
-                                }
-                                if (RCSettings.infectionMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Infection mode is on (" + Convert.ToString(RCSettings.infectionMode) + ").</color>");
-                                }
-                                if (RCSettings.damageMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Minimum nape damage is on (" + Convert.ToString(RCSettings.damageMode) + ").</color>");
-                                }
-                                if (RCSettings.moreTitans > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom titan # is on (" + Convert.ToString(RCSettings.moreTitans) + ").</color>");
-                                }
-                                if (RCSettings.sizeMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom titan size is on (" + RCSettings.sizeLower.ToString("F2") + "," + RCSettings.sizeUpper.ToString("F2") + ").</color>");
-                                }
-                                if (RCSettings.banEren > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Anti-Eren is on. Using Titan eren will get you kicked.</color>");
-                                }
-                                if (RCSettings.waveModeOn == 1)
-                                {
-                                    this.addLINE("<color=#FFCC00>Custom wave mode is on (" + Convert.ToString(RCSettings.waveModeNum) + ").</color>");
-                                }
-                                if (RCSettings.friendlyMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Friendly-Fire disabled. PVP is prohibited.</color>");
-                                }
-                                if (RCSettings.pvpMode > 0)
-                                {
-                                    if (RCSettings.pvpMode == 1)
-                                    {
-                                        this.addLINE("<color=#FFCC00>AHSS/Blade PVP is on (team-based).</color>");
-                                    }
-                                    else if (RCSettings.pvpMode == 2)
-                                    {
-                                        this.addLINE("<color=#FFCC00>AHSS/Blade PVP is on (FFA).</color>");
-                                    }
-                                }
-                                if (RCSettings.maxWave > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Max Wave set to " + RCSettings.maxWave.ToString() + "</color>");
-                                }
-                                if (RCSettings.horseMode > 0)
+                                if (FengGameManagerMKII.Gamemode.Horse)
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");
                                 }
-                                if (RCSettings.ahssReload > 0)
+                                if (FengGameManagerMKII.Gamemode.Motd != string.Empty)
                                 {
-                                    this.addLINE("<color=#FFCC00>AHSS Air-PlayReloadAnimation disabled.</color>");
-                                }
-                                if (RCSettings.punkWaves > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Punk override every 5 waves enabled.</color>");
-                                }
-                                if (RCSettings.endlessMode > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Endless Respawn is enabled (" + RCSettings.endlessMode.ToString() + " seconds).</color>");
-                                }
-                                if (RCSettings.globalDisableMinimap > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Minimaps are disabled.</color>");
-                                }
-                                if (RCSettings.motd != string.Empty)
-                                {
-                                    this.addLINE("<color=#FFCC00>MOTD:" + RCSettings.motd + "</color>");
-                                }
-                                if (RCSettings.deadlyCannons > 0)
-                                {
-                                    this.addLINE("<color=#FFCC00>Cannons will kill humans.</color>");
+                                    this.addLINE("<color=#FFCC00>MOTD:" + FengGameManagerMKII.Gamemode.Motd + "</color>");
                                 }
                             }
                             else
@@ -633,7 +519,7 @@ public class InRoomChat : Photon.MonoBehaviour
                                         this.addLINE("<color=#FFCC00>List of banned players:</color>");
                                         foreach (int num10 in FengGameManagerMKII.banHash.Keys)
                                         {
-                                            this.addLINE("<color=#FFCC00>" + Convert.ToString(num10) + ":" + ((string) FengGameManagerMKII.banHash[num10]) + "</color>");
+                                            this.addLINE("<color=#FFCC00>" + Convert.ToString(num10) + ":" + ((string)FengGameManagerMKII.banHash[num10]) + "</color>");
                                         }
                                     }
                                     else
