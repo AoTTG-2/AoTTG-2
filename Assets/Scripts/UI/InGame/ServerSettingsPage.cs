@@ -59,7 +59,7 @@ namespace Assets.Scripts.UI.InGame
         {
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
-            FengGameManagerMKII.instance.chatRoom.addLINE($"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}");
+            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}");
         }
     }
 }

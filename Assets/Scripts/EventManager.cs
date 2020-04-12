@@ -9,6 +9,7 @@ namespace Assets.Scripts
     public delegate void OnRestart();
     public delegate void OnGameWon();
     public delegate void OnGameLost();
+    public delegate void OnPlayerKilled(int id);
 
     public class EventManager : MonoBehaviour
     {
@@ -19,6 +20,7 @@ namespace Assets.Scripts
         public static OnGameLost OnGameLost;
         public static OnGameWon OnGameWon;
         public static OnTitanKilled OnTitanKilled;
+        public static OnPlayerKilled OnPlayerKilled;
 
         void Start()
         {
@@ -28,6 +30,12 @@ namespace Assets.Scripts
             OnUpdate += EventManager_OnUpdate;
             OnGameWon += EventManager_OnGameWon;
             OnGameLost += EventManager_OnGameLost;
+            OnPlayerKilled += EventManager_OnPlayerKilled;
+        }
+
+        private void EventManager_OnPlayerKilled(int id)
+        {
+            FengGameManagerMKII.Gamemode.OnPlayerKilled(id);
         }
 
         private void EventManager_OnTitanSpawned(TITAN titan)

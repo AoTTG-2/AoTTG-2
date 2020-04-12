@@ -377,17 +377,15 @@ namespace Assets.Scripts.Gamemode
 
         internal bool IsAllPlayersDead()
         {
-            int num = 0;
-            int num2 = 0;
-            foreach (PhotonPlayer player in PhotonNetwork.playerList)
+            var num = 0;
+            var num2 = 0;
+            foreach (var player in PhotonNetwork.playerList)
             {
-                if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1)
+                if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 1) continue;
+                num++;
+                if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
                 {
-                    num++;
-                    if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
-                    {
-                        num2++;
-                    }
+                    num2++;
                 }
             }
             return (num == num2);

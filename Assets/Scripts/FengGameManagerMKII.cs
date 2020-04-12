@@ -5685,7 +5685,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void someOneIsDead(int id = -1)
     {
-        Gamemode.OnPlayerKilled(id);
+        EventManager.OnPlayerKilled.Invoke(id);
     }
 
     public void SpawnNonAITitan2(string id, string tag = "titanRespawn")
@@ -6238,13 +6238,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 int waveModeNum;
                 if (Gamemode.Titans == 0)
                 {
-                    waveModeNum = 1;
                     waveModeNum = wavesGamemode.WaveIncrement;
                     moreTitans += (wavesGamemode.Wave - 1) * (waveModeNum - 1);
                 }
                 else if (Gamemode.Titans > 0)
                 {
-                    waveModeNum = 1;
                     waveModeNum = wavesGamemode.WaveIncrement;
                     moreTitans += (wavesGamemode.Wave - 1) * waveModeNum;
                 }
@@ -7245,13 +7243,4 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         yield return new WaitForSeconds(time);
         this.SpawnPlayerAt2(this.myLastHero, pos);
     }
-
-    private enum LoginStates
-    {
-        notlogged,
-        loggingin,
-        loginfailed,
-        loggedin
-    }
 }
-
