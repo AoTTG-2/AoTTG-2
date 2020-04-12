@@ -4964,10 +4964,21 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void restartRC()
     {
-        //NewRoundLevel = LevelBuilder.GetAllLevels()[1];
-        //NewRoundGamemode = LevelBuilder.GetAllLevels()[].Gamemodes[1];
-        NewRoundGamemode = Level.Gamemodes[3];
-        if (Gamemode != NewRoundGamemode && PhotonNetwork.isMasterClient)
+        if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
+        {
+            Level = NewRoundLevel;
+            Gamemode = NewRoundGamemode;
+            var hash = new ExitGames.Client.Photon.Hashtable
+            {
+                {"level", Level.Name},
+                {"gamemode", Gamemode.GamemodeType.ToString()}
+            };
+            PhotonNetwork.room.SetCustomProperties(hash);
+            var json = JsonConvert.SerializeObject(Gamemode);
+            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.GamemodeType);
+            PhotonNetwork.LoadLevel(Level.SceneName);
+        }
+        else if (NewRoundGamemode != null && Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
         {
             Gamemode = NewRoundGamemode;
             var hash = new ExitGames.Client.Photon.Hashtable
@@ -4980,15 +4991,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.GamemodeType);
         }
 
-        //if (Level != NewRoundLevel)
-        //{
-        //    Level = NewRoundLevel;
-        //    PhotonNetwork.LoadLevel(Level.SceneName);
-        //    var hash = new ExitGames.Client.Photon.Hashtable();
-        //    hash.Add("level", Level.Name);
-        //    hash.Add("gamemode", Gamemode.GamemodeType.ToString());
-        //    PhotonNetwork.room.SetCustomProperties(hash);
-        //}
         intVariables.Clear();
         boolVariables.Clear();
         stringVariables.Clear();

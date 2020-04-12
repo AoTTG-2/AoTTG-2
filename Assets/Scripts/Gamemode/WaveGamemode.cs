@@ -6,8 +6,8 @@ namespace Assets.Scripts.Gamemode
     public class WaveGamemode : GamemodeBase
     {
 
-        [UiElement("Current Wave", "What is the current wave?")]
-        public int Wave { get; set; } = 1;
+        [UiElement("Start Wave", "What is the start wave?")]
+        public int StartWave { get; set; } = 1;
         [UiElement("Max Wave", "What is the current wave?")]
         public int MaxWave { get; set; } = 20;
         private int highestWave = 1;
@@ -15,6 +15,7 @@ namespace Assets.Scripts.Gamemode
         public int WaveIncrement { get; set; } = 2;
         public bool PunkWave { get; set; } = true;
         private readonly int _punkWave = 5;
+        public int Wave = 1;
 
         public WaveGamemode()
         {
@@ -95,6 +96,12 @@ namespace Assets.Scripts.Gamemode
             {
                 titanType = 1;
             }
+        }
+
+        public override void OnRestart()
+        {
+            Wave = StartWave;
+            base.OnRestart();
         }
 
         public override void OnTitanKilled(string titanName)

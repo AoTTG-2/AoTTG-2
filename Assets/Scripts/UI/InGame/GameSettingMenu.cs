@@ -10,6 +10,7 @@ namespace Assets.Scripts.UI.InGame
     public class GameSettingMenu : MonoBehaviour
     {
         public GameSettingPage GameSettingPage;
+        public ServerSettingsPage ServerSettingsPage;
         private List<GameSettingPage> Pages = new List<GameSettingPage>();
         private GamemodeBase Gamemode;
 
@@ -20,6 +21,7 @@ namespace Assets.Scripts.UI.InGame
             page.Initialize();
             Pages.Add(page);
             Pages[0].gameObject.SetActive(true);
+            ServerSettingsPage.gameObject.SetActive(false);
         }
 
         private void OnDisable()
@@ -29,6 +31,18 @@ namespace Assets.Scripts.UI.InGame
                 Destroy(page.gameObject);
             }
             Pages.Clear();
+        }
+
+        public void ViewGameSettingPage()
+        {
+            Pages[0].gameObject.SetActive(true);
+            ServerSettingsPage.gameObject.SetActive(false);
+        }
+
+        public void ViewServerSettingsPage()
+        {
+            Pages[0].gameObject.SetActive(false);
+            ServerSettingsPage.gameObject.SetActive(true);
         }
 
         private GamemodeBase GetGamemodeFromSettings()
