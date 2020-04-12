@@ -5,23 +5,23 @@ using Assets.Scripts.UI;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.UI.InGame;
 using System.Collections.Generic;
+using System.Linq;
 
 public class EMCli : Photon.MonoBehaviour
 {
     public static float LayoutWidth { get; private set; } = 320f;
     public static float LayoutHeight { get; private set; } = 430f;
-    //private static float floatShiftRight = layoutWidth + 5f;
     private static float floatShiftRight = 0; // Defines a shift of suggestion layout
     private static float floatShiftDown = LayoutHeight + 5f;
     private static Rect rectMainGUI = new Rect(0, 0, LayoutWidth, LayoutHeight);
     private static Rect rectSuggestionLayout = rectMainGUI;
-    //private static Rect rectSuggestionsLayoutShift = new Rect(320f, 0, layoutWidth, 430f);
     private static GUILayoutOption[] guiLayoutOptionMainGUI = new GUILayoutOption[] { GUILayout.Width(LayoutWidth), GUILayout.MaxHeight(LayoutHeight) };
     public static GUI.WindowFunction WindowFunctionMainGUI = new GUI.WindowFunction(WindowLayoutMainGUI);
     private static string layout = string.Empty;
     public static List<ConsoleMessage> Messages { get; private set; }
     private static Vector2 scrollPosition = Vector2.zero;
-    public bool Visible = true;
+    public bool Visible = false;
+    public static bool VisibleOnStart = false;
     private static bool readyToJoinOrCreateRoom = false;
     private static Vector2 scrollPositionSuggestions = Vector2.zero;
     private static string suggestions = string.Empty;
@@ -52,25 +52,21 @@ public class EMCli : Photon.MonoBehaviour
 
     private static bool autofocus => focusOnEnable && FocusOnEnable; //First one for technical realization and second one for settings
     private static bool focusedOnInputLine => GUI.GetNameOfFocusedControl().Equals(nameOfControle);
-
-    // Use this for initialization
+    
     void Start()
     {
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
         Messages = new List<ConsoleMessage>();
         EnterCommand("/info");
+        SettingsGUI.LoadPrefs();
+        SettingsGUI.ApplyChangesIfModified();
+        Visible = VisibleOnStart;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
 
     }
-
-    //private static bool showOrHide(KeyCode keyCode)
-    //{
-    //    return keyCode == (keyCodeShowHide | keyCodeShowHide2);
-    //}
 
     public static void SetupGUI(float width, float height)
     {
@@ -165,48 +161,7 @@ public class EMCli : Photon.MonoBehaviour
     {
         if (Event.current.type == EventType.KeyUp)
         {
-            if (Event.current.keyCode == keyCodeFocus)
-            {
-                if (focusedOnInputLine)
-                {
-                    GUI.FocusControl(string.Empty);
-                }
-                else
-                {
-                    GUI.FocusControl(nameOfControle);
-                }
-            }
-
-            if (focusedOnInputLine) //logic for command suggestions
-            {
-                if (!InputLine.IsEmpty())
-                {
-                    if (Event.current.keyCode == keyCodeSwitch)
-                    {
-                        InputLine.Switch();
-                    }
-                }
-            }
-
-            if (Event.current.keyCode == keyCodeUp)
-            {
-                InputLine.Up();
-            }
-            else if (Event.current.keyCode == keyCodeDown)
-            {
-                InputLine.Down();
-            }
-            else if (Event.current.keyCode == keyCodeShowHide)
-            {
-                if (!(focusOnEnable = Visible = !Visible)) InputLine.OnSwitchFix();
-            }
-            else if (Event.current.keyCode == keyCodeShowHide2)
-            {
-                if (Visible)
-                {
-                    Visible = !Visible;
-                }
-            }
+            KeyUpGUI();
         }
 
         if (!focusedOnInputLine && InputLine.IsSuggestionModeEnabled)
@@ -215,6 +170,52 @@ public class EMCli : Photon.MonoBehaviour
         }
 
         if (Visible) EMCliGUI();
+    }
+
+    private void KeyUpGUI()
+    {
+        if (Event.current.keyCode == keyCodeFocus)
+        {
+            if (focusedOnInputLine)
+            {
+                GUI.FocusControl(string.Empty);
+            }
+            else
+            {
+                GUI.FocusControl(nameOfControle);
+            }
+        }
+
+        if (focusedOnInputLine) //logic for command suggestions
+        {
+            if (!InputLine.IsEmpty())
+            {
+                if (Event.current.keyCode == keyCodeSwitch)
+                {
+                    InputLine.Switch();
+                }
+            }
+        }
+
+        if (Event.current.keyCode == keyCodeUp)
+        {
+            InputLine.Up();
+        }
+        else if (Event.current.keyCode == keyCodeDown)
+        {
+            InputLine.Down();
+        }
+        else if (Event.current.keyCode == keyCodeShowHide)
+        {
+            if (!(focusOnEnable = Visible = !Visible)) InputLine.OnSwitchFix();
+        }
+        else if (Event.current.keyCode == keyCodeShowHide2)
+        {
+            if (Visible)
+            {
+                Visible = !Visible;
+            }
+        }
     }
 
     public static void AddLine(string line)
@@ -236,7 +237,7 @@ public class EMCli : Photon.MonoBehaviour
     private static string getRelevantSuggestions()
     {
         string relevantSuggestions = string.Empty;
-        foreach (Command command in CommandHandler.Instance.Commands)
+        foreach (Command command in CommandHandler.Instance.Commands.Take(10))
         {
             if (command.Format.StartsWith(InputLine.inputLine))
             {

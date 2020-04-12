@@ -185,4 +185,15 @@ public static class ConsoleExtensions
     {
         return Convert.ToDouble(str);
     }
+
+    public static int ToInt32(this bool input)
+    {
+        if (input) return 1;
+        else return 0;
+    }
+
+    public static bool ToBool(this int input)
+    {
+        return input.Equals(1);
+    }
 }

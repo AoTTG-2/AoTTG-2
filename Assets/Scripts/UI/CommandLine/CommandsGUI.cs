@@ -20,5 +20,6 @@ public class CommandsGUI
         GUILayout.BeginHorizontal();
         EMCli.InputGUI();
         GUILayout.EndHorizontal();
+        GUI.DragWindow();
     }
 }
