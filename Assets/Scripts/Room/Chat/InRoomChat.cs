@@ -1,6 +1,7 @@
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts;
 using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using UnityEngine.UI;
@@ -122,6 +123,7 @@ public class InRoomChat : Photon.MonoBehaviour
                 else
                 {
                     object[] objArray3;
+                    EventManager.OnChatInput(inputLine);
                     if (this.inputLine == "/pause")
                     {
                         if (PhotonNetwork.isMasterClient)

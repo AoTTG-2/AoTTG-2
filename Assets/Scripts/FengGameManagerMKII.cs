@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Assets.Plugins.CustomLogic;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
@@ -3449,16 +3450,16 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.assetCacheTextures = new Dictionary<string, Texture2D>();
         this.isFirstLoad = true;
         this.name = LoginFengKAI.player.name;
-        if (loginstate != 3)
-        {
-            this.name = nameField;
-            if ((!this.name.StartsWith("[") || (this.name.Length < 8)) || (this.name.Substring(7, 1) != "]"))
-            {
-                this.name = $"<color=#9999ff>{this.name}</color>";
-            }
-            this.name = this.name.Replace("[-]", "");
-            LoginFengKAI.player.name = this.name;
-        }
+        //if (loginstate != 3)
+        //{
+        //    this.name = nameField;
+        //    if ((!this.name.StartsWith("[") || (this.name.Length < 8)) || (this.name.Substring(7, 1) != "]"))
+        //    {
+        //        this.name = $"<color=#9999ff>{this.name}</color>";
+        //    }
+        //    this.name = this.name.Replace("[-]", "");
+        //    LoginFengKAI.player.name = this.name;
+        //}
         ExitGames.Client.Photon.Hashtable hashtable3 = new ExitGames.Client.Photon.Hashtable();
         hashtable3.Add(PhotonPlayerProperty.name, this.name);
         PhotonNetwork.player.SetCustomProperties(hashtable3);
@@ -3466,6 +3467,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             ServerRequestAuthentication(PrivateServerAuthPass);
         }
+    }
+
+    public void Log(string message)
+    {
+        Debug.LogError(message);
     }
 
     public void OnLeftLobby()
@@ -6394,6 +6400,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private void Start()
     {
         instance = this;
+        Events.Setup(this);
         base.gameObject.name = "MultiplayerManager";
         HeroCostume.init2();
         CharacterMaterials.init();

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.Plugins.CustomLogic;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -10,6 +12,7 @@ namespace Assets.Scripts
     public delegate void OnGameWon();
     public delegate void OnGameLost();
     public delegate void OnPlayerKilled(int id);
+    public delegate void OnChatInput(string input);
 
     public class EventManager : MonoBehaviour
     {
@@ -21,6 +24,7 @@ namespace Assets.Scripts
         public static OnGameWon OnGameWon;
         public static OnTitanKilled OnTitanKilled;
         public static OnPlayerKilled OnPlayerKilled;
+        public static OnChatInput OnChatInput;
 
         void Start()
         {
@@ -31,6 +35,12 @@ namespace Assets.Scripts
             OnGameWon += EventManager_OnGameWon;
             OnGameLost += EventManager_OnGameLost;
             OnPlayerKilled += EventManager_OnPlayerKilled;
+            OnChatInput += EventManager_OnChatInput;
+        }
+
+        private void EventManager_OnChatInput(string input)
+        {
+            Events.OnChatInput(input);
         }
 
         private void EventManager_OnPlayerKilled(int id)
