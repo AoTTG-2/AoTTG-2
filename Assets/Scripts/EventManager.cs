@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Plugins.CustomLogic;
+﻿using CustomLogic;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -8,6 +7,7 @@ namespace Assets.Scripts
     public delegate void OnTitanSpawned(TITAN titan);
     public delegate void OnTitanKilled(string titanName);
     public delegate void OnUpdate(float interval);
+    public delegate void OnRoundStart();
     public delegate void OnRestart();
     public delegate void OnGameWon();
     public delegate void OnGameLost();
@@ -16,8 +16,8 @@ namespace Assets.Scripts
 
     public class EventManager : MonoBehaviour
     {
-        private static FengGameManagerMKII _gameManager = FengGameManagerMKII.instance;
         public static OnTitanSpawned OnTitanSpawned;
+        public static OnRoundStart OnRoundStart;
         public static OnRestart OnRestart;
         public static OnUpdate OnUpdate;
         public static OnGameLost OnGameLost;
@@ -30,17 +30,18 @@ namespace Assets.Scripts
         {
             OnTitanSpawned += EventManager_OnTitanSpawned;
             OnTitanKilled += EventManager_OnTitanKilled;
-            OnRestart += EventManager_OnRestart;
+            OnRoundStart += EventManager_OnRoundStart;
             OnUpdate += EventManager_OnUpdate;
             OnGameWon += EventManager_OnGameWon;
             OnGameLost += EventManager_OnGameLost;
             OnPlayerKilled += EventManager_OnPlayerKilled;
             OnChatInput += EventManager_OnChatInput;
+            OnRestart += EventManager_OnRestart;
         }
 
         private void EventManager_OnChatInput(string input)
         {
-            Events.OnChatInput(input);
+            Events.OnChatInput?.Invoke(input);
         }
 
         private void EventManager_OnPlayerKilled(int id)
@@ -51,6 +52,11 @@ namespace Assets.Scripts
         private void EventManager_OnTitanSpawned(TITAN titan)
         {
             FengGameManagerMKII.Gamemode.OnTitanSpawned(titan);
+        }
+
+        private void EventManager_OnRoundStart()
+        {
+            Events.OnRoundStart?.Invoke();
         }
 
         private void EventManager_OnRestart()

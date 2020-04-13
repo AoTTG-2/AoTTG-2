@@ -1,8 +1,9 @@
+using Assets.Scripts;
+using Assets.Scripts.Gamemode.Options;
+using CustomLogic;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
-using Assets.Scripts;
-using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -136,6 +137,16 @@ public class InRoomChat : Photon.MonoBehaviour
                         {
                             this.addLINE("<color=#FFCC00>error: not master client</color>");
                         }
+                    }
+                    else if (this.inputLine.StartsWith("/setlogic"))
+                    {
+                        var input = inputLine.Replace("/setlogic ", "");
+                        int number;
+                        if (int.TryParse(input, out number))
+                        {
+                            Events.LoadCustomLogic(number);
+                        }
+
                     }
                     else if (this.inputLine == "/unpause")
                     {
