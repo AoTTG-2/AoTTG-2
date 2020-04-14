@@ -1,44 +1,42 @@
 ﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Options;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class LevelBuilder
 {
-    private static List<Level> levels;
+    private static List<Level> _levels;
     public static List<Level> GetAllLevels()
     {
-        if (levels != null) return levels;
-        levels = new List<Level>();
+        if (_levels != null) return _levels;
+        _levels = new List<Level>();
         AddClassicMaps();
-        return levels;
+        return _levels;
     }
 
     private static void AddClassicMaps()
     {
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "The City - Classic",
             Description = "Classic City Map from AoTTG",
-            Minimap = new Minimap.Preset(new Vector3(22.6f, 0f, 13f), 731.9738f),
             SceneName = "The City I",
             Gamemodes = new List<GamemodeBase>
             {
                 new KillTitansGamemode
                 {
-                    Titans = 10,
-                    Pvp = true,
+                    Titans = 10
                 },
                 new EndlessGamemode
                 {
-                    Titans = 10,
-                    Pvp = false,
+                    Titans = 10
                 },
                 new WaveGamemode(),
-                new CaptureGamemode()
+                new CaptureGamemode(),
+                new InfectionGamemode()
             }
         });
 
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "The Forest - Classic",
             Description = "Classic forest map",
@@ -51,13 +49,13 @@ public class LevelBuilder
                     Description = "Classic map where you fight the Female Titan",
                     Titans = 15,
                     Punks = false,
-                    Pvp = true
+                    Pvp = PvpMode.AhssVsBlades
                 },
                 new WaveGamemode()
             }
         });
 
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "Trost - Classic",
             Description = "Classic trost map",
@@ -77,7 +75,7 @@ public class LevelBuilder
             }
         });
 
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "Akina",
             Description = "Most famous racing map",
@@ -86,10 +84,9 @@ public class LevelBuilder
             {
                 new RacingGamemode()
             },
-            Minimap = new Minimap.Preset(new Vector3(443.2f, 0f, 1912.6f), 1929.042f)
         });
 
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "Outside the Walls",
             Description = "Classic Outside the Walls map",
@@ -101,23 +98,30 @@ public class LevelBuilder
                     TitanChaseDistance = 200,
                     Horse = true,
                     Supply = true,
+                    SpawnSupplyStationOnHumanCapture = true
                 }
             },
-            Minimap = new Minimap.Preset(new Vector3(2549.4f, 0f, 3042.4f), 3697.16f)
         });
 
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "Custom",
             Description = "Custom Map",
             SceneName = "The Forest",
             Gamemodes = new List<GamemodeBase>
             {
-                new KillTitansGamemode()
+                new KillTitansGamemode(),
+                new WaveGamemode(),
+                new InfectionGamemode(),
+                new RacingGamemode(),
+                new CaptureGamemode(),
+                new EndlessGamemode(),
+                new TitanRushGamemode(),
+                new PvPAhssGamemode()
             }
         });
 
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "Cave Fight",
             Description = "***Spoiler Alarm!***",
@@ -128,7 +132,7 @@ public class LevelBuilder
             }
         });
 
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "House Fight",
             Description = "***Spoiler Alarm!***",

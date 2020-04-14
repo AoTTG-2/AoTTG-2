@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: f1f6195c-df4a-40f9-bae5-4744c32901ef
+  AppID: 5578b046-8264-438c-99c5-fb15c71b6744
   VoiceAppID: 
-  ChatAppID: f1f6195c-df4a-40f9-bae5-4744c32901ef
+  ChatAppID: 5578b046-8264-438c-99c5-fb15c71b6744
   HostType: 4
   PreferredRegion: 4
   EnabledRegions: 15
@@ -21,7 +21,7 @@ MonoBehaviour:
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
@@ -153,4 +153,7 @@ MonoBehaviour:
   - updateMovement1
   - verifyPlayerHasLeft
   - whoIsMyErenTitan
+  - SyncSettings
+  - RequestSettings
+  - GetHit
   DisableAutoOpenWizard: 1

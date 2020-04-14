@@ -1,4 +1,4 @@
-using System;
+using Assets.Scripts.Gamemode.Options;
 using System.Collections;
 using UnityEngine;
 
@@ -41,7 +41,7 @@ public class AHSSShotGunCollider : MonoBehaviour
         {
             if (other.gameObject.tag == "playerHitbox")
             {
-                if (LevelInfo.getInfo(FengGameManagerMKII.level).pvp)
+                if (FengGameManagerMKII.Gamemode.Pvp != PvpMode.Disabled)
                 {
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);

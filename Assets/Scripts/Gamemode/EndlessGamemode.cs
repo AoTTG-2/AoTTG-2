@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.Gamemode
+﻿using Assets.Scripts.Gamemode.Options;
+
+namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
@@ -6,23 +8,19 @@
         {
             GamemodeType = GamemodeType.Endless;
             RespawnMode = RespawnMode.NEVER;
-            AllowPlayerTitans = true;
-            Pvp = false;
+            Pvp = PvpMode.Disabled;
             Titans = 10;
         }
 
-        public override void OnTitanKilled(string titanName, bool onPlayerLeave)
+        public override void OnTitanKilled(string titanName)
         {
-            if (!onPlayerLeave)
+            HumanScore++;
+            int num2 = 90;
+            if (FengGameManagerMKII.instance.difficulty == 1)
             {
-                HumanScore++;
-                int num2 = 90;
-                if (FengGameManagerMKII.instance.difficulty == 1)
-                {
-                    num2 = 70;
-                }
-                FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num2, 1, false);
+                num2 = 70;
             }
+            FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num2, 1, false);
         }
     }
 }

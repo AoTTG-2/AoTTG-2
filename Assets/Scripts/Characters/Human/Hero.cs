@@ -1,3 +1,4 @@
+using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -184,7 +185,7 @@ public class Hero : Human
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
         GO.GetComponent<Rigidbody>().AddForce(v);
-        GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f));
+        GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f));
     }
 
     public void attackAccordingToMouse()
@@ -335,12 +336,12 @@ public class Hero : Human
     {
         this.skillIDHUD = this.skillId;
         this.skillCDDuration = this.skillCDLast;
-        if (RCSettings.bombMode == 1)
+        if (FengGameManagerMKII.Gamemode.PvPBomb)
         {
-            int num = (int) FengGameManagerMKII.settings[250];
-            int num2 = (int) FengGameManagerMKII.settings[0xfb];
-            int num3 = (int) FengGameManagerMKII.settings[0xfc];
-            int num4 = (int) FengGameManagerMKII.settings[0xfd];
+            int num = (int)FengGameManagerMKII.settings[250];
+            int num2 = (int)FengGameManagerMKII.settings[0xfb];
+            int num3 = (int)FengGameManagerMKII.settings[0xfc];
+            int num4 = (int)FengGameManagerMKII.settings[0xfd];
             if ((num < 0) || (num > 10))
             {
                 num = 5;
@@ -377,10 +378,10 @@ public class Hero : Human
             this.bombCD = (num4 * -0.4f) + 5f;
             this.bombSpeed = (num3 * 60f) + 200f;
             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float) FengGameManagerMKII.settings[0xf6]);
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float) FengGameManagerMKII.settings[0xf7]);
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float) FengGameManagerMKII.settings[0xf8]);
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float) FengGameManagerMKII.settings[0xf9]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float)FengGameManagerMKII.settings[0xf6]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float)FengGameManagerMKII.settings[0xf7]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float)FengGameManagerMKII.settings[0xf8]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float)FengGameManagerMKII.settings[0xf9]);
             propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, this.bombRadius);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.skillId = "bomb";
@@ -401,15 +402,15 @@ public class Hero : Human
         GameObject obj8;
         GameObject obj9;
         GameObject obj10;
-        GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+        GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
         obj2.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
         obj2.GetComponent<HERO_SETUP>().isDeadBody = true;
         obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
         if (!isBite)
         {
-            GameObject gO = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
-            GameObject obj4 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
-            GameObject obj5 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+            GameObject gO = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+            GameObject obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+            GameObject obj5 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
             gO.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
             obj4.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
             obj5.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
@@ -436,19 +437,19 @@ public class Hero : Human
         Transform transform2 = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
         if (this.useGun)
         {
-            obj6 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
-            obj7 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform2.position, transform2.rotation);
-            obj8 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_2"), base.transform.position, base.transform.rotation);
-            obj9 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_l"), base.transform.position, base.transform.rotation);
-            obj10 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_r"), base.transform.position, base.transform.rotation);
+            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
+            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform2.position, transform2.rotation);
+            obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_2"), base.transform.position, base.transform.rotation);
+            obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_l"), base.transform.position, base.transform.rotation);
+            obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_r"), base.transform.position, base.transform.rotation);
         }
         else
         {
-            obj6 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-            obj7 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
-            obj8 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg"), base.transform.position, base.transform.rotation);
-            obj9 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_l"), base.transform.position, base.transform.rotation);
-            obj10 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_r"), base.transform.position, base.transform.rotation);
+            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
+            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
+            obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg"), base.transform.position, base.transform.rotation);
+            obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_l"), base.transform.position, base.transform.rotation);
+            obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_r"), base.transform.position, base.transform.rotation);
         }
         obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
         obj7.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
@@ -688,9 +689,9 @@ public class Hero : Human
     {
         int count;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("PlayerAttackBox");
-        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask3 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int)1) << LayerMask.NameToLayer("PlayerAttackBox");
+        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask3 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask4 = (mask | mask2) | mask3;
         RaycastHit[] hitArray = Physics.RaycastAll(ray, 180f, mask4.value);
         List<RaycastHit> list = new List<RaycastHit>();
@@ -755,7 +756,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState) enumerator.Current;
+                AnimationState current = (AnimationState)enumerator.Current;
                 if (current != null && current.speed == 1f)
                 {
                     return;
@@ -768,7 +769,7 @@ public class Hero : Human
             IDisposable disposable = enumerator as IDisposable;
             if (disposable != null)
             {
-            	disposable.Dispose();
+                disposable.Dispose();
             }
         }
         this.customAnimationSpeed();
@@ -805,7 +806,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState) enumerator.Current;
+                AnimationState current = (AnimationState)enumerator.Current;
                 if (current != null && base.GetComponent<Animation>().IsPlaying(current.name))
                 {
                     return current.name;
@@ -817,7 +818,7 @@ public class Hero : Human
             IDisposable disposable = enumerator as IDisposable;
             if (disposable != null)
             {
-            	disposable.Dispose();
+                disposable.Dispose();
             }
         }
         return string.Empty;
@@ -862,7 +863,7 @@ public class Hero : Human
             base.GetComponent<Animation>()["dash"].time = 0.1f;
             this.state = HERO_STATE.AirDodge;
             this.falseAttack();
-            base.GetComponent<Rigidbody>().AddForce((Vector3) (this.dashV * 40f), ForceMode.VelocityChange);
+            base.GetComponent<Rigidbody>().AddForce((Vector3)(this.dashV * 40f), ForceMode.VelocityChange);
         }
     }
 
@@ -931,7 +932,7 @@ public class Hero : Human
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
             this.falseAttack();
             this.hasDied = true;
-            GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
+            GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
             obj2.transform.position = base.transform.position;
             UnityEngine.Object.Destroy(base.gameObject);
         }
@@ -1000,7 +1001,7 @@ public class Hero : Human
         }
         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
-            this.eren_titan = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("TITAN_EREN"), base.transform.position, base.transform.rotation);
+            this.eren_titan = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_EREN"), base.transform.position, base.transform.rotation);
         }
         else
         {
@@ -1125,7 +1126,7 @@ public class Hero : Human
                             float magnitude = vector2.magnitude;
                             if (magnitude > 2f)
                             {
-                                this.baseRigidBody.AddForce((Vector3) (((vector2.normalized * Mathf.Pow(magnitude, 0.15f)) * 30f) - (this.baseRigidBody.velocity * 0.95f)), ForceMode.VelocityChange);
+                                this.baseRigidBody.AddForce((Vector3)(((vector2.normalized * Mathf.Pow(magnitude, 0.15f)) * 30f) - (this.baseRigidBody.velocity * 0.95f)), ForceMode.VelocityChange);
                             }
                         }
                         else
@@ -1141,7 +1142,7 @@ public class Hero : Human
                             float f = vector3.magnitude;
                             if (f > 5f)
                             {
-                                this.baseRigidBody.AddForce((Vector3) ((vector3.normalized * Mathf.Pow(f, 0.15f)) * 0.2f), ForceMode.Impulse);
+                                this.baseRigidBody.AddForce((Vector3)((vector3.normalized * Mathf.Pow(f, 0.15f)) * 0.2f), ForceMode.Impulse);
                             }
                         }
                         else
@@ -1190,10 +1191,10 @@ public class Hero : Human
                             this.isLeftHandHooked = true;
                             Vector3 to = this.bulletLeft.transform.position - this.baseTransform.position;
                             to.Normalize();
-                            to = (Vector3) (to * 10f);
+                            to = (Vector3)(to * 10f);
                             if (!this.isLaunchRight)
                             {
-                                to = (Vector3) (to * 2f);
+                                to = (Vector3)(to * 2f);
                             }
                             if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && this.inputManager.isInput[InputCode.jump])
                             {
@@ -1205,7 +1206,7 @@ public class Hero : Human
                                 this.baseRigidBody.AddForce(to);
                                 if (Vector3.Angle(this.baseRigidBody.velocity, to) > 90f)
                                 {
-                                    this.baseRigidBody.AddForce((Vector3) (-this.baseRigidBody.velocity * 2f), ForceMode.Acceleration);
+                                    this.baseRigidBody.AddForce((Vector3)(-this.baseRigidBody.velocity * 2f), ForceMode.Acceleration);
                                 }
                             }
                         }
@@ -1233,10 +1234,10 @@ public class Hero : Human
                             this.isRightHandHooked = true;
                             Vector3 vector5 = this.bulletRight.transform.position - this.baseTransform.position;
                             vector5.Normalize();
-                            vector5 = (Vector3) (vector5 * 10f);
+                            vector5 = (Vector3)(vector5 * 10f);
                             if (!this.isLaunchLeft)
                             {
-                                vector5 = (Vector3) (vector5 * 2f);
+                                vector5 = (Vector3)(vector5 * 2f);
                             }
                             if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && this.inputManager.isInput[InputCode.jump])
                             {
@@ -1279,14 +1280,14 @@ public class Hero : Human
                             {
                                 if ((this.baseAnimation[this.attackAnimation].normalizedTime > 0.4f) && (this.baseAnimation[this.attackAnimation].normalizedTime < 0.61f))
                                 {
-                                    this.baseRigidBody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                                    this.baseRigidBody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
                                 }
                             }
                             else if (this.attackAnimation == "special_petra")
                             {
                                 if ((this.baseAnimation[this.attackAnimation].normalizedTime > 0.35f) && (this.baseAnimation[this.attackAnimation].normalizedTime < 0.48f))
                                 {
-                                    this.baseRigidBody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                                    this.baseRigidBody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
                                 }
                             }
                             else if (this.baseAnimation.IsPlaying("attack3_2"))
@@ -1295,7 +1296,7 @@ public class Hero : Human
                             }
                             else if (this.baseAnimation.IsPlaying("attack1") || this.baseAnimation.IsPlaying("attack2"))
                             {
-                                this.baseRigidBody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                                this.baseRigidBody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
                             }
                             if (this.baseAnimation.IsPlaying("attack3_2"))
                             {
@@ -1340,11 +1341,11 @@ public class Hero : Human
                         {
                             if ((this.baseAnimation["dodge"].normalizedTime >= 0.2f) && (this.baseAnimation["dodge"].normalizedTime < 0.8f))
                             {
-                                zero = (Vector3) ((-this.baseTransform.forward * 2.4f) * this.speed);
+                                zero = (Vector3)((-this.baseTransform.forward * 2.4f) * this.speed);
                             }
                             if (this.baseAnimation["dodge"].normalizedTime > 0.8f)
                             {
-                                zero = (Vector3) (this.baseRigidBody.velocity * 0.9f);
+                                zero = (Vector3)(this.baseRigidBody.velocity * 0.9f);
                             }
                         }
                         else if (this.state == HERO_STATE.Idle)
@@ -1353,11 +1354,11 @@ public class Hero : Human
                             float resultAngle = this.getGlobalFacingDirection(x, z);
                             zero = this.getGlobaleFacingVector3(resultAngle);
                             float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
-                            zero = (Vector3) (zero * num6);
-                            zero = (Vector3) (zero * this.speed);
+                            zero = (Vector3)(zero * num6);
+                            zero = (Vector3)(zero * this.speed);
                             if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
                             {
-                                zero = (Vector3) (zero * 4f);
+                                zero = (Vector3)(zero * 4f);
                             }
                             if ((x != 0f) || (z != 0f))
                             {
@@ -1378,7 +1379,7 @@ public class Hero : Human
                                 if (!(((this.baseAnimation.IsPlaying(this.standAnimation) || (this.state == HERO_STATE.Land)) || (this.baseAnimation.IsPlaying("jump") || this.baseAnimation.IsPlaying("horse_geton"))) || this.baseAnimation.IsPlaying("grabbed")))
                                 {
                                     this.crossFade(this.standAnimation, 0.1f);
-                                    zero = (Vector3) (zero * 0f);
+                                    zero = (Vector3)(zero * 0f);
                                 }
                                 resultAngle = -874f;
                             }
@@ -1390,11 +1391,11 @@ public class Hero : Human
                         }
                         else if (this.state == HERO_STATE.Land)
                         {
-                            zero = (Vector3) (this.baseRigidBody.velocity * 0.96f);
+                            zero = (Vector3)(this.baseRigidBody.velocity * 0.96f);
                         }
                         else if (this.state == HERO_STATE.Slide)
                         {
-                            zero = (Vector3) (this.baseRigidBody.velocity * 0.99f);
+                            zero = (Vector3)(this.baseRigidBody.velocity * 0.99f);
                             if (this.currentSpeed < (this.speed * 1.2f))
                             {
                                 this.idle();
@@ -1418,7 +1419,7 @@ public class Hero : Human
                             float num8 = Vector3.Distance(this.myHorse.transform.position, this.baseTransform.position);
                             float num9 = ((0.6f * this.gravity) * num8) / 12f;
                             vector7 = this.myHorse.transform.position - this.baseTransform.position;
-                            force += (Vector3) (num9 * vector7.normalized);
+                            force += (Vector3)(num9 * vector7.normalized);
                         }
                         if (!((this.state == HERO_STATE.Attack) && this.useGun))
                         {
@@ -1432,9 +1433,9 @@ public class Hero : Human
                         {
                             this.sparks.enableEmission = false;
                         }
-                        if (((this.myHorse != null) && (this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("air_fall"))) && ((this.baseRigidBody.velocity.y < 0f) && (Vector3.Distance(this.myHorse.transform.position + ((Vector3) (Vector3.up * 1.65f)), this.baseTransform.position) < 0.5f)))
+                        if (((this.myHorse != null) && (this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("air_fall"))) && ((this.baseRigidBody.velocity.y < 0f) && (Vector3.Distance(this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f)), this.baseTransform.position) < 0.5f)))
                         {
-                            this.baseTransform.position = this.myHorse.transform.position + ((Vector3) (Vector3.up * 1.65f));
+                            this.baseTransform.position = this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f));
                             this.baseTransform.rotation = this.myHorse.transform.rotation;
                             this.isMounted = true;
                             this.crossFade("horse_idle", 0.1f);
@@ -1494,7 +1495,7 @@ public class Hero : Human
                                         this.crossFade("air2_backward", 0.2f);
                                     }
                                 }
-                                
+
                                 else if (!this.isRightHandHooked)
                                 {
                                     TryCrossFade(Equipment.Weapon.HookForwardLeft, 0.1f);
@@ -1529,9 +1530,9 @@ public class Hero : Human
                                 if (!this.wallJump)
                                 {
                                     this.wallJump = true;
-                                    this.baseRigidBody.AddForce((Vector3) (Vector3.up * 8f), ForceMode.Impulse);
+                                    this.baseRigidBody.AddForce((Vector3)(Vector3.up * 8f), ForceMode.Impulse);
                                 }
-                                this.baseRigidBody.AddForce((Vector3) (this.baseTransform.forward * 0.05f), ForceMode.Impulse);
+                                this.baseRigidBody.AddForce((Vector3)(this.baseTransform.forward * 0.05f), ForceMode.Impulse);
                             }
                             if (this.baseAnimation["toRoof"].normalizedTime >= 1f)
                             {
@@ -1545,11 +1546,11 @@ public class Hero : Human
                         }
                         else if (this.baseAnimation.IsPlaying("wallrun"))
                         {
-                            this.baseRigidBody.AddForce(((Vector3) (Vector3.up * this.speed)) - this.baseRigidBody.velocity, ForceMode.VelocityChange);
+                            this.baseRigidBody.AddForce(((Vector3)(Vector3.up * this.speed)) - this.baseRigidBody.velocity, ForceMode.VelocityChange);
                             this.wallRunTime += Time.deltaTime;
                             if ((this.wallRunTime > 1f) || ((z == 0f) && (x == 0f)))
                             {
-                                this.baseRigidBody.AddForce((Vector3) ((-this.baseTransform.forward * this.speed) * 0.75f), ForceMode.Impulse);
+                                this.baseRigidBody.AddForce((Vector3)((-this.baseTransform.forward * this.speed) * 0.75f), ForceMode.Impulse);
                                 this.dodge2(true);
                             }
                             else if (!this.IsUpFrontGrounded())
@@ -1568,13 +1569,13 @@ public class Hero : Human
                             float num12 = this.getGlobalFacingDirection(x, z);
                             Vector3 vector12 = this.getGlobaleFacingVector3(num12);
                             float num13 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
-                            vector12 = (Vector3) (vector12 * num13);
-                            vector12 = (Vector3) (vector12 * ((((float) this.setup.myCostume.stat.ACL) / 10f) * 2f));
+                            vector12 = (Vector3)(vector12 * num13);
+                            vector12 = (Vector3)(vector12 * ((((float)this.setup.myCostume.stat.ACL) / 10f) * 2f));
                             if ((x == 0f) && (z == 0f))
                             {
                                 if (this.state == HERO_STATE.Attack)
                                 {
-                                    vector12 = (Vector3) (vector12 * 0f);
+                                    vector12 = (Vector3)(vector12 * 0f);
                                 }
                                 num12 = -874f;
                             }
@@ -1591,7 +1592,7 @@ public class Hero : Human
                                 }
                                 else
                                 {
-                                    this.baseRigidBody.AddForce((Vector3) (this.baseTransform.forward * vector12.magnitude), ForceMode.Acceleration);
+                                    this.baseRigidBody.AddForce((Vector3)(this.baseTransform.forward * vector12.magnitude), ForceMode.Acceleration);
                                 }
                                 flag2 = true;
                             }
@@ -1684,14 +1685,14 @@ public class Hero : Human
                         {
                             Vector3 vector19 = this.launchPointRight - this.baseTransform.position;
                             vector19.Normalize();
-                            vector19 = (Vector3) (vector19 * 13f);
+                            vector19 = (Vector3)(vector19 * 13f);
                             this.baseRigidBody.AddForce(vector19, ForceMode.Impulse);
                         }
                         if ((this.attackAnimation == "special_petra") && (this.launchPointLeft.magnitude > 0f))
                         {
                             Vector3 vector20 = this.launchPointLeft - this.baseTransform.position;
                             vector20.Normalize();
-                            vector20 = (Vector3) (vector20 * 13f);
+                            vector20 = (Vector3)(vector20 * 13f);
                             this.baseRigidBody.AddForce(vector20, ForceMode.Impulse);
                             if (this.bulletRight != null)
                             {
@@ -1704,7 +1705,7 @@ public class Hero : Human
                                 this.releaseIfIHookSb();
                             }
                         }
-                        this.baseRigidBody.AddForce((Vector3) (Vector3.up * 2f), ForceMode.Impulse);
+                        this.baseRigidBody.AddForce((Vector3)(Vector3.up * 2f), ForceMode.Impulse);
                     }
                     bool flag7 = false;
                     if ((this.bulletLeft != null) || (this.bulletRight != null))
@@ -1728,7 +1729,7 @@ public class Hero : Human
                     }
                     if (this.currentSpeed > 10f)
                     {
-                        this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float) 100f, (float) (this.currentSpeed + 40f)), 0.1f);
+                        this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float)100f, (float)(this.currentSpeed + 40f)), 0.1f);
                     }
                     else
                     {
@@ -1778,7 +1779,7 @@ public class Hero : Human
         if (this.isLeftHandHooked && (this.bulletLeft != null))
         {
             Vector3 vector = this.bulletLeft.transform.position - base.transform.position;
-            str = str + ((int) (Mathf.Atan2(vector.x, vector.z) * 57.29578f));
+            str = str + ((int)(Mathf.Atan2(vector.x, vector.z) * 57.29578f));
         }
         string str2 = str;
         object[] objArray1 = new object[] { str2, "\nRight:", this.isRightHandHooked, " " };
@@ -1786,9 +1787,9 @@ public class Hero : Human
         if (this.isRightHandHooked && (this.bulletRight != null))
         {
             Vector3 vector2 = this.bulletRight.transform.position - base.transform.position;
-            str = str + ((int) (Mathf.Atan2(vector2.x, vector2.z) * 57.29578f));
+            str = str + ((int)(Mathf.Atan2(vector2.x, vector2.z) * 57.29578f));
         }
-        str = (((str + "\nfacingDirection:" + ((int) this.facingDirection)) + "\nActual facingDirection:" + ((int) base.transform.rotation.eulerAngles.y)) + "\nState:" + this.state.ToString()) + "\n\n\n\n\n";
+        str = (((str + "\nfacingDirection:" + ((int)this.facingDirection)) + "\nActual facingDirection:" + ((int)base.transform.rotation.eulerAngles.y)) + "\nState:" + this.state.ToString()) + "\n\n\n\n\n";
         if (this.state == HERO_STATE.Attack)
         {
             this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
@@ -1837,7 +1838,7 @@ public class Hero : Human
         float current = Mathf.Atan2(vector3.x, vector3.z) * 57.29578f;
         float target = Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.x, base.GetComponent<Rigidbody>().velocity.z) * 57.29578f;
         float num6 = Mathf.DeltaAngle(current, target);
-        a += Mathf.Abs((float) (num6 * 0.5f));
+        a += Mathf.Abs((float)(num6 * 0.5f));
         if (this.state != HERO_STATE.Attack)
         {
             a = Mathf.Min(a, 80f);
@@ -1852,7 +1853,7 @@ public class Hero : Human
         }
         if (this.useGun)
         {
-            return (a * ((num6 >= 0f) ? ((float) 1) : ((float) (-1))));
+            return (a * ((num6 >= 0f) ? ((float)1) : ((float)(-1))));
         }
         float num7 = 0f;
         if ((left && (num6 < 0f)) || (!left && (num6 > 0f)))
@@ -1869,7 +1870,7 @@ public class Hero : Human
     private void getOffHorse()
     {
         this.playAnimation("horse_getoff");
-        base.GetComponent<Rigidbody>().AddForce((Vector3) (((Vector3.up * 10f) - (base.transform.forward * 2f)) - (base.transform.right * 1f)), ForceMode.VelocityChange);
+        base.GetComponent<Rigidbody>().AddForce((Vector3)(((Vector3.up * 10f) - (base.transform.forward * 2f)) - (base.transform.right * 1f)), ForceMode.VelocityChange);
         this.unmounted();
     }
 
@@ -1963,9 +1964,9 @@ public class Hero : Human
         float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
         if (this.grounded)
         {
-            base.GetComponent<Rigidbody>().AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
+            base.GetComponent<Rigidbody>().AddForce((Vector3)(Vector3.up * Mathf.Min((float)(this.launchForce.magnitude * 0.2f), (float)10f)), ForceMode.Impulse);
         }
-        base.GetComponent<Rigidbody>().AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
+        base.GetComponent<Rigidbody>().AddForce((Vector3)((this.launchForce * num) * 0.1f), ForceMode.Impulse);
     }
 
     private void idle()
@@ -1980,18 +1981,18 @@ public class Hero : Human
 
     private bool IsFrontGrounded()
     {
-        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask2 | mask;
-        return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (base.gameObject.transform.up * 1f)), base.gameObject.transform.forward, (float) 1f, mask3.value);
+        return Physics.Raycast(base.gameObject.transform.position + ((Vector3)(base.gameObject.transform.up * 1f)), base.gameObject.transform.forward, (float)1f, mask3.value);
     }
 
     public bool IsGrounded()
     {
-        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask2 | mask;
-        return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask3.value);
+        return Physics.Raycast(base.gameObject.transform.position + ((Vector3)(Vector3.up * 0.1f)), -Vector3.up, (float)0.3f, mask3.value);
     }
 
     public bool isInvincible()
@@ -2010,10 +2011,10 @@ public class Hero : Human
 
     private bool IsUpFrontGrounded()
     {
-        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask2 | mask;
-        return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (base.gameObject.transform.up * 3f)), base.gameObject.transform.forward, (float) 1.2f, mask3.value);
+        return Physics.Raycast(base.gameObject.transform.position + ((Vector3)(base.gameObject.transform.up * 3f)), base.gameObject.transform.forward, (float)1.2f, mask3.value);
     }
 
     [PunRPC]
@@ -2028,21 +2029,21 @@ public class Hero : Human
         {
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.myNetWorkName.transform.localPosition = (Vector3) ((Vector3.up * Screen.height) * 2f);
+                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
             }
             Vector3 start = new Vector3(base.transform.position.x, base.transform.position.y + 2f, base.transform.position.z);
             GameObject obj2 = GameObject.Find("MainCamera");
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
-            if ((Vector3.Angle(obj2.transform.forward, start - obj2.transform.position) <= 90f) && !Physics.Linecast(start, obj2.transform.position, (int) mask3))
+            if ((Vector3.Angle(obj2.transform.forward, start - obj2.transform.position) <= 90f) && !Physics.Linecast(start, obj2.transform.position, (int)mask3))
             {
                 Vector2 vector5 = GameObject.Find("MainCamera").GetComponent<Camera>().WorldToScreenPoint(start);
-                this.myNetWorkName.transform.localPosition = new Vector3((float) ((int) (vector5.x - (Screen.width * 0.5f))), (float) ((int) (vector5.y - (Screen.height * 0.5f))), 0f);
+                this.myNetWorkName.transform.localPosition = new Vector3((float)((int)(vector5.x - (Screen.width * 0.5f))), (float)((int)(vector5.y - (Screen.height * 0.5f))), 0f);
             }
             else
             {
-                this.myNetWorkName.transform.localPosition = (Vector3) ((Vector3.up * Screen.height) * 2f);
+                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
             }
         }
         if (!this.titanForm)
@@ -2071,7 +2072,7 @@ public class Hero : Human
                 }
                 else if ((zero.magnitude != 0f) && (position.magnitude != 0f))
                 {
-                    vector8 = (Vector3) ((zero + position) * 0.5f);
+                    vector8 = (Vector3)((zero + position) * 0.5f);
                 }
                 Vector3 from = Vector3.Project(vector8 - base.transform.position, GameObject.Find("MainCamera").transform.up);
                 Vector3 vector10 = Vector3.Project(vector8 - base.transform.position, GameObject.Find("MainCamera").transform.right);
@@ -2150,21 +2151,21 @@ public class Hero : Human
         {
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.myNetWorkName.transform.localPosition = (Vector3) ((Vector3.up * Screen.height) * 2f);
+                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
             }
             Vector3 start = new Vector3(this.baseTransform.position.x, this.baseTransform.position.y + 2f, this.baseTransform.position.z);
             GameObject maincamera = this.maincamera;
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
-            if ((Vector3.Angle(maincamera.transform.forward, start - maincamera.transform.position) > 90f) || Physics.Linecast(start, maincamera.transform.position, (int) mask3))
+            if ((Vector3.Angle(maincamera.transform.forward, start - maincamera.transform.position) > 90f) || Physics.Linecast(start, maincamera.transform.position, (int)mask3))
             {
-                this.myNetWorkName.transform.localPosition = (Vector3) ((Vector3.up * Screen.height) * 2f);
+                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
             }
             else
             {
                 Vector2 vector2 = this.maincamera.GetComponent<Camera>().WorldToScreenPoint(start);
-                this.myNetWorkName.transform.localPosition = new Vector3((float) ((int) (vector2.x - (Screen.width * 0.5f))), (float) ((int) (vector2.y - (Screen.height * 0.5f))), 0f);
+                this.myNetWorkName.transform.localPosition = new Vector3((float)((int)(vector2.x - (Screen.width * 0.5f))), (float)((int)(vector2.y - (Screen.height * 0.5f))), 0f);
             }
         }
         if (!this.titanForm && !this.isCannon)
@@ -2193,7 +2194,7 @@ public class Hero : Human
                 }
                 else if ((zero.magnitude != 0f) && (position.magnitude != 0f))
                 {
-                    vector5 = (Vector3) ((zero + position) * 0.5f);
+                    vector5 = (Vector3)((zero + position) * 0.5f);
                 }
                 Vector3 from = Vector3.Project(vector5 - this.baseTransform.position, this.maincamera.transform.up);
                 Vector3 vector7 = Vector3.Project(vector5 - this.baseTransform.position, this.maincamera.transform.right);
@@ -2279,10 +2280,10 @@ public class Hero : Human
             this.launchPointRight = des;
         }
         vector.Normalize();
-        vector = (Vector3) (vector * 20f);
+        vector = (Vector3)(vector * 20f);
         if (((this.bulletLeft != null) && (this.bulletRight != null)) && (this.bulletLeft.GetComponent<Bullet>().isHooked() && this.bulletRight.GetComponent<Bullet>().isHooked()))
         {
-            vector = (Vector3) (vector * 0.8f);
+            vector = (Vector3)(vector * 0.8f);
         }
         if (!base.GetComponent<Animation>().IsPlaying("attack5") && !base.GetComponent<Animation>().IsPlaying("special_petra"))
         {
@@ -2327,11 +2328,11 @@ public class Hero : Human
         {
             if (vector.y < 30f)
             {
-                this.launchForce += (Vector3) (Vector3.up * (30f - vector.y));
+                this.launchForce += (Vector3)(Vector3.up * (30f - vector.y));
             }
             if (des.y >= base.transform.position.y)
             {
-                this.launchForce += (Vector3) ((Vector3.up * (des.y - base.transform.position.y)) * 10f);
+                this.launchForce += (Vector3)((Vector3.up * (des.y - base.transform.position.y)) * 10f);
             }
             base.GetComponent<Rigidbody>().AddForce(this.launchForce);
         }
@@ -2377,7 +2378,7 @@ public class Hero : Human
             this.useGas(0f);
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                this.bulletLeft = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hook"));
+                this.bulletLeft = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
             }
             else if (base.photonView.isMine)
             {
@@ -2388,15 +2389,15 @@ public class Hero : Human
             this.bulletLeft.transform.position = obj2.transform.position;
             Bullet component = this.bulletLeft.GetComponent<Bullet>();
             float num = !single ? ((hit.distance <= 50f) ? (hit.distance * 0.05f) : (hit.distance * 0.3f)) : 0f;
-            Vector3 vector = (hit.point - ((Vector3) (base.transform.right * num))) - this.bulletLeft.transform.position;
+            Vector3 vector = (hit.point - ((Vector3)(base.transform.right * num))) - this.bulletLeft.transform.position;
             vector.Normalize();
             if (mode == 1)
             {
-                component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, true);
+                component.launch((Vector3)(vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, true);
             }
             else
             {
-                component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, false);
+                component.launch((Vector3)(vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, false);
             }
             this.launchPointLeft = Vector3.zero;
         }
@@ -2409,7 +2410,7 @@ public class Hero : Human
             this.useGas(0f);
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                this.bulletRight = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hook"));
+                this.bulletRight = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
             }
             else if (base.photonView.isMine)
             {
@@ -2420,15 +2421,15 @@ public class Hero : Human
             this.bulletRight.transform.position = obj2.transform.position;
             Bullet component = this.bulletRight.GetComponent<Bullet>();
             float num = !single ? ((hit.distance <= 50f) ? (hit.distance * 0.05f) : (hit.distance * 0.3f)) : 0f;
-            Vector3 vector = (hit.point + ((Vector3) (base.transform.right * num))) - this.bulletRight.transform.position;
+            Vector3 vector = (hit.point + ((Vector3)(base.transform.right * num))) - this.bulletRight.transform.position;
             vector.Normalize();
             if (mode == 1)
             {
-                component.launch((Vector3) (vector * 5f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, true);
+                component.launch((Vector3)(vector * 5f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, true);
             }
             else
             {
-                component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, false);
+                component.launch((Vector3)(vector * 3f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, false);
             }
             this.launchPointRight = Vector3.zero;
         }
@@ -2449,7 +2450,7 @@ public class Hero : Human
     {
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
         {
-            if (((int) FengGameManagerMKII.settings[0x5d]) == 1)
+            if (((int)FengGameManagerMKII.settings[0x5d]) == 1)
             {
                 foreach (Renderer renderer in base.GetComponentsInChildren<Renderer>())
                 {
@@ -2459,7 +2460,7 @@ public class Hero : Human
                     }
                 }
             }
-            if (((int) FengGameManagerMKII.settings[0]) == 1)
+            if (((int)FengGameManagerMKII.settings[0]) == 1)
             {
                 int index = 14;
                 int num3 = 4;
@@ -2474,7 +2475,7 @@ public class Hero : Human
                 int num12 = 13;
                 int num13 = 3;
                 int num14 = 0x5e;
-                if (((int) FengGameManagerMKII.settings[0x85]) == 1)
+                if (((int)FengGameManagerMKII.settings[0x85]) == 1)
                 {
                     num13 = 0x86;
                     num3 = 0x87;
@@ -2490,7 +2491,7 @@ public class Hero : Human
                     index = 0x91;
                     num14 = 0x92;
                 }
-                else if (((int) FengGameManagerMKII.settings[0x85]) == 2)
+                else if (((int)FengGameManagerMKII.settings[0x85]) == 2)
                 {
                     num13 = 0x93;
                     num3 = 0x94;
@@ -2506,19 +2507,19 @@ public class Hero : Human
                     index = 0x9e;
                     num14 = 0x9f;
                 }
-                string str = (string) FengGameManagerMKII.settings[index];
-                string str2 = (string) FengGameManagerMKII.settings[num3];
-                string str3 = (string) FengGameManagerMKII.settings[num4];
-                string str4 = (string) FengGameManagerMKII.settings[num5];
-                string str5 = (string) FengGameManagerMKII.settings[num6];
-                string str6 = (string) FengGameManagerMKII.settings[num7];
-                string str7 = (string) FengGameManagerMKII.settings[num8];
-                string str8 = (string) FengGameManagerMKII.settings[num9];
-                string str9 = (string) FengGameManagerMKII.settings[num10];
-                string str10 = (string) FengGameManagerMKII.settings[num11];
-                string str11 = (string) FengGameManagerMKII.settings[num12];
-                string str12 = (string) FengGameManagerMKII.settings[num13];
-                string str13 = (string) FengGameManagerMKII.settings[num14];
+                string str = (string)FengGameManagerMKII.settings[index];
+                string str2 = (string)FengGameManagerMKII.settings[num3];
+                string str3 = (string)FengGameManagerMKII.settings[num4];
+                string str4 = (string)FengGameManagerMKII.settings[num5];
+                string str5 = (string)FengGameManagerMKII.settings[num6];
+                string str6 = (string)FengGameManagerMKII.settings[num7];
+                string str7 = (string)FengGameManagerMKII.settings[num8];
+                string str8 = (string)FengGameManagerMKII.settings[num9];
+                string str9 = (string)FengGameManagerMKII.settings[num10];
+                string str10 = (string)FengGameManagerMKII.settings[num11];
+                string str11 = (string)FengGameManagerMKII.settings[num12];
+                string str12 = (string)FengGameManagerMKII.settings[num13];
+                string str13 = (string)FengGameManagerMKII.settings[num14];
                 string url = str12 + "," + str2 + "," + str3 + "," + str4 + "," + str5 + "," + str6 + "," + str7 + "," + str8 + "," + str9 + "," + str10 + "," + str11 + "," + str + "," + str13;
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
@@ -2556,7 +2557,7 @@ public class Hero : Human
             iteratorVariable3 = true;
         }
         bool iteratorVariable4 = false;
-        if (LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode == 1))
+        if (FengGameManagerMKII.Gamemode.Horse)
         {
             iteratorVariable4 = true;
         }
@@ -3119,7 +3120,7 @@ public class Hero : Human
     [PunRPC]
     public void loadskinRPC(int horse, string url)
     {
-        if (((int) FengGameManagerMKII.settings[0]) == 1)
+        if (((int)FengGameManagerMKII.settings[0]) == 1)
         {
             base.StartCoroutine(this.loadskinE(horse, url));
         }
@@ -3157,7 +3158,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState) enumerator.Current;
+                AnimationState current = (AnimationState)enumerator.Current;
                 if (current != null && current.speed == 1f)
                 {
                     return;
@@ -3170,7 +3171,7 @@ public class Hero : Human
             IDisposable disposable = enumerator as IDisposable;
             if (disposable != null)
             {
-            	disposable.Dispose();
+                disposable.Dispose();
             }
         }
         this.playAnimation(this.currentPlayingClipName());
@@ -3234,7 +3235,7 @@ public class Hero : Human
         }
         if (base.photonView.isMine)
         {
-            Vector3 vector = (Vector3) (Vector3.up * 5000f);
+            Vector3 vector = (Vector3)(Vector3.up * 5000f);
             if (this.myBomb != null)
             {
                 this.myBomb.destroyMe();
@@ -3341,7 +3342,7 @@ public class Hero : Human
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
-                    else if ((RCSettings.bombMode == 0) && (RCSettings.deadlyCannons == 0))
+                    else if ((FengGameManagerMKII.Gamemode.PvPBomb) && (!FengGameManagerMKII.Gamemode.PvpCannons))
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
@@ -3358,7 +3359,7 @@ public class Hero : Human
         }
         if (base.photonView.isMine)
         {
-            Vector3 vector = (Vector3) (Vector3.up * 5000f);
+            Vector3 vector = (Vector3)(Vector3.up * 5000f);
             if (this.myBomb != null)
             {
                 this.myBomb.destroyMe();
@@ -3406,7 +3407,7 @@ public class Hero : Human
             propertiesToSet.Add(PhotonPlayerProperty.dead, true);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int)PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             if (viewID != -1)
             {
@@ -3432,7 +3433,7 @@ public class Hero : Human
         }
         else
         {
-            obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
+            obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
         }
         obj2.transform.position = base.transform.position;
         if (base.photonView.isMine)
@@ -3454,7 +3455,7 @@ public class Hero : Human
     {
         if (base.photonView.isMine)
         {
-            Vector3 vector = (Vector3) (Vector3.up * 5000f);
+            Vector3 vector = (Vector3)(Vector3.up * 5000f);
             if (this.titanForm && (this.eren_titan != null))
             {
                 this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
@@ -3570,7 +3571,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState) enumerator.Current;
+                AnimationState current = (AnimationState)enumerator.Current;
                 current.speed = 0f;
             }
         }
@@ -3579,7 +3580,7 @@ public class Hero : Human
             IDisposable disposable = enumerator as IDisposable;
             if (disposable != null)
             {
-            	disposable.Dispose();
+                disposable.Dispose();
             }
         }
     }
@@ -3639,8 +3640,8 @@ public class Hero : Human
         {
             if (FengGameManagerMKII.RCEvents.ContainsKey("OnPlayerDieByTitan"))
             {
-                event2 = (RCEvent) FengGameManagerMKII.RCEvents["OnPlayerDieByTitan"];
-                strArray = (string[]) FengGameManagerMKII.RCVariableNames["OnPlayerDieByTitan"];
+                event2 = (RCEvent)FengGameManagerMKII.RCEvents["OnPlayerDieByTitan"];
+                strArray = (string[])FengGameManagerMKII.RCVariableNames["OnPlayerDieByTitan"];
                 if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[0]))
                 {
                     FengGameManagerMKII.playerVariables[strArray[0]] = base.photonView.owner;
@@ -3662,8 +3663,8 @@ public class Hero : Human
         }
         else if (FengGameManagerMKII.RCEvents.ContainsKey("OnPlayerDieByPlayer"))
         {
-            event2 = (RCEvent) FengGameManagerMKII.RCEvents["OnPlayerDieByPlayer"];
-            strArray = (string[]) FengGameManagerMKII.RCVariableNames["OnPlayerDieByPlayer"];
+            event2 = (RCEvent)FengGameManagerMKII.RCEvents["OnPlayerDieByPlayer"];
+            strArray = (string[])FengGameManagerMKII.RCVariableNames["OnPlayerDieByPlayer"];
             if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[0]))
             {
                 FengGameManagerMKII.playerVariables[strArray[0]] = base.photonView.owner;
@@ -3734,7 +3735,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState) enumerator.Current;
+                AnimationState current = (AnimationState)enumerator.Current;
                 if (current != null)
                     current.speed = 0f;
             }
@@ -3744,7 +3745,7 @@ public class Hero : Human
             IDisposable disposable = enumerator as IDisposable;
             if (disposable != null)
             {
-            	disposable.Dispose();
+                disposable.Dispose();
             }
         }
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
@@ -3802,7 +3803,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState) enumerator.Current;
+                AnimationState current = (AnimationState)enumerator.Current;
                 if (current != null)
                     current.speed = 1f;
             }
@@ -3812,7 +3813,7 @@ public class Hero : Human
             IDisposable disposable = enumerator as IDisposable;
             if (disposable != null)
             {
-            	disposable.Dispose();
+                disposable.Dispose();
             }
         }
         this.customAnimationSpeed();
@@ -3847,13 +3848,13 @@ public class Hero : Human
         if (Vector3.Distance(hookPosition, base.transform.position) < 15f)
         {
             this.launchForce = PhotonView.Find(hooker).gameObject.transform.position - base.transform.position;
-            base.GetComponent<Rigidbody>().AddForce((Vector3) (-base.GetComponent<Rigidbody>().velocity * 0.9f), ForceMode.VelocityChange);
+            base.GetComponent<Rigidbody>().AddForce((Vector3)(-base.GetComponent<Rigidbody>().velocity * 0.9f), ForceMode.VelocityChange);
             float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
             if (this.grounded)
             {
-                base.GetComponent<Rigidbody>().AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
+                base.GetComponent<Rigidbody>().AddForce((Vector3)(Vector3.up * Mathf.Min((float)(this.launchForce.magnitude * 0.2f), (float)10f)), ForceMode.Impulse);
             }
-            base.GetComponent<Rigidbody>().AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
+            base.GetComponent<Rigidbody>().AddForce((Vector3)((this.launchForce * num) * 0.1f), ForceMode.Impulse);
             if (this.state != HERO_STATE.Grab)
             {
                 this.dashTime = 1f;
@@ -3892,7 +3893,7 @@ public class Hero : Human
                 Vector3 normal = this.bulletLeft.transform.position - this.bulletRight.transform.position;
                 if (normal.sqrMagnitude < 4f)
                 {
-                    Vector3 vector2 = ((Vector3) ((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f)) - base.transform.position;
+                    Vector3 vector2 = ((Vector3)((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f)) - base.transform.position;
                     this.facingDirection = Mathf.Atan2(vector2.x, vector2.z) * 57.29578f;
                     if (this.useGun && (this.state != HERO_STATE.Attack))
                     {
@@ -3907,7 +3908,7 @@ public class Hero : Human
                 {
                     Vector3 to = base.transform.position - this.bulletLeft.transform.position;
                     Vector3 vector6 = base.transform.position - this.bulletRight.transform.position;
-                    Vector3 vector7 = (Vector3) ((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f);
+                    Vector3 vector7 = (Vector3)((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f);
                     Vector3 from = base.transform.position - vector7;
                     if ((Vector3.Angle(from, to) < 30f) && (Vector3.Angle(from, vector6) < 30f))
                     {
@@ -4012,15 +4013,8 @@ public class Hero : Human
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
         {
             object[] objArray;
-            if (RCSettings.friendlyMode > 0)
-            {
-                if (val != 1)
-                {
-                    objArray = new object[] { 1 };
-                    base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
-                }
-            }
-            else if (RCSettings.pvpMode == 1)
+            //TODO: Sync these upon gamemode syncSettings
+            if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.AhssVsBlades)
             {
                 int num = 0;
                 if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
@@ -4033,7 +4027,7 @@ public class Hero : Human
                     base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
                 }
             }
-            else if ((RCSettings.pvpMode == 2) && (val != base.photonView.owner.ID))
+            else if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
             {
                 objArray = new object[] { base.photonView.owner.ID };
                 base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
@@ -4050,7 +4044,7 @@ public class Hero : Human
         }
         if (this.useGun)
         {
-            this.skillCD.transform.localPosition = (Vector3) (Vector3.up * 5000f);
+            this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
         }
     }
 
@@ -4062,9 +4056,9 @@ public class Hero : Human
         {
             this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
         }
-        if (this.useGun && (RCSettings.bombMode == 0))
+        if (this.useGun && (FengGameManagerMKII.Gamemode.PvPBomb))
         {
-            this.skillCD.transform.localPosition = (Vector3) (Vector3.up * 5000f);
+            this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
         }
     }
 
@@ -4094,7 +4088,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                if ((LevelInfo.getInfo(FengGameManagerMKII.level).teamTitan || !FengGameManagerMKII.Gamemode.PlayerTitanShifters))
+                if ((FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || !FengGameManagerMKII.Gamemode.PlayerTitanShifters))
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;
@@ -4126,7 +4120,7 @@ public class Hero : Human
             this.skillCDLast = 3.5f;
         }
         this.bombInit();
-        this.speed = ((float) this.setup.myCostume.stat.SPD) / 10f;
+        this.speed = ((float)this.setup.myCostume.stat.SPD) / 10f;
         this.totalGas = this.currentGas = this.setup.myCostume.stat.GAS;
         this.totalBladeSta = this.currentBladeSta = this.setup.myCostume.stat.BLA;
         this.baseRigidBody.mass = 0.5f - ((this.setup.myCostume.stat.ACL - 100) * 0.001f);
@@ -4262,7 +4256,7 @@ public class Hero : Human
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("FX/flareBullet" + type), base.transform.position, base.transform.rotation);
+                GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/flareBullet" + type), base.transform.position, base.transform.rotation);
                 obj2.GetComponent<FlareMovement>().dontShowHint();
                 UnityEngine.Object.Destroy(obj2, 25f);
             }
@@ -4285,7 +4279,7 @@ public class Hero : Human
             GameObject obj6 = this.crossR1;
             GameObject obj7 = this.crossR2;
             var labelDistance = this.LabelDistance;
-            vector = (Vector3) (Vector3.up * 10000f);
+            vector = (Vector3)(Vector3.up * 10000f);
             obj7.transform.localPosition = vector;
             obj6.transform.localPosition = vector;
             obj5.transform.localPosition = vector;
@@ -4299,8 +4293,8 @@ public class Hero : Human
             RaycastHit hit;
             this.checkTitan();
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
             if (Physics.Raycast(ray, out hit, 1E+07f, mask3.value))
             {
@@ -4313,12 +4307,12 @@ public class Hero : Human
                 obj10.transform.localPosition = obj9.transform.localPosition;
                 vector = hit.point - this.baseTransform.position;
                 float magnitude = vector.magnitude;
-                string str = (magnitude <= 1000f) ? ((int) magnitude).ToString() : "???";
-                if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
+                string str = (magnitude <= 1000f) ? ((int)magnitude).ToString() : "???";
+                if (((int)FengGameManagerMKII.settings[0xbd]) == 1)
                 {
                     str = str + "\n" + this.currentSpeed.ToString("F1") + " u/s";
                 }
-                else if (((int) FengGameManagerMKII.settings[0xbd]) == 2)
+                else if (((int)FengGameManagerMKII.settings[0xbd]) == 2)
                 {
                     str = str + "\n" + ((this.currentSpeed / 100f)).ToString("F1") + "K";
                 }
@@ -4326,28 +4320,28 @@ public class Hero : Human
                 if (magnitude > 120f)
                 {
                     Transform transform11 = obj9.transform;
-                    transform11.localPosition += (Vector3) (Vector3.up * 10000f);
+                    transform11.localPosition += (Vector3)(Vector3.up * 10000f);
                     LabelDistance.gameObject.transform.localPosition = obj10.transform.localPosition;
                 }
                 else
                 {
                     Transform transform12 = obj10.transform;
-                    transform12.localPosition += (Vector3) (Vector3.up * 10000f);
+                    transform12.localPosition += (Vector3)(Vector3.up * 10000f);
                     LabelDistance.gameObject.transform.localPosition = obj9.transform.localPosition;
                 }
                 Transform transform13 = LabelDistance.gameObject.transform;
                 transform13.localPosition -= new Vector3(0f, 15f, 0f);
                 Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
-                vector2 -= (Vector3) (this.baseTransform.right * 0.3f);
+                vector2 -= (Vector3)(this.baseTransform.right * 0.3f);
                 Vector3 vector3 = new Vector3(0f, 0.4f, 0f);
-                vector3 += (Vector3) (this.baseTransform.right * 0.3f);
+                vector3 += (Vector3)(this.baseTransform.right * 0.3f);
                 float num4 = (hit.distance <= 50f) ? (hit.distance * 0.05f) : (hit.distance * 0.3f);
-                Vector3 vector4 = (hit.point - ((Vector3) (this.baseTransform.right * num4))) - (this.baseTransform.position + vector2);
-                Vector3 vector5 = (hit.point + ((Vector3) (this.baseTransform.right * num4))) - (this.baseTransform.position + vector3);
+                Vector3 vector4 = (hit.point - ((Vector3)(this.baseTransform.right * num4))) - (this.baseTransform.position + vector2);
+                Vector3 vector5 = (hit.point + ((Vector3)(this.baseTransform.right * num4))) - (this.baseTransform.position + vector3);
                 vector4.Normalize();
                 vector5.Normalize();
-                vector4 = (Vector3) (vector4 * 1000000f);
-                vector5 = (Vector3) (vector5 * 1000000f);
+                vector4 = (Vector3)(vector4 * 1000000f);
+                vector5 = (Vector3)(vector5 * 1000000f);
                 if (Physics.Linecast(this.baseTransform.position + vector2, (this.baseTransform.position + vector2) + vector4, out hit2, mask3.value))
                 {
                     GameObject obj12 = this.crossL1;
@@ -4361,12 +4355,12 @@ public class Hero : Human
                     if (hit2.distance > 120f)
                     {
                         Transform transform15 = obj12.transform;
-                        transform15.localPosition += (Vector3) (Vector3.up * 10000f);
+                        transform15.localPosition += (Vector3)(Vector3.up * 10000f);
                     }
                     else
                     {
                         Transform transform16 = obj13.transform;
-                        transform16.localPosition += (Vector3) (Vector3.up * 10000f);
+                        transform16.localPosition += (Vector3)(Vector3.up * 10000f);
                     }
                 }
                 if (Physics.Linecast(this.baseTransform.position + vector3, (this.baseTransform.position + vector3) + vector5, out hit2, mask3.value))
@@ -4382,12 +4376,12 @@ public class Hero : Human
                     if (hit2.distance > 120f)
                     {
                         Transform transform18 = obj14.transform;
-                        transform18.localPosition += (Vector3) (Vector3.up * 10000f);
+                        transform18.localPosition += (Vector3)(Vector3.up * 10000f);
                     }
                     else
                     {
                         Transform transform19 = obj15.transform;
-                        transform19.localPosition += (Vector3) (Vector3.up * 10000f);
+                        transform19.localPosition += (Vector3)(Vector3.up * 10000f);
                     }
                 }
             }
@@ -4547,7 +4541,7 @@ public class Hero : Human
             this.speed = Mathf.Max(10f, this.speed);
             //target.GetComponent<UILabel>().text = this.speed.ToString();
             target.transform.localScale = Vector3.zero;
-            this.speed = (int) (this.speed * 0.1f);
+            this.speed = (int)(this.speed * 0.1f);
             this.speed = Mathf.Clamp(this.speed, 40f, 150f);
             iTween.Stop(target);
             object[] args = new object[] { "x", this.speed, "y", this.speed, "z", this.speed, "easetype", iTween.EaseType.easeOutElastic, "time", 1f };
@@ -4613,16 +4607,27 @@ public class Hero : Human
         }
     }
 
+    public void SetHorse()
+    {
+        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER || !photonView.isMine) return;
+        if (FengGameManagerMKII.Gamemode.Horse && myHorse == null)
+        {
+            this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
+            this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
+            this.myHorse.GetComponent<TITAN_CONTROLLER>().isHorse = true;
+        }
+
+        if (!FengGameManagerMKII.Gamemode.Horse && myHorse != null)
+        {
+            PhotonNetwork.Destroy(myHorse);
+        }
+    }
+
     private void Start()
     {
         FengGameManagerMKII.instance.addHero(this);
         gameObject.AddComponent<PlayerInteractable>();
-        //if (((LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode == 1)) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && base.photonView.isMine)
-        //{
-            this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3) (Vector3.up * 5f)), this.baseTransform.rotation, 0);
-            this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
-            this.myHorse.GetComponent<TITAN_CONTROLLER>().isHorse = true;
-        //}
+        SetHorse();
         this.sparks = this.baseTransform.Find("slideSparks").GetComponent<ParticleSystem>();
         this.smoke_3dmg = this.baseTransform.Find("3dmg_smoke").GetComponent<ParticleSystem>();
         this.baseTransform.localScale = new Vector3(this.myScale, this.myScale, this.myScale);
@@ -4726,7 +4731,7 @@ public class Hero : Human
             base.gameObject.layer = LayerMask.NameToLayer("NetworkObject");
             if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
             {
-                GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
+                GameObject obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
                 obj3.transform.parent = this.baseTransform;
                 obj3.transform.position = this.baseTransform.position + Vector3.up;
                 obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
@@ -4752,7 +4757,7 @@ public class Hero : Human
             base.StartCoroutine(this.reloadSky());
         }
         this.bombImmune = false;
-        if (RCSettings.bombMode == 1)
+        if (FengGameManagerMKII.Gamemode.PvPBomb)
         {
             this.bombImmune = true;
             base.StartCoroutine(this.stopImmunity());
@@ -4773,7 +4778,7 @@ public class Hero : Human
     {
         if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
         {
-            this.netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+            this.netDieLocal((Vector3)(base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
             FengGameManagerMKII.instance.needChooseSide = true;
             FengGameManagerMKII.instance.justSuicide = true;
         }
@@ -4837,7 +4842,7 @@ public class Hero : Human
                             if ((this.baseAnimation.IsPlaying("grabbed_jean") && (this.baseAnimation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<TITAN>() != null))
                             {
                                 this.ungrabbed();
-                                this.baseRigidBody.velocity = (Vector3) (Vector3.up * 30f);
+                                this.baseRigidBody.velocity = (Vector3)(Vector3.up * 30f);
                                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                                 {
                                     this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
@@ -4908,7 +4913,7 @@ public class Hero : Human
                         this.updateExt();
                         if (!this.grounded && (this.state != HERO_STATE.AirDodge))
                         {
-                            if (((int) FengGameManagerMKII.settings[0xb5]) == 1)
+                            if (((int)FengGameManagerMKII.settings[0xb5]) == 1)
                             {
                                 this.checkDashRebind();
                             }
@@ -4981,7 +4986,7 @@ public class Hero : Human
                             {
                                 this.getOffHorse();
                             }
-                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (RCSettings.ahssReload != 1)) || this.grounded))
+                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (FengGameManagerMKII.Gamemode.AhssAirReload)) || this.grounded))
                             {
                                 this.changeBlade();
                                 return;
@@ -5053,17 +5058,17 @@ public class Hero : Human
                                         {
                                             this.attackAnimation = "attack3_1";
                                             this.playAnimation("attack3_1");
-                                            this.baseRigidBody.velocity = (Vector3) (Vector3.up * 10f);
+                                            this.baseRigidBody.velocity = (Vector3)(Vector3.up * 10f);
                                         }
                                         else if (this.skillId == "levi")
                                         {
                                             RaycastHit hit;
                                             this.attackAnimation = "attack5";
                                             this.playAnimation("attack5");
-                                            this.baseRigidBody.velocity += (Vector3) (Vector3.up * 5f);
+                                            this.baseRigidBody.velocity += (Vector3)(Vector3.up * 5f);
                                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-                                            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+                                            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+                                            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                             LayerMask mask3 = mask2 | mask;
                                             if (Physics.Raycast(ray, out hit, 1E+07f, mask3.value))
                                             {
@@ -5085,10 +5090,10 @@ public class Hero : Human
                                             RaycastHit hit2;
                                             this.attackAnimation = "special_petra";
                                             this.playAnimation("special_petra");
-                                            this.baseRigidBody.velocity += (Vector3) (Vector3.up * 5f);
+                                            this.baseRigidBody.velocity += (Vector3)(Vector3.up * 5f);
                                             Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                            LayerMask mask4 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                                            LayerMask mask5 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+                                            LayerMask mask4 = ((int)1) << LayerMask.NameToLayer("Ground");
+                                            LayerMask mask5 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                             LayerMask mask6 = mask5 | mask4;
                                             if (Physics.Raycast(ray2, out hit2, 1E+07f, mask6.value))
                                             {
@@ -5223,7 +5228,7 @@ public class Hero : Human
                                     this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
                                     if (this.grounded)
                                     {
-                                        this.baseRigidBody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                                        this.baseRigidBody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
                                     }
                                     this.playAnimation(this.attackAnimation);
                                     this.baseAnimation[this.attackAnimation].time = 0f;
@@ -5277,8 +5282,8 @@ public class Hero : Human
                                 {
                                     RaycastHit hit3;
                                     Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                    LayerMask mask7 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                                    LayerMask mask8 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+                                    LayerMask mask7 = ((int)1) << LayerMask.NameToLayer("Ground");
+                                    LayerMask mask8 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                     LayerMask mask9 = mask8 | mask7;
                                     if (Physics.Raycast(ray3, out hit3, 1E+07f, mask9.value))
                                     {
@@ -5374,7 +5379,7 @@ public class Hero : Human
                                     this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
                                     this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                 }
-                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.AhssAirReload && (RCSettings.ahssReload == 0))))
+                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.AhssAirReload)))
                                 {
                                     this.changeBlade();
                                 }
@@ -5407,14 +5412,14 @@ public class Hero : Human
                                         if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
                                         {
                                             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                            if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
+                                            if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
                                             {
                                                 this.leftbladetrail2.Activate();
                                                 this.rightbladetrail2.Activate();
                                                 this.leftbladetrail.Activate();
                                                 this.rightbladetrail.Activate();
                                             }
-                                            this.baseRigidBody.velocity = (Vector3) (-Vector3.up * 30f);
+                                            this.baseRigidBody.velocity = (Vector3)(-Vector3.up * 30f);
                                         }
                                         if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me)
                                         {
@@ -5479,7 +5484,7 @@ public class Hero : Human
                                         {
                                             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
                                             this.slash.Play();
-                                            if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
+                                            if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
                                             {
                                                 //this.leftbladetrail2.Activate();
                                                 //this.rightbladetrail2.Activate();
@@ -5560,7 +5565,7 @@ public class Hero : Human
                                     }
                                     else if (this.attackAnimation == "attack3_1")
                                     {
-                                        this.baseRigidBody.velocity -= (Vector3) ((Vector3.up * Time.deltaTime) * 30f);
+                                        this.baseRigidBody.velocity -= (Vector3)((Vector3.up * Time.deltaTime) * 30f);
                                     }
                                     else
                                     {
@@ -5594,7 +5599,7 @@ public class Hero : Human
                                         flag7 = true;
                                         this.leftGunHasBullet = false;
                                         this.rightGunHasBullet = false;
-                                        this.baseRigidBody.AddForce((Vector3) (-this.baseTransform.forward * 1000f), ForceMode.Acceleration);
+                                        this.baseRigidBody.AddForce((Vector3)(-this.baseTransform.forward * 1000f), ForceMode.Acceleration);
                                     }
                                     else
                                     {
@@ -5608,9 +5613,9 @@ public class Hero : Human
                                             this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
                                             this.rightGunHasBullet = false;
                                         }
-                                        this.baseRigidBody.AddForce((Vector3) (-this.baseTransform.forward * 600f), ForceMode.Acceleration);
+                                        this.baseRigidBody.AddForce((Vector3)(-this.baseTransform.forward * 600f), ForceMode.Acceleration);
                                     }
-                                    this.baseRigidBody.AddForce((Vector3) (Vector3.up * 200f), ForceMode.Acceleration);
+                                    this.baseRigidBody.AddForce((Vector3)(Vector3.up * 200f), ForceMode.Acceleration);
                                     string prefabName = "FX/shotGun";
                                     if (flag7)
                                     {
@@ -5618,7 +5623,7 @@ public class Hero : Human
                                     }
                                     if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
                                     {
-                                        obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3) ((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation, 0);
+                                        obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3)((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation, 0);
                                         if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
                                         {
                                             obj4.GetComponent<EnemyfxIDcontainer>().myOwnerViewID = base.photonView.viewID;
@@ -5626,7 +5631,7 @@ public class Hero : Human
                                     }
                                     else
                                     {
-                                        obj4 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load(prefabName), (Vector3) ((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation);
+                                        obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load(prefabName), (Vector3)((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation);
                                     }
                                 }
                                 if (this.baseAnimation[this.attackAnimation].normalizedTime >= 1f)
@@ -5721,7 +5726,7 @@ public class Hero : Human
                                 this.dashTime -= Time.deltaTime;
                                 if (this.currentSpeed > this.originVM)
                                 {
-                                    this.baseRigidBody.AddForce((Vector3) ((-this.baseRigidBody.velocity * Time.deltaTime) * 1.7f), ForceMode.VelocityChange);
+                                    this.baseRigidBody.AddForce((Vector3)((-this.baseRigidBody.velocity * Time.deltaTime) * 1.7f), ForceMode.VelocityChange);
                                 }
                             }
                             else
@@ -5748,8 +5753,8 @@ public class Hero : Human
                             {
                                 RaycastHit hit4;
                                 Ray ray4 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                LayerMask mask10 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                                LayerMask mask11 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+                                LayerMask mask10 = ((int)1) << LayerMask.NameToLayer("Ground");
+                                LayerMask mask11 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                 LayerMask mask12 = mask11 | mask10;
                                 if (Physics.Raycast(ray4, out hit4, 10000f, mask12.value))
                                 {
@@ -5780,8 +5785,8 @@ public class Hero : Human
                             {
                                 RaycastHit hit5;
                                 Ray ray5 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                LayerMask mask13 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                                LayerMask mask14 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+                                LayerMask mask13 = ((int)1) << LayerMask.NameToLayer("Ground");
+                                LayerMask mask14 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                 LayerMask mask15 = mask14 | mask13;
                                 if (Physics.Raycast(ray5, out hit5, 10000f, mask15.value))
                                 {
@@ -5810,8 +5815,8 @@ public class Hero : Human
                             {
                                 RaycastHit hit6;
                                 Ray ray6 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                LayerMask mask16 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                                LayerMask mask17 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+                                LayerMask mask16 = ((int)1) << LayerMask.NameToLayer("Ground");
+                                LayerMask mask17 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                 LayerMask mask18 = mask17 | mask16;
                                 if (Physics.Raycast(ray6, out hit6, 1000000f, mask18.value))
                                 {
@@ -5888,18 +5893,18 @@ public class Hero : Human
                 this.skillCDDuration = this.bombCD;
                 RaycastHit hitInfo = new RaycastHit();
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
+                LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
+                LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                 LayerMask mask3 = mask2 | mask;
                 this.currentV = this.baseTransform.position;
-                this.targetV = this.currentV + ((Vector3) (Vector3.forward * 200f));
+                this.targetV = this.currentV + ((Vector3)(Vector3.forward * 200f));
                 if (Physics.Raycast(ray, out hitInfo, 1000000f, mask3.value))
                 {
                     this.targetV = hitInfo.point;
                 }
                 Vector3 vector = Vector3.Normalize(this.targetV - this.currentV);
-                GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", this.currentV + ((Vector3) (vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
-                obj2.GetComponent<Rigidbody>().velocity = (Vector3) (vector * this.bombSpeed);
+                GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", this.currentV + ((Vector3)(vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
+                obj2.GetComponent<Rigidbody>().velocity = (Vector3)(vector * this.bombSpeed);
                 this.myBomb = obj2.GetComponent<Bomb>();
                 this.bombTime = 0f;
             }

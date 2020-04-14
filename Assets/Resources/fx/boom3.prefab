@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114910834436988876}
   - component: {fileID: 114835102263792994}
   - component: {fileID: 114694961798640252}
+  - component: {fileID: 114734222029732644}
   m_Layer: 18
   m_Name: boom3
   m_TagString: Untagged
@@ -230,6 +231,18 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114734222029732644
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1759989870475220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CountDown: 3
 --- !u!114 &114835102263792994
 MonoBehaviour:
   m_ObjectHideFlags: 1
