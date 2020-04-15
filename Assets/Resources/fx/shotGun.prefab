@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4675053227976764}
   - component: {fileID: 198643818923612672}
   - component: {fileID: 199061090068489806}
-  - component: {fileID: 114744769222611314}
+  - component: {fileID: 114825136112403856}
   m_Layer: 18
   m_Name: Particle System 4
   m_TagString: Untagged
@@ -40,10 +40,10 @@ GameObject:
   - component: {fileID: 198472453200624427}
   - component: {fileID: 199991614180123848}
   - component: {fileID: 82637532944251175}
-  - component: {fileID: 114934861861000904}
-  - component: {fileID: 114384631021919284}
+  - component: {fileID: 114653091613975462}
   - component: {fileID: 114139039725335740}
   - component: {fileID: 114737341821449378}
+  - component: {fileID: 114487672672921436}
   m_Layer: 18
   m_Name: shotGun
   m_TagString: Untagged
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 4800131084539233}
   - component: {fileID: 198249497018213077}
   - component: {fileID: 199836381068286124}
-  - component: {fileID: 114239230126976780}
+  - component: {fileID: 114752620035293332}
   m_Layer: 18
   m_Name: Particle System 3
   m_TagString: Untagged
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 4905425449482069}
   - component: {fileID: 54807793376589406}
   - component: {fileID: 136491773531189056}
-  - component: {fileID: 114815015979966676}
+  - component: {fileID: 114241739105266298}
   m_Layer: 18
   m_Name: EnemyCheckHit
   m_TagString: Untagged
@@ -255,18 +255,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CountDown: 5
---- !u!114 &114239230126976780
+--- !u!114 &114241739105266298
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1291370612234931}
+  m_GameObject: {fileID: 1897157117169340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 3772c73a5c64fc54aa1c4527c4f002b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114384631021919284
+  active_me: 0
+  currentCamera: {fileID: 0}
+  dmg: 1
+  scoreMulti: 0
+--- !u!114 &114487672672921436
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -274,7 +278,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1064524030615166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e772834a31b905045a901a0f83dbaf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myOwnerViewID: -1
+  titanName: 
+--- !u!114 &114653091613975462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1064524030615166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114737341821449378
@@ -303,7 +320,18 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114744769222611314
+--- !u!114 &114752620035293332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1291370612234931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114825136112403856
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -311,35 +339,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1050566526721096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114815015979966676
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1897157117169340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114934861861000904
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1064524030615166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3772c73a5c64fc54aa1c4527c4f002b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active_me: 0
-  currentCamera: {fileID: 0}
-  dmg: 1
-  scoreMulti: 0
 --- !u!136 &136491773531189056
 CapsuleCollider:
   m_ObjectHideFlags: 1

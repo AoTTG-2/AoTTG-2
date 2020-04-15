@@ -105,8 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4293042503053690}
   - component: {fileID: 198577061612346347}
+  - component: {fileID: 114361172304907796}
   - component: {fileID: 199285125081875302}
-  - component: {fileID: 114684724295887956}
   - component: {fileID: 114740249025343068}
   m_Layer: 15
   m_Name: Thunder
@@ -198,7 +198,7 @@ Transform:
   m_Father: {fileID: 4293042503053690}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114684724295887956
+--- !u!114 &114361172304907796
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -206,9 +206,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1781051190317497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CountDown: 5
 --- !u!114 &114740249025343068
 MonoBehaviour:
   m_ObjectHideFlags: 1

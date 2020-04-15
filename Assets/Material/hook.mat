@@ -3,9 +3,12 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: hook
-  m_Shader: {fileID: 51, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords:
+  m_Shader: {fileID: 207, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -21,5 +24,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Cutoff: 0.5357143
+    - _InvFade: 1
     m_Colors:
     - _Color: {r: 0.8431373, g: 0.9221095, b: 1, a: 1}

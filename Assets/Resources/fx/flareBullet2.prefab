@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 199641372427227936}
   - component: {fileID: 54221028120155650}
   - component: {fileID: 65157703625278966}
-  - component: {fileID: 114762874320094792}
-  - component: {fileID: 114238425103810552}
-  - component: {fileID: 114338369159868202}
+  - component: {fileID: 114421493758386864}
+  - component: {fileID: 114667048558931068}
+  - component: {fileID: 114342109012701660}
   m_Layer: 13
   m_Name: flareBullet2
   m_TagString: Untagged
@@ -73,7 +73,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114238425103810552
+--- !u!114 &114342109012701660
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -81,10 +81,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290459212357543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114338369159868202
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
+--- !u!114 &114421493758386864
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,10 +107,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290459212357543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 9e4a813dacf83ce46bdf727052852bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114762874320094792
+  color: 
+--- !u!114 &114667048558931068
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -103,9 +119,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290459212357543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CountDown: 5
 --- !u!198 &198493234110341764
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4732537980888138}
-  - component: {fileID: 114261033348312002}
+  - component: {fileID: 114087908427532920}
   - component: {fileID: 114819506577856524}
   m_Layer: 0
   m_Name: boost_smoke
@@ -72,7 +72,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114261033348312002
+--- !u!114 &114087908427532920
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -80,9 +80,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1349610841402152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CountDown: 5
 --- !u!114 &114819506577856524
 MonoBehaviour:
   m_ObjectHideFlags: 1
