@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4448434014056328}
   - component: {fileID: 198593718116488053}
   - component: {fileID: 199123971094567813}
-  - component: {fileID: 114362206487711118}
+  - component: {fileID: 114049168275128046}
   m_Layer: 15
   m_Name: ThunderCT
   m_TagString: Untagged
@@ -313,7 +313,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114362206487711118
+--- !u!114 &114049168275128046
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -321,24 +321,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1621175354502508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  CountDown: 5
 --- !u!198 &198259968860694562
 ParticleSystem:
   m_ObjectHideFlags: 1

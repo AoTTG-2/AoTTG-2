@@ -36,9 +36,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4874131915601813}
-  - component: {fileID: 114075311308011628}
   - component: {fileID: 114708671172680916}
   - component: {fileID: 114327251546922584}
+  - component: {fileID: 114698732884317036}
   m_Layer: 13
   m_Name: rockThrow
   m_TagString: Untagged
@@ -114,17 +114,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1377280906169119}
   m_Mesh: {fileID: 4300000, guid: 4832f9d3645561843aa2848ef40262b3, type: 2}
---- !u!114 &114075311308011628
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1576382807002691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114327251546922584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,6 +140,19 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114698732884317036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576382807002691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e772834a31b905045a901a0f83dbaf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myOwnerViewID: -1
+  titanName: 
 --- !u!114 &114708671172680916
 MonoBehaviour:
   m_ObjectHideFlags: 1
