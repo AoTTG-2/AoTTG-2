@@ -1,5 +1,5 @@
 ---
-name: Enchancement request
+name: Enhancement request
 about: Use this template for enchancements. Assign it to either the Art or Development
   Team.
 title: ''
