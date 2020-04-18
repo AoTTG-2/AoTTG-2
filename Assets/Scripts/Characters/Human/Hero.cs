@@ -1386,22 +1386,44 @@ public class Hero : Human
 
             //Description:  Create some vectors that will be used in the state machine when hero is grounded.
             Vector3 vector7_grounded;
-            Vector3 zero_grounded = Vector3.zero;
             Vector3 velocity_grounded = this.baseRigidBody.velocity;
-            Vector3 force_grounded = zero_grounded - velocity_grounded;
+            Vector3 force_grounded;
+            Vector3 vector8 = new Vector3(x, 0f, z);
+            float resultAngle = this.getGlobalFacingDirection(x, z);
+            Vector3 zero_grounded = this.getGlobaleFacingVector3(resultAngle);
+            float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
+            zero_grounded = (Vector3)(zero_grounded * num6);
+            zero_grounded = (Vector3)(zero_grounded * this.speed);
+
+            if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
+            {
+                zero_grounded = (Vector3)(zero_grounded * 4f);
+            }
+
+            if ((x == 0f) && (z == 0f))
+            {
+                if (!(this.baseAnimation.IsPlaying(this.standAnimation) || (this.state == HERO_STATE.Land) || this.baseAnimation.IsPlaying("jump") || this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("grabbed")))
+                {
+                    zero_grounded = (Vector3)(zero_grounded * 0f);
+                }
+                resultAngle = -874f;
+            }
+
+            //Description: Unknown.
+            force_grounded = zero_grounded - velocity_grounded;
             force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.y = 0f;
+            if (this.grounded && !this.useGun && !this.isAttacking())
+            {
+                this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
+                this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
+            }
 
             //Description:  Mish-mash of actions that can happen in multiple states.
             if (this.grounded)
             {
-                //If gun is used.
-                if (this.useGun && !this.isAttacking())
-                {
-                    this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
-                    this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
-                }
+                //TODO: Delete if statement.
             }
             else
             {
@@ -1710,18 +1732,6 @@ public class Hero : Human
                 if (this.grounded)
                 {
                     //Walking.
-                    Vector3 vector8 = new Vector3(x, 0f, z);
-                    float resultAngle = this.getGlobalFacingDirection(x, z);
-                    zero_grounded = this.getGlobaleFacingVector3(resultAngle);
-                    float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
-                    zero_grounded = (Vector3)(zero_grounded * num6);
-                    zero_grounded = (Vector3)(zero_grounded * this.speed);
-
-                    if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
-                    {
-                        zero_grounded = (Vector3)(zero_grounded * 4f);
-                    }
-
                     if ((x != 0f) || (z != 0f))
                     {
                         if ((!this.baseAnimation.IsPlaying("run_1") && !this.baseAnimation.IsPlaying("jump") && !this.baseAnimation.IsPlaying("run_sasha")) && (!this.baseAnimation.IsPlaying("horse_geton") || (this.baseAnimation["horse_geton"].normalizedTime >= 0.5f)))
@@ -1741,7 +1751,6 @@ public class Hero : Human
                         if (!(this.baseAnimation.IsPlaying(this.standAnimation) || (this.state == HERO_STATE.Land) || this.baseAnimation.IsPlaying("jump") || this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("grabbed")))
                         {
                             this.crossFade(this.standAnimation, 0.1f);
-                            zero_grounded = (Vector3)(zero_grounded * 0f);
                         }
                         resultAngle = -874f;
                     }
@@ -1753,9 +1762,18 @@ public class Hero : Human
                     }
 
                     //Jumping.
-                    if (this.grounded && this.baseAnimation.IsPlaying("jump") && (this.baseAnimation["jump"].normalizedTime > 0.18f))
+                    force_grounded = zero_grounded - velocity_grounded;
+                    force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
+                    force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
+                    force_grounded.y = 0f;
+                    if (this.baseAnimation.IsPlaying("jump") && (this.baseAnimation["jump"].normalizedTime > 0.18f))
                     {
                         force_grounded.y += 8f;
+                    }
+                    if (!this.useGun)
+                    {
+                        this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
+                        this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
                     }
                 }
                 else
@@ -1913,7 +1931,10 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.HorseMountingState)
             {
-                if (this.grounded && (this.baseAnimation.IsPlaying("horse_geton") && (this.baseAnimation["horse_geton"].normalizedTime > 0.18f)) && (this.baseAnimation["horse_geton"].normalizedTime < 1f))
+                //TODO: Add logic calculating zero_grounded and then force_grounded.
+                //TODO:  Uncomment below and work on this.
+                this.changeState_IDLE();
+                /*if (this.grounded && (this.baseAnimation.IsPlaying("horse_geton") && (this.baseAnimation["horse_geton"].normalizedTime > 0.18f)) && (this.baseAnimation["horse_geton"].normalizedTime < 1f))
                 {
                     float num7 = 6f;
                     force_grounded = -this.baseRigidBody.velocity;
@@ -1937,7 +1958,7 @@ public class Hero : Human
                 {
                     //If you are grounded and you are not getting on the horse or falling, then go back to idle (the animation check is just to make sure).
                     this.changeState_IDLE();
-                }
+                }*/
             }
             //TODO:  Ground dodge when grounded.
         }
@@ -4970,17 +4991,33 @@ public class Hero : Human
             }
             if (!this.hasDied && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE || base.photonView.isMine))
             {
+                if (!IN_GAME_MAIN_CAMERA.isPausing)
+                {
+                    this.showGas2();
+                    this.showAimUI2();
+                }
+
                 //Force jump protection.
                 if (this.force_jumped)
                 {
                     this.state = jumped_state;
                 }
 
+                this.bufferUpdate();
+                this.updateExt();
+
                 /*if(this.state == HERO_STATE.Grab){
 				
 				}*/
                 if (this.state == HERO_STATE.Idle)
                 {
+                    //Jumping.
+                    if (this.grounded && this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump") && !this.baseAnimation.IsPlaying("horse_geton"))
+                    {
+                        this.crossFade("jump", 0.1f);
+                        this.sparks.enableEmission = false;
+                    }
+
                     //Rope launching logic.
                     System.Boolean ReflectorVariable2;
                     System.Boolean ReflectorVariable1;
@@ -5086,6 +5123,7 @@ public class Hero : Human
                         }
                     }
 
+                    //Attacking.
                     if (!this.isMounted && this.inputManager.isInputDown[InputCode.attack0])
                     {
                         if (this.useGun)
