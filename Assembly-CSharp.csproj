@@ -171,15 +171,22 @@
      <Compile Include="Assets\Scripts\Characters\Human\UNIFORM_TYPE.cs" />
      <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
      <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Attack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\TitanAttacks.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\COLOSSAL_TITAN.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\DummyTitan.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\FEMALE_TITAN.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanState.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\RockScript.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\RockThrow.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_CONTROLLER.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_EREN.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_SETUP.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\TitanBody.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanSpawner.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanState.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanTrigger.cs" />
@@ -376,6 +383,7 @@
      <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
+     <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
      <None Include="Assets\Shader\Particle Alpha Blend Scale.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Masked Colored.shader" />
@@ -385,6 +393,7 @@
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored.shader" />
      <None Include="Assets\Shader\xft_displacement_screen.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
+     <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
      <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (AlphaClip).shader" />
      <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
@@ -561,6 +570,9 @@
  <Reference Include="Photon3Unity3D">
  <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/Photon3Unity3D.dll</HintPath>
  </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+ </Reference>
  <Reference Include="websocket-sharp">
  <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
  </Reference>
@@ -572,9 +584,6 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/nickw/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
- </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

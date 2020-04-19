@@ -4735,7 +4735,7 @@ public class Hero : Human
                 obj3.transform.parent = this.baseTransform;
                 obj3.transform.position = this.baseTransform.position + Vector3.up;
                 obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
-            }
+            }   
             this.setup.init();
             this.setup.myCostume = new HeroCostume();
             this.setup.myCostume = CostumeConeveter.PhotonDataToHeroCostume2(base.photonView.owner);

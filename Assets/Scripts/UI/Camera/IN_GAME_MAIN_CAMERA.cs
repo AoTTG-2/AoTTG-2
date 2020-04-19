@@ -334,7 +334,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void setDayLight(DayLight val)
     {
+        return;
         dayLight = val;
+        dayLight = DayLight.Day;
         if (dayLight == DayLight.Night)
         {
             GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));

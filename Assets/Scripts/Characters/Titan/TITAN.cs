@@ -1563,6 +1563,7 @@ public class TITAN : MonoBehaviour
                         {
                             return;
                         }
+                        //TODO ANGLE?
                         Vector3 vector17 = this.myHero.transform.position - this.baseTransform.position;
                         current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f;
                     }

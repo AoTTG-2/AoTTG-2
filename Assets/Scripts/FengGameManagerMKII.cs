@@ -6044,54 +6044,54 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         GameObject obj3;
         GameObject obj2 = this.spawnTitanRaw(position, rotation);
-        if (punk)
-        {
-            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-        }
-        else if (UnityEngine.Random.Range(0, 100) < rate)
-        {
-            if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-            {
-                if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-                {
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-                }
-                else
-                {
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                }
-            }
-        }
-        else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-        {
-            if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-            }
-            else
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-            }
-        }
-        else if (UnityEngine.Random.Range(0, 100) < rate)
-        {
-            if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-            }
-            else
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-            }
-        }
-        else if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-        {
-            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-        }
-        else
-        {
-            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-        }
+        //if (punk)
+        //{
+        //    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
+        //}
+        //else if (UnityEngine.Random.Range(0, 100) < rate)
+        //{
+        //    if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+        //    {
+        //        if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+        //        {
+        //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+        //        }
+        //        else
+        //        {
+        //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+        //        }
+        //    }
+        //}
+        //else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+        //{
+        //    if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+        //    {
+        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+        //    }
+        //    else
+        //    {
+        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+        //    }
+        //}
+        //else if (UnityEngine.Random.Range(0, 100) < rate)
+        //{
+        //    if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+        //    {
+        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+        //    }
+        //    else
+        //    {
+        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
+        //    }
+        //}
+        //else if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+        //{
+        //    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+        //}
+        //else
+        //{
+        //    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+        //}
         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanSpawn"), obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f));
@@ -6372,7 +6372,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             return (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_VER3.1"), position, rotation);
         }
-        return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
+        return PhotonNetwork.Instantiate("MindlessTitan", position, rotation, 0);
     }
 
     [PunRPC]

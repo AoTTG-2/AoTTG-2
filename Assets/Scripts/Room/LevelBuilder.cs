@@ -17,6 +17,20 @@ public class LevelBuilder
     {
         _levels.Add(new Level
         {
+            Name = "Test Zone",
+            Description = "Classic City Map from AoTTG",
+            SceneName = "Test Zone",
+            Gamemodes = new List<GamemodeBase>
+            {
+                new KillTitansGamemode
+                {
+                    Titans = 1
+                }
+            }
+        });
+
+        _levels.Add(new Level
+        {
             Name = "The City - Classic",
             Description = "Classic City Map from AoTTG",
             SceneName = "The City I",
@@ -24,7 +38,7 @@ public class LevelBuilder
             {
                 new KillTitansGamemode
                 {
-                    Titans = 10
+                    Titans = 45
                 },
                 new EndlessGamemode
                 {

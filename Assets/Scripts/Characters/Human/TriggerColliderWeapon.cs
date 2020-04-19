@@ -1,5 +1,6 @@
 using Assets.Scripts.Gamemode.Options;
 using System.Collections;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class TriggerColliderWeapon : MonoBehaviour
@@ -143,6 +144,14 @@ public class TriggerColliderWeapon : MonoBehaviour
                             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().playerKillInfoSingleUpdate(num2);
                         }
                     }
+                    else if (item.transform.root.GetComponent<MindlessTitan>() != null)
+                    {
+                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
+                        damage = Mathf.Max(10, damage);
+                        var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
+                        mindlessTitan.OnNapeHit(transform.root.gameObject.GetPhotonView().viewID, damage);
+                    }
                     else if (!PhotonNetwork.isMasterClient)
                     {
                         if (item.transform.root.GetComponent<TITAN>() != null)
@@ -269,6 +278,14 @@ public class TriggerColliderWeapon : MonoBehaviour
                             gameObject.GetComponent<FEMALE_TITAN>().hitEyeRPC(base.transform.root.gameObject.GetPhotonView().viewID);
                         }
                     }
+                    else if (gameObject.GetComponent<MindlessTitan>() != null)
+                    {
+                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
+                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
+                        damage = Mathf.Max(10, damage);
+                        var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
+                        mindlessTitan.OnEyeHit(transform.root.gameObject.GetPhotonView().viewID, damage);
+                    }
                     else if (gameObject.GetComponent<TITAN>().TitanType != TitanType.TYPE_CRAWLER)
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
@@ -330,6 +347,11 @@ public class TriggerColliderWeapon : MonoBehaviour
                         }
                         this.showCriticalHitFX();
                     }
+                }
+                else if (obj4.GetComponent<MindlessTitan>() != null)
+                {
+                    var mindlessTitan = obj4.GetComponent<MindlessTitan>();
+                    mindlessTitan.OnAnkleHit(transform.root.gameObject.GetPhotonView().viewID, num9);
                 }
                 else if (obj4.GetComponent<FEMALE_TITAN>() != null)
                 {
