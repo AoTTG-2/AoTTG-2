@@ -3,6 +3,7 @@
     public class Attack
     {
         public bool IsFinished;
+        public float Cooldown;
 
         public virtual bool CanAttack(MindlessTitan titan)
         {

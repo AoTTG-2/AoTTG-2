@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Titan.Attacks;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Characters.Titan.Attacks;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
@@ -11,6 +10,7 @@ namespace Assets.Scripts.Characters.Titan
     public class MindlessTitan : MonoBehaviour
     {
         public MindlessTitanState TitanState = MindlessTitanState.Wandering;
+        public MindlessTitanState PreviousState;
         public float Speed = 10f;
 
         private bool IsAlive => TitanState != MindlessTitanState.Dead;
@@ -20,24 +20,26 @@ namespace Assets.Scripts.Characters.Titan
         private Rigidbody Rigidbody { get; set; }
 
         private string CurrentAnimation { get; set; } = "idle_2";
-
         private string AnimationTurnLeft { get; set; } = "turnaround2";
         private string AnimationTurnRight { get; set; } = "turnaround1";
         private string AnimationWalk { get; set; } = "run_walk";
+        private string AnimationRecovery { get; set; } = "tired";
 
         private float turnDeg;
         private float desDeg;
-
         private int nextUpdate = 1;
+        private float attackCooldown;
+        private float staminaLimit;
+
         public float Size = 1f;
+        public float Stamina = 10f;
+        public float StaminaRecovery = 1f;
 
         public Hero Target { get; set; }
         private float RotationModifier { get; set; }
 
         private List<Attack> Attacks { get; set; }
         private Attack CurrentAttack { get; set; }
-        private float attackDistance = 15f;
-
 
         void Awake()
         {
@@ -46,8 +48,9 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody = GetComponent<Rigidbody>();
             Attacks = new List<Attack>
             {
-                new RockThrowAttack()
+                new SmashAttack()
             };
+            staminaLimit = Stamina;
         }
 
         public void OnNapeHit(int viewId, int damage)
@@ -88,12 +91,50 @@ namespace Assets.Scripts.Characters.Titan
             TitanState = MindlessTitanState.Chase;
         }
 
+        private void ChangeState(MindlessTitanState state)
+        {
+            PreviousState = TitanState;
+            TitanState = state;
+        }
+
+        private void RefreshStamina()
+        {
+            if (Stamina >= staminaLimit) return;
+            Stamina += StaminaRecovery * Time.deltaTime;
+            if (Stamina > staminaLimit)
+            {
+                Stamina = staminaLimit;
+            }
+        }
+
         void Update()
         {
+            RefreshStamina();
+
             if (Time.time >= nextUpdate)
             {
                 nextUpdate = Mathf.FloorToInt(Time.time) + 1;
                 UpdateEverySecond();
+            }
+
+            if (Stamina < 0 && TitanState != MindlessTitanState.Recovering)
+            {
+                ChangeState(MindlessTitanState.Recovering);
+            }
+
+            if (TitanState == MindlessTitanState.Recovering)
+            {
+                Stamina += Time.deltaTime * 5f;
+                CurrentAnimation = AnimationRecovery;
+                if (!Animation.IsPlaying(CurrentAnimation))
+                {
+                    Animation.CrossFade(CurrentAnimation);
+                }
+
+                if (Stamina > staminaLimit * 0.75f)
+                {
+                    ChangeState(PreviousState);
+                }
             }
 
             if (TitanState == MindlessTitanState.Wandering)
@@ -111,7 +152,7 @@ namespace Assets.Scripts.Characters.Titan
                 gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, this.desDeg, 0f), (Time.deltaTime * Mathf.Abs(this.turnDeg)) * 0.015f);
                 if (Animation[CurrentAnimation].normalizedTime > 1f)
                 {
-                    TitanState = MindlessTitanState.Wandering;
+                    ChangeState(PreviousState);
                 }
 
                 return;
@@ -123,12 +164,20 @@ namespace Assets.Scripts.Characters.Titan
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {
                     Animation.CrossFade(CurrentAnimation);
+                    return;
+                }
+
+                if (attackCooldown > 0)
+                {
+                    attackCooldown -= Time.deltaTime * CurrentAttack.Cooldown;
+                    return;
                 }
 
                 CurrentAttack = Attacks.SingleOrDefault(x => x.CanAttack(this));
                 if (CurrentAttack != null)
                 {
-                    TitanState = MindlessTitanState.Attacking;
+                    Debug.Log("Can attack");
+                    ChangeState(MindlessTitanState.Attacking);
                 }
                 return;
             }
@@ -137,8 +186,10 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (CurrentAttack.IsFinished)
                 {
-                    TitanState = MindlessTitanState.Chase;
+                    Debug.Log("Finished");
                     CurrentAttack.IsFinished = false;
+                    Stamina -= 10f;
+                    ChangeState(MindlessTitanState.Chase);
                     return;
                 }
                 CurrentAttack.Execute(this);

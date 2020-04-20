@@ -1514,7 +1514,7 @@ Transform:
   m_GameObject: {fileID: 1553402952984384}
   m_LocalRotation: {x: -0.0060147895, y: -0.0082922, z: -0.0051204143, w: 0.99993443}
   m_LocalPosition: {x: -0.6056047, y: -0.0000001470926, z: -0.000000002793968}
-  m_LocalScale: {x: 1, y: 1, z: 0.9999999}
+  m_LocalScale: {x: 2.5, y: 1, z: 0.9999999}
   m_Children:
   - {fileID: 4184681814520016}
   m_Father: {fileID: 4359070867701286}
@@ -2664,8 +2664,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TitanState: 2
+  PreviousState: 0
   Speed: 10
   Size: 1
+  Stamina: 10
+  StaminaRecovery: 1
 --- !u!114 &114146789337948602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2716,7 +2719,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700c18b296b00f042b6a2afddf78233e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Head: {fileID: 4785721790656888}
   HandRight: {fileID: 4392246336210114}
+  ArmRight: {fileID: 4332437840038354}
+  LegLeft: {fileID: 4261563218926432}
+  LegRight: {fileID: 4990088436780208}
 --- !u!114 &114468590170453910
 MonoBehaviour:
   m_ObjectHideFlags: 1

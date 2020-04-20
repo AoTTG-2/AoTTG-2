@@ -13,6 +13,7 @@ namespace Assets.Scripts.Characters.Titan
         Wandering,
         Turning,
         Chase,
-        Attacking
+        Attacking,
+        Recovering
     }
 }

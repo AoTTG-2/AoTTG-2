@@ -6372,6 +6372,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             return (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_VER3.1"), position, rotation);
         }
+        //return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
         return PhotonNetwork.Instantiate("MindlessTitan", position, rotation, 0);
     }
 
