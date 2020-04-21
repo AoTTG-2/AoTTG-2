@@ -9,9 +9,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack(MindlessTitan titan)
         {
-            var distance = Vector3.Distance(titan.transform.position, titan.Target.transform.position);
+            //var distance = Vector3.Distance(titan.transform.position, titan.Target.transform.position);
             float angle = Vector3.Angle(titan.transform.forward, titan.transform.position - titan.Target.transform.position);
-            if (distance > 25 || angle < 155 && !titan.Animation.IsPlaying(attackAnimation))
+            if (titan.TargetDistance >= 10 * titan.Size || angle < 155 && !titan.Animation.IsPlaying(attackAnimation))
             {
                 return false;
             }

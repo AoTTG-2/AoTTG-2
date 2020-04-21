@@ -31,7 +31,8 @@ namespace Assets.Scripts.Characters.Titan
         private float attackCooldown;
         private float staminaLimit;
 
-        public float Size = 1f;
+        public float TargetDistance = 1f;
+        public float Size = 3f;
         public float Stamina = 10f;
         public float StaminaRecovery = 1f;
 
@@ -48,9 +49,102 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody = GetComponent<Rigidbody>();
             Attacks = new List<Attack>
             {
-                new SmashAttack()
+                new SlapAttack()
             };
             staminaLimit = Stamina;
+            transform.localScale = new Vector3(Size, Size, Size);
+            var x = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
+            headscale = new Vector3(x, x, x);
+            this.oldHeadRotation = TitanBody.Head.rotation;
+        }
+
+        private bool asClientLookTarget;
+        private Quaternion oldHeadRotation;
+        private Quaternion targetHeadRotation;
+        private Vector3 headscale;
+
+        [PunRPC]
+        private void setIfLookTarget(bool bo)
+        {
+            this.asClientLookTarget = bo;
+        }
+
+        private void HeadMovement()
+        {
+            if (TitanState != MindlessTitanState.Dead)
+            {
+
+                if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+                {
+                    if (base.photonView.isMine)
+                    {
+                        targetHeadRotation = TitanBody.Head.rotation;
+                        bool flag2 = false;
+                        if (TitanState == MindlessTitanState.Chase && ((TargetDistance < 100f) && (Target != null)))
+                        {
+                            Vector3 vector = Target.transform.position - transform.position;
+                            var angle = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                            float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
+                            num = Mathf.Clamp(num, -40f, 40f);
+                            float y = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                            float num3 = Mathf.Atan2(y, TargetDistance) * 57.29578f;
+                            num3 = Mathf.Clamp(num3, -40f, 30f);
+                            targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num3, TitanBody.Head.rotation.eulerAngles.y + num, TitanBody.Head.rotation.eulerAngles.z);
+                            if (!this.asClientLookTarget)
+                            {
+                                this.asClientLookTarget = true;
+                                object[] parameters = new object[] { true };
+                                base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
+                            }
+                            flag2 = true;
+                        }
+                        if (!(flag2 || !this.asClientLookTarget))
+                        {
+                            this.asClientLookTarget = false;
+                            object[] objArray3 = new object[] { false };
+                            base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
+                        }
+                        if (TitanState == MindlessTitanState.Attacking)
+                        {
+                            oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 20f);
+                        }
+                        else
+                        {
+                            oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 10f);
+                        }
+                    }
+                    else
+                    {
+                        var hasTarget = Target != null;
+                        if (hasTarget)
+                        {
+                            TargetDistance = Mathf.Sqrt(((Target.transform.position.x - transform.position.x) * (Target.transform.position.x - transform.position.x)) + ((Target.transform.position.z - transform.position.z) * (Target.transform.position.z - transform.position.z)));
+                        }
+                        else
+                        {
+                            TargetDistance = float.MaxValue;
+                        }
+                        this.targetHeadRotation = TitanBody.Head.rotation;
+                        if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
+                        {
+                            Vector3 vector2 = Target.transform.position - transform.position;
+                            var angle = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
+                            float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
+                            num4 = Mathf.Clamp(num4, -40f, 40f);
+                            float num5 = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                            float num6 = Mathf.Atan2(num5, TargetDistance) * 57.29578f;
+                            num6 = Mathf.Clamp(num6, -40f, 30f);
+                            this.targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num6, TitanBody.Head.rotation.eulerAngles.y + num4, TitanBody.Head.rotation.eulerAngles.z);
+                        }
+                        this.oldHeadRotation = Quaternion.Slerp(this.oldHeadRotation, this.targetHeadRotation, Time.deltaTime * 10f);
+                    }
+                }
+                TitanBody.Head.rotation = this.oldHeadRotation;
+            }
+            if (!base.GetComponent<Animation>().IsPlaying("die_headOff"))
+            {
+                TitanBody.Head.localScale = this.headscale;
+            }
         }
 
         public void OnNapeHit(int viewId, int damage)
@@ -89,6 +183,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             Target = target.GetComponent<Hero>();
             TitanState = MindlessTitanState.Chase;
+            this.oldHeadRotation = TitanBody.Head.rotation;
         }
 
         private void ChangeState(MindlessTitanState state)
@@ -107,9 +202,43 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        private void CalculateTargetDistance()
+        {
+            if (Target == null) return;
+            TargetDistance = Mathf.Sqrt(((Target.transform.position.x - transform.position.x) * (Target.transform.position.x - transform.position.x)) + ((Target.transform.position.z - transform.position.z) * (Target.transform.position.z - transform.position.z)));
+        }
+
+        private void Turn(float degrees)
+        {
+            TitanState = MindlessTitanState.Turning;
+            CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
+            Animation.Play(CurrentAnimation);
+            this.turnDeg = degrees;
+            this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
+        }
+
+        private bool Between(float value, float min = -1f, float max = 1f)
+        {
+            return value > min && value < max;
+        }
+
+        private bool IsStuck()
+        {
+            var velocity = Rigidbody.velocity;
+            return Between(velocity.z, -Speed / 4, Speed / 4) 
+                   && Between(velocity.x, -Speed / 4, Speed / 4) 
+                   && Animation[CurrentAnimation].normalizedTime > 2f;
+        }
+
+        void LateUpdate()
+        {
+            HeadMovement();
+        }
+
         void Update()
         {
             RefreshStamina();
+            CalculateTargetDistance();
 
             if (Time.time >= nextUpdate)
             {
@@ -146,7 +275,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
                 return;
             }
-            
+
             if (TitanState == MindlessTitanState.Turning)
             {
                 gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, this.desDeg, 0f), (Time.deltaTime * Mathf.Abs(this.turnDeg)) * 0.015f);
@@ -173,10 +302,14 @@ namespace Assets.Scripts.Characters.Titan
                     return;
                 }
 
+                if (Target.HasDied())
+                {
+                    Target = null;
+                    return;
+                }
                 CurrentAttack = Attacks.SingleOrDefault(x => x.CanAttack(this));
                 if (CurrentAttack != null)
                 {
-                    Debug.Log("Can attack");
                     ChangeState(MindlessTitanState.Attacking);
                 }
                 return;
@@ -186,7 +319,6 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (CurrentAttack.IsFinished)
                 {
-                    Debug.Log("Finished");
                     CurrentAttack.IsFinished = false;
                     Stamina -= 10f;
                     ChangeState(MindlessTitanState.Chase);
@@ -194,28 +326,6 @@ namespace Assets.Scripts.Characters.Titan
                 }
                 CurrentAttack.Execute(this);
             }
-        }
-
-        private void Turn(float degrees)
-        {
-            TitanState = MindlessTitanState.Turning;
-            CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
-            Animation.Play(CurrentAnimation);
-            this.turnDeg = degrees;
-            this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
-        }
-
-        private bool Between(float value, float min = -1f, float max = 1f)
-        {
-            return value > min && value < max;
-        }
-
-        private bool IsStuck()
-        {
-            var velocity = Rigidbody.velocity;
-            return Between(velocity.z, -Speed / 4, Speed / 4) 
-                   && Between(velocity.x, -Speed / 4, Speed / 4) 
-                   && Animation[CurrentAnimation].normalizedTime > 2f;
         }
 
         void UpdateEverySecond()
