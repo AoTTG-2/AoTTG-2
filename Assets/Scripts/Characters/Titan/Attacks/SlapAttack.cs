@@ -66,30 +66,6 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
         }
 
-        private GameObject checkIfHitHand(Transform hand, float titanSize)
-        {
-            float num = 2.4f * titanSize;
-            foreach (Collider collider in Physics.OverlapSphere(hand.GetComponent<SphereCollider>().transform.position, num + 1f))
-            {
-                if (collider.transform.root.tag == "Player")
-                {
-                    GameObject gameObject = collider.transform.root.gameObject;
-                    if (gameObject.GetComponent<TITAN_EREN>() != null)
-                    {
-                        if (!gameObject.GetComponent<TITAN_EREN>().isHit)
-                        {
-                            gameObject.GetComponent<TITAN_EREN>().hitByTitan();
-                        }
-                    }
-                    else if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
-                    {
-                        return gameObject;
-                    }
-                }
-            }
-            return null;
-        }
-
         public override void Execute(MindlessTitan titan)
         {
             if (IsFinished) return;

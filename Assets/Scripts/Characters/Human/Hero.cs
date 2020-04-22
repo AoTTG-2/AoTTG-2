@@ -1,3 +1,4 @@
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
@@ -130,7 +131,7 @@ public class Hero : Human
     public GameObject myNetWorkName;
     public float myScale = 1f;
     public int myTeam = 1;
-    public List<TITAN> myTitans;
+    public List<MindlessTitan> myTitans;
     private bool needLean;
     private Quaternion oldHeadRotation;
     private float originVM;
@@ -695,7 +696,7 @@ public class Hero : Human
         LayerMask mask4 = (mask | mask2) | mask3;
         RaycastHit[] hitArray = Physics.RaycastAll(ray, 180f, mask4.value);
         List<RaycastHit> list = new List<RaycastHit>();
-        List<TITAN> list2 = new List<TITAN>();
+        List<MindlessTitan> list2 = new List<MindlessTitan>();
         for (count = 0; count < hitArray.Length; count++)
         {
             RaycastHit item = hitArray[count];
@@ -709,14 +710,14 @@ public class Hero : Human
             GameObject gameObject = hit2.collider.gameObject;
             if (gameObject.layer == 0x10)
             {
-                if (gameObject.name.Contains("PlayerDetectorRC") && ((hit2 = list[count]).distance < num2))
+                if (gameObject.name.Contains("Detection") && ((hit2 = list[count]).distance < num2))
                 {
                     num2 -= 60f;
                     if (num2 <= 60f)
                     {
                         count = list.Count;
                     }
-                    TITAN component = gameObject.transform.root.gameObject.GetComponent<TITAN>();
+                    MindlessTitan component = gameObject.transform.root.gameObject.GetComponent<MindlessTitan>();
                     if (component != null)
                     {
                         list2.Add(component);
@@ -730,16 +731,16 @@ public class Hero : Human
         }
         for (count = 0; count < this.myTitans.Count; count++)
         {
-            TITAN titan2 = this.myTitans[count];
+            MindlessTitan titan2 = this.myTitans[count];
             if (!list2.Contains(titan2))
             {
-                titan2.isLook = false;
+                //titan2.isLook = false;
             }
         }
         for (count = 0; count < list2.Count; count++)
         {
-            TITAN titan3 = list2[count];
-            titan3.isLook = true;
+            MindlessTitan titan3 = list2[count];
+            //titan3.isLook = true;
         }
         this.myTitans = list2;
     }
@@ -2023,128 +2024,6 @@ public class Hero : Human
         UnityEngine.Object.Destroy(base.gameObject);
     }
 
-    public void lateUpdate()
-    {
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (this.myNetWorkName != null))
-        {
-            if (this.titanForm && (this.eren_titan != null))
-            {
-                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
-            }
-            Vector3 start = new Vector3(base.transform.position.x, base.transform.position.y + 2f, base.transform.position.z);
-            GameObject obj2 = GameObject.Find("MainCamera");
-            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask3 = mask2 | mask;
-            if ((Vector3.Angle(obj2.transform.forward, start - obj2.transform.position) <= 90f) && !Physics.Linecast(start, obj2.transform.position, (int)mask3))
-            {
-                Vector2 vector5 = GameObject.Find("MainCamera").GetComponent<Camera>().WorldToScreenPoint(start);
-                this.myNetWorkName.transform.localPosition = new Vector3((float)((int)(vector5.x - (Screen.width * 0.5f))), (float)((int)(vector5.y - (Screen.height * 0.5f))), 0f);
-            }
-            else
-            {
-                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
-            }
-        }
-        if (!this.titanForm)
-        {
-            if ((IN_GAME_MAIN_CAMERA.cameraTilt == 1) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
-            {
-                Quaternion quaternion3;
-                Vector3 zero = Vector3.zero;
-                Vector3 position = Vector3.zero;
-                if ((this.isLaunchLeft && (this.bulletLeft != null)) && this.bulletLeft.GetComponent<Bullet>().isHooked())
-                {
-                    zero = this.bulletLeft.transform.position;
-                }
-                if ((this.isLaunchRight && (this.bulletRight != null)) && this.bulletRight.GetComponent<Bullet>().isHooked())
-                {
-                    position = this.bulletRight.transform.position;
-                }
-                Vector3 vector8 = Vector3.zero;
-                if ((zero.magnitude != 0f) && (position.magnitude == 0f))
-                {
-                    vector8 = zero;
-                }
-                else if ((zero.magnitude == 0f) && (position.magnitude != 0f))
-                {
-                    vector8 = position;
-                }
-                else if ((zero.magnitude != 0f) && (position.magnitude != 0f))
-                {
-                    vector8 = (Vector3)((zero + position) * 0.5f);
-                }
-                Vector3 from = Vector3.Project(vector8 - base.transform.position, GameObject.Find("MainCamera").transform.up);
-                Vector3 vector10 = Vector3.Project(vector8 - base.transform.position, GameObject.Find("MainCamera").transform.right);
-                if (vector8.magnitude > 0f)
-                {
-                    Vector3 to = from + vector10;
-                    float num = Vector3.Angle(vector8 - base.transform.position, base.GetComponent<Rigidbody>().velocity) * 0.005f;
-                    Vector3 vector14 = GameObject.Find("MainCamera").transform.right + vector10.normalized;
-                    quaternion3 = Quaternion.Euler(GameObject.Find("MainCamera").transform.rotation.eulerAngles.x, GameObject.Find("MainCamera").transform.rotation.eulerAngles.y, (vector14.magnitude >= 1f) ? (-Vector3.Angle(from, to) * num) : (Vector3.Angle(from, to) * num));
-                }
-                else
-                {
-                    quaternion3 = Quaternion.Euler(GameObject.Find("MainCamera").transform.rotation.eulerAngles.x, GameObject.Find("MainCamera").transform.rotation.eulerAngles.y, 0f);
-                }
-                GameObject.Find("MainCamera").transform.rotation = Quaternion.Lerp(GameObject.Find("MainCamera").transform.rotation, quaternion3, Time.deltaTime * 2f);
-            }
-            if ((this.state == HERO_STATE.Grab) && (this.titanWhoGrabMe != null))
-            {
-                if (this.titanWhoGrabMe.GetComponent<TITAN>() != null)
-                {
-                    base.transform.position = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.position;
-                    base.transform.rotation = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.rotation;
-                }
-                else if (this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>() != null)
-                {
-                    base.transform.position = this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>().grabTF.transform.position;
-                    base.transform.rotation = this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>().grabTF.transform.rotation;
-                }
-            }
-            if (this.useGun)
-            {
-                if (!this.leftArmAim && !this.rightArmAim)
-                {
-                    if (!this.grounded)
-                    {
-                        this.handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
-                        this.handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-                    }
-                }
-                else
-                {
-                    Vector3 vector17 = this.gunTarget - base.transform.position;
-                    float current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f;
-                    float num3 = -Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f);
-                    this.headMovement();
-                    if ((!this.isLeftHandHooked && this.leftArmAim) && ((num3 < 40f) && (num3 > -90f)))
-                    {
-                        this.leftArmAimTo(this.gunTarget);
-                    }
-                    if ((!this.isRightHandHooked && this.rightArmAim) && ((num3 > -40f) && (num3 < 90f)))
-                    {
-                        this.rightArmAimTo(this.gunTarget);
-                    }
-                }
-                if (this.isLeftHandHooked && (this.bulletLeft != null))
-                {
-                    this.leftArmAimTo(this.bulletLeft.transform.position);
-                }
-                if (this.isRightHandHooked && (this.bulletRight != null))
-                {
-                    this.rightArmAimTo(this.bulletRight.transform.position);
-                }
-            }
-            this.setHookedPplDirection();
-            this.bodyLean();
-            if ((!base.GetComponent<Animation>().IsPlaying("attack3_2") && !base.GetComponent<Animation>().IsPlaying("attack5")) && !base.GetComponent<Animation>().IsPlaying("special_petra"))
-            {
-                base.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(base.gameObject.transform.rotation, this.targetRotation, Time.deltaTime * 6f);
-            }
-        }
-    }
-
     public void lateUpdate2()
     {
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (this.myNetWorkName != null))
@@ -2213,10 +2092,10 @@ public class Hero : Human
             }
             if ((this.state == HERO_STATE.Grab) && (this.titanWhoGrabMe != null))
             {
-                if (this.titanWhoGrabMe.GetComponent<TITAN>() != null)
+                if (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null)
                 {
-                    this.baseTransform.position = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.position;
-                    this.baseTransform.rotation = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.rotation;
+                    this.baseTransform.position = this.titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.position;
+                    this.baseTransform.rotation = this.titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.rotation;
                 }
                 else if (this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>() != null)
                 {

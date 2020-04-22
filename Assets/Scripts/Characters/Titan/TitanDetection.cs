@@ -29,6 +29,7 @@ namespace Assets.Scripts.Characters.Titan
             if (Titan.HasTarget()) return;
             foreach (var collider in colliders)
             {
+                if (collider == null) continue;
                 var target = collider.transform.root.gameObject;
                 if (target.layer != 8) continue;
                 Vector3 targetDir = target.transform.position - transform.position;

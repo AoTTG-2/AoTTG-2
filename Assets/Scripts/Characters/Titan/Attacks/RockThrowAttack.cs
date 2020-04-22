@@ -11,7 +11,6 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         public override bool CanAttack(MindlessTitan titan)
         {
             var distance = Vector3.Distance(titan.transform.position, titan.Target.transform.position);
-            Debug.Log(distance);
             if (distance < 100 && !titan.Animation.IsPlaying(attackAnimation)) return false;
             return true;
         }

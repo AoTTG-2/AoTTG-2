@@ -10,6 +10,8 @@ namespace Assets.Scripts.Characters.Titan
         public Transform HandLeft;
         public Transform Chest;
         public Transform ArmRight;
+        public Transform UpperArmRight;
+        public Transform ShoulderRight;
 
         public Transform LegLeft;
         public Transform LegRight;

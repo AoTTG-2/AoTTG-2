@@ -2668,8 +2668,8 @@ MonoBehaviour:
   Speed: 10
   TargetDistance: 1
   Size: 4
-  Stamina: 10
-  StaminaRecovery: 1
+  Stamina: 5000
+  StaminaRecovery: 1000
 --- !u!114 &114146789337948602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2726,6 +2726,8 @@ MonoBehaviour:
   HandLeft: {fileID: 4750408942487292}
   Chest: {fileID: 4026096054525048}
   ArmRight: {fileID: 4332437840038354}
+  UpperArmRight: {fileID: 4359070867701286}
+  ShoulderRight: {fileID: 4483567270133998}
   LegLeft: {fileID: 4261563218926432}
   LegRight: {fileID: 4990088436780208}
   checkAeLLeft: {fileID: 4718549205490738}

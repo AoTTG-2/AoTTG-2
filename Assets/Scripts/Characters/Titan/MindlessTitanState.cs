@@ -14,6 +14,7 @@ namespace Assets.Scripts.Characters.Titan
         Turning,
         Chase,
         Attacking,
-        Recovering
+        Recovering,
+        Eat
     }
 }
