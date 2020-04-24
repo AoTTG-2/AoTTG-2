@@ -33,7 +33,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 hasExploded = true;
                 GameObject obj9;
-                var fxPosition = titan.transform.Find("ap_combo_3").position;
+                var fxPosition = titan.TitanBody.AttackCombo.position;
                 var rotation = Quaternion.Euler(270f, 0f, 0f);
                 if (titan.photonView.isMine)
                 {

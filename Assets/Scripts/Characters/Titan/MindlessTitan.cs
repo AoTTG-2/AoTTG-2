@@ -44,6 +44,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private List<Attack> Attacks { get; set; }
         private Attack CurrentAttack { get; set; }
+        private Collider[] Colliders { get; set; }
 
         void Awake()
         {
@@ -59,12 +60,15 @@ namespace Assets.Scripts.Characters.Titan
             };
             staminaLimit = Stamina;
             transform.localScale = new Vector3(Size, Size, Size);
-            var x = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
-            headscale = new Vector3(x, x, x);
+            var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
+            headscale = new Vector3(scale, scale, scale);
             this.oldHeadRotation = TitanBody.Head.rotation;
-            AttackDistance = Vector3.Distance(base.transform.position, base.transform.Find("ap_front_ground").position) * 1.65f;
+            AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
+            Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection")
+                .ToArray();
+            SetColliders(false);
         }
 
         private bool asClientLookTarget;
@@ -239,7 +243,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void OnTargetGrabbed(GameObject target, bool isLeftHand)
         {
-            TitanState = MindlessTitanState.Eat;
+            ChangeState(MindlessTitanState.Eat);
             GrabTarget = target.GetComponent<Hero>();
             if (isLeftHand)
             {
@@ -259,8 +263,9 @@ namespace Assets.Scripts.Characters.Titan
         public void OnTargetDetected(GameObject target)
         {
             Target = target.GetComponent<Hero>();
-            TitanState = MindlessTitanState.Chase;
+            ChangeState(MindlessTitanState.Chase);
             this.oldHeadRotation = TitanBody.Head.rotation;
+            SetColliders(true);
         }
 
         private void ChangeState(MindlessTitanState state)
@@ -287,9 +292,9 @@ namespace Assets.Scripts.Characters.Titan
 
         private void Turn(float degrees)
         {
-            TitanState = MindlessTitanState.Turning;
+            ChangeState(MindlessTitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
-            Animation.Play(CurrentAnimation);
+            Animation.CrossFade(CurrentAnimation, 0.1f);
             this.turnDeg = degrees;
             this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
         }
@@ -309,12 +314,23 @@ namespace Assets.Scripts.Characters.Titan
 
         void LateUpdate()
         {
-            if (Target == null)
+            if (Target == null && TitanState == MindlessTitanState.Attacking)
             {
                 ChangeState(MindlessTitanState.Wandering);
             }
 
             HeadMovement();
+        }
+
+        private void SetColliders(bool value)
+        {
+            foreach (Collider collider in Colliders)
+            {
+                if (collider != null)
+                {
+                    collider.enabled = value;
+                }
+            }
         }
 
         void Update()
@@ -389,6 +405,17 @@ namespace Assets.Scripts.Characters.Titan
                 if (CurrentAttack != null)
                 {
                     ChangeState(MindlessTitanState.Attacking);
+                }
+                else
+                {
+                    Vector3 vector18 = Target.transform.position - transform.position;
+                    var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
+                    var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
+                    if (Mathf.Abs(between) > 45f)
+                    {
+                        Turn(between);
+                        return;
+                    }
                 }
                 return;
             }
@@ -469,6 +496,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (TitanState == MindlessTitanState.Chase)
             {
+                if (Target == null) return;
                 Vector3 vector17 = Target.transform.position - transform.position;
                 var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
                 float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);

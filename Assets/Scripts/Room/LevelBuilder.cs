@@ -38,7 +38,8 @@ public class LevelBuilder
             {
                 new KillTitansGamemode
                 {
-                    Titans = 45
+                    Titans = 100,
+                    TitanLimit = 100
                 },
                 new EndlessGamemode
                 {

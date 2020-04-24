@@ -2670,6 +2670,7 @@ MonoBehaviour:
   Size: 4
   Stamina: 5000
   StaminaRecovery: 1000
+  grabTF: {fileID: 0}
 --- !u!114 &114146789337948602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2734,6 +2735,25 @@ MonoBehaviour:
   checkAeLRight: {fileID: 4065975121523036}
   checkAeRight: {fileID: 4974204882645096}
   checkAeLeft: {fileID: 4420247305095092}
+  CheckOverhead: {fileID: 4488880852085178}
+  CheckFrontRight: {fileID: 4730531045254670}
+  CheckFrontLeft: {fileID: 4058318642582830}
+  CheckFront: {fileID: 4064912103518338}
+  CheckBackRight: {fileID: 4875233727775272}
+  CheckBackLowRight: {fileID: 4092127304610076}
+  CheckBackLowLeft: {fileID: 4354356785587242}
+  CheckBackLeft: {fileID: 4496855998612014}
+  CheckBack: {fileID: 4511085027267988}
+  AttackStomp: {fileID: 4363781619409792}
+  AttackSlapFace: {fileID: 4177038870267934}
+  AttackSlapBack: {fileID: 4560791289368008}
+  AttackKick: {fileID: 4447708169098136}
+  AttackFrontGround: {fileID: 4499465451910394}
+  AttackCombo: {fileID: 4954706669601616}
+  AttackBiteRight: {fileID: 4010774233382968}
+  AttackBiteLeft: {fileID: 4174104206074642}
+  AttackBite: {fileID: 4419495927181526}
+  AttackAbnormalJump: {fileID: 4014965717870646}
 --- !u!114 &114468590170453910
 MonoBehaviour:
   m_ObjectHideFlags: 1

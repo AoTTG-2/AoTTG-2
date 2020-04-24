@@ -2082,24 +2082,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     disposable2.Dispose();
                 }
             }
-            IEnumerator enumerator3 = this.titans.GetEnumerator();
-            try
-            {
-                while (enumerator3.MoveNext())
-                {
-                    var current = (TITAN)enumerator3.Current;
-                    if (current != null)
-                        current.lateUpdate2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable3 = enumerator3 as IDisposable;
-                if (disposable3 != null)
-                {
-                    disposable3.Dispose();
-                }
-            }
             IEnumerator enumerator4 = this.fT.GetEnumerator();
             try
             {
@@ -6589,24 +6571,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (disposable3 != null)
                 {
                     disposable3.Dispose();
-                }
-            }
-            IEnumerator enumerator4 = this.titans.GetEnumerator();
-            try
-            {
-                while (enumerator4.MoveNext())
-                {
-                    var current = (TITAN)enumerator4.Current;
-                    if (current != null)
-                        current.update2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable4 = enumerator4 as IDisposable;
-                if (disposable4 != null)
-                {
-                    disposable4.Dispose();
                 }
             }
             IEnumerator enumerator5 = this.fT.GetEnumerator();

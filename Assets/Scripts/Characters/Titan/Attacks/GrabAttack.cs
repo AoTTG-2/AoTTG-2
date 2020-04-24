@@ -30,7 +30,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
-            if (Vector3.Distance(titan.Target.transform.position, titan.transform.Find("chkOverHead").position) < (3.6f * titan.Size))
+            if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckOverhead.position) < (3.6f * titan.Size))
             {
                 if (between > 0f)
                 {
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             
             if (between > 0f)
             {
-                if (Vector3.Distance(titan.Target.transform.position, titan.transform.Find("chkBackRight").position) < (2.8f * titan.Size))
+                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackRight.position) < (2.8f * titan.Size))
                 {
                     AttackAnimation = "grab_head_back_r";
                     Hand = TitanHand.Right;
@@ -58,7 +58,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     return true;
                 }
             }
-            if (Vector3.Distance(titan.Target.transform.position, titan.transform.Find("chkBackLeft").position) < (2.8f * titan.Size))
+            if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackLeft.position) < (2.8f * titan.Size))
             {
                 AttackAnimation = "grab_head_back_l";
                 Hand = TitanHand.Left;
@@ -104,7 +104,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 return;
             }
 
-            if (titan.Animation[AttackAnimation].normalizedTime >= this.attackCheckTimeA && titan.Animation[AttackAnimation].normalizedTime <= this.attackCheckTimeB/* && (this.grabbedTarget == null)*/)
+            if (titan.Animation[AttackAnimation].normalizedTime >= this.attackCheckTimeA && titan.Animation[AttackAnimation].normalizedTime <= this.attackCheckTimeB)
             {
                 var hand = Hand == TitanHand.Left
                     ? titan.TitanBody.HandLeft
