@@ -53,10 +53,15 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody = GetComponent<Rigidbody>();
             Attacks = new List<Attack>
             {
-                //new SlapAttack(),
-                //new RockThrowAttack(),
-                //new SmashAttack(),
-                new GrabAttack()
+                new SlapAttack(),
+                new RockThrowAttack(),
+                new SmashAttack(),
+                new GrabAttack(),
+                new SlapFaceAttack(),
+                new BiteAttack(),
+                new BodySlamAttack(),
+                new KickAttack(),
+                new StompAttack()
             };
             staminaLimit = Stamina;
             transform.localScale = new Vector3(Size, Size, Size);
@@ -369,7 +374,7 @@ namespace Assets.Scripts.Characters.Titan
                 CurrentAnimation = AnimationWalk;
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {
-                    Animation.CrossFade(CurrentAnimation);
+                    Animation.CrossFade(CurrentAnimation, 0.5f);
                 }
                 return;
             }
@@ -387,6 +392,12 @@ namespace Assets.Scripts.Characters.Titan
 
             if (TitanState == MindlessTitanState.Chase)
             {
+                if (Target == null)
+                {
+                    ChangeState(MindlessTitanState.Wandering);
+                    return;
+                }
+
                 CurrentAnimation = AnimationWalk;
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {

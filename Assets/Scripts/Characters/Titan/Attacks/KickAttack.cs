@@ -2,11 +2,11 @@
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class SmashAttack : BoomAttack
+    public class KickAttack : BoomAttack
     {
-        protected override string Effect { get; set; } = "FX/boom1";
-        protected override float BoomTimer { get; set; } = 0.45f;
-        protected override string AttackAnimation { get; set; } = "attack_front_ground";
+        protected override string Effect { get; set; } = "FX/boom5";
+        protected override float BoomTimer { get; set; } = 0.43f;
+        protected override string AttackAnimation { get; set; } = "attack_kick";
 
         public override bool CanAttack(MindlessTitan titan)
         {
@@ -14,9 +14,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
             if (Mathf.Abs(between) >= 90f || between <= 0 ||
-                titan.TargetDistance >= titan.AttackDistance * 0.75f) return false;
+                titan.TargetDistance > titan.AttackDistance * 0.25f) return false;
 
-            TitanBodyPart = titan.TitanBody.AttackFrontGround;
+            TitanBodyPart = titan.TitanBody.AttackKick;
             return true;
         }
     }
