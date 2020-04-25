@@ -710,7 +710,7 @@ public class Hero : Human
             GameObject gameObject = hit2.collider.gameObject;
             if (gameObject.layer == 0x10)
             {
-                if (gameObject.name.Contains("Detection") && ((hit2 = list[count]).distance < num2))
+                if (gameObject.name.Contains("PlayerCollisionDetection") && ((hit2 = list[count]).distance < num2))
                 {
                     num2 -= 60f;
                     if (num2 <= 60f)
@@ -734,13 +734,13 @@ public class Hero : Human
             MindlessTitan titan2 = this.myTitans[count];
             if (!list2.Contains(titan2))
             {
-                //titan2.isLook = false;
+                titan2.IsLooked = false;
             }
         }
         for (count = 0; count < list2.Count; count++)
         {
             MindlessTitan titan3 = list2[count];
-            //titan3.isLook = true;
+            titan3.IsLooked = true;
         }
         this.myTitans = list2;
     }

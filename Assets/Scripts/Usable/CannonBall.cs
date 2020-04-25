@@ -73,7 +73,7 @@ public class CannonBall : Photon.MonoBehaviour
                 {
                     if (this.myTitanTriggers[i] != null)
                     {
-                        this.myTitanTriggers[i].isCollide = false;
+                        this.myTitanTriggers[i].SetCollision(false);
                     }
                 }
             }
@@ -103,7 +103,7 @@ public class CannonBall : Photon.MonoBehaviour
                     TitanTrigger component = gameObject.GetComponent<TitanTrigger>();
                     if (!((component == null) || this.myTitanTriggers.Contains(component)))
                     {
-                        component.isCollide = true;
+                        component.SetCollision(true);
                         this.myTitanTriggers.Add(component);
                     }
                 }

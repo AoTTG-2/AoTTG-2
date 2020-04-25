@@ -1,6 +1,7 @@
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using UnityEngine.UI;
@@ -366,9 +367,9 @@ public class InRoomChat : Photon.MonoBehaviour
                     else if (this.inputLine == "/colliders")
                     {
                         int num7 = 0;
-                        foreach (TITAN titan in FengGameManagerMKII.instance.getTitans())
+                        foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
                         {
-                            if (titan.myTitanTrigger.isCollide)
+                            if (titan.IsColliding)
                             {
                                 num7++;
                             }

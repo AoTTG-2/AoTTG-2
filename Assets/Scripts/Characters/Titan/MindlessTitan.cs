@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters.Titan.Attacks;
+﻿using System;
+using Assets.Scripts.Characters.Titan.Attacks;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -38,6 +39,42 @@ namespace Assets.Scripts.Characters.Titan
         public float Stamina = 10f;
         public float StaminaRecovery = 1f;
 
+        private bool isHooked;
+        public bool IsHooked
+        {
+            get { return isHooked; }
+            set
+            {
+                if (value == isHooked) return;
+                isHooked = value;
+                CheckColliders();
+            }
+        }
+
+        private bool isLooked;
+        public bool IsLooked
+        {
+            get { return isLooked; }
+            set
+            {
+                if (value == isLooked) return;
+                isLooked = value;
+                CheckColliders();
+            }
+        }
+
+        private bool isColliding;
+        public bool IsColliding
+        {
+            get { return isColliding; }
+            set
+            {
+                if (value == isColliding) return;
+                isColliding = value;
+                CheckColliders();
+            }
+        }
+
         public Hero Target { get; set; }
         private Hero GrabTarget { get; set; }
         private float RotationModifier { get; set; }
@@ -54,14 +91,15 @@ namespace Assets.Scripts.Characters.Titan
             Attacks = new List<Attack>
             {
                 new SlapAttack(),
-                new RockThrowAttack(),
+                //new RockThrowAttack(),
                 new SmashAttack(),
                 new GrabAttack(),
                 new SlapFaceAttack(),
                 new BiteAttack(),
                 new BodySlamAttack(),
                 new KickAttack(),
-                new StompAttack()
+                new StompAttack(),
+                //new ComboAttack()
             };
             staminaLimit = Stamina;
             transform.localScale = new Vector3(Size, Size, Size);
@@ -71,9 +109,26 @@ namespace Assets.Scripts.Characters.Titan
             AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
-            Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection")
+            Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB")
                 .ToArray();
-            SetColliders(false);
+            CheckColliders();
+
+            GameObject obj2 = new GameObject
+            {
+                name = "PlayerCollisionDetection"
+            };
+            CapsuleCollider collider2 = obj2.AddComponent<CapsuleCollider>();
+            CapsuleCollider component = transform.Find("AABB").GetComponent<CapsuleCollider>();
+            collider2.center = component.center;
+            collider2.radius = Math.Abs((float)(transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head").position.y - transform.position.y));
+            collider2.height = component.height * 1.2f;
+            collider2.material = component.material;
+            collider2.isTrigger = true;
+            collider2.name = "PlayerCollisionDetection";
+            obj2.AddComponent<TitanTrigger>();
+            obj2.layer = 0x10;
+            obj2.transform.parent = this.transform.Find("AABB");
+            obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
         }
 
         private bool asClientLookTarget;
@@ -270,7 +325,6 @@ namespace Assets.Scripts.Characters.Titan
             Target = target.GetComponent<Hero>();
             ChangeState(MindlessTitanState.Chase);
             this.oldHeadRotation = TitanBody.Head.rotation;
-            SetColliders(true);
         }
 
         private void ChangeState(MindlessTitanState state)
@@ -325,21 +379,42 @@ namespace Assets.Scripts.Characters.Titan
             }
 
             HeadMovement();
+
         }
 
-        private void SetColliders(bool value)
+        private void CheckColliders()
         {
-            foreach (Collider collider in Colliders)
+            if (!IsHooked && !IsLooked && !IsColliding)
             {
-                if (collider != null)
+                foreach (Collider collider in Colliders)
                 {
-                    collider.enabled = value;
+                    if (collider != null)
+                    {
+                        collider.enabled = false;
+                    }
+                }
+            }
+            else if (IsHooked || IsLooked || IsColliding)
+            {
+                foreach (Collider collider in Colliders)
+                {
+                    if (collider != null)
+                    {
+                        collider.enabled = true;
+                    }
                 }
             }
         }
 
+        public bool IsHooking;
+        public bool IsLooking;
+        public bool IsCollided;
+
         void Update()
         {
+            IsHooking = isHooked;
+            IsLooked = isLooked;
+            IsCollided = isColliding;
             RefreshStamina();
             CalculateTargetDistance();
 

@@ -581,7 +581,6 @@ public class TITAN : MonoBehaviour
         collider2.isTrigger = true;
         collider2.name = "PlayerDetectorRC";
         this.myTitanTrigger = obj2.AddComponent<TitanTrigger>();
-        this.myTitanTrigger.isCollide = false;
         obj2.layer = 0x10;
         obj2.transform.parent = this.baseTransform.Find("AABB");
         obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -4247,31 +4246,6 @@ public class TITAN : MonoBehaviour
 
     public void updateCollider()
     {
-        if (this.colliderEnabled)
-        {
-            if ((!this.isHooked && !this.myTitanTrigger.isCollide) && !this.isLook)
-            {
-                foreach (Collider collider in this.baseColliders)
-                {
-                    if (collider != null)
-                    {
-                        collider.enabled = false;
-                    }
-                }
-                this.colliderEnabled = false;
-            }
-        }
-        else if ((this.isHooked || this.myTitanTrigger.isCollide) || this.isLook)
-        {
-            foreach (Collider collider in this.baseColliders)
-            {
-                if (collider != null)
-                {
-                    collider.enabled = true;
-                }
-            }
-            this.colliderEnabled = true;
-        }
     }
 
     public void updateLabel()
