@@ -311,6 +311,22 @@ public class TriggerColliderWeapon : MonoBehaviour
                     }
                 }
             }
+            else if (other.gameObject.tag == "titanbodypart")
+            {
+                if (!this.currentHits.Contains(other.gameObject))
+                {
+                    this.currentHits.Add(other.gameObject);
+                    GameObject gameObject = other.gameObject.transform.root.gameObject;
+                    if (gameObject.GetComponent<MindlessTitan>() != null)
+                    {
+                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
+                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
+                        damage = Mathf.Max(10, damage);
+                        var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
+                        mindlessTitan.OnBodyPartHit(other.transform, damage);
+                    }
+                }
+            }
             else if ((other.gameObject.tag == "titanankle") && !this.currentHits.Contains(other.gameObject))
             {
                 this.currentHits.Add(other.gameObject);

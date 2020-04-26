@@ -139,10 +139,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().isGrabbed)
             {
-                titan.grabToRight();
+                titan.Grab(false);
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)
                 {
-                    titan.photonView.RPC("grabToRight", PhotonTargets.Others, new object[0]);
+                    titan.photonView.RPC("Grab", PhotonTargets.Others, false);
                     object[] parameters = new object[] { "grabbed" };
                     grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
                     object[] objArray2 = new object[] { titan.photonView.viewID, false };
@@ -160,10 +160,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().isGrabbed)
             {
-                titan.grabToLeft();
+                titan.Grab(true);
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)
                 {
-                    titan.photonView.RPC("grabToLeft", PhotonTargets.Others, new object[0]);
+                    titan.photonView.RPC("Grab", PhotonTargets.Others, true);
                     object[] parameters = new object[] { "grabbed" };
                     grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
                     object[] objArray2 = new object[] { titan.photonView.viewID, true };

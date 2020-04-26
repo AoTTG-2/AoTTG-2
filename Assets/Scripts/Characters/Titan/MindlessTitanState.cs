@@ -15,6 +15,7 @@ namespace Assets.Scripts.Characters.Titan
         Chase,
         Attacking,
         Recovering,
-        Eat
+        Eat,
+        Disabled
     }
 }

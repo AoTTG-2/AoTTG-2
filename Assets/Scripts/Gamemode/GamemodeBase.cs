@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -395,7 +396,7 @@ namespace Assets.Scripts.Gamemode
         {
             foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
             {
-                if ((obj2.GetComponent<TITAN>() != null) && !obj2.GetComponent<TITAN>().hasDie)
+                if ((obj2.GetComponent<MindlessTitan>() != null) && obj2.GetComponent<MindlessTitan>().TitanState != MindlessTitanState.Dead)
                 {
                     return false;
                 }

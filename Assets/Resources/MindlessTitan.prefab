@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 136018938126532754}
   m_Layer: 10
   m_Name: shin_L
-  m_TagString: Untagged
+  m_TagString: titanbodypart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 136119855152873830}
   m_Layer: 10
   m_Name: upper_arm_L
-  m_TagString: Untagged
+  m_TagString: titanbodypart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 136009148244082222}
   m_Layer: 10
   m_Name: shin_R
-  m_TagString: Untagged
+  m_TagString: titanbodypart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1081,7 +1081,7 @@ GameObject:
   - component: {fileID: 136522788447029712}
   m_Layer: 10
   m_Name: upper_arm_R
-  m_TagString: Untagged
+  m_TagString: titanbodypart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2681,10 +2681,7 @@ MonoBehaviour:
   Size: 4
   Stamina: 5000
   StaminaRecovery: 1000
-  grabTF: {fileID: 0}
-  IsHooking: 0
-  IsLooking: 0
-  IsCollided: 0
+  Health: 0
 --- !u!114 &114146789337948602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2743,8 +2740,12 @@ MonoBehaviour:
   ArmRight: {fileID: 4332437840038354}
   UpperArmRight: {fileID: 4359070867701286}
   ShoulderRight: {fileID: 4483567270133998}
-  LegLeft: {fileID: 4261563218926432}
-  LegRight: {fileID: 4990088436780208}
+  ArmLeft: {fileID: 4901757834267432}
+  UpperArmLeft: {fileID: 4587935427260762}
+  ShoulderLeft: {fileID: 4385744030590588}
+  Hip: {fileID: 4757557157045464}
+  LegLeft: {fileID: 4199486576510812}
+  LegRight: {fileID: 4169512168961186}
   checkAeLLeft: {fileID: 4718549205490738}
   checkAeLRight: {fileID: 4065975121523036}
   checkAeRight: {fileID: 4974204882645096}
