@@ -57533,7 +57533,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1181554560
 GameObject:
@@ -57984,6 +57984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c0152780c0d824f8dec9e5e86dcca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 0}
 --- !u!1 &1223555017
 GameObject:
   m_ObjectHideFlags: 0
@@ -58884,7 +58885,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1303703926
 GameObject:
@@ -59028,6 +59029,31 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: isInput.Array.size
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: isInputUp.Array.size
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: isInputDown.Array.size
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickActive.Array.size
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.size
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 4166574009320592, guid: f395e93d44f182b47a6f357f15c60c21, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -59059,6 +59085,96 @@ Prefab:
     - target: {fileID: 4166574009320592, guid: f395e93d44f182b47a6f357f15c60c21, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[0]
+      value: Forward
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[1]
+      value: Backward
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[4]
+      value: Jump-Gas
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[6]
+      value: LeftHook
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[7]
+      value: RightHook
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[8]
+      value: BothHook
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[10]
+      value: Attack1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[11]
+      value: Attack2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[13]
+      value: VisionType
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[19]
+      value: Flare1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: DescriptionString.Array.data[20]
+      value: Flare2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.data[5]
+      value: '#'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.data[9]
+      value: '#'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.data[12]
+      value: '#'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.data[14]
+      value: '#'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.data[15]
+      value: '#'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.data[16]
+      value: '#'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114166688468020630, guid: f395e93d44f182b47a6f357f15c60c21,
+        type: 2}
+      propertyPath: joystickString.Array.data[17]
+      value: '#'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f395e93d44f182b47a6f357f15c60c21, type: 2}
@@ -59228,7 +59344,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1349629777
 Prefab:
