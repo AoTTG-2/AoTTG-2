@@ -5,6 +5,8 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
+        public RebindMenu RebindMenu;
+
         public void ShowGameSettingsMenu()
         {
             GameSettingsMenu.gameObject.SetActive(true);
@@ -12,6 +14,7 @@ namespace Assets.Scripts.UI.InGame
 
         private void SetGameSettingsMenu()
         {
+
         }
 
         private void OnDisable()
