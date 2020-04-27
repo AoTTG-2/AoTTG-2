@@ -14,7 +14,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             ExecuteBoomAttack(titan);
         }
-
+        
         private void ExecuteBoomAttack(MindlessTitan titan)
         {
             if (IsFinished) return;
@@ -22,6 +22,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 titan.Animation.CrossFade(AttackAnimation, 0.1f);
                 HasExploded = false;
+                return;
+            }
+
+            if (titan.IsDisabled(BodyParts))
+            {
+                IsFinished = true;
                 return;
             }
 

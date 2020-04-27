@@ -4,40 +4,44 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 {
     public class SlapAttack : Attack
     {
-        private enum TitanHand
+        public SlapAttack()
         {
-            Left,
-            Right
+            BodyParts = new[] { BodyPart.HandLeft, BodyPart.HandRight };
         }
 
         private string AttackAnimation { get; set; }
-        private TitanHand Hand { get; set; }
+        private BodyPart Hand { get; set; }
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (IsDisabled(titan)) return false;
             Vector3 line = (Vector3)((titan.Target.GetComponent<Rigidbody>().velocity * Time.deltaTime) * 30f);
             if (line.sqrMagnitude <= 10f) return false;
             if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeLeft.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_l";
-                Hand = TitanHand.Left;
+                Hand = BodyPart.HandLeft;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
             if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeLLeft.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_low_l";
-                Hand = TitanHand.Left;
+                Hand = BodyPart.HandLeft;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
             if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeRight.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_r";
-                Hand = TitanHand.Right;
+                Hand = BodyPart.HandRight;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
             if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeLRight.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_low_r";
-                Hand = TitanHand.Right;
+                Hand = BodyPart.HandRight;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
             return false;
@@ -45,7 +49,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         private void HandleHit(MindlessTitan titan)
         {
-            var hand = Hand == TitanHand.Left
+            var hand = Hand == BodyPart.HandLeft
                 ? titan.TitanBody.HandLeft
                 : titan.TitanBody.HandRight;
 
@@ -72,6 +76,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (!titan.Animation.IsPlaying(AttackAnimation))
             {
                 titan.Animation.CrossFade(AttackAnimation);
+                return;
+            }
+
+            if (IsDisabled(titan, Hand))
+            {
+                IsFinished = true;
                 return;
             }
 

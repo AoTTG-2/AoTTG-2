@@ -1,32 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
     public class GrabAttack : Attack
     {
-
+        public GrabAttack()
+        {
+            BodyParts = new[] {BodyPart.HandLeft, BodyPart.HandRight};
+        }
         private string AttackAnimation { get; set; }
         private float attackCheckTimeA { get; set; }
         private float attackCheckTimeB { get; set; }
         private GameObject GrabbedTarget { get; set; }
 
-        private TitanHand Hand { get; set; }
-
-        private enum TitanHand
-        {
-            Left,
-            Right
-        }
-
+        private BodyPart Hand { get; set; }
         public override bool CanAttack(MindlessTitan titan)
         {
             if (titan.TargetDistance >= titan.AttackDistance) return false;
-
+            if (IsDisabled(titan)) return false;
             Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
@@ -35,13 +26,15 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 if (between > 0f)
                 {
                     AttackAnimation = "grab_head_front_r";
-                    Hand = TitanHand.Right;
+                    Hand = BodyPart.HandRight;
                 }
                 else
                 {
                     AttackAnimation = "grab_head_front_l";
-                    Hand = TitanHand.Left;
+                    Hand = BodyPart.HandLeft;
                 }
+
+                if (IsDisabled(titan, Hand)) return false;
                 attackCheckTimeA = 0.38f;
                 attackCheckTimeB = 0.55f;
                 return true;
@@ -52,7 +45,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackRight.position) < (2.8f * titan.Size))
                 {
                     AttackAnimation = "grab_head_back_r";
-                    Hand = TitanHand.Right;
+                    Hand = BodyPart.HandRight;
+                    if (IsDisabled(titan, Hand)) return false;
                     attackCheckTimeA = 0.45f;
                     attackCheckTimeB = 0.5f;
                     return true;
@@ -61,7 +55,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackLeft.position) < (2.8f * titan.Size))
             {
                 AttackAnimation = "grab_head_back_l";
-                Hand = TitanHand.Left;
+                Hand = BodyPart.HandLeft;
+                if (IsDisabled(titan, Hand)) return false;
                 attackCheckTimeA = 0.45f;
                 attackCheckTimeB = 0.5f;
                 return true;
@@ -73,8 +68,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     ? "grab_ground_front_r"
                     : "grab_ground_front_l";
                 Hand = between > 0f
-                    ? TitanHand.Right
-                    : TitanHand.Left;
+                    ? BodyPart.HandRight
+                    : BodyPart.HandLeft;
+                if (IsDisabled(titan, Hand)) return false;
                 attackCheckTimeA = 0.37f;
                 attackCheckTimeB = 0.6f;
                 return true;
@@ -86,8 +82,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     ? "grab_ground_back_r"
                     : "grab_ground_back_l";
                 Hand = between > 0f
-                    ? TitanHand.Right
-                    : TitanHand.Left;
+                    ? BodyPart.HandRight
+                    : BodyPart.HandLeft;
+                if (IsDisabled(titan, Hand)) return false;
                 attackCheckTimeA = 0.34f;
                 attackCheckTimeB = 0.49f;
                 return true;
@@ -104,16 +101,22 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 return;
             }
 
+            if (IsDisabled(titan, Hand))
+            {
+                IsFinished = true;
+                return;
+            }
+
             if (titan.Animation[AttackAnimation].normalizedTime >= this.attackCheckTimeA && titan.Animation[AttackAnimation].normalizedTime <= this.attackCheckTimeB)
             {
-                var hand = Hand == TitanHand.Left
+                var hand = Hand == BodyPart.HandLeft
                     ? titan.TitanBody.HandLeft
                     : titan.TitanBody.HandRight;
 
                 GameObject grabTarget = checkIfHitHand(hand, titan.Size);
                 if (grabTarget != null)
                 {
-                    if (Hand == TitanHand.Left)
+                    if (Hand == BodyPart.HandLeft)
                     {
                         eatSetL(titan, grabTarget);
                         GrabbedTarget = grabTarget;
@@ -129,7 +132,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 if (GrabbedTarget != null)
                 {
-                    titan.OnTargetGrabbed(GrabbedTarget, Hand == TitanHand.Left);
+                    titan.OnTargetGrabbed(GrabbedTarget, Hand == BodyPart.HandLeft);
                 }
                 IsFinished = true;
             }

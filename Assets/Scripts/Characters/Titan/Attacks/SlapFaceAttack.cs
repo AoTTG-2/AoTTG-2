@@ -4,10 +4,16 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 {
     public class SlapFaceAttack : BoomAttack
     {
+        public SlapFaceAttack()
+        {
+            BodyParts = new[] { BodyPart.ArmRight };
+        }
         protected override string Effect { get; set; } = "FX/boom3";
         protected override float BoomTimer { get; set; } = 0.66f;
+
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (IsDisabled(titan)) return false;
             if (titan.Target.transform.position.y <= titan.TitanBody.Neck.position.y - 3f * titan.Size
                 || titan.TargetDistance >= titan.AttackDistance * 0.5f) return false;
 

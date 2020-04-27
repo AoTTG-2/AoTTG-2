@@ -14,7 +14,6 @@ namespace Assets.Scripts.Characters.Titan
         public MindlessTitanState PreviousState;
 
         private bool IsAlive => TitanState != MindlessTitanState.Dead;
-        public bool IsDisabled => TitanBody.GetDisabledBodyParts().Any();
         private float DamageTimer { get; set; }
         public TitanBody TitanBody { get; protected set; }
         public Animation Animation { get; protected set; }
@@ -94,8 +93,8 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody = GetComponent<Rigidbody>();
             Attacks = new List<Attack>
             {
-                //new SlapAttack(),
-                //new RockThrowAttack(),
+                new SlapAttack(),
+                new RockThrowAttack(),
                 new SmashAttack(),
                 new GrabAttack(),
                 new SlapFaceAttack(),
@@ -133,6 +132,12 @@ namespace Assets.Scripts.Characters.Titan
             obj2.layer = 0x10;
             obj2.transform.parent = this.transform.Find("AABB");
             obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
+        }
+
+        public bool IsDisabled(params BodyPart[] bodyParts)
+        {
+            if (bodyParts == null) return false;
+            return bodyParts.All(bodyPart => TitanBody.GetDisabledBodyParts().Contains(bodyPart));
         }
 
         public void Initialize()

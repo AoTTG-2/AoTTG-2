@@ -6,6 +6,17 @@ namespace Assets.Scripts.Characters.Titan.Attacks
     {
         public bool IsFinished { get; set; }
         public float Cooldown { get; set; }
+        public BodyPart[] BodyParts { get; set; }
+
+        protected bool IsDisabled(MindlessTitan titan)
+        {
+            return titan.IsDisabled(BodyParts);
+        }
+
+        protected bool IsDisabled(MindlessTitan titan, BodyPart bodyPart)
+        {
+            return titan.IsDisabled(bodyPart);
+        }
 
         public virtual bool CanAttack(MindlessTitan titan)
         {

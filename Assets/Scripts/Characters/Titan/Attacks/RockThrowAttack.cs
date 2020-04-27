@@ -4,12 +4,17 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 {
     public class RockThrowAttack : Attack
     {
+        public RockThrowAttack()
+        {
+            BodyParts = new[] {BodyPart.ArmRight};
+        }
         private GameObject Rock { get; set; }
         private bool UsedRock { get; set; }
         private string attackAnimation = "attack_throw";
 
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (IsDisabled(titan)) return false;
             var distance = Vector3.Distance(titan.transform.position, titan.Target.transform.position);
             if (distance < 100 && !titan.Animation.IsPlaying(attackAnimation)) return false;
             return true;
@@ -28,9 +33,14 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 return;
             }
 
+            if (titan.IsDisabled(BodyParts))
+            {
+                IsFinished = true;
+                return;
+            }
+
             if (!UsedRock && (titan.Animation[attackAnimation].normalizedTime >= 0.11f && titan.Animation[attackAnimation].normalizedTime <= 1f))
             {
-                Debug.LogWarning("Spawning a rock");
                 UsedRock = true;
                 Transform transform = titan.TitanBody.HandRight;
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)

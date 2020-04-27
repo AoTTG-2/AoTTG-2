@@ -50,34 +50,38 @@ namespace Assets.Scripts.Characters.Titan
         public Transform AttackAbnormalJump;
 
         private Dictionary<BodyPart, float> CooldownDictionary { get; set; } = new Dictionary<BodyPart, float>();
-        private readonly float _bodyPartRecovery = 20f;
+        private readonly float _bodyPartRecovery = 45f;
         private readonly Vector3 bodyPartDamagedSize = new Vector3(0.001f, 0.001f, 0.001f);
 
         public void AddBodyPart(Transform body)
         {
             Debug.Log($"We've hit the {body.gameObject.name}");
-            BodyPart bodyPart = BodyPart.None;
+            BodyPart[] bodyPart = {BodyPart.None};
             Transform bodyPartEffect = null;
             if (body == UpperArmRight || body == ArmRight)
             {
-                bodyPart = BodyPart.ArmRight;
+                bodyPart = new[] {BodyPart.ArmRight, BodyPart.HandRight};
                 bodyPartEffect = ArmRight;
             } else if (body == UpperArmLeft || body == ArmLeft)
             {
-                bodyPart = BodyPart.ArmLeft;
+                bodyPart = new[] { BodyPart.ArmLeft, BodyPart.HandLeft };
                 bodyPartEffect = ArmLeft;
             } else if (body == LegLeft)
             {
-                bodyPart = BodyPart.LegLeft;
+                bodyPart = new[] {BodyPart.LegLeft};
                 bodyPartEffect = LegLeft;
             } else if (body == LegRight)
             {
-                bodyPart = BodyPart.LegRight;
+                bodyPart = new[] { BodyPart.LegRight };
                 bodyPartEffect = LegRight;
             }
 
-            if (bodyPart == BodyPart.None || CooldownDictionary.ContainsKey(bodyPart)) return;
-            CooldownDictionary.Add(bodyPart, _bodyPartRecovery);
+            if (bodyPart[0] == BodyPart.None || CooldownDictionary.ContainsKey(bodyPart[0])) return;
+
+            foreach (var part in bodyPart)
+            {
+                CooldownDictionary.Add(part, _bodyPartRecovery);
+            }
 
             if (bodyPartEffect == null) return;
             var steamEffect = PhotonNetwork.Instantiate("fx/bodypart_steam", new Vector3(), new Quaternion(), 0);

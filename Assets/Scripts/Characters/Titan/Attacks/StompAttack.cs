@@ -4,6 +4,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 {
     public class StompAttack : BoomAttack
     {
+        public StompAttack()
+        {
+            BodyParts = new[] {BodyPart.LegLeft};
+        }
         protected override string Effect { get; set; } = "FX/boom2";
         protected override float BoomTimer { get; set; } = 0.42f;
         protected override string AttackAnimation { get; set; } = "attack_stomp";
