@@ -1,5 +1,6 @@
-﻿using System;
-using Assets.Scripts.Characters.Titan.Attacks;
+﻿using Assets.Scripts.Characters.Titan.Attacks;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Characters.Titan
     {
         public MindlessTitanState TitanState = MindlessTitanState.Wandering;
         public MindlessTitanState PreviousState;
+        public MindlessTitanType Type;
 
         private bool IsAlive => TitanState != MindlessTitanState.Dead;
         private float DamageTimer { get; set; }
@@ -85,6 +87,7 @@ namespace Assets.Scripts.Characters.Titan
         private List<Attack> Attacks { get; set; }
         private Attack CurrentAttack { get; set; }
         private Collider[] Colliders { get; set; }
+        private GameObject HealthLabel { get; set; }
 
         void Awake()
         {
@@ -104,10 +107,6 @@ namespace Assets.Scripts.Characters.Titan
                 new StompAttack(),
                 //new ComboAttack()
             };
-            staminaLimit = Stamina;
-            transform.localScale = new Vector3(Size, Size, Size);
-            var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
-            headscale = new Vector3(scale, scale, scale);
             this.oldHeadRotation = TitanBody.Head.rotation;
             AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
             this.grabTF = new GameObject();
@@ -140,9 +139,66 @@ namespace Assets.Scripts.Characters.Titan
             return bodyParts.All(bodyPart => TitanBody.GetDisabledBodyParts().Contains(bodyPart));
         }
 
-        public void Initialize()
+        public void Initialize(TitanConfiguration configuration)
         {
+            Health = configuration.Health;
             MaxHealth = Health;
+            Speed = configuration.Speed;
+            Attacks = configuration.Attacks;
+            Size = configuration.Size;
+            AnimationWalk = configuration.AnimationWalk;
+            AnimationDeath = configuration.AnimationDeath;
+            AnimationRecovery = configuration.AnimationRecovery;
+            AnimationTurnLeft = configuration.AnimationTurnLeft;
+            AnimationTurnRight = configuration.AnimationTurnRight;
+            Stamina = configuration.Stamina;
+            StaminaRecovery = configuration.StaminaRegeneration;
+            staminaLimit = Stamina;
+            Type = configuration.Type;
+
+            transform.localScale = new Vector3(Size, Size, Size);
+            var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
+            headscale = new Vector3(scale, scale, scale);
+
+            if (Health > 0)
+            {
+                HealthLabel = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
+                HealthLabel.name = "HealthLabel";
+                HealthLabel.transform.parent = base.transform;
+                HealthLabel.transform.localPosition = new Vector3(0f, 20f + (1f / Size), 0f);
+                if (Type == MindlessTitanType.Crawler)
+                {
+                    HealthLabel.transform.localPosition = new Vector3(0f, 10f + (1f / Size), 0f);
+                }
+                float x = 1f;
+                if (Size < 1f)
+                {
+                    x = 1f / Size;
+                }
+
+                x *= 0.08f;
+                HealthLabel.transform.localScale = new Vector3(x, x, x);
+            }
+
+            if (photonView.isMine)
+            {
+                var config = JsonConvert.SerializeObject(configuration);
+                photonView.RPC("InitializeRpc", PhotonTargets.OthersBuffered, config);
+
+                if (Health > 0)
+                {
+                    photonView.RPC("UpdateHealthLabelRpc", PhotonTargets.AllBuffered, Health, MaxHealth);
+                }
+            }
+        }
+
+        [PunRPC]
+        public void InitializeRpc(string titanConfiguration, PhotonMessageInfo info)
+        {
+            if (info.sender.ID == photonView.ownerId)
+            {
+                Initialize(JsonConvert.DeserializeObject<TitanConfiguration>(titanConfiguration));
+            }
         }
 
         private bool asClientLookTarget;
@@ -282,6 +338,36 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        [PunRPC]
+        protected void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
+        {
+            if (currentHealth < 0)
+            {
+                if (HealthLabel != null)
+                {
+                    Destroy(HealthLabel);
+                }
+            }
+            else
+            {
+                var color = "7FFF00";
+                var num2 = ((float)currentHealth) / ((float)maxHealth);
+                if ((num2 < 0.75f) && (num2 >= 0.5f))
+                {
+                    color = "f2b50f";
+                }
+                else if ((num2 < 0.5f) && (num2 >= 0.25f))
+                {
+                    color = "ff8100";
+                }
+                else if (num2 < 0.25f)
+                {
+                    color = "ff3333";
+                }
+                HealthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{currentHealth}</color>";
+            }
+        }
+
         public void OnNapeHit(int viewId, int damage)
         {
             if (!IsAlive) return;
@@ -290,6 +376,12 @@ namespace Assets.Scripts.Characters.Titan
             DamageTimer = Time.time;
 
             Health -= damage;
+
+            if (MaxHealth > 0)
+            {
+                photonView.RPC("UpdateHealthLabelRpc", PhotonTargets.AllBuffered, Health, MaxHealth);
+            }
+
             if (Health <= 0)
             {
                 Health = 0;

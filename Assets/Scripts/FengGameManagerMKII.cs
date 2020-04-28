@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Assets.Scripts.Characters.Titan;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
@@ -1040,38 +1041,39 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.TitanLimit))
                     {
                         string name = item.name;
-                        if (name == "spawnAnnie")
-                        {
-                            PhotonNetwork.Instantiate("FEMALE_TITAN", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                        }
-                        else
-                        {
-                            GameObject obj2 = PhotonNetwork.Instantiate("TITAN_VER3.1", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                            if (name == "spawnAbnormal")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                            }
-                            else if (name == "spawnJumper")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                            }
-                            else if (name == "spawnCrawler")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                            }
-                            else if (name == "spawnPunk")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                            }
-                        }
-                        if (item.endless)
-                        {
-                            item.time = item.delay;
-                        }
-                        else
-                        {
-                            this.titanSpawners.Remove(item);
-                        }
+                        throw new NotImplementedException("Spawning titans on custom maps is not supported for mindless titans");
+                        //if (name == "spawnAnnie")
+                        //{
+                        //    PhotonNetwork.Instantiate("FEMALE_TITAN", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
+                        //}
+                        //else
+                        //{
+                        //    GameObject obj2 = PhotonNetwork.Instantiate("TITAN_VER3.1", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
+                        //    if (name == "spawnAbnormal")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
+                        //    }
+                        //    else if (name == "spawnJumper")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+                        //    }
+                        //    else if (name == "spawnCrawler")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
+                        //    }
+                        //    else if (name == "spawnPunk")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
+                        //    }
+                        //}
+                        //if (item.endless)
+                        //{
+                        //    item.time = item.delay;
+                        //}
+                        //else
+                        //{
+                        //    this.titanSpawners.Remove(item);
+                        //}
                     }
                 }
             }
@@ -3527,7 +3529,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     abnormal = 70;
                 }
-                this.spawnTitanCustom("titanRespawn", abnormal, Gamemode.Titans, false);
+                throw new NotImplementedException("Titan spawners for singleplayer don't exist yet");
+                //this.spawnTitanCustom("titanRespawn", abnormal, Gamemode.Titans, false);
             }
             else
             {
@@ -4659,46 +4662,46 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         player.SetCustomProperties(propertiesToSet);
     }
 
-    public GameObject randomSpawnOneTitan(string place, int rate)
-    {
-        GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
-        int index = UnityEngine.Random.Range(0, objArray.Length);
-        GameObject obj2 = objArray[index];
-        while (objArray[index] == null)
-        {
-            index = UnityEngine.Random.Range(0, objArray.Length);
-            obj2 = objArray[index];
-        }
-        objArray[index] = null;
-        return this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, false);
-    }
+    //public GameObject randomSpawnOneTitan(string place, int rate)
+    //{
+    //    GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
+    //    int index = UnityEngine.Random.Range(0, objArray.Length);
+    //    GameObject obj2 = objArray[index];
+    //    while (objArray[index] == null)
+    //    {
+    //        index = UnityEngine.Random.Range(0, objArray.Length);
+    //        obj2 = objArray[index];
+    //    }
+    //    objArray[index] = null;
+    //    return this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, false);
+    //}
 
-    public void randomSpawnTitan(string place, int rate, int num, bool punk = false)
-    {
-        if (num == -1)
-        {
-            num = 1;
-        }
-        GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
-        if (objArray.Length > 0)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                int index = UnityEngine.Random.Range(0, objArray.Length);
-                GameObject obj2 = objArray[index];
-                if (num <= objArray.Length)
-                {
-                    while (objArray[index] == null)
-                    {
-                        index = UnityEngine.Random.Range(0, objArray.Length);
-                        obj2 = objArray[index];
-                    }
-                    objArray[index] = null;
-                }
-                this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, punk);
-            }
-        }
-    }
+    //public void randomSpawnTitan(string place, int rate, int num, bool punk = false)
+    //{
+    //    if (num == -1)
+    //    {
+    //        num = 1;
+    //    }
+    //    GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
+    //    if (objArray.Length > 0)
+    //    {
+    //        for (int i = 0; i < num; i++)
+    //        {
+    //            int index = UnityEngine.Random.Range(0, objArray.Length);
+    //            GameObject obj2 = objArray[index];
+    //            if (num <= objArray.Length)
+    //            {
+    //                while (objArray[index] == null)
+    //                {
+    //                    index = UnityEngine.Random.Range(0, objArray.Length);
+    //                    obj2 = objArray[index];
+    //                }
+    //                objArray[index] = null;
+    //            }
+    //            this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, punk);
+    //        }
+    //    }
+    //}
 
     public Texture2D RCLoadTexture(string tex)
     {
@@ -6022,342 +6025,117 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public GameObject spawnTitan(int rate, Vector3 position, Quaternion rotation, bool punk = false)
+    //public GameObject spawnTitan(int rate, Vector3 position, Quaternion rotation, bool punk = false)
+    //{
+    //    GameObject obj3;
+    //    GameObject obj2 = this.spawnTitanRaw(position, rotation);
+    //    if (punk)
+    //    {
+    //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
+    //    }
+    //    else if (UnityEngine.Random.Range(0, 100) < rate)
+    //    {
+    //        if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+    //        {
+    //            if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //            {
+    //                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //            }
+    //            else
+    //            {
+    //                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+    //            }
+    //        }
+    //    }
+    //    else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+    //    {
+    //        if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //        }
+    //        else
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+    //        }
+    //    }
+    //    else if (UnityEngine.Random.Range(0, 100) < rate)
+    //    {
+    //        if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //        }
+    //        else
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
+    //        }
+    //    }
+    //    else if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //    {
+    //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //    }
+    //    else
+    //    {
+    //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+    //    }
+    //    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+    //    {
+    //        obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanSpawn"), obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f));
+    //    }
+    //    else
+    //    {
+    //        obj3 = PhotonNetwork.Instantiate("FX/FXtitanSpawn", obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f), 0);
+    //    }
+    //    obj3.transform.localScale = obj2.transform.localScale;
+    //    return obj2;
+    //}
+
+    public GameObject SpawnTitan()
     {
-        GameObject obj3;
-        GameObject obj2 = this.spawnTitanRaw(position, rotation);
-        //if (punk)
-        //{
-        //    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-        //}
-        //else if (UnityEngine.Random.Range(0, 100) < rate)
-        //{
-        //    if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-        //    {
-        //        if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-        //        {
-        //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-        //        }
-        //        else
-        //        {
-        //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-        //        }
-        //    }
-        //}
-        //else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-        //{
-        //    if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-        //    {
-        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-        //    }
-        //    else
-        //    {
-        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-        //    }
-        //}
-        //else if (UnityEngine.Random.Range(0, 100) < rate)
-        //{
-        //    if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-        //    {
-        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-        //    }
-        //    else
-        //    {
-        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-        //    }
-        //}
-        //else if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-        //{
-        //    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-        //}
-        //else
-        //{
-        //    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-        //}
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        return SpawnTitan(new TitanConfiguration());
+    }
+
+    public GameObject SpawnTitan(TitanConfiguration configuration)
+    {
+        Vector3 position = new Vector3();
+        Quaternion rotation = new Quaternion();
+        if (titanSpawns.Count > 0) // RC Custom Map Spawns
         {
-            obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanSpawn"), obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f));
+            position = titanSpawns[UnityEngine.Random.Range(0, titanSpawns.Count)];
         }
         else
         {
-            obj3 = PhotonNetwork.Instantiate("FX/FXtitanSpawn", obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f), 0);
+            var randomSpawns = GameObject.FindGameObjectsWithTag("titanRespawn");
+            if (randomSpawns.Length > 0)
+            {
+                var random = UnityEngine.Random.Range(0, randomSpawns.Length);
+                var randomSpawn = randomSpawns[random];
+                while (randomSpawn == null)
+                {
+                    random = UnityEngine.Random.Range(0, randomSpawns.Length);
+                    randomSpawn = randomSpawns[random];
+                }
+                randomSpawns[random] = null;
+                position = randomSpawn.transform.position;
+                rotation = randomSpawn.transform.rotation;
+            }
         }
-        obj3.transform.localScale = obj2.transform.localScale;
-        return obj2;
+
+        return SpawnTitan(position, rotation, configuration);
     }
 
-    public void spawnTitanAction(int type, float size, int health, int number)
+    public GameObject SpawnTitan(Vector3 position, Quaternion rotation)
     {
-        Vector3 position = new Vector3(UnityEngine.Random.Range((float)-400f, (float)400f), 0f, UnityEngine.Random.Range((float)-400f, (float)400f));
-        Quaternion rotation = new Quaternion(0f, 0f, 0f, 1f);
-        if (this.titanSpawns.Count > 0)
-        {
-            position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
-        }
-        else
-        {
-            GameObject[] objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
-            if (objArray.Length > 0)
-            {
-                int index = UnityEngine.Random.Range(0, objArray.Length);
-                GameObject obj2 = objArray[index];
-                while (objArray[index] == null)
-                {
-                    index = UnityEngine.Random.Range(0, objArray.Length);
-                    obj2 = objArray[index];
-                }
-                objArray[index] = null;
-                position = obj2.transform.position;
-                rotation = obj2.transform.rotation;
-            }
-        }
-        for (int i = 0; i < number; i++)
-        {
-            GameObject obj3 = this.spawnTitanRaw(position, rotation);
-            obj3.GetComponent<TITAN>().resetLevel(size);
-            obj3.GetComponent<TITAN>().hasSetLevel = true;
-            if (health > 0f)
-            {
-                obj3.GetComponent<TITAN>().currentHealth = health;
-                obj3.GetComponent<TITAN>().maxHealth = health;
-            }
-            switch (type)
-            {
-                case 0:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    break;
-
-                case 1:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                    break;
-
-                case 2:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                    break;
-
-                case 3:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                    break;
-
-                case 4:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                    break;
-            }
-        }
+        return SpawnTitan(position, rotation, new TitanConfiguration());
     }
 
-    public void spawnTitanAtAction(int type, float size, int health, int number, float posX, float posY, float posZ)
+    public GameObject SpawnTitan(Vector3 position, Quaternion rotation, TitanConfiguration configuration)
     {
-        Vector3 position = new Vector3(posX, posY, posZ);
-        Quaternion rotation = new Quaternion(0f, 0f, 0f, 1f);
-        for (int i = 0; i < number; i++)
-        {
-            GameObject obj2 = this.spawnTitanRaw(position, rotation);
-            obj2.GetComponent<TITAN>().resetLevel(size);
-            obj2.GetComponent<TITAN>().hasSetLevel = true;
-            if (health > 0f)
-            {
-                obj2.GetComponent<TITAN>().currentHealth = health;
-                obj2.GetComponent<TITAN>().maxHealth = health;
-            }
-            switch (type)
-            {
-                case 0:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    break;
-
-                case 1:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                    break;
-
-                case 2:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                    break;
-
-                case 3:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                    break;
-
-                case 4:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                    break;
-            }
-        }
+        var titan = PhotonNetwork.Instantiate("MindlessTitan", position, rotation, 0);
+        titan.GetComponent<MindlessTitan>().Initialize(configuration);
+        return titan;
     }
 
-    public void spawnTitanCustom(string type, int abnormal, int rate, bool punk)
-    {
-        int num8;
-        Vector3 position;
-        Quaternion rotation;
-        GameObject[] objArray;
-        int num9;
-        GameObject obj2;
-        int moreTitans = rate;
-        if (Level.Name.StartsWith("Custom"))
-        {
-            moreTitans = 5;
-            if (!Gamemode.TitansEnabled)
-            {
-                moreTitans = 0;
-            }
-        }
-        if ((Gamemode.Titans > 0) || (((Gamemode.Titans == 0) && Level.Name.StartsWith("Custom")) && !Gamemode.TitansEnabled))
-        {
-            moreTitans = Gamemode.Titans;
-        }
-
-        //TODO: Move this into Gamemode: OnSpawnTitan
-        if (Gamemode.GamemodeType == GamemodeType.Wave)
-        {
-            var wavesGamemode = (WaveGamemode) Gamemode;
-            if (punk)
-            {
-                moreTitans = rate;
-            }
-            else
-            {
-                int waveModeNum;
-                if (Gamemode.Titans == 0)
-                {
-                    waveModeNum = wavesGamemode.WaveIncrement;
-                    moreTitans += (wavesGamemode.Wave - 1) * (waveModeNum - 1);
-                }
-                else if (Gamemode.Titans > 0)
-                {
-                    waveModeNum = wavesGamemode.WaveIncrement;
-                    moreTitans += (wavesGamemode.Wave - 1) * waveModeNum;
-                }
-            }
-        }
-        moreTitans = Math.Min(Gamemode.TitanLimit, moreTitans);
-        if (Gamemode.CustomTitanRatio)
-        {
-            float nRate = Gamemode.TitanNormalRatio;
-            float aRate = Gamemode.TitanAbberantRatio;
-            float jRate = Gamemode.TitanJumperRatio;
-            float cRate = Gamemode.TitanCrawlerRatio;
-            float pRate = Gamemode.TitanPunkRatio;
-            bool isPunkWaves = false;
-            if (Gamemode.GamemodeType == GamemodeType.Wave)
-            {
-                isPunkWaves = ((WaveGamemode) Gamemode).PunkWave;
-            }
-            if (punk && isPunkWaves)
-            {
-                nRate = 0f;
-                aRate = 0f;
-                jRate = 0f;
-                cRate = 0f;
-                pRate = 100f;
-                moreTitans = rate;
-            }
-            for (num8 = 0; num8 < moreTitans; num8++)
-            {
-                position = new Vector3(UnityEngine.Random.Range((float)-400f, (float)400f), 0f, UnityEngine.Random.Range((float)-400f, (float)400f));
-                rotation = new Quaternion(0f, 0f, 0f, 1f);
-                if (this.titanSpawns.Count > 0)
-                {
-                    position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
-                }
-                else
-                {
-                    objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
-                    if (objArray.Length > 0)
-                    {
-                        num9 = UnityEngine.Random.Range(0, objArray.Length);
-                        obj2 = objArray[num9];
-                        while (objArray[num9] == null)
-                        {
-                            num9 = UnityEngine.Random.Range(0, objArray.Length);
-                            obj2 = objArray[num9];
-                        }
-                        objArray[num9] = null;
-                        position = obj2.transform.position;
-                        rotation = obj2.transform.rotation;
-                    }
-                }
-                float num10 = UnityEngine.Random.Range((float)0f, (float)100f);
-                if (num10 <= ((((nRate + aRate) + jRate) + cRate) + pRate))
-                {
-                    GameObject obj3 = this.spawnTitanRaw(position, rotation);
-                    if (num10 < nRate)
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    }
-                    else if ((num10 >= nRate) && (num10 < (nRate + aRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                    }
-                    else if ((num10 >= (nRate + aRate)) && (num10 < ((nRate + aRate) + jRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                    }
-                    else if ((num10 >= ((nRate + aRate) + jRate)) && (num10 < (((nRate + aRate) + jRate) + cRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                    }
-                    else if ((num10 >= (((nRate + aRate) + jRate) + cRate)) && (num10 < ((((nRate + aRate) + jRate) + cRate) + pRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                    }
-                    else
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    }
-                }
-                else
-                {
-                    this.spawnTitan(abnormal, position, rotation, punk);
-                }
-            }
-        }
-        else if (Level.Name.StartsWith("Custom"))
-        {
-            for (num8 = 0; num8 < moreTitans; num8++)
-            {
-                position = new Vector3(UnityEngine.Random.Range((float)-400f, (float)400f), 0f, UnityEngine.Random.Range((float)-400f, (float)400f));
-                rotation = new Quaternion(0f, 0f, 0f, 1f);
-                if (this.titanSpawns.Count > 0)
-                {
-                    position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
-                }
-                else
-                {
-                    objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
-                    if (objArray.Length > 0)
-                    {
-                        num9 = UnityEngine.Random.Range(0, objArray.Length);
-                        obj2 = objArray[num9];
-                        while (objArray[num9] == null)
-                        {
-                            num9 = UnityEngine.Random.Range(0, objArray.Length);
-                            obj2 = objArray[num9];
-                        }
-                        objArray[num9] = null;
-                        position = obj2.transform.position;
-                        rotation = obj2.transform.rotation;
-                    }
-                }
-                this.spawnTitan(abnormal, position, rotation, punk);
-            }
-        }
-        else
-        {
-            this.randomSpawnTitan("titanRespawn", abnormal, moreTitans, punk);
-        }
-    }
-
-    private GameObject spawnTitanRaw(Vector3 position, Quaternion rotation)
-    {
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            return (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_VER3.1"), position, rotation);
-        }
-        //return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
-        return PhotonNetwork.Instantiate("MindlessTitan", position, rotation, 0);
-    }
-
+    // Spawn player titan
     [PunRPC]
     private void spawnTitanRPC(PhotonMessageInfo info)
     {

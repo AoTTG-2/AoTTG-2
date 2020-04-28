@@ -2896,17 +2896,17 @@ public class TITAN : MonoBehaviour
         }
         if (num == 4)
         {
-            if (FengGameManagerMKII.Gamemode.IsEnabled(TitanType.TYPE_PUNK))
-            {
-                num = 1;
-            }
-            else
-            {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && (this.getPunkNumber() >= 3))
-                {
-                    num = 1;
-                }
-            }
+            //if (FengGameManagerMKII.Gamemode.IsEnabled(TitanType.TYPE_PUNK))
+            //{
+            //    num = 1;
+            //}
+            //else
+            //{
+            //    if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && (this.getPunkNumber() >= 3))
+            //    {
+            //        num = 1;
+            //    }
+            //}
             if (flag)
             {
                 num = 4;
@@ -4247,15 +4247,7 @@ public class TITAN : MonoBehaviour
     public void updateCollider()
     {
     }
-
-    public void updateLabel()
-    {
-        if ((this.healthLabel != null)) //&& this.healthLabel.GetComponent<UILabel>().isVisible)
-        {
-            this.healthLabel.transform.LookAt(((Vector3) (2f * this.healthLabel.transform.position)) - Camera.main.transform.position);
-        }
-    }
-
+    
     private void wander(float sbtime = 0f)
     {
         this.state = TitanState.wander;

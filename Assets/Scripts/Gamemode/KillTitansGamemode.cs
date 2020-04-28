@@ -28,12 +28,10 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                int num4 = 90;
-                if (FengGameManagerMKII.instance.difficulty == 1)
+                for (int i = 0; i < Titans; i++)
                 {
-                    num4 = 70;
+                    FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
                 }
-                FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num4, Titans, false);
             }
 
         }

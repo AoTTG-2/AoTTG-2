@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Elements;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.UI.Elements;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -86,7 +87,11 @@ namespace Assets.Scripts.Gamemode
                 {
                     num4 = 70;
                 }
-                FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num4, Titans, false);
+
+                for (int i = 0; i < Titans; i++)
+                {
+                    FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
+                }
             }
         }
 
@@ -137,22 +142,19 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                int abnormal = 90;
-                if (Difficulty == 1)
+                if (Wave % _punkWave == 0)
                 {
-                    abnormal = 70;
-                }
-                if (!IsEnabled(TitanType.TYPE_PUNK))
-                {
-                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, Wave + 2, false);
-                } 
-                else if (Wave % _punkWave == 0)
-                {
-                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, Wave / _punkWave, true);
+                    for (int i = 0; i < Wave / _punkWave; i++)
+                    {
+                        FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration(MindlessTitanType.Punk));
+                    }
                 }
                 else
                 {
-                    FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", abnormal, Wave + 2, false);
+                    for (int i = 0; i < Wave + 2; i++)
+                    {
+                        FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
+                    }
                 }
             }
         }

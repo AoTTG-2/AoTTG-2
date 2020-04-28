@@ -4,6 +4,7 @@ using Assets.Scripts.UI.Elements;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Assets.Scripts.Characters.Titan;
 using UnityEngine;
@@ -26,8 +27,6 @@ namespace Assets.Scripts.Gamemode
 
         [UiElement("MOTD", "Message of the Day")]
         public string Motd { get; set; } = string.Empty;
-
-        public List<TitanType> DisabledTitanTypes { get; set; } = new List<TitanType>();
 
         [UiElement("Start Titans", "The amount of titans that will spawn at the start", SettingCategory.Titans)]
         public int Titans { get; set; } = 25;
@@ -65,21 +64,6 @@ namespace Assets.Scripts.Gamemode
         [UiElement("Custom Titans", "Should custom titan rates be used?", SettingCategory.Titans)]
         public bool CustomTitanRatio { get; set; } = false;
 
-        [UiElement("Normal Ratio", "", SettingCategory.Titans)]
-        public float TitanNormalRatio { get; set; } = 20f;
-
-        [UiElement("Abberant Ratio", "", SettingCategory.Titans)]
-        public float TitanAbberantRatio { get; set; } = 20f;
-
-        [UiElement("Jumper Ratio", "", SettingCategory.Titans)]
-        public float TitanJumperRatio { get; set; } = 20f;
-
-        [UiElement("Crawler Ratio", "", SettingCategory.Titans)]
-        public float TitanCrawlerRatio { get; set; } = 20f;
-
-        [UiElement("Punk Ratio", "", SettingCategory.Titans)]
-        public float TitanPunkRatio { get; set; } = 20f;
-
         [UiElement("Damage Mode", "Minimum damage you need to do", SettingCategory.Titans)]
         public int DamageMode { get; set; }
 
@@ -111,8 +95,6 @@ namespace Assets.Scripts.Gamemode
 
         [UiElement("Lava mode", "The floor is lava! Touching the floor means that you will die...")]
         public bool LavaMode { get; set; }
-        public bool Crawlers;
-        public bool Punks = true;
 
         [UiElement("PvP", "Can players kill each other?", SettingCategory.Pvp)]
         public PvpMode Pvp { get; set; } = PvpMode.Disabled;
@@ -152,6 +134,82 @@ namespace Assets.Scripts.Gamemode
         public int Difficulty = 1;
 
         public bool IsSinglePlayer = IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE;
+
+        //TODO: Be able to change these via UI
+        public Dictionary<MindlessTitanType, float> TitanTypeRatio = new Dictionary<MindlessTitanType, float>
+        {
+            {MindlessTitanType.Normal, 20f},
+            {MindlessTitanType.Abnormal, 20f},
+            {MindlessTitanType.Jumper, 20f},
+            {MindlessTitanType.Punk, 20f},
+            {MindlessTitanType.Crawler, 20f},
+            {MindlessTitanType.Burster, 20f},
+            {MindlessTitanType.Stalker, 20f}
+        };
+
+        public List<MindlessTitanType> DisabledTitans { get; set; } = new List<MindlessTitanType>();
+
+        private MindlessTitanType GetTitanType()
+        {
+            if (CustomTitanRatio)
+            {
+                var titanTypes = new Dictionary<MindlessTitanType, float>(TitanTypeRatio);
+                foreach (var disabledTitanType in DisabledTitans)
+                {
+                    titanTypes.Remove(disabledTitanType);
+                }
+
+                var totalRatio = TitanTypeRatio.Values.Sum();
+                var ratioList = new List<KeyValuePair<MindlessTitanType, float>>();
+                var ratio = 0f;
+                foreach (var titanTypeRatio in titanTypes)
+                {
+                    ratio += titanTypeRatio.Value / totalRatio;
+                    ratioList.Add(new KeyValuePair<MindlessTitanType, float>(titanTypeRatio.Key, ratio));
+                }
+
+                var randomNumber = Random.Range(0f, 1f);
+                foreach (var titanTypeRatio in ratioList)
+                {
+                    if (randomNumber < titanTypeRatio.Value)
+                    {
+                        return titanTypeRatio.Key;
+                    }
+                }
+
+            }
+
+            var types = Enum.GetValues(typeof(MindlessTitanType));
+            return (MindlessTitanType) types.GetValue(Random.Range(0, types.Length));
+        }
+
+        private int GetTitanHealth(float titanSize)
+        {
+            switch (TitanHealthMode)
+            {
+                case TitanHealthMode.Fixed:
+                    return Random.Range(TitanHealthMinimum, TitanHealthMaximum + 1);
+                case TitanHealthMode.Scaled:
+                    return Mathf.Clamp(Mathf.RoundToInt(titanSize / 4f * Random.Range(TitanHealthMinimum, TitanHealthMaximum + 1)), TitanHealthMinimum, TitanHealthMaximum);
+                case TitanHealthMode.Disabled:
+                    return 0;
+                default:
+                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {TitanHealthMode}");
+            }
+        }
+
+        protected virtual TitanConfiguration GetTitanConfiguration()
+        {
+            return GetTitanConfiguration(GetTitanType());
+        }
+
+        protected virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
+        {
+            var size = TitanCustomSize ? Random.Range(TitanMinimumSize, TitanMaximumSize) : Random.Range(0.7f, 3f);
+            var health = GetTitanHealth(size);
+            return new TitanConfiguration(health, 10, 10, 10, size, type);
+        }
+
         public virtual void OnPlayerKilled(int id)
         {
             if (IsAllPlayersDead())
@@ -250,11 +308,6 @@ namespace Assets.Scripts.Gamemode
                         break;
                 }
             }
-        }
-
-        public bool IsEnabled(TitanType titanType)
-        {
-            return DisabledTitanTypes.All(x => x != titanType);
         }
 
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using System.Collections.Generic;
+using Assets.Scripts.Characters.Titan;
 
 public class LevelBuilder
 {
@@ -63,7 +64,7 @@ public class LevelBuilder
                     Name = "Annie",
                     Description = "Classic map where you fight the Female Titan",
                     Titans = 15,
-                    Punks = false,
+                    DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk},
                     Pvp = PvpMode.AhssVsBlades
                 },
                 new WaveGamemode()

@@ -1546,7 +1546,8 @@ public class FEMALE_TITAN : MonoBehaviour
                     {
                         for (int i = 0; i < 15; i++)
                         {
-                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().randomSpawnOneTitan("titanRespawn", 50).GetComponent<TITAN>().beTauntedBy(base.gameObject, 20f);
+                            throw new NotImplementedException("Add mindless titan spawners to Female Titan");
+                            //GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().randomSpawnOneTitan("titanRespawn", 50).GetComponent<TITAN>().beTauntedBy(base.gameObject, 20f);
                         }
                     }
                 }

@@ -1,8 +1,10 @@
+using System;
 using Assets.Scripts.Gamemode;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PVPcheckPoint : Photon.MonoBehaviour
 {
@@ -190,9 +192,10 @@ public class PVPcheckPoint : Photon.MonoBehaviour
 
     private void newTitan()
     {
-        GameObject obj2 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(this.normalTitanRate, base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, false);
-        obj2.GetComponent<TITAN>().chaseDistance = gamemode.TitanChaseDistance;
-        obj2.GetComponent<TITAN>().PVPfromCheckPt = this;
+        throw new NotImplementedException("Titan logic for Capture Gamemode required");
+        //GameObject obj2 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(this.normalTitanRate, base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, false);
+        //obj2.GetComponent<TITAN>().chaseDistance = gamemode.TitanChaseDistance;
+        //obj2.GetComponent<TITAN>().PVPfromCheckPt = this;
     }
 
     private void Start()

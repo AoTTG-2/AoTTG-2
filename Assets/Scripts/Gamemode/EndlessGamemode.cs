@@ -20,7 +20,8 @@ namespace Assets.Scripts.Gamemode
             {
                 num2 = 70;
             }
-            FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num2, 1, false);
+            FengGameManagerMKII.instance.SpawnTitan();
+            //FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num2, 1, false);
         }
     }
 }

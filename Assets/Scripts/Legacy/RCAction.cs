@@ -496,11 +496,13 @@ public class RCAction
                         return;
                     }
                     case 1:
-                        FengGameManagerMKII.instance.spawnTitanAction(this.parameters[0].returnInt(null), this.parameters[1].returnFloat(null), this.parameters[2].returnInt(null), this.parameters[3].returnInt(null));
+                        throw new NotImplementedException("Spawn titan action at Legacy Custom Logic");
+                        //FengGameManagerMKII.instance.spawnTitanAction(this.parameters[0].returnInt(null), this.parameters[1].returnFloat(null), this.parameters[2].returnInt(null), this.parameters[3].returnInt(null));
                         return;
 
                     case 2:
-                        FengGameManagerMKII.instance.spawnTitanAtAction(this.parameters[0].returnInt(null), this.parameters[1].returnFloat(null), this.parameters[2].returnInt(null), this.parameters[3].returnInt(null), this.parameters[4].returnFloat(null), this.parameters[5].returnFloat(null), this.parameters[6].returnFloat(null));
+                        throw new NotImplementedException("Spawn titan at action legacy logic");
+                        //FengGameManagerMKII.instance.spawnTitanAtAction(this.parameters[0].returnInt(null), this.parameters[1].returnFloat(null), this.parameters[2].returnInt(null), this.parameters[3].returnInt(null), this.parameters[4].returnFloat(null), this.parameters[5].returnFloat(null), this.parameters[6].returnFloat(null));
                         return;
 
                     case 3:

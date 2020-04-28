@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Characters.Titan;
+using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -9,7 +11,7 @@ namespace Assets.Scripts.Gamemode
             GamemodeType = GamemodeType.Trost;
             PlayerTitanShifters = false;
             Titans = 2;
-            Punks = false;
+            DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk};
         }
 
         public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
@@ -39,7 +41,7 @@ namespace Assets.Scripts.Gamemode
             {
                 if (obj5.transform.parent.gameObject == obj4)
                 {
-                    FengGameManagerMKII.instance.spawnTitan(rate, obj5.transform.position, obj5.transform.rotation, false);
+                    FengGameManagerMKII.instance.SpawnTitan(obj5.transform.position, obj5.transform.rotation);
                 }
             }
         }
