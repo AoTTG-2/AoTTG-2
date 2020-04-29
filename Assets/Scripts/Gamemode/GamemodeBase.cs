@@ -1,12 +1,11 @@
-﻿using Assets.Scripts.Gamemode.Options;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Elements;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
+using Assets.Scripts.Characters.Titan.Behavior;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace Assets.Scripts.Characters.Titan
         public TitanBody TitanBody { get; protected set; }
         public Animation Animation { get; protected set; }
         private Rigidbody Rigidbody { get; set; }
+        private TitanBehavior[] Behaviors { get; set; }
 
         private string CurrentAnimation { get; set; } = "idle_2";
         private string AnimationTurnLeft { get; set; } = "turnaround2";
@@ -154,7 +156,9 @@ namespace Assets.Scripts.Characters.Titan
             Stamina = configuration.Stamina;
             StaminaRecovery = configuration.StaminaRegeneration;
             staminaLimit = Stamina;
+            Behaviors = configuration.Behaviors;
             Type = configuration.Type;
+            name = Type.ToString();
 
             transform.localScale = new Vector3(Size, Size, Size);
             var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
@@ -162,7 +166,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (Health > 0)
             {
-                HealthLabel = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
+                HealthLabel = (GameObject)Instantiate(Resources.Load("UI/LabelNameOverHead"));
                 HealthLabel.name = "HealthLabel";
                 HealthLabel.transform.parent = base.transform;
                 HealthLabel.transform.localPosition = new Vector3(0f, 20f + (1f / Size), 0f);
@@ -393,7 +397,7 @@ namespace Assets.Scripts.Characters.Titan
 
             OnTitanDeath();
             ChangeState(MindlessTitanState.Dead);
-            FengGameManagerMKII.instance.titanGetKill(view.owner, damage, "Titan Nape");
+            FengGameManagerMKII.instance.titanGetKill(view.owner, damage, name);
         }
 
         public void OnBodyPartHit(Transform bodyPart, int damage)
@@ -597,6 +601,11 @@ namespace Assets.Scripts.Characters.Titan
                 ChangeState(MindlessTitanState.Recovering);
             }
 
+            if (Behaviors != null && Behaviors.Any(x => x.OnUpdate(this)))
+            {
+                return;
+            }
+
             if (TitanState == MindlessTitanState.Disabled)
             {
                 var disabledBodyParts = TitanBody.GetDisabledBodyParts();
@@ -758,6 +767,7 @@ namespace Assets.Scripts.Characters.Titan
 
         void FixedUpdate()
         {
+            Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
             if (TitanState == MindlessTitanState.Wandering)
             {
                 if (IsStuck())

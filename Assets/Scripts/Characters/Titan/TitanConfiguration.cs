@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
+using Assets.Scripts.Characters.Titan.Behavior;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Characters.Titan
         public string AnimationTurnLeft { get; set; } = "turnaround2";
         public string AnimationTurnRight { get; set; } = "turnaround1";
         public MindlessTitanType Type { get; set; } = MindlessTitanType.Normal;
+        public TitanBehavior[] Behaviors { get; set; }
 
         public TitanConfiguration() { }
 
@@ -99,6 +101,8 @@ namespace Assets.Scripts.Characters.Titan
                     AnimationWalk = AnimationRun = "crawler_run";
                     AnimationTurnLeft = "crawler_turnaround_L";
                     AnimationTurnRight = "crawler_turnaround_R";
+                    Attacks = new List<Attack>();
+                    Behaviors = new TitanBehavior[] {new DeathOnFaceBehavior()};
                     break;
                 case MindlessTitanType.Stalker:
                     break;
