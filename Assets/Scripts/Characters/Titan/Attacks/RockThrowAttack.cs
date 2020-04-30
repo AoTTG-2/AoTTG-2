@@ -29,7 +29,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
             if (!titan.Animation.IsPlaying(attackAnimation))
             {
-                titan.Animation.CrossFade(attackAnimation);
+                titan.CrossFade(attackAnimation, 0.1f);
                 return;
             }
 

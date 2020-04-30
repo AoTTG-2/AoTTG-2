@@ -27,6 +27,7 @@ namespace Assets.Scripts.Characters.Titan
         private string AnimationTurnLeft { get; set; } = "turnaround2";
         private string AnimationTurnRight { get; set; } = "turnaround1";
         private string AnimationWalk { get; set; } = "run_walk";
+        private string AnimationRun { get; set; }
         private string AnimationRecovery { get; set; } = "tired";
         private string AnimationDeath { get; set; } = "die_back";
 
@@ -86,8 +87,8 @@ namespace Assets.Scripts.Characters.Titan
         private Hero GrabTarget { get; set; }
         private float RotationModifier { get; set; }
 
-        private List<Attack> Attacks { get; set; }
-        private Attack CurrentAttack { get; set; }
+        public List<Attack> Attacks { get; private set; }
+        public Attack CurrentAttack { get; set; }
         private Collider[] Colliders { get; set; }
         private GameObject HealthLabel { get; set; }
 
@@ -149,6 +150,7 @@ namespace Assets.Scripts.Characters.Titan
             Attacks = configuration.Attacks;
             Size = configuration.Size;
             AnimationWalk = configuration.AnimationWalk;
+            AnimationRun = configuration.AnimationRun;
             AnimationDeath = configuration.AnimationDeath;
             AnimationRecovery = configuration.AnimationRecovery;
             AnimationTurnLeft = configuration.AnimationTurnLeft;
@@ -468,7 +470,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!Animation.IsPlaying(AnimationDeath))
             {
-                Animation.CrossFade(AnimationDeath, 0.05f);
+                CrossFade(AnimationDeath, 0.05f);
             }
             var deathTime = Animation[AnimationDeath].normalizedTime;
             if (deathTime > 2f && !HasDieSteam && photonView.isMine)
@@ -498,7 +500,7 @@ namespace Assets.Scripts.Characters.Titan
             this.oldHeadRotation = TitanBody.Head.rotation;
         }
 
-        private void ChangeState(MindlessTitanState state)
+        public void ChangeState(MindlessTitanState state)
         {
             if (!IsAlive) return;
             if (state == TitanState) return;
@@ -526,7 +528,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             ChangeState(MindlessTitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
-            Animation.CrossFade(CurrentAnimation, 0.1f);
+            CrossFade(CurrentAnimation, 0.1f);
             this.turnDeg = degrees;
             this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
         }
@@ -555,6 +557,20 @@ namespace Assets.Scripts.Characters.Titan
 
         }
 
+        [PunRPC]
+        public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                Animation.CrossFade(newAnimation, fadeLength);
+                photonView.RPC("CrossFade", PhotonTargets.Others, newAnimation, fadeLength);
+            }
+            else if (!info.sender.IsMasterClient)
+            {
+                Animation.CrossFade(newAnimation, fadeLength);
+            }
+        }
+
         private void CheckColliders()
         {
             if (!IsHooked && !IsLooked && !IsColliding)
@@ -578,7 +594,18 @@ namespace Assets.Scripts.Characters.Titan
                 }
             }
         }
-        
+
+        private bool CanRun()
+        {
+            if (AnimationRun == null) return false;
+            if (TitanState == MindlessTitanState.Wandering)
+            {
+                return Stamina > staminaLimit / 2;
+            }
+
+            return true;
+        }
+
         void Update()
         {
             if (!IsAlive)
@@ -614,7 +641,7 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     CurrentAnimation = "attack_abnormal_jump";
                     if (!Animation.IsPlaying(CurrentAnimation))
-                        Animation.CrossFade(CurrentAnimation, 0.1f);
+                        CrossFade(CurrentAnimation, 0.1f);
                 }
                 else
                 {
@@ -628,7 +655,7 @@ namespace Assets.Scripts.Characters.Titan
                 CurrentAnimation = AnimationRecovery;
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {
-                    Animation.CrossFade(CurrentAnimation);
+                    CrossFade(CurrentAnimation, 0.1f);
                 }
 
                 if (Stamina > staminaLimit * 0.75f)
@@ -640,9 +667,15 @@ namespace Assets.Scripts.Characters.Titan
             if (TitanState == MindlessTitanState.Wandering)
             {
                 CurrentAnimation = AnimationWalk;
+                if (CanRun())
+                {
+                    CurrentAnimation = AnimationRun;
+                    Stamina -= Time.deltaTime * 2;
+                }
+
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {
-                    Animation.CrossFade(CurrentAnimation, 0.5f);
+                    CrossFade(CurrentAnimation, 0.5f);
                 }
                 return;
             }
@@ -667,9 +700,15 @@ namespace Assets.Scripts.Characters.Titan
                 }
 
                 CurrentAnimation = AnimationWalk;
+                if (CanRun())
+                {
+                    CurrentAnimation = AnimationRun;
+                    Stamina -= Time.deltaTime * 2;
+                }
+
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {
-                    Animation.CrossFade(CurrentAnimation);
+                    CrossFade(CurrentAnimation, 0.1f);
                     return;
                 }
 
@@ -715,7 +754,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {
-                    Animation.CrossFade(CurrentAnimation, 0.1f);
+                    CrossFade(CurrentAnimation, 0.1f);
                     return;
                 }
 
@@ -731,24 +770,41 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        private bool Pathfinding()
+        {
+            Vector3 forwardDirection = TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
+            RaycastHit objectHit;
+            var mask = ~LayerMask.NameToLayer("Ground");
+            if (Physics.Raycast(TitanBody.Hip.transform.position, forwardDirection, out objectHit, 50, mask))
+            {
+                Vector3 leftDirection = TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, -1f, 1f));
+                Vector3 rightDirection = TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
+                RaycastHit leftHit;
+                RaycastHit rightHit;
+                Physics.Raycast(TitanBody.Hip.transform.position, leftDirection, out leftHit, 250 , mask);
+                Physics.Raycast(TitanBody.Hip.transform.position, rightDirection, out rightHit, 250, mask);
+
+                if (leftHit.distance < rightHit.distance)
+                {
+                    transform.Rotate(0, 15f, 0);
+                }
+                else
+                {
+                    transform.Rotate(0, -15f, 0);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         void UpdateEverySecond()
         {
             if (TitanState == MindlessTitanState.Wandering)
             {
-                if (Random.Range(0, 100) > 80)
-                {
-                    gameObject.transform.Rotate(0, Random.Range(-15, 15), 0);
-                }
+                Pathfinding();
             }
-
-            //if (Target == null)
-            //{
-            //    foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
-            //    {
-            //        Target = hero;
-            //    }
-            //    ChangeState(MindlessTitanState.Chase);
-            //}
 
             if (TitanState == MindlessTitanState.Chase && nextUpdate % 4 == 0)
             {
@@ -775,7 +831,9 @@ namespace Assets.Scripts.Characters.Titan
                     Turn(Random.Range(-270, 270));
                     return;
                 }
-                Vector3 vector12 = transform.forward * Speed;
+
+                var runModifier = CanRun() ? 1.25f : 1f;
+                Vector3 vector12 = transform.forward * Speed * runModifier;
                 Vector3 vector14 = vector12 - Rigidbody.velocity;
                 vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
                 vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
@@ -786,17 +844,17 @@ namespace Assets.Scripts.Characters.Titan
             if (TitanState == MindlessTitanState.Chase)
             {
                 if (Target == null) return;
-                Vector3 vector17 = Target.transform.position - transform.position;
-                var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
-                float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.deltaTime) / Size);
-
-                Vector3 vector12 = transform.forward * Speed;
+                var runModifier = CanRun() ? 1.25f : 1f;
+                Vector3 vector12 = transform.forward * Speed * runModifier;
                 Vector3 vector14 = vector12 - Rigidbody.velocity;
                 vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
                 vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
                 vector14.y = 0f;
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
+                Vector3 vector17 = Target.transform.position - transform.position;
+                var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
+                float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.deltaTime) / Size);
             }
         }
     }

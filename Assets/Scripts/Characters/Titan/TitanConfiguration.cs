@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan.Behavior;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan
 {
@@ -16,7 +17,7 @@ namespace Assets.Scripts.Characters.Titan
         public float Size { get; set; } = 3f;
         public List<Attack> Attacks { get; set; } = new List<Attack> {new GrabAttack(), new BiteAttack(), new StompAttack(), new SmashAttack()};
         public float Stamina { get; set; } = 100f;
-        public float StaminaRegeneration { get; set; } = 5f;
+        public float StaminaRegeneration { get; set; } = 1f;
         public string AnimationWalk { get; set; } = "run_walk";
         public string AnimationRun { get; set; }
         public string AnimationDeath { get; set; } = "die_back";
@@ -34,10 +35,10 @@ namespace Assets.Scripts.Characters.Titan
             HealthRegeneration = healthRegeneration;
             LimbHealth = limbHealth;
             ViewDistance = viewDistance;
-            Speed = speed;
             Size = size;
             Type = type;
             SetMindlessTitanType(type);
+            Speed = speed;
         }
 
         public TitanConfiguration(int health, int healthRegeneration, int limbHealth, int viewDistance, float size, MindlessTitanType type)
@@ -48,33 +49,10 @@ namespace Assets.Scripts.Characters.Titan
             ViewDistance = viewDistance;
             Size = size;
             Type = type;
-            SetSpeed(type);
             SetMindlessTitanType(type);
             if (Size > 1f)
             {
                 Speed *= Mathf.Sqrt(Size);
-            }
-        }
-
-        private void SetSpeed(MindlessTitanType type)
-        {
-            switch (type)
-            {
-                case MindlessTitanType.Normal:
-                    Speed = 7f;
-                    break;
-                case MindlessTitanType.Abnormal:
-                case MindlessTitanType.Jumper:
-                case MindlessTitanType.Stalker:
-                case MindlessTitanType.Burster:
-                case MindlessTitanType.Punk:
-                    Speed = 18f;
-                    break;
-                case MindlessTitanType.Crawler:
-                    Speed = 25f;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
 
@@ -84,32 +62,65 @@ namespace Assets.Scripts.Characters.Titan
             {
                 case MindlessTitanType.Normal:
                     AnimationWalk = AnimationRun = "run_walk";
+                    Speed = 7f;
                     break;
-                case MindlessTitanType.Abnormal:
+                case MindlessTitanType.Abberant:
                     AnimationWalk = "run_walk";
-                    AnimationRun = "run_abnormal"; 
+                    AnimationRun = "run_abnormal";
+                    Speed = 18f;
                     break;
                 case MindlessTitanType.Jumper:
                     AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal";
+                    Speed = 18f;
                     break;
                 case MindlessTitanType.Punk:
                     AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal_1";
+                    Speed = 18f;
                     break;
                 case MindlessTitanType.Crawler:
                     AnimationWalk = AnimationRun = "crawler_run";
                     AnimationTurnLeft = "crawler_turnaround_L";
                     AnimationTurnRight = "crawler_turnaround_R";
                     Attacks = new List<Attack>();
-                    Behaviors = new TitanBehavior[] {new DeathOnFaceBehavior()};
+                    Behaviors = new TitanBehavior[] { new DeathOnFaceBehavior() };
+                    Speed = 25f;
                     break;
                 case MindlessTitanType.Stalker:
+                    Speed = 18f;
                     break;
                 case MindlessTitanType.Burster:
+                    Speed = 18f;
+                    break;
+                case MindlessTitanType.Abnormal:
+                    SetAbnormal();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        private void SetAbnormal()
+        {
+            var walkingAnimations = new[] {"run_walk", "run_abnormal", "run_abnormal_1"};
+            var runningAnimations = new[] { "run_abnormal", "run_abnormal_1" };
+            AnimationWalk = walkingAnimations[Random.Range(0, walkingAnimations.Length)];
+            AnimationRun = runningAnimations[Random.Range(0, runningAnimations.Length)];
+            Speed = Random.Range(7f, 25f);
+            Attacks = new List<Attack>();
+            Behaviors = new TitanBehavior[] { new RandomAttackBehavior() };
+            var attacks = new List<Attack>
+            {
+                new BiteAttack(), new BodySlamAttack(), new GrabAttack(), new KickAttack(), 
+                new RockThrowAttack(), new SlapFaceAttack(), new SlapAttack(), new StompAttack(), new SmashAttack(),
+            };
+
+            for (var i = 0; i < 4; i++)
+            {
+                var randomAttack = attacks[Random.Range(0, attacks.Count)];
+                Attacks.Add(randomAttack);
+                attacks.Remove(randomAttack);
             }
         }
     }

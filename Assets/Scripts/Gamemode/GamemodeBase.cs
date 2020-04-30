@@ -61,7 +61,7 @@ namespace Assets.Scripts.Gamemode
         public bool PunkRockThrow { get; set; } = true;
 
         [UiElement("Custom Titans", "Should custom titan rates be used?", SettingCategory.Titans)]
-        public bool CustomTitanRatio { get; set; } = false;
+        public bool CustomTitanRatio { get; set; } = true;
 
         [UiElement("Damage Mode", "Minimum damage you need to do", SettingCategory.Titans)]
         public int DamageMode { get; set; }
@@ -138,12 +138,13 @@ namespace Assets.Scripts.Gamemode
         public Dictionary<MindlessTitanType, float> TitanTypeRatio = new Dictionary<MindlessTitanType, float>
         {
             {MindlessTitanType.Normal, 20f},
-            {MindlessTitanType.Abnormal, 20f},
+            {MindlessTitanType.Abberant, 200000f},
             {MindlessTitanType.Jumper, 20f},
             {MindlessTitanType.Punk, 20f},
             {MindlessTitanType.Crawler, 20f},
             {MindlessTitanType.Burster, 20f},
-            {MindlessTitanType.Stalker, 20f}
+            {MindlessTitanType.Stalker, 20f},
+            { MindlessTitanType.Abnormal, 20f }
         };
 
         public List<MindlessTitanType> DisabledTitans { get; set; } = new List<MindlessTitanType>();

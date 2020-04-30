@@ -24,7 +24,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (IsFinished) return;
             if (!titan.Animation.IsPlaying(_startAnimation) && !titan.Animation.IsPlaying(_endAnimation))
             {
-                titan.Animation.CrossFade(_startAnimation, 0.1f);
+                titan.CrossFade(_startAnimation, 0.1f);
                 HasExploded = false;
                 //(this.myDifficulty <= 0) ? UnityEngine.Random.Range((float)1f, (float)4f) : UnityEngine.Random.Range((float)0f, (float)1f);
                 WaitTime = Random.Range(0f, 1f);

@@ -37,5 +37,10 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         {
             return false;
         }
+
+        protected virtual bool OnWandering(MindlessTitan titan)
+        {
+            return false;
+        }
     }
 }

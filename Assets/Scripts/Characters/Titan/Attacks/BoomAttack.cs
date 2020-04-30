@@ -20,7 +20,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (IsFinished) return;
             if (!titan.Animation.IsPlaying(AttackAnimation))
             {
-                titan.Animation.CrossFade(AttackAnimation, 0.1f);
+                titan.CrossFade(AttackAnimation, 0.1f);
                 HasExploded = false;
                 return;
             }
