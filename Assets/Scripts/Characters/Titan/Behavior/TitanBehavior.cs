@@ -4,20 +4,25 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 {
     public abstract class TitanBehavior
     {
-        public bool OnUpdate(MindlessTitan titan)
+        public void Initialize(MindlessTitan titan)
         {
-            switch (titan.TitanState)
+            Titan = titan;
+        }
+        protected MindlessTitan Titan { get; set; }
+        public bool OnUpdate()
+        {
+            switch (Titan.TitanState)
             {
                 case MindlessTitanState.Idle:
                     break;
                 case MindlessTitanState.Dead:
                     break;
                 case MindlessTitanState.Wandering:
-                    break;
+                    return OnWandering();
                 case MindlessTitanState.Turning:
                     break;
                 case MindlessTitanState.Chase:
-                    return OnChase(titan);
+                    return OnChase();
                 case MindlessTitanState.Attacking:
                     break;
                 case MindlessTitanState.Recovering:
@@ -32,13 +37,84 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
             return false;
         }
+
+        public bool OnFixedUpdate()
+        {
+            switch (Titan.TitanState)
+            {
+                case MindlessTitanState.Idle:
+                    break;
+                case MindlessTitanState.Dead:
+                    break;
+                case MindlessTitanState.Wandering:
+                    return OnWanderingFixedUpdate();
+                case MindlessTitanState.Turning:
+                    break;
+                case MindlessTitanState.Chase:
+                    return OnFixedUpdateChase();
+                case MindlessTitanState.Attacking:
+                    break;
+                case MindlessTitanState.Recovering:
+                    break;
+                case MindlessTitanState.Eat:
+                    break;
+                case MindlessTitanState.Disabled:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return false;
+        }
+
+        public bool OnUpdateEverySecond(int seconds)
+        {
+            switch (Titan.TitanState)
+            {
+                case MindlessTitanState.Idle:
+                    break;
+                case MindlessTitanState.Dead:
+                    break;
+                case MindlessTitanState.Wandering:
+                    return OnWanderingUpdateEverySecond(seconds);
+                case MindlessTitanState.Turning:
+                    break;
+                case MindlessTitanState.Chase:
+                    break;
+                case MindlessTitanState.Attacking:
+                    break;
+                case MindlessTitanState.Recovering:
+                    break;
+                case MindlessTitanState.Eat:
+                    break;
+                case MindlessTitanState.Disabled:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return false;
+        }
         
-        protected virtual bool OnChase(MindlessTitan titan)
+        protected virtual bool OnChase()
         {
             return false;
         }
 
-        protected virtual bool OnWandering(MindlessTitan titan)
+        protected virtual bool OnFixedUpdateChase()
+        {
+            return false;
+        }
+
+        protected virtual bool OnWandering()
+        {
+            return false;
+        }
+
+        protected virtual bool OnWanderingFixedUpdate()
+        {
+            return false;
+        }
+
+        protected virtual bool OnWanderingUpdateEverySecond(int seconds)
         {
             return false;
         }

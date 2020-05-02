@@ -3077,7 +3077,6 @@ public class TITAN : MonoBehaviour
 
     private void Start()
     {
-        this.MultiplayerManager.addTitan(this);
         EventManager.OnTitanSpawned.Invoke(this);
         if (Minimap.instance != null)
         {

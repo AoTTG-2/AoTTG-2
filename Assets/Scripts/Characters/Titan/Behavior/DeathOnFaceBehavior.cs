@@ -4,23 +4,23 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 {
     public class DeathOnFaceBehavior : TitanBehavior
     {
-        protected override bool OnChase(MindlessTitan titan)
+        protected override bool OnChase()
         {
-            var hero = this.checkIfHitCrawlerMouth(titan.TitanBody.Head, 2.2f, titan.Size);
+            var hero = this.checkIfHitCrawlerMouth(Titan.TitanBody.Head, 2.2f, Titan.Size);
             if (hero == null) return false;
             {
-                Vector3 vector15 = titan.TitanBody.Chest.position;
+                Vector3 vector15 = Titan.TitanBody.Chest.position;
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    hero.die((Vector3)(((hero.transform.position - vector15) * 15f) * titan.Size), false);
+                    hero.die((Vector3)(((hero.transform.position - vector15) * 15f) * Titan.Size), false);
                     return true;
                 }
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)
+                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && Titan.photonView.isMine)
                 {
                     if (!hero.HasDied())
                     {
                         hero.markDie();
-                        object[] objArray9 = new object[] { (Vector3)(((hero.transform.position - vector15) * 15f) * titan.Size), true, titan.photonView.viewID, titan.name, true };
+                        object[] objArray9 = new object[] { (Vector3)(((hero.transform.position - vector15) * 15f) * Titan.Size), true, Titan.photonView.viewID, Titan.name, true };
                         hero.photonView.RPC("netDie", PhotonTargets.All, objArray9);
                         return true;
                     }

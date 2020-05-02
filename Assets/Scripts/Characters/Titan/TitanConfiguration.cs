@@ -25,7 +25,7 @@ namespace Assets.Scripts.Characters.Titan
         public string AnimationTurnLeft { get; set; } = "turnaround2";
         public string AnimationTurnRight { get; set; } = "turnaround1";
         public MindlessTitanType Type { get; set; } = MindlessTitanType.Normal;
-        public TitanBehavior[] Behaviors { get; set; }
+        public List<TitanBehavior> Behaviors { get; set; } = new List<TitanBehavior>();
 
         public TitanConfiguration() { }
 
@@ -84,7 +84,7 @@ namespace Assets.Scripts.Characters.Titan
                     AnimationTurnLeft = "crawler_turnaround_L";
                     AnimationTurnRight = "crawler_turnaround_R";
                     Attacks = new List<Attack>();
-                    Behaviors = new TitanBehavior[] { new DeathOnFaceBehavior() };
+                    Behaviors = new List<TitanBehavior> { new DeathOnFaceBehavior() };
                     Speed = 25f;
                     break;
                 case MindlessTitanType.Stalker:
@@ -109,7 +109,7 @@ namespace Assets.Scripts.Characters.Titan
             AnimationRun = runningAnimations[Random.Range(0, runningAnimations.Length)];
             Speed = Random.Range(7f, 25f);
             Attacks = new List<Attack>();
-            Behaviors = new TitanBehavior[] { new RandomAttackBehavior() };
+            Behaviors = new List<TitanBehavior> { new RandomAttackBehavior() };
             var attacks = new List<Attack>
             {
                 new BiteAttack(), new BodySlamAttack(), new GrabAttack(), new KickAttack(), 

@@ -18,7 +18,7 @@ public class TitanTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!Titan.IsColliding)
+        if (Titan != null && !Titan.IsColliding)
         {
             GameObject gameObject = other.transform.root.gameObject;
             if (gameObject.layer == 8)
@@ -44,7 +44,7 @@ public class TitanTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (Titan.IsColliding)
+        if (Titan != null && Titan.IsColliding)
         {
             GameObject gameObject = other.transform.root.gameObject;
             if (gameObject.layer == 8)

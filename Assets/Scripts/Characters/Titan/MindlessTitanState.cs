@@ -16,6 +16,7 @@ namespace Assets.Scripts.Characters.Titan
         Attacking,
         Recovering,
         Eat,
-        Disabled
+        Disabled,
+        MoveTo
     }
 }

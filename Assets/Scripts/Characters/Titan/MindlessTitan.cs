@@ -16,17 +16,17 @@ namespace Assets.Scripts.Characters.Titan
         public MindlessTitanState PreviousState;
         public MindlessTitanType Type;
 
-        private bool IsAlive => TitanState != MindlessTitanState.Dead;
+        public bool IsAlive => TitanState != MindlessTitanState.Dead;
         private float DamageTimer { get; set; }
-        public TitanBody TitanBody { get; protected set; }
-        public Animation Animation { get; protected set; }
-        private Rigidbody Rigidbody { get; set; }
+        public TitanBody TitanBody { get; private set; }
+        public Animation Animation { get; private set; }
+        public Rigidbody Rigidbody { get; private set; }
         private TitanBehavior[] Behaviors { get; set; }
 
         private string CurrentAnimation { get; set; } = "idle_2";
         private string AnimationTurnLeft { get; set; } = "turnaround2";
         private string AnimationTurnRight { get; set; } = "turnaround1";
-        private string AnimationWalk { get; set; } = "run_walk";
+        public string AnimationWalk { get; private set; } = "run_walk";
         private string AnimationRun { get; set; }
         private string AnimationRecovery { get; set; } = "tired";
         private string AnimationDeath { get; set; } = "die_back";
@@ -85,15 +85,18 @@ namespace Assets.Scripts.Characters.Titan
 
         public Hero Target { get; set; }
         private Hero GrabTarget { get; set; }
-        private float RotationModifier { get; set; }
+        public float RotationModifier { get; private set; }
 
         public List<Attack> Attacks { get; private set; }
         public Attack CurrentAttack { get; set; }
         private Collider[] Colliders { get; set; }
         private GameObject HealthLabel { get; set; }
+        private FengGameManagerMKII GameManager { get; set; }
 
         void Awake()
         {
+            GameManager = FengGameManagerMKII.instance;
+            GameManager.addTitan(this);
             TitanBody = GetComponent<TitanBody>();
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
@@ -158,7 +161,11 @@ namespace Assets.Scripts.Characters.Titan
             Stamina = configuration.Stamina;
             StaminaRecovery = configuration.StaminaRegeneration;
             staminaLimit = Stamina;
-            Behaviors = configuration.Behaviors;
+            Behaviors = configuration.Behaviors.ToArray();
+            foreach (var behavior in Behaviors)
+            {
+                behavior.Initialize(this);
+            }
             Type = configuration.Type;
             name = Type.ToString();
 
@@ -538,7 +545,7 @@ namespace Assets.Scripts.Characters.Titan
             return value > min && value < max;
         }
 
-        private bool IsStuck()
+        public bool IsStuck()
         {
             var velocity = Rigidbody.velocity;
             return Between(velocity.z, -Speed / 4, Speed / 4) 
@@ -620,7 +627,7 @@ namespace Assets.Scripts.Characters.Titan
             if (Time.time >= nextUpdate)
             {
                 nextUpdate = Mathf.FloorToInt(Time.time) + 1;
-                UpdateEverySecond();
+                UpdateEverySecond(nextUpdate);
             }
 
             if (Stamina < 0 && TitanState != MindlessTitanState.Recovering)
@@ -628,7 +635,7 @@ namespace Assets.Scripts.Characters.Titan
                 ChangeState(MindlessTitanState.Recovering);
             }
 
-            if (Behaviors != null && Behaviors.Any(x => x.OnUpdate(this)))
+            if (Behaviors != null && Behaviors.Any(x => x.OnUpdate()))
             {
                 return;
             }
@@ -799,14 +806,19 @@ namespace Assets.Scripts.Characters.Titan
             return false;
         }
 
-        void UpdateEverySecond()
+        void UpdateEverySecond(int seconds)
         {
+            if (Behaviors != null && Behaviors.Any(x => x.OnUpdateEverySecond(seconds)))
+            {
+                return;
+            }
+
             if (TitanState == MindlessTitanState.Wandering)
             {
                 Pathfinding();
             }
 
-            if (TitanState == MindlessTitanState.Chase && nextUpdate % 4 == 0)
+            if (TitanState == MindlessTitanState.Chase && seconds % 4 == 0)
             {
                 if (IsStuck())
                 {
@@ -824,6 +836,12 @@ namespace Assets.Scripts.Characters.Titan
         void FixedUpdate()
         {
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
+
+            if (Behaviors != null && Behaviors.Any(x => x.OnFixedUpdate()))
+            {
+                return;
+            }
+
             if (TitanState == MindlessTitanState.Wandering)
             {
                 if (IsStuck())

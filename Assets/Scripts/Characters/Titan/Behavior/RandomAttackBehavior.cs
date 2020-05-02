@@ -5,15 +5,15 @@ namespace Assets.Scripts.Characters.Titan.Behavior
     public class RandomAttackBehavior : TitanBehavior
     {
         private float nextUpdate = 0.1f;
-        protected override bool OnWandering(MindlessTitan titan)
+        protected override bool OnWandering()
         {
             if (Time.time >= nextUpdate)
             {
                 nextUpdate = Mathf.FloorToInt(Time.time) + 0.1f;
                 if (Random.Range(0, 100f) > 98.5f)
                 {
-                    titan.ChangeState(MindlessTitanState.Attacking);
-                    titan.CurrentAttack = titan.Attacks[Random.Range(0, titan.Attacks.Count)];
+                    Titan.ChangeState(MindlessTitanState.Attacking);
+                    Titan.CurrentAttack = Titan.Attacks[Random.Range(0, Titan.Attacks.Count)];
                     return true;
                 }
             }
@@ -21,9 +21,9 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             return false;
         }
 
-        protected override bool OnChase(MindlessTitan titan)
+        protected override bool OnChase()
         {
-            return OnWandering(titan);
+            return OnWandering();
         }
     }
 }

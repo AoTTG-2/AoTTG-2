@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.UI.Elements;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.UI.Elements;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -43,6 +45,13 @@ namespace Assets.Scripts.Gamemode
             str2 = str2 + "|";
             var length = totalRoomTime - time;
             return $"{PvpTitanScoreLimit - PvpTitanScore} {str2} {PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
+        }
+
+        public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
+        {
+            var configuration = GetTitanConfiguration();
+            configuration.Behaviors.Add(new CaptureBehavior(target));
+            FengGameManagerMKII.instance.SpawnTitan(position, rotation, configuration).GetComponent<MindlessTitan>();
         }
 
         public override void OnTitanKilled(string titanName)
