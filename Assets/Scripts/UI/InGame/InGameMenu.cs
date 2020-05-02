@@ -5,6 +5,7 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
+        public GraphicSettingMenu GraphicSettingsMenu;
         public void ShowGameSettingsMenu()
         {
             GameSettingsMenu.gameObject.SetActive(true);
@@ -12,6 +13,11 @@ namespace Assets.Scripts.UI.InGame
 
         private void SetGameSettingsMenu()
         {
+        }
+
+        public void ShowGraphicSettingsMenu()
+        {
+            GraphicSettingsMenu.gameObject.SetActive(true);
         }
 
         private void OnDisable()
