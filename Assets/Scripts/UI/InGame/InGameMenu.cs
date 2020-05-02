@@ -23,6 +23,7 @@ namespace Assets.Scripts.UI.InGame
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
+            
         }
 
         public void Quit()
