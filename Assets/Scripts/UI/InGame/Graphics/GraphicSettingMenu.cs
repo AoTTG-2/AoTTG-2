@@ -10,9 +10,8 @@ namespace Assets.Scripts.UI.InGame
 		public GraphicsPanel GraphicPanel;
 		public InGameMenu Menu;
 
-		private void OnEnable() {
-			GraphicPanel.gameObject.SetActive(true);
-			Menu.gameObject.SetActive(false);
+		private void OnDisable() {
+			GraphicPanel.label.text = "";
 		}
 	}
 }

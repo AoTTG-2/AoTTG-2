@@ -14,4 +14,9 @@ public class QualitySwitcher : MonoBehaviour {
 		QualitySettings.SetQualityLevel(sValue, true);
 		
 	}
+
+	public void LoadPlayerPrefs(int value)
+	{
+		gameObject.GetComponentInChildren<Slider>().value = value;
+	}
 }
