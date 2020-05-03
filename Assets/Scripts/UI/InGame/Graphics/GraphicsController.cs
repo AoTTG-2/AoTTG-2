@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GraphicsPanel : MonoBehaviour {
+public class GraphicsController : MonoBehaviour {
 
 	public GeneralGraphics GeneralGraphic;
 	public QualitySwitcher QualitySwitcher;

@@ -7,11 +7,11 @@ namespace Assets.Scripts.UI.InGame
 {
 	public class GraphicSettingMenu : MonoBehaviour {
 
-		public GraphicsPanel GraphicPanel;
+		public GraphicsController GraphicController;
 		public InGameMenu Menu;
 
 		private void OnDisable() {
-			GraphicPanel.label.text = "";
+			GraphicController.label.text = "";
 		}
 	}
 }
