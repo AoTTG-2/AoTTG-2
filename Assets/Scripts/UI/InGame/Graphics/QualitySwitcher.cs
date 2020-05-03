@@ -4,14 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class QualitySwitcher : MonoBehaviour {
+	public Text label;
 
-	private int sValue;
+	private void Update() {
+		label.text = QualitySettings.currentLevel.ToString();
+		gameObject.GetComponentInChildren<Slider>().value = QualitySettings.GetQualityLevel();
+	}
 
 	public void UpdateQualitySliderValue()
 	{
 		
-		sValue = (int)gameObject.GetComponentInChildren<Slider>().value;
+		int sValue = (int)gameObject.GetComponentInChildren<Slider>().value;
 		QualitySettings.SetQualityLevel(sValue, true);
+
 		
 	}
 
