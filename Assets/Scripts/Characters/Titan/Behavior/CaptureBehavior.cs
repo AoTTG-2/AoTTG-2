@@ -27,7 +27,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 if (Time.time < nextUpdate) return true;
                 nextUpdate = Mathf.FloorToInt(Time.time) + 0.1f;
 
-                if (CheckPoint.state == CheckPointState.Titan)
+                if (CheckPoint.state == CheckPointState.Titan && Vector3.Distance(Titan.transform.position, TargetLocation) < 15f * CheckPoint.size)
                 {
                     GameObject chkPtNext;
                     if (UnityEngine.Random.Range(0, 100) > 48)
@@ -79,7 +79,16 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
         protected override bool OnWanderingUpdateEverySecond(int seconds)
         {
+            if (seconds % 2 != 0) return true;
             Pathfinding();
+            //if (Titan.IsStuck())
+            //{
+            //    RotationModifier = Random.Range(-100f, 100f);
+            //}
+            //else
+            //{
+            //    RotationModifier = 0f;
+            //}
             return true;
         }
 
@@ -97,17 +106,20 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 Physics.Raycast(Titan.TitanBody.Hip.transform.position, leftDirection, out leftHit, 250, mask);
                 Physics.Raycast(Titan.TitanBody.Hip.transform.position, rightDirection, out rightHit, 250, mask);
 
-                if (leftHit.distance < rightHit.distance)
+                if (Vector3.Distance(leftHit.point, TargetLocation) > Vector3.Distance(rightHit.point, TargetLocation))
                 {
-                    RotationModifier = 30f;
+                    RotationModifier += 35f;
                 }
                 else
                 {
-                    RotationModifier = -30f;
+                    RotationModifier += -35f;
                 }
             }
+            else
+            {
+                RotationModifier = 0f;
 
-            RotationModifier = 0f;
+            }
         }
     }
 }

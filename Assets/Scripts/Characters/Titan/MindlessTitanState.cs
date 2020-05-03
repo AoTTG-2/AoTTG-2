@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Scripts.Characters.Titan
+﻿namespace Assets.Scripts.Characters.Titan
 {
     public enum MindlessTitanState
     {
@@ -16,7 +10,6 @@ namespace Assets.Scripts.Characters.Titan
         Attacking,
         Recovering,
         Eat,
-        Disabled,
-        MoveTo
+        Disabled
     }
 }

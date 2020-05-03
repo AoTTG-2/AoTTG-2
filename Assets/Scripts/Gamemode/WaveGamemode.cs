@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.UI.Elements;
 using UnityEngine;
 
@@ -90,7 +91,7 @@ namespace Assets.Scripts.Gamemode
 
                 for (int i = 0; i < Titans; i++)
                 {
-                    FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
+                    FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
                 }
             }
         }
@@ -107,6 +108,20 @@ namespace Assets.Scripts.Gamemode
         {
             Wave = StartWave;
             base.OnRestart();
+        }
+
+        private TitanConfiguration GetWaveTitanConfiguration()
+        {
+            var configuration = GetTitanConfiguration();
+            configuration.Behaviors.Add(new WaveBehavior());
+            return configuration;
+        }
+
+        private TitanConfiguration GetWaveTitanConfiguration(MindlessTitanType type)
+        {
+            var configuration = GetTitanConfiguration(type);
+            configuration.Behaviors.Add(new WaveBehavior());
+            return configuration;
         }
 
         public override void OnTitanKilled(string titanName)
@@ -146,14 +161,14 @@ namespace Assets.Scripts.Gamemode
                 {
                     for (int i = 0; i < Wave / _punkWave; i++)
                     {
-                        FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration(MindlessTitanType.Punk));
+                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration(MindlessTitanType.Punk));
                     }
                 }
                 else
                 {
                     for (int i = 0; i < Wave + 2; i++)
                     {
-                        FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
+                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
                     }
                 }
             }

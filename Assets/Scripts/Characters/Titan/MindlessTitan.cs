@@ -569,11 +569,13 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (PhotonNetwork.isMasterClient)
             {
+                CurrentAnimation = newAnimation;
                 Animation.CrossFade(newAnimation, fadeLength);
                 photonView.RPC("CrossFade", PhotonTargets.Others, newAnimation, fadeLength);
             }
             else if (!info.sender.IsMasterClient)
             {
+                CurrentAnimation = newAnimation;
                 Animation.CrossFade(newAnimation, fadeLength);
             }
         }
@@ -736,7 +738,7 @@ namespace Assets.Scripts.Characters.Titan
                     Vector3 vector18 = Target.transform.position - transform.position;
                     var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
                     var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
-                    if (Mathf.Abs(between) > 45f)
+                    if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
                     {
                         Turn(between);
                         return;
@@ -793,19 +795,23 @@ namespace Assets.Scripts.Characters.Titan
 
                 if (leftHit.distance < rightHit.distance)
                 {
-                    transform.Rotate(0, 15f, 0);
+                    //transform.Rotate(0, 15f, 0);
+                    RotationModifier += Random.Range(10f, 30f);
                 }
                 else
                 {
-                    transform.Rotate(0, -15f, 0);
+                    //transform.Rotate(0, -15f, 0);
+                    RotationModifier += Random.Range(-30f, -10f); ;
                 }
 
                 return true;
             }
 
+            RotationModifier = 0f;
             return false;
         }
 
+        private bool IsPathFinding { get; set; }
         void UpdateEverySecond(int seconds)
         {
             if (Behaviors != null && Behaviors.Any(x => x.OnUpdateEverySecond(seconds)))
@@ -813,23 +819,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (TitanState == MindlessTitanState.Wandering)
+            if (TitanState == MindlessTitanState.Wandering || TitanState == MindlessTitanState.Chase)
             {
-                Pathfinding();
-            }
-
-            if (TitanState == MindlessTitanState.Chase && seconds % 4 == 0)
-            {
-                if (IsStuck())
-                {
-                    RotationModifier = Random.Range(0, 2) == 1
-                        ? 100f
-                        : -100f;
-                }
-                else
-                {
-                    RotationModifier = 0;
-                }
+                IsPathFinding = Pathfinding();
             }
         }
 
@@ -857,6 +849,7 @@ namespace Assets.Scripts.Characters.Titan
                 vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
                 vector14.y = 0f;
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
+                transform.Rotate(0, RotationModifier * Time.fixedDeltaTime, 0);
             }
 
             if (TitanState == MindlessTitanState.Chase)

@@ -99,6 +99,11 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             return false;
         }
 
+        protected virtual bool OnChasingUpdateEverySecond(int seconds)
+        {
+            return false;
+        }
+
         protected virtual bool OnFixedUpdateChase()
         {
             return false;
