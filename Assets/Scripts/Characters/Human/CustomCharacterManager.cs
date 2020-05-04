@@ -408,17 +408,7 @@ public class CustomCharacterManager : MonoBehaviour
         this.setup = this.character.GetComponent<HERO_SETUP>();
         this.setup.init();
         this.setup.myCostume = new HeroCostume();
-
-        //The following statement currently only decides between an AHSS costume and another default blades costume based on the EquipmentType.
-        //This will presumably be updated when the custom hero functionality is made better.
-        //Previously the costume was hardcoded to always generate (soldier) Annie with blades.
-        if (setup.getEquipmentType() == EquipmentType.Ahss){
-            this.copyCostume(HeroCostume.costume[0x25], this.setup.myCostume, false);  //This generates an AHSS soldier.
-        }
-        else {
-            this.copyCostume(HeroCostume.costume[2], this.setup.myCostume, false);  //This generates Annie with blades.
-        }
-
+        this.copyCostume(HeroCostume.costume[2], this.setup.myCostume, false);
         this.setup.myCostume.setMesh2();
         this.setup.setCharacterComponent();
         SEX[] sexArray1 = new SEX[2];

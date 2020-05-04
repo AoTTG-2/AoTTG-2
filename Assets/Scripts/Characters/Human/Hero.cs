@@ -10,9 +10,6 @@ using Xft;
 
 public class Hero : Human
 {
-    public Equipment Equipment { get; set; }
-    public EquipmentType EquipmentType;
-
     public List<HeroSkill> Skills;
 
     public HERO_STATE _state;
@@ -234,7 +231,6 @@ public class Hero : Human
         this.forearmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R");
         this.upperarmL = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
         this.upperarmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
-        Equipment = gameObject.AddComponent<Equipment>();
     }
 
     public void backToHuman()
@@ -580,7 +576,68 @@ public class Hero : Human
         {
             this.state = HERO_STATE.ChangeBlade;
             this.throwedBlades = false;
-            Equipment.Weapon.PlayReloadAnimation();
+            if (this.useGun)
+            {
+                if (!this.leftGunHasBullet && !this.rightGunHasBullet)
+                {
+                    if (this.grounded)
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_both";
+                    }
+                    else
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_both_air";
+                    }
+                }
+                else if (!this.leftGunHasBullet)
+                {
+                    if (this.grounded)
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_l";
+                    }
+                    else
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_l_air";
+                    }
+                }
+                else if (!this.rightGunHasBullet)
+                {
+                    if (this.grounded)
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_r";
+                    }
+                    else
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_r_air";
+                    }
+                }
+                else
+                {
+                    if (this.grounded)
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_both";
+                    }
+                    else
+                    {
+                        this.reloadAnimation = "AHSS_gun_reload_both_air";
+                    }
+                    this.rightGunHasBullet = false;
+                    this.leftGunHasBullet = false;
+                }
+                this.crossFade(this.reloadAnimation, 0.05f);
+            }
+            else
+            {
+                if (!this.grounded)
+                {
+                    this.reloadAnimation = "changeBlade_air";
+                }
+                else
+                {
+                    this.reloadAnimation = "changeBlade";
+                }
+                this.crossFade(this.reloadAnimation, 0.1f);
+            }
         }
     }
 
@@ -1498,17 +1555,44 @@ public class Hero : Human
                                     }
                                 }
 
+                                else if (this.useGun)
+                                {
+                                    if (!this.isRightHandHooked)
+                                    {
+                                        if (!this.baseAnimation.IsPlaying("AHSS_hook_forward_l"))
+                                        {
+                                            this.crossFade("AHSS_hook_forward_l", 0.1f);
+                                        }
+                                    }
+                                    else if (!this.isLeftHandHooked)
+                                    {
+                                        if (!this.baseAnimation.IsPlaying("AHSS_hook_forward_r"))
+                                        {
+                                            this.crossFade("AHSS_hook_forward_r", 0.1f);
+                                        }
+                                    }
+                                    else if (!this.baseAnimation.IsPlaying("AHSS_hook_forward_both"))
+                                    {
+                                        this.crossFade("AHSS_hook_forward_both", 0.1f);
+                                    }
+                                }
                                 else if (!this.isRightHandHooked)
                                 {
-                                    TryCrossFade(Equipment.Weapon.HookForwardLeft, 0.1f);
+                                    if (!this.baseAnimation.IsPlaying("air_hook_l"))
+                                    {
+                                        this.crossFade("air_hook_l", 0.1f);
+                                    }
                                 }
                                 else if (!this.isLeftHandHooked)
                                 {
-                                    TryCrossFade(Equipment.Weapon.HookForwardRight, 0.1f);
+                                    if (!this.baseAnimation.IsPlaying("air_hook_r"))
+                                    {
+                                        this.crossFade("air_hook_r", 0.1f);
+                                    }
                                 }
-                                else if (!this.baseAnimation.IsPlaying(Equipment.Weapon.HookForward))
+                                else if (!this.baseAnimation.IsPlaying("air_hook"))
                                 {
-                                    TryCrossFade(Equipment.Weapon.HookForward, 0.1f);
+                                    this.crossFade("air_hook", 0.1f);
                                 }
                             }
                         }
@@ -3973,7 +4057,7 @@ public class Hero : Human
             //GameObject.Find("bulletL7").GetComponent<UISprite>().enabled = false;
             //GameObject.Find("bulletR7").GetComponent<UISprite>().enabled = false;
         }
-        if (EquipmentType == EquipmentType.Ahss)
+        if (this.setup.myCostume.uniform_type == UNIFORM_TYPE.CasualAHSS)
         {
             this.standAnimation = "AHSS_stand_gun";
             this.useGun = true;
@@ -4013,10 +4097,10 @@ public class Hero : Human
                 //GameObject.Find("bulletR6").GetComponent<UISprite>().enabled = true;
                 //GameObject.Find("bulletL7").GetComponent<UISprite>().enabled = true;
                 //GameObject.Find("bulletR7").GetComponent<UISprite>().enabled = true;
-                //if (this.skillId != "bomb")
-                //{
-                //    this.skillCD.transform.localPosition = (Vector3) (Vector3.up * 5000f);
-                //}
+                if (this.skillId != "bomb")
+                {
+                    this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
+                }
             }
         }
         else if (this.setup.myCostume.sex == SEX.FEMALE)
@@ -4231,7 +4315,18 @@ public class Hero : Human
         {
             cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
         }
-        Equipment.Weapon.UpdateSupplyUi(InGameUI);
+
+        if (!useGun)
+        {
+            var bladesUi = InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
+            bladesUi.SetBlades(currentBladeNum);
+        }
+        else
+        {
+            var bladesUi = InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.AHSS>();
+            bladesUi.SetAHSS(leftBulletLeft, rightBulletLeft);
+        }
+
         //if (!this.useGun)
         //{
         //    this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
@@ -4578,6 +4673,37 @@ public class Hero : Human
             this.netDieLocal((Vector3)(base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
             FengGameManagerMKII.instance.needChooseSide = true;
             FengGameManagerMKII.instance.justSuicide = true;
+        }
+    }
+
+    private void throwBlades()
+    {
+        Transform transform = this.setup.part_blade_l.transform;
+        Transform transform2 = this.setup.part_blade_r.transform;
+        GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
+        GameObject obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
+        obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+        obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+        Vector3 force = (base.transform.forward + ((Vector3)(base.transform.up * 2f))) - base.transform.right;
+        obj2.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+        Vector3 vector2 = (base.transform.forward + ((Vector3)(base.transform.up * 2f))) + base.transform.right;
+        obj3.GetComponent<Rigidbody>().AddForce(vector2, ForceMode.Impulse);
+        Vector3 torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
+        torque.Normalize();
+        obj2.GetComponent<Rigidbody>().AddTorque(torque);
+        torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
+        torque.Normalize();
+        obj3.GetComponent<Rigidbody>().AddTorque(torque);
+        this.setup.part_blade_l.SetActive(false);
+        this.setup.part_blade_r.SetActive(false);
+        this.currentBladeNum--;
+        if (this.currentBladeNum == 0)
+        {
+            this.currentBladeSta = 0f;
+        }
+        if (this.state == HERO_STATE.Attack)
+        {
+            this.falseAttack();
         }
     }
 
@@ -5449,10 +5575,96 @@ public class Hero : Human
                         }
                         else if (this.state == HERO_STATE.ChangeBlade)
                         {
-                            Equipment.Weapon.Reload();
-                            if (this.baseAnimation[this.reloadAnimation].normalizedTime >= 1f)
+                            if (this.useGun)
                             {
-                                this.idle();
+                                if (this.baseAnimation[this.reloadAnimation].normalizedTime > 0.22f)
+                                {
+                                    if (!(this.leftGunHasBullet || !this.setup.part_blade_l.activeSelf))
+                                    {
+                                        this.setup.part_blade_l.SetActive(false);
+                                        Transform transform = this.setup.part_blade_l.transform;
+                                        GameObject obj5 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
+                                        obj5.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+                                        Vector3 force = ((Vector3)((-this.baseTransform.forward * 10f) + (this.baseTransform.up * 5f))) - this.baseTransform.right;
+                                        obj5.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+                                        Vector3 torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
+                                        obj5.GetComponent<Rigidbody>().AddTorque(torque, ForceMode.Acceleration);
+                                    }
+                                    if (!(this.rightGunHasBullet || !this.setup.part_blade_r.activeSelf))
+                                    {
+                                        this.setup.part_blade_r.SetActive(false);
+                                        Transform transform5 = this.setup.part_blade_r.transform;
+                                        GameObject obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform5.position, transform5.rotation);
+                                        obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+                                        Vector3 vector3 = ((Vector3)((-this.baseTransform.forward * 10f) + (this.baseTransform.up * 5f))) + this.baseTransform.right;
+                                        obj6.GetComponent<Rigidbody>().AddForce(vector3, ForceMode.Impulse);
+                                        Vector3 vector4 = new Vector3((float)UnityEngine.Random.Range(-300, 300), (float)UnityEngine.Random.Range(-300, 300), (float)UnityEngine.Random.Range(-300, 300));
+                                        obj6.GetComponent<Rigidbody>().AddTorque(vector4, ForceMode.Acceleration);
+                                    }
+                                }
+                                if ((this.baseAnimation[this.reloadAnimation].normalizedTime > 0.62f) && !this.throwedBlades)
+                                {
+                                    this.throwedBlades = true;
+                                    if (!((this.leftBulletLeft <= 0) || this.leftGunHasBullet))
+                                    {
+                                        this.leftBulletLeft--;
+                                        this.setup.part_blade_l.SetActive(true);
+                                        this.leftGunHasBullet = true;
+                                    }
+                                    if (!((this.rightBulletLeft <= 0) || this.rightGunHasBullet))
+                                    {
+                                        this.setup.part_blade_r.SetActive(true);
+                                        this.rightBulletLeft--;
+                                        this.rightGunHasBullet = true;
+                                    }
+                                    this.updateRightMagUI();
+                                    this.updateLeftMagUI();
+                                }
+                                if (this.baseAnimation[this.reloadAnimation].normalizedTime > 1f)
+                                {
+                                    this.idle();
+                                }
+                            }
+                            else
+                            {
+                                if (!this.grounded)
+                                {
+                                    if (!((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime < 0.2f) || this.throwedBlades))
+                                    {
+                                        this.throwedBlades = true;
+                                        if (this.setup.part_blade_l.activeSelf)
+                                        {
+                                            this.throwBlades();
+                                        }
+                                    }
+                                    if ((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime >= 0.56f) && (this.currentBladeNum > 0))
+                                    {
+                                        this.setup.part_blade_l.SetActive(true);
+                                        this.setup.part_blade_r.SetActive(true);
+                                        this.currentBladeSta = this.totalBladeSta;
+                                    }
+                                }
+                                else
+                                {
+                                    if (!((this.baseAnimation[this.reloadAnimation].normalizedTime < 0.13f) || this.throwedBlades))
+                                    {
+                                        this.throwedBlades = true;
+                                        if (this.setup.part_blade_l.activeSelf)
+                                        {
+                                            this.throwBlades();
+                                        }
+                                    }
+                                    if ((this.baseAnimation[this.reloadAnimation].normalizedTime >= 0.37f) && (this.currentBladeNum > 0))
+                                    {
+                                        this.setup.part_blade_l.SetActive(true);
+                                        this.setup.part_blade_r.SetActive(true);
+                                        this.currentBladeSta = this.totalBladeSta;
+                                    }
+                                }
+                                if (this.baseAnimation[this.reloadAnimation].normalizedTime >= 1f)
+                                {
+                                    this.idle();
+                                }
                             }
                         }
                         else if (this.state == HERO_STATE.Salute)
@@ -5489,7 +5701,7 @@ public class Hero : Human
                             {
                                 this.currentBladeSta = this.totalBladeSta;
                                 this.currentBladeNum = this.totalBladeNum;
-                                Equipment.Weapon.AmountLeft = Equipment.Weapon.AmountRight = totalBladeNum;
+
                                 this.currentGas = this.totalGas;
                                 if (!this.useGun)
                                 {

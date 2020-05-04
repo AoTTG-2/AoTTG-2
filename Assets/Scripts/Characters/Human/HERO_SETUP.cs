@@ -56,15 +56,8 @@ public class HERO_SETUP : MonoBehaviour
     public GameObject reference;
     public float timer;
 
-    private EquipmentType equipmentType;
-
     private void Awake()
     {
-        var hero = gameObject.GetComponent<Hero>();
-        if (hero != null)
-        {
-            equipmentType = hero.EquipmentType;
-        }
         this.part_head.transform.parent = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
         this.mount_3dmg = new GameObject();
         this.mount_3dmg_gas_l = new GameObject();
@@ -120,8 +113,8 @@ public class HERO_SETUP : MonoBehaviour
         }
         if (this.myCostume.mesh_3dmg_gas_l.Length > 0)
         {
-            this.part_3dmg_gas_l = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_l));
-            if (equipmentType == EquipmentType.Ahss)
+            this.part_3dmg_gas_l = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_l));
+            if (this.myCostume.uniform_type != UNIFORM_TYPE.CasualAHSS)
             {
                 this.part_3dmg_gas_l.transform.position = this.mount_3dmg_gas_l.transform.position;
                 this.part_3dmg_gas_l.transform.rotation = this.mount_3dmg_gas_l.transform.rotation;
@@ -137,8 +130,8 @@ public class HERO_SETUP : MonoBehaviour
         }
         if (this.myCostume.mesh_3dmg_gas_r.Length > 0)
         {
-            this.part_3dmg_gas_r = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_r));
-            if (equipmentType == EquipmentType.Ahss)
+            this.part_3dmg_gas_r = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_r));
+            if (this.myCostume.uniform_type != UNIFORM_TYPE.CasualAHSS)
             {
                 this.part_3dmg_gas_r.transform.position = this.mount_3dmg_gas_r.transform.position;
                 this.part_3dmg_gas_r.transform.rotation = this.mount_3dmg_gas_r.transform.rotation;
@@ -467,10 +460,6 @@ public class HERO_SETUP : MonoBehaviour
         this.part_chest.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.skin_texture];
         this.part_hand_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.skin_texture];
         this.part_hand_r.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.skin_texture];
-    }
-
-    public EquipmentType getEquipmentType() {
-        return equipmentType;
     }
 }
 
