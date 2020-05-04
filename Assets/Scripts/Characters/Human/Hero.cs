@@ -1,3 +1,14 @@
+/*
+ TODO:
+ -There's some unhooking bug that happens occasionally.  Happens when sliding while hooked in.  Hero doesn't exit sliding state so gets stuck like that while hooked in.
+ -Air dodge.
+ -In attack fixedupdate had to change 200f to 8f.  Why? (I think timing changes because of my different arrangement).
+ -Horse mounting.
+ -Sliding and landing bugs.
+ -Landing while not moving (land animation) should result in hero moving.
+  -Landing sometimes cause hero to shake (and gas is still being spewed for some reason) happens when you hold shift while landing.
+ */
+
 using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
@@ -1878,13 +1889,13 @@ public class Hero : Human
                     this.changeState_IDLE();  //TODO: Enter horse state machine.
                 }
             }
-            else if (this.isAttacking())
+            else if (this.state == HERO_STATE.Execute_Attack_Blades)
             {
                 if (this.grounded)
                 {
                     if (this.baseAnimation.IsPlaying("attack1") || this.baseAnimation.IsPlaying("attack2"))
                     {  //attack1 and attack2 are normal attacks.
-                        this.baseRigidBody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));  //Move forward when attacking.
+                        this.baseRigidBody.AddForce((Vector3)(base.gameObject.transform.forward * 8f));  //Move forward when attacking.
                     }
                 }
             }
@@ -4990,7 +5001,8 @@ public class Hero : Human
                 this.invincible -= Time.deltaTime;
             }
             if (!this.hasDied && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE || base.photonView.isMine))
-            {
+            {   
+                //Aim UI (crosshair thingie).
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
                 {
                     this.showGas2();
@@ -5033,7 +5045,7 @@ public class Hero : Human
                         ReflectorVariable0 = false;
                     }
 
-                    if (!(ReflectorVariable0 ? ((this.state == HERO_STATE.Grab) ? (this.state != HERO_STATE.Idle) : false) : true))
+                    if (ReflectorVariable0 ? true : false)
                     {
                         if (this.bulletLeft != null)
                         {
@@ -5068,7 +5080,7 @@ public class Hero : Human
                         ReflectorVariable1 = false;
                     }
 
-                    if (!(ReflectorVariable1 ? ((this.state == HERO_STATE.Grab) ? (this.state != HERO_STATE.Idle) : false) : true))
+                    if (ReflectorVariable1 ? true : false)
                     {
                         if (this.bulletRight != null)
                         {
@@ -5103,7 +5115,7 @@ public class Hero : Human
                         ReflectorVariable2 = false;
                     }
 
-                    if (!(ReflectorVariable2 ? ((this.state == HERO_STATE.Grab) ? (this.state != HERO_STATE.Idle) : false) : true))
+                    if (ReflectorVariable2 ? true : false)
                     {
                         this.QHold = true;
                         this.EHold = true;
