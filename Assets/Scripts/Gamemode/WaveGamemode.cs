@@ -73,9 +73,9 @@ namespace Assets.Scripts.Gamemode
             return $"Highest Wave : {highestWave}";
         }
 
-        public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            base.OnLevelWasLoaded(level, isMasterClient);
+            base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
             if (Name.Contains("Annie"))
             {

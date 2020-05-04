@@ -14,9 +14,9 @@ namespace Assets.Scripts.Gamemode
             DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk};
         }
 
-        public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            base.OnLevelWasLoaded(level, isMasterClient);
+            base.OnLevelLoaded(level, isMasterClient);
             GameObject.Find("playerRespawn").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawn"));
             GameObject.Find("rock").GetComponent<Animation>()["lift"].speed = 0f;

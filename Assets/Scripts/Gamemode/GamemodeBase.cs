@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Gamemode
 {
-    public abstract class GamemodeBase
+    public abstract class GamemodeBase : MonoBehaviour
     {
         public GamemodeType GamemodeType;
 
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Gamemode
         public float TitanMaximumSize { get; set; } = 3f;
 
         [UiElement("Custom Size", "Enable custom titan sizes", SettingCategory.Titans)]
-        public bool TitanCustomSize { get; set; } = true;
+        public bool TitanCustomSize { get; set; } = false;
 
         [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
         public float TitanChaseDistance { get; set; } = 100f;
@@ -282,6 +282,11 @@ namespace Assets.Scripts.Gamemode
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
         }
 
+        public virtual void OnSpawnTitan()
+        {
+
+        }
+
         public virtual void OnTitanSpawned(TITAN titan)
         {
             if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || titan.photonView.isMine)
@@ -367,7 +372,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnAllTitansDead() { }
 
-        public virtual void OnLevelWasLoaded(Level level, bool isMasterClient = false)
+        public virtual void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             if (!Supply)
             {

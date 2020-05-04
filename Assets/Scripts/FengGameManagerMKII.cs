@@ -143,7 +143,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public InGameUi InGameUI;
 
     public new string name { get; set; }
-    public static GamemodeBase Gamemode { get; set; }
+    public static GamemodeBase Gamemode { get; private set; }
     public static Level Level { get; set; }
 
     public static Level NewRoundLevel { get; set; }
@@ -3368,10 +3368,28 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
     }
 
+    private void SetGamemode(GamemodeBase gamemode)
+    {
+        if (Gamemode == null)
+        {
+            var gamemodeObject = new GameObject("Gamemode");
+            var gamemodeBase = gamemodeObject.AddComponent(gamemode.GetType());
+            gamemodeBase = gamemode;
+            gamemodeObject.transform.parent = gameObject.transform;
+            Gamemode = gamemodeObject.GetComponent<GamemodeBase>();
+        }
+        else
+        {
+            var gamemodeComponent = gamemode.GetComponentInChildren<GamemodeBase>();
+            gamemodeComponent = gamemode;
+            Gamemode = gamemodeComponent;
+        }
+    }
+
     public void OnJoinedRoom()
     {
         Level = PhotonNetwork.room.GetLevel();
-        Gamemode = PhotonNetwork.room.GetGamemode(Level);
+        SetGamemode(PhotonNetwork.room.GetGamemode(Level));
         this.maxPlayers = PhotonNetwork.room.MaxPlayers;
         this.playerList = string.Empty;
         char[] separator = new char[] { "`"[0] };
@@ -3566,7 +3584,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
                 }
-                Gamemode.OnLevelWasLoaded(Level, PhotonNetwork.isMasterClient);
+                Gamemode.OnLevelLoaded(Level, PhotonNetwork.isMasterClient);
                 if (((int)settings[0xf5]) == 1)
                 {
                     this.EnterSpecMode(true);
@@ -4795,7 +4813,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.hooks.Remove(h);
     }
 
-    public void removeTitan(TITAN titan)
+    public void removeTitan(MindlessTitan titan)
     {
         this.titans.Remove(titan);
     }
@@ -4952,7 +4970,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
         {
             Level = NewRoundLevel;
-            Gamemode = NewRoundGamemode;
+            SetGamemode(NewRoundGamemode);
             var hash = new ExitGames.Client.Photon.Hashtable
             {
                 {"level", Level.Name},
@@ -4965,7 +4983,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         else if (NewRoundGamemode != null && Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
         {
-            Gamemode = NewRoundGamemode;
+            SetGamemode(NewRoundGamemode);
             var hash = new ExitGames.Client.Photon.Hashtable
             {
                 {"level", Level.Name},
@@ -5560,7 +5578,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         var gamemode = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
         if (info.sender.IsMasterClient)
         {
-            Gamemode = gamemode;
+            SetGamemode(gamemode);
             mainCamera.main_object.GetComponent<Hero>().SetHorse();
             if (Gamemode.EndlessRevive > 0)
             {

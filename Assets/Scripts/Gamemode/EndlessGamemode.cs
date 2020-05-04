@@ -31,7 +31,7 @@ namespace Assets.Scripts.Gamemode
             return $"Titans Killed: {Score} Time : {time}";
         }
 
-        public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             if (!isMasterClient) return;
             for (int i = 0; i < Titans; i++)

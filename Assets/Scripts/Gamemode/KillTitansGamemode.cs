@@ -17,9 +17,9 @@ namespace Assets.Scripts.Gamemode
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
-        public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            base.OnLevelWasLoaded(level, isMasterClient);
+            base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
 
             if (Name.Contains("Annie"))

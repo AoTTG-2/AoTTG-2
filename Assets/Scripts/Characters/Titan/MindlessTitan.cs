@@ -615,6 +615,11 @@ namespace Assets.Scripts.Characters.Titan
             return true;
         }
 
+        private void OnDestroy()
+        {
+            FengGameManagerMKII.instance.removeTitan(this);
+        }
+
         void Update()
         {
             if (!IsAlive)

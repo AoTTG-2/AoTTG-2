@@ -2634,14 +2634,6 @@ public class TITAN : MonoBehaviour
         this.grounded = true;
     }
 
-    private void OnDestroy()
-    {
-        if (GameObject.Find("MultiplayerManager") != null)
-        {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().removeTitan(this);
-        }
-    }
-
     public void OnTitanDie(PhotonView view)
     {
         if (FengGameManagerMKII.logicLoaded && FengGameManagerMKII.RCEvents.ContainsKey("OnTitanDie"))

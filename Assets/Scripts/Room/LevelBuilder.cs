@@ -81,7 +81,8 @@ public class LevelBuilder
                 new TitanRushGamemode
                 {
                     Name = "Colossal Titan",
-                    Description = "Defeat the Colossal! Defeat the Colossal Titan.\nPrevent the abnormal titan from running to the north gate."
+                    Description = "Defeat the Colossal! Defeat the Colossal Titan.\nPrevent the abnormal titan from running to the north gate.",
+                    TitanCustomSize = false,
                 },
                 new TrostGamemode
                 {
