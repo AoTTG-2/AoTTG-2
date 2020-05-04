@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 199949927342411753}
   - component: {fileID: 54493719664250000}
   - component: {fileID: 65721197138606257}
-  - component: {fileID: 114123641047470124}
-  - component: {fileID: 114150259025907100}
-  - component: {fileID: 114907767307296648}
+  - component: {fileID: 114596507132546112}
+  - component: {fileID: 114247975490215800}
+  - component: {fileID: 114390878397325424}
   m_Layer: 13
   m_Name: flareBullet3
   m_TagString: Untagged
@@ -73,7 +73,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114123641047470124
+--- !u!114 &114247975490215800
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -81,10 +81,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1227974421901443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114150259025907100
+  CountDown: 5
+--- !u!114 &114390878397325424
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,10 +93,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1227974421901443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114907767307296648
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
+--- !u!114 &114596507132546112
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -103,9 +119,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1227974421901443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 9e4a813dacf83ce46bdf727052852bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  color: 
 --- !u!198 &198039712248276446
 ParticleSystem:
   m_ObjectHideFlags: 1

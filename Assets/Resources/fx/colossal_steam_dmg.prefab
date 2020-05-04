@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4787252529742472}
   - component: {fileID: 198999281803118527}
   - component: {fileID: 199887806602751773}
-  - component: {fileID: 114218723805185436}
+  - component: {fileID: 114594843265852928}
   - component: {fileID: 114174278741308756}
-  - component: {fileID: 114456029245682462}
+  - component: {fileID: 114468951234633976}
   m_Layer: 0
   m_Name: colossal_steam_dmg
   m_TagString: Untagged
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4120419838940454}
   - component: {fileID: 54459836920856963}
   - component: {fileID: 135929258642676475}
-  - component: {fileID: 114387951190317454}
+  - component: {fileID: 114496153515763554}
   m_Layer: 18
   m_Name: EnemyCheckHit
   m_TagString: Untagged
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 4852425389031642}
   - component: {fileID: 54013325144369416}
   - component: {fileID: 135443276806140762}
-  - component: {fileID: 114571318908311608}
+  - component: {fileID: 114735763475092230}
   m_Layer: 18
   m_Name: EnemyCheckHit
   m_TagString: Untagged
@@ -164,7 +164,7 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114218723805185436
+--- !u!114 &114468951234633976
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -172,10 +172,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1353868937984433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e772834a31b905045a901a0f83dbaf17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114387951190317454
+  myOwnerViewID: -1
+  titanName: 
+--- !u!114 &114496153515763554
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -183,10 +185,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1413070632603307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0e57cb2f5751c514b8559c9f679123c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114456029245682462
+  active_me: 0
+  dmg: 1
+  isThisBite: 0
+--- !u!114 &114594843265852928
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -198,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CountDown: 5
---- !u!114 &114571318908311608
+--- !u!114 &114735763475092230
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -206,9 +211,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1562058794825850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0e57cb2f5751c514b8559c9f679123c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active_me: 0
+  dmg: 0
+  isThisBite: 0
 --- !u!135 &135443276806140762
 SphereCollider:
   m_ObjectHideFlags: 1

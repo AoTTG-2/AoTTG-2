@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System;
+using Assets.Scripts.UI;
 
 public static class ConsoleExtensions
 {
@@ -14,25 +16,33 @@ public static class ConsoleExtensions
 
     public static string SendCli(this string input)
     {
-        EMCli.AddLine(input);
+        ConsoleMessage message = new ConsoleMessage(input, DebugLevel.Debug);
+        message.SendToConsole();
+        EMCli.RefreshLayout();
         return input;
     }
 
     public static string SendError(this string input, bool bold = false)
     {
-        EMCli.AddLine(input.RepaintError(bold));
+        ConsoleMessage message = new ConsoleMessage(input.RepaintError(bold), DebugLevel.Error);
+        message.SendToConsole();
+        EMCli.RefreshLayout();
         return input;
     }
 
     public static string SendWarning(this string input, bool bold = false)
     {
-        EMCli.AddLine(input.RepaintWarning(bold));
+        ConsoleMessage message = new ConsoleMessage(input.RepaintWarning(bold), DebugLevel.Warning);
+        message.SendToConsole();
+        EMCli.RefreshLayout();
         return input;
     }
 
     public static string SendProcessing(this string input, bool bold = false)
     {
-        EMCli.AddLine(input.RepaintProcessing(bold));
+        ConsoleMessage message = new ConsoleMessage(input.RepaintProcessing(bold), DebugLevel.Info);
+        message.SendToConsole();
+        EMCli.RefreshLayout();
         return input;
     }
 
@@ -45,6 +55,12 @@ public static class ConsoleExtensions
     public static string RepaintWarning(this string input, bool bold = false)
     {
         string colored = string.Concat(Warning, input).HexColor2();
+        if (bold) return string.Concat("<b>", colored, "</b>");
+        return colored;
+    }
+    public static string RepaintCustom(this string input, string colorCode, bool bold = false)
+    {
+        string colored = string.Concat(colorCode, input).HexColor2();
         if (bold) return string.Concat("<b>", colored, "</b>");
         return colored;
     }
@@ -116,7 +132,12 @@ public static class ConsoleExtensions
         return Shift(rect, -right, 0);
     }
 
-    private static Rect Shift(Rect rect, float x, float y)
+    public static Rect ShiftDown(this Rect rect, float down)
+    {
+        return Shift(rect, 0, -down);
+    }
+
+    public static Rect Shift(Rect rect, float x, float y)
     {
         float newX = rect.x - x;
         float newY = rect.y - y;
@@ -138,5 +159,41 @@ public static class ConsoleExtensions
         }
         $"Command {nameOfCommand} not found!".SendError(true);
         return null;
+    }
+
+    public static float ToFloat(this string str)
+    {
+        return Convert.ToSingle(str);
+    }
+
+    public static int ToInt32(this string str)
+    {
+        return Convert.ToInt32(str);
+    }
+
+    public static byte ToByte(this string str)
+    {
+        return Convert.ToByte(str);
+    }
+
+    public static long ToInt64(this string str)
+    {
+        return Convert.ToInt64(str);
+    }
+
+    public static double ToDouble(this string str)
+    {
+        return Convert.ToDouble(str);
+    }
+
+    public static int ToInt32(this bool input)
+    {
+        if (input) return 1;
+        else return 0;
+    }
+
+    public static bool ToBool(this int input)
+    {
+        return input.Equals(1);
     }
 }

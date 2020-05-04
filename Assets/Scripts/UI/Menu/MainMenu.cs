@@ -1,7 +1,12 @@
 ﻿namespace Assets.Scripts.UI.Menu
 {
-    public class MainMenu : UiElement
+    public class MainMenu : UiNavigationElement
     {
+        public void Singleplayer()
+        {
+            Navigate(typeof(Singleplayer));
+        }
+
         public void Multiplayer()
         {
             Navigate(typeof(Lobby));

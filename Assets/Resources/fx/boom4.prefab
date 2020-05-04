@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 198424404406638769}
   - component: {fileID: 199844435071894307}
   - component: {fileID: 82958974784896790}
-  - component: {fileID: 114262687658012192}
-  - component: {fileID: 114395829155908096}
-  - component: {fileID: 114234880858414816}
+  - component: {fileID: 114409062931073938}
+  - component: {fileID: 114014288022899104}
   - component: {fileID: 114944940690261238}
+  - component: {fileID: 114652635030183884}
   m_Layer: 18
   m_Name: boom4
   m_TagString: Untagged
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4000180850138278}
   - component: {fileID: 54488204766360065}
   - component: {fileID: 135675726874963228}
-  - component: {fileID: 114307365393548924}
+  - component: {fileID: 114563729843049684}
   m_Layer: 18
   m_Name: EnemyCheckHit
   m_TagString: Untagged
@@ -60,8 +60,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4626119535309138}
   - component: {fileID: 54359707358017655}
-  - component: {fileID: 114933511247268370}
   - component: {fileID: 65659507055033941}
+  - component: {fileID: 114277864302646734}
   m_Layer: 18
   m_Name: EnemyCheckHit 1
   m_TagString: Untagged
@@ -238,7 +238,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114234880858414816
+--- !u!114 &114014288022899104
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -246,43 +246,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1254571774044635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114262687658012192
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1254571774044635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114307365393548924
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1367218643367029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114395829155908096
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1254571774044635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114933511247268370
+  CountDown: 3
+--- !u!114 &114277864302646734
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -290,9 +258,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 1809872869410067}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0e57cb2f5751c514b8559c9f679123c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active_me: 0
+  dmg: 1
+  isThisBite: 0
+--- !u!114 &114409062931073938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1254571774044635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114563729843049684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1367218643367029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e57cb2f5751c514b8559c9f679123c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active_me: 0
+  dmg: 0
+  isThisBite: 0
+--- !u!114 &114652635030183884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1254571774044635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e772834a31b905045a901a0f83dbaf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myOwnerViewID: -1
+  titanName: 
 --- !u!114 &114944940690261238
 MonoBehaviour:
   m_ObjectHideFlags: 1

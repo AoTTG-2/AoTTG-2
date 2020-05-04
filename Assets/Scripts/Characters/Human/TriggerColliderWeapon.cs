@@ -1,4 +1,4 @@
-using System;
+using Assets.Scripts.Gamemode.Options;
 using System.Collections;
 using UnityEngine;
 
@@ -14,9 +14,36 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     private bool checkIfBehind(GameObject titan)
     {
-        Transform transform = titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
-        Vector3 to = base.transform.position - transform.transform.position;
-        return (Vector3.Angle(-transform.transform.forward, to) < 70f);
+        if (titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
+        {
+            Transform transform = titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
+            Vector3 to = base.transform.position - transform.transform.position;
+            return (Vector3.Angle(-transform.transform.forward, to) < 70f);
+        }
+        else if (titan.transform.Find("BodyPivot/HeadPos") != null)// dummy titan
+        {
+            Transform transform = titan.transform.Find("BodyPivot/HeadPos");
+            Vector3 to = base.transform.position - transform.transform.position;
+            return (Vector3.Angle(-transform.transform.forward, to) < 70f);
+        }
+        return false;
+    }
+
+    public void DummyNapeHit(DummyTitan titan)
+    {
+        Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity;
+        int num2 = (int)((vector3.magnitude * 10f) * this.scoreMulti);
+        num2 = Mathf.Max(10, num2);
+        
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        {
+            titan.GetHit(num2);
+        }
+        else
+        {
+            titan.photonView.RPC("GetHit", PhotonTargets.All, new object[] { num2 });
+        }
+        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().netShowDamage(num2);
     }
 
     public void clearHits()
@@ -61,7 +88,7 @@ public class TriggerColliderWeapon : MonoBehaviour
             }
             if (other.gameObject.tag == "playerHitbox")
             {
-                if (LevelInfo.getInfo(FengGameManagerMKII.level).pvp)
+                if (FengGameManagerMKII.Gamemode.Pvp != PvpMode.Disabled)
                 {
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);
@@ -158,6 +185,10 @@ public class TriggerColliderWeapon : MonoBehaviour
                                 item.transform.root.GetComponent<COLOSSAL_TITAN>().photonView.RPC("titanGetHit", item.transform.root.GetComponent<COLOSSAL_TITAN>().photonView.owner, objArray4);
                             }
                         }
+                        else if (item.transform.root.GetComponent<DummyTitan>())
+                        {
+                            DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
+                        }
                     }
                     else if (item.transform.root.GetComponent<TITAN>() != null)
                     {
@@ -202,6 +233,10 @@ public class TriggerColliderWeapon : MonoBehaviour
                             }
                             item.transform.root.GetComponent<COLOSSAL_TITAN>().titanGetHit(base.transform.root.gameObject.GetPhotonView().viewID, num8);
                         }
+                    }
+                    else if (item.transform.root.GetComponent<DummyTitan>())
+                    {
+                        DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
                     }
                     this.showCriticalHitFX();
                 }
@@ -263,7 +298,11 @@ public class TriggerColliderWeapon : MonoBehaviour
             {
                 this.currentHits.Add(other.gameObject);
                 GameObject obj4 = other.gameObject.transform.root.gameObject;
-                Vector3 vector10 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - obj4.GetComponent<Rigidbody>().velocity;
+                Vector3 vector10 = Vector3.zero;
+                if (obj4.GetComponent<Rigidbody>())//patch for dummy titan
+                {
+                    vector10 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - obj4.GetComponent<Rigidbody>().velocity;
+                }
                 int num9 = (int) ((vector10.magnitude * 10f) * this.scoreMulti);
                 num9 = Mathf.Max(10, num9);
                 if ((obj4.GetComponent<TITAN>() != null) && (obj4.GetComponent<TITAN>().TitanType != TitanType.TYPE_CRAWLER))
@@ -335,6 +374,10 @@ public class TriggerColliderWeapon : MonoBehaviour
                     {
                         obj4.GetComponent<FEMALE_TITAN>().hitAnkleLRPC(base.transform.root.gameObject.GetPhotonView().viewID, num9);
                     }
+                    this.showCriticalHitFX();
+                }
+                else if(obj4.GetComponent<DummyTitan>())
+                {
                     this.showCriticalHitFX();
                 }
             }

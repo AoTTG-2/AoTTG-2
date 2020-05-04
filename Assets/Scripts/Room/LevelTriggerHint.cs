@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class LevelTriggerHint : MonoBehaviour
@@ -17,7 +16,7 @@ public class LevelTriggerHint : MonoBehaviour
 
     private void Start()
     {
-        if (!LevelInfo.getInfo(FengGameManagerMKII.level).hint)
+        if (!FengGameManagerMKII.Gamemode.Hint)
         {
             base.enabled = false;
         }

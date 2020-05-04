@@ -11,8 +11,9 @@ namespace Assets.Scripts.Gamemode
             Titans = 2;
         }
 
-        public override void OnLevelWasLoaded(LevelInfo info, bool isMasterClient = false)
+        public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
         {
+            base.OnLevelWasLoaded(level, isMasterClient);
             GameObject.Find("playerRespawnTrost").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawnTrost"));
             Object.Destroy(GameObject.Find("rock"));

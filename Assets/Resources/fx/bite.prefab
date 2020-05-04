@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 198536362619110053}
   - component: {fileID: 199995531620250123}
   - component: {fileID: 82388796589321951}
-  - component: {fileID: 114409295980292050}
-  - component: {fileID: 114397596459313636}
+  - component: {fileID: 114091848458955324}
   - component: {fileID: 114667766581582378}
   - component: {fileID: 114561378293581844}
+  - component: {fileID: 114625242617497458}
   m_Layer: 18
   m_Name: bite
   m_TagString: Untagged
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4086023372084220}
   - component: {fileID: 54928861040769454}
   - component: {fileID: 135185969438401928}
-  - component: {fileID: 114816211331595230}
+  - component: {fileID: 114981244567921230}
   m_Layer: 18
   m_Name: EnemyCheckHit
   m_TagString: Untagged
@@ -179,7 +179,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114397596459313636
+--- !u!114 &114091848458955324
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -187,18 +187,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1609381941150230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114409295980292050
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609381941150230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114561378293581844
@@ -227,6 +216,19 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114625242617497458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1609381941150230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e772834a31b905045a901a0f83dbaf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myOwnerViewID: -1
+  titanName: 
 --- !u!114 &114667766581582378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,8 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9097174d69cb0419a21d444e675c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CountDown: 5
---- !u!114 &114816211331595230
+  CountDown: 1
+--- !u!114 &114981244567921230
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -247,9 +249,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1639773384462278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0e57cb2f5751c514b8559c9f679123c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active_me: 0
+  dmg: 1
+  isThisBite: 1
 --- !u!135 &135185969438401928
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -322,7 +327,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 112712142
+  randomSeed: -2130776548
   InitialModule:
     serializedVersion: 3
     enabled: 1

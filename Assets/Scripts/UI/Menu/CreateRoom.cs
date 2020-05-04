@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Gamemode;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
-    public class CreateRoom : UiElement
+    public class CreateRoom : UiNavigationElement
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
@@ -86,6 +87,7 @@ namespace Assets.Scripts.UI.Menu
 
         private void SceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
+            SceneManager.sceneLoaded -= SceneLoaded;
             Canvas.ShowInGameUi();
         }
     }

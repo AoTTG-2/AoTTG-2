@@ -985,6 +985,7 @@ GameObject:
   - component: {fileID: 4413998669876166}
   - component: {fileID: 136717263125639597}
   - component: {fileID: 114010700879079886}
+  - component: {fileID: 114628518653412264}
   m_Layer: 19
   m_Name: neck
   m_TagString: titanneck
@@ -2444,8 +2445,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 5
+  instantiationId: 5
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114122411306930370
@@ -2509,6 +2510,20 @@ MonoBehaviour:
   NapeArmor: 1000
   size: 0
   speed: 80
+--- !u!114 &114628518653412264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964823470979185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10b13c1ea6af0a4f9e6e421f68a9ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: 0
+  hitPosition: {x: 0, y: 0, z: 0}
+  multiple: 1
 --- !u!114 &114815033948019352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2531,8 +2546,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114287856357017212}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 6
+  instantiationId: 6
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!135 &135437980593630962

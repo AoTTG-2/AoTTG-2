@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 198532642159454440}
   - component: {fileID: 199763605506686137}
   - component: {fileID: 82453291616137443}
-  - component: {fileID: 114404625602160702}
-  - component: {fileID: 114355486853795324}
+  - component: {fileID: 114415164834271124}
   - component: {fileID: 114178099781127502}
   - component: {fileID: 114769739308998680}
+  - component: {fileID: 114809056389276722}
   m_Layer: 18
   m_Name: shotGun 1
   m_TagString: Untagged
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4232086162089627}
   - component: {fileID: 198858011868722493}
   - component: {fileID: 199837764167094603}
-  - component: {fileID: 114220192924927914}
+  - component: {fileID: 114150206666181766}
   m_Layer: 18
   m_Name: Particle System 3
   m_TagString: Untagged
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 4136247388038316}
   - component: {fileID: 54030789484976612}
   - component: {fileID: 136665371890202921}
-  - component: {fileID: 114898614008853680}
+  - component: {fileID: 114725696035325092}
   m_Layer: 18
   m_Name: EnemyCheckHit
   m_TagString: Untagged
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 4956017805008769}
   - component: {fileID: 198114178383837465}
   - component: {fileID: 199125542066003074}
-  - component: {fileID: 114414874807212462}
+  - component: {fileID: 114399823776254168}
   m_Layer: 18
   m_Name: Particle System 4
   m_TagString: Untagged
@@ -243,6 +243,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114150206666181766
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1167876130011554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114178099781127502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -255,18 +266,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CountDown: 5
---- !u!114 &114220192924927914
+--- !u!114 &114399823776254168
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1167876130011554}
+  m_GameObject: {fileID: 1936246944146931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114355486853795324
+--- !u!114 &114415164834271124
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -274,15 +285,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1127860531435763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e9b857f63ec383a44b17ee6f342a9d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114404625602160702
+--- !u!114 &114725696035325092
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1127860531435763}
+  m_GameObject: {fileID: 1379792348469586}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3772c73a5c64fc54aa1c4527c4f002b2, type: 3}
@@ -292,17 +303,6 @@ MonoBehaviour:
   currentCamera: {fileID: 0}
   dmg: 1
   scoreMulti: 0
---- !u!114 &114414874807212462
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1936246944146931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114769739308998680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,23 +322,26 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114898614008853680
+--- !u!114 &114809056389276722
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379792348469586}
+  m_GameObject: {fileID: 1127860531435763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e772834a31b905045a901a0f83dbaf17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myOwnerViewID: -1
+  titanName: 
 --- !u!136 &136665371890202921
 CapsuleCollider:
   m_ObjectHideFlags: 1
