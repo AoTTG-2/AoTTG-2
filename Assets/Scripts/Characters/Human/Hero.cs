@@ -24,7 +24,6 @@ public class Hero : Human
     public Animation baseAnimation;
     public Rigidbody baseRigidBody;
     public Transform baseTransform;
-    public bool bigLean;
     public float bombCD;
     public bool bombImmune;
     public float bombRadius;
