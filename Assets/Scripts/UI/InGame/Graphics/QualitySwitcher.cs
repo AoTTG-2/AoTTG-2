@@ -9,6 +9,9 @@ public class QualitySwitcher : MonoBehaviour {
 	private void Update() {
 		label.text = QualitySettings.currentLevel.ToString();
 		gameObject.GetComponentInChildren<Slider>().value = QualitySettings.GetQualityLevel();
+		Debug.Log(gameObject.GetComponentInChildren<Slider>().value);
+
+
 	}
 
 	public void UpdateQualitySliderValue()

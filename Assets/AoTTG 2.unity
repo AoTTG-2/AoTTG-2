@@ -47631,7 +47631,7 @@ Prefab:
     - target: {fileID: 114334409464566206, guid: 5d2773940db257b498474245f65613a8,
         type: 2}
       propertyPath: viewIdField
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114334409464566206, guid: 5d2773940db257b498474245f65613a8,
         type: 2}
@@ -47641,7 +47641,7 @@ Prefab:
     - target: {fileID: 114588469607938866, guid: 5d2773940db257b498474245f65613a8,
         type: 2}
       propertyPath: viewIdField
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114588469607938866, guid: 5d2773940db257b498474245f65613a8,
         type: 2}
@@ -52500,7 +52500,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Potatoe
 --- !u!222 &409542584
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -55624,7 +55624,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Disabled
 --- !u!222 &681530703
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -57003,11 +57003,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: All
+    - m_Text: Disable
       m_Image: {fileID: 0}
     - m_Text: Hard Shadows
       m_Image: {fileID: 0}
-    - m_Text: Disable
+    - m_Text: All
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -57507,7 +57507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &864499439
 RectTransform:
   m_ObjectHideFlags: 0
@@ -59287,12 +59287,20 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options: []
+    m_Options:
+    - m_Text: Low
+      m_Image: {fileID: 0}
+    - m_Text: Medium
+      m_Image: {fileID: 0}
+    - m_Text: High
+      m_Image: {fileID: 0}
+    - m_Text: Very High
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1955505033}
-        m_MethodName: ChangeResolution
+      - m_Target: {fileID: 1373198428}
+        m_MethodName: ChangeShadowResolution
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -65168,7 +65176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TextureQuality: {fileID: 1778738818}
-  ShadowResolution: {fileID: 990051879}
+  ShadowRes: {fileID: 990051879}
   AntiAliasing: {fileID: 1403668359}
   Shadows: {fileID: 820163088}
   SoftParticles: {fileID: 1556503242}
@@ -65198,13 +65206,15 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: General Settings
+  m_Text: 'Advanced Settings
+
+'
 --- !u!222 &1373198430
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -65920,12 +65930,20 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options: []
+    m_Options:
+    - m_Text: Disabled
+      m_Image: {fileID: 0}
+    - m_Text: 2x Multi Sampling
+      m_Image: {fileID: 0}
+    - m_Text: 4x Multi Sampling
+      m_Image: {fileID: 0}
+    - m_Text: 8x Multi Sampling
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1955505033}
-        m_MethodName: ChangeResolution
+      - m_Target: {fileID: 1373198428}
+        m_MethodName: ChangeAntiAliasing
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -66194,7 +66212,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Low
 --- !u!222 &1422591928
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -70582,12 +70600,20 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options: []
+    m_Options:
+    - m_Text: Potatoe
+      m_Image: {fileID: 0}
+    - m_Text: Low
+      m_Image: {fileID: 0}
+    - m_Text: Meduim
+      m_Image: {fileID: 0}
+    - m_Text: High
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1955505033}
-        m_MethodName: ChangeResolution
+      - m_Target: {fileID: 1373198428}
+        m_MethodName: ChangeTextureQuality
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -73712,7 +73738,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: All
+  m_Text: Disable
 --- !u!222 &2004042548
 CanvasRenderer:
   m_ObjectHideFlags: 0

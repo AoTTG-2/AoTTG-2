@@ -37,4 +37,9 @@ public class GraphicsController : MonoBehaviour {
 		label.text = "loaded player prefs";
 	}
 
+	public void RealTimeUpdateSettings()
+	{
+		
+	}
+
 }
