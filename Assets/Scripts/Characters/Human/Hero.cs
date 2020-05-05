@@ -1,11 +1,8 @@
 /*
  TODO:
- -There's some unhooking bug that happens occasionally.  Happens when sliding while hooked in.  Hero doesn't exit sliding state so gets stuck like that while hooked in.
  -Air dodge.
- -In attack fixedupdate had to change 200f to 8f.  Why? (I think timing changes because of my different arrangement).
  -Horse mounting.
- -Sliding and landing bugs.
- -Landing while not moving (land animation) should result in hero moving.
+ -Landing while flying forward should result in hero sliding forward a bit depending on landing speed,
   -Landing sometimes cause hero to shake (and gas is still being spewed for some reason) happens when you hold shift while landing.
  */
 
@@ -195,7 +192,7 @@ public class Hero : Human
     private HERO_STATE jumped_state;
     private Vector3 inFlightVelocity;
     private float inFlightAngle;
-    private float dragCoeffecient = 1f;
+    private float dragCoeffecient = 2.5f;
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
@@ -2188,6 +2185,7 @@ public class Hero : Human
             this.falseAttack();
         }
         this.state = HERO_STATE.Idle;
+        this.smoke_3dmg.enableEmission = false;
         this.crossFade(this.standAnimation, 0.1f);
     }
 
