@@ -13,7 +13,7 @@ public class Hero : Human
     [SerializeField] private GameObject ahssGearPrefab;
     [SerializeField] private GameObject bladesGearPrefab;
 
-    private OdmgEquipment currentEquipment;
+    public OdmgEquipment currentEquipment;
     public List<HeroSkill> Skills;
 
     public HERO_STATE _state;
@@ -56,7 +56,6 @@ public class Hero : Human
     public float currentBladeSta = 100f;
     private BUFF currentBuff;
     public Camera currentCamera;
-    private float currentGas = 100f;
     public float currentSpeed;
     public Vector3 currentV;
     private bool dashD;
@@ -172,10 +171,8 @@ public class Hero : Human
     private int titanWhoGrabMeID;
     private int totalBladeNum = 5;
     public float totalBladeSta = 100f;
-    public float totalGas = 100f;
     private Transform upperarmL;
     private Transform upperarmR;
-    private float useGasSpeed = 0.2f;
     public bool useGun;
     private float uTapTime = -1f;
     private bool wallJump;
@@ -902,10 +899,10 @@ public class Hero : Human
 
     private void dash(float horizontal, float vertical)
     {
-        UnityEngine.MonoBehaviour.print(this.dashTime + " " + this.currentGas);
-        if (((this.dashTime <= 0f) && (this.currentGas > 0f)) && !this.isMounted)
+        UnityEngine.MonoBehaviour.print(this.dashTime + " " + currentEquipment.currentGas);
+        if (((this.dashTime <= 0f) && (currentEquipment.currentGas > 0f)) && !this.isMounted)
         {
-            this.useGas(this.totalGas * 0.04f);
+            currentEquipment.UseGas(currentEquipment.maxGas * 0.04f);
             this.facingDirection = this.getGlobalFacingDirection(horizontal, vertical);
             this.dashV = this.getGlobaleFacingVector3(this.facingDirection);
             this.originVM = this.currentSpeed;
@@ -1127,11 +1124,6 @@ public class Hero : Human
         }
     }
 
-    public void fillGas()
-    {
-        this.currentGas = this.totalGas;
-    }
-
     private GameObject findNearestTitan()
     {
         GameObject[] objArray = GameObject.FindGameObjectsWithTag("titan");
@@ -1273,9 +1265,9 @@ public class Hero : Human
                             }
                         }
                         this.launchElapsedTimeL += Time.deltaTime;
-                        if (this.QHold && (this.currentGas > 0f))
+                        if (this.QHold && (currentEquipment.currentGas > 0f))
                         {
-                            this.useGas(this.useGasSpeed * Time.deltaTime);
+                            currentEquipment.UseGas();
                         }
                         else if (this.launchElapsedTimeL > 0.3f)
                         {
@@ -1316,9 +1308,9 @@ public class Hero : Human
                             }
                         }
                         this.launchElapsedTimeR += Time.deltaTime;
-                        if (this.EHold && (this.currentGas > 0f))
+                        if (this.EHold && (currentEquipment.currentGas > 0f))
                         {
-                            this.useGas(this.useGasSpeed * Time.deltaTime);
+                            currentEquipment.UseGas();
                         }
                         else if (this.launchElapsedTimeR > 0.3f)
                         {
@@ -1673,7 +1665,7 @@ public class Hero : Human
                                 this.facingDirection = num12;
                                 this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                             }
-                            if (((!flag3 && !flag4) && (!this.isMounted && this.inputManager.isInput[InputCode.jump])) && (this.currentGas > 0f))
+                            if (((!flag3 && !flag4) && (!this.isMounted && this.inputManager.isInput[InputCode.jump])) && (currentEquipment.currentGas > 0f))
                             {
                                 if ((x != 0f) || (z != 0f))
                                 {
@@ -1826,7 +1818,7 @@ public class Hero : Human
                     }
                     if (flag2)
                     {
-                        this.useGas(this.useGasSpeed * Time.deltaTime);
+                        currentEquipment.UseGas();
                         if ((!this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
                         {
                             object[] parameters = new object[] { true };
@@ -1972,7 +1964,7 @@ public class Hero : Human
 
     public void getSupply()
     {
-        if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || base.GetComponent<Animation>().IsPlaying("run_1")) || base.GetComponent<Animation>().IsPlaying("run_sasha")) && (((this.currentBladeSta != this.totalBladeSta) || (this.currentBladeNum != this.totalBladeNum)) || (((this.currentGas != this.totalGas) || (this.leftBulletLeft != this.bulletMAX)) || (this.rightBulletLeft != this.bulletMAX))))
+        if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || base.GetComponent<Animation>().IsPlaying("run_1")) || base.GetComponent<Animation>().IsPlaying("run_sasha")) && (((this.currentBladeSta != this.totalBladeSta) || (this.currentBladeNum != this.totalBladeNum)) || (((currentEquipment.currentGas != currentEquipment.maxGas) || (this.leftBulletLeft != this.bulletMAX)) || (this.rightBulletLeft != this.bulletMAX))))
         {
             this.state = HERO_STATE.FillGas;
             this.crossFade("supply", 0.1f);
@@ -2340,9 +2332,9 @@ public class Hero : Human
 
     private void launchLeftRope(RaycastHit hit, bool single, int mode = 0)
     {
-        if (this.currentGas != 0f)
+        if (currentEquipment.currentGas != 0f)
         {
-            this.useGas(0f);
+            currentEquipment.UseGas(currentEquipment.useGasSpeed);
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 this.bulletLeft = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
@@ -2372,9 +2364,9 @@ public class Hero : Human
 
     private void launchRightRope(RaycastHit hit, bool single, int mode = 0)
     {
-        if (this.currentGas != 0f)
+        if (currentEquipment.currentGas != 0f)
         {
-            this.useGas(0f);
+            currentEquipment.UseGas(currentEquipment.useGasSpeed);
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 this.bulletRight = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
@@ -4034,7 +4026,10 @@ public class Hero : Human
         }
         this.bombInit();
         this.speed = ((float)this.setup.myCostume.stat.SPD) / 10f;
-        this.totalGas = this.currentGas = this.setup.myCostume.stat.GAS;
+
+        //Moved into SetEquipment Class
+        //currentEquipment.maxGas = currentEquipment.currentGas = this.setup.myCostume.stat.GAS;
+        
         this.totalBladeSta = this.currentBladeSta = this.setup.myCostume.stat.BLA;
         this.baseRigidBody.mass = 0.5f - ((this.setup.myCostume.stat.ACL - 100) * 0.001f);
         //GameObject.Find("skill_cd_bottom").transform.localPosition = new Vector3(0f, (-Screen.height * 0.5f) + 5f, 0f);
@@ -4303,9 +4298,9 @@ public class Hero : Human
 
     private void showGas2()
     {
-        float num = this.currentGas / this.totalGas;
+        float num = currentEquipment.currentGas / currentEquipment.maxGas;
         float num2 = this.currentBladeSta / this.totalBladeSta;
-        cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentGas / totalGas;
+        cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentEquipment.currentGas / currentEquipment.maxGas;
         if (num <= 0.25f)
         {
             cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.red;
@@ -4531,6 +4526,7 @@ public class Hero : Human
         GameObject equipmentObject = Instantiate(equipmentPrefab);
         equipmentObject.transform.parent = gameObject.transform;
         currentEquipment = equipmentObject.GetComponent<OdmgEquipment>();
+        currentEquipment.SetStats(setup.myCostume.stat);
     }
 
     private void Start()
@@ -5714,7 +5710,7 @@ public class Hero : Human
                                 this.currentBladeSta = this.totalBladeSta;
                                 this.currentBladeNum = this.totalBladeNum;
 
-                                this.currentGas = this.totalGas;
+                                currentEquipment.currentGas = currentEquipment.maxGas;
                                 if (!this.useGun)
                                 {
                                     this.setup.part_blade_l.SetActive(true);
@@ -5983,22 +5979,6 @@ public class Hero : Human
 
     [Obsolete("Using a weapon should be moved within Weapon class...")]
 
-
-    private void useGas(float amount = 0)
-    {
-        if (amount == 0f)
-        {
-            amount = this.useGasSpeed;
-        }
-        if (this.currentGas > 0f)
-        {
-            this.currentGas -= amount;
-            if (this.currentGas < 0f)
-            {
-                this.currentGas = 0f;
-            }
-        }
-    }
 
     [PunRPC]
     private void whoIsMyErenTitan(int id)

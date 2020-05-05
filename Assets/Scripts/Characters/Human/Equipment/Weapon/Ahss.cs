@@ -16,10 +16,27 @@ public class AHSS : OdmgEquipment, Weapon
     {
     }
 
-    public void Resupply()
+    #region Equipment Methods
+    public override void SetStats(HeroStat heroStat)
     {
-
+        base.SetStats(heroStat);
     }
+
+    public override bool NeedResupply()
+    {
+        if (base.NeedResupply() || leftGunAmmo != maxAmmo || rightGunAmmo != maxAmmo)
+            return true;
+
+        return false;
+    }
+
+    public override void Resupply()
+    {
+        base.Resupply();
+        leftGunAmmo = maxAmmo;
+        rightGunAmmo = maxAmmo;
+    }
+    #endregion
 
     #region Weapon Methods
     public void Attack()
