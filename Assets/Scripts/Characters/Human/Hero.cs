@@ -4,6 +4,7 @@
  -Horse mounting.
  -Landing while flying forward should result in hero sliding forward a bit depending on landing speed,
   -Landing sometimes cause hero to shake (and gas is still being spewed for some reason) happens when you hold shift while landing.
+  -I think the above problem has to do with camera not being switched back when landing.
  */
 
 using Assets.Scripts.Gamemode.Options;
@@ -192,7 +193,7 @@ public class Hero : Human
     private HERO_STATE jumped_state;
     private Vector3 inFlightVelocity;
     private float inFlightAngle;
-    private float dragCoeffecient = 2.5f;
+    private float dragCoeffecient = 1.5f;
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
@@ -1198,7 +1199,7 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
-        if (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
+        if ((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
 
@@ -1396,7 +1397,7 @@ public class Hero : Human
             }
 
             //Description:  Create some vectors that will be used in the state machine when hero is grounded.
-            Vector3 vector7_grounded;
+            //Vector3 vector7_grounded;
             Vector3 velocity_grounded = this.baseRigidBody.velocity;
             Vector3 force_grounded;
             Vector3 vector8 = new Vector3(x, 0f, z);
@@ -1442,10 +1443,16 @@ public class Hero : Human
             force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.y = 0f;
-            if (this.grounded && !this.useGun && !this.isAttacking())
+
+            //Description: Change camera field of view based on speed.
+            if (this.currentSpeed > 10f)
             {
-                this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
-                this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
+                //TODO: Format.
+                this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float)100f, (float)(this.currentSpeed + 40f)), 0.1f);
+            }
+            else
+            {
+                this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, 50f, 0.1f);
             }
 
             //Description:  Mish-mash of actions that can happen in multiple states.
@@ -1690,17 +1697,6 @@ public class Hero : Human
                 else
                 {
                     this.baseRigidBody.AddForce(new Vector3(0f, -this.gravity * this.baseRigidBody.mass, 0f));
-                }
-
-                //Camera physics.
-                if (this.currentSpeed > 10f)
-                {
-                    //TODO: Format.
-                    this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float)100f, (float)(this.currentSpeed + 40f)), 0.1f);
-                }
-                else
-                {
-                    this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, 50f, 0.1f);
                 }
 
                 //Use gas.
