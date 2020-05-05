@@ -193,6 +193,9 @@ public class Hero : Human
     private bool flag3_attack_blades = false;
     private bool force_jumped = false;
     private HERO_STATE jumped_state;
+    private Vector3 inFlightVelocity;
+    private float inFlightAngle;
+    private float dragCoeffecient = 1f;
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
@@ -1215,7 +1218,7 @@ public class Hero : Human
 			*/
 
             //Description:  Do rotation if levi or petra skill animations or mikasa's part 2 animation (animation that plays after mikasa hits the ground) are playing.
-            if (!(this.baseAnimation.IsPlaying("attack3_2") || this.baseAnimation.IsPlaying("attack5") || this.baseAnimation.IsPlaying("special_petra"))){
+            if (!(this.baseAnimation.IsPlaying("attack3_2") || this.baseAnimation.IsPlaying("attack5") || this.baseAnimation.IsPlaying("special_petra"))) {
                 this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, this.targetRotation, Time.deltaTime * 6f);
             }
 
@@ -1406,12 +1409,22 @@ public class Hero : Human
             zero_grounded = (Vector3)(zero_grounded * num6);
             zero_grounded = (Vector3)(zero_grounded * this.speed);
 
-            if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
-            {
-                zero_grounded = (Vector3)(zero_grounded * 4f);
+            if(!this.grounded){
+                this.inFlightVelocity = this.baseRigidBody.velocity;
+                this.inFlightAngle = this.getGlobalFacingDirection(inFlightVelocity.x, inFlightVelocity.z);
             }
 
-            if ((x == 0f) && (z == 0f))
+            if (this.state == HERO_STATE.Slide)
+            {
+                zero_grounded = this.inFlightVelocity;
+                resultAngle = this.inFlightAngle;
+
+                //Apply drag.
+                Vector3 normalFlightVelocity = this.inFlightVelocity.normalized;
+                float desiredMagnitude = this.inFlightVelocity.magnitude - dragCoeffecient;
+                this.inFlightVelocity = normalFlightVelocity * desiredMagnitude;
+            }
+            else if ((x == 0f) && (z == 0f))
             {
                 if (!(this.baseAnimation.IsPlaying(this.standAnimation) || (this.state == HERO_STATE.Land) || this.baseAnimation.IsPlaying("jump") || this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("grabbed")))
                 {
@@ -1419,6 +1432,13 @@ public class Hero : Human
                 }
                 resultAngle = -874f;
             }
+
+            if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
+            {
+                zero_grounded = (Vector3)(zero_grounded * 4f);
+            }
+
+
 
             //Description: Unknown.
             force_grounded = zero_grounded - velocity_grounded;
@@ -1740,7 +1760,16 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.Idle)
             {
-                if (this.grounded)
+                if (this.justGrounded)
+                {
+                    this.state = HERO_STATE.JustGrounded;
+                }
+
+                else if (((this.myHorse != null) && this.baseAnimation.IsPlaying("air_fall")) && ((this.baseRigidBody.velocity.y < 0f) && (Vector3.Distance(this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f)), this.baseTransform.position) < 0.5f)))
+                {
+                    this.changeState_IDLE();  //TODO: Enter horse state machine.
+                }
+                else if (this.grounded)
                 {
                     //Walking.
                     if ((x != 0f) || (z != 0f))
@@ -1878,16 +1907,6 @@ public class Hero : Human
 
 
                 }
-
-                if (this.justGrounded)
-                {
-                    this.state = HERO_STATE.JustGrounded;
-                }
-
-                else if (((this.myHorse != null) && this.baseAnimation.IsPlaying("air_fall")) && ((this.baseRigidBody.velocity.y < 0f) && (Vector3.Distance(this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f)), this.baseTransform.position) < 0.5f)))
-                {
-                    this.changeState_IDLE();  //TODO: Enter horse state machine.
-                }
             }
             else if (this.state == HERO_STATE.Execute_Attack_Blades)
             {
@@ -1901,7 +1920,7 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.JustGrounded)
             {
-                if ((x == 0f) && (z == 0f) && (this.bulletLeft == null) && (this.bulletRight == null) && (this.state != HERO_STATE.FillGas))
+                if ((x == 0f) && (z == 0f) && (this.bulletLeft == null) && (this.bulletRight == null))
                 {
                     this.state = HERO_STATE.Land;
                     this.crossFade("dash_land", 0.01f);
@@ -1932,8 +1951,13 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.Slide)
             {
+                //If you aren't on the ground you shouldn't be sliding
+                if (!this.grounded) {
+                    this.changeState_IDLE();
+                }
+
                 zero_grounded = (Vector3)(this.baseRigidBody.velocity * 0.99f);
-                if (this.currentSpeed < (this.speed * 1.2f))
+                if (this.currentSpeed < (this.speed * 0.2f))
                 {
                     this.changeState_IDLE();
                     this.sparks.enableEmission = false;
