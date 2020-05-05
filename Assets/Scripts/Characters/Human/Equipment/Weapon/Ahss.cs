@@ -2,9 +2,9 @@
 
 public class AHSS : OdmgEquipment, Weapon
 {
-    [SerializeField] private int maxAmmo = 7;
-    public int leftGunAmmo { get; private set; }
-    public int rightGunAmmo { get; private set; }
+    [SerializeField] public int maxAmmo = 7;
+    public int leftGunAmmo { get; set; }
+    public int rightGunAmmo { get; set; }
 
     protected override void Awake()
     {

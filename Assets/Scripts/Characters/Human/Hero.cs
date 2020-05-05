@@ -36,7 +36,6 @@ public class Hero : Human
     public float bombTimeMax;
     private float buffTime;
     public GameObject bulletLeft;
-    private int bulletMAX = 7;
     public GameObject bulletRight;
     private bool buttonAttackRelease;
     public Dictionary<string, Image> cachedSprites;
@@ -51,9 +50,6 @@ public class Hero : Human
     public GameObject crossR1;
     public GameObject crossR2;
     public string currentAnimation;
-    [Obsolete]
-    public int currentBladeNum = 5;
-    public float currentBladeSta = 100f;
     private BUFF currentBuff;
     public Camera currentCamera;
     public float currentSpeed;
@@ -115,7 +111,6 @@ public class Hero : Human
     public XWeaponTrail leftbladetrail;
     public XWeaponTrail leftbladetrail2;
     [Obsolete]
-    public int leftBulletLeft = 7;
     public bool leftGunHasBullet = true;
     private float lTapTime = -1f;
     public GameObject maincamera;
@@ -140,8 +135,6 @@ public class Hero : Human
     private bool rightArmAim;
     public XWeaponTrail rightbladetrail;
     public XWeaponTrail rightbladetrail2;
-    [Obsolete]
-    public int rightBulletLeft = 7;
     public bool rightGunHasBullet = true;
     public AudioSource rope;
     private float rTapTime = -1f;
@@ -169,8 +162,6 @@ public class Hero : Human
     public bool titanForm;
     private GameObject titanWhoGrabMe;
     private int titanWhoGrabMeID;
-    private int totalBladeNum = 5;
-    public float totalBladeSta = 100f;
     private Transform upperarmL;
     private Transform upperarmR;
     public bool useGun;
@@ -1964,7 +1955,13 @@ public class Hero : Human
 
     public void getSupply()
     {
-        if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || base.GetComponent<Animation>().IsPlaying("run_1")) || base.GetComponent<Animation>().IsPlaying("run_sasha")) && (((this.currentBladeSta != this.totalBladeSta) || (this.currentBladeNum != this.totalBladeNum)) || (((currentEquipment.currentGas != currentEquipment.maxGas) || (this.leftBulletLeft != this.bulletMAX)) || (this.rightBulletLeft != this.bulletMAX))))
+        Animation chracterAnimation = GetComponent<Animation>();
+
+        bool animationInterruptable = chracterAnimation.IsPlaying(this.standAnimation) ||
+                                      chracterAnimation.IsPlaying("run_1") ||
+                                      chracterAnimation.IsPlaying("run_sasha");
+
+        if (animationInterruptable && currentEquipment.NeedResupply())
         {
             this.state = HERO_STATE.FillGas;
             this.crossFade("supply", 0.1f);
@@ -4029,8 +4026,8 @@ public class Hero : Human
 
         //Moved into SetEquipment Class
         //currentEquipment.maxGas = currentEquipment.currentGas = this.setup.myCostume.stat.GAS;
-        
-        this.totalBladeSta = this.currentBladeSta = this.setup.myCostume.stat.BLA;
+        //this.totalBladeSta = this.currentBladeSta = this.setup.myCostume.stat.BLA;
+
         this.baseRigidBody.mass = 0.5f - ((this.setup.myCostume.stat.ACL - 100) * 0.001f);
         //GameObject.Find("skill_cd_bottom").transform.localPosition = new Vector3(0f, (-Screen.height * 0.5f) + 5f, 0f);
         //this.skillCD = GameObject.Find("skill_cd_" + this.skillIDHUD);
@@ -4299,7 +4296,8 @@ public class Hero : Human
     private void showGas2()
     {
         float num = currentEquipment.currentGas / currentEquipment.maxGas;
-        float num2 = this.currentBladeSta / this.totalBladeSta;
+        float num2;
+
         cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentEquipment.currentGas / currentEquipment.maxGas;
         if (num <= 0.25f)
         {
@@ -4314,15 +4312,20 @@ public class Hero : Human
             cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
         }
 
-        if (!useGun)
+        if (currentEquipment is Blades)
         {
+            Blades bladesGear = (Blades)currentEquipment;
+
+            num2 = bladesGear.NumBlades / ((Blades)currentEquipment).maxBlades;
             var bladesUi = InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
-            bladesUi.SetBlades(currentBladeNum);
+            bladesUi.SetBlades(bladesGear.NumBlades);
         }
-        else
+        else if(currentEquipment is AHSS)
         {
+            AHSS AhssGear = (AHSS)currentEquipment;
+
             var bladesUi = InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.AHSS>();
-            bladesUi.SetAHSS(leftBulletLeft, rightBulletLeft);
+            bladesUi.SetAHSS(AhssGear.leftGunAmmo, AhssGear.rightGunAmmo);
         }
 
         //if (!this.useGun)
@@ -4531,7 +4534,7 @@ public class Hero : Human
 
     private void Start()
     {
-        SetEquipment(ahssGearPrefab);
+        SetEquipment(bladesGearPrefab);
 
         FengGameManagerMKII.instance.addHero(this);
         gameObject.AddComponent<PlayerInteractable>();
@@ -4704,15 +4707,16 @@ public class Hero : Human
         obj3.GetComponent<Rigidbody>().AddTorque(torque);
         this.setup.part_blade_l.SetActive(false);
         this.setup.part_blade_r.SetActive(false);
-        this.currentBladeNum--;
-        if (this.currentBladeNum == 0)
-        {
-            this.currentBladeSta = 0f;
-        }
+
+        Blades bladesEquipment = (Blades)currentEquipment;
+
+        bladesEquipment.NumBlades--;
+
+        if (bladesEquipment.NumBlades == 0)
+            bladesEquipment.BladeDurability = 0f;
+
         if (this.state == HERO_STATE.Attack)
-        {
             this.falseAttack();
-        }
     }
 
     public void ungrabbed()
@@ -5336,7 +5340,7 @@ public class Hero : Human
                                         this.pauseAnimation();
                                     }
                                 }
-                                if ((this.attackAnimation == "attack3_1") && (this.currentBladeSta > 0f))
+                                if ((this.attackAnimation == "attack3_1") && ((Blades)currentEquipment).BladeDurability > 0f)
                                 {
                                     if (this.baseAnimation[this.attackAnimation].normalizedTime >= 0.8f)
                                     {
@@ -5374,7 +5378,7 @@ public class Hero : Human
                                 {
                                     float num;
                                     float num2;
-                                    if (this.currentBladeSta == 0f)
+                                    if (((Blades)currentEquipment).BladeDurability == 0f)
                                     {
                                         num = -1f;
                                         num2 = -1f;
@@ -5612,17 +5616,19 @@ public class Hero : Human
                                 }
                                 if ((this.baseAnimation[this.reloadAnimation].normalizedTime > 0.62f) && !this.throwedBlades)
                                 {
+                                    AHSS ahssGear = (AHSS)currentEquipment;
+
                                     this.throwedBlades = true;
-                                    if (!((this.leftBulletLeft <= 0) || this.leftGunHasBullet))
+                                    if (!((ahssGear.leftGunAmmo <= 0) || this.leftGunHasBullet))
                                     {
-                                        this.leftBulletLeft--;
+                                        ahssGear.leftGunAmmo--;
                                         this.setup.part_blade_l.SetActive(true);
                                         this.leftGunHasBullet = true;
                                     }
-                                    if (!((this.rightBulletLeft <= 0) || this.rightGunHasBullet))
+                                    if (!((ahssGear.rightGunAmmo <= 0) || this.rightGunHasBullet))
                                     {
                                         this.setup.part_blade_r.SetActive(true);
-                                        this.rightBulletLeft--;
+                                        ahssGear.rightGunAmmo--;
                                         this.rightGunHasBullet = true;
                                     }
                                     this.updateRightMagUI();
@@ -5645,11 +5651,15 @@ public class Hero : Human
                                             this.throwBlades();
                                         }
                                     }
-                                    if ((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime >= 0.56f) && (this.currentBladeNum > 0))
+
+                                    Blades bladesGear = (Blades)currentEquipment;
+
+                                    if ((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime >= 0.56f) && (bladesGear.NumBlades > 0))
                                     {
                                         this.setup.part_blade_l.SetActive(true);
                                         this.setup.part_blade_r.SetActive(true);
-                                        this.currentBladeSta = this.totalBladeSta;
+
+                                        bladesGear.BladeDurability = bladesGear.maxDurability;
                                     }
                                 }
                                 else
@@ -5662,11 +5672,14 @@ public class Hero : Human
                                             this.throwBlades();
                                         }
                                     }
-                                    if ((this.baseAnimation[this.reloadAnimation].normalizedTime >= 0.37f) && (this.currentBladeNum > 0))
+
+                                    Blades bladesGear = (Blades)currentEquipment;
+
+                                    if ((this.baseAnimation[this.reloadAnimation].normalizedTime >= 0.37f) && (bladesGear.NumBlades > 0))
                                     {
                                         this.setup.part_blade_l.SetActive(true);
                                         this.setup.part_blade_r.SetActive(true);
-                                        this.currentBladeSta = this.totalBladeSta;
+                                        bladesGear.BladeDurability = bladesGear.maxDurability;
                                     }
                                 }
                                 if (this.baseAnimation[this.reloadAnimation].normalizedTime >= 1f)
@@ -5707,10 +5720,8 @@ public class Hero : Human
                         {
                             if (this.baseAnimation.IsPlaying("supply") && (this.baseAnimation["supply"].normalizedTime >= 1f))
                             {
-                                this.currentBladeSta = this.totalBladeSta;
-                                this.currentBladeNum = this.totalBladeNum;
+                                currentEquipment.Resupply();
 
-                                currentEquipment.currentGas = currentEquipment.maxGas;
                                 if (!this.useGun)
                                 {
                                     this.setup.part_blade_l.SetActive(true);
@@ -5718,7 +5729,6 @@ public class Hero : Human
                                 }
                                 else
                                 {
-                                    this.leftBulletLeft = this.rightBulletLeft = this.bulletMAX;
                                     this.rightGunHasBullet = true;
                                     this.leftGunHasBullet = true;
                                     this.setup.part_blade_l.SetActive(true);
@@ -5954,11 +5964,14 @@ public class Hero : Human
     private void updateLeftMagUI()
     {
         return;
-        for (int i = 1; i <= this.bulletMAX; i++)
+
+        AHSS ahssGear = (AHSS)currentEquipment;
+
+        for (int i = 1; i <= ahssGear.maxAmmo; i++)
         {
             //GameObject.Find("bulletL" + i).GetComponent<UISprite>().enabled = false;
         }
-        for (int j = 1; j <= this.leftBulletLeft; j++)
+        for (int j = 1; j <= ahssGear.leftGunAmmo; j++)
         {
             //GameObject.Find("bulletL" + j).GetComponent<UISprite>().enabled = true;
         }
@@ -5967,18 +5980,20 @@ public class Hero : Human
     private void updateRightMagUI()
     {
         return;
-        for (int i = 1; i <= this.bulletMAX; i++)
+
+        AHSS ahssGear = (AHSS)currentEquipment;
+
+        for (int i = 1; i <= ahssGear.maxAmmo; i++)
         {
             //GameObject.Find("bulletR" + i).GetComponent<UISprite>().enabled = false;
         }
-        for (int j = 1; j <= this.rightBulletLeft; j++)
+        for (int j = 1; j <= ahssGear.rightGunAmmo; j++)
         {
             //GameObject.Find("bulletR" + j).GetComponent<UISprite>().enabled = true;
         }
     }
 
     [Obsolete("Using a weapon should be moved within Weapon class...")]
-
 
     [PunRPC]
     private void whoIsMyErenTitan(int id)

@@ -2,10 +2,10 @@
 
 public class Blades : OdmgEquipment, Weapon
 {
-    [SerializeField] private int maxBlades = 5;
-    [SerializeField] private float maxDurability = 100f;
-    public int NumBlades { get; private set; }
-    public float BladeDurability { get; private set; }
+    [SerializeField] public int maxBlades = 5;
+    [SerializeField] public float maxDurability = 100f;
+    public int NumBlades { get; set; }
+    public float BladeDurability { get; set; }
 
     protected override void Awake()
     {
@@ -21,8 +21,8 @@ public class Blades : OdmgEquipment, Weapon
     public override void SetStats(HeroStat heroStat)
     {
         base.SetStats(heroStat);
-        maxBlades = heroStat.BLA;
-        NumBlades = maxBlades;
+        maxDurability = heroStat.BLA;
+        BladeDurability = maxBlades;
     }
 
     public override bool NeedResupply()
