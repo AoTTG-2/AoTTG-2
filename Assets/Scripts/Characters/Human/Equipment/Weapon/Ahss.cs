@@ -2,18 +2,12 @@
 
 public class AHSS : OdmgEquipment, Weapon
 {
-    [SerializeField] private GameObject myHero;
-    private Hero myHeroScript;
-
     [SerializeField] private int maxAmmo = 7;
     public int leftGunAmmo { get; private set; }
     public int rightGunAmmo { get; private set; }
 
     protected override void Awake()
     {
-        myHeroScript = myHero.GetComponent<Hero>();
-        base.Initialize(myHeroScript);
-
         leftGunAmmo = maxAmmo;
         rightGunAmmo = maxAmmo;
     }
@@ -22,6 +16,12 @@ public class AHSS : OdmgEquipment, Weapon
     {
     }
 
+    public void Resupply()
+    {
+
+    }
+
+    #region Weapon Methods
     public void Attack()
     {
 
@@ -31,9 +31,5 @@ public class AHSS : OdmgEquipment, Weapon
     {
 
     }
-
-    public new void Resupply()
-    {
-        base.Resupply();
-    }
+    #endregion
 }

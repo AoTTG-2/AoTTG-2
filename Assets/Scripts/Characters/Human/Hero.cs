@@ -10,6 +10,10 @@ using Xft;
 
 public class Hero : Human
 {
+    [SerializeField] private GameObject ahssGearPrefab;
+    [SerializeField] private GameObject bladesGearPrefab;
+
+    private OdmgEquipment currentEquipment;
     public List<HeroSkill> Skills;
 
     public HERO_STATE _state;
@@ -4522,8 +4526,17 @@ public class Hero : Human
         }
     }
 
+    private void SetEquipment(GameObject equipmentPrefab)
+    {
+        GameObject equipmentObject = Instantiate(equipmentPrefab);
+        equipmentObject.transform.parent = gameObject.transform;
+        currentEquipment = equipmentObject.GetComponent<OdmgEquipment>();
+    }
+
     private void Start()
     {
+        SetEquipment(ahssGearPrefab);
+
         FengGameManagerMKII.instance.addHero(this);
         gameObject.AddComponent<PlayerInteractable>();
         SetHorse();

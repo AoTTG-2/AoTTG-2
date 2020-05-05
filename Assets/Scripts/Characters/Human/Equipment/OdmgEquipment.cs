@@ -8,18 +8,18 @@ public interface Weapon
 
 public abstract class OdmgEquipment : MonoBehaviour
 {
-    protected Hero MyHero { get; private set; }
-
-    protected void Initialize(Hero myHero)
-    {
-        MyHero = myHero;
-    }
+    protected Hero myHeroScript;
 
     protected virtual void Awake() { }
     protected virtual void Start() { }
     protected virtual void Update() { }
 
-    protected virtual void Resupply()
+    public void SetHero(Hero myHeroScript)
+    {
+        this.myHeroScript = myHeroScript;
+    }
+
+    public void FillGass()
     {
 
     }
