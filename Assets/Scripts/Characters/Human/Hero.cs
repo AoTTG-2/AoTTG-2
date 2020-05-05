@@ -5016,6 +5016,113 @@ public class Hero : Human
         this.isMounted = false;
     }
 
+    private void hookActivation() {
+        //Rope launching logic.
+        System.Boolean ReflectorVariable2;
+        System.Boolean ReflectorVariable1;
+        System.Boolean ReflectorVariable0;
+
+        //Just left rope.
+        if (this.inputManager.isInput[InputCode.leftRope])
+        {
+            ReflectorVariable0 = true;
+        }
+        else
+        {
+            ReflectorVariable0 = false;
+        }
+
+        if (ReflectorVariable0 ? true : false)
+        {
+            if (this.bulletLeft != null)
+            {
+                this.QHold = true;
+            }
+            else
+            {
+                RaycastHit hit4;
+                Ray ray4 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                LayerMask mask10 = ((int)1) << LayerMask.NameToLayer("Ground");
+                LayerMask mask11 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                LayerMask mask12 = mask11 | mask10;
+                if (Physics.Raycast(ray4, out hit4, 10000f, mask12.value))
+                {
+                    this.launchLeftRope(hit4, true, 0);
+                    this.rope.Play();
+                }
+            }
+        }
+        else
+        {
+            this.QHold = false;
+        }
+
+        //Just right rope.
+        if (this.inputManager.isInput[InputCode.rightRope])
+        {
+            ReflectorVariable1 = true;
+        }
+        else
+        {
+            ReflectorVariable1 = false;
+        }
+
+        if (ReflectorVariable1 ? true : false)
+        {
+            if (this.bulletRight != null)
+            {
+                this.EHold = true;
+            }
+            else
+            {
+                RaycastHit hit5;
+                Ray ray5 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                LayerMask mask13 = ((int)1) << LayerMask.NameToLayer("Ground");
+                LayerMask mask14 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                LayerMask mask15 = mask14 | mask13;
+                if (Physics.Raycast(ray5, out hit5, 10000f, mask15.value))
+                {
+                    this.launchRightRope(hit5, true, 0);
+                    this.rope.Play();
+                }
+            }
+        }
+        else
+        {
+            this.EHold = false;
+        }
+
+        //Spacebar/both ropes.
+        if (this.inputManager.isInput[InputCode.bothRope])
+        {
+            ReflectorVariable2 = true;
+        }
+        else
+        {
+            ReflectorVariable2 = false;
+        }
+
+        if (ReflectorVariable2 ? true : false)
+        {
+            this.QHold = true;
+            this.EHold = true;
+            if ((this.bulletLeft == null) && (this.bulletRight == null))
+            {
+                RaycastHit hit6;
+                Ray ray6 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                LayerMask mask16 = ((int)1) << LayerMask.NameToLayer("Ground");
+                LayerMask mask17 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                LayerMask mask18 = mask17 | mask16;
+                if (Physics.Raycast(ray6, out hit6, 1000000f, mask18.value))
+                {
+                    this.launchLeftRope(hit6, false, 0);
+                    this.launchRightRope(hit6, false, 0);
+                    this.rope.Play();
+                }
+            }
+        }
+    }
+
     public void update2()
     {
         if (!IN_GAME_MAIN_CAMERA.isPausing)
@@ -5054,110 +5161,8 @@ public class Hero : Human
                         this.sparks.enableEmission = false;
                     }
 
-                    //Rope launching logic.
-                    System.Boolean ReflectorVariable2;
-                    System.Boolean ReflectorVariable1;
-                    System.Boolean ReflectorVariable0;
-
-                    //Just left rope.
-                    if (this.inputManager.isInput[InputCode.leftRope])
-                    {
-                        ReflectorVariable0 = true;
-                    }
-                    else
-                    {
-                        ReflectorVariable0 = false;
-                    }
-
-                    if (ReflectorVariable0 ? true : false)
-                    {
-                        if (this.bulletLeft != null)
-                        {
-                            this.QHold = true;
-                        }
-                        else
-                        {
-                            RaycastHit hit4;
-                            Ray ray4 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                            LayerMask mask10 = ((int)1) << LayerMask.NameToLayer("Ground");
-                            LayerMask mask11 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
-                            LayerMask mask12 = mask11 | mask10;
-                            if (Physics.Raycast(ray4, out hit4, 10000f, mask12.value))
-                            {
-                                this.launchLeftRope(hit4, true, 0);
-                                this.rope.Play();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        this.QHold = false;
-                    }
-
-                    //Just right rope.
-                    if (this.inputManager.isInput[InputCode.rightRope])
-                    {
-                        ReflectorVariable1 = true;
-                    }
-                    else
-                    {
-                        ReflectorVariable1 = false;
-                    }
-
-                    if (ReflectorVariable1 ? true : false)
-                    {
-                        if (this.bulletRight != null)
-                        {
-                            this.EHold = true;
-                        }
-                        else
-                        {
-                            RaycastHit hit5;
-                            Ray ray5 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                            LayerMask mask13 = ((int)1) << LayerMask.NameToLayer("Ground");
-                            LayerMask mask14 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
-                            LayerMask mask15 = mask14 | mask13;
-                            if (Physics.Raycast(ray5, out hit5, 10000f, mask15.value))
-                            {
-                                this.launchRightRope(hit5, true, 0);
-                                this.rope.Play();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        this.EHold = false;
-                    }
-
-                    //Spacebar/both ropes.
-                    if (this.inputManager.isInput[InputCode.bothRope])
-                    {
-                        ReflectorVariable2 = true;
-                    }
-                    else
-                    {
-                        ReflectorVariable2 = false;
-                    }
-
-                    if (ReflectorVariable2 ? true : false)
-                    {
-                        this.QHold = true;
-                        this.EHold = true;
-                        if ((this.bulletLeft == null) && (this.bulletRight == null))
-                        {
-                            RaycastHit hit6;
-                            Ray ray6 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                            LayerMask mask16 = ((int)1) << LayerMask.NameToLayer("Ground");
-                            LayerMask mask17 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
-                            LayerMask mask18 = mask17 | mask16;
-                            if (Physics.Raycast(ray6, out hit6, 1000000f, mask18.value))
-                            {
-                                this.launchLeftRope(hit6, false, 0);
-                                this.launchRightRope(hit6, false, 0);
-                                this.rope.Play();
-                            }
-                        }
-                    }
+                    //Check hooking keybinds and shoot hooks if pushed.
+                    this.hookActivation();
 
                     //Attacking.
                     if (!this.isMounted && this.inputManager.isInputDown[InputCode.attack0])
@@ -5280,6 +5285,10 @@ public class Hero : Human
                         this.falseAttack();
                         this.changeState_IDLE();
                     }
+                }
+                else if (this.state == HERO_STATE.Slide) {
+                    //Check hooking keybinds and shoot hooks if pushed.
+                    this.hookActivation();
                 }
                 else if (this.state == HERO_STATE.Land)
                 {
