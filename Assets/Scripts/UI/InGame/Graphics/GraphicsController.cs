@@ -9,9 +9,24 @@ public class GraphicsController : MonoBehaviour {
 	public QualitySwitcher QualitySwitcher;
 	public ResolutionSwitcher ResolutionSwitcher;
 	public Text label;
-	
+	public Toggle CustomSettings;
+
+	private void Update() {
+		if(!CustomSettings.isOn)
+		{
+			GeneralGraphic.TextureQuality.interactable = false;
+			GeneralGraphic.shadowRes.interactable = false;
+			GeneralGraphic.antiAliasing.interactable = false;
+			GeneralGraphic.shadows.interactable = false;
+			GeneralGraphic.VSync.interactable = false;
+			GeneralGraphic.SoftParticles.interactable = false;
+
+			QualitySwitcher.GetComponentInChildren<Slider>().interactable = true;
+		}
+	}
 	public void SaveGraphicPlayerPrefs()
 	{
+		PlayerPrefs.SetInt("Quality", QualitySettings.GetQualityLevel());
 		PlayerPrefs.SetInt("QualitySlider", (int)QualitySwitcher.GetComponentInChildren<Slider>().value);
 		PlayerPrefs.SetString("Resolution", ResolutionSwitcher.GetComponentInChildren<ResolutionSwitcher>().Resolution);
 		PlayerPrefs.SetInt("ScreenMode", ResolutionSwitcher.GetComponentInChildren<ResolutionSwitcher>().ScreenMode);
@@ -35,11 +50,16 @@ public class GraphicsController : MonoBehaviour {
 		{
 			PlayerPrefs.SetInt("VSync", 0);
 		}
-		
+		if(CustomSettings.isOn)
+		{
+			PlayerPrefs.SetInt("CustomSettings", 1);
+		}
+		else
+		{
+			PlayerPrefs.SetInt("CustomSettings", 0);
+		}
+
 		PlayerPrefs.Save();
-
-
-
 
 		if(PlayerPrefs.HasKey("QualitySlider") && PlayerPrefs.HasKey("Resolution") && PlayerPrefs.HasKey("ScreenMode"))
 		{
@@ -55,8 +75,21 @@ public class GraphicsController : MonoBehaviour {
 
 	public void LoadGraphicPlayerPrefs()
 	{
-		
-		// Call load for each graphics option
+		if(PlayerPrefs.HasKey("Quality"))
+		{
+			QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Quality"), true);
+		}
+		if(PlayerPrefs.HasKey("CustomSettings"))
+		{
+			if(PlayerPrefs.GetInt("CustomSettings") == 1)
+			{
+				CustomSettings.isOn = true;
+			}
+			else
+			{
+				CustomSettings.isOn = false;
+			}
+		}
 		if(PlayerPrefs.HasKey("QualitySlider"))
 		{
 			QualitySwitcher.LoadPlayerPrefs();
@@ -71,13 +104,30 @@ public class GraphicsController : MonoBehaviour {
 		}
 		
 		
+		
 		label.color = Color.green;
 		label.text = "loaded player prefs";
 	}
 
-	public void RealTimeUpdateSettings()
+	public void AdvancedOptions()
 	{
-		
+		var selected = CustomSettings.isOn;
+		if(selected)
+		{
+			QualitySettings.SetQualityLevel(6, true);
+			GeneralGraphic.TextureQuality.interactable = true;
+			GeneralGraphic.shadowRes.interactable = true;
+			GeneralGraphic.antiAliasing.interactable = true;
+			GeneralGraphic.shadows.interactable = true;
+			GeneralGraphic.VSync.interactable = true;
+			GeneralGraphic.SoftParticles.interactable = true;
+
+			QualitySwitcher.GetComponentInChildren<Slider>().interactable = false;
+		}
+		else
+		{
+			QualitySettings.DecreaseLevel();
+		}
 	}
 
 }
