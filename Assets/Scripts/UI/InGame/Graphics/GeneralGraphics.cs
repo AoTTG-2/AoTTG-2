@@ -3,18 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
-using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 	public class GeneralGraphics : MonoBehaviour {
 
-		public Dropdown TextureQuality { get; set; }
-		public Dropdown ShadowRes { get; set; }
-		public Dropdown AntiAliasing { get; set; }
-		public Dropdown Shadows { get; set; }
-		public Toggle VSync { get; set; } 
-		public Toggle SoftParticles { get; set; }
-		
-		
+		[SerializeField] public Dropdown textureQuality;
+		[SerializeField] public Dropdown shadowRes;
+		[SerializeField] public Dropdown antiAliasing;
+		[SerializeField] public Dropdown shadows;
+		[SerializeField] public Toggle vSync;
+		[SerializeField] public Toggle softParticles;
+
+		public Dropdown TextureQuality
+		{ 
+			get { return textureQuality; }
+			set { textureQuality = value; }
+		}
+		public Dropdown ShadowRes
+		{ 
+			get { return shadowRes; }
+			set { shadowRes = value; }
+		}
+		public Dropdown AntiAliasing
+		{
+			get { return antiAliasing; }
+			set { antiAliasing = value; }
+		}
+		public Dropdown Shadows
+		{
+			get { return shadows; }
+			set { shadows = value; }
+		}
+		public Toggle VSync
+		{
+			get { return vSync; }
+			set { vSync = value; }
+		}
+		public Toggle SoftParticles
+		{
+			get { return softParticles; }
+			set { softParticles = value; }
+		}
 
 		private void Update() {
 			// shadow res
