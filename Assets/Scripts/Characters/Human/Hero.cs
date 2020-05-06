@@ -2,9 +2,13 @@
  TODO:
  -Air dodge.
  -Horse mounting.
- -Landing while flying forward should result in hero sliding forward a bit depending on landing speed,
-  -Landing sometimes cause hero to shake (and gas is still being spewed for some reason) happens when you hold shift while landing.
-  -I think the above problem has to do with camera not being switched back when landing.
+ -Titan grabbing
+ -AHSS.
+ -Petra.
+ -Eren.
+ -Reload.
+ -Resupply.
+ -Flares.
  */
 
 using Assets.Scripts.Gamemode.Options;
@@ -1443,6 +1447,10 @@ public class Hero : Human
             force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.y = 0f;
+            if (this.grounded && !this.useGun && this.state == HERO_STATE.Slide) {
+                this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
+                this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
+            }
 
             //Description: Change camera field of view based on speed.
             if (this.currentSpeed > 10f)
