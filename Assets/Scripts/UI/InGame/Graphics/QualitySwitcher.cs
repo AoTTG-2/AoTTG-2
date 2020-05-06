@@ -23,8 +23,8 @@ public class QualitySwitcher : MonoBehaviour {
 		
 	}
 
-	public void LoadPlayerPrefs(int value)
+	public void LoadPlayerPrefs()
 	{
-		gameObject.GetComponentInChildren<Slider>().value = value;
+		gameObject.GetComponentInChildren<Slider>().value = PlayerPrefs.GetInt("QualitySlider");
 	}
 }

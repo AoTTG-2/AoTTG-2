@@ -49,8 +49,10 @@ public class ResolutionSwitcher : MonoBehaviour {
 		}
 	}
 
-	public void LoadPlayerPrefs(string resolution, int screen_mode)
+	public void LoadPlayerPrefs()
 	{
+		string resolution = PlayerPrefs.GetString("Resolution");
+		int screen_mode = PlayerPrefs.GetInt("ScreenMode");
 		DropDownLabel.text = resolution.Split('@')[0];
 		if(screen_mode == 1)
 		{
