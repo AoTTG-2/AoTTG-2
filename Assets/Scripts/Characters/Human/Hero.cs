@@ -1447,10 +1447,6 @@ public class Hero : Human
             force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
             force_grounded.y = 0f;
-            if (this.grounded && !this.useGun && this.state == HERO_STATE.Slide) {
-                this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
-                this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
-            }
 
             //Description: Change camera field of view based on speed.
             if (this.currentSpeed > 10f)
@@ -1952,6 +1948,13 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.Slide)
             {
+                //Code to keep momentum from prevoius tick.
+                if (this.grounded)
+                {
+                    this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
+                    this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
+                }
+
                 //If you aren't on the ground you shouldn't be sliding
                 if (!this.grounded) {
                     this.changeState_IDLE();
