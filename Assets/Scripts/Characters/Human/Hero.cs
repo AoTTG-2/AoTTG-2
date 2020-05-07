@@ -950,7 +950,7 @@ public class Hero : Human
         base.GetComponent<Animation>()["AHSS_gun_reload_r_air"].speed = 0.5f;
     }
 
-    private void dash(float horizontal, float vertical)
+    private void changeState_DASH(float horizontal, float vertical)
     {
         UnityEngine.MonoBehaviour.print(this.dashTime + " " + this.currentGas);
         if (((this.dashTime <= 0f) && (this.currentGas > 0f)) && !this.isMounted)
@@ -975,7 +975,7 @@ public class Hero : Human
             base.GetComponent<Animation>()["dash"].time = 0.1f;
             this.state = HERO_STATE.AirDodge;
             this.falseAttack();
-            base.GetComponent<Rigidbody>().AddForce((Vector3)(this.dashV * 40f), ForceMode.VelocityChange);
+            base.GetComponent<Rigidbody>().AddForce((Vector3)(this.dashV * 30f), ForceMode.VelocityChange);
         }
     }
 
@@ -5153,6 +5153,7 @@ public class Hero : Human
 
                 this.bufferUpdate();
                 this.updateExt();
+                this.checkDashDoubleTap();
 
                 /*if(this.state == HERO_STATE.Grab){
 				
@@ -5179,6 +5180,32 @@ public class Hero : Human
                         else
                         {
                             this.state = HERO_STATE.Start_Attack_Blades;
+                        }
+                    }
+                    else if (!this.grounded && (this.dashD || this.dashU || this.dashL || this.dashR)) {  //Dash.
+                        if (this.dashD)
+                        {
+                            this.dashD = false;
+                            this.changeState_DASH(0f, -1f);
+                            return;
+                        }
+                        if (this.dashU)
+                        {
+                            this.dashU = false;
+                            this.changeState_DASH(0f, 1f);
+                            return;
+                        }
+                        if (this.dashL)
+                        {
+                            this.dashL = false;
+                            this.changeState_DASH(-1f, 0f);
+                            return;
+                        }
+                        if (this.dashR)
+                        {
+                            this.dashR = false;
+                            this.changeState_DASH(1f, 0f);
+                            return;
                         }
                     }
                     else if (FengGameManagerMKII.inputRC.isInputHorseDown(InputCodeRC.horseMount) && !this.baseAnimation.IsPlaying("jump") && !this.baseAnimation.IsPlaying("horse_geton") && (this.myHorse != null) && !this.isMounted && (Vector3.Distance(this.myHorse.transform.position, base.transform.position) < 15f))
@@ -5299,6 +5326,22 @@ public class Hero : Human
                 {
                     if (this.baseAnimation.IsPlaying("dash_land") && (this.baseAnimation["dash_land"].normalizedTime >= 1f))
                     {
+                        this.changeState_IDLE();
+                    }
+                }
+                else if (this.state == HERO_STATE.AirDodge)
+                {  //This doesn't do physics for airdodge, it sets up the vector that is used in the dash() function which does the physics for the air dodge.
+                    if (this.dashTime > 0f)
+                    {
+                        this.dashTime -= Time.deltaTime;
+                        if (this.currentSpeed > this.originVM)
+                        {
+                            this.baseRigidBody.AddForce((Vector3)((-this.baseRigidBody.velocity * Time.deltaTime) * 1.7f), ForceMode.VelocityChange);
+                        }
+                    }
+                    else
+                    {
+                        this.dashTime = 0f;
                         this.changeState_IDLE();
                     }
                 }
