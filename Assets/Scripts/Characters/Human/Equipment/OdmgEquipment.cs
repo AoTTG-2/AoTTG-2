@@ -10,9 +10,13 @@ public abstract class OdmgEquipment : MonoBehaviour
 {
     protected Hero myHeroScript;
 
+    [SerializeField] public GameObject hookLaunchPointLeft;
+    [SerializeField] public GameObject hookLaunchPointRight;
+
     [SerializeField] public float maxGas = 100f;
     public float currentGas = 100f;
     public float useGasSpeed = 0.2f;
+    public float dashTime;
 
     protected virtual void Awake() { }
     protected virtual void Start() { }
@@ -63,6 +67,34 @@ public abstract class OdmgEquipment : MonoBehaviour
 
         if (currentGas < 0f)
             currentGas = 0f;
+    }
+
+    public void dash(float xAxisVeclocity, float zAxisVelocity)
+    {
+        print(dashTime + " " + currentGas);
+
+        if (((dashTime <= 0f) && (currentGas > 0f)) && !myHeroScript.isMounted)
+        {
+            UseGas(maxGas * 0.04f);
+            myHeroScript.facingDirection = myHeroScript.getGlobalFacingDirection(xAxisVeclocity, zAxisVelocity);
+            myHeroScript.dashV = myHeroScript.getGlobaleFacingVector3(myHeroScript.facingDirection);
+            myHeroScript.originVM = myHeroScript.currentSpeed;
+            Quaternion quaternion = Quaternion.Euler(0f, myHeroScript.facingDirection, 0f);
+            myHeroScript.GetComponent<Rigidbody>().rotation = quaternion;
+            myHeroScript.targetRotation = quaternion;
+
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                Instantiate(Resources.Load("FX/boost_smoke"), base.transform.position, base.transform.rotation);
+            else
+                PhotonNetwork.Instantiate("FX/boost_smoke", base.transform.position, base.transform.rotation, 0);
+
+            dashTime = 0.5f;
+            myHeroScript.crossFade("dash", 0.1f);
+            myHeroScript.GetComponent<Animation>()["dash"].time = 0.1f;
+            myHeroScript.state = HERO_STATE.AirDodge;
+            myHeroScript.falseAttack();
+            myHeroScript.GetComponent<Rigidbody>().AddForce((Vector3)(myHeroScript.dashV * 40f), ForceMode.VelocityChange);
+        }
     }
     #endregion
 }
