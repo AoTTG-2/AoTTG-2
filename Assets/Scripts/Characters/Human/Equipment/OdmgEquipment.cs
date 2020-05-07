@@ -3,7 +3,7 @@
 public interface Weapon
 {
     void Attack();
-    void Reload();
+    void PlayReloadAnimation();
 }
 
 public abstract class OdmgEquipment : MonoBehaviour
@@ -45,6 +45,24 @@ public abstract class OdmgEquipment : MonoBehaviour
     public virtual void Resupply()
     {
         currentGas = maxGas;
+    }
+
+    public virtual void updateSupplyUI()
+    {
+        float gasPercentage = currentGas / maxGas;
+        Color gasIconColor;
+
+        myHeroScript.cachedSprites["GasLeft"].fillAmount = myHeroScript.cachedSprites["GasRight"].fillAmount = gasPercentage;
+
+        if (gasPercentage <= 0.25f)
+            gasIconColor = Color.red;
+        else if (gasPercentage < 0.5f)
+            gasIconColor = Color.yellow;
+        else
+            gasIconColor = Color.white;
+
+        myHeroScript.cachedSprites["GasLeft"].color = gasIconColor;
+        myHeroScript.cachedSprites["GasRight"].color = gasIconColor;
     }
     #endregion
 

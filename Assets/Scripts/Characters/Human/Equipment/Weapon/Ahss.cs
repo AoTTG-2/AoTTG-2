@@ -38,6 +38,24 @@ public class AHSS : OdmgEquipment, Weapon
         leftGunAmmo = maxAmmo;
         rightGunAmmo = maxAmmo;
     }
+
+    public override void updateSupplyUI()
+    {
+        base.updateSupplyUI();
+
+        var ammoUI = myHeroScript.InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.AHSS>();
+        ammoUI.SetAHSS(leftGunAmmo, rightGunAmmo);
+
+        //if (leftGunLoaded)
+        //    myHeroScript.cachedSprites["bulletL"].enabled = true;
+        //else
+        //    myHeroScript.cachedSprites["bulletL"].enabled = false;
+
+        //if (rightGunLoaded)
+        //    myHeroScript.cachedSprites["bulletR"].enabled = true;
+        //else
+        //    myHeroScript.cachedSprites["bulletR"].enabled = false;
+    }
     #endregion
 
     #region Weapon Methods
@@ -46,7 +64,7 @@ public class AHSS : OdmgEquipment, Weapon
 
     }
 
-    public void Reload()
+    public void PlayReloadAnimation()
     {
         if (myHeroScript.grounded || FengGameManagerMKII.Gamemode.AhssAirReload)
         {

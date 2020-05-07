@@ -39,6 +39,30 @@ public class Blades : OdmgEquipment, Weapon
         NumBlades = maxBlades;
         BladeDurability = maxDurability;
     }
+
+    public override void updateSupplyUI()
+    {
+        base.updateSupplyUI();
+
+        float durabilityPercentage = BladeDurability / maxDurability;
+        Color bladesIconColor;
+
+        var ammoUI = myHeroScript.InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
+        ammoUI.SetBlades(NumBlades);
+
+        //myHeroScript.cachedSprites["bladeCL"].fillAmount = durabilityPercentage;
+        //myHeroScript.cachedSprites["bladeCR"].fillAmount = durabilityPercentage;
+
+        //if (durabilityPercentage <= 0f)
+        //    bladesIconColor = Color.red;
+        //else if (durabilityPercentage < 0.3f)
+        //    bladesIconColor = Color.yellow;
+        //else
+        //    bladesIconColor = Color.white;
+
+        //myHeroScript.cachedSprites["bladel1"].color = bladesIconColor;
+        //myHeroScript.cachedSprites["blader1"].color = bladesIconColor;
+    }
     #endregion
 
     #region Weapon Methods
@@ -47,7 +71,7 @@ public class Blades : OdmgEquipment, Weapon
 
     }
 
-    public void Reload()
+    public void PlayReloadAnimation()
     {
         myHeroScript.state = HERO_STATE.ChangeBlade;
         myHeroScript.throwedBlades = false;

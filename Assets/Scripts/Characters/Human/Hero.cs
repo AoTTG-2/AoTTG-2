@@ -4189,147 +4189,6 @@ public class Hero : Human
         }
     }
 
-    private void showGas2()
-    {
-        float num = currentEquipment.currentGas / currentEquipment.maxGas;
-        float num2;
-
-        cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentEquipment.currentGas / currentEquipment.maxGas;
-        if (num <= 0.25f)
-        {
-            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.red;
-        }
-        else if (num < 0.5f)
-        {
-            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.yellow;
-        }
-        else
-        {
-            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
-        }
-
-        if (currentEquipment is Blades)
-        {
-            Blades bladesGear = (Blades)currentEquipment;
-
-            num2 = bladesGear.NumBlades / ((Blades)currentEquipment).maxBlades;
-            var bladesUi = InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
-            bladesUi.SetBlades(bladesGear.NumBlades);
-        }
-        else if(currentEquipment is AHSS)
-        {
-            AHSS AhssGear = (AHSS)currentEquipment;
-
-            var bladesUi = InGameUI.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.AHSS>();
-            bladesUi.SetAHSS(AhssGear.leftGunAmmo, AhssGear.rightGunAmmo);
-        }
-
-        //if (!this.useGun)
-        //{
-        //    this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-        //    this.cachedSprites["bladeCR"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-        //    if (num <= 0f)
-        //    {
-        //        this.cachedSprites["gasL"].color = Color.red;
-        //        this.cachedSprites["gasR"].color = Color.red;
-        //    }
-        //    else if (num < 0.3f)
-        //    {
-        //        this.cachedSprites["gasL"].color = Color.yellow;
-        //        this.cachedSprites["gasR"].color = Color.yellow;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["gasL"].color = Color.white;
-        //        this.cachedSprites["gasR"].color = Color.white;
-        //    }
-        //    if (num2 <= 0f)
-        //    {
-        //        this.cachedSprites["bladel1"].color = Color.red;
-        //        this.cachedSprites["blader1"].color = Color.red;
-        //    }
-        //    else if (num2 < 0.3f)
-        //    {
-        //        this.cachedSprites["bladel1"].color = Color.yellow;
-        //        this.cachedSprites["blader1"].color = Color.yellow;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel1"].color = Color.white;
-        //        this.cachedSprites["blader1"].color = Color.white;
-        //    }
-        //    if (this.currentBladeNum <= 4)
-        //    {
-        //        this.cachedSprites["bladel5"].enabled = false;
-        //        this.cachedSprites["blader5"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel5"].enabled = true;
-        //        this.cachedSprites["blader5"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 3)
-        //    {
-        //        this.cachedSprites["bladel4"].enabled = false;
-        //        this.cachedSprites["blader4"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel4"].enabled = true;
-        //        this.cachedSprites["blader4"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 2)
-        //    {
-        //        this.cachedSprites["bladel3"].enabled = false;
-        //        this.cachedSprites["blader3"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel3"].enabled = true;
-        //        this.cachedSprites["blader3"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 1)
-        //    {
-        //        this.cachedSprites["bladel2"].enabled = false;
-        //        this.cachedSprites["blader2"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel2"].enabled = true;
-        //        this.cachedSprites["blader2"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 0)
-        //    {
-        //        this.cachedSprites["bladel1"].enabled = false;
-        //        this.cachedSprites["blader1"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel1"].enabled = true;
-        //        this.cachedSprites["blader1"].enabled = true;
-        //    }
-        //}
-        //else
-        //{
-        //    if (this.leftGunHasBullet)
-        //    {
-        //        this.cachedSprites["bulletL"].enabled = true;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bulletL"].enabled = false;
-        //    }
-        //    if (this.rightGunHasBullet)
-        //    {
-        //        this.cachedSprites["bulletR"].enabled = true;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bulletR"].enabled = false;
-        //    }
-        //}
-    }
-
     [PunRPC]
     private void showHitDamage()
     {
@@ -4787,7 +4646,7 @@ public class Hero : Human
 
                                 if ((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload])
                                 {
-                                    ((Weapon)currentEquipment).Reload();
+                                    ((Weapon)currentEquipment).PlayReloadAnimation();
                                     return;
                                 }
 
@@ -5182,7 +5041,7 @@ public class Hero : Human
                                     }
                                     else if (flag5)
                                     {
-                                        ((Weapon)currentEquipment).Reload();
+                                        ((Weapon)currentEquipment).PlayReloadAnimation();
                                     }
                                 }
                                 break;
@@ -5773,7 +5632,10 @@ public class Hero : Human
                         {
                             //this.showSkillCD();
                             //this.showFlareCD2();
-                            this.showGas2();
+
+                            if(currentEquipment)
+                                currentEquipment.updateSupplyUI();
+
                             this.showAimUI2();
                         }
                     }
