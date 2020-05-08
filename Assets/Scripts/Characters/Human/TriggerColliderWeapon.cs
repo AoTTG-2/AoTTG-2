@@ -150,7 +150,14 @@ public class TriggerColliderWeapon : MonoBehaviour
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
-                        mindlessTitan.OnNapeHit(transform.root.gameObject.GetPhotonView().viewID, damage);
+                        if (PhotonNetwork.isMasterClient)
+                        {
+                            mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
+                        }
+                        else
+                        {
+                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                        }
                     }
                     else if (!PhotonNetwork.isMasterClient)
                     {

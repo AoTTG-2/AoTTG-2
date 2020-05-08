@@ -827,10 +827,10 @@ GameObject:
   - component: {fileID: 111162959378680422}
   - component: {fileID: 114137919348889350}
   - component: {fileID: 54197300092460074}
-  - component: {fileID: 114986312314889836}
-  - component: {fileID: 114288680120854022}
-  - component: {fileID: 114642288650367630}
   - component: {fileID: 114338049395213770}
+  - component: {fileID: 114986312314889836}
+  - component: {fileID: 114642288650367630}
+  - component: {fileID: 114288680120854022}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2716,7 +2716,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 4970633147100212}
+  - {fileID: 114642288650367630}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -2741,7 +2741,6 @@ MonoBehaviour:
   ArmRight: {fileID: 4332437840038354}
   UpperArmRight: {fileID: 4359070867701286}
   ShoulderRight: {fileID: 4483567270133998}
-  ControllerBody: {fileID: 4597755534130182}
   ArmLeft: {fileID: 4901757834267432}
   UpperArmLeft: {fileID: 4587935427260762}
   ShoulderLeft: {fileID: 4385744030590588}

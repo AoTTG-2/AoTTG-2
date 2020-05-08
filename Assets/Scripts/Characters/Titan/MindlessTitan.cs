@@ -172,6 +172,9 @@ namespace Assets.Scripts.Characters.Titan
             transform.localScale = new Vector3(Size, Size, Size);
             var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
             headscale = new Vector3(scale, scale, scale);
+            TitanBody.Head.localScale = headscale;
+            //TODO: Not working
+            //LoadSkin();
 
             if (Health > 0)
             {
@@ -195,6 +198,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (photonView.isMine)
             {
+                configuration.Behaviors = new List<TitanBehavior>();
                 var config = JsonConvert.SerializeObject(configuration);
                 photonView.RPC("InitializeRpc", PhotonTargets.OthersBuffered, config);
 
@@ -212,6 +216,29 @@ namespace Assets.Scripts.Characters.Titan
             {
                 Initialize(JsonConvert.DeserializeObject<TitanConfiguration>(titanConfiguration));
             }
+        }
+
+        private void LoadSkin()
+        {
+            var eye = false;
+            if (!(((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
+            {
+                int index = (int)UnityEngine.Random.Range((float)86f, (float)90f);
+                int num2 = index - 60;
+                if (((int)FengGameManagerMKII.settings[0x20]) == 1)
+                {
+                    num2 = UnityEngine.Random.Range(0x1a, 30);
+                }
+                string body = (string)FengGameManagerMKII.settings[index];
+                string eyes = (string)FengGameManagerMKII.settings[num2];
+                var skin = index;
+                if ((eyes.EndsWith(".jpg") || eyes.EndsWith(".png")) || eyes.EndsWith(".jpeg"))
+                {
+                    eye = true;
+                }
+                base.GetComponent<TITAN_SETUP>().setVar(skin, eye);
+            }
+            GetComponent<TITAN_SETUP>().setHair2();
         }
 
         private bool asClientLookTarget;
@@ -381,8 +408,10 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public void OnNapeHit(int viewId, int damage)
+        [PunRPC]
+        public void OnNapeHitRpc(int viewId, int damage)
         {
+            Debug.LogWarning($"View {viewId}, with damage {damage}");
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
             if (view == null || !IsAlive && Time.time - DamageTimer > 0.2f) return;
@@ -564,16 +593,21 @@ namespace Assets.Scripts.Characters.Titan
 
         }
 
-        [PunRPC]
         public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             if (PhotonNetwork.isMasterClient)
             {
                 CurrentAnimation = newAnimation;
                 Animation.CrossFade(newAnimation, fadeLength);
-                photonView.RPC("CrossFade", PhotonTargets.Others, newAnimation, fadeLength);
+                photonView.RPC("CrossFadeRpc", PhotonTargets.Others, newAnimation, fadeLength);
             }
-            else if (!info.sender.IsMasterClient)
+        }
+
+        [PunRPC]
+        private void CrossFadeRpc(string newAnimation, float fadeLength,
+            PhotonMessageInfo info = new PhotonMessageInfo())
+        {
+            if (info.sender.IsMasterClient)
             {
                 CurrentAnimation = newAnimation;
                 Animation.CrossFade(newAnimation, fadeLength);
@@ -622,6 +656,8 @@ namespace Assets.Scripts.Characters.Titan
 
         void Update()
         {
+            if (!photonView.isMine) return;
+
             if (!IsAlive)
             {
                 Dead();
@@ -832,8 +868,8 @@ namespace Assets.Scripts.Characters.Titan
 
         void FixedUpdate()
         {
+            if (!photonView.isMine) return;
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
-
             if (Behaviors != null && Behaviors.Any(x => x.OnFixedUpdate()))
             {
                 return;

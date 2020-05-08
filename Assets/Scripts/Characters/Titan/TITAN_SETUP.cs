@@ -1,11 +1,5 @@
-using Photon;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public class TITAN_SETUP : Photon.MonoBehaviour
 {
@@ -24,7 +18,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
         HeroCostume.init2();
         this.hair_go_ref = new GameObject();
         this.eye.transform.parent = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head").transform;
-        this.hair_go_ref.transform.position = (Vector3) ((this.eye.transform.position + (Vector3.up * 3.5f)) + (base.transform.forward * 5.2f));
+        this.hair_go_ref.transform.position = (Vector3)((this.eye.transform.position + (Vector3.up * 3.5f)) + (base.transform.forward * 5.2f));
         this.hair_go_ref.transform.rotation = this.eye.transform.rotation;
         this.hair_go_ref.transform.RotateAround(this.eye.transform.position, base.transform.right, -20f);
         this.hair_go_ref.transform.localScale = new Vector3(210f, 210f, 210f);
@@ -92,7 +86,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
         }
     }
 
-    public void setFacialTexture(GameObject go, int id)
+    private void setFacialTexture(GameObject go, int id)
     {
         if (id >= 0)
         {
