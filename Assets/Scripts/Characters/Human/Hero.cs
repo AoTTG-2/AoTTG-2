@@ -5161,13 +5161,13 @@ public class Hero : Human
 
                 this.bufferUpdate();
                 this.updateExt();
-                this.checkDashDoubleTap();
 
                 /*if(this.state == HERO_STATE.Grab){
 				
 				}*/
                 if (this.state == HERO_STATE.Idle)
                 {
+                    this.checkDashDoubleTap();
                     //Jumping.
                     if ((this.grounded && this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump") && !this.baseAnimation.IsPlaying("horse_geton")) || this.slideToIdleAssertion)
                     {
