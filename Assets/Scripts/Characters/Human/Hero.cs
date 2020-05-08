@@ -1055,7 +1055,8 @@ public class Hero : Human
     {
         if (((!FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseMount) || (this.myHorse == null)) || this.isMounted) || (Vector3.Distance(this.myHorse.transform.position, base.transform.position) >= 15f))
         {
-            this.state = HERO_STATE.GroundDodge;
+            //this.state = HERO_STATE.GroundDodge;  TODO:  Temporary fix must implement ground dodge.
+            this.state = HERO_STATE.Idle;
             if (!offTheWall)
             {
                 float num;
@@ -1204,6 +1205,7 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
+        Debug.Log(this.state);
         if ((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
@@ -5138,6 +5140,7 @@ public class Hero : Human
 
     public void update2()
     {
+        Debug.Log(this.state);
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {
             if (this.invincible > 0f)
