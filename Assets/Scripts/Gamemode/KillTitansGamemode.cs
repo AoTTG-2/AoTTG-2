@@ -1,14 +1,24 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Gamemode.Settings;
+using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
     public class KillTitansGamemode : GamemodeBase
     {
+        public new KillTitansSettings Settings { get; set; }
         public KillTitansGamemode()
         {
-            GamemodeType = GamemodeType.Titans;
-            RestartOnTitansKilled = true;
-            RespawnMode = RespawnMode.NEVER;
+            Settings = new KillTitansSettings
+            {
+                GamemodeType = GamemodeType.Titans,
+                RestartOnTitansKilled = true,
+                RespawnMode = RespawnMode.NEVER
+            };
+        }
+
+        public override void SetSettings(GamemodeSettings settings)
+        {
+            Settings = settings as KillTitansSettings;
         }
 
         public override void OnAllTitansDead()
@@ -22,13 +32,13 @@ namespace Assets.Scripts.Gamemode
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
 
-            if (Name.Contains("Annie"))
+            if (Settings.Name.Contains("Annie"))
             {
                 PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }
             else
             {
-                for (int i = 0; i < Titans; i++)
+                for (int i = 0; i < Settings.Titans; i++)
                 {
                     FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
                 }

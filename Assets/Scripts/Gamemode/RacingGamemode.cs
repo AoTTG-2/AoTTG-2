@@ -1,29 +1,35 @@
 ﻿using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.UI.Elements;
+using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
+        public new RacingSettings Settings { get; set; }
         public RacingGamemode()
         {
-            GamemodeType = GamemodeType.Racing;
-            PlayerTitanShifters = false;
-            Pvp = PvpMode.Disabled;
-            Supply = false;
-            RespawnMode = RespawnMode.NEVER;
-            Titans = 0;
-            TitansEnabled = false;
+            Settings = new RacingSettings
+            {
+                GamemodeType = GamemodeType.Racing,
+                PlayerTitanShifters = false,
+                Pvp = PvpMode.Disabled,
+                Supply = false,
+                RespawnMode = RespawnMode.NEVER,
+                Titans = 0,
+                TitansEnabled = false
+            };
         }
-
-        [UiElement("Restart on Finish", "Should the game restart in 10s upon someone finishing?")]
-        public bool RestartOnFinish { get; set; } = true;
 
         public string localRacingResult = string.Empty;
 
+        public override void SetSettings(GamemodeSettings settings)
+        {
+            Settings = settings as RacingSettings;
+        }
+
         public override void OnGameWon()
         {
-            FengGameManagerMKII.instance.gameEndCD = RestartOnFinish
+            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish
                 ? 20f
                 : 9999f;
 
@@ -40,7 +46,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (IsSinglePlayer)
+            if (Settings.IsSinglePlayer)
             {
                 var num = (((int)(totalServerTime * 10f)) * 0.1f) - 5f;
                 return $"{num}s !!\n Press {FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart]}  to Restart.\n\n\n";
@@ -50,7 +56,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnNetGameWon(int score)
         {
-            FengGameManagerMKII.instance.gameEndCD = RestartOnFinish
+            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish
                 ? 20f
                 : 9999f;
         }

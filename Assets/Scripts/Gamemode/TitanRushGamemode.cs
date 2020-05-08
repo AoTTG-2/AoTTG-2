@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Elements;
 using System.Collections;
@@ -10,10 +11,19 @@ namespace Assets.Scripts.Gamemode
     //This is the colossal gamemode, where titans "rush" towards a specified endpoint
     public class TitanRushGamemode : GamemodeBase
     {
+        public new RushSettings Settings { get; set; }
         public TitanRushGamemode()
         {
-            GamemodeType = GamemodeType.TitanRush;
-            Titans = 2;
+            Settings = new RushSettings
+            {
+                GamemodeType = GamemodeType.TitanRush, 
+                Titans = 2
+            };
+        }
+
+        public override void SetSettings(GamemodeSettings settings)
+        {
+            Settings = settings as RushSettings;
         }
 
         private GameObject[] Routes { get; set; }
@@ -82,7 +92,7 @@ namespace Assets.Scripts.Gamemode
 
         private void SpawnTitan()
         {
-            if (FengGameManagerMKII.instance.getTitans().Count >= TitanLimit) return;
+            if (FengGameManagerMKII.instance.getTitans().Count >= Settings.TitanLimit) return;
             var configuration = GetTitanConfiguration();
             var route = GetRoute();
             configuration.Behaviors.Add(new RushBehavior(route));

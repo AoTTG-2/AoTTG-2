@@ -1,8 +1,9 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Settings;
+using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Gamemode;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ namespace Assets.Scripts.UI.Menu
         private List<Level> levels = LevelBuilder.GetAllLevels();
 
         private Level selectedLevel;
-        private GamemodeBase selectedGamemode;
+        private GamemodeSettings selectedGamemode;
 
         public void OnEnable()
         {
@@ -80,7 +81,7 @@ namespace Assets.Scripts.UI.Menu
             GamemodeDropdown.captionText.text = GamemodeDropdown.options[0].text;
         }
 
-        private void OnGamemodeSelected(GamemodeBase gamemode)
+        private void OnGamemodeSelected(GamemodeSettings gamemode)
         {
             selectedGamemode = gamemode;
         }

@@ -1,22 +1,32 @@
 ﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
     public class PvPAhssGamemode : GamemodeBase
     {
+        public new PvPAhssSettings Settings { get; set; }
         public PvPAhssGamemode()
         {
-            GamemodeType = GamemodeType.PvpAhss;
-            AhssAirReload = false;
-            Titans = -1;
-            Pvp = PvpMode.AhssVsBlades;
-            PlayerTitanShifters = true;
-            Horse = false;
-            TitansEnabled = false;
+            Settings = new PvPAhssSettings
+            {
+                GamemodeType = GamemodeType.PvpAhss,
+                AhssAirReload = false,
+                Titans = -1,
+                Pvp = PvpMode.AhssVsBlades,
+                PlayerTitanShifters = true,
+                Horse = false,
+                TitansEnabled = false
+            };
         }
 
         private int teamWinner;
         private readonly int[] teamScores = new int[2];
+
+        public override void SetSettings(GamemodeSettings settings)
+        {
+            Settings = settings as PvPAhssSettings;
+        }
 
         public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {
@@ -42,7 +52,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnPlayerKilled(int id)
         {
-            if (Pvp != PvpMode.Disabled || PvPBomb) return;
+            if (Settings.Pvp != PvpMode.Disabled || Settings.PvPBomb) return;
             if (IsAllPlayersDead())
             {
                 FengGameManagerMKII.instance.gameLose2();
@@ -62,7 +72,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (Pvp == PvpMode.Disabled && !PvPBomb)
+            if (Settings.Pvp == PvpMode.Disabled && !Settings.PvPBomb)
             {
                 return $"Team {teamWinner}, Win!\nGame Restart in {(int)timeUntilRestart}s\n\n";
             }

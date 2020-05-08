@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode.Settings;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
@@ -147,7 +148,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static Level Level { get; set; }
 
     public static Level NewRoundLevel { get; set; }
-    public static GamemodeBase NewRoundGamemode { get; set; }
+    public static GamemodeSettings NewRoundGamemode { get; set; }
 
     public void addCamera(IN_GAME_MAIN_CAMERA c)
     {
@@ -777,10 +778,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.coreadd();
                     this.ShowHUDInfoTopLeft(this.playerList);
-                    if ((((Camera.main != null) && (Gamemode.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int)settings[0xf5]) == 0))
+                    if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int)settings[0xf5]) == 0))
                     {
                         this.ShowHUDInfoCenter("Press [F7D358]" + this.inputManager.inputString[InputCode.flare1] + "[-] to spectate the next player. \nPress [F7D358]" + this.inputManager.inputString[InputCode.flare2] + "[-] to spectate the previous player.\nPress [F7D358]" + this.inputManager.inputString[InputCode.attack1] + "[-] to enter the spectator mode.\n\n\n\n");
-                        if (((Gamemode.RespawnMode == RespawnMode.DEATHMATCH) || (Gamemode.EndlessRevive > 0)) || !(((Gamemode.PvPBomb) || (Gamemode.Pvp != PvpMode.Disabled)) ? (Gamemode.PointMode <= 0) : true))
+                        if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) || (Gamemode.Settings.EndlessRevive > 0)) || !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled)) ? (Gamemode.Settings.PointMode <= 0) : true))
                         {
                             this.myRespawnTime += Time.deltaTime;
                             int endlessMode = 5;
@@ -788,9 +789,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 endlessMode = 10;
                             }
-                            if (Gamemode.EndlessRevive > 0)
+                            if (Gamemode.Settings.EndlessRevive > 0)
                             {
-                                endlessMode = Gamemode.EndlessRevive;
+                                endlessMode = Gamemode.Settings.EndlessRevive;
                             }
                             length = endlessMode - ((int)this.myRespawnTime);
                             this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
@@ -814,7 +815,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    if (Gamemode.GamemodeType == GamemodeType.Racing)
+                    if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                     {
                         if (!this.isLosing)
                         {
@@ -828,7 +829,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.ShowHUDInfoTopLeft(string.Concat(new object[] { "Kills:", this.single_kills, "\nMax Damage:", this.single_maxDamage, "\nTotal Damage:", this.single_totalDamage }));
                     }
                 }
-                if (this.isLosing && (Gamemode.GamemodeType != GamemodeType.Racing))
+                if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
                 {
                     ShowHUDInfoCenter(Gamemode.GetDefeatMessage(gameEndCD));
                     if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
@@ -872,7 +873,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     //TODO Investigate the purpose of this
-                    if (Gamemode.GamemodeType == GamemodeType.Racing)
+                    if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                     {
                         if (!this.isWinning)
                         {
@@ -888,7 +889,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.timeTotalServer += Time.deltaTime;
                 }
-                if (Gamemode.GamemodeType == GamemodeType.Racing)
+                if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                 {
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
@@ -967,7 +968,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.timeElapse--;
                     var content = Gamemode.GetGamemodeStatusTop((int)timeTotalServer, time);
-                    if (Gamemode.TeamMode != TeamMode.Disabled)
+                    if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
                     {
                         content += $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>";
                     }
@@ -1038,7 +1039,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     TitanSpawner item = this.titanSpawners[i];
                     item.time -= Time.deltaTime;
-                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.TitanLimit))
+                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.Settings.TitanLimit))
                     {
                         string name = item.name;
                         throw new NotImplementedException("Spawning titans on custom maps is not supported for mindless titans");
@@ -3368,28 +3369,29 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
     }
 
-    private void SetGamemode(GamemodeBase gamemode)
+    private void SetGamemode(GamemodeSettings settings)
     {
         if (Gamemode == null)
         {
             var gamemodeObject = new GameObject("Gamemode");
-            var gamemodeBase = gamemodeObject.AddComponent(gamemode.GetType());
-            gamemodeBase = gamemode;
+            var gamemodeBase = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
+            gamemodeBase.Settings = settings;
             gamemodeObject.transform.parent = gameObject.transform;
             Gamemode = gamemodeObject.GetComponent<GamemodeBase>();
         }
         else
         {
-            var gamemodeComponent = gamemode.GetComponentInChildren<GamemodeBase>();
-            gamemodeComponent = gamemode;
-            Gamemode = gamemodeComponent;
+            var gamemodeComponent = GetComponentInChildren<GamemodeBase>();
+            Destroy(gamemodeComponent.gameObject);
+            Gamemode = null;
+            SetGamemode(settings);
         }
     }
 
     public void OnJoinedRoom()
     {
         Level = PhotonNetwork.room.GetLevel();
-        SetGamemode(PhotonNetwork.room.GetGamemode(Level));
+        SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
         this.maxPlayers = PhotonNetwork.room.MaxPlayers;
         this.playerList = string.Empty;
         char[] separator = new char[] { "`"[0] };
@@ -3602,7 +3604,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 this.restartingMC = true;
             }
             this.resetSettings(false);
-            if (!Gamemode.IsPlayerTitanEnabled)
+            if (!Gamemode.Settings.IsPlayerTitanEnabled)
             {
                 ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.isTitan, 1);
@@ -3680,7 +3682,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     this.kickPlayerRC(player, true, "excessive stats.");
                     return;
                 }
-                if (Gamemode.SaveKDROnDisconnect)
+                if (Gamemode.Settings.SaveKDROnDisconnect)
                 {
                     base.StartCoroutine(this.WaitAndReloadKDR(player));
                 }
@@ -3722,7 +3724,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             base.photonView.RPC("verifyPlayerHasLeft", PhotonTargets.All, new object[] { player.ID });
         }
-        if (Gamemode.SaveKDROnDisconnect)
+        if (Gamemode.Settings.SaveKDROnDisconnect)
         {
             string key = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
             if (this.PreservedPlayerKDR.ContainsKey(key))
@@ -4974,24 +4976,24 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             var hash = new ExitGames.Client.Photon.Hashtable
             {
                 {"level", Level.Name},
-                {"gamemode", Gamemode.GamemodeType.ToString()}
+                {"gamemode", Gamemode.Settings.GamemodeType.ToString()}
             };
             PhotonNetwork.room.SetCustomProperties(hash);
-            var json = JsonConvert.SerializeObject(Gamemode);
-            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.GamemodeType);
+            var json = JsonConvert.SerializeObject(Gamemode.Settings);
+            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
             PhotonNetwork.LoadLevel(Level.SceneName);
         }
-        else if (NewRoundGamemode != null && Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
+        else if (NewRoundGamemode != null && Gamemode.Settings.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
         {
             SetGamemode(NewRoundGamemode);
             var hash = new ExitGames.Client.Photon.Hashtable
             {
                 {"level", Level.Name},
-                {"gamemode", Gamemode.GamemodeType.ToString()}
+                {"gamemode", Gamemode.Settings.GamemodeType.ToString()}
             };
             PhotonNetwork.room.SetCustomProperties(hash);
-            var json = JsonConvert.SerializeObject(Gamemode);
-            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.GamemodeType);
+            var json = JsonConvert.SerializeObject(Gamemode.Settings);
+            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
         }
 
         intVariables.Clear();
@@ -5575,22 +5577,22 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void SyncSettings(string gamemodeRaw, GamemodeType type, PhotonMessageInfo info)
     {
-        var gamemode = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
+        var settings = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
         if (info.sender.IsMasterClient)
         {
-            SetGamemode(gamemode);
+            Gamemode.SetSettings(settings);
             mainCamera.main_object.GetComponent<Hero>().SetHorse();
-            if (Gamemode.EndlessRevive > 0)
+            if (Gamemode.Settings.EndlessRevive > 0)
             {
-                StopCoroutine(respawnE(Gamemode.EndlessRevive));
-                StartCoroutine(respawnE(Gamemode.EndlessRevive));
+                StopCoroutine(respawnE(Gamemode.Settings.EndlessRevive));
+                StartCoroutine(respawnE(Gamemode.Settings.EndlessRevive));
             }
             else
             {
-                StopCoroutine(respawnE(Gamemode.EndlessRevive));
+                StopCoroutine(respawnE(Gamemode.Settings.EndlessRevive));
             }
 
-            if (Gamemode.TeamMode != TeamMode.Disabled)
+            if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                 {
@@ -5603,9 +5605,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
                 
 
-            if (gamemode.GamemodeType == GamemodeType.Infection)
+            if (Gamemode.Settings.GamemodeType == GamemodeType.Infection)
             {
-                var gamemodeInfection = (InfectionGamemode) gamemode;
+                var gamemodeInfection = (InfectionGamemodeSettings) settings;
                 if (gamemodeInfection.Infected > 0)
                 {
                     var hashtable = new ExitGames.Client.Photon.Hashtable();
@@ -5627,8 +5629,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void RequestSettings(PhotonMessageInfo info)
     {
-        var json = JsonConvert.SerializeObject(Gamemode);
-        photonView.RPC("SyncSettings", info.sender, json, Gamemode.GamemodeType);
+        var json = JsonConvert.SerializeObject(Gamemode.Settings);
+        photonView.RPC("SyncSettings", info.sender, json, Gamemode.Settings.GamemodeType);
     }
 
     public void ShowHUDInfoCenter(string content)
@@ -6474,7 +6476,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         yield return new WaitForSeconds(time);
         EventManager.OnUpdate.Invoke(time);
         string iteratorVariable1 = string.Empty;
-        if (Gamemode.TeamMode == TeamMode.Disabled)
+        if (Gamemode.Settings.TeamMode == TeamMode.Disabled)
         {
             foreach (PhotonPlayer player7 in PhotonNetwork.playerList)
             {
@@ -6588,7 +6590,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.magentaKills = num3;
             if (PhotonNetwork.isMasterClient)
             {
-                if (Gamemode.TeamMode == TeamMode.LockBySize)
+                if (Gamemode.Settings.TeamMode == TeamMode.LockBySize)
                 {
                     foreach (PhotonPlayer player2 in PhotonNetwork.playerList)
                     {
@@ -6623,7 +6625,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                     }
                 }
-                else if (Gamemode.TeamMode == TeamMode.LockBySkill)
+                else if (Gamemode.Settings.TeamMode == TeamMode.LockBySkill)
                 {
                     foreach (PhotonPlayer player3 in PhotonNetwork.playerList)
                     {
@@ -6852,29 +6854,29 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (PhotonNetwork.isMasterClient && ((!this.isWinning && !this.isLosing) && (this.roundTime >= 5f)))
         {
             int num22;
-            if (Gamemode.PointMode > 0)
+            if (Gamemode.Settings.PointMode > 0)
             {
-                if (Gamemode.TeamMode != TeamMode.Disabled)
+                if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
                 {
-                    if (this.cyanKills >= Gamemode.PointMode)
+                    if (this.cyanKills >= Gamemode.Settings.PointMode)
                     {
                         object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, parameters);
                         this.gameWin2();
                     }
-                    else if (this.magentaKills >= Gamemode.PointMode)
+                    else if (this.magentaKills >= Gamemode.Settings.PointMode)
                     {
                         objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, objArray2);
                         this.gameWin2();
                     }
                 }
-                else if (Gamemode.TeamMode == TeamMode.Disabled)
+                else if (Gamemode.Settings.TeamMode == TeamMode.Disabled)
                 {
                     for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
                     {
                         PhotonPlayer player9 = PhotonNetwork.playerList[num22];
-                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= Gamemode.PointMode)
+                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= Gamemode.Settings.PointMode)
                         {
                             object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
                             this.photonView.RPC("Chat", PhotonTargets.All, objArray4);
@@ -6883,11 +6885,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if ((Gamemode.PointMode <= 0) && ((Gamemode.PvPBomb) || (Gamemode.Pvp != PvpMode.Disabled)))
+            else if ((Gamemode.Settings.PointMode <= 0) && ((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled)))
             {
-                if (Gamemode.PvPWinOnEnemiesDead)
+                if (Gamemode.Settings.PvPWinOnEnemiesDead)
                 {
-                    if ((Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
+                    if ((Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
                     {
                         int num24 = 0;
                         int num25 = 0;
@@ -6932,7 +6934,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             }
                         }
                     }
-                    else if ((Gamemode.TeamMode == TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
+                    else if ((Gamemode.Settings.TeamMode == TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
                     {
                         int num28 = 0;
                         string text = "Nobody";

@@ -39,7 +39,7 @@ public class CannonBall : Photon.MonoBehaviour
             {
                 collider.dmg = 0;
             }
-            if (FengGameManagerMKII.Gamemode.PvpCannons)
+            if (FengGameManagerMKII.Gamemode.Settings.PvpCannons)
             {
                 foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
                 {
@@ -47,7 +47,7 @@ public class CannonBall : Photon.MonoBehaviour
                     {
                         GameObject gameObject = hero.gameObject;
                         PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                        if (((FengGameManagerMKII.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                        if (((FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                         {
                             int num2 = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                             int num3 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);

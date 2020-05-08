@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Gamemode;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace Assets.Scripts.UI.InGame
         private List<Level> levels = LevelBuilder.GetAllLevels();
 
         private Level selectedLevel;
-        private GamemodeBase selectedGamemode;
+        private GamemodeSettings selectedGamemode;
 
         public void Start()
         {
@@ -50,7 +51,7 @@ namespace Assets.Scripts.UI.InGame
             OnGamemodeSelected(level.Gamemodes[0]);
         }
 
-        private void OnGamemodeSelected(GamemodeBase gamemode)
+        private void OnGamemodeSelected(GamemodeSettings gamemode)
         {
             selectedGamemode = gamemode;
         }
@@ -59,7 +60,7 @@ namespace Assets.Scripts.UI.InGame
         {
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
-            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}");
+            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
         }
     }
 }

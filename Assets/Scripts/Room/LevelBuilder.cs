@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Gamemode.Settings;
 using System.Collections.Generic;
-using Assets.Scripts.Characters.Titan;
 
 public class LevelBuilder
 {
@@ -21,10 +21,11 @@ public class LevelBuilder
             Name = "Test Zone",
             Description = "Classic City Map from AoTTG",
             SceneName = "Test Zone",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new KillTitansGamemode
+                new KillTitansSettings
                 {
+                    GamemodeType = GamemodeType.Titans,
                     Titans = 1
                 }
             }
@@ -35,20 +36,21 @@ public class LevelBuilder
             Name = "The City - Classic",
             Description = "Classic City Map from AoTTG",
             SceneName = "The City I",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new KillTitansGamemode
+                new KillTitansSettings
                 {
-                    Titans = 100,
-                    TitanLimit = 100
-                },
-                new EndlessGamemode
-                {
+                    GamemodeType = GamemodeType.Titans,
                     Titans = 10
                 },
-                new WaveGamemode(),
-                new CaptureGamemode(),
-                new InfectionGamemode()
+                new EndlessSettings
+                {
+                    GamemodeType = GamemodeType.Endless,
+                    Titans = 10
+                },
+                new WaveGamemodeSettings(),
+                new CaptureGamemodeSettings(),
+                new InfectionGamemodeSettings()
             }
         });
 
@@ -57,17 +59,17 @@ public class LevelBuilder
             Name = "The Forest - Classic",
             Description = "Classic forest map",
             SceneName = "The Forest",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new KillTitansGamemode
+                new WaveGamemodeSettings(),
+                new KillTitansSettings
                 {
+                    GamemodeType = GamemodeType.Titans,
                     Name = "Annie",
                     Description = "Classic map where you fight the Female Titan",
-                    Titans = 15,
                     DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk},
                     Pvp = PvpMode.AhssVsBlades
-                },
-                new WaveGamemode()
+                }
             }
         });
 
@@ -76,15 +78,15 @@ public class LevelBuilder
             Name = "Trost - Classic",
             Description = "Classic trost map",
             SceneName = "Colossal Titan",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new TitanRushGamemode
+                new RushSettings
                 {
                     Name = "Colossal Titan",
                     Description = "Defeat the Colossal! Defeat the Colossal Titan.\nPrevent the abnormal titan from running to the north gate.",
                     TitanCustomSize = false,
                 },
-                new TrostGamemode
+                new TrostSettings
                 {
                     Name = "Trost",
                     Description = "Escort Titan Eren"
@@ -97,9 +99,9 @@ public class LevelBuilder
             Name = "Akina",
             Description = "Most famous racing map",
             SceneName = "track - akina",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new RacingGamemode()
+                new RacingSettings()
             },
         });
 
@@ -108,16 +110,16 @@ public class LevelBuilder
             Name = "Outside the Walls",
             Description = "Classic Outside the Walls map",
             SceneName = "OutSide",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new CaptureGamemode
+                new CaptureGamemodeSettings
                 {
                     TitanChaseDistance = 200,
                     Horse = true,
                     Supply = true,
                     SpawnSupplyStationOnHumanCapture = true
                 }
-            },
+            }
         });
 
         _levels.Add(new Level
@@ -125,16 +127,16 @@ public class LevelBuilder
             Name = "Custom",
             Description = "Custom Map",
             SceneName = "The Forest",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new KillTitansGamemode(),
-                new WaveGamemode(),
-                new InfectionGamemode(),
-                new RacingGamemode(),
-                new CaptureGamemode(),
-                new EndlessGamemode(),
-                new TitanRushGamemode(),
-                new PvPAhssGamemode()
+                new KillTitansSettings(),              
+                new WaveGamemodeSettings(),
+                new InfectionGamemodeSettings(),
+                new RacingSettings(),
+                new CaptureGamemodeSettings(),
+                new RushSettings(),
+                new EndlessSettings(),
+                new PvPAhssSettings()
             }
         });
 
@@ -143,9 +145,9 @@ public class LevelBuilder
             Name = "Cave Fight",
             Description = "***Spoiler Alarm!***",
             SceneName = "CaveFight",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new PvPAhssGamemode()
+                new PvPAhssSettings()
             }
         });
 
@@ -154,9 +156,9 @@ public class LevelBuilder
             Name = "House Fight",
             Description = "***Spoiler Alarm!***",
             SceneName = "HouseFight",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new PvPAhssGamemode()
+                new PvPAhssSettings()
             }
         });
     }

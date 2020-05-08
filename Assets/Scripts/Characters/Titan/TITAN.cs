@@ -1064,7 +1064,7 @@ public class TITAN : MonoBehaviour
 
     public void explode()
     {
-        if (((FengGameManagerMKII.Gamemode.TitanExplodeMode > 0) && this.hasDie) && ((this.dieTime >= 1f) && !this.hasExplode))
+        if (((FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode > 0) && this.hasDie) && ((this.dieTime >= 1f) && !this.hasExplode))
         {
             int num = 0;
             float num2 = this.myLevel * 10f;
@@ -1089,7 +1089,7 @@ public class TITAN : MonoBehaviour
                 PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
                 foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    if (Vector3.Distance(obj2.transform.position, position) < FengGameManagerMKII.Gamemode.TitanExplodeMode)
+                    if (Vector3.Distance(obj2.transform.position, position) < FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode)
                     {
                         obj2.GetComponent<Hero>().markDie();
                         obj2.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Server " });
@@ -2441,7 +2441,7 @@ public class TITAN : MonoBehaviour
                 Vector3 vector3 = this.myHero.transform.position + line;
                 Vector3 vector4 = vector3 - this.baseTransform.position;
                 float sqrMagnitude = vector4.sqrMagnitude;
-                if (((sqrMagnitude > 8000f) && (sqrMagnitude < 90000f)) && (FengGameManagerMKII.Gamemode.PunkRockThrow))
+                if (((sqrMagnitude > 8000f) && (sqrMagnitude < 90000f)) && (FengGameManagerMKII.Gamemode.Settings.PunkRockThrow))
                 {
                     this.attack2("throw");
                     this.rockInterval = 2f;
@@ -2806,7 +2806,7 @@ public class TITAN : MonoBehaviour
     public void setAbnormalType2(TitanType type, bool forceCrawler)
     {
         bool flag = false;
-        if (FengGameManagerMKII.Gamemode.CustomTitanRatio || (((((int) FengGameManagerMKII.settings[0x5b]) == 1) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient))
+        if (FengGameManagerMKII.Gamemode.Settings.CustomTitanRatio || (((((int) FengGameManagerMKII.settings[0x5b]) == 1) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient))
         {
             flag = true;
         }
@@ -2817,7 +2817,7 @@ public class TITAN : MonoBehaviour
         int num = 0;
         float num2 = 0.02f * (IN_GAME_MAIN_CAMERA.difficulty + 1);
         //TODO Why is this check here? Might want to remove this limitation?
-        if (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.PvpAhss)
+        if (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.PvpAhss)
         {
             num2 = 100f;
         }
@@ -2984,7 +2984,7 @@ public class TITAN : MonoBehaviour
             this.chaseDistance *= 1.3f;
         }
 
-        if (!FengGameManagerMKII.Gamemode.TitanChaseDistanceEnabled)
+        if (!FengGameManagerMKII.Gamemode.Settings.TitanChaseDistanceEnabled)
         {
             chaseDistance = 999999f;
         }
@@ -3148,7 +3148,7 @@ public class TITAN : MonoBehaviour
             if (((vector.magnitude < this.lagMax) && !this.hasDie) && ((Time.time - this.healthTime) > 0.2f))
             {
                 this.healthTime = Time.time;
-                if ((speed >= FengGameManagerMKII.Gamemode.DamageMode) || (this.TitanType == TitanType.TYPE_CRAWLER))
+                if ((speed >= FengGameManagerMKII.Gamemode.Settings.DamageMode) || (this.TitanType == TitanType.TYPE_CRAWLER))
                 {
                     this.currentHealth -= speed;
                 }
@@ -3796,7 +3796,7 @@ public class TITAN : MonoBehaviour
                         }
                         else if (!this.longRangeAttackCheck2())
                         {
-                            if ((FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Capture && (this.PVPfromCheckPt != null)) && (this.myDistance > this.chaseDistance))
+                            if ((FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Capture && (this.PVPfromCheckPt != null)) && (this.myDistance > this.chaseDistance))
                             {
                                 this.idle(0f);
                             }
@@ -3922,7 +3922,7 @@ public class TITAN : MonoBehaviour
                                 if (this.checkPoints.Count == 1)
                                 {
                                     //TODO: Move this somewhere else
-                                    if (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush)
+                                    if (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush)
                                     {
                                         this.MultiplayerManager.gameLose2();
                                         this.checkPoints = new ArrayList();

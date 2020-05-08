@@ -1,15 +1,25 @@
 ﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
+        public new EndlessSettings Settings { get; set; }
         public EndlessGamemode()
         {
-            GamemodeType = GamemodeType.Endless;
-            RespawnMode = RespawnMode.NEVER;
-            Pvp = PvpMode.Disabled;
-            Titans = 10;
+            Settings = new EndlessSettings()
+            {
+                GamemodeType = GamemodeType.Endless,
+                RespawnMode = RespawnMode.NEVER,
+                Pvp = PvpMode.Disabled,
+                Titans = 10
+            };
+        }
+
+        public override void SetSettings(GamemodeSettings settings)
+        {
+            Settings = settings as EndlessSettings;
         }
 
         private int Score { get; set; }
@@ -34,7 +44,7 @@ namespace Assets.Scripts.Gamemode
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             if (!isMasterClient) return;
-            for (int i = 0; i < Titans; i++)
+            for (int i = 0; i < Settings.Titans; i++)
             {
                 FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
             }

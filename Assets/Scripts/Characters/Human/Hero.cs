@@ -337,7 +337,7 @@ public class Hero : Human
     {
         this.skillIDHUD = this.skillId;
         this.skillCDDuration = this.skillCDLast;
-        if (FengGameManagerMKII.Gamemode.PvPBomb)
+        if (FengGameManagerMKII.Gamemode.Settings.PvPBomb)
         {
             int num = (int)FengGameManagerMKII.settings[250];
             int num2 = (int)FengGameManagerMKII.settings[0xfb];
@@ -575,7 +575,7 @@ public class Hero : Human
 
     private void changeBlade()
     {
-        if ((!this.useGun || this.grounded) || FengGameManagerMKII.Gamemode.AhssAirReload)
+        if ((!this.useGun || this.grounded) || FengGameManagerMKII.Gamemode.Settings.AhssAirReload)
         {
             this.state = HERO_STATE.ChangeBlade;
             this.throwedBlades = false;
@@ -2436,7 +2436,7 @@ public class Hero : Human
             iteratorVariable3 = true;
         }
         bool iteratorVariable4 = false;
-        if (FengGameManagerMKII.Gamemode.Horse)
+        if (FengGameManagerMKII.Gamemode.Settings.Horse)
         {
             iteratorVariable4 = true;
         }
@@ -3069,7 +3069,7 @@ public class Hero : Human
     [PunRPC]
     public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
     {
-        if ((base.photonView.isMine && (FengGameManagerMKII.Gamemode.GamemodeType != GamemodeType.TitanRush)))
+        if ((base.photonView.isMine && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush)))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3202,7 +3202,7 @@ public class Hero : Human
     private void netDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
     {
         GameObject obj2;
-        if ((base.photonView.isMine) && (FengGameManagerMKII.Gamemode.GamemodeType != GamemodeType.TitanRush))
+        if ((base.photonView.isMine) && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3221,7 +3221,7 @@ public class Hero : Human
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
-                    else if ((FengGameManagerMKII.Gamemode.PvPBomb) && (!FengGameManagerMKII.Gamemode.PvpCannons))
+                    else if ((FengGameManagerMKII.Gamemode.Settings.PvPBomb) && (!FengGameManagerMKII.Gamemode.Settings.PvpCannons))
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
@@ -3893,7 +3893,7 @@ public class Hero : Human
         {
             object[] objArray;
             //TODO: Sync these upon gamemode syncSettings
-            if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.AhssVsBlades)
+            if (FengGameManagerMKII.Gamemode.Settings.Pvp == PvpMode.AhssVsBlades)
             {
                 int num = 0;
                 if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
@@ -3906,7 +3906,7 @@ public class Hero : Human
                     base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
                 }
             }
-            else if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
+            else if (FengGameManagerMKII.Gamemode.Settings.Pvp == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
             {
                 objArray = new object[] { base.photonView.owner.ID };
                 base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
@@ -3935,7 +3935,7 @@ public class Hero : Human
         {
             this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
         }
-        if (this.useGun && (FengGameManagerMKII.Gamemode.PvPBomb))
+        if (this.useGun && (FengGameManagerMKII.Gamemode.Settings.PvPBomb))
         {
             this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
         }
@@ -3967,7 +3967,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                if ((FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || !FengGameManagerMKII.Gamemode.PlayerTitanShifters))
+                if ((FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled || !FengGameManagerMKII.Gamemode.Settings.PlayerTitanShifters))
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;
@@ -4489,14 +4489,14 @@ public class Hero : Human
     public void SetHorse()
     {
         if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER || !photonView.isMine) return;
-        if (FengGameManagerMKII.Gamemode.Horse && myHorse == null)
+        if (FengGameManagerMKII.Gamemode.Settings.Horse && myHorse == null)
         {
             this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
             this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
             this.myHorse.GetComponent<TITAN_CONTROLLER>().isHorse = true;
         }
 
-        if (!FengGameManagerMKII.Gamemode.Horse && myHorse != null)
+        if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)
         {
             PhotonNetwork.Destroy(myHorse);
         }
@@ -4636,7 +4636,7 @@ public class Hero : Human
             base.StartCoroutine(this.reloadSky());
         }
         this.bombImmune = false;
-        if (FengGameManagerMKII.Gamemode.PvPBomb)
+        if (FengGameManagerMKII.Gamemode.Settings.PvPBomb)
         {
             this.bombImmune = true;
             base.StartCoroutine(this.stopImmunity());
@@ -4865,7 +4865,7 @@ public class Hero : Human
                             {
                                 this.getOffHorse();
                             }
-                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (FengGameManagerMKII.Gamemode.AhssAirReload)) || this.grounded))
+                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)) || this.grounded))
                             {
                                 this.changeBlade();
                                 return;
@@ -5258,7 +5258,7 @@ public class Hero : Human
                                     this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
                                     this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                 }
-                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.AhssAirReload)))
+                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)))
                                 {
                                     this.changeBlade();
                                 }
