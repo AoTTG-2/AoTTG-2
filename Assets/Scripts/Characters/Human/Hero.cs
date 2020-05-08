@@ -975,7 +975,7 @@ public class Hero : Human
             base.GetComponent<Animation>()["dash"].time = 0.1f;
             this.state = HERO_STATE.AirDodge;
             this.falseAttack();
-            base.GetComponent<Rigidbody>().AddForce((Vector3)(this.dashV * 30f), ForceMode.VelocityChange);
+            base.GetComponent<Rigidbody>().AddForce((Vector3)(this.dashV * 40f), ForceMode.VelocityChange);
         }
     }
 
@@ -1761,13 +1761,22 @@ public class Hero : Human
                 {
                     this.state = HERO_STATE.JustGrounded;
                 }
-
                 else if (((this.myHorse != null) && this.baseAnimation.IsPlaying("air_fall")) && ((this.baseRigidBody.velocity.y < 0f) && (Vector3.Distance(this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f)), this.baseTransform.position) < 0.5f)))
                 {
                     this.changeState_IDLE();  //TODO: Enter horse state machine.
                 }
                 else if (this.grounded)
                 {
+                    //Jumping.
+                    force_grounded = zero_grounded - velocity_grounded;
+                    force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
+                    force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
+                    force_grounded.y = 0f;
+                    if (this.baseAnimation.IsPlaying("jump") && (this.baseAnimation["jump"].normalizedTime > 0.18f))
+                    {
+                        force_grounded.y += 8f;
+                    }
+
                     //Walking.
                     if ((x != 0f) || (z != 0f))
                     {
@@ -1798,15 +1807,6 @@ public class Hero : Human
                         this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                     }
 
-                    //Jumping.
-                    force_grounded = zero_grounded - velocity_grounded;
-                    force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
-                    force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
-                    force_grounded.y = 0f;
-                    if (this.baseAnimation.IsPlaying("jump") && (this.baseAnimation["jump"].normalizedTime > 0.18f))
-                    {
-                        force_grounded.y += 8f;
-                    }
                     if (!this.useGun)
                     {
                         this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
@@ -1948,6 +1948,11 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.Slide)
             {
+                if (this.baseAnimation.IsPlaying("jump"))
+                {
+                    force_grounded.y += 8f;
+                }
+
                 //Code to keep momentum from prevoius tick.
                 if (this.grounded)
                 {
@@ -5321,6 +5326,13 @@ public class Hero : Human
                 else if (this.state == HERO_STATE.Slide) {
                     //Check hooking keybinds and shoot hooks if pushed.
                     this.hookActivation();
+
+                    if (this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump")) {
+                        this.crossFade("jump", 0.1f);
+                        this.sparks.enableEmission = false;
+                        this.smoke_3dmg.enableEmission = false;
+                        this.state = HERO_STATE.Idle;
+                    }
                 }
                 else if (this.state == HERO_STATE.Land)
                 {
