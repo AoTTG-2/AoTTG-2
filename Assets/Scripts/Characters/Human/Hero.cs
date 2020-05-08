@@ -198,6 +198,7 @@ public class Hero : Human
     private Vector3 inFlightVelocity;
     private float inFlightAngle;
     private float dragCoeffecient = 1.5f;
+    private bool slideToIdleAssertion = false;
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
@@ -1772,7 +1773,7 @@ public class Hero : Human
                     force_grounded.x = Mathf.Clamp(force_grounded.x, -this.maxVelocityChange, this.maxVelocityChange);
                     force_grounded.z = Mathf.Clamp(force_grounded.z, -this.maxVelocityChange, this.maxVelocityChange);
                     force_grounded.y = 0f;
-                    if (this.baseAnimation.IsPlaying("jump") && (this.baseAnimation["jump"].normalizedTime > 0.18f))
+                    if (this.baseAnimation.IsPlaying("jump") && (this.baseAnimation["jump"].normalizedTime > 0.4f))
                     {
                         force_grounded.y += 8f;
                     }
@@ -1948,9 +1949,11 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.Slide)
             {
+                //Jump force while sliding.
                 if (this.baseAnimation.IsPlaying("jump"))
                 {
-                    force_grounded.y += 8f;
+                    this.state = HERO_STATE.Idle;
+                    this.slideToIdleAssertion = true;
                 }
 
                 //Code to keep momentum from prevoius tick.
@@ -5166,9 +5169,10 @@ public class Hero : Human
                 if (this.state == HERO_STATE.Idle)
                 {
                     //Jumping.
-                    if (this.grounded && this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump") && !this.baseAnimation.IsPlaying("horse_geton"))
+                    if ((this.grounded && this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump") && !this.baseAnimation.IsPlaying("horse_geton")) || this.slideToIdleAssertion)
                     {
                         this.crossFade("jump", 0.1f);
+                        this.slideToIdleAssertion = false;
                         this.sparks.enableEmission = false;
                     }
 
