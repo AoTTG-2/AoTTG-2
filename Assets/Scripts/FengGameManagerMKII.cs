@@ -5576,7 +5576,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (info.sender.IsMasterClient)
         {
             Gamemode = gamemode;
-            mainCamera.main_object.GetComponent<Hero>().SetHorse();
+            if (mainCamera.main_object != null)
+            {
+                mainCamera.main_object.GetComponent<Hero>().SetHorse();
+            }
             if (Gamemode.EndlessRevive > 0)
             {
                 StopCoroutine(respawnE(Gamemode.EndlessRevive));
