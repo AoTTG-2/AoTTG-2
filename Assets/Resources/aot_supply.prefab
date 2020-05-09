@@ -19,7 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4225133640910126}
-  - component: {fileID: 114338012090951028}
+  - component: {fileID: 114042612924044926}
+  - component: {fileID: 114541545991662818}
   m_Layer: 0
   m_Name: aot_supply
   m_TagString: Untagged
@@ -259,7 +260,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.838714, y: 2.103603, z: 1.03}
   m_Center: {x: -0.01634091, y: -1.049513, z: -0.1158821}
---- !u!114 &114338012090951028
+--- !u!114 &114042612924044926
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -271,6 +272,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 7
+  Context: 
+  Icon: {fileID: 0}
+--- !u!114 &114541545991662818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308685446529770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114732798954586966
 MonoBehaviour:
   m_ObjectHideFlags: 1

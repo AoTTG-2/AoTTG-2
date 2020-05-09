@@ -6,9 +6,18 @@ public class Command
     public string Name;
     public string Description;
     public string FormatOfArgs;
-    
+
     public string[] LastArgsAsString;
     public string RawLine;
+    private int lastIndex => LastArgsAsString.Length - 1;
+
+    public int LastArgAsInt32 => LastArgsAsString[lastIndex].ToInt32();
+    public long LastArgAsLong => LastArgsAsString[lastIndex].ToInt64();
+    public double LastArgAsDouble => LastArgsAsString[lastIndex].ToDouble();
+    public float LastArgAsFloat => LastArgsAsString[lastIndex].ToFloat();
+    public byte LastArgAsByte => LastArgsAsString[lastIndex].ToByte();
+    public bool LastArgAsBool => LastArgsAsString[lastIndex].ToByte().Equals(1);
+    public string LastArgAsString => LastArgsAsString[lastIndex];
 
     public delegate void CommandFunction(Command command);
     private CommandFunction commandFunction = new CommandFunction(defaultFunction);

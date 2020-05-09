@@ -7,5 +7,6 @@
     Racing,
     Trost,
     TitanRush,
-    PvpAhss
+    PvpAhss,
+    Infection
 }

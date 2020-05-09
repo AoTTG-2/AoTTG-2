@@ -20,9 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4508261730549242}
   - component: {fileID: 198298054184811528}
+  - component: {fileID: 114206672742182666}
   - component: {fileID: 199973732033329510}
   - component: {fileID: 114727040264460850}
-  - component: {fileID: 114206672742182666}
+  - component: {fileID: 114058127086251206}
   m_Layer: 0
   m_Name: colossal_steam
   m_TagString: Untagged
@@ -43,6 +44,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114058127086251206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237892489854456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e772834a31b905045a901a0f83dbaf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myOwnerViewID: -1
+  titanName: 
 --- !u!114 &114206672742182666
 MonoBehaviour:
   m_ObjectHideFlags: 1

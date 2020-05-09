@@ -1,9 +1,9 @@
+using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 public class TITAN : MonoBehaviour
@@ -674,7 +674,7 @@ public class TITAN : MonoBehaviour
             return false;
         }
         this.hasDie = true;
-        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty, false);
+        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty);
         this.dieAnimation();
         return true;
     }
@@ -735,7 +735,7 @@ public class TITAN : MonoBehaviour
             base.GetComponent<Animation>()[this.hitAnimation].time = 0f;
             base.GetComponent<Animation>()[this.hitAnimation].speed = 0f;
             this.needFreshCorePosition = true;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty, false);
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty);
             if (base.photonView.isMine)
             {
                 if (this.grabbedTarget != null)
@@ -830,7 +830,7 @@ public class TITAN : MonoBehaviour
             this.playAnimation(this.hitAnimation);
             base.GetComponent<Animation>()[this.hitAnimation].time = 0f;
             base.GetComponent<Animation>()[this.hitAnimation].speed = 0f;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty, false);
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().oneTitanDown(string.Empty);
             this.needFreshCorePosition = true;
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
             {
@@ -1175,7 +1175,7 @@ public class TITAN : MonoBehaviour
 
     public void explode()
     {
-        if (((RCSettings.explodeMode > 0) && this.hasDie) && ((this.dieTime >= 1f) && !this.hasExplode))
+        if (((FengGameManagerMKII.Gamemode.TitanExplodeMode > 0) && this.hasDie) && ((this.dieTime >= 1f) && !this.hasExplode))
         {
             int num = 0;
             float num2 = this.myLevel * 10f;
@@ -1200,7 +1200,7 @@ public class TITAN : MonoBehaviour
                 PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
                 foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    if (Vector3.Distance(obj2.transform.position, position) < RCSettings.explodeMode)
+                    if (Vector3.Distance(obj2.transform.position, position) < FengGameManagerMKII.Gamemode.TitanExplodeMode)
                     {
                         obj2.GetComponent<Hero>().markDie();
                         obj2.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Server " });
@@ -2756,7 +2756,7 @@ public class TITAN : MonoBehaviour
                 Vector3 vector3 = this.myHero.transform.position + line;
                 Vector3 vector4 = vector3 - this.baseTransform.position;
                 float sqrMagnitude = vector4.sqrMagnitude;
-                if (((sqrMagnitude > 8000f) && (sqrMagnitude < 90000f)) && (RCSettings.disableRock == 0))
+                if (((sqrMagnitude > 8000f) && (sqrMagnitude < 90000f)) && (FengGameManagerMKII.Gamemode.PunkRockThrow))
                 {
                     this.attack2("throw");
                     this.rockInterval = 2f;
@@ -2937,7 +2937,7 @@ public class TITAN : MonoBehaviour
         {
             this.headscale = new Vector3(1f, 1f, 1f);
         }
-        else if ((level < 1f) && FengGameManagerMKII.level.StartsWith("Custom"))
+        else if ((level < 1f) && FengGameManagerMKII.Level.Name.StartsWith("Custom"))
         {
             CapsuleCollider component = this.myTitanTrigger.GetComponent<CapsuleCollider>();
             component.radius *= 2.5f - level;
@@ -3129,11 +3129,11 @@ public class TITAN : MonoBehaviour
     public void setAbnormalType2(TitanType type, bool forceCrawler)
     {
         bool flag = false;
-        if ((RCSettings.spawnMode > 0) || (((((int) FengGameManagerMKII.settings[0x5b]) == 1) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient))
+        if (FengGameManagerMKII.Gamemode.CustomTitanRatio || (((((int) FengGameManagerMKII.settings[0x5b]) == 1) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient))
         {
             flag = true;
         }
-        if (FengGameManagerMKII.level.StartsWith("Custom"))
+        if (FengGameManagerMKII.Level.Name.StartsWith("Custom"))
         {
             flag = true;
         }
@@ -3211,7 +3211,7 @@ public class TITAN : MonoBehaviour
         }
         if (num == 4)
         {
-            if (!LevelInfo.getInfo(FengGameManagerMKII.level).punk)
+            if (FengGameManagerMKII.Gamemode.IsEnabled(TitanType.TYPE_PUNK))
             {
                 num = 1;
             }
@@ -3393,6 +3393,7 @@ public class TITAN : MonoBehaviour
     private void Start()
     {
         this.MultiplayerManager.addTitan(this);
+        EventManager.OnTitanSpawned.Invoke(this);
         if (Minimap.instance != null)
         {
             Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.yellow, false, true, Minimap.IconStyle.CIRCLE);
@@ -3406,17 +3407,6 @@ public class TITAN : MonoBehaviour
         this.oldHeadRotation = this.head.rotation;
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || base.photonView.isMine)
         {
-            if (!this.hasSetLevel)
-            {
-                this.myLevel = UnityEngine.Random.Range((float) 0.7f, (float) 3f);
-                if (RCSettings.sizeMode > 0)
-                {
-                    float sizeLower = RCSettings.sizeLower;
-                    float sizeUpper = RCSettings.sizeUpper;
-                    this.myLevel = UnityEngine.Random.Range(sizeLower, sizeUpper);
-                }
-                this.hasSetLevel = true;
-            }
             this.spawnPt = this.baseTransform.position;
             this.setmyLevel();
             this.setAbnormalType2(this.TitanType, false);
@@ -3428,17 +3418,6 @@ public class TITAN : MonoBehaviour
             if (this.nonAI)
             {
                 base.StartCoroutine(this.reloadSky());
-            }
-        }
-        if ((this.maxHealth == 0) && (RCSettings.healthMode > 0))
-        {
-            if (RCSettings.healthMode == 1)
-            {
-                this.maxHealth = this.currentHealth = UnityEngine.Random.Range(RCSettings.healthLower, RCSettings.healthUpper + 1);
-            }
-            else if (RCSettings.healthMode == 2)
-            {
-                this.maxHealth = this.currentHealth = Mathf.Clamp(Mathf.RoundToInt((this.myLevel / 4f) * UnityEngine.Random.Range(RCSettings.healthLower, RCSettings.healthUpper + 1)), RCSettings.healthLower, RCSettings.healthUpper);
             }
         }
         this.lagMax = 150f + (this.myLevel * 3f);
@@ -3493,7 +3472,7 @@ public class TITAN : MonoBehaviour
             if (((vector.magnitude < this.lagMax) && !this.hasDie) && ((Time.time - this.healthTime) > 0.2f))
             {
                 this.healthTime = Time.time;
-                if ((speed >= RCSettings.damageMode) || (this.TitanType == TitanType.TYPE_CRAWLER))
+                if ((speed >= FengGameManagerMKII.Gamemode.DamageMode) || (this.TitanType == TitanType.TYPE_CRAWLER))
                 {
                     this.currentHealth -= speed;
                 }
@@ -3713,7 +3692,8 @@ public class TITAN : MonoBehaviour
                     }
                     if (!IN_GAME_MAIN_CAMERA.isPausing)
                     {
-                        GameObject.Find("stamina_titan").transform.localScale = new Vector3(this.stamina, 16f);
+                        //TODO: Player Titan stamina bar
+                        //GameObject.Find("stamina_titan").transform.localScale = new Vector3(this.stamina, 16f);
                     }
                 }
                 if (this.state == TitanState.laugh)
@@ -4545,7 +4525,6 @@ public class TITAN : MonoBehaviour
                             }
                             if (this.PVPfromCheckPt != null)
                             {
-                                UnityEngine.Debug.Log($"Titan ({skin}) is at Checkpoint{PVPfromCheckPt.id} ({PVPfromCheckPt.state})");
                                 if (this.PVPfromCheckPt.state == CheckPointState.Titan)
                                 {
                                     GameObject chkPtNext;
@@ -4554,7 +4533,6 @@ public class TITAN : MonoBehaviour
                                         chkPtNext = this.PVPfromCheckPt.chkPtNext;
                                         if ((chkPtNext != null) && ((chkPtNext.GetComponent<PVPcheckPoint>().state != CheckPointState.Titan) || (UnityEngine.Random.Range(0, 100) < 20)))
                                         {
-                                            UnityEngine.Debug.Log($"Titan ({skin}) is going to Checkpoint{chkPtNext.GetComponent<PVPcheckPoint>().id} ({chkPtNext.GetComponent<PVPcheckPoint>().state})");
                                             this.toPVPCheckPoint(chkPtNext.transform.position, 15f);
                                             this.PVPfromCheckPt = chkPtNext.GetComponent<PVPcheckPoint>();
                                         }
@@ -4564,7 +4542,6 @@ public class TITAN : MonoBehaviour
                                         chkPtNext = this.PVPfromCheckPt.chkPtPrevious;
                                         if ((chkPtNext != null) && ((chkPtNext.GetComponent<PVPcheckPoint>().state != CheckPointState.Titan) || (UnityEngine.Random.Range(0, 100) < 5)))
                                         {
-                                            UnityEngine.Debug.Log($"Titan ({skin}) is going back to Checkpoint{chkPtNext.GetComponent<PVPcheckPoint>().id} ({chkPtNext.GetComponent<PVPcheckPoint>().state})");
                                             this.toPVPCheckPoint(chkPtNext.transform.position, 15f);
                                             this.PVPfromCheckPt = chkPtNext.GetComponent<PVPcheckPoint>();
                                         }

@@ -217,6 +217,7 @@
      <Compile Include="Assets\Scripts\Effects\VortexAffector.cs" />
      <Compile Include="Assets\Scripts\Effects\Xffect.cs" />
      <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
+     <Compile Include="Assets\Scripts\EventManager.cs" />
      <Compile Include="Assets\Scripts\FengGameManagerMKII.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Capture\CheckPointState.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Capture\PVPcheckPoint.cs" />
@@ -225,12 +226,16 @@
      <Compile Include="Assets\Scripts\Gamemode\EndlessGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\GamemodeBase.cs" />
      <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\InfectionGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\KillTitansGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\Bomb.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\BombExplode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\GAMETYPE.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerPVPchkPtID.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerRacingResult.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Options\PvpMode.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Options\TitanHealthMode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\PvPAhssGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Racing\RacingCheckpointTrigger.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Racing\RacingKillTrigger.cs" />
@@ -271,7 +276,6 @@
      <Compile Include="Assets\Scripts\Room\Level.cs" />
      <Compile Include="Assets\Scripts\Room\LevelBottom.cs" />
      <Compile Include="Assets\Scripts\Room\LevelBuilder.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelInfo.cs" />
      <Compile Include="Assets\Scripts\Room\LevelMovingBrick.cs" />
      <Compile Include="Assets\Scripts\Room\LevelTeleport.cs" />
      <Compile Include="Assets\Scripts\Room\LevelTriggerCheckPoint.cs" />
@@ -294,7 +298,7 @@
      <Compile Include="Assets\Scripts\Settings\InputManagerRC.cs" />
      <Compile Include="Assets\Scripts\Settings\KeyBindings.cs" />
      <Compile Include="Assets\Scripts\Settings\Language.cs" />
-     <Compile Include="Assets\Scripts\Settings\RCSettings.cs" />
+     <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
      <Compile Include="Assets\Scripts\UI\AottgUi.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CAMERA_TYPE.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CameraFacingBillboard.cs" />
@@ -307,26 +311,44 @@
      <Compile Include="Assets\Scripts\UI\Camera\STEREO_3D_TYPE.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\Command.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\CommandHandler.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\CommandsGUI.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleCommands.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleExtensions.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleMessage.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleOptionsGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevel.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevelOption.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevelsGUI.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
+     <Compile Include="Assets\Scripts\UI\CommandLine\SettingsGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiCheckbox.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiDropdown.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiElement.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiElementAttribute.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\UiInput.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\GameSettingMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\HUD.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\KillInfo.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\Labels.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\AHSS.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\InGameMenu.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\InGameUi.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\ServerSettingsPage.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\SpawnMenu.cs" />
-     <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenu.cs" />
-     <Compile Include="Assets\Scripts\UI\Interaction Wheel\CircularMenuElement.cs" />
+     <Compile Include="Assets\Scripts\UI\Interaction Wheel\InteractionWheel.cs" />
+     <Compile Include="Assets\Scripts\UI\Interaction Wheel\WheelButton.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\RoomRow.cs" />
-     <Compile Include="Assets\Scripts\UI\UiElement.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\Singleplayer.cs" />
      <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
+     <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
+     <Compile Include="Assets\Scripts\UI\UiNavigationElement.cs" />
      <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
      <Compile Include="Assets\Scripts\Usable\CannonBall.cs" />
      <Compile Include="Assets\Scripts\Usable\CannonPropRegion.cs" />
@@ -550,6 +572,9 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/nickw/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

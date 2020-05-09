@@ -7,7 +7,7 @@ namespace Assets.Scripts.UI
     public class UiHandler : MonoBehaviour
     {
         [HideInInspector]
-        public UiElement[] Elements;
+        public UiNavigationElement[] Elements;
 
         public GameObject MenuUi;
         public GameObject InGameUi;
@@ -16,7 +16,7 @@ namespace Assets.Scripts.UI
         {
             ShowMenu();
             DontDestroyOnLoad(gameObject);
-            Elements = gameObject.GetComponentsInChildren<UiElement>(true);
+            Elements = gameObject.GetComponentsInChildren<UiNavigationElement>(true);
             foreach (var element in Elements)
             {
                 element.Canvas = this;
@@ -37,7 +37,7 @@ namespace Assets.Scripts.UI
             MenuUi.SetActive(false);
         }
 
-        public UiElement Find(Type t)
+        public UiNavigationElement Find(Type t)
         {
             return Elements.SingleOrDefault(x => x.GetType() == t);
         }
