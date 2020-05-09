@@ -147,7 +147,7 @@ public class LevelBuilder
 
     private static void AddAoTTG2Maps()
     {
-        levels.Add(new Level
+        _levels.Add(new Level
         {
             Name = "Utgard Castle",
             Description = "",
@@ -156,13 +156,11 @@ public class LevelBuilder
             {
                 new KillTitansGamemode
                 {
-                    Titans = 10,
-                    Pvp = true,
+                    Titans = 10
                 },
                 new EndlessGamemode
                 {
-                    Titans = 10,
-                    Pvp = false,
+                    Titans = 10
                 },
                 new WaveGamemode(),
                 new CaptureGamemode()
