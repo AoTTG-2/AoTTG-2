@@ -112,9 +112,15 @@ public class GraphicsController : MonoBehaviour {
 	public void AdvancedOptions()
 	{
 		var selected = CustomSettings.isOn;
+		var temp = QualitySettings.GetQualityLevel();
+		
+		if(!selected)
+		{
+			QualitySettings.SetQualityLevel(temp);
+		}
 		if(selected)
 		{
-			QualitySettings.SetQualityLevel(6, true);
+			QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
 			GeneralGraphic.TextureQuality.interactable = true;
 			GeneralGraphic.shadowRes.interactable = true;
 			GeneralGraphic.antiAliasing.interactable = true;
@@ -124,10 +130,5 @@ public class GraphicsController : MonoBehaviour {
 
 			QualitySwitcher.GetComponentInChildren<Slider>().interactable = false;
 		}
-		else
-		{
-			QualitySettings.DecreaseLevel();
-		}
 	}
-
 }

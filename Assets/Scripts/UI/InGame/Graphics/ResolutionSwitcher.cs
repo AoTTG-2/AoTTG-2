@@ -11,13 +11,19 @@ public class ResolutionSwitcher : MonoBehaviour {
 
 	public string Resolution { get; set; }
 	public int ScreenMode { get; set; }
+
 	private void OnEnable() {
 		
 		foreach(Resolution resolution in Screen.resolutions)
 		{
-			string resolutionText = resolution.ToString().Split('@')[0];
+			string resolutionText = resolution.ToString();
 			Dropdown.OptionData op = new Dropdown.OptionData(resolutionText);
 			dropdown.options.Add(op);
+			if(resolution.Equals(Screen.currentResolution))
+			{
+				Debug.Log(Screen.currentResolution.ToString());
+			}
+			
 		}
 	}
 
@@ -27,7 +33,7 @@ public class ResolutionSwitcher : MonoBehaviour {
 		for(int i = 0; i < Screen.resolutions.Length; i++)
 		{
 			Resolution temp = Screen.resolutions[i];
-			if(temp.ToString().Split('@')[0].Equals(res))
+			if(temp.ToString().Equals(res))
 			{
 				Screen.SetResolution(temp.width, temp.height, toggle.GetComponent<Toggle>().isOn, temp.refreshRate);
 				Resolution = temp.ToString();
@@ -53,7 +59,7 @@ public class ResolutionSwitcher : MonoBehaviour {
 	{
 		string resolution = PlayerPrefs.GetString("Resolution");
 		int screen_mode = PlayerPrefs.GetInt("ScreenMode");
-		DropDownLabel.text = resolution.Split('@')[0];
+		DropDownLabel.text = resolution;
 		if(screen_mode == 1)
 		{
 			toggle.isOn = true;

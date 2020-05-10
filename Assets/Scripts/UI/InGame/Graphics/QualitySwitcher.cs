@@ -8,7 +8,7 @@ public class QualitySwitcher : MonoBehaviour {
 
 	private void Update() {
 		label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
-		gameObject.GetComponentInChildren<Slider>().value = QualitySettings.GetQualityLevel();
+		// this was causing the bug // gameObject.GetComponentInChildren<Slider>().value = QualitySettings.GetQualityLevel();
 	}
 
 	public void UpdateQualitySliderValue()
