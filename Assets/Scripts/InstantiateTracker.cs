@@ -1,5 +1,4 @@
-using System;
-using System.Runtime.InteropServices;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class InstantiateTracker
@@ -184,7 +183,7 @@ public class InstantiateTracker
                     if (FengGameManagerMKII.masterRC && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush))
                     {
                         num4 = 0;
-                        foreach (TITAN titan in FengGameManagerMKII.instance.getTitans())
+                        foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
                         {
                             if (titan.photonView.owner == photonPlayer)
                             {
@@ -205,7 +204,7 @@ public class InstantiateTracker
                         break;
                     }
                     num4 = 0;
-                    foreach (TITAN titan in FengGameManagerMKII.instance.getTitans())
+                    foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
                     {
                         if (titan.photonView.owner == photonPlayer)
                         {

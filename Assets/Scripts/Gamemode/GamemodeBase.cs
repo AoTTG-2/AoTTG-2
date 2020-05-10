@@ -141,32 +141,8 @@ namespace Assets.Scripts.Gamemode
 
         }
 
-        public virtual void OnTitanSpawned(TITAN titan)
+        public virtual void OnTitanSpawned(MindlessTitan titan)
         {
-            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || titan.photonView.isMine)
-            {
-                if (!titan.hasSetLevel)
-                {
-                    titan.myLevel = UnityEngine.Random.Range((float)0.7f, (float)3f);
-                    if (Settings.TitanCustomSize)
-                    {
-                        titan.myLevel = UnityEngine.Random.Range(Settings.TitanMinimumSize, Settings.TitanMaximumSize);
-                    }
-                    titan.hasSetLevel = true;
-                }
-            }
-            if (titan.maxHealth == 0)
-            {
-                switch (Settings.TitanHealthMode)
-                {
-                    case TitanHealthMode.Fixed:
-                        titan.maxHealth = titan.currentHealth = UnityEngine.Random.Range(Settings.TitanHealthMinimum, Settings.TitanHealthMaximum + 1);
-                        break;
-                    case TitanHealthMode.Scaled:
-                        titan.maxHealth = titan.currentHealth = Mathf.Clamp(Mathf.RoundToInt((titan.myLevel / 4f) * UnityEngine.Random.Range(Settings.TitanHealthMinimum, Settings.TitanHealthMaximum + 1)), Settings.TitanHealthMinimum, Settings.TitanHealthMaximum);
-                        break;
-                }
-            }
         }
 
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")

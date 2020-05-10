@@ -147,7 +147,8 @@ namespace Assets.Scripts.Gamemode
                 }
                 for (int i = 0; i < objArray3.Length; i++)
                 {
-                    spawnTitanRaw(objArray3[i].transform.position, objArray3[i].transform.rotation).GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
+                    var configuration = GetTitanConfiguration(MindlessTitanType.Crawler);
+                    FengGameManagerMKII.instance.SpawnTitan(objArray3[i].transform.position, objArray3[i].transform.rotation, configuration);
                 }
             }
         }
@@ -196,15 +197,6 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.PvpHumanScoreLimit, Settings.PvpTitanScoreLimit);
             }
-        }
-
-        private GameObject spawnTitanRaw(Vector3 position, Quaternion rotation)
-        {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                return (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_VER3.1"), position, rotation);
-            }
-            return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
         }
 
         public override void OnPlayerKilled(int id)

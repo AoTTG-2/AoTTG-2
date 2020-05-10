@@ -267,6 +267,12 @@ namespace Assets.Scripts.Characters.Titan
             this.grabTF.transform.localRotation = Quaternion.Euler(this.grabTF.transform.localRotation.eulerAngles.x, this.grabTF.transform.localRotation.eulerAngles.y + 180f, this.grabTF.transform.localRotation.eulerAngles.z + zRotation);
         }
 
+        [PunRPC]
+        public void GrabEscapeRpc()
+        {
+            GrabTarget = null;
+        }
+
         private void justEatHero(Hero grabTarget)
         {
             if (grabTarget != null)

@@ -3105,7 +3105,6 @@ public class Hero : Human
         }
         if (PhotonNetwork.isMasterClient)
         {
-            this.onDeathEvent(viewID, killByTitan);
             int iD = base.photonView.owner.ID;
             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
             {
@@ -3321,7 +3320,6 @@ public class Hero : Human
         }
         if (PhotonNetwork.isMasterClient)
         {
-            this.onDeathEvent(viewID, true);
             int iD = base.photonView.owner.ID;
             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
             {
@@ -3414,7 +3412,6 @@ public class Hero : Human
         }
         if (PhotonNetwork.isMasterClient)
         {
-            this.onDeathEvent(viewID, killByTitan);
             int iD = base.photonView.owner.ID;
             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
             {
@@ -3433,13 +3430,14 @@ public class Hero : Human
     [PunRPC]
     private void netlaughAttack()
     {
-        foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-        {
-            if (((Vector3.Distance(obj2.transform.position, base.transform.position) < 50f) && (Vector3.Angle(obj2.transform.forward, base.transform.position - obj2.transform.position) < 90f)) && (obj2.GetComponent<TITAN>() != null))
-            {
-                obj2.GetComponent<TITAN>().beLaughAttacked();
-            }
-        }
+        throw new NotImplementedException("Titan laugh attack is not implemented yet");
+        //foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
+        //{
+        //    if (((Vector3.Distance(obj2.transform.position, base.transform.position) < 50f) && (Vector3.Angle(obj2.transform.forward, base.transform.position - obj2.transform.position) < 90f)) && (obj2.GetComponent<TITAN>() != null))
+        //    {
+        //        obj2.GetComponent<TITAN>().beLaughAttacked();
+        //    }
+        //}
     }
 
     [PunRPC]
@@ -3494,13 +3492,14 @@ public class Hero : Human
     [PunRPC]
     private void netTauntAttack(float tauntTime, float distance = 100f)
     {
-        foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-        {
-            if ((Vector3.Distance(obj2.transform.position, base.transform.position) < distance) && (obj2.GetComponent<TITAN>() != null))
-            {
-                obj2.GetComponent<TITAN>().beTauntedBy(base.gameObject, tauntTime);
-            }
-        }
+        throw new NotImplementedException("Titan taunt behavior is not yet implemented");
+        //foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
+        //{
+        //    if ((Vector3.Distance(obj2.transform.position, base.transform.position) < distance) && (obj2.GetComponent<TITAN>() != null))
+        //    {
+        //        obj2.GetComponent<TITAN>().beTauntedBy(base.gameObject, tauntTime);
+        //    }
+        //}
     }
 
     [PunRPC]
@@ -3510,60 +3509,7 @@ public class Hero : Human
         this.netPlayAnimation(this.standAnimation);
         this.falseAttack();
     }
-
-    public void onDeathEvent(int viewID, bool isTitan)
-    {
-        RCEvent event2;
-        string[] strArray;
-        if (isTitan)
-        {
-            if (FengGameManagerMKII.RCEvents.ContainsKey("OnPlayerDieByTitan"))
-            {
-                event2 = (RCEvent)FengGameManagerMKII.RCEvents["OnPlayerDieByTitan"];
-                strArray = (string[])FengGameManagerMKII.RCVariableNames["OnPlayerDieByTitan"];
-                if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[0]))
-                {
-                    FengGameManagerMKII.playerVariables[strArray[0]] = base.photonView.owner;
-                }
-                else
-                {
-                    FengGameManagerMKII.playerVariables.Add(strArray[0], base.photonView.owner);
-                }
-                if (FengGameManagerMKII.titanVariables.ContainsKey(strArray[1]))
-                {
-                    FengGameManagerMKII.titanVariables[strArray[1]] = PhotonView.Find(viewID).gameObject.GetComponent<TITAN>();
-                }
-                else
-                {
-                    FengGameManagerMKII.titanVariables.Add(strArray[1], PhotonView.Find(viewID).gameObject.GetComponent<TITAN>());
-                }
-                event2.checkEvent();
-            }
-        }
-        else if (FengGameManagerMKII.RCEvents.ContainsKey("OnPlayerDieByPlayer"))
-        {
-            event2 = (RCEvent)FengGameManagerMKII.RCEvents["OnPlayerDieByPlayer"];
-            strArray = (string[])FengGameManagerMKII.RCVariableNames["OnPlayerDieByPlayer"];
-            if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[0]))
-            {
-                FengGameManagerMKII.playerVariables[strArray[0]] = base.photonView.owner;
-            }
-            else
-            {
-                FengGameManagerMKII.playerVariables.Add(strArray[0], base.photonView.owner);
-            }
-            if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[1]))
-            {
-                FengGameManagerMKII.playerVariables[strArray[1]] = PhotonView.Find(viewID).owner;
-            }
-            else
-            {
-                FengGameManagerMKII.playerVariables.Add(strArray[1], PhotonView.Find(viewID).owner);
-            }
-            event2.checkEvent();
-        }
-    }
-
+    
     private void OnDestroy()
     {
         if (this.myNetWorkName != null)
@@ -4724,18 +4670,18 @@ public class Hero : Human
                                 this.baseRigidBody.velocity = (Vector3)(Vector3.up * 30f);
                                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                                 {
-                                    this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                    this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                 }
                                 else
                                 {
                                     base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
                                     if (PhotonNetwork.isMasterClient)
                                     {
-                                        this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                        this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                     }
                                     else
                                     {
-                                        PhotonView.Find(this.titanWhoGrabMeID).RPC("grabbedTargetEscape", PhotonTargets.MasterClient, new object[0]);
+                                        PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                     }
                                 }
                             }
@@ -4763,18 +4709,18 @@ public class Hero : Human
                                         this.ungrabbed();
                                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                                         {
-                                            this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                            this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                         }
                                         else
                                         {
                                             base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
                                             if (PhotonNetwork.isMasterClient)
                                             {
-                                                this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                                titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                             }
                                             else
                                             {
-                                                PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("grabbedTargetEscape", PhotonTargets.MasterClient, new object[0]);
+                                                PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                             }
                                         }
                                         this.erenTransform();
@@ -5433,10 +5379,10 @@ public class Hero : Human
                                         {
                                             foreach (GameObject obj3 in GameObject.FindGameObjectsWithTag("titan"))
                                             {
-                                                if (((Vector3.Distance(obj3.transform.position, this.baseTransform.position) < 50f) && (Vector3.Angle(obj3.transform.forward, this.baseTransform.position - obj3.transform.position) < 90f)) && (obj3.GetComponent<TITAN>() != null))
-                                                {
-                                                    obj3.GetComponent<TITAN>().beLaughAttacked();
-                                                }
+                                                //if (((Vector3.Distance(obj3.transform.position, this.baseTransform.position) < 50f) && (Vector3.Angle(obj3.transform.forward, this.baseTransform.position - obj3.transform.position) < 90f)) && (obj3.GetComponent<TITAN>() != null))
+                                                //{
+                                                //    obj3.GetComponent<TITAN>().beLaughAttacked();
+                                                //}
                                             }
                                         }
                                         this.falseAttack();

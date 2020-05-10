@@ -2636,28 +2636,6 @@ public class TITAN : MonoBehaviour
 
     public void OnTitanDie(PhotonView view)
     {
-        if (FengGameManagerMKII.logicLoaded && FengGameManagerMKII.RCEvents.ContainsKey("OnTitanDie"))
-        {
-            RCEvent event2 = (RCEvent) FengGameManagerMKII.RCEvents["OnTitanDie"];
-            string[] strArray = (string[]) FengGameManagerMKII.RCVariableNames["OnTitanDie"];
-            if (FengGameManagerMKII.titanVariables.ContainsKey(strArray[0]))
-            {
-                FengGameManagerMKII.titanVariables[strArray[0]] = this;
-            }
-            else
-            {
-                FengGameManagerMKII.titanVariables.Add(strArray[0], this);
-            }
-            if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[1]))
-            {
-                FengGameManagerMKII.playerVariables[strArray[1]] = view.owner;
-            }
-            else
-            {
-                FengGameManagerMKII.playerVariables.Add(strArray[1], view.owner);
-            }
-            event2.checkEvent();
-        }
     }
 
     private void playAnimation(string aniName)
@@ -3069,7 +3047,6 @@ public class TITAN : MonoBehaviour
 
     private void Start()
     {
-        EventManager.OnTitanSpawned.Invoke(this);
         if (Minimap.instance != null)
         {
             Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.yellow, false, true, Minimap.IconStyle.CIRCLE);

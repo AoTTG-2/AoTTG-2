@@ -1,8 +1,8 @@
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode.Options;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -72,7 +72,6 @@ public class InRoomChat : Photon.MonoBehaviour
                     {
                         FengGameManagerMKII.stringVariables.Add(key, this.inputLine);
                     }
-                    ((RCEvent)FengGameManagerMKII.RCEvents["OnChatInput"]).checkEvent();
                 }
                 if (!this.inputLine.StartsWith("/"))
                 {
