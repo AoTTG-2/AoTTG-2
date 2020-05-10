@@ -162,8 +162,7 @@ public class LevelBuilder
                 {
                     Titans = 10
                 },
-                new WaveGamemode(),
-                new CaptureGamemode()
+                new WaveGamemode()
             }
         });
     }
