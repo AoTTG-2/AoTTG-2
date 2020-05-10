@@ -284,6 +284,9 @@
     <Reference Include="Photon3Unity3D">
       <HintPath>Assets/Plugins/Photon3Unity3D.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="websocket-sharp">
       <HintPath>Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
@@ -339,8 +342,13 @@
     <None Include="Assets\Photon Unity Networking\changelog.txt" />
     <None Include="Assets\Photon Unity Networking\link.xml" />
     <None Include="Assets\Photon Unity Networking\readme.txt" />
+    <None Include="Assets\Plugins\JsonDotNet\Assemblies\AOT\Newtonsoft.Json.XML" />
+    <None Include="Assets\Plugins\JsonDotNet\Assemblies\Standalone\Newtonsoft.Json.XML" />
+    <None Include="Assets\Plugins\JsonDotNet\Assemblies\Windows\Newtonsoft.Json.XML" />
     <None Include="Assets\Plugins\Photon3Unity3D.xml" />
     <None Include="Assets\Plugins\changes-library.txt" />
+    <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
+    <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
     <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
     <None Include="Assets\Resources\shaders\GUI - Text Shader (SoftClip).shader" />
     <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
