@@ -1,7 +1,5 @@
-using Photon;
-using System;
+using Assets.Scripts.Characters.Titan;
 using System.Collections;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Bullet : Photon.MonoBehaviour
@@ -17,7 +15,7 @@ public class Bullet : Photon.MonoBehaviour
     private LineRenderer lineRenderer;
     private GameObject master;
     private GameObject myRef;
-    public TITAN myTitan;
+    public MindlessTitan myTitan;
     private ArrayList nodes = new ArrayList();
     private int phase;
     private GameObject rope;
@@ -36,21 +34,21 @@ public class Bullet : Photon.MonoBehaviour
             if (Physics.Raycast(base.transform.position, this.velocity, out hit, 10f, mask.value))
             {
                 Collider collider = hit.collider;
-                if (collider.name.Contains("PlayerDetectorRC"))
+                if (collider.name.Contains("PlayerCollisionDetection"))
                 {
-                    TITAN component = collider.transform.root.gameObject.GetComponent<TITAN>();
+                    var component = collider.transform.root.gameObject.GetComponent<MindlessTitan>();
                     if (component != null)
                     {
                         if (this.myTitan == null)
                         {
                             this.myTitan = component;
-                            this.myTitan.isHooked = true;
+                            myTitan.IsHooked = true;
                         }
                         else if (this.myTitan != component)
                         {
-                            this.myTitan.isHooked = false;
+                            myTitan.IsHooked = false;
                             this.myTitan = component;
-                            this.myTitan.isHooked = true;
+                            myTitan.IsHooked = true;
                         }
                     }
                 }
@@ -347,7 +345,7 @@ public class Bullet : Photon.MonoBehaviour
         }
         if (this.myTitan != null)
         {
-            this.myTitan.isHooked = false;
+            myTitan.IsHooked = false;
         }
         UnityEngine.Object.Destroy(this.rope);
     }

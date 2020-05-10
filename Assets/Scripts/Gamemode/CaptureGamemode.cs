@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.UI.Elements;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -7,31 +9,32 @@ namespace Assets.Scripts.Gamemode
     {
         public CaptureGamemode()
         {
-            GamemodeType = GamemodeType.Capture;
-            RespawnTime = 20f;
-            PlayerTitanShifters = false;
-            Titans = 0;
-            TitanLimit = 25;
-            TitanChaseDistance = 120f;
-            SpawnTitansOnFemaleTitanDefeat = false;
-            FemaleTitanDespawnTimer = 20f;
-            FemaleTitanHealthModifier = 0.8f;
+            Settings = new CaptureGamemodeSettings
+            {
+                GamemodeType = GamemodeType.Capture,
+                RespawnTime = 20f,
+                PlayerTitanShifters = false,
+                Titans = 0,
+                TitanLimit = 25,
+                TitanChaseDistance = 120f,
+                SpawnTitansOnFemaleTitanDefeat = false,
+                FemaleTitanDespawnTimer = 20f,
+                FemaleTitanHealthModifier = 0.8f
+            };
         }
 
-        [UiElement("Human Point Limit", "Once this reaches 0, the titans win")]
-        public int PvpTitanScoreLimit { get; set; } = 200;
-        [UiElement("Titan Point Limit", "Once this reaches 0, the humans win")]
-        public int PvpHumanScoreLimit { get; set; } = 200;
-
-
-        [UiElement("Supply Station on Capture", "Should Supply stations spawn when a point is captured by humans?")]
-        public bool SpawnSupplyStationOnHumanCapture { get; set; }
+        public new CaptureGamemodeSettings Settings { get; set; }
 
         public int PvpTitanScore;
         public int PvpHumanScore;
 
         private const string HumanStart = "CheckpointStartHuman";
         private const string TitanStart = "CheckpointStartTitan";
+
+        public override void SetSettings(GamemodeSettings settings)
+        {
+            Settings = settings as CaptureGamemodeSettings;
+        }
 
         public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
@@ -42,7 +45,14 @@ namespace Assets.Scripts.Gamemode
             }
             str2 = str2 + "|";
             var length = totalRoomTime - time;
-            return $"{PvpTitanScoreLimit - PvpTitanScore} {str2} {PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
+            return $"{Settings.PvpTitanScoreLimit - PvpTitanScore} {str2} {Settings.PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
+        }
+
+        public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
+        {
+            var configuration = GetTitanConfiguration();
+            configuration.Behaviors.Add(new CaptureBehavior(target));
+            FengGameManagerMKII.instance.SpawnTitan(position, rotation, configuration).GetComponent<MindlessTitan>();
         }
 
         public override void OnTitanKilled(string titanName)
@@ -86,17 +96,17 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, HumanScore, TitanScore);
+                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.HumanScore, Settings.TitanScore);
             }
 
-            if (PvpTitanScore >= PvpTitanScoreLimit)
+            if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
             {
-                PvpTitanScore = PvpTitanScoreLimit;
+                PvpTitanScore = Settings.PvpTitanScoreLimit;
                 FengGameManagerMKII.instance.gameLose2();
             }
-            else if (PvpHumanScore >= PvpHumanScoreLimit)
+            else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
             {
-                PvpHumanScore = PvpHumanScoreLimit;
+                PvpHumanScore = Settings.PvpHumanScoreLimit;
                 FengGameManagerMKII.instance.gameWin2();
             }
         }
@@ -113,9 +123,9 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
-        public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            base.OnLevelWasLoaded(level, isMasterClient);
+            base.OnLevelLoaded(level, isMasterClient);
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
@@ -137,7 +147,8 @@ namespace Assets.Scripts.Gamemode
                 }
                 for (int i = 0; i < objArray3.Length; i++)
                 {
-                    spawnTitanRaw(objArray3[i].transform.position, objArray3[i].transform.rotation).GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
+                    var configuration = GetTitanConfiguration(MindlessTitanType.Crawler);
+                    FengGameManagerMKII.instance.SpawnTitan(objArray3[i].transform.position, objArray3[i].transform.rotation, configuration);
                 }
             }
         }
@@ -184,17 +195,8 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, PvpHumanScoreLimit, PvpTitanScoreLimit);
+                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.PvpHumanScoreLimit, Settings.PvpTitanScoreLimit);
             }
-        }
-
-        private GameObject spawnTitanRaw(Vector3 position, Quaternion rotation)
-        {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                return (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_VER3.1"), position, rotation);
-            }
-            return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
         }
 
         public override void OnPlayerKilled(int id)

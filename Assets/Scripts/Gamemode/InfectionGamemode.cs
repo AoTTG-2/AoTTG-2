@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.UI.Elements;
+﻿using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -6,13 +6,20 @@ namespace Assets.Scripts.Gamemode
     {
         public InfectionGamemode()
         {
-            GamemodeType = GamemodeType.Infection;
-            RespawnMode = RespawnMode.NEVER;
-            IsPlayerTitanEnabled = true;
+            Settings = new InfectionGamemodeSettings
+            {
+                GamemodeType = GamemodeType.Infection, 
+                RespawnMode = RespawnMode.NEVER, 
+                IsPlayerTitanEnabled = true
+            };
         }
 
-        [UiElement("Start Infected", "The amount of players that start as an infected")]
-        public int Infected { get; set; } = 1;
+        public new InfectionGamemodeSettings Settings { get; set; }
+
+        public override void SetSettings(GamemodeSettings settings)
+        {
+            Settings = settings as InfectionGamemodeSettings;
+        }
 
         public override void OnRestart()
         {
@@ -28,7 +35,7 @@ namespace Assets.Scripts.Gamemode
                 player.SetCustomProperties(propertiesToSet);
             }
             var length = PhotonNetwork.playerList.Length;
-            var infectionMode = Infected;
+            var infectionMode = Settings.Infected;
             for (num = 0; num < PhotonNetwork.playerList.Length; num++)
             {
                 PhotonPlayer player2 = PhotonNetwork.playerList[num];

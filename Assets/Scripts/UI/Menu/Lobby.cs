@@ -16,7 +16,7 @@ namespace Assets.Scripts.UI.Menu
 
         public void OnEnable()
         {
-            PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2020");
+            PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
         public void OnRegionChanged(int region)
@@ -28,7 +28,7 @@ namespace Assets.Scripts.UI.Menu
 
         public void OnDisconnectedFromPhoton()
         {
-            PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2020");
+            PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
         }
 
         public void OnConnectedToPhoton()

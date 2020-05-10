@@ -1,20 +1,32 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode.Settings;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
     public class TrostGamemode : GamemodeBase
     {
+        public new TrostSettings Settings { get; set; }
         public TrostGamemode()
         {
-            GamemodeType = GamemodeType.Trost;
-            PlayerTitanShifters = false;
-            Titans = 2;
-            Punks = false;
+            Settings = new TrostSettings
+            {
+                GamemodeType = GamemodeType.Trost,
+                PlayerTitanShifters = false,
+                Titans = 2,
+                DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk}
+            };
         }
 
-        public override void OnLevelWasLoaded(Level level, bool isMasterClient = false)
+        public override void SetSettings(GamemodeSettings settings)
         {
-            base.OnLevelWasLoaded(level, isMasterClient);
+            Settings = settings as TrostSettings;
+        }
+
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        {
+            base.OnLevelLoaded(level, isMasterClient);
             GameObject.Find("playerRespawn").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawn"));
             GameObject.Find("rock").GetComponent<Animation>()["lift"].speed = 0f;
@@ -30,7 +42,7 @@ namespace Assets.Scripts.Gamemode
             if (obj4 == null) return;
 
             var rate = 90;
-            if (Difficulty == 1)
+            if (Settings.Difficulty == 1)
             {
                 rate = 70;
             }
@@ -39,7 +51,7 @@ namespace Assets.Scripts.Gamemode
             {
                 if (obj5.transform.parent.gameObject == obj4)
                 {
-                    FengGameManagerMKII.instance.spawnTitan(rate, obj5.transform.position, obj5.transform.rotation, false);
+                    FengGameManagerMKII.instance.SpawnTitan(obj5.transform.position, obj5.transform.rotation);
                 }
             }
         }
