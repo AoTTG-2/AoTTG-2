@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
 {
-    public class TitanBody : MonoBehaviour
+    public class TitanBody : Photon.MonoBehaviour
     {
         public Transform Head;
         public Transform Neck;
@@ -52,25 +52,47 @@ namespace Assets.Scripts.Characters.Titan
         private Dictionary<BodyPart, float> CooldownDictionary { get; set; } = new Dictionary<BodyPart, float>();
         private readonly float _bodyPartRecovery = 45f;
         private readonly Vector3 bodyPartDamagedSize = new Vector3(0.001f, 0.001f, 0.001f);
+        private Dictionary<BodyPart, GameObject> SteamEffectDictionary { get; set; } = new Dictionary<BodyPart, GameObject>();
 
-        public void AddBodyPart(Transform body)
+        public BodyPart GetBodyPart(Transform bodypart)
         {
-            Debug.Log($"We've hit the {body.gameObject.name}");
+            if (bodypart == UpperArmRight || bodypart == ArmRight)
+            {
+                return BodyPart.ArmRight;
+            }
+            if (bodypart == UpperArmLeft || bodypart == ArmLeft)
+            {
+                return BodyPart.ArmLeft;
+            }
+            if (bodypart == LegLeft)
+            {
+                return BodyPart.LegLeft;
+            }
+            if (bodypart == LegRight)
+            {
+                return BodyPart.LegRight;
+            }
+
+            return BodyPart.None;
+        }
+
+        public void AddBodyPart(BodyPart body)
+        {
             BodyPart[] bodyPart = {BodyPart.None};
             Transform bodyPartEffect = null;
-            if (body == UpperArmRight || body == ArmRight)
+            if (body == BodyPart.ArmRight)
             {
                 bodyPart = new[] {BodyPart.ArmRight, BodyPart.HandRight};
                 bodyPartEffect = ArmRight;
-            } else if (body == UpperArmLeft || body == ArmLeft)
+            } else if (body == BodyPart.ArmLeft)
             {
                 bodyPart = new[] { BodyPart.ArmLeft, BodyPart.HandLeft };
                 bodyPartEffect = ArmLeft;
-            } else if (body == LegLeft)
+            } else if (body == BodyPart.LegLeft)
             {
                 bodyPart = new[] {BodyPart.LegLeft};
                 bodyPartEffect = LegLeft;
-            } else if (body == LegRight)
+            } else if (body == BodyPart.LegRight)
             {
                 bodyPart = new[] { BodyPart.LegRight };
                 bodyPartEffect = LegRight;
@@ -83,11 +105,24 @@ namespace Assets.Scripts.Characters.Titan
                 CooldownDictionary.Add(part, _bodyPartRecovery);
             }
 
-            if (bodyPartEffect == null) return;
+            if (bodyPartEffect == null || !photonView.isMine) return;
             var steamEffect = PhotonNetwork.Instantiate("fx/bodypart_steam", new Vector3(), new Quaternion(), 0);
             steamEffect.GetComponent<SelfDestroy>().CountDown = _bodyPartRecovery;
             steamEffect.transform.parent = bodyPartEffect;
             steamEffect.transform.localPosition = new Vector3();
+            SteamEffectDictionary.Add(body, steamEffect);
+            photonView.RPC("SyncBodyPartRpc", PhotonTargets.Others, bodyPart);
+        }
+
+        [PunRPC]
+        private void SyncBodyPartRpc(BodyPart[] parts, PhotonMessageInfo info = new PhotonMessageInfo())
+        {
+            if (info.sender.ID != photonView.owner.ID) return;
+
+            foreach (var part in parts)
+            {
+                AddBodyPart(part);
+            }
         }
 
         public List<BodyPart> GetDisabledBodyParts()
@@ -127,6 +162,15 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     CooldownDictionary.Remove(bodyPart);
                 }
+            }
+        }
+
+        void OnDestroy()
+        {
+            if (!photonView.isMine) return;
+            foreach (var effect in SteamEffectDictionary)
+            {
+                PhotonNetwork.Destroy(effect.Value);
             }
         }
     }

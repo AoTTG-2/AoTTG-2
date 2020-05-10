@@ -100,19 +100,6 @@ namespace Assets.Scripts.Characters.Titan
             TitanBody = GetComponent<TitanBody>();
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
-            Attacks = new List<Attack>
-            {
-                new SlapAttack(),
-                new RockThrowAttack(),
-                new SmashAttack(),
-                new GrabAttack(),
-                new SlapFaceAttack(),
-                new BiteAttack(),
-                new BodySlamAttack(),
-                new KickAttack(),
-                new StompAttack(),
-                //new ComboAttack()
-            };
             this.oldHeadRotation = TitanBody.Head.rotation;
             AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
             this.grabTF = new GameObject();
@@ -411,7 +398,6 @@ namespace Assets.Scripts.Characters.Titan
         [PunRPC]
         public void OnNapeHitRpc(int viewId, int damage)
         {
-            Debug.LogWarning($"View {viewId}, with damage {damage}");
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
             if (view == null || !IsAlive && Time.time - DamageTimer > 0.2f) return;
@@ -438,8 +424,10 @@ namespace Assets.Scripts.Characters.Titan
             FengGameManagerMKII.instance.titanGetKill(view.owner, damage, name);
         }
 
-        public void OnBodyPartHit(Transform bodyPart, int damage)
+        [PunRPC]
+        public void OnBodyPartHitRpc(BodyPart bodyPart, int damage)
         {
+            if (!photonView.isMine) return;
             TitanBody.AddBodyPart(bodyPart);
             if (TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.LegLeft) 
                 && TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.LegRight))
@@ -447,7 +435,7 @@ namespace Assets.Scripts.Characters.Titan
                 ChangeState(MindlessTitanState.Disabled);
             }
         }
-
+        
         public void OnEyeHit(int viewId, int damage)
         {
             //if (this.state != TitanState.hit_eye)

@@ -330,7 +330,15 @@ public class TriggerColliderWeapon : MonoBehaviour
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
-                        mindlessTitan.OnBodyPartHit(other.transform, damage);
+                        var body = mindlessTitan.TitanBody.GetBodyPart(other.transform);
+                        if (PhotonNetwork.isMasterClient)
+                        {
+                            mindlessTitan.OnBodyPartHitRpc(body, damage);
+                        }
+                        else
+                        {
+                            mindlessTitan.photonView.RPC("OnBodyPartHitRpc", mindlessTitan.photonView.owner, body, damage);
+                        }
                     }
                 }
             }
