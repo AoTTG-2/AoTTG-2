@@ -111,25 +111,24 @@ public class FEMALE_TITAN : MonoBehaviour
             int num;
             if (f__switchSmap2 == null)
             {
-                Dictionary<string, int> dictionary = new Dictionary<string, int>(0x11);
-                dictionary.Add("combo_1", 0);
-                dictionary.Add("combo_2", 1);
-                dictionary.Add("combo_3", 2);
-                dictionary.Add("combo_blind_1", 3);
-                dictionary.Add("combo_blind_2", 4);
-                dictionary.Add("combo_blind_3", 5);
-                dictionary.Add("front", 6);
-                dictionary.Add("jumpCombo_1", 7);
-                dictionary.Add("jumpCombo_2", 8);
-                dictionary.Add("jumpCombo_3", 9);
-                dictionary.Add("jumpCombo_4", 10);
-                dictionary.Add("sweep", 11);
-                dictionary.Add("sweep_back", 12);
-                dictionary.Add("sweep_front_left", 13);
-                dictionary.Add("sweep_front_right", 14);
-                dictionary.Add("sweep_head_b_l", 15);
-                dictionary.Add("sweep_head_b_r", 0x10);
-                f__switchSmap2 = dictionary;
+                f__switchSmap2 = new Dictionary<string, int>(0x11);
+                f__switchSmap2.Add("combo_1", 0);
+                f__switchSmap2.Add("combo_2", 1);
+                f__switchSmap2.Add("combo_3", 2);
+                f__switchSmap2.Add("combo_blind_1", 3);
+                f__switchSmap2.Add("combo_blind_2", 4);
+                f__switchSmap2.Add("combo_blind_3", 5);
+                f__switchSmap2.Add("front", 6);
+                f__switchSmap2.Add("jumpCombo_1", 7);
+                f__switchSmap2.Add("jumpCombo_2", 8);
+                f__switchSmap2.Add("jumpCombo_3", 9);
+                f__switchSmap2.Add("jumpCombo_4", 10);
+                f__switchSmap2.Add("sweep", 11);
+                f__switchSmap2.Add("sweep_back", 12);
+                f__switchSmap2.Add("sweep_front_left", 13);
+                f__switchSmap2.Add("sweep_front_right", 14);
+                f__switchSmap2.Add("sweep_head_b_l", 15);
+                f__switchSmap2.Add("sweep_head_b_r", 0x10);
             }
             if (f__switchSmap2.TryGetValue(key, out num))
             {
@@ -333,22 +332,22 @@ public class FEMALE_TITAN : MonoBehaviour
             {
                 if (((num4 > 0f) && (num4 < 12f)) && (this.myDistance < 22f))
                 {
-                    list.Add("ft_attack_sweep");
+                    list.Add("attack_sweep");
                 }
                 if ((num4 >= 55f) && (num4 < 90f))
                 {
-                    list.Add("ft_attack_jumpCombo_1");
+                    list.Add("attack_jumpCombo_1");
                 }
             }
             if (((Mathf.Abs(f) < 90f) && (num4 > 12f)) && (num4 < 40f))
             {
-                list.Add("ft_attack_combo_1");
+                list.Add("attack_combo_1");
             }
             if (Mathf.Abs(f) < 30f)
             {
                 if (((num4 > 0f) && (num4 < 12f)) && ((this.myDistance > 20f) && (this.myDistance < 30f)))
                 {
-                    list.Add("ft_attack_front");
+                    list.Add("attack_front");
                 }
                 if (((this.myDistance < 12f) && (num4 > 33f)) && (num4 < 51f))
                 {
@@ -357,7 +356,7 @@ public class FEMALE_TITAN : MonoBehaviour
             }
             if (((Mathf.Abs(f) > 100f) && (this.myDistance < 11f)) && ((num4 >= 15f) && (num4 < 32f)))
             {
-                list.Add("ft_attack_sweep_back");
+                list.Add("attack_sweep_back");
             }
             num5 = num3;
             switch (num5)
@@ -384,7 +383,7 @@ public class FEMALE_TITAN : MonoBehaviour
                     }
                     if ((num4 >= 21f) && (num4 < 32f))
                     {
-                        list.Add("ft_attack_sweep_front_right");
+                        list.Add("attack_sweep_front_right");
                     }
                     break;
 
@@ -410,31 +409,31 @@ public class FEMALE_TITAN : MonoBehaviour
                     }
                     if ((num4 >= 21f) && (num4 < 32f))
                     {
-                        list.Add("ft_attack_sweep_front_left");
+                        list.Add("attack_sweep_front_left");
                     }
                     break;
 
                 case 3:
                     if (this.myDistance >= 11f)
                     {
-                        list.Add("ft_turn180");
+                        list.Add("turn180");
                         break;
                     }
                     if ((num4 >= 33f) && (num4 < 51f))
                     {
-                        list.Add("ft_attack_sweep_head_b_l");
+                        list.Add("attack_sweep_head_b_l");
                     }
                     break;
 
                 case 4:
                     if (this.myDistance >= 11f)
                     {
-                        list.Add("ft_turn180");
+                        list.Add("turn180");
                         break;
                     }
                     if ((num4 >= 33f) && (num4 < 51f))
                     {
-                        list.Add("ft_attack_sweep_head_b_r");
+                        list.Add("attack_sweep_head_b_r");
                     }
                     break;
             }
@@ -455,25 +454,24 @@ public class FEMALE_TITAN : MonoBehaviour
         {
             if (f__switchSmap1 == null)
             {
-                Dictionary<string, int> dictionary = new Dictionary<string, int>(0x11);
-                dictionary.Add("grab_bottom_left", 0);
-                dictionary.Add("grab_bottom_right", 1);
-                dictionary.Add("grab_mid_left", 2);
-                dictionary.Add("grab_mid_right", 3);
-                dictionary.Add("grab_up", 4);
-                dictionary.Add("grab_up_left", 5);
-                dictionary.Add("grab_up_right", 6);
-                dictionary.Add("ft_attack_combo_1", 7);
-                dictionary.Add("attack_front", 8);
-                dictionary.Add("attack_jumpCombo_1", 9);
-                dictionary.Add("attack_sweep", 10);
-                dictionary.Add("attack_sweep_back", 11);
-                dictionary.Add("attack_sweep_front_left", 12);
-                dictionary.Add("attack_sweep_front_right", 13);
-                dictionary.Add("attack_sweep_head_b_l", 14);
-                dictionary.Add("attack_sweep_head_b_r", 15);
-                dictionary.Add("turn180", 0x10);
-                f__switchSmap1 = dictionary;
+                f__switchSmap1 = new Dictionary<string, int>(0x11);
+                f__switchSmap1.Add("grab_bottom_left", 0);
+                f__switchSmap1.Add("grab_bottom_right", 1);
+                f__switchSmap1.Add("grab_mid_left", 2);
+                f__switchSmap1.Add("grab_mid_right", 3);
+                f__switchSmap1.Add("grab_up", 4);
+                f__switchSmap1.Add("grab_up_left", 5);
+                f__switchSmap1.Add("grab_up_right", 6);
+                f__switchSmap1.Add("ft_attack_combo_1", 7);
+                f__switchSmap1.Add("attack_front", 8);
+                f__switchSmap1.Add("attack_jumpCombo_1", 9);
+                f__switchSmap1.Add("attack_sweep", 10);
+                f__switchSmap1.Add("attack_sweep_back", 11);
+                f__switchSmap1.Add("attack_sweep_front_left", 12);
+                f__switchSmap1.Add("attack_sweep_front_right", 13);
+                f__switchSmap1.Add("attack_sweep_head_b_l", 14);
+                f__switchSmap1.Add("attack_sweep_head_b_r", 15);
+                f__switchSmap1.Add("turn180", 0x10);
             }
             if (f__switchSmap1.TryGetValue(key, out num5))
             {
@@ -1730,7 +1728,7 @@ public class FEMALE_TITAN : MonoBehaviour
                         }
                         this.checkHitCapsuleEndOld = this.checkHitCapsuleEnd.position;
                     }
-                    if (((this.attackAnimation == "jumpCombo_1") && (base.GetComponent<Animation>()["attack_" + this.attackAnimation].normalizedTime >= 0.65f)) && (!this.startJump && (this.myHero != null)))
+                    if (((this.attackAnimation == "jumpCombo_1") && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= 0.65f)) && (!this.startJump && (this.myHero != null)))
                     {
                         this.startJump = true;
                         float y = this.myHero.GetComponent<Rigidbody>().velocity.y;
