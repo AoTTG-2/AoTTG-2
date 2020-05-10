@@ -13,7 +13,15 @@ public class ResolutionSwitcher : MonoBehaviour {
 	public int ScreenMode { get; set; }
 
 	private void OnEnable() {
-		
+		if(ScreenMode == 1)
+		{
+			toggle.isOn = true;
+		}
+		else
+		{
+			toggle.isOn = false;
+		}
+
 		foreach(Resolution resolution in Screen.resolutions)
 		{
 			string resolutionText = resolution.ToString();
@@ -21,7 +29,9 @@ public class ResolutionSwitcher : MonoBehaviour {
 			dropdown.options.Add(op);
 			if(resolution.Equals(Screen.currentResolution))
 			{
-				Debug.Log(Screen.currentResolution.ToString());
+				dropdown.value = dropdown.options.IndexOf(op);
+				Debug.Log(Screen.currentResolution.ToString() + dropdown.options.IndexOf(op));
+				
 			}
 			
 		}
