@@ -1,7 +1,8 @@
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode.Options;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,7 +72,6 @@ public class InRoomChat : Photon.MonoBehaviour
                     {
                         FengGameManagerMKII.stringVariables.Add(key, this.inputLine);
                     }
-                    ((RCEvent)FengGameManagerMKII.RCEvents["OnChatInput"]).checkEvent();
                 }
                 if (!this.inputLine.StartsWith("/"))
                 {
@@ -105,14 +105,14 @@ public class InRoomChat : Photon.MonoBehaviour
                         switch (this.inputLine.Substring(5))
                         {
                             case "kdr":
-                                if (!FengGameManagerMKII.Gamemode.SaveKDROnDisconnect)
+                                if (!FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect)
                                 {
-                                    FengGameManagerMKII.Gamemode.SaveKDROnDisconnect = true;
+                                    FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect = true;
                                     this.addLINE("<color=#FFCC00>KDRs will be preserved from disconnects.</color>");
                                 }
                                 else
                                 {
-                                    FengGameManagerMKII.Gamemode.SaveKDROnDisconnect = false;
+                                    FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect = false;
                                     this.addLINE("<color=#FFCC00>KDRs will not be preserved from disconnects.</color>");
                                 }
                                 break;
@@ -278,7 +278,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     }
                     else if (this.inputLine.StartsWith("/team"))
                     {
-                        if (FengGameManagerMKII.Gamemode.TeamMode == TeamMode.NoSort)
+                        if (FengGameManagerMKII.Gamemode.Settings.TeamMode == TeamMode.NoSort)
                         {
                             if ((this.inputLine.Substring(6) == "1") || (this.inputLine.Substring(6) == "cyan"))
                             {
@@ -366,9 +366,9 @@ public class InRoomChat : Photon.MonoBehaviour
                     else if (this.inputLine == "/colliders")
                     {
                         int num7 = 0;
-                        foreach (TITAN titan in FengGameManagerMKII.instance.getTitans())
+                        foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
                         {
-                            if (titan.myTitanTrigger.isCollide)
+                            if (titan.IsColliding)
                             {
                                 num7++;
                             }
@@ -460,13 +460,13 @@ public class InRoomChat : Photon.MonoBehaviour
                             else if (this.inputLine.StartsWith("/rules"))
                             {
                                 this.addLINE("<color=#FFCC00>Currently activated gamemodes:</color>");
-                                if (FengGameManagerMKII.Gamemode.Horse)
+                                if (FengGameManagerMKII.Gamemode.Settings.Horse)
                                 {
                                     this.addLINE("<color=#FFCC00>Horses are enabled.</color>");
                                 }
-                                if (FengGameManagerMKII.Gamemode.Motd != string.Empty)
+                                if (FengGameManagerMKII.Gamemode.Settings.Motd != string.Empty)
                                 {
-                                    this.addLINE("<color=#FFCC00>MOTD:" + FengGameManagerMKII.Gamemode.Motd + "</color>");
+                                    this.addLINE("<color=#FFCC00>MOTD:" + FengGameManagerMKII.Gamemode.Settings.Motd + "</color>");
                                 }
                             }
                             else

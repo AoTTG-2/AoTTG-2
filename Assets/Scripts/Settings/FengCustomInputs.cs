@@ -459,17 +459,17 @@ public class FengCustomInputs : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        if (Time.realtimeSinceStartup > (this.lastInterval + 3f))
-        {
-            this.tempbool = false;
-        }
-        if (this.menuOn)
-        {
-            this.drawButtons1();
-        }
-    }
+    //private void OnGUI()
+    //{
+    //    if (Time.realtimeSinceStartup > (this.lastInterval + 3f))
+    //    {
+    //        this.tempbool = false;
+    //    }
+    //    if (this.menuOn)
+    //    {
+    //        this.drawButtons1();
+    //    }
+    //}
 
     private void reset2defaults()
     {

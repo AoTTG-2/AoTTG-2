@@ -1,5 +1,4 @@
-using Photon;
-using System;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class RockThrow : Photon.MonoBehaviour
@@ -121,29 +120,29 @@ public class RockThrow : Photon.MonoBehaviour
                 LayerMask mask4 = (mask2 | mask) | mask3;
                 foreach (RaycastHit hit in Physics.SphereCastAll(base.transform.position, 2.5f * base.transform.lossyScale.x, base.transform.position - this.oldP, Vector3.Distance(base.transform.position, this.oldP), (int) mask4))
                 {
-                    if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "EnemyAABB")
-                    {
-                        GameObject gameObject = hit.collider.gameObject.transform.root.gameObject;
-                        if ((gameObject.GetComponent<TITAN>() != null) && !gameObject.GetComponent<TITAN>().hasDie)
-                        {
-                            gameObject.GetComponent<TITAN>().hitAnkle();
-                            Vector3 position = base.transform.position;
-                            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                            {
-                                gameObject.GetComponent<TITAN>().hitAnkle();
-                            }
-                            else
-                            {
-                                if ((base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null) && (PhotonView.Find(base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID) != null))
-                                {
-                                    Vector3 vector3 = PhotonView.Find(base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID).transform.position;
-                                }
-                                gameObject.GetComponent<Hero>().photonView.RPC("hitAnkleRPC", PhotonTargets.All, new object[0]);
-                            }
-                        }
-                        this.explore();
-                    }
-                    else if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "Players")
+                    //if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "EnemyAABB")
+                    //{
+                    //    GameObject gameObject = hit.collider.gameObject.transform.root.gameObject;
+                    //    if ((gameObject.GetComponent<MindlessTitan>() != null)) // && !gameObject.GetComponent<MindlessTitan>().hasDie)
+                    //    {
+                    //        gameObject.GetComponent<MindlessTitan>().OnAnkleHit(photonView.viewID, 100);
+                    //        Vector3 position = base.transform.position;
+                    //        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                    //        {
+                    //            gameObject.GetComponent<MindlessTitan>().OnAnkleHit(photonView.viewID, 100);
+                    //        }
+                    //        else
+                    //        {
+                    //            if ((base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null) && (PhotonView.Find(base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID) != null))
+                    //            {
+                    //                Vector3 vector3 = PhotonView.Find(base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID).transform.position;
+                    //            }
+                    //            //gameObject.GetComponent<Hero>().photonView.RPC("hitAnkleRPC", PhotonTargets.All, new object[0]);
+                    //        }
+                    //    }
+                    //    this.explore();
+                    //}
+                    if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "Players")
                     {
                         GameObject hero = hit.collider.gameObject.transform.root.gameObject;
                         if (hero.GetComponent<TITAN_EREN>() != null)

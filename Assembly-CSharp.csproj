@@ -171,20 +171,44 @@
      <Compile Include="Assets\Scripts\Characters\Human\UNIFORM_TYPE.cs" />
      <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
      <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Attack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BiteAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BodyslamAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\ComboAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\GrabAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\KickAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapFaceAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\CaptureBehavior.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\DeathOnFaceBehavior.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\RandomAttackBehavior.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\RushBehavior.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\TitanBehavior.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\WaveBehavior.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\BodyPart.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\COLOSSAL_TITAN.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\DummyTitan.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\FEMALE_TITAN.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanState.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanType.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\RockScript.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\RockThrow.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_CONTROLLER.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_EREN.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_SETUP.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\TitanBody.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\TitanConfiguration.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanSpawner.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanState.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanTrigger.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanType.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\titanTypes.cs" />
      <Compile Include="Assets\Scripts\CompressString\StringCompressor.cs" />
      <Compile Include="Assets\Scripts\Constants\Layer.cs" />
      <Compile Include="Assets\Scripts\Effects\Affector.cs" />
@@ -223,6 +247,7 @@
      <Compile Include="Assets\Scripts\Gamemode\Capture\PVPcheckPoint.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
      <Compile Include="Assets\Scripts\Gamemode\CaptureGamemode.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Difficulty.cs" />
      <Compile Include="Assets\Scripts\Gamemode\EndlessGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\GamemodeBase.cs" />
      <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
@@ -241,8 +266,17 @@
      <Compile Include="Assets\Scripts\Gamemode\Racing\RacingKillTrigger.cs" />
      <Compile Include="Assets\Scripts\Gamemode\Racing\RacingResult.cs" />
      <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\RegionTrigger.cs" />
      <Compile Include="Assets\Scripts\Gamemode\RespawnMode.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\CaptureGamemodeSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\EndlessSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\GamemodeSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\InfectionGamemodeSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\KillTitansSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\PvPAhssSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\RacingSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\RushSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\TrostSettings.cs" />
+     <Compile Include="Assets\Scripts\Gamemode\Settings\WaveGamemodeSettings.cs" />
      <Compile Include="Assets\Scripts\Gamemode\TitanRushGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\TrostGamemode.cs" />
      <Compile Include="Assets\Scripts\Gamemode\WaveGamemode.cs" />
@@ -255,10 +289,6 @@
      <Compile Include="Assets\Scripts\KickState.cs" />
      <Compile Include="Assets\Scripts\Legacy\BetterList!1.cs" />
      <Compile Include="Assets\Scripts\Legacy\ByteReader.cs" />
-     <Compile Include="Assets\Scripts\Legacy\RCAction.cs" />
-     <Compile Include="Assets\Scripts\Legacy\RCActionHelper.cs" />
-     <Compile Include="Assets\Scripts\Legacy\RCCondition.cs" />
-     <Compile Include="Assets\Scripts\Legacy\RCEvent.cs" />
      <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
      <Compile Include="Assets\Scripts\Legacy\RCRegion.cs" />
      <Compile Include="Assets\Scripts\Legacy\RCRegionLabel.cs" />
@@ -571,6 +601,9 @@
  <Reference Include="Newtonsoft.Json">
  <HintPath>C:/Users/aglor/Documents/AOTTG2/AoTTG-2/Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
  </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/Users/nickw/source/repos/AoTTG-2/Assets/Plugins/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+ </Reference>
  <Reference Include="websocket-sharp">
  <HintPath>C:/Users/aglor/Documents/AOTTG2/AoTTG-2/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
  </Reference>
@@ -581,7 +614,7 @@
  <HintPath>C:/Users/aglor/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
- <HintPath>C:/Users/aglor/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ <HintPath>C:/Users/nickw/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -50,42 +50,42 @@ public static class ClothFactory
 
     public static GameObject GetCape(GameObject reference, string name, Material material)
     {
-        List<GameObject> list;
+        List<GameObject> list = new List<GameObject>();
         GameObject obj4;
-        if (!clothCache.TryGetValue(name, out list))
-        {
-            obj4 = GenerateCloth(reference, name);
-            obj4.GetComponent<Renderer>().material = material;
-            obj4.AddComponent<ParentFollow>().SetParent(reference.transform);
-            list = new List<GameObject> {
-                obj4
-            };
-            clothCache.Add(name, list);
-            return obj4;
-        }
-        for (int i = 0; i < list.Count; i++)
-        {
-            GameObject clothObject = list[i];
-            if (clothObject == null)
-            {
-                list.RemoveAt(i);
-                i = Mathf.Max(i - 1, 0);
-            }
-            else
-            {
-                ParentFollow component = clothObject.GetComponent<ParentFollow>();
-                if (!component.isActiveInScene)
-                {
-                    component.isActiveInScene = true;
-                    clothObject.GetComponent<Renderer>().material = material;
-                    clothObject.GetComponent<Cloth>().enabled = true;
-                    clothObject.GetComponent<SkinnedMeshRenderer>().enabled = true;
-                    clothObject.GetComponent<ParentFollow>().SetParent(reference.transform);
-                    ReapplyClothBones(reference, clothObject);
-                    return clothObject;
-                }
-            }
-        }
+        //if (!clothCache.TryGetValue(name, out list))
+        //{
+        //    obj4 = GenerateCloth(reference, name);
+        //    obj4.GetComponent<Renderer>().material = material;
+        //    obj4.AddComponent<ParentFollow>().SetParent(reference.transform);
+        //    list = new List<GameObject> {
+        //        obj4
+        //    };
+        //    clothCache.Add(name, list);
+        //    return obj4;
+        //}
+        //for (int i = 0; i < list.Count; i++)
+        //{
+        //    GameObject clothObject = list[i];
+        //    if (clothObject == null)
+        //    {
+        //        list.RemoveAt(i);
+        //        i = Mathf.Max(i - 1, 0);
+        //    }
+        //    else
+        //    {
+        //        ParentFollow component = clothObject.GetComponent<ParentFollow>();
+        //        if (!component.isActiveInScene)
+        //        {
+        //            component.isActiveInScene = true;
+        //            clothObject.GetComponent<Renderer>().material = material;
+        //            clothObject.GetComponent<Cloth>().enabled = true;
+        //            clothObject.GetComponent<SkinnedMeshRenderer>().enabled = true;
+        //            clothObject.GetComponent<ParentFollow>().SetParent(reference.transform);
+        //            ReapplyClothBones(reference, clothObject);
+        //            return clothObject;
+        //        }
+        //    }
+        //}
         obj4 = GenerateCloth(reference, name);
         obj4.GetComponent<Renderer>().material = material;
         obj4.AddComponent<ParentFollow>().SetParent(reference.transform);

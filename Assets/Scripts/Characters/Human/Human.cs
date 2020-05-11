@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Xft;
+﻿using Photon;
 
-public abstract class Human : PhotonView
+public abstract class Human : MonoBehaviour
 {
-
 }
 
