@@ -472,5 +472,10 @@ public class HERO_SETUP : MonoBehaviour
     public EquipmentType getEquipmentType() {
         return equipmentType;
     }
+
+    public void setEquipmentType(EquipmentType inputType)
+    {
+        this.equipmentType = inputType;
+    }
 }
 

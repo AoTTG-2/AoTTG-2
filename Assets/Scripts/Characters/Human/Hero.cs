@@ -1810,11 +1810,8 @@ public class Hero : Human
                         this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                     }
 
-                    if (!this.useGun)
-                    {
-                        this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
-                        this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
-                    }
+                    this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
+                    this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
                 }
                 else
                 {  //Not grounded.
@@ -4296,6 +4293,7 @@ public class Hero : Human
 
     public void setStat2()
     {
+        //this.EquipmentType = EquipmentType.Ahss; //TODO:  Remove this to set to AHSS set.
         this.skillCDLast = 1.5f;
         this.skillId = this.setup.myCostume.stat.skillId;
         if (this.skillId == "levi")
@@ -4994,6 +4992,8 @@ public class Hero : Human
             this.bombImmune = true;
             base.StartCoroutine(this.stopImmunity());
         }
+
+        //this.useGun = true;  //TODO: Remove this hack.  For AHSS forcing.
     }
 
     public IEnumerator stopImmunity()
@@ -5187,14 +5187,23 @@ public class Hero : Human
                     {
                         if (this.useGun)
                         {
-                            this.state = HERO_STATE.Start_Attack_Blades;  //TODO:  AHSS.
+                            this.state = HERO_STATE.Start_Attack_AHSS_left;
                         }
                         else
                         {
                             this.state = HERO_STATE.Start_Attack_Blades;
                         }
                     }
-                    else if (!this.grounded && (this.dashD || this.dashU || this.dashL || this.dashR)) {  //Dash.
+                    else if (!this.isMounted && this.inputManager.isInputDown[InputCode.attack1]) {
+                        if (this.useGun) {
+                            this.state = HERO_STATE.Start_Attack_AHSS_right;
+                        }
+                        else {
+                            this.changeState_IDLE(); //TODO: Do skills.
+                        }
+                    }
+                    else if (!this.grounded && (this.dashD || this.dashU || this.dashL || this.dashR))
+                    {  //Dash.
                         if (this.dashD)
                         {
                             this.dashD = false;
@@ -5227,11 +5236,296 @@ public class Hero : Human
                         this.state = HERO_STATE.HorseMountingState;
                     }
                 }
-                else if (this.state == HERO_STATE.Start_Attack_AHSS)
-                {
+                else if (this.state == HERO_STATE.Start_Attack_AHSS_left)
+                { //attack0
+                    //Phase 1.
+                    if (this.leftGunHasBullet)
+                    {
+                        this.leftArmAim = true;
+                        this.rightArmAim = false;
+                    }
+                    else
+                    {
+                        this.leftArmAim = false;
+                        if (this.rightGunHasBullet)
+                        {
+                            this.rightArmAim = true;
+                        }
+                        else
+                        {
+                            this.rightArmAim = false;
+                        }
+                    }
+
+                    //Phase 2.
+                    if (this.leftArmAim || this.rightArmAim)
+                    {
+                        RaycastHit hit3;
+                        Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        LayerMask mask7 = ((int)1) << LayerMask.NameToLayer("Ground");
+                        LayerMask mask8 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                        LayerMask mask9 = mask8 | mask7;
+                        if (Physics.Raycast(ray3, out hit3, 1E+07f, mask9.value))
+                        {
+                            this.gunTarget = hit3.point;
+                        }
+                    }
+                    bool flag4 = false;
+                    bool flag5 = false;
+                    bool flag6 = false;
+
+                    //Phase 3.
+                    if (this.grounded)
+                    {
+                        if (this.leftGunHasBullet && this.rightGunHasBullet)
+                        {
+                            if (this.isLeftHandHooked)
+                            {
+                                this.attackAnimation = "AHSS_shoot_r";
+                            }
+                            else
+                            {
+                                this.attackAnimation = "AHSS_shoot_l";
+                            }
+                        }
+                        else if (this.leftGunHasBullet)
+                        {
+                            this.attackAnimation = "AHSS_shoot_l";
+                        }
+                        else if (this.rightGunHasBullet)
+                        {
+                            this.attackAnimation = "AHSS_shoot_r";
+                        }
+                    }
+                    else if (this.leftGunHasBullet && this.rightGunHasBullet)
+                    {
+                        if (this.isLeftHandHooked)
+                        {
+                            this.attackAnimation = "AHSS_shoot_r_air";
+                        }
+                        else
+                        {
+                            this.attackAnimation = "AHSS_shoot_l_air";
+                        }
+                    }
+                    else if (this.leftGunHasBullet)
+                    {
+                        this.attackAnimation = "AHSS_shoot_l_air";
+                    }
+                    else if (this.rightGunHasBullet)
+                    {
+                        this.attackAnimation = "AHSS_shoot_r_air";
+                    }
+                    if (this.leftGunHasBullet || this.rightGunHasBullet)
+                    {
+                        flag4 = true;
+                    }
+                    else
+                    {
+                        flag5 = true;
+                    }
+
+                    //Phase 4.
+                    if (flag4)
+                    {
+                        this.state = HERO_STATE.Execute_Attack_AHSS;
+                        this.crossFade(this.attackAnimation, 0.05f);
+                        this.gunDummy.transform.position = this.baseTransform.position;
+                        this.gunDummy.transform.rotation = this.baseTransform.rotation;
+                        this.gunDummy.transform.LookAt(this.gunTarget);
+                        this.attackReleased = false;
+                        this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
+                        this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
+                    }
+                    else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.AhssAirReload)))
+                    {
+                        this.changeBlade();
+                    }
+
+                }
+                else if (this.state == HERO_STATE.Start_Attack_AHSS_right)
+                { //attack1
+                    //Phase 1.
+                    this.leftArmAim = true;
+                    this.rightArmAim = true;
+
+                    //Phase 2.
+                    if (this.leftArmAim || this.rightArmAim)
+                    {
+                        RaycastHit hit3;
+                        Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        LayerMask mask7 = ((int)1) << LayerMask.NameToLayer("Ground");
+                        LayerMask mask8 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                        LayerMask mask9 = mask8 | mask7;
+                        if (Physics.Raycast(ray3, out hit3, 1E+07f, mask9.value))
+                        {
+                            this.gunTarget = hit3.point;
+                        }
+                    }
+                    bool flag4 = false;
+                    bool flag5 = false;
+                    bool flag6 = false;
+
+                    //Phase 3.
+                    if (this.inputManager.isInputUp[InputCode.attack1] && (this.skillId != "bomb"))
+                    {
+                        if (this.leftGunHasBullet && this.rightGunHasBullet)
+                        {
+                            if (this.grounded)
+                            {
+                                this.attackAnimation = "AHSS_shoot_both";
+                            }
+                            else
+                            {
+                                this.attackAnimation = "AHSS_shoot_both_air";
+                            }
+                            flag4 = true;
+                        }
+                        else if (!(this.leftGunHasBullet || this.rightGunHasBullet))
+                        {
+                            flag5 = true;
+                        }
+                        else
+                        {
+                            flag6 = true;
+                        }
+                    }
+                    if (flag6)
+                    {
+                        if (this.grounded)
+                        {
+                            if (this.leftGunHasBullet && this.rightGunHasBullet)
+                            {
+                                if (this.isLeftHandHooked)
+                                {
+                                    this.attackAnimation = "AHSS_shoot_r";
+                                }
+                                else
+                                {
+                                    this.attackAnimation = "AHSS_shoot_l";
+                                }
+                            }
+                            else if (this.leftGunHasBullet)
+                            {
+                                this.attackAnimation = "AHSS_shoot_l";
+                            }
+                            else if (this.rightGunHasBullet)
+                            {
+                                this.attackAnimation = "AHSS_shoot_r";
+                            }
+                        }
+                        else if (this.leftGunHasBullet && this.rightGunHasBullet)
+                        {
+                            if (this.isLeftHandHooked)
+                            {
+                                this.attackAnimation = "AHSS_shoot_r_air";
+                            }
+                            else
+                            {
+                                this.attackAnimation = "AHSS_shoot_l_air";
+                            }
+                        }
+                        else if (this.leftGunHasBullet)
+                        {
+                            this.attackAnimation = "AHSS_shoot_l_air";
+                        }
+                        else if (this.rightGunHasBullet)
+                        {
+                            this.attackAnimation = "AHSS_shoot_r_air";
+                        }
+                        if (this.leftGunHasBullet || this.rightGunHasBullet)
+                        {
+                            flag4 = true;
+                        }
+                        else
+                        {
+                            flag5 = true;
+                        }
+                    }
+
+                    //Phase 4.
+                    if (flag4)
+                    {
+                        this.state = HERO_STATE.Execute_Attack_AHSS;
+                        this.crossFade(this.attackAnimation, 0.05f);
+                        this.gunDummy.transform.position = this.baseTransform.position;
+                        this.gunDummy.transform.rotation = this.baseTransform.rotation;
+                        this.gunDummy.transform.LookAt(this.gunTarget);
+                        this.attackReleased = false;
+                        this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
+                        this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
+                    }
+                    else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.AhssAirReload)))
+                    {
+                        this.changeBlade();
+                    }
                 }
                 else if (this.state == HERO_STATE.Execute_Attack_AHSS)
                 {
+                    this.checkBoxLeft.GetComponent<AHSSShotGunCollider>().active_me = false;  //Make sure to add the collider script to the checkbox object.
+                    this.checkBoxRight.GetComponent<AHSSShotGunCollider>().active_me = false;
+                    this.baseTransform.rotation = Quaternion.Lerp(this.baseTransform.rotation, this.gunDummy.transform.rotation, Time.deltaTime * 30f);
+                    if (!this.attackReleased && (this.baseAnimation[this.attackAnimation].normalizedTime > 0.167f))
+                    {
+                        GameObject obj4;
+                        this.attackReleased = true;
+                        bool flag7 = false;
+                        if ((this.attackAnimation == "AHSS_shoot_both") || (this.attackAnimation == "AHSS_shoot_both_air"))
+                        {
+                            this.checkBoxLeft.GetComponent<AHSSShotGunCollider>().active_me = true;
+                            this.checkBoxRight.GetComponent<AHSSShotGunCollider>().active_me = true;
+                            flag7 = true;
+                            this.leftGunHasBullet = false;
+                            this.rightGunHasBullet = false;
+                            this.baseRigidBody.AddForce((Vector3)(-this.baseTransform.forward * 1000f), ForceMode.Acceleration);
+                        }
+                        else
+                        {
+                            if ((this.attackAnimation == "AHSS_shoot_l") || (this.attackAnimation == "AHSS_shoot_l_air"))
+                            {
+                                this.checkBoxLeft.GetComponent<AHSSShotGunCollider>().active_me = true;
+                                this.leftGunHasBullet = false;
+                            }
+                            else
+                            {
+                                this.checkBoxRight.GetComponent<AHSSShotGunCollider>().active_me = true;
+                                this.rightGunHasBullet = false;
+                            }
+                            this.baseRigidBody.AddForce((Vector3)(-this.baseTransform.forward * 600f), ForceMode.Acceleration);
+                        }
+                        this.baseRigidBody.AddForce((Vector3)(Vector3.up * 200f), ForceMode.Acceleration);
+                        string prefabName = "FX/shotGun";
+                        if (flag7)
+                        {
+                            prefabName = "FX/shotGun 1";
+                        }
+                        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+                        {
+                            obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3)((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation, 0);
+                            if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
+                            {
+                                obj4.GetComponent<EnemyfxIDcontainer>().myOwnerViewID = base.photonView.viewID;
+                            }
+                        }
+                        else
+                        {
+                            obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load(prefabName), (Vector3)((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation);
+                        }
+                    }
+                    if (this.baseAnimation[this.attackAnimation].normalizedTime >= 1f)
+                    {
+                        this.falseAttack();
+                        this.changeState_IDLE();
+                        this.checkBoxLeft.GetComponent<AHSSShotGunCollider>().active_me = false;
+                        this.checkBoxRight.GetComponent<AHSSShotGunCollider>().active_me = false;
+                    }
+                    if (!this.baseAnimation.IsPlaying(this.attackAnimation))
+                    {
+                        this.falseAttack();
+                        this.changeState_IDLE();
+                        this.checkBoxLeft.GetComponent<AHSSShotGunCollider>().active_me = false;
+                        this.checkBoxRight.GetComponent<AHSSShotGunCollider>().active_me = false;
+                    }
                 }
                 else if (this.state == HERO_STATE.Start_Attack_Blades)
                 {
@@ -5330,11 +5624,13 @@ public class Hero : Human
                         this.changeState_IDLE();
                     }
                 }
-                else if (this.state == HERO_STATE.Slide) {
+                else if (this.state == HERO_STATE.Slide)
+                {
                     //Check hooking keybinds and shoot hooks if pushed.
                     this.hookActivation();
 
-                    if (this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump")) {
+                    if (this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump"))
+                    {
                         this.crossFade("jump", 0.1f);
                         this.sparks.enableEmission = false;
                         this.smoke_3dmg.enableEmission = false;
