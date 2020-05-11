@@ -13,7 +13,7 @@ public class ResolutionSwitcher : MonoBehaviour {
 	public int ScreenMode { get; set; }
 
 	private void OnEnable() {
-		if(ScreenMode == 1)
+		if(Screen.fullScreen == true)
 		{
 			toggle.isOn = true;
 		}

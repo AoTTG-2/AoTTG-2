@@ -46149,7 +46149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GeneralGraphic: {fileID: 1373198428}
   QualitySwitcher: {fileID: 18702693}
-  ResolutionSwitcher: {fileID: 0}
+  ResolutionSwitcher: {fileID: 1586204447}
   label: {fileID: 1832384813}
   CustomSettings: {fileID: 174910915}
 --- !u!114 &3016765
@@ -46553,7 +46553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd010f5597438642a150d5ab58264f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: {fileID: 864499440}
+  Label: {fileID: 864499440}
+  Slider: {fileID: 1187226221}
 --- !u!114 &18702694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53477,7 +53478,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -58881,7 +58882,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 10, y: -0.00002670288}
-  m_SizeDelta: {x: -10, y: 0}
+  m_SizeDelta: {x: -10, y: 90}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &955454846
 MonoBehaviour:
@@ -59934,10 +59935,10 @@ RectTransform:
   m_Father: {fileID: 955454845}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -45}
+  m_SizeDelta: {x: 250, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &994406066
 MonoBehaviour:
@@ -61141,7 +61142,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -65257,6 +65258,7 @@ MonoBehaviour:
   shadows: {fileID: 820163088}
   vSync: {fileID: 495396764}
   softParticles: {fileID: 1556503242}
+  customSettings: {fileID: 174910915}
 --- !u!114 &1373198429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75871,7 +75873,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2111966061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75886,7 +75888,7 @@ MonoBehaviour:
   GraphicController: {fileID: 3016764}
   Menu: {fileID: 1054417923}
   QualityMenu: {fileID: 994406064}
-  ResolutionMenu: {fileID: 0}
+  ResolutionMenu: {fileID: 1586204444}
 --- !u!224 &2111966062
 RectTransform:
   m_ObjectHideFlags: 0

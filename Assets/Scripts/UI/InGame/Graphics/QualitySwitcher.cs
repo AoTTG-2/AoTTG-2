@@ -1,26 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class QualitySwitcher : MonoBehaviour {
-	public Text label;
+	public Text Label;
+	public Slider Slider;
 
 	private void Update() {
-		label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
+		Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
 		// this was causing the bug // gameObject.GetComponentInChildren<Slider>().value = QualitySettings.GetQualityLevel();
 	}
 
 	public void UpdateQualitySliderValue()
 	{
 		
-		int sValue = (int)gameObject.GetComponentInChildren<Slider>().value;
+		int sValue = (int)Slider.value;
 		QualitySettings.SetQualityLevel(sValue, true);
 		
 	}
 
 	public void LoadPlayerPrefs()
 	{
-		gameObject.GetComponentInChildren<Slider>().value = PlayerPrefs.GetInt("QualitySlider");
+		Slider.value = PlayerPrefs.GetInt("QualitySlider");
+	}
+
+	[Serializable]
+	public struct Data
+	{
+		public int Slider;
+
+		public Data(int value)
+		{
+			this.Slider = value;
+		}
 	}
 }
