@@ -15,7 +15,7 @@ namespace Assets.Scripts.Characters.Titan
         public float ViewDistance { get; set; } = 200f;
         public float Speed { get; set; } = 20f;
         public float Size { get; set; } = 3f;
-        public List<Attack> Attacks { get; set; } = new List<Attack> {new GrabAttack(), new BiteAttack(), new StompAttack(), new SmashAttack()};
+        public List<Attack> Attacks { get; set; } = new List<Attack> {new GrabAttack(), new KickAttack(), new BiteAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack()};
         public float Stamina { get; set; } = 100f;
         public float StaminaRegeneration { get; set; } = 1f;
         public string AnimationWalk { get; set; } = "run_walk";
@@ -68,15 +68,20 @@ namespace Assets.Scripts.Characters.Titan
                     AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal";
                     Speed = 18f;
+                    Attacks.Add(new BodySlamAttack());
                     break;
                 case MindlessTitanType.Jumper:
                     AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal";
                     Speed = 18f;
+                    Attacks.Add(new BodySlamAttack());
                     break;
                 case MindlessTitanType.Punk:
                     AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal_1";
+                    Attacks.Add(new RockThrowAttack());
+                    Attacks.Add(new SlapAttack());
+                    Attacks.Add(new BodySlamAttack());
                     Speed = 18f;
                     break;
                 case MindlessTitanType.Crawler:
