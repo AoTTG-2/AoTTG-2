@@ -7,31 +7,24 @@ namespace Assets.Scripts.UI.InGame
 {
 	public class ResolutionSwitcher : MonoBehaviour {
 
-		public Dropdown dropdown;
-		public Toggle toggle;
+		public Dropdown Dropdown;
+		public Toggle Toggle;
 		public Text DropDownLabel;
 
 		public string Resolution { get; set; }
 		public int ScreenMode { get; set; }
 
 		private void OnEnable() {
-			if(Screen.fullScreen == true)
-			{
-				toggle.isOn = true;
-			}
-			else
-			{
-				toggle.isOn = false;
-			}
+			Toggle.isOn = Screen.fullScreen;
 
 			foreach(Resolution resolution in Screen.resolutions)
 			{
 				string resolutionText = resolution.ToString();
 				Dropdown.OptionData op = new Dropdown.OptionData(resolutionText);
-				dropdown.options.Add(op);
+				Dropdown.options.Add(op);
 				if(resolution.Equals(Screen.currentResolution))
 				{
-					dropdown.value = dropdown.options.IndexOf(op);
+					Dropdown.value = Dropdown.options.IndexOf(op);
 				}
 				
 			}
@@ -45,7 +38,7 @@ namespace Assets.Scripts.UI.InGame
 				Resolution temp = Screen.resolutions[i];
 				if(temp.ToString().Equals(res))
 				{
-					Screen.SetResolution(temp.width, temp.height, toggle.GetComponent<Toggle>().isOn, temp.refreshRate);
+					Screen.SetResolution(temp.width, temp.height, Toggle.GetComponent<Toggle>().isOn, temp.refreshRate);
 					Resolution = temp.ToString();
 				}
 			}
@@ -53,7 +46,7 @@ namespace Assets.Scripts.UI.InGame
 
 		public void ChangeScreenMode() 
 		{
-			if(toggle.GetComponent<Toggle>().isOn)
+			if(Toggle.GetComponent<Toggle>().isOn)
 			{
 				Screen.fullScreen = true;
 				ScreenMode = 1;
@@ -72,11 +65,11 @@ namespace Assets.Scripts.UI.InGame
 			DropDownLabel.text = resolution;
 			if(screen_mode == 1)
 			{
-				toggle.isOn = true;
+				Toggle.isOn = true;
 			}
 			else
 			{
-				toggle.isOn = false;
+				Toggle.isOn = false;
 			}
 		}
 	}

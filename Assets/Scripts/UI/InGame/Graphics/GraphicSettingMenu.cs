@@ -18,7 +18,7 @@ namespace Assets.Scripts.UI.InGame
 
 		public void ShowQualityMenu()
 		{
-			if(QualityMenu.GetActive() == true)
+			if(QualityMenu.GetActive())
 			{
 				QualityMenu.SetActive(true);
 				if(ResolutionMenu.GetActive())

@@ -53,87 +53,47 @@ namespace Assets.Scripts.UI.InGame
 			set { customSettings = value; }
 		}
 
+		public enum Textures
+		{
+			Potatoe,
+			Low,
+			Medium,
+			High
+		}
+
 		private void Update() {
 			
 			if(!CustomSettings.isOn)
 			{
 				// shadow res
-				if(QualitySettings.shadowResolution == ShadowResolution.Low)
-				{
-					ShadowRes.value = 0;
-				}
-				else if(QualitySettings.shadowResolution == ShadowResolution.Medium)
-				{
-					ShadowRes.value = 1;
-				}
-				else if(QualitySettings.shadowResolution == ShadowResolution.High)
-				{
-					ShadowRes.value = 2;
-				}
-				else if(QualitySettings.shadowResolution == ShadowResolution.VeryHigh)
-				{
-					ShadowRes.value = 3;
-				}
-
+				ShadowRes.value = (int)QualitySettings.shadowResolution;
+			
 				// shadows
-				if(QualitySettings.shadows == ShadowQuality.Disable)
-				{
-					Shadows.value = 0;
-				}
-				else if(QualitySettings.shadows == ShadowQuality.HardOnly)
-				{
-					Shadows.value = 1;
-				}
-				else if(QualitySettings.shadows == ShadowQuality.All)
-				{
-					Shadows.value = 2;
-				}
+				Shadows.value = (int)QualitySettings.shadows;
 
 				// texture quality
-				if(QualitySettings.masterTextureLimit == 3)
+				if(QualitySettings.masterTextureLimit == (int)Textures.High)
 				{
 					TextureQuality.value = 0;
 				}
-				else if(QualitySettings.masterTextureLimit == 2)
+				if(QualitySettings.masterTextureLimit == (int)Textures.Medium)
 				{
 					TextureQuality.value = 1;
 				}
-				else if(QualitySettings.masterTextureLimit == 1)
+				if(QualitySettings.masterTextureLimit == (int)Textures.Low)
 				{
 					TextureQuality.value = 2;
 				}
-				else if(QualitySettings.masterTextureLimit == 0)
+				if(QualitySettings.masterTextureLimit == (int)Textures.Potatoe)
 				{
 					TextureQuality.value = 3;
 				}
-				
+
 				// anti aliasing
-				if(QualitySettings.antiAliasing == 0)
-				{
-					AntiAliasing.value = 0;
-				}
-				else if(QualitySettings.antiAliasing == 2)
-				{
-					AntiAliasing.value = 1;
-				}
-				else if(QualitySettings.antiAliasing == 4)
-				{
-					AntiAliasing.value = 2;
-				}
-				else if(QualitySettings.antiAliasing == 8)
-				{
-					AntiAliasing.value = 3;
-				}
+				AntiAliasing.value = (int)QualitySettings.antiAliasing;
 
 				// soft particles
-				if(QualitySettings.softParticles)
-				{
-					SoftParticles.isOn = true;
-				}
-				else
-				{
-					SoftParticles.isOn = false;
-				}
+				SoftParticles.isOn = (bool)QualitySettings.softParticles;
 
 				// vsync
 				if(QualitySettings.vSyncCount == 0)
@@ -148,22 +108,11 @@ namespace Assets.Scripts.UI.InGame
 		}
 		public void ChangeShadows()
 		{
-			var selected = Shadows.value;
-			switch(selected)
-			{
-				case 0:
-					QualitySettings.shadows = ShadowQuality.Disable;
-					break;
-				case 1:
-					QualitySettings.shadows = ShadowQuality.HardOnly;	
-					break;
-				case 2:
-					QualitySettings.shadows = ShadowQuality.All;
-					break;	
-			}
+			QualitySettings.shadows = (ShadowQuality) Shadows.value;
 		}
 		public void ChangeTextureQuality()
 		{
+			//QualitySettings.masterTextureLimit = TextureQuality.value;
 			var selected = TextureQuality.value;
 			switch(selected)
 			{
@@ -184,55 +133,17 @@ namespace Assets.Scripts.UI.InGame
 
 		public void ChangeAntiAliasing()
 		{
-			var selected = AntiAliasing.value;
-			switch(selected)
-			{
-				case 0:
-					QualitySettings.antiAliasing = 0;
-					break;
-				case 1:
-					QualitySettings.antiAliasing = 2;
-					break;
-				case 2:
-					QualitySettings.antiAliasing = 4;
-					break;
-				case 3:
-					QualitySettings.antiAliasing = 8;
-					break;				
-			}
+			QualitySettings.antiAliasing = AntiAliasing.value;
 		}
 
 		public void ChangeShadowResolution()
 		{
-			var selected = ShadowRes.value;
-			switch(selected)
-			{
-				case 0:
-					QualitySettings.shadowResolution = ShadowResolution.Low;
-					break;
-				case 1:
-					QualitySettings.shadowResolution = ShadowResolution.Medium;
-					break;
-				case 2:
-					QualitySettings.shadowResolution = ShadowResolution.High;
-					break;
-				case 3:
-					QualitySettings.shadowResolution = ShadowResolution.VeryHigh;
-					break;				
-			}
+			QualitySettings.shadowResolution = (ShadowResolution) ShadowRes.value;
 		}
 
 		public void ChangeSoftParticles()
 		{
-			var selected = SoftParticles.isOn;
-			if(selected)
-			{
-				QualitySettings.softParticles = true;
-			}
-			else
-			{
-				QualitySettings.softParticles = false;
-			}
+			QualitySettings.softParticles = SoftParticles.isOn;
 		}
 
 		public void ChangeVSync()
@@ -262,7 +173,7 @@ namespace Assets.Scripts.UI.InGame
 		// This helped with showing the objects in the inspector https://forum.unity.com/threads/c-nested-class-and-inspector.18582/
 		// Good for understanding how to setup data for JSON Serialization https://medium.com/@antifreemium/extending-playerprefs-with-json-3c227a5876a5
 		[Serializable]
-		public struct Data
+		public struct GraphicsData
 		{
 			public int TextureQuality;
 			public int ShadowRes;
@@ -272,7 +183,7 @@ namespace Assets.Scripts.UI.InGame
 			public bool SoftParticles;
 			public bool CustomSettings;
 
-			public Data(int textureQuality, int shadowRes, int antiAliasing, int shadows, bool vSync, bool softParticles, bool customSettings)
+			public GraphicsData(int textureQuality, int shadowRes, int antiAliasing, int shadows, bool vSync, bool softParticles, bool customSettings)
 			{
 				this.TextureQuality = textureQuality;
 				this.ShadowRes = shadowRes;
@@ -281,6 +192,16 @@ namespace Assets.Scripts.UI.InGame
 				this.VSync = vSync;
 				this.SoftParticles = softParticles;
 				this.CustomSettings = customSettings;
+			}
+			public GraphicsData(GeneralGraphics toCopy)
+			{
+				this.TextureQuality = toCopy.textureQuality.value;
+				this.ShadowRes = toCopy.shadowRes.value;
+				this.AntiAliasing = toCopy.antiAliasing.value;
+				this.Shadows = toCopy.shadows.value;
+				this.VSync = toCopy.vSync.isOn;
+				this.SoftParticles = toCopy.softParticles.isOn;
+				this.CustomSettings = toCopy.customSettings.isOn;
 			}
 		}
 	}
