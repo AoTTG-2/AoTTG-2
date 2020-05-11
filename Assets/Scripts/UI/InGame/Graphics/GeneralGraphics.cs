@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using Newtonsoft.Json;
+namespace Assets.Scripts.UI.InGame
+{
 	public class GeneralGraphics : MonoBehaviour {
 
 		[SerializeField] public Dropdown textureQuality;
@@ -147,7 +149,6 @@ using Newtonsoft.Json;
 		public void ChangeShadows()
 		{
 			var selected = Shadows.value;
-			Debug.Log(selected);
 			switch(selected)
 			{
 				case 0:
@@ -283,3 +284,4 @@ using Newtonsoft.Json;
 			}
 		}
 	}
+}

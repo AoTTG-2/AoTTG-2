@@ -30,7 +30,6 @@ namespace Assets.Scripts.UI.InGame
 
 		public void ShowResolutionMenu()
 		{
-			Debug.Log("Resolution");
 			if(!ResolutionMenu.GetActive() == true)
 			{
 				ResolutionMenu.SetActive(true);
