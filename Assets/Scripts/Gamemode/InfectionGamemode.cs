@@ -14,12 +14,8 @@ namespace Assets.Scripts.Gamemode
             };
         }
 
-        public new InfectionGamemodeSettings Settings { get; set; }
-
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as InfectionGamemodeSettings;
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private InfectionGamemodeSettings GamemodeSettings => Settings as InfectionGamemodeSettings;
 
         public override void OnRestart()
         {
@@ -35,7 +31,7 @@ namespace Assets.Scripts.Gamemode
                 player.SetCustomProperties(propertiesToSet);
             }
             var length = PhotonNetwork.playerList.Length;
-            var infectionMode = Settings.Infected;
+            var infectionMode = GamemodeSettings.Infected;
             for (num = 0; num < PhotonNetwork.playerList.Length; num++)
             {
                 PhotonPlayer player2 = PhotonNetwork.playerList[num];

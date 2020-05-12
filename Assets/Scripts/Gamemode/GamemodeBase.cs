@@ -12,8 +12,7 @@ namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : MonoBehaviour
     {
-        public virtual GamemodeSettings Settings { get; set; }
-        public abstract void SetSettings(GamemodeSettings settings);
+        public abstract GamemodeSettings Settings { get; set; }
         private MindlessTitanType GetTitanType()
         {
             if (Settings.CustomTitanRatio)

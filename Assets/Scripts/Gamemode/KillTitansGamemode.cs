@@ -5,7 +5,6 @@ namespace Assets.Scripts.Gamemode
 {
     public class KillTitansGamemode : GamemodeBase
     {
-        public new KillTitansSettings Settings { get; set; }
         public KillTitansGamemode()
         {
             Settings = new KillTitansSettings
@@ -16,10 +15,8 @@ namespace Assets.Scripts.Gamemode
             };
         }
 
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as KillTitansSettings;
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private KillTitansSettings KillTitansSettings => Settings as KillTitansSettings;
 
         public override void OnAllTitansDead()
         {

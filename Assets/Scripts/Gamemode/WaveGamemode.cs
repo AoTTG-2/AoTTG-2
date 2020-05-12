@@ -9,11 +9,12 @@ namespace Assets.Scripts.Gamemode
     {
         private int highestWave = 1;
 
-        public new WaveGamemodeSettings Settings { get; set; }
-
         public bool PunkWave { get; set; } = true;
         private readonly int _punkWave = 5;
         public int Wave = 1;
+
+        public sealed override GamemodeSettings Settings { get; set; }
+        private WaveGamemodeSettings GamemodeSettings => Settings as WaveGamemodeSettings;
 
         public WaveGamemode()
         {
@@ -24,11 +25,6 @@ namespace Assets.Scripts.Gamemode
                 Titans = 3,
                 RespawnMode = RespawnMode.NEWROUND
             };
-        }
-
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as WaveGamemodeSettings;
         }
 
         public override string GetGamemodeStatusTop(int totalRoomTime = 0, int timeLeft = 0)
@@ -104,7 +100,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnRestart()
         {
-            Wave = Settings.StartWave;
+            Wave = GamemodeSettings.StartWave;
             base.OnRestart();
         }
 
@@ -149,7 +145,7 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.RequireStatus();
             }
-            if (!((Settings.MaxWave != 0 || Wave <= Settings.MaxWave) && (Settings.MaxWave <= 0 || Wave <= Settings.MaxWave)))
+            if (!((GamemodeSettings.MaxWave != 0 || Wave <= GamemodeSettings.MaxWave) && (GamemodeSettings.MaxWave <= 0 || Wave <= GamemodeSettings.MaxWave)))
             {
                 FengGameManagerMKII.instance.gameWin2();
             }
@@ -164,7 +160,7 @@ namespace Assets.Scripts.Gamemode
                 }
                 else
                 {
-                    for (int i = 0; i < Wave + Settings.WaveIncrement; i++)
+                    for (int i = 0; i < Wave + GamemodeSettings.WaveIncrement; i++)
                     {
                         FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
                     }

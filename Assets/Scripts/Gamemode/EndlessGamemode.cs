@@ -5,7 +5,6 @@ namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
-        public new EndlessSettings Settings { get; set; }
         public EndlessGamemode()
         {
             Settings = new EndlessSettings()
@@ -17,10 +16,8 @@ namespace Assets.Scripts.Gamemode
             };
         }
 
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as EndlessSettings;
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private EndlessSettings GamemodeSettings => Settings as EndlessSettings;
 
         private int Score { get; set; }
 

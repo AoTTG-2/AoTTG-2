@@ -3083,10 +3083,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (Gamemode == null)
         {
             var gamemodeObject = new GameObject("Gamemode");
-            var gamemodeBase = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
-            gamemodeBase.Settings = settings;
+            gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
             gamemodeObject.transform.parent = gameObject.transform;
             Gamemode = gamemodeObject.GetComponent<GamemodeBase>();
+            Gamemode.Settings = settings;
         }
         else
         {
@@ -4178,7 +4178,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         var settings = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
         if (info.sender.IsMasterClient)
         {
-            Gamemode.SetSettings(settings);
+            Gamemode.Settings = settings;
             if (mainCamera.main_object != null)
             {
                 mainCamera.main_object.GetComponent<Hero>().SetHorse();
