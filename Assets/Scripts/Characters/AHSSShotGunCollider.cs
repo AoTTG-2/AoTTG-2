@@ -361,7 +361,7 @@ public class AHSSShotGunCollider : MonoBehaviour
         {
             this.myTeam = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Hero>().myTeam;
         }
-        this.active_me = true;
+        this.active_me = false;
         this.count = 0;
         this.currentCamera = GameObject.Find("MainCamera");
     }
