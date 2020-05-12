@@ -20,7 +20,8 @@ public enum HERO_STATE
     JustGrabbed,
     HorseMountingState,
     Start_Attack_Blades,
-    Start_Attack_AHSS,
+    Start_Attack_AHSS_left,
+    Start_Attack_AHSS_right,
     Execute_Attack_AHSS,
     Execute_Attack_Blades,
     JustGrounded
