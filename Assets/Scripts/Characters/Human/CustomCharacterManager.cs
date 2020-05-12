@@ -408,9 +408,6 @@ public class CustomCharacterManager : MonoBehaviour
         this.setup.init();
         this.setup.myCostume = new HeroCostume();
 
-        //TODO: Remove this hack to set to AHSS costume.
-        //this.setup.setEquipmentType(EquipmentType.Ahss);
-
         //The following statement currently only decides between an AHSS costume and another default blades costume based on the EquipmentType.
         //This will presumably be updated when the custom hero functionality is made better.
         //Previously the costume was hardcoded to always generate (soldier) Annie with blades.

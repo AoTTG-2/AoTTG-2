@@ -25,18 +25,19 @@ public class AHSSShotGunCollider : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (this.count > 1)
+        /*if (this.count > 1)
         {
             this.active_me = false;
         }
         else
         {
             this.count++;
-        }
+        }*/
     }
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log(this.active_me);
         if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || base.transform.root.gameObject.GetPhotonView().isMine) && this.active_me)
         {
             if (other.gameObject.tag == "playerHitbox")

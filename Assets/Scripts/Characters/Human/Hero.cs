@@ -4293,7 +4293,6 @@ public class Hero : Human
 
     public void setStat2()
     {
-        //this.EquipmentType = EquipmentType.Ahss; //TODO:  Remove this to set to AHSS set.
         this.skillCDLast = 1.5f;
         this.skillId = this.setup.myCostume.stat.skillId;
         if (this.skillId == "levi")
@@ -4992,8 +4991,6 @@ public class Hero : Human
             this.bombImmune = true;
             base.StartCoroutine(this.stopImmunity());
         }
-
-        //this.useGun = true;  //TODO: Remove this hack.  For AHSS forcing.
     }
 
     public IEnumerator stopImmunity()
