@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 23697984945510040}
   - component: {fileID: 114287797590336356}
   - component: {fileID: 54703817492150332}
+  - component: {fileID: 114526145978780832}
   m_Layer: 16
   m_Name: checkBox
   m_TagString: Untagged
@@ -473,6 +474,7 @@ GameObject:
   - component: {fileID: 23162415399870330}
   - component: {fileID: 114523411347096616}
   - component: {fileID: 54686914766125102}
+  - component: {fileID: 114908118690172200}
   m_Layer: 16
   m_Name: checkBox
   m_TagString: Untagged
@@ -2418,6 +2420,21 @@ MonoBehaviour:
   meatDie: {fileID: 82385810793831916}
   myTeam: 1
   scoreMulti: 1
+--- !u!114 &114526145978780832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1315045163539384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3772c73a5c64fc54aa1c4527c4f002b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active_me: 0
+  currentCamera: {fileID: 0}
+  dmg: 1
+  scoreMulti: 0
 --- !u!114 &114527013748581878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2509,7 +2526,7 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
-  EquipmentType: 0
+  EquipmentType: 1
   _state: 0
   audio_ally: {fileID: 82695054796010076}
   audio_hitwall: {fileID: 82538630642059820}
@@ -2641,6 +2658,21 @@ MonoBehaviour:
   group: 0
   hitPosition: {x: 0, y: 0, z: 0}
   multiple: 1
+--- !u!114 &114908118690172200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1447805055229568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3772c73a5c64fc54aa1c4527c4f002b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active_me: 0
+  currentCamera: {fileID: 0}
+  dmg: 1
+  scoreMulti: 0
 --- !u!114 &114986807620732952
 MonoBehaviour:
   m_ObjectHideFlags: 1
