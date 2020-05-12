@@ -5623,7 +5623,7 @@ public class Hero : Human
                 }
                 else if (this.state == HERO_STATE.Slide)
                 {
-                    //Check hooking keybinds and shoot hooks if pushed.
+                    //Enable hook shooting in this state.
                     this.hookActivation();
 
                     if (this.inputManager.isInputDown[InputCode.jump] && !this.baseAnimation.IsPlaying("jump"))
@@ -5636,13 +5636,20 @@ public class Hero : Human
                 }
                 else if (this.state == HERO_STATE.Land)
                 {
+                    //Enable hook shooting in this state.
+                    this.hookActivation();
+
                     if (this.baseAnimation.IsPlaying("dash_land") && (this.baseAnimation["dash_land"].normalizedTime >= 1f))
                     {
                         this.changeState_IDLE();
                     }
                 }
                 else if (this.state == HERO_STATE.AirDodge)
-                {  //This doesn't do physics for airdodge, it sets up the vector that is used in the dash() function which does the physics for the air dodge.
+                {
+                    //Enable hook shooting in this state.
+                    this.hookActivation();
+
+                    //This doesn't do physics for airdodge, it sets up the vector that is used in the dash() function which does the physics for the air dodge.
                     if (this.dashTime > 0f)
                     {
                         this.dashTime -= Time.deltaTime;
