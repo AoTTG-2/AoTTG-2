@@ -1419,7 +1419,7 @@ public class Hero : Human
                 this.inFlightAngle = this.getGlobalFacingDirection(inFlightVelocity.x, inFlightVelocity.z);
             }
 
-            if (this.state == HERO_STATE.Slide)
+            if (this.state == HERO_STATE.Slide || this.state == HERO_STATE.Land)
             {
                 zero_grounded = this.inFlightVelocity;
                 resultAngle = this.inFlightAngle;
@@ -1944,7 +1944,12 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.Land)
             {
-                zero_grounded = (Vector3)(this.baseRigidBody.velocity * 0.96f);
+                //Code to keep momentum from prevoius tick.
+                if (this.grounded)
+                {
+                    this.baseRigidBody.AddForce(force_grounded, ForceMode.VelocityChange);
+                    this.baseRigidBody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
+                }
             }
             else if (this.state == HERO_STATE.Slide)
             {
