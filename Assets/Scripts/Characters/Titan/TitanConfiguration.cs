@@ -65,12 +65,12 @@ namespace Assets.Scripts.Characters.Titan
                     Speed = 7f;
                     break;
                 case MindlessTitanType.Abberant:
-                    AnimationWalk = "run_walk";
+                    AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
                     Speed = 18f;
                     break;
                 case MindlessTitanType.Jumper:
-                    AnimationWalk = "run_walk";
+                    AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
                     Speed = 18f;
                     break;

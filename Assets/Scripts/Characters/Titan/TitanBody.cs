@@ -170,7 +170,10 @@ namespace Assets.Scripts.Characters.Titan
             if (!photonView.isMine) return;
             foreach (var effect in SteamEffectDictionary)
             {
-                PhotonNetwork.Destroy(effect.Value);
+                if (effect.Value != null)
+                {
+                    PhotonNetwork.Destroy(effect.Value);
+                }
             }
         }
     }

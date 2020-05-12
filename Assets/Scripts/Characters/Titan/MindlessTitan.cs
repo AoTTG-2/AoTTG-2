@@ -253,7 +253,7 @@ namespace Assets.Scripts.Characters.Titan
             Transform transform2 = this.grabTF.transform;
             if (isLeftHand)
             {
-                transform2.localPosition -= (Vector3)((Vector3.up * transform.GetComponent<SphereCollider>().radius) * 0.51f);
+                transform2.localPosition -= (Vector3)((Vector3.up * hand.GetComponent<SphereCollider>().radius) * 0.51f);
             }
             else
             {
@@ -667,7 +667,7 @@ namespace Assets.Scripts.Characters.Titan
                 UpdateEverySecond(nextUpdate);
             }
 
-            if (Stamina < 0 && TitanState != MindlessTitanState.Recovering)
+            if (Stamina < 0 && TitanState != MindlessTitanState.Recovering && TitanState != MindlessTitanState.Disabled)
             {
                 ChangeState(MindlessTitanState.Recovering);
             }
@@ -704,19 +704,13 @@ namespace Assets.Scripts.Characters.Titan
 
                 if (Stamina > staminaLimit * 0.75f)
                 {
-                    ChangeState(PreviousState);
+                    ChangeState(MindlessTitanState.Wandering);
                 }
             }
 
             if (TitanState == MindlessTitanState.Wandering)
             {
                 CurrentAnimation = AnimationWalk;
-                if (CanRun())
-                {
-                    CurrentAnimation = AnimationRun;
-                    Stamina -= Time.deltaTime * 2;
-                }
-
                 if (!Animation.IsPlaying(CurrentAnimation))
                 {
                     CrossFade(CurrentAnimation, 0.5f);
@@ -877,7 +871,7 @@ namespace Assets.Scripts.Characters.Titan
                     return;
                 }
 
-                var runModifier = CanRun() ? 1.25f : 1f;
+                var runModifier = 1f;
                 Vector3 vector12 = transform.forward * Speed * runModifier;
                 Vector3 vector14 = vector12 - Rigidbody.velocity;
                 vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
