@@ -1205,7 +1205,7 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
-        Debug.Log(this.state);
+        //Debug.Log(this.state);
         if ((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
@@ -1571,7 +1571,10 @@ public class Hero : Human
                 }
 
                 //Reeling in/out and pivoting around point.
+                float accelerationMultiplyer = 1.015f;
+                float maxVelocity = 300f;
                 this.spinning = false;
+                //Debug.Log(this.baseRigidBody.velocity.magnitude);
                 if (flag3 && flag4)
                 {  //Both hooked.
                    //TODO: Format.
@@ -1596,7 +1599,14 @@ public class Hero : Human
                     Vector3 vector14 = Vector3.RotateTowards(vector13, this.baseRigidBody.velocity, 1.53938f * num16, 1.53938f * num16);
                     vector14.Normalize();
                     this.spinning = true;
-                    this.baseRigidBody.velocity = (Vector3)(vector14 * num14);
+                    if (this.baseRigidBody.velocity.magnitude < maxVelocity)
+                    {
+                        this.baseRigidBody.velocity = (Vector3)(vector14 * num14 * accelerationMultiplyer);
+                    }
+                    else
+                    {
+                        this.baseRigidBody.velocity = (Vector3)(vector14 * num14);
+                    }
                 }
                 else if (flag3)
                 { //Left hook.
@@ -1622,7 +1632,14 @@ public class Hero : Human
                     Vector3 vector16 = Vector3.RotateTowards(vector15, this.baseRigidBody.velocity, 1.53938f * num19, 1.53938f * num19);
                     vector16.Normalize();
                     this.spinning = true;
-                    this.baseRigidBody.velocity = (Vector3)(vector16 * num17);
+                    if (this.baseRigidBody.velocity.magnitude < maxVelocity)
+                    {
+                        this.baseRigidBody.velocity = (Vector3)(vector16 * num17 * accelerationMultiplyer);
+                    }
+                    else {
+                        this.baseRigidBody.velocity = (Vector3)(vector16 * num17);
+                    }
+                    
                 }
                 else if (flag4)
                 { //Right hook.
@@ -1648,7 +1665,14 @@ public class Hero : Human
                     Vector3 vector18 = Vector3.RotateTowards(vector17, this.baseRigidBody.velocity, 1.53938f * num22, 1.53938f * num22);
                     vector18.Normalize();
                     this.spinning = true;
-                    this.baseRigidBody.velocity = (Vector3)(vector18 * num20);
+                    if (this.baseRigidBody.velocity.magnitude < maxVelocity)
+                    {
+                        this.baseRigidBody.velocity = (Vector3)(vector18 * num20 * accelerationMultiplyer);
+                    }
+                    else
+                    {
+                        this.baseRigidBody.velocity = (Vector3)(vector18 * num20);
+                    }
                 }
 
                 //Hook physics when skills are used.
@@ -5142,7 +5166,7 @@ public class Hero : Human
 
     public void update2()
     {
-        Debug.Log(this.state);
+        //Debug.Log(this.state);
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {
             if (this.invincible > 0f)

@@ -37,7 +37,6 @@ public class AHSSShotGunCollider : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log(this.active_me);
         if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || base.transform.root.gameObject.GetPhotonView().isMine) && this.active_me)
         {
             if (other.gameObject.tag == "playerHitbox")
