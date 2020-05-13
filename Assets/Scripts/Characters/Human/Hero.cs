@@ -1571,10 +1571,10 @@ public class Hero : Human
                 }
 
                 //Reeling in/out and pivoting around point.
-                float accelerationMultiplyer = 1.015f;
-                float maxVelocity = 300f;
+                float accelerationAdder = 1.8f;
+                float maxVelocity = 400f;
                 this.spinning = false;
-                //Debug.Log(this.baseRigidBody.velocity.magnitude);
+                Debug.Log(this.baseRigidBody.velocity.magnitude);
                 if (flag3 && flag4)
                 {  //Both hooked.
                    //TODO: Format.
@@ -1601,7 +1601,9 @@ public class Hero : Human
                     this.spinning = true;
                     if (this.baseRigidBody.velocity.magnitude < maxVelocity)
                     {
-                        this.baseRigidBody.velocity = (Vector3)(vector14 * num14 * accelerationMultiplyer);
+                        this.baseRigidBody.velocity = (Vector3)(vector14 * num14);
+                        Vector3 normalizedVelocity = this.baseRigidBody.velocity.normalized;
+                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + accelerationAdder);
                     }
                     else
                     {
@@ -1634,7 +1636,9 @@ public class Hero : Human
                     this.spinning = true;
                     if (this.baseRigidBody.velocity.magnitude < maxVelocity)
                     {
-                        this.baseRigidBody.velocity = (Vector3)(vector16 * num17 * accelerationMultiplyer);
+                        this.baseRigidBody.velocity = (Vector3)(vector16 * num17);
+                        Vector3 normalizedVelocity = this.baseRigidBody.velocity.normalized;
+                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + accelerationAdder);
                     }
                     else {
                         this.baseRigidBody.velocity = (Vector3)(vector16 * num17);
@@ -1667,7 +1671,9 @@ public class Hero : Human
                     this.spinning = true;
                     if (this.baseRigidBody.velocity.magnitude < maxVelocity)
                     {
-                        this.baseRigidBody.velocity = (Vector3)(vector18 * num20 * accelerationMultiplyer);
+                        this.baseRigidBody.velocity = (Vector3)(vector18 * num20);
+                        Vector3 normalizedVelocity = this.baseRigidBody.velocity.normalized;
+                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + accelerationAdder);
                     }
                     else
                     {
