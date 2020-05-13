@@ -1,6 +1,6 @@
 ---
-name: Enchancement request
-about: Use this template for enchancements. Assign it to either the Art or Development
+name: Enhancement request
+about: Use this template for enhancements. Assign it to either the Art or Development
   Team.
 title: ''
 labels: Enchancement
