@@ -45,7 +45,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackRight.position) < (2.8f * titan.Size))
                 {
                     AttackAnimation = "grab_head_back_r";
-                    Hand = BodyPart.HandRight;
+                    Hand = BodyPart.HandLeft;
                     if (IsDisabled(titan, Hand)) return false;
                     attackCheckTimeA = 0.45f;
                     attackCheckTimeB = 0.5f;
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackLeft.position) < (2.8f * titan.Size))
             {
                 AttackAnimation = "grab_head_back_l";
-                Hand = BodyPart.HandLeft;
+                Hand = BodyPart.HandRight;
                 if (IsDisabled(titan, Hand)) return false;
                 attackCheckTimeA = 0.45f;
                 attackCheckTimeB = 0.5f;
@@ -76,7 +76,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 return true;
             }
 
-            if (between > 0f && titan.TargetDistance < (titan.AttackDistance * 0.5f))
+            if (titan.TargetDistance < (titan.AttackDistance * 0.5f))
             {
                 AttackAnimation = between > 0f
                     ? "grab_ground_back_r"

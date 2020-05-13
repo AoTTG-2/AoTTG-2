@@ -30,13 +30,13 @@ namespace Assets.Scripts.Gamemode.Settings
         public int TitanLimit { get; set; } = 30;
 
         [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
-        public float TitanMinimumSize { get; set; } = 0.7f;
+        public float TitanMinimumSize { get; set; } = 0.5f;
 
         [UiElement("Max size", "Maximun titan size", SettingCategory.Titans)]
-        public float TitanMaximumSize { get; set; } = 3f;
+        public float TitanMaximumSize { get; set; } = 0.5f;
 
         [UiElement("Custom Size", "Enable custom titan sizes", SettingCategory.Titans)]
-        public bool TitanCustomSize { get; set; } = false;
+        public bool TitanCustomSize { get; set; } = true;
 
         [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
         public float TitanChaseDistance { get; set; } = 100f;

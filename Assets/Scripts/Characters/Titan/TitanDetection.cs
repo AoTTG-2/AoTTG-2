@@ -34,7 +34,6 @@ namespace Assets.Scripts.Characters.Titan
                 if (target.layer != 8) continue;
                 Vector3 targetDir = target.transform.position - transform.position;
                 float angle = Vector3.Angle(targetDir, transform.forward);
-                var distance = Vector3.Distance(transform.position, target.transform.position);
                 if (angle > 0 && angle < 100 && target.GetPhotonView().isMine)
                 {
                     Titan.OnTargetDetected(target);

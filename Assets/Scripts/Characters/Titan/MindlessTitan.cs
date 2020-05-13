@@ -101,7 +101,6 @@ namespace Assets.Scripts.Characters.Titan
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             this.oldHeadRotation = TitanBody.Head.rotation;
-            AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
             Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB")
@@ -162,6 +161,8 @@ namespace Assets.Scripts.Characters.Titan
             TitanBody.Head.localScale = headscale;
             //TODO: Not working
             //LoadSkin();
+
+            AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
 
             if (Health > 0)
             {
@@ -704,7 +705,7 @@ namespace Assets.Scripts.Characters.Titan
 
                 if (Stamina > staminaLimit * 0.75f)
                 {
-                    ChangeState(MindlessTitanState.Wandering);
+                    ChangeState(MindlessTitanState.Chase);
                 }
             }
 

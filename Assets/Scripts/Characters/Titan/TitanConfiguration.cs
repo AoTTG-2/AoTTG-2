@@ -50,10 +50,7 @@ namespace Assets.Scripts.Characters.Titan
             Size = size;
             Type = type;
             SetMindlessTitanType(type);
-            if (Size > 1f)
-            {
-                Speed *= Mathf.Sqrt(Size);
-            }
+            Speed *= Mathf.Sqrt(Size);
         }
 
         private void SetMindlessTitanType(MindlessTitanType type)
