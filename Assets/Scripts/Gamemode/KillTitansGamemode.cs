@@ -5,18 +5,8 @@ namespace Assets.Scripts.Gamemode
 {
     public class KillTitansGamemode : GamemodeBase
     {
-        public KillTitansGamemode()
-        {
-            Settings = new KillTitansSettings
-            {
-                GamemodeType = GamemodeType.Titans,
-                RestartOnTitansKilled = true,
-                RespawnMode = RespawnMode.NEVER
-            };
-        }
-
         public sealed override GamemodeSettings Settings { get; set; }
-        private KillTitansSettings KillTitansSettings => Settings as KillTitansSettings;
+        private KillTitansSettings GamemodeSettings => Settings as KillTitansSettings;
 
         public override void OnAllTitansDead()
         {
@@ -29,7 +19,7 @@ namespace Assets.Scripts.Gamemode
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
 
-            if (Settings.Name.Contains("Annie"))
+            if (GamemodeSettings.Name.Contains("Annie"))
             {
                 PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }

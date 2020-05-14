@@ -5,20 +5,6 @@ namespace Assets.Scripts.Gamemode
 {
     public class PvPAhssGamemode : GamemodeBase
     {
-        public PvPAhssGamemode()
-        {
-            Settings = new PvPAhssSettings
-            {
-                GamemodeType = GamemodeType.PvpAhss,
-                AhssAirReload = false,
-                Titans = -1,
-                Pvp = PvpMode.AhssVsBlades,
-                PlayerTitanShifters = true,
-                Horse = false,
-                TitansEnabled = false
-            };
-        }
-
         public sealed override GamemodeSettings Settings { get; set; }
         private PvPAhssSettings GamemodeSettings => Settings as PvPAhssSettings;
 

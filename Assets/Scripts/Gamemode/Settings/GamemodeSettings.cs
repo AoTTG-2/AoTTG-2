@@ -30,13 +30,13 @@ namespace Assets.Scripts.Gamemode.Settings
         public int TitanLimit { get; set; } = 30;
 
         [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
-        public float TitanMinimumSize { get; set; } = 0.5f;
+        public float TitanMinimumSize { get; set; } = 0.7f;
 
         [UiElement("Max size", "Maximun titan size", SettingCategory.Titans)]
-        public float TitanMaximumSize { get; set; } = 0.5f;
+        public float TitanMaximumSize { get; set; } = 3.0f;
 
         [UiElement("Custom Size", "Enable custom titan sizes", SettingCategory.Titans)]
-        public bool TitanCustomSize { get; set; } = true;
+        public bool TitanCustomSize { get; set; } = false;
 
         [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
         public float TitanChaseDistance { get; set; } = 100f;
@@ -133,11 +133,11 @@ namespace Assets.Scripts.Gamemode.Settings
         //TODO: Be able to change these via UI
         public Dictionary<MindlessTitanType, float> TitanTypeRatio = new Dictionary<MindlessTitanType, float>
         {
-            {MindlessTitanType.Normal, 40f},
-            {MindlessTitanType.Abberant, 20f},
-            {MindlessTitanType.Jumper, 30f},
-            {MindlessTitanType.Punk, 5f},
-            {MindlessTitanType.Crawler, 0f},
+            {MindlessTitanType.Normal, 0},
+            {MindlessTitanType.Abberant, 0},
+            {MindlessTitanType.Jumper, 0},
+            {MindlessTitanType.Punk, 0},
+            {MindlessTitanType.Crawler, 200f},
             {MindlessTitanType.Burster, 0f},
             {MindlessTitanType.Stalker, 0f},
             { MindlessTitanType.Abnormal, 0f }

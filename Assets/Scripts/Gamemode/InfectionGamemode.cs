@@ -4,16 +4,6 @@ namespace Assets.Scripts.Gamemode
 {
     public class InfectionGamemode : GamemodeBase
     {
-        public InfectionGamemode()
-        {
-            Settings = new InfectionGamemodeSettings
-            {
-                GamemodeType = GamemodeType.Infection, 
-                RespawnMode = RespawnMode.NEVER, 
-                IsPlayerTitanEnabled = true
-            };
-        }
-
         public sealed override GamemodeSettings Settings { get; set; }
         private InfectionGamemodeSettings GamemodeSettings => Settings as InfectionGamemodeSettings;
 

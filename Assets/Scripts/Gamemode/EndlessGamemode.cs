@@ -1,21 +1,9 @@
-﻿using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
-        public EndlessGamemode()
-        {
-            Settings = new EndlessSettings()
-            {
-                GamemodeType = GamemodeType.Endless,
-                RespawnMode = RespawnMode.NEVER,
-                Pvp = PvpMode.Disabled,
-                Titans = 10
-            };
-        }
-
         public sealed override GamemodeSettings Settings { get; set; }
         private EndlessSettings GamemodeSettings => Settings as EndlessSettings;
 

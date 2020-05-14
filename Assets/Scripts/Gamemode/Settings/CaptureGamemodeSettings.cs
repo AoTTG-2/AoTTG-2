@@ -7,6 +7,14 @@ namespace Assets.Scripts.Gamemode.Settings
         public CaptureGamemodeSettings()
         {
             GamemodeType = GamemodeType.Capture;
+            RespawnTime = 20f;
+            PlayerTitanShifters = false;
+            Titans = 0;
+            TitanLimit = 25;
+            TitanChaseDistance = 120f;
+            SpawnTitansOnFemaleTitanDefeat = false;
+            FemaleTitanDespawnTimer = 20f;
+            FemaleTitanHealthModifier = 0.8f;
         }
 
         [UiElement("Human Point Limit", "Once this reaches 0, the titans win")]

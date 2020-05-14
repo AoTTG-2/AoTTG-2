@@ -7,22 +7,6 @@ namespace Assets.Scripts.Gamemode
 {
     public class CaptureGamemode : GamemodeBase
     {
-        public CaptureGamemode()
-        {
-            Settings = new CaptureGamemodeSettings
-            {
-                GamemodeType = GamemodeType.Capture,
-                RespawnTime = 20f,
-                PlayerTitanShifters = false,
-                Titans = 0,
-                TitanLimit = 25,
-                TitanChaseDistance = 120f,
-                SpawnTitansOnFemaleTitanDefeat = false,
-                FemaleTitanDespawnTimer = 20f,
-                FemaleTitanHealthModifier = 0.8f
-            };
-        }
-
         public sealed override GamemodeSettings Settings { get; set; }
         private CaptureGamemodeSettings CaptureSettings => Settings as CaptureGamemodeSettings;
 

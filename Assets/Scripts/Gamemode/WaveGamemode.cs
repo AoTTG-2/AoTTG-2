@@ -16,17 +16,6 @@ namespace Assets.Scripts.Gamemode
         public sealed override GamemodeSettings Settings { get; set; }
         private WaveGamemodeSettings GamemodeSettings => Settings as WaveGamemodeSettings;
 
-        public WaveGamemode()
-        {
-            Settings = new WaveGamemodeSettings
-            {
-                GamemodeType = GamemodeType.Wave,
-                TitanChaseDistanceEnabled = false,
-                Titans = 3,
-                RespawnMode = RespawnMode.NEWROUND
-            };
-        }
-
         public override string GetGamemodeStatusTop(int totalRoomTime = 0, int timeLeft = 0)
         {
             var content = "Titan Left: ";
@@ -61,7 +50,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetDefeatMessage(float gameEndCd)
         {
-            if (Settings.IsSinglePlayer)
+            if (GamemodeSettings.IsSinglePlayer)
             {
                 return $"Survive {Wave} Waves!\n Press {FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart]} to Restart.\n\n\n";
             }
@@ -77,13 +66,13 @@ namespace Assets.Scripts.Gamemode
         {
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
-            if (Settings.Name.Contains("Annie"))
+            if (GamemodeSettings.Name.Contains("Annie"))
             {
                 PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }
             else
             {
-                for (int i = 0; i < Settings.Titans; i++)
+                for (int i = 0; i < GamemodeSettings.Titans; i++)
                 {
                     FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
                 }
@@ -123,7 +112,7 @@ namespace Assets.Scripts.Gamemode
             if (!IsAllTitansDead()) return;
             Wave++;
             var level = FengGameManagerMKII.Level.Name;
-            if (!(Settings.RespawnMode != RespawnMode.NEWROUND && (!level.StartsWith("Custom")) || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER)))
+            if (!(GamemodeSettings.RespawnMode != RespawnMode.NEWROUND && (!level.StartsWith("Custom")) || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER)))
             {
                 foreach (var player in PhotonNetwork.playerList)
                 {
@@ -160,7 +149,7 @@ namespace Assets.Scripts.Gamemode
                 }
                 else
                 {
-                    for (int i = 0; i < Wave + GamemodeSettings.WaveIncrement; i++)
+                    for (int i = 0; i < Settings.Titans + Wave * GamemodeSettings.WaveIncrement; i++)
                     {
                         FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
                     }

@@ -45,6 +45,9 @@ namespace Assets.Scripts.Characters.Titan
         public float Stamina = 10f;
         public float StaminaRecovery = 1f;
         public int Health;
+        public float ViewDistance;
+        public float Focus = 10f;
+        private float FocusTimer { get; set; }
         private int MaxHealth { get; set; }
 
         private bool isHooked;
@@ -138,6 +141,7 @@ namespace Assets.Scripts.Characters.Titan
             Speed = configuration.Speed;
             Attacks = configuration.Attacks;
             Size = configuration.Size;
+            ViewDistance = configuration.ViewDistance;
             AnimationWalk = configuration.AnimationWalk;
             AnimationRun = configuration.AnimationRun;
             AnimationDeath = configuration.AnimationDeath;
@@ -147,6 +151,8 @@ namespace Assets.Scripts.Characters.Titan
             Stamina = configuration.Stamina;
             StaminaRecovery = configuration.StaminaRegeneration;
             staminaLimit = Stamina;
+            Focus = configuration.Focus;
+            FocusTimer = 0f;
             Behaviors = configuration.Behaviors.ToArray();
             foreach (var behavior in Behaviors)
             {
@@ -528,6 +534,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             Target = target.GetComponent<Hero>();
             ChangeState(MindlessTitanState.Chase);
+            FocusTimer = 0f;
             this.oldHeadRotation = TitanBody.Head.rotation;
         }
 
@@ -644,6 +651,22 @@ namespace Assets.Scripts.Characters.Titan
             return true;
         }
 
+        private void OnTargetRefresh()
+        {
+            FocusTimer = 0f;
+            var positiveInfinity = float.PositiveInfinity;
+            var position = this.transform.position;
+            foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+            {
+                var num2 = Vector3.Distance(hero.gameObject.transform.position, position);
+                if (num2 < positiveInfinity)
+                {
+                    Target = hero;
+                    positiveInfinity = num2;
+                }
+            }
+        }
+
         private void OnDestroy()
         {
             FengGameManagerMKII.instance.removeTitan(this);
@@ -732,7 +755,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (TitanState == MindlessTitanState.Chase)
             {
-                if (Target == null)
+                if (Target == null || ViewDistance < TargetDistance)
                 {
                     ChangeState(MindlessTitanState.Wandering);
                     return;
@@ -743,6 +766,12 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     CurrentAnimation = AnimationRun;
                     Stamina -= Time.deltaTime * 2;
+                }
+
+                FocusTimer += Time.deltaTime;
+                if (FocusTimer > Focus)
+                {
+                    OnTargetRefresh();
                 }
 
                 if (!Animation.IsPlaying(CurrentAnimation))
@@ -849,10 +878,14 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (TitanState == MindlessTitanState.Wandering || TitanState == MindlessTitanState.Chase)
-            {
-                IsPathFinding = Pathfinding();
-            }
+            //if (TitanState == MindlessTitanState.Wandering || TitanState == MindlessTitanState.Chase && Type != MindlessTitanType.Crawler)
+            //{
+            //    IsPathFinding = Pathfinding();
+            //}
+            //else
+            //{
+            //    RotationModifier = 0f;
+            //}
         }
 
         void FixedUpdate()

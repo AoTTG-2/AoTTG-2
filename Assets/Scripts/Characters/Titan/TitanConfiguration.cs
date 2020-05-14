@@ -18,6 +18,7 @@ namespace Assets.Scripts.Characters.Titan
         public List<Attack> Attacks { get; set; } = new List<Attack> {new GrabAttack(), new KickAttack(), new BiteAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack()};
         public float Stamina { get; set; } = 100f;
         public float StaminaRegeneration { get; set; } = 1f;
+        public float Focus { get; set; } = 5f;
         public string AnimationWalk { get; set; } = "run_walk";
         public string AnimationRun { get; set; }
         public string AnimationDeath { get; set; } = "die_back";
@@ -29,25 +30,13 @@ namespace Assets.Scripts.Characters.Titan
 
         public TitanConfiguration() { }
 
-        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, int viewDistance, float speed, float size, MindlessTitanType type)
+        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, float viewDistance, float size, MindlessTitanType type)
         {
             Health = health;
             HealthRegeneration = healthRegeneration;
             LimbHealth = limbHealth;
-            ViewDistance = viewDistance;
             Size = size;
-            Type = type;
-            SetMindlessTitanType(type);
-            Speed = speed;
-        }
-
-        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, int viewDistance, float size, MindlessTitanType type)
-        {
-            Health = health;
-            HealthRegeneration = healthRegeneration;
-            LimbHealth = limbHealth;
-            ViewDistance = viewDistance;
-            Size = size;
+            ViewDistance = viewDistance * size;
             Type = type;
             SetMindlessTitanType(type);
             Speed *= Mathf.Sqrt(Size);
@@ -91,6 +80,7 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 case MindlessTitanType.Stalker:
                     Speed = 18f;
+                    Focus = 200f;
                     break;
                 case MindlessTitanType.Burster:
                     Speed = 18f;
