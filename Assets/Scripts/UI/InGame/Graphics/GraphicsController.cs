@@ -16,6 +16,7 @@ namespace Assets.Scripts.UI.InGame
 
 		private void Start() {
 			QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
+			AdvancedOptions();
 		}
 
 		public void SaveGraphicPlayerPrefs()
