@@ -11,10 +11,11 @@ namespace Assets.Scripts.UI.InGame
 		[SerializeField] public Dropdown shadowRes;
 		[SerializeField] public Dropdown antiAliasing;
 		[SerializeField] public Dropdown shadows;
+		
 		[SerializeField] public Toggle vSync;
 		[SerializeField] public Toggle softParticles;
-
 		[SerializeField] public Toggle customSettings;
+		
 
 		public Dropdown TextureQuality
 		{ 
@@ -52,6 +53,8 @@ namespace Assets.Scripts.UI.InGame
 			get { return customSettings; }
 			set { customSettings = value; }
 		}
+		
+		
 
 		public enum Textures
 		{
@@ -104,6 +107,7 @@ namespace Assets.Scripts.UI.InGame
 				{
 					VSync.isOn = true;
 				}
+
 			}
 		}
 		public void ChangeShadows()
@@ -158,6 +162,7 @@ namespace Assets.Scripts.UI.InGame
 				QualitySettings.vSyncCount = 0;
 			}
 		}
+		
 
 		public void UpdateEverything()
 		{
