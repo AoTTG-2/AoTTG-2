@@ -12,10 +12,11 @@ namespace Assets.Scripts.Characters.Titan
         public int Health { get; set; } = 500;
         public int HealthRegeneration { get; set; } = 10;
         public float LimbHealth { get; set; } = 100;
+        public float LimbRegeneration { get; set; } = 10;
         public float ViewDistance { get; set; } = 200f;
         public float Speed { get; set; } = 20f;
         public float Size { get; set; } = 3f;
-        public List<Attack> Attacks { get; set; } = new List<Attack> { new BiteAttack(), new GrabAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack()};
+        public List<Attack> Attacks { get; set; } = new List<Attack> { new BiteAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack(), new GrabAttack()};
         public float Stamina { get; set; } = 100f;
         public float StaminaRegeneration { get; set; } = 1f;
         public float Focus { get; set; } = 5f;

@@ -90,7 +90,7 @@ namespace Assets.Scripts.Gamemode
         {
             var size = Settings.TitanCustomSize ? Random.Range(Settings.TitanMinimumSize, Settings.TitanMaximumSize) : Random.Range(0.7f, 3f);
             var health = GetTitanHealth(size);
-            return new TitanConfiguration(health, 10, 10, 150f, size, type);
+            return new TitanConfiguration(health, 10, 100, 150f, size, type);
         }
 
         public virtual void OnPlayerKilled(int id)

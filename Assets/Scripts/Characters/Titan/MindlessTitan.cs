@@ -163,6 +163,8 @@ namespace Assets.Scripts.Characters.Titan
             Type = configuration.Type;
             name = Type.ToString();
 
+            TitanBody.Initialize(configuration.LimbHealth, configuration.LimbRegeneration);
+
             transform.localScale = new Vector3(Size, Size, Size);
             var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
             headscale = new Vector3(scale, scale, scale);
@@ -416,8 +418,9 @@ namespace Assets.Scripts.Characters.Titan
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
             if (view == null || !IsAlive && Time.time - DamageTimer > 0.2f) return;
-            DamageTimer = Time.time;
+            if (damage < FengGameManagerMKII.Gamemode.Settings.DamageMode) return;
 
+            DamageTimer = Time.time;
             Health -= damage;
 
             if (MaxHealth > 0)
@@ -439,11 +442,16 @@ namespace Assets.Scripts.Characters.Titan
             FengGameManagerMKII.instance.titanGetKill(view.owner, damage, name);
         }
 
+
+        private float bodyPartDamageTimer;
         [PunRPC]
         public void OnBodyPartHitRpc(BodyPart bodyPart, int damage)
         {
             if (!photonView.isMine) return;
-            TitanBody.AddBodyPart(bodyPart);
+            if (Time.time - bodyPartDamageTimer < 0.4f) return;
+            Debug.Log($"We hit {damage}");
+            bodyPartDamageTimer = Time.time;
+            TitanBody.DamageBodyPart(bodyPart, damage);
             if (TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.LegLeft) 
                 && TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.LegRight))
             {
@@ -568,7 +576,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             ChangeState(MindlessTitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
-            CrossFade(CurrentAnimation, 0.1f);
+            CrossFade(CurrentAnimation, 0.0f);
             this.turnDeg = degrees;
             this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
         }
@@ -746,6 +754,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (TitanState == MindlessTitanState.Turning)
             {
+                CrossFade(CurrentAnimation, 0.2f);
                 gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, this.desDeg, 0f), (Time.deltaTime * Mathf.Abs(this.turnDeg)) * 0.015f);
                 if (Animation[CurrentAnimation].normalizedTime > 1f)
                 {
@@ -788,10 +797,10 @@ namespace Assets.Scripts.Characters.Titan
                     return;
                 }
 
-                var availableAttacks = Attacks.Where(x => x.CanAttack(this));
-                CurrentAttack = availableAttacks.FirstOrDefault();
-                if (CurrentAttack != null)
+                var availableAttacks = Attacks.Where(x => x.CanAttack(this)).ToList();
+                if (availableAttacks.Count > 0)
                 {
+                    CurrentAttack = availableAttacks[Random.Range(0, availableAttacks.Count)];
                     ChangeState(MindlessTitanState.Attacking);
                 }
                 else

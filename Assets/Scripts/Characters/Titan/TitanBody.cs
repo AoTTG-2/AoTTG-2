@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
@@ -49,10 +50,23 @@ namespace Assets.Scripts.Characters.Titan
         public Transform AttackBite;
         public Transform AttackAbnormalJump;
 
-        private Dictionary<BodyPart, float> CooldownDictionary { get; set; } = new Dictionary<BodyPart, float>();
-        private readonly float _bodyPartRecovery = 15f;
+        private float LimbRegeneration { get; set; }
+        private float LimbHealth { get; set; }
         private readonly Vector3 bodyPartDamagedSize = new Vector3(0.001f, 0.001f, 0.001f);
         private Dictionary<BodyPart, GameObject> SteamEffectDictionary { get; set; } = new Dictionary<BodyPart, GameObject>();
+        private Dictionary<BodyPart, float> CooldownDictionary { get; set; } = new Dictionary<BodyPart, float>();
+        private Dictionary<BodyPart, float> HealthDictionary { get; set; }
+
+        public void Initialize(float limbHealth, float limbRegeneration)
+        {
+            LimbHealth = limbHealth;
+            LimbRegeneration = limbRegeneration;
+            HealthDictionary = new Dictionary<BodyPart, float>();
+            foreach (BodyPart bodyPart in Enum.GetValues(typeof(BodyPart)))
+            {
+                HealthDictionary[bodyPart] = LimbHealth;
+            }
+        }
 
         public BodyPart GetBodyPart(Transform bodypart)
         {
@@ -74,6 +88,16 @@ namespace Assets.Scripts.Characters.Titan
             }
 
             return BodyPart.None;
+        }
+
+        public void DamageBodyPart(BodyPart body, int damage)
+        {
+            HealthDictionary[body] -= damage;
+            if (HealthDictionary[body] <= 0)
+            {
+                AddBodyPart(body);
+                HealthDictionary[body] = LimbHealth;
+            }
         }
 
         public void AddBodyPart(BodyPart body)
@@ -102,12 +126,12 @@ namespace Assets.Scripts.Characters.Titan
 
             foreach (var part in bodyPart)
             {
-                CooldownDictionary.Add(part, _bodyPartRecovery);
+                CooldownDictionary.Add(part, LimbRegeneration);
             }
 
             if (bodyPartEffect == null || !photonView.isMine) return;
             var steamEffect = PhotonNetwork.Instantiate("fx/bodypart_steam", new Vector3(), new Quaternion(), 0);
-            steamEffect.GetComponent<SelfDestroy>().CountDown = _bodyPartRecovery;
+            steamEffect.GetComponent<SelfDestroy>().CountDown = LimbRegeneration;
             steamEffect.transform.parent = bodyPartEffect;
             steamEffect.transform.localPosition = new Vector3();
             SteamEffectDictionary.Add(body, steamEffect);
