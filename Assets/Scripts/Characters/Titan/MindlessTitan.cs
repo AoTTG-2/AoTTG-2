@@ -23,13 +23,15 @@ namespace Assets.Scripts.Characters.Titan
         public Rigidbody Rigidbody { get; private set; }
         private TitanBehavior[] Behaviors { get; set; }
 
-        private string CurrentAnimation { get; set; } = "idle_2";
-        private string AnimationTurnLeft { get; set; } = "turnaround2";
-        private string AnimationTurnRight { get; set; } = "turnaround1";
+        protected string CurrentAnimation { get; set; } = "idle_2";
+        protected string AnimationTurnLeft { get; set; } = "turnaround2";
+        protected string AnimationTurnRight { get; set; } = "turnaround1";
         public string AnimationWalk { get; private set; } = "run_walk";
-        private string AnimationRun { get; set; }
-        private string AnimationRecovery { get; set; } = "tired";
-        private string AnimationDeath { get; set; } = "die_back";
+        protected string AnimationRun { get; set; }
+        protected string AnimationRecovery { get; set; } = "tired";
+        protected string AnimationDeath { get; set; } = "die_back";
+        protected string AnimationIdle { get; set; } = "idle_2";
+        protected string AnimationCover { get; set; } = "idle_recovery";
 
         private float turnDeg;
         private float desDeg;
@@ -96,7 +98,7 @@ namespace Assets.Scripts.Characters.Titan
         private GameObject HealthLabel { get; set; }
         private FengGameManagerMKII GameManager { get; set; }
 
-        void Awake()
+        protected virtual void Awake()
         {
             GameManager = FengGameManagerMKII.instance;
             GameManager.addTitan(this);
@@ -134,7 +136,7 @@ namespace Assets.Scripts.Characters.Titan
             return bodyParts.All(bodyPart => TitanBody.GetDisabledBodyParts().Contains(bodyPart));
         }
 
-        public void Initialize(TitanConfiguration configuration)
+        public virtual void Initialize(TitanConfiguration configuration)
         {
             Health = configuration.Health;
             MaxHealth = Health;
@@ -546,7 +548,7 @@ namespace Assets.Scripts.Characters.Titan
             TitanState = state;
         }
 
-        private void RefreshStamina()
+        protected void RefreshStamina()
         {
             if (Stamina >= staminaLimit) return;
             Stamina += StaminaRecovery * Time.deltaTime;
@@ -597,6 +599,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
         {
+            if (Animation.IsPlaying(newAnimation)) return;
             if (PhotonNetwork.isMasterClient)
             {
                 CurrentAnimation = newAnimation;
@@ -672,7 +675,7 @@ namespace Assets.Scripts.Characters.Titan
             FengGameManagerMKII.instance.removeTitan(this);
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (!photonView.isMine) return;
 
@@ -878,17 +881,17 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            //if (TitanState == MindlessTitanState.Wandering || TitanState == MindlessTitanState.Chase && Type != MindlessTitanType.Crawler)
-            //{
-            //    IsPathFinding = Pathfinding();
-            //}
-            //else
-            //{
-            //    RotationModifier = 0f;
-            //}
+            if (TitanState == MindlessTitanState.Wandering || TitanState == MindlessTitanState.Chase && Type != MindlessTitanType.Crawler)
+            {
+                IsPathFinding = Pathfinding();
+            }
+            else
+            {
+                RotationModifier = 0f;
+            }
         }
 
-        void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             if (!photonView.isMine) return;
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));

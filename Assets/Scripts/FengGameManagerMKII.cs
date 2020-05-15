@@ -4757,22 +4757,52 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return titan;
     }
 
-    // Spawn player titan
-    [PunRPC]
-    private void spawnTitanRPC(PhotonMessageInfo info)
+    public void SpawnPlayerTitan()
     {
-        throw new NotImplementedException("Player titans are not implemented");
-        //if (info.sender.isMasterClient)
+        var id = "TITAN";
+        var tag = "titanRespawn";
+        GameObject obj3;
+        GameObject[] objArray = GameObject.FindGameObjectsWithTag(tag);
+        GameObject obj2 = objArray[UnityEngine.Random.Range(0, objArray.Length)];
+        Vector3 position = obj2.transform.position;
+        if (Level.Name.StartsWith("Custom") && (this.titanSpawns.Count > 0))
+        {
+            position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
+        }
+        this.myLastHero = id.ToUpper();
+        var playerTitan = PhotonNetwork.Instantiate("PlayerTitan", position, new Quaternion(), 0).GetComponent<PlayerTitan>();
+        playerTitan.Initialize(Gamemode.GetPlayerTitanConfiguration());
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(playerTitan.gameObject);
+        //obj3.GetComponent<TITAN>().nonAI = true;
+        //obj3.GetComponent<TITAN>().speed = 30f;
+        //obj3.GetComponent<TITAN_CONTROLLER>().enabled = true;
+        //if ((id == "RANDOM") && (UnityEngine.Random.Range(0, 100) < 7))
         //{
-        //    foreach (MindlessTitan titan in this.titans)
-        //    {
-        //        if (titan.photonView.isMine && !(PhotonNetwork.isMasterClient && !titan.nonAI))
-        //        {
-        //            PhotonNetwork.Destroy(titan.gameObject);
-        //        }
-        //    }
-        //    this.SpawnNonAITitan2(this.myLastHero, "titanRespawn");
+        //    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
         //}
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
+        GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
+        //TODO MouseLook
+        //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
+        ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+        hashtable.Add("dead", false);
+        ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
+        PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+        hashtable = new ExitGames.Client.Photon.Hashtable();
+        hashtable.Add(PhotonPlayerProperty.isTitan, 2);
+        propertiesToSet = hashtable;
+        PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+        if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
+        {
+            Screen.lockCursor = true;
+        }
+        else
+        {
+            Screen.lockCursor = false;
+        }
+        Cursor.visible = true;
+        this.ShowHUDInfoCenter(string.Empty);
     }
 
     private void Start()

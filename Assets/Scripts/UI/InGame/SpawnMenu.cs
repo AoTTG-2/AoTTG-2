@@ -9,6 +9,7 @@ namespace Assets.Scripts.UI.InGame
     public class SpawnMenu : MonoBehaviour
     {
         public Dropdown EquipmentDropdown;
+        public GameObject PlayerTitanButton;
 
         private void Start()
         {
@@ -18,6 +19,11 @@ namespace Assets.Scripts.UI.InGame
                 EquipmentDropdown.options.Add(new Dropdown.OptionData(equipment));
             }
             EquipmentDropdown.captionText.text = EquipmentDropdown.options[0].text;
+
+            if (!FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled)
+            {
+                PlayerTitanButton.SetActive(false);
+            }
         }
 
         public void Spawn()
@@ -55,6 +61,12 @@ namespace Assets.Scripts.UI.InGame
             hashtable.Add(PhotonPlayerProperty.character, selection);
             Hashtable propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            gameObject.SetActive(false);
+        }
+
+        public void SpawnPlayerTitan()
+        {
+            FengGameManagerMKII.instance.SpawnPlayerTitan();
             gameObject.SetActive(false);
         }
 

@@ -25,5 +25,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
             return false;
         }
+
+        public override bool CanAttack(PlayerTitan titan)
+        {
+            if (IsDisabled(titan)) return false;
+            TitanBodyPart = titan.TitanBody.AttackFrontGround;
+            return true;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Gamemode
@@ -62,7 +64,24 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        protected virtual TitanConfiguration GetTitanConfiguration()
+        public virtual TitanConfiguration GetPlayerTitanConfiguration()
+        {
+            var configuration = GetTitanConfiguration();
+            if (configuration.Type == MindlessTitanType.Crawler)
+            {
+                configuration.Attacks = new List<Attack>();
+                return configuration;
+            }
+
+            configuration.Attacks = new List<Attack>
+            {
+                new KickAttack(), new SlapAttack(), new SlapFaceAttack(),
+                new BiteAttack(), new BodySlamAttack(), new GrabAttack()
+            };
+            return configuration;
+        }
+
+        public virtual TitanConfiguration GetTitanConfiguration()
         {
             return GetTitanConfiguration(GetTitanType());
         }

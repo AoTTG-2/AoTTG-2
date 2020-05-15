@@ -26,7 +26,8 @@ public class LevelBuilder
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
-                    Titans = 1
+                    Titans = 1,
+                    IsPlayerTitanEnabled = true
                 }
             }
         });

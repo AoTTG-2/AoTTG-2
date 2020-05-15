@@ -92,6 +92,48 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             return false;
         }
 
+        public bool CanAttackGroundFront(PlayerTitan titan, bool isLeftHand)
+        {
+            Hand = isLeftHand
+                ? BodyPart.HandLeft
+                : BodyPart.HandRight;
+            if (titan.IsDisabled(Hand)) return false;
+            AttackAnimation = isLeftHand
+                ? "grab_ground_front_l"
+                : "grab_ground_front_r";
+            attackCheckTimeA = 0.37f;
+            attackCheckTimeB = 0.6f;
+            return true;
+        }
+
+        public bool CanAttackGroundBack(PlayerTitan titan, bool isLeftHand)
+        {
+            Hand = isLeftHand
+                ? BodyPart.HandLeft
+                : BodyPart.HandRight;
+            if (titan.IsDisabled(Hand)) return false;
+            AttackAnimation = isLeftHand
+                ? "grab_ground_back_l"
+                : "grab_ground_back_r";
+            attackCheckTimeA = 0.34f;
+            attackCheckTimeB = 0.49f;
+            return true;
+        }
+
+        public bool CanAttackNape(PlayerTitan titan, bool isLeftHand)
+        {
+            Hand = isLeftHand
+                ? BodyPart.HandLeft
+                : BodyPart.HandRight;
+            if (titan.IsDisabled(Hand)) return false;
+            AttackAnimation = isLeftHand
+                ? "grab_head_back_l"
+                : "grab_head_back_r";
+            attackCheckTimeA = 0.45f;
+            attackCheckTimeB = 0.5f;
+            return true;
+        }
+
         public override void Execute(MindlessTitan titan)
         {
             if (IsFinished) return;

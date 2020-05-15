@@ -23,6 +23,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             return true;
         }
 
+        public virtual bool CanAttack(PlayerTitan titan)
+        {
+            if (IsDisabled(titan)) return false;
+            return true;
+        }
+
         public virtual void Execute(MindlessTitan titan)
         {
         }
