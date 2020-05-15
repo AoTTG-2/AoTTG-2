@@ -21,45 +21,50 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
-            if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckOverhead.position) < (3.6f * titan.Size))
+
+            if (titan.Target.transform.position.y > titan.TitanBody.Neck.position.y - 3f * titan.Size
+                && titan.TargetDistance < titan.AttackDistance * 0.5f)
             {
-                if (between > 0f)
+                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckOverhead.position) < (3.6f * titan.Size))
                 {
-                    AttackAnimation = "grab_head_front_r";
-                    Hand = BodyPart.HandRight;
-                }
-                else
-                {
-                    AttackAnimation = "grab_head_front_l";
-                    Hand = BodyPart.HandLeft;
+                    if (between > 0f)
+                    {
+                        AttackAnimation = "grab_head_front_r";
+                        Hand = BodyPart.HandRight;
+                    }
+                    else
+                    {
+                        AttackAnimation = "grab_head_front_l";
+                        Hand = BodyPart.HandLeft;
+                    }
+
+                    if (IsDisabled(titan, Hand)) return false;
+                    attackCheckTimeA = 0.38f;
+                    attackCheckTimeB = 0.55f;
+                    return true;
                 }
 
-                if (IsDisabled(titan, Hand)) return false;
-                attackCheckTimeA = 0.38f;
-                attackCheckTimeB = 0.55f;
-                return true;
-            }
-            
-            if (between > 0f)
-            {
-                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackRight.position) < (2.8f * titan.Size))
+                if (between > 0f)
                 {
-                    AttackAnimation = "grab_head_back_r";
-                    Hand = BodyPart.HandLeft;
+                    if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackRight.position) < (2.8f * titan.Size))
+                    {
+                        AttackAnimation = "grab_head_back_r";
+                        Hand = BodyPart.HandLeft;
+                        if (IsDisabled(titan, Hand)) return false;
+                        attackCheckTimeA = 0.45f;
+                        attackCheckTimeB = 0.5f;
+                        return true;
+                    }
+                }
+                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackLeft.position) < (2.8f * titan.Size))
+                {
+                    AttackAnimation = "grab_head_back_l";
+                    Hand = BodyPart.HandRight;
                     if (IsDisabled(titan, Hand)) return false;
                     attackCheckTimeA = 0.45f;
                     attackCheckTimeB = 0.5f;
                     return true;
                 }
-            }
-            if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackLeft.position) < (2.8f * titan.Size))
-            {
-                AttackAnimation = "grab_head_back_l";
-                Hand = BodyPart.HandRight;
-                if (IsDisabled(titan, Hand)) return false;
-                attackCheckTimeA = 0.45f;
-                attackCheckTimeB = 0.5f;
-                return true;
             }
 
             if (Mathf.Abs(between) < 90f && titan.TargetDistance < (titan.AttackDistance * 0.5f))

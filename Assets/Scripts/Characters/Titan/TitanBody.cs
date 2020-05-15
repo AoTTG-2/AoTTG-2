@@ -50,7 +50,7 @@ namespace Assets.Scripts.Characters.Titan
         public Transform AttackAbnormalJump;
 
         private Dictionary<BodyPart, float> CooldownDictionary { get; set; } = new Dictionary<BodyPart, float>();
-        private readonly float _bodyPartRecovery = 45f;
+        private readonly float _bodyPartRecovery = 15f;
         private readonly Vector3 bodyPartDamagedSize = new Vector3(0.001f, 0.001f, 0.001f);
         private Dictionary<BodyPart, GameObject> SteamEffectDictionary { get; set; } = new Dictionary<BodyPart, GameObject>();
 
@@ -161,6 +161,7 @@ namespace Assets.Scripts.Characters.Titan
                 else
                 {
                     CooldownDictionary.Remove(bodyPart);
+                    SteamEffectDictionary.Remove(bodyPart);
                 }
             }
         }

@@ -708,15 +708,14 @@ namespace Assets.Scripts.Characters.Titan
             {
                 var disabledBodyParts = TitanBody.GetDisabledBodyParts();
                 if (disabledBodyParts.Any(x => x == BodyPart.LegLeft)
-                    && disabledBodyParts.Any(x => x == BodyPart.LegRight))
+                    || disabledBodyParts.Any(x => x == BodyPart.LegRight))
                 {
                     CurrentAnimation = "attack_abnormal_jump";
-                    if (!Animation.IsPlaying(CurrentAnimation))
-                        CrossFade(CurrentAnimation, 0.1f);
+                    CrossFade(CurrentAnimation, 0.1f);
                 }
                 else
                 {
-                    ChangeState(PreviousState);
+                    ChangeState(MindlessTitanState.Chase);
                 }
             }
 
