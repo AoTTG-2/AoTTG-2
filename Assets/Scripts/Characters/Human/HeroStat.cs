@@ -94,7 +94,7 @@ public class HeroStat
                 SPD = 100,
                 GAS = 100,
                 BLA = 100,
-                ACL = 100
+                ACL = 150
             };
             HeroStat stat2 = new HeroStat();
             SASHA.name = "AHSS";

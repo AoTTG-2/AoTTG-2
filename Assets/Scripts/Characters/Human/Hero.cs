@@ -203,6 +203,9 @@ public class Hero : Human
     public GameObject InGameUI;
     public TextMesh PlayerName;
 
+    private float current_acceleration;
+
+
     private bool isAttacking()
     {
         return ((this.state == HERO_STATE.Execute_Attack_Blades) || (this.state == HERO_STATE.Execute_Attack_AHSS));
@@ -1571,8 +1574,19 @@ public class Hero : Human
                 }
 
                 //Reeling in/out and pivoting around point.
-                float accelerationAdder = 1.8f;
+                float accelerationAdder = 1.2f;
                 float maxVelocity = 400f;
+                
+                if(this.spinning)
+                {
+                    //current acceleration is added at the top
+                    current_acceleration += accelerationAdder * Time.deltaTime;
+                }
+                else
+                {
+                    current_acceleration = 0;
+                }
+
                 this.spinning = false;
                 Debug.Log(this.baseRigidBody.velocity.magnitude);
                 if (flag3 && flag4)
@@ -1603,7 +1617,7 @@ public class Hero : Human
                     {
                         this.baseRigidBody.velocity = (Vector3)(vector14 * num14);
                         Vector3 normalizedVelocity = this.baseRigidBody.velocity.normalized;
-                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + accelerationAdder);
+                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + current_acceleration);
                     }
                     else
                     {
@@ -1638,7 +1652,7 @@ public class Hero : Human
                     {
                         this.baseRigidBody.velocity = (Vector3)(vector16 * num17);
                         Vector3 normalizedVelocity = this.baseRigidBody.velocity.normalized;
-                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + accelerationAdder);
+                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + current_acceleration);
                     }
                     else {
                         this.baseRigidBody.velocity = (Vector3)(vector16 * num17);
@@ -1673,7 +1687,7 @@ public class Hero : Human
                     {
                         this.baseRigidBody.velocity = (Vector3)(vector18 * num20);
                         Vector3 normalizedVelocity = this.baseRigidBody.velocity.normalized;
-                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + accelerationAdder);
+                        this.baseRigidBody.velocity = normalizedVelocity * (this.baseRigidBody.velocity.magnitude + current_acceleration);
                     }
                     else
                     {
