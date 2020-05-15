@@ -19,7 +19,7 @@ namespace Assets.Scripts.UI.Menu
         {
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", "AoTTG2-Alpha");
+            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", FengGameManagerMKII.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
@@ -34,7 +34,7 @@ namespace Assets.Scripts.UI.Menu
         {
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", "AoTTG2-Alpha");
+            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", FengGameManagerMKII.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
         }
 
