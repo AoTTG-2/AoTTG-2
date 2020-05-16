@@ -12,11 +12,9 @@ namespace Assets.Scripts.UI.InGame
 		public QualitySwitcher QualitySwitcher;
 		public ResolutionSwitcher ResolutionSwitcher;
 		public Text label;
-		private Toggle CustomSettings;
+		public Toggle CustomSettings;
 
 		private void Start() {
-			CustomSettings = GeneralGraphic.CustomSettings;
-			label = GeneralGraphic.CustomSettings.GetComponentInChildren<Text>();
 			AdvancedOptions();
 			QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
 		}
