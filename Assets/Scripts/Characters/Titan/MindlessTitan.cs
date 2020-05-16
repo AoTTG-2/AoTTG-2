@@ -509,8 +509,29 @@ namespace Assets.Scripts.Characters.Titan
         private void OnTitanDeath()
         {
             ReleaseGrabbedTarget();
+            if (FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode > 0)
+                Invoke("Explode", 1f);
         }
 
+        private void Explode()
+        {
+            var height = Size * 10f;
+            if (Type == MindlessTitanType.Crawler)
+            {
+                height = 0f;
+            }
+            Vector3 position = transform.position + Vector3.up * height;
+            PhotonNetwork.Instantiate("FX/Thunder", position, Quaternion.Euler(270f, 0f, 0f), 0);
+            PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
+            foreach (Hero player in FengGameManagerMKII.instance.getPlayers())
+            {
+                if (Vector3.Distance(player.transform.position, position) < FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode)
+                {
+                    player.markDie();
+                    player.photonView.RPC("netDie2", PhotonTargets.All,  -1, "Server ");
+                }
+            }
+        }
 
         private bool HasDieSteam { get; set; }
         private void Dead()

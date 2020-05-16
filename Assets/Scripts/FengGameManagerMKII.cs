@@ -3516,89 +3516,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         UnityEngine.MonoBehaviour.print("OnUpdatedFriendList");
     }
-
-    public int operantType(string str, int condition)
-    {
-        switch (condition)
-        {
-            case 0:
-            case 3:
-                if (!str.StartsWith("Equals"))
-                {
-                    if (str.StartsWith("NotEquals"))
-                    {
-                        return 5;
-                    }
-                    if (!str.StartsWith("LessThan"))
-                    {
-                        if (str.StartsWith("LessThanOrEquals"))
-                        {
-                            return 1;
-                        }
-                        if (str.StartsWith("GreaterThanOrEquals"))
-                        {
-                            return 3;
-                        }
-                        if (str.StartsWith("GreaterThan"))
-                        {
-                            return 4;
-                        }
-                    }
-                    return 0;
-                }
-                return 2;
-
-            case 1:
-            case 4:
-            case 5:
-                if (!str.StartsWith("Equals"))
-                {
-                    if (str.StartsWith("NotEquals"))
-                    {
-                        return 5;
-                    }
-                    return 0;
-                }
-                return 2;
-
-            case 2:
-                if (!str.StartsWith("Equals"))
-                {
-                    if (str.StartsWith("NotEquals"))
-                    {
-                        return 1;
-                    }
-                    if (str.StartsWith("Contains"))
-                    {
-                        return 2;
-                    }
-                    if (str.StartsWith("NotContains"))
-                    {
-                        return 3;
-                    }
-                    if (str.StartsWith("StartsWith"))
-                    {
-                        return 4;
-                    }
-                    if (str.StartsWith("NotStartsWith"))
-                    {
-                        return 5;
-                    }
-                    if (str.StartsWith("EndsWith"))
-                    {
-                        return 6;
-                    }
-                    if (str.StartsWith("NotEndsWith"))
-                    {
-                        return 7;
-                    }
-                    return 0;
-                }
-                return 0;
-        }
-        return 0;
-    }
-
+    
     [PunRPC]
     public void pauseRPC(bool pause, PhotonMessageInfo info)
     {
@@ -3635,63 +3553,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         propertiesToSet.Add(PhotonPlayerProperty.total_dmg, ((int)player.CustomProperties[PhotonPlayerProperty.total_dmg]) + dmg);
         player.SetCustomProperties(propertiesToSet);
     }
-
-    //public GameObject randomSpawnOneTitan(string place, int rate)
-    //{
-    //    GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
-    //    int index = UnityEngine.Random.Range(0, objArray.Length);
-    //    GameObject obj2 = objArray[index];
-    //    while (objArray[index] == null)
-    //    {
-    //        index = UnityEngine.Random.Range(0, objArray.Length);
-    //        obj2 = objArray[index];
-    //    }
-    //    objArray[index] = null;
-    //    return this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, false);
-    //}
-
-    //public void randomSpawnTitan(string place, int rate, int num, bool punk = false)
-    //{
-    //    if (num == -1)
-    //    {
-    //        num = 1;
-    //    }
-    //    GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
-    //    if (objArray.Length > 0)
-    //    {
-    //        for (int i = 0; i < num; i++)
-    //        {
-    //            int index = UnityEngine.Random.Range(0, objArray.Length);
-    //            GameObject obj2 = objArray[index];
-    //            if (num <= objArray.Length)
-    //            {
-    //                while (objArray[index] == null)
-    //                {
-    //                    index = UnityEngine.Random.Range(0, objArray.Length);
-    //                    obj2 = objArray[index];
-    //                }
-    //                objArray[index] = null;
-    //            }
-    //            this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, punk);
-    //        }
-    //    }
-    //}
-
-    public Texture2D RCLoadTexture(string tex)
-    {
-        if (this.assetCacheTextures == null)
-        {
-            this.assetCacheTextures = new Dictionary<string, Texture2D>();
-        }
-        if (this.assetCacheTextures.ContainsKey(tex))
-        {
-            return this.assetCacheTextures[tex];
-        }
-        Texture2D textured2 = (Texture2D)RCassets.LoadAsset(tex);
-        this.assetCacheTextures.Add(tex, textured2);
-        return textured2;
-    }
-
+    
     public void RecompilePlayerList(float time)
     {
         if (!this.isRecompiling)
