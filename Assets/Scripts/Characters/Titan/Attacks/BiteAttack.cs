@@ -45,5 +45,34 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
             return false;
         }
+
+        public bool CanAttack(PlayerTitan titan, float rotation)
+        {
+            if (rotation > 7.5f)
+            {
+                AttackAnimation = "attack_bite_r";
+                BoomTimer = 0.4f;
+                TitanBodyPart = titan.TitanBody.AttackBiteRight;
+                return true;
+            }
+
+            if (rotation < -7.5f)
+            {
+                AttackAnimation = "attack_bite_l";
+                BoomTimer = 0.4f;
+                TitanBodyPart = titan.TitanBody.AttackBiteLeft;
+                return true;
+            }
+
+            if (rotation >= -7.5f && rotation <= 7.5f)
+            {
+                AttackAnimation = "attack_bite";
+                BoomTimer = 0.6f;
+                TitanBodyPart = titan.TitanBody.AttackBite;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (key == InputCodeRC.titanAntiAE)
             {
-                var attack = Attacks.FirstOrDefault(x => x is SlapAttack) as SlapAttack;
+                var attack = Attacks.SingleOrDefault(x => x is SlapAttack) as SlapAttack;
                 if (attack == null) return null;
 
                 return attack.CanAttack(this, Rotation < 0f)
@@ -72,7 +72,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (key == InputCodeRC.titanGrabNape)
             {
-                var attack = Attacks.FirstOrDefault(x => x is GrabAttack) as GrabAttack;
+                var attack = Attacks.SingleOrDefault(x => x is GrabAttack) as GrabAttack;
                 if (attack == null) return null;
                 return attack.CanAttackNape(this, Rotation < 0f)
                     ? attack
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (key == InputCodeRC.titanGrabFront)
             {
-                var attack = Attacks.FirstOrDefault(x => x is GrabAttack) as GrabAttack;
+                var attack = Attacks.SingleOrDefault(x => x is GrabAttack) as GrabAttack;
                 if (attack == null) return null;
                 return attack.CanAttackGroundFront(this, Rotation < 0f)
                     ? attack
@@ -90,9 +90,18 @@ namespace Assets.Scripts.Characters.Titan
 
             if (key == InputCodeRC.titanGrabBack)
             {
-                var attack = Attacks.FirstOrDefault(x => x is GrabAttack) as GrabAttack;
+                var attack = Attacks.SingleOrDefault(x => x is GrabAttack) as GrabAttack;
                 if (attack == null) return null;
                 return attack.CanAttackGroundBack(this, Rotation < 0f)
+                    ? attack
+                    : null;
+            }
+
+            if (key == InputCodeRC.titanBite)
+            {
+                var attack = Attacks.SingleOrDefault(x => x is BiteAttack) as BiteAttack;
+                if (attack == null) return null;
+                return attack.CanAttack(this, Rotation)
                     ? attack
                     : null;
             }
@@ -105,6 +114,7 @@ namespace Assets.Scripts.Characters.Titan
             if (FengGameManagerMKII.inputRC.isInputTitan(keycode))
             {
                 CurrentAttack = CanAttack(keycode);
+                if (CurrentAttack == null) return false;
                 if (!CurrentAttack.CanAttack(this))
                 {
                     CurrentAttack = null;
@@ -134,6 +144,7 @@ namespace Assets.Scripts.Characters.Titan
             if (Attack(InputCodeRC.titanGrabNape)) return true;
             if (Attack(InputCodeRC.titanGrabBack)) return true;
             if (Attack(InputCodeRC.titanGrabFront)) return true;
+            if (Attack(InputCodeRC.titanBite)) return true;
 
             //if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanPunch))
             //{
@@ -146,22 +157,6 @@ namespace Assets.Scripts.Characters.Titan
             //if (this.inputManager.GetComponent<FengCustomInputs>().isInputDown[InputCode.restart])
             //{
             //    this.isSuicide = true;
-            //}
-            //if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanCover))
-            //{
-            //    this.cover = true;
-            //}
-            //if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanBite) && (num6 > 7.5f))
-            //{
-            //    this.biter = true;
-            //}
-            //if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanBite) && (num6 < -7.5f))
-            //{
-            //    this.bitel = true;
-            //}
-            //if ((FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanBite) && (num6 >= -7.5f)) && (num6 <= 7.5f))
-            //{
-            //    this.bite = true;
             //}
             return false;
         }
@@ -207,6 +202,19 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CrossFade(AnimationRecovery, 0.0f);
                 return;
+            }
+
+            if (TitanState == MindlessTitanState.Disabled)
+            {
+                var disabledBodyParts = TitanBody.GetDisabledBodyParts();
+                if (disabledBodyParts.Any(x => x == BodyPart.LegLeft)
+                    || disabledBodyParts.Any(x => x == BodyPart.LegRight))
+                {
+                    CurrentAnimation = "attack_abnormal_jump";
+                    CrossFade(CurrentAnimation, 0.1f);
+                    return;
+                }
+                ChangeState(MindlessTitanState.Wandering);
             }
 
             if (IsCovering && Animation.IsPlaying(AnimationCover) && Animation[AnimationCover].normalizedTime < 1f)
