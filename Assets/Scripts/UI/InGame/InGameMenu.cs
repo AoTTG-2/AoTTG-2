@@ -5,7 +5,7 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
-        public GraphicSettingMenu GraphicSettingsMenu;
+        public GraphicsView GraphicsView;
         public void ShowGameSettingsMenu()
         {
             GameSettingsMenu.gameObject.SetActive(true);
@@ -17,13 +17,13 @@ namespace Assets.Scripts.UI.InGame
 
         public void ShowGraphicSettingsMenu()
         {
-            GraphicSettingsMenu.gameObject.SetActive(true);
+            GraphicsView.gameObject.SetActive(true);
         }
 
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
-            GraphicSettingsMenu.gameObject.SetActive(false);
+            GraphicsView.gameObject.SetActive(false);
         }
 
         public void Quit()

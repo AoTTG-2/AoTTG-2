@@ -24,10 +24,10 @@ public class FPSCounter : MonoBehaviour {
 	public void Counter()
 	{
 		time += Time.deltaTime;
-		if(time >= 1.0f)
+		if(time >= 2.0f)
 		{
 			var fps = 1.0f/Time.deltaTime;
-			CounterText.text = Convert.ToInt64(fps).ToString();
+			CounterText.text = Convert.ToInt32(fps).ToString();
 			time = 0f;
 		}
 		
