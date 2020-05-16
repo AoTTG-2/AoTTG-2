@@ -56,6 +56,17 @@ namespace Assets.Scripts.UI.InGame
 			
 			label.color = Color.green;
 			label.text = "loaded player prefs";
+
+			if(loaded.CustomSettings)
+			{
+				if(QualitySettings.GetQualityLevel() != 6)
+				{
+					QualitySettings.SetQualityLevel(6, true);
+				}
+			}
+
+			GeneralGraphic.UpdateEverything();
+			//QualitySwitcher.UpdateQuality();
 		}
 
 		public void AdvancedOptions()
