@@ -40,6 +40,8 @@ public class FengCustomInputs : MonoBehaviour
     private bool[] tempjoy1;
     public string tempkeyPressed;
     private int tempLength;
+	
+	private static FengCustomInputs Instance { get; set;}
 
     private void checDoubleAxis(string testAxisString, int o, int p)
     {
@@ -592,6 +594,16 @@ public class FengCustomInputs : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+		 
         this.inputBool = new bool[this.DescriptionString.Length];
         this.inputString = new string[this.DescriptionString.Length];
         //this.inputKey = new KeyCode[this.DescriptionString.Length];
