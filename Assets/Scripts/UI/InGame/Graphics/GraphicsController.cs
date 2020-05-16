@@ -8,15 +8,18 @@ namespace Assets.Scripts.UI.InGame
 {
 	public class GraphicsController : MonoBehaviour {
 
+		int CUSTOM = QualitySettings.names.Length - 1;
 		public GeneralGraphics GeneralGraphic;
 		public QualitySwitcher QualitySwitcher;
 		public ResolutionSwitcher ResolutionSwitcher;
 		public Text label;
 		public Toggle CustomSettings;
 
+		private int tempLevel = -1;
+
 		private void Start() {
-			QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
 			AdvancedOptions();
+			QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
 		}
 
 		public void SaveGraphicPlayerPrefs()
@@ -61,7 +64,6 @@ namespace Assets.Scripts.UI.InGame
 		public void AdvancedOptions()
 		{
 			var selected = CustomSettings.isOn;
-			var temp = QualitySettings.GetQualityLevel();
 			
 			if(!selected)
 			{
@@ -73,20 +75,36 @@ namespace Assets.Scripts.UI.InGame
 				GeneralGraphic.SoftParticles.interactable = false;
 
 				QualitySwitcher.Slider.interactable = true;
-				QualitySettings.SetQualityLevel(temp);
+				QualitySwitcher.Slider.maxValue = (int)QualityLevel.Fantastic;
+				QualitySwitcher.Label.text = QualitySettings.names[tempLevel];
+
+				if(tempLevel != -1)
+				{
+					QualitySettings.SetQualityLevel(tempLevel);
+				}
+				else
+				{
+					QualitySettings.SetQualityLevel((int)QualityLevel.Fastest);
+				}
+				
 			}
 			if(selected)
 			{
-				QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
+				tempLevel = QualitySettings.GetQualityLevel();
+
+				QualitySettings.SetQualityLevel(CUSTOM);
+				QualitySwitcher.Slider.maxValue = QualitySettings.names.Length - 1;
+				QualitySwitcher.Slider.value = QualitySwitcher.Slider.maxValue;
+				QualitySwitcher.UpdateQuality();
+				QualitySwitcher.Slider.interactable = false;
+
+
 				GeneralGraphic.TextureQuality.interactable = true;
 				GeneralGraphic.ShadowRes.interactable = true;
 				GeneralGraphic.AntiAliasing.interactable = true;
 				GeneralGraphic.Shadows.interactable = true;
 				GeneralGraphic.VSync.interactable = true;
 				GeneralGraphic.SoftParticles.interactable = true;
-
-				QualitySwitcher.Slider.interactable = false;
-				QualitySwitcher.Label.text = "Custom";
 			}
 		}
 	}

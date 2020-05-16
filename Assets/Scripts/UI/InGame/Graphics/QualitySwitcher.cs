@@ -8,16 +8,11 @@ namespace Assets.Scripts.UI.InGame
 		public Text Label;
 		public Slider Slider;
 
-		private void Update() {
-			
-		}
-
-		public void UpdateQualitySliderValue()
+		public void UpdateQuality()
 		{
-			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
 			int sValue = (int)Slider.value;
 			QualitySettings.SetQualityLevel(sValue, true);
-			
+			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
 		}
 
 		public void LoadPlayerPrefs()
