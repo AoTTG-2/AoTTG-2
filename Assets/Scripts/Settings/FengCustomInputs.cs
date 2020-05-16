@@ -41,7 +41,7 @@ public class FengCustomInputs : MonoBehaviour
     public string tempkeyPressed;
     private int tempLength;
 	
-	private static FengCustomInputs inputManagerInstance;
+	private static FengCustomInputs Instance { get; set;}
 
     private void checDoubleAxis(string testAxisString, int o, int p)
     {
@@ -594,9 +594,13 @@ public class FengCustomInputs : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-		if (inputManagerInstance == null) inputManagerInstance = this;
-        else {
-            Destroy(this.gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
             return;
         }
 		 

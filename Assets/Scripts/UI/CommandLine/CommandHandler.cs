@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.UI;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CommandHandler : MonoBehaviour
 {
@@ -22,9 +20,15 @@ public class CommandHandler : MonoBehaviour
 
     void Start()
     {
-        UnityEngine.Object.DontDestroyOnLoad(this.gameObject);
-		if(Instance == null) Instance = this;					
-		else Destroy(this.gameObject);
+        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         Commands = new List<Command>();
         Command spawn = new Command("/spawn", "Spawn", string.Empty, ConsoleCommands.Spawn);
