@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
@@ -11,6 +12,7 @@ namespace Assets.Scripts.UI
 
         public GameObject MenuUi;
         public GameObject InGameUi;
+        public Text Version;
 
         public void Start()
         {
@@ -23,6 +25,7 @@ namespace Assets.Scripts.UI
                 element.gameObject.SetActive(false);
             }
             Elements[0].gameObject.SetActive(true);
+            Version.text = FengGameManagerMKII.Version;
         }
 
         public void ShowMenu()

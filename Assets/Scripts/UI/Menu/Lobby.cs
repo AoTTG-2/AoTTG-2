@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Room;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Menu
@@ -16,7 +17,10 @@ namespace Assets.Scripts.UI.Menu
 
         public void OnEnable()
         {
-            PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
+            // PhotonServer complains about no UserId being set, temp fix
+            PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", FengGameManagerMKII.Version);
+            //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
         public void OnRegionChanged(int region)
@@ -28,7 +32,10 @@ namespace Assets.Scripts.UI.Menu
 
         public void OnDisconnectedFromPhoton()
         {
-            PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
+            // PhotonServer complains about no UserId being set, temp fix
+            PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", FengGameManagerMKII.Version);
+            //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
         }
 
         public void OnConnectedToPhoton()

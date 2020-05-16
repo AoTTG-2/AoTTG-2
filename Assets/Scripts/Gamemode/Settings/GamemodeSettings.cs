@@ -137,7 +137,7 @@ namespace Assets.Scripts.Gamemode.Settings
             {MindlessTitanType.Abberant, 20f},
             {MindlessTitanType.Jumper, 30f},
             {MindlessTitanType.Punk, 5f},
-            {MindlessTitanType.Crawler, 5f},
+            {MindlessTitanType.Crawler, 0f},
             {MindlessTitanType.Burster, 0f},
             {MindlessTitanType.Stalker, 0f},
             { MindlessTitanType.Abnormal, 0f }
