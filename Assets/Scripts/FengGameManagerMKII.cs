@@ -16,6 +16,7 @@ using UnityEngine;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
+    public static string Version = "Alpha-138";
     public static bool showHackMenu = true;
 
     public Dictionary<int, CannonValues> allowedToCannon;
@@ -4669,6 +4670,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"Version: {Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";
         HeroCostume.init2();
