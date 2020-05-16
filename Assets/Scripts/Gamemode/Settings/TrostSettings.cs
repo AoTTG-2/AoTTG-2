@@ -8,7 +8,7 @@ namespace Assets.Scripts.Gamemode.Settings
         public TrostSettings()
         {
             GamemodeType = GamemodeType.Trost;
-            PlayerTitanShifters = false;
+            PlayerShifters = false;
             Titans = 2;
             DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk};
         }

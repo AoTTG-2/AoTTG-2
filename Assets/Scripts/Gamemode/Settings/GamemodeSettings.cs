@@ -122,7 +122,7 @@ namespace Assets.Scripts.Gamemode.Settings
         public float RespawnTime = 5f;
         [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?", SettingCategory.Pvp)]
         public bool AhssAirReload { get; set; } = true;
-        public bool PlayerTitanShifters = true;
+        public bool PlayerShifters = true;
 
         public bool RestartOnTitansKilled = true;
 

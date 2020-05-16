@@ -8,7 +8,7 @@ namespace Assets.Scripts.Gamemode.Settings
         {
             GamemodeType = GamemodeType.Capture;
             RespawnTime = 20f;
-            PlayerTitanShifters = false;
+            PlayerShifters = false;
             Titans = 0;
             TitanLimit = 25;
             TitanChaseDistance = 120f;

@@ -3913,7 +3913,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                if ((FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled || !FengGameManagerMKII.Gamemode.Settings.PlayerTitanShifters))
+                if (!FengGameManagerMKII.Gamemode.Settings.PlayerShifters)
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;

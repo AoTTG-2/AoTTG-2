@@ -166,9 +166,30 @@ namespace Assets.Scripts.Characters.Titan
             return false;
         }
 
+        protected override void OnTitanDeath()
+        {
+            base.OnTitanDeath();
+            if (!photonView.isMine) return;
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+            propertiesToSet.Add(PhotonPlayerProperty.dead, true);
+            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int)PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
+            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+        }
+
         protected override void Update()
         {
             if (!photonView.isMine) return;
+
+            if (!IsAlive)
+            {
+                Dead();
+                return;
+            }
 
             if (Input.GetKeyDown(KeyCode.F))
             {

@@ -8,7 +8,7 @@ namespace Assets.Scripts.Gamemode.Settings
         public RacingSettings()
         {
             GamemodeType = GamemodeType.Racing;
-            PlayerTitanShifters = false;
+            PlayerShifters = false;
             Pvp = PvpMode.Disabled;
             Supply = false;
             RespawnMode = RespawnMode.NEVER;

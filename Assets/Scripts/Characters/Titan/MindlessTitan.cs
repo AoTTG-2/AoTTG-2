@@ -506,7 +506,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        private void OnTitanDeath()
+        protected virtual void OnTitanDeath()
         {
             ReleaseGrabbedTarget();
             if (FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode > 0)
@@ -534,7 +534,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         private bool HasDieSteam { get; set; }
-        private void Dead()
+        protected void Dead()
         {
             if (!Animation.IsPlaying(AnimationDeath))
             {
@@ -629,7 +629,7 @@ namespace Assets.Scripts.Characters.Titan
         public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             if (Animation.IsPlaying(newAnimation)) return;
-            if (PhotonNetwork.isMasterClient)
+            if (photonView.isMine)
             {
                 CurrentAnimation = newAnimation;
                 Animation.CrossFade(newAnimation, fadeLength);
@@ -638,7 +638,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
-        private void CrossFadeRpc(string newAnimation, float fadeLength,
+        protected void CrossFadeRpc(string newAnimation, float fadeLength,
             PhotonMessageInfo info = new PhotonMessageInfo())
         {
             if (info.sender.IsMasterClient)

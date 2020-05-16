@@ -10,7 +10,7 @@ namespace Assets.Scripts.Gamemode.Settings
             AhssAirReload = false;
             Titans = -1;
             Pvp = PvpMode.AhssVsBlades;
-            PlayerTitanShifters = true;
+            PlayerShifters = false;
             Horse = false;
             TitansEnabled = false;
         }
