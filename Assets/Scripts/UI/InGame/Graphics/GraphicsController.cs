@@ -8,14 +8,11 @@ namespace Assets.Scripts.UI.InGame
 {
 	public class GraphicsController : MonoBehaviour {
 
-		int CUSTOM = QualitySettings.names.Length - 1;
 		public GeneralGraphics GeneralGraphic;
 		public QualitySwitcher QualitySwitcher;
 		public ResolutionSwitcher ResolutionSwitcher;
 		public Text label;
 		public Toggle CustomSettings;
-
-		private int tempLevel = -1;
 
 		private void Start() {
 			AdvancedOptions();
@@ -43,14 +40,15 @@ namespace Assets.Scripts.UI.InGame
 		{
 			
 			var loaded = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString("GraphicsData"));
-				
+
+			GeneralGraphic.CustomSettings.isOn = loaded.CustomSettings;
 			GeneralGraphic.TextureQuality.value = loaded.TextureQuality;
 			GeneralGraphic.ShadowRes.value = loaded.ShadowRes;
 			GeneralGraphic.AntiAliasing.value = loaded.AntiAliasing;
 			GeneralGraphic.Shadows.value = loaded.Shadows;
 			GeneralGraphic.VSync.isOn = loaded.VSync;
 			GeneralGraphic.SoftParticles.isOn = loaded.SoftParticles;
-			GeneralGraphic.CustomSettings.isOn = loaded.CustomSettings;
+			
 
 			GeneralGraphic.UpdateEverything();
 
@@ -75,36 +73,26 @@ namespace Assets.Scripts.UI.InGame
 				GeneralGraphic.SoftParticles.interactable = false;
 
 				QualitySwitcher.Slider.interactable = true;
-				QualitySwitcher.Slider.maxValue = (int)QualityLevel.Fantastic;
-				QualitySwitcher.Label.text = QualitySettings.names[tempLevel];
-
-				if(tempLevel != -1)
-				{
-					QualitySettings.SetQualityLevel(tempLevel);
-				}
-				else
-				{
-					QualitySettings.SetQualityLevel((int)QualityLevel.Fastest);
-				}
+				QualitySwitcher.Label.color = Color.white;
+				QualitySwitcher.UpdateQuality();
 				
 			}
 			if(selected)
 			{
-				tempLevel = QualitySettings.GetQualityLevel();
-
-				QualitySettings.SetQualityLevel(CUSTOM);
-				QualitySwitcher.Slider.maxValue = QualitySettings.names.Length - 1;
-				QualitySwitcher.Slider.value = QualitySwitcher.Slider.maxValue;
-				QualitySwitcher.UpdateQuality();
-				QualitySwitcher.Slider.interactable = false;
-
-
 				GeneralGraphic.TextureQuality.interactable = true;
 				GeneralGraphic.ShadowRes.interactable = true;
 				GeneralGraphic.AntiAliasing.interactable = true;
 				GeneralGraphic.Shadows.interactable = true;
 				GeneralGraphic.VSync.interactable = true;
 				GeneralGraphic.SoftParticles.interactable = true;
+
+				QualitySwitcher.Slider.interactable = false;
+
+				QualitySwitcher.Label.color = Color.gray;
+				QualitySettings.SetQualityLevel(6, true);
+
+				GeneralGraphic.UpdateEverything();
+				
 			}
 		}
 	}
