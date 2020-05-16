@@ -16,7 +16,6 @@ namespace Assets.Scripts.UI.InGame
 
 		private void Start() {
 			AdvancedOptions();
-			QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
 		}
 
 		public void SaveGraphicPlayerPrefs()
@@ -72,6 +71,7 @@ namespace Assets.Scripts.UI.InGame
 				GeneralGraphic.VSync.interactable = false;
 				GeneralGraphic.SoftParticles.interactable = false;
 
+				QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
 				QualitySwitcher.Slider.interactable = true;
 				QualitySwitcher.Label.color = Color.white;
 				QualitySwitcher.UpdateQuality();

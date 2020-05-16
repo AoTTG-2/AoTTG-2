@@ -116,7 +116,6 @@ namespace Assets.Scripts.UI.InGame
 		}
 		public void ChangeTextureQuality()
 		{
-			//QualitySettings.masterTextureLimit = TextureQuality.value;
 			var selected = TextureQuality.value;
 			switch(selected)
 			{
