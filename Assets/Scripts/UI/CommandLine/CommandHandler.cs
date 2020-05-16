@@ -23,8 +23,10 @@ public class CommandHandler : MonoBehaviour
     void Start()
     {
         UnityEngine.Object.DontDestroyOnLoad(this.gameObject);
+		if(Instance == null) Instance = this;					
+		else Destroy(this.gameObject);
+
         Commands = new List<Command>();
-        Instance = this;
         Command spawn = new Command("/spawn", "Spawn", string.Empty, ConsoleCommands.Spawn);
         Command connect = new Command("/connect", "Test connect", string.Empty, ConsoleCommands.TestConnect);
         Command printMessage = new Command("/print", "Print info about this command", "[1] [2] [3]", ConsoleCommands.PrintMessage);

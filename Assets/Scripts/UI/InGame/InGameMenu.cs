@@ -29,6 +29,7 @@ namespace Assets.Scripts.UI.InGame
         public void Quit()
         {
             PhotonNetwork.Disconnect();
+			Destroy(GameObject.Find ("Canvas").GetComponent<UiHandler> ().gameObject);
         }
     }
 }
