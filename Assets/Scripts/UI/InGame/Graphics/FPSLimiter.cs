@@ -24,7 +24,6 @@ public class FPSLimiter : MonoBehaviour {
 	
 
 	private void Start() {
-		FPSDropdown.value = 1;
 		SetFPSLimit();
 	}
 
