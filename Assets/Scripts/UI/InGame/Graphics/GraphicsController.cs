@@ -93,8 +93,6 @@ namespace Assets.Scripts.UI.InGame
 
 				FPSLimiter.SetFPSLimit();
 
-				QualitySwitcher.Slider.value = loaded2.Slider;
-
 				GeneralGraphic.CustomSettings.isOn = loaded1.CustomSettings;
 				GeneralGraphic.TextureQuality.value = loaded1.TextureQuality;
 				GeneralGraphic.ShadowRes.value = loaded1.ShadowRes;
@@ -102,22 +100,20 @@ namespace Assets.Scripts.UI.InGame
 				GeneralGraphic.Shadows.value = loaded1.Shadows;
 				GeneralGraphic.VSync.isOn = loaded1.VSync;
 				GeneralGraphic.SoftParticles.isOn = loaded1.SoftParticles;
-
-
 				GeneralGraphic.UpdateEverything();
 
+
+				// change the quality level to custom if custom settings is on
+				if (loaded1.CustomSettings)
+				{
+					QualitySettings.SetQualityLevel(6, true);
+				}
+
+				QualitySwitcher.Slider.value = loaded2.Slider;
 
 
 				label.color = Color.green;
 				label.text = "loaded player prefs";
-
-				if (loaded1.CustomSettings)
-				{
-					if (QualitySettings.GetQualityLevel() != 6)
-					{
-						QualitySettings.SetQualityLevel(6, true);
-					}
-				}
 
 				GeneralGraphic.UpdateEverything();
 			}
@@ -143,15 +139,18 @@ namespace Assets.Scripts.UI.InGame
 
 			if (selected)
 			{
-
-				QualitySwitcher.Slider.interactable = false;
-
-				QualitySwitcher.Label.color = Color.gray;
 				QualitySettings.SetQualityLevel(6, true);
+				QualitySwitcher.Slider.interactable = false;
+				QualitySwitcher.Label.color = Color.gray;
+				
 
 			}
 			else
 			{
+				if(QualitySettings.GetQualityLevel() == 6)
+				{
+					QualitySettings.DecreaseLevel();
+				}
 				QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
 				
 				QualitySwitcher.Slider.interactable = true;
@@ -160,7 +159,7 @@ namespace Assets.Scripts.UI.InGame
 
 			}
 
-			GeneralGraphic.UpdateEverything();
+			//GeneralGraphic.UpdateEverything();
 		}
 	}
 }
