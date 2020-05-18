@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 public class FPSLimiter : MonoBehaviour {
 
 	
-	[SerializeField] public Slider fpsLimiter;
+	[SerializeField] public InputField fpsLimiter;
 	[SerializeField] public Dropdown fpsDropdown;
 	
 
@@ -16,7 +16,7 @@ public class FPSLimiter : MonoBehaviour {
 		get { return fpsDropdown; }
 		set { fpsDropdown = value; }
 	}
-	public Slider FPSLimit
+	public InputField FPSLimit
 	{
 		get { return fpsLimiter; }
 		set { fpsLimiter = value; }
@@ -30,10 +30,21 @@ public class FPSLimiter : MonoBehaviour {
 
 	public void SetFPSLimit()
 	{
-		if(FPSDropdown.value == 6)
+		if(FPSDropdown.value == 5)
 		{
 			FPSLimit.interactable = true;
-			Application.targetFrameRate = (int)fpsLimiter.value;
+			var text = FPSLimit.text;
+			if (FPSLimit.contentType.Equals(InputField.ContentType.IntegerNumber))
+			{
+				try
+				{
+					Application.targetFrameRate = int.Parse(text.ToString());
+				}
+				catch (FormatException ex)
+				{
+					Debug.LogWarning("Inputed value is not a number!");
+				}
+			}
 		}
 		else
 		{
@@ -61,5 +72,18 @@ public class FPSLimiter : MonoBehaviour {
 		}	
 	}
 
-	
+	[Serializable]
+	public struct FPSData
+	{
+		public int dropdown;
+		public string field;
+
+		public FPSData(FPSLimiter toCopy)
+		{
+			this.dropdown = toCopy.FPSDropdown.value;
+			this.field = toCopy.FPSLimit.text;
+		}
+	}
+
+
 }

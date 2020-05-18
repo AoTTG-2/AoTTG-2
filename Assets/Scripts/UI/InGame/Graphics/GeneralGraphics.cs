@@ -56,7 +56,7 @@ namespace Assets.Scripts.UI.InGame
 		
 		
 
-		public enum Textures
+		private enum Textures
 		{
 			Potatoe,
 			Low,
@@ -75,22 +75,7 @@ namespace Assets.Scripts.UI.InGame
 				Shadows.value = (int)QualitySettings.shadows;
 
 				// texture quality
-				if(QualitySettings.masterTextureLimit == (int)Textures.High)
-				{
-					TextureQuality.value = 0;
-				}
-				if(QualitySettings.masterTextureLimit == (int)Textures.Medium)
-				{
-					TextureQuality.value = 1;
-				}
-				if(QualitySettings.masterTextureLimit == (int)Textures.Low)
-				{
-					TextureQuality.value = 2;
-				}
-				if(QualitySettings.masterTextureLimit == (int)Textures.Potatoe)
-				{
-					TextureQuality.value = 3;
-				}
+				TextureQuality.value = QualitySettings.masterTextureLimit;
 
 				// anti aliasing
 				AntiAliasing.value = (int)QualitySettings.antiAliasing;
@@ -116,22 +101,7 @@ namespace Assets.Scripts.UI.InGame
 		}
 		public void ChangeTextureQuality()
 		{
-			var selected = TextureQuality.value;
-			switch(selected)
-			{
-				case 0:
-					QualitySettings.masterTextureLimit = 3;
-					break;
-				case 1:
-					QualitySettings.masterTextureLimit = 2;
-					break;
-				case 2:
-					QualitySettings.masterTextureLimit = 1;
-					break;
-				case 3:
-					QualitySettings.masterTextureLimit = 0;
-					break;
-			}
+			QualitySettings.masterTextureLimit = TextureQuality.value;
 		}
 
 		public void ChangeAntiAliasing()

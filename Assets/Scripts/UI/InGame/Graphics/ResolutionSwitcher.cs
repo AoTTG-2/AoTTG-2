@@ -63,14 +63,7 @@ namespace Assets.Scripts.UI.InGame
 			string resolution = PlayerPrefs.GetString("Resolution");
 			int screen_mode = PlayerPrefs.GetInt("ScreenMode");
 			DropDownLabel.text = resolution;
-			if(screen_mode == 1)
-			{
-				Toggle.isOn = true;
-			}
-			else
-			{
-				Toggle.isOn = false;
-			}
+			Toggle.isOn = screen_mode == 1;
 		}
 	}
 }

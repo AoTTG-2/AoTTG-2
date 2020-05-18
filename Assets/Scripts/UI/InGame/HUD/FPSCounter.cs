@@ -13,10 +13,6 @@ public class FPSCounter : MonoBehaviour {
 		set { counterText = value; }
 	}
 
-	private void Start() {
-		time = 0f;
-	}
-
 	private void Update() {
 		Counter();
 	}
