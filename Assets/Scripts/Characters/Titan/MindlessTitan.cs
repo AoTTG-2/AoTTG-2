@@ -929,6 +929,23 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            //TODO: Determine to keep this behavior or not. Having this disabled makes titan jumpers a lot more deadly.
+            //if (Animation.IsPlaying("attack_jumper_0"))
+            //{
+            //    Vector3 vector9 = (Vector3)(((transform.forward * Speed) * Size) * 0.5f);
+            //    Vector3 vector10 = Rigidbody.velocity;
+            //    if ((Animation["attack_jumper_0"].normalizedTime <= 0.28f) || (Animation["attack_jumper_0"].normalizedTime >= 0.8f))
+            //    {
+            //        vector9 = Vector3.zero;
+            //    }
+            //    Vector3 vector11 = vector9 - vector10;
+            //    var maxVelocityChange = 10f;
+            //    vector11.x = Mathf.Clamp(vector11.x, -maxVelocityChange, maxVelocityChange);
+            //    vector11.z = Mathf.Clamp(vector11.z, -maxVelocityChange, maxVelocityChange);
+            //    vector11.y = 0f;
+            //    Rigidbody.AddForce(vector11, ForceMode.VelocityChange);
+            //}
+
             if (TitanState == MindlessTitanState.Wandering)
             {
                 if (IsStuck())

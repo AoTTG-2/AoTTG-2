@@ -62,6 +62,7 @@ namespace Assets.Scripts.Characters.Titan
                     AnimationRun = "run_abnormal";
                     Speed = 18f;
                     Attacks.Add(new BodySlamAttack());
+                    Attacks.Add(new JumpAttack());
                     break;
                 case MindlessTitanType.Punk:
                     AnimationWalk = "run_walk";
@@ -75,7 +76,10 @@ namespace Assets.Scripts.Characters.Titan
                     AnimationWalk = AnimationRun = "crawler_run";
                     AnimationTurnLeft = "crawler_turnaround_L";
                     AnimationTurnRight = "crawler_turnaround_R";
-                    Attacks = new List<Attack>();
+                    Attacks = new List<Attack>
+                    {
+                        new JumpAttack(true)
+                    };
                     Behaviors = new List<TitanBehavior> { new DeathOnFaceBehavior() };
                     Speed = 25f;
                     break;
@@ -105,7 +109,7 @@ namespace Assets.Scripts.Characters.Titan
             Behaviors = new List<TitanBehavior> { new RandomAttackBehavior() };
             var attacks = new List<Attack>
             {
-                new BiteAttack(), new BodySlamAttack(), new GrabAttack(), new KickAttack(), 
+                new BiteAttack(), new BodySlamAttack(), new GrabAttack(), new KickAttack(), new JumpAttack(),
                 new RockThrowAttack(), new SlapFaceAttack(), new SlapAttack(), new StompAttack(), new SmashAttack(),
             };
 
