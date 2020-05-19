@@ -17,16 +17,16 @@ namespace Assets.Scripts.UI.InGame
 		private void OnEnable() {
 			Toggle.isOn = Screen.fullScreen;
 
-			foreach(Resolution resolution in Screen.resolutions)
+			foreach (Resolution resolution in Screen.resolutions)
 			{
 				string resolutionText = resolution.ToString();
 				Dropdown.OptionData op = new Dropdown.OptionData(resolutionText);
 				Dropdown.options.Add(op);
-				if(resolution.Equals(Screen.currentResolution))
+				if (resolution.width == Screen.width && resolution.height == Screen.height)
 				{
 					Dropdown.value = Dropdown.options.IndexOf(op);
 				}
-				
+
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.UI.InGame
 
 		public void ChangeScreenMode() 
 		{
-			if(Toggle.GetComponent<Toggle>().isOn)
+			if(Toggle.isOn)
 			{
 				Screen.fullScreen = true;
 				ScreenMode = 1;

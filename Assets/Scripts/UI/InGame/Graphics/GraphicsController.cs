@@ -80,6 +80,8 @@ namespace Assets.Scripts.UI.InGame
 			// graphics
 			
 		}
+
+		// NULL REFERENCE HAPPENES HERE
 		public void LoadGraphicPlayerPrefs()
 		{
 			try
@@ -160,6 +162,11 @@ namespace Assets.Scripts.UI.InGame
 			}
 
 			//GeneralGraphic.UpdateEverything();
+		}
+
+		public void DeletePrefs()
+		{
+			PlayerPrefs.DeleteAll();
 		}
 	}
 }
