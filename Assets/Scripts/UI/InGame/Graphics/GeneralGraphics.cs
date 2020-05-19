@@ -7,6 +7,8 @@ namespace Assets.Scripts.UI.InGame
 {
 	public class GeneralGraphics : MonoBehaviour {
 
+		public Text VSyncCheck;
+
 		[SerializeField] public Dropdown textureQuality;
 		[SerializeField] public Dropdown shadowRes;
 		[SerializeField] public Dropdown antiAliasing;
@@ -129,6 +131,16 @@ namespace Assets.Scripts.UI.InGame
 			else
 			{
 				QualitySettings.vSyncCount = 0;
+			}
+
+			if (VSync.isOn)
+			{
+				VSyncCheck.color = Color.red;
+				VSyncCheck.text = "VSync is on!!";
+			}
+			else
+			{
+				VSyncCheck.text = "";
 			}
 		}
 		

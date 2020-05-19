@@ -15,6 +15,7 @@ namespace Assets.Scripts.UI.InGame
 		public FPSLimiter FPSLimiter;
 		public Text label;
 		public Toggle CustomSettings;
+		
 
 		private void Start() {
 			AdvancedOptions();
@@ -90,6 +91,12 @@ namespace Assets.Scripts.UI.InGame
 				var loaded2 = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString("QualityProfile"));
 				var loaded3 = JsonUtility.FromJson<FPSLimiter.FPSData>(PlayerPrefs.GetString("FPSLimit"));
 
+				if (loaded1.CustomSettings)
+				{
+					QualitySettings.SetQualityLevel(6, true);
+				}
+				QualitySwitcher.Slider.value = loaded2.Slider;
+
 				FPSLimiter.FPSDropdown.value = loaded3.dropdown;
 				FPSLimiter.FPSLimit.text = loaded3.field;
 
@@ -106,12 +113,9 @@ namespace Assets.Scripts.UI.InGame
 
 
 				// change the quality level to custom if custom settings is on
-				if (loaded1.CustomSettings)
-				{
-					QualitySettings.SetQualityLevel(6, true);
-				}
+				
 
-				QualitySwitcher.Slider.value = loaded2.Slider;
+				
 
 
 				label.color = Color.green;
