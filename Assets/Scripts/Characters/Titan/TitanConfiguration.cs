@@ -49,6 +49,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 case MindlessTitanType.Normal:
                     AnimationWalk = AnimationRun = "run_walk";
+                    Attacks.Add(new ComboAttack());
                     Speed = 7f;
                     break;
                 case MindlessTitanType.Abberant:
@@ -67,6 +68,7 @@ namespace Assets.Scripts.Characters.Titan
                 case MindlessTitanType.Punk:
                     AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal_1";
+                    Attacks.Add(new ComboAttack(true));
                     Attacks.Add(new RockThrowAttack());
                     Attacks.Add(new SlapAttack());
                     Attacks.Add(new BodySlamAttack());

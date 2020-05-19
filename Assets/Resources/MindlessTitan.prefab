@@ -2683,6 +2683,9 @@ MonoBehaviour:
   Stamina: 5000
   StaminaRecovery: 1000
   Health: 0
+  ViewDistance: 0
+  Focus: 10
+  Temp: 0.8
 --- !u!114 &114146789337948602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2733,6 +2736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700c18b296b00f042b6a2afddf78233e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Core: {fileID: 4541709052506242}
   Head: {fileID: 4785721790656888}
   Neck: {fileID: 4615471509580868}
   HandRight: {fileID: 4392246336210114}

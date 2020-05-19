@@ -2703,30 +2703,13 @@ MonoBehaviour:
   Health: 0
   ViewDistance: 0
   Focus: 10
-  bite: 0
-  bitel: 0
-  biter: 0
-  chopl: 0
-  chopr: 0
-  choptl: 0
-  choptr: 0
-  cover: 0
   currentCamera: {fileID: 0}
   currentDirection: 0
-  grabbackl: 0
-  grabbackr: 0
-  grabfrontl: 0
-  grabfrontr: 0
-  grabnapel: 0
-  grabnaper: 0
   inputManager: {fileID: 0}
-  isAttackDown: 0
-  isAttackIIDown: 0
-  isJumpDown: 0
-  isSuicide: 0
-  isWALKDown: 0
   sit: 0
   targetDirection: 0
+  IsCovering: 0
+  Ai: 0
 --- !u!114 &114522673634256826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2792,6 +2775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700c18b296b00f042b6a2afddf78233e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Core: {fileID: 4120676010174796}
   Head: {fileID: 4048770554455690}
   Neck: {fileID: 4989170742394254}
   HandRight: {fileID: 4627908993247712}
