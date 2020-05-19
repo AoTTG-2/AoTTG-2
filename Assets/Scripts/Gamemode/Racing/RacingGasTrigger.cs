@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-public class RacingCheckpointTrigger : MonoBehaviour
+public class RacingGasTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -11,10 +11,8 @@ public class RacingCheckpointTrigger : MonoBehaviour
             gameObject = gameObject.transform.root.gameObject;
             if ((((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && (gameObject.GetPhotonView() != null)) && gameObject.GetPhotonView().isMine) && (gameObject.GetComponent<Hero>() != null))
             {
-                FengGameManagerMKII.instance.racingSpawnPoint = base.gameObject.transform.position;
-                FengGameManagerMKII.instance.racingSpawnPointSet = true;
+                gameObject.GetComponent<Hero>().fillGas();
             }
         }
     }
 }
-
