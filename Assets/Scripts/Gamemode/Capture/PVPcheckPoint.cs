@@ -75,7 +75,6 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     {
                         gameManager.checkpoint = gameObject;
                         FengGameManagerMKII.instance.chatRoom.AddLine("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
-                        //GameObject.Find("Chatroom").GetComponent<InRoomChat>().addLINE("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
                     }
                     break;
                 }
@@ -86,16 +85,15 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             if ((Vector3.Distance(objArray2[num].transform.position, base.transform.position) < (this.hitTestR + 5f)) && ((objArray2[num].GetComponent<MindlessTitan>() == null) || objArray2[num].GetComponent<MindlessTitan>().IsAlive))
             {
                 this.titanOn = true;
-                //TODO: Player Titan
-                //if (((this.state == CheckPointState.Titan) && objArray2[num].GetPhotonView().isMine) && ((objArray2[num].GetComponent<TITAN>() != null) && objArray2[num].GetComponent<TITAN>().nonAI))
-                //{
-                //    if (gameManager.checkpoint != base.gameObject)
-                //    {
-                //        gameManager.checkpoint = base.gameObject;
-                //        FengGameManagerMKII.instance.chatRoom.AddLine("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
-                //    }
-                //    break;
-                //}
+                if (((this.state == CheckPointState.Titan) && objArray2[num].GetPhotonView().isMine) && ((objArray2[num].GetComponent<PlayerTitan>() != null)))
+                {
+                    if (gameManager.checkpoint != base.gameObject)
+                    {
+                        gameManager.checkpoint = base.gameObject;
+                        FengGameManagerMKII.instance.chatRoom.AddLine("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                    }
+                    break;
+                }
             }
         }
     }

@@ -4437,10 +4437,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         var id = "TITAN";
         var tag = "titanRespawn";
-        GameObject obj3;
-        GameObject[] objArray = GameObject.FindGameObjectsWithTag(tag);
-        GameObject obj2 = objArray[UnityEngine.Random.Range(0, objArray.Length)];
-        Vector3 position = obj2.transform.position;
+        var location = Gamemode.GetPlayerSpawnLocation(tag);
+        Vector3 position = location.transform.position;
         if (Level.Name.StartsWith("Custom") && (this.titanSpawns.Count > 0))
         {
             position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
