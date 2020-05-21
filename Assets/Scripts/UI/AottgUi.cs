@@ -64,7 +64,7 @@ namespace Assets.Scripts.UI
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("restartGameByClient", PhotonTargets.MasterClient, new object[0]);
                 }
             }
-            else if (((FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Capture)
+            else if (((FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Capture)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Gamemode;
 using System.Linq;
+using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Room
 {
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Room
             return LevelBuilder.GetAllLevels().Single(x => x.Name == level);
         }
 
-        public static GamemodeBase GetGamemode(this global::Room room, Level level)
+        public static GamemodeSettings GetGamemodeSetting(this global::Room room, Level level)
         {
             var gamemode = room.CustomProperties["gamemode"].ToString();
             return level.Gamemodes.Single(x => x.Name == gamemode);

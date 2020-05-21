@@ -1,6 +1,8 @@
 using Assets.Scripts;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Room;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
@@ -9,12 +11,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using ExitGames.Client.Photon;
 using UnityEngine;
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
+    public static string Version = "Alpha-Issue144-145";
     public static bool showHackMenu = true;
 
     public Dictionary<int, CannonValues> allowedToCannon;
@@ -142,11 +144,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public InGameUi InGameUI;
 
     public new string name { get; set; }
-    public static GamemodeBase Gamemode { get; set; }
+    public static GamemodeBase Gamemode { get; private set; }
     public static Level Level { get; set; }
 
     public static Level NewRoundLevel { get; set; }
-    public static GamemodeBase NewRoundGamemode { get; set; }
+    public static GamemodeSettings NewRoundGamemode { get; set; }
 
     public void addCamera(IN_GAME_MAIN_CAMERA c)
     {
@@ -183,7 +185,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.timeTotalServer -= time;
     }
 
-    public void addTitan(TITAN titan)
+    public void addTitan(MindlessTitan titan)
     {
         this.titans.Add(titan);
     }
@@ -414,285 +416,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public void compileScript(string str)
-    {
-        int num3;
-        string[] strArray2 = str.Replace(" ", string.Empty).Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-        ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-        int num = 0;
-        int num2 = 0;
-        bool flag = false;
-        for (num3 = 0; num3 < strArray2.Length; num3++)
-        {
-            if (strArray2[num3] == "{")
-            {
-                num++;
-            }
-            else if (strArray2[num3] == "}")
-            {
-                num2++;
-            }
-            else
-            {
-                int num4 = 0;
-                int num5 = 0;
-                int num6 = 0;
-                foreach (char ch in strArray2[num3])
-                {
-                    switch (ch)
-                    {
-                        case '(':
-                            num4++;
-                            break;
-
-                        case ')':
-                            num5++;
-                            break;
-
-                        case '"':
-                            num6++;
-                            break;
-                    }
-                }
-                if (num4 != num5)
-                {
-                    int num8 = num3 + 1;
-                    this.chatRoom.addLINE("Script Error: Parentheses not equal! (line " + num8.ToString() + ")");
-                    flag = true;
-                }
-                if ((num6 % 2) != 0)
-                {
-                    this.chatRoom.addLINE("Script Error: Quotations not equal! (line " + ((num3 + 1)).ToString() + ")");
-                    flag = true;
-                }
-            }
-        }
-        if (num != num2)
-        {
-            this.chatRoom.addLINE("Script Error: Bracket count not equivalent!");
-            flag = true;
-        }
-        if (!flag)
-        {
-            try
-            {
-                int num10;
-                num3 = 0;
-                while (num3 < strArray2.Length)
-                {
-                    if (strArray2[num3].StartsWith("On") && (strArray2[num3 + 1] == "{"))
-                    {
-                        int key = num3;
-                        num10 = num3 + 2;
-                        int num11 = 0;
-                        for (int i = num3 + 2; i < strArray2.Length; i++)
-                        {
-                            if (strArray2[i] == "{")
-                            {
-                                num11++;
-                            }
-                            if (strArray2[i] == "}")
-                            {
-                                if (num11 > 0)
-                                {
-                                    num11--;
-                                }
-                                else
-                                {
-                                    num10 = i - 1;
-                                    i = strArray2.Length;
-                                }
-                            }
-                        }
-                        hashtable.Add(key, num10);
-                        num3 = num10;
-                    }
-                    num3++;
-                }
-                foreach (int num9 in hashtable.Keys)
-                {
-                    int num14;
-                    int num15;
-                    string str4;
-                    string str5;
-                    RegionTrigger trigger;
-                    string str3 = strArray2[num9];
-                    num10 = (int)hashtable[num9];
-                    string[] stringArray = new string[(num10 - num9) + 1];
-                    int index = 0;
-                    for (num3 = num9; num3 <= num10; num3++)
-                    {
-                        stringArray[index] = strArray2[num3];
-                        index++;
-                    }
-                    RCEvent event2 = this.parseBlock(stringArray, 0, 0, null);
-                    if (str3.StartsWith("OnPlayerEnterRegion"))
-                    {
-                        num14 = str3.IndexOf('[');
-                        num15 = str3.IndexOf(']');
-                        str4 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        num14 = str3.IndexOf('(');
-                        num15 = str3.IndexOf(')');
-                        str5 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        if (RCRegionTriggers.ContainsKey(str4))
-                        {
-                            trigger = (RegionTrigger)RCRegionTriggers[str4];
-                            trigger.playerEventEnter = event2;
-                            trigger.myName = str4;
-                            RCRegionTriggers[str4] = trigger;
-                        }
-                        else
-                        {
-                            trigger = new RegionTrigger
-                            {
-                                playerEventEnter = event2,
-                                myName = str4
-                            };
-                            RCRegionTriggers.Add(str4, trigger);
-                        }
-                        RCVariableNames.Add("OnPlayerEnterRegion[" + str4 + "]", str5);
-                    }
-                    else if (str3.StartsWith("OnPlayerLeaveRegion"))
-                    {
-                        num14 = str3.IndexOf('[');
-                        num15 = str3.IndexOf(']');
-                        str4 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        num14 = str3.IndexOf('(');
-                        num15 = str3.IndexOf(')');
-                        str5 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        if (RCRegionTriggers.ContainsKey(str4))
-                        {
-                            trigger = (RegionTrigger)RCRegionTriggers[str4];
-                            trigger.playerEventExit = event2;
-                            trigger.myName = str4;
-                            RCRegionTriggers[str4] = trigger;
-                        }
-                        else
-                        {
-                            trigger = new RegionTrigger
-                            {
-                                playerEventExit = event2,
-                                myName = str4
-                            };
-                            RCRegionTriggers.Add(str4, trigger);
-                        }
-                        RCVariableNames.Add("OnPlayerExitRegion[" + str4 + "]", str5);
-                    }
-                    else if (str3.StartsWith("OnTitanEnterRegion"))
-                    {
-                        num14 = str3.IndexOf('[');
-                        num15 = str3.IndexOf(']');
-                        str4 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        num14 = str3.IndexOf('(');
-                        num15 = str3.IndexOf(')');
-                        str5 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        if (RCRegionTriggers.ContainsKey(str4))
-                        {
-                            trigger = (RegionTrigger)RCRegionTriggers[str4];
-                            trigger.titanEventEnter = event2;
-                            trigger.myName = str4;
-                            RCRegionTriggers[str4] = trigger;
-                        }
-                        else
-                        {
-                            trigger = new RegionTrigger
-                            {
-                                titanEventEnter = event2,
-                                myName = str4
-                            };
-                            RCRegionTriggers.Add(str4, trigger);
-                        }
-                        RCVariableNames.Add("OnTitanEnterRegion[" + str4 + "]", str5);
-                    }
-                    else if (str3.StartsWith("OnTitanLeaveRegion"))
-                    {
-                        num14 = str3.IndexOf('[');
-                        num15 = str3.IndexOf(']');
-                        str4 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        num14 = str3.IndexOf('(');
-                        num15 = str3.IndexOf(')');
-                        str5 = str3.Substring(num14 + 2, (num15 - num14) - 3);
-                        if (RCRegionTriggers.ContainsKey(str4))
-                        {
-                            trigger = (RegionTrigger)RCRegionTriggers[str4];
-                            trigger.titanEventExit = event2;
-                            trigger.myName = str4;
-                            RCRegionTriggers[str4] = trigger;
-                        }
-                        else
-                        {
-                            trigger = new RegionTrigger
-                            {
-                                titanEventExit = event2,
-                                myName = str4
-                            };
-                            RCRegionTriggers.Add(str4, trigger);
-                        }
-                        RCVariableNames.Add("OnTitanExitRegion[" + str4 + "]", str5);
-                    }
-                    else if (str3.StartsWith("OnFirstLoad()"))
-                    {
-                        RCEvents.Add("OnFirstLoad", event2);
-                    }
-                    else if (str3.StartsWith("OnRoundStart()"))
-                    {
-                        RCEvents.Add("OnRoundStart", event2);
-                    }
-                    else if (str3.StartsWith("OnUpdate()"))
-                    {
-                        RCEvents.Add("OnUpdate", event2);
-                    }
-                    else
-                    {
-                        string[] strArray4;
-                        if (str3.StartsWith("OnTitanDie"))
-                        {
-                            num14 = str3.IndexOf('(');
-                            num15 = str3.LastIndexOf(')');
-                            strArray4 = str3.Substring(num14 + 1, (num15 - num14) - 1).Split(new char[] { ',' });
-                            strArray4[0] = strArray4[0].Substring(1, strArray4[0].Length - 2);
-                            strArray4[1] = strArray4[1].Substring(1, strArray4[1].Length - 2);
-                            RCVariableNames.Add("OnTitanDie", strArray4);
-                            RCEvents.Add("OnTitanDie", event2);
-                        }
-                        else if (str3.StartsWith("OnPlayerDieByTitan"))
-                        {
-                            RCEvents.Add("OnPlayerDieByTitan", event2);
-                            num14 = str3.IndexOf('(');
-                            num15 = str3.LastIndexOf(')');
-                            strArray4 = str3.Substring(num14 + 1, (num15 - num14) - 1).Split(new char[] { ',' });
-                            strArray4[0] = strArray4[0].Substring(1, strArray4[0].Length - 2);
-                            strArray4[1] = strArray4[1].Substring(1, strArray4[1].Length - 2);
-                            RCVariableNames.Add("OnPlayerDieByTitan", strArray4);
-                        }
-                        else if (str3.StartsWith("OnPlayerDieByPlayer"))
-                        {
-                            RCEvents.Add("OnPlayerDieByPlayer", event2);
-                            num14 = str3.IndexOf('(');
-                            num15 = str3.LastIndexOf(')');
-                            strArray4 = str3.Substring(num14 + 1, (num15 - num14) - 1).Split(new char[] { ',' });
-                            strArray4[0] = strArray4[0].Substring(1, strArray4[0].Length - 2);
-                            strArray4[1] = strArray4[1].Substring(1, strArray4[1].Length - 2);
-                            RCVariableNames.Add("OnPlayerDieByPlayer", strArray4);
-                        }
-                        else if (str3.StartsWith("OnChatInput"))
-                        {
-                            RCEvents.Add("OnChatInput", event2);
-                            num14 = str3.IndexOf('(');
-                            num15 = str3.LastIndexOf(')');
-                            str5 = str3.Substring(num14 + 1, (num15 - num14) - 1);
-                            RCVariableNames.Add("OnChatInput", str5.Substring(1, str5.Length - 2));
-                        }
-                    }
-                }
-            }
-            catch (UnityException exception)
-            {
-                this.chatRoom.addLINE(exception.Message);
-            }
-        }
-    }
-
     public int conditionType(string str)
     {
         if (!str.StartsWith("Int"))
@@ -776,10 +499,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.coreadd();
                     this.ShowHUDInfoTopLeft(this.playerList);
-                    if ((((Camera.main != null) && (Gamemode.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int)settings[0xf5]) == 0))
+                    if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int)settings[0xf5]) == 0))
                     {
                         this.ShowHUDInfoCenter("Press [F7D358]" + this.inputManager.inputString[InputCode.flare1] + "[-] to spectate the next player. \nPress [F7D358]" + this.inputManager.inputString[InputCode.flare2] + "[-] to spectate the previous player.\nPress [F7D358]" + this.inputManager.inputString[InputCode.attack1] + "[-] to enter the spectator mode.\n\n\n\n");
-                        if (((Gamemode.RespawnMode == RespawnMode.DEATHMATCH) || (Gamemode.EndlessRevive > 0)) || !(((Gamemode.PvPBomb) || (Gamemode.Pvp != PvpMode.Disabled)) ? (Gamemode.PointMode <= 0) : true))
+                        if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) || (Gamemode.Settings.EndlessRevive > 0)) || !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled)) ? (Gamemode.Settings.PointMode <= 0) : true))
                         {
                             this.myRespawnTime += Time.deltaTime;
                             int endlessMode = 5;
@@ -787,9 +510,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 endlessMode = 10;
                             }
-                            if (Gamemode.EndlessRevive > 0)
+                            if (Gamemode.Settings.EndlessRevive > 0)
                             {
-                                endlessMode = Gamemode.EndlessRevive;
+                                endlessMode = Gamemode.Settings.EndlessRevive;
                             }
                             length = endlessMode - ((int)this.myRespawnTime);
                             this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
@@ -813,7 +536,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    if (Gamemode.GamemodeType == GamemodeType.Racing)
+                    if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                     {
                         if (!this.isLosing)
                         {
@@ -827,7 +550,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.ShowHUDInfoTopLeft(string.Concat(new object[] { "Kills:", this.single_kills, "\nMax Damage:", this.single_maxDamage, "\nTotal Damage:", this.single_totalDamage }));
                     }
                 }
-                if (this.isLosing && (Gamemode.GamemodeType != GamemodeType.Racing))
+                if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
                 {
                     ShowHUDInfoCenter(Gamemode.GetDefeatMessage(gameEndCD));
                     if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
@@ -871,7 +594,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     //TODO Investigate the purpose of this
-                    if (Gamemode.GamemodeType == GamemodeType.Racing)
+                    if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                     {
                         if (!this.isWinning)
                         {
@@ -887,7 +610,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.timeTotalServer += Time.deltaTime;
                 }
-                if (Gamemode.GamemodeType == GamemodeType.Racing)
+                if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                 {
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
@@ -966,7 +689,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.timeElapse--;
                     var content = Gamemode.GetGamemodeStatusTop((int)timeTotalServer, time);
-                    if (Gamemode.TeamMode != TeamMode.Disabled)
+                    if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
                     {
                         content += $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>";
                     }
@@ -1030,48 +753,48 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-            this.OnUpdate();
             if (customLevelLoaded)
             {
                 for (int i = 0; i < this.titanSpawners.Count; i++)
                 {
                     TitanSpawner item = this.titanSpawners[i];
                     item.time -= Time.deltaTime;
-                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.TitanLimit))
+                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.Settings.TitanLimit))
                     {
                         string name = item.name;
-                        if (name == "spawnAnnie")
-                        {
-                            PhotonNetwork.Instantiate("FEMALE_TITAN", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                        }
-                        else
-                        {
-                            GameObject obj2 = PhotonNetwork.Instantiate("TITAN_VER3.1", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                            if (name == "spawnAbnormal")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                            }
-                            else if (name == "spawnJumper")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                            }
-                            else if (name == "spawnCrawler")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                            }
-                            else if (name == "spawnPunk")
-                            {
-                                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                            }
-                        }
-                        if (item.endless)
-                        {
-                            item.time = item.delay;
-                        }
-                        else
-                        {
-                            this.titanSpawners.Remove(item);
-                        }
+                        throw new NotImplementedException("Spawning titans on custom maps is not supported for mindless titans");
+                        //if (name == "spawnAnnie")
+                        //{
+                        //    PhotonNetwork.Instantiate("FEMALE_TITAN", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
+                        //}
+                        //else
+                        //{
+                        //    GameObject obj2 = PhotonNetwork.Instantiate("TITAN_VER3.1", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
+                        //    if (name == "spawnAbnormal")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
+                        //    }
+                        //    else if (name == "spawnJumper")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+                        //    }
+                        //    else if (name == "spawnCrawler")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
+                        //    }
+                        //    else if (name == "spawnPunk")
+                        //    {
+                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
+                        //    }
+                        //}
+                        //if (item.endless)
+                        //{
+                        //    item.time = item.delay;
+                        //}
+                        //else
+                        //{
+                        //    this.titanSpawners.Remove(item);
+                        //}
                     }
                 }
             }
@@ -1517,8 +1240,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         {
                             GameObject obj3 = (GameObject)UnityEngine.Object.Instantiate((GameObject)RCassets.LoadAsset("region"));
                             obj3.transform.position = loc;
-                            obj3.AddComponent<RegionTrigger>();
-                            obj3.GetComponent<RegionTrigger>().CopyTrigger((RegionTrigger)RCRegionTriggers[key]);
+                            //obj3.AddComponent<RegionTrigger>();
+                            //obj3.GetComponent<RegionTrigger>().CopyTrigger((RegionTrigger)RCRegionTriggers[key]);
                             num5 = obj3.transform.localScale.x * Convert.ToSingle(strArray[3]);
                             num5 -= 0.001f;
                             num6 = obj3.transform.localScale.y * Convert.ToSingle(strArray[4]);
@@ -1764,7 +1487,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2) && !RCextensions.returnBoolFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.dead]))
             {
-                foreach (TITAN titan in instance.getTitans())
+                foreach (MindlessTitan titan in instance.getTitans())
                 {
                     if (titan.photonView.isMine)
                     {
@@ -2080,24 +1803,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (disposable2 != null)
                 {
                     disposable2.Dispose();
-                }
-            }
-            IEnumerator enumerator3 = this.titans.GetEnumerator();
-            try
-            {
-                while (enumerator3.MoveNext())
-                {
-                    var current = (TITAN)enumerator3.Current;
-                    if (current != null)
-                        current.lateUpdate2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable3 = enumerator3 as IDisposable;
-                if (disposable3 != null)
-                {
-                    disposable3.Dispose();
                 }
             }
             IEnumerator enumerator4 = this.fT.GetEnumerator();
@@ -2502,16 +2207,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     titanVariables.Clear();
                     RCRegionTriggers.Clear();
                     oldScriptLogic = currentScriptLogic;
-                    this.compileScript(currentScriptLogic);
-                    if (RCEvents.ContainsKey("OnFirstLoad"))
-                    {
-                        RCEvent event2 = (RCEvent)RCEvents["OnFirstLoad"];
-                        event2.checkEvent();
-                    }
-                }
-                if (RCEvents.ContainsKey("OnRoundStart"))
-                {
-                    ((RCEvent)RCEvents["OnRoundStart"]).checkEvent();
                 }
                 base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
             }
@@ -3384,10 +3079,29 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
     }
 
+    private void SetGamemode(GamemodeSettings settings)
+    {
+        if (Gamemode == null)
+        {
+            var gamemodeObject = new GameObject("Gamemode");
+            var gamemodeBase = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
+            gamemodeBase.Settings = settings;
+            gamemodeObject.transform.parent = gameObject.transform;
+            Gamemode = gamemodeObject.GetComponent<GamemodeBase>();
+        }
+        else
+        {
+            var gamemodeComponent = GetComponentInChildren<GamemodeBase>();
+            Destroy(gamemodeComponent.gameObject);
+            Gamemode = null;
+            SetGamemode(settings);
+        }
+    }
+
     public void OnJoinedRoom()
     {
         Level = PhotonNetwork.room.GetLevel();
-        Gamemode = PhotonNetwork.room.GetGamemode(Level);
+        SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
         this.maxPlayers = PhotonNetwork.room.MaxPlayers;
         this.playerList = string.Empty;
         char[] separator = new char[] { "`"[0] };
@@ -3545,7 +3259,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     abnormal = 70;
                 }
-                this.spawnTitanCustom("titanRespawn", abnormal, Gamemode.Titans, false);
+                throw new NotImplementedException("Titan spawners for singleplayer don't exist yet");
+                //this.spawnTitanCustom("titanRespawn", abnormal, Gamemode.Titans, false);
             }
             else
             {
@@ -3581,7 +3296,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
                 }
-                Gamemode.OnLevelWasLoaded(Level, PhotonNetwork.isMasterClient);
+                Gamemode.OnLevelLoaded(Level, PhotonNetwork.isMasterClient);
                 if (((int)settings[0xf5]) == 1)
                 {
                     this.EnterSpecMode(true);
@@ -3599,7 +3314,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 this.restartingMC = true;
             }
             this.resetSettings(false);
-            if (!Gamemode.IsPlayerTitanEnabled)
+            if (!Gamemode.Settings.IsPlayerTitanEnabled)
             {
                 ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.isTitan, 1);
@@ -3677,7 +3392,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     this.kickPlayerRC(player, true, "excessive stats.");
                     return;
                 }
-                if (Gamemode.SaveKDROnDisconnect)
+                if (Gamemode.Settings.SaveKDROnDisconnect)
                 {
                     base.StartCoroutine(this.WaitAndReloadKDR(player));
                 }
@@ -3719,7 +3434,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             base.photonView.RPC("verifyPlayerHasLeft", PhotonTargets.All, new object[] { player.ID });
         }
-        if (Gamemode.SaveKDROnDisconnect)
+        if (Gamemode.Settings.SaveKDROnDisconnect)
         {
             string key = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
             if (this.PreservedPlayerKDR.ContainsKey(key))
@@ -3796,22 +3511,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnReceivedRoomListUpdate()
     {
-    }
-
-    public void OnUpdate()
-    {
-        if (RCEvents.ContainsKey("OnUpdate"))
-        {
-            if (this.updateTime > 0f)
-            {
-                this.updateTime -= Time.deltaTime;
-            }
-            else
-            {
-                ((RCEvent)RCEvents["OnUpdate"]).checkEvent();
-                this.updateTime = 1f;
-            }
-        }
     }
 
     public void OnUpdatedFriendList()
@@ -3901,745 +3600,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return 0;
     }
 
-    public RCEvent parseBlock(string[] stringArray, int eventClass, int eventType, RCCondition condition)
-    {
-        List<RCAction> sentTrueActions = new List<RCAction>();
-        RCEvent event2 = new RCEvent(null, null, 0, 0);
-        for (int i = 0; i < stringArray.Length; i++)
-        {
-            int num2;
-            int num3;
-            int num4;
-            int length;
-            string[] strArray;
-            int num6;
-            int num7;
-            int index;
-            int num9;
-            string str;
-            int num10;
-            int num11;
-            int num12;
-            string[] strArray2;
-            RCCondition condition2;
-            RCEvent event3;
-            RCAction action;
-            if (stringArray[i].StartsWith("If") && (stringArray[i + 1] == "{"))
-            {
-                num2 = i + 2;
-                num3 = i + 2;
-                num4 = 0;
-                length = i + 2;
-                while (length < stringArray.Length)
-                {
-                    if (stringArray[length] == "{")
-                    {
-                        num4++;
-                    }
-                    if (stringArray[length] == "}")
-                    {
-                        if (num4 > 0)
-                        {
-                            num4--;
-                        }
-                        else
-                        {
-                            num3 = length - 1;
-                            length = stringArray.Length;
-                        }
-                    }
-                    length++;
-                }
-                strArray = new string[(num3 - num2) + 1];
-                num6 = 0;
-                num7 = num2;
-                while (num7 <= num3)
-                {
-                    strArray[num6] = stringArray[num7];
-                    num6++;
-                    num7++;
-                }
-                index = stringArray[i].IndexOf("(");
-                num9 = stringArray[i].LastIndexOf(")");
-                str = stringArray[i].Substring(index + 1, (num9 - index) - 1);
-                num10 = this.conditionType(str);
-                num11 = str.IndexOf('.');
-                str = str.Substring(num11 + 1);
-                num12 = this.operantType(str, num10);
-                index = str.IndexOf('(');
-                num9 = str.LastIndexOf(")");
-                strArray2 = str.Substring(index + 1, (num9 - index) - 1).Split(new char[] { ',' });
-                condition2 = new RCCondition(num12, num10, this.returnHelper(strArray2[0]), this.returnHelper(strArray2[1]));
-                event3 = this.parseBlock(strArray, 1, 0, condition2);
-                action = new RCAction(0, 0, event3, null);
-                event2 = event3;
-                sentTrueActions.Add(action);
-                i = num3;
-            }
-            else if (stringArray[i].StartsWith("While") && (stringArray[i + 1] == "{"))
-            {
-                num2 = i + 2;
-                num3 = i + 2;
-                num4 = 0;
-                length = i + 2;
-                while (length < stringArray.Length)
-                {
-                    if (stringArray[length] == "{")
-                    {
-                        num4++;
-                    }
-                    if (stringArray[length] == "}")
-                    {
-                        if (num4 > 0)
-                        {
-                            num4--;
-                        }
-                        else
-                        {
-                            num3 = length - 1;
-                            length = stringArray.Length;
-                        }
-                    }
-                    length++;
-                }
-                strArray = new string[(num3 - num2) + 1];
-                num6 = 0;
-                num7 = num2;
-                while (num7 <= num3)
-                {
-                    strArray[num6] = stringArray[num7];
-                    num6++;
-                    num7++;
-                }
-                index = stringArray[i].IndexOf("(");
-                num9 = stringArray[i].LastIndexOf(")");
-                str = stringArray[i].Substring(index + 1, (num9 - index) - 1);
-                num10 = this.conditionType(str);
-                num11 = str.IndexOf('.');
-                str = str.Substring(num11 + 1);
-                num12 = this.operantType(str, num10);
-                index = str.IndexOf('(');
-                num9 = str.LastIndexOf(")");
-                strArray2 = str.Substring(index + 1, (num9 - index) - 1).Split(new char[] { ',' });
-                condition2 = new RCCondition(num12, num10, this.returnHelper(strArray2[0]), this.returnHelper(strArray2[1]));
-                event3 = this.parseBlock(strArray, 3, 0, condition2);
-                action = new RCAction(0, 0, event3, null);
-                sentTrueActions.Add(action);
-                i = num3;
-            }
-            else if (stringArray[i].StartsWith("ForeachTitan") && (stringArray[i + 1] == "{"))
-            {
-                num2 = i + 2;
-                num3 = i + 2;
-                num4 = 0;
-                length = i + 2;
-                while (length < stringArray.Length)
-                {
-                    if (stringArray[length] == "{")
-                    {
-                        num4++;
-                    }
-                    if (stringArray[length] == "}")
-                    {
-                        if (num4 > 0)
-                        {
-                            num4--;
-                        }
-                        else
-                        {
-                            num3 = length - 1;
-                            length = stringArray.Length;
-                        }
-                    }
-                    length++;
-                }
-                strArray = new string[(num3 - num2) + 1];
-                num6 = 0;
-                num7 = num2;
-                while (num7 <= num3)
-                {
-                    strArray[num6] = stringArray[num7];
-                    num6++;
-                    num7++;
-                }
-                index = stringArray[i].IndexOf("(");
-                num9 = stringArray[i].LastIndexOf(")");
-                str = stringArray[i].Substring(index + 2, (num9 - index) - 3);
-                num10 = 0;
-                event3 = this.parseBlock(strArray, 2, 0, null);
-                event3.foreachVariableName = str;
-                action = new RCAction(0, 0, event3, null);
-                sentTrueActions.Add(action);
-                i = num3;
-            }
-            else if (stringArray[i].StartsWith("ForeachPlayer") && (stringArray[i + 1] == "{"))
-            {
-                num2 = i + 2;
-                num3 = i + 2;
-                num4 = 0;
-                length = i + 2;
-                while (length < stringArray.Length)
-                {
-                    if (stringArray[length] == "{")
-                    {
-                        num4++;
-                    }
-                    if (stringArray[length] == "}")
-                    {
-                        if (num4 > 0)
-                        {
-                            num4--;
-                        }
-                        else
-                        {
-                            num3 = length - 1;
-                            length = stringArray.Length;
-                        }
-                    }
-                    length++;
-                }
-                strArray = new string[(num3 - num2) + 1];
-                num6 = 0;
-                num7 = num2;
-                while (num7 <= num3)
-                {
-                    strArray[num6] = stringArray[num7];
-                    num6++;
-                    num7++;
-                }
-                index = stringArray[i].IndexOf("(");
-                num9 = stringArray[i].LastIndexOf(")");
-                str = stringArray[i].Substring(index + 2, (num9 - index) - 3);
-                num10 = 1;
-                event3 = this.parseBlock(strArray, 2, 1, null);
-                event3.foreachVariableName = str;
-                action = new RCAction(0, 0, event3, null);
-                sentTrueActions.Add(action);
-                i = num3;
-            }
-            else if (stringArray[i].StartsWith("Else") && (stringArray[i + 1] == "{"))
-            {
-                num2 = i + 2;
-                num3 = i + 2;
-                num4 = 0;
-                length = i + 2;
-                while (length < stringArray.Length)
-                {
-                    if (stringArray[length] == "{")
-                    {
-                        num4++;
-                    }
-                    if (stringArray[length] == "}")
-                    {
-                        if (num4 > 0)
-                        {
-                            num4--;
-                        }
-                        else
-                        {
-                            num3 = length - 1;
-                            length = stringArray.Length;
-                        }
-                    }
-                    length++;
-                }
-                strArray = new string[(num3 - num2) + 1];
-                num6 = 0;
-                for (num7 = num2; num7 <= num3; num7++)
-                {
-                    strArray[num6] = stringArray[num7];
-                    num6++;
-                }
-                if (stringArray[i] == "Else")
-                {
-                    event3 = this.parseBlock(strArray, 0, 0, null);
-                    action = new RCAction(0, 0, event3, null);
-                    event2.setElse(action);
-                    i = num3;
-                }
-                else if (stringArray[i].StartsWith("Else If"))
-                {
-                    index = stringArray[i].IndexOf("(");
-                    num9 = stringArray[i].LastIndexOf(")");
-                    str = stringArray[i].Substring(index + 1, (num9 - index) - 1);
-                    num10 = this.conditionType(str);
-                    num11 = str.IndexOf('.');
-                    str = str.Substring(num11 + 1);
-                    num12 = this.operantType(str, num10);
-                    index = str.IndexOf('(');
-                    num9 = str.LastIndexOf(")");
-                    strArray2 = str.Substring(index + 1, (num9 - index) - 1).Split(new char[] { ',' });
-                    condition2 = new RCCondition(num12, num10, this.returnHelper(strArray2[0]), this.returnHelper(strArray2[1]));
-                    event3 = this.parseBlock(strArray, 1, 0, condition2);
-                    action = new RCAction(0, 0, event3, null);
-                    event2.setElse(action);
-                    i = num3;
-                }
-            }
-            else
-            {
-                int num13;
-                int num14;
-                int num15;
-                int num16;
-                string str2;
-                string[] strArray3;
-                RCActionHelper helper;
-                RCActionHelper helper2;
-                RCActionHelper helper3;
-                if (stringArray[i].StartsWith("VariableInt"))
-                {
-                    num13 = 1;
-                    num14 = stringArray[i].IndexOf('.');
-                    num15 = stringArray[i].IndexOf('(');
-                    num16 = stringArray[i].LastIndexOf(')');
-                    str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                    strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                    if (str2.StartsWith("SetRandom"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        helper3 = this.returnHelper(strArray3[2]);
-                        action = new RCAction(num13, 12, null, new RCActionHelper[] { helper, helper2, helper3 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Set"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Add"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 1, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Subtract"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 2, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Multiply"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 3, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Divide"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 4, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Modulo"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 5, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Power"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 6, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                }
-                else if (stringArray[i].StartsWith("VariableBool"))
-                {
-                    num13 = 2;
-                    num14 = stringArray[i].IndexOf('.');
-                    num15 = stringArray[i].IndexOf('(');
-                    num16 = stringArray[i].LastIndexOf(')');
-                    str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                    strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                    if (str2.StartsWith("SetToOpposite"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        action = new RCAction(num13, 11, null, new RCActionHelper[] { helper });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("SetRandom"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        action = new RCAction(num13, 12, null, new RCActionHelper[] { helper });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Set"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                }
-                else if (stringArray[i].StartsWith("VariableString"))
-                {
-                    num13 = 3;
-                    num14 = stringArray[i].IndexOf('.');
-                    num15 = stringArray[i].IndexOf('(');
-                    num16 = stringArray[i].LastIndexOf(')');
-                    str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                    strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                    if (str2.StartsWith("Set"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Concat"))
-                    {
-                        RCActionHelper[] helpers = new RCActionHelper[strArray3.Length];
-                        for (length = 0; length < strArray3.Length; length++)
-                        {
-                            helpers[length] = this.returnHelper(strArray3[length]);
-                        }
-                        action = new RCAction(num13, 7, null, helpers);
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Append"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 8, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Replace"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        helper3 = this.returnHelper(strArray3[2]);
-                        action = new RCAction(num13, 10, null, new RCActionHelper[] { helper, helper2, helper3 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Remove"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 9, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                }
-                else if (stringArray[i].StartsWith("VariableFloat"))
-                {
-                    num13 = 4;
-                    num14 = stringArray[i].IndexOf('.');
-                    num15 = stringArray[i].IndexOf('(');
-                    num16 = stringArray[i].LastIndexOf(')');
-                    str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                    strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                    if (str2.StartsWith("SetRandom"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        helper3 = this.returnHelper(strArray3[2]);
-                        action = new RCAction(num13, 12, null, new RCActionHelper[] { helper, helper2, helper3 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Set"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Add"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 1, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Subtract"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 2, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Multiply"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 3, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Divide"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 4, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Modulo"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 5, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                    else if (str2.StartsWith("Power"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 6, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                }
-                else if (stringArray[i].StartsWith("VariablePlayer"))
-                {
-                    num13 = 5;
-                    num14 = stringArray[i].IndexOf('.');
-                    num15 = stringArray[i].IndexOf('(');
-                    num16 = stringArray[i].LastIndexOf(')');
-                    str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                    strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                    if (str2.StartsWith("Set"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                }
-                else if (stringArray[i].StartsWith("VariableTitan"))
-                {
-                    num13 = 6;
-                    num14 = stringArray[i].IndexOf('.');
-                    num15 = stringArray[i].IndexOf('(');
-                    num16 = stringArray[i].LastIndexOf(')');
-                    str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                    strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                    if (str2.StartsWith("Set"))
-                    {
-                        helper = this.returnHelper(strArray3[0]);
-                        helper2 = this.returnHelper(strArray3[1]);
-                        action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2 });
-                        sentTrueActions.Add(action);
-                    }
-                }
-                else
-                {
-                    RCActionHelper helper4;
-                    if (stringArray[i].StartsWith("Player"))
-                    {
-                        num13 = 7;
-                        num14 = stringArray[i].IndexOf('.');
-                        num15 = stringArray[i].IndexOf('(');
-                        num16 = stringArray[i].LastIndexOf(')');
-                        str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                        strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                        if (str2.StartsWith("KillPlayer"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SpawnPlayerAt"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            helper3 = this.returnHelper(strArray3[2]);
-                            helper4 = this.returnHelper(strArray3[3]);
-                            action = new RCAction(num13, 2, null, new RCActionHelper[] { helper, helper2, helper3, helper4 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SpawnPlayer"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            action = new RCAction(num13, 1, null, new RCActionHelper[] { helper });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("MovePlayer"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            helper3 = this.returnHelper(strArray3[2]);
-                            helper4 = this.returnHelper(strArray3[3]);
-                            action = new RCAction(num13, 3, null, new RCActionHelper[] { helper, helper2, helper3, helper4 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetKills"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 4, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetDeaths"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 5, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetMaxDmg"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 6, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetTotalDmg"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 7, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetName"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 8, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetGuildName"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 9, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetTeam"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 10, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetCustomInt"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 11, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetCustomBool"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 12, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetCustomString"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 13, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetCustomFloat"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 14, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                    }
-                    else if (stringArray[i].StartsWith("Titan"))
-                    {
-                        num13 = 8;
-                        num14 = stringArray[i].IndexOf('.');
-                        num15 = stringArray[i].IndexOf('(');
-                        num16 = stringArray[i].LastIndexOf(')');
-                        str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                        strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                        if (str2.StartsWith("KillTitan"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            helper3 = this.returnHelper(strArray3[2]);
-                            action = new RCAction(num13, 0, null, new RCActionHelper[] { helper, helper2, helper3 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SpawnTitanAt"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            helper3 = this.returnHelper(strArray3[2]);
-                            helper4 = this.returnHelper(strArray3[3]);
-                            RCActionHelper helper5 = this.returnHelper(strArray3[4]);
-                            RCActionHelper helper6 = this.returnHelper(strArray3[5]);
-                            RCActionHelper helper7 = this.returnHelper(strArray3[6]);
-                            action = new RCAction(num13, 2, null, new RCActionHelper[] { helper, helper2, helper3, helper4, helper5, helper6, helper7 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SpawnTitan"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            helper3 = this.returnHelper(strArray3[2]);
-                            helper4 = this.returnHelper(strArray3[3]);
-                            action = new RCAction(num13, 1, null, new RCActionHelper[] { helper, helper2, helper3, helper4 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("SetHealth"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            action = new RCAction(num13, 3, null, new RCActionHelper[] { helper, helper2 });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("MoveTitan"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            helper2 = this.returnHelper(strArray3[1]);
-                            helper3 = this.returnHelper(strArray3[2]);
-                            helper4 = this.returnHelper(strArray3[3]);
-                            action = new RCAction(num13, 4, null, new RCActionHelper[] { helper, helper2, helper3, helper4 });
-                            sentTrueActions.Add(action);
-                        }
-                    }
-                    else if (stringArray[i].StartsWith("Game"))
-                    {
-                        num13 = 9;
-                        num14 = stringArray[i].IndexOf('.');
-                        num15 = stringArray[i].IndexOf('(');
-                        num16 = stringArray[i].LastIndexOf(')');
-                        str2 = stringArray[i].Substring(num14 + 1, (num15 - num14) - 1);
-                        strArray3 = stringArray[i].Substring(num15 + 1, (num16 - num15) - 1).Split(new char[] { ',' });
-                        if (str2.StartsWith("PrintMessage"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            action = new RCAction(num13, 0, null, new RCActionHelper[] { helper });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("LoseGame"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            action = new RCAction(num13, 2, null, new RCActionHelper[] { helper });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("WinGame"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            action = new RCAction(num13, 1, null, new RCActionHelper[] { helper });
-                            sentTrueActions.Add(action);
-                        }
-                        else if (str2.StartsWith("Restart"))
-                        {
-                            helper = this.returnHelper(strArray3[0]);
-                            action = new RCAction(num13, 3, null, new RCActionHelper[] { helper });
-                            sentTrueActions.Add(action);
-                        }
-                    }
-                }
-            }
-        }
-        return new RCEvent(condition, sentTrueActions, eventClass, eventType);
-    }
-
     [PunRPC]
     public void pauseRPC(bool pause, PhotonMessageInfo info)
     {
@@ -4677,46 +3637,46 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         player.SetCustomProperties(propertiesToSet);
     }
 
-    public GameObject randomSpawnOneTitan(string place, int rate)
-    {
-        GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
-        int index = UnityEngine.Random.Range(0, objArray.Length);
-        GameObject obj2 = objArray[index];
-        while (objArray[index] == null)
-        {
-            index = UnityEngine.Random.Range(0, objArray.Length);
-            obj2 = objArray[index];
-        }
-        objArray[index] = null;
-        return this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, false);
-    }
+    //public GameObject randomSpawnOneTitan(string place, int rate)
+    //{
+    //    GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
+    //    int index = UnityEngine.Random.Range(0, objArray.Length);
+    //    GameObject obj2 = objArray[index];
+    //    while (objArray[index] == null)
+    //    {
+    //        index = UnityEngine.Random.Range(0, objArray.Length);
+    //        obj2 = objArray[index];
+    //    }
+    //    objArray[index] = null;
+    //    return this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, false);
+    //}
 
-    public void randomSpawnTitan(string place, int rate, int num, bool punk = false)
-    {
-        if (num == -1)
-        {
-            num = 1;
-        }
-        GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
-        if (objArray.Length > 0)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                int index = UnityEngine.Random.Range(0, objArray.Length);
-                GameObject obj2 = objArray[index];
-                if (num <= objArray.Length)
-                {
-                    while (objArray[index] == null)
-                    {
-                        index = UnityEngine.Random.Range(0, objArray.Length);
-                        obj2 = objArray[index];
-                    }
-                    objArray[index] = null;
-                }
-                this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, punk);
-            }
-        }
-    }
+    //public void randomSpawnTitan(string place, int rate, int num, bool punk = false)
+    //{
+    //    if (num == -1)
+    //    {
+    //        num = 1;
+    //    }
+    //    GameObject[] objArray = GameObject.FindGameObjectsWithTag(place);
+    //    if (objArray.Length > 0)
+    //    {
+    //        for (int i = 0; i < num; i++)
+    //        {
+    //            int index = UnityEngine.Random.Range(0, objArray.Length);
+    //            GameObject obj2 = objArray[index];
+    //            if (num <= objArray.Length)
+    //            {
+    //                while (objArray[index] == null)
+    //                {
+    //                    index = UnityEngine.Random.Range(0, objArray.Length);
+    //                    obj2 = objArray[index];
+    //                }
+    //                objArray[index] = null;
+    //            }
+    //            this.spawnTitan(rate, obj2.transform.position, obj2.transform.rotation, punk);
+    //        }
+    //    }
+    //}
 
     public Texture2D RCLoadTexture(string tex)
     {
@@ -4810,7 +3770,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.hooks.Remove(h);
     }
 
-    public void removeTitan(TITAN titan)
+    public void removeTitan(MindlessTitan titan)
     {
         this.titans.Remove(titan);
     }
@@ -4967,28 +3927,28 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
         {
             Level = NewRoundLevel;
-            Gamemode = NewRoundGamemode;
+            SetGamemode(NewRoundGamemode);
             var hash = new ExitGames.Client.Photon.Hashtable
             {
                 {"level", Level.Name},
-                {"gamemode", Gamemode.GamemodeType.ToString()}
+                {"gamemode", Gamemode.Settings.GamemodeType.ToString()}
             };
             PhotonNetwork.room.SetCustomProperties(hash);
-            var json = JsonConvert.SerializeObject(Gamemode);
-            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.GamemodeType);
+            var json = JsonConvert.SerializeObject(Gamemode.Settings);
+            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
             PhotonNetwork.LoadLevel(Level.SceneName);
         }
-        else if (NewRoundGamemode != null && Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
+        else if (NewRoundGamemode != null && Gamemode.Settings.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
         {
-            Gamemode = NewRoundGamemode;
+            SetGamemode(NewRoundGamemode);
             var hash = new ExitGames.Client.Photon.Hashtable
             {
                 {"level", Level.Name},
-                {"gamemode", Gamemode.GamemodeType.ToString()}
+                {"gamemode", Gamemode.Settings.GamemodeType.ToString()}
             };
             PhotonNetwork.room.SetCustomProperties(hash);
-            var json = JsonConvert.SerializeObject(Gamemode);
-            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.GamemodeType);
+            var json = JsonConvert.SerializeObject(Gamemode.Settings);
+            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
         }
 
         intVariables.Clear();
@@ -4998,362 +3958,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         playerVariables.Clear();
         titanVariables.Clear();
         EventManager.OnRestart.Invoke();
-    }
-
-    public RCActionHelper returnHelper(string str)
-    {
-        float num;
-        int num3;
-        string[] strArray = str.Split(new char[] { '.' });
-        if (float.TryParse(str, out num))
-        {
-            strArray = new string[] { str };
-        }
-        List<RCActionHelper> list = new List<RCActionHelper>();
-        int sentType = 0;
-        for (num3 = 0; num3 < strArray.Length; num3++)
-        {
-            string str2;
-            RCActionHelper helper;
-            if (list.Count == 0)
-            {
-                str2 = strArray[num3];
-                if (str2.StartsWith("\"") && str2.EndsWith("\""))
-                {
-                    helper = new RCActionHelper(0, 0, str2.Substring(1, str2.Length - 2));
-                    list.Add(helper);
-                    sentType = 2;
-                }
-                else
-                {
-                    int num4;
-                    if (int.TryParse(str2, out num4))
-                    {
-                        helper = new RCActionHelper(0, 0, num4);
-                        list.Add(helper);
-                        sentType = 0;
-                    }
-                    else
-                    {
-                        float num5;
-                        if (float.TryParse(str2, out num5))
-                        {
-                            helper = new RCActionHelper(0, 0, num5);
-                            list.Add(helper);
-                            sentType = 3;
-                        }
-                        else if ((str2.ToLower() == "true") || (str2.ToLower() == "false"))
-                        {
-                            helper = new RCActionHelper(0, 0, Convert.ToBoolean(str2.ToLower()));
-                            list.Add(helper);
-                            sentType = 1;
-                        }
-                        else
-                        {
-                            int index;
-                            int num7;
-                            if (str2.StartsWith("Variable"))
-                            {
-                                index = str2.IndexOf('(');
-                                num7 = str2.LastIndexOf(')');
-                                if (str2.StartsWith("VariableInt"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(1, 0, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 0;
-                                }
-                                else if (str2.StartsWith("VariableBool"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(1, 1, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 1;
-                                }
-                                else if (str2.StartsWith("VariableString"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(1, 2, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 2;
-                                }
-                                else if (str2.StartsWith("VariableFloat"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(1, 3, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 3;
-                                }
-                                else if (str2.StartsWith("VariablePlayer"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(1, 4, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 4;
-                                }
-                                else if (str2.StartsWith("VariableTitan"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(1, 5, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 5;
-                                }
-                            }
-                            else if (str2.StartsWith("Region"))
-                            {
-                                index = str2.IndexOf('(');
-                                num7 = str2.LastIndexOf(')');
-                                if (str2.StartsWith("RegionRandomX"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(4, 0, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 3;
-                                }
-                                else if (str2.StartsWith("RegionRandomY"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(4, 1, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 3;
-                                }
-                                else if (str2.StartsWith("RegionRandomZ"))
-                                {
-                                    str2 = str2.Substring(index + 1, (num7 - index) - 1);
-                                    helper = new RCActionHelper(4, 2, this.returnHelper(str2));
-                                    list.Add(helper);
-                                    sentType = 3;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (list.Count > 0)
-            {
-                str2 = strArray[num3];
-                if (list[list.Count - 1].helperClass != 1)
-                {
-                    if (str2.StartsWith("ConvertToInt()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 0;
-                    }
-                    else if (str2.StartsWith("ConvertToBool()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 1;
-                    }
-                    else if (str2.StartsWith("ConvertToString()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 2;
-                    }
-                    else if (str2.StartsWith("ConvertToFloat()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 3;
-                    }
-                }
-                else
-                {
-                    switch (list[list.Count - 1].helperType)
-                    {
-                        case 4:
-                            {
-                                if (!str2.StartsWith("GetTeam()"))
-                                {
-                                    goto Label_063B;
-                                }
-                                helper = new RCActionHelper(2, 1, null);
-                                list.Add(helper);
-                                sentType = 0;
-                                continue;
-                            }
-                        case 5:
-                            {
-                                if (!str2.StartsWith("GetType()"))
-                                {
-                                    goto Label_095F;
-                                }
-                                helper = new RCActionHelper(3, 0, null);
-                                list.Add(helper);
-                                sentType = 0;
-                                continue;
-                            }
-                    }
-                    if (str2.StartsWith("ConvertToInt()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 0;
-                    }
-                    else if (str2.StartsWith("ConvertToBool()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 1;
-                    }
-                    else if (str2.StartsWith("ConvertToString()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 2;
-                    }
-                    else if (str2.StartsWith("ConvertToFloat()"))
-                    {
-                        helper = new RCActionHelper(5, sentType, null);
-                        list.Add(helper);
-                        sentType = 3;
-                    }
-                }
-            }
-            continue;
-        Label_063B:
-            if (str2.StartsWith("GetType()"))
-            {
-                helper = new RCActionHelper(2, 0, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetIsAlive()"))
-            {
-                helper = new RCActionHelper(2, 2, null);
-                list.Add(helper);
-                sentType = 1;
-            }
-            else if (str2.StartsWith("GetTitan()"))
-            {
-                helper = new RCActionHelper(2, 3, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetKills()"))
-            {
-                helper = new RCActionHelper(2, 4, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetDeaths()"))
-            {
-                helper = new RCActionHelper(2, 5, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetMaxDmg()"))
-            {
-                helper = new RCActionHelper(2, 6, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetTotalDmg()"))
-            {
-                helper = new RCActionHelper(2, 7, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetCustomInt()"))
-            {
-                helper = new RCActionHelper(2, 8, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetCustomBool()"))
-            {
-                helper = new RCActionHelper(2, 9, null);
-                list.Add(helper);
-                sentType = 1;
-            }
-            else if (str2.StartsWith("GetCustomString()"))
-            {
-                helper = new RCActionHelper(2, 10, null);
-                list.Add(helper);
-                sentType = 2;
-            }
-            else if (str2.StartsWith("GetCustomFloat()"))
-            {
-                helper = new RCActionHelper(2, 11, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            else if (str2.StartsWith("GetPositionX()"))
-            {
-                helper = new RCActionHelper(2, 14, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            else if (str2.StartsWith("GetPositionY()"))
-            {
-                helper = new RCActionHelper(2, 15, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            else if (str2.StartsWith("GetPositionZ()"))
-            {
-                helper = new RCActionHelper(2, 0x10, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            else if (str2.StartsWith("GetName()"))
-            {
-                helper = new RCActionHelper(2, 12, null);
-                list.Add(helper);
-                sentType = 2;
-            }
-            else if (str2.StartsWith("GetGuildName()"))
-            {
-                helper = new RCActionHelper(2, 13, null);
-                list.Add(helper);
-                sentType = 2;
-            }
-            else if (str2.StartsWith("GetSpeed()"))
-            {
-                helper = new RCActionHelper(2, 0x11, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            continue;
-        Label_095F:
-            if (str2.StartsWith("GetSize()"))
-            {
-                helper = new RCActionHelper(3, 1, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            else if (str2.StartsWith("GetHealth()"))
-            {
-                helper = new RCActionHelper(3, 2, null);
-                list.Add(helper);
-                sentType = 0;
-            }
-            else if (str2.StartsWith("GetPositionX()"))
-            {
-                helper = new RCActionHelper(3, 3, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            else if (str2.StartsWith("GetPositionY()"))
-            {
-                helper = new RCActionHelper(3, 4, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-            else if (str2.StartsWith("GetPositionZ()"))
-            {
-                helper = new RCActionHelper(3, 5, null);
-                list.Add(helper);
-                sentType = 3;
-            }
-        }
-        for (num3 = list.Count - 1; num3 > 0; num3--)
-        {
-            list[num3 - 1].setNextHelper(list[num3]);
-        }
-        return list[0];
     }
 
     [PunRPC]
@@ -5572,22 +4176,25 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void SyncSettings(string gamemodeRaw, GamemodeType type, PhotonMessageInfo info)
     {
-        var gamemode = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
+        var settings = GamemodeBase.ConvertToGamemode(gamemodeRaw, type);
         if (info.sender.IsMasterClient)
         {
-            Gamemode = gamemode;
-            mainCamera.main_object.GetComponent<Hero>().SetHorse();
-            if (Gamemode.EndlessRevive > 0)
+            Gamemode.SetSettings(settings);
+            if (mainCamera.main_object != null)
             {
-                StopCoroutine(respawnE(Gamemode.EndlessRevive));
-                StartCoroutine(respawnE(Gamemode.EndlessRevive));
+                mainCamera.main_object.GetComponent<Hero>().SetHorse();
+            }
+            if (Gamemode.Settings.EndlessRevive > 0)
+            {
+                StopCoroutine(respawnE(Gamemode.Settings.EndlessRevive));
+                StartCoroutine(respawnE(Gamemode.Settings.EndlessRevive));
             }
             else
             {
-                StopCoroutine(respawnE(Gamemode.EndlessRevive));
+                StopCoroutine(respawnE(Gamemode.Settings.EndlessRevive));
             }
 
-            if (Gamemode.TeamMode != TeamMode.Disabled)
+            if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                 {
@@ -5600,9 +4207,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
                 
 
-            if (gamemode.GamemodeType == GamemodeType.Infection)
+            if (Gamemode.Settings.GamemodeType == GamemodeType.Infection)
             {
-                var gamemodeInfection = (InfectionGamemode) gamemode;
+                var gamemodeInfection = (InfectionGamemodeSettings) settings;
                 if (gamemodeInfection.Infected > 0)
                 {
                     var hashtable = new ExitGames.Client.Photon.Hashtable();
@@ -5624,8 +4231,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void RequestSettings(PhotonMessageInfo info)
     {
-        var json = JsonConvert.SerializeObject(Gamemode);
-        photonView.RPC("SyncSettings", info.sender, json, Gamemode.GamemodeType);
+        var json = JsonConvert.SerializeObject(Gamemode.Settings);
+        photonView.RPC("SyncSettings", info.sender, json, Gamemode.Settings.GamemodeType);
     }
 
     public void ShowHUDInfoCenter(string content)
@@ -5690,54 +4297,55 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void SpawnNonAITitan2(string id, string tag = "titanRespawn")
     {
-        if (logicLoaded && customLevelLoaded)
-        {
-            GameObject obj3;
-            GameObject[] objArray = GameObject.FindGameObjectsWithTag(tag);
-            GameObject obj2 = objArray[UnityEngine.Random.Range(0, objArray.Length)];
-            Vector3 position = obj2.transform.position;
-            if (Level.Name.StartsWith("Custom") && (this.titanSpawns.Count > 0))
-            {
-                position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
-            }
-            this.myLastHero = id.ToUpper();
-            obj3 = Gamemode.SpawnNonAiTitan(position, obj2);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(obj3);
-            obj3.GetComponent<TITAN>().nonAI = true;
-            obj3.GetComponent<TITAN>().speed = 30f;
-            obj3.GetComponent<TITAN_CONTROLLER>().enabled = true;
-            if ((id == "RANDOM") && (UnityEngine.Random.Range(0, 100) < 7))
-            {
-                obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-            }
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            //TODO MouseLook
-            //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-            ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-            hashtable.Add("dead", false);
-            ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            hashtable = new ExitGames.Client.Photon.Hashtable();
-            hashtable.Add(PhotonPlayerProperty.isTitan, 2);
-            propertiesToSet = hashtable;
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-            {
-                Screen.lockCursor = true;
-            }
-            else
-            {
-                Screen.lockCursor = false;
-            }
-            Cursor.visible = true;
-            this.ShowHUDInfoCenter(string.Empty);
-        }
-        else
-        {
-            this.NOTSpawnNonAITitanRC(id);
-        }
+        throw new NotImplementedException("Player Titans are not implemented.");
+        //if (logicLoaded && customLevelLoaded)
+        //{
+        //    GameObject obj3;
+        //    GameObject[] objArray = GameObject.FindGameObjectsWithTag(tag);
+        //    GameObject obj2 = objArray[UnityEngine.Random.Range(0, objArray.Length)];
+        //    Vector3 position = obj2.transform.position;
+        //    if (Level.Name.StartsWith("Custom") && (this.titanSpawns.Count > 0))
+        //    {
+        //        position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
+        //    }
+        //    this.myLastHero = id.ToUpper();
+        //    obj3 = Gamemode.SpawnNonAiTitan(position, obj2);
+        //    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(obj3);
+        //    obj3.GetComponent<TITAN>().nonAI = true;
+        //    obj3.GetComponent<TITAN>().speed = 30f;
+        //    obj3.GetComponent<TITAN_CONTROLLER>().enabled = true;
+        //    if ((id == "RANDOM") && (UnityEngine.Random.Range(0, 100) < 7))
+        //    {
+        //        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
+        //    }
+        //    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
+        //    GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
+        //    //TODO MouseLook
+        //    //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+        //    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
+        //    ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+        //    hashtable.Add("dead", false);
+        //    ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
+        //    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+        //    hashtable = new ExitGames.Client.Photon.Hashtable();
+        //    hashtable.Add(PhotonPlayerProperty.isTitan, 2);
+        //    propertiesToSet = hashtable;
+        //    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+        //    if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
+        //    {
+        //        Screen.lockCursor = true;
+        //    }
+        //    else
+        //    {
+        //        Screen.lockCursor = false;
+        //    }
+        //    Cursor.visible = true;
+        //    this.ShowHUDInfoCenter(string.Empty);
+        //}
+        //else
+        //{
+        //    this.NOTSpawnNonAITitanRC(id);
+        //}
     }
 
     public void SpawnPlayer(string id, string tag = "playerRespawn")
@@ -6040,359 +4648,137 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public GameObject spawnTitan(int rate, Vector3 position, Quaternion rotation, bool punk = false)
+    //public GameObject spawnTitan(int rate, Vector3 position, Quaternion rotation, bool punk = false)
+    //{
+    //    GameObject obj3;
+    //    GameObject obj2 = this.spawnTitanRaw(position, rotation);
+    //    if (punk)
+    //    {
+    //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
+    //    }
+    //    else if (UnityEngine.Random.Range(0, 100) < rate)
+    //    {
+    //        if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+    //        {
+    //            if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //            {
+    //                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //            }
+    //            else
+    //            {
+    //                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+    //            }
+    //        }
+    //    }
+    //    else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+    //    {
+    //        if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //        }
+    //        else
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+    //        }
+    //    }
+    //    else if (UnityEngine.Random.Range(0, 100) < rate)
+    //    {
+    //        if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //        }
+    //        else
+    //        {
+    //            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
+    //        }
+    //    }
+    //    else if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
+    //    {
+    //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+    //    }
+    //    else
+    //    {
+    //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+    //    }
+    //    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+    //    {
+    //        obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanSpawn"), obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f));
+    //    }
+    //    else
+    //    {
+    //        obj3 = PhotonNetwork.Instantiate("FX/FXtitanSpawn", obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f), 0);
+    //    }
+    //    obj3.transform.localScale = obj2.transform.localScale;
+    //    return obj2;
+    //}
+
+    public GameObject SpawnTitan()
     {
-        GameObject obj3;
-        GameObject obj2 = this.spawnTitanRaw(position, rotation);
-        if (punk)
+        return SpawnTitan(new TitanConfiguration());
+    }
+
+    public GameObject SpawnTitan(TitanConfiguration configuration)
+    {
+        Vector3 position = new Vector3();
+        Quaternion rotation = new Quaternion();
+        if (titanSpawns.Count > 0) // RC Custom Map Spawns
         {
-            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-        }
-        else if (UnityEngine.Random.Range(0, 100) < rate)
-        {
-            if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-            {
-                if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-                {
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-                }
-                else
-                {
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                }
-            }
-        }
-        else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-        {
-            if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.7f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-            }
-            else
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-            }
-        }
-        else if (UnityEngine.Random.Range(0, 100) < rate)
-        {
-            if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-            }
-            else
-            {
-                obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-            }
-        }
-        else if ((UnityEngine.Random.Range((float)0f, (float)1f) >= 0.8f) && Gamemode.IsEnabled(TitanType.TYPE_CRAWLER))
-        {
-            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
+            position = titanSpawns[UnityEngine.Random.Range(0, titanSpawns.Count)];
         }
         else
         {
-            obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
+            var randomSpawns = GameObject.FindGameObjectsWithTag("titanRespawn");
+            if (randomSpawns.Length > 0)
+            {
+                var random = UnityEngine.Random.Range(0, randomSpawns.Length);
+                var randomSpawn = randomSpawns[random];
+                while (randomSpawn == null)
+                {
+                    random = UnityEngine.Random.Range(0, randomSpawns.Length);
+                    randomSpawn = randomSpawns[random];
+                }
+                randomSpawns[random] = null;
+                position = randomSpawn.transform.position;
+                rotation = randomSpawn.transform.rotation;
+            }
         }
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanSpawn"), obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f));
-        }
-        else
-        {
-            obj3 = PhotonNetwork.Instantiate("FX/FXtitanSpawn", obj2.transform.position, Quaternion.Euler(-90f, 0f, 0f), 0);
-        }
-        obj3.transform.localScale = obj2.transform.localScale;
-        return obj2;
+
+        return SpawnTitan(position, rotation, configuration);
     }
 
-    public void spawnTitanAction(int type, float size, int health, int number)
+    public GameObject SpawnTitan(Vector3 position, Quaternion rotation)
     {
-        Vector3 position = new Vector3(UnityEngine.Random.Range((float)-400f, (float)400f), 0f, UnityEngine.Random.Range((float)-400f, (float)400f));
-        Quaternion rotation = new Quaternion(0f, 0f, 0f, 1f);
-        if (this.titanSpawns.Count > 0)
-        {
-            position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
-        }
-        else
-        {
-            GameObject[] objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
-            if (objArray.Length > 0)
-            {
-                int index = UnityEngine.Random.Range(0, objArray.Length);
-                GameObject obj2 = objArray[index];
-                while (objArray[index] == null)
-                {
-                    index = UnityEngine.Random.Range(0, objArray.Length);
-                    obj2 = objArray[index];
-                }
-                objArray[index] = null;
-                position = obj2.transform.position;
-                rotation = obj2.transform.rotation;
-            }
-        }
-        for (int i = 0; i < number; i++)
-        {
-            GameObject obj3 = this.spawnTitanRaw(position, rotation);
-            obj3.GetComponent<TITAN>().resetLevel(size);
-            obj3.GetComponent<TITAN>().hasSetLevel = true;
-            if (health > 0f)
-            {
-                obj3.GetComponent<TITAN>().currentHealth = health;
-                obj3.GetComponent<TITAN>().maxHealth = health;
-            }
-            switch (type)
-            {
-                case 0:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    break;
-
-                case 1:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                    break;
-
-                case 2:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                    break;
-
-                case 3:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                    break;
-
-                case 4:
-                    obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                    break;
-            }
-        }
+        return SpawnTitan(position, rotation, new TitanConfiguration());
     }
 
-    public void spawnTitanAtAction(int type, float size, int health, int number, float posX, float posY, float posZ)
+    public GameObject SpawnTitan(Vector3 position, Quaternion rotation, TitanConfiguration configuration)
     {
-        Vector3 position = new Vector3(posX, posY, posZ);
-        Quaternion rotation = new Quaternion(0f, 0f, 0f, 1f);
-        for (int i = 0; i < number; i++)
-        {
-            GameObject obj2 = this.spawnTitanRaw(position, rotation);
-            obj2.GetComponent<TITAN>().resetLevel(size);
-            obj2.GetComponent<TITAN>().hasSetLevel = true;
-            if (health > 0f)
-            {
-                obj2.GetComponent<TITAN>().currentHealth = health;
-                obj2.GetComponent<TITAN>().maxHealth = health;
-            }
-            switch (type)
-            {
-                case 0:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    break;
-
-                case 1:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                    break;
-
-                case 2:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                    break;
-
-                case 3:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                    break;
-
-                case 4:
-                    obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                    break;
-            }
-        }
+        var titan = PhotonNetwork.Instantiate("MindlessTitan", position, rotation, 0);
+        titan.GetComponent<MindlessTitan>().Initialize(configuration);
+        return titan;
     }
 
-    public void spawnTitanCustom(string type, int abnormal, int rate, bool punk)
-    {
-        int num8;
-        Vector3 position;
-        Quaternion rotation;
-        GameObject[] objArray;
-        int num9;
-        GameObject obj2;
-        int moreTitans = rate;
-        if (Level.Name.StartsWith("Custom"))
-        {
-            moreTitans = 5;
-            if (!Gamemode.TitansEnabled)
-            {
-                moreTitans = 0;
-            }
-        }
-        if ((Gamemode.Titans > 0) || (((Gamemode.Titans == 0) && Level.Name.StartsWith("Custom")) && !Gamemode.TitansEnabled))
-        {
-            moreTitans = Gamemode.Titans;
-        }
-
-        //TODO: Move this into Gamemode: OnSpawnTitan
-        if (Gamemode.GamemodeType == GamemodeType.Wave)
-        {
-            var wavesGamemode = (WaveGamemode) Gamemode;
-            if (punk)
-            {
-                moreTitans = rate;
-            }
-            else
-            {
-                int waveModeNum;
-                if (Gamemode.Titans == 0)
-                {
-                    waveModeNum = wavesGamemode.WaveIncrement;
-                    moreTitans += (wavesGamemode.Wave - 1) * (waveModeNum - 1);
-                }
-                else if (Gamemode.Titans > 0)
-                {
-                    waveModeNum = wavesGamemode.WaveIncrement;
-                    moreTitans += (wavesGamemode.Wave - 1) * waveModeNum;
-                }
-            }
-        }
-        moreTitans = Math.Min(Gamemode.TitanLimit, moreTitans);
-        if (Gamemode.CustomTitanRatio)
-        {
-            float nRate = Gamemode.TitanNormalRatio;
-            float aRate = Gamemode.TitanAbberantRatio;
-            float jRate = Gamemode.TitanJumperRatio;
-            float cRate = Gamemode.TitanCrawlerRatio;
-            float pRate = Gamemode.TitanPunkRatio;
-            bool isPunkWaves = false;
-            if (Gamemode.GamemodeType == GamemodeType.Wave)
-            {
-                isPunkWaves = ((WaveGamemode) Gamemode).PunkWave;
-            }
-            if (punk && isPunkWaves)
-            {
-                nRate = 0f;
-                aRate = 0f;
-                jRate = 0f;
-                cRate = 0f;
-                pRate = 100f;
-                moreTitans = rate;
-            }
-            for (num8 = 0; num8 < moreTitans; num8++)
-            {
-                position = new Vector3(UnityEngine.Random.Range((float)-400f, (float)400f), 0f, UnityEngine.Random.Range((float)-400f, (float)400f));
-                rotation = new Quaternion(0f, 0f, 0f, 1f);
-                if (this.titanSpawns.Count > 0)
-                {
-                    position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
-                }
-                else
-                {
-                    objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
-                    if (objArray.Length > 0)
-                    {
-                        num9 = UnityEngine.Random.Range(0, objArray.Length);
-                        obj2 = objArray[num9];
-                        while (objArray[num9] == null)
-                        {
-                            num9 = UnityEngine.Random.Range(0, objArray.Length);
-                            obj2 = objArray[num9];
-                        }
-                        objArray[num9] = null;
-                        position = obj2.transform.position;
-                        rotation = obj2.transform.rotation;
-                    }
-                }
-                float num10 = UnityEngine.Random.Range((float)0f, (float)100f);
-                if (num10 <= ((((nRate + aRate) + jRate) + cRate) + pRate))
-                {
-                    GameObject obj3 = this.spawnTitanRaw(position, rotation);
-                    if (num10 < nRate)
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    }
-                    else if ((num10 >= nRate) && (num10 < (nRate + aRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                    }
-                    else if ((num10 >= (nRate + aRate)) && (num10 < ((nRate + aRate) + jRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                    }
-                    else if ((num10 >= ((nRate + aRate) + jRate)) && (num10 < (((nRate + aRate) + jRate) + cRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                    }
-                    else if ((num10 >= (((nRate + aRate) + jRate) + cRate)) && (num10 < ((((nRate + aRate) + jRate) + cRate) + pRate)))
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                    }
-                    else
-                    {
-                        obj3.GetComponent<TITAN>().setAbnormalType2(TitanType.NORMAL, false);
-                    }
-                }
-                else
-                {
-                    this.spawnTitan(abnormal, position, rotation, punk);
-                }
-            }
-        }
-        else if (Level.Name.StartsWith("Custom"))
-        {
-            for (num8 = 0; num8 < moreTitans; num8++)
-            {
-                position = new Vector3(UnityEngine.Random.Range((float)-400f, (float)400f), 0f, UnityEngine.Random.Range((float)-400f, (float)400f));
-                rotation = new Quaternion(0f, 0f, 0f, 1f);
-                if (this.titanSpawns.Count > 0)
-                {
-                    position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
-                }
-                else
-                {
-                    objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
-                    if (objArray.Length > 0)
-                    {
-                        num9 = UnityEngine.Random.Range(0, objArray.Length);
-                        obj2 = objArray[num9];
-                        while (objArray[num9] == null)
-                        {
-                            num9 = UnityEngine.Random.Range(0, objArray.Length);
-                            obj2 = objArray[num9];
-                        }
-                        objArray[num9] = null;
-                        position = obj2.transform.position;
-                        rotation = obj2.transform.rotation;
-                    }
-                }
-                this.spawnTitan(abnormal, position, rotation, punk);
-            }
-        }
-        else
-        {
-            this.randomSpawnTitan("titanRespawn", abnormal, 5, punk);
-        }
-    }
-
-    private GameObject spawnTitanRaw(Vector3 position, Quaternion rotation)
-    {
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            return (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_VER3.1"), position, rotation);
-        }
-        return PhotonNetwork.Instantiate("TITAN_VER3.1", position, rotation, 0);
-    }
-
+    // Spawn player titan
     [PunRPC]
     private void spawnTitanRPC(PhotonMessageInfo info)
     {
-        if (info.sender.isMasterClient)
-        {
-            foreach (TITAN titan in this.titans)
-            {
-                if (titan.photonView.isMine && !(PhotonNetwork.isMasterClient && !titan.nonAI))
-                {
-                    PhotonNetwork.Destroy(titan.gameObject);
-                }
-            }
-            this.SpawnNonAITitan2(this.myLastHero, "titanRespawn");
-        }
+        throw new NotImplementedException("Player titans are not implemented");
+        //if (info.sender.isMasterClient)
+        //{
+        //    foreach (MindlessTitan titan in this.titans)
+        //    {
+        //        if (titan.photonView.isMine && !(PhotonNetwork.isMasterClient && !titan.nonAI))
+        //        {
+        //            PhotonNetwork.Destroy(titan.gameObject);
+        //        }
+        //    }
+        //    this.SpawnNonAITitan2(this.myLastHero, "titanRespawn");
+        //}
     }
 
     private void Start()
     {
+        Debug.Log($"Version: {Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";
         HeroCostume.init2();
@@ -6590,24 +4976,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     disposable3.Dispose();
                 }
             }
-            IEnumerator enumerator4 = this.titans.GetEnumerator();
-            try
-            {
-                while (enumerator4.MoveNext())
-                {
-                    var current = (TITAN)enumerator4.Current;
-                    if (current != null)
-                        current.update2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable4 = enumerator4 as IDisposable;
-                if (disposable4 != null)
-                {
-                    disposable4.Dispose();
-                }
-            }
             IEnumerator enumerator5 = this.fT.GetEnumerator();
             try
             {
@@ -6711,7 +5079,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         yield return new WaitForSeconds(time);
         EventManager.OnUpdate.Invoke(time);
         string iteratorVariable1 = string.Empty;
-        if (Gamemode.TeamMode == TeamMode.Disabled)
+        if (Gamemode.Settings.TeamMode == TeamMode.Disabled)
         {
             foreach (PhotonPlayer player7 in PhotonNetwork.playerList)
             {
@@ -6825,7 +5193,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.magentaKills = num3;
             if (PhotonNetwork.isMasterClient)
             {
-                if (Gamemode.TeamMode == TeamMode.LockBySize)
+                if (Gamemode.Settings.TeamMode == TeamMode.LockBySize)
                 {
                     foreach (PhotonPlayer player2 in PhotonNetwork.playerList)
                     {
@@ -6860,7 +5228,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                     }
                 }
-                else if (Gamemode.TeamMode == TeamMode.LockBySkill)
+                else if (Gamemode.Settings.TeamMode == TeamMode.LockBySkill)
                 {
                     foreach (PhotonPlayer player3 in PhotonNetwork.playerList)
                     {
@@ -7089,29 +5457,29 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (PhotonNetwork.isMasterClient && ((!this.isWinning && !this.isLosing) && (this.roundTime >= 5f)))
         {
             int num22;
-            if (Gamemode.PointMode > 0)
+            if (Gamemode.Settings.PointMode > 0)
             {
-                if (Gamemode.TeamMode != TeamMode.Disabled)
+                if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
                 {
-                    if (this.cyanKills >= Gamemode.PointMode)
+                    if (this.cyanKills >= Gamemode.Settings.PointMode)
                     {
                         object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, parameters);
                         this.gameWin2();
                     }
-                    else if (this.magentaKills >= Gamemode.PointMode)
+                    else if (this.magentaKills >= Gamemode.Settings.PointMode)
                     {
                         objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, objArray2);
                         this.gameWin2();
                     }
                 }
-                else if (Gamemode.TeamMode == TeamMode.Disabled)
+                else if (Gamemode.Settings.TeamMode == TeamMode.Disabled)
                 {
                     for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
                     {
                         PhotonPlayer player9 = PhotonNetwork.playerList[num22];
-                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= Gamemode.PointMode)
+                        if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= Gamemode.Settings.PointMode)
                         {
                             object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
                             this.photonView.RPC("Chat", PhotonTargets.All, objArray4);
@@ -7120,11 +5488,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if ((Gamemode.PointMode <= 0) && ((Gamemode.PvPBomb) || (Gamemode.Pvp != PvpMode.Disabled)))
+            else if ((Gamemode.Settings.PointMode <= 0) && ((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled)))
             {
-                if (Gamemode.PvPWinOnEnemiesDead)
+                if (Gamemode.Settings.PvPWinOnEnemiesDead)
                 {
-                    if ((Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
+                    if ((Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
                     {
                         int num24 = 0;
                         int num25 = 0;
@@ -7169,7 +5537,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             }
                         }
                     }
-                    else if ((Gamemode.TeamMode == TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
+                    else if ((Gamemode.Settings.TeamMode == TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
                     {
                         int num28 = 0;
                         string text = "Nobody";

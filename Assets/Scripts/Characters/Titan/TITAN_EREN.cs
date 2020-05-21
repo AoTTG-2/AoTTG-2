@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class TITAN_EREN : Photon.MonoBehaviour
@@ -701,9 +702,10 @@ public class TITAN_EREN : Photon.MonoBehaviour
                                     {
                                         if (obj3.transform.parent.gameObject == obj2)
                                         {
-                                            GameObject obj4 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(70, obj3.transform.position, obj3.transform.rotation, false);
-                                            obj4.GetComponent<TITAN>().isAlarm = true;
-                                            obj4.GetComponent<TITAN>().chaseDistance = 999999f;
+                                            throw new NotImplementedException("Eren titan requires punk disabling and titans to automatically start chasing");
+                                            var obj4 = FengGameManagerMKII.instance.SpawnTitan(obj3.transform.position, obj3.transform.rotation);
+                                            //obj4.GetComponent<MindlessTitan>().isAlarm = true;
+                                            //obj4.GetComponent<MindlessTitan>().chaseDistance = 999999f;
                                         }
                                     }
                                 }
@@ -735,9 +737,10 @@ public class TITAN_EREN : Photon.MonoBehaviour
                             y = hit.point.y;
                         }
                         position += (Vector3) (Vector3.up * y);
-                        GameObject obj5 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(70, position, base.transform.rotation, false);
-                        obj5.GetComponent<TITAN>().isAlarm = true;
-                        obj5.GetComponent<TITAN>().chaseDistance = 999999f;
+                        throw new NotImplementedException("Eren titan requires punk disabling and titans to automatically start chasing");
+                        //GameObject obj5 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(70, position, base.transform.rotation, false);
+                        //obj5.GetComponent<TITAN>().isAlarm = true;
+                        //obj5.GetComponent<TITAN>().chaseDistance = 999999f;
                     }
                     Vector3 vector10 = (Vector3) (base.transform.forward * 6f);
                     Vector3 vector11 = base.GetComponent<Rigidbody>().velocity;

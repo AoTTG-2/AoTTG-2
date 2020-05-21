@@ -1,5 +1,4 @@
-using System;
-using System.Runtime.InteropServices;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
@@ -255,7 +254,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             Vector3 vector2 = obj3.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position - position;
             float magnitude = vector2.magnitude;
-            if ((magnitude < num2) && ((obj3.GetComponent<TITAN>() == null) || !obj3.GetComponent<TITAN>().hasDie))
+            if ((magnitude < num2) && ((obj3.GetComponent<MindlessTitan>() == null) || obj3.GetComponent<MindlessTitan>().IsAlive))
             {
                 obj2 = obj3;
                 num2 = magnitude;
@@ -334,7 +333,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void setDayLight(DayLight val)
     {
+        return;
         dayLight = val;
+        dayLight = DayLight.Day;
         if (dayLight == DayLight.Night)
         {
             GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
@@ -527,7 +528,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         this.snapShotCamera.transform.LookAt(worldPosition);
         this.snapShotCamera.transform.RotateAround(worldPosition, base.transform.right, UnityEngine.Random.Range((float) -20f, (float) 20f));
         float num = Vector3.Distance(this.snapShotTargetPosition, vector);
-        if ((this.snapShotTarget != null) && (this.snapShotTarget.GetComponent<TITAN>() != null))
+        if ((this.snapShotTarget != null) && (this.snapShotTarget.GetComponent<MindlessTitan>() != null))
         {
             num += ((index - 1) * this.snapShotTarget.transform.localScale.x) * 10f;
         }
@@ -930,7 +931,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
                     Vector2 vector3 = base.GetComponent<Camera>().WorldToScreenPoint(transform.position - ((Vector3) (transform.forward * this.lockTarget.transform.localScale.x)));
                     this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
-                    if ((this.lockTarget.GetComponent<TITAN>() != null) && this.lockTarget.GetComponent<TITAN>().hasDie)
+                    if ((this.lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
                     {
                         this.lockTarget = null;
                     }

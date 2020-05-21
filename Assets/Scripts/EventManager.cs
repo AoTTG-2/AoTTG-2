@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Characters.Titan;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
 
-    public delegate void OnTitanSpawned(TITAN titan);
+    public delegate void OnTitanSpawned(MindlessTitan titan);
     public delegate void OnTitanKilled(string titanName);
     public delegate void OnUpdate(float interval);
     public delegate void OnRestart();
@@ -38,7 +39,7 @@ namespace Assets.Scripts
             FengGameManagerMKII.Gamemode.OnPlayerKilled(id);
         }
 
-        private void EventManager_OnTitanSpawned(TITAN titan)
+        private void EventManager_OnTitanSpawned(MindlessTitan titan)
         {
             FengGameManagerMKII.Gamemode.OnTitanSpawned(titan);
         }
