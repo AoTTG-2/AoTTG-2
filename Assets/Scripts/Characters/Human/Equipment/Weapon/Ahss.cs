@@ -66,7 +66,7 @@ public class AHSS : OdmgEquipment, Weapon
 
     public void PlayReloadAnimation()
     {
-        if (myHeroScript.grounded || FengGameManagerMKII.Gamemode.AhssAirReload)
+        if (myHeroScript.grounded || FengGameManagerMKII.NewRoundGamemode.AhssAirReload)
         {
             myHeroScript.state = HERO_STATE.ChangeBlade;
             myHeroScript.throwedBlades = false;

@@ -120,18 +120,18 @@ public class Blades : OdmgEquipment, Weapon
 
         Transform transform = setupScript.part_blade_l.transform;
         Transform transform2 = setupScript.part_blade_r.transform;
-        GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-        GameObject obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
+        GameObject obj2 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
+        GameObject obj3 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
         obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
         obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
-        Vector3 force = (base.transform.forward + ((Vector3)(base.transform.up * 2f))) - base.transform.right;
+        Vector3 force = (base.transform.forward + ((base.transform.up * 2f))) - base.transform.right;
         obj2.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-        Vector3 vector2 = (base.transform.forward + ((Vector3)(base.transform.up * 2f))) + base.transform.right;
+        Vector3 vector2 = (base.transform.forward + ((base.transform.up * 2f))) + base.transform.right;
         obj3.GetComponent<Rigidbody>().AddForce(vector2, ForceMode.Impulse);
-        Vector3 torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
+        Vector3 torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
         torque.Normalize();
         obj2.GetComponent<Rigidbody>().AddTorque(torque);
-        torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
+        torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
         torque.Normalize();
         obj3.GetComponent<Rigidbody>().AddTorque(torque);
         setupScript.part_blade_l.SetActive(false);

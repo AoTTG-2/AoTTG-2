@@ -5047,293 +5047,273 @@ public class Hero : Human
                                 break;
 
                             case HERO_STATE.Attack:
-                                if (!this.useGun)
-                                {
-                                    if (!this.inputManager.isInput[InputCode.attack0])
+                                    if (!this.useGun)
                                     {
-                                        this.buttonAttackRelease = true;
-                                    }
-                                    if (!this.attackReleased)
-                                    {
-                                        if (this.buttonAttackRelease)
+                                        Blades currentBlades = (Blades)currentEquipment;
+                                        
+                                        if (!this.inputManager.isInput[InputCode.attack0])
                                         {
-                                            this.continueAnimation();
-                                            this.attackReleased = true;
+                                            this.buttonAttackRelease = true;
                                         }
-                                        else if (this.baseAnimation[this.attackAnimation].normalizedTime >= 0.32f)
+                                        if (!this.attackReleased)
                                         {
-                                            this.pauseAnimation();
-                                        }
-                                    }
-                                    if ((this.attackAnimation == "attack3_1") && ((Blades)currentEquipment).BladeDurability > 0f)
-                                    {
-                                        if (this.baseAnimation[this.attackAnimation].normalizedTime >= 0.8f)
-                                        {
-                                            if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
+                                            if (this.buttonAttackRelease)
                                             {
-                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                                if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
+                                                this.continueAnimation();
+                                                this.attackReleased = true;
+                                            }
+                                            else if (this.baseAnimation[this.attackAnimation].normalizedTime >= 0.32f)
+                                            {
+                                                this.pauseAnimation();
+                                            }
+                                        }
+                                        if ((this.attackAnimation == "attack3_1") && (currentBlades.BladeDurability > 0f))
+                                        {
+                                            if (this.baseAnimation[this.attackAnimation].normalizedTime >= 0.8f)
+                                            {
+                                                if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
                                                 {
-                                                    this.leftbladetrail2.Activate();
-                                                    this.rightbladetrail2.Activate();
-                                                    this.leftbladetrail.Activate();
-                                                    this.rightbladetrail.Activate();
+                                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                    if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
+                                                    {
+                                                        this.leftbladetrail2.Activate();
+                                                        this.rightbladetrail2.Activate();
+                                                        this.leftbladetrail.Activate();
+                                                        this.rightbladetrail.Activate();
+                                                    }
+                                                    this.baseRigidBody.velocity = -Vector3.up * 30f;
                                                 }
-                                                this.baseRigidBody.velocity = (Vector3)(-Vector3.up * 30f);
+                                                if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me)
+                                                {
+                                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                    this.slash.Play();
+                                                }
                                             }
-                                            if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me)
+                                            else if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
                                             {
-                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                                this.slash.Play();
+                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
+                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
+                                                this.leftbladetrail.StopSmoothly(0.1f);
+                                                this.rightbladetrail.StopSmoothly(0.1f);
+                                                this.leftbladetrail2.StopSmoothly(0.1f);
+                                                this.rightbladetrail2.StopSmoothly(0.1f);
                                             }
-                                        }
-                                        else if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
-                                        {
-                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
-                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
-                                            this.leftbladetrail.StopSmoothly(0.1f);
-                                            this.rightbladetrail.StopSmoothly(0.1f);
-                                            this.leftbladetrail2.StopSmoothly(0.1f);
-                                            this.rightbladetrail2.StopSmoothly(0.1f);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        float num;
-                                        float num2;
-                                        if (((Blades)currentEquipment).BladeDurability == 0f)
-                                        {
-                                            num = -1f;
-                                            num2 = -1f;
-                                        }
-                                        else if (this.attackAnimation == "attack5")
-                                        {
-                                            num2 = 0.35f;
-                                            num = 0.5f;
-                                        }
-                                        else if (this.attackAnimation == "special_petra")
-                                        {
-                                            num2 = 0.35f;
-                                            num = 0.48f;
-                                        }
-                                        else if (this.attackAnimation == "special_armin")
-                                        {
-                                            num2 = 0.25f;
-                                            num = 0.35f;
-                                        }
-                                        else if (this.attackAnimation == "attack4")
-                                        {
-                                            num2 = 0.6f;
-                                            num = 0.9f;
-                                        }
-                                        else if (this.attackAnimation == "special_sasha")
-                                        {
-                                            num = -1f;
-                                            num2 = -1f;
                                         }
                                         else
                                         {
-                                            num2 = 0.5f;
-                                            num = 0.85f;
-                                        }
-                                        if ((this.baseAnimation[this.attackAnimation].normalizedTime > num2) && (this.baseAnimation[this.attackAnimation].normalizedTime < num))
-                                        {
-                                            if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
+                                            float num;
+                                            float num2;
+                                            if (currentBlades.BladeDurability == 0f)
                                             {
-                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                                this.slash.Play();
-                                                if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
+                                                num = -1f;
+                                                num2 = -1f;
+                                            }
+                                            else if (this.attackAnimation == "attack5")
+                                            {
+                                                num2 = 0.35f;
+                                                num = 0.5f;
+                                            }
+                                            else if (this.attackAnimation == "special_petra")
+                                            {
+                                                num2 = 0.35f;
+                                                num = 0.48f;
+                                            }
+                                            else if (this.attackAnimation == "special_armin")
+                                            {
+                                                num2 = 0.25f;
+                                                num = 0.35f;
+                                            }
+                                            else if (this.attackAnimation == "attack4")
+                                            {
+                                                num2 = 0.6f;
+                                                num = 0.9f;
+                                            }
+                                            else if (this.attackAnimation == "special_sasha")
+                                            {
+                                                num = -1f;
+                                                num2 = -1f;
+                                            }
+                                            else
+                                            {
+                                                num2 = 0.5f;
+                                                num = 0.85f;
+                                            }
+                                            if ((this.baseAnimation[this.attackAnimation].normalizedTime > num2) && (this.baseAnimation[this.attackAnimation].normalizedTime < num))
+                                            {
+                                                if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
                                                 {
-                                                    //this.leftbladetrail2.Activate();
-                                                    //this.rightbladetrail2.Activate();
-                                                    //this.leftbladetrail.Activate();
-                                                    //this.rightbladetrail.Activate();
+                                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                    this.slash.Play();
+                                                    if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
+                                                    {
+                                                        //this.leftbladetrail2.Activate();
+                                                        //this.rightbladetrail2.Activate();
+                                                        //this.leftbladetrail.Activate();
+                                                        //this.rightbladetrail.Activate();
+                                                    }
+                                                }
+                                                if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me)
+                                                {
+                                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
                                                 }
                                             }
-                                            if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me)
+                                            else if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
                                             {
-                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
+                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
+                                                //this.leftbladetrail2.StopSmoothly(0.1f);
+                                                //this.rightbladetrail2.StopSmoothly(0.1f);
+                                                //this.leftbladetrail.StopSmoothly(0.1f);
+                                                //this.rightbladetrail.StopSmoothly(0.1f);
+                                            }
+                                            if ((this.attackLoop > 0) && (this.baseAnimation[this.attackAnimation].normalizedTime > num))
+                                            {
+                                                this.attackLoop--;
+                                                this.playAnimationAt(this.attackAnimation, num2);
                                             }
                                         }
-                                        else if (this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me)
+                                        if (this.baseAnimation[this.attackAnimation].normalizedTime >= 1f)
                                         {
-                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
-                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
-                                            //this.leftbladetrail2.StopSmoothly(0.1f);
-                                            //this.rightbladetrail2.StopSmoothly(0.1f);
-                                            //this.leftbladetrail.StopSmoothly(0.1f);
-                                            //this.rightbladetrail.StopSmoothly(0.1f);
-                                        }
-                                        if ((this.attackLoop > 0) && (this.baseAnimation[this.attackAnimation].normalizedTime > num))
-                                        {
-                                            this.attackLoop--;
-                                            this.playAnimationAt(this.attackAnimation, num2);
-                                        }
-                                    }
-                                    if (this.baseAnimation[this.attackAnimation].normalizedTime >= 1f)
-                                    {
-                                        if ((this.attackAnimation == "special_marco_0") || (this.attackAnimation == "special_marco_1"))
-                                        {
-                                            if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+                                            if ((this.attackAnimation == "special_marco_0") || (this.attackAnimation == "special_marco_1"))
                                             {
-                                                if (!PhotonNetwork.isMasterClient)
+                                                if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
                                                 {
-                                                    object[] parameters = new object[] { 5f, 100f };
-                                                    base.photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
+                                                    if (!PhotonNetwork.isMasterClient)
+                                                    {
+                                                        object[] parameters = new object[] { 5f, 100f };
+                                                        base.photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
+                                                    }
+                                                    else
+                                                    {
+                                                        this.netTauntAttack(5f, 100f);
+                                                    }
                                                 }
                                                 else
                                                 {
                                                     this.netTauntAttack(5f, 100f);
                                                 }
+                                                this.falseAttack();
+                                                this.idle();
                                             }
-                                            else
+                                            else if (this.attackAnimation == "special_armin")
                                             {
-                                                this.netTauntAttack(5f, 100f);
-                                            }
-                                            this.falseAttack();
-                                            this.idle();
-                                        }
-                                        else if (this.attackAnimation == "special_armin")
-                                        {
-                                            if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-                                            {
-                                                if (!PhotonNetwork.isMasterClient)
+                                                if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
                                                 {
-                                                    base.photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
+                                                    if (!PhotonNetwork.isMasterClient)
+                                                    {
+                                                        base.photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
+                                                    }
+                                                    else
+                                                    {
+                                                        this.netlaughAttack();
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    this.netlaughAttack();
-                                                }
-                                            }
-                                            else
-                                            {
-                                                foreach (GameObject obj3 in GameObject.FindGameObjectsWithTag("titan"))
-                                                {
-                                                    if (((Vector3.Distance(obj3.transform.position, this.baseTransform.position) < 50f) && (Vector3.Angle(obj3.transform.forward, this.baseTransform.position - obj3.transform.position) < 90f)) && (obj3.GetComponent<TITAN>() != null))
+                                                    foreach (GameObject obj3 in GameObject.FindGameObjectsWithTag("titan"))
                                                     {
-                                                        obj3.GetComponent<TITAN>().beLaughAttacked();
+                                                        //if (((Vector3.Distance(obj3.transform.position, this.baseTransform.position) < 50f) && (Vector3.Angle(obj3.transform.forward, this.baseTransform.position - obj3.transform.position) < 90f)) && (obj3.GetComponent<TITAN>() != null))
+                                                        //{
+                                                        //    obj3.GetComponent<TITAN>().beLaughAttacked();
+                                                        //}
                                                     }
                                                 }
+                                                this.falseAttack();
+                                                this.idle();
                                             }
-                                            this.falseAttack();
-                                            this.idle();
-                                        }
-                                        else if (this.attackAnimation == "attack3_1")
-                                        {
-                                            this.baseRigidBody.velocity -= (Vector3)((Vector3.up * Time.deltaTime) * 30f);
-                                        }
-                                        else
-                                        {
-                                            this.falseAttack();
-                                            this.idle();
-                                        }
-                                    }
-                                    if (this.baseAnimation.IsPlaying("attack3_2") && (this.baseAnimation["attack3_2"].normalizedTime >= 1f))
-                                    {
-                                        this.falseAttack();
-                                        this.idle();
-                                    }
-                                }
-                                if (flag4)
-                                {
-                                    this.state = HERO_STATE.Attack;
-                                    this.crossFade(this.attackAnimation, 0.05f);
-                                    this.gunDummy.transform.position = this.baseTransform.position;
-                                    this.gunDummy.transform.rotation = this.baseTransform.rotation;
-                                    this.gunDummy.transform.LookAt(this.gunTarget);
-                                    this.attackReleased = false;
-                                    this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
-                                    this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
-                                }
-                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)))
-                                {
-                                    this.changeBlade();
-                                }
-                            }
-                        }
-                        else if (this.state == HERO_STATE.Attack)
-                        {
-                            if (!this.useGun)
-                            {
-                                if (!this.inputManager.isInput[InputCode.attack0])
-                                {
-                                    this.buttonAttackRelease = true;
-                                }
-                                if (!this.attackReleased)
-                                {
-                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                    this.baseTransform.rotation = Quaternion.Lerp(this.baseTransform.rotation, this.gunDummy.transform.rotation, Time.deltaTime * 30f);
-                                    if (!this.attackReleased && (this.baseAnimation[this.attackAnimation].normalizedTime > 0.167f))
-                                    {
-                                        GameObject obj4;
-                                        this.attackReleased = true;
-                                        bool flag7 = false;
-                                        if ((this.attackAnimation == "AHSS_shoot_both") || (this.attackAnimation == "AHSS_shoot_both_air"))
-                                        {
-                                            //Should use AHSSShotgunCollider instead of TriggerColliderWeapon.  
-                                            //Apply that change when abstracting weapons from this class.
-                                            //Note, when doing the abstraction, the relationship between the weapon collider and the abstracted weapon class should be carefully considered.
-                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                            flag7 = true;
-                                            ((AHSS)currentEquipment).leftGunLoaded = false;
-                                            ((AHSS)currentEquipment).rightGunLoaded = false;
-                                            this.baseRigidBody.AddForce((Vector3)(-this.baseTransform.forward * 1000f), ForceMode.Acceleration);
-                                        }
-                                        else
-                                        {
-                                            if ((this.attackAnimation == "AHSS_shoot_l") || (this.attackAnimation == "AHSS_shoot_l_air"))
+                                            else if (this.attackAnimation == "attack3_1")
                                             {
-                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                                ((AHSS)currentEquipment).leftGunLoaded = false;
+                                                this.baseRigidBody.velocity -= ((Vector3.up * Time.deltaTime) * 30f);
                                             }
                                             else
                                             {
-                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
-                                                ((AHSS)currentEquipment).rightGunLoaded = false;
+                                                this.falseAttack();
+                                                this.idle();
                                             }
-                                            this.baseRigidBody.AddForce((Vector3)(-this.baseTransform.forward * 600f), ForceMode.Acceleration);
                                         }
-                                        this.baseRigidBody.AddForce((Vector3)(Vector3.up * 200f), ForceMode.Acceleration);
-                                        string prefabName = "FX/shotGun";
-                                        if (flag7)
+                                        if (this.baseAnimation.IsPlaying("attack3_2") && (this.baseAnimation["attack3_2"].normalizedTime >= 1f))
                                         {
-                                            prefabName = "FX/shotGun 1";
+                                            this.falseAttack();
+                                            this.idle();
                                         }
-                                        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+                                    }
+                                    else
+                                    {
+                                        AHSS currentAHSS = (AHSS)currentEquipment;
+                                        
+                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                        this.baseTransform.rotation = Quaternion.Lerp(this.baseTransform.rotation, this.gunDummy.transform.rotation, Time.deltaTime * 30f);
+                                        if (!this.attackReleased && (this.baseAnimation[this.attackAnimation].normalizedTime > 0.167f))
                                         {
-                                            obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3)((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation, 0);
-                                            if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
+                                            GameObject obj4;
+                                            this.attackReleased = true;
+                                            bool flag7 = false;
+                                            if ((this.attackAnimation == "AHSS_shoot_both") || (this.attackAnimation == "AHSS_shoot_both_air"))
                                             {
-                                                obj4.GetComponent<EnemyfxIDcontainer>().myOwnerViewID = base.photonView.viewID;
+                                                //Should use AHSSShotgunCollider instead of TriggerColliderWeapon.  
+                                                //Apply that change when abstracting weapons from this class.
+                                                //Note, when doing the abstraction, the relationship between the weapon collider and the abstracted weapon class should be carefully considered.
+                                                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                flag7 = true;
+                                                currentAHSS.leftGunLoaded = false;
+                                                currentAHSS.rightGunLoaded = false;
+                                                this.baseRigidBody.AddForce((-this.baseTransform.forward * 1000f), ForceMode.Acceleration);
+                                            }
+                                            else
+                                            {
+                                                if ((this.attackAnimation == "AHSS_shoot_l") || (this.attackAnimation == "AHSS_shoot_l_air"))
+                                                {
+                                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                    currentAHSS.leftGunLoaded = false;
+                                                }
+                                                else
+                                                {
+                                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = true;
+                                                    currentAHSS.rightGunLoaded = false;
+                                                }
+                                                this.baseRigidBody.AddForce((Vector3)(-this.baseTransform.forward * 600f), ForceMode.Acceleration);
+                                            }
+                                            this.baseRigidBody.AddForce((Vector3)(Vector3.up * 200f), ForceMode.Acceleration);
+                                            string prefabName = "FX/shotGun";
+                                            if (flag7)
+                                            {
+                                                prefabName = "FX/shotGun 1";
+                                            }
+                                            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+                                            {
+                                                obj4 = PhotonNetwork.Instantiate(prefabName, ((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation, 0);
+                                                if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
+                                                {
+                                                    obj4.GetComponent<EnemyfxIDcontainer>().myOwnerViewID = base.photonView.viewID;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                obj4 = (GameObject)Instantiate(Resources.Load(prefabName), ((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation);
                                             }
                                         }
-                                        else
+                                        if (this.baseAnimation[this.attackAnimation].normalizedTime >= 1f)
                                         {
-                                            obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load(prefabName), (Vector3)((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation);
+                                            this.falseAttack();
+                                            this.idle();
+                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                        }
+                                        if (!this.baseAnimation.IsPlaying(this.attackAnimation))
+                                        {
+                                            this.falseAttack();
+                                            this.idle();
+                                            this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                                            this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                                         }
                                     }
-                                    if (this.baseAnimation[this.attackAnimation].normalizedTime >= 1f)
-                                    {
-                                        this.falseAttack();
-                                        this.idle();
-                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                    }
-                                    if (!this.baseAnimation.IsPlaying(this.attackAnimation))
-                                    {
-                                        this.falseAttack();
-                                        this.idle();
-                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                    }
-                                }
+
                                 break;
 
                             case HERO_STATE.ChangeBlade:
