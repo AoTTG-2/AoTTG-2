@@ -171,17 +171,23 @@ public class LevelBuilder
             Name = "Utgard Castle",
             Description = "",
             SceneName = "Utgard",
-            Gamemodes = new List<GamemodeBase>
+            Gamemodes = new List<GamemodeSettings>
             {
-                new KillTitansGamemode
+                new KillTitansSettings
                 {
-                    Titans = 10
+                    Titans = 20
                 },
-                new EndlessGamemode
+                new CaptureGamemodeSettings
                 {
-                    Titans = 10
+                    SpawnSupplyStationOnHumanCapture = false,
+                    PvpHumanScoreLimit = 400,
+                    PvpTitanScoreLimit = 400
                 },
-                new WaveGamemode()
+                new EndlessSettings
+                {
+                    Titans = 20
+                },
+                new WaveGamemodeSettings()
             }
         });
     }
