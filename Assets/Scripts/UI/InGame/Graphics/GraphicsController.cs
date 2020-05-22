@@ -15,9 +15,10 @@ namespace Assets.Scripts.UI.InGame
 		public FPSLimiter FPSLimiter;
 		public Text label;
 		public Toggle CustomSettings;
-		
 
-		private void Start() {
+
+		private void Start()
+		{
 			AdvancedOptions();
 
 			if (PlayerPrefs.HasKey("GraphicsData") && PlayerPrefs.HasKey("QualityProfile") && PlayerPrefs.HasKey("FPSLimit"))
@@ -48,6 +49,39 @@ namespace Assets.Scripts.UI.InGame
 				FPSLimiter.fpsDropdown.value = 1;
 			}
 		}
+
+		/*private void OnEnable()
+		{
+			AdvancedOptions();
+
+			if (PlayerPrefs.HasKey("GraphicsData") && PlayerPrefs.HasKey("QualityProfile") && PlayerPrefs.HasKey("FPSLimit"))
+			{
+				LoadGraphicPlayerPrefs();
+			}
+			else
+			{
+				// set the defaults to whatever was chosen at startup
+				GeneralGraphic.CustomSettings.isOn = false;
+				GeneralGraphic.ShadowRes.value = (int)QualitySettings.shadowResolution;
+				GeneralGraphic.Shadows.value = (int)QualitySettings.shadows;
+				GeneralGraphic.TextureQuality.value = QualitySettings.masterTextureLimit;
+				GeneralGraphic.AntiAliasing.value = (int)QualitySettings.antiAliasing;
+				GeneralGraphic.SoftParticles.isOn = (bool)QualitySettings.softParticles;
+
+				// vsync
+				if (QualitySettings.vSyncCount == 0)
+				{
+					GeneralGraphic.VSync.isOn = false;
+				}
+				else
+				{
+					GeneralGraphic.VSync.isOn = true;
+				}
+
+				// default 60fps
+				FPSLimiter.fpsDropdown.value = 1;
+			}
+		}*/
 
 		public void SaveGraphicPlayerPrefs()
 		{
