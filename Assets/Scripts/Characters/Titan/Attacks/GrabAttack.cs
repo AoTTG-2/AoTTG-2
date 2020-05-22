@@ -154,7 +154,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 return;
             }
 
-            if (titan.Animation[AttackAnimation].normalizedTime >= this.attackCheckTimeA && titan.Animation[AttackAnimation].normalizedTime <= this.attackCheckTimeB)
+            if (titan.Animation[AttackAnimation].normalizedTime >= this.attackCheckTimeA && titan.Animation[AttackAnimation].normalizedTime <= this.attackCheckTimeB && GrabbedTarget == null)
             {
                 var hand = Hand == BodyPart.HandLeft
                     ? titan.TitanBody.HandLeft

@@ -8,6 +8,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (titan.TargetDistance >= titan.AttackDistance) return false;
             if (titan.Target.transform.position.y <= titan.TitanBody.Neck.position.y - 3f * titan.Size
                 || titan.TargetDistance >= titan.AttackDistance * 0.5f) return false;
 

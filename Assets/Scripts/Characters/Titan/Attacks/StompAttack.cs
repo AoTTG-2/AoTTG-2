@@ -14,6 +14,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (titan.TargetDistance >= titan.AttackDistance) return false;
+            if (IsDisabled(titan)) return false;
             Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);

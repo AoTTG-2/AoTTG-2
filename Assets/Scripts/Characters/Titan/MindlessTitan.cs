@@ -92,7 +92,7 @@ namespace Assets.Scripts.Characters.Titan
         private Hero GrabTarget { get; set; }
         public float RotationModifier { get; private set; }
 
-        public List<Attack> Attacks { get; private set; }
+        public Attack[] Attacks { get; private set; }
         public Attack CurrentAttack { get; set; }
         private Collider[] Colliders { get; set; }
         private GameObject HealthLabel { get; set; }
@@ -141,7 +141,7 @@ namespace Assets.Scripts.Characters.Titan
             Health = configuration.Health;
             MaxHealth = Health;
             Speed = configuration.Speed;
-            Attacks = configuration.Attacks;
+            Attacks = configuration.Attacks.ToArray();
             Size = configuration.Size;
             ViewDistance = configuration.ViewDistance;
             AnimationWalk = configuration.AnimationWalk;
@@ -315,7 +315,7 @@ namespace Assets.Scripts.Characters.Titan
                     {
                         targetHeadRotation = TitanBody.Head.rotation;
                         bool flag2 = false;
-                        if (TitanState == MindlessTitanState.Chase && ((TargetDistance < 100f) && (Target != null)))
+                        if (TitanState == MindlessTitanState.Chase && TargetDistance < 100f && Target != null)
                         {
                             Vector3 vector = Target.transform.position - transform.position;
                             var angle = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
@@ -590,8 +590,9 @@ namespace Assets.Scripts.Characters.Titan
 
         private void CalculateTargetDistance()
         {
-            if (Target == null) return;
-            TargetDistance = Mathf.Sqrt(((Target.transform.position.x - transform.position.x) * (Target.transform.position.x - transform.position.x)) + ((Target.transform.position.z - transform.position.z) * (Target.transform.position.z - transform.position.z)));
+            TargetDistance = Target == null
+                ? float.MaxValue
+                : Mathf.Sqrt((Target.transform.position.x - transform.position.x) * (Target.transform.position.x - transform.position.x) + ((Target.transform.position.z - transform.position.z) * (Target.transform.position.z - transform.position.z)));
         }
 
         private void Turn(float degrees)
@@ -624,7 +625,6 @@ namespace Assets.Scripts.Characters.Titan
             }
 
             HeadMovement();
-
         }
 
         public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
@@ -705,6 +705,136 @@ namespace Assets.Scripts.Characters.Titan
             FengGameManagerMKII.instance.removeTitan(this);
         }
 
+        protected void OnDisabled()
+        {
+            var disabledBodyParts = TitanBody.GetDisabledBodyParts();
+            if (disabledBodyParts.Any(x => x == BodyPart.LegLeft)
+                || disabledBodyParts.Any(x => x == BodyPart.LegRight))
+            {
+                CurrentAnimation = "attack_abnormal_jump";
+                CrossFade(CurrentAnimation, 0.1f);
+            }
+            else
+            {
+                ChangeState(MindlessTitanState.Chase);
+            }
+        }
+
+        protected void OnRecovering()
+        {
+            Stamina += Time.deltaTime * StaminaRecovery * 3f;
+            CurrentAnimation = AnimationRecovery;
+            if (!Animation.IsPlaying(CurrentAnimation))
+            {
+                CrossFade(CurrentAnimation, 0.1f);
+            }
+
+            if (Stamina > staminaLimit * 0.75f)
+            {
+                ChangeState(MindlessTitanState.Chase);
+            }
+        }
+
+        protected void OnWandering()
+        {
+            CurrentAnimation = AnimationWalk;
+            if (!Animation.IsPlaying(CurrentAnimation))
+            {
+                CrossFade(CurrentAnimation, 0.5f);
+            }
+        }
+
+        protected void OnTurning()
+        {
+            CrossFade(CurrentAnimation, 0.2f);
+            gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, this.desDeg, 0f), (Time.deltaTime * Mathf.Abs(this.turnDeg)) * 0.015f);
+            if (Animation[CurrentAnimation].normalizedTime > 1f)
+            {
+                ChangeState(PreviousState);
+            }
+        }
+
+        protected void OnChasing()
+        {
+            if (Target == null || ViewDistance < TargetDistance)
+            {
+                ChangeState(MindlessTitanState.Wandering);
+                return;
+            }
+
+            if (CanRun())
+            {
+                CurrentAnimation = AnimationRun;
+                Stamina -= Time.deltaTime * 2;
+            }
+            else
+            {
+                CurrentAnimation = AnimationWalk;
+            }
+            CrossFade(CurrentAnimation, 0.1f);
+
+            FocusTimer += Time.deltaTime;
+            if (FocusTimer > Focus)
+            {
+                OnTargetRefresh();
+            }
+
+            if (attackCooldown > 0)
+            {
+                attackCooldown -= Time.deltaTime * CurrentAttack.Cooldown;
+                return;
+            }
+
+            var availableAttacks = Attacks.Where(x => x.CanAttack(this)).ToArray();
+            if (availableAttacks.Length > 0)
+            {
+                CurrentAttack = availableAttacks[Random.Range(0, availableAttacks.Length)];
+                ChangeState(MindlessTitanState.Attacking);
+            }
+            else
+            {
+                Vector3 vector18 = Target.transform.position - transform.position;
+                var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
+                var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
+                if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
+                {
+                    Turn(between);
+                    return;
+                }
+            }
+        }
+
+        protected void OnAttacking()
+        {
+            if (CurrentAttack.IsFinished)
+            {
+                CurrentAttack.IsFinished = false;
+                Stamina -= 10f;
+                ChangeState(MindlessTitanState.Chase);
+                return;
+            }
+            CurrentAttack.Execute(this);
+        }
+
+        protected void OnGrabbing()
+        {
+            if (!Animation.IsPlaying(CurrentAnimation))
+            {
+                CrossFade(CurrentAnimation, 0.1f);
+                return;
+            }
+
+            if (Animation[CurrentAnimation].normalizedTime >= 0.48f && GrabTarget != null)
+            {
+                this.justEatHero(GrabTarget);
+            }
+
+            if (Animation[CurrentAnimation].normalizedTime > 1f)
+            {
+                ChangeState(PreviousState);
+            }
+        }
+
         protected virtual void Update()
         {
             if (!photonView.isMine) return;
@@ -734,140 +864,34 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (TitanState == MindlessTitanState.Disabled)
+
+            switch (TitanState)
             {
-                var disabledBodyParts = TitanBody.GetDisabledBodyParts();
-                if (disabledBodyParts.Any(x => x == BodyPart.LegLeft)
-                    || disabledBodyParts.Any(x => x == BodyPart.LegRight))
-                {
-                    CurrentAnimation = "attack_abnormal_jump";
-                    CrossFade(CurrentAnimation, 0.1f);
-                }
-                else
-                {
-                    ChangeState(MindlessTitanState.Chase);
-                }
-            }
-
-            if (TitanState == MindlessTitanState.Recovering)
-            {
-                Stamina += Time.deltaTime * StaminaRecovery * 3f;
-                CurrentAnimation = AnimationRecovery;
-                if (!Animation.IsPlaying(CurrentAnimation))
-                {
-                    CrossFade(CurrentAnimation, 0.1f);
-                }
-
-                if (Stamina > staminaLimit * 0.75f)
-                {
-                    ChangeState(MindlessTitanState.Chase);
-                }
-            }
-
-            if (TitanState == MindlessTitanState.Wandering)
-            {
-                CurrentAnimation = AnimationWalk;
-                if (!Animation.IsPlaying(CurrentAnimation))
-                {
-                    CrossFade(CurrentAnimation, 0.5f);
-                }
-                return;
-            }
-
-            if (TitanState == MindlessTitanState.Turning)
-            {
-                CrossFade(CurrentAnimation, 0.2f);
-                gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, this.desDeg, 0f), (Time.deltaTime * Mathf.Abs(this.turnDeg)) * 0.015f);
-                if (Animation[CurrentAnimation].normalizedTime > 1f)
-                {
-                    ChangeState(PreviousState);
-                }
-
-                return;
-            }
-
-            if (TitanState == MindlessTitanState.Chase)
-            {
-                if (Target == null || ViewDistance < TargetDistance)
-                {
-                    ChangeState(MindlessTitanState.Wandering);
-                    return;
-                }
-
-                CurrentAnimation = AnimationWalk;
-                if (CanRun())
-                {
-                    CurrentAnimation = AnimationRun;
-                    Stamina -= Time.deltaTime * 2;
-                }
-
-                FocusTimer += Time.deltaTime;
-                if (FocusTimer > Focus)
-                {
-                    OnTargetRefresh();
-                }
-
-                if (!Animation.IsPlaying(CurrentAnimation))
-                {
-                    CrossFade(CurrentAnimation, 0.1f);
-                    return;
-                }
-
-                if (attackCooldown > 0)
-                {
-                    attackCooldown -= Time.deltaTime * CurrentAttack.Cooldown;
-                    return;
-                }
-
-                var availableAttacks = Attacks.Where(x => x.CanAttack(this)).ToList();
-                if (availableAttacks.Count > 0)
-                {
-                    CurrentAttack = availableAttacks[Random.Range(0, availableAttacks.Count)];
-                    ChangeState(MindlessTitanState.Attacking);
-                }
-                else
-                {
-                    Vector3 vector18 = Target.transform.position - transform.position;
-                    var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
-                    var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
-                    if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
-                    {
-                        Turn(between);
-                        return;
-                    }
-                }
-                return;
-            }
-
-            if (TitanState == MindlessTitanState.Attacking)
-            {
-                if (CurrentAttack.IsFinished)
-                {
-                    CurrentAttack.IsFinished = false;
-                    Stamina -= 10f;
-                    ChangeState(MindlessTitanState.Chase);
-                    return;
-                }
-                CurrentAttack.Execute(this);
-            }
-
-            if (TitanState == MindlessTitanState.Eat)
-            {
-                if (!Animation.IsPlaying(CurrentAnimation))
-                {
-                    CrossFade(CurrentAnimation, 0.1f);
-                    return;
-                }
-
-                if (Animation[CurrentAnimation].normalizedTime >= 0.48f && GrabTarget != null)
-                {
-                    this.justEatHero(GrabTarget);
-                }
-
-                if (Animation[CurrentAnimation].normalizedTime > 1f)
-                {
-                    ChangeState(PreviousState);
-                }
+                case MindlessTitanState.Disabled:
+                    OnDisabled();
+                    break;
+                case MindlessTitanState.Idle:
+                    break;
+                case MindlessTitanState.Dead:
+                    break;
+                case MindlessTitanState.Wandering:
+                    OnWandering();
+                    break;
+                case MindlessTitanState.Turning:
+                    OnTurning();
+                    break;
+                case MindlessTitanState.Chase:
+                    OnChasing();
+                    break;
+                case MindlessTitanState.Attacking:
+                    OnAttacking();
+                    break;
+                case MindlessTitanState.Recovering:
+                    OnRecovering();
+                    break;
+                case MindlessTitanState.Eat:
+                    OnGrabbing();
+                    break;
             }
         }
 
@@ -975,10 +999,16 @@ namespace Assets.Scripts.Characters.Titan
                 vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
                 vector14.y = 0f;
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
-                Vector3 vector17 = Target.transform.position - transform.position;
-                var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
-                float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.deltaTime) / Size);
+
+
+                Vector3 targetDirection = Target.transform.position - transform.position;
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 5 * Time.fixedDeltaTime, 0.0f);
+                transform.rotation = Quaternion.LookRotation(newDirection);
+
+                //Vector3 vector17 = Target.transform.position - transform.position;
+                //var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
+                //float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
+                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.deltaTime) / Size);
             }
         }
     }

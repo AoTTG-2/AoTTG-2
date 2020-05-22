@@ -152,9 +152,9 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public List<BodyPart> GetDisabledBodyParts()
+        public Dictionary<BodyPart,float>.KeyCollection GetDisabledBodyParts()
         {
-            return new List<BodyPart>(CooldownDictionary.Keys);
+            return CooldownDictionary.Keys;
         }
 
         private void SetDamagedBodyPart(BodyPart bodyPart)
@@ -178,7 +178,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void LateUpdate()
         {
-            foreach (var bodyPart in new List<BodyPart>(CooldownDictionary.Keys))
+            foreach (var bodyPart in CooldownDictionary.Keys)
             {
                 CooldownDictionary[bodyPart] -= Time.deltaTime;
                 if (CooldownDictionary[bodyPart] > 0)
