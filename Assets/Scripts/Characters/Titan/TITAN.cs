@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
+//[Obsolete("Use MindlessTitan instead of Titan", true)]
 public class TITAN : MonoBehaviour
 {
     [CompilerGenerated]
@@ -1701,19 +1702,6 @@ public class TITAN : MonoBehaviour
             }
         }
         return obj2;
-    }
-
-    private int getPunkNumber()
-    {
-        int num = 0;
-        foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-        {
-            if ((obj2.GetComponent<TITAN>() != null) && (obj2.GetComponent<TITAN>().name == "Punk"))
-            {
-                num++;
-            }
-        }
-        return num;
     }
 
     private void grab(string type)

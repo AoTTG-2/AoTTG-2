@@ -117,16 +117,16 @@ namespace Assets.Scripts.Characters.Titan
                 name = "PlayerCollisionDetection"
             };
             CapsuleCollider collider2 = obj2.AddComponent<CapsuleCollider>();
-            CapsuleCollider component = transform.Find("AABB").GetComponent<CapsuleCollider>();
+            CapsuleCollider component = TitanBody.AABB.GetComponent<CapsuleCollider>();
             collider2.center = component.center;
-            collider2.radius = Math.Abs((float)(transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head").position.y - transform.position.y));
+            collider2.radius = Math.Abs(TitanBody.Head.position.y - transform.position.y);
             collider2.height = component.height * 1.2f;
             collider2.material = component.material;
             collider2.isTrigger = true;
             collider2.name = "PlayerCollisionDetection";
             obj2.AddComponent<TitanTrigger>();
             obj2.layer = 0x10;
-            obj2.transform.parent = this.transform.Find("AABB");
+            obj2.transform.parent = TitanBody.AABB;
             obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
         }
 

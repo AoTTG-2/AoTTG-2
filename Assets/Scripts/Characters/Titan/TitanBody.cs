@@ -6,6 +6,7 @@ namespace Assets.Scripts.Characters.Titan
 {
     public class TitanBody : Photon.MonoBehaviour
     {
+        public Transform AABB;
         public Transform Core;
 
         public Transform Head;

@@ -1,4 +1,5 @@
 using System.Collections;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class TITAN_SETUP : Photon.MonoBehaviour
@@ -10,19 +11,17 @@ public class TITAN_SETUP : Photon.MonoBehaviour
     public bool haseye;
     private GameObject part_hair;
     public int skin;
+    public TitanBody TitanBody;
 
     private void Awake()
     {
-        CostumeHair.init();
-        CharacterMaterials.init();
-        HeroCostume.init2();
         this.hair_go_ref = new GameObject();
-        this.eye.transform.parent = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head").transform;
+        this.eye.transform.parent = TitanBody.Head.transform;
         this.hair_go_ref.transform.position = (Vector3)((this.eye.transform.position + (Vector3.up * 3.5f)) + (base.transform.forward * 5.2f));
         this.hair_go_ref.transform.rotation = this.eye.transform.rotation;
         this.hair_go_ref.transform.RotateAround(this.eye.transform.position, base.transform.right, -20f);
         this.hair_go_ref.transform.localScale = new Vector3(210f, 210f, 210f);
-        this.hair_go_ref.transform.parent = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head").transform;
+        this.hair_go_ref.transform.parent = TitanBody.Head.transform;
     }
 
     [PunRPC]

@@ -4477,8 +4477,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Debug.Log($"Version: {Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";
-        HeroCostume.init2();
+        CostumeHair.init();
         CharacterMaterials.init();
+        HeroCostume.init2();
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
         this.heroes = new ArrayList();
         this.eT = new ArrayList();

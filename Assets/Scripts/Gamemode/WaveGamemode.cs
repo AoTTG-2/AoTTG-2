@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Gamemode.Settings;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -72,9 +73,16 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                for (int i = 0; i < GamemodeSettings.Titans; i++)
+                if (GamemodeSettings.TitanCouritine)
                 {
-                    FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
+                    StartCoroutine(SpawnTitan(GamemodeSettings.Titans));
+                }
+                else
+                {
+                    for (int i = 0; i < GamemodeSettings.Titans; i++)
+                    {
+                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
+                    }
                 }
             }
         }
@@ -149,11 +157,29 @@ namespace Assets.Scripts.Gamemode
                 }
                 else
                 {
-                    for (int i = 0; i < Settings.Titans + Wave * GamemodeSettings.WaveIncrement; i++)
+                    if (GamemodeSettings.TitanCouritine)
                     {
-                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
+                        StartCoroutine(SpawnTitan(GamemodeSettings.Titans + Wave * GamemodeSettings.WaveIncrement));
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Settings.Titans + Wave * GamemodeSettings.WaveIncrement; i++)
+                        {
+                            FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
+                        }
                     }
                 }
+            }
+        }
+
+        IEnumerator SpawnTitan(int titans)
+        {
+            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
+            for (int i = 0; i < titans; i++)
+            {
+                var randomSpawn = spawns[Random.Range(0, spawns.Length)];
+                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, GetWaveTitanConfiguration());
+                yield return new WaitForEndOfFrame();
             }
         }
     }

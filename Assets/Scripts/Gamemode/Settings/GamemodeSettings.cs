@@ -133,11 +133,11 @@ namespace Assets.Scripts.Gamemode.Settings
         //TODO: Be able to change these via UI
         public Dictionary<MindlessTitanType, float> TitanTypeRatio = new Dictionary<MindlessTitanType, float>
         {
-            {MindlessTitanType.Normal, 0},
+            {MindlessTitanType.Normal, 10000000f},
             {MindlessTitanType.Abberant, 100f},
-            {MindlessTitanType.Jumper, 0},
-            {MindlessTitanType.Punk, 0},
-            {MindlessTitanType.Crawler, 0},
+            {MindlessTitanType.Jumper, 0f},
+            {MindlessTitanType.Punk, 0f},
+            {MindlessTitanType.Crawler, 0f},
             {MindlessTitanType.Burster, 0f},
             {MindlessTitanType.Stalker, 0f},
             { MindlessTitanType.Abnormal, 0f }
