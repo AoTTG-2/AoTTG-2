@@ -105,6 +105,7 @@ namespace Assets.Scripts.Gamemode
         {
             var configuration = GetTitanConfiguration();
             configuration.Behaviors.Add(new WaveBehavior());
+            configuration.ViewDistance = 999999f;
             return configuration;
         }
 
@@ -112,6 +113,7 @@ namespace Assets.Scripts.Gamemode
         {
             var configuration = GetTitanConfiguration(type);
             configuration.Behaviors.Add(new WaveBehavior());
+            configuration.ViewDistance = 999999f;
             return configuration;
         }
 

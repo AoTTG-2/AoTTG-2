@@ -564,6 +564,7 @@ namespace Assets.Scripts.Characters.Titan
         public void OnTargetDetected(GameObject target)
         {
             Target = target.GetComponent<Hero>();
+            TargetDistance = float.MaxValue;
             ChangeState(MindlessTitanState.Chase);
             FocusTimer = 0f;
             this.oldHeadRotation = TitanBody.Head.rotation;

@@ -23,6 +23,10 @@ public class LevelBuilder
             SceneName = "Test Zone",
             Gamemodes = new List<GamemodeSettings>
             {
+                new WaveGamemodeSettings
+                {
+                    Titans = 50,
+                },
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
