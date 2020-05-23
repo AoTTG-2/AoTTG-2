@@ -32,6 +32,7 @@ namespace Assets.Scripts.Characters.Titan
         protected string AnimationDeath { get; set; } = "die_back";
         protected string AnimationIdle { get; set; } = "idle_2";
         protected string AnimationCover { get; set; } = "idle_recovery";
+        protected string AnimationEyes { get; set; } = "hit_eye";
 
         private float turnDeg;
         private float desDeg;
@@ -448,7 +449,6 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!photonView.isMine) return;
             if (Time.time - bodyPartDamageTimer < 0.4f) return;
-            Debug.Log($"We hit {damage}");
             bodyPartDamageTimer = Time.time;
             TitanBody.DamageBodyPart(bodyPart, damage);
             if (TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.LegLeft) 
@@ -458,20 +458,16 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
         
-        public void OnEyeHit(int viewId, int damage)
+        [PunRPC]
+        public void OnEyeHitRpc(int viewId, int damage)
         {
-            //if (this.state != TitanState.hit_eye)
-            //{
-            //    if ((this.state != TitanState.down) && (this.state != TitanState.sit))
-            //    {
-            //        this.playAnimation("hit_eye");
-            //    }
-            //    else
-            //    {
-            //        this.playAnimation("sit_hit_eye");
-            //    }
-            //    this.state = TitanState.hit_eye;
-            //}
+            if (!photonView.isMine) return;
+            if (!IsAlive) return;
+            TitanBody.AddBodyPart(BodyPart.Eyes, Animation[AnimationEyes].length * Animation[AnimationEyes].speed);
+            if (TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.Eyes))
+            {
+                ChangeState(MindlessTitanState.Disabled);
+            }
         }
 
         public void OnAnkleHit(int viewId, int damage)
@@ -579,6 +575,7 @@ namespace Assets.Scripts.Characters.Titan
 
         protected void RefreshStamina()
         {
+            _staminaCooldown -= Time.deltaTime;
             if (Stamina >= staminaLimit) return;
             Stamina += StaminaRecovery * Time.deltaTime;
             if (Stamina > staminaLimit)
@@ -672,14 +669,17 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        private float _staminaCooldown;
         private bool CanRun()
         {
             if (AnimationRun == null) return false;
-            if (TitanState == MindlessTitanState.Wandering)
-            {
-                return Stamina > staminaLimit / 2;
-            }
+            if (_staminaCooldown > 0) return false;
 
+            if (Stamina <= staminaLimit / 4)
+            {
+                _staminaCooldown = 10f;
+                return false;
+            }
             return true;
         }
 
@@ -707,6 +707,13 @@ namespace Assets.Scripts.Characters.Titan
         protected void OnDisabled()
         {
             var disabledBodyParts = TitanBody.GetDisabledBodyParts();
+            if (disabledBodyParts.Any(x => x == BodyPart.Eyes))
+            {
+                CurrentAnimation = AnimationEyes;
+                CrossFade(CurrentAnimation, 0.1f);
+                return;
+            }
+
             if (disabledBodyParts.Any(x => x == BodyPart.LegLeft)
                 || disabledBodyParts.Any(x => x == BodyPart.LegRight))
             {
@@ -798,7 +805,6 @@ namespace Assets.Scripts.Characters.Titan
                 if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
                 {
                     Turn(between);
-                    return;
                 }
             }
         }

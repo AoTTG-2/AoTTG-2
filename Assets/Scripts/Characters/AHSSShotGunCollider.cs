@@ -186,7 +186,14 @@ public class AHSSShotGunCollider : MonoBehaviour
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
-                        mindlessTitan.OnEyeHit(transform.root.gameObject.GetPhotonView().viewID, damage);
+                        if (PhotonNetwork.isMasterClient)
+                        {
+                            mindlessTitan.OnEyeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
+                        }
+                        else
+                        {
+                            mindlessTitan.photonView.RPC("OnEyeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                        }
                         this.showCriticalHitFX(other.gameObject.transform.position);
                     }
                 }

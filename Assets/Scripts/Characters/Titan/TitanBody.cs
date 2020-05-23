@@ -106,36 +106,47 @@ namespace Assets.Scripts.Characters.Titan
 
         public void AddBodyPart(BodyPart body)
         {
-            BodyPart[] bodyPart = {BodyPart.None};
+            AddBodyPart(body, LimbRegeneration);
+        }
+
+        public void AddBodyPart(BodyPart body, float regenerationTime)
+        {
+            BodyPart[] bodyPart = { BodyPart.None };
             Transform bodyPartEffect = null;
             if (body == BodyPart.ArmRight)
             {
-                bodyPart = new[] {BodyPart.ArmRight, BodyPart.HandRight};
+                bodyPart = new[] { BodyPart.ArmRight, BodyPart.HandRight };
                 bodyPartEffect = ArmRight;
-            } else if (body == BodyPart.ArmLeft)
+            }
+            else if (body == BodyPart.ArmLeft)
             {
                 bodyPart = new[] { BodyPart.ArmLeft, BodyPart.HandLeft };
                 bodyPartEffect = ArmLeft;
-            } else if (body == BodyPart.LegLeft)
+            }
+            else if (body == BodyPart.LegLeft)
             {
-                bodyPart = new[] {BodyPart.LegLeft};
+                bodyPart = new[] { BodyPart.LegLeft };
                 bodyPartEffect = LegLeft;
-            } else if (body == BodyPart.LegRight)
+            }
+            else if (body == BodyPart.LegRight)
             {
                 bodyPart = new[] { BodyPart.LegRight };
                 bodyPartEffect = LegRight;
+            } else if (body == BodyPart.Eyes)
+            {
+                bodyPart = new[] {BodyPart.Eyes};
             }
 
             if (bodyPart[0] == BodyPart.None || CooldownDictionary.ContainsKey(bodyPart[0])) return;
 
             foreach (var part in bodyPart)
             {
-                CooldownDictionary.Add(part, LimbRegeneration);
+                CooldownDictionary.Add(part, regenerationTime);
             }
 
             if (bodyPartEffect == null || !photonView.isMine) return;
             var steamEffect = PhotonNetwork.Instantiate("fx/bodypart_steam", new Vector3(), new Quaternion(), 0);
-            steamEffect.GetComponent<SelfDestroy>().CountDown = LimbRegeneration;
+            steamEffect.GetComponent<SelfDestroy>().CountDown = regenerationTime;
             steamEffect.transform.parent = bodyPartEffect;
             steamEffect.transform.localPosition = new Vector3();
             SteamEffectDictionary.Add(body, steamEffect);
