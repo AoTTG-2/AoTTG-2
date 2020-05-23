@@ -169,8 +169,7 @@ namespace Assets.Scripts.Characters.Titan
             var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
             headscale = new Vector3(scale, scale, scale);
             TitanBody.Head.localScale = headscale;
-            //TODO: Not working
-            //LoadSkin();
+            LoadSkin();
 
             AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
 
@@ -1000,15 +999,10 @@ namespace Assets.Scripts.Characters.Titan
                 vector14.y = 0f;
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
-
-                Vector3 targetDirection = Target.transform.position - transform.position;
-                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 5 * Time.fixedDeltaTime, 0.0f);
-                transform.rotation = Quaternion.LookRotation(newDirection);
-
-                //Vector3 vector17 = Target.transform.position - transform.position;
-                //var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
-                //float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
-                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.deltaTime) / Size);
+                Vector3 vector17 = Target.transform.position - transform.position;
+                var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
+                float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);
             }
         }
     }

@@ -25,7 +25,7 @@ public class LevelBuilder
             {
                 new WaveGamemodeSettings
                 {
-                    Titans = 50,
+                    Titans = 1,
                 },
                 new KillTitansSettings
                 {

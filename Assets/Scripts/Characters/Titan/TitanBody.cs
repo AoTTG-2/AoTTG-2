@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
@@ -178,7 +179,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void LateUpdate()
         {
-            foreach (var bodyPart in CooldownDictionary.Keys)
+            foreach (var bodyPart in CooldownDictionary.Keys.ToArray())
             {
                 CooldownDictionary[bodyPart] -= Time.deltaTime;
                 if (CooldownDictionary[bodyPart] > 0)
