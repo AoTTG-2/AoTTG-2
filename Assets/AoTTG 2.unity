@@ -68295,7 +68295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3999.3604}
+  m_AnchoredPosition: {x: 0, y: -803.44226}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1502454003
@@ -72045,6 +72045,7 @@ GameObject:
   - component: {fileID: 1792065109}
   - component: {fileID: 1792065111}
   - component: {fileID: 1792065110}
+  - component: {fileID: 1792065112}
   m_Layer: 5
   m_Name: CreditsContent
   m_TagString: Untagged
@@ -72102,75 +72103,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
-
-    New Text
+  m_Text: 'Contributors
 
 '
 --- !u!222 &1792065111
@@ -72179,6 +72112,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1792065108}
+--- !u!114 &1792065112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1792065108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 880dcd098fd0dd348bf54d2968c0add9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contributorsList: {fileID: 1792065110}
+  contributorsTxtFile: {fileID: 4900000, guid: 952532025c23d144480a9c9a50630cbf, type: 3}
 --- !u!1 &1797246595
 GameObject:
   m_ObjectHideFlags: 0
