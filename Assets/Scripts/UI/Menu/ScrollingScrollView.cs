@@ -7,7 +7,6 @@ public class ScrollingScrollView : MonoBehaviour
 {
     public float ScrollSpeed = 0.5f;
 	private float timer = 0;
-	private float time = 0;	
 	private float waitFor = 2f;
     public RectTransform RectTransform;
 	
