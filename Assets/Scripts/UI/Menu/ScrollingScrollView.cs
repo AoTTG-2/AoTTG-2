@@ -3,21 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScrollingScrollView : MonoBehaviour {
-
-    public float scrollSpeed = 0.5f;
-	private bool autoScroll = true;
+public class ScrollingScrollView : MonoBehaviour 
+{
+    public float ScrollSpeed = 0.5f;
 	private float timer = 0;
 	private float time = 0;	
 	private float waitFor = 2f;
-	public ScrollRect scrollRect;
-
-    public RectTransform rectTransform;
-
+    public RectTransform RectTransform;
 	
 	void OnEnable()
 	{
-		scrollRect.verticalNormalizedPosition = 1;
 		timer = 0;
 	}
 	
@@ -30,9 +25,10 @@ public class ScrollingScrollView : MonoBehaviour {
 		if(timer < waitFor) 
 		{
 			timer += Time.deltaTime;
-		} else if(autoScroll) 
+		}
+		else
 		{
-			rectTransform.localPosition += new Vector3(0f, scrollSpeed, 0f);
+			RectTransform.localPosition += new Vector3(0f, ScrollSpeed, 0f);
 		}
     }
 	

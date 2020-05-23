@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ImportingContributorsList : MonoBehaviour {
-	public Text contributorsList;
-	public TextAsset contributorsTxtFile;
-	void Start () {
-		contributorsList.text = contributorsTxtFile.text;
+public class ImportingContributorsList : MonoBehaviour 
+{
+	public Text ContributorsList;
+	public TextAsset ContributorsTxtFile;
+	void Start () 
+	{
+		ContributorsList.text = ContributorsTxtFile.text;
 	}
 	
 
