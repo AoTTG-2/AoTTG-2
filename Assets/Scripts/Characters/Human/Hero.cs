@@ -4664,7 +4664,7 @@ public class Hero : Human
                                 this.baseAnimation["grabbed_jean"].time = 0f;
                                 this.escapeTimes--;
                             }
-                            if ((this.baseAnimation.IsPlaying("grabbed_jean") && (this.baseAnimation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<TITAN>() != null))
+                            if ((this.baseAnimation.IsPlaying("grabbed_jean") && (this.baseAnimation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                             {
                                 this.ungrabbed();
                                 this.baseRigidBody.velocity = (Vector3)(Vector3.up * 30f);
@@ -4704,7 +4704,7 @@ public class Hero : Human
                                 else
                                 {
                                     this.skillCDDuration = this.skillCDLast;
-                                    if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<TITAN>() != null))
+                                    if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                                     {
                                         this.ungrabbed();
                                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
