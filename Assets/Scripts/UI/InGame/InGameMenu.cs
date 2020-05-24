@@ -20,10 +20,16 @@ namespace Assets.Scripts.UI.InGame
             GraphicSettingsMenu.gameObject.SetActive(true);
         }
 
+        private void OnEnable()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicSettingsMenu.gameObject.SetActive(false);
+            Cursor.visible = false;
         }
 
         public void Quit()

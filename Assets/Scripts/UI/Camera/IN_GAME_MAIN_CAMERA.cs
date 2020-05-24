@@ -843,17 +843,17 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     if (cameraMode == CAMERA_TYPE.ORIGINAL)
                     {
                         cameraMode = CAMERA_TYPE.WOW;
-                        Screen.lockCursor = false;
+                        Cursor.lockState = CursorLockMode.Confined;
                     }
                     else if (cameraMode == CAMERA_TYPE.WOW)
                     {
                         cameraMode = CAMERA_TYPE.TPS;
-                        Screen.lockCursor = true;
+                        Cursor.lockState = CursorLockMode.Locked;
                     }
                     else if (cameraMode == CAMERA_TYPE.TPS)
                     {
                         cameraMode = CAMERA_TYPE.ORIGINAL;
-                        Screen.lockCursor = false;
+                        Cursor.lockState = CursorLockMode.Confined; 
                     }
                     this.verticalRotationOffset = 0f;
                     if ((((int) FengGameManagerMKII.settings[0xf5]) == 1) || (this.main_object.GetComponent<Hero>() == null))
