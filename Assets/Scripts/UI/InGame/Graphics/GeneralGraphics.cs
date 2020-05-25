@@ -108,7 +108,15 @@ namespace Assets.Scripts.UI.InGame
 
 		public void ChangeAntiAliasing()
 		{
-			QualitySettings.antiAliasing = AntiAliasing.value;
+			if(AntiAliasing.value == 3)
+			{
+				QualitySettings.antiAliasing = 8;
+			}
+			else
+			{
+				QualitySettings.antiAliasing = AntiAliasing.value * 2;
+			}
+			
 		}
 
 		public void ChangeShadowResolution()
@@ -144,6 +152,15 @@ namespace Assets.Scripts.UI.InGame
 			}
 		}
 		
+		public void SetInteractable(bool value)
+		{
+			TextureQuality.interactable = value;
+			AntiAliasing.interactable = value;
+			ShadowRes.interactable = value;
+			Shadows.interactable = value;
+			VSync.interactable = value;
+			SoftParticles.interactable = value;
+		}
 
 		public void UpdateEverything()
 		{

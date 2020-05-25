@@ -15,18 +15,6 @@ namespace Assets.Scripts.UI.InGame
 			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
 		}
 
-		public void LoadPlayerPrefs()
-		{
-			Slider.value = PlayerPrefs.GetInt("QualitySlider");
-			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
-		}
-
-		public void UpdateSlider(int value)
-		{
-			Slider.value = value;
-			UpdateQuality();
-		}
-
 		[Serializable]
 		public struct QualityData
 		{

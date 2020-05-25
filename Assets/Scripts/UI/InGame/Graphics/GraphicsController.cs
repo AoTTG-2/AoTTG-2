@@ -16,72 +16,26 @@ namespace Assets.Scripts.UI.InGame
 		public Text label;
 		public Toggle CustomSettings;
 
+		// Index of the custom quality level
+		public const int CUSTOM = 6;
+
 
 		private void Start()
 		{
-			AdvancedOptions();
-
-			if (PlayerPrefs.HasKey("GraphicsData") && PlayerPrefs.HasKey("QualityProfile") && PlayerPrefs.HasKey("FPSLimit"))
+			if(PlayerPrefs.HasKey("GraphicsData") && PlayerPrefs.HasKey("QualityProfile") && PlayerPrefs.HasKey("FPSLimit"))
 			{
 				LoadGraphicPlayerPrefs();
+				Debug.Log("Has Prefs");
 			}
 			else
 			{
-				// set the defaults to whatever was chosen at startup
-				GeneralGraphic.CustomSettings.isOn = false;
-				GeneralGraphic.ShadowRes.value = (int)QualitySettings.shadowResolution;
-				GeneralGraphic.Shadows.value = (int)QualitySettings.shadows;
-				GeneralGraphic.TextureQuality.value = QualitySettings.masterTextureLimit;
-				GeneralGraphic.AntiAliasing.value = (int)QualitySettings.antiAliasing;
-				GeneralGraphic.SoftParticles.isOn = (bool)QualitySettings.softParticles;
-
-				// vsync
-				if (QualitySettings.vSyncCount == 0)
-				{
-					GeneralGraphic.VSync.isOn = false;
-				}
-				else
-				{
-					GeneralGraphic.VSync.isOn = true;
-				}
-
-				// default 60fps
-				FPSLimiter.fpsDropdown.value = 1;
+				QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
+				QualitySwitcher.UpdateQuality();
+				ChangeObjectValues();
 			}
+
+			AdvancedOptions();
 		}
-
-		/*private void OnEnable()
-		{
-			AdvancedOptions();
-
-			if (PlayerPrefs.HasKey("GraphicsData") && PlayerPrefs.HasKey("QualityProfile") && PlayerPrefs.HasKey("FPSLimit"))
-			{
-				LoadGraphicPlayerPrefs();
-			}
-			else
-			{
-				// set the defaults to whatever was chosen at startup
-				GeneralGraphic.CustomSettings.isOn = false;
-				GeneralGraphic.ShadowRes.value = (int)QualitySettings.shadowResolution;
-				GeneralGraphic.Shadows.value = (int)QualitySettings.shadows;
-				GeneralGraphic.TextureQuality.value = QualitySettings.masterTextureLimit;
-				GeneralGraphic.AntiAliasing.value = (int)QualitySettings.antiAliasing;
-				GeneralGraphic.SoftParticles.isOn = (bool)QualitySettings.softParticles;
-
-				// vsync
-				if (QualitySettings.vSyncCount == 0)
-				{
-					GeneralGraphic.VSync.isOn = false;
-				}
-				else
-				{
-					GeneralGraphic.VSync.isOn = true;
-				}
-
-				// default 60fps
-				FPSLimiter.fpsDropdown.value = 1;
-			}
-		}*/
 
 		public void SaveGraphicPlayerPrefs()
 		{
@@ -125,37 +79,30 @@ namespace Assets.Scripts.UI.InGame
 				var loaded2 = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString("QualityProfile"));
 				var loaded3 = JsonUtility.FromJson<FPSLimiter.FPSData>(PlayerPrefs.GetString("FPSLimit"));
 
-				if (loaded1.CustomSettings)
-				{
-					QualitySettings.SetQualityLevel(6, true);
-				}
 				QualitySwitcher.Slider.value = loaded2.Slider;
 
 				FPSLimiter.FPSDropdown.value = loaded3.dropdown;
 				FPSLimiter.FPSLimit.text = loaded3.field;
-
 				FPSLimiter.SetFPSLimit();
 
+				
+
 				GeneralGraphic.CustomSettings.isOn = loaded1.CustomSettings;
-				GeneralGraphic.TextureQuality.value = loaded1.TextureQuality;
-				GeneralGraphic.ShadowRes.value = loaded1.ShadowRes;
-				GeneralGraphic.AntiAliasing.value = loaded1.AntiAliasing;
-				GeneralGraphic.Shadows.value = loaded1.Shadows;
-				GeneralGraphic.VSync.isOn = loaded1.VSync;
-				GeneralGraphic.SoftParticles.isOn = loaded1.SoftParticles;
-				GeneralGraphic.UpdateEverything();
+				AdvancedOptions();
 
-
-				// change the quality level to custom if custom settings is on
-				
-
-				
-
+				if (loaded1.CustomSettings)
+				{
+					GeneralGraphic.TextureQuality.value = loaded1.TextureQuality;
+					GeneralGraphic.ShadowRes.value = loaded1.ShadowRes;
+					GeneralGraphic.AntiAliasing.value = loaded1.AntiAliasing;
+					GeneralGraphic.Shadows.value = loaded1.Shadows;
+					GeneralGraphic.VSync.isOn = loaded1.VSync;
+					GeneralGraphic.SoftParticles.isOn = loaded1.SoftParticles;
+					GeneralGraphic.UpdateEverything();
+				}
 
 				label.color = Color.green;
 				label.text = "loaded player prefs";
-
-				GeneralGraphic.UpdateEverything();
 			}
 			catch(Exception ex)
 			{
@@ -168,43 +115,39 @@ namespace Assets.Scripts.UI.InGame
 
 		public void AdvancedOptions()
 		{
-			var selected = CustomSettings.isOn;
-
-			GeneralGraphic.TextureQuality.interactable = selected;
-			GeneralGraphic.ShadowRes.interactable = selected;
-			GeneralGraphic.AntiAliasing.interactable = selected;
-			GeneralGraphic.Shadows.interactable = selected;
-			GeneralGraphic.VSync.interactable = selected;
-			GeneralGraphic.SoftParticles.interactable = selected;
-
-			if (selected)
+			if(CustomSettings.isOn)
 			{
-				QualitySettings.SetQualityLevel(6, true);
+				QualitySettings.SetQualityLevel(CUSTOM, true);
 				QualitySwitcher.Slider.interactable = false;
-				QualitySwitcher.Label.color = Color.gray;
-				
-
 			}
 			else
 			{
-				if(QualitySettings.GetQualityLevel() == 6)
-				{
-					QualitySettings.DecreaseLevel();
-				}
-				QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
-				
+				QualitySettings.SetQualityLevel((int)QualitySwitcher.Slider.value, true);
 				QualitySwitcher.Slider.interactable = true;
-				QualitySwitcher.Label.color = Color.white;
-				QualitySwitcher.UpdateQuality();
-
 			}
-
-			//GeneralGraphic.UpdateEverything();
+			GeneralGraphic.SetInteractable(CustomSettings.isOn);
 		}
 
 		public void DeletePrefs()
 		{
 			PlayerPrefs.DeleteAll();
+		}
+
+		private void ChangeObjectValues()
+		{
+			GeneralGraphic.TextureQuality.value = QualitySettings.masterTextureLimit;
+			GeneralGraphic.AntiAliasing.value = QualitySettings.antiAliasing;
+			GeneralGraphic.ShadowRes.value = (int)QualitySettings.shadowResolution;
+			GeneralGraphic.Shadows.value = (int)QualitySettings.shadows;
+			GeneralGraphic.SoftParticles.isOn = QualitySettings.softParticles;
+			if (QualitySettings.vSyncCount == 0)
+			{
+				GeneralGraphic.VSync.isOn = false;
+			}
+			else
+			{
+				GeneralGraphic.VSync.isOn = true;
+			}
 		}
 	}
 }
