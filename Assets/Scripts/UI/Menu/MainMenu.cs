@@ -1,7 +1,14 @@
-﻿namespace Assets.Scripts.UI.Menu
+﻿using UnityEngine; 
+
+namespace Assets.Scripts.UI.Menu
 {
     public class MainMenu : UiNavigationElement
     {
+        private void OnEnable()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined; 
+        } 
         public void Singleplayer()
         {
             Navigate(typeof(Singleplayer));

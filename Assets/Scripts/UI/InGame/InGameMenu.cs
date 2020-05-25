@@ -20,10 +20,24 @@ namespace Assets.Scripts.UI.InGame
             GraphicSettingsMenu.gameObject.SetActive(true);
         }
 
+        private void OnEnable()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicSettingsMenu.gameObject.SetActive(false);
+            Cursor.visible = false;
+            if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+            }
         }
 
         public void Quit()
