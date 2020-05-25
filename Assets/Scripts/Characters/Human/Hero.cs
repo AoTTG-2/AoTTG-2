@@ -5806,11 +5806,9 @@ public class Hero : Human
                     //this.rightbladetrail2.Deactivate();
                     this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                     this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-					this.setup.part_blade_l.SetActive(false);
-					this.setup.part_blade_r.SetActive(false);
                 }
                 this.currentBladeSta = 0f;
-                //this.throwBlades();
+				//this.ThrowBlades();
             }
         }
     }
