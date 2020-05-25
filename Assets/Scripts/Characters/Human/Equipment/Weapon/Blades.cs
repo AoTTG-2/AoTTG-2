@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Blades : Weapon 
@@ -63,7 +64,7 @@ public class Blades : Weapon
         bladesUi.SetBlades(AmountLeft);
     }
 
-    private void ThrowBlades()
+	public void ThrowBlades()
     {
         var transform = Hero.setup.part_blade_l.transform;
         var transform2 = Hero.setup.part_blade_r.transform;
@@ -90,6 +91,33 @@ public class Blades : Weapon
         if (Hero.currentBladeNum == 0)
         {
             Hero.currentBladeSta = 0f;
+        }
+    }
+
+    public override void Use(int amount = 0)
+    {
+        if (amount == 0)
+        {
+            amount = 1;
+        }
+        amount *= 2;
+        if (Hero.currentBladeSta > 0f)
+        {
+            Hero.currentBladeSta -= amount;
+            if (Hero.currentBladeSta <= 0f)
+            {
+                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE))
+                {
+                    //this.leftbladetrail.Deactivate();
+                    //this.rightbladetrail.Deactivate();
+                    //this.leftbladetrail2.Deactivate();
+                    //this.rightbladetrail2.Deactivate();
+                    Hero.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
+                    Hero.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
+                }
+                Hero.currentBladeSta = 0f;
+                this.ThrowBlades();
+            }
         }
     }
 }

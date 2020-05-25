@@ -5786,32 +5786,7 @@ public class Hero : Human
     }
 
     [Obsolete("Using a weapon should be moved within Weapon class...")]
-    public void useBlade(int amount = 0)
-    {
-        if (amount == 0)
-        {
-            amount = 1;
-        }
-        amount *= 2;
-        if (this.currentBladeSta > 0f)
-        {
-            this.currentBladeSta -= amount;
-            if (this.currentBladeSta <= 0f)
-            {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
-                {
-                    //this.leftbladetrail.Deactivate();
-                    //this.rightbladetrail.Deactivate();
-                    //this.leftbladetrail2.Deactivate();
-                    //this.rightbladetrail2.Deactivate();
-                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                }
-                this.currentBladeSta = 0f;
-				//this.ThrowBlades();
-            }
-        }
-    }
+
 
     private void useGas(float amount = 0)
     {
