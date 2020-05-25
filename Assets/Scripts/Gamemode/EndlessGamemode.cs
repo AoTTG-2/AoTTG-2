@@ -29,10 +29,7 @@ namespace Assets.Scripts.Gamemode
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             if (!isMasterClient) return;
-            for (int i = 0; i < Settings.Titans; i++)
-            {
-                FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
-            }
+            SpawnTitans(Settings.Titans);
         }
     }
 }

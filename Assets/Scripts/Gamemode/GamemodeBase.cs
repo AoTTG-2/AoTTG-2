@@ -4,6 +4,7 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -154,9 +155,26 @@ namespace Assets.Scripts.Gamemode
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
         }
 
-        public virtual void OnSpawnTitan()
+        protected void SpawnTitans(int amount)
         {
+            SpawnTitans(amount, GetTitanConfiguration);
+        }
 
+        protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)
+        {
+            StartCoroutine(SpawnTitan(amount, titanConfiguration));
+        }
+
+        private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
+        {
+            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
+            for (var i = 0; i < amount; i++)
+            {
+                if (FengGameManagerMKII.instance.getTitans().Count >= Settings.TitanLimit) break;
+                var randomSpawn = spawns[Random.Range(0, spawns.Length)];
+                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, titanConfiguration.Invoke());
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         public virtual void OnTitanSpawned(MindlessTitan titan)
@@ -185,8 +203,6 @@ namespace Assets.Scripts.Gamemode
                 OnAllTitansDead();
             }
         }
-
-        public virtual void OnSetTitanType(ref int titanType, bool flag) { }
 
         public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
@@ -275,11 +291,6 @@ namespace Assets.Scripts.Gamemode
         public virtual void OnNetGameWon(int score)
         {
             Settings.HumanScore = score;
-        }
-
-        public virtual GameObject SpawnNonAiTitan(Vector3 position, GameObject randomTitanRespawn)
-        {
-            return PhotonNetwork.Instantiate("TITAN_VER3.1", position, randomTitanRespawn.transform.rotation, 0);
         }
 
         internal bool IsAllPlayersDead()

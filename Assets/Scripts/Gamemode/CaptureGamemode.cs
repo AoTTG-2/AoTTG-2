@@ -76,7 +76,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.HumanScore, Settings.TitanScore);
+                photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.HumanScore, Settings.TitanScore);
             }
 
             if (PvpTitanScore >= CaptureSettings.PvpTitanScoreLimit)
@@ -132,12 +132,7 @@ namespace Assets.Scripts.Gamemode
                 }
             }
         }
-
-        public override GameObject SpawnNonAiTitan(Vector3 position, GameObject randomTitanRespawn)
-        {
-            return PhotonNetwork.Instantiate("TITAN_VER3.1", FengGameManagerMKII.instance.checkpoint.transform.position + new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20)), FengGameManagerMKII.instance.checkpoint.transform.rotation, 0);
-        }
-
+        
         public override GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             if (FengGameManagerMKII.instance.checkpoint == null)

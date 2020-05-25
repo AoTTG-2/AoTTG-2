@@ -16,7 +16,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private BodyPart Hand { get; set; }
         public override bool CanAttack(MindlessTitan titan)
         {
-            if (titan.TargetDistance >= titan.AttackDistance) return false;
+            if (titan.TargetDistance >= titan.AttackDistance * 2) return false;
             if (IsDisabled(titan)) return false;
             Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;

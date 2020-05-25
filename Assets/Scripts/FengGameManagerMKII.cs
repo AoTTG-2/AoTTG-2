@@ -4386,11 +4386,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.ShowHUDInfoCenter(string.Empty);
         }
     }
-    
-    public GameObject SpawnTitan()
-    {
-        return SpawnTitan(new TitanConfiguration());
-    }
 
     public GameObject SpawnTitan(TitanConfiguration configuration)
     {

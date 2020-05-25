@@ -17,7 +17,5 @@ namespace Assets.Scripts.Gamemode.Settings
         public int MaxWave { get; set; } = 20;
         [UiElement("Wave Increment", "How many titans will spawn per wave?")]
         public int WaveIncrement { get; set; } = 2;
-
-        public bool TitanCouritine { get; set; } = false;
     }
 }

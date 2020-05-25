@@ -26,19 +26,7 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                StartCoroutine(SpawnTitan());
-            }
-
-        }
-
-        IEnumerator SpawnTitan()
-        {
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-            for (int i = 0; i < Settings.Titans; i++)
-            {
-                var randomSpawn = spawns[Random.Range(0, spawns.Length)];
-                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, GetTitanConfiguration());
-                yield return new WaitForEndOfFrame();
+                SpawnTitans(GamemodeSettings.TitanLimit);
             }
         }
     }

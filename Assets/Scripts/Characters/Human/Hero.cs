@@ -4439,7 +4439,6 @@ public class Hero : Human
         {
             this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
             this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
-            this.myHorse.GetComponent<TITAN_CONTROLLER>().isHorse = true;
         }
 
         if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)

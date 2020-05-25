@@ -73,25 +73,7 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                if (GamemodeSettings.TitanCouritine)
-                {
-                    StartCoroutine(SpawnTitan(GamemodeSettings.Titans));
-                }
-                else
-                {
-                    for (int i = 0; i < GamemodeSettings.Titans; i++)
-                    {
-                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
-                    }
-                }
-            }
-        }
-
-        public override void OnSetTitanType(ref int titanType, bool flag)
-        {
-            if (Wave % _punkWave != 0 && !flag)
-            {
-                titanType = 1;
+                StartCoroutine(SpawnTitan(GamemodeSettings.Titans));
             }
         }
 
@@ -159,17 +141,7 @@ namespace Assets.Scripts.Gamemode
                 }
                 else
                 {
-                    if (GamemodeSettings.TitanCouritine)
-                    {
-                        StartCoroutine(SpawnTitan(GamemodeSettings.Titans + Wave * GamemodeSettings.WaveIncrement));
-                    }
-                    else
-                    {
-                        for (int i = 0; i < Settings.Titans + Wave * GamemodeSettings.WaveIncrement; i++)
-                        {
-                            FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration());
-                        }
-                    }
+                    StartCoroutine(SpawnTitan(GamemodeSettings.Titans + Wave * GamemodeSettings.WaveIncrement));
                 }
             }
         }
