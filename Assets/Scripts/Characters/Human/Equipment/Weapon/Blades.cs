@@ -106,7 +106,7 @@ public class Blades : Weapon
             Hero.currentBladeSta -= amount;
             if (Hero.currentBladeSta <= 0f)
             {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE))
+                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE || Hero.photonView.isMine))
                 {
                     //this.leftbladetrail.Deactivate();
                     //this.rightbladetrail.Deactivate();
