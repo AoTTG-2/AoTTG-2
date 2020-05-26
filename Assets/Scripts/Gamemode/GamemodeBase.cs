@@ -216,6 +216,7 @@ namespace Assets.Scripts.Gamemode
                 var supplyStation = GameObject.Find("aot_supply");
                 var playerRespawn = GameObject.Find("playerSpawn");
                 var playerLavaRespawn = GameObject.Find("playerLavaSpawn");
+                var lavaFloor = GameObject.Find("levelBottomLava");
                 if (playerLavaRespawn == null || playerRespawn == null) return;
                 playerRespawn.transform.position = playerLavaRespawn.transform.position;
                 playerRespawn.transform.rotation = playerLavaRespawn.transform.rotation;
@@ -223,6 +224,8 @@ namespace Assets.Scripts.Gamemode
                 supplyStation.transform.position = lavaSupplyStation.transform.position;
                 supplyStation.transform.rotation = lavaSupplyStation.transform.rotation;
             }
+            else
+                UnityEngine.Object.Destroy(GameObject.Find("levelBottomLava"));
         }
 
         public virtual void OnGameWon()
