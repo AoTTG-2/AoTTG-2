@@ -16,6 +16,22 @@ public class LevelBuilder
 
     private static void AddClassicMaps()
     {
+        // Remove this before merging - Wagner
+        _levels.Add(new Level
+        {
+            Name = "Cannon Test",
+            Description = "Issue #75 Test Map",
+            SceneName = "Cannon Test",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new KillTitansSettings
+                {
+                    GamemodeType = GamemodeType.Titans,
+                    Titans = 1
+                }
+            }
+        });
+
         _levels.Add(new Level
         {
             Name = "Test Zone",

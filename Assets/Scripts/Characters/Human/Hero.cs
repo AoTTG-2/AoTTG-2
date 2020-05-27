@@ -5694,9 +5694,9 @@ public class Hero : Human
                     }
                     else if (this.isCannon && !IN_GAME_MAIN_CAMERA.isPausing)
                     {
-                        //this.showAimUI2();
-                        //this.calcSkillCD();
-                        //this.showSkillCD();
+                        this.showAimUI2();
+                        this.calcSkillCD();
+                        this.showSkillCD();
                     }
                 }
             }

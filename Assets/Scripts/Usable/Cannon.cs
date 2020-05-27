@@ -276,5 +276,11 @@ public class Cannon : Photon.MonoBehaviour
             }
         }
     }
+
+    public enum Type
+    {
+        Ground,
+        Wall
+    }
 }
 

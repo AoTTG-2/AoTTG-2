@@ -19,7 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4843973358315154}
-  m_Layer: 9
+  - component: {fileID: 114808176088490016}
+  - component: {fileID: 135263783324076694}
+  - component: {fileID: 114621595576747018}
+  m_Layer: 16
   m_Name: CannonWallProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1184173819490792}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 8.844463, y: 50, z: -131.8573}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4374441298491754}
@@ -198,7 +201,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300002, guid: c3ae933e62e33104883d8c25367766a1, type: 3}
+  m_Mesh: {fileID: 4300000, guid: bba5cebe4b6886f4197a40e234d21116, type: 2}
 --- !u!64 &64758540486250092
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -212,4 +215,59 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: c3ae933e62e33104883d8c25367766a1, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 411a873d704503c4690d9d7aa0c7150c, type: 2}
+--- !u!114 &114621595576747018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184173819490792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114808176088490016}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
+--- !u!114 &114808176088490016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184173819490792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813d0b8a50e862f42a3b1cfe905d5371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyed: 0
+  disabled: 0
+  settings: photon,CannonWall,8.844463,50,-131.8573,0,0,0,1
+  storedHero: {fileID: 0}
+  type: 1
+  autoGenerateSettings: 1
+--- !u!135 &135263783324076694
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184173819490792}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 7
+  m_Center: {x: 0, y: 0, z: 0}

@@ -13,6 +13,18 @@ public class CannonPropRegion : Photon.MonoBehaviour
     public string settings;
     public Hero storedHero;
 
+    [SerializeField]
+    private Cannon.Type type = Cannon.Type.Ground;
+
+    [SerializeField]
+    private bool autoGenerateSettings = true;
+
+    private static readonly Dictionary<Cannon.Type, string> PrefabNameByType = new Dictionary<Cannon.Type, string>
+    {
+        { Cannon.Type.Ground, "CannonGround" },
+        { Cannon.Type.Wall, "CannonWall" }
+    };
+
     public void OnDestroy()
     {
         if (this.storedHero != null)
@@ -149,6 +161,17 @@ public class CannonPropRegion : Photon.MonoBehaviour
         if (!this.destroyed)
         {
             this.disabled = false;
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (this.autoGenerateSettings)
+        {
+            var pos = this.transform.position;
+            var rot = this.transform.rotation;
+            var prefabName = PrefabNameByType[this.type];
+            this.settings = $"photon,{prefabName},{pos.x},{pos.y},{pos.z},{rot.x},{rot.y},{rot.z},{rot.w}";
         }
     }
 }

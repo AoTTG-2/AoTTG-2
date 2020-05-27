@@ -19,7 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4961555788516312}
-  m_Layer: 9
+  - component: {fileID: 114010488501999994}
+  - component: {fileID: 135897076710730800}
+  - component: {fileID: 114841978070132998}
+  m_Layer: 16
   m_Name: CannonGroundProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1444267864049472}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -16.162292, y: 50, z: -132.99677}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4611700340182434}
@@ -198,7 +201,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: b4e1752e9c6bde54c9f95cec35b73d09, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 6d6cdc92e45aa2c40bc50da5ff963f83, type: 2}
 --- !u!64 &64784012852515670
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -212,4 +215,59 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300002, guid: b4e1752e9c6bde54c9f95cec35b73d09, type: 3}
+  m_Mesh: {fileID: 4300000, guid: f20174807e67d6b41bc5b41785b0a86d, type: 2}
+--- !u!114 &114010488501999994
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444267864049472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813d0b8a50e862f42a3b1cfe905d5371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyed: 0
+  disabled: 0
+  settings: photon,CannonGround,-16.16229,50,-132.9968,0,0,0,1
+  storedHero: {fileID: 0}
+  type: 0
+  autoGenerateSettings: 1
+--- !u!114 &114841978070132998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444267864049472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114010488501999994}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
+--- !u!135 &135897076710730800
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444267864049472}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 7
+  m_Center: {x: 0, y: 0, z: 0}

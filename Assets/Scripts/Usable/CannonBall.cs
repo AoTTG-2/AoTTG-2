@@ -14,8 +14,13 @@ public class CannonBall : Photon.MonoBehaviour
     public List<TitanTrigger> myTitanTriggers;
     public float SmoothingDelay = 10f;
 
+    private int BaseMask, GroundMask;
+
     private void Awake()
     {
+        this.BaseMask = 1 << LayerMask.NameToLayer("PlayerAttackBox") | 1 << LayerMask.NameToLayer("EnemyBox");
+        this.GroundMask = 1 << LayerMask.NameToLayer("Ground");
+
         if (base.photonView != null)
         {
             base.photonView.observed = this;
@@ -85,65 +90,54 @@ public class CannonBall : Photon.MonoBehaviour
     {
         if (base.photonView.isMine && !this.disabled)
         {
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("PlayerAttackBox");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask3 = mask | mask2;
-            if (!this.isCollider)
+            int mask = this.isCollider ? this.BaseMask : (this.BaseMask | this.GroundMask);
+            Collider[] hitColliders = Physics.OverlapSphere(base.transform.position, 0.6f, mask);
+            bool hitSelf = false;
+            for (int i = 0; i < hitColliders.Length; i++)
             {
-                LayerMask mask4 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                mask3 |= mask4;
-            }
-            Collider[] colliderArray = Physics.OverlapSphere(base.transform.position, 0.6f, mask3.value);
-            bool flag2 = false;
-            for (int i = 0; i < colliderArray.Length; i++)
-            {
-                GameObject gameObject = colliderArray[i].gameObject;
-                if (gameObject.layer == 0x10)
+                GameObject currentGobj = hitColliders[i].gameObject;
+                bool isGroundLayer = currentGobj.layer == 9;
+                bool isEnemyBoxLayer = currentGobj.layer == 10;
+                bool isPlayerAttackBoxLayer = currentGobj.layer == 16;
+                if (isPlayerAttackBoxLayer)
                 {
-                    TitanTrigger component = gameObject.GetComponent<TitanTrigger>();
-                    if (!((component == null) || this.myTitanTriggers.Contains(component)))
+                    TitanTrigger titanTrigger = currentGobj.GetComponent<TitanTrigger>();
+                    if (!((titanTrigger == null) || this.myTitanTriggers.Contains(titanTrigger)))
                     {
-                        component.SetCollision(true);
-                        this.myTitanTriggers.Add(component);
+                        titanTrigger.SetCollision(true);
+                        this.myTitanTriggers.Add(titanTrigger);
                     }
                 }
-                else if (gameObject.layer == 10)
+                else if (isEnemyBoxLayer)
                 {
-                    TITAN titan = gameObject.transform.root.gameObject.GetComponent<TITAN>();
+                    //TitanBody foo = currentGobj.transform.root.gameObject.GetComponent<TitanBody>();
+                    //foo.
+                    TITAN titan = currentGobj.transform.root.gameObject.GetComponent<TITAN>();
                     if (titan != null)
                     {
-                        if (titan.TitanType == TitanType.TYPE_CRAWLER)
-                        {
-                            if (gameObject.name == "head")
-                            {
-                                titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
-                                titan.dieBlow(base.transform.position, 0.2f);
-                                i = colliderArray.Length;
-                            }
-                        }
-                        else if (gameObject.name == "head")
+                        if (currentGobj.name == "head")
                         {
                             titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
-                            titan.dieHeadBlow(base.transform.position, 0.2f);
-                            i = colliderArray.Length;
+
+                            if (titan.TitanType == TitanType.TYPE_CRAWLER)
+                                titan.dieBlow(base.transform.position, 0.2f);
+                            else
+                                titan.dieHeadBlow(base.transform.position, 0.2f);
+
+                            i = hitColliders.Length;
                         }
-                        else if (UnityEngine.Random.Range((float) 0f, (float) 1f) < 0.5f)
-                        {
+                        else if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
                             titan.hitL(base.transform.position, 0.05f);
-                        }
                         else
-                        {
                             titan.hitR(base.transform.position, 0.05f);
-                        }
+
                         this.destroyMe();
                     }
                 }
-                else if ((gameObject.layer == 9) && (gameObject.transform.root.name.Contains("CannonWall") || gameObject.transform.root.name.Contains("CannonGround")))
-                {
-                    flag2 = true;
-                }
+                else if (isGroundLayer && (currentGobj.transform.root.name.Contains("CannonWall") || currentGobj.transform.root.name.Contains("CannonGround")))
+                    hitSelf = true;
             }
-            if (!(this.isCollider || flag2))
+            if (!(this.isCollider || hitSelf))
             {
                 this.isCollider = true;
                 base.GetComponent<SphereCollider>().enabled = true;

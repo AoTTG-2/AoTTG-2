@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4936601611043178}
+  - component: {fileID: 120698161523734040}
   m_Layer: 9
   m_Name: BallPoint
   m_TagString: Untagged
@@ -36,7 +37,6 @@ GameObject:
   - component: {fileID: 4142392679233386}
   - component: {fileID: 114528662261739750}
   - component: {fileID: 114228424833706692}
-  - component: {fileID: 120128663882186272}
   m_Layer: 9
   m_Name: CannonWall
   m_TagString: Untagged
@@ -132,7 +132,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1538755201260910}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 7.984147, y: 50, z: -144.49673}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4012581142774912}
@@ -350,12 +350,12 @@ MonoBehaviour:
   myHero: {fileID: 0}
   settings: 
   SmoothingDelay: 5
---- !u!120 &120128663882186272
+--- !u!120 &120698161523734040
 LineRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1538755201260910}
+  m_GameObject: {fileID: 1484276733948914}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
