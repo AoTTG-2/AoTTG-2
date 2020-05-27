@@ -815,7 +815,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CurrentAttack.IsFinished = false;
                 Stamina -= CurrentAttack.Stamina;
-                attackCooldown = 1f;
+                attackCooldown = 0.25f;
                 ChangeState(MindlessTitanState.Chase);
                 return;
             }
@@ -849,7 +849,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (attackCooldown > 0)
             {
-                attackCooldown -= Time.deltaTime * CurrentAttack.Cooldown;
+                attackCooldown -= Time.deltaTime;
                 return;
             }
 

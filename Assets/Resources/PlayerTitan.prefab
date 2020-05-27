@@ -2701,6 +2701,7 @@ MonoBehaviour:
   Stamina: 10
   StaminaRecovery: 1
   Health: 0
+  HealthRegeneration: 0
   ViewDistance: 0
   Focus: 10
   currentCamera: {fileID: 0}
@@ -2738,6 +2739,7 @@ MonoBehaviour:
   eye: {fileID: 1546284004735254}
   haseye: 0
   skin: 0
+  TitanBody: {fileID: 0}
 --- !u!114 &114687760569500932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2775,6 +2777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700c18b296b00f042b6a2afddf78233e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AABB: {fileID: 4746343367699104}
   Core: {fileID: 4120676010174796}
   Head: {fileID: 4048770554455690}
   Neck: {fileID: 4989170742394254}
