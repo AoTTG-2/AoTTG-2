@@ -64,7 +64,7 @@ public class Blades : Weapon
         bladesUi.SetBlades(AmountLeft);
     }
 
-	public void ThrowBlades()
+	private void ThrowBlades()
     {
         var transform = Hero.setup.part_blade_l.transform;
         var transform2 = Hero.setup.part_blade_r.transform;
