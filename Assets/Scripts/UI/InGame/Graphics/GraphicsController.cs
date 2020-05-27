@@ -15,14 +15,15 @@ namespace Assets.Scripts.UI.InGame
 
 		// Index of the custom quality level
 		public const int CUSTOM = 6;
-
+		public const string GDATA = "GraphicsData";
+		public const string QDATA = "QualityProfile";
+		public const string FDATA = "FPSLimit";
 
 		private void Start()
 		{
-			if(PlayerPrefs.HasKey("GraphicsData") && PlayerPrefs.HasKey("QualityProfile") && PlayerPrefs.HasKey("FPSLimit"))
+			if(PlayerPrefs.HasKey(GDATA) && PlayerPrefs.HasKey(QDATA) && PlayerPrefs.HasKey(FDATA))
 			{
 				LoadGraphicPlayerPrefs();
-				Debug.Log("Has Prefs");
 			}
 			else
 			{
@@ -41,17 +42,17 @@ namespace Assets.Scripts.UI.InGame
 			{
 				var data1 = new GeneralGraphics.GraphicsData(GeneralGraphic);
 				string json1 = JsonUtility.ToJson(data1);
-				PlayerPrefs.SetString("GraphicsData", json1);
+				PlayerPrefs.SetString(GDATA, json1);
 
 				// quality profile
 				var data2 = new QualitySwitcher.QualityData(QualitySwitcher);
 				string json2 = JsonUtility.ToJson(data2);
-				PlayerPrefs.SetString("QualityProfile", json2);
+				PlayerPrefs.SetString(QDATA, json2);
 
 				// fps limit
 				var data3 = new FPSLimiter.FPSData(FPSLimiter);
 				string json3 = JsonUtility.ToJson(data3);
-				PlayerPrefs.SetString("FPSLimit", json3);
+				PlayerPrefs.SetString(FDATA, json3);
 
 				PlayerPrefs.Save();
 
@@ -73,13 +74,12 @@ namespace Assets.Scripts.UI.InGame
 		{
 			try
 			{
-				var loaded1 = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString("GraphicsData"));
-				var loaded2 = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString("QualityProfile"));
-				var loaded3 = JsonUtility.FromJson<FPSLimiter.FPSData>(PlayerPrefs.GetString("FPSLimit"));
+				var loaded1 = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString(GDATA));
+				var loaded2 = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
+				var loaded3 = JsonUtility.FromJson<FPSLimiter.FPSData>(PlayerPrefs.GetString(FDATA));
 
 				QualitySwitcher.Slider.value = loaded2.Slider;
 
-				FPSLimiter.FPSDropdown.value = loaded3.dropdown;
 				FPSLimiter.FPSLimit.text = loaded3.field;
 				FPSLimiter.SetFPSLimit();
 
@@ -104,9 +104,9 @@ namespace Assets.Scripts.UI.InGame
 				label.color = Color.green;
 				label.text = "loaded player prefs";
 			}
-			catch(Exception ex)
+			catch(NullReferenceException ex)
 			{
-				Debug.LogError(ex.ToString());
+				Debug.LogError("Error loading player prefs");
 
 				label.color = Color.red;
 				label.text = "error loading player prefs";
@@ -132,9 +132,9 @@ namespace Assets.Scripts.UI.InGame
 
 		public void DeletePrefs()
 		{
-			PlayerPrefs.DeleteKey("GraphicsData");
-			PlayerPrefs.DeleteKey("QualityProfile");
-			PlayerPrefs.DeleteKey("FPSLimit");
+			PlayerPrefs.DeleteKey(GDATA);
+			PlayerPrefs.DeleteKey(QDATA);
+			PlayerPrefs.DeleteKey(FDATA);
 		}
 
 		private void ChangeObjectValues()
