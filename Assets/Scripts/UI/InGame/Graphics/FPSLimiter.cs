@@ -15,7 +15,14 @@ public class FPSLimiter : MonoBehaviour {
 	
 
 	private void Start() {
-		SetFPSLimit();
+		if (FPSLimit.text == "")
+		{
+			Application.targetFrameRate = Screen.currentResolution.refreshRate;
+		}
+		else
+		{
+			SetFPSLimit();
+		}
 	}
 
 	public void SetFPSLimit()
@@ -29,10 +36,7 @@ public class FPSLimiter : MonoBehaviour {
 			Application.targetFrameRate = i;
 			
 		}
-		else
-		{
-			Application.targetFrameRate = Screen.currentResolution.refreshRate;
-		}
+		
 	}
 
 	[Serializable]
