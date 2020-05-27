@@ -4410,13 +4410,18 @@ public class Hero : Human
             this.smoke_3dmg.enableEmission = false;
             base.GetComponent<Rigidbody>().velocity = Vector3.zero;
             string[] strArray = settings.Split(new char[] { ',' });
+            string prefabName = "RC Resources/RC Prefabs/" + strArray[1];
             if (strArray.Length > 15)
             {
-                this.myCannon = PhotonNetwork.Instantiate("RCAsset/" + strArray[1], new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
+                Vector3 position = new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14]));
+                Quaternion rotation = new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[16]), Convert.ToSingle(strArray[17]), Convert.ToSingle(strArray[18]));
+                this.myCannon = PhotonNetwork.Instantiate(prefabName, position, rotation, 0);
             }
             else
             {
-                this.myCannon = PhotonNetwork.Instantiate("RCAsset/" + strArray[1], new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0);
+                Vector3 position = new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4]));
+                Quaternion rotation = new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]));
+                this.myCannon = PhotonNetwork.Instantiate(prefabName, position, rotation, 0);
             }
             this.myCannonBase = this.myCannon.transform;
             this.myCannonPlayer = this.myCannon.transform.Find("PlayerPoint");
@@ -5728,7 +5733,7 @@ public class Hero : Human
                     this.targetV = hitInfo.point;
                 }
                 Vector3 vector = Vector3.Normalize(this.targetV - this.currentV);
-                GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", this.currentV + ((Vector3)(vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
+                GameObject obj2 = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/BombMain", this.currentV + ((Vector3)(vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
                 obj2.GetComponent<Rigidbody>().velocity = (Vector3)(vector * this.bombSpeed);
                 this.myBomb = obj2.GetComponent<Bomb>();
                 this.bombTime = 0f;

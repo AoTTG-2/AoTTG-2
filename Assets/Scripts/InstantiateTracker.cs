@@ -28,8 +28,8 @@ public class InstantiateTracker
         key = key.ToLower();
         switch (key)
         {
-            case "rcasset/bombmain":
-            case "rcasset/bombexplodemain":
+            case "rc resources/rc prefabs/bombmain":
+            case "rc resources/rc prefabs/bombexplodemain":
                 if (!FengGameManagerMKII.Gamemode.Settings.PvPBomb)
                 {
                     if (PhotonNetwork.isMasterClient)
@@ -85,19 +85,19 @@ public class InstantiateTracker
             case "fx/thunder":
                 return this.Instantiated(photonPlayer, GameResource.effect);
 
-            case "rcasset/cannonballobject":
+            case "rc resources/rc prefabs/cannonballobject":
                 return this.Instantiated(photonPlayer, GameResource.bomb);
 
-            case "rcasset/cannonwall":
-            case "rcasset/cannonground":
+            case "rc resources/rc prefabs/cannonwall":
+            case "rc resources/rc prefabs/cannonground":
                 if (PhotonNetwork.isMasterClient && !(FengGameManagerMKII.instance.allowedToCannon.ContainsKey(photonPlayer.ID) || FengGameManagerMKII.instance.restartingMC))
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning cannon item (" + key + ").");
                 }
                 return this.Instantiated(photonPlayer, GameResource.general);
 
-            case "rcasset/cannonwallprop":
-            case "rcasset/cannongroundprop":
+            case "rc resources/rc prefabs/cannonwallprop":
+            case "rc resources/rc prefabs/cannongroundprop":
                 if (PhotonNetwork.isMasterClient)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning MC item (" + key + ").");

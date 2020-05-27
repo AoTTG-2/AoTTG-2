@@ -73,7 +73,7 @@ public class Bomb : Photon.MonoBehaviour
         this.disabled = true;
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
         Vector3 position = base.transform.position;
-        this.myExplosion = PhotonNetwork.Instantiate("RCAsset/BombExplodeMain", position, Quaternion.Euler(0f, 0f, 0f), 0);
+        this.myExplosion = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/BombExplodeMain", position, Quaternion.Euler(0f, 0f, 0f), 0);
         foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
         {
             GameObject gameObject = hero.gameObject;

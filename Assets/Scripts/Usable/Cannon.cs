@@ -70,7 +70,7 @@ public class Cannon : Photon.MonoBehaviour
             {
                 collider.dmg = 0;
             }
-            this.myCannonBall = PhotonNetwork.Instantiate("RCAsset/CannonBallObject", this.ballPoint.position, this.firingPoint.rotation, 0);
+            this.myCannonBall = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/CannonBallObject", this.ballPoint.position, this.firingPoint.rotation, 0);
             this.myCannonBall.GetComponent<Rigidbody>().velocity = (Vector3) (this.firingPoint.forward * 300f);
             this.myCannonBall.GetComponent<CannonBall>().myHero = this.myHero;
             this.myHero.skillCDDuration = 3.5f;
@@ -86,13 +86,13 @@ public class Cannon : Photon.MonoBehaviour
             {
                 if (strArray.Length > 15)
                 {
-                    GameObject go = PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
+                    GameObject go = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
                     go.GetComponent<CannonPropRegion>().settings = this.settings;
                     go.GetPhotonView().RPC("SetSize", PhotonTargets.AllBuffered, new object[] { this.settings });
                 }
                 else
                 {
-                    PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<CannonPropRegion>().settings = this.settings;
+                    PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<CannonPropRegion>().settings = this.settings;
                 }
             }
         }
