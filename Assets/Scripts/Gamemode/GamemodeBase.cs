@@ -1,19 +1,21 @@
 ﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : MonoBehaviour
     {
-        public virtual GamemodeSettings Settings { get; set; }
-        public abstract void SetSettings(GamemodeSettings settings);
+        public abstract GamemodeSettings Settings { get; set; }
         private MindlessTitanType GetTitanType()
         {
             if (Settings.CustomTitanRatio)
@@ -63,7 +65,24 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        protected virtual TitanConfiguration GetTitanConfiguration()
+        public virtual TitanConfiguration GetPlayerTitanConfiguration()
+        {
+            var configuration = GetTitanConfiguration();
+            if (configuration.Type == MindlessTitanType.Crawler)
+            {
+                configuration.Attacks = new List<Attack>();
+                return configuration;
+            }
+
+            configuration.Attacks = new List<Attack>
+            {
+                new KickAttack(), new SlapAttack(), new SlapFaceAttack(),
+                new BiteAttack(), new BodySlamAttack(), new GrabAttack()
+            };
+            return configuration;
+        }
+
+        public virtual TitanConfiguration GetTitanConfiguration()
         {
             return GetTitanConfiguration(GetTitanType());
         }
@@ -72,7 +91,7 @@ namespace Assets.Scripts.Gamemode
         {
             var size = Settings.TitanCustomSize ? Random.Range(Settings.TitanMinimumSize, Settings.TitanMaximumSize) : Random.Range(0.7f, 3f);
             var health = GetTitanHealth(size);
-            return new TitanConfiguration(health, 10, 10, 10, size, type);
+            return new TitanConfiguration(health, 10, 100, 150f, size, type);
         }
 
         public virtual void OnPlayerKilled(int id)
@@ -136,9 +155,26 @@ namespace Assets.Scripts.Gamemode
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
         }
 
-        public virtual void OnSpawnTitan()
+        protected void SpawnTitans(int amount)
         {
+            SpawnTitans(amount, GetTitanConfiguration);
+        }
 
+        protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)
+        {
+            StartCoroutine(SpawnTitan(amount, titanConfiguration));
+        }
+
+        private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
+        {
+            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
+            for (var i = 0; i < amount; i++)
+            {
+                if (FengGameManagerMKII.instance.getTitans().Count >= Settings.TitanLimit) break;
+                var randomSpawn = spawns[Random.Range(0, spawns.Length)];
+                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, titanConfiguration.Invoke());
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         public virtual void OnTitanSpawned(MindlessTitan titan)
@@ -167,8 +203,6 @@ namespace Assets.Scripts.Gamemode
                 OnAllTitansDead();
             }
         }
-
-        public virtual void OnSetTitanType(ref int titanType, bool flag) { }
 
         public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
@@ -257,11 +291,6 @@ namespace Assets.Scripts.Gamemode
         public virtual void OnNetGameWon(int score)
         {
             Settings.HumanScore = score;
-        }
-
-        public virtual GameObject SpawnNonAiTitan(Vector3 position, GameObject randomTitanRespawn)
-        {
-            return PhotonNetwork.Instantiate("TITAN_VER3.1", position, randomTitanRespawn.transform.rotation, 0);
         }
 
         internal bool IsAllPlayersDead()

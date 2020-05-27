@@ -13,7 +13,6 @@ namespace Assets.Scripts.UI.InGame
             HUD.gameObject.SetActive(true);
             SpawnMenu.gameObject.SetActive(true);
             Menu.gameObject.SetActive(false);
-            
         }
 
         void Update()
