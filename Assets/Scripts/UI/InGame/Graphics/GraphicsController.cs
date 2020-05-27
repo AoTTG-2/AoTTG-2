@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json;
 using System;
 
 namespace Assets.Scripts.UI.InGame
@@ -35,6 +32,7 @@ namespace Assets.Scripts.UI.InGame
 			}
 
 			AdvancedOptions();
+			
 		}
 
 		public void SaveGraphicPlayerPrefs()
@@ -101,6 +99,8 @@ namespace Assets.Scripts.UI.InGame
 					GeneralGraphic.UpdateEverything();
 				}
 
+				GeneralGraphic.UpdateObjects();
+
 				label.color = Color.green;
 				label.text = "loaded player prefs";
 			}
@@ -126,20 +126,42 @@ namespace Assets.Scripts.UI.InGame
 				QualitySwitcher.Slider.interactable = true;
 			}
 			GeneralGraphic.SetInteractable(CustomSettings.isOn);
+			GeneralGraphic.UpdateObjects();
+			GeneralGraphic.UpdateEverything();
 		}
 
 		public void DeletePrefs()
 		{
-			PlayerPrefs.DeleteAll();
+			PlayerPrefs.DeleteKey("GraphicsData");
+			PlayerPrefs.DeleteKey("QualityProfile");
+			PlayerPrefs.DeleteKey("FPSLimit");
 		}
 
 		private void ChangeObjectValues()
 		{
 			GeneralGraphic.TextureQuality.value = QualitySettings.masterTextureLimit;
-			GeneralGraphic.AntiAliasing.value = QualitySettings.antiAliasing;
+			GeneralGraphic.AntiAliasing.value = (int)QualitySettings.antiAliasing;
 			GeneralGraphic.ShadowRes.value = (int)QualitySettings.shadowResolution;
 			GeneralGraphic.Shadows.value = (int)QualitySettings.shadows;
 			GeneralGraphic.SoftParticles.isOn = QualitySettings.softParticles;
+
+			if(QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._8xMultiSampling)
+			{
+				GeneralGraphic.AntiAliasing.value = 3;
+			}
+			else if (QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._4xMultiSampling)
+			{
+				GeneralGraphic.AntiAliasing.value = 2;
+			}
+			else if (QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._2xMultiSampling)
+			{
+				GeneralGraphic.AntiAliasing.value = 1;
+			}
+			else
+			{
+				GeneralGraphic.AntiAliasing.value = 0;
+			}
+
 			if (QualitySettings.vSyncCount == 0)
 			{
 				GeneralGraphic.VSync.isOn = false;

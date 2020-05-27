@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
-using Newtonsoft.Json;
+
 namespace Assets.Scripts.UI.InGame
 {
 	public class GeneralGraphics : MonoBehaviour {
@@ -55,38 +54,43 @@ namespace Assets.Scripts.UI.InGame
 			get { return customSettings; }
 			set { customSettings = value; }
 		}
-		
-		
 
-		private enum Textures
+		public void UpdateObjects()
 		{
-			Potatoe,
-			Low,
-			Medium,
-			High
-		}
-
-		private void Update() {
-			
-			if(!CustomSettings.isOn)
+			if (!CustomSettings.isOn)
 			{
 				// shadow res
 				ShadowRes.value = (int)QualitySettings.shadowResolution;
-			
+
 				// shadows
 				Shadows.value = (int)QualitySettings.shadows;
 
 				// texture quality
 				TextureQuality.value = QualitySettings.masterTextureLimit;
 
-				// anti aliasing
-				AntiAliasing.value = (int)QualitySettings.antiAliasing;
-
 				// soft particles
 				SoftParticles.isOn = (bool)QualitySettings.softParticles;
 
+				// anti aliasing
+				if (QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._8xMultiSampling)
+				{
+					AntiAliasing.value = 3;
+				}
+				else if (QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._4xMultiSampling)
+				{
+					AntiAliasing.value = 2;
+				}
+				else if (QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._2xMultiSampling)
+				{
+					AntiAliasing.value = 1;
+				}
+				else
+				{
+					AntiAliasing.value = 0;
+				}
+
 				// vsync
-				if(QualitySettings.vSyncCount == 0)
+				if (QualitySettings.vSyncCount == 0)
 				{
 					VSync.isOn = false;
 				}
@@ -94,7 +98,6 @@ namespace Assets.Scripts.UI.InGame
 				{
 					VSync.isOn = true;
 				}
-
 			}
 		}
 		public void ChangeShadows()
@@ -110,13 +113,21 @@ namespace Assets.Scripts.UI.InGame
 		{
 			if(AntiAliasing.value == 3)
 			{
-				QualitySettings.antiAliasing = 8;
+				QualitySettings.antiAliasing = (int)GraphicsEnums.AntiAliasing._8xMultiSampling;
+			}
+			else if(AntiAliasing.value == 2)
+			{
+				QualitySettings.antiAliasing = (int)GraphicsEnums.AntiAliasing._4xMultiSampling;
+			}
+			else if (AntiAliasing.value == 1)
+			{
+				QualitySettings.antiAliasing = (int)GraphicsEnums.AntiAliasing._2xMultiSampling;
 			}
 			else
 			{
-				QualitySettings.antiAliasing = AntiAliasing.value * 2;
+				QualitySettings.antiAliasing = (int)GraphicsEnums.AntiAliasing.Disabled;
 			}
-			
+
 		}
 
 		public void ChangeShadowResolution()

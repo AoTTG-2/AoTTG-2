@@ -24,6 +24,10 @@ namespace Assets.Scripts.UI.InGame
         {
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicsView.gameObject.SetActive(false);
+            if (FindObjectOfType<GraphicsController>().label.text != "")
+            {
+                FindObjectOfType<GraphicsController>().label.text = "";
+            }
         }
 
         public void Quit()

@@ -13,6 +13,7 @@ namespace Assets.Scripts.UI.InGame
 			int sValue = (int)Slider.value;
 			QualitySettings.SetQualityLevel(sValue, true);
 			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
+			FindObjectOfType<GeneralGraphics>().UpdateObjects();
 		}
 
 		[Serializable]

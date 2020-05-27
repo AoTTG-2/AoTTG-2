@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
-using Newtonsoft.Json;
 
 public class FPSLimiter : MonoBehaviour {
 

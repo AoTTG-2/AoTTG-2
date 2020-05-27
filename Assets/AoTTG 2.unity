@@ -46187,7 +46187,6 @@ RectTransform:
   - {fileID: 1193284819}
   - {fileID: 1832384812}
   - {fileID: 1384844416}
-  - {fileID: 1234769868}
   m_Father: {fileID: 1859486803}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64116,17 +64115,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1234769867}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1283250006}
-  m_Father: {fileID: 3016767}
-  m_RootOrder: 9
+  m_Father: {fileID: 1384844416}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -12, y: 1}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1234769869
@@ -65133,7 +65132,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Delete Player Prefs
 --- !u!222 &1283250008
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -66847,6 +66846,7 @@ RectTransform:
   - {fileID: 2138299847}
   - {fileID: 1014177432}
   - {fileID: 1292886336}
+  - {fileID: 1234769868}
   m_Father: {fileID: 3016767}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
