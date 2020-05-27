@@ -69,7 +69,6 @@ namespace Assets.Scripts.UI.InGame
 			
 		}
 
-		// NULL REFERENCE HAPPENES HERE
 		public void LoadGraphicPlayerPrefs()
 		{
 			try
