@@ -37,7 +37,7 @@ public class FPSLimiter : MonoBehaviour {
 				{
 					Application.targetFrameRate = int.Parse(text.ToString());
 				}
-				catch (FormatException ex)
+				catch (FormatException)
 				{
 					Debug.LogWarning("Inputed value is not a number!");
 				}

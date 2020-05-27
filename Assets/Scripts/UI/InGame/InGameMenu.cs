@@ -33,7 +33,6 @@ namespace Assets.Scripts.UI.InGame
             {
                 FindObjectOfType<GraphicsController>().label.text = "";
             }
-            GraphicSettingsMenu.gameObject.SetActive(false);
             Cursor.visible = false;
             if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
             {

@@ -380,9 +380,11 @@
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\WheelButton.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\ImportingContributorsList.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\RoomRow.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\ScrollingScrollView.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Singleplayer.cs" />
      <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
      <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
@@ -401,6 +403,7 @@
      <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\Shader\Projector Multiply.shader" />
      <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
+     <None Include="Assets\contributors.txt" />
      <None Include="Assets\Photon Unity Networking\link.xml" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored Overlay.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
