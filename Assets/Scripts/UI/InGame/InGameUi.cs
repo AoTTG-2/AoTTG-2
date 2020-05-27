@@ -23,8 +23,6 @@ namespace Assets.Scripts.UI.InGame
             
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
                 Menu.gameObject.SetActive(!Menu.isActiveAndEnabled);
             }
         }
