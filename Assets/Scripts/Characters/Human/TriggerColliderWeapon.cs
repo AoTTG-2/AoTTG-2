@@ -1,10 +1,12 @@
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using System.Collections;
-using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class TriggerColliderWeapon : MonoBehaviour
 {
+    public Equipment Equipment { get; set; }
+
     public bool active_me;
     public GameObject currentCamera;
     public ArrayList currentHits = new ArrayList();
@@ -84,7 +86,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat"));
                     }
                     obj2.transform.position = base.transform.position;
-                    base.transform.root.GetComponent<Hero>().useBlade(0);
+                    Equipment.Weapon.Use(0);
                 }
             }
             if (other.gameObject.tag == "playerHitbox")
@@ -127,24 +129,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     item.hitPosition = (Vector3) ((base.transform.position + item.transform.position) * 0.5f);
                     this.currentHits.Add(item);
                     this.meatDie.Play();
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                    {
-                        if ((item.transform.root.GetComponent<TITAN>() != null) && !item.transform.root.GetComponent<TITAN>().hasDie)
-                        {
-                            Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                            int num2 = (int) ((vector3.magnitude * 10f) * this.scoreMulti);
-                            num2 = Mathf.Max(10, num2);
-                            if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
-                            {
-                                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num2, item.transform.root.gameObject, 0.02f);
-                            }
-                            item.transform.root.GetComponent<TITAN>().die();
-                            this.napeMeat(this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity, item.transform.root);
-                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().netShowDamage(num2);
-                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().playerKillInfoSingleUpdate(num2);
-                        }
-                    }
-                    else if (item.transform.root.GetComponent<MindlessTitan>() != null)
+                    if (item.transform.root.GetComponent<MindlessTitan>() != null)
                     {
                         Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
@@ -161,25 +146,9 @@ public class TriggerColliderWeapon : MonoBehaviour
                     }
                     else if (!PhotonNetwork.isMasterClient)
                     {
-                        if (item.transform.root.GetComponent<TITAN>() != null)
+                        if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
                         {
-                            if (!item.transform.root.GetComponent<TITAN>().hasDie)
-                            {
-                                Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                                int num3 = (int) ((vector4.magnitude * 10f) * this.scoreMulti);
-                                num3 = Mathf.Max(10, num3);
-                                if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
-                                {
-                                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num3, item.transform.root.gameObject, 0.02f);
-                                    item.transform.root.GetComponent<TITAN>().asClientLookTarget = false;
-                                }
-                                object[] objArray2 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, num3 };
-                                item.transform.root.GetComponent<TITAN>().photonView.RPC("titanGetHit", item.transform.root.GetComponent<TITAN>().photonView.owner, objArray2);
-                            }
-                        }
-                        else if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
-                        {
-                            base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
+                            Equipment.Weapon.Use(0x7fffffff);
                             Vector3 vector5 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num4 = (int) ((vector5.magnitude * 10f) * this.scoreMulti);
                             num4 = Mathf.Max(10, num4);
@@ -191,7 +160,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         }
                         else if (item.transform.root.GetComponent<COLOSSAL_TITAN>() != null)
                         {
-                            base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
+                            Equipment.Weapon.Use(0x7fffffff);
                             if (!item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                             {
                                 Vector3 vector6 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
@@ -206,23 +175,9 @@ public class TriggerColliderWeapon : MonoBehaviour
                             DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
                         }
                     }
-                    else if (item.transform.root.GetComponent<TITAN>() != null)
-                    {
-                        if (!item.transform.root.GetComponent<TITAN>().hasDie)
-                        {
-                            Vector3 vector7 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                            int num6 = (int) ((vector7.magnitude * 10f) * this.scoreMulti);
-                            num6 = Mathf.Max(10, num6);
-                            if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
-                            {
-                                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num6, item.transform.root.gameObject, 0.02f);
-                            }
-                            item.transform.root.GetComponent<TITAN>().titanGetHit(base.transform.root.gameObject.GetPhotonView().viewID, num6);
-                        }
-                    }
                     else if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
                     {
-                        base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
+                        Equipment.Weapon.Use(0x7fffffff);
                         if (!item.transform.root.GetComponent<FEMALE_TITAN>().hasDie)
                         {
                             Vector3 vector8 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
@@ -237,7 +192,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     }
                     else if (item.transform.root.GetComponent<COLOSSAL_TITAN>() != null)
                     {
-                        base.transform.root.GetComponent<Hero>().useBlade(0x7fffffff);
+                        Equipment.Weapon.Use(0x7fffffff);
                         if (!item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                         {
                             Vector3 vector9 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
@@ -291,30 +246,15 @@ public class TriggerColliderWeapon : MonoBehaviour
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
-                        mindlessTitan.OnEyeHit(transform.root.gameObject.GetPhotonView().viewID, damage);
-                    }
-                    else if (gameObject.GetComponent<TITAN>().TitanType != TitanType.TYPE_CRAWLER)
-                    {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                        if (PhotonNetwork.isMasterClient)
                         {
-                            if (!gameObject.GetComponent<TITAN>().hasDie)
-                            {
-                                gameObject.GetComponent<TITAN>().hitEye();
-                            }
+                            mindlessTitan.OnEyeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
-                        else if (!PhotonNetwork.isMasterClient)
+                        else
                         {
-                            if (!gameObject.GetComponent<TITAN>().hasDie)
-                            {
-                                object[] objArray6 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID };
-                                gameObject.GetComponent<TITAN>().photonView.RPC("hitEyeRPC", PhotonTargets.MasterClient, objArray6);
-                            }
+                            mindlessTitan.photonView.RPC("OnEyeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
-                        else if (!gameObject.GetComponent<TITAN>().hasDie)
-                        {
-                            gameObject.GetComponent<TITAN>().hitEyeRPC(base.transform.root.gameObject.GetPhotonView().viewID);
-                        }
-                        this.showCriticalHitFX();
+                        showCriticalHitFX();
                     }
                 }
             }
@@ -353,36 +293,11 @@ public class TriggerColliderWeapon : MonoBehaviour
                 }
                 int num9 = (int) ((vector10.magnitude * 10f) * this.scoreMulti);
                 num9 = Mathf.Max(10, num9);
-                if ((obj4.GetComponent<TITAN>() != null) && (obj4.GetComponent<TITAN>().TitanType != TitanType.TYPE_CRAWLER))
-                {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                    {
-                        if (!obj4.GetComponent<TITAN>().hasDie)
-                        {
-                            obj4.GetComponent<TITAN>().hitAnkle();
-                        }
-                    }
-                    else
-                    {
-                        if (!PhotonNetwork.isMasterClient)
-                        {
-                            if (!obj4.GetComponent<TITAN>().hasDie)
-                            {
-                                object[] objArray7 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID };
-                                obj4.GetComponent<TITAN>().photonView.RPC("hitAnkleRPC", PhotonTargets.MasterClient, objArray7);
-                            }
-                        }
-                        else if (!obj4.GetComponent<TITAN>().hasDie)
-                        {
-                            obj4.GetComponent<TITAN>().hitAnkle();
-                        }
-                        this.showCriticalHitFX();
-                    }
-                }
-                else if (obj4.GetComponent<MindlessTitan>() != null)
+                if (obj4.GetComponent<MindlessTitan>() != null)
                 {
                     var mindlessTitan = obj4.GetComponent<MindlessTitan>();
                     mindlessTitan.OnAnkleHit(transform.root.gameObject.GetPhotonView().viewID, num9);
+                    this.showCriticalHitFX();
                 }
                 else if (obj4.GetComponent<FEMALE_TITAN>() != null)
                 {
@@ -455,6 +370,7 @@ public class TriggerColliderWeapon : MonoBehaviour
     private void Start()
     {
         this.currentCamera = GameObject.Find("MainCamera");
+        Equipment = base.transform.root.GetComponent<Equipment>();
     }
 }
 

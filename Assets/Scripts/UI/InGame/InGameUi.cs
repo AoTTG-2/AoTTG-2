@@ -15,7 +15,6 @@ namespace Assets.Scripts.UI.InGame
             SpawnMenu.gameObject.SetActive(true);
             GraphicSettingMenu.gameObject.SetActive(true);
             Menu.gameObject.SetActive(false);
-            
         }
 
         void Update()

@@ -417,12 +417,8 @@ public class InRoomChat : Photon.MonoBehaviour
                                             if (player.ID == num8)
                                             {
                                                 this.addLINE("<color=#FFCC00>Player " + num8.ToString() + " has been revived.</color>");
-                                                if (((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
-                                                {
-                                                    objArray5 = new object[] { "<color=#FFCC00>You have been revived by the master client.</color>", string.Empty };
-                                                    FengGameManagerMKII.instance.photonView.RPC("Chat", player, objArray5);
-                                                    FengGameManagerMKII.instance.photonView.RPC("respawnHeroInNewRound", player, new object[0]);
-                                                }
+                                                FengGameManagerMKII.instance.photonView.RPC("RespawnRpc", player);
+                                                return;
                                             }
                                         }
                                     }

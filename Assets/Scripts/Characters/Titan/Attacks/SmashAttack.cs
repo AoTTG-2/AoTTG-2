@@ -14,13 +14,22 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (titan.TargetDistance >= titan.AttackDistance * 2) return false;
             if (IsDisabled(titan)) return false;
             Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
-            if (Mathf.Abs(between) >= 90f || between <= 0 ||
-                titan.TargetDistance >= titan.AttackDistance * 0.75f) return false;
+            if (Mathf.Abs(between) < 90f && between > 0f && titan.TargetDistance < titan.AttackDistance * 0.25f)
+            {
+                TitanBodyPart = titan.TitanBody.AttackFrontGround;
+                return true;
+            }
+            return false;
+        }
 
+        public override bool CanAttack(PlayerTitan titan)
+        {
+            if (IsDisabled(titan)) return false;
             TitanBodyPart = titan.TitanBody.AttackFrontGround;
             return true;
         }

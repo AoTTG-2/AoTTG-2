@@ -14,6 +14,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (!FengGameManagerMKII.Gamemode.Settings.PunkRockThrow) return false;
             if (IsDisabled(titan)) return false;
             var distance = Vector3.Distance(titan.transform.position, titan.Target.transform.position);
             if (distance < 100 && !titan.Animation.IsPlaying(attackAnimation)) return false;

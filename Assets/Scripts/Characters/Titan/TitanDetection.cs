@@ -9,6 +9,7 @@ namespace Assets.Scripts.Characters.Titan
 
         void Start()
         {
+            if (!Titan.photonView.isMine) return;
             InvokeRepeating("CheckPlayers", 1f, 0.5f);
         }
 
@@ -31,11 +32,10 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (collider == null) continue;
                 var target = collider.transform.root.gameObject;
-                if (target.layer != 8) continue;
+                if (target.GetComponent<Hero>() == null) continue;
                 Vector3 targetDir = target.transform.position - transform.position;
                 float angle = Vector3.Angle(targetDir, transform.forward);
-                var distance = Vector3.Distance(transform.position, target.transform.position);
-                if (angle > 0 && angle < 100 && target.GetPhotonView().isMine)
+                if (angle > 0 && angle < 100)
                 {
                     Titan.OnTargetDetected(target);
                     break;

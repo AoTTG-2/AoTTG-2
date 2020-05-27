@@ -49,7 +49,6 @@ public class TitanTrigger : MonoBehaviour
             GameObject gameObject = other.transform.root.gameObject;
             if (gameObject.layer == 8)
             {
-                Debug.LogWarning($"Gameobject: {gameObject.name}");
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                 {
                     if (gameObject.GetPhotonView().isMine)
