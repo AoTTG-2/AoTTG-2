@@ -49037,6 +49037,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114338049395213770, guid: 6f053f6638514284ab1e166e57dcc1c8,
+        type: 2}
+      propertyPath: AABB
+      value: 
+      objectReference: {fileID: 1894049951}
+    - target: {fileID: 114338049395213770, guid: 6f053f6638514284ab1e166e57dcc1c8,
+        type: 2}
+      propertyPath: Core
+      value: 
+      objectReference: {fileID: 543026927}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6f053f6638514284ab1e166e57dcc1c8, type: 2}
   m_IsPrefabParent: 0
@@ -54875,6 +54885,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 536242185}
+--- !u!4 &543026927 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4541709052506242, guid: 6f053f6638514284ab1e166e57dcc1c8,
+    type: 2}
+  m_PrefabInternal: {fileID: 181717905}
 --- !u!1 &547219957
 GameObject:
   m_ObjectHideFlags: 0
@@ -56186,7 +56201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000018676423, y: -0.000022645767}
+  m_AnchoredPosition: {x: 0.000018676423, y: -0.0000010451183}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &692447671
@@ -62781,8 +62796,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1430843759}
   m_HandleRect: {fileID: 1430843758}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -68488,7 +68503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -0.000009799077}
+  m_AnchoredPosition: {x: -0.000061035156, y: -0.000017259903}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1502454003
@@ -73994,6 +74009,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &1894049951 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4562939801880540, guid: 6f053f6638514284ab1e166e57dcc1c8,
+    type: 2}
+  m_PrefabInternal: {fileID: 181717905}
 --- !u!1 &1894528146
 GameObject:
   m_ObjectHideFlags: 0
