@@ -1,99 +1,153 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PhotonView), typeof(SphereCollider))]
 public class CannonBall : Photon.MonoBehaviour
 {
+    [SerializeField]
+    private float smoothingDelay = 10f;
+
+    private List<TitanTrigger> myTitanTriggers;
+
+    private Cannon cannon;
+    private int heroViewId;
+
+    private bool isCollider;
+    private bool disabled;
+
     private Vector3 correctPos;
     private Vector3 correctVelocity;
-    public bool disabled;
-    public Transform firingPoint;
-    public bool isCollider;
-    public Hero myHero;
-    public List<TitanTrigger> myTitanTriggers;
-    public float SmoothingDelay = 10f;
 
-    private int BaseMask, GroundMask;
+    private int baseMask;
+    private int groundMask;
+
+    public static CannonBall Create(
+        Vector3 position,
+        Quaternion rotation,
+        Vector3 velocity,
+        Cannon cannon,
+        int heroViewId)
+    {
+        var instance = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/CannonBallObject", position, rotation, 0).GetComponent<CannonBall>();
+        instance.GetComponent<Rigidbody>().velocity = velocity;
+        instance.cannon = cannon;
+        instance.heroViewId = heroViewId;
+        return instance;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(GetComponent<Rigidbody>().velocity);
+        }
+        else
+        {
+            correctPos = (Vector3)stream.ReceiveNext();
+            correctVelocity = (Vector3)stream.ReceiveNext();
+        }
+    }
 
     private void Awake()
     {
-        this.BaseMask = 1 << LayerMask.NameToLayer("PlayerAttackBox") | 1 << LayerMask.NameToLayer("EnemyBox");
-        this.GroundMask = 1 << LayerMask.NameToLayer("Ground");
+        myTitanTriggers = new List<TitanTrigger>();
 
-        if (base.photonView != null)
+        baseMask = 1 << LayerMask.NameToLayer("PlayerAttackBox") | 1 << LayerMask.NameToLayer("EnemyBox");
+        groundMask = 1 << LayerMask.NameToLayer("Ground");
+
+        photonView.observed = this;
+
+        correctPos = transform.position;
+        correctVelocity = Vector3.zero;
+
+        GetComponent<SphereCollider>().enabled = false;
+
+        if (photonView.isMine)
+            StartCoroutine(WaitAndSelfDestruct(10f));
+    }
+
+    private IEnumerator WaitAndSelfDestruct(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SelfDestruct();
+    }
+
+    private void SelfDestruct()
+    {
+        if (disabled)
+            return;
+
+        disabled = true;
+
+        // TODO: Replace this with a factory method.
+        foreach (EnemyCheckCollider collider in PhotonNetwork.Instantiate("FX/boom4", transform.position, transform.rotation, 0).GetComponentsInChildren<EnemyCheckCollider>())
+            collider.dmg = 0;
+
+        if (FengGameManagerMKII.Gamemode.Settings.PvpCannons)
+            KillEnemyPlayersInRange(20f);
+
+        ResetTitanTriggers();
+
+        PhotonNetwork.Destroy(base.gameObject);
+    }
+
+    private void KillEnemyPlayersInRange(float range)
+    {
+        foreach (Hero player in FengGameManagerMKII.instance.getPlayers())
         {
-            base.photonView.observed = this;
-            this.correctPos = base.transform.position;
-            this.correctVelocity = Vector3.zero;
-            base.GetComponent<SphereCollider>().enabled = false;
-            if (base.photonView.isMine)
+            bool isOtherPlayerWithinRange = player && !player.photonView.isMine && Vector3.Distance(player.transform.position, base.transform.position) <= range;
+            if (isOtherPlayerWithinRange)
             {
-                base.StartCoroutine(this.WaitAndDestroy(10f));
-                this.myTitanTriggers = new List<TitanTrigger>();
+                PhotonPlayer owner = player.gameObject.GetPhotonView().owner;
+
+                // TODO: Investigate whether all valid teams are > -1.
+                int playerTeam = (int)(owner.CustomProperties[PhotonPlayerProperty.RCteam] ?? -1);
+                int myTeam = (int)(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] ?? -1);
+                bool bothTeamsValid = playerTeam != -1 && myTeam != -1;
+                bool myTeamExists = myTeam != 0;
+                bool sameTeam = myTeam == playerTeam;
+                bool teamsEnabled = FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled;
+                bool canKillPlayer = !(teamsEnabled && bothTeamsValid && myTeamExists && sameTeam);
+
+                if (canKillPlayer)
+                    KillPlayer(player);
             }
         }
     }
 
-    public void destroyMe()
+    private void KillPlayer(Hero player)
     {
-        if (!this.disabled)
+        var myName = $"{PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name] ?? "ERROR"} ";
+        player.markDie();
+        player.photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, myName });
+        FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
+    }
+
+    private void ResetTitanTriggers()
+    {
+        for (int i = 0; i < myTitanTriggers.Count; i++)
+            myTitanTriggers[i].SetCollision(false);
+    }
+
+    private void Update()
+    {
+        if (!photonView.isMine)
         {
-            this.disabled = true;
-            foreach (EnemyCheckCollider collider in PhotonNetwork.Instantiate("FX/boom4", base.transform.position, base.transform.rotation, 0).GetComponentsInChildren<EnemyCheckCollider>())
-            {
-                collider.dmg = 0;
-            }
-            if (FengGameManagerMKII.Gamemode.Settings.PvpCannons)
-            {
-                foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
-                {
-                    if (((hero != null) && (Vector3.Distance(hero.transform.position, base.transform.position) <= 20f)) && !hero.photonView.isMine)
-                    {
-                        GameObject gameObject = hero.gameObject;
-                        PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                        if (((FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
-                        {
-                            int num2 = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
-                            int num3 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
-                            if ((num2 == 0) || (num2 != num3))
-                            {
-                                gameObject.GetComponent<Hero>().markDie();
-                                gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
-                                FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
-                            }
-                        }
-                        else
-                        {
-                            gameObject.GetComponent<Hero>().markDie();
-                            gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
-                            FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
-                        }
-                    }
-                }
-            }
-            if (this.myTitanTriggers != null)
-            {
-                for (int i = 0; i < this.myTitanTriggers.Count; i++)
-                {
-                    if (this.myTitanTriggers[i] != null)
-                    {
-                        this.myTitanTriggers[i].SetCollision(false);
-                    }
-                }
-            }
-            PhotonNetwork.Destroy(base.gameObject);
+            transform.position = Vector3.Lerp(transform.position, correctPos, Time.deltaTime * smoothingDelay);
+            GetComponent<Rigidbody>().velocity = correctVelocity;
         }
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (base.photonView.isMine && !this.disabled)
+        if (photonView.isMine && !disabled)
         {
-            int mask = this.isCollider ? this.BaseMask : (this.BaseMask | this.GroundMask);
-            Collider[] hitColliders = Physics.OverlapSphere(base.transform.position, 0.6f, mask);
+            int mask = isCollider ? baseMask : (baseMask | groundMask);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.6f, mask);
             bool hitSelf = false;
             for (int i = 0; i < hitColliders.Length; i++)
             {
@@ -104,84 +158,50 @@ public class CannonBall : Photon.MonoBehaviour
                 if (isPlayerAttackBoxLayer)
                 {
                     TitanTrigger titanTrigger = currentGobj.GetComponent<TitanTrigger>();
-                    if (!((titanTrigger == null) || this.myTitanTriggers.Contains(titanTrigger)))
+                    if (!myTitanTriggers.Contains(titanTrigger))
                     {
                         titanTrigger.SetCollision(true);
-                        this.myTitanTriggers.Add(titanTrigger);
+                        myTitanTriggers.Add(titanTrigger);
                     }
                 }
                 else if (isEnemyBoxLayer)
                 {
-                    //TitanBody foo = currentGobj.transform.root.gameObject.GetComponent<TitanBody>();
-                    //foo.
-                    //TITAN titan = currentGobj.transform.root.gameObject.GetComponent<TITAN>();
                     MindlessTitan titan = currentGobj.transform.root.GetComponent<MindlessTitan>();
                     if (titan != null)
                     {
                         if (currentGobj.name == "head")
                         {
-                            titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
+                            titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { heroViewId });
 
                             if (titan.Type == MindlessTitanType.Crawler)
-                                Debug.Log($"titan.dieBlow({base.transform.position}, 0.2f)");
+                                Debug.Log($"titan.dieBlow({transform.position}, 0.2f)");
                             else
-                                Debug.Log($"titan.dieHeadBlow({base.transform.position}, 0.2f)");
+                                Debug.Log($"titan.dieHeadBlow({transform.position}, 0.2f)");
 
                             i = hitColliders.Length;
                         }
                         else if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
-                            Debug.Log($"titan.hitL({base.transform.position}, 0.05f)");
+                            Debug.Log($"titan.hitL({transform.position}, 0.05f)");
                         else
-                            Debug.Log($"titan.hitR({base.transform.position}, 0.05f)");
+                            Debug.Log($"titan.hitR({transform.position}, 0.05f)");
 
-                        this.destroyMe();
+                        SelfDestruct();
                     }
                 }
-                else if (isGroundLayer && (currentGobj.transform.root.name.Contains("CannonWall") || currentGobj.transform.root.name.Contains("CannonGround")))
+                else if (isGroundLayer && currentGobj.GetComponentInParent<Cannon>() == this.cannon)
                     hitSelf = true;
             }
-            if (!(this.isCollider || hitSelf))
+            if (!(isCollider || hitSelf))
             {
-                this.isCollider = true;
-                base.GetComponent<SphereCollider>().enabled = true;
+                isCollider = true;
+                GetComponent<SphereCollider>().enabled = true;
             }
         }
     }
 
-    public void OnCollisionEnter(Collision myCollision)
+    private void OnCollisionEnter(Collision myCollision)
     {
-        if (base.photonView.isMine)
-        {
-            this.destroyMe();
-        }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            stream.SendNext(base.transform.position);
-            stream.SendNext(base.GetComponent<Rigidbody>().velocity);
-        }
-        else
-        {
-            this.correctPos = (Vector3) stream.ReceiveNext();
-            this.correctVelocity = (Vector3) stream.ReceiveNext();
-        }
-    }
-
-    public void Update()
-    {
-        if (!base.photonView.isMine)
-        {
-            base.transform.position = Vector3.Lerp(base.transform.position, this.correctPos, Time.deltaTime * this.SmoothingDelay);
-            base.GetComponent<Rigidbody>().velocity = this.correctVelocity;
-        }
-    }
-
-    public IEnumerator WaitAndDestroy(float time)
-    {
-        yield return new WaitForSeconds(time);
-        this.destroyMe();
+        if (photonView.isMine)
+            SelfDestruct();
     }
 }

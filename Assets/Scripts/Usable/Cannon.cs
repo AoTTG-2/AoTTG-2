@@ -66,13 +66,18 @@ public class Cannon : Photon.MonoBehaviour
     {
         if (this.myHero.skillCDDuration <= 0f)
         {
-            foreach (EnemyCheckCollider collider in PhotonNetwork.Instantiate("FX/boom2", this.firingPoint.position, this.firingPoint.rotation, 0).GetComponentsInChildren<EnemyCheckCollider>())
-            {
+            var boom = PhotonNetwork.Instantiate("FX/boom2", this.firingPoint.position, this.firingPoint.rotation, 0);
+            var boomCheckColliders = boom.GetComponentsInChildren<EnemyCheckCollider>();
+
+            foreach (EnemyCheckCollider collider in boomCheckColliders)
                 collider.dmg = 0;
-            }
-            this.myCannonBall = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/CannonBallObject", this.ballPoint.position, this.firingPoint.rotation, 0);
-            this.myCannonBall.GetComponent<Rigidbody>().velocity = (Vector3) (this.firingPoint.forward * 300f);
-            this.myCannonBall.GetComponent<CannonBall>().myHero = this.myHero;
+
+            this.myCannonBall = CannonBall.Create(this.ballPoint.position,
+                this.firingPoint.rotation,
+                this.firingPoint.forward * 300f,
+                this,
+                this.myHero.photonView.viewID).gameObject;
+
             this.myHero.skillCDDuration = 3.5f;
         }
     }
