@@ -16,7 +16,7 @@ using UnityEngine;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
-    public static string Version = "Alpha-Issue36";
+    public static string Version = "Alpha-Issue98";
     public static bool showHackMenu = true;
 
     public Dictionary<int, CannonValues> allowedToCannon;
