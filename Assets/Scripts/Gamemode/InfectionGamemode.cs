@@ -4,22 +4,8 @@ namespace Assets.Scripts.Gamemode
 {
     public class InfectionGamemode : GamemodeBase
     {
-        public InfectionGamemode()
-        {
-            Settings = new InfectionGamemodeSettings
-            {
-                GamemodeType = GamemodeType.Infection, 
-                RespawnMode = RespawnMode.NEVER, 
-                IsPlayerTitanEnabled = true
-            };
-        }
-
-        public new InfectionGamemodeSettings Settings { get; set; }
-
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as InfectionGamemodeSettings;
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private InfectionGamemodeSettings GamemodeSettings => Settings as InfectionGamemodeSettings;
 
         public override void OnRestart()
         {
@@ -35,7 +21,7 @@ namespace Assets.Scripts.Gamemode
                 player.SetCustomProperties(propertiesToSet);
             }
             var length = PhotonNetwork.playerList.Length;
-            var infectionMode = Settings.Infected;
+            var infectionMode = GamemodeSettings.Infected;
             for (num = 0; num < PhotonNetwork.playerList.Length; num++)
             {
                 PhotonPlayer player2 = PhotonNetwork.playerList[num];
@@ -72,7 +58,7 @@ namespace Assets.Scripts.Gamemode
                             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                             propertiesToSet.Add(PhotonPlayerProperty.isTitan, 2);
                             targetPlayer.SetCustomProperties(propertiesToSet);
-                            FengGameManagerMKII.instance.photonView.RPC("spawnTitanRPC", targetPlayer, new object[0]);
+                            photonView.RPC("SpawnPlayerTitanRpc", targetPlayer, new object[0]);
                         }
                         else if (FengGameManagerMKII.imatitan.ContainsKey(targetPlayer.ID))
                         {
@@ -97,7 +83,16 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.gameWin2();
             }
-            
+        }
+
+
+        [PunRPC]
+        private void SpawnPlayerTitanRpc(PhotonMessageInfo info)
+        {
+            if (info.sender.IsMasterClient)
+            {
+                FengGameManagerMKII.instance.SpawnPlayerTitan();
+            }
         }
     }
 }

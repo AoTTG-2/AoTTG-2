@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class InputManagerRC
@@ -128,6 +129,11 @@ public class InputManagerRC
             return ((Input.GetAxis("Mouse ScrollWheel") * this.titanWheel[code]) > 0f);
         }
         return Input.GetKey(this.titanKeys[code]);
+    }
+
+    public bool IsPlayerTitanInput(KeyCode code)
+    {
+        return titanKeys.Any(x => x == code);
     }
 
     public void setInputCannon(int code, string setting)

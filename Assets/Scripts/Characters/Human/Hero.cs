@@ -3913,7 +3913,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                if ((FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled || !FengGameManagerMKII.Gamemode.Settings.PlayerTitanShifters))
+                if (!FengGameManagerMKII.Gamemode.Settings.PlayerShifters)
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;
@@ -4444,7 +4444,6 @@ public class Hero : Human
         {
             this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
             this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
-            this.myHorse.GetComponent<TITAN_CONTROLLER>().isHorse = true;
         }
 
         if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)
@@ -4669,7 +4668,7 @@ public class Hero : Human
                                 this.baseAnimation["grabbed_jean"].time = 0f;
                                 this.escapeTimes--;
                             }
-                            if ((this.baseAnimation.IsPlaying("grabbed_jean") && (this.baseAnimation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<TITAN>() != null))
+                            if ((this.baseAnimation.IsPlaying("grabbed_jean") && (this.baseAnimation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                             {
                                 this.ungrabbed();
                                 this.baseRigidBody.velocity = (Vector3)(Vector3.up * 30f);
@@ -4709,7 +4708,7 @@ public class Hero : Human
                                 else
                                 {
                                     this.skillCDDuration = this.skillCDLast;
-                                    if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<TITAN>() != null))
+                                    if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                                     {
                                         this.ungrabbed();
                                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
@@ -5791,32 +5790,7 @@ public class Hero : Human
     }
 
     [Obsolete("Using a weapon should be moved within Weapon class...")]
-    public void useBlade(int amount = 0)
-    {
-        if (amount == 0)
-        {
-            amount = 1;
-        }
-        amount *= 2;
-        if (this.currentBladeSta > 0f)
-        {
-            this.currentBladeSta -= amount;
-            if (this.currentBladeSta <= 0f)
-            {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
-                {
-                    //this.leftbladetrail.Deactivate();
-                    //this.rightbladetrail.Deactivate();
-                    //this.leftbladetrail2.Deactivate();
-                    //this.rightbladetrail2.Deactivate();
-                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                }
-                this.currentBladeSta = 0f;
-                //this.throwBlades();
-            }
-        }
-    }
+
 
     private void useGas(float amount = 0)
     {

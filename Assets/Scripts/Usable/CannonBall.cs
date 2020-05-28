@@ -1,4 +1,6 @@
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -112,24 +114,25 @@ public class CannonBall : Photon.MonoBehaviour
                 {
                     //TitanBody foo = currentGobj.transform.root.gameObject.GetComponent<TitanBody>();
                     //foo.
-                    TITAN titan = currentGobj.transform.root.gameObject.GetComponent<TITAN>();
+                    //TITAN titan = currentGobj.transform.root.gameObject.GetComponent<TITAN>();
+                    MindlessTitan titan = currentGobj.transform.root.GetComponent<MindlessTitan>();
                     if (titan != null)
                     {
                         if (currentGobj.name == "head")
                         {
                             titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
 
-                            if (titan.TitanType == TitanType.TYPE_CRAWLER)
-                                titan.dieBlow(base.transform.position, 0.2f);
+                            if (titan.Type == MindlessTitanType.Crawler)
+                                Debug.Log($"titan.dieBlow({base.transform.position}, 0.2f)");
                             else
-                                titan.dieHeadBlow(base.transform.position, 0.2f);
+                                Debug.Log($"titan.dieHeadBlow({base.transform.position}, 0.2f)");
 
                             i = hitColliders.Length;
                         }
                         else if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
-                            titan.hitL(base.transform.position, 0.05f);
+                            Debug.Log($"titan.hitL({base.transform.position}, 0.05f)");
                         else
-                            titan.hitR(base.transform.position, 0.05f);
+                            Debug.Log($"titan.hitR({base.transform.position}, 0.05f)");
 
                         this.destroyMe();
                     }

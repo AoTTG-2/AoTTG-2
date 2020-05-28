@@ -8,6 +8,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack(MindlessTitan titan)
         {
+            if (titan.TargetDistance >= titan.AttackDistance * 2) return false;
             if (titan.Target.transform.position.y <= titan.TitanBody.Neck.position.y - 3f * titan.Size
                 || titan.TargetDistance >= titan.AttackDistance * 0.5f) return false;
 
@@ -43,6 +44,35 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 TitanBodyPart = titan.TitanBody.AttackBiteLeft;
                 return true;
             }
+            return false;
+        }
+
+        public bool CanAttack(PlayerTitan titan, float rotation)
+        {
+            if (rotation > 7.5f)
+            {
+                AttackAnimation = "attack_bite_r";
+                BoomTimer = 0.4f;
+                TitanBodyPart = titan.TitanBody.AttackBiteRight;
+                return true;
+            }
+
+            if (rotation < -7.5f)
+            {
+                AttackAnimation = "attack_bite_l";
+                BoomTimer = 0.4f;
+                TitanBodyPart = titan.TitanBody.AttackBiteLeft;
+                return true;
+            }
+
+            if (rotation >= -7.5f && rotation <= 7.5f)
+            {
+                AttackAnimation = "attack_bite";
+                BoomTimer = 0.6f;
+                TitanBodyPart = titan.TitanBody.AttackBite;
+                return true;
+            }
+
             return false;
         }
     }

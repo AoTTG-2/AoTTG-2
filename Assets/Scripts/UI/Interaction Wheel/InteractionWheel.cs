@@ -18,13 +18,18 @@ public class InteractionWheel : MonoBehaviour
 		if (!Label)
 			Label = GetComponentInChildren<Text>();
 		Label.text = "";
-		base.StartCoroutine(SpawnButtons());
+
+		// There may be 0 players, in the case of the player spawning as a titan
+		player = GameObject.FindGameObjectsWithTag("Player").SingleOrDefault(x => x.GetComponent<PhotonView>().isMine);
+		if (player)
+        {
+			interactables = player.GetComponent<PlayerInteractable>().Collisions;
+			base.StartCoroutine(SpawnButtons());
+		}
 	}
 
 	private IEnumerator SpawnButtons()
 	{
-		player = GameObject.FindGameObjectsWithTag("Player").Single(x => x.GetComponent<PhotonView>().isMine);
-		interactables = player.GetComponent<PlayerInteractable>().Collisions;
 		for (int i = 0; i < interactables.Count; i++)
 		{
 			WheelButton newButton = Instantiate(ButtonPrefab) as WheelButton;

@@ -15,4 +15,5 @@ public abstract class Weapon
     public abstract void PlayReloadAnimation();
     public abstract void Reload();
     public abstract void UpdateSupplyUi(GameObject inGameUi);
+    public abstract void Use(int amount = 0);
 }

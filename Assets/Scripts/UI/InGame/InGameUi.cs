@@ -13,15 +13,12 @@ namespace Assets.Scripts.UI.InGame
             HUD.gameObject.SetActive(true);
             SpawnMenu.gameObject.SetActive(true);
             Menu.gameObject.SetActive(false);
-            
         }
 
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
                 Menu.gameObject.SetActive(!Menu.isActiveAndEnabled);
             }
         }

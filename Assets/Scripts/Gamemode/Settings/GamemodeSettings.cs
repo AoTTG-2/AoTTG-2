@@ -33,7 +33,7 @@ namespace Assets.Scripts.Gamemode.Settings
         public float TitanMinimumSize { get; set; } = 0.7f;
 
         [UiElement("Max size", "Maximun titan size", SettingCategory.Titans)]
-        public float TitanMaximumSize { get; set; } = 3f;
+        public float TitanMaximumSize { get; set; } = 3.0f;
 
         [UiElement("Custom Size", "Enable custom titan sizes", SettingCategory.Titans)]
         public bool TitanCustomSize { get; set; } = false;
@@ -122,7 +122,7 @@ namespace Assets.Scripts.Gamemode.Settings
         public float RespawnTime = 5f;
         [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?", SettingCategory.Pvp)]
         public bool AhssAirReload { get; set; } = true;
-        public bool PlayerTitanShifters = true;
+        public bool PlayerShifters = true;
 
         public bool RestartOnTitansKilled = true;
 
@@ -133,14 +133,14 @@ namespace Assets.Scripts.Gamemode.Settings
         //TODO: Be able to change these via UI
         public Dictionary<MindlessTitanType, float> TitanTypeRatio = new Dictionary<MindlessTitanType, float>
         {
-            {MindlessTitanType.Normal, 40f},
-            {MindlessTitanType.Abberant, 20f},
-            {MindlessTitanType.Jumper, 30f},
-            {MindlessTitanType.Punk, 5f},
-            {MindlessTitanType.Crawler, 0f},
+            {MindlessTitanType.Normal, 80f},
+            {MindlessTitanType.Abberant, 40f},
+            {MindlessTitanType.Jumper, 25f},
+            {MindlessTitanType.Punk, 15f},
+            {MindlessTitanType.Crawler, 5f},
             {MindlessTitanType.Burster, 0f},
             {MindlessTitanType.Stalker, 0f},
-            { MindlessTitanType.Abnormal, 0f }
+            { MindlessTitanType.Abnormal, 5f }
         };
 
         public List<MindlessTitanType> DisabledTitans { get; set; } = new List<MindlessTitanType>();
