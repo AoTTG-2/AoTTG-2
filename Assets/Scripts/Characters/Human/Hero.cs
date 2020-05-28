@@ -13,6 +13,8 @@ public class Hero : Human
     [SerializeField] private GameObject ahssGearPrefab;
     [SerializeField] private GameObject bladesGearPrefab;
 
+    private ArmatureData armatureData;
+
     public OdmgEquipment currentEquipment;
     public List<HeroSkill> Skills;
 
@@ -70,14 +72,10 @@ public class Hero : Human
     private float flare2CD;
     private float flare3CD;
     private float flareTotalCD = 30f;
-    private Transform forearmL;
-    private Transform forearmR;
     private float gravity = 20f;
     public bool grounded;
     private GameObject gunDummy;
     private Vector3 gunTarget;
-    private Transform handL;
-    private Transform handR;
     private bool hasDied;
     public bool hasspawn;
     private bool hookBySomeOne = true;
@@ -158,8 +156,6 @@ public class Hero : Human
     public bool titanForm;
     private GameObject titanWhoGrabMe;
     private int titanWhoGrabMeID;
-    private Transform upperarmL;
-    private Transform upperarmR;
     public bool useGun;
     private float uTapTime = -1f;
     private bool wallJump;
@@ -209,15 +205,10 @@ public class Hero : Human
     {
         InGameUI = GameObject.Find("InGameUi");
         this.cache();
+        armatureData = gameObject.GetComponent<ArmatureData>();
         this.setup = base.gameObject.GetComponent<HERO_SETUP>();
         this.baseRigidBody.freezeRotation = true;
         this.baseRigidBody.useGravity = false;
-        this.handL = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L");
-        this.handR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R");
-        this.forearmL = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L");
-        this.forearmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R");
-        this.upperarmL = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
-        this.upperarmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
     }
 
     public void backToHuman()
@@ -418,20 +409,19 @@ public class Hero : Human
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
         }
         this.applyForceToBody(obj2, v);
-        Transform transform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
-        Transform transform2 = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
+
         if (this.useGun)
         {
-            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
-            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform2.position, transform2.rotation);
+            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), armatureData.hand_L.position, armatureData.hand_L.rotation);
+            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), armatureData.hand_R.position, armatureData.hand_R.rotation);
             obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_2"), base.transform.position, base.transform.rotation);
             obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_l"), base.transform.position, base.transform.rotation);
             obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_r"), base.transform.position, base.transform.rotation);
         }
         else
         {
-            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
+            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), armatureData.hand_L.position, armatureData.hand_L.rotation);
+            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), armatureData.hand_R.position, armatureData.hand_R.rotation);
             obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg"), base.transform.position, base.transform.rotation);
             obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_l"), base.transform.position, base.transform.rotation);
             obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_r"), base.transform.position, base.transform.rotation);
@@ -959,7 +949,7 @@ public class Hero : Human
         this.eren_titan.GetComponent<TITAN_EREN>().born();
         this.eren_titan.GetComponent<Rigidbody>().velocity = base.GetComponent<Rigidbody>().velocity;
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        base.transform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
+        base.transform.position = armatureData.neck.position;
         this.titanForm = true;
         if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
         {
@@ -1896,20 +1886,18 @@ public class Hero : Human
 
     private void headMovement()
     {
-        Transform transform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
-        Transform transform2 = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
         float x = Mathf.Sqrt(((this.gunTarget.x - base.transform.position.x) * (this.gunTarget.x - base.transform.position.x)) + ((this.gunTarget.z - base.transform.position.z) * (this.gunTarget.z - base.transform.position.z)));
-        this.targetHeadRotation = transform.rotation;
+        this.targetHeadRotation = armatureData.head.rotation;
         Vector3 vector5 = this.gunTarget - base.transform.position;
         float current = -Mathf.Atan2(vector5.z, vector5.x) * 57.29578f;
         float num3 = -Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f);
         num3 = Mathf.Clamp(num3, -40f, 40f);
-        float y = transform2.position.y - this.gunTarget.y;
+        float y = armatureData.neck.position.y - this.gunTarget.y;
         float num5 = Mathf.Atan2(y, x) * 57.29578f;
         num5 = Mathf.Clamp(num5, -40f, 30f);
-        this.targetHeadRotation = Quaternion.Euler(transform.rotation.eulerAngles.x + num5, transform.rotation.eulerAngles.y + num3, transform.rotation.eulerAngles.z);
+        this.targetHeadRotation = Quaternion.Euler(armatureData.head.rotation.eulerAngles.x + num5, armatureData.head.rotation.eulerAngles.y + num3, transform.rotation.eulerAngles.z);
         this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, Time.deltaTime * 60f);
-        transform.rotation = this.oldHeadRotation;
+        armatureData.head.rotation = this.oldHeadRotation;
     }
 
     public void hookedByHuman(int hooker, Vector3 hookPosition)
@@ -2095,8 +2083,8 @@ public class Hero : Human
                 }
                 else if (!this.grounded)
                 {
-                    this.handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
-                    this.handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+                    armatureData.hand_L.localRotation = Quaternion.Euler(90f, 0f, 0f);
+                    armatureData.hand_R.localRotation = Quaternion.Euler(-90f, 0f, 0f);
                 }
                 if (this.isLeftHandHooked && (this.bulletLeft != null))
                 {
@@ -2289,13 +2277,13 @@ public class Hero : Human
 
     private void leftArmAimTo(Vector3 target)
     {
-        float y = target.x - this.upperarmL.transform.position.x;
-        float num2 = target.y - this.upperarmL.transform.position.y;
-        float x = target.z - this.upperarmL.transform.position.z;
+        float y = target.x - armatureData.upper_arm_L.transform.position.x;
+        float num2 = target.y - armatureData.upper_arm_L.transform.position.y;
+        float x = target.z - armatureData.upper_arm_L.transform.position.z;
         float num4 = Mathf.Sqrt((y * y) + (x * x));
-        this.handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        this.forearmL.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-        this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * 57.29578f), -Mathf.Atan2(num2, num4) * 57.29578f);
+        armatureData.hand_L.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        armatureData.forearm_L.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+        armatureData.upper_arm_L.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * 57.29578f), -Mathf.Atan2(num2, num4) * 57.29578f);
     }
 
     public void loadskin()
@@ -3629,13 +3617,13 @@ public class Hero : Human
 
     private void rightArmAimTo(Vector3 target)
     {
-        float y = target.x - this.upperarmR.transform.position.x;
-        float num2 = target.y - this.upperarmR.transform.position.y;
-        float x = target.z - this.upperarmR.transform.position.z;
+        float y = target.x - armatureData.upper_arm_R.transform.position.x;
+        float num2 = target.y - armatureData.upper_arm_R.transform.position.y;
+        float x = target.z - armatureData.upper_arm_R.transform.position.z;
         float num4 = Mathf.Sqrt((y * y) + (x * x));
-        this.handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-        this.forearmR.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        this.upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * 57.29578f), Mathf.Atan2(num2, num4) * 57.29578f);
+        armatureData.hand_R.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+        armatureData.forearm_R.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        armatureData.upper_arm_R.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * 57.29578f), Mathf.Atan2(num2, num4) * 57.29578f);
     }
 
     [PunRPC]
@@ -4470,7 +4458,7 @@ public class Hero : Human
             {
                 if (this.titanForm && (this.eren_titan != null))
                 {
-                    this.baseTransform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
+                    this.baseTransform.position = armatureData.neck.position;
                     base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
                 }
                 else if (this.isCannon && (this.myCannon != null))

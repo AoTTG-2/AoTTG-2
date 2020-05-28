@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4733713986576818}
   - component: {fileID: 111431264470073604}
+  - component: {fileID: 114013942294837768}
   - component: {fileID: 114588469607938866}
   - component: {fileID: 54612475557216614}
   - component: {fileID: 136433170677078478}
@@ -2360,6 +2361,38 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &114013942294837768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132127204168986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96bf5ed17ae1eb42b5e07dcf2a60b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armatureObject: {fileID: 1362186585052756}
+  Controller_Body: {fileID: 4940147482765894}
+  hip: {fileID: 4448260298120124}
+  spine: {fileID: 4856810421274912}
+  chest: {fileID: 4312685744701326}
+  neck: {fileID: 4554925963483576}
+  head: {fileID: 4441860862766412}
+  shoulder_L: {fileID: 4321281686097630}
+  upper_arm_L: {fileID: 4374836607684518}
+  forearm_L: {fileID: 4212478277173404}
+  hand_L: {fileID: 4063729587741556}
+  shoulder_R: {fileID: 4998198938706742}
+  upper_arm_R: {fileID: 4114000927712324}
+  forearm_R: {fileID: 4203851837561024}
+  hand_R: {fileID: 4119245420384268}
+  thigh_L: {fileID: 4786097009192138}
+  shin_L: {fileID: 4293295079547318}
+  foot_L: {fileID: 4864637534926194}
+  thigh_R: {fileID: 4693652205949302}
+  shin_R: {fileID: 4387152900433102}
+  foot_R: {fileID: 4143825751915666}
 --- !u!114 &114287797590336356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2530,7 +2563,9 @@ MonoBehaviour:
   currentCamera: {fileID: 0}
   currentSpeed: 0
   currentV: {x: 0, y: 0, z: 0}
+  dashV: {x: 0, y: 0, z: 0}
   detonate: 0
+  facingDirection: 0
   grounded: 0
   hasspawn: 0
   hookRefL1: {fileID: 1145659782886280}
@@ -2539,13 +2574,13 @@ MonoBehaviour:
   hookRefR2: {fileID: 1876948360171630}
   inputManager: {fileID: 0}
   isCannon: 0
+  isMounted: 0
   isPhotonCamera: 0
   jumpHeight: 2
   LabelDistance: {fileID: 0}
   lastHook: {fileID: 0}
   leftbladetrail: {fileID: 0}
   leftbladetrail2: {fileID: 0}
-  leftGunHasBullet: 1
   maincamera: {fileID: 0}
   maxVelocityChange: 10
   meatDie: {fileID: 82385810793831916}
@@ -2559,10 +2594,10 @@ MonoBehaviour:
   myScale: 1
   myTeam: 1
   myTitans: []
+  originVM: 0
   reloadAnimation: 
   rightbladetrail: {fileID: 0}
   rightbladetrail2: {fileID: 0}
-  rightGunHasBullet: 1
   rope: {fileID: 82693287769379562}
   setup: {fileID: 0}
   skillCDDuration: 0
@@ -2575,6 +2610,7 @@ MonoBehaviour:
   speedFX: {fileID: 0}
   speedFX1: {fileID: 0}
   spinning: 0
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
   targetV: {x: 0, y: 0, z: 0}
   throwedBlades: 0
   titanForm: 0
@@ -3361,7 +3397,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1887187488
+  randomSeed: 1691082917
   InitialModule:
     serializedVersion: 3
     enabled: 1
