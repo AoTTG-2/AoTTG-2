@@ -113,4 +113,9 @@ public class Ahss : Weapon
         var bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.AHSS>();
         bladesUi.SetAHSS(AmountLeft, AmountRight);
     }
+
+    public override void Use(int amount = 0)
+    {
+
+    }
 }

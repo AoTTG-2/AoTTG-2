@@ -5,6 +5,7 @@
         public RushSettings()
         {
             GamemodeType = GamemodeType.TitanRush;
+            Titans = 2;
         }
     }
 }

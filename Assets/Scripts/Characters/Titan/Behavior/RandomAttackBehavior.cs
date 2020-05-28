@@ -13,7 +13,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 if (Random.Range(0, 100f) > 98.5f)
                 {
                     Titan.ChangeState(MindlessTitanState.Attacking);
-                    Titan.CurrentAttack = Titan.Attacks[Random.Range(0, Titan.Attacks.Count)];
+                    Titan.CurrentAttack = Titan.Attacks[Random.Range(0, Titan.Attacks.Length)];
                     return true;
                 }
             }
