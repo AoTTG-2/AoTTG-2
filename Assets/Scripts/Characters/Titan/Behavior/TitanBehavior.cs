@@ -31,6 +31,8 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                     break;
                 case MindlessTitanState.Disabled:
                     break;
+                case MindlessTitanState.Hit:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -60,6 +62,8 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                     break;
                 case MindlessTitanState.Disabled:
                     break;
+                case MindlessTitanState.Hit:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -87,6 +91,8 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 case MindlessTitanState.Eat:
                     break;
                 case MindlessTitanState.Disabled:
+                    break;
+                case MindlessTitanState.Hit:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

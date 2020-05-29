@@ -24,14 +24,13 @@ public class CannonBall : Photon.MonoBehaviour
     private int baseMask;
     private int groundMask;
 
-    public static CannonBall Create(
-        Vector3 position,
-        Quaternion rotation,
-        Vector3 velocity,
-        Cannon cannon,
+    public static CannonBall Create(Vector3 position, Quaternion rotation, Vector3 velocity, Cannon cannon,
         int heroViewId)
     {
-        var instance = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/CannonBallObject", position, rotation, 0).GetComponent<CannonBall>();
+        var instance = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/CannonBallObject",
+            position,
+            rotation,
+            0).GetComponent<CannonBall>();
         instance.GetComponent<Rigidbody>().velocity = velocity;
         instance.cannon = cannon;
         instance.heroViewId = heroViewId;
@@ -169,22 +168,7 @@ public class CannonBall : Photon.MonoBehaviour
                     MindlessTitan titan = currentGobj.transform.root.GetComponent<MindlessTitan>();
                     if (titan != null)
                     {
-                        if (currentGobj.name == "head")
-                        {
-                            titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { heroViewId });
-
-                            if (titan.Type == MindlessTitanType.Crawler)
-                                Debug.Log($"titan.dieBlow({transform.position}, 0.2f)");
-                            else
-                                Debug.Log($"titan.dieHeadBlow({transform.position}, 0.2f)");
-
-                            i = hitColliders.Length;
-                        }
-                        else if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
-                            Debug.Log($"titan.hitL({transform.position}, 0.05f)");
-                        else
-                            Debug.Log($"titan.hitR({transform.position}, 0.05f)");
-
+                        titan.photonView.RPC("OnCannonHitRpc", titan.photonView.owner, heroViewId, currentGobj.name);
                         SelfDestruct();
                     }
                 }

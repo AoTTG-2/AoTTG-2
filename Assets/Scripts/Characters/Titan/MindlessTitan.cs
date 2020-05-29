@@ -432,6 +432,46 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
+        public void OnCannonHitRpc(int viewId, string bodyPart)
+        {
+            if (!IsAlive) return;
+            var attacker = PhotonView.Find(viewId).gameObject.GetComponent<Hero>();
+            if (attacker == null)
+            {
+                Debug.LogWarning("Attacker is null");
+                return;
+            }
+
+            var isCrawler = Type == MindlessTitanType.Crawler;
+            if (bodyPart == "head")
+            {
+                var damage = 0;
+                FengGameManagerMKII.instance.titanGetKill(attacker.photonView.owner, damage, base.name);
+                OnTitanDeath();
+                photonView.RPC("OnKilledByCannon", PhotonTargets.All, attacker.transform.position, isCrawler);
+            }
+            else if (Random.Range(0f, 1f) < 0.5f)
+            {
+                OnCannonBodyHit("hit_eren_L", attacker, isCrawler);
+            }
+            else
+            {
+                OnCannonBodyHit("hit_eren_R", attacker, isCrawler);
+            }
+        }
+
+        private void OnCannonBodyHit(string animation, Hero attacker, bool isCrawler)
+        {
+            Target = attacker;
+            CurrentAnimation = animation;
+
+            if (isCrawler) return;
+            ChangeState(MindlessTitanState.Hit);
+            ReleaseGrabbedTarget();
+            transform.rotation = Quaternion.Euler(0f, Quaternion.LookRotation(attacker.transform.position - transform.position).eulerAngles.y, 0f);
+        }
+
+        [PunRPC]
         public void OnEyeHitRpc(int viewId, int damage)
         {
             if (!photonView.isMine) return;
@@ -441,6 +481,68 @@ namespace Assets.Scripts.Characters.Titan
             {
                 ChangeState(MindlessTitanState.Disabled);
             }
+        }
+
+        [PunRPC]
+        private void OnKilledByCannon(Vector3 attacker, bool isCrawler)
+        {
+            if (photonView.isMine)
+            {
+                if (isCrawler)
+                {
+                    KillByKnockBack(attacker);
+                }
+                else
+                {
+                    KillByHeadExploded(attacker);
+                }
+            }
+        }
+
+        private void KillByHeadExploded(Vector3 attacker)
+        {
+            GameObject obj2;
+            AnimationDeath = "die_headOff";
+            ChangeState(MindlessTitanState.Dead);
+            //TODO: Issue 98 Sounds
+            //this.playSound("snd_titan_head_blow");
+            base.transform.rotation = Quaternion.Euler(0f, Quaternion.LookRotation(attacker - base.transform.position).eulerAngles.y, 0f);
+            if (photonView.isMine)
+            {
+                obj2 = PhotonNetwork.Instantiate("bloodExplore", TitanBody.Head.position + ((Vector3)((Vector3.up * 1f) * Size)), Quaternion.Euler(270f, 0f, 0f), 0);
+            }
+            else
+            {
+                obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("bloodExplore"), TitanBody.Head.position + ((Vector3)((Vector3.up * 1f) * Size)), Quaternion.Euler(270f, 0f, 0f));
+            }
+            obj2.transform.localScale = base.transform.localScale;
+            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+            {
+                obj2 = PhotonNetwork.Instantiate("bloodsplatter", TitanBody.Head.position, Quaternion.Euler(270f + TitanBody.Neck.rotation.eulerAngles.x, TitanBody.Neck.rotation.eulerAngles.y, TitanBody.Neck.rotation.eulerAngles.z), 0);
+            }
+            else
+            {
+                obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("bloodsplatter"), TitanBody.Head.position, Quaternion.Euler(270f + TitanBody.Neck.rotation.eulerAngles.x, TitanBody.Neck.rotation.eulerAngles.y, TitanBody.Neck.rotation.eulerAngles.z));
+            }
+            obj2.transform.localScale = base.transform.localScale;
+            obj2.transform.parent = TitanBody.Neck;
+            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+            {
+                obj2 = PhotonNetwork.Instantiate("FX/justSmoke", TitanBody.Neck.position, Quaternion.Euler(270f, 0f, 0f), 0);
+            }
+            else
+            {
+                obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/justSmoke"), TitanBody.Neck.position, Quaternion.Euler(270f, 0f, 0f));
+            }
+
+            obj2.transform.parent = TitanBody.Neck;
+        }
+
+        private void KillByKnockBack(Vector3 attacker)
+        {
+            transform.rotation = Quaternion.Euler(0f, Quaternion.LookRotation(attacker - transform.position).eulerAngles.y, 0f);
+            ChangeState(MindlessTitanState.Dead);
+            AnimationDeath = "die_blow";
         }
 
         [PunRPC]
@@ -760,6 +862,9 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 case MindlessTitanState.Dead:
                     break;
+                case MindlessTitanState.Hit:
+                    OnHit();
+                    break;
                 case MindlessTitanState.Wandering:
                     OnWandering();
                     break;
@@ -909,6 +1014,15 @@ namespace Assets.Scripts.Characters.Titan
             if (Animation[CurrentAnimation].normalizedTime > 1f)
             {
                 ChangeState(PreviousState);
+            }
+        }
+
+        protected void OnHit()
+        {
+            CrossFade(CurrentAnimation, 0f);
+            if (Animation[CurrentAnimation].normalizedTime > 1f)
+            {
+                ChangeState(MindlessTitanState.Chase);
             }
         }
 

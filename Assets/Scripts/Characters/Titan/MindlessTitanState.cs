@@ -10,6 +10,7 @@
         Attacking,
         Recovering,
         Eat,
-        Disabled
+        Disabled,
+        Hit
     }
 }
