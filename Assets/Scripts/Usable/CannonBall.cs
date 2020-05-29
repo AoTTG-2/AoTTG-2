@@ -152,7 +152,6 @@ public class CannonBall : Photon.MonoBehaviour
             {
                 GameObject currentGobj = hitColliders[i].gameObject;
                 bool isGroundLayer = currentGobj.layer == 9;
-                bool isEnemyBoxLayer = currentGobj.layer == 10;
                 bool isPlayerAttackBoxLayer = currentGobj.layer == 16;
                 if (isPlayerAttackBoxLayer)
                 {
@@ -161,15 +160,6 @@ public class CannonBall : Photon.MonoBehaviour
                     {
                         titanTrigger.SetCollision(true);
                         myTitanTriggers.Add(titanTrigger);
-                    }
-                }
-                else if (isEnemyBoxLayer)
-                {
-                    MindlessTitan titan = currentGobj.transform.root.GetComponent<MindlessTitan>();
-                    if (titan != null)
-                    {
-                        titan.photonView.RPC("OnCannonHitRpc", titan.photonView.owner, heroViewId, currentGobj.name);
-                        SelfDestruct();
                     }
                 }
                 else if (isGroundLayer && currentGobj.GetComponentInParent<Cannon>() == this.cannon)
@@ -183,9 +173,23 @@ public class CannonBall : Photon.MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision myCollision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (photonView.isMine)
+        if (!photonView.isMine)
+            return;
+
+        Collider collider = collision.collider;
+        bool isEnemyBoxLayer = collider.gameObject.layer == 10;
+        if (isEnemyBoxLayer)
+        {
+            MindlessTitan titan = collision.gameObject.GetComponent<MindlessTitan>();
+            if (titan != null)
+            {
+                titan.photonView.RPC("OnCannonHitRpc", titan.photonView.owner, heroViewId, collider.name);
+                SelfDestruct();
+            }
+        }
+        else
             SelfDestruct();
     }
 }

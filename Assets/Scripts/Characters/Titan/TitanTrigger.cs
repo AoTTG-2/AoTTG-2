@@ -32,8 +32,8 @@ public class TitanTrigger : MonoBehaviour
                 }
                 else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    GameObject obj3 = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object;
-                    if ((obj3 != null) && (obj3 == gameObject))
+                    GameObject mainCameraObject = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object;
+                    if (mainCameraObject != null && mainCameraObject == gameObject)
                     {
                         Titan.IsColliding = true;
                     }

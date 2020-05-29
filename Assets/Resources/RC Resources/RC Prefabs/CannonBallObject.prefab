@@ -181,12 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa8f7c3dc95ff04ea4ea5d8bbc9a037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disabled: 0
-  firingPoint: {fileID: 0}
-  isCollider: 0
-  myHero: {fileID: 0}
-  myTitanTriggers: []
-  SmoothingDelay: 10
+  smoothingDelay: 10
 --- !u!135 &135763420631123058
 SphereCollider:
   m_ObjectHideFlags: 1
