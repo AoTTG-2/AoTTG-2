@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Xft;
 
 public class HERO_SETUP : MonoBehaviour
 {
+    private ArmatureData armatureData;
+
     public string aniname;
     public float anitime;
-    private List<BoneWeight> boneWeightsList = new List<BoneWeight>();
     public bool change;
     public GameObject chest_info;
-    private byte[] config = new byte[4];
     public int currentOne;
     public SkinnedMeshRenderer[][] elements;
     public bool isDeadBody;
-    private List<Material> materialList;
     private GameObject mount_3dmg;
     private GameObject mount_3dmg_gas_l;
     private GameObject mount_3dmg_gas_r;
@@ -58,7 +54,9 @@ public class HERO_SETUP : MonoBehaviour
 
     private void Awake()
     {
-        this.part_head.transform.parent = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
+        armatureData = gameObject.GetComponent<ArmatureData>();
+
+        this.part_head.transform.parent = armatureData.head.transform;
         this.mount_3dmg = new GameObject();
         this.mount_3dmg_gas_l = new GameObject();
         this.mount_3dmg_gas_r = new GameObject();
@@ -68,25 +66,25 @@ public class HERO_SETUP : MonoBehaviour
         this.mount_weapon_r = new GameObject();
         this.mount_3dmg.transform.position = base.transform.position;
         this.mount_3dmg.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest").transform;
+        this.mount_3dmg.transform.parent = armatureData.chest.transform;
         this.mount_3dmg_gas_l.transform.position = base.transform.position;
         this.mount_3dmg_gas_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gas_l.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine").transform;
+        this.mount_3dmg_gas_l.transform.parent = armatureData.spine.transform;
         this.mount_3dmg_gas_r.transform.position = base.transform.position;
         this.mount_3dmg_gas_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gas_r.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine").transform;
+        this.mount_3dmg_gas_r.transform.parent = armatureData.spine.transform;
         this.mount_3dmg_gun_mag_l.transform.position = base.transform.position;
         this.mount_3dmg_gun_mag_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gun_mag_l.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/thigh_L").transform;
+        this.mount_3dmg_gun_mag_l.transform.parent = armatureData.thigh_L.transform;
         this.mount_3dmg_gun_mag_r.transform.position = base.transform.position;
         this.mount_3dmg_gun_mag_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gun_mag_r.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/thigh_R").transform;
+        this.mount_3dmg_gun_mag_r.transform.parent = armatureData.thigh_R.transform;
         this.mount_weapon_l.transform.position = base.transform.position;
         this.mount_weapon_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_weapon_l.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
+        this.mount_weapon_l.transform.parent = armatureData.hand_L.transform;
         this.mount_weapon_r.transform.position = base.transform.position;
         this.mount_weapon_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_weapon_r.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
+        this.mount_weapon_r.transform.parent = armatureData.hand_R.transform;
         reference = this.transform.gameObject;
     }
 
@@ -200,7 +198,7 @@ public class HERO_SETUP : MonoBehaviour
         this.part_face = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/character_face"));
         this.part_face.transform.position = this.part_head.transform.position;
         this.part_face.transform.rotation = this.part_head.transform.rotation;
-        this.part_face.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
+        this.part_face.transform.parent = armatureData.head.transform;
     }
 
     public void createGlass()
@@ -208,7 +206,7 @@ public class HERO_SETUP : MonoBehaviour
         this.part_glass = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/glass"));
         this.part_glass.transform.position = this.part_head.transform.position;
         this.part_glass.transform.rotation = this.part_head.transform.rotation;
-        this.part_glass.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
+        this.part_glass.transform.parent = armatureData.head.transform;
     }
 
     public void createHair2()
@@ -223,7 +221,7 @@ public class HERO_SETUP : MonoBehaviour
             this.part_hair = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.hair_mesh));
             this.part_hair.transform.position = this.part_head.transform.position;
             this.part_hair.transform.rotation = this.part_head.transform.rotation;
-            this.part_hair.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
+            this.part_hair.transform.parent = armatureData.head.transform;
             this.part_hair.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.hairInfo.texture];
             this.part_hair.GetComponent<Renderer>().material.color = this.myCostume.hair_color;
         }
@@ -251,7 +249,7 @@ public class HERO_SETUP : MonoBehaviour
             this.part_eye = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.eye_mesh));
             this.part_eye.transform.position = this.part_head.transform.position;
             this.part_eye.transform.rotation = this.part_head.transform.rotation;
-            this.part_eye.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
+            this.part_eye.transform.parent = armatureData.head.transform;
             this.setFacialTexture(this.part_eye, this.myCostume.eye_texture_id);
         }
         if (this.myCostume.beard_texture_id >= 0)
@@ -324,7 +322,7 @@ public class HERO_SETUP : MonoBehaviour
             this.part_chest_1 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.part_chest_object_mesh));
             this.part_chest_1.transform.position = this.chest_info.transform.position;
             this.part_chest_1.transform.rotation = this.chest_info.transform.rotation;
-            this.part_chest_1.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest").transform;
+            this.part_chest_1.transform.parent = armatureData.chest.transform;
             this.part_chest_1.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.part_chest_object_texture];
         }
         if (this.myCostume.part_chest_1_object_mesh.Length > 0)
@@ -332,8 +330,8 @@ public class HERO_SETUP : MonoBehaviour
             this.part_chest_2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.part_chest_1_object_mesh));
             this.part_chest_2.transform.position = this.chest_info.transform.position;
             this.part_chest_2.transform.rotation = this.chest_info.transform.rotation;
-            this.part_chest_2.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest").transform;
-            this.part_chest_2.transform.parent = base.transform.Find("Amarture/Controller_Body/hip/spine/chest").transform;
+            this.part_chest_2.transform.parent = armatureData.chest.transform;
+            this.part_chest_2.transform.parent = armatureData.chest.transform;
             this.part_chest_2.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.part_chest_1_object_texture];
         }
         if ((this.myCostume.part_chest_skinned_cloth_mesh.Length > 0) && !this.isDeadBody)
