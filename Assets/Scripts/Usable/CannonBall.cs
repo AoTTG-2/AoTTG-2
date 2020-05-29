@@ -15,14 +15,25 @@ public class CannonBall : Photon.MonoBehaviour
     private Cannon cannon;
     private int heroViewId;
 
-    private bool isCollider;
     private bool disabled;
 
-    private Vector3 correctPos;
-    private Vector3 correctVelocity;
+    private Vector3 correctPos, correctVelocity;
 
-    private int baseMask;
-    private int groundMask;
+    private int
+        playerAttackBoxLayer,
+        groundLayer,
+        baseMask,
+        groundMask;
+
+    private Rigidbody rb;
+
+    private Collider coll;
+
+    private bool IsCollider
+    {
+        get { return coll.enabled; }
+        set { coll.enabled = value; }
+    }
 
     public static CannonBall Create(Vector3 position, Quaternion rotation, Vector3 velocity, Cannon cannon,
         int heroViewId)
@@ -31,7 +42,8 @@ public class CannonBall : Photon.MonoBehaviour
             position,
             rotation,
             0).GetComponent<CannonBall>();
-        instance.GetComponent<Rigidbody>().velocity = velocity;
+        instance.rb = instance.GetComponent<Rigidbody>();
+        instance.rb.velocity = velocity;
         instance.cannon = cannon;
         instance.heroViewId = heroViewId;
         return instance;
@@ -55,15 +67,19 @@ public class CannonBall : Photon.MonoBehaviour
     {
         myTitanTriggers = new List<TitanTrigger>();
 
-        baseMask = 1 << LayerMask.NameToLayer("PlayerAttackBox") | 1 << LayerMask.NameToLayer("EnemyBox");
-        groundMask = 1 << LayerMask.NameToLayer("Ground");
+        playerAttackBoxLayer = LayerMask.NameToLayer("PlayerAttackBox");
+        groundLayer = LayerMask.NameToLayer("Ground");
+
+        baseMask = 1 << playerAttackBoxLayer | 1 << LayerMask.NameToLayer("EnemyBox");
+        groundMask = 1 << groundLayer;
 
         photonView.observed = this;
 
         correctPos = transform.position;
         correctVelocity = Vector3.zero;
 
-        GetComponent<SphereCollider>().enabled = false;
+        coll = GetComponent<SphereCollider>();
+        coll.enabled = false;
 
         if (photonView.isMine)
             StartCoroutine(WaitAndSelfDestruct(10f));
@@ -137,7 +153,7 @@ public class CannonBall : Photon.MonoBehaviour
         if (!photonView.isMine)
         {
             transform.position = Vector3.Lerp(transform.position, correctPos, Time.deltaTime * smoothingDelay);
-            GetComponent<Rigidbody>().velocity = correctVelocity;
+            rb.velocity = correctVelocity;
         }
     }
 
@@ -145,15 +161,13 @@ public class CannonBall : Photon.MonoBehaviour
     {
         if (photonView.isMine && !disabled)
         {
-            int mask = isCollider ? baseMask : (baseMask | groundMask);
+            int mask = IsCollider ? baseMask : (baseMask | groundMask);
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.6f, mask);
             bool hitSelf = false;
             for (int i = 0; i < hitColliders.Length; i++)
             {
                 GameObject currentGobj = hitColliders[i].gameObject;
-                bool isGroundLayer = currentGobj.layer == 9;
-                bool isPlayerAttackBoxLayer = currentGobj.layer == 16;
-                if (isPlayerAttackBoxLayer)
+                if (currentGobj.layer == playerAttackBoxLayer)
                 {
                     TitanTrigger titanTrigger = currentGobj.GetComponent<TitanTrigger>();
                     if (!myTitanTriggers.Contains(titanTrigger))
@@ -162,14 +176,12 @@ public class CannonBall : Photon.MonoBehaviour
                         myTitanTriggers.Add(titanTrigger);
                     }
                 }
-                else if (isGroundLayer && currentGobj.GetComponentInParent<Cannon>() == this.cannon)
-                    hitSelf = true;
+                else if (currentGobj.layer == groundLayer && currentGobj.GetComponentInParent<Cannon>() == this.cannon)
+                    hitSelf = true; // We're assuming Cannon is groundLayer to avoid calling GetComponent.
             }
-            if (!(isCollider || hitSelf))
-            {
-                isCollider = true;
-                GetComponent<SphereCollider>().enabled = true;
-            }
+
+            if (!(IsCollider || hitSelf))
+                IsCollider = true;
         }
     }
 
