@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ExitGames.Client.Photon;
+using System;
 using System.Collections.Generic;
-using ExitGames.Client.Photon;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +9,7 @@ namespace Assets.Scripts.UI.InGame
     public class SpawnMenu : MonoBehaviour
     {
         public Dropdown EquipmentDropdown;
+        public GameObject PlayerTitanButton;
 
         private void Start()
         {
@@ -18,6 +19,11 @@ namespace Assets.Scripts.UI.InGame
                 EquipmentDropdown.options.Add(new Dropdown.OptionData(equipment));
             }
             EquipmentDropdown.captionText.text = EquipmentDropdown.options[0].text;
+
+            if (!FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled)
+            {
+                PlayerTitanButton.SetActive(false);
+            }
         }
 
         public void Spawn()
@@ -33,16 +39,14 @@ namespace Assets.Scripts.UI.InGame
                 else
                 {
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("restartGameByClient", PhotonTargets.MasterClient, new object[0]);
                 }
             }
-            else if (((FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.GamemodeType == GamemodeType.Capture)
+            else if (((FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Capture)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())
                 {
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("restartGameByClient", PhotonTargets.MasterClient, new object[0]);
                 }
             }
             else
@@ -55,6 +59,13 @@ namespace Assets.Scripts.UI.InGame
             hashtable.Add(PhotonPlayerProperty.character, selection);
             Hashtable propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            gameObject.SetActive(false);
+        }
+
+        public void SpawnPlayerTitan()
+        {
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
+            FengGameManagerMKII.instance.SpawnPlayerTitan();
             gameObject.SetActive(false);
         }
 

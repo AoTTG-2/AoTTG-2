@@ -1,26 +1,35 @@
-﻿using Assets.Scripts.Gamemode.Options;
+﻿using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
-        public EndlessGamemode()
-        {
-            GamemodeType = GamemodeType.Endless;
-            RespawnMode = RespawnMode.NEVER;
-            Pvp = PvpMode.Disabled;
-            Titans = 10;
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private EndlessSettings GamemodeSettings => Settings as EndlessSettings;
+
+        private int Score { get; set; }
 
         public override void OnTitanKilled(string titanName)
         {
-            HumanScore++;
-            int num2 = 90;
-            if (FengGameManagerMKII.instance.difficulty == 1)
-            {
-                num2 = 70;
-            }
-            FengGameManagerMKII.instance.spawnTitanCustom("titanRespawn", num2, 1, false);
+            Score++;
+            FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
+        }
+
+        public override void OnRestart()
+        {
+            Score = 0;
+            base.OnRestart();
+        }
+
+        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+        {
+            return $"Titans Killed: {Score} Time : {time}";
+        }
+
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        {
+            if (!isMasterClient) return;
+            SpawnTitans(Settings.Titans);
         }
     }
 }

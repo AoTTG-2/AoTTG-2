@@ -16,7 +16,7 @@ public class LevelTriggerHint : MonoBehaviour
 
     private void Start()
     {
-        if (!FengGameManagerMKII.Gamemode.Hint)
+        if (!FengGameManagerMKII.Gamemode.Settings.Hint)
         {
             base.enabled = false;
         }

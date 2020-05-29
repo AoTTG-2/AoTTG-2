@@ -1,10 +1,6 @@
-using Photon;
+using Assets.Scripts.Characters.Titan;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class TITAN_EREN : Photon.MonoBehaviour
@@ -524,9 +520,10 @@ public class TITAN_EREN : Photon.MonoBehaviour
     {
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
         {
-            if ((Vector3.Distance(obj2.transform.position, base.transform.position) < distance) && (obj2.GetComponent<TITAN>() != null))
+            if ((Vector3.Distance(obj2.transform.position, base.transform.position) < distance) && (obj2.GetComponent<MindlessTitan>() != null))
             {
-                obj2.GetComponent<TITAN>().beTauntedBy(base.gameObject, tauntTime);
+                throw new NotImplementedException("Mindless Titans should be taunted by Eren Titan");
+                //obj2.GetComponent<TITAN>().beTauntedBy(base.gameObject, tauntTime);
             }
             if (obj2.GetComponent<FEMALE_TITAN>() != null)
             {
@@ -701,9 +698,10 @@ public class TITAN_EREN : Photon.MonoBehaviour
                                     {
                                         if (obj3.transform.parent.gameObject == obj2)
                                         {
-                                            GameObject obj4 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(70, obj3.transform.position, obj3.transform.rotation, false);
-                                            obj4.GetComponent<TITAN>().isAlarm = true;
-                                            obj4.GetComponent<TITAN>().chaseDistance = 999999f;
+                                            throw new NotImplementedException("Eren titan requires punk disabling and titans to automatically start chasing");
+                                            var obj4 = FengGameManagerMKII.instance.SpawnTitan(obj3.transform.position, obj3.transform.rotation);
+                                            //obj4.GetComponent<MindlessTitan>().isAlarm = true;
+                                            //obj4.GetComponent<MindlessTitan>().chaseDistance = 999999f;
                                         }
                                     }
                                 }
@@ -735,9 +733,10 @@ public class TITAN_EREN : Photon.MonoBehaviour
                             y = hit.point.y;
                         }
                         position += (Vector3) (Vector3.up * y);
-                        GameObject obj5 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(70, position, base.transform.rotation, false);
-                        obj5.GetComponent<TITAN>().isAlarm = true;
-                        obj5.GetComponent<TITAN>().chaseDistance = 999999f;
+                        throw new NotImplementedException("Eren titan requires punk disabling and titans to automatically start chasing");
+                        //GameObject obj5 = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().spawnTitan(70, position, base.transform.rotation, false);
+                        //obj5.GetComponent<TITAN>().isAlarm = true;
+                        //obj5.GetComponent<TITAN>().chaseDistance = 999999f;
                     }
                     Vector3 vector10 = (Vector3) (base.transform.forward * 6f);
                     Vector3 vector11 = base.GetComponent<Rigidbody>().velocity;
@@ -1099,67 +1098,68 @@ public class TITAN_EREN : Photon.MonoBehaviour
                                 Collider[] colliderArray = Physics.OverlapSphere(this.attackBox.transform.position, 8f);
                                 for (int i = 0; i < colliderArray.Length; i++)
                                 {
-                                    if (colliderArray[i].gameObject.transform.root.GetComponent<TITAN>() == null)
-                                    {
-                                        continue;
-                                    }
-                                    bool flag2 = false;
-                                    for (int j = 0; j < this.hitTargets.Count; j++)
-                                    {
-                                        if (colliderArray[i].gameObject.transform.root == (Transform)this.hitTargets[j])
-                                        {
-                                            flag2 = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!flag2 && !colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hasDie)
-                                    {
-                                        base.GetComponent<Animation>()[this.attackAnimation].speed = 0f;
-                                        if (this.attackAnimation == "attack_combo_002")
-                                        {
-                                            this.hitPause = 0.05f;
-                                            colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hitL(base.transform.position, this.hitPause);
-                                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(1f, 0.03f, 0.95f);
-                                        }
-                                        else if (this.attackAnimation == "attack_combo_001")
-                                        {
-                                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(1.2f, 0.04f, 0.95f);
-                                            this.hitPause = 0.08f;
-                                            colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hitR(base.transform.position, this.hitPause);
-                                        }
-                                        else if (this.attackAnimation == "attack_combo_003")
-                                        {
-                                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(3f, 0.1f, 0.95f);
-                                            this.hitPause = 0.3f;
-                                            colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().dieHeadBlow(base.transform.position, this.hitPause);
-                                        }
-                                        else if (this.attackAnimation == "attack_kick")
-                                        {
-                                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(3f, 0.1f, 0.95f);
-                                            this.hitPause = 0.2f;
-                                            if (colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().TitanType == TitanType.TYPE_CRAWLER)
-                                            {
-                                                colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().dieBlow(base.transform.position, this.hitPause);
-                                            }
-                                            else if (colliderArray[i].gameObject.transform.root.transform.localScale.x < 2f)
-                                            {
-                                                colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().dieBlow(base.transform.position, this.hitPause);
-                                            }
-                                            else
-                                            {
-                                                colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hitR(base.transform.position, this.hitPause);
-                                            }
-                                        }
-                                        this.hitTargets.Add(colliderArray[i].gameObject.transform.root);
-                                        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-                                        {
-                                            PhotonNetwork.Instantiate("hitMeatBIG", (Vector3)((colliderArray[i].transform.position + this.attackBox.position) * 0.5f), Quaternion.Euler(270f, 0f, 0f), 0);
-                                        }
-                                        else
-                                        {
-                                            UnityEngine.Object.Instantiate(Resources.Load("hitMeatBIG"), (Vector3)((colliderArray[i].transform.position + this.attackBox.position) * 0.5f), Quaternion.Euler(270f, 0f, 0f));
-                                        }
-                                    }
+                                    throw new NotImplementedException("Mindless Titans are not supported for Eren Titan");
+                                    //if (colliderArray[i].gameObject.transform.root.GetComponent<TITAN>() == null)
+                                    //{
+                                    //    continue;
+                                    //}
+                                    //bool flag2 = false;
+                                    //for (int j = 0; j < this.hitTargets.Count; j++)
+                                    //{
+                                    //    if (colliderArray[i].gameObject.transform.root == (Transform)this.hitTargets[j])
+                                    //    {
+                                    //        flag2 = true;
+                                    //        break;
+                                    //    }
+                                    //}
+                                    //if (!flag2 && !colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hasDie)
+                                    //{
+                                    //    base.GetComponent<Animation>()[this.attackAnimation].speed = 0f;
+                                    //    if (this.attackAnimation == "attack_combo_002")
+                                    //    {
+                                    //        this.hitPause = 0.05f;
+                                    //        colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hitL(base.transform.position, this.hitPause);
+                                    //        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(1f, 0.03f, 0.95f);
+                                    //    }
+                                    //    else if (this.attackAnimation == "attack_combo_001")
+                                    //    {
+                                    //        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(1.2f, 0.04f, 0.95f);
+                                    //        this.hitPause = 0.08f;
+                                    //        colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hitR(base.transform.position, this.hitPause);
+                                    //    }
+                                    //    else if (this.attackAnimation == "attack_combo_003")
+                                    //    {
+                                    //        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(3f, 0.1f, 0.95f);
+                                    //        this.hitPause = 0.3f;
+                                    //        colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().dieHeadBlow(base.transform.position, this.hitPause);
+                                    //    }
+                                    //    else if (this.attackAnimation == "attack_kick")
+                                    //    {
+                                    //        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(3f, 0.1f, 0.95f);
+                                    //        this.hitPause = 0.2f;
+                                    //        if (colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().TitanType == TitanType.TYPE_CRAWLER)
+                                    //        {
+                                    //            colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().dieBlow(base.transform.position, this.hitPause);
+                                    //        }
+                                    //        else if (colliderArray[i].gameObject.transform.root.transform.localScale.x < 2f)
+                                    //        {
+                                    //            colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().dieBlow(base.transform.position, this.hitPause);
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            colliderArray[i].gameObject.transform.root.GetComponent<TITAN>().hitR(base.transform.position, this.hitPause);
+                                    //        }
+                                    //    }
+                                    //    this.hitTargets.Add(colliderArray[i].gameObject.transform.root);
+                                    //    if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+                                    //    {
+                                    //        PhotonNetwork.Instantiate("hitMeatBIG", (Vector3)((colliderArray[i].transform.position + this.attackBox.position) * 0.5f), Quaternion.Euler(270f, 0f, 0f), 0);
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        UnityEngine.Object.Instantiate(Resources.Load("hitMeatBIG"), (Vector3)((colliderArray[i].transform.position + this.attackBox.position) * 0.5f), Quaternion.Euler(270f, 0f, 0f));
+                                    //    }
+                                    //}
                                 }
                             }
                             if (base.GetComponent<Animation>()[this.attackAnimation].normalizedTime >= 1f)

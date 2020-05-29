@@ -1,3 +1,4 @@
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
@@ -130,7 +131,7 @@ public class Hero : Human
     public GameObject myNetWorkName;
     public float myScale = 1f;
     public int myTeam = 1;
-    public List<TITAN> myTitans;
+    public List<MindlessTitan> myTitans;
     private bool needLean;
     private Quaternion oldHeadRotation;
     private float originVM;
@@ -336,7 +337,7 @@ public class Hero : Human
     {
         this.skillIDHUD = this.skillId;
         this.skillCDDuration = this.skillCDLast;
-        if (FengGameManagerMKII.Gamemode.PvPBomb)
+        if (FengGameManagerMKII.Gamemode.Settings.PvPBomb)
         {
             int num = (int)FengGameManagerMKII.settings[250];
             int num2 = (int)FengGameManagerMKII.settings[0xfb];
@@ -574,7 +575,7 @@ public class Hero : Human
 
     private void changeBlade()
     {
-        if ((!this.useGun || this.grounded) || FengGameManagerMKII.Gamemode.AhssAirReload)
+        if ((!this.useGun || this.grounded) || FengGameManagerMKII.Gamemode.Settings.AhssAirReload)
         {
             this.state = HERO_STATE.ChangeBlade;
             this.throwedBlades = false;
@@ -695,7 +696,7 @@ public class Hero : Human
         LayerMask mask4 = (mask | mask2) | mask3;
         RaycastHit[] hitArray = Physics.RaycastAll(ray, 180f, mask4.value);
         List<RaycastHit> list = new List<RaycastHit>();
-        List<TITAN> list2 = new List<TITAN>();
+        List<MindlessTitan> list2 = new List<MindlessTitan>();
         for (count = 0; count < hitArray.Length; count++)
         {
             RaycastHit item = hitArray[count];
@@ -709,14 +710,14 @@ public class Hero : Human
             GameObject gameObject = hit2.collider.gameObject;
             if (gameObject.layer == 0x10)
             {
-                if (gameObject.name.Contains("PlayerDetectorRC") && ((hit2 = list[count]).distance < num2))
+                if (gameObject.name.Contains("PlayerCollisionDetection") && ((hit2 = list[count]).distance < num2))
                 {
                     num2 -= 60f;
                     if (num2 <= 60f)
                     {
                         count = list.Count;
                     }
-                    TITAN component = gameObject.transform.root.gameObject.GetComponent<TITAN>();
+                    MindlessTitan component = gameObject.transform.root.gameObject.GetComponent<MindlessTitan>();
                     if (component != null)
                     {
                         list2.Add(component);
@@ -730,16 +731,16 @@ public class Hero : Human
         }
         for (count = 0; count < this.myTitans.Count; count++)
         {
-            TITAN titan2 = this.myTitans[count];
+            MindlessTitan titan2 = this.myTitans[count];
             if (!list2.Contains(titan2))
             {
-                titan2.isLook = false;
+                titan2.IsLooked = false;
             }
         }
         for (count = 0; count < list2.Count; count++)
         {
-            TITAN titan3 = list2[count];
-            titan3.isLook = true;
+            MindlessTitan titan3 = list2[count];
+            titan3.IsLooked = true;
         }
         this.myTitans = list2;
     }
@@ -2023,128 +2024,6 @@ public class Hero : Human
         UnityEngine.Object.Destroy(base.gameObject);
     }
 
-    public void lateUpdate()
-    {
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (this.myNetWorkName != null))
-        {
-            if (this.titanForm && (this.eren_titan != null))
-            {
-                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
-            }
-            Vector3 start = new Vector3(base.transform.position.x, base.transform.position.y + 2f, base.transform.position.z);
-            GameObject obj2 = GameObject.Find("MainCamera");
-            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask3 = mask2 | mask;
-            if ((Vector3.Angle(obj2.transform.forward, start - obj2.transform.position) <= 90f) && !Physics.Linecast(start, obj2.transform.position, (int)mask3))
-            {
-                Vector2 vector5 = GameObject.Find("MainCamera").GetComponent<Camera>().WorldToScreenPoint(start);
-                this.myNetWorkName.transform.localPosition = new Vector3((float)((int)(vector5.x - (Screen.width * 0.5f))), (float)((int)(vector5.y - (Screen.height * 0.5f))), 0f);
-            }
-            else
-            {
-                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
-            }
-        }
-        if (!this.titanForm)
-        {
-            if ((IN_GAME_MAIN_CAMERA.cameraTilt == 1) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
-            {
-                Quaternion quaternion3;
-                Vector3 zero = Vector3.zero;
-                Vector3 position = Vector3.zero;
-                if ((this.isLaunchLeft && (this.bulletLeft != null)) && this.bulletLeft.GetComponent<Bullet>().isHooked())
-                {
-                    zero = this.bulletLeft.transform.position;
-                }
-                if ((this.isLaunchRight && (this.bulletRight != null)) && this.bulletRight.GetComponent<Bullet>().isHooked())
-                {
-                    position = this.bulletRight.transform.position;
-                }
-                Vector3 vector8 = Vector3.zero;
-                if ((zero.magnitude != 0f) && (position.magnitude == 0f))
-                {
-                    vector8 = zero;
-                }
-                else if ((zero.magnitude == 0f) && (position.magnitude != 0f))
-                {
-                    vector8 = position;
-                }
-                else if ((zero.magnitude != 0f) && (position.magnitude != 0f))
-                {
-                    vector8 = (Vector3)((zero + position) * 0.5f);
-                }
-                Vector3 from = Vector3.Project(vector8 - base.transform.position, GameObject.Find("MainCamera").transform.up);
-                Vector3 vector10 = Vector3.Project(vector8 - base.transform.position, GameObject.Find("MainCamera").transform.right);
-                if (vector8.magnitude > 0f)
-                {
-                    Vector3 to = from + vector10;
-                    float num = Vector3.Angle(vector8 - base.transform.position, base.GetComponent<Rigidbody>().velocity) * 0.005f;
-                    Vector3 vector14 = GameObject.Find("MainCamera").transform.right + vector10.normalized;
-                    quaternion3 = Quaternion.Euler(GameObject.Find("MainCamera").transform.rotation.eulerAngles.x, GameObject.Find("MainCamera").transform.rotation.eulerAngles.y, (vector14.magnitude >= 1f) ? (-Vector3.Angle(from, to) * num) : (Vector3.Angle(from, to) * num));
-                }
-                else
-                {
-                    quaternion3 = Quaternion.Euler(GameObject.Find("MainCamera").transform.rotation.eulerAngles.x, GameObject.Find("MainCamera").transform.rotation.eulerAngles.y, 0f);
-                }
-                GameObject.Find("MainCamera").transform.rotation = Quaternion.Lerp(GameObject.Find("MainCamera").transform.rotation, quaternion3, Time.deltaTime * 2f);
-            }
-            if ((this.state == HERO_STATE.Grab) && (this.titanWhoGrabMe != null))
-            {
-                if (this.titanWhoGrabMe.GetComponent<TITAN>() != null)
-                {
-                    base.transform.position = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.position;
-                    base.transform.rotation = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.rotation;
-                }
-                else if (this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>() != null)
-                {
-                    base.transform.position = this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>().grabTF.transform.position;
-                    base.transform.rotation = this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>().grabTF.transform.rotation;
-                }
-            }
-            if (this.useGun)
-            {
-                if (!this.leftArmAim && !this.rightArmAim)
-                {
-                    if (!this.grounded)
-                    {
-                        this.handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
-                        this.handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-                    }
-                }
-                else
-                {
-                    Vector3 vector17 = this.gunTarget - base.transform.position;
-                    float current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f;
-                    float num3 = -Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f);
-                    this.headMovement();
-                    if ((!this.isLeftHandHooked && this.leftArmAim) && ((num3 < 40f) && (num3 > -90f)))
-                    {
-                        this.leftArmAimTo(this.gunTarget);
-                    }
-                    if ((!this.isRightHandHooked && this.rightArmAim) && ((num3 > -40f) && (num3 < 90f)))
-                    {
-                        this.rightArmAimTo(this.gunTarget);
-                    }
-                }
-                if (this.isLeftHandHooked && (this.bulletLeft != null))
-                {
-                    this.leftArmAimTo(this.bulletLeft.transform.position);
-                }
-                if (this.isRightHandHooked && (this.bulletRight != null))
-                {
-                    this.rightArmAimTo(this.bulletRight.transform.position);
-                }
-            }
-            this.setHookedPplDirection();
-            this.bodyLean();
-            if ((!base.GetComponent<Animation>().IsPlaying("attack3_2") && !base.GetComponent<Animation>().IsPlaying("attack5")) && !base.GetComponent<Animation>().IsPlaying("special_petra"))
-            {
-                base.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(base.gameObject.transform.rotation, this.targetRotation, Time.deltaTime * 6f);
-            }
-        }
-    }
-
     public void lateUpdate2()
     {
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (this.myNetWorkName != null))
@@ -2213,10 +2092,10 @@ public class Hero : Human
             }
             if ((this.state == HERO_STATE.Grab) && (this.titanWhoGrabMe != null))
             {
-                if (this.titanWhoGrabMe.GetComponent<TITAN>() != null)
+                if (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null)
                 {
-                    this.baseTransform.position = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.position;
-                    this.baseTransform.rotation = this.titanWhoGrabMe.GetComponent<TITAN>().grabTF.transform.rotation;
+                    this.baseTransform.position = this.titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.position;
+                    this.baseTransform.rotation = this.titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.rotation;
                 }
                 else if (this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>() != null)
                 {
@@ -2557,7 +2436,7 @@ public class Hero : Human
             iteratorVariable3 = true;
         }
         bool iteratorVariable4 = false;
-        if (FengGameManagerMKII.Gamemode.Horse)
+        if (FengGameManagerMKII.Gamemode.Settings.Horse)
         {
             iteratorVariable4 = true;
         }
@@ -3190,7 +3069,7 @@ public class Hero : Human
     [PunRPC]
     public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
     {
-        if ((base.photonView.isMine && (FengGameManagerMKII.Gamemode.GamemodeType != GamemodeType.TitanRush)))
+        if ((base.photonView.isMine && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush)))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3226,7 +3105,6 @@ public class Hero : Human
         }
         if (PhotonNetwork.isMasterClient)
         {
-            this.onDeathEvent(viewID, killByTitan);
             int iD = base.photonView.owner.ID;
             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
             {
@@ -3323,7 +3201,7 @@ public class Hero : Human
     private void netDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
     {
         GameObject obj2;
-        if ((base.photonView.isMine) && (FengGameManagerMKII.Gamemode.GamemodeType != GamemodeType.TitanRush))
+        if ((base.photonView.isMine) && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3342,7 +3220,7 @@ public class Hero : Human
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
-                    else if ((FengGameManagerMKII.Gamemode.PvPBomb) && (!FengGameManagerMKII.Gamemode.PvpCannons))
+                    else if ((FengGameManagerMKII.Gamemode.Settings.PvPBomb) && (!FengGameManagerMKII.Gamemode.Settings.PvpCannons))
                     {
                         FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
@@ -3442,7 +3320,6 @@ public class Hero : Human
         }
         if (PhotonNetwork.isMasterClient)
         {
-            this.onDeathEvent(viewID, true);
             int iD = base.photonView.owner.ID;
             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
             {
@@ -3535,7 +3412,6 @@ public class Hero : Human
         }
         if (PhotonNetwork.isMasterClient)
         {
-            this.onDeathEvent(viewID, killByTitan);
             int iD = base.photonView.owner.ID;
             if (FengGameManagerMKII.heroHash.ContainsKey(iD))
             {
@@ -3554,13 +3430,14 @@ public class Hero : Human
     [PunRPC]
     private void netlaughAttack()
     {
-        foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-        {
-            if (((Vector3.Distance(obj2.transform.position, base.transform.position) < 50f) && (Vector3.Angle(obj2.transform.forward, base.transform.position - obj2.transform.position) < 90f)) && (obj2.GetComponent<TITAN>() != null))
-            {
-                obj2.GetComponent<TITAN>().beLaughAttacked();
-            }
-        }
+        throw new NotImplementedException("Titan laugh attack is not implemented yet");
+        //foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
+        //{
+        //    if (((Vector3.Distance(obj2.transform.position, base.transform.position) < 50f) && (Vector3.Angle(obj2.transform.forward, base.transform.position - obj2.transform.position) < 90f)) && (obj2.GetComponent<TITAN>() != null))
+        //    {
+        //        obj2.GetComponent<TITAN>().beLaughAttacked();
+        //    }
+        //}
     }
 
     [PunRPC]
@@ -3615,13 +3492,14 @@ public class Hero : Human
     [PunRPC]
     private void netTauntAttack(float tauntTime, float distance = 100f)
     {
-        foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-        {
-            if ((Vector3.Distance(obj2.transform.position, base.transform.position) < distance) && (obj2.GetComponent<TITAN>() != null))
-            {
-                obj2.GetComponent<TITAN>().beTauntedBy(base.gameObject, tauntTime);
-            }
-        }
+        throw new NotImplementedException("Titan taunt behavior is not yet implemented");
+        //foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
+        //{
+        //    if ((Vector3.Distance(obj2.transform.position, base.transform.position) < distance) && (obj2.GetComponent<TITAN>() != null))
+        //    {
+        //        obj2.GetComponent<TITAN>().beTauntedBy(base.gameObject, tauntTime);
+        //    }
+        //}
     }
 
     [PunRPC]
@@ -3631,60 +3509,7 @@ public class Hero : Human
         this.netPlayAnimation(this.standAnimation);
         this.falseAttack();
     }
-
-    public void onDeathEvent(int viewID, bool isTitan)
-    {
-        RCEvent event2;
-        string[] strArray;
-        if (isTitan)
-        {
-            if (FengGameManagerMKII.RCEvents.ContainsKey("OnPlayerDieByTitan"))
-            {
-                event2 = (RCEvent)FengGameManagerMKII.RCEvents["OnPlayerDieByTitan"];
-                strArray = (string[])FengGameManagerMKII.RCVariableNames["OnPlayerDieByTitan"];
-                if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[0]))
-                {
-                    FengGameManagerMKII.playerVariables[strArray[0]] = base.photonView.owner;
-                }
-                else
-                {
-                    FengGameManagerMKII.playerVariables.Add(strArray[0], base.photonView.owner);
-                }
-                if (FengGameManagerMKII.titanVariables.ContainsKey(strArray[1]))
-                {
-                    FengGameManagerMKII.titanVariables[strArray[1]] = PhotonView.Find(viewID).gameObject.GetComponent<TITAN>();
-                }
-                else
-                {
-                    FengGameManagerMKII.titanVariables.Add(strArray[1], PhotonView.Find(viewID).gameObject.GetComponent<TITAN>());
-                }
-                event2.checkEvent();
-            }
-        }
-        else if (FengGameManagerMKII.RCEvents.ContainsKey("OnPlayerDieByPlayer"))
-        {
-            event2 = (RCEvent)FengGameManagerMKII.RCEvents["OnPlayerDieByPlayer"];
-            strArray = (string[])FengGameManagerMKII.RCVariableNames["OnPlayerDieByPlayer"];
-            if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[0]))
-            {
-                FengGameManagerMKII.playerVariables[strArray[0]] = base.photonView.owner;
-            }
-            else
-            {
-                FengGameManagerMKII.playerVariables.Add(strArray[0], base.photonView.owner);
-            }
-            if (FengGameManagerMKII.playerVariables.ContainsKey(strArray[1]))
-            {
-                FengGameManagerMKII.playerVariables[strArray[1]] = PhotonView.Find(viewID).owner;
-            }
-            else
-            {
-                FengGameManagerMKII.playerVariables.Add(strArray[1], PhotonView.Find(viewID).owner);
-            }
-            event2.checkEvent();
-        }
-    }
-
+    
     private void OnDestroy()
     {
         if (this.myNetWorkName != null)
@@ -4014,7 +3839,7 @@ public class Hero : Human
         {
             object[] objArray;
             //TODO: Sync these upon gamemode syncSettings
-            if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.AhssVsBlades)
+            if (FengGameManagerMKII.Gamemode.Settings.Pvp == PvpMode.AhssVsBlades)
             {
                 int num = 0;
                 if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
@@ -4027,7 +3852,7 @@ public class Hero : Human
                     base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
                 }
             }
-            else if (FengGameManagerMKII.Gamemode.Pvp == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
+            else if (FengGameManagerMKII.Gamemode.Settings.Pvp == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
             {
                 objArray = new object[] { base.photonView.owner.ID };
                 base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
@@ -4056,7 +3881,7 @@ public class Hero : Human
         {
             this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
         }
-        if (this.useGun && (FengGameManagerMKII.Gamemode.PvPBomb))
+        if (this.useGun && (FengGameManagerMKII.Gamemode.Settings.PvPBomb))
         {
             this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
         }
@@ -4088,7 +3913,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                if ((FengGameManagerMKII.Gamemode.IsPlayerTitanEnabled || !FengGameManagerMKII.Gamemode.PlayerTitanShifters))
+                if (!FengGameManagerMKII.Gamemode.Settings.PlayerShifters)
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;
@@ -4610,14 +4435,13 @@ public class Hero : Human
     public void SetHorse()
     {
         if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER || !photonView.isMine) return;
-        if (FengGameManagerMKII.Gamemode.Horse && myHorse == null)
+        if (FengGameManagerMKII.Gamemode.Settings.Horse && myHorse == null)
         {
             this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
             this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
-            this.myHorse.GetComponent<TITAN_CONTROLLER>().isHorse = true;
         }
 
-        if (!FengGameManagerMKII.Gamemode.Horse && myHorse != null)
+        if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)
         {
             PhotonNetwork.Destroy(myHorse);
         }
@@ -4735,7 +4559,7 @@ public class Hero : Human
                 obj3.transform.parent = this.baseTransform;
                 obj3.transform.position = this.baseTransform.position + Vector3.up;
                 obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
-            }
+            }   
             this.setup.init();
             this.setup.myCostume = new HeroCostume();
             this.setup.myCostume = CostumeConeveter.PhotonDataToHeroCostume2(base.photonView.owner);
@@ -4757,7 +4581,7 @@ public class Hero : Human
             base.StartCoroutine(this.reloadSky());
         }
         this.bombImmune = false;
-        if (FengGameManagerMKII.Gamemode.PvPBomb)
+        if (FengGameManagerMKII.Gamemode.Settings.PvPBomb)
         {
             this.bombImmune = true;
             base.StartCoroutine(this.stopImmunity());
@@ -4839,24 +4663,24 @@ public class Hero : Human
                                 this.baseAnimation["grabbed_jean"].time = 0f;
                                 this.escapeTimes--;
                             }
-                            if ((this.baseAnimation.IsPlaying("grabbed_jean") && (this.baseAnimation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<TITAN>() != null))
+                            if ((this.baseAnimation.IsPlaying("grabbed_jean") && (this.baseAnimation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                             {
                                 this.ungrabbed();
                                 this.baseRigidBody.velocity = (Vector3)(Vector3.up * 30f);
                                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                                 {
-                                    this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                    this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                 }
                                 else
                                 {
                                     base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
                                     if (PhotonNetwork.isMasterClient)
                                     {
-                                        this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                        this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                     }
                                     else
                                     {
-                                        PhotonView.Find(this.titanWhoGrabMeID).RPC("grabbedTargetEscape", PhotonTargets.MasterClient, new object[0]);
+                                        PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                     }
                                 }
                             }
@@ -4879,23 +4703,23 @@ public class Hero : Human
                                 else
                                 {
                                     this.skillCDDuration = this.skillCDLast;
-                                    if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<TITAN>() != null))
+                                    if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                                     {
                                         this.ungrabbed();
                                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                                         {
-                                            this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                            this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                         }
                                         else
                                         {
                                             base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
                                             if (PhotonNetwork.isMasterClient)
                                             {
-                                                this.titanWhoGrabMe.GetComponent<TITAN>().grabbedTargetEscape();
+                                                titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                             }
                                             else
                                             {
-                                                PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("grabbedTargetEscape", PhotonTargets.MasterClient, new object[0]);
+                                                PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                             }
                                         }
                                         this.erenTransform();
@@ -4986,7 +4810,7 @@ public class Hero : Human
                             {
                                 this.getOffHorse();
                             }
-                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (FengGameManagerMKII.Gamemode.AhssAirReload)) || this.grounded))
+                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)) || this.grounded))
                             {
                                 this.changeBlade();
                                 return;
@@ -5379,7 +5203,7 @@ public class Hero : Human
                                     this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
                                     this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                 }
-                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.AhssAirReload)))
+                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)))
                                 {
                                     this.changeBlade();
                                 }
@@ -5554,10 +5378,10 @@ public class Hero : Human
                                         {
                                             foreach (GameObject obj3 in GameObject.FindGameObjectsWithTag("titan"))
                                             {
-                                                if (((Vector3.Distance(obj3.transform.position, this.baseTransform.position) < 50f) && (Vector3.Angle(obj3.transform.forward, this.baseTransform.position - obj3.transform.position) < 90f)) && (obj3.GetComponent<TITAN>() != null))
-                                                {
-                                                    obj3.GetComponent<TITAN>().beLaughAttacked();
-                                                }
+                                                //if (((Vector3.Distance(obj3.transform.position, this.baseTransform.position) < 50f) && (Vector3.Angle(obj3.transform.forward, this.baseTransform.position - obj3.transform.position) < 90f)) && (obj3.GetComponent<TITAN>() != null))
+                                                //{
+                                                //    obj3.GetComponent<TITAN>().beLaughAttacked();
+                                                //}
                                             }
                                         }
                                         this.falseAttack();
@@ -5961,32 +5785,7 @@ public class Hero : Human
     }
 
     [Obsolete("Using a weapon should be moved within Weapon class...")]
-    public void useBlade(int amount = 0)
-    {
-        if (amount == 0)
-        {
-            amount = 1;
-        }
-        amount *= 2;
-        if (this.currentBladeSta > 0f)
-        {
-            this.currentBladeSta -= amount;
-            if (this.currentBladeSta <= 0f)
-            {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
-                {
-                    //this.leftbladetrail.Deactivate();
-                    //this.rightbladetrail.Deactivate();
-                    //this.leftbladetrail2.Deactivate();
-                    //this.rightbladetrail2.Deactivate();
-                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                }
-                this.currentBladeSta = 0f;
-                //this.throwBlades();
-            }
-        }
-    }
+
 
     private void useGas(float amount = 0)
     {

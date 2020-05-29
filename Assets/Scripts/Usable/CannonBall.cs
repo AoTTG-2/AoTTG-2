@@ -1,4 +1,5 @@
 using Assets.Scripts.Gamemode.Options;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,7 +40,7 @@ public class CannonBall : Photon.MonoBehaviour
             {
                 collider.dmg = 0;
             }
-            if (FengGameManagerMKII.Gamemode.PvpCannons)
+            if (FengGameManagerMKII.Gamemode.Settings.PvpCannons)
             {
                 foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
                 {
@@ -47,7 +48,7 @@ public class CannonBall : Photon.MonoBehaviour
                     {
                         GameObject gameObject = hero.gameObject;
                         PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                        if (((FengGameManagerMKII.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                        if (((FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                         {
                             int num2 = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                             int num3 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
@@ -73,7 +74,7 @@ public class CannonBall : Photon.MonoBehaviour
                 {
                     if (this.myTitanTriggers[i] != null)
                     {
-                        this.myTitanTriggers[i].isCollide = false;
+                        this.myTitanTriggers[i].SetCollision(false);
                     }
                 }
             }
@@ -103,40 +104,41 @@ public class CannonBall : Photon.MonoBehaviour
                     TitanTrigger component = gameObject.GetComponent<TitanTrigger>();
                     if (!((component == null) || this.myTitanTriggers.Contains(component)))
                     {
-                        component.isCollide = true;
+                        component.SetCollision(true);
                         this.myTitanTriggers.Add(component);
                     }
                 }
                 else if (gameObject.layer == 10)
                 {
-                    TITAN titan = gameObject.transform.root.gameObject.GetComponent<TITAN>();
-                    if (titan != null)
-                    {
-                        if (titan.TitanType == TitanType.TYPE_CRAWLER)
-                        {
-                            if (gameObject.name == "head")
-                            {
-                                titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
-                                titan.dieBlow(base.transform.position, 0.2f);
-                                i = colliderArray.Length;
-                            }
-                        }
-                        else if (gameObject.name == "head")
-                        {
-                            titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
-                            titan.dieHeadBlow(base.transform.position, 0.2f);
-                            i = colliderArray.Length;
-                        }
-                        else if (UnityEngine.Random.Range((float) 0f, (float) 1f) < 0.5f)
-                        {
-                            titan.hitL(base.transform.position, 0.05f);
-                        }
-                        else
-                        {
-                            titan.hitR(base.transform.position, 0.05f);
-                        }
-                        this.destroyMe();
-                    }
+                    throw new NotImplementedException("Titan behavior when shot by a cannon. Awaiting issue #75");
+                    //TITAN titan = gameObject.transform.root.gameObject.GetComponent<TITAN>();
+                    //if (titan != null)
+                    //{
+                    //    if (titan.TitanType == TitanType.TYPE_CRAWLER)
+                    //    {
+                    //        if (gameObject.name == "head")
+                    //        {
+                    //            titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
+                    //            titan.dieBlow(base.transform.position, 0.2f);
+                    //            i = colliderArray.Length;
+                    //        }
+                    //    }
+                    //    else if (gameObject.name == "head")
+                    //    {
+                    //        titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
+                    //        titan.dieHeadBlow(base.transform.position, 0.2f);
+                    //        i = colliderArray.Length;
+                    //    }
+                    //    else if (UnityEngine.Random.Range((float) 0f, (float) 1f) < 0.5f)
+                    //    {
+                    //        titan.hitL(base.transform.position, 0.05f);
+                    //    }
+                    //    else
+                    //    {
+                    //        titan.hitR(base.transform.position, 0.05f);
+                    //    }
+                    //    this.destroyMe();
+                    //}
                 }
                 else if ((gameObject.layer == 9) && (gameObject.transform.root.name.Contains("CannonWall") || gameObject.transform.root.name.Contains("CannonGround")))
                 {

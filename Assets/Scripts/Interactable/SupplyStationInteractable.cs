@@ -17,7 +17,7 @@ public class SupplyStationInteractable : Interactable
         Hero hero = target.GetComponent<Hero>();
         if (hero == null) return;
         var distance = Vector3.Distance(target.transform.position, base.transform.position);
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE || hero.isMine && distance < Radius)
+        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE || hero.photonView.isMine && distance < Radius)
         {
             hero.getSupply();
         }

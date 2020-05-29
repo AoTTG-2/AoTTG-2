@@ -1,3 +1,4 @@
+using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
@@ -39,6 +40,8 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     public GameObject sweepSmokeObject;
     public float tauntTime;
     private float waitTime = 2f;
+
+    private GamemodeBase Gamemode;
 
     private void attack_sweep(string type = "")
     {
@@ -95,122 +98,9 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
     }
 
-    private void callTitan(bool special = false)
-    {
-        if (special || (GameObject.FindGameObjectsWithTag("titan").Length <= 6))
-        {
-            GameObject obj4;
-            GameObject[] objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
-            ArrayList list = new ArrayList();
-            foreach (GameObject obj2 in objArray)
-            {
-                if (obj2.transform.parent.name == "titanRespawnCT")
-                {
-                    list.Add(obj2);
-                }
-            }
-            GameObject obj3 = (GameObject) list[UnityEngine.Random.Range(0, list.Count)];
-            string[] strArray = new string[] { "TITAN_VER3.1" };
-            if (FengGameManagerMKII.LAN)
-            {
-                obj4 = (GameObject) Network.Instantiate(Resources.Load(strArray[UnityEngine.Random.Range(0, strArray.Length)]), obj3.transform.position, obj3.transform.rotation, 0);
-            }
-            else
-            {
-                obj4 = PhotonNetwork.Instantiate(strArray[UnityEngine.Random.Range(0, strArray.Length)], obj3.transform.position, obj3.transform.rotation, 0);
-            }
-            if (special)
-            {
-                GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("route");
-                GameObject route = objArray3[UnityEngine.Random.Range(0, objArray3.Length)];
-                while (route.name != "routeCT")
-                {
-                    route = objArray3[UnityEngine.Random.Range(0, objArray3.Length)];
-                }
-                obj4.GetComponent<TITAN>().setRoute(route);
-                obj4.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                obj4.GetComponent<TITAN>().activeRad = 0;
-                obj4.GetComponent<TITAN>().toCheckPoint((Vector3) obj4.GetComponent<TITAN>().checkPoints[0], 10f);
-            }
-            else
-            {
-                float num2 = 0.7f;
-                float num3 = 0.7f;
-                if (IN_GAME_MAIN_CAMERA.difficulty != 0)
-                {
-                    if (IN_GAME_MAIN_CAMERA.difficulty == 1)
-                    {
-                        num2 = 0.4f;
-                        num3 = 0.7f;
-                    }
-                    else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-                    {
-                        num2 = -1f;
-                        num3 = 0.7f;
-                    }
-                }
-                if (GameObject.FindGameObjectsWithTag("titan").Length == 5)
-                {
-                    obj4.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                }
-                else if (UnityEngine.Random.Range((float) 0f, (float) 1f) >= num2)
-                {
-                    if (UnityEngine.Random.Range((float) 0f, (float) 1f) < num3)
-                    {
-                        obj4.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                    }
-                    else
-                    {
-                        obj4.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, false);
-                    }
-                }
-                obj4.GetComponent<TITAN>().activeRad = 200;
-            }
-            if (FengGameManagerMKII.LAN)
-            {
-                GameObject obj6 = (GameObject) Network.Instantiate(Resources.Load("FX/FXtitanSpawn"), obj4.transform.position, Quaternion.Euler(-90f, 0f, 0f), 0);
-                obj6.transform.localScale = obj4.transform.localScale;
-            }
-            else
-            {
-                PhotonNetwork.Instantiate("FX/FXtitanSpawn", obj4.transform.position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = obj4.transform.localScale;
-            }
-        }
-    }
-
     private void callTitanHAHA()
     {
         this.attackCount++;
-        int num = 4;
-        int num2 = 7;
-        if (IN_GAME_MAIN_CAMERA.difficulty != 0)
-        {
-            if (IN_GAME_MAIN_CAMERA.difficulty == 1)
-            {
-                num = 4;
-                num2 = 6;
-            }
-            else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
-            {
-                num = 3;
-                num2 = 5;
-            }
-        }
-        if ((this.attackCount % num) == 0)
-        {
-            this.callTitan(false);
-        }
-        if (this.NapeArmor < (this.NapeArmorTotal * 0.3))
-        {
-            if ((this.attackCount % ((int) (num2 * 0.5f))) == 0)
-            {
-                this.callTitan(true);
-            }
-        }
-        else if ((this.attackCount % num2) == 0)
-        {
-            this.callTitan(true);
-        }
     }
 
     [PunRPC]
@@ -356,21 +246,21 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 }
                 this.healthLabel.transform.localScale = new Vector3(a, a, a);
             }
-            string str = "[7FFF00]";
+            string color = "7FFF00";
             float num2 = ((float) health) / ((float) maxHealth);
             if ((num2 < 0.75f) && (num2 >= 0.5f))
             {
-                str = "[f2b50f]";
+                color = "f2b50f";
             }
             else if ((num2 < 0.5f) && (num2 >= 0.25f))
             {
-                str = "[ff8100]";
+                color = "ff8100";
             }
             else if (num2 < 0.25f)
             {
-                str = "[ff3333]";
+                color = "ff3333";
             }
-            //this.healthLabel.GetComponent<UILabel>().text = str + Convert.ToString(health);
+            healthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{health}</color>";
         }
     }
 
@@ -590,6 +480,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
 
     private void Start()
     {
+        Gamemode = FengGameManagerMKII.Gamemode;
         this.startMain();
         this.size = 20f;
         if (Minimap.instance != null)
@@ -598,19 +489,19 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
         if (base.photonView.isMine)
         {
-            if (FengGameManagerMKII.Gamemode.TitanCustomSize)
+            if (FengGameManagerMKII.Gamemode.Settings.TitanCustomSize)
             {
-                float sizeLower = FengGameManagerMKII.Gamemode.TitanMinimumSize;
-                float sizeUpper = FengGameManagerMKII.Gamemode.TitanMaximumSize;
+                float sizeLower = FengGameManagerMKII.Gamemode.Settings.TitanMinimumSize;
+                float sizeUpper = FengGameManagerMKII.Gamemode.Settings.TitanMaximumSize;
                 this.size = UnityEngine.Random.Range(sizeLower, sizeUpper);
                 base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             }
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
-            if (FengGameManagerMKII.Gamemode.TitanHealthMode != TitanHealthMode.Disabled)
+            if (FengGameManagerMKII.Gamemode.Settings.TitanHealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.TitanHealthMinimum, FengGameManagerMKII.Gamemode.TitanHealthMaximum);
+                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.Settings.TitanHealthMinimum, FengGameManagerMKII.Gamemode.Settings.TitanHealthMaximum);
             }
             if (this.NapeArmor > 0)
             {
@@ -630,7 +521,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         }
         base.name = "COLOSSAL_TITAN";
         this.NapeArmor = 0x3e8;
-        var flag = FengGameManagerMKII.Gamemode.RespawnMode == RespawnMode.NEVER;
+        var flag = FengGameManagerMKII.Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
         if (IN_GAME_MAIN_CAMERA.difficulty == 0)
         {
             this.NapeArmor = !flag ? 0x1388 : 0x7d0;
@@ -738,7 +629,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             Vector3 vector = view.gameObject.transform.position - transform.transform.position;
             if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
             {
-                if (speed >= FengGameManagerMKII.Gamemode.DamageMode)
+                if (speed >= FengGameManagerMKII.Gamemode.Settings.DamageMode)
                 {
                     this.NapeArmor -= speed;
                 }

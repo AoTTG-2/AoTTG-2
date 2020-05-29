@@ -1338,19 +1338,19 @@ public class FEMALE_TITAN : MonoBehaviour
         }
         if (base.photonView.isMine)
         {
-            if (FengGameManagerMKII.Gamemode.TitanCustomSize)
+            if (FengGameManagerMKII.Gamemode.Settings.TitanCustomSize)
             {
-                float sizeLower = FengGameManagerMKII.Gamemode.TitanMinimumSize;
-                float sizeUpper = FengGameManagerMKII.Gamemode.TitanMaximumSize;
+                float sizeLower = FengGameManagerMKII.Gamemode.Settings.TitanMinimumSize;
+                float sizeUpper = FengGameManagerMKII.Gamemode.Settings.TitanMaximumSize;
                 this.size = UnityEngine.Random.Range(sizeLower, sizeUpper);
                 base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             }
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
-            if (FengGameManagerMKII.Gamemode.TitanHealthMode != TitanHealthMode.Disabled)
+            if (FengGameManagerMKII.Gamemode.Settings.TitanHealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.TitanHealthMinimum, FengGameManagerMKII.Gamemode.TitanHealthMaximum);
+                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.Settings.TitanHealthMinimum, FengGameManagerMKII.Gamemode.Settings.TitanHealthMaximum);
             }
             if (this.NapeArmor > 0)
             {
@@ -1397,7 +1397,7 @@ public class FEMALE_TITAN : MonoBehaviour
         this.AnkleRHP = 50;
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
-        var flag = FengGameManagerMKII.Gamemode.RespawnMode == RespawnMode.NEVER;
+        var flag = FengGameManagerMKII.Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
         if (IN_GAME_MAIN_CAMERA.difficulty == 0)
         {
             this.NapeArmor = !flag ? 0x3e8 : 0x3e8;
@@ -1454,7 +1454,7 @@ public class FEMALE_TITAN : MonoBehaviour
             }
             base.GetComponent<Animation>()["ft_turn180"].speed = 0.9f;
         }
-        NapeArmor *= (int) FengGameManagerMKII.Gamemode.FemaleTitanHealthModifier;
+        NapeArmor *= (int) FengGameManagerMKII.Gamemode.Settings.FemaleTitanHealthModifier;
         base.GetComponent<Animation>()["ft_legHurt"].speed = 1f;
         base.GetComponent<Animation>()["ft_legHurt_loop"].speed = 1f;
         base.GetComponent<Animation>()["ft_legHurt_getup"].speed = 1f;
@@ -1470,7 +1470,7 @@ public class FEMALE_TITAN : MonoBehaviour
             Vector3 vector = view.gameObject.transform.position - transform.transform.position;
             if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
             {
-                if (speed >= FengGameManagerMKII.Gamemode.DamageMode)
+                if (speed >= FengGameManagerMKII.Gamemode.Settings.DamageMode)
                 {
                     this.NapeArmor -= speed;
                 }
@@ -1540,11 +1540,12 @@ public class FEMALE_TITAN : MonoBehaviour
                 if (base.GetComponent<Animation>()["ft_die"].normalizedTime >= 1f)
                 {
                     this.playAnimation("ft_die_cry");
-                    if (FengGameManagerMKII.Gamemode.SpawnTitansOnFemaleTitanDefeat)
+                    if (FengGameManagerMKII.Gamemode.Settings.SpawnTitansOnFemaleTitanDefeat)
                     {
                         for (int i = 0; i < 15; i++)
                         {
-                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().randomSpawnOneTitan("titanRespawn", 50).GetComponent<TITAN>().beTauntedBy(base.gameObject, 20f);
+                            throw new NotImplementedException("Add mindless titan spawners to Female Titan");
+                            //GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().randomSpawnOneTitan("titanRespawn", 50).GetComponent<TITAN>().beTauntedBy(base.gameObject, 20f);
                         }
                     }
                 }
@@ -1562,7 +1563,7 @@ public class FEMALE_TITAN : MonoBehaviour
                         PhotonNetwork.Instantiate("FX/FXtitanDie1", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                     }
                 }
-                if (this.dieTime > FengGameManagerMKII.Gamemode.FemaleTitanDespawnTimer)
+                if (this.dieTime > FengGameManagerMKII.Gamemode.Settings.FemaleTitanDespawnTimer)
                 {
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
