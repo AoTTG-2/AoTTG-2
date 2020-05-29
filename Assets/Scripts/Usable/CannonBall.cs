@@ -118,22 +118,7 @@ public class CannonBall : Photon.MonoBehaviour
                     MindlessTitan titan = currentGobj.transform.root.GetComponent<MindlessTitan>();
                     if (titan != null)
                     {
-                        if (currentGobj.name == "head")
-                        {
-                            titan.photonView.RPC("DieByCannon", titan.photonView.owner, new object[] { this.myHero.photonView.viewID });
-
-                            if (titan.Type == MindlessTitanType.Crawler)
-                                Debug.Log($"titan.dieBlow({base.transform.position}, 0.2f)");
-                            else
-                                Debug.Log($"titan.dieHeadBlow({base.transform.position}, 0.2f)");
-
-                            i = hitColliders.Length;
-                        }
-                        else if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
-                            Debug.Log($"titan.hitL({base.transform.position}, 0.05f)");
-                        else
-                            Debug.Log($"titan.hitR({base.transform.position}, 0.05f)");
-
+                        titan.photonView.RPC("OnCannonHitRpc", titan.photonView.owner, myHero.photonView.viewID, currentGobj.name);
                         this.destroyMe();
                     }
                 }
