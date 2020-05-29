@@ -103,6 +103,11 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
+        private void awake()
+        {
+            Debug.Log("HELLLLLLO");
+        }
+
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             base.OnLevelLoaded(level, isMasterClient);
