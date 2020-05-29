@@ -105,6 +105,7 @@ namespace Assets.Scripts.Characters.Titan
         private Quaternion targetHeadRotation;
         private Vector3 headscale;
 
+        // TODO: Create components in the editor and modify them at runtime.
         protected virtual void Awake()
         {
             GameManager = FengGameManagerMKII.instance;
