@@ -14,13 +14,12 @@ namespace Assets.Scripts.UI.InGame
         
         private void Start()
         {
-            //Alex's TO-DO list: populate dropdown
-            //EquipmentDropdown.options = new List<Dropdown.OptionData>();
-            //foreach (var equipment in Enum.GetNames(typeof(EquipmentType)))
-            //{
-            //  EquipmentDropdown.options.Add(new Dropdown.OptionData(equipment));
-            //}
-            //EquipmentDropdown.captionText.text = EquipmentDropdown.options[0].text;
+            EquipmentDropdown.options = new List<Dropdown.OptionData>();
+            foreach (var equipment in Enum.GetNames(typeof(EquipmentType)))
+            {
+                EquipmentDropdown.options.Add(new Dropdown.OptionData(equipment));
+            }
+            EquipmentDropdown.captionText.text = EquipmentDropdown.options[0].text;
 
             if (!FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled)
             {

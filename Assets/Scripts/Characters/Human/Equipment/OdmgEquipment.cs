@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 
+public enum EquipmentType
+{
+    Blades,
+    AHSS,
+    ThunderSpear
+}
+
 public interface Weapon
 {
     void Attack();
