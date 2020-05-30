@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class TriggerColliderWeapon : MonoBehaviour
 {
-    public Equipment Equipment { get; set; }
-
     public bool active_me;
     public GameObject currentCamera;
     public Blades bladeEquipmentScript;
@@ -253,6 +251,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
+                        if (PhotonNetwork.isMasterClient)
                         {
                             mindlessTitan.OnEyeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
@@ -371,12 +370,6 @@ public class TriggerColliderWeapon : MonoBehaviour
             obj2 = (GameObject) Instantiate(Resources.Load("redCross"));
         }
         obj2.transform.position = base.transform.position;
-    }
-
-    private void Start()
-    {
-        this.currentCamera = GameObject.Find("MainCamera");
-        Equipment = base.transform.root.GetComponent<Equipment>();
     }
 }
 

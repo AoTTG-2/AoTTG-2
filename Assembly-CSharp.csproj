@@ -137,6 +137,7 @@
      <Compile Include="Assets\Scripts\Characters\GROUP.cs" />
      <Compile Include="Assets\Scripts\Characters\HitBox.cs" />
      <Compile Include="Assets\Scripts\Characters\Horse\Horse.cs" />
+     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\Bullet.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\CharacterCreateAnimationControl.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\CharacterCreationComponent.cs" />
@@ -169,6 +170,7 @@
      <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\Attacks\ComboAttack.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\Attacks\GrabAttack.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\Attacks\KickAttack.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapAttack.cs" />
@@ -188,19 +190,16 @@
      <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanState.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanType.cs" />
+     <Compile Include="Assets\Scripts\Characters\Titan\PlayerTitan.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\RockScript.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\RockThrow.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TITAN.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TITAN_CONTROLLER.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_EREN.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_SETUP.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanBody.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanConfiguration.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanSpawner.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TitanState.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanTrigger.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TitanType.cs" />
      <Compile Include="Assets\Scripts\CompressString\StringCompressor.cs" />
      <Compile Include="Assets\Scripts\Constants\Layer.cs" />
      <Compile Include="Assets\Scripts\Effects\Affector.cs" />
@@ -369,9 +368,11 @@
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\WheelButton.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\ImportingContributorsList.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\RoomRow.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\ScrollingScrollView.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Singleplayer.cs" />
      <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
      <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
@@ -390,6 +391,7 @@
      <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\Shader\Projector Multiply.shader" />
      <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
+     <None Include="Assets\contributors.txt" />
      <None Include="Assets\Photon Unity Networking\link.xml" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored Overlay.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
