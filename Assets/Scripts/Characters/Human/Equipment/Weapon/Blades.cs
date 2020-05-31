@@ -101,10 +101,6 @@ public class Blades : OdmgEquipment, Weapon
             {
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || myHeroScript.photonView.isMine)
                 {
-                    //this.leftbladetrail.Deactivate();
-                    //this.rightbladetrail.Deactivate();
-                    //this.leftbladetrail2.Deactivate();
-                    //this.rightbladetrail2.Deactivate();
                     myHeroScript.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                     myHeroScript.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                 }
@@ -118,8 +114,8 @@ public class Blades : OdmgEquipment, Weapon
     {
         HERO_SETUP setupScript = myHeroScript.setup;
 
-        Transform transform = setupScript.part_blade_l.transform;
-        Transform transform2 = setupScript.part_blade_r.transform;
+        Transform transform = part_blade_l.transform;
+        Transform transform2 = part_blade_r.transform;
         GameObject obj2 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
         GameObject obj3 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
         obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
@@ -134,8 +130,8 @@ public class Blades : OdmgEquipment, Weapon
         torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
         torque.Normalize();
         obj3.GetComponent<Rigidbody>().AddTorque(torque);
-        setupScript.part_blade_l.SetActive(false);
-        setupScript.part_blade_r.SetActive(false);
+        part_blade_l.SetActive(false);
+        part_blade_r.SetActive(false);
 
         NumBlades--;
 

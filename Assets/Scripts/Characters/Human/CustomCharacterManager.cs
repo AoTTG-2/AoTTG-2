@@ -250,7 +250,7 @@ public class CustomCharacterManager : MonoBehaviour
         if (from != null)
         {
             this.copyCostume(from, this.setup.myCostume, false);
-            this.setup.deleteCharacterComponent2();
+            this.setup.deleteCharacterComponent();
             this.setup.setCharacterComponent();
         }
         this.CostumeDataToMyID();
@@ -264,7 +264,7 @@ public class CustomCharacterManager : MonoBehaviour
             this.presetId = this.toNext(this.presetId, HeroCostume.costume.Length, 0);
             this.copyCostume(HeroCostume.costume[this.presetId], this.setup.myCostume, true);
             this.CostumeDataToMyID();
-            this.setup.deleteCharacterComponent2();
+            this.setup.deleteCharacterComponent();
             this.setup.setCharacterComponent();
             //this.labelPreset.GetComponent<UILabel>().text = HeroCostume.costume[this.presetId].name;
             this.freshLabel();
@@ -329,7 +329,7 @@ public class CustomCharacterManager : MonoBehaviour
             this.presetId = this.toPrev(this.presetId, HeroCostume.costume.Length, 0);
             this.copyCostume(HeroCostume.costume[this.presetId], this.setup.myCostume, true);
             this.CostumeDataToMyID();
-            this.setup.deleteCharacterComponent2();
+            this.setup.deleteCharacterComponent();
             this.setup.setCharacterComponent();
             //this.labelPreset.GetComponent<UILabel>().text = HeroCostume.costume[this.presetId].name;
             this.freshLabel();
@@ -409,7 +409,7 @@ public class CustomCharacterManager : MonoBehaviour
         this.setup.init();
         this.setup.myCostume = new HeroCostume();
         this.copyCostume(HeroCostume.costume[2], this.setup.myCostume, false);
-        this.setup.myCostume.setMesh2();
+        this.setup.myCostume.setMesh();
         this.setup.setCharacterComponent();
         SEX[] sexArray1 = new SEX[2];
         sexArray1[1] = SEX.FEMALE;
@@ -554,9 +554,9 @@ public class CustomCharacterManager : MonoBehaviour
                     this.costumeId = 0x19;
                 }
                 this.copyBodyCostume(this.costumeOption[this.costumeId], this.setup.myCostume);
-                this.setup.myCostume.setMesh2();
+                this.setup.myCostume.setMesh();
                 this.setup.myCostume.setTexture();
-                this.setup.createUpperBody2();
+                this.setup.createUpperBody();
                 this.setup.createLeftArm();
                 this.setup.createRightArm();
                 this.setup.createLowerBody();
@@ -574,7 +574,7 @@ public class CustomCharacterManager : MonoBehaviour
                 this.divisionId = !next ? this.toPrev(this.divisionId, this.divisionOption.Length, 0) : this.toNext(this.divisionId, this.divisionOption.Length, 0);
                 this.setup.myCostume.division = this.divisionOption[this.divisionId];
                 this.setup.myCostume.setTexture();
-                this.setup.createUpperBody2();
+                this.setup.createUpperBody();
                 goto Label_06AE;
 
             default:
@@ -584,7 +584,7 @@ public class CustomCharacterManager : MonoBehaviour
         this.setup.myCostume.sex = this.sexOption[this.sexId];
         this.character.GetComponent<CharacterCreateAnimationControl>().toStand();
         this.CostumeDataToMyID();
-        this.setup.deleteCharacterComponent2();
+        this.setup.deleteCharacterComponent();
         this.setup.setCharacterComponent();
     Label_06AE:
         this.freshLabel();
@@ -608,7 +608,7 @@ public class CustomCharacterManager : MonoBehaviour
                 this.setup.myCostume.sex = this.sexOption[this.sexId];
                 this.character.GetComponent<CharacterCreateAnimationControl>().toStand();
                 this.CostumeDataToMyID();
-                this.setup.deleteCharacterComponent2();
+                this.setup.deleteCharacterComponent();
                 this.setup.setCharacterComponent();
                 goto Label_0750;
 
@@ -687,9 +687,9 @@ public class CustomCharacterManager : MonoBehaviour
                     this.costumeId = !next ? this.toPrev(this.costumeId, 0x18, 10) : this.toNext(this.costumeId, 0x18, 10);
                 }
                 this.copyBodyCostume(this.costumeOption[this.costumeId], this.setup.myCostume);
-                this.setup.myCostume.setMesh2();
+                this.setup.myCostume.setMesh();
                 this.setup.myCostume.setTexture();
-                this.setup.createUpperBody2();
+                this.setup.createUpperBody();
                 this.setup.createLeftArm();
                 this.setup.createRightArm();
                 this.setup.createLowerBody();
@@ -707,7 +707,7 @@ public class CustomCharacterManager : MonoBehaviour
                 this.divisionId = !next ? this.toPrev(this.divisionId, this.divisionOption.Length, 0) : this.toNext(this.divisionId, this.divisionOption.Length, 0);
                 this.setup.myCostume.division = this.divisionOption[this.divisionId];
                 this.setup.myCostume.setTexture();
-                this.setup.createUpperBody2();
+                this.setup.createUpperBody();
                 goto Label_0750;
 
             default:

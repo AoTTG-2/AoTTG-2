@@ -49,7 +49,7 @@ public class HERO_DEAD_BODY_SETUP : MonoBehaviour
                 UnityEngine.Object.Destroy(this.blood_arm_l);
                 UnityEngine.Object.Destroy(this.blood_arm_r);
                 base.gameObject.GetComponent<HERO_SETUP>().createHead2();
-                base.gameObject.GetComponent<HERO_SETUP>().createUpperBody2();
+                base.gameObject.GetComponent<HERO_SETUP>().createUpperBody();
                 break;
 
             case BODY_PARTS.ARM_L:
@@ -124,7 +124,7 @@ public class HERO_DEAD_BODY_SETUP : MonoBehaviour
         this.lifetime -= Time.deltaTime;
         if (this.lifetime <= 0f)
         {
-            base.gameObject.GetComponent<HERO_SETUP>().deleteCharacterComponent2();
+            base.gameObject.GetComponent<HERO_SETUP>().deleteCharacterComponent();
             UnityEngine.Object.Destroy(base.gameObject);
         }
     }

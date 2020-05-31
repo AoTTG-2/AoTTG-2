@@ -229,7 +229,7 @@ public class CostumeConeveter
         costume.stat.ACL = PlayerPrefs.GetInt(slot + PhotonPlayerProperty.statACL);
         costume.stat.skillId = PlayerPrefs.GetString(slot + PhotonPlayerProperty.statSKILL);
         costume.setBodyByCostumeId(-1);
-        costume.setMesh2();
+        costume.setMesh();
         costume.setTexture();
         return costume;
     }
@@ -262,7 +262,7 @@ public class CostumeConeveter
             costume.costumeId = 0x1a;
         }
         costume.setBodyByCostumeId(-1);
-        costume.setMesh2();
+        costume.setMesh();
         costume.setTexture();
         return costume;
     }

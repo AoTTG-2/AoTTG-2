@@ -12,16 +12,10 @@ public class HERO_SETUP : MonoBehaviour
     public SkinnedMeshRenderer[][] elements;
     public bool isDeadBody;
     public HeroCostume myCostume;
-    public GameObject part_3dmg;
-    public GameObject part_3dmg_belt;
-    public GameObject part_3dmg_gas_l;
-    public GameObject part_3dmg_gas_r;
     public GameObject part_arm_l;
     public GameObject part_arm_r;
     public GameObject part_asset_1;
     public GameObject part_asset_2;
-    public GameObject part_blade_l;
-    public GameObject part_blade_r;
     public GameObject part_brand_1;
     public GameObject part_brand_2;
     public GameObject part_brand_3;
@@ -51,99 +45,6 @@ public class HERO_SETUP : MonoBehaviour
 
         this.part_head.transform.parent = armatureData.head.transform;
         reference = this.transform.gameObject;
-    }
-
-    public void create3DMG()
-    {
-        UnityEngine.Object.Destroy(this.part_3dmg);
-        UnityEngine.Object.Destroy(this.part_3dmg_belt);
-        UnityEngine.Object.Destroy(this.part_3dmg_gas_l);
-        UnityEngine.Object.Destroy(this.part_3dmg_gas_r);
-        UnityEngine.Object.Destroy(this.part_blade_l);
-        UnityEngine.Object.Destroy(this.part_blade_r);
-        if (this.myCostume.mesh_3dmg.Length > 0)
-        {
-            this.part_3dmg = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg));
-            this.part_3dmg.transform.position = transform.position;
-            this.part_3dmg.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
-            this.part_3dmg.transform.parent = armatureData.chest;
-            this.part_3dmg.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-        }
-        if (this.myCostume.mesh_3dmg_belt.Length > 0)
-        {
-            this.part_3dmg_belt = this.GenerateCloth(this.reference, "Character/" + this.myCostume.mesh_3dmg_belt);
-            this.part_3dmg_belt.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-        }
-        if (this.myCostume.mesh_3dmg_gas_l.Length > 0)
-        {
-            this.part_3dmg_gas_l = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_l));
-            if (this.myCostume.uniform_type != UNIFORM_TYPE.CasualAHSS)
-            {
-                this.part_3dmg_gas_l.transform.position = transform.position;
-                this.part_3dmg_gas_l.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
-                this.part_3dmg_gas_l.transform.parent = armatureData.spine;
-            }
-            else
-            {
-                this.part_3dmg_gas_l.transform.position = transform.position;
-                this.part_3dmg_gas_l.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
-                this.part_3dmg_gas_l.transform.parent = armatureData.thigh_L;
-            }
-            this.part_3dmg_gas_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-        }
-        if (this.myCostume.mesh_3dmg_gas_r.Length > 0)
-        {
-            this.part_3dmg_gas_r = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_r));
-            if (this.myCostume.uniform_type != UNIFORM_TYPE.CasualAHSS)
-            {
-                this.part_3dmg_gas_r.transform.position = transform.position;
-                this.part_3dmg_gas_r.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
-                this.part_3dmg_gas_r.transform.parent = armatureData.spine;
-            }
-            else
-            {
-                this.part_3dmg_gas_r.transform.position = transform.position;
-                this.part_3dmg_gas_r.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
-                this.part_3dmg_gas_r.transform.parent = armatureData.thigh_R;
-            }
-            this.part_3dmg_gas_r.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-        }
-        if (this.myCostume.weapon_l_mesh.Length > 0)
-        {
-            this.part_blade_l = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.weapon_l_mesh));
-            this.part_blade_l.transform.position = transform.position;
-            this.part_blade_l.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
-            this.part_blade_l.transform.parent = armatureData.hand_L;
-            this.part_blade_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-            //if (this.part_blade_l.transform.Find("X-WeaponTrailA") != null)
-            //{
-            //    this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>().Deactivate();
-            //    this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>().Deactivate();
-            //    if (base.gameObject.GetComponent<Hero>() != null)
-            //    {
-            //        base.gameObject.GetComponent<Hero>().leftbladetrail = this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>();
-            //        base.gameObject.GetComponent<Hero>().leftbladetrail2 = this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
-            //    }
-            //}
-        }
-        if (this.myCostume.weapon_r_mesh.Length > 0)
-        {
-            this.part_blade_r = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.weapon_r_mesh));
-            this.part_blade_r.transform.position = transform.position;
-            this.part_blade_r.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
-            this.part_blade_r.transform.parent = armatureData.hand_R;
-            this.part_blade_r.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-            //if (this.part_blade_r.transform.Find("X-WeaponTrailA") != null)
-            //{
-            //    this.part_blade_r.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>().Deactivate();
-            //    this.part_blade_r.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>().Deactivate();
-            //    if (base.gameObject.GetComponent<Hero>() != null)
-            //    {
-            //        base.gameObject.GetComponent<Hero>().rightbladetrail = this.part_blade_r.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>();
-            //        base.gameObject.GetComponent<Hero>().rightbladetrail2 = this.part_blade_r.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
-            //    }
-            //}
-        }
     }
 
     public void createCape2()
@@ -268,7 +169,7 @@ public class HERO_SETUP : MonoBehaviour
         }
     }
 
-    public void createUpperBody2()
+    public void createUpperBody()
     {
         UnityEngine.Object.Destroy(this.part_upper_body);
         UnityEngine.Object.Destroy(this.part_brand_1);
@@ -332,7 +233,7 @@ public class HERO_SETUP : MonoBehaviour
         this.part_chest.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume.skin_texture];
     }
 
-    public void deleteCharacterComponent2()
+    public void deleteCharacterComponent()
     {
         UnityEngine.Object.Destroy(this.part_eye);
         UnityEngine.Object.Destroy(this.part_face);
@@ -357,15 +258,9 @@ public class HERO_SETUP : MonoBehaviour
         UnityEngine.Object.Destroy(this.part_chest_1);
         UnityEngine.Object.Destroy(this.part_chest_2);
         UnityEngine.Object.Destroy(this.part_chest_3);
-        UnityEngine.Object.Destroy(this.part_3dmg);
-        UnityEngine.Object.Destroy(this.part_3dmg_belt);
-        UnityEngine.Object.Destroy(this.part_3dmg_gas_l);
-        UnityEngine.Object.Destroy(this.part_3dmg_gas_r);
-        UnityEngine.Object.Destroy(this.part_blade_l);
-        UnityEngine.Object.Destroy(this.part_blade_r);
     }
 
-    private GameObject GenerateCloth(GameObject go, string res)
+    public GameObject GenerateCloth(GameObject go, string res)
     {
         try
         {
@@ -398,11 +293,10 @@ public class HERO_SETUP : MonoBehaviour
     public void setCharacterComponent()
     {
         this.createHead2();
-        this.createUpperBody2();
+        this.createUpperBody();
         this.createLeftArm();
         this.createRightArm();
         this.createLowerBody();
-        this.create3DMG();
     }
 
     public void setFacialTexture(GameObject go, int id)

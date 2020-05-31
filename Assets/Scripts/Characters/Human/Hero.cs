@@ -4274,7 +4274,7 @@ public class Hero : Human
         equipmentObject.transform.parent = gameObject.transform;
         currentEquipment = equipmentObject.GetComponent<OdmgEquipment>();
         currentEquipment.SetStats(setup.myCostume.stat);
-        currentEquipment.SetHero(this);
+        currentEquipment.SetHero(gameObject);
     }
 
     private void Start()
@@ -5310,10 +5310,10 @@ public class Hero : Human
                                 {
                                     if (this.baseAnimation[this.reloadAnimation].normalizedTime > 0.22f)
                                     {
-                                        if (!(((AHSS)currentEquipment).leftGunLoaded || !this.setup.part_blade_l.activeSelf))
+                                        if (!(((AHSS)currentEquipment).leftGunLoaded || !currentEquipment.part_blade_l.activeSelf))
                                         {
-                                            this.setup.part_blade_l.SetActive(false);
-                                            Transform transform = this.setup.part_blade_l.transform;
+                                            currentEquipment.part_blade_l.SetActive(false);
+                                            Transform transform = currentEquipment.part_blade_l.transform;
                                             GameObject obj5 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
                                             obj5.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
                                             Vector3 force = ((Vector3)((-this.baseTransform.forward * 10f) + (this.baseTransform.up * 5f))) - this.baseTransform.right;
@@ -5321,10 +5321,10 @@ public class Hero : Human
                                             Vector3 torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
                                             obj5.GetComponent<Rigidbody>().AddTorque(torque, ForceMode.Acceleration);
                                         }
-                                        if (!(((AHSS)currentEquipment).rightGunLoaded || !this.setup.part_blade_r.activeSelf))
+                                        if (!(((AHSS)currentEquipment).rightGunLoaded || !currentEquipment.part_blade_r.activeSelf))
                                         {
-                                            this.setup.part_blade_r.SetActive(false);
-                                            Transform transform5 = this.setup.part_blade_r.transform;
+                                            currentEquipment.part_blade_r.SetActive(false);
+                                            Transform transform5 = currentEquipment.part_blade_r.transform;
                                             GameObject obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform5.position, transform5.rotation);
                                             obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
                                             Vector3 vector3 = ((Vector3)((-this.baseTransform.forward * 10f) + (this.baseTransform.up * 5f))) + this.baseTransform.right;
@@ -5341,12 +5341,12 @@ public class Hero : Human
                                         if (!((ahssGear.leftGunAmmo <= 0) || ((AHSS)currentEquipment).leftGunLoaded))
                                         {
                                             ahssGear.leftGunAmmo--;
-                                            this.setup.part_blade_l.SetActive(true);
+                                            currentEquipment.part_blade_l.SetActive(true);
                                             ((AHSS)currentEquipment).leftGunLoaded = true;
                                         }
                                         if (!((ahssGear.rightGunAmmo <= 0) || ((AHSS)currentEquipment).rightGunLoaded))
                                         {
-                                            this.setup.part_blade_r.SetActive(true);
+                                            currentEquipment.part_blade_r.SetActive(true);
                                             ahssGear.rightGunAmmo--;
                                             ((AHSS)currentEquipment).rightGunLoaded = true;
                                         }
@@ -5365,7 +5365,7 @@ public class Hero : Human
                                         if (!((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime < 0.2f) || this.throwedBlades))
                                         {
                                             this.throwedBlades = true;
-                                            if (this.setup.part_blade_l.activeSelf)
+                                            if (currentEquipment.part_blade_l.activeSelf)
                                             {
                                                 ((Blades)currentEquipment).dropBlades();
                                             }
@@ -5375,8 +5375,8 @@ public class Hero : Human
 
                                         if ((base.GetComponent<Animation>()[this.reloadAnimation].normalizedTime >= 0.56f) && (bladesGear.NumBlades > 0))
                                         {
-                                            this.setup.part_blade_l.SetActive(true);
-                                            this.setup.part_blade_r.SetActive(true);
+                                            currentEquipment.part_blade_l.SetActive(true);
+                                            currentEquipment.part_blade_r.SetActive(true);
 
                                             bladesGear.BladeDurability = bladesGear.maxDurability;
                                         }
@@ -5386,7 +5386,7 @@ public class Hero : Human
                                         if (!((this.baseAnimation[this.reloadAnimation].normalizedTime < 0.13f) || this.throwedBlades))
                                         {
                                             this.throwedBlades = true;
-                                            if (this.setup.part_blade_l.activeSelf)
+                                            if (currentEquipment.part_blade_l.activeSelf)
                                             {
                                                 ((Blades)currentEquipment).dropBlades();
                                             }
@@ -5396,8 +5396,8 @@ public class Hero : Human
 
                                         if ((this.baseAnimation[this.reloadAnimation].normalizedTime >= 0.37f) && (bladesGear.NumBlades > 0))
                                         {
-                                            this.setup.part_blade_l.SetActive(true);
-                                            this.setup.part_blade_r.SetActive(true);
+                                            currentEquipment.part_blade_l.SetActive(true);
+                                            currentEquipment.part_blade_r.SetActive(true);
                                             bladesGear.BladeDurability = bladesGear.maxDurability;
                                         }
                                     }
@@ -5440,15 +5440,15 @@ public class Hero : Human
 
                                     if (!this.useGun)
                                     {
-                                        this.setup.part_blade_l.SetActive(true);
-                                        this.setup.part_blade_r.SetActive(true);
+                                        currentEquipment.part_blade_l.SetActive(true);
+                                        currentEquipment.part_blade_r.SetActive(true);
                                     }
                                     else
                                     {
                                         ((AHSS)currentEquipment).rightGunLoaded = true;
                                         ((AHSS)currentEquipment).leftGunLoaded = true;
-                                        this.setup.part_blade_l.SetActive(true);
-                                        this.setup.part_blade_r.SetActive(true);
+                                        currentEquipment.part_blade_l.SetActive(true);
+                                        currentEquipment.part_blade_r.SetActive(true);
                                         this.updateRightMagUI();
                                         this.updateLeftMagUI();
                                     }
