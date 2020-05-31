@@ -2111,8 +2111,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             QualitySettings.vSyncCount = 1;
         }
         AudioListener.volume = PlayerPrefs.GetFloat("vol", 1f);
-        //IS THIS LINE OF CODE IMPORTANT?? IT AFFECTS GRAPHICS SCRIPTS!!
-        //QualitySettings.masterTextureLimit = PlayerPrefs.GetInt("skinQ", 0);
         linkHash = new ExitGames.Client.Photon.Hashtable[] { new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable() };
         settings = objArray;
         this.scroll = Vector2.zero;

@@ -59,13 +59,12 @@ namespace Assets.Scripts.UI.InGame
 				label.color = Color.green;
 				label.text = "saved player prefs";
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Debug.LogError(ex.ToString());
 				label.color = Color.red;
 				label.text = "error saving player prefs";
 			}
-			// graphics
 			
 		}
 
