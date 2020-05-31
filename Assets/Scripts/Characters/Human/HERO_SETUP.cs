@@ -11,13 +11,6 @@ public class HERO_SETUP : MonoBehaviour
     public int currentOne;
     public SkinnedMeshRenderer[][] elements;
     public bool isDeadBody;
-    private GameObject mount_3dmg;
-    private GameObject mount_3dmg_gas_l;
-    private GameObject mount_3dmg_gas_r;
-    private GameObject mount_3dmg_gun_mag_l;
-    private GameObject mount_3dmg_gun_mag_r;
-    private GameObject mount_weapon_l;
-    private GameObject mount_weapon_r;
     public HeroCostume myCostume;
     public GameObject part_3dmg;
     public GameObject part_3dmg_belt;
@@ -57,34 +50,6 @@ public class HERO_SETUP : MonoBehaviour
         armatureData = gameObject.GetComponent<ArmatureData>();
 
         this.part_head.transform.parent = armatureData.head.transform;
-        this.mount_3dmg = new GameObject();
-        this.mount_3dmg_gas_l = new GameObject();
-        this.mount_3dmg_gas_r = new GameObject();
-        this.mount_3dmg_gun_mag_l = new GameObject();
-        this.mount_3dmg_gun_mag_r = new GameObject();
-        this.mount_weapon_l = new GameObject();
-        this.mount_weapon_r = new GameObject();
-        this.mount_3dmg.transform.position = base.transform.position;
-        this.mount_3dmg.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg.transform.parent = armatureData.chest.transform;
-        this.mount_3dmg_gas_l.transform.position = base.transform.position;
-        this.mount_3dmg_gas_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gas_l.transform.parent = armatureData.spine.transform;
-        this.mount_3dmg_gas_r.transform.position = base.transform.position;
-        this.mount_3dmg_gas_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gas_r.transform.parent = armatureData.spine.transform;
-        this.mount_3dmg_gun_mag_l.transform.position = base.transform.position;
-        this.mount_3dmg_gun_mag_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gun_mag_l.transform.parent = armatureData.thigh_L.transform;
-        this.mount_3dmg_gun_mag_r.transform.position = base.transform.position;
-        this.mount_3dmg_gun_mag_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_3dmg_gun_mag_r.transform.parent = armatureData.thigh_R.transform;
-        this.mount_weapon_l.transform.position = base.transform.position;
-        this.mount_weapon_l.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_weapon_l.transform.parent = armatureData.hand_L.transform;
-        this.mount_weapon_r.transform.position = base.transform.position;
-        this.mount_weapon_r.transform.rotation = Quaternion.Euler(270f, base.transform.rotation.eulerAngles.y, 0f);
-        this.mount_weapon_r.transform.parent = armatureData.hand_R.transform;
         reference = this.transform.gameObject;
     }
 
@@ -99,9 +64,9 @@ public class HERO_SETUP : MonoBehaviour
         if (this.myCostume.mesh_3dmg.Length > 0)
         {
             this.part_3dmg = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg));
-            this.part_3dmg.transform.position = this.mount_3dmg.transform.position;
-            this.part_3dmg.transform.rotation = this.mount_3dmg.transform.rotation;
-            this.part_3dmg.transform.parent = this.mount_3dmg.transform.parent;
+            this.part_3dmg.transform.position = transform.position;
+            this.part_3dmg.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+            this.part_3dmg.transform.parent = armatureData.chest;
             this.part_3dmg.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
         }
         if (this.myCostume.mesh_3dmg_belt.Length > 0)
@@ -114,15 +79,15 @@ public class HERO_SETUP : MonoBehaviour
             this.part_3dmg_gas_l = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_l));
             if (this.myCostume.uniform_type != UNIFORM_TYPE.CasualAHSS)
             {
-                this.part_3dmg_gas_l.transform.position = this.mount_3dmg_gas_l.transform.position;
-                this.part_3dmg_gas_l.transform.rotation = this.mount_3dmg_gas_l.transform.rotation;
-                this.part_3dmg_gas_l.transform.parent = this.mount_3dmg_gas_l.transform.parent;
+                this.part_3dmg_gas_l.transform.position = transform.position;
+                this.part_3dmg_gas_l.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+                this.part_3dmg_gas_l.transform.parent = armatureData.spine;
             }
             else
             {
-                this.part_3dmg_gas_l.transform.position = this.mount_3dmg_gun_mag_l.transform.position;
-                this.part_3dmg_gas_l.transform.rotation = this.mount_3dmg_gun_mag_l.transform.rotation;
-                this.part_3dmg_gas_l.transform.parent = this.mount_3dmg_gun_mag_l.transform.parent;
+                this.part_3dmg_gas_l.transform.position = transform.position;
+                this.part_3dmg_gas_l.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+                this.part_3dmg_gas_l.transform.parent = armatureData.thigh_L;
             }
             this.part_3dmg_gas_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
         }
@@ -131,24 +96,24 @@ public class HERO_SETUP : MonoBehaviour
             this.part_3dmg_gas_r = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg_gas_r));
             if (this.myCostume.uniform_type != UNIFORM_TYPE.CasualAHSS)
             {
-                this.part_3dmg_gas_r.transform.position = this.mount_3dmg_gas_r.transform.position;
-                this.part_3dmg_gas_r.transform.rotation = this.mount_3dmg_gas_r.transform.rotation;
-                this.part_3dmg_gas_r.transform.parent = this.mount_3dmg_gas_r.transform.parent;
+                this.part_3dmg_gas_r.transform.position = transform.position;
+                this.part_3dmg_gas_r.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+                this.part_3dmg_gas_r.transform.parent = armatureData.spine;
             }
             else
             {
-                this.part_3dmg_gas_r.transform.position = this.mount_3dmg_gun_mag_r.transform.position;
-                this.part_3dmg_gas_r.transform.rotation = this.mount_3dmg_gun_mag_r.transform.rotation;
-                this.part_3dmg_gas_r.transform.parent = this.mount_3dmg_gun_mag_r.transform.parent;
+                this.part_3dmg_gas_r.transform.position = transform.position;
+                this.part_3dmg_gas_r.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+                this.part_3dmg_gas_r.transform.parent = armatureData.thigh_R;
             }
             this.part_3dmg_gas_r.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
         }
         if (this.myCostume.weapon_l_mesh.Length > 0)
         {
             this.part_blade_l = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.weapon_l_mesh));
-            this.part_blade_l.transform.position = this.mount_weapon_l.transform.position;
-            this.part_blade_l.transform.rotation = this.mount_weapon_l.transform.rotation;
-            this.part_blade_l.transform.parent = this.mount_weapon_l.transform.parent;
+            this.part_blade_l.transform.position = transform.position;
+            this.part_blade_l.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+            this.part_blade_l.transform.parent = armatureData.hand_L;
             this.part_blade_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
             //if (this.part_blade_l.transform.Find("X-WeaponTrailA") != null)
             //{
@@ -164,9 +129,9 @@ public class HERO_SETUP : MonoBehaviour
         if (this.myCostume.weapon_r_mesh.Length > 0)
         {
             this.part_blade_r = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.weapon_r_mesh));
-            this.part_blade_r.transform.position = this.mount_weapon_r.transform.position;
-            this.part_blade_r.transform.rotation = this.mount_weapon_r.transform.rotation;
-            this.part_blade_r.transform.parent = this.mount_weapon_r.transform.parent;
+            this.part_blade_r.transform.position = transform.position;
+            this.part_blade_r.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+            this.part_blade_r.transform.parent = armatureData.hand_R;
             this.part_blade_r.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
             //if (this.part_blade_r.transform.Find("X-WeaponTrailA") != null)
             //{
