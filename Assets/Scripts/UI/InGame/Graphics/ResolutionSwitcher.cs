@@ -40,7 +40,6 @@ namespace Assets.Scripts.UI.InGame
 				{
 					Screen.SetResolution(temp.width, temp.height, Toggle.GetComponent<Toggle>().isOn, temp.refreshRate);
 					Resolution = temp.ToString();
-					Debug.LogError(temp.refreshRate);
 				}
 			}
 		}
