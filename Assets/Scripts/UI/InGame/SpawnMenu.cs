@@ -78,8 +78,8 @@ namespace Assets.Scripts.UI.InGame
 
         public void Update()
         {
-            Cursor.visible = true;
-            Screen.lockCursor = false;
+            // TODO: Investigate whether this is necessary.
+            //CursorManagement.CameraMode = CursorManagement.Mode.Menu;
         }
     }
 }

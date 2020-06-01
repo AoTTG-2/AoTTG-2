@@ -6,8 +6,10 @@ namespace Assets.Scripts.UI.Menu
     {
         private void OnEnable()
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined; 
+            // TODO: Find out whether it really should be confined.
+            //Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.Confined; 
+            CursorManagement.CameraMode = CursorManagement.Mode.Menu;
         } 
         public void Singleplayer()
         {

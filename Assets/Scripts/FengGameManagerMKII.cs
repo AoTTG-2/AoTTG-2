@@ -456,10 +456,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 if (this.inputManager.isInputDown[InputCode.flare1])
                 {
+                    // TODO: Add spectator mode.
+
                     //if (NGUITools.GetActive(this.ui.GetComponent<UIReferArray>().panels[3]))
                     //{
-                    Screen.lockCursor = true;
-                    Cursor.visible = true;
+                    //    Screen.lockCursor = true;
+                    //    Cursor.visible = true;
                     //    NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[0], true);
                     //    NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[1], false);
                     //    NGUITools.SetActive(this.ui.GetComponent<UIReferArray>().panels[2], false);
@@ -483,10 +485,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 if (this.inputManager.isInputDown[15] && !this.inputManager.menuOn)
                 {
-                    Cursor.visible = true;
-                    Screen.lockCursor = false;
+                    CursorManagement.CameraMode = CursorManagement.Mode.Menu;
                     Camera.main.GetComponent<SpectatorMovement>().disable = true;
-                    //TODO Mouselook
+                    // TODO: Mouselook
                     //Camera.main.GetComponent<MouseLook>().disable = true;
                     this.inputManager.menuOn = true;
                 }
@@ -722,8 +723,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     string str11;
                     IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
                     this.gameStart = false;
-                    Screen.lockCursor = false;
-                    Cursor.visible = true;
+                    // TODO: Find out whether this is necessary.
+                    CursorManagement.CameraMode = CursorManagement.Mode.Menu;
                     string str6 = string.Empty;
                     string str7 = string.Empty;
                     string str8 = string.Empty;
@@ -896,23 +897,25 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 linkHash[3].Add(this.selectedObj.GetInstanceID(), this.selectedObj.name + "," + Convert.ToString(this.selectedObj.transform.position.x) + "," + Convert.ToString(this.selectedObj.transform.position.y) + "," + Convert.ToString(this.selectedObj.transform.position.z) + "," + Convert.ToString(this.selectedObj.transform.rotation.x) + "," + Convert.ToString(this.selectedObj.transform.rotation.y) + "," + Convert.ToString(this.selectedObj.transform.rotation.z) + "," + Convert.ToString(this.selectedObj.transform.rotation.w));
                 this.selectedObj = null;
-                //TODO Mouselook
+                // TODO: Mouselook
                 //Camera.main.GetComponent<MouseLook>().enabled = true;
-                Screen.lockCursor = true;
+                // TODO: Find out how this works.
+                Cursor.lockState = CursorLockMode.Locked;
             }
             if (inputRC.isInputLevel(InputCodeRC.levelDelete))
             {
                 UnityEngine.Object.Destroy(this.selectedObj);
                 this.selectedObj = null;
-                //TODO Mouselook
+                // TODO: Mouselook
                 //Camera.main.GetComponent<MouseLook>().enabled = true;
-                Screen.lockCursor = true;
+                // TODO: Find out how this works.
+                Cursor.lockState = CursorLockMode.Locked;
                 linkHash[3].Remove(this.selectedObj.GetInstanceID());
             }
         }
         else
         {
-            if (Screen.lockCursor)
+            if (Cursor.lockState == CursorLockMode.Locked)
             {
                 float num2 = 100f;
                 if (inputRC.isInputLevel(InputCodeRC.levelSlow))
@@ -951,18 +954,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             if (inputRC.isInputLevelDown(InputCodeRC.levelCursor))
             {
-                if (Screen.lockCursor)
-                {
-                    //TODO Mouselook
-                    //Camera.main.GetComponent<MouseLook>().enabled = false;
-                    Screen.lockCursor = false;
-                }
-                else
-                {
-                    //TODO Mouselook
-                    //Camera.main.GetComponent<MouseLook>().enabled = true;
-                    Screen.lockCursor = true;
-                }
+                // TODO: Mouselook
+                //Camera.main.GetComponent<MouseLook>().enabled = Cursor.lockState != CursorLockMode.Locked;
+                Debug.Log("levelCursor pressed - lockState changed");
+                Cursor.lockState = Cursor.lockState == CursorLockMode.None ? CursorLockMode.Locked : CursorLockMode.None;
             }
             if (((Input.GetKeyDown(KeyCode.Mouse0) && !Screen.lockCursor) && (GUIUtility.hotControl == 0)) && !(((Input.mousePosition.x <= 300f) || (Input.mousePosition.x >= (Screen.width - 300f))) ? ((Screen.height - Input.mousePosition.y) <= 600f) : false))
             {
@@ -975,6 +970,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.selectedObj = transform8.gameObject;
                         //TODO Mouselook
                         //Camera.main.GetComponent<MouseLook>().enabled = false;
+                        Debug.Log("Unexplained 'lockCursor = true' reached");
                         Screen.lockCursor = true;
                         linkHash[3].Remove(this.selectedObj.GetInstanceID());
                     }
@@ -983,6 +979,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.selectedObj = transform8.parent.gameObject;
                         //TODO Mouselook
                         //Camera.main.GetComponent<MouseLook>().enabled = false;
+                        Debug.Log("Unexplained 'lockCursor = true' reached");
                         Screen.lockCursor = true;
                         linkHash[3].Remove(this.selectedObj.GetInstanceID());
                     }
@@ -1497,11 +1494,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             instance.needChooseSide = false;
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.ORIGINAL)
-            {
-                Screen.lockCursor = false;
-                Cursor.visible = false;
-            }
             GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
             if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
             {
@@ -2919,15 +2911,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         hashtable.Add(PhotonPlayerProperty.isTitan, 2);
         propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-        {
-            Screen.lockCursor = true;
-        }
-        else
-        {
-            Screen.lockCursor = false;
-        }
-        Cursor.visible = true;
         this.ShowHUDInfoCenter("the game has started for 60 seconds.\n please wait for next round.\n Click Right Mouse Key to Enter or Exit the Spectator Mode.");
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
@@ -2946,15 +2929,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         hashtable.Add(PhotonPlayerProperty.isTitan, 2);
         propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-        {
-            Screen.lockCursor = true;
-        }
-        else
-        {
-            Screen.lockCursor = false;
-        }
-        Cursor.visible = true;
         this.ShowHUDInfoCenter("Syncing spawn locations...");
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
@@ -2973,15 +2947,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         hashtable.Add(PhotonPlayerProperty.isTitan, 1);
         propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-        {
-            Screen.lockCursor = true;
-        }
-        else
-        {
-            Screen.lockCursor = false;
-        }
-        Cursor.visible = false;
         this.ShowHUDInfoCenter("the game has started for 60 seconds.\n please wait for next round.\n Click Right Mouse Key to Enter or Exit the Spectator Mode.");
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
@@ -3000,15 +2965,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         hashtable.Add(PhotonPlayerProperty.isTitan, 1);
         propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-        {
-            Screen.lockCursor = true;
-        }
-        else
-        {
-            Screen.lockCursor = false;
-        }
-        Cursor.visible = false;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
@@ -3028,8 +2984,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnConnectionFail(DisconnectCause cause)
     {
         UnityEngine.MonoBehaviour.print("OnConnectionFail : " + cause.ToString());
-        Screen.lockCursor = false;
-        Cursor.visible = true;
+        // TODO: Find out if this is redundant.
+        CursorManagement.CameraMode = CursorManagement.Mode.Menu;
         IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
         this.gameStart = false;
     }
@@ -3048,8 +3004,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnDisconnectedFromPhoton()
     {
         UnityEngine.MonoBehaviour.print("OnDisconnectedFromPhoton");
-        Screen.lockCursor = false;
-        Cursor.visible = true;
+        // TODO: Find out if this is redundant.
+        CursorManagement.CameraMode = CursorManagement.Mode.Menu;
     }
 
     [PunRPC]
@@ -3200,8 +3156,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.loadconfig();
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
             this.gameStart = false;
-            Screen.lockCursor = false;
-            Cursor.visible = true;
             this.inputManager.menuOn = false;
             this.DestroyAllExistingCloths();
             UnityEngine.Object.Destroy(GameObject.Find("MultiplayerManager"));
@@ -3227,8 +3181,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             GameObject obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
             UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
             obj3.name = "MainCamera";
-            Screen.lockCursor = true;
-            Cursor.visible = true;
             this.cache();
             this.loadskin();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
@@ -3245,15 +3197,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 //Camera.main.GetComponent<MouseLook>().disable = true;
                 //this.SpawnPlayer(IN_GAME_MAIN_CAMERA.singleCharacter.ToUpper(), "playerRespawn");
                 SpawnPlayer(null);
-                if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-                {
-                    Screen.lockCursor = true;
-                }
-                else
-                {
-                    Screen.lockCursor = false;
-                }
-                Cursor.visible = false;
                 int abnormal = 90;
                 if (this.difficulty == 1)
                 {
@@ -3274,14 +3217,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 else if (((int)settings[0xf5]) == 0)
                 {
-                    if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-                    {
-                        Screen.lockCursor = true;
-                    }
-                    else
-                    {
-                        Screen.lockCursor = false;
-                    }
                     if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                     {
                         this.SpawnNonAITitan2(this.myLastHero, "titanRespawn");
@@ -3738,11 +3673,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         if ((skyMaterial != null) && (Camera.main.GetComponent<Skybox>().material != skyMaterial))
-        {
             Camera.main.GetComponent<Skybox>().material = skyMaterial;
-        }
-        Screen.lockCursor = !Screen.lockCursor;
-        Screen.lockCursor = !Screen.lockCursor;
+
+        // TODO: Investigate whether this is necessary.
+        //Screen.lockCursor = !Screen.lockCursor;
+        //Screen.lockCursor = !Screen.lockCursor;
     }
 
     public void removeCT(COLOSSAL_TITAN titan)
@@ -4278,8 +4213,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             this.gameTimesUp = true;
             GameObject obj2 = GameObject.Find("UI_IN_GAME");
-            Screen.lockCursor = false;
-            Cursor.visible = true;
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
             this.gameStart = false;
         }
@@ -4526,15 +4459,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             //TODO MouseLook
             //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
-            if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-            {
-                Screen.lockCursor = true;
-            }
-            else
-            {
-                Screen.lockCursor = false;
-            }
-            Cursor.visible = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
         }
@@ -4617,15 +4541,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             //TODO MouseLook
             //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
-            if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-            {
-                Screen.lockCursor = true;
-            }
-            else
-            {
-                Screen.lockCursor = false;
-            }
-            Cursor.visible = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
         }
