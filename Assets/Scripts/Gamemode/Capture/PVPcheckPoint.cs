@@ -197,11 +197,11 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         gamemode.SpawnCheckpointTitan(this, base.transform.position - ((Vector3)(Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation);
     }
 
-    private void Start()
+    private void Awake()
     {
         if (gamemode == null)
         {
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
             return;
         }
         SetPreviousCheckpoints();
