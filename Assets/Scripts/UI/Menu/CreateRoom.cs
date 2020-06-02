@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -43,7 +42,9 @@ namespace Assets.Scripts.UI.Menu
 
         public void Create()
         {
-            //TODO: This will fail when multiple input fields are present.
+            CursorManagement.CameraMode = CursorManagement.Mode.Loading;
+
+            // TODO: This will fail when multiple input fields are present.
             var input = GetComponentsInChildren<InputField>();
             var roomNameInput = input[0].text.Trim();
             var roomName = string.IsNullOrEmpty(roomNameInput)

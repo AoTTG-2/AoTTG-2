@@ -1,6 +1,4 @@
-﻿using UnityEngine; 
-
-namespace Assets.Scripts.UI.Menu
+﻿namespace Assets.Scripts.UI.Menu
 {
     public class MainMenu : UiNavigationElement
     {
@@ -10,7 +8,15 @@ namespace Assets.Scripts.UI.Menu
             //Cursor.visible = true;
             //Cursor.lockState = CursorLockMode.Confined; 
             CursorManagement.CameraMode = CursorManagement.Mode.Menu;
-        } 
+
+            EventManager.OnMenuToggled?.Invoke(true);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnMenuToggled?.Invoke(false);
+        }
+
         public void Singleplayer()
         {
             Navigate(typeof(Singleplayer));

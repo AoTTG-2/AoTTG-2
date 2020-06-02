@@ -23,12 +23,16 @@ namespace Assets.Scripts.UI.InGame
         private void OnEnable()
         {
             CursorManagement.CameraMode = CursorManagement.Mode.Menu;
+
+            EventManager.OnMenuToggled?.Invoke(true);
         }
         private void OnDisable()
         {
             CursorManagement.CameraMode = CursorManagement.PreferredCameraMode;
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicSettingsMenu.gameObject.SetActive(false);
+
+            EventManager.OnMenuToggled?.Invoke(false);
         }
 
         public void Quit()

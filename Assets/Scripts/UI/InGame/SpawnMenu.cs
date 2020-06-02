@@ -87,10 +87,24 @@ namespace Assets.Scripts.UI.InGame
             return (num == num2);
         }
 
-        public void Update()
+        private void Update()
         {
             // TODO: Investigate whether this is necessary.
             //CursorManagement.CameraMode = CursorManagement.Mode.Menu;
+        }
+        
+        private void OnEnable()
+        {
+            CursorManagement.CameraMode = CursorManagement.Mode.Menu;
+
+            EventManager.OnMenuToggled?.Invoke(true);
+        }
+
+        private void OnDisable()
+        {
+            CursorManagement.CameraMode = CursorManagement.PreferredCameraMode;
+
+            EventManager.OnMenuToggled?.Invoke(false);
         }
     }
 }
