@@ -17,7 +17,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         }
 
         private readonly bool isCrawler;
-        private string AttackAnimation { get; set; }
+
+        // HACK: It is Empty in certain situations. This fixes that.
+        private string AttackAnimation { get; set; } = "attack_jumper_0";
         private string AnimationJump { get; set; } = "attack_jumper_0";
         private string AnimationFall { get; set; } = "attack_jumper_1";
         private string AnimationLand { get; set; } = "attack_jumper_2";
