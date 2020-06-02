@@ -20,6 +20,10 @@ namespace Assets.Scripts.Characters.Titan
         protected override void Awake()
         {
             base.Awake();
+
+            // TODO: Make the other camera modes work.
+            CursorManagement.CameraMode = CursorManagement.Mode.TPS;
+
             this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
