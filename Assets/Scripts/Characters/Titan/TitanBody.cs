@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
 {
     public class TitanBody : Photon.MonoBehaviour
     {
+        public Transform AABB;
+        public Transform Core;
+
         public Transform Head;
         public Transform Neck;
         public Transform HandRight;
@@ -49,10 +54,23 @@ namespace Assets.Scripts.Characters.Titan
         public Transform AttackBite;
         public Transform AttackAbnormalJump;
 
-        private Dictionary<BodyPart, float> CooldownDictionary { get; set; } = new Dictionary<BodyPart, float>();
-        private readonly float _bodyPartRecovery = 45f;
+        private float LimbRegeneration { get; set; }
+        private float LimbHealth { get; set; }
         private readonly Vector3 bodyPartDamagedSize = new Vector3(0.001f, 0.001f, 0.001f);
         private Dictionary<BodyPart, GameObject> SteamEffectDictionary { get; set; } = new Dictionary<BodyPart, GameObject>();
+        private Dictionary<BodyPart, float> CooldownDictionary { get; set; } = new Dictionary<BodyPart, float>();
+        private Dictionary<BodyPart, float> HealthDictionary { get; set; }
+
+        public void Initialize(float limbHealth, float limbRegeneration)
+        {
+            LimbHealth = limbHealth;
+            LimbRegeneration = limbRegeneration;
+            HealthDictionary = new Dictionary<BodyPart, float>();
+            foreach (BodyPart bodyPart in Enum.GetValues(typeof(BodyPart)))
+            {
+                HealthDictionary[bodyPart] = LimbHealth;
+            }
+        }
 
         public BodyPart GetBodyPart(Transform bodypart)
         {
@@ -76,38 +94,59 @@ namespace Assets.Scripts.Characters.Titan
             return BodyPart.None;
         }
 
+        public void DamageBodyPart(BodyPart body, int damage)
+        {
+            HealthDictionary[body] -= damage;
+            if (HealthDictionary[body] <= 0)
+            {
+                AddBodyPart(body);
+                HealthDictionary[body] = LimbHealth;
+            }
+        }
+
         public void AddBodyPart(BodyPart body)
         {
-            BodyPart[] bodyPart = {BodyPart.None};
+            AddBodyPart(body, LimbRegeneration);
+        }
+
+        public void AddBodyPart(BodyPart body, float regenerationTime)
+        {
+            BodyPart[] bodyPart = { BodyPart.None };
             Transform bodyPartEffect = null;
             if (body == BodyPart.ArmRight)
             {
-                bodyPart = new[] {BodyPart.ArmRight, BodyPart.HandRight};
+                bodyPart = new[] { BodyPart.ArmRight, BodyPart.HandRight };
                 bodyPartEffect = ArmRight;
-            } else if (body == BodyPart.ArmLeft)
+            }
+            else if (body == BodyPart.ArmLeft)
             {
                 bodyPart = new[] { BodyPart.ArmLeft, BodyPart.HandLeft };
                 bodyPartEffect = ArmLeft;
-            } else if (body == BodyPart.LegLeft)
+            }
+            else if (body == BodyPart.LegLeft)
             {
-                bodyPart = new[] {BodyPart.LegLeft};
+                bodyPart = new[] { BodyPart.LegLeft };
                 bodyPartEffect = LegLeft;
-            } else if (body == BodyPart.LegRight)
+            }
+            else if (body == BodyPart.LegRight)
             {
                 bodyPart = new[] { BodyPart.LegRight };
                 bodyPartEffect = LegRight;
+            } else if (body == BodyPart.Eyes)
+            {
+                bodyPart = new[] {BodyPart.Eyes};
             }
 
             if (bodyPart[0] == BodyPart.None || CooldownDictionary.ContainsKey(bodyPart[0])) return;
 
             foreach (var part in bodyPart)
             {
-                CooldownDictionary.Add(part, _bodyPartRecovery);
+                CooldownDictionary.Add(part, regenerationTime);
             }
 
             if (bodyPartEffect == null || !photonView.isMine) return;
             var steamEffect = PhotonNetwork.Instantiate("fx/bodypart_steam", new Vector3(), new Quaternion(), 0);
-            steamEffect.GetComponent<SelfDestroy>().CountDown = _bodyPartRecovery;
+            steamEffect.GetComponent<SelfDestroy>().CountDown = regenerationTime;
             steamEffect.transform.parent = bodyPartEffect;
             steamEffect.transform.localPosition = new Vector3();
             SteamEffectDictionary.Add(body, steamEffect);
@@ -125,9 +164,9 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public List<BodyPart> GetDisabledBodyParts()
+        public Dictionary<BodyPart,float>.KeyCollection GetDisabledBodyParts()
         {
-            return new List<BodyPart>(CooldownDictionary.Keys);
+            return CooldownDictionary.Keys;
         }
 
         private void SetDamagedBodyPart(BodyPart bodyPart)
@@ -151,7 +190,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void LateUpdate()
         {
-            foreach (var bodyPart in new List<BodyPart>(CooldownDictionary.Keys))
+            foreach (var bodyPart in CooldownDictionary.Keys.ToArray())
             {
                 CooldownDictionary[bodyPart] -= Time.deltaTime;
                 if (CooldownDictionary[bodyPart] > 0)
@@ -161,6 +200,7 @@ namespace Assets.Scripts.Characters.Titan
                 else
                 {
                     CooldownDictionary.Remove(bodyPart);
+                    SteamEffectDictionary.Remove(bodyPart);
                 }
             }
         }
@@ -170,7 +210,10 @@ namespace Assets.Scripts.Characters.Titan
             if (!photonView.isMine) return;
             foreach (var effect in SteamEffectDictionary)
             {
-                PhotonNetwork.Destroy(effect.Value);
+                if (effect.Value != null)
+                {
+                    PhotonNetwork.Destroy(effect.Value);
+                }
             }
         }
     }

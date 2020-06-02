@@ -1,35 +1,17 @@
-﻿using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
-        public new RacingSettings Settings { get; set; }
-        public RacingGamemode()
-        {
-            Settings = new RacingSettings
-            {
-                GamemodeType = GamemodeType.Racing,
-                PlayerTitanShifters = false,
-                Pvp = PvpMode.Disabled,
-                Supply = false,
-                RespawnMode = RespawnMode.NEVER,
-                Titans = 0,
-                TitansEnabled = false
-            };
-        }
-
         public string localRacingResult = string.Empty;
 
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as RacingSettings;
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private RacingSettings GamemodeSettings => Settings as RacingSettings;
 
         public override void OnGameWon()
         {
-            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish
+            FengGameManagerMKII.instance.gameEndCD = GamemodeSettings.RestartOnFinish
                 ? 20f
                 : 9999f;
 
@@ -46,7 +28,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (Settings.IsSinglePlayer)
+            if (GamemodeSettings.IsSinglePlayer)
             {
                 var num = (((int)(totalServerTime * 10f)) * 0.1f) - 5f;
                 return $"{num}s !!\n Press {FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart]}  to Restart.\n\n\n";
@@ -56,7 +38,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnNetGameWon(int score)
         {
-            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish
+            FengGameManagerMKII.instance.gameEndCD = GamemodeSettings.RestartOnFinish
                 ? 20f
                 : 9999f;
         }

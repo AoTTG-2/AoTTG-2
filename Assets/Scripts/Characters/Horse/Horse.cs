@@ -3,7 +3,7 @@ using UnityEngine;
 public class Horse : PhotonView
 {
     private float awayTimer;
-    private TITAN_CONTROLLER controller;
+    private HorseController controller;
     public GameObject dust;
     public GameObject myHero;
     private Vector3 setPoint;
@@ -237,7 +237,7 @@ public class Horse : PhotonView
     public void mounted()
     {
         this.State = "mounted";
-        base.gameObject.GetComponent<TITAN_CONTROLLER>().enabled = true;
+        base.gameObject.GetComponent<HorseController>().enabled = true;
     }
 
     [PunRPC]
@@ -291,7 +291,7 @@ public class Horse : PhotonView
 
     private void Start()
     {
-        this.controller = base.gameObject.GetComponent<TITAN_CONTROLLER>();
+        this.controller = base.gameObject.GetComponent<HorseController>();
     }
 
     private void toIdleAnimation()
@@ -372,7 +372,7 @@ public class Horse : PhotonView
     public void unmounted()
     {
         this.State = "idle";
-        base.gameObject.GetComponent<TITAN_CONTROLLER>().enabled = false;
+        base.gameObject.GetComponent<HorseController>().enabled = false;
     }
 }
 
