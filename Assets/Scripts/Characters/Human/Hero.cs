@@ -4095,7 +4095,8 @@ public class Hero : Human
     private void showAimUI2()
     {
         Vector3 vector;
-        if (CursorManagement.CameraMode == CursorManagement.Mode.Menu)
+        if (CursorManagement.CameraMode == CursorManagement.Mode.Menu || 
+            CursorManagement.CameraMode == CursorManagement.Mode.Loading)
         {
             GameObject cross1 = this.cross1;
             GameObject cross2 = this.cross2;
