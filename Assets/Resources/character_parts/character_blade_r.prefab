@@ -30,15 +30,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1577660311892819
+--- !u!1 &1597194199663458
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4320040489999351}
-  - component: {fileID: 65665236110736954}
+  - component: {fileID: 4626499467117134}
+  - component: {fileID: 65274639720212288}
   m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
@@ -46,19 +46,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4320040489999351
+--- !u!4 &4626499467117134
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1577660311892819}
-  m_LocalRotation: {x: -0.004109365, y: 0.1661827, z: 0.001418176, w: 0.9860855}
-  m_LocalPosition: {x: 0.02673407, y: -0.03565849, z: 0.03035589}
-  m_LocalScale: {x: 0.007834639, y: 0.06076891, z: 0.00285076}
+  m_GameObject: {fileID: 1597194199663458}
+  m_LocalRotation: {x: 0.0017677245, y: -0.151826, z: -0.011507235, w: 0.98833877}
+  m_LocalPosition: {x: -0.026495198, y: -0.03503787, z: 0.030323748}
+  m_LocalScale: {x: 0.007834643, y: 0.06076891, z: 0.0028507775}
   m_Children: []
   m_Father: {fileID: 4728714336075326}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0.4629141, y: -19.1324, z: -0.08678848}
+  m_LocalEulerAnglesHint: {x: 0.4197546, y: 17.46183, z: 1.398594}
 --- !u!4 &4728714336075326
 Transform:
   m_ObjectHideFlags: 1
@@ -69,7 +69,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
-  - {fileID: 4320040489999351}
+  - {fileID: 4626499467117134}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
@@ -129,13 +129,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!65 &65665236110736954
+--- !u!65 &65274639720212288
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1577660311892819}
-  m_Material: {fileID: 13400000, guid: 8d037b27540a3434b84e04fb8abe5245, type: 2}
+  m_GameObject: {fileID: 1597194199663458}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

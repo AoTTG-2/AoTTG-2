@@ -51,4 +51,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26376748b97ceb24d910ba9012a7917e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hookLaunchPointLeft: {fileID: 0}
+  hookLaunchPointRight: {fileID: 0}
+  prefab_3dmg: {fileID: 1499586856815838, guid: 970ba4cf91cd60c4791d2b23ed938764,
+    type: 2}
+  prefab_3dmg_gas_l: {fileID: 1807163987075100, guid: cfc2b785981a6654ca9b2e7d6c4b76b6,
+    type: 2}
+  prefab_3dmg_gas_r: {fileID: 1638875487537422, guid: a6ca21589f811e04c8e1139da4d9dc29,
+    type: 2}
+  prefab_weapon_l: {fileID: 1775978891956326, guid: f556bfb2511720d4fb97b8fd34394fe3,
+    type: 2}
+  prefab_weapon_r: {fileID: 1708441688660972, guid: 8a8d27a0044e58746b39dae066368935,
+    type: 2}
+  part_weapon_l: {fileID: 0}
+  part_weapon_r: {fileID: 0}
+  maxGas: 100
+  currentGas: 100
+  useGasSpeed: 0.2
+  dashTime: 0
   maxAmmo: 7

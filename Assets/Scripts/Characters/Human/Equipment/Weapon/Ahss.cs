@@ -24,6 +24,22 @@ public class AHSS : OdmgEquipment, Weapon
         base.SetStats(heroStat);
     }
 
+    public override void Equip()
+    {
+        base.Equip();
+
+        part_3dmg_gas_l = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + heroSetupScript.myCostume.mesh_3dmg_gas_l));
+        part_3dmg_gas_l.GetComponent<Renderer>().material = CharacterMaterials.materials[heroSetupScript.myCostume._3dmg_texture];
+        part_3dmg_gas_r = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + heroSetupScript.myCostume.mesh_3dmg_gas_r));
+        part_3dmg_gas_r.GetComponent<Renderer>().material = CharacterMaterials.materials[heroSetupScript.myCostume._3dmg_texture];
+
+        part_3dmg_gas_l.transform.position = heroObject.transform.position;
+        part_3dmg_gas_l.transform.parent = heroArmature.thigh_L;
+
+        part_3dmg_gas_r.transform.position = heroObject.transform.position;
+        part_3dmg_gas_r.transform.parent = heroArmature.thigh_R;
+    }
+
     public override bool NeedResupply()
     {
         if (base.NeedResupply() || leftGunAmmo != maxAmmo || rightGunAmmo != maxAmmo)

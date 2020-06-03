@@ -25,6 +25,40 @@ public class Blades : OdmgEquipment, Weapon
         BladeDurability = maxDurability;
     }
 
+    public override void Equip()
+    {
+        base.Equip();
+
+        part_3dmg_belt = heroSetupScript.GenerateCloth(heroSetupScript.reference, "Character/" + heroSetupScript.myCostume.mesh_3dmg_belt);
+        part_3dmg_belt.GetComponent<Renderer>().material = CharacterMaterials.materials[heroSetupScript.myCostume._3dmg_texture];
+
+        part_3dmg_gas_l = Instantiate(prefab_3dmg_gas_l);
+        part_3dmg_gas_l.transform.position = heroObject.transform.position;
+        part_3dmg_gas_l.transform.parent = heroArmature.spine;
+        
+        part_3dmg_gas_r = Instantiate(prefab_3dmg_gas_r);
+        part_3dmg_gas_r.transform.position = heroObject.transform.position;
+        part_3dmg_gas_r.transform.parent = heroArmature.spine;
+
+        //part_weapon_l = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + heroSetupScript.myCostume.weapon_l_mesh));
+        //part_weapon_l.transform.position = heroObject.transform.position;
+        //part_weapon_l.transform.parent = heroArmature.hand_L;
+        //part_weapon_l.GetComponent<Renderer>().material = CharacterMaterials.materials[heroSetupScript.myCostume._3dmg_texture];
+
+        //part_weapon_r = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character/" + heroSetupScript.myCostume.weapon_r_mesh));
+        //part_weapon_r.transform.position = heroObject.transform.position;
+        //part_weapon_r.transform.parent = heroArmature.hand_R;
+        //part_weapon_r.GetComponent<Renderer>().material = CharacterMaterials.materials[heroSetupScript.myCostume._3dmg_texture];
+
+        part_weapon_l = Instantiate(prefab_weapon_l);
+        part_weapon_l.transform.position = heroObject.transform.position;
+        part_weapon_l.transform.parent = heroArmature.hand_L;
+
+        part_weapon_r = Instantiate(prefab_weapon_r);
+        part_weapon_r.transform.position = heroObject.transform.position;
+        part_weapon_r.transform.parent = heroArmature.hand_R;
+    }
+
     public override bool NeedResupply()
     {
         if (base.NeedResupply() || NumBlades != maxBlades || BladeDurability != maxDurability)
@@ -114,8 +148,8 @@ public class Blades : OdmgEquipment, Weapon
     {
         HERO_SETUP setupScript = myHeroScript.setup;
 
-        Transform transform = part_blade_l.transform;
-        Transform transform2 = part_blade_r.transform;
+        Transform transform = part_weapon_l.transform;
+        Transform transform2 = part_weapon_r.transform;
         GameObject obj2 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
         GameObject obj3 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
         obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
@@ -130,8 +164,8 @@ public class Blades : OdmgEquipment, Weapon
         torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
         torque.Normalize();
         obj3.GetComponent<Rigidbody>().AddTorque(torque);
-        part_blade_l.SetActive(false);
-        part_blade_r.SetActive(false);
+        part_weapon_l.SetActive(false);
+        part_weapon_r.SetActive(false);
 
         NumBlades--;
 
