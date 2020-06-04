@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
+//[Obsolete("Use InputManager instead", true)]
 public class InputManagerRC
 {
     public KeyCode[] cannonKeys;
@@ -68,24 +69,6 @@ public class InputManagerRC
         return Input.GetKeyDown(this.cannonKeys[code]);
     }
 
-    public bool isInputHorse(int code)
-    {
-        if (this.horseWheel[code] != 0)
-        {
-            return ((Input.GetAxis("Mouse ScrollWheel") * this.horseWheel[code]) > 0f);
-        }
-        return Input.GetKey(this.horseKeys[code]);
-    }
-
-    public bool isInputHorseDown(int code)
-    {
-        if (this.horseWheel[code] != 0)
-        {
-            return ((Input.GetAxis("Mouse ScrollWheel") * this.horseWheel[code]) > 0f);
-        }
-        return Input.GetKeyDown(this.horseKeys[code]);
-    }
-
     public bool isInputHuman(int code)
     {
         if (this.humanWheel[code] != 0)
@@ -122,20 +105,6 @@ public class InputManagerRC
         return Input.GetKeyDown(this.levelKeys[code]);
     }
 
-    public bool isInputTitan(int code)
-    {
-        if (this.titanWheel[code] != 0)
-        {
-            return ((Input.GetAxis("Mouse ScrollWheel") * this.titanWheel[code]) > 0f);
-        }
-        return Input.GetKey(this.titanKeys[code]);
-    }
-
-    public bool IsPlayerTitanInput(KeyCode code)
-    {
-        return titanKeys.Any(x => x == code);
-    }
-
     public void setInputCannon(int code, string setting)
     {
         this.cannonKeys[code] = KeyCode.None;
@@ -151,24 +120,6 @@ public class InputManagerRC
         else if (Enum.IsDefined(typeof(KeyCode), setting))
         {
             this.cannonKeys[code] = (KeyCode) Enum.Parse(typeof(KeyCode), setting);
-        }
-    }
-
-    public void setInputHorse(int code, string setting)
-    {
-        this.horseKeys[code] = KeyCode.None;
-        this.horseWheel[code] = 0;
-        if (setting == "Scroll Up")
-        {
-            this.horseWheel[code] = 1;
-        }
-        else if (setting == "Scroll Down")
-        {
-            this.horseWheel[code] = -1;
-        }
-        else if (Enum.IsDefined(typeof(KeyCode), setting))
-        {
-            this.horseKeys[code] = (KeyCode) Enum.Parse(typeof(KeyCode), setting);
         }
     }
 
@@ -205,24 +156,6 @@ public class InputManagerRC
         else if (Enum.IsDefined(typeof(KeyCode), setting))
         {
             this.levelKeys[code] = (KeyCode) Enum.Parse(typeof(KeyCode), setting);
-        }
-    }
-
-    public void setInputTitan(int code, string setting)
-    {
-        this.titanKeys[code] = KeyCode.None;
-        this.titanWheel[code] = 0;
-        if (setting == "Scroll Up")
-        {
-            this.titanWheel[code] = 1;
-        }
-        else if (setting == "Scroll Down")
-        {
-            this.titanWheel[code] = -1;
-        }
-        else if (Enum.IsDefined(typeof(KeyCode), setting))
-        {
-            this.titanKeys[code] = (KeyCode) Enum.Parse(typeof(KeyCode), setting);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+//[Obsolete("Use InputManager instead", true)]
 public class FengCustomInputs : MonoBehaviour
 {
     public bool allowDuplicates;

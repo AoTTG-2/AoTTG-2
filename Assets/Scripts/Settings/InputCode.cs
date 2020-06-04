@@ -1,5 +1,6 @@
 using System;
 
+//[Obsolete("Use InputManager instead", true)]
 public class InputCode
 {
     public static int attack0 = 10;

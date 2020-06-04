@@ -2084,17 +2084,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             objArray[0xea] = "None";
         }
-        for (num = 0; num < 15; num++)
-        {
-            inputRC.setInputTitan(num, (string)objArray[0x65 + num]);
-        }
         for (num = 0; num < 0x10; num++)
         {
             inputRC.setInputLevel(num, (string)objArray[0x75 + num]);
-        }
-        for (num = 0; num < 7; num++)
-        {
-            inputRC.setInputHorse(num, (string)objArray[0xed + num]);
         }
         for (num = 0; num < 7; num++)
         {
