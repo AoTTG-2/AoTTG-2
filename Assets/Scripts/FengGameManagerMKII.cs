@@ -687,8 +687,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     string str11;
                     IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
                     this.gameStart = false;
-                    // TODO: Find out whether this is necessary.
-                    CursorManagement.CameraMode = CursorManagement.Mode.Menu;
                     string str6 = string.Empty;
                     string str7 = string.Empty;
                     string str8 = string.Empty;
@@ -2912,8 +2910,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnConnectionFail(DisconnectCause cause)
     {
         UnityEngine.MonoBehaviour.print("OnConnectionFail : " + cause.ToString());
-        // TODO: Find out if this is redundant.
-        CursorManagement.CameraMode = CursorManagement.Mode.Menu;
         IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
         this.gameStart = false;
     }
@@ -2932,8 +2928,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnDisconnectedFromPhoton()
     {
         UnityEngine.MonoBehaviour.print("OnDisconnectedFromPhoton");
-        // TODO: Find out if this is redundant.
-        CursorManagement.CameraMode = CursorManagement.Mode.Menu;
     }
 
     [PunRPC]

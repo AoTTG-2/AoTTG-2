@@ -10,8 +10,6 @@ namespace Assets.Scripts
 
     public delegate void OnGameWon();
 
-    public delegate void OnMenuToggled(bool isMenuActive);
-
     public delegate void OnPlayerKilled(int id);
 
     public delegate void OnRestart();
@@ -27,7 +25,6 @@ namespace Assets.Scripts
         public static OnGameLoading OnGameLoading;
         public static OnGameLost OnGameLost;
         public static OnGameWon OnGameWon;
-        public static OnMenuToggled OnMenuToggled;
         public static OnPlayerKilled OnPlayerKilled;
         public static OnRestart OnRestart;
         public static OnTitanKilled OnTitanKilled;
@@ -43,11 +40,6 @@ namespace Assets.Scripts
         private void EventManager_OnGameWon()
         {
             FengGameManagerMKII.Gamemode.OnGameWon();
-        }
-
-        private void EventManager_OnMenuToggled(bool isMenuActive)
-        {
-            Debug.Log($"Menu: {isMenuActive}");
         }
 
         private void EventManager_OnPlayerKilled(int id)
@@ -77,7 +69,6 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            OnMenuToggled += EventManager_OnMenuToggled;
             OnGameLost += EventManager_OnGameLost;
             OnGameWon += EventManager_OnGameWon;
             OnPlayerKilled += EventManager_OnPlayerKilled;

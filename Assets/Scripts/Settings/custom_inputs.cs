@@ -1017,7 +1017,6 @@ public class custom_inputs : MonoBehaviour
             {
                 Time.timeScale = 0f;
                 this.menuOn = true;
-                CursorManagement.CameraMode = CursorManagement.Mode.Menu;
             }
         }
     }

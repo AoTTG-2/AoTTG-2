@@ -569,7 +569,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         Time.timeScale = 0f;
                     }
                     GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
-                    CursorManagement.CameraMode = CursorManagement.Mode.Menu;
                 }
             }
             if (this.needSetHUD)
@@ -600,7 +599,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 RaycastHit hit;
                 if (this.inputManager.isInputDown[InputCode.camera])
                 {
-                    CursorManagement.Cycle();
+                    GameCursor.Cycle();
 
                     // TODO: Figure out what this does.
                     this.verticalRotationOffset = 0f;
@@ -744,24 +743,22 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         transform.position += Vector3.up * heightMulti;
         transform.position -= Vector3.up * (0.6f - cameraDistance) * 2f;
 
-        CursorManagement.Mode inGameCameraMode = CursorManagement.PreferredCameraMode;
-
-        switch (inGameCameraMode)
+        switch (GameCursor.CameraMode)
         {
-            case CursorManagement.Mode.Original:
+            case CameraMode.Original:
                 DoOriginalMovement();
                 break;
 
-            case CursorManagement.Mode.TPS:
+            case CameraMode.TPS:
                 DoTPSMovement();
                 break;
 
-            case CursorManagement.Mode.WOW:
+            case CameraMode.WOW:
                 DoWOWMovement();
                 break;
 
             default:
-                Debug.LogError($"{inGameCameraMode} is an unhandled preferred camera mode - Original, TPS, or WOW was expected");
+                Debug.LogError($"{GameCursor.CameraMode} is an unhandled camera mode - Original, TPS, or WOW was expected");
                 break;
         }
 

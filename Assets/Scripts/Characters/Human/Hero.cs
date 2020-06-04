@@ -1,5 +1,6 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.UI.InGame;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -4095,7 +4096,7 @@ public class Hero : Human
     private void showAimUI2()
     {
         Vector3 vector;
-        if (CursorManagement.CameraMode == CursorManagement.Mode.Menu)
+        if (MenuManager.IsMenuOpen)
         {
             GameObject cross1 = this.cross1;
             GameObject cross2 = this.cross2;
@@ -4473,7 +4474,6 @@ public class Hero : Human
                         Minimap.IconStyle.CIRCLE);
                 }
 
-                CursorManagement.CameraMode = CursorManagement.PreferredCameraMode;
                 GetComponent<SmoothSyncMovement>().PhotonCamera = true;
                 photonView.RPC("SetMyPhotonCamera", PhotonTargets.OthersBuffered,
                     new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });

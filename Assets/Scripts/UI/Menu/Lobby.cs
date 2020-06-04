@@ -8,6 +8,7 @@ namespace Assets.Scripts.UI.Menu
     {
         public GameObject ScrollViewContent;
         public GameObject Row;
+
         private int Region { get; set; }
 
         public void CreateRoom()
@@ -15,11 +16,14 @@ namespace Assets.Scripts.UI.Menu
             Navigate(typeof(CreateRoom));
         }
 
-        public void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
             PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", FengGameManagerMKII.Version);
+
             //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
@@ -27,7 +31,6 @@ namespace Assets.Scripts.UI.Menu
         {
             Region = region;
             PhotonNetwork.Disconnect();
-
         }
 
         public void OnDisconnectedFromPhoton()
@@ -44,7 +47,7 @@ namespace Assets.Scripts.UI.Menu
             InvokeRepeating("RefreshLobby", 2f, 5f);
         }
 
-        void RefreshLobby()
+        private void RefreshLobby()
         {
             foreach (Transform child in ScrollViewContent.transform)
             {
