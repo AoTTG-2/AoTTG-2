@@ -1,5 +1,6 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -941,7 +942,7 @@ public class Hero : Human
 
     private void dodge2(bool offTheWall = false)
     {
-        if (((!FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseMount) || (this.myHorse == null)) || this.isMounted) || (Vector3.Distance(this.myHorse.transform.position, base.transform.position) >= 15f))
+        if (((!InputManager.KeyPressed(InputHorse.Mount) || (this.myHorse == null)) || this.isMounted) || (Vector3.Distance(this.myHorse.transform.position, base.transform.position) >= 15f))
         {
             this.state = HERO_STATE.GroundDodge;
             if (!offTheWall)
@@ -4778,7 +4779,7 @@ public class Hero : Human
                                 this.crossFade("jump", 0.1f);
                                 this.sparks.enableEmission = false;
                             }
-                            if (!((!FengGameManagerMKII.inputRC.isInputHorseDown(InputCodeRC.horseMount) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")) && (((this.myHorse != null) && !this.isMounted) && (Vector3.Distance(this.myHorse.transform.position, base.transform.position) < 15f)))
+                            if (!((!InputManager.KeyDown(InputHorse.Mount) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")) && (((this.myHorse != null) && !this.isMounted) && (Vector3.Distance(this.myHorse.transform.position, base.transform.position) < 15f)))
                             {
                                 this.getOnHorse();
                             }
@@ -4806,7 +4807,7 @@ public class Hero : Human
                             {
                                 this.suicide2();
                             }
-                            if (((this.myHorse != null) && this.isMounted) && FengGameManagerMKII.inputRC.isInputHorseDown(InputCodeRC.horseMount))
+                            if (((this.myHorse != null) && this.isMounted) && InputManager.KeyDown(InputHorse.Mount))
                             {
                                 this.getOffHorse();
                             }

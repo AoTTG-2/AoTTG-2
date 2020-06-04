@@ -22,11 +22,13 @@ namespace Assets.Scripts.UI.InGame
 
         private void OnEnable()
         {
+            InGameUi.OnMenuOpened();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
         private void OnDisable()
         {
+            InGameUi.OnMenuClosed();
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicSettingsMenu.gameObject.SetActive(false);
             Cursor.visible = false;

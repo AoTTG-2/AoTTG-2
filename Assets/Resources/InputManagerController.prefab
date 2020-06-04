@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4166574009320592}
   - component: {fileID: 114166688468020630}
+  - component: {fileID: 114533358246716624}
   m_Layer: 0
   m_Name: InputManagerController
   m_TagString: Untagged
@@ -120,3 +121,14 @@ MonoBehaviour:
   OurSkin: {fileID: 0}
   tempbool: 0
   tempkeyPressed: 
+--- !u!114 &114533358246716624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1191642311506242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67435531247fef14fb9ebcae6d5c784b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

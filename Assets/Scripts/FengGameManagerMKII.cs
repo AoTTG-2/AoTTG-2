@@ -787,6 +787,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void coreeditor()
     {
+        throw new NotImplementedException("Level editor is not implemented");
         if (Input.GetKey(KeyCode.Tab))
         {
             GUI.FocusControl(null);

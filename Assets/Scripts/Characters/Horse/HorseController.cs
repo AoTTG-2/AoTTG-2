@@ -1,3 +1,4 @@
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 public class HorseController : MonoBehaviour
@@ -29,11 +30,12 @@ public class HorseController : MonoBehaviour
         float num4;
         float num5;
         float num6;
-        if (FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseForward))
+
+        if (InputManager.KeyPressed(InputHorse.Forward))
         {
             num = 1;
         }
-        else if (FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseBack))
+        else if (InputManager.KeyPressed(InputHorse.Backward))
         {
             num = -1;
         }
@@ -41,11 +43,11 @@ public class HorseController : MonoBehaviour
         {
             num = 0;
         }
-        if (FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseLeft))
+        if (InputManager.KeyPressed(InputHorse.Left))
         {
             num2 = -1;
         }
-        else if (FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseRight))
+        else if (InputManager.KeyPressed(InputHorse.Right))
         {
             num2 = 1;
         }
@@ -76,10 +78,10 @@ public class HorseController : MonoBehaviour
         {
             num6 -= 360f;
         }
-        if (FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseJump))
+        if (InputManager.KeyPressed(InputHorse.Jump))
         {
             this.isAttackDown = true;
         }
-        this.isWALKDown = FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseWalk);
+        this.isWALKDown = InputManager.KeyPressed(InputHorse.Walk);
     }
 }

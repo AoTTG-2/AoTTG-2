@@ -8,6 +8,23 @@ namespace Assets.Scripts.UI.InGame
         public InGameMenu Menu;
         public SpawnMenu SpawnMenu;
 
+        private static int _activeMenus;
+
+        public static void OnMenuOpened()
+        {
+            _activeMenus++;
+        }
+
+        public static void OnMenuClosed()
+        {
+            _activeMenus--;
+        }
+
+        public static bool IsMenuOpen()
+        {
+            return _activeMenus > 0;
+        }
+
         void OnEnable()
         {
             HUD.gameObject.SetActive(true);
@@ -17,7 +34,7 @@ namespace Assets.Scripts.UI.InGame
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
             {
                 Menu.gameObject.SetActive(!Menu.isActiveAndEnabled);
             }
