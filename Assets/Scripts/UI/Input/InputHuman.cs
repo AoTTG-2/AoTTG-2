@@ -3,12 +3,24 @@
     public enum InputHuman
     {
         Forward,
-        Backwards,
+        Backward,
         Left,
         Right,
         Gas,
         Jump,
         Dodge,
-        Salute
+        Salute,
+        Reload,
+        ReelIn,
+        ReelOut,
+        GasBurst,
+        Attack,
+        AttackSpecial,
+        HookLeft,
+        HookRight,
+        HookBoth,
+        Item1,
+        Item2,
+        Item3
     }
 }

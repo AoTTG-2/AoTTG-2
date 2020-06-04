@@ -4649,7 +4649,7 @@ public class Hero : Human
                     if (this.myCannonRegion != null)
                     {
                         FengGameManagerMKII.instance.ShowHUDInfoCenter("Press 'Cannon Mount' key to use Cannon.");
-                        if (FengGameManagerMKII.inputRC.isInputCannonDown(InputCodeRC.cannonMount))
+                        if (InputManager.KeyDown(InputCannon.Mount))
                         {
                             this.myCannonRegion.photonView.RPC("RequestControlRPC", PhotonTargets.MasterClient, new object[] { base.photonView.viewID });
                         }
