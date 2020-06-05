@@ -9,8 +9,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             BodyParts = new[] {BodyPart.HandLeft, BodyPart.HandRight};
         }
 
-        // HACK: It is Empty in certain situations. This fixes that.
-        private string AttackAnimation { get; set; } = "grab_ground_front_r";
+        private string AttackAnimation { get; set; }
         private float attackCheckTimeA { get; set; }
         private float attackCheckTimeB { get; set; }
         private GameObject GrabbedTarget { get; set; }
