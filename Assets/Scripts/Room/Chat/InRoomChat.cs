@@ -1,5 +1,6 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.UI.Input;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
@@ -30,27 +31,17 @@ public class InRoomChat : Photon.MonoBehaviour
     public void OnGUI()
     {
         int num4;
-        if (!this.IsVisible || (PhotonNetwork.connectionState != ConnectionState.Connected))
+        if (!this.IsVisible || (PhotonNetwork.connectionState != ConnectionState.Connected) || ChatInputField == null)
         {
             return;
         }
-        if (Event.current.type == EventType.KeyDown)
-        {
-            if ((((Event.current.keyCode != KeyCode.Tab) && (Event.current.character != '\t')) || IN_GAME_MAIN_CAMERA.isPausing) || (FengGameManagerMKII.inputRC.humanKeys[InputCodeRC.chat] == KeyCode.Tab))
-            {
-                goto Label_00E1;
-            }
-            Event.current.Use();
-            goto Label_013D;
-        }
-        if ((Event.current.type == EventType.KeyUp) && (((Event.current.keyCode != KeyCode.None) && (Event.current.keyCode == FengGameManagerMKII.inputRC.humanKeys[InputCodeRC.chat])) && (GUI.GetNameOfFocusedControl() != "ChatInput")))
+        if ((Event.current.type == EventType.KeyUp) && (((Event.current.keyCode != KeyCode.None) && (Event.current.keyCode == InputManager.GetKey(InputUi.Chat))) && (GUI.GetNameOfFocusedControl() != "ChatInput")))
         {
             this.inputLine = string.Empty;
-            ChatInputField.gameObject.GetComponent<Text>().text = string.Empty;
+            ChatInputField.text = string.Empty;
             goto Label_013D;
         }
-    Label_00E1:
-        if ((Event.current.type == EventType.KeyDown) && ((Event.current.keyCode == KeyCode.KeypadEnter) || (Event.current.keyCode == KeyCode.Return)))
+        if (InputManager.KeyDown(InputUi.Chat))
         {
             if (!string.IsNullOrEmpty(this.inputLine))
             {
@@ -58,12 +49,12 @@ public class InRoomChat : Photon.MonoBehaviour
                 if (this.inputLine == "\t")
                 {
                     this.inputLine = string.Empty;
-                    ChatInputField.gameObject.GetComponent<Text>().text = string.Empty;
+                    ChatInputField.text = string.Empty;
                     return;
                 }
                 if (FengGameManagerMKII.RCEvents.ContainsKey("OnChatInput"))
                 {
-                    string key = (string)FengGameManagerMKII.RCVariableNames["OnChatInput"];
+                    string key = (string) FengGameManagerMKII.RCVariableNames["OnChatInput"];
                     if (FengGameManagerMKII.stringVariables.ContainsKey(key))
                     {
                         FengGameManagerMKII.stringVariables[key] = this.inputLine;
@@ -344,7 +335,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     }
                     else if (this.inputLine.StartsWith("/specmode"))
                     {
-                        if (((int)FengGameManagerMKII.settings[0xf5]) == 0)
+                        if (((int) FengGameManagerMKII.settings[0xf5]) == 0)
                         {
                             FengGameManagerMKII.settings[0xf5] = 1;
                             FengGameManagerMKII.instance.EnterSpecMode(true);
@@ -439,7 +430,7 @@ public class InRoomChat : Photon.MonoBehaviour
                                     int num9 = Convert.ToInt32(this.inputLine.Substring(7));
                                     if (FengGameManagerMKII.banHash.ContainsKey(num9))
                                     {
-                                        objArray5 = new object[] { "<color=#FFCC00>" + ((string)FengGameManagerMKII.banHash[num9]) + " has been unbanned from the server. </color>", string.Empty };
+                                        objArray5 = new object[] { "<color=#FFCC00>" + ((string) FengGameManagerMKII.banHash[num9]) + " has been unbanned from the server. </color>", string.Empty };
                                         FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray5);
                                         FengGameManagerMKII.banHash.Remove(num9);
                                     }
@@ -515,7 +506,7 @@ public class InRoomChat : Photon.MonoBehaviour
                                         this.addLINE("<color=#FFCC00>List of banned players:</color>");
                                         foreach (int num10 in FengGameManagerMKII.banHash.Keys)
                                         {
-                                            this.addLINE("<color=#FFCC00>" + Convert.ToString(num10) + ":" + ((string)FengGameManagerMKII.banHash[num10]) + "</color>");
+                                            this.addLINE("<color=#FFCC00>" + Convert.ToString(num10) + ":" + ((string) FengGameManagerMKII.banHash[num10]) + "</color>");
                                         }
                                     }
                                     else

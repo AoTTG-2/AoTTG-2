@@ -3,7 +3,8 @@
     public enum InputUi
     {
         Chat,
-        LiveCamera, // Is this the specmode camera's Y rebind?
+        ToggleCursor,
+        LiveCamera,
         Minimap,
         Fullscreen,
         Camera,

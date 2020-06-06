@@ -4803,7 +4803,7 @@ public class Hero : Human
                             {
                                 this.shootFlare(3);
                             }
-                            if (this.inputManager.isInputDown[InputCode.restart])
+                            if (InputManager.KeyDown(InputUi.Restart))
                             {
                                 this.suicide2();
                             }

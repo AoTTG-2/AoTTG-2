@@ -1,4 +1,5 @@
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
@@ -785,7 +786,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     return;
                 }
             }
-            if (this.inputManager.isInputDown[InputCode.pause])
+            if (InputManager.KeyDown(InputUi.Pause))
             {
                 if (isPausing)
                 {
@@ -817,7 +818,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 Screen.lockCursor = !Screen.lockCursor;
                 Screen.lockCursor = !Screen.lockCursor;
             }
-            if (this.inputManager.isInputDown[InputCode.fullscreen])
+            if (InputManager.KeyDown(InputUi.Fullscreen))
             {
                 Screen.fullScreen = !Screen.fullScreen;
                 if (Screen.fullScreen)
@@ -831,14 +832,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 this.needSetHUD = true;
                 Minimap.OnScreenResolutionChanged();
             }
-            if (this.inputManager.isInputDown[InputCode.restart])
+            if (InputManager.KeyDown(InputUi.Restart))
             {
                 this.reset();
             }
             if (this.main_object != null)
             {
                 RaycastHit hit;
-                if (this.inputManager.isInputDown[InputCode.camera])
+                if (InputManager.KeyDown(InputUi.Camera))
                 {
                     if (cameraMode == CAMERA_TYPE.ORIGINAL)
                     {
@@ -861,11 +862,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         Cursor.visible = false;
                     }
                 }
-                if (this.inputManager.isInputDown[InputCode.hideCursor])
+                if (InputManager.KeyDown(InputUi.ToggleCursor))
                 {
                     Cursor.visible = !Cursor.visible;
                 }
-                if (this.inputManager.isInputDown[InputCode.focus])
+                if (InputManager.KeyDown(InputHuman.Focus))
                 {
                     triggerAutoLock = !triggerAutoLock;
                     if (triggerAutoLock)
@@ -880,7 +881,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
                 if (this.gameOver && (this.main_object != null))
                 {
-                    if (FengGameManagerMKII.inputRC.isInputHumanDown(InputCodeRC.liveCam))
+                    if (InputManager.KeyDown(InputUi.LiveCamera))
                     {
                         if (((int) FengGameManagerMKII.settings[0x107]) == 0)
                         {

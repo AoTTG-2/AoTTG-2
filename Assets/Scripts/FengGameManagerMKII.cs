@@ -2067,11 +2067,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         inputRC.setInputHuman(InputCodeRC.reelin, (string)objArray[0x62]);
         inputRC.setInputHuman(InputCodeRC.reelout, (string)objArray[0x63]);
         inputRC.setInputHuman(InputCodeRC.dash, (string)objArray[0xb6]);
-        inputRC.setInputHuman(InputCodeRC.mapMaximize, (string)objArray[0xe8]);
-        inputRC.setInputHuman(InputCodeRC.mapToggle, (string)objArray[0xe9]);
-        inputRC.setInputHuman(InputCodeRC.mapReset, (string)objArray[0xea]);
-        inputRC.setInputHuman(InputCodeRC.chat, (string)objArray[0xec]);
-        inputRC.setInputHuman(InputCodeRC.liveCam, (string)objArray[0x106]);
         if (!Enum.IsDefined(typeof(KeyCode), (string)objArray[0xe8]))
         {
             objArray[0xe8] = "None";

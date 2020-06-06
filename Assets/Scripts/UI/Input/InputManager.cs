@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.UI.InGame;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -82,6 +83,7 @@ namespace Assets.Scripts.UI.Input
                 [InputHuman.Item1] = KeyCode.Alpha1,
                 [InputHuman.Item2] = KeyCode.Alpha2,
                 [InputHuman.Item3] = KeyCode.Alpha3,
+                [InputHuman.Focus] = KeyCode.F
             };
 
             PlayerPrefs.SetString(HumanPlayerPrefs, JsonConvert.SerializeObject(inputHuman));
@@ -116,6 +118,7 @@ namespace Assets.Scripts.UI.Input
             inputUi = new Dictionary<InputUi, KeyCode>
             {
                 [InputUi.Chat] = KeyCode.Return,
+                [InputUi.ToggleCursor] = KeyCode.X,
                 [InputUi.LiveCamera] = KeyCode.Y,
                 [InputUi.Minimap] = KeyCode.M,
                 [InputUi.Fullscreen] = KeyCode.Backspace,
@@ -169,6 +172,39 @@ namespace Assets.Scripts.UI.Input
             return UnityEngine.Input.GetKey(inputTitan[key]);
         }
 
+        public static bool KeyDown<T>(T inputEnum)
+        {
+            if (inputEnum.GetType() == typeof(InputHuman))
+            {
+                var input = (InputHuman) (object) inputEnum;
+                return UnityEngine.Input.GetKeyDown(inputHuman[input]);
+            }
+
+            if (inputEnum.GetType() == typeof(InputUi))
+            {
+                var input = (InputUi) (object) inputEnum;
+                return UnityEngine.Input.GetKeyDown(inputUi[input]);
+            }
+
+            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.KeyDown");
+        }
+
+        public static bool KeyUp<T>(T inputEnum)
+        {
+            if (inputEnum.GetType() == typeof(InputHuman))
+            {
+                var input = (InputHuman) (object) inputEnum;
+                return UnityEngine.Input.GetKeyUp(inputHuman[input]);
+            }
+
+            if (inputEnum.GetType() == typeof(InputUi))
+            {
+                var input = (InputUi) (object) inputEnum;
+                return UnityEngine.Input.GetKeyUp(inputUi[input]);
+            }
+
+            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.KeyUp");
+        }
 
         public static bool KeyDown(InputCannon key)
         {
@@ -186,6 +222,22 @@ namespace Assets.Scripts.UI.Input
         {
             if (InGameUi.IsMenuOpen()) return false;
             return UnityEngine.Input.GetKeyDown(inputTitan[key]);
+        }
+
+        public static bool KeyDown(InputUi key)
+        {
+            return UnityEngine.Input.GetKeyDown(inputUi[key]);
+        }
+
+        public static KeyCode GetKey<T>(T inputEnum)
+        {
+            if (inputEnum.GetType() == typeof(InputUi))
+            {
+                var input = (InputUi) (object) inputEnum;
+                return inputUi[input];
+            }
+
+            return KeyCode.None;
         }
     }
 }

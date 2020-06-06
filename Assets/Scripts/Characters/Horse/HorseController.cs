@@ -5,7 +5,6 @@ public class HorseController : MonoBehaviour
 {
     public Camera currentCamera;
     public float currentDirection;
-    public FengCustomInputs inputManager;
     public bool isAttackDown;
     public bool isAttackIIDown;
     public bool isWALKDown;
@@ -14,7 +13,6 @@ public class HorseController : MonoBehaviour
 
     private void Start()
     {
-        this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
         this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
