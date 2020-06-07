@@ -16,7 +16,7 @@ using UnityEngine;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
-    public static string Version = "Alpha-Issue36";
+    public static string Version = "Alpha-Issue183";
     public static bool showHackMenu = true;
 
     public Dictionary<int, CannonValues> allowedToCannon;
@@ -988,7 +988,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             flag2 = true;
             customLevelLoaded = true;
             this.spawnPlayerCustomMap();
-            Minimap.TryRecaptureInstance();
             this.unloadAssets();
             //TODO TiltShift
             //Camera.main.GetComponent<TiltShift>().enabled = false;
@@ -2184,11 +2183,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.allowedToCannon = new Dictionary<int, CannonValues>();
             if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
             {
-                obj4 = GameObject.Find("aot_supply");
-                if ((obj4 != null) && (Minimap.instance != null))
-                {
-                    Minimap.instance.TrackGameObjectOnMinimap(obj4, Color.white, false, true, Minimap.IconStyle.SUPPLY);
-                }
                 string url = string.Empty;
                 string str3 = string.Empty;
                 string n = string.Empty;
@@ -2787,7 +2781,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
         }
-        Minimap.TryRecaptureInstance();
         if (iteratorVariable1)
         {
             this.unloadAssets();
