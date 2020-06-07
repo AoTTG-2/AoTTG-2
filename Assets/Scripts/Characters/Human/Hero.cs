@@ -4487,10 +4487,6 @@ public class Hero : Human
             //this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
             if (base.photonView.isMine)
             {
-                if (Minimap.instance != null)
-                {
-                    Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.green, false, true, Minimap.IconStyle.CIRCLE);
-                }
                 base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
                 base.photonView.RPC("SetMyPhotonCamera", PhotonTargets.OthersBuffered, new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });
             }
@@ -4545,10 +4541,6 @@ public class Hero : Human
             //    UILabel label2 = this.myNetWorkName.GetComponent<UILabel>();
             //    label2.text = label2.text + RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.name]);
             //}
-        }
-        else if (Minimap.instance != null)
-        {
-            Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.green, false, true, Minimap.IconStyle.CIRCLE);
         }
         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && !base.photonView.isMine)
         {
