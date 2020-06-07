@@ -666,7 +666,7 @@ public class Hero : Human
 
     private void checkDashRebind()
     {
-        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.dash))
+        if (InputManager.KeyPressed(InputHuman.GasBurst))
         {
             if (this.inputManager.isInput[InputCode.up])
             {
@@ -1611,11 +1611,11 @@ public class Hero : Human
                         baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
                         Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
                         float num15 = 0f;
-                        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if (InputManager.KeyPressed(InputHuman.ReelIn))
                         {
                             num15 = -1f;
                         }
-                        else if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if (InputManager.KeyPressed(InputHuman.ReelOut))
                         {
                             num15 = 1f;
                         }
@@ -1636,11 +1636,11 @@ public class Hero : Human
                         baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
                         Vector3 vector15 = this.bulletLeft.transform.position - this.baseTransform.position;
                         float num18 = 0f;
-                        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if (InputManager.KeyPressed(InputHuman.ReelIn))
                         {
                             num18 = -1f;
                         }
-                        else if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if (InputManager.KeyPressed(InputHuman.ReelOut))
                         {
                             num18 = 1f;
                         }
@@ -1661,11 +1661,11 @@ public class Hero : Human
                         baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
                         Vector3 vector17 = this.bulletRight.transform.position - this.baseTransform.position;
                         float num21 = 0f;
-                        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if (InputManager.KeyPressed(InputHuman.ReelIn))
                         {
                             num21 = -1f;
                         }
-                        else if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if (InputManager.KeyPressed(InputHuman.ReelOut))
                         {
                             num21 = 1f;
                         }

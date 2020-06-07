@@ -54,7 +54,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static List<int> ignoreList;
     public static ExitGames.Client.Photon.Hashtable imatitan;
     public FengCustomInputs inputManager;
-    public static InputManagerRC inputRC;
     public static FengGameManagerMKII instance;
     public static ExitGames.Client.Photon.Hashtable intVariables;
     public static bool isAssetLoaded;
@@ -2063,10 +2062,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         objArray[0x105] = PlayerPrefs.GetInt("deadlyCannon", 0);
         objArray[0x106] = PlayerPrefs.GetString("liveCam", "Y");
         objArray[0x107] = 0;
-        inputRC = new InputManagerRC();
-        inputRC.setInputHuman(InputCodeRC.reelin, (string)objArray[0x62]);
-        inputRC.setInputHuman(InputCodeRC.reelout, (string)objArray[0x63]);
-        inputRC.setInputHuman(InputCodeRC.dash, (string)objArray[0xb6]);
         if (!Enum.IsDefined(typeof(KeyCode), (string)objArray[0xe8]))
         {
             objArray[0xe8] = "None";
