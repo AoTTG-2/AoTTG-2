@@ -64,9 +64,8 @@ namespace Assets.Scripts.UI.Menu
                 },
                 CustomRoomPropertiesForLobby = new[] { "name", "level", "gamemode" }
             };
-            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.SINGLE;
             PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);
-            FengGameManagerMKII.instance.OnJoinedRoom();
+            //FengGameManagerMKII.instance.OnJoinedRoom();
             SceneManager.sceneLoaded += SceneLoaded;
         }
 
