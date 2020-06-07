@@ -93,7 +93,6 @@ public class Hero : Human
     public GameObject hookRefR2;
     private bool hookSomeOne;
     private GameObject hookTarget;
-    public FengCustomInputs inputManager;
     private float invincible = 3f;
     public bool isCannon;
     private bool isLaunchLeft;
@@ -618,7 +617,7 @@ public class Hero : Human
                 this.rTapTime = -1f;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.up])
+        if (InputManager.KeyDown(InputHuman.Forward))
         {
             if (this.uTapTime == -1f)
             {
@@ -629,7 +628,7 @@ public class Hero : Human
                 this.dashU = true;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.down])
+        if (InputManager.KeyDown(InputHuman.Backward))
         {
             if (this.dTapTime == -1f)
             {
@@ -640,7 +639,7 @@ public class Hero : Human
                 this.dashD = true;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.left])
+        if (InputManager.KeyDown(InputHuman.Left))
         {
             if (this.lTapTime == -1f)
             {
@@ -651,7 +650,7 @@ public class Hero : Human
                 this.dashL = true;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.right])
+        if (InputManager.KeyDown(InputHuman.Right))
         {
             if (this.rTapTime == -1f)
             {
@@ -668,19 +667,19 @@ public class Hero : Human
     {
         if (InputManager.KeyPressed(InputHuman.GasBurst))
         {
-            if (this.inputManager.isInput[InputCode.up])
+            if (InputManager.KeyPressed(InputHuman.Forward))
             {
                 this.dashU = true;
             }
-            else if (this.inputManager.isInput[InputCode.down])
+            else if (InputManager.KeyPressed(InputHuman.Backward))
             {
                 this.dashD = true;
             }
-            else if (this.inputManager.isInput[InputCode.left])
+            else if (InputManager.KeyPressed(InputHuman.Left))
             {
                 this.dashL = true;
             }
-            else if (this.inputManager.isInput[InputCode.right])
+            else if (InputManager.KeyPressed(InputHuman.Right))
             {
                 this.dashR = true;
             }
@@ -949,11 +948,11 @@ public class Hero : Human
             {
                 float num;
                 float num2;
-                if (this.inputManager.isInput[InputCode.up])
+                if (InputManager.KeyPressed(InputHuman.Forward))
                 {
                     num = 1f;
                 }
-                else if (this.inputManager.isInput[InputCode.down])
+                else if (InputManager.KeyPressed(InputHuman.Backward))
                 {
                     num = -1f;
                 }
@@ -961,11 +960,11 @@ public class Hero : Human
                 {
                     num = 0f;
                 }
-                if (this.inputManager.isInput[InputCode.left])
+                if (InputManager.KeyPressed(InputHuman.Left))
                 {
                     num2 = -1f;
                 }
-                else if (this.inputManager.isInput[InputCode.right])
+                else if (InputManager.KeyPressed(InputHuman.Right))
                 {
                     num2 = 1f;
                 }
@@ -1156,11 +1155,11 @@ public class Hero : Human
                     float z = 0f;
                     if (!IN_GAME_MAIN_CAMERA.isTyping)
                     {
-                        if (this.inputManager.isInput[InputCode.up])
+                        if (InputManager.KeyPressed(InputHuman.Forward))
                         {
                             z = 1f;
                         }
-                        else if (this.inputManager.isInput[InputCode.down])
+                        else if (InputManager.KeyPressed(InputHuman.Backward))
                         {
                             z = -1f;
                         }
@@ -1168,11 +1167,11 @@ public class Hero : Human
                         {
                             z = 0f;
                         }
-                        if (this.inputManager.isInput[InputCode.left])
+                        if (InputManager.KeyPressed(InputHuman.Left))
                         {
                             x = -1f;
                         }
-                        else if (this.inputManager.isInput[InputCode.right])
+                        else if (InputManager.KeyPressed(InputHuman.Right))
                         {
                             x = 1f;
                         }
@@ -1198,7 +1197,7 @@ public class Hero : Human
                             {
                                 to = (Vector3)(to * 2f);
                             }
-                            if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && this.inputManager.isInput[InputCode.jump])
+                            if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && InputManager.KeyPressed(InputHuman.Jump))
                             {
                                 flag3 = true;
                                 flag2 = true;
@@ -1241,7 +1240,7 @@ public class Hero : Human
                             {
                                 vector5 = (Vector3)(vector5 * 2f);
                             }
-                            if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && this.inputManager.isInput[InputCode.jump])
+                            if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && InputManager.KeyPressed(InputHuman.Jump))
                             {
                                 flag4 = true;
                                 flag2 = true;
@@ -1541,7 +1540,13 @@ public class Hero : Human
                                 this.playAnimation("air_rise");
                             }
                         }
-                        else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) || (this.inputManager.isInput[InputCode.jump] || this.inputManager.isInput[InputCode.leftRope])) || ((this.inputManager.isInput[InputCode.rightRope] || this.inputManager.isInput[InputCode.bothRope]) || (!this.IsFrontGrounded() || this.baseAnimation.IsPlaying("wallrun")))) || this.baseAnimation.IsPlaying("dodge")))
+                        else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) ||
+                                     (InputManager.KeyPressed(InputHuman.Jump) ||
+                                      InputManager.KeyPressed(InputHuman.HookLeft))) ||
+                                    ((InputManager.KeyPressed(InputHuman.HookRight) ||
+                                      InputManager.KeyPressed(InputHuman.HookBoth)) ||
+                                     (!this.IsFrontGrounded() || this.baseAnimation.IsPlaying("wallrun")))) ||
+                                   this.baseAnimation.IsPlaying("dodge")))
                         {
                             this.crossFade("wallrun", 0.1f);
                             this.wallRunTime = 0f;
@@ -1586,7 +1591,7 @@ public class Hero : Human
                                 this.facingDirection = num12;
                                 this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                             }
-                            if (((!flag3 && !flag4) && (!this.isMounted && this.inputManager.isInput[InputCode.jump])) && (this.currentGas > 0f))
+                            if (((!flag3 && !flag4) && (!this.isMounted && InputManager.KeyPressed(InputHuman.Jump))) && (this.currentGas > 0f))
                             {
                                 if ((x != 0f) || (z != 0f))
                                 {
@@ -4576,7 +4581,6 @@ public class Hero : Human
         else
         {
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
             this.loadskin();
             this.hasspawn = true;
             base.StartCoroutine(this.reloadSky());
@@ -4658,7 +4662,10 @@ public class Hero : Human
                     {
                         if (this.skillId == "jean")
                         {
-                            if (((this.state != HERO_STATE.Attack) && (this.inputManager.isInputDown[InputCode.attack0] || this.inputManager.isInputDown[InputCode.attack1])) && ((this.escapeTimes > 0) && !this.baseAnimation.IsPlaying("grabbed_jean")))
+                            if (((this.state != HERO_STATE.Attack) &&
+                                 (InputManager.KeyDown(InputHuman.Attack) ||
+                                  InputManager.KeyDown(InputHuman.AttackSpecial))) &&
+                                ((this.escapeTimes > 0) && !this.baseAnimation.IsPlaying("grabbed_jean")))
                             {
                                 this.playAnimation("grabbed_jean");
                                 this.baseAnimation["grabbed_jean"].time = 0f;
@@ -4694,7 +4701,7 @@ public class Hero : Human
                                 this.calcSkillCD();
                                 this.calcFlareCD();
                             }
-                            if (this.inputManager.isInputDown[InputCode.attack1])
+                            if (InputManager.KeyDown(InputHuman.AttackSpecial))
                             {
                                 bool flag2 = false;
                                 if ((this.skillCDDuration > 0f) || flag2)
@@ -4773,7 +4780,7 @@ public class Hero : Human
                         }
                         if (this.grounded && ((this.state == HERO_STATE.Idle) || (this.state == HERO_STATE.Slide)))
                         {
-                            if (!((!this.inputManager.isInputDown[InputCode.jump] || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
+                            if (!((!InputManager.KeyDown(InputHuman.Jump) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
                             {
                                 this.idle();
                                 this.crossFade("jump", 0.1f);
@@ -4783,7 +4790,7 @@ public class Hero : Human
                             {
                                 this.getOnHorse();
                             }
-                            if (!((!this.inputManager.isInputDown[InputCode.dodge] || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
+                            if (!((!InputManager.KeyDown(InputHuman.Dodge) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
                             {
                                 this.dodge2(false);
                                 return;
@@ -4791,15 +4798,15 @@ public class Hero : Human
                         }
                         if (this.state == HERO_STATE.Idle)
                         {
-                            if (this.inputManager.isInputDown[InputCode.flare1])
+                            if (InputManager.KeyDown(InputHuman.Item1))
                             {
                                 this.shootFlare(1);
                             }
-                            if (this.inputManager.isInputDown[InputCode.flare2])
+                            if (InputManager.KeyDown(InputHuman.Item2))
                             {
                                 this.shootFlare(2);
                             }
-                            if (this.inputManager.isInputDown[InputCode.flare3])
+                            if (InputManager.KeyDown(InputHuman.Item3))
                             {
                                 this.shootFlare(3);
                             }
@@ -4811,20 +4818,20 @@ public class Hero : Human
                             {
                                 this.getOffHorse();
                             }
-                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)) || this.grounded))
+                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)) || this.grounded))
                             {
                                 this.changeBlade();
                                 return;
                             }
-                            if (this.baseAnimation.IsPlaying(this.standAnimation) && this.inputManager.isInputDown[InputCode.salute])
+                            if (this.baseAnimation.IsPlaying(this.standAnimation) && InputManager.KeyDown(InputHuman.Salute))
                             {
                                 this.salute();
                                 return;
                             }
-                            if ((!this.isMounted && (this.inputManager.isInputDown[InputCode.attack0] || this.inputManager.isInputDown[InputCode.attack1])) && !this.useGun)
+                            if ((!this.isMounted && (InputManager.KeyDown(InputHuman.Attack) || InputManager.KeyDown(InputHuman.AttackSpecial))) && !this.useGun)
                             {
                                 bool flag3 = false;
-                                if (this.inputManager.isInputDown[InputCode.attack1])
+                                if (InputManager.KeyDown(InputHuman.AttackSpecial))
                                 {
                                     if ((this.skillCDDuration > 0f) || flag3)
                                     {
@@ -4962,15 +4969,15 @@ public class Hero : Human
                                         }
                                     }
                                 }
-                                else if (this.inputManager.isInputDown[InputCode.attack0])
+                                else if (InputManager.KeyDown(InputHuman.Attack))
                                 {
                                     if (this.needLean)
                                     {
-                                        if (this.inputManager.isInput[InputCode.left])
+                                        if (InputManager.KeyPressed(InputHuman.Left))
                                         {
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_l1" : "attack1_hook_l2";
                                         }
-                                        else if (this.inputManager.isInput[InputCode.right])
+                                        else if (InputManager.KeyPressed(InputHuman.Right))
                                         {
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
                                         }
@@ -4983,11 +4990,11 @@ public class Hero : Human
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
                                         }
                                     }
-                                    else if (this.inputManager.isInput[InputCode.left])
+                                    else if (InputManager.KeyPressed(InputHuman.Left))
                                     {
                                         this.attackAnimation = "attack2";
                                     }
-                                    else if (this.inputManager.isInput[InputCode.right])
+                                    else if (InputManager.KeyPressed(InputHuman.Right))
                                     {
                                         this.attackAnimation = "attack1";
                                     }
@@ -5073,12 +5080,12 @@ public class Hero : Human
                             }
                             if (this.useGun)
                             {
-                                if (this.inputManager.isInput[InputCode.attack1])
+                                if (InputManager.KeyPressed(InputHuman.AttackSpecial))
                                 {
                                     this.leftArmAim = true;
                                     this.rightArmAim = true;
                                 }
-                                else if (this.inputManager.isInput[InputCode.attack0])
+                                else if (InputManager.KeyPressed(InputHuman.Attack))
                                 {
                                     if (this.leftGunHasBullet)
                                     {
@@ -5118,7 +5125,7 @@ public class Hero : Human
                                 bool flag4 = false;
                                 bool flag5 = false;
                                 bool flag6 = false;
-                                if (this.inputManager.isInputUp[InputCode.attack1] && (this.skillId != "bomb"))
+                                if (InputManager.KeyUp(InputHuman.AttackSpecial) && (this.skillId != "bomb"))
                                 {
                                     if (this.leftGunHasBullet && this.rightGunHasBullet)
                                     {
@@ -5141,7 +5148,7 @@ public class Hero : Human
                                         flag6 = true;
                                     }
                                 }
-                                if (flag6 || this.inputManager.isInputUp[InputCode.attack0])
+                                if (flag6 || InputManager.KeyUp(InputHuman.Attack))
                                 {
                                     if (this.grounded)
                                     {
@@ -5214,7 +5221,7 @@ public class Hero : Human
                         {
                             if (!this.useGun)
                             {
-                                if (!this.inputManager.isInput[InputCode.attack0])
+                                if (!InputManager.KeyPressed(InputHuman.Attack))
                                 {
                                     this.buttonAttackRelease = true;
                                 }
@@ -5560,7 +5567,7 @@ public class Hero : Human
                                 this.idle();
                             }
                         }
-                        if (this.inputManager.isInput[InputCode.leftRope])
+                        if (InputManager.KeyPressed(InputHuman.HookLeft))
                         {
                             ReflectorVariable0 = true;
                         }
@@ -5592,7 +5599,7 @@ public class Hero : Human
                         {
                             this.QHold = false;
                         }
-                        if (this.inputManager.isInput[InputCode.rightRope])
+                        if (InputManager.KeyPressed(InputHuman.HookRight))
                         {
                             ReflectorVariable1 = true;
                         }
@@ -5624,7 +5631,7 @@ public class Hero : Human
                         {
                             this.EHold = false;
                         }
-                        if (this.inputManager.isInput[InputCode.bothRope])
+                        if (InputManager.KeyPressed(InputHuman.HookBoth))
                         {
                             ReflectorVariable2 = true;
                         }
@@ -5708,7 +5715,7 @@ public class Hero : Human
     {
         if (this.skillId == "bomb")
         {
-            if (this.inputManager.isInputDown[InputCode.attack1] && (this.skillCDDuration <= 0f))
+            if (InputManager.KeyDown(InputHuman.AttackSpecial) && (this.skillCDDuration <= 0f))
             {
                 if (!((this.myBomb == null) || this.myBomb.disabled))
                 {
@@ -5737,11 +5744,11 @@ public class Hero : Human
             {
                 this.bombTime += Time.deltaTime;
                 bool flag2 = false;
-                if (this.inputManager.isInputUp[InputCode.attack1])
+                if (InputManager.KeyUp(InputHuman.AttackSpecial))
                 {
                     this.detonate = true;
                 }
-                else if (this.inputManager.isInputDown[InputCode.attack1] && this.detonate)
+                else if (InputManager.KeyDown(InputHuman.AttackSpecial) && this.detonate)
                 {
                     this.detonate = false;
                     flag2 = true;

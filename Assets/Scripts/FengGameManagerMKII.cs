@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 //[Obsolete]
@@ -53,7 +54,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private ArrayList hooks;
     public static List<int> ignoreList;
     public static ExitGames.Client.Photon.Hashtable imatitan;
-    public FengCustomInputs inputManager;
     public static FengGameManagerMKII instance;
     public static ExitGames.Client.Photon.Hashtable intVariables;
     public static bool isAssetLoaded;
@@ -192,7 +192,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private void cache()
     {
         ClothFactory.ClearClothCache();
-        this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
         //HACK
         //this.chatRoom = GameObject.Find("Chatroom").GetComponent<InRoomChat>();
         this.playersRPC.Clear();
@@ -467,7 +466,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     this.ShowHUDInfoTopLeft(this.playerList);
                     if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int)settings[0xf5]) == 0))
                     {
-                        this.ShowHUDInfoCenter("Press [F7D358]" + this.inputManager.inputString[InputCode.flare1] + "[-] to spectate the next player. \nPress [F7D358]" + this.inputManager.inputString[InputCode.flare2] + "[-] to spectate the previous player.\nPress [F7D358]" + this.inputManager.inputString[InputCode.attack1] + "[-] to enter the spectator mode.\n\n\n\n");
+                        this.ShowHUDInfoCenter($"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to spectate the next player.\n" +
+                                               $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the previous player.\n" +
+                                               $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
                         if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) || (Gamemode.Settings.EndlessRevive > 0)) || !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled)) ? (Gamemode.Settings.PointMode <= 0) : true))
                         {
                             this.myRespawnTime += Time.deltaTime;
@@ -3088,7 +3089,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.gameStart = false;
             Screen.lockCursor = false;
             Cursor.visible = true;
-            this.inputManager.menuOn = false;
             this.DestroyAllExistingCloths();
             UnityEngine.Object.Destroy(GameObject.Find("MultiplayerManager"));
             Application.LoadLevel(0);

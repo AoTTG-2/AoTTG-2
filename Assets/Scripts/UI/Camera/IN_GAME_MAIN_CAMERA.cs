@@ -1,4 +1,5 @@
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
 
@@ -28,7 +29,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public float height = 5f;
     public float heightDamping = 2f;
     private float heightMulti;
-    public FengCustomInputs inputManager;
     public static int invertY = 1;
     public static bool isCheating;
     public static bool isPausing;
@@ -142,7 +142,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         else if (cameraMode == CAMERA_TYPE.TPS)
         {
-            if (!this.inputManager.menuOn)
+            if (!InGameUi.IsMenuOpen())
             {
                 Screen.lockCursor = true;
             }
@@ -649,7 +649,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             invertY = PlayerPrefs.GetInt("invertMouseY");
         }
-        this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
         this.setDayLight(dayLight);
         this.locker = GameObject.Find("locker");
         if (PlayerPrefs.HasKey("cameraTilt"))
@@ -736,7 +735,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             if ((gametype != GAMETYPE.SINGLE) && this.gameOver)
             {
-                if (this.inputManager.isInputDown[InputCode.attack1])
+                if (InputManager.KeyDown(InputHuman.AttackSpecial))
                 {
                     if (this.spectatorMode)
                     {
@@ -747,7 +746,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         this.setSpectorMode(true);
                     }
                 }
-                if (this.inputManager.isInputDown[InputCode.flare1])
+                if (InputManager.KeyDown(InputHuman.Item1))
                 {
                     this.currentPeekPlayerIndex++;
                     int length = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -762,7 +761,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         this.lockAngle = false;
                     }
                 }
-                if (this.inputManager.isInputDown[InputCode.flare2])
+                if (InputManager.KeyDown(InputHuman.Item2))
                 {
                     this.currentPeekPlayerIndex--;
                     int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -806,7 +805,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     {
                         Time.timeScale = 0f;
                     }
-                    GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
+                    //TODO: #61 Pausing menu
+                    //GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
                     Cursor.visible = true;
                     Screen.lockCursor = false;
                 }

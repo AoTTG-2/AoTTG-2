@@ -1,16 +1,10 @@
-using System;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 public class SpectatorMovement : MonoBehaviour
 {
     public bool disable;
-    public FengCustomInputs inputManager;
     private float speed = 100f;
-
-    private void Start()
-    {
-        this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
-    }
 
     private void Update()
     {
@@ -19,15 +13,15 @@ public class SpectatorMovement : MonoBehaviour
             float num2;
             float num3;
             float speed = this.speed;
-            if (this.inputManager.isInput[InputCode.jump])
+            if (InputManager.KeyPressed(InputHuman.Jump))
             {
                 speed *= 3f;
             }
-            if (this.inputManager.isInput[InputCode.up])
+            if (InputManager.KeyPressed(InputHuman.Forward))
             {
                 num2 = 1f;
             }
-            else if (this.inputManager.isInput[InputCode.down])
+            else if (InputManager.KeyPressed(InputHuman.Backward))
             {
                 num2 = -1f;
             }
@@ -35,11 +29,11 @@ public class SpectatorMovement : MonoBehaviour
             {
                 num2 = 0f;
             }
-            if (this.inputManager.isInput[InputCode.left])
+            if (InputManager.KeyPressed(InputHuman.Left))
             {
                 num3 = -1f;
             }
-            else if (this.inputManager.isInput[InputCode.right])
+            else if (InputManager.KeyPressed(InputHuman.Right))
             {
                 num3 = 1f;
             }
@@ -64,11 +58,11 @@ public class SpectatorMovement : MonoBehaviour
             {
                 transform.position -= (Vector3) ((base.transform.right * speed) * Time.deltaTime);
             }
-            if (this.inputManager.isInput[InputCode.leftRope])
+            if (InputManager.KeyPressed(InputHuman.HookLeft))
             {
                 transform.position -= (Vector3) ((base.transform.up * speed) * Time.deltaTime);
             }
-            else if (this.inputManager.isInput[InputCode.rightRope])
+            else if (InputManager.KeyPressed(InputHuman.HookRight))
             {
                 transform.position += (Vector3) ((base.transform.up * speed) * Time.deltaTime);
             }
