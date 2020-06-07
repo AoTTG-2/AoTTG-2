@@ -26,6 +26,16 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
+        private void OnEnable()
+        {
+            InGameUi.OnMenuOpened();
+        }
+
+        private void OnDisable()
+        {
+            InGameUi.OnMenuClosed();
+        }
+
         public void Spawn()
         {
             string selection = "23";

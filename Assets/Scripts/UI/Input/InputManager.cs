@@ -148,39 +148,76 @@ namespace Assets.Scripts.UI.Input
             SetDefaultUiKeybindings();
         }
 
-        public static bool KeyPressed(InputCannon key)
+        public static bool KeyPressed<T>(T inputEnum)
         {
-            if (InGameUi.IsMenuOpen()) return false;
-            return UnityEngine.Input.GetKey(inputCannon[key]);
-        }
+            if (inputEnum is InputCannon)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputCannon) (object) inputEnum;
+                return UnityEngine.Input.GetKey(inputCannon[input]);
+            }
 
-        public static bool KeyPressed(InputHorse key)
-        {
-            if (InGameUi.IsMenuOpen()) return false;
-            return UnityEngine.Input.GetKey(inputHorse[key]);
-        }
+            if (inputEnum is InputHuman)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputHuman) (object) inputEnum;
+                return UnityEngine.Input.GetKey(inputHuman[input]);
+            }
 
-        public static bool KeyPressed(InputHuman key)
-        {
-            if (InGameUi.IsMenuOpen()) return false;
-            return UnityEngine.Input.GetKey(inputHuman[key]);
-        }
+            if (inputEnum is InputHorse)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputHorse) (object) inputEnum;
+                return UnityEngine.Input.GetKey(inputHorse[input]);
+            }
 
-        public static bool KeyPressed(InputTitan key)
-        {
-            if (InGameUi.IsMenuOpen()) return false;
-            return UnityEngine.Input.GetKey(inputTitan[key]);
+            if (inputEnum is InputTitan)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputTitan) (object) inputEnum;
+                return UnityEngine.Input.GetKey(inputTitan[input]);
+            }
+
+            if (inputEnum is InputUi)
+            {
+                var input = (InputUi) (object) inputEnum;
+                return UnityEngine.Input.GetKey(inputUi[input]);
+            }
+
+            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.KeyPressed");
         }
 
         public static bool KeyDown<T>(T inputEnum)
         {
-            if (inputEnum.GetType() == typeof(InputHuman))
+            if (inputEnum is InputCannon)
             {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputCannon) (object) inputEnum;
+                return UnityEngine.Input.GetKeyDown(inputCannon[input]);
+            }
+
+            if (inputEnum is InputHuman)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
                 var input = (InputHuman) (object) inputEnum;
                 return UnityEngine.Input.GetKeyDown(inputHuman[input]);
             }
 
-            if (inputEnum.GetType() == typeof(InputUi))
+            if (inputEnum is InputHorse)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputHorse) (object) inputEnum;
+                return UnityEngine.Input.GetKeyDown(inputHorse[input]);
+            }
+
+            if (inputEnum is InputTitan)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputTitan) (object) inputEnum;
+                return UnityEngine.Input.GetKeyDown(inputTitan[input]);
+            }
+
+            if (inputEnum is InputUi)
             {
                 var input = (InputUi) (object) inputEnum;
                 return UnityEngine.Input.GetKeyDown(inputUi[input]);
@@ -191,13 +228,35 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp<T>(T inputEnum)
         {
-            if (inputEnum.GetType() == typeof(InputHuman))
+            if (inputEnum is InputCannon)
             {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputCannon) (object) inputEnum;
+                return UnityEngine.Input.GetKeyUp(inputCannon[input]);
+            }
+
+            if (inputEnum is InputHuman)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
                 var input = (InputHuman) (object) inputEnum;
                 return UnityEngine.Input.GetKeyUp(inputHuman[input]);
             }
 
-            if (inputEnum.GetType() == typeof(InputUi))
+            if (inputEnum is InputHorse)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputHorse) (object) inputEnum;
+                return UnityEngine.Input.GetKeyUp(inputHorse[input]);
+            }
+
+            if (inputEnum is InputTitan)
+            {
+                if (InGameUi.IsMenuOpen()) return false;
+                var input = (InputTitan) (object) inputEnum;
+                return UnityEngine.Input.GetKeyUp(inputTitan[input]);
+            }
+
+            if (inputEnum is InputUi)
             {
                 var input = (InputUi) (object) inputEnum;
                 return UnityEngine.Input.GetKeyUp(inputUi[input]);
@@ -206,38 +265,39 @@ namespace Assets.Scripts.UI.Input
             throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.KeyUp");
         }
 
-        public static bool KeyDown(InputCannon key)
-        {
-            if (InGameUi.IsMenuOpen()) return false;
-            return UnityEngine.Input.GetKeyDown(inputCannon[key]);
-        }
-
-        public static bool KeyDown(InputHorse key)
-        {
-            if (InGameUi.IsMenuOpen()) return false;
-            return UnityEngine.Input.GetKeyDown(inputHorse[key]);
-        }
-
-        public static bool KeyDown(InputTitan key)
-        {
-            if (InGameUi.IsMenuOpen()) return false;
-            return UnityEngine.Input.GetKeyDown(inputTitan[key]);
-        }
-
-        public static bool KeyDown(InputUi key)
-        {
-            return UnityEngine.Input.GetKeyDown(inputUi[key]);
-        }
-
         public static KeyCode GetKey<T>(T inputEnum)
         {
-            if (inputEnum.GetType() == typeof(InputUi))
+            if (inputEnum is InputCannon)
+            {
+                var input = (InputCannon) (object) inputEnum;
+                return inputCannon[input];
+            }
+
+            if (inputEnum is InputHorse)
+            {
+                var input = (InputHorse) (object) inputEnum;
+                return inputHorse[input];
+            }
+
+            if (inputEnum is InputHuman)
+            {
+                var input = (InputHuman) (object) inputEnum;
+                return inputHuman[input];
+            }
+
+            if (inputEnum is InputTitan)
+            {
+                var input = (InputTitan) (object) inputEnum;
+                return inputTitan[input];
+            }
+
+            if (inputEnum is InputUi)
             {
                 var input = (InputUi) (object) inputEnum;
                 return inputUi[input];
             }
 
-            return KeyCode.None;
+            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.GetKey");
         }
     }
 }

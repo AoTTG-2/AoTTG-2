@@ -1,10 +1,12 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.Input;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InRoomChat : Photon.MonoBehaviour
@@ -35,12 +37,25 @@ public class InRoomChat : Photon.MonoBehaviour
         {
             return;
         }
-        if ((Event.current.type == EventType.KeyUp) && (((Event.current.keyCode != KeyCode.None) && (Event.current.keyCode == InputManager.GetKey(InputUi.Chat))) && (GUI.GetNameOfFocusedControl() != "ChatInput")))
+        if (Event.current.type == EventType.KeyUp 
+            && Event.current.keyCode == InputManager.GetKey(InputUi.Chat)
+            && !ChatInputField.isFocused)
         {
+            InGameUi.OnMenuClosed();
+            EventSystem.current.SetSelectedGameObject(null);
             this.inputLine = string.Empty;
             ChatInputField.text = string.Empty;
             goto Label_013D;
         }
+
+        if (Event.current.type == EventType.KeyUp
+            && Event.current.keyCode == InputManager.GetKey(InputUi.Chat) 
+            && ChatInputField.isFocused)
+        {
+            InGameUi.OnMenuOpened();
+            goto Label_013D;
+        }
+
         if (InputManager.KeyDown(InputUi.Chat))
         {
             if (!string.IsNullOrEmpty(this.inputLine))

@@ -12,12 +12,21 @@ namespace Assets.Scripts.UI.InGame
 
         public static void OnMenuOpened()
         {
+            Debug.Log("Menu opened");
             _activeMenus++;
         }
 
         public static void OnMenuClosed()
         {
-            _activeMenus--;
+            Debug.Log("Menu closed");
+            if (_activeMenus == 0)
+            {
+                Debug.LogError("Tried to close a menu while there was none");
+            }
+            else
+            {
+                _activeMenus--;
+            }
         }
 
         public static bool IsMenuOpen()

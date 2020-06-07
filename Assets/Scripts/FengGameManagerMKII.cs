@@ -192,8 +192,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private void cache()
     {
         ClothFactory.ClearClothCache();
-        //HACK
-        //this.chatRoom = GameObject.Find("Chatroom").GetComponent<InRoomChat>();
         this.playersRPC.Clear();
         this.titanSpawners.Clear();
         this.groundList.Clear();
