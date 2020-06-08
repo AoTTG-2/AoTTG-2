@@ -17,7 +17,6 @@ public abstract class OdmgEquipment : MonoBehaviour
 {
     protected GameObject heroObject;
     protected Hero myHeroScript;
-    protected HERO_SETUP heroSetupScript;
     protected ArmatureData heroArmature;
 
 
@@ -55,16 +54,15 @@ public abstract class OdmgEquipment : MonoBehaviour
     {
         this.heroObject = heroObject;
         myHeroScript = heroObject.GetComponent<Hero>();
-        heroSetupScript = heroObject.GetComponent<HERO_SETUP>();
         heroArmature = heroObject.GetComponent<ArmatureData>();
     }
 
     #region Virtual Methods
-    public virtual void SetStats(HeroStat heroStat)
-    {
-        maxGas = heroStat.GAS;
-        currentGas = maxGas;
-    }
+    //public virtual void SetStats(HeroStat heroStat)
+    //{
+    //    maxGas = heroStat.GAS;
+    //    currentGas = maxGas;
+    //}
 
     public virtual void Equip()
     {

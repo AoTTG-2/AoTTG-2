@@ -18,19 +18,19 @@ public class Blades : OdmgEquipment, Weapon
     }
 
     #region Equipment Methods
-    public override void SetStats(HeroStat heroStat)
-    {
-        base.SetStats(heroStat);
-        maxDurability = heroStat.BLA;
-        BladeDurability = maxDurability;
-    }
+    //public override void SetStats(HeroStat heroStat)
+    //{
+    //    base.SetStats(heroStat);
+    //    maxDurability = heroStat.BLA;
+    //    BladeDurability = maxDurability;
+    //}
 
     public override void Equip()
     {
         base.Equip();
 
-        part_3dmg_belt = heroSetupScript.GenerateCloth(heroSetupScript.reference, "Character/" + heroSetupScript.myCostume.mesh_3dmg_belt);
-        part_3dmg_belt.GetComponent<Renderer>().material = CharacterMaterials.materials[heroSetupScript.myCostume._3dmg_texture];
+        //part_3dmg_belt = heroSetupScript.GenerateCloth(heroSetupScript.reference, "Character/" + heroSetupScript.myCostume.mesh_3dmg_belt);
+        //part_3dmg_belt.GetComponent<Renderer>().material = CharacterMaterials.materials[heroSetupScript.myCostume._3dmg_texture];
 
         part_3dmg_gas_l = Instantiate(prefab_3dmg_gas_l);
         part_3dmg_gas_l.transform.position = heroObject.transform.position;
@@ -146,14 +146,12 @@ public class Blades : OdmgEquipment, Weapon
 
     public void dropBlades()
     {
-        HERO_SETUP setupScript = myHeroScript.setup;
-
         Transform transform = part_weapon_l.transform;
         Transform transform2 = part_weapon_r.transform;
         GameObject obj2 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
         GameObject obj3 = (GameObject)Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
-        obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
-        obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
+        //obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
+        //obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[setupScript.myCostume._3dmg_texture];
         Vector3 force = (base.transform.forward + ((base.transform.up * 2f))) - base.transform.right;
         obj2.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
         Vector3 vector2 = (base.transform.forward + ((base.transform.up * 2f))) + base.transform.right;

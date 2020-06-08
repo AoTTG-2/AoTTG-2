@@ -94,10 +94,6 @@ public class InRoomChat : Photon.MonoBehaviour
                     object[] parameters = new object[] { this.inputLine, str2 };
                     FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, parameters);
                 }
-                else if (this.inputLine == "/cloth")
-                {
-                    this.addLINE(ClothFactory.GetDebugInfo());
-                }
                 else if (this.inputLine.StartsWith("/aso"))
                 {
                     if (PhotonNetwork.isMasterClient)
