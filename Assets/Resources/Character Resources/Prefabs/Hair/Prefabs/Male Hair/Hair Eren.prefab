@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4311508851613298}
   - component: {fileID: 33381094507493288}
   - component: {fileID: 23324969289041002}
+  - component: {fileID: 114501847069088648}
   m_Layer: 0
   m_Name: Hair Eren
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 35671ec3a2dd62b4495e594386f79675, type: 2}
+  - {fileID: 2100000, guid: 4ecf82c68a3f5754d8cedd991abb72a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573760613818790}
   m_Mesh: {fileID: 4300000, guid: 93db7f7620310224a94fe9b1eced6f16, type: 2}
+--- !u!114 &114501847069088648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1573760613818790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 4
+  sex: 0

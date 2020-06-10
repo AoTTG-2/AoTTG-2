@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AHSS : OdmgEquipment, Weapon
+public class Ahss : OdmgEquipment, Weapon
 {
     [SerializeField] public int maxAmmo = 7;
     public int leftGunAmmo { get; set; }

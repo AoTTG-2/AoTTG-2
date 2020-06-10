@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54333264336396493}
   - component: {fileID: 114374413252414898}
   m_Layer: 13
-  m_Name: character_3dmg_2
+  m_Name: 3DMG AHSS Ragdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: d3c8edbc466a8f24ab025d08e60cefda, type: 2}
+  - {fileID: 2100000, guid: 645d60c013a22cd46bf1eae0e8d1274e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1226325272552703}
-  m_Mesh: {fileID: 4300000, guid: a06955bbc06d6064aa6f71ea1a8c2353, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 7e069aa2bc13ebc4a8d367b57a9401c7, type: 2}
 --- !u!54 &54333264336396493
 Rigidbody:
   m_ObjectHideFlags: 1

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4464908233861504}
   - component: {fileID: 33866074490868324}
   - component: {fileID: 23356595616709120}
-  - component: {fileID: 114406936174227860}
+  - component: {fileID: 114911136693650044}
   m_Layer: 0
   m_Name: Hair Hanji
   m_TagString: Untagged
@@ -38,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4744151140891360}
   - component: {fileID: 137080183031840566}
-  - component: {fileID: 114998812340548494}
   m_Layer: 0
   m_Name: Hair Physics
   m_TagString: Untagged
@@ -87,7 +86,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: b14d7ece12c9cf8418ca3e224a1d765a, type: 2}
+  - {fileID: 2100000, guid: d981e8f62f916a244b043f18329c34e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,7 +113,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1677697576677822}
   m_Mesh: {fileID: 4300000, guid: b81cd21eef5f4a74883c8a993ec38d21, type: 2}
---- !u!114 &114406936174227860
+--- !u!114 &114911136693650044
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -122,20 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1677697576677822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be9c750133997fa48b059aa945739c11, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114998812340548494
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1795145722351746}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be9c750133997fa48b059aa945739c11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  id: 6
+  sex: 0
 --- !u!137 &137080183031840566
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -150,7 +140,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: b14d7ece12c9cf8418ca3e224a1d765a, type: 2}
+  - {fileID: 2100000, guid: d981e8f62f916a244b043f18329c34e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

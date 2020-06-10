@@ -4887,7 +4887,7 @@ public class Hero : Human
                                     }
                                     else if (this.inputManager.isInput[InputCode.attack0])
                                     {
-                                        if (((AHSS)currentEquipment).leftGunLoaded)
+                                        if (((Ahss)currentEquipment).leftGunLoaded)
                                         {
                                             this.leftArmAim = true;
                                             this.rightArmAim = false;
@@ -4895,7 +4895,7 @@ public class Hero : Human
                                         else
                                         {
                                             this.leftArmAim = false;
-                                            if (((AHSS)currentEquipment).rightGunLoaded)
+                                            if (((Ahss)currentEquipment).rightGunLoaded)
                                             {
                                                 this.rightArmAim = true;
                                             }
@@ -4927,7 +4927,7 @@ public class Hero : Human
                                     bool flag6 = false;
                                     if (this.inputManager.isInputUp[InputCode.attack1] && (this.skillId != "bomb"))
                                     {
-                                        if (((AHSS)currentEquipment).leftGunLoaded && ((AHSS)currentEquipment).rightGunLoaded)
+                                        if (((Ahss)currentEquipment).leftGunLoaded && ((Ahss)currentEquipment).rightGunLoaded)
                                         {
                                             if (this.grounded)
                                             {
@@ -4939,7 +4939,7 @@ public class Hero : Human
                                             }
                                             flag4 = true;
                                         }
-                                        else if (!(((AHSS)currentEquipment).leftGunLoaded || ((AHSS)currentEquipment).rightGunLoaded))
+                                        else if (!(((Ahss)currentEquipment).leftGunLoaded || ((Ahss)currentEquipment).rightGunLoaded))
                                         {
                                             flag5 = true;
                                         }
@@ -4952,7 +4952,7 @@ public class Hero : Human
                                     {
                                         if (this.grounded)
                                         {
-                                            if (((AHSS)currentEquipment).leftGunLoaded && ((AHSS)currentEquipment).rightGunLoaded)
+                                            if (((Ahss)currentEquipment).leftGunLoaded && ((Ahss)currentEquipment).rightGunLoaded)
                                             {
                                                 if (this.isLeftHandHooked)
                                                 {
@@ -4963,16 +4963,16 @@ public class Hero : Human
                                                     this.attackAnimation = "AHSS_shoot_l";
                                                 }
                                             }
-                                            else if (((AHSS)currentEquipment).leftGunLoaded)
+                                            else if (((Ahss)currentEquipment).leftGunLoaded)
                                             {
                                                 this.attackAnimation = "AHSS_shoot_l";
                                             }
-                                            else if (((AHSS)currentEquipment).rightGunLoaded)
+                                            else if (((Ahss)currentEquipment).rightGunLoaded)
                                             {
                                                 this.attackAnimation = "AHSS_shoot_r";
                                             }
                                         }
-                                        else if (((AHSS)currentEquipment).leftGunLoaded && ((AHSS)currentEquipment).rightGunLoaded)
+                                        else if (((Ahss)currentEquipment).leftGunLoaded && ((Ahss)currentEquipment).rightGunLoaded)
                                         {
                                             if (this.isLeftHandHooked)
                                             {
@@ -4983,15 +4983,15 @@ public class Hero : Human
                                                 this.attackAnimation = "AHSS_shoot_l_air";
                                             }
                                         }
-                                        else if (((AHSS)currentEquipment).leftGunLoaded)
+                                        else if (((Ahss)currentEquipment).leftGunLoaded)
                                         {
                                             this.attackAnimation = "AHSS_shoot_l_air";
                                         }
-                                        else if (((AHSS)currentEquipment).rightGunLoaded)
+                                        else if (((Ahss)currentEquipment).rightGunLoaded)
                                         {
                                             this.attackAnimation = "AHSS_shoot_r_air";
                                         }
-                                        if (((AHSS)currentEquipment).leftGunLoaded || ((AHSS)currentEquipment).rightGunLoaded)
+                                        if (((Ahss)currentEquipment).leftGunLoaded || ((Ahss)currentEquipment).rightGunLoaded)
                                         {
                                             flag4 = true;
                                         }
@@ -5215,7 +5215,7 @@ public class Hero : Human
                                     }
                                     else
                                     {
-                                        AHSS currentAHSS = (AHSS)currentEquipment;
+                                        Ahss currentAHSS = (Ahss)currentEquipment;
                                         
                                         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
@@ -5293,7 +5293,7 @@ public class Hero : Human
                                 {
                                     if (this.baseAnimation[this.reloadAnimation].normalizedTime > 0.22f)
                                     {
-                                        if (!(((AHSS)currentEquipment).leftGunLoaded || !currentEquipment.part_weapon_l.activeSelf))
+                                        if (!(((Ahss)currentEquipment).leftGunLoaded || !currentEquipment.part_weapon_l.activeSelf))
                                         {
                                             currentEquipment.part_weapon_l.SetActive(false);
                                             Transform transform = currentEquipment.part_weapon_l.transform;
@@ -5304,7 +5304,7 @@ public class Hero : Human
                                             Vector3 torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
                                             obj5.GetComponent<Rigidbody>().AddTorque(torque, ForceMode.Acceleration);
                                         }
-                                        if (!(((AHSS)currentEquipment).rightGunLoaded || !currentEquipment.part_weapon_r.activeSelf))
+                                        if (!(((Ahss)currentEquipment).rightGunLoaded || !currentEquipment.part_weapon_r.activeSelf))
                                         {
                                             currentEquipment.part_weapon_r.SetActive(false);
                                             Transform transform5 = currentEquipment.part_weapon_r.transform;
@@ -5318,20 +5318,20 @@ public class Hero : Human
                                     }
                                     if ((this.baseAnimation[this.reloadAnimation].normalizedTime > 0.62f) && !this.throwedBlades)
                                     {
-                                        AHSS ahssGear = (AHSS)currentEquipment;
+                                        Ahss ahssGear = (Ahss)currentEquipment;
 
                                         this.throwedBlades = true;
-                                        if (!((ahssGear.leftGunAmmo <= 0) || ((AHSS)currentEquipment).leftGunLoaded))
+                                        if (!((ahssGear.leftGunAmmo <= 0) || ((Ahss)currentEquipment).leftGunLoaded))
                                         {
                                             ahssGear.leftGunAmmo--;
                                             currentEquipment.part_weapon_l.SetActive(true);
-                                            ((AHSS)currentEquipment).leftGunLoaded = true;
+                                            ((Ahss)currentEquipment).leftGunLoaded = true;
                                         }
-                                        if (!((ahssGear.rightGunAmmo <= 0) || ((AHSS)currentEquipment).rightGunLoaded))
+                                        if (!((ahssGear.rightGunAmmo <= 0) || ((Ahss)currentEquipment).rightGunLoaded))
                                         {
                                             currentEquipment.part_weapon_r.SetActive(true);
                                             ahssGear.rightGunAmmo--;
-                                            ((AHSS)currentEquipment).rightGunLoaded = true;
+                                            ((Ahss)currentEquipment).rightGunLoaded = true;
                                         }
                                         this.updateRightMagUI();
                                         this.updateLeftMagUI();
@@ -5428,8 +5428,8 @@ public class Hero : Human
                                     }
                                     else
                                     {
-                                        ((AHSS)currentEquipment).rightGunLoaded = true;
-                                        ((AHSS)currentEquipment).leftGunLoaded = true;
+                                        ((Ahss)currentEquipment).rightGunLoaded = true;
+                                        ((Ahss)currentEquipment).leftGunLoaded = true;
                                         currentEquipment.part_weapon_l.SetActive(true);
                                         currentEquipment.part_weapon_r.SetActive(true);
                                         this.updateRightMagUI();
@@ -5667,7 +5667,7 @@ public class Hero : Human
     {
         return;
 
-        AHSS ahssGear = (AHSS)currentEquipment;
+        Ahss ahssGear = (Ahss)currentEquipment;
 
         for (int i = 1; i <= ahssGear.maxAmmo; i++)
         {
@@ -5683,7 +5683,7 @@ public class Hero : Human
     {
         return;
 
-        AHSS ahssGear = (AHSS)currentEquipment;
+        Ahss ahssGear = (Ahss)currentEquipment;
 
         for (int i = 1; i <= ahssGear.maxAmmo; i++)
         {

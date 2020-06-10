@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4498277411199168}
   - component: {fileID: 33781343070045224}
   - component: {fileID: 23451437501288746}
+  - component: {fileID: 114259549996989478}
   m_Layer: 0
   m_Name: Hair Male 4
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 541b6c588c8f2594c8382d5475bdcaad, type: 2}
+  - {fileID: 2100000, guid: fb31d6125bc755542ad2fdc5615b554d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961841294325386}
   m_Mesh: {fileID: 4300000, guid: c2e00119658cd3d49923cde4220ad046, type: 2}
+--- !u!114 &114259549996989478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961841294325386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3
+  sex: 0

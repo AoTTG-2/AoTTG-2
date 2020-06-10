@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4953911160678706}
   - component: {fileID: 33505277214911770}
   - component: {fileID: 23325057789479714}
+  - component: {fileID: 114106173054547286}
   m_Layer: 0
   m_Name: Hair Rico
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: fbedbae055a2e404bb8f0f8ee49882f0, type: 2}
+  - {fileID: 2100000, guid: a655eb6903c6b9b4699f13b2c77df103, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1666357677725766}
   m_Mesh: {fileID: 4300000, guid: 38740ee6bac31b64d8fb935a8a646358, type: 2}
+--- !u!114 &114106173054547286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1666357677725766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 9
+  sex: 0

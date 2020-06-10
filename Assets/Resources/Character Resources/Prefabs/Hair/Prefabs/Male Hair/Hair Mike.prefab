@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4596541592816510}
   - component: {fileID: 33898990173694260}
   - component: {fileID: 23363058058284398}
+  - component: {fileID: 114897552170899144}
   m_Layer: 0
   m_Name: Hair Mike
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: ec56b7b082f9b3f47bf6aa4f8fa9f25f, type: 2}
+  - {fileID: 2100000, guid: d8446e0ab8cbf2440a183d232d17edfb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165022436078918}
   m_Mesh: {fileID: 4300000, guid: 17bf8e6303e5345449c3207d9e4e0b0d, type: 2}
+--- !u!114 &114897552170899144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165022436078918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 9
+  sex: 0

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 54391194230931234}
   - component: {fileID: 114223086829222674}
   m_Layer: 13
-  m_Name: character_blade_r
+  m_Name: Blade Right Ragdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: d3c8edbc466a8f24ab025d08e60cefda, type: 2}
+  - {fileID: 2100000, guid: d4ec575ec0cb9934e881e0b260e8c632, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,7 +113,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1345095501815557}
-  m_Mesh: {fileID: 4300000, guid: 6dc4467487357be4399b8863bb6e06da, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 10b46ddbf948dc24c90ef065ea8caab7, type: 2}
 --- !u!54 &54391194230931234
 Rigidbody:
   m_ObjectHideFlags: 1

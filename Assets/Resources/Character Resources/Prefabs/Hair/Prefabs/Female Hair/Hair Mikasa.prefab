@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4519552973591600}
   - component: {fileID: 33028028055151414}
   - component: {fileID: 23826675950921982}
+  - component: {fileID: 114874890469618786}
   m_Layer: 0
   m_Name: Hair Mikasa
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 361e2328e389e8c46acae9ae4cdb0b4c, type: 2}
+  - {fileID: 2100000, guid: 486cac93db3e6c842b5960645eb90782, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1393385089926996}
   m_Mesh: {fileID: 4300000, guid: f99ad0c47ac8ee14ab19e20753a9bcc8, type: 2}
+--- !u!114 &114874890469618786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1393385089926996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 7
+  sex: 0

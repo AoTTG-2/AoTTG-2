@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4671891160502108}
   - component: {fileID: 33364679963711412}
   - component: {fileID: 23580394002989408}
+  - component: {fileID: 114905740159980822}
   m_Layer: 0
   m_Name: Hair Annie
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 552fed18acbf1dc4c938c0997680cdbc, type: 2}
+  - {fileID: 2100000, guid: bd105547839bc0d4ab56a7927c22d856, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1245843145224760}
   m_Mesh: {fileID: 4300000, guid: 3745f218a263c1f40af809bcce514804, type: 2}
+--- !u!114 &114905740159980822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1245843145224760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5
+  sex: 0

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4755537331749820}
   - component: {fileID: 33882468791397292}
   - component: {fileID: 23335066474712770}
+  - component: {fileID: 114989837425251720}
   m_Layer: 0
   m_Name: Hair Petra
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 72eef326f6443af46bdf4210ab5e7c9d, type: 2}
+  - {fileID: 2100000, guid: 96fd8d987cd3b0f43a572117eae9639b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1528352391004598}
   m_Mesh: {fileID: 4300000, guid: cf57d72eacabd7241b95fdaf0b702ff6, type: 2}
+--- !u!114 &114989837425251720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1528352391004598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 8
+  sex: 0

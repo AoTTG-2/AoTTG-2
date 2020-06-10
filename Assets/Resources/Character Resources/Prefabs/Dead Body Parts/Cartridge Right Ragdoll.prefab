@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 64302084756483810}
   - component: {fileID: 54399353304174636}
   m_Layer: 13
-  m_Name: character_gun_mag_r
+  m_Name: Cartridge Right Ragdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: d3c8edbc466a8f24ab025d08e60cefda, type: 2}
+  - {fileID: 2100000, guid: 645d60c013a22cd46bf1eae0e8d1274e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1727172317772119}
-  m_Mesh: {fileID: 4300000, guid: 34bd04137c1acf844811cecaaac1069c, type: 2}
+  m_Mesh: {fileID: 4300000, guid: f864da329e7d809499559967846a4f76, type: 2}
 --- !u!54 &54399353304174636
 Rigidbody:
   m_ObjectHideFlags: 1

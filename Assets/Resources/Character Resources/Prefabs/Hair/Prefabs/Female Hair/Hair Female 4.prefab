@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4944130811377260}
   - component: {fileID: 33533401133452574}
   - component: {fileID: 23577141268150144}
+  - component: {fileID: 114267009641814312}
   m_Layer: 0
   m_Name: Hair Female 4
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 37c62edc6112ca44bb2e1cc62990cf46, type: 2}
+  - {fileID: 2100000, guid: 4330b00c14393f540a04798b7df27e9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1114886899941948}
   m_Mesh: {fileID: 4300000, guid: 871239c1d56ab0a45b4bebd99047db67, type: 2}
+--- !u!114 &114267009641814312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114886899941948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3
+  sex: 0

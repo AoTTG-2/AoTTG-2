@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 114227200209368878}
   - component: {fileID: 114400356440433794}
   m_Layer: 13
-  m_Name: AOTTG_HERO_body
+  m_Name: Body Ragdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1003,8 +1003,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1141828316999760}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -5.2036902e-18, y: -2.9095261e-11, z: 0.000000003724447, w: 1}
+  m_LocalPosition: {x: 0.00000033990858, y: -17079.97, z: 0.0000016326085}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4642644611982542}
@@ -1067,7 +1067,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1620163313711676}
-  m_Mesh: {fileID: 4300000, guid: c1264cb790f273f479d3ab801e25b70e, type: 2}
+  m_Mesh: {fileID: 4300000, guid: fbde9f37f2efec044971623bb04dbb19, type: 2}
 --- !u!54 &54624529732018615
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -1413,7 +1413,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: ee78d114f58d35f419cc78aa17192f64, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 04c466dd132391149afe466554d5faae, type: 2}
   m_Bones:
   - {fileID: 0}
   - {fileID: 0}
@@ -1489,7 +1489,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: 333333ea06768bd47811b2706aebc850, type: 2}
+  m_Mesh: {fileID: 4300000, guid: ad4b2bc5d8933ac47b0ffbf07386e851, type: 2}
   m_Bones:
   - {fileID: 0}
   - {fileID: 0}
@@ -1587,7 +1587,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: -2055412606
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4912,7 +4912,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: -1552391318
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5068,7 +5068,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -5109,7 +5109,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -8237,7 +8237,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: -1983024242
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -11562,7 +11562,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1099733358
+  randomSeed: 1182009061
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -14887,7 +14887,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: 419315723
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -15043,7 +15043,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -15084,7 +15084,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -18212,7 +18212,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: 1869090684
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -18368,7 +18368,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -18409,7 +18409,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:

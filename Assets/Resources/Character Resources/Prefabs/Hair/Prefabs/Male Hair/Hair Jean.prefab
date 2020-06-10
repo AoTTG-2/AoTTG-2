@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4057051135084424}
   - component: {fileID: 33653018677026354}
   - component: {fileID: 23982102293559954}
+  - component: {fileID: 114924779108719886}
   m_Layer: 0
   m_Name: Hair Jean
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 87be70da2db1eff48b6049e0185538d1, type: 2}
+  - {fileID: 2100000, guid: 96abc66c7d91fe7498f4472569ed882a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1550691899242472}
   m_Mesh: {fileID: 4300000, guid: 901ad1e24db74a640804d6c8373aa8bc, type: 2}
+--- !u!114 &114924779108719886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1550691899242472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 6
+  sex: 0

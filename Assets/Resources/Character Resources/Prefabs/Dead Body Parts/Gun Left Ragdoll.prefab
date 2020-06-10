@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 64037221493619191}
   - component: {fileID: 54126326886000276}
   m_Layer: 13
-  m_Name: character_gun_l
+  m_Name: Gun Left Ragdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: d3c8edbc466a8f24ab025d08e60cefda, type: 2}
+  - {fileID: 2100000, guid: 645d60c013a22cd46bf1eae0e8d1274e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1872663032001682}
-  m_Mesh: {fileID: 4300000, guid: ad76bf5c5d2d5db468eceb91ee4594c6, type: 2}
+  m_Mesh: {fileID: 4300000, guid: b1d25f25ded8b7f4ab8edc0f0c27dc5a, type: 2}
 --- !u!54 &54126326886000276
 Rigidbody:
   m_ObjectHideFlags: 1
