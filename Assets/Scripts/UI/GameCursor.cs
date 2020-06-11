@@ -146,7 +146,7 @@ public class GameCursor : MonoBehaviour
 
     private static void SetPreferredCameraMode(CameraMode value)
     {
-        PlayerPrefs.SetInt(CameraModeKey, (int) CameraMode);
+        PlayerPrefs.SetInt(CameraModeKey, (int) value);
     }
 
     private void Awake()
