@@ -607,7 +607,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     }
                     base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
                     Vector2 vector3 = base.GetComponent<Camera>().WorldToScreenPoint(transform.position - ((Vector3)(transform.forward * this.lockTarget.transform.localScale.x)));
-                    this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
+                    // TODO: Plan reimplementation of lock-on feature.
+                    //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((this.lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
                     {
                         this.lockTarget = null;
@@ -759,6 +760,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         Vector3 position = this.main_object.transform.position;
         foreach (GameObject obj3 in objArray)
         {
+            // TODO: Optimize accessing all titan positions.
+            // Possibly another class that maintains a list of active titans,
+            // removes them from the list when they die.
             Vector3 vector2 = obj3.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position - position;
             float magnitude = vector2.magnitude;
             if ((magnitude < num2) && ((obj3.GetComponent<MindlessTitan>() == null) || obj3.GetComponent<MindlessTitan>().IsAlive))
@@ -853,7 +857,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
         this.setDayLight(dayLight);
+        
+        // This doesn't exist in the scene and causes a NullReferenceException.
+        // TODO: Fix titan locking
         this.locker = GameObject.Find("locker");
+
         if (PlayerPrefs.HasKey("cameraTilt"))
         {
             cameraTilt = PlayerPrefs.GetInt("cameraTilt");
