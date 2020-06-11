@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 [CreateAssetMenu, ExecuteInEditMode]
 public sealed class VersionManager : ScriptableObject
 {
+    [SerializeField]
+    private string issuePattern = "(#\\d*)";
+
+    [SerializeField]
+    private string issuePrefix = string.Empty;
+
     [SerializeField]
     private bool useBranchName = true;
 
@@ -17,10 +24,18 @@ public sealed class VersionManager : ScriptableObject
 
 #if UNITY_EDITOR
 
+    private string FormatBranchName(string branchName)
+    {
+        var match = Regex.Match(branchName, issuePattern);
+        if (match.Captures.Count > 0)
+            return $"{issuePrefix}Issue{match.Captures[0].Value}";
+
+        return branchName;
+    }
+
     private void OnEnable()
     {
-        if (useBranchName)
-            TryGetBranchName(ref version);
+        UpdateVersion();
     }
 
     private bool TryGetBranchName(ref string branchName)
@@ -52,6 +67,12 @@ public sealed class VersionManager : ScriptableObject
         }
 
         return false;
+    }
+
+    private void UpdateVersion()
+    {
+        if (useBranchName && TryGetBranchName(ref version))
+            version = FormatBranchName(version);
     }
 
 #endif

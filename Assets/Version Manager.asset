@@ -11,4 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b898900b75e8441b9a2de41ed5242d, type: 3}
   m_Name: Version Manager
   m_EditorClassIdentifier: 
+  issuePattern: (#\d*)
+  issuePrefix: Alpha-
+  useBranchName: 1
   version: version-manager
