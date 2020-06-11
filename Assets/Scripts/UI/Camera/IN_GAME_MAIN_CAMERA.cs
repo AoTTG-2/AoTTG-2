@@ -72,7 +72,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool triggerAutoLock;
     public static bool usingTitan;
     private Vector3 verticalHeightOffset = Vector3.zero;
-    public float verticalRotationOffset;
     public float xSpeed = -3f;
     public float ySpeed = -0.8f;
 
@@ -585,12 +584,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             {
                 RaycastHit hit;
                 if (this.inputManager.isInputDown[InputCode.camera])
-                {
                     GameCursor.Cycle();
 
-                    // TODO: Figure out what this does.
-                    this.verticalRotationOffset = 0f;
-                }
                 if (this.inputManager.isInputDown[InputCode.hideCursor])
                 {
                     // TODO: Incorporate this in CursorManagement.
