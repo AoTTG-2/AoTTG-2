@@ -3,10 +3,8 @@ using UnityEngine;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
-    public AudioSource bgmusic;
     public static float cameraDistance = 0.6f;
     public static int cameraTilt = 1;
-    public static int character = 1;
     private float closestDistance;
     private int currentPeekPlayerIndex;
     public static DayLight dayLight = DayLight.Dawn;
@@ -22,30 +20,18 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static GAMETYPE gametype = GAMETYPE.STOP;
     private bool hasSnapShot;
     private Transform head;
-    public float height = 5f;
-    public float heightDamping = 2f;
     private float heightMulti;
     public FengCustomInputs inputManager;
     public static int invertY = 1;
-    public static bool isCheating;
     public static bool isPausing;
     public static bool isTyping;
-    public float justHit;
-    public int lastScore;
-    public static int level;
     private bool lockAngle;
     private Vector3 lockCameraPosition;
     private GameObject locker;
     private GameObject lockTarget;
     public GameObject main_object;
-    public float maximumX = 360f;
-    public float maximumY = 60f;
-    public float minimumX = -360f;
-    public float minimumY = -60f;
     private bool needSetHUD;
     private float R;
-    public float rotationY;
-    public int score;
     public static float sensitivityMulti = 0.5f;
     public static string singleCharacter;
     public Material skyBoxDAWN;
@@ -66,14 +52,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public bool spectatorMode;
     private bool startSnapShotFrameCount;
     public static STEREO_3D_TYPE stereoType;
-    public Transform target;
-    public Texture texture;
-    public float timer;
     public static bool triggerAutoLock;
     public static bool usingTitan;
-    private Vector3 verticalHeightOffset = Vector3.zero;
-    public float xSpeed = -3f;
-    public float ySpeed = -0.8f;
 
     public void CameraMovementLive(Hero hero)
     {
@@ -96,22 +76,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             transform2.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - hero.CameraMultiplier) * 2f), (float)0.65f));
         }
         base.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, hero.GetComponent<SmoothSyncMovement>().correctCameraRot, Time.deltaTime * 5f);
-    }
-
-    public void createSnapShotRT()
-    {
-        if (this.snapShotCamera.GetComponent<Camera>().targetTexture != null)
-        {
-            this.snapShotCamera.GetComponent<Camera>().targetTexture.Release();
-        }
-        if (QualitySettings.GetQualityLevel() > 3)
-        {
-            this.snapShotCamera.GetComponent<Camera>().targetTexture = new RenderTexture((int)(Screen.width * 0.8f), (int)(Screen.height * 0.8f), 0x18);
-        }
-        else
-        {
-            this.snapShotCamera.GetComponent<Camera>().targetTexture = new RenderTexture((int)(Screen.width * 0.4f), (int)(Screen.height * 0.4f), 0x18);
-        }
     }
 
     public void createSnapShotRT2()
@@ -427,17 +391,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             this.duration = duration;
             this.decay = decay;
         }
-    }
-
-    public void startSnapShot(Vector3 p, int dmg, GameObject target = null, float startTime = 0.02f)
-    {
-        this.snapShotCount = 1;
-        this.startSnapShotFrameCount = true;
-        this.snapShotTargetPosition = p;
-        this.snapShotTarget = target;
-        this.snapShotStartCountDownTime = startTime;
-        this.snapShotInterval = 0.05f + UnityEngine.Random.Range((float)0f, (float)0.03f);
-        this.snapShotDmg = dmg;
     }
 
     public void startSnapShot2(Vector3 p, int dmg, GameObject target, float startTime)
@@ -796,27 +749,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         transform3.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
     }
 
-    private void CreateMinimap()
-    {
-        //LevelInfo info = LevelInfo.getInfo(FengGameManagerMKII.level);
-        //if (info != null)
-        //{
-        //    Minimap minimap = base.gameObject.AddComponent<Minimap>();
-        //    if (Minimap.instance.myCam == null)
-        //    {
-        //        Minimap.instance.myCam = new GameObject().AddComponent<Camera>();
-        //        Minimap.instance.myCam.nearClipPlane = 0.3f;
-        //        Minimap.instance.myCam.farClipPlane = 1000f;
-        //        Minimap.instance.myCam.enabled = false;
-        //    }
-        //    //minimap.CreateMinimap(Minimap.instance.myCam, 0x200, 0.3f, info.minimapPreset);
-        //    if ((((int)FengGameManagerMKII.settings[0xe7]) == 0) || (RCSettings.globalDisableMinimap == 1))
-        //    {
-        //        minimap.SetEnabled(false);
-        //    }
-        //}
-    }
-
     private GameObject findNearestTitan()
     {
         GameObject[] objArray = GameObject.FindGameObjectsWithTag("titan");
@@ -860,20 +792,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().restartGameSingle2();
         }
-    }
-
-    private Texture2D RTImage(Camera cam)
-    {
-        RenderTexture active = RenderTexture.active;
-        RenderTexture.active = cam.targetTexture;
-        cam.Render();
-        Texture2D textured = new Texture2D(cam.targetTexture.width, cam.targetTexture.height);
-        int num = (int)(cam.targetTexture.width * 0.04f);
-        int destX = (int)(cam.targetTexture.width * 0.02f);
-        textured.ReadPixels(new Rect((float)num, (float)num, (float)(cam.targetTexture.width - num), (float)(cam.targetTexture.height - num)), destX, destX);
-        textured.Apply();
-        RenderTexture.active = active;
-        return textured;
     }
 
     private Texture2D RTImage2(Camera cam)
