@@ -92,7 +92,6 @@ public class GameCursor : MonoBehaviour
 
     private static void SetCameraMode(CameraMode newCameraMode)
     {
-        Debug.Log($"{CameraMode} -> {newCameraMode}");
         _cameraMode = newCameraMode;
         SetPreferredCameraMode(newCameraMode);
 
@@ -124,7 +123,6 @@ public class GameCursor : MonoBehaviour
 
     private static void SetCursorMode(CursorMode newCursorMode)
     {
-        Debug.Log($"{CursorMode} -> {newCursorMode}");
         _cursorMode = newCursorMode;
 
         if (!ForceFreeCursor)

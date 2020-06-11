@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public sealed class RegistrationCounter
+﻿public sealed class RegistrationCounter
 {
     private int counter;
 
@@ -16,15 +14,11 @@ public sealed class RegistrationCounter
     {
         if (counter++ == 0)
             FirstRegistered?.Invoke();
-
-        Debug.Log($"Menus: {counter}");
     }
 
     public void Unregister()
     {
         if (--counter == 0)
             LastUnregistered?.Invoke();
-
-        Debug.Log($"Menus: {counter}");
     }
 }
