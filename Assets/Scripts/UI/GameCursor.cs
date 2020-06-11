@@ -108,7 +108,15 @@ public class GameCursor : MonoBehaviour
                 case CameraMode.Original:
                 case CameraMode.WOW:
                     Cursor.visible = false;
+
+#if UNITY_EDITOR
+                    // Confined does nothing in the editor,
+                    // so I switch to the closest we can get.
                     Cursor.lockState = CursorLockMode.None;
+#else
+                    Cursor.lockState = CursorLockMode.Confined;
+#endif
+
                     break;
             }
         }
