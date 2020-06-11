@@ -9,16 +9,16 @@ using Debug = UnityEngine.Debug;
 public sealed class VersionManager : ScriptableObject
 {
     [SerializeField]
-    private string issuePattern = "(#\\d*)";
-
-    [SerializeField]
-    private string issuePrefix = string.Empty;
+    private string version = string.Empty;
 
     [SerializeField]
     private bool useBranchName = true;
 
     [SerializeField]
-    private string version = string.Empty;
+    private string issueRegex = "#(?<issue>\\d+)";
+
+    [SerializeField]
+    private string versionPattern = "Alpha-Issue<issue>";
 
     public string Version => version;
 
@@ -26,11 +26,21 @@ public sealed class VersionManager : ScriptableObject
 
     private string FormatBranchName(string branchName)
     {
-        var match = Regex.Match(branchName, issuePattern);
-        if (match.Captures.Count > 0)
-            return $"{issuePrefix}Issue{match.Captures[0].Value}";
+        var regex = new Regex(issueRegex);
 
-        return branchName;
+        var match = regex.Match(branchName);
+        if (!match.Success)
+            return branchName;
+
+        var formatted = versionPattern;
+        var names = regex.GetGroupNames();
+        foreach (var name in names)
+        {
+            var group = match.Groups[name];
+            formatted = formatted.Replace($"<{name}>", group.Value);
+        }
+
+        return formatted;
     }
 
     private void OnEnable()
