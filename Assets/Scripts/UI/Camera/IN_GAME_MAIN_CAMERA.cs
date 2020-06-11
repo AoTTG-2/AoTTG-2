@@ -481,12 +481,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
             //GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
         }
-        if (gametype == GAMETYPE.STOP)
-        {
-            // TODO: Investigate whether this is necessary.
-            //CursorManagement.CameraMode = CursorManagement.Mode.Menu;
-        }
-        else
+        if (gametype != GAMETYPE.STOP)
         {
             if ((gametype != GAMETYPE.SINGLE) && this.gameOver)
             {
