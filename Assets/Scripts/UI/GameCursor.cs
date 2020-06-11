@@ -8,6 +8,8 @@ public class GameCursor : MonoBehaviour
     private static CameraMode _CameraMode = CameraMode.Original;
     private static CursorMode _CursorMode = CursorMode.Menu;
 
+    private static bool _ForceFreeCursor = false;
+
     public static CameraMode CameraMode
     {
         get { return _CameraMode; }
@@ -18,6 +20,26 @@ public class GameCursor : MonoBehaviour
     {
         get { return _CursorMode; }
         set { SetCursorMode(value); }
+    }
+
+    public static bool ForceFreeCursor
+    {
+        get
+        {
+            return _ForceFreeCursor;
+        }
+
+        set
+        {
+            _ForceFreeCursor = value;
+
+            if (value)
+                ApplyFreeCursor();
+            else if (MenuManager.IsMenuOpen)
+                ApplyCursorMode();
+            else
+                ApplyCameraMode();
+        }
     }
 
     public static void ApplyCameraMode()
@@ -52,12 +74,18 @@ public class GameCursor : MonoBehaviour
         }
     }
 
+    private static void ApplyFreeCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private static void LoadPlayerPrefs()
     {
-        var savedValue = PlayerPrefs.GetInt(CameraModeKey, (int)CameraMode);
+        var savedValue = PlayerPrefs.GetInt(CameraModeKey, (int) CameraMode);
         if (Enum.IsDefined(typeof(CameraMode), savedValue))
         {
-            _CameraMode = (CameraMode)savedValue;
+            _CameraMode = (CameraMode) savedValue;
             SetPreferredCameraMode(_CameraMode);
         }
     }
@@ -68,18 +96,21 @@ public class GameCursor : MonoBehaviour
         _CameraMode = newCameraMode;
         SetPreferredCameraMode(newCameraMode);
 
-        switch (CameraMode)
+        if (!ForceFreeCursor)
         {
-            case CameraMode.TPS:
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                break;
+            switch (CameraMode)
+            {
+                case CameraMode.TPS:
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
 
-            case CameraMode.Original:
-            case CameraMode.WOW:
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.None;
-                break;
+                case CameraMode.Original:
+                case CameraMode.WOW:
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.None;
+                    break;
+            }
         }
     }
 
@@ -88,23 +119,26 @@ public class GameCursor : MonoBehaviour
         Debug.Log($"{CursorMode} -> {newCursorMode}");
         _CursorMode = newCursorMode;
 
-        switch (CursorMode)
+        if (!ForceFreeCursor)
         {
-            case CursorMode.Menu:
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                break;
+            switch (CursorMode)
+            {
+                case CursorMode.Menu:
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                    break;
 
-            case CursorMode.Loading:
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                break;
+                case CursorMode.Loading:
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+            }
         }
     }
 
     private static void SetPreferredCameraMode(CameraMode value)
     {
-        PlayerPrefs.SetInt(CameraModeKey, (int)CameraMode);
+        PlayerPrefs.SetInt(CameraModeKey, (int) CameraMode);
     }
 
     private void Awake()

@@ -586,11 +586,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 if (this.inputManager.isInputDown[InputCode.camera])
                     GameCursor.Cycle();
 
-                if (this.inputManager.isInputDown[InputCode.hideCursor])
-                {
-                    // TODO: Incorporate this in CursorManagement.
-                    Cursor.visible = !Cursor.visible;
-                }
+                if (this.inputManager.isInputDown[InputCode.toggleCursor])
+                    GameCursor.ForceFreeCursor = !GameCursor.ForceFreeCursor;
+
                 if (this.inputManager.isInputDown[InputCode.focus])
                 {
                     triggerAutoLock = !triggerAutoLock;
