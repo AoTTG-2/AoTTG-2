@@ -5,20 +5,20 @@ public class GameCursor : MonoBehaviour
 {
     private const string CameraModeKey = "cameraType";
 
-    private static CameraMode _CameraMode = CameraMode.Original;
-    private static CursorMode _CursorMode = CursorMode.Menu;
+    private static CameraMode _cameraMode = CameraMode.Original;
+    private static CursorMode _cursorMode = CursorMode.Menu;
 
-    private static bool _ForceFreeCursor = false;
+    private static bool _forceFreeCursor = false;
 
     public static CameraMode CameraMode
     {
-        get { return _CameraMode; }
+        get { return _cameraMode; }
         set { SetCameraMode(value); }
     }
 
     public static CursorMode CursorMode
     {
-        get { return _CursorMode; }
+        get { return _cursorMode; }
         set { SetCursorMode(value); }
     }
 
@@ -26,12 +26,12 @@ public class GameCursor : MonoBehaviour
     {
         get
         {
-            return _ForceFreeCursor;
+            return _forceFreeCursor;
         }
 
         set
         {
-            _ForceFreeCursor = value;
+            _forceFreeCursor = value;
 
             if (value)
                 ApplyFreeCursor();
@@ -85,15 +85,15 @@ public class GameCursor : MonoBehaviour
         var savedValue = PlayerPrefs.GetInt(CameraModeKey, (int) CameraMode);
         if (Enum.IsDefined(typeof(CameraMode), savedValue))
         {
-            _CameraMode = (CameraMode) savedValue;
-            SetPreferredCameraMode(_CameraMode);
+            _cameraMode = (CameraMode) savedValue;
+            SetPreferredCameraMode(_cameraMode);
         }
     }
 
     private static void SetCameraMode(CameraMode newCameraMode)
     {
         Debug.Log($"{CameraMode} -> {newCameraMode}");
-        _CameraMode = newCameraMode;
+        _cameraMode = newCameraMode;
         SetPreferredCameraMode(newCameraMode);
 
         if (!ForceFreeCursor)
@@ -117,7 +117,7 @@ public class GameCursor : MonoBehaviour
     private static void SetCursorMode(CursorMode newCursorMode)
     {
         Debug.Log($"{CursorMode} -> {newCursorMode}");
-        _CursorMode = newCursorMode;
+        _cursorMode = newCursorMode;
 
         if (!ForceFreeCursor)
         {
