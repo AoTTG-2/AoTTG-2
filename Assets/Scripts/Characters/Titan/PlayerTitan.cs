@@ -21,11 +21,6 @@ namespace Assets.Scripts.Characters.Titan
         {
             base.Awake();
 
-            // TODO: Make the other camera modes work.
-            // This also unfortunately sets the preferred
-            // camera mode. But that will change when we fix it.
-            GameCursor.CameraMode = CameraMode.TPS;
-
             this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
