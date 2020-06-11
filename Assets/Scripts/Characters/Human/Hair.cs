@@ -3,11 +3,9 @@
 public class Hair : MonoBehaviour
 {
     [SerializeField] private int id;
-    [SerializeField] private SEX sex;
     private Material hairMat;
 
     public int ID { get { return id; } }
-    public SEX Sex { get { return sex; } }
 
     private void Awake()
     {
