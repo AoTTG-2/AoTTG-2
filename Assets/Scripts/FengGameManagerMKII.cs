@@ -3457,10 +3457,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if ((skyMaterial != null) && (Camera.main.GetComponent<Skybox>().material != skyMaterial))
             Camera.main.GetComponent<Skybox>().material = skyMaterial;
-
-        // TODO: Investigate whether this is necessary.
-        //Screen.lockCursor = !Screen.lockCursor;
-        //Screen.lockCursor = !Screen.lockCursor;
     }
 
     public void removeCT(COLOSSAL_TITAN titan)
