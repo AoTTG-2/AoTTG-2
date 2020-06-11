@@ -11,15 +11,34 @@ public class VersionFormatterTest
         ["#75-cannons"] = "Alpha-Issue75",
         ["development"] = "development",
         ["master"] = "master",
-        ["titanfix"] = "titanfix",
+        ["titan-fix"] = "titan-fix",
         ["version-manager"] = "version-manager"
     };
 
+    /// <summary>
+    /// This relies on the defaults of <see cref="VersionFormatter"/>,
+    /// so it may break when that changes.
+    /// </summary>
     [Test]
     public void DefaultFormatterHandlesDictionary()
     {
         var formatter = new VersionFormatter();
+        RunDictionaryTest(formatter);
+    }
 
+    /// <summary>
+    /// Dictionary was designed to handle this.
+    /// It shouldn't break, unless the dictionary is modified.
+    /// </summary>
+    [Test]
+    public void DictionaryTestBenchmark()
+    {
+        var formatter = new VersionFormatter("#(?<issue>\\d+)", "Alpha-Issue<issue>");
+        RunDictionaryTest(formatter);
+    }
+
+    private void RunDictionaryTest(VersionFormatter formatter)
+    {
         foreach (var pair in expectedByInput)
         {
             var branchName = pair.Key;
