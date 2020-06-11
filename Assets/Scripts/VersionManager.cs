@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -9,39 +8,15 @@ using Debug = UnityEngine.Debug;
 public sealed class VersionManager : ScriptableObject
 {
     [SerializeField]
-    private string version = string.Empty;
+    private VersionFormatter branchNameFormatter;
 
     [SerializeField]
     private bool useBranchName = true;
 
     [SerializeField]
-    private string issueRegex = "#(?<issue>\\d+)";
-
-    [SerializeField]
-    private string versionPattern = "Alpha-Issue<issue>";
+    private string version = string.Empty;
 
     public string Version => version;
-
-#if UNITY_EDITOR
-
-    private string FormatBranchName(string branchName)
-    {
-        var regex = new Regex(issueRegex);
-
-        var match = regex.Match(branchName);
-        if (!match.Success)
-            return branchName;
-
-        var formatted = versionPattern;
-        var names = regex.GetGroupNames();
-        foreach (var name in names)
-        {
-            var group = match.Groups[name];
-            formatted = formatted.Replace($"<{name}>", group.Value);
-        }
-
-        return formatted;
-    }
 
     private void OnEnable()
     {
@@ -82,8 +57,6 @@ public sealed class VersionManager : ScriptableObject
     private void UpdateVersion()
     {
         if (useBranchName && TryGetBranchName(ref version))
-            version = FormatBranchName(version);
+            version = branchNameFormatter.FormatBranchName(version);
     }
-
-#endif
 }
