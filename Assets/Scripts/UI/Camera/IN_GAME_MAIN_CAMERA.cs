@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
-    public RotationAxes axes;
     public AudioSource bgmusic;
     public static float cameraDistance = 0.6f;
     public static int cameraTilt = 1;
@@ -76,13 +75,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public float verticalRotationOffset;
     public float xSpeed = -3f;
     public float ySpeed = -0.8f;
-
-    public enum RotationAxes
-    {
-        MouseXAndY,
-        MouseX,
-        MouseY
-    }
 
     public void CameraMovementLive(Hero hero)
     {
