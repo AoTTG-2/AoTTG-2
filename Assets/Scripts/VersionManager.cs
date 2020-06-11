@@ -8,13 +8,20 @@ using Debug = UnityEngine.Debug;
 public sealed class VersionManager : ScriptableObject
 {
     [SerializeField]
+    private bool useBranchName = true;
+
+    [SerializeField]
     private string version = string.Empty;
 
     public string Version => version;
 
 #if UNITY_EDITOR
 
-    private void OnEnable() => TryGetBranchName(ref version);
+    private void OnEnable()
+    {
+        if (useBranchName)
+            TryGetBranchName(ref version);
+    }
 
     private bool TryGetBranchName(ref string branchName)
     {
