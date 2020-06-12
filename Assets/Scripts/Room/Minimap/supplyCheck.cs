@@ -8,10 +8,7 @@ public class supplyCheck : MonoBehaviour
 
     private void Start()
     {
-        if (Minimap.instance != null)
-        {
-            Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.white, false, true, Minimap.IconStyle.SUPPLY);
-        }
+
     }
 
     private void Update()
