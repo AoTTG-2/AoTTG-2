@@ -6,6 +6,9 @@ namespace Assets.Scripts.UI.Menu
 {
     public class Lobby : UiNavigationElement
     {
+        [SerializeField]
+        private VersionManager versionManager;
+
         public GameObject ScrollViewContent;
         public GameObject Row;
         private int Region { get; set; }
@@ -19,7 +22,7 @@ namespace Assets.Scripts.UI.Menu
         {
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", FengGameManagerMKII.Version);
+            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", versionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
@@ -34,7 +37,7 @@ namespace Assets.Scripts.UI.Menu
         {
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", FengGameManagerMKII.Version);
+            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", versionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
         }
 
