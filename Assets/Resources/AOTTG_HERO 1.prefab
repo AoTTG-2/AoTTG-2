@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 4733713986576818}
   - component: {fileID: 111431264470073604}
   - component: {fileID: 114013942294837768}
+  - component: {fileID: 114200288732543798}
   - component: {fileID: 114588469607938866}
   - component: {fileID: 54612475557216614}
   - component: {fileID: 136433170677078478}
@@ -2393,6 +2394,58 @@ MonoBehaviour:
   thigh_R: {fileID: 4693652205949302}
   shin_R: {fileID: 4387152900433102}
   foot_R: {fileID: 4143825751915666}
+--- !u!114 &114200288732543798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132127204168986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0898527f83e8034cb2f7f695eb44833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maleHair:
+  - {fileID: 1984872560578820, guid: 10ecc574df2d0ec4fa8acb90bf5da980, type: 2}
+  - {fileID: 1688342689487556, guid: 9f07535494f8c96499198f10196497bc, type: 2}
+  - {fileID: 1004198961027916, guid: 8492e91d5a2f23b41b9bb3f200a2a566, type: 2}
+  - {fileID: 1961841294325386, guid: 510296448fa423d4e91e3480f1034775, type: 2}
+  - {fileID: 1573760613818790, guid: 73a8f59ec74bce0458856e737f7af7c7, type: 2}
+  - {fileID: 1048938469486188, guid: 321f4340892534f4294e21181e1b12b2, type: 2}
+  - {fileID: 1550691899242472, guid: 3ab3e0361a8c78f41b779324788fb6ee, type: 2}
+  - {fileID: 1313885495775504, guid: 1e34763533bfaa74e8ed906a457984b4, type: 2}
+  - {fileID: 1303381964869894, guid: 340d1d584e6a8484ca12df8a81fa7b86, type: 2}
+  - {fileID: 1165022436078918, guid: 0e6b3263e21041a428a73f0fe1e480e8, type: 2}
+  femaleHair:
+  - {fileID: 1872882296696156, guid: 3ce37ebea4715324aa815c63e4969eb8, type: 2}
+  - {fileID: 1402180910581860, guid: eb385ac3f5e1c5d4b813319176b77334, type: 2}
+  - {fileID: 1886621670071422, guid: 6425d6afcfdbcea43aef1f4082e623ca, type: 2}
+  - {fileID: 1114886899941948, guid: 192f21271b9e62a488cf57ef74fcc9c3, type: 2}
+  - {fileID: 1217253025670430, guid: 9c503f69af1555b4f8253459589e7914, type: 2}
+  - {fileID: 1245843145224760, guid: b427c23cc973788498574e607b00512d, type: 2}
+  - {fileID: 1677697576677822, guid: 761f2dc9a36557348ba21330fffdfec8, type: 2}
+  - {fileID: 1393385089926996, guid: 7381ac66020a5ae428cda762b985e2f2, type: 2}
+  - {fileID: 1528352391004598, guid: adbc2c5c1050a1148ae85ef9dafef016, type: 2}
+  - {fileID: 1666357677725766, guid: e3c19ff228407424bbe6f0489bb0e0e2, type: 2}
+  - {fileID: 1334201653396848, guid: 14d3911241d3e4b429d289b71e44882c, type: 2}
+  maleUniforms:
+  - {fileID: 1655299866491018, guid: f901188403a01094a80116ea352c6ab9, type: 2}
+  - {fileID: 1771917856232136, guid: 9f7b22e0ef51ba341a7c22ce1cbff0ac, type: 2}
+  - {fileID: 1936162912131418, guid: 03bf370486fbe5e448e7c0af707f8379, type: 2}
+  - {fileID: 1916515139703568, guid: 2f731f3929a164e4490b430bc6630155, type: 2}
+  - {fileID: 1016339177193056, guid: 5bc692221ce2b4348a20184f157e633c, type: 2}
+  femaleUniforms:
+  - {fileID: 1873160365946572, guid: 03bee85bc183c9147ad4957b4d2feaf7, type: 2}
+  - {fileID: 1926891202554270, guid: 30885b8d10a6e1c46bc379ccc6f9e0b2, type: 2}
+  - {fileID: 1638943416956814, guid: ec5eaa70c0a544e4bb1bc92196d4c382, type: 2}
+  - {fileID: 1811027661417136, guid: 06edba740a4ae1e44bbce342299318c3, type: 2}
+  - {fileID: 1832104346063714, guid: 5eacaa75d22cbd84190479b788091b6c, type: 2}
+  skin:
+  - {fileID: 1038907256444734, guid: fe230c31e7453f542a0916cadbe400fa, type: 2}
+  - {fileID: 1454932784136120, guid: 839c437a5c8a7924fbfd30f32e78719b, type: 2}
+  equipment:
+  - {fileID: 1005542101653008, guid: e563e49f25b6a8543aeac5dd2c7dc454, type: 2}
+  - {fileID: 1774809143572772, guid: 67494b1fccbb1ef4990610b710ea28d4, type: 2}
 --- !u!114 &114287797590336356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2534,6 +2587,7 @@ MonoBehaviour:
     type: 2}
   bladesGearPrefab: {fileID: 1005542101653008, guid: eb2045af356052548a1318370a38c10c,
     type: 2}
+  equipmentType: 0
   currentEquipment: {fileID: 0}
   _state: 0
   audio_ally: {fileID: 82695054796010076}
@@ -2599,7 +2653,6 @@ MonoBehaviour:
   rightbladetrail: {fileID: 0}
   rightbladetrail2: {fileID: 0}
   rope: {fileID: 82693287769379562}
-  setup: {fileID: 0}
   skillCDDuration: 0
   skillCDLast: 0
   skillCDLastCannon: 0

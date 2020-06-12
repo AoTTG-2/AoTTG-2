@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TextureManager : MonoBehaviour
 {
-    [SerializeField] private int id;
     [SerializeField] private List<Material> textures;
     private MeshRenderer meshRenderer;
 
