@@ -2,10 +2,7 @@
 
 public class Hair : MonoBehaviour
 {
-    [SerializeField] private int id;
     private Material hairMat;
-
-    public int ID { get { return id; } }
 
     private void Awake()
     {
