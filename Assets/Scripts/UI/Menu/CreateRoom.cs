@@ -42,10 +42,6 @@ namespace Assets.Scripts.UI.Menu
 
         public void Create()
         {
-            // TODO: Find a better place to put this.
-            // I haven't checked where the code for joining a game is.
-            GameCursor.CursorMode = CursorMode.Loading;
-
             // TODO: This will fail when multiple input fields are present.
             var input = GetComponentsInChildren<InputField>();
             var roomNameInput = input[0].text.Trim();
