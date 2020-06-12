@@ -133,9 +133,6 @@ GameObject:
   - component: {fileID: 114200288732543798}
   - component: {fileID: 114588469607938866}
   - component: {fileID: 54612475557216614}
-  - component: {fileID: 136433170677078478}
-  - component: {fileID: 114713982096500546}
-  - component: {fileID: 114527013748581878}
   - component: {fileID: 114527695106602110}
   - component: {fileID: 114334409464566206}
   - component: {fileID: 114986807620732952}
@@ -2446,6 +2443,7 @@ MonoBehaviour:
   equipment:
   - {fileID: 1005542101653008, guid: e563e49f25b6a8543aeac5dd2c7dc454, type: 2}
   - {fileID: 1774809143572772, guid: 67494b1fccbb1ef4990610b710ea28d4, type: 2}
+  emblems: {fileID: 0}
 --- !u!114 &114287797590336356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2506,55 +2504,6 @@ MonoBehaviour:
   meatDie: {fileID: 82385810793831916}
   myTeam: 1
   scoreMulti: 1
---- !u!114 &114527013748581878
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1132127204168986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8186a3381711f04ba23a49ca4ad2f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aniname: 
-  anitime: 0
-  change: 0
-  chest_info: {fileID: 1326914360358746}
-  currentOne: 0
-  isDeadBody: 0
-  part_3dmg: {fileID: 0}
-  part_3dmg_belt: {fileID: 0}
-  part_3dmg_gas_l: {fileID: 0}
-  part_3dmg_gas_r: {fileID: 0}
-  part_arm_l: {fileID: 0}
-  part_arm_r: {fileID: 0}
-  part_asset_1: {fileID: 0}
-  part_asset_2: {fileID: 0}
-  part_blade_l: {fileID: 0}
-  part_blade_r: {fileID: 0}
-  part_brand_1: {fileID: 0}
-  part_brand_2: {fileID: 0}
-  part_brand_3: {fileID: 0}
-  part_brand_4: {fileID: 0}
-  part_cape: {fileID: 0}
-  part_chest: {fileID: 1005678290374114}
-  part_chest_1: {fileID: 0}
-  part_chest_2: {fileID: 0}
-  part_chest_3: {fileID: 0}
-  part_eye: {fileID: 0}
-  part_face: {fileID: 0}
-  part_glass: {fileID: 0}
-  part_hair: {fileID: 0}
-  part_hair_1: {fileID: 0}
-  part_hair_2: {fileID: 0}
-  part_hand_l: {fileID: 0}
-  part_hand_r: {fileID: 0}
-  part_head: {fileID: 1921947922594382}
-  part_leg: {fileID: 1223083426204808}
-  part_upper_body: {fileID: 0}
-  reference: {fileID: 0}
-  timer: 0
 --- !u!114 &114527695106602110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2670,37 +2619,6 @@ MonoBehaviour:
   useGun: 0
   InGameUI: {fileID: 0}
   PlayerName: {fileID: 102465881733688448}
---- !u!114 &114713982096500546
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1132127204168986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58db63895a243a84ba2e883f565bfcab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 1132127204168986}
-  hairB: {fileID: 0}
-  hairG: {fileID: 0}
-  hairR: {fileID: 0}
-  labelACL: {fileID: 0}
-  labelBLA: {fileID: 0}
-  labelCape: {fileID: 0}
-  labelCostume: {fileID: 0}
-  labelDivision: {fileID: 0}
-  labelEye: {fileID: 0}
-  labelFace: {fileID: 0}
-  labelGAS: {fileID: 0}
-  labelGlass: {fileID: 0}
-  labelHair: {fileID: 0}
-  labelPOINT: {fileID: 0}
-  labelPreset: {fileID: 0}
-  labelSex: {fileID: 0}
-  labelSKILL: {fileID: 0}
-  labelSkin: {fileID: 0}
-  labelSPD: {fileID: 0}
 --- !u!114 &114825469381521748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2753,19 +2671,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.008
   m_Center: {x: 0, y: 0, z: 0.004}
---- !u!136 &136433170677078478
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1132127204168986}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.7
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!137 &137042648945397912
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
