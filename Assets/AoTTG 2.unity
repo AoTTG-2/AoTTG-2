@@ -45997,6 +45997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5a7a23ef8539b40a79f17399bb3529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  versionManager: {fileID: 11400000, guid: 1d8def093920aaf46a5901f43ddf104a, type: 2}
   chatRoom: {fileID: 1443453989}
   checkpoint: {fileID: 0}
   cyanKills: 0
@@ -53198,6 +53199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e50d965e154ee5d42bf77a48dc035f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  versionManager: {fileID: 11400000, guid: 1d8def093920aaf46a5901f43ddf104a, type: 2}
   ScrollViewContent: {fileID: 1223555017}
   Row: {fileID: 1529042169511994, guid: 002a714a6ca288b4a956c56a81764e64, type: 2}
 --- !u!114 &435935766 stripped
@@ -56184,7 +56186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000028534205, y: 0.000019918838}
+  m_AnchoredPosition: {x: 0.0, y: 0.0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &692447671
@@ -63896,6 +63898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c513b902eae6834c9d66f6de5408204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  versionManager: {fileID: 11400000, guid: 1d8def093920aaf46a5901f43ddf104a, type: 2}
   Elements: []
   MenuUi: {fileID: 447070986}
   InGameUi: {fileID: 300455402}

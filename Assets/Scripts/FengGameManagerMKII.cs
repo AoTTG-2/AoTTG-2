@@ -16,7 +16,9 @@ using UnityEngine;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
-    public static string Version = "Alpha-Issue164";
+    [SerializeField]
+    private VersionManager versionManager;
+
     public static bool showHackMenu = true;
 
     public Dictionary<int, CannonValues> allowedToCannon;
@@ -4375,7 +4377,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Version: {Version}");
+        Debug.Log($"Version: {versionManager.Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";
         CostumeHair.init();
