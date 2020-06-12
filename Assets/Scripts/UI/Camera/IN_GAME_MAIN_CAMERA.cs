@@ -829,7 +829,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
                 }
                 this.needSetHUD = true;
-                Minimap.OnScreenResolutionChanged();
             }
             if (this.inputManager.isInputDown[InputCode.restart])
             {
