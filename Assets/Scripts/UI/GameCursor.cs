@@ -109,6 +109,7 @@ public class GameCursor : MonoBehaviour
                     Cursor.visible = false;
 
 #if UNITY_EDITOR
+
                     // Confined does nothing in the editor,
                     // so I switch to the closest we can get.
                     Cursor.lockState = CursorLockMode.None;
@@ -130,13 +131,9 @@ public class GameCursor : MonoBehaviour
             switch (CursorMode)
             {
                 case CursorMode.Menu:
+                case CursorMode.Loading:
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
-                    break;
-
-                case CursorMode.Loading:
-                    Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Locked;
                     break;
             }
         }
