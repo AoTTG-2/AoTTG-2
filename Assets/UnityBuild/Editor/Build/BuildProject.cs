@@ -86,7 +86,7 @@ public static class BuildProject
         sb.Replace("$MONTH", buildTime.ToString("MM"));
         sb.Replace("$DAY", buildTime.ToString("dd"));
         sb.Replace("$TIME", buildTime.ToString("hhmmss"));
-
+        
         sb.Replace("$BUILD", (++productParameters.buildCounter).ToString());
 
         string retVal = sb.ToString();

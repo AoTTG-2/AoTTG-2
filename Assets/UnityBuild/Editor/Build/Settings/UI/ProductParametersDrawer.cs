@@ -25,9 +25,15 @@ public class ProductParametersDrawer : PropertyDrawer
         {
             EditorGUILayout.BeginVertical(UnityBuildGUIUtility.dropdownContentStyle);
 
-
             if (BuildSettings.versionManager)
+            {
                 EditorGUILayout.LabelField("Version", BuildSettings.versionManager.Version);
+                if (BuildSettings.versionManager.BranchNameDirty)
+                {
+                    BuildSettings.productParameters.buildCounter = 0;
+                    BuildSettings.versionManager.BranchNameDirty = false;
+                }
+            }
             else
             {
                 EditorGUILayout.LabelField("Version", "None");

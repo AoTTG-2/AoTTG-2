@@ -9,28 +9,43 @@ public sealed class VersionManager : ScriptableObject
 {
     [SerializeField]
     private bool useBranchName = true;
-
+    
     [SerializeField]
     private VersionFormatter branchNameFormatter;
 
     [SerializeField]
     private string version = string.Empty;
 
+#if UNITY_EDITOR
+
+    private string branchName;
+
+    public bool BranchNameDirty { get; set; } = true;
+
     public string BuildPath { get; private set; }
+
+#endif
 
     public string Version => version;
 
-    private void Reset()
-    {
-        UpdateVersion();
-    }
+#if UNITY_EDITOR
 
     private void OnEnable()
     {
-        UpdateVersion();
+        UpdateBranch();
     }
 
-    private bool TryGetBranchName(ref string branchName)
+    private void OnValidate()
+    {
+        UpdateTokens();
+    }
+
+    private void Reset()
+    {
+        UpdateBranch();
+    }
+
+    private bool TryGetBranchName()
     {
         try
         {
@@ -61,13 +76,24 @@ public sealed class VersionManager : ScriptableObject
         return false;
     }
 
-    private void UpdateVersion()
+    private void UpdateBranch()
     {
-        if (useBranchName && TryGetBranchName(ref version))
+        var lastBranchName = branchName;
+        if (useBranchName && TryGetBranchName())
         {
-            var tokens = branchNameFormatter.TokenizeBranchName(version);
-            version = tokens.Version;
-            BuildPath = tokens.BuildPath;
+            UpdateTokens();
+
+            if (branchName != lastBranchName)
+                BranchNameDirty = true;
         }
     }
+
+    private void UpdateTokens()
+    {
+        var tokens = branchNameFormatter.TokenizeBranchName(branchName);
+        version = tokens.Version;
+        BuildPath = tokens.BuildPath;
+    }
+
+#endif
 }
