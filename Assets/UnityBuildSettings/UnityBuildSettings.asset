@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5886119a5c7b34d8872ab527ca3e1b, type: 3}
+  m_Name: UnityBuildSettings
+  m_EditorClassIdentifier: 
+  _versionManager: {fileID: 11400000, guid: 1d8def093920aaf46a5901f43ddf104a, type: 2}
+  _basicSettings:
+    baseBuildFolder: bin
+    openFolderPostBuild: 1
+  _productParameters:
+    buildCounter: 0
+    lastGeneratedVersion: Alpha-Issue188
+  _releaseTypeList:
+    releaseTypes:
+    - typeName: Development
+      bundleIndentifier: 
+      companyName: DefaultCompany
+      productName: AoTTG 2
+      developmentBuild: 1
+      allowDebugging: 0
+      enableHeadlessMode: 0
+      customDefines: 
+      sceneList:
+        enabledScenes:
+        - fileGUID: 3bf55fc9fe0ca464789d652f2b8a32c5
+        - fileGUID: 1339764a66959bb4585918e1a9088f19
+        - fileGUID: 17e21305f21eb5d4380fbddda95c7c2f
+        - fileGUID: 47d2c2949e4cf7a4d9db563bcd194f03
+        - fileGUID: fbfdc98a421721c4ab88cbc538169b54
+        - fileGUID: b5ece2590aa59fa41a747194d9ac9972
+        - fileGUID: 2af29b3f60f578f40b15ac717058b0d0
+        - fileGUID: 3429cfddf8432e14b92af6193f5e2d6d
+        - fileGUID: 2d82bb7378b55ac4ba76314a9d77ff11
+        - fileGUID: bb7d6c3d4cccbfd40ab96ca040b11c96
+        - fileGUID: 695bd9ead0743cf4da377b5087f7101f
+        - fileGUID: 20a0d5b3c57783e4eacf2f9428a1c62a
+        - fileGUID: 40e64ae72f2b2c749b9aee23b6b35738
+        - fileGUID: aa077c68593a9774399b9c22ac559eec
+  _platformList:
+    platforms:
+    - enabled: 1
+      distributionList:
+        distributions: []
+      architectures:
+      - target: 5
+        name: Windows x86
+        enabled: 1
+      - target: 19
+        name: Windows x64
+        enabled: 1
+      variants: []
+      platformName: PC
+      binaryNameFormat: '{0}.exe'
+      dataDirNameFormat: '{0}_Data'
+      targetGroup: 1
+    - enabled: 1
+      distributionList:
+        distributions: []
+      architectures:
+      - target: 2
+        name: OSX
+        enabled: 1
+      variants: []
+      platformName: OSX
+      binaryNameFormat: '{0}.app'
+      dataDirNameFormat: '{0}.app/Contents'
+      targetGroup: 1
+    - enabled: 1
+      distributionList:
+        distributions: []
+      architectures:
+      - target: 25
+        name: Linux Universal
+        enabled: 1
+      - target: 17
+        name: Linux x86
+        enabled: 0
+      - target: 24
+        name: Linux x64
+        enabled: 0
+      variants: []
+      platformName: Linux
+      binaryNameFormat: '{0}.x86'
+      dataDirNameFormat: '{0}_Data'
+      targetGroup: 1
+  _projectConfigurations:
+    configSet:
+      _Buckets: 04000000ffffffff0500000002000000ffffffff00000000ffffffffffffffffffffffffffffffff06000000ffffffffffffffffffffffffffffffff0700000001000000
+      _HashCodes: 8d54a913c53df85883c47952e756831ab64dea22868c54346271f95ea7676149000000000000000000000000000000000000000000000000000000000000000000000000
+      _Next: ffffffffffffffffffffffffffffffffffffffffffffffffffffffff03000000000000000000000000000000000000000000000000000000000000000000000000000000
+      _Count: 8
+      _Version: 8
+      _FreeList: -1
+      _FreeCount: 0
+      _Keys:
+      - Development/PC/Windows x86
+      - Development/PC/Windows x64
+      - Development/PC
+      - Development/OSX/OSX
+      - Development/OSX
+      - Development/Linux/Linux Universal
+      - Development/Linux
+      - Development
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _Values:
+      - enabled: 0
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - Development/PC/Windows x86
+        - Development/PC/Windows x64
+      - enabled: 0
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - Development/OSX/OSX
+      - enabled: 0
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - Development/Linux/Linux Universal
+      - enabled: 1
+        childKeys:
+        - Development/PC
+        - Development/OSX
+        - Development/Linux
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+    showViewOptions: 0
+    showConfigs: 0
+    showBuildInfo: 0
+    hideDisabled: 0
+    treeView: 0
+    selectedKeyChain: 
+  _preBuildActions:
+    buildActions: []
+  _postBuildActions:
+    buildActions: []

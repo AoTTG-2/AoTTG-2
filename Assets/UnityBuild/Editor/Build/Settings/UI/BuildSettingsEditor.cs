@@ -7,8 +7,19 @@ namespace SuperSystems.UnityBuild
 [CustomEditor(typeof(BuildSettings))]
 public class BuildSettingsEditor : Editor
 {
+    private SerializedProperty versionManagerProperty;
+
+    private void OnEnable()
+    {
+        versionManagerProperty = serializedObject.FindProperty("_versionManager");   
+    }
+
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+        EditorGUILayout.PropertyField(versionManagerProperty);
+        serializedObject.ApplyModifiedProperties();
+
         Color defaultBackgroundColor = GUI.backgroundColor;
         GUI.backgroundColor = Color.green;
 

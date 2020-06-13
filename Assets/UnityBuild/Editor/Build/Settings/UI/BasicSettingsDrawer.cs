@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,9 +29,20 @@ public class BasicSettingsDrawer : PropertyDrawer
             EditorGUILayout.BeginVertical(UnityBuildGUIUtility.dropdownContentStyle);
 
             GUILayout.Label("Build Path Options", UnityBuildGUIUtility.midHeaderStyle);
-            
+
             EditorGUILayout.PropertyField(property.FindPropertyRelative("baseBuildFolder"));
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("buildPath"));
+            if (BuildSettings.versionManager)
+                EditorGUILayout.LabelField("Build Path", BuildSettings.versionManager.BuildPath);
+            else
+            {
+                EditorGUILayout.LabelField("Build Path", "None");
+
+                BuildNotificationList.instance.AddNotification(new BuildNotification(
+                    BuildNotification.Category.Error,
+                    "Version Manager isn't set.",
+                    "Please set the VersionManager in the BuildSettings.",
+                    true, null));
+            }
 
             GUILayout.Space(20);
             GUILayout.Label("Post-Build Options", UnityBuildGUIUtility.midHeaderStyle);
@@ -38,19 +50,28 @@ public class BasicSettingsDrawer : PropertyDrawer
             SerializedProperty openBuildFolderAfterBuild = property.FindPropertyRelative("openFolderPostBuild");
             openBuildFolderAfterBuild.boolValue = EditorGUILayout.ToggleLeft(" Open output folder after build", openBuildFolderAfterBuild.boolValue);
 
-            string buildPath = Path.GetFullPath(Path.Combine(BuildSettings.basicSettings.baseBuildFolder, BuildSettings.basicSettings.buildPath));
-            if (!string.Equals(buildPath, lastBuildPath))
+            try
             {
-                lastBuildPath = buildPath;
-
-                if (buildPath.Contains(Path.GetFullPath(Application.dataPath)))
+                if (BuildSettings.versionManager)
                 {
-                    BuildNotificationList.instance.AddNotification(new BuildNotification(
-                        BuildNotification.Category.Warning,
-                        "Build Folder in Assets.",
-                        "Putting build output in Assets is generally a bad idea.",
-                        true, null));
+                    string buildPath = Path.GetFullPath(Path.Combine(BuildSettings.basicSettings.baseBuildFolder, BuildSettings.versionManager.BuildPath));
+                    if (!string.Equals(buildPath, lastBuildPath))
+                    {
+                        lastBuildPath = buildPath;
+
+                        if (buildPath.Contains(Path.GetFullPath(Application.dataPath)))
+                        {
+                            BuildNotificationList.instance.AddNotification(new BuildNotification(
+                                BuildNotification.Category.Warning,
+                                "Build Folder in Assets.",
+                                "Putting build output in Assets is generally a bad idea.",
+                                true, null));
+                        }
+                    }
                 }
+            }
+            catch (ArgumentException)
+            {
             }
 
             if (GUILayout.Button("Open Build Folder", GUILayout.ExpandWidth(true)))

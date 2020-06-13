@@ -24,10 +24,12 @@ public class BuildSettings : BaseSettings
         }
     }
 
-    #endregion
+        #endregion
 
-    #region Variables
+        #region Variables
 
+    [SerializeField]
+    private VersionManager _versionManager;
     [SerializeField]
     private BasicSettings _basicSettings = new BasicSettings();
     [SerializeField]
@@ -59,6 +61,14 @@ public class BuildSettings : BaseSettings
     #endregion
 
     #region Properties
+
+    public static VersionManager versionManager
+    {
+        get
+        {
+            return instance._versionManager;
+        }
+    }
 
     public static BasicSettings basicSettings
     {

@@ -25,26 +25,24 @@ public class ProductParametersDrawer : PropertyDrawer
         {
             EditorGUILayout.BeginVertical(UnityBuildGUIUtility.dropdownContentStyle);
 
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("version"));
 
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("lastGeneratedVersion"));
-            EditorGUI.EndDisabledGroup();
+            if (BuildSettings.versionManager)
+                EditorGUILayout.LabelField("Version", BuildSettings.versionManager.Version);
+            else
+            {
+                EditorGUILayout.LabelField("Version", "None");
 
-            SerializedProperty autoGenerate = property.FindPropertyRelative("autoGenerate");
-            autoGenerate.boolValue = EditorGUILayout.ToggleLeft("Auto-Generate Version", autoGenerate.boolValue);
+                BuildNotificationList.instance.AddNotification(new BuildNotification(
+                BuildNotification.Category.Error,
+                "Version Manager isn't set.",
+                "Please set the VersionManager in the BuildSettings.",
+                true, null));
+            }
 
             EditorGUILayout.PropertyField(property.FindPropertyRelative("buildCounter"));
 
             if (GUILayout.Button("Reset Build Counter", GUILayout.ExpandWidth(true)))
-            {
                 property.FindPropertyRelative("buildCounter").intValue = 0;
-            }
-
-            if (!autoGenerate.boolValue && GUILayout.Button("Generate Version String Now", GUILayout.ExpandWidth(true)))
-            {
-                BuildProject.GenerateVersionString(BuildSettings.productParameters, DateTime.Now);
-            }
 
             property.serializedObject.ApplyModifiedProperties();
 

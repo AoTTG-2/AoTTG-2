@@ -56,7 +56,10 @@ public static class BuildProject
 
     public static string GenerateVersionString(ProductParameters productParameters, DateTime buildTime)
     {
-        string prototypeString = productParameters.version;
+        if (!BuildSettings.versionManager)
+            throw new ArgumentNullException("BuildSettings.versionManager", "Can't generate version string, VersionManager is null.");
+
+        string prototypeString = BuildSettings.versionManager.Version;
         StringBuilder sb = new StringBuilder(prototypeString);
 
         // Regex = (?:\$DAYSSINCE\(")([^"]*)(?:"\))
@@ -277,7 +280,7 @@ public static class BuildProject
             options |= BuildOptions.EnableHeadlessMode;
 
         // Generate build path.
-        string buildPath = GenerateBuildPath(BuildSettings.basicSettings.buildPath, releaseType, platform, architecture, distribution, buildTime);
+        string buildPath = GenerateBuildPath(BuildSettings.versionManager.BuildPath, releaseType, platform, architecture, distribution, buildTime);
         string exeName = string.Format(platform.binaryNameFormat, SanitizeFileName(releaseType.productName));
 
         // Save current user defines, and then set target defines.
@@ -351,10 +354,7 @@ public static class BuildProject
         BuildNotificationList.instance.RefreshAll();
 
         // Generate version string.
-        if (BuildSettings.productParameters.autoGenerate)
-        {
-            GenerateVersionString(BuildSettings.productParameters, buildTime);
-        }
+        GenerateVersionString(BuildSettings.productParameters, buildTime);
 
         // Run pre-build actions.
         BuildAction[] buildActions = BuildSettings.preBuildActions.buildActions;

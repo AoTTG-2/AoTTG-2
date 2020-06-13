@@ -11,7 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b898900b75e8441b9a2de41ed5242d, type: 3}
   m_Name: Version Manager
   m_EditorClassIdentifier: 
-  version: version-manager
   useBranchName: 1
-  issueRegex: '#(?<issue>\d+)'
-  versionPattern: Alpha-Issue<issue>
+  branchNameFormatter:
+    branchRegex: '#(?<issue>\d+)'
+    buildPathPattern: $RELEASE_TYPE/Issue<issue> ($ARCHITECTURE-B$BUILD)
+    versionPattern: Alpha-Issue<issue>
+  version: Alpha-Issue188

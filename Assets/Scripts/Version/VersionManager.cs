@@ -8,15 +8,22 @@ using Debug = UnityEngine.Debug;
 public sealed class VersionManager : ScriptableObject
 {
     [SerializeField]
-    private VersionFormatter branchNameFormatter;
+    private bool useBranchName = true;
 
     [SerializeField]
-    private bool useBranchName = true;
+    private VersionFormatter branchNameFormatter;
 
     [SerializeField]
     private string version = string.Empty;
 
+    public string BuildPath { get; private set; }
+
     public string Version => version;
+
+    private void Reset()
+    {
+        UpdateVersion();
+    }
 
     private void OnEnable()
     {
@@ -57,6 +64,10 @@ public sealed class VersionManager : ScriptableObject
     private void UpdateVersion()
     {
         if (useBranchName && TryGetBranchName(ref version))
-            version = branchNameFormatter.FormatBranchName(version);
+        {
+            var tokens = branchNameFormatter.TokenizeBranchName(version);
+            version = tokens.Version;
+            BuildPath = tokens.BuildPath;
+        }
     }
 }

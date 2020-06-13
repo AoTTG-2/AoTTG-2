@@ -43,7 +43,7 @@ public class VersionFormatterTest
         {
             var branchName = pair.Key;
             var expected = pair.Value;
-            var actual = formatter.FormatBranchName(branchName);
+            var actual = formatter.TokenizeBranchName(branchName).Version;
 
             Assert.AreEqual(expected, actual);
         }
