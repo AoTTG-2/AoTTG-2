@@ -1,11 +1,13 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-[ExecuteInEditMode]
-public sealed class SupplyStation : MonoBehaviour
+[RequireComponent(typeof(Interactable))]
+public sealed class SupplyStation : MonoBehaviour, IInteractable
 {
-    private const string DefaultSupplyStationIcon = "ui/Minimap/Supply Station";
+#if UNITY_EDITOR
     private Interactable interactable;
+#endif
+
+    string IInteractable.DefaultIconPath => "ui/Minimap/Supply Station";
 
     public void OnInteracted(GameObject player)
     {
@@ -23,15 +25,6 @@ public sealed class SupplyStation : MonoBehaviour
 
 #if UNITY_EDITOR
 
-    // TODO: Find a better way to add this listener. It currently has to wait for Interacted to initialize.
-    private IEnumerator AddListener()
-    {
-        while (interactable.Interacted == null)
-            yield return null;
-
-        UnityEditor.Events.UnityEventTools.AddPersistentListener(interactable.Interacted, OnInteracted);
-    }
-
     private void OnDestroy()
     {
         if (interactable)
@@ -40,9 +33,7 @@ public sealed class SupplyStation : MonoBehaviour
 
     private void Reset()
     {
-        interactable = GetComponent<Interactable>() ?? gameObject.AddComponent<Interactable>();
-        interactable.Icon = Resources.Load<UnityEngine.Sprite>(DefaultSupplyStationIcon);
-        StartCoroutine(AddListener());
+        interactable = GetComponent<Interactable>();
     }
 
 #endif

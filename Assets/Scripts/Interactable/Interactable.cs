@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,6 +32,15 @@ public sealed class Interactable : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+
+    // TODO: Find a better way to add this listener. It currently has to wait for Interacted to initialize.
+    private IEnumerator AddListener(IInteractable interactable)
+    {
+        while (Interacted == null)
+            yield return null;
+
+        UnityEditor.Events.UnityEventTools.AddPersistentListener(Interacted, interactable.OnInteracted);
+    }
 
     private CapsuleCollider FindOrCreateCollider()
     {
@@ -65,6 +75,10 @@ public sealed class Interactable : MonoBehaviour
 
         if (string.IsNullOrEmpty(Context))
             context = name;
+
+        var interactable = GetComponent<IInteractable>();
+        Icon = Resources.Load<UnityEngine.Sprite>(interactable.DefaultIconPath);
+        StartCoroutine(AddListener(interactable));
     }
 
 #endif
