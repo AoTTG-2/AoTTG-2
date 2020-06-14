@@ -2,26 +2,37 @@
 
 public abstract class Interactable : MonoBehaviour
 {
-    private CapsuleCollider collider;
-    public int Radius = 7;
-
-    //Text displayed on Interactable wheel.
+    [Tooltip("Text displayed on Interactable wheel.")]
     public string Context = "";
-    //Icon displayed on Interactable wheel button.
+
+    [Tooltip("Icon displayed on Interactable wheel button.")]
     public UnityEngine.Sprite Icon;
 
-    void Awake()
-    {
-		var interactableObject = new GameObject("Interactable");
-        interactableObject.layer = LayerMask.NameToLayer(Layer.Interactable);
-        collider = interactableObject.AddComponent<CapsuleCollider>();
-        collider.radius = Radius;
-        collider.isTrigger = true;
-        interactableObject.transform.parent = transform;
-        interactableObject.transform.localPosition = new Vector3();
-        if(string.IsNullOrEmpty(Context))
-            Context = name;
-    }
+    [SerializeField]
+    private int radius = 7;
+
+    protected int Radius => radius;
 
     public abstract void Action(GameObject target);
+
+    // HACK: Private Unity messages in extendable classes is dangerous.
+    // They will be silently overwritten if a deriving class implements the message.
+    private void Awake()
+    {
+        var interactableObject = new GameObject("Interactable")
+        {
+            layer = LayerMask.NameToLayer(Layer.Interactable)
+        };
+
+        // TODO: Instantiate this with RequireComponent and set good defaults in Reset.
+        var collider = interactableObject.AddComponent<CapsuleCollider>();
+        collider.radius = Radius;
+        collider.isTrigger = true;
+
+        interactableObject.transform.parent = transform;
+        interactableObject.transform.localPosition = new Vector3();
+
+        if (string.IsNullOrEmpty(Context))
+            Context = name;
+    }
 }

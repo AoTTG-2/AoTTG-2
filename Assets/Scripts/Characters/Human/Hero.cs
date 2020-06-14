@@ -3118,6 +3118,7 @@ public class Hero : Human
             {
                 this.myBomb.destroyMe();
             }
+            // TODO: Invert the dependency.
             if (this.myCannon != null)
             {
                 PhotonNetwork.Destroy(this.myCannon);
@@ -3242,6 +3243,7 @@ public class Hero : Human
             {
                 this.myBomb.destroyMe();
             }
+            // TODO: Invert the dependency. Why are there two netDie methods?
             if (this.myCannon != null)
             {
                 PhotonNetwork.Destroy(this.myCannon);
@@ -3341,6 +3343,8 @@ public class Hero : Human
             {
                 this.myBomb.destroyMe();
             }
+            // TODO: Invert the dependency. Okay, is this really called three times? Or just two?
+            // I don't think PhotonDestroy should be called locally as well as globally?
             if (this.myCannon != null)
             {
                 PhotonNetwork.Destroy(this.myCannon);

@@ -3,42 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonPropRegion : Photon.MonoBehaviour
+public sealed class CannonPropRegion : Photon.MonoBehaviour
 {
     public bool destroyed;
     public bool disabled;
     public string settings;
     public Hero storedHero;
 
-    private static readonly Dictionary<Cannon.Type, string> PrefabNameByType = new Dictionary<Cannon.Type, string>
+    private static readonly Dictionary<CannonType, string> PrefabNameByType = new Dictionary<CannonType, string>
     {
-        { Cannon.Type.Ground, "CannonGround" },
-        { Cannon.Type.Wall, "CannonWall" }
+        { CannonType.Ground, "CannonGround" },
+        { CannonType.Wall, "CannonWall" }
     };
-
-    [SerializeField]
-    private Cannon.Type type = Cannon.Type.Ground;
 
     [SerializeField]
     private bool autoGenerateSettings = true;
 
+    [SerializeField]
+    private CannonType type = CannonType.Ground;
+
     [PunRPC]
     public void RequestControlRPC(int viewID, PhotonMessageInfo info)
     {
-        if (!((!base.photonView.isMine || !PhotonNetwork.isMasterClient) || this.disabled))
+        if (!((!photonView.isMine || !PhotonNetwork.isMasterClient) || disabled))
         {
-            Hero requestingHero = PhotonView.Find(viewID).gameObject.GetComponent<Hero>();
+            var requestingHero = PhotonView.Find(viewID).gameObject.GetComponent<Hero>();
             if (requestingHero != null
                 && requestingHero.photonView.owner == info.sender
                 && !FengGameManagerMKII.instance.allowedToCannon.ContainsKey(info.sender.ID))
             {
-                this.disabled = true;
-                base.StartCoroutine(this.WaitAndEnable());
+                disabled = true;
+                StartCoroutine(WaitAndEnable());
                 FengGameManagerMKII.instance.allowedToCannon.Add(info.sender.ID,
-                    new CannonValues(base.photonView.viewID, this.settings));
+                    new CannonValues(photonView.viewID, settings));
                 requestingHero.photonView.RPC("SpawnCannonRPC",
                     info.sender,
-                    new object[] { this.settings });
+                    new object[] { settings });
             }
         }
     }
@@ -48,11 +48,11 @@ public class CannonPropRegion : Photon.MonoBehaviour
     {
         if (info.sender.IsMasterClient)
         {
-            string[] strArray = settings.Split(new char[] { ',' });
+            var strArray = settings.Split(new char[] { ',' });
             if (strArray.Length > 15)
             {
-                float a = 1f;
-                GameObject gameObject = base.gameObject;
+                var a = 1f;
+                var gameObject = base.gameObject;
                 if (strArray[2] != "default")
                 {
                     if (strArray[2].StartsWith("transparent"))
@@ -61,9 +61,9 @@ public class CannonPropRegion : Photon.MonoBehaviour
                         if (float.TryParse(strArray[2].Substring(11), out foo))
                             a = foo;
 
-                        foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+                        foreach (var renderer in gameObject.GetComponentsInChildren<Renderer>())
                         {
-                            renderer.material = (Material)FengGameManagerMKII.RCassets.LoadAsset("transparent");
+                            renderer.material = (Material) FengGameManagerMKII.RCassets.LoadAsset("transparent");
                             if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                             {
                                 renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]),
@@ -73,9 +73,9 @@ public class CannonPropRegion : Photon.MonoBehaviour
                     }
                     else
                     {
-                        foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+                        foreach (var renderer in gameObject.GetComponentsInChildren<Renderer>())
                         {
-                            renderer.material = (Material)FengGameManagerMKII.RCassets.LoadAsset(strArray[2]);
+                            renderer.material = (Material) FengGameManagerMKII.RCassets.LoadAsset(strArray[2]);
                             if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                             {
                                 renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]),
@@ -85,20 +85,19 @@ public class CannonPropRegion : Photon.MonoBehaviour
                     }
                 }
 
-                float x = gameObject.transform.localScale.x * Convert.ToSingle(strArray[3]);
-                x -= 0.001f;
-                float y = gameObject.transform.localScale.y * Convert.ToSingle(strArray[4]);
-                float z = gameObject.transform.localScale.z * Convert.ToSingle(strArray[5]);
+                var x = gameObject.transform.localScale.x * Convert.ToSingle(strArray[3]) - 0.001f;
+                var y = gameObject.transform.localScale.y * Convert.ToSingle(strArray[4]);
+                var z = gameObject.transform.localScale.z * Convert.ToSingle(strArray[5]);
                 gameObject.transform.localScale = new Vector3(x, y, z);
                 if (strArray[6] != "0")
                 {
-                    Color color = new Color(Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]),
+                    var color = new Color(Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]),
                         Convert.ToSingle(strArray[9]), a);
-                    foreach (MeshFilter filter in gameObject.GetComponentsInChildren<MeshFilter>())
+                    foreach (var filter in gameObject.GetComponentsInChildren<MeshFilter>())
                     {
-                        Mesh mesh = filter.mesh;
-                        Color[] colorArray = new Color[mesh.vertexCount];
-                        for (int i = 0; i < mesh.vertexCount; i++)
+                        var mesh = filter.mesh;
+                        var colorArray = new Color[mesh.vertexCount];
+                        for (var i = 0; i < mesh.vertexCount; i++)
                             colorArray[i] = color;
 
                         mesh.colors = colorArray;
@@ -108,68 +107,68 @@ public class CannonPropRegion : Photon.MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (storedHero != null)
+        {
+            storedHero.myCannonRegion = null;
+            storedHero.ClearPopup();
+        }
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
-        GameObject other = collider.transform.root.gameObject;
+        var other = collider.transform.root.gameObject;
         if (other.layer == 8 && other.GetPhotonView().isMine)
         {
-            Hero otherHero = other.GetComponent<Hero>();
+            var otherHero = other.GetComponent<Hero>();
             if (otherHero != null && !otherHero.isCannon)
             {
                 if (otherHero.myCannonRegion != null)
                     otherHero.myCannonRegion.storedHero = null;
 
                 otherHero.myCannonRegion = this;
-                this.storedHero = otherHero;
+                storedHero = otherHero;
             }
         }
     }
 
     private void OnTriggerExit(Collider collider)
     {
-        GameObject other = collider.transform.root.gameObject;
+        var other = collider.transform.root.gameObject;
         if (other.layer == 8 && other.GetPhotonView().isMine)
         {
-            Hero otherHero = other.GetComponent<Hero>();
-            if (otherHero != null && this.storedHero != null && otherHero == this.storedHero)
+            var otherHero = other.GetComponent<Hero>();
+            if (otherHero != null && storedHero != null && otherHero == storedHero)
             {
                 otherHero.myCannonRegion = null;
                 otherHero.ClearPopup();
-                this.storedHero = null;
+                storedHero = null;
             }
-        }
-    }
-
-    private void Start()
-    {
-        if ((int)FengGameManagerMKII.settings[0x40] >= 100)
-            base.GetComponent<Collider>().enabled = false;
-    }
-
-    private IEnumerator WaitAndEnable()
-    {
-        yield return new WaitForSeconds(5f);
-        if (!this.destroyed)
-            this.disabled = false;
-    }
-
-    private void OnDestroy()
-    {
-        if (this.storedHero != null)
-        {
-            this.storedHero.myCannonRegion = null;
-            this.storedHero.ClearPopup();
         }
     }
 
     private void OnValidate()
     {
-        if (this.autoGenerateSettings)
+        if (autoGenerateSettings)
         {
-            var pos = this.transform.position;
-            var rot = this.transform.rotation;
-            var prefabName = PrefabNameByType[this.type];
-            this.settings = $"photon,{prefabName},{pos.x},{pos.y},{pos.z},{rot.x},{rot.y},{rot.z},{rot.w}";
+            var pos = transform.position;
+            var rot = transform.rotation;
+            var prefabName = PrefabNameByType[type];
+            settings = $"photon,{prefabName},{pos.x},{pos.y},{pos.z},{rot.x},{rot.y},{rot.z},{rot.w}";
         }
+    }
+
+    private void Start()
+    {
+        if ((int) FengGameManagerMKII.settings[0x40] >= 100)
+            GetComponent<Collider>().enabled = false;
+    }
+
+    private IEnumerator WaitAndEnable()
+    {
+        yield return new WaitForSeconds(5f);
+        if (!destroyed)
+            disabled = false;
     }
 }
