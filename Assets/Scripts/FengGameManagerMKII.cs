@@ -235,7 +235,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             if (((int)settings[0xf4]) == 1)
             {
-                this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round Start.");
+                this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round Start.");
             }
         }
         this.isFirstLoad = false;
@@ -250,7 +250,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             content = sender + ":" + content;
         }
         content = "<color=#FFC000>[" + Convert.ToString(info.sender.ID) + "]</color> " + content;
-        this.chatRoom.addLINE(content);
+        this.chatRoom.AddMessage(content);
     }
 
     [PunRPC]
@@ -258,7 +258,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         content = sender + ":" + content;
         content = "<color=#FFC000>FROM [" + Convert.ToString(info.sender.ID) + "]</color> " + content;
-        this.chatRoom.addLINE(content);
+        this.chatRoom.AddMessage(content);
     }
 
     private ExitGames.Client.Photon.Hashtable checkGameGUI()
@@ -1394,7 +1394,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void debugChat(string str)
     {
-        this.chatRoom.addLINE(str);
+        this.chatRoom.AddMessage(str);
     }
 
     public void DestroyAllExistingCloths()
@@ -1697,7 +1697,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             if (reason != string.Empty)
             {
-                this.chatRoom.addLINE("Player " + player.ID.ToString() + " was autobanned. Reason:" + reason);
+                this.chatRoom.AddMessage("Player " + player.ID.ToString() + " was autobanned. Reason:" + reason);
             }
             this.RecompilePlayerList(0.1f);
         }
@@ -2834,11 +2834,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.gameEndCD = this.gameEndTotalCDtime;
         if (((int)settings[0xf4]) == 1)
         {
-            this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
+            this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
         }
         if (!((info.sender == PhotonNetwork.masterClient) || info.sender.isLocal) && PhotonNetwork.isMasterClient)
         {
-            this.chatRoom.addLINE("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
+            this.chatRoom.AddMessage("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
         }
     }
 
@@ -2850,11 +2850,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.gameEndCD = this.gameEndTotalCDtime;
         if (((int)settings[0xf4]) == 1)
         {
-            this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
+            this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
         }
         if (!((info.sender == PhotonNetwork.masterClient) || info.sender.isLocal))
         {
-            this.chatRoom.addLINE("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
+            this.chatRoom.AddMessage("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
         }
     }
 
@@ -3610,7 +3610,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (player.CustomProperties[PhotonPlayerProperty.dead] == null
             || !RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead])) return;
 
-        chatRoom.AddLine("<color=#FFCC00>You have been revived by the master client.</color>");
+        chatRoom.AddMessage("<color=#FFCC00>You have been revived by the master client.</color>");
         var isPlayerTitan = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2;
         if (isPlayerTitan)
         {
@@ -4003,14 +4003,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     var hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add(PhotonPlayerProperty.RCteam, 0);
                     PhotonNetwork.player.SetCustomProperties(hashtable);
-                    this.chatRoom.addLINE($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
+                    this.chatRoom.AddMessage($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
                 }
                 else
                 {
                     var hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add(PhotonPlayerProperty.isTitan, 1);
                     PhotonNetwork.player.SetCustomProperties(hashtable);
-                    this.chatRoom.addLINE("<color=#FFCC00>Infection Mode disabled.</color>");
+                    this.chatRoom.AddMessage("<color=#FFCC00>Infection Mode disabled.</color>");
                 }
             }
         }
@@ -4738,7 +4738,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             string str2 = ("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> ") + killer.hexColor() + " killed ";
             string newLine = str2 + victim.hexColor() + " for " + dmg.ToString() + " damage.";
-            this.chatRoom.addLINE(newLine);
+            this.chatRoom.AddMessage(newLine);
         }
     }
 
