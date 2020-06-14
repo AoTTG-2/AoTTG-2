@@ -19,9 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4225133640910126}
-  - component: {fileID: 114042612924044926}
+  - component: {fileID: 114418006871269466}
+  - component: {fileID: 114987173964593190}
   m_Layer: 0
-  m_Name: aot_supply
+  m_Name: Supply Station
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +97,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1970071864400770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4772571780375664}
+  - component: {fileID: 136154839342737286}
+  m_Layer: 20
+  m_Name: Interactable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4020352278917140
 Transform:
   m_ObjectHideFlags: 1
@@ -136,9 +153,23 @@ Transform:
   - {fileID: 4950937706690633}
   - {fileID: 4020352278917140}
   - {fileID: 4778909702170962}
+  - {fileID: 4772571780375664}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -88.05862, z: 0}
+--- !u!4 &4772571780375664
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1970071864400770}
+  m_LocalRotation: {x: -0, y: -0.6950263, z: -0, w: 0.7189844}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Children: []
+  m_Father: {fileID: 4225133640910126}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4778909702170962
 Transform:
   m_ObjectHideFlags: 1
@@ -259,7 +290,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.838714, y: 2.103603, z: 1.03}
   m_Center: {x: -0.01634091, y: -1.049513, z: -0.1158821}
---- !u!114 &114042612924044926
+--- !u!114 &114418006871269466
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -267,12 +298,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1308685446529770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9fc211080f11ea4389cdb8a12c35855, type: 3}
+  m_Script: {fileID: 11500000, guid: b96456efa067f73428170c16c2c1745f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Context: Supply Station
-  Icon: {fileID: 21300000, guid: f8e666e3a7f15da4c87d485d618f7402, type: 3}
-  radius: 7
 --- !u!114 &114732798954586966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,6 +312,48 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114987173964593190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308685446529770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3689eedeb8b12bf4db47c1dfe9b65596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Interacted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114418006871269466}
+        m_MethodName: OnInteracted
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Interactable+InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  context: Supply Station
+  icon: {fileID: 21300000, guid: f8e666e3a7f15da4c87d485d618f7402, type: 3}
+--- !u!136 &136154839342737286
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1970071864400770}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 7
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198758255361328243
 ParticleSystem:
   m_ObjectHideFlags: 1

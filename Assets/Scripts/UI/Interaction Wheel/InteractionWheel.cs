@@ -8,7 +8,6 @@ public sealed class InteractionWheel : MonoBehaviour
     public Text Label;
     public Interactable Selected;
 
-
     private void OnDisable()
     {
         // Remove all buttons when menu is closed.
@@ -53,6 +52,6 @@ public sealed class InteractionWheel : MonoBehaviour
     private void Update()
     {
         if (Input.GetButtonDown("Fire1") && Selected && InteractionManager.Player)
-            Selected.Action(InteractionManager.Player);
+            Selected.Interact(InteractionManager.Player);
     }
 }

@@ -1,38 +1,74 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class Interactable : MonoBehaviour
+[ExecuteInEditMode]
+public sealed class Interactable : MonoBehaviour
 {
-    [Tooltip("Text displayed on Interactable wheel.")]
-    public string Context = "";
+    public InteractedEvent Interacted;
 
-    [Tooltip("Icon displayed on Interactable wheel button.")]
-    public UnityEngine.Sprite Icon;
+#if UNITY_EDITOR
+    private new CapsuleCollider collider;
+#endif
 
-    [SerializeField]
-    private int radius = 7;
+    [SerializeField, Tooltip("Text displayed on InteractionWheel.")]
+    private string context = string.Empty;
 
-    protected int Radius => radius;
+    [SerializeField, Tooltip("Icon displayed on InteractionWheel button.")]
+    private UnityEngine.Sprite icon;
 
-    public abstract void Action(GameObject target);
+    public string Context => context;
 
-    // HACK: Private Unity messages in extendable classes is dangerous.
-    // They will be silently overwritten if a deriving class implements the message.
-    private void Awake()
+    public UnityEngine.Sprite Icon
     {
-        var interactableObject = new GameObject("Interactable")
+        get { return icon; }
+        set { icon = value; }
+    }
+
+    public void Interact(GameObject player)
+    {
+        Interacted.Invoke(player);
+    }
+
+#if UNITY_EDITOR
+
+    private CapsuleCollider FindOrCreateCollider()
+    {
+        var found = transform.Find("Interactable");
+        if (found)
+            return found.GetComponent<CapsuleCollider>();
+
+        var interactable = new GameObject("Interactable")
         {
             layer = LayerMask.NameToLayer(Layer.Interactable)
         };
 
-        // TODO: Instantiate this with RequireComponent and set good defaults in Reset.
-        var collider = interactableObject.AddComponent<CapsuleCollider>();
-        collider.radius = Radius;
+        interactable.transform.parent = transform;
+        interactable.transform.localPosition = new Vector3();
+
+        var collider = interactable.AddComponent<CapsuleCollider>();
+        collider.radius = 7;
         collider.isTrigger = true;
 
-        interactableObject.transform.parent = transform;
-        interactableObject.transform.localPosition = new Vector3();
+        return collider;
+    }
+
+    private void OnDestroy()
+    {
+        if (collider)
+            DestroyImmediate(collider.gameObject);
+    }
+
+    private void Reset()
+    {
+        collider = FindOrCreateCollider();
 
         if (string.IsNullOrEmpty(Context))
-            Context = name;
+            context = name;
     }
+
+#endif
+
+    [Serializable]
+    public class InteractedEvent : UnityEvent<GameObject> { }
 }
