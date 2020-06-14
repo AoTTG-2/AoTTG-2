@@ -4459,7 +4459,8 @@ public class Hero : Human
     private void Start()
     {
         FengGameManagerMKII.instance.addHero(this);
-        gameObject.AddComponent<PlayerInteractable>();
+        if (photonView.isMine)
+            gameObject.AddComponent<InteractionManager>();
         SetHorse();
         this.sparks = this.baseTransform.Find("slideSparks").GetComponent<ParticleSystem>();
         this.smoke_3dmg = this.baseTransform.Find("3dmg_smoke").GetComponent<ParticleSystem>();

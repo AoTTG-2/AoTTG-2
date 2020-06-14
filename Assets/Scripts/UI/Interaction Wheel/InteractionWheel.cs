@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,23 +7,7 @@ public sealed class InteractionWheel : MonoBehaviour
     public WheelButton ButtonPrefab;
     public Text Label;
     public Interactable Selected;
-    private List<Interactable> interactables;
-    private GameObject player;
 
-    public void OnEnable()
-    {
-        if (!Label)
-            Label = GetComponentInChildren<Text>();
-        Label.text = string.Empty;
-
-        // There may be 0 players, in the case of the player spawning as a titan.
-        player = GameObject.FindGameObjectsWithTag("Player").SingleOrDefault(x => x.GetComponent<PhotonView>().isMine);
-        if (player)
-        {
-            interactables = player.GetComponent<PlayerInteractable>().Collisions;
-            StartCoroutine(SpawnButtons());
-        }
-    }
 
     private void OnDisable()
     {
@@ -37,16 +19,28 @@ public sealed class InteractionWheel : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (!Label)
+            Label = GetComponentInChildren<Text>();
+        Label.text = string.Empty;
+
+        StartCoroutine(SpawnButtons());
+    }
+
     private IEnumerator SpawnButtons()
     {
-        for (var i = 0; i < interactables.Count; i++)
+        var interactables = InteractionManager.Interactables;
+        var enumerator = interactables.GetEnumerator();
+        for (var i = 0; enumerator.MoveNext(); i++)
         {
+            var interactable = enumerator.Current;
             var newButton = Instantiate(ButtonPrefab);
             newButton.transform.SetParent(transform, false);
             newButton.InteractionWheel = this;
-            newButton.MyAction = interactables[i];
-            newButton.Icon.sprite = interactables[i].Icon;
-            var theta = (2 * Mathf.PI / interactables.Count) * i;
+            newButton.MyAction = interactable;
+            newButton.Icon.sprite = interactable.Icon;
+            var theta = (2 * Mathf.PI / interactables.Count) * i++;
             var xPos = Mathf.Sin(theta);
             var yPos = Mathf.Cos(theta);
             newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 200f;
@@ -58,7 +52,7 @@ public sealed class InteractionWheel : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1") && Selected && player)
-            Selected.Action(player);
+        if (Input.GetButtonDown("Fire1") && Selected && InteractionManager.Player)
+            Selected.Action(InteractionManager.Player);
     }
 }
