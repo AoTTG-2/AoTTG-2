@@ -146,21 +146,14 @@ namespace Assets.Scripts.UI.InGame
 			if(selected)
 			{
 				QualitySettings.vSyncCount = 1;
-			}
+                VSyncCheck.color = Color.red;
+                VSyncCheck.text = "VSync is on!!";
+            }
 			else
 			{
 				QualitySettings.vSyncCount = 0;
-			}
-
-			if (VSync.isOn)
-			{
-				VSyncCheck.color = Color.red;
-				VSyncCheck.text = "VSync is on!!";
-			}
-			else
-			{
-				VSyncCheck.text = "";
-			}
+                VSyncCheck.text = "";
+            }
 		}
 		
 		public void SetInteractable(bool value)

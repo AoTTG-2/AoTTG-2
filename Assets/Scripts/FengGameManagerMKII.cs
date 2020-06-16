@@ -1982,7 +1982,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         objArray[180] = PlayerPrefs.GetString("customskydown", string.Empty);
         objArray[0xb5] = PlayerPrefs.GetInt("dashenable", 0);
         objArray[0xb6] = PlayerPrefs.GetString("dashkey", "RightControl");
-        objArray[0xb7] = PlayerPrefs.GetInt("vsync", 0);
         objArray[0xb8] = PlayerPrefs.GetString("fpscap", "0");
         objArray[0xb9] = 0;
         objArray[0xba] = 0;
@@ -2105,11 +2104,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (int.TryParse((string)objArray[0xb8], out num2) && (num2 > 0))
         {
             Application.targetFrameRate = num2;
-        }
-        QualitySettings.vSyncCount = 0;
-        if (((int)objArray[0xb7]) == 1)
-        {
-            QualitySettings.vSyncCount = 1;
         }
         AudioListener.volume = PlayerPrefs.GetFloat("vol", 1f);
         linkHash = new ExitGames.Client.Photon.Hashtable[] { new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable() };
