@@ -1,16 +1,15 @@
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Options;
-using ExitGames.Client.Photon;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Event;
-using static PhotonNetwork;
 using static FengGameManagerMKII;
-using static Assets.Scripts.Room.Chat.CommandLineHandler;
-using WebSocketSharp;
 using System.Linq;
+using Assets.Scripts.Room.Chat;
+using System.Web;
+using System.Net;
+using System.Reflection.Emit;
+using System.Text;
+using System.Text.RegularExpressions;
 
 public class InRoomChat : Photon.MonoBehaviour
 {
@@ -42,7 +41,7 @@ public class InRoomChat : Photon.MonoBehaviour
     }
 
     /// <summary>
-    /// Adds message to message list
+    /// Adds message to local message list
     /// </summary>
     /// <param name="message"></param>
     public void AddMessage(string message)
@@ -54,31 +53,43 @@ public class InRoomChat : Photon.MonoBehaviour
         }
         else
         {
-            message = FormatErrorMessage($"Message can not have more than {MaxMessageLength} characters");
-            AddMessage(message);
+            Assets.Scripts.Room.Chat.ChatCommandHandler.OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
         }
     }
 
+    /// <summary>
+    /// Removes messages when exceding max storage
+    /// </summary>
     private void RemoveMessageIfMoreThenMax()
     {
-        if (messages.Count() >= MaxStoredMessages)
+        if (messages.Count() > MaxStoredMessages)
         {
             messages.RemoveAt(0);
         }
     }
 
-    
+    /// <summary>
+    /// Send message to all clients on the server
+    /// </summary>
+    /// <param name="message"></param>
     private void ChatAll(string message)
     {
         if (message.Count() <= 1000)
         {
-            var chatMessage = new object[] { message, SetNameColorDependingOnteam(player) };
-            instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+            if (CheckMarkup(message))
+            {
+                var chatMessage = new object[] { message, Assets.Scripts.Room.Chat.ChatCommandHandler.SetNameColorDependingOnteam(PhotonNetwork.player) };
+                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+            }
+            else
+            {
+                Assets.Scripts.Room.Chat.ChatCommandHandler.OutputErrorMessage("Bad markup.");
+            }
+            
         }
         else
         {
-            message = FormatErrorMessage($"Message can not have more than {MaxMessageLength} characters");
-            AddMessage(message);
+            Assets.Scripts.Room.Chat.ChatCommandHandler.OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
         }
     }
 
@@ -133,7 +144,7 @@ public class InRoomChat : Photon.MonoBehaviour
                 }
                 else
                 {
-                    ChatCommandLineHandler(inputLine);
+                    ChatCommandHandler(inputLine);
                 }
                 
                 inputLine = string.Empty;
@@ -160,123 +171,22 @@ public class InRoomChat : Photon.MonoBehaviour
         inputLine = ChatInputField?.text;
     }
 
-private void ChatCommandLineHandler(string input)
+    /// <summary>
+    /// Hanlde commands in chat
+    /// </summary>
+    /// <param name="input"></param>
+    private void ChatCommandHandler(string input)
     {
-        var subStrings = input.Substring(1).Split(' ');
-        string message;
-        switch (subStrings[0])
-        {
-            // Info: 
-            case "cloth":
-                message = ClothFactory.GetDebugInfo();
-                AddMessage(message);
-                break;
-            // Info: 
-            case "aso":
-                PreserveKdrOnOFF(subStrings);
-                break;
-            // Info: Pauses the game
-            case "pause":
-                PauseGame();
-                break;
-            // Info: Unpauses the game
-            case "unpause":
-                UnPauseGame();
-                break;
-            // Info: Outputs name of level
-            case "checklevel":
-                CheckLevel(player);
-                break;
-            // Info: 
-            case "isrc":
-                OutputIsRc();
-                break;
-            // Info: 
-            case "ignorelist":
-                OutputIgnoreList();
-                break;
-            // Info: 
-            case "room":
-                ChangeRoomProperties(subStrings);
-                break;
-            // Info: Resets your kd
-            case "resetkd":
-                ResetKd();
-                break;
-            // Info: Resets kd for all players on the server
-            case "resetkdall":
-                ResetKdAll();
-                break;
-            // Info: 
-            case "pm":
-                SendPrivateMessage(subStrings);
-                break;
-            // Info: Switch team
-            case "team":
-                var team = subStrings[1];
-                SwitchToTeam(team);
-                break;
-            // Info: Restarts the server
-            case "restart":
-                RestartGame();
-                break;
-            // Info: 
-            case "specmode":
-                EnterExitSpecMode();
-                break;
-            // Info: 
-            case "fov":
-                var fov = subStrings[1];
-                SetFov(fov);
-                break;
-            // Info: 
-            case "colliders":
-                OutputCollisions();
-                break;
-            // Info: 
-            case "spectate":
-                var playerId = Convert.ToInt32(input.Substring(10));
-                SpectatePlayer(playerId);
-                break;
-            // Info: 
-            case "kill":
-                break;
-            // Info: 
-            case "revive":
-                playerId = Convert.ToInt32(inputLine.Substring(8));
-                RevievePlayer(playerId);
-                break;
-            // Info: 
-            case "reviveall":
-                ReviveAllPlayers();
-                    break;
-            // Info: 
-            case "unban":
-                UnbanPlayer(input);
-                break;
-            // Info: 
-            case "rules":
-                OutputRules();
-                break;
-            // Info: 
-            case "kick":
-                playerId = Convert.ToInt32(input.Substring(6));
-                KickPlayer(playerId);
-                break;
-            // Info: 
-            case "ban":
-                playerId = Convert.ToInt32(input.Substring(5));
-                BanPlayer(playerId);
-                break;
-            // Info: 
-            case "banlist":
-                OutputBanList();
-                break;
-            case "clear":
-                ClearChat();
-                    break;
-            default:
-                break;
-        }
+        Assets.Scripts.Room.Chat.ChatCommandHandler.CommandHandler(input);
+    }
+
+    /// <summary>
+    /// Check if message contains valid markup
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    private bool CheckMarkup(string message)
+    {
+        return Regex.Matches(message, "[<,>]").Count % 2 == 0;
     }
 }
