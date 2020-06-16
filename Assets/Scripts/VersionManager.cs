@@ -18,6 +18,8 @@ public sealed class VersionManager : ScriptableObject
 
     public string Version => version;
 
+#if UNITY_EDITOR
+
     private void OnEnable()
     {
         UpdateVersion();
@@ -59,4 +61,6 @@ public sealed class VersionManager : ScriptableObject
         if (useBranchName && TryGetBranchName(ref version))
             version = branchNameFormatter.FormatBranchName(version);
     }
+
+#endif
 }
