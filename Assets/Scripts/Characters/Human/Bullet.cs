@@ -109,9 +109,9 @@ public class Bullet : Photon.MonoBehaviour
             if (flag3)
             {
                 var flag4 = true;
-                var viewID = hit.collider.transform.root.gameObject.GetPhotonView().viewID;
                 if (hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("EnemyBox"))
                 {
+                    var viewID = hit.collider.transform.root.gameObject.GetPhotonView().viewID;
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                         photonView.RPC<int>(tieMeToOBJ, PhotonTargets.Others, viewID);
 
@@ -124,6 +124,7 @@ public class Bullet : Photon.MonoBehaviour
                 }
                 else if (((hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("NetworkObject")) && (hit.collider.transform.gameObject.tag == "Player")) && !leviMode)
                 {
+                    var viewID = hit.collider.transform.root.gameObject.GetPhotonView().viewID;
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                         photonView.RPC<int>(tieMeToOBJ, PhotonTargets.Others, viewID);
 
