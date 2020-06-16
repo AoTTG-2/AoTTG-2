@@ -42,9 +42,24 @@ namespace Assets.Scripts.Room.Chat
             return $"<color=#FFCC00>{input}</color>";
         }
 
+        /// <summary>
+        /// Formats text as <color=#FF0000>Error: {input}</color>
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string FormatErrorMessage(string input)
+        {
+            return $"<color=#FF0000>Error: {input}</color>";
+        }
+
         public static string ErrorNotMasterClient()
         {
-            return $"<color=#FFCC00>Error: Not Master Client.</color>";
+            return FormatErrorMessage("Not Master Client");
+        }
+
+        private static string ErrorPlayerNotFound(int playerId)
+        {
+            return FormatErrorMessage($"No player with ID #{playerId} could be found.");
         }
 
         /// <summary>
@@ -57,6 +72,11 @@ namespace Assets.Scripts.Room.Chat
             return RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
         }
 
+        public static int GetPlayerTeam(PhotonPlayer player)
+        {
+            return RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]);
+        }
+
         /// <summary>
         /// sets color of name in chat depending on what team PhotonPlayer.player is in
         /// </summary>
@@ -64,25 +84,25 @@ namespace Assets.Scripts.Room.Chat
         /// <returns></returns>
         public static string SetNameColorDependingOnteam(PhotonPlayer player)
         {
-            string result = string.Empty;
-            var name = GetPlayerName(player);
-            if (name.hexColor().IsNullOrEmpty())
+            var name = GetPlayerName(player).hexColor();
+            if (name.IsNullOrEmpty())
             {
-                if (player.CustomProperties[PhotonPlayerProperty.RCteam] != null)
+                var playerTeam = GetPlayerTeam(player);
+                if (playerTeam != 0)
                 {
 
-                    if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
+                    if (playerTeam == 1)
                     {
-                        result = FormatTextColor00FFFF(name);
+                        name = FormatTextColor00FFFF(name);
                     }
-                    else if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2)
+                    else if (playerTeam == 2)
                     {
-                        result = FormatTextColorFF00FF(name);
+                        name = FormatTextColorFF00FF(name);
                     }
                 }
             }
 
-            return result;
+            return name;
         }
 
         public static void OutputBanList()
@@ -100,7 +120,7 @@ namespace Assets.Scripts.Room.Chat
         {
             if (playerId == player.ID)
             {
-                var message = FormatSystemMessage("Error: You can't ban yourself.");
+                var message = FormatErrorMessage("You can't ban yourself.");
                 instance.chatRoom.AddMessage(message);
             }
             else if (!(OnPrivateServer || isMasterClient))
@@ -120,7 +140,7 @@ namespace Assets.Scripts.Room.Chat
                 }
                 if (!playerList.Any(p => p.ID == playerId))
                 {
-                    var message = $"Error: No player with ID #{playerToBan.ID} could be found.";
+                    var message = ErrorPlayerNotFound(playerId);
                     instance.chatRoom.AddMessage(message);
                 }
             }
@@ -130,7 +150,7 @@ namespace Assets.Scripts.Room.Chat
         {
             if (playerId == player.ID)
             {
-                var message = "Error: You can't kick yourself.";
+                var message = FormatErrorMessage("You can't kick yourself.");
                 instance.chatRoom.AddMessage(message);
             }
             else if (!(OnPrivateServer || isMasterClient))
@@ -149,13 +169,13 @@ namespace Assets.Scripts.Room.Chat
                 else if (isMasterClient)
                 {
                     instance.kickPlayerRC(playerToKick, false, string.Empty);
-                    var chatMessage = new object[] { $"{GetPlayerName(playerToKick)} has been kicked from the server!", string.Empty };
+                    var chatMessage = new object[] { FormatSystemMessage($"{GetPlayerName(playerToKick)} has been kicked from the server!"), string.Empty };
                     instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
                 }
 
                 if (!playerList.Any(p => p.ID == playerId))
                 {
-                    var message = FormatSystemMessage($"Error: No player with Id {playerId} found.");
+                    var message = ErrorPlayerNotFound(playerId);
                     instance.chatRoom.AddMessage(message);
                 }
             }
@@ -194,7 +214,7 @@ namespace Assets.Scripts.Room.Chat
                 }
                 else
                 {
-                    var message = FormatSystemMessage($"Error: No player with Id {key} found");
+                    var message = ErrorPlayerNotFound(key);
                     instance.chatRoom.AddMessage(message);
                 }
             }
@@ -262,29 +282,40 @@ namespace Assets.Scripts.Room.Chat
             instance.chatRoom.AddMessage(message);
         }
 
-        public static void SetFov(int fov)
+        public static void SetFov(string input)
         {
-            Camera.main.fieldOfView = fov;
-            var message = FormatSystemMessage($"Field of vision set to {fov}.");
+            int fov;
+            string message;
+            if (int.TryParse(input, out fov))
+            {
+                Camera.main.fieldOfView = fov;
+                message = FormatSystemMessage($"Field of vision set to {fov}.");
+            }
+            else
+            {
+                message = FormatErrorMessage("Fov has to be a number");
+            }
+
             instance.chatRoom.AddMessage(message);
         }
 
         public static void EnterExitSpecMode()
         {
+            string message;
             if ((int)settings[0xf5] == 0)
             {
                 settings[0xf5] = 1;
                 instance.EnterSpecMode(true);
-                var message = FormatSystemMessage("You have entered spectator mode.");
-                instance.chatRoom.AddMessage(message);
+                message = FormatSystemMessage("You have entered spectator mode.");
             }
             else
             {
                 settings[0xf5] = 0;
                 instance.EnterSpecMode(false);
-                var message = FormatSystemMessage("You have exited spectator mode.");
-                instance.chatRoom.AddMessage(message);
+                message = FormatSystemMessage("You have exited spectator mode.");
             }
+
+            instance.chatRoom.AddMessage(message);
         }
 
         public static void RestartGame()
@@ -302,19 +333,28 @@ namespace Assets.Scripts.Room.Chat
             }
         }
 
-        public static void SendPrivateMessage(string input)
+        public static void SendPrivateMessage(string[] input)
         {
-            var inputPlayerName = input.Split(new char[] { ' ' });
-            PhotonPlayer targetPlayer = PhotonPlayer.Find(Convert.ToInt32(inputPlayerName[1]));
-
-            string whatIsThisVar = string.Empty;
-            for (var nameIndex = 2; nameIndex < inputPlayerName.Length; nameIndex++)
+            int playerId;
+            string message;
+            if (int.TryParse(input[1], out playerId))
             {
-                whatIsThisVar = inputPlayerName[nameIndex] + " ";
-            }
-            instance.photonView.RPC("ChatPM", targetPlayer, new object[] { SetNameColorDependingOnteam(player), whatIsThisVar });
+                var targetPlayer = PhotonPlayer.Find(playerId);
 
-            var message = $"TO [{targetPlayer.ID}] {SetNameColorDependingOnteam(targetPlayer)}:{whatIsThisVar}";
+                var whatIsThisVar = string.Empty;
+                for (var nameIndex = 2; nameIndex < input.Length; nameIndex++)
+                {
+                    whatIsThisVar += input[nameIndex] + " ";
+                }
+                instance.photonView.RPC("ChatPM", targetPlayer, new object[] { SetNameColorDependingOnteam(player), whatIsThisVar });
+
+                message = $"TO [{targetPlayer.ID}] {SetNameColorDependingOnteam(targetPlayer)}:{whatIsThisVar}";
+            }
+            else
+            {
+                message = ErrorPlayerNotFound(playerId);
+            }
+
             instance.chatRoom.AddMessage(message);
         }
 
@@ -331,24 +371,32 @@ namespace Assets.Scripts.Room.Chat
             instance.chatRoom.AddMessage(message);
         }
 
-        public static void ChangeRoomProperties(string input)
+        public static void ChangeRoomProperties(string[] input)
         {
+            var chatMessage = new object();
             if (isMasterClient)
             {
-                if (input.Substring(6).StartsWith("max"))
+                if (input[1] == "max")
                 {
-                    var maxPlayers = Convert.ToInt32(input.Substring(10));
+                    var maxPlayers = Convert.ToInt32(input[1]);
                     instance.maxPlayers = maxPlayers;
                     room.MaxPlayers = maxPlayers;
-                    var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {input.Substring(10)}!"), string.Empty };
+                    chatMessage = new object[] { FormatSystemMessage($"Max players changed to {input[2]}!"), string.Empty };
                     instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
                 }
-                else if (input.Substring(6).StartsWith("time"))
+                else if (input[1] == "time")
                 {
-                    instance.addTime(Convert.ToSingle(input.Substring(11)));
-                    var chatMessage = new object[] { FormatSystemMessage($"{input.Substring(11)} seconds added to the clock."), string.Empty };
-                    instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                    instance.addTime(Convert.ToSingle(input[2]));
+                    chatMessage = new object[] { FormatSystemMessage($"{input[2]} seconds added to the clock."), string.Empty };
+                    
                 }
+                else
+                {
+                    var message = FormatErrorMessage("Valid room attributes are (max, time)");
+                    instance.chatRoom.AddMessage(message);
+                }
+
+                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
             }
             else
             {
@@ -368,25 +416,24 @@ namespace Assets.Scripts.Room.Chat
 
         public static void OutputIsRc()
         {
+            string message;
             if (masterRC)
             {
-                var message = "is RC";
-                instance.chatRoom.AddMessage(message);
+                message = "Is RC";
             }
             else
             {
-                var message = "not RC";
-                instance.chatRoom.AddMessage(message);
+                message = "Not RC";
+                
             }
+
+            instance.chatRoom.AddMessage(message);
         }
 
-        public static void CheckLevel()
+        public static void CheckLevel(PhotonPlayer player)
         {
-            foreach (PhotonPlayer player in playerList)
-            {
-                var message = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.currentLevel]);
-                instance.chatRoom.AddMessage(message);
-            }
+            var message = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.currentLevel]);
+            instance.chatRoom.AddMessage(message);
         }
 
         public static void UnPauseGame()
@@ -419,29 +466,34 @@ namespace Assets.Scripts.Room.Chat
             }
         }
 
-        public static void PreserveKdrOnOFF(string input)
+        public static void PreserveKdrOnOFF(string[] input)
         {
+            string message = string.Empty;
             if (isMasterClient)
             {
-                switch (input.Substring(5))
+                switch (input[1])
                 {
                     // Info: 
                     case "kdr":
                         if (!FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect)
                         {
                             FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect = true;
-                            var message = "KDRs will be preserved from disconnects.";
-                            instance.chatRoom.AddMessage(message);
+                            message = "KDRs will be preserved from disconnects.";
                         }
                         else
                         {
                             FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect = false;
-                            var message = "KDRs will not be preserved from disconnects.";
-                            instance.chatRoom.AddMessage(message);
+                            message = "KDRs will not be preserved from disconnects.";
                         }
                         break;
                 }
             }
+            else
+            {
+                message = ErrorNotMasterClient();
+            }
+
+            instance.chatRoom.AddMessage(message);
         }
 
         public static void ResetKdAll()
@@ -469,60 +521,60 @@ namespace Assets.Scripts.Room.Chat
 
         public static void SwitchToTeam(string team)
         {
+            string message;
             if (FengGameManagerMKII.Gamemode.Settings.TeamMode == TeamMode.NoSort)
             {
                 if (team == "1" || team == "cyan")
                 {
-                    instance.photonView.RPC("setTeamRPC", player, new object[] { 1 });
-                    var message = FormatTextColor00FFFF("You have joined team cyan.");
-                    instance.chatRoom.AddMessage(message);
-                    foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
-                    {
-                        if (gameObject.GetPhotonView().isMine)
-                        {
-                            gameObject.GetComponent<Hero>().markDie();
-                            gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
-                        }
-                    }
+                    SwitchTeam(1);
+                    message = FormatTextColor00FFFF("You have joined team cyan.");
                 }
                 else if (team == "2" || team == "magenta")
                 {
-                    instance.photonView.RPC("setTeamRPC", player, new object[] { 2 });
-                    var message = FormatTextColorFF00FF("You have joined team magenta.");
-                    instance.chatRoom.AddMessage(message);
-                    foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
-                    {
-                        if (gameObject.GetPhotonView().isMine)
-                        {
-                            gameObject.GetComponent<Hero>().markDie();
-                            gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
-                        }
-                    }
+                    SwitchTeam(2);
+                    message = FormatTextColorFF00FF("You have joined team magenta.");
                 }
                 else if (team == "0" || team == "individual")
                 {
-                    instance.photonView.RPC("setTeamRPC", player, new object[] { 0 });
-                    var message = "You have joined individuals.";
-                    instance.chatRoom.AddMessage(message);
-                    foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
-                    {
-                        if (gameObject.GetPhotonView().isMine)
-                        {
-                            gameObject.GetComponent<Hero>().markDie();
-                            gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
-                        }
-                    }
+                    SwitchTeam(0);
+                    message = "You have joined individuals.";
                 }
                 else
                 {
-                    var message = FormatSystemMessage("Error: Invalid team code. Accepted values are 0, 1 and 2.");
-                    instance.chatRoom.AddMessage(message);
+                    message = FormatErrorMessage("Invalid team code. Accepted values are 0, 1 and 2.");
                 }
             }
             else
             {
-                var message = FormatSystemMessage("Error: Teams are locked or disabled.");
+                message = FormatErrorMessage("Teams are locked or disabled.");
+            }
+
+            instance.chatRoom.AddMessage(message);
+        }
+
+        public static void ClearChat()
+        {
+            if (isMasterClient)
+            {
+                instance.chatRoom.ClearMessages();
+            }
+            else
+            {
+                var message = ErrorNotMasterClient();
                 instance.chatRoom.AddMessage(message);
+            }
+        }
+
+        private static void SwitchTeam(int team)
+        {
+            instance.photonView.RPC("setTeamRPC", player, new object[] { team });
+            foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (gameObject.GetPhotonView().isMine)
+                {
+                    gameObject.GetComponent<Hero>().markDie();
+                    gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                }
             }
         }
     }
