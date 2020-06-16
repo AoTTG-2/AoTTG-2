@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,15 +30,26 @@ public sealed class Interactable : MonoBehaviour
         Interacted.Invoke(player);
     }
 
+    private void OnDestroy()
+    {
+        InteractionManager.Unregister(this);
+    }
+
 #if UNITY_EDITOR
 
-    // TODO: Find a better way to add this listener. It currently has to wait for Interacted to initialize.
-    private IEnumerator AddListener(IInteractable interactable)
+    public void AddComponents()
     {
-        while (Interacted == null)
-            yield return null;
-
+        collider = FindOrCreateCollider();
+        var interactable = GetComponent<IInteractable>();
+        Icon = Resources.Load<UnityEngine.Sprite>(interactable.DefaultIconPath);
+        UnityEditor.Events.UnityEventTools.RemovePersistentListener<GameObject>(Interacted, interactable.OnInteracted);
         UnityEditor.Events.UnityEventTools.AddPersistentListener(Interacted, interactable.OnInteracted);
+    }
+
+    public void RemoveComponents()
+    {
+        if (collider)
+            DestroyImmediate(collider.gameObject);
     }
 
     private CapsuleCollider FindOrCreateCollider()
@@ -54,7 +64,7 @@ public sealed class Interactable : MonoBehaviour
         };
 
         interactable.transform.parent = transform;
-        interactable.transform.localPosition = new Vector3();
+        interactable.transform.localPosition = Vector3.zero;
 
         var collider = interactable.AddComponent<CapsuleCollider>();
         collider.radius = 7;
@@ -63,22 +73,10 @@ public sealed class Interactable : MonoBehaviour
         return collider;
     }
 
-    private void OnDestroy()
-    {
-        if (collider)
-            DestroyImmediate(collider.gameObject);
-    }
-
     private void Reset()
     {
-        collider = FindOrCreateCollider();
-
         if (string.IsNullOrEmpty(Context))
             context = name;
-
-        var interactable = GetComponent<IInteractable>();
-        Icon = Resources.Load<UnityEngine.Sprite>(interactable.DefaultIconPath);
-        StartCoroutine(AddListener(interactable));
     }
 
 #endif

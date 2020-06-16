@@ -125,7 +125,6 @@ public class Hero : Human
     public GameObject myCannon;
     public Transform myCannonBase;
     public Transform myCannonPlayer;
-    public CannonPropRegion myCannonRegion;
     public GROUP myGroup;
     private GameObject myHorse;
     public GameObject myNetWorkName;
@@ -4431,7 +4430,6 @@ public class Hero : Human
             this.myCannonPlayer = this.myCannon.transform.Find("PlayerPoint");
             this.isCannon = true;
             this.myCannon.GetComponent<Cannon>().myHero = this;
-            this.myCannonRegion = null;
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
             Camera.main.fieldOfView = 55f;
             base.photonView.RPC("SetMyCannon", PhotonTargets.OthersBuffered, new object[] { this.myCannon.GetPhotonView().viewID });
@@ -4647,14 +4645,6 @@ public class Hero : Human
                 }
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
                 {
-                    if (this.myCannonRegion != null)
-                    {
-                        FengGameManagerMKII.instance.ShowHUDInfoCenter("Press 'Cannon Mount' key to use Cannon.");
-                        if (FengGameManagerMKII.inputRC.isInputCannonDown(InputCodeRC.cannonMount))
-                        {
-                            this.myCannonRegion.photonView.RPC("RequestControlRPC", PhotonTargets.MasterClient, new object[] { base.photonView.viewID });
-                        }
-                    }
                     if ((this.state == HERO_STATE.Grab) && !this.useGun)
                     {
                         if (this.skillId == "jean")

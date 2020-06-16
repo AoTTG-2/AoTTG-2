@@ -1285,12 +1285,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         if (strArray.Length > 15)
                         {
                             GameObject go = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
-                            go.GetComponent<CannonPropRegion>().settings = content[num];
+                            go.GetComponent<UnmannedCannon>().settings = content[num];
                             go.GetPhotonView().RPC("SetSize", PhotonTargets.AllBuffered, new object[] { content[num] });
                         }
                         else
                         {
-                            PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<CannonPropRegion>().settings = content[num];
+                            PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<UnmannedCannon>().settings = content[num];
                         }
                     }
                     else

@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class CannonPropRegion : Photon.MonoBehaviour
+[RequireComponent(typeof(Interactable), typeof(PhotonView))]
+public sealed class UnmannedCannon : Photon.MonoBehaviour, IInteractable
 {
     public bool destroyed;
     public bool disabled;
@@ -22,8 +23,15 @@ public sealed class CannonPropRegion : Photon.MonoBehaviour
     [SerializeField]
     private CannonType type = CannonType.Ground;
 
+    string IInteractable.DefaultIconPath => string.Empty;
+
+    public void OnInteracted(GameObject player)
+    {
+        TryMount(player.GetPhotonView().viewID);
+    }
+
     [PunRPC]
-    public void RequestControlRPC(int viewID, PhotonMessageInfo info)
+    public void RequestMountRPC(int viewID, PhotonMessageInfo info)
     {
         if (!((!photonView.isMine || !PhotonNetwork.isMasterClient) || disabled))
         {
@@ -36,9 +44,9 @@ public sealed class CannonPropRegion : Photon.MonoBehaviour
                 StartCoroutine(WaitAndEnable());
                 FengGameManagerMKII.instance.allowedToCannon.Add(info.sender.ID,
                     new CannonValues(photonView.viewID, settings));
-                requestingHero.photonView.RPC("SpawnCannonRPC",
+                requestingHero.photonView.RPC(nameof(requestingHero.SpawnCannonRPC),
                     info.sender,
-                    new object[] { settings });
+                    settings);
             }
         }
     }
@@ -107,47 +115,6 @@ public sealed class CannonPropRegion : Photon.MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        if (storedHero != null)
-        {
-            storedHero.myCannonRegion = null;
-            storedHero.ClearPopup();
-        }
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        var other = collider.transform.root.gameObject;
-        if (other.layer == 8 && other.GetPhotonView().isMine)
-        {
-            var otherHero = other.GetComponent<Hero>();
-            if (otherHero != null && !otherHero.isCannon)
-            {
-                if (otherHero.myCannonRegion != null)
-                    otherHero.myCannonRegion.storedHero = null;
-
-                otherHero.myCannonRegion = this;
-                storedHero = otherHero;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider collider)
-    {
-        var other = collider.transform.root.gameObject;
-        if (other.layer == 8 && other.GetPhotonView().isMine)
-        {
-            var otherHero = other.GetComponent<Hero>();
-            if (otherHero != null && storedHero != null && otherHero == storedHero)
-            {
-                otherHero.myCannonRegion = null;
-                otherHero.ClearPopup();
-                storedHero = null;
-            }
-        }
-    }
-
     private void OnValidate()
     {
         if (autoGenerateSettings)
@@ -159,10 +126,25 @@ public sealed class CannonPropRegion : Photon.MonoBehaviour
         }
     }
 
+    private void Reset()
+    {
+        // Yes, this is null when the component is first added.
+        if (photonView.ObservedComponents == null)
+            photonView.ObservedComponents = new List<Component>();
+
+        photonView.ObservedComponents.Remove(this);
+        photonView.ObservedComponents.Add(this);
+    }
+
     private void Start()
     {
         if ((int) FengGameManagerMKII.settings[0x40] >= 100)
             GetComponent<Collider>().enabled = false;
+    }
+
+    private void TryMount(int playerViewID)
+    {
+        photonView.RPC(nameof(RequestMountRPC), PhotonTargets.MasterClient, playerViewID);
     }
 
     private IEnumerator WaitAndEnable()

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public sealed class InteractionManager : MonoBehaviour
 {
+    private static InteractionManager _instance;
     private readonly HashSet<Interactable> interactables = new HashSet<Interactable>();
     private GameObject player;
 
@@ -10,18 +11,17 @@ public sealed class InteractionManager : MonoBehaviour
 
     public static GameObject Player => _instance.player;
 
-    private static InteractionManager _instance;
+    public static void Register(Interactable interactable) =>
+        _instance.interactables.Add(interactable);
 
-    private void Register(Interactable interactable) =>
-        interactables.Add(interactable);
+    public static void Unregister(Interactable interactable) =>
+        _instance.interactables.Remove(interactable);
 
-    private void Unregister(Interactable interactable) =>
-        interactables.Remove(interactable);
-
-    private void RegisterSingleton()
+    private static Interactable GetInteractable(GameObject gobj)
     {
-        Debug.Assert(_instance == null || _instance == this, "There is more than one InteractionManager in the scene.");
-        _instance = this;
+        var interactable = gobj.GetComponentInParent<Interactable>();
+        Debug.Assert(interactable != null, "Interactable expected in parent of GameObject with Interactable layer");
+        return interactable;
     }
 
     private void Awake()
@@ -42,10 +42,9 @@ public sealed class InteractionManager : MonoBehaviour
             Unregister(GetInteractable(coll.gameObject));
     }
 
-    private static Interactable GetInteractable(GameObject gobj)
+    private void RegisterSingleton()
     {
-        var interactable = gobj.GetComponentInParent<Interactable>();
-        Debug.Assert(interactable != null, "Interactable expected in parent of GameObject with Interactable layer");
-        return interactable;
+        Debug.Assert(_instance == null || _instance == this, "There is more than one InteractionManager in the scene.");
+        _instance = this;
     }
 }
