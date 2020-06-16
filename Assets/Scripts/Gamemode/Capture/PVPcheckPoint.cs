@@ -154,8 +154,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.titanPt = 0f;
             this.syncPts();
             this.state = CheckPointState.Human;
-            object[] parameters = new object[] { 1 };
-            base.photonView.RPC("changeState", PhotonTargets.All, parameters);
+            photonView.RPC<int>(changeState, PhotonTargets.All, 1);
             if (((CaptureGamemodeSettings)gamemode.Settings).SpawnSupplyStationOnHumanCapture)
             {
                 supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
@@ -185,8 +184,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.state != CheckPointState.Titan)
                 {
                     this.state = CheckPointState.Non;
-                    object[] parameters = new object[] { 0 };
-                    base.photonView.RPC("changeState", PhotonTargets.Others, parameters);
+                    photonView.RPC<int>(changeState, PhotonTargets.Others, 0);
                 }
             }
         }
@@ -249,10 +247,8 @@ public class PVPcheckPoint : Photon.MonoBehaviour
 
     private void syncPts()
     {
-        object[] parameters = new object[] { this.titanPt };
-        base.photonView.RPC("changeTitanPt", PhotonTargets.Others, parameters);
-        object[] objArray2 = new object[] { this.humanPt };
-        base.photonView.RPC("changeHumanPt", PhotonTargets.Others, objArray2);
+        photonView.RPC<float>(changeTitanPt, PhotonTargets.Others, titanPt);
+        photonView.RPC<float>(changeHumanPt, PhotonTargets.Others, humanPt);
     }
 
     private void titanGetsPoint()
@@ -267,8 +263,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 PhotonNetwork.Destroy(this.supply);
             }
             this.state = CheckPointState.Titan;
-            object[] parameters = new object[] { 2 };
-            base.photonView.RPC("changeState", PhotonTargets.All, parameters);
+            photonView.RPC<int>(changeState, PhotonTargets.All, 2);
             gamemode.AddTitanScore(2);
             if (this.checkIfTitanWins())
             {
@@ -309,8 +304,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.state != CheckPointState.Human)
                 {
                     this.state = CheckPointState.Non;
-                    object[] parameters = new object[] { 0 };
-                    base.photonView.RPC("changeState", PhotonTargets.All, parameters);
+                    photonView.RPC<int>(changeState, PhotonTargets.All, 0);
                 }
             }
         }

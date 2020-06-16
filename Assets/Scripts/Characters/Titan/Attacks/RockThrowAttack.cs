@@ -52,6 +52,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 {
                     Rock = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/rockThrow"), transform.position, transform.rotation);
                 }
+                
+                var rockThrow = Rock.GetComponent<RockThrow>();
                 Rock.transform.localScale = titan.transform.localScale;
                 Transform transform1 = Rock.transform;
                 transform1.position -= (Vector3)((Rock.transform.forward * 2.5f) * titan.Size);
@@ -62,8 +64,13 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 Rock.transform.parent = transform;
                 if (titan.photonView.isMine)
                 {
-                    object[] objArray7 = new object[] { titan.photonView.viewID, titan.transform.localScale, Rock.transform.localPosition, titan.Size };
-                    Rock.GetPhotonView().RPC("initRPC", PhotonTargets.Others, objArray7);
+                    rockThrow.photonView.RPC<int, Vector3, Vector3, float>(
+                        rockThrow.initRPC,
+                        PhotonTargets.Others,
+                        titan.photonView.viewID,
+                        titan.transform.localScale,
+                        Rock.transform.localPosition,
+                        titan.Size);
                 }
             }
             if (titan.Animation[attackAnimation].normalizedTime >= 0.11f && titan.Animation[attackAnimation].normalizedTime <= 1f)

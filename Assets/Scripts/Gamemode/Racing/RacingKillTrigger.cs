@@ -11,11 +11,14 @@ public class RacingKillTrigger : MonoBehaviour
             gameObject = gameObject.transform.root.gameObject;
             if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && (gameObject.GetPhotonView() != null)) && gameObject.GetPhotonView().isMine)
             {
-                Hero component = gameObject.GetComponent<Hero>();
-                if (component != null)
+                Hero hero = gameObject.GetComponent<Hero>();
+                if (hero != null)
                 {
-                    component.markDie();
-                    component.photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Server" });
+                    hero.markDie();
+                    hero.photonView.RPC<int, string, PhotonMessageInfo>(
+                        hero.netDie2,
+                        PhotonTargets.All,
+                        -1, "Server");
                 }
             }
         }

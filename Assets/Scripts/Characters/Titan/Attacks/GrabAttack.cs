@@ -189,19 +189,18 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().isGrabbed)
             {
+                var hero = grabTarget.GetComponent<Hero>();
                 titan.Grab(false);
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)
                 {
-                    titan.photonView.RPC("Grab", PhotonTargets.Others, false);
-                    object[] parameters = new object[] { "grabbed" };
-                    grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
-                    object[] objArray2 = new object[] { titan.photonView.viewID, false };
-                    grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, objArray2);
+                    titan.photonView.RPC<bool>(titan.Grab, PhotonTargets.Others, false);
+                    hero.photonView.RPC<string>(hero.netPlayAnimation, PhotonTargets.All, "grabbed");
+                    hero.photonView.RPC<int, bool>(hero.netGrabbed, PhotonTargets.All, titan.photonView.viewID, false);
                 }
                 else
                 {
-                    grabTarget.GetComponent<Hero>().grabbed(titan.gameObject, false);
-                    grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
+                    hero.grabbed(titan.gameObject, false);
+                    hero.GetComponent<Animation>().Play("grabbed");
                 }
             }
         }
@@ -210,19 +209,18 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().isGrabbed)
             {
+                var hero = grabTarget.GetComponent<Hero>();
                 titan.Grab(true);
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)
                 {
-                    titan.photonView.RPC("Grab", PhotonTargets.Others, true);
-                    object[] parameters = new object[] { "grabbed" };
-                    grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
-                    object[] objArray2 = new object[] { titan.photonView.viewID, true };
-                    grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, objArray2);
+                    titan.photonView.RPC<bool>(titan.Grab, PhotonTargets.Others, true);
+                    hero.photonView.RPC<string>(hero.netPlayAnimation, PhotonTargets.All, "grabbed");
+                    hero.photonView.RPC<int, bool>(hero.netGrabbed, PhotonTargets.All, titan.photonView.viewID, true);
                 }
                 else
                 {
-                    grabTarget.GetComponent<Hero>().grabbed(titan.gameObject, true);
-                    grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
+                    hero.grabbed(titan.gameObject, true);
+                    hero.GetComponent<Animation>().Play("grabbed");
                 }
             }
         }

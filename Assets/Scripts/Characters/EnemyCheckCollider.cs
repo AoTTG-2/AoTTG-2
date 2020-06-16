@@ -1,5 +1,3 @@
-using Photon;
-using System;
 using UnityEngine;
 
 public class EnemyCheckCollider : Photon.MonoBehaviour
@@ -11,97 +9,101 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (this.count > 1)
-        {
-            this.active_me = false;
-        }
+        if (count > 1)
+            active_me = false;
         else
-        {
-            this.count++;
-        }
+            count++;
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || base.transform.root.gameObject.GetPhotonView().isMine) && this.active_me)
+        var photonView = transform.root.gameObject.GetPhotonView();
+        if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || photonView.isMine) && active_me)
         {
             if (other.gameObject.tag == "playerHitbox")
             {
-                float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
+                float b = 1f - (Vector3.Distance(other.gameObject.transform.position, transform.position) * 0.05f);
                 b = Mathf.Min(1f, b);
                 HitBox component = other.gameObject.GetComponent<HitBox>();
+                var hero = component.transform.root.GetComponent<Hero>();
                 if ((component != null) && (component.transform.root != null))
                 {
-                    if (this.dmg == 0)
+                    if (dmg == 0)
                     {
-                        Vector3 vector = component.transform.root.transform.position - base.transform.position;
+                        Vector3 vector = component.transform.root.transform.position - transform.position;
                         float num2 = 0f;
-                        if (base.gameObject.GetComponent<SphereCollider>() != null)
-                        {
-                            num2 = base.transform.localScale.x * base.gameObject.GetComponent<SphereCollider>().radius;
-                        }
-                        if (base.gameObject.GetComponent<CapsuleCollider>() != null)
-                        {
-                            num2 = base.transform.localScale.x * base.gameObject.GetComponent<CapsuleCollider>().height;
-                        }
+
+                        var sphereCollider = gameObject.GetComponent<SphereCollider>();
+                        if (sphereCollider != null)
+                            num2 = transform.localScale.x * sphereCollider.radius;
+
+                        var capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
+                        if (capsuleCollider != null)
+                            num2 = transform.localScale.x * capsuleCollider.height;
+
                         float num3 = 5f;
                         if (num2 > 0f)
                         {
                             num3 = Mathf.Max((float) 5f, (float) (num2 - vector.magnitude));
                         }
+                        var force = vector.normalized * num3 + Vector3.up * 1f;
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            component.transform.root.GetComponent<Hero>().blowAway((Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)));
+                            hero.blowAway(force);
                         }
                         else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                         {
-                            object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
+                            hero.photonView.RPC<Vector3>(hero.blowAway, PhotonTargets.All, force);
                         }
                     }
-                    else if (!component.transform.root.GetComponent<Hero>().isInvincible())
+                    else if (!hero.isInvincible())
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            if (!component.transform.root.GetComponent<Hero>().isGrabbed)
+                            if (!hero.isGrabbed)
                             {
-                                Vector3 vector4 = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<Hero>().die((Vector3) (((vector4.normalized * b) * 1000f) + (Vector3.up * 50f)), this.isThisBite);
+                                Vector3 delta = component.transform.root.transform.position - transform.position;
+                                hero.die(delta.normalized * b * 1000f + Vector3.up * 50f, isThisBite);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.HasDied()) && !hero.isGrabbed)
                         {
-                            component.transform.root.GetComponent<Hero>().markDie();
+                            hero.markDie();
                             int myOwnerViewID = -1;
                             string titanName = string.Empty;
-                            if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
+                            var enemyfxIDcontainer = transform.root.gameObject.GetComponent<EnemyfxIDcontainer>();
+                            if (enemyfxIDcontainer != null)
                             {
-                                myOwnerViewID = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID;
-                                titanName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
+                                myOwnerViewID = enemyfxIDcontainer.myOwnerViewID;
+                                titanName = enemyfxIDcontainer.titanName;
                             }
-                            object[] objArray2 = new object[5];
-                            Vector3 vector5 = component.transform.root.position - base.transform.position;
-                            objArray2[0] = (Vector3) (((vector5.normalized * b) * 1000f) + (Vector3.up * 50f));
-                            objArray2[1] = this.isThisBite;
-                            objArray2[2] = myOwnerViewID;
-                            objArray2[3] = titanName;
-                            objArray2[4] = true;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray2);
+                            Vector3 delta = component.transform.root.position - transform.position;
+                            object[] parameters = new object[]
+                            {
+                                delta.normalized * b * 1000f + Vector3.up * 50f,
+                                isThisBite,
+                                myOwnerViewID,
+                                titanName,
+                                true
+                            };
+                            hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(hero.netDie, PhotonTargets.All, parameters);
                         }
                     }
                 }
             }
-            else if (((other.gameObject.tag == "erenHitbox") && (this.dmg > 0)) && !other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().isHit)
+            else if (other.gameObject.tag == "erenHitbox")
             {
-                other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByTitan();
+                var titanEren = other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>();
+                if (dmg > 0 && !titanEren.isHit)
+                    titanEren.hitByTitan();
             }
         }
     }
 
     private void Start()
     {
-        this.active_me = true;
-        this.count = 0;
+        active_me = true;
+        count = 0;
     }
 }
 

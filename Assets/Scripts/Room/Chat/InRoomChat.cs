@@ -91,8 +91,12 @@ public class InRoomChat : Photon.MonoBehaviour
                             }
                         }
                     }
-                    object[] parameters = new object[] { this.inputLine, str2 };
-                    FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, parameters);
+
+                    FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                        FengGameManagerMKII.instance.Chat,
+                        PhotonTargets.All,
+                        inputLine,
+                        str2);
                 }
                 else if (this.inputLine == "/cloth")
                 {
@@ -126,9 +130,15 @@ public class InRoomChat : Photon.MonoBehaviour
                     {
                         if (PhotonNetwork.isMasterClient)
                         {
-                            FengGameManagerMKII.instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { true });
-                            objArray3 = new object[] { "<color=#FFCC00>MasterClient has paused the game.</color>", "" };
-                            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray3);
+                            FengGameManagerMKII.instance.photonView.RPC<bool, PhotonMessageInfo>(
+                                FengGameManagerMKII.instance.pauseRPC,
+                                PhotonTargets.All,
+                                true);
+                            FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                FengGameManagerMKII.instance.Chat,
+                                PhotonTargets.All,
+                                "<color=#FFCC00>MasterClient has paused the game.</color>",
+                                "");
                         }
                         else
                         {
@@ -139,9 +149,15 @@ public class InRoomChat : Photon.MonoBehaviour
                     {
                         if (PhotonNetwork.isMasterClient)
                         {
-                            FengGameManagerMKII.instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { false });
-                            objArray3 = new object[] { "<color=#FFCC00>MasterClient has unpaused the game.</color>", "" };
-                            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray3);
+                            FengGameManagerMKII.instance.photonView.RPC<bool, PhotonMessageInfo>(
+                                FengGameManagerMKII.instance.pauseRPC,
+                                PhotonTargets.All,
+                                false);
+                            FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                FengGameManagerMKII.instance.Chat,
+                                PhotonTargets.All,
+                                "<color=#FFCC00>MasterClient has unpaused the game.</color>",
+                                "");
                         }
                         else
                         {
@@ -182,14 +198,21 @@ public class InRoomChat : Photon.MonoBehaviour
                                 int num3 = Convert.ToInt32(this.inputLine.Substring(10));
                                 FengGameManagerMKII.instance.maxPlayers = num3;
                                 PhotonNetwork.room.maxPlayers = num3;
-                                objArray3 = new object[] { "<color=#FFCC00>Max players changed to " + this.inputLine.Substring(10) + "!</color>", "" };
-                                FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray3);
+                                FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                    FengGameManagerMKII.instance.Chat,
+                                    PhotonTargets.All,
+                                    "<color=#FFCC00>Max players changed to " + this.inputLine.Substring(10) + "!</color>",
+                                    string.Empty);
                             }
                             else if (this.inputLine.Substring(6).StartsWith("time"))
                             {
-                                FengGameManagerMKII.instance.addTime(Convert.ToSingle(this.inputLine.Substring(11)));
-                                objArray3 = new object[] { "<color=#FFCC00>" + this.inputLine.Substring(11) + " seconds added to the clock.</color>", "" };
-                                FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray3);
+                                var time = this.inputLine.Substring(11);
+                                FengGameManagerMKII.instance.addTime(Convert.ToSingle(time));
+                                FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                    FengGameManagerMKII.instance.Chat,
+                                    PhotonTargets.All,
+                                    "<color=#FFCC00>" + time + " seconds added to the clock.</color>",
+                                    string.Empty);
                             }
                         }
                         else
@@ -213,8 +236,11 @@ public class InRoomChat : Photon.MonoBehaviour
                                     hashtable.Add(PhotonPlayerProperty.total_dmg, 0);
                                     player.SetCustomProperties(hashtable);
                                 }
-                                objArray3 = new object[] { "<color=#FFCC00>All stats have been reset.</color>", "" };
-                                FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray3);
+
+                                FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                    FengGameManagerMKII.instance.Chat,
+                                    PhotonTargets.All,
+                                    "<color=#FFCC00>All stats have been reset.</color>", string.Empty);
                             }
                             else
                             {
@@ -288,8 +314,12 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     if (obj2.GetPhotonView().isMine)
                                     {
-                                        obj2.GetComponent<Hero>().markDie();
-                                        obj2.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                                        var hero = obj2.GetComponent<Hero>();
+                                        hero.markDie();
+                                        hero.photonView.RPC<int, string, PhotonMessageInfo>(
+                                            hero.netDie2,
+                                            PhotonTargets.All,
+                                            -1, "Team Switch");
                                     }
                                 }
                             }
@@ -301,8 +331,12 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     if (obj3.GetPhotonView().isMine)
                                     {
-                                        obj3.GetComponent<Hero>().markDie();
-                                        obj3.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                                        var hero = obj3.GetComponent<Hero>();
+                                        hero.markDie();
+                                        hero.photonView.RPC<int, string, PhotonMessageInfo>(
+                                            hero.netDie2,
+                                            PhotonTargets.All,
+                                            -1, "Team Switch");
                                     }
                                 }
                             }
@@ -310,12 +344,17 @@ public class InRoomChat : Photon.MonoBehaviour
                             {
                                 FengGameManagerMKII.instance.photonView.RPC("setTeamRPC", PhotonNetwork.player, new object[] { 0 });
                                 this.addLINE("<color=#00FF00>You have joined individuals.</color>");
-                                foreach (GameObject obj4 in GameObject.FindGameObjectsWithTag("Player"))
+                                foreach (GameObject playerGobj in GameObject.FindGameObjectsWithTag("Player"))
                                 {
-                                    if (obj4.GetPhotonView().isMine)
+                                    if (playerGobj.GetPhotonView().isMine)
                                     {
-                                        obj4.GetComponent<Hero>().markDie();
-                                        obj4.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                                        var hero = playerGobj.GetComponent<Hero>();
+                                        hero.markDie();
+                                        hero.photonView.RPC<int, string, PhotonMessageInfo>(
+                                            hero.netDie2,
+                                            PhotonTargets.All,
+                                            -1,
+                                            "Team Switch");
                                     }
                                 }
                             }
@@ -333,8 +372,7 @@ public class InRoomChat : Photon.MonoBehaviour
                     {
                         if (PhotonNetwork.isMasterClient)
                         {
-                            objArray3 = new object[] { "<color=#FFCC00>MasterClient has restarted the game!</color>", "" };
-                            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray3);
+                            FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(FengGameManagerMKII.instance.Chat, PhotonTargets.All, "<color=#FFCC00>MasterClient has restarted the game!</color>", string.Empty);
                             FengGameManagerMKII.instance.restartRC();
                         }
                         else
@@ -399,13 +437,16 @@ public class InRoomChat : Photon.MonoBehaviour
                                 {
                                     if (this.inputLine == "/reviveall")
                                     {
-                                        objArray5 = new object[] { "<color=#FFCC00>All players have been revived.</color>", string.Empty };
-                                        FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray5);
+                                        FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                            FengGameManagerMKII.instance.Chat,
+                                            PhotonTargets.All,
+                                            "<color=#FFCC00>All players have been revived.</color>",
+                                            string.Empty);
                                         foreach (PhotonPlayer player in PhotonNetwork.playerList)
                                         {
                                             if (((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
                                             {
-                                                FengGameManagerMKII.instance.photonView.RPC("respawnHeroInNewRound", player, new object[0]);
+                                                FengGameManagerMKII.instance.photonView.RPC(FengGameManagerMKII.instance.respawnHeroInNewRound, player);
                                             }
                                         }
                                     }
@@ -417,7 +458,9 @@ public class InRoomChat : Photon.MonoBehaviour
                                             if (player.ID == num8)
                                             {
                                                 this.addLINE("<color=#FFCC00>Player " + num8.ToString() + " has been revived.</color>");
-                                                FengGameManagerMKII.instance.photonView.RPC("RespawnRpc", player);
+                                                FengGameManagerMKII.instance.photonView.RPC<PhotonMessageInfo>(
+                                                    FengGameManagerMKII.instance.RespawnRpc,
+                                                    player);
                                                 return;
                                             }
                                         }
@@ -439,8 +482,12 @@ public class InRoomChat : Photon.MonoBehaviour
                                     int num9 = Convert.ToInt32(this.inputLine.Substring(7));
                                     if (FengGameManagerMKII.banHash.ContainsKey(num9))
                                     {
-                                        objArray5 = new object[] { "<color=#FFCC00>" + ((string)FengGameManagerMKII.banHash[num9]) + " has been unbanned from the server. </color>", string.Empty };
-                                        FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray5);
+                                        var unbannedPlayer = (string) FengGameManagerMKII.banHash[num9];
+                                        FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                            FengGameManagerMKII.instance.Chat,
+                                            PhotonTargets.All,
+                                            "<color=#FFCC00>" + unbannedPlayer + " has been unbanned from the server. </color>",
+                                            string.Empty);
                                         FengGameManagerMKII.banHash.Remove(num9);
                                     }
                                     else
@@ -479,8 +526,11 @@ public class InRoomChat : Photon.MonoBehaviour
                                     }
                                     else if (!(FengGameManagerMKII.OnPrivateServer || PhotonNetwork.isMasterClient))
                                     {
-                                        objArray6 = new object[] { "/kick #" + Convert.ToString(num8), LoginFengKAI.player.name };
-                                        FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray6);
+                                        FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                            FengGameManagerMKII.instance.Chat,
+                                            PhotonTargets.All,
+                                            "/kick #" + Convert.ToString(num8),
+                                            LoginFengKAI.player.name);
                                     }
                                     else
                                     {
@@ -497,8 +547,12 @@ public class InRoomChat : Photon.MonoBehaviour
                                                 else if (PhotonNetwork.isMasterClient)
                                                 {
                                                     FengGameManagerMKII.instance.kickPlayerRC(player3, false, "");
-                                                    objArray7 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player3.CustomProperties[PhotonPlayerProperty.name]) + " has been kicked from the server!</color>", string.Empty };
-                                                    FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray7);
+                                                    var playerName = RCextensions.returnStringFromObject(player3.CustomProperties[PhotonPlayerProperty.name]);
+                                                    FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(
+                                                        FengGameManagerMKII.instance.Chat,
+                                                        PhotonTargets.All,
+                                                        "<color=#FFCC00>" + playerName + " has been kicked from the server!</color>",
+                                                        string.Empty);
                                                 }
                                             }
                                         }
@@ -527,8 +581,10 @@ public class InRoomChat : Photon.MonoBehaviour
                                         }
                                         else if (!(FengGameManagerMKII.OnPrivateServer || PhotonNetwork.isMasterClient))
                                         {
-                                            objArray6 = new object[] { "/kick #" + Convert.ToString(num8), LoginFengKAI.player.name };
-                                            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray6);
+                                            FengGameManagerMKII.instance.photonView.RPC<string, string, PhotonMessageInfo>(FengGameManagerMKII.instance.Chat,
+                                                PhotonTargets.All,
+                                                "/kick #" + Convert.ToString(num8),
+                                                LoginFengKAI.player.name);
                                         }
                                         else
                                         {
@@ -545,8 +601,12 @@ public class InRoomChat : Photon.MonoBehaviour
                                                     else if (PhotonNetwork.isMasterClient)
                                                     {
                                                         FengGameManagerMKII.instance.kickPlayerRC(player3, true, "");
-                                                        objArray7 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player3.CustomProperties[PhotonPlayerProperty.name]) + " has been banned from the server!</color>", string.Empty };
-                                                        FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, objArray7);
+                                                        var playerName = RCextensions.returnStringFromObject(player3.CustomProperties[PhotonPlayerProperty.name]);
+                                                        FengGameManagerMKII.instance.photonView.RPC(
+                                                            (Action<string, string, PhotonMessageInfo>) FengGameManagerMKII.instance.Chat,
+                                                            PhotonTargets.All,
+                                                            "<color=#FFCC00>" + playerName + " has been banned from the server!</color>",
+                                                            string.Empty);
                                                     }
                                                 }
                                             }

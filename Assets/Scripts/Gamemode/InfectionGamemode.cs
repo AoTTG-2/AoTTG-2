@@ -58,7 +58,7 @@ namespace Assets.Scripts.Gamemode
                             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                             propertiesToSet.Add(PhotonPlayerProperty.isTitan, 2);
                             targetPlayer.SetCustomProperties(propertiesToSet);
-                            photonView.RPC("SpawnPlayerTitanRpc", targetPlayer, new object[0]);
+                            photonView.RPC<PhotonMessageInfo>(SpawnPlayerTitanRpc, targetPlayer, new object[0]);
                         }
                         else if (FengGameManagerMKII.imatitan.ContainsKey(targetPlayer.ID))
                         {
@@ -68,7 +68,11 @@ namespace Assets.Scripts.Gamemode
                                 if (hero.photonView.owner == targetPlayer)
                                 {
                                     hero.markDie();
-                                    hero.photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "noswitchingfagt" });
+                                    hero.photonView.RPC<int, string, PhotonMessageInfo>(
+                                        hero.netDie2,
+                                        PhotonTargets.All,
+                                        -1,
+                                        "noswitchingfagt");
                                 }
                             }
                         }

@@ -65,19 +65,26 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 ? titan.TitanBody.HandLeft
                 : titan.TitanBody.HandRight;
 
-            GameObject obj7 = this.checkIfHitHand(hand, titan.Size);
-            if (obj7 != null)
+            GameObject slappedGobj = this.checkIfHitHand(hand, titan.Size);
+            if (slappedGobj != null)
             {
                 Vector3 vector4 = titan.TitanBody.Chest.position;
+                var slappedHero = slappedGobj.GetComponent<Hero>();
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    obj7.GetComponent<Hero>().die((Vector3)(((obj7.transform.position - vector4) * 15f) * titan.Size), false);
+                    slappedHero.die((Vector3) (((slappedGobj.transform.position - vector4) * 15f) * titan.Size), false);
                 }
-                else if (!(((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine) || obj7.GetComponent<Hero>().HasDied()))
+                else if (!(((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine) || slappedHero.HasDied()))
                 {
-                    obj7.GetComponent<Hero>().markDie();
-                    object[] objArray5 = new object[] { (Vector3)(((obj7.transform.position - vector4) * 15f) * titan.Size), false, titan.photonView.viewID, titan.name, true };
-                    obj7.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray5);
+                    slappedHero.markDie();
+                    slappedHero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
+                        slappedHero.netDie,
+                        PhotonTargets.All,
+                        (slappedGobj.transform.position - vector4) * 15f * titan.Size,
+                        false,
+                        titan.photonView.viewID,
+                        titan.name,
+                        true);
                 }
             }
         }

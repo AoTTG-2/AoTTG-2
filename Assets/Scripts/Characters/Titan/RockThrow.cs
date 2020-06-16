@@ -38,20 +38,19 @@ public class RockThrow : Photon.MonoBehaviour
         }
     }
 
-    private void hitPlayer(GameObject hero)
+    private void hitPlayer(GameObject heroGobj)
     {
-        if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isInvincible())
+        var hero = heroGobj.GetComponent<Hero>();
+        if (((heroGobj != null) && !hero.HasDied()) && !hero.isInvincible())
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                if (!hero.GetComponent<Hero>().isGrabbed)
-                {
-                    hero.GetComponent<Hero>().die((Vector3) ((this.v.normalized * 1000f) + (Vector3.up * 50f)), false);
-                }
+                if (!hero.isGrabbed)
+                    hero.die(v.normalized * 1000f + Vector3.up * 50f, false);
             }
-            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isGrabbed)
+            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.HasDied()) && !hero.isGrabbed)
             {
-                hero.GetComponent<Hero>().markDie();
+                hero.markDie();
                 int myOwnerViewID = -1;
                 string titanName = string.Empty;
                 if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
@@ -60,14 +59,20 @@ public class RockThrow : Photon.MonoBehaviour
                     titanName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
                 }
                 Debug.Log("rock hit player " + titanName);
-                object[] parameters = new object[] { (Vector3) ((this.v.normalized * 1000f) + (Vector3.up * 50f)), false, myOwnerViewID, titanName, true };
-                hero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
+                    hero.netDie,
+                    PhotonTargets.All,
+                    v.normalized * 1000 + Vector3.up * 50f,
+                    false,
+                    myOwnerViewID,
+                    titanName,
+                    true);
             }
         }
     }
 
     [PunRPC]
-    private void initRPC(int viewID, Vector3 scale, Vector3 pos, float level)
+    public void initRPC(int viewID, Vector3 scale, Vector3 pos, float level)
     {
         GameObject gameObject = PhotonView.Find(viewID).gameObject;
         Transform transform = gameObject.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R/hand_R_001");
@@ -78,25 +83,22 @@ public class RockThrow : Photon.MonoBehaviour
 
     public void launch(Vector3 v1)
     {
-        this.launched = true;
-        this.oldP = base.transform.position;
-        this.v = v1;
+        launched = true;
+        oldP = transform.position;
+        v = v1;
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
-        {
-            object[] parameters = new object[] { this.v, this.oldP };
-            base.photonView.RPC("launchRPC", PhotonTargets.Others, parameters);
-        }
+            photonView.RPC<Vector3, Vector3>(launchRPC, PhotonTargets.Others, v, oldP);
     }
 
     [PunRPC]
     private void launchRPC(Vector3 v, Vector3 p)
     {
-        this.launched = true;
+        launched = true;
         Vector3 vector = p;
-        base.transform.position = vector;
-        this.oldP = vector;
-        base.transform.parent = null;
-        this.launch(v);
+        transform.position = vector;
+        oldP = vector;
+        transform.parent = null;
+        launch(v);
     }
 
     private void Start()

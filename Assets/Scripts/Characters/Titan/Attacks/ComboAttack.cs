@@ -122,15 +122,22 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     if (target != null)
                     {
                         Vector3 position = titan.TitanBody.Chest.position;
+                        var hero = target.GetComponent<Hero>();
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            target.GetComponent<Hero>().die((Vector3)(((target.transform.position - position) * 15f) * titan.Size), false);
+                            hero.die((Vector3) (((target.transform.position - position) * 15f) * titan.Size), false);
                         }
-                        else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER || titan.photonView.isMine || !target.GetComponent<Hero>().HasDied()))
+                        else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER || titan.photonView.isMine || !hero.HasDied()))
                         {
-                            target.GetComponent<Hero>().markDie();
-                            object[] objArray3 = { (Vector3)((target.transform.position - position) * 15f * titan.Size), false, titan.photonView.viewID, titan.name, true };
-                            target.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray3);
+                            hero.markDie();
+                            hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
+                                hero.netDie,
+                                PhotonTargets.All,
+                                (target.transform.position - position) * 15f * titan.Size,
+                                false,
+                                titan.photonView.viewID,
+                                titan.name,
+                                true);
                         }
                     }
                 }

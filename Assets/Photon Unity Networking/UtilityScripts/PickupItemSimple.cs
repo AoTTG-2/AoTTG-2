@@ -26,14 +26,14 @@ public class PickupItemSimple : Photon.MonoBehaviour
 
     public void Pickup()
     {
-        if (this.SentPickup)
+        if (SentPickup)
         {
             // skip sending more pickups until the original pickup-RPC got back to this client
             return;
         }
 
-        this.SentPickup = true;
-        this.photonView.RPC("PunPickupSimple", PhotonTargets.AllViaServer);
+        SentPickup = true;
+        photonView.RPC<PhotonMessageInfo>(PunPickupSimple, PhotonTargets.AllViaServer);
     }
 
     [PunRPC]

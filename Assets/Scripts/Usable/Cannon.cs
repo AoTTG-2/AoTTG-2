@@ -40,7 +40,7 @@ public sealed class Cannon : Photon.MonoBehaviour
                 if (FengGameManagerMKII.instance.allowedToCannon.ContainsKey(owner.ID))
                 {
                     settings = FengGameManagerMKII.instance.allowedToCannon[owner.ID].settings;
-                    photonView.RPC("SetSize", PhotonTargets.All, new object[] { settings });
+                    photonView.RPC<string, PhotonMessageInfo>(SetSize, PhotonTargets.All, settings);
                     var viewID = FengGameManagerMKII.instance.allowedToCannon[owner.ID].viewID;
                     FengGameManagerMKII.instance.allowedToCannon.Remove(owner.ID);
                     var component = PhotonView.Find(viewID).gameObject.GetComponent<UnmannedCannon>();
@@ -86,9 +86,9 @@ public sealed class Cannon : Photon.MonoBehaviour
             {
                 if (strArray.Length > 15)
                 {
-                    var go = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
-                    go.GetComponent<UnmannedCannon>().settings = settings;
-                    go.GetPhotonView().RPC("SetSize", PhotonTargets.AllBuffered, new object[] { settings });
+                    var cannon = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0).GetComponent<UnmannedCannon>();
+                    cannon.settings = settings;
+                    cannon.photonView.RPC<string, PhotonMessageInfo>(cannon.SetSize, PhotonTargets.AllBuffered, settings);
                 }
                 else
                 {
@@ -259,7 +259,7 @@ public sealed class Cannon : Photon.MonoBehaviour
                     myHero.isCannon = false;
                     Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(myHero.gameObject, true, false);
                     myHero.baseRigidBody.velocity = Vector3.zero;
-                    myHero.photonView.RPC("ReturnFromCannon", PhotonTargets.Others, new object[0]);
+                    myHero.photonView.RPC<PhotonMessageInfo>(myHero.ReturnFromCannon, PhotonTargets.Others);
                     myHero.skillCDLast = myHero.skillCDLastCannon;
                     myHero.skillCDDuration = myHero.skillCDLast;
                 }

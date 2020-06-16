@@ -144,7 +144,7 @@ public sealed class UnmannedCannon : Photon.MonoBehaviour, IInteractable
 
     private void TryMount(int playerViewID)
     {
-        photonView.RPC(nameof(RequestMountRPC), PhotonTargets.MasterClient, playerViewID);
+        photonView.RPC<int, PhotonMessageInfo>(RequestMountRPC, PhotonTargets.MasterClient, playerViewID);
     }
 
     private IEnumerator WaitAndEnable()

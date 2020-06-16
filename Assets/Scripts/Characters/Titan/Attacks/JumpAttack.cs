@@ -130,8 +130,14 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER || titan.photonView.isMine || !hero.HasDied())
                         {
                             hero.markDie();
-                            object[] objArray8 = { (hero.transform.position - vector13) * 15f * titan.Size, true, titan.photonView.viewID, titan.name, true };
-                            hero.photonView.RPC("netDie", PhotonTargets.All, objArray8);
+                            hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
+                                hero.netDie,
+                                PhotonTargets.All,
+                                (hero.transform.position - vector13) * 15f * titan.Size,
+                                true,
+                                titan.photonView.viewID,
+                                titan.name,
+                                true);
                         }
 
                         AttackAnimation = AnimationFall;

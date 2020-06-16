@@ -76,7 +76,11 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.HumanScore, Settings.TitanScore);
+                photonView.RPC<int, int, PhotonMessageInfo>(
+                    RefreshCaptureScore,
+                    PhotonTargets.Others,
+                    Settings.HumanScore,
+                    Settings.TitanScore);
             }
 
             if (PvpTitanScore >= CaptureSettings.PvpTitanScoreLimit)
@@ -178,16 +182,19 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, CaptureSettings.PvpHumanScoreLimit, CaptureSettings.PvpTitanScoreLimit);
+                FengGameManagerMKII.instance.photonView.RPC<int, int, PhotonMessageInfo>(
+                    RefreshCaptureScore,
+                    PhotonTargets.Others,
+                    CaptureSettings.PvpHumanScoreLimit,
+                    CaptureSettings.PvpTitanScoreLimit);
             }
         }
 
         public override void OnPlayerKilled(int id)
         {
             if (id != 0)
-            {
                 PvpTitanScore += 2;
-            }
+
             CheckWinConditions();
         }
     }

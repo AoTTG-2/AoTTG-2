@@ -85,8 +85,7 @@ namespace Assets.Scripts.Gamemode
             FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                var parameters = new object[] { teamWinner };
-                FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+                FengGameManagerMKII.instance.photonView.RPC<int, PhotonMessageInfo>(FengGameManagerMKII.instance.netGameWin, PhotonTargets.Others, teamWinner);
                 if (((int)FengGameManagerMKII.settings[0xf4]) == 1)
                 {
                     //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");

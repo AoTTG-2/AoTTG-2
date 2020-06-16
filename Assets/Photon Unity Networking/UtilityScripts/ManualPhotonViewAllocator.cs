@@ -16,7 +16,7 @@ public class ManualPhotonViewAllocator : MonoBehaviour
         }
 
         int viewID = PhotonNetwork.AllocateViewID();
-        pv.RPC("InstantiateRpc", PhotonTargets.AllBuffered, viewID);
+        pv.RPC<int>(InstantiateRpc, PhotonTargets.AllBuffered, viewID);
     }
 
     [PunRPC]

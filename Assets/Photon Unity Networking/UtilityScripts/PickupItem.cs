@@ -95,26 +95,24 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
             return;
         }
 
-        this.SentPickup = true;
-        this.photonView.RPC("PunPickup", PhotonTargets.AllViaServer);
+        SentPickup = true;
+        photonView.RPC<PhotonMessageInfo>(PunPickup, PhotonTargets.AllViaServer);
     }
 
 
     /// <summary>Makes use of RPC PunRespawn to drop an item (sent through server for all).</summary>
     public void Drop()
     {
-        if (this.PickupIsMine)
-        {
-            this.photonView.RPC("PunRespawn", PhotonTargets.AllViaServer);
-        }
+        if (PickupIsMine)
+            photonView.RPC(PunRespawn, PhotonTargets.AllViaServer);
     }
 
     /// <summary>Makes use of RPC PunRespawn to drop an item (sent through server for all).</summary>
     public void Drop(Vector3 newPosition)
     {
-        if (this.PickupIsMine)
+        if (PickupIsMine)
         {
-            this.photonView.RPC("PunRespawn", PhotonTargets.AllViaServer, newPosition);
+            photonView.RPC(PunRespawn, PhotonTargets.AllViaServer, newPosition);
         }
     }
 

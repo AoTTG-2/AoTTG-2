@@ -31,7 +31,7 @@ public class OnClickDestroy : Photon.MonoBehaviour
         }
         else
         {
-            this.photonView.RPC("DestroyRpc", PhotonTargets.AllBuffered);
+            photonView.RPC(DestroyRpc, PhotonTargets.AllBuffered);
         }
     }
 
