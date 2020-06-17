@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-public sealed class Cannon : Photon.MonoBehaviour
+[RequireComponent(typeof(Interactable), typeof(PhotonView))]
+public sealed class Cannon : Photon.MonoBehaviour, IInteractable
 {
     public Transform ballPoint;
     public Transform barrel;
@@ -17,85 +18,11 @@ public sealed class Cannon : Photon.MonoBehaviour
     private Vector3 correctPlayerPos = Vector3.zero;
     private Quaternion correctPlayerRot = Quaternion.identity;
 
-    public void Awake()
+    string IInteractable.DefaultIconPath => string.Empty;
+
+    public void OnInteracted(GameObject player)
     {
-        if (photonView != null)
-        {
-            photonView.observed = this;
-            barrel = transform.Find("Barrel");
-            correctPlayerPos = transform.position;
-            correctPlayerRot = transform.rotation;
-            correctBarrelRot = barrel.rotation;
-            if (photonView.isMine)
-            {
-                firingPoint = barrel.Find("FiringPoint");
-                ballPoint = barrel.Find("BallPoint");
-                myCannonLine = ballPoint.GetComponent<LineRenderer>();
-                if (gameObject.name.Contains("CannonGround"))
-                    isCannonGround = true;
-            }
-            if (PhotonNetwork.isMasterClient)
-            {
-                var owner = photonView.owner;
-                if (FengGameManagerMKII.instance.allowedToCannon.ContainsKey(owner.ID))
-                {
-                    settings = FengGameManagerMKII.instance.allowedToCannon[owner.ID].settings;
-                    photonView.RPC<string, PhotonMessageInfo>(SetSize, PhotonTargets.All, settings);
-                    var viewID = FengGameManagerMKII.instance.allowedToCannon[owner.ID].viewID;
-                    FengGameManagerMKII.instance.allowedToCannon.Remove(owner.ID);
-                    var component = PhotonView.Find(viewID).gameObject.GetComponent<UnmannedCannon>();
-                    if (component != null)
-                    {
-                        component.disabled = true;
-                        component.destroyed = true;
-                        PhotonNetwork.Destroy(component.gameObject);
-                    }
-                }
-                else if (!(owner.IsLocal || FengGameManagerMKII.instance.restartingMC))
-                    FengGameManagerMKII.instance.kickPlayerRC(owner, false, "spawning cannon without request.");
-            }
-        }
-    }
-
-    public void Fire()
-    {
-        if (myHero.skillCDDuration <= 0f)
-        {
-            var boom = PhotonNetwork.Instantiate("FX/boom2", firingPoint.position, firingPoint.rotation, 0);
-            var boomCheckColliders = boom.GetComponentsInChildren<EnemyCheckCollider>();
-
-            foreach (var collider in boomCheckColliders)
-                collider.dmg = 0;
-
-            myCannonBall = CannonBall.Create(ballPoint.position,
-                firingPoint.rotation,
-                firingPoint.forward * 300f,
-                this,
-                myHero.photonView.viewID).gameObject;
-
-            myHero.skillCDDuration = 3.5f;
-        }
-    }
-
-    public void OnDestroy()
-    {
-        if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.instance.isRestarting)
-        {
-            var strArray = settings.Split(new char[] { ',' });
-            if (strArray[0] == "photon")
-            {
-                if (strArray.Length > 15)
-                {
-                    var cannon = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0).GetComponent<UnmannedCannon>();
-                    cannon.settings = settings;
-                    cannon.photonView.RPC<string, PhotonMessageInfo>(cannon.SetSize, PhotonTargets.AllBuffered, settings);
-                }
-                else
-                {
-                    PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<UnmannedCannon>().settings = settings;
-                }
-            }
-        }
+        TryUnmount();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -180,92 +107,184 @@ public sealed class Cannon : Photon.MonoBehaviour
         }
     }
 
-    public void Update()
+    private void ApplyPlayerInput()
     {
-        if (!photonView.isMine)
+        var vector = new Vector3(0f, -30f, 0f);
+        var position = ballPoint.position;
+        var vector3 = ballPoint.forward * 300f;
+        var num = 40f / vector3.magnitude;
+        myCannonLine.startWidth = 0.5f;
+        myCannonLine.endWidth = 40f;
+        myCannonLine.positionCount = 100;
+        for (var i = 0; i < 100; i++)
         {
-            transform.position = Vector3.Lerp(transform.position, correctPlayerPos, Time.deltaTime * SmoothingDelay);
-            transform.rotation = Quaternion.Lerp(transform.rotation, correctPlayerRot, Time.deltaTime * SmoothingDelay);
-            barrel.rotation = Quaternion.Lerp(barrel.rotation, correctBarrelRot, Time.deltaTime * SmoothingDelay);
+            myCannonLine.SetPosition(i, position);
+            position += (vector3 * num) + (((0.5f * vector) * num) * num);
+            vector3 += vector * num;
+        }
+
+        var rotationSpeed = FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonSlow) ? 5f : 30f;
+
+        if (isCannonGround)
+        {
+            if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonForward))
+            {
+                if (currentRot <= 32f)
+                {
+                    currentRot += Time.deltaTime * rotationSpeed;
+                    barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * rotationSpeed));
+                }
+            }
+            else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonBack) && (currentRot >= -18f))
+            {
+                currentRot += Time.deltaTime * -rotationSpeed;
+                barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * -rotationSpeed));
+            }
+
+            if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonLeft))
+                transform.Rotate(new Vector3(0f, Time.deltaTime * -rotationSpeed, 0f));
+            else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonRight))
+                transform.Rotate(new Vector3(0f, Time.deltaTime * rotationSpeed, 0f));
         }
         else
         {
-            var vector = new Vector3(0f, -30f, 0f);
-            var position = ballPoint.position;
-            var vector3 = ballPoint.forward * 300f;
-            var num = 40f / vector3.magnitude;
-            myCannonLine.startWidth = 0.5f;
-            myCannonLine.endWidth = 40f;
-            myCannonLine.positionCount = 100;
-            for (var i = 0; i < 100; i++)
+            if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonForward))
             {
-                myCannonLine.SetPosition(i, position);
-                position += (vector3 * num) + (((0.5f * vector) * num) * num);
-                vector3 += vector * num;
-            }
-
-            var rotationSpeed = FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonSlow) ? 5f : 30f;
-            
-            if (isCannonGround)
-            {
-                if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonForward))
-                {
-                    if (currentRot <= 32f)
-                    {
-                        currentRot += Time.deltaTime * rotationSpeed;
-                        barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * rotationSpeed));
-                    }
-                }
-                else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonBack) && (currentRot >= -18f))
+                if (currentRot >= -50f)
                 {
                     currentRot += Time.deltaTime * -rotationSpeed;
-                    barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * -rotationSpeed));
+                    barrel.Rotate(new Vector3(Time.deltaTime * -rotationSpeed, 0f, 0f));
                 }
-
-                if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonLeft))
-                    transform.Rotate(new Vector3(0f, Time.deltaTime * -rotationSpeed, 0f));
-                else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonRight))
-                    transform.Rotate(new Vector3(0f, Time.deltaTime * rotationSpeed, 0f));
             }
-            else
+            else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonBack) && (currentRot <= 40f))
             {
-                if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonForward))
+                currentRot += Time.deltaTime * rotationSpeed;
+                barrel.Rotate(new Vector3(Time.deltaTime * rotationSpeed, 0f, 0f));
+            }
+
+            if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonLeft))
+                transform.Rotate(new Vector3(0f, Time.deltaTime * -rotationSpeed, 0f));
+            else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonRight))
+                transform.Rotate(new Vector3(0f, Time.deltaTime * rotationSpeed, 0f));
+        }
+        if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonFire))
+        {
+            Fire();
+        }
+    }
+
+    private void ApplyPredictedPosition()
+    {
+        transform.position = Vector3.Lerp(transform.position, correctPlayerPos, Time.deltaTime * SmoothingDelay);
+        transform.rotation = Quaternion.Lerp(transform.rotation, correctPlayerRot, Time.deltaTime * SmoothingDelay);
+        barrel.rotation = Quaternion.Lerp(barrel.rotation, correctBarrelRot, Time.deltaTime * SmoothingDelay);
+    }
+
+    private void Awake()
+    {
+        // TODO: Initialize in the editor.
+        if (photonView != null)
+        {
+            photonView.observed = this;
+            barrel = transform.Find("Barrel");
+            correctPlayerPos = transform.position;
+            correctPlayerRot = transform.rotation;
+            correctBarrelRot = barrel.rotation;
+            if (photonView.isMine)
+            {
+                firingPoint = barrel.Find("FiringPoint");
+                ballPoint = barrel.Find("BallPoint");
+                myCannonLine = ballPoint.GetComponent<LineRenderer>();
+                if (gameObject.name.Contains("CannonGround"))
+                    isCannonGround = true;
+            }
+            if (PhotonNetwork.isMasterClient)
+            {
+                var owner = photonView.owner;
+                if (FengGameManagerMKII.instance.allowedToCannon.ContainsKey(owner.ID))
                 {
-                    if (currentRot >= -50f)
+                    settings = FengGameManagerMKII.instance.allowedToCannon[owner.ID].settings;
+                    photonView.RPC<string, PhotonMessageInfo>(SetSize, PhotonTargets.All, settings);
+                    var viewID = FengGameManagerMKII.instance.allowedToCannon[owner.ID].viewID;
+                    FengGameManagerMKII.instance.allowedToCannon.Remove(owner.ID);
+                    var component = PhotonView.Find(viewID).gameObject.GetComponent<UnmannedCannon>();
+                    if (component != null)
                     {
-                        currentRot += Time.deltaTime * -rotationSpeed;
-                        barrel.Rotate(new Vector3(Time.deltaTime * -rotationSpeed, 0f, 0f));
+                        component.disabled = true;
+                        component.destroyed = true;
+                        PhotonNetwork.Destroy(component.gameObject);
                     }
                 }
-                else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonBack) && (currentRot <= 40f))
-                {
-                    currentRot += Time.deltaTime * rotationSpeed;
-                    barrel.Rotate(new Vector3(Time.deltaTime * rotationSpeed, 0f, 0f));
-                }
-
-                if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonLeft))
-                    transform.Rotate(new Vector3(0f, Time.deltaTime * -rotationSpeed, 0f));
-                else if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonRight))
-                    transform.Rotate(new Vector3(0f, Time.deltaTime * rotationSpeed, 0f));
-            }
-            if (FengGameManagerMKII.inputRC.isInputCannon(InputCodeRC.cannonFire))
-            {
-                Fire();
-            }
-            else if (FengGameManagerMKII.inputRC.isInputCannonDown(InputCodeRC.cannonMount))
-            {
-                if (myHero != null)
-                {
-                    myHero.isCannon = false;
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(myHero.gameObject, true, false);
-                    myHero.baseRigidBody.velocity = Vector3.zero;
-                    myHero.photonView.RPC<PhotonMessageInfo>(myHero.ReturnFromCannon, PhotonTargets.Others);
-                    myHero.skillCDLast = myHero.skillCDLastCannon;
-                    myHero.skillCDDuration = myHero.skillCDLast;
-                }
-
-                PhotonNetwork.Destroy(gameObject);
+                else if (!(owner.IsLocal || FengGameManagerMKII.instance.restartingMC))
+                    FengGameManagerMKII.instance.kickPlayerRC(owner, false, "spawning cannon without request.");
             }
         }
+    }
+
+    private void Fire()
+    {
+        if (myHero.skillCDDuration <= 0f)
+        {
+            var boom = PhotonNetwork.Instantiate("FX/boom2", firingPoint.position, firingPoint.rotation, 0);
+            var boomCheckColliders = boom.GetComponentsInChildren<EnemyCheckCollider>();
+
+            foreach (var collider in boomCheckColliders)
+                collider.dmg = 0;
+
+            myCannonBall = CannonBall.Create(ballPoint.position,
+                firingPoint.rotation,
+                firingPoint.forward * 300f,
+                this,
+                myHero.photonView.viewID).gameObject;
+
+            myHero.skillCDDuration = 3.5f;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.instance.isRestarting)
+        {
+            var strArray = settings.Split(new char[] { ',' });
+            if (strArray[0] == "photon")
+            {
+                if (strArray.Length > 15)
+                {
+                    var cannon = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0).GetComponent<UnmannedCannon>();
+                    cannon.settings = settings;
+                    cannon.photonView.RPC<string, PhotonMessageInfo>(cannon.SetSize, PhotonTargets.AllBuffered, settings);
+                }
+                else
+                {
+                    PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<UnmannedCannon>().settings = settings;
+                }
+            }
+        }
+    }
+
+    private void TryUnmount()
+    {
+        if (!photonView.isMine)
+            return;
+
+        if (myHero != null)
+        {
+            myHero.isCannon = false;
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(myHero.gameObject, true, false);
+            myHero.baseRigidBody.velocity = Vector3.zero;
+            myHero.photonView.RPC<PhotonMessageInfo>(myHero.ReturnFromCannon, PhotonTargets.Others);
+            myHero.skillCDLast = myHero.skillCDLastCannon;
+            myHero.skillCDDuration = myHero.skillCDLast;
+        }
+
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    private void Update()
+    {
+        if (photonView.isMine)
+            ApplyPlayerInput();
+        else
+            ApplyPredictedPosition();
     }
 }

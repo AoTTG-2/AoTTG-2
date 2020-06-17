@@ -12,10 +12,10 @@ public sealed class InteractionManager : MonoBehaviour
     public static GameObject Player => _instance.player;
 
     public static void Register(Interactable interactable) =>
-        _instance.interactables.Add(interactable);
+        _instance?.interactables.Add(interactable);
 
     public static void Unregister(Interactable interactable) =>
-        _instance.interactables.Remove(interactable);
+        _instance?.interactables.Remove(interactable);
 
     private static Interactable GetInteractable(GameObject gobj)
     {
