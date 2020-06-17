@@ -5,11 +5,12 @@ using UnityEngine;
 public class ArmatureDataEditor : Editor
 {
     private ArmatureData script;
+    private SerializedProperty armatureObject;
     private bool showTransforms;
 
     private void OnEnable()
     {
-        script = (ArmatureData)target;
+        armatureObject = serializedObject.FindProperty("armatureObject");
     }
 
     public override void OnInspectorGUI()
@@ -17,13 +18,35 @@ public class ArmatureDataEditor : Editor
         if (GUILayout.Button("Set Bone References"))
             script.SetBoneReferences();
 
-        script.armatureObject = (GameObject)EditorGUILayout.ObjectField("Armature", script.armatureObject, typeof(GameObject), true);
+        //Display the armature object property
+        EditorGUILayout.PropertyField(armatureObject);
 
+        //Display the references foldout
         showTransforms = EditorGUILayout.Foldout(showTransforms, "References");
 
+        //If the foldout is active, display all of the references
+        if (showTransforms)
+            DisplayReferences();
+
+        serializedObject.ApplyModifiedProperties();
+    }
+
+    //Display all of the class properties except for the script itself and the armature object
+    public void DisplayReferences()
+    {
         EditorGUI.indentLevel++;
 
-        if (showTransforms)
-            DrawDefaultInspector();
+        SerializedProperty propIterator = serializedObject.GetIterator();
+        bool iterateChildren = true;
+
+        while (propIterator.NextVisible(iterateChildren))
+        {
+            if (propIterator.name != "m_Script" && propIterator.name != "armatureObject")
+                EditorGUILayout.PropertyField(propIterator);
+
+            iterateChildren = false;
+        }
+
+        EditorGUI.indentLevel--;
     }
 }

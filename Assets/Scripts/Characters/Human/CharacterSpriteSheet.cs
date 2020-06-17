@@ -7,7 +7,6 @@ public class CharacterSpriteSheet : MonoBehaviour
     [SerializeField] private Material spriteMaterial;
     [SerializeField] private int sheetColumns;
     [SerializeField] private int sheetRows;
-    [Header("Cells start at (0,0) and are read top-down, left to right")]
     [SerializeField] private int startColumn;
     [SerializeField] private int startRow;
     [SerializeField] private int endColumn;

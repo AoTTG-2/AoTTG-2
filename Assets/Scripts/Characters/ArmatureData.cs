@@ -6,7 +6,7 @@ using UnityEngine;
 public class ArmatureData : MonoBehaviour
 {
     //The parent Game Object of the armature hierarchy 
-    [HideInInspector] public GameObject armatureObject;
+    [SerializeField] private GameObject armatureObject;
 
     #region Armature References
     [SerializeField] public Transform Controller_Body;
