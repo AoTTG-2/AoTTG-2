@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4181673236826814}
   - component: {fileID: 33259141132316340}
   - component: {fileID: 23008790133516390}
-  - component: {fileID: 114635889098505004}
+  - component: {fileID: 114847256233851444}
   m_Layer: 0
   m_Name: Mouth
   m_TagString: Untagged
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 4137883876689124}
   - component: {fileID: 33375973239710982}
   - component: {fileID: 23129256678352484}
-  - component: {fileID: 114819630994138256}
+  - component: {fileID: 114802488542915676}
   m_Layer: 0
   m_Name: Eyes
   m_TagString: Untagged
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4357866393715912}
   - component: {fileID: 33963735267803810}
   - component: {fileID: 23618062826599022}
-  - component: {fileID: 114129940619974992}
+  - component: {fileID: 114423929712482018}
   m_Layer: 0
   m_Name: Glasses
   m_TagString: Untagged
@@ -126,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073941434652398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.010153814, y: 0.8056257, z: -0.094946966}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4137883876689124}
@@ -258,7 +258,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705973659096334}
   m_Mesh: {fileID: 4300000, guid: 74d8a5479f62bf8439dcb66d8e3c1ce7, type: 2}
---- !u!114 &114129940619974992
+--- !u!114 &114423929712482018
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -266,23 +266,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1705973659096334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9543b8ffe9061854f82ee8348dda99ed, type: 3}
+  m_Script: {fileID: 11500000, guid: fc1560c1a4faffa43a7c407082458192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteSheet: {fileID: 2100000, guid: 31515e706c3d441408e717fcfa44f39a, type: 2}
---- !u!114 &114635889098505004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1325984322900300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9543b8ffe9061854f82ee8348dda99ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteSheet: {fileID: 2100000, guid: 31515e706c3d441408e717fcfa44f39a, type: 2}
---- !u!114 &114819630994138256
+  spriteMaterial: {fileID: 2100000, guid: 31515e706c3d441408e717fcfa44f39a, type: 2}
+  sheetColumns: 8
+  sheetRows: 8
+  startColumn: 4
+  startRow: 0
+  endColumn: 5
+  endRow: 4
+--- !u!114 &114802488542915676
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -290,7 +284,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1686496715749940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9543b8ffe9061854f82ee8348dda99ed, type: 3}
+  m_Script: {fileID: 11500000, guid: fc1560c1a4faffa43a7c407082458192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteSheet: {fileID: 2100000, guid: 31515e706c3d441408e717fcfa44f39a, type: 2}
+  spriteMaterial: {fileID: 2100000, guid: 31515e706c3d441408e717fcfa44f39a, type: 2}
+  sheetColumns: 8
+  sheetRows: 8
+  startColumn: 0
+  startRow: 0
+  endColumn: 3
+  endRow: 3
+--- !u!114 &114847256233851444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1325984322900300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1560c1a4faffa43a7c407082458192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMaterial: {fileID: 2100000, guid: 31515e706c3d441408e717fcfa44f39a, type: 2}
+  sheetColumns: 8
+  sheetRows: 8
+  startColumn: 6
+  startRow: 0
+  endColumn: 7
+  endRow: 0
