@@ -1,5 +1,4 @@
 using Assets.Scripts.Characters.Titan;
-using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 
