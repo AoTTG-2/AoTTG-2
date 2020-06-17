@@ -1,22 +1,40 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Interactable), typeof(PhotonView))]
 public sealed class Cannon : Photon.MonoBehaviour, IInteractable
 {
-    public Transform ballPoint;
-    public Transform barrel;
-    public float currentRot = 0f;
-    public Transform firingPoint;
-    public bool isCannonGround;
-    public GameObject myCannonBall;
-    public LineRenderer myCannonLine;
-    public Hero myHero;
-    public string settings;
-    public float SmoothingDelay = 5f;
+    [HideInInspector]
+    public Hero Hero;
+
+    [SerializeField]
+    private Transform ballPoint;
+
+    [SerializeField]
+    private Transform barrel;
+
     private Quaternion correctBarrelRot = Quaternion.identity;
+
     private Vector3 correctPlayerPos = Vector3.zero;
+
     private Quaternion correctPlayerRot = Quaternion.identity;
+
+    private float currentRot = 0f;
+
+    [SerializeField]
+    private Transform firingPoint;
+
+    [SerializeField]
+    private bool isCannonGround;
+
+    [SerializeField]
+    private LineRenderer myCannonLine;
+
+    private string settings;
+
+    [SerializeField]
+    private float smoothingDelay = 5f;
 
     string IInteractable.DefaultIconPath => string.Empty;
 
@@ -173,31 +191,21 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
         }
     }
 
-    private void ApplyPredictedPosition()
+    private void ApplyPredictedTransform()
     {
-        transform.position = Vector3.Lerp(transform.position, correctPlayerPos, Time.deltaTime * SmoothingDelay);
-        transform.rotation = Quaternion.Lerp(transform.rotation, correctPlayerRot, Time.deltaTime * SmoothingDelay);
-        barrel.rotation = Quaternion.Lerp(barrel.rotation, correctBarrelRot, Time.deltaTime * SmoothingDelay);
+        transform.position = Vector3.Lerp(transform.position, correctPlayerPos, Time.deltaTime * smoothingDelay);
+        transform.rotation = Quaternion.Lerp(transform.rotation, correctPlayerRot, Time.deltaTime * smoothingDelay);
+        barrel.rotation = Quaternion.Lerp(barrel.rotation, correctBarrelRot, Time.deltaTime * smoothingDelay);
     }
 
     private void Awake()
     {
-        // TODO: Initialize in the editor.
-        if (photonView != null)
+        if (photonView)
         {
-            photonView.observed = this;
-            barrel = transform.Find("Barrel");
             correctPlayerPos = transform.position;
             correctPlayerRot = transform.rotation;
             correctBarrelRot = barrel.rotation;
-            if (photonView.isMine)
-            {
-                firingPoint = barrel.Find("FiringPoint");
-                ballPoint = barrel.Find("BallPoint");
-                myCannonLine = ballPoint.GetComponent<LineRenderer>();
-                if (gameObject.name.Contains("CannonGround"))
-                    isCannonGround = true;
-            }
+
             if (PhotonNetwork.isMasterClient)
             {
                 var owner = photonView.owner;
@@ -223,7 +231,7 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
 
     private void Fire()
     {
-        if (myHero.skillCDDuration <= 0f)
+        if (Hero.skillCDDuration <= 0f)
         {
             var boom = PhotonNetwork.Instantiate("FX/boom2", firingPoint.position, firingPoint.rotation, 0);
             var boomCheckColliders = boom.GetComponentsInChildren<EnemyCheckCollider>();
@@ -231,13 +239,13 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
             foreach (var collider in boomCheckColliders)
                 collider.dmg = 0;
 
-            myCannonBall = CannonBall.Create(ballPoint.position,
+            CannonBall.Create(ballPoint.position,
                 firingPoint.rotation,
                 firingPoint.forward * 300f,
                 this,
-                myHero.photonView.viewID).gameObject;
+                Hero.photonView.viewID);
 
-            myHero.skillCDDuration = 3.5f;
+            Hero.skillCDDuration = 3.5f;
         }
     }
 
@@ -250,16 +258,47 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
             {
                 if (strArray.Length > 15)
                 {
-                    var cannon = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0).GetComponent<UnmannedCannon>();
+                    var cannon = PhotonNetwork.Instantiate(
+                        "RC Resources/RC Prefabs/" + "Unmanned" + strArray[1],
+                        new Vector3(
+                            Convert.ToSingle(strArray[12]),
+                            Convert.ToSingle(strArray[13]),
+                            Convert.ToSingle(strArray[14])),
+                        new Quaternion(
+                            Convert.ToSingle(strArray[15]),
+                            Convert.ToSingle(strArray[0x10]),
+                            Convert.ToSingle(strArray[0x11]),
+                            Convert.ToSingle(strArray[0x12])), 0).GetComponent<UnmannedCannon>();
                     cannon.settings = settings;
                     cannon.photonView.RPC<string, PhotonMessageInfo>(cannon.SetSize, PhotonTargets.AllBuffered, settings);
                 }
                 else
                 {
-                    PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<UnmannedCannon>().settings = settings;
+                    PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(
+                        Convert.ToSingle(strArray[2]),
+                        Convert.ToSingle(strArray[3]),
+                        Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<UnmannedCannon>().settings = settings;
                 }
             }
         }
+    }
+
+    private void Reset()
+    {
+        // Yes, this is null when the component is first added.
+        if (photonView.ObservedComponents == null)
+            photonView.ObservedComponents = new List<Component>();
+
+        photonView.ObservedComponents.Remove(this);
+        photonView.ObservedComponents.Add(this);
+
+        barrel = transform.Find("Barrel");
+        firingPoint = barrel.Find("FiringPoint");
+        ballPoint = barrel.Find("BallPoint");
+        myCannonLine = ballPoint.GetComponent<LineRenderer>();
+
+        if (gameObject.name.Contains("CannonGround"))
+            isCannonGround = true;
     }
 
     private void TryUnmount()
@@ -267,14 +306,14 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
         if (!photonView.isMine)
             return;
 
-        if (myHero != null)
+        if (Hero)
         {
-            myHero.isCannon = false;
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(myHero.gameObject, true, false);
-            myHero.baseRigidBody.velocity = Vector3.zero;
-            myHero.photonView.RPC<PhotonMessageInfo>(myHero.ReturnFromCannon, PhotonTargets.Others);
-            myHero.skillCDLast = myHero.skillCDLastCannon;
-            myHero.skillCDDuration = myHero.skillCDLast;
+            Hero.isCannon = false;
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(Hero.gameObject, true, false);
+            Hero.baseRigidBody.velocity = Vector3.zero;
+            Hero.photonView.RPC<PhotonMessageInfo>(Hero.ReturnFromCannon, PhotonTargets.Others);
+            Hero.skillCDLast = Hero.skillCDLastCannon;
+            Hero.skillCDDuration = Hero.skillCDLast;
         }
 
         PhotonNetwork.Destroy(gameObject);
@@ -285,6 +324,6 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
         if (photonView.isMine)
             ApplyPlayerInput();
         else
-            ApplyPredictedPosition();
+            ApplyPredictedTransform();
     }
 }

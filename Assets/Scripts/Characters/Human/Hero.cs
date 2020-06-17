@@ -4398,7 +4398,7 @@ public class Hero : Human
             this.myCannonBase = this.myCannon.transform;
             this.myCannonPlayer = this.myCannon.transform.Find("PlayerPoint");
             this.isCannon = true;
-            this.myCannon.GetComponent<Cannon>().myHero = this;
+            this.myCannon.GetComponent<Cannon>().Hero = this;
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
             Camera.main.fieldOfView = 55f;
             photonView.RPC<int, PhotonMessageInfo>(SetMyCannon, PhotonTargets.OthersBuffered, myCannon.GetPhotonView().viewID);
