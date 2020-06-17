@@ -43,7 +43,6 @@ public sealed class CannonBall : Photon.MonoBehaviour
             position,
             rotation,
             0).GetComponent<CannonBall>();
-        instance.rb = instance.GetComponent<Rigidbody>();
         instance.rb.velocity = velocity;
         instance.cannon = cannon;
         instance.heroViewId = heroViewId;
@@ -79,6 +78,7 @@ public sealed class CannonBall : Photon.MonoBehaviour
         correctPos = transform.position;
         correctVelocity = Vector3.zero;
 
+        rb = GetComponent<Rigidbody>();
         coll = GetComponent<SphereCollider>();
         coll.enabled = false;
 
