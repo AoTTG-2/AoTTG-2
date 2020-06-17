@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,23 +30,28 @@ public sealed class InteractionWheel : MonoBehaviour
 
     private IEnumerator SpawnButtons()
     {
-        var interactables = InteractionManager.Interactables;
-        var enumerator = interactables.GetEnumerator();
-        for (var i = 0; enumerator.MoveNext(); i++)
+        // Making a copy, so that we can enumerate safely.
+        // What is the expected behaviour when the number of
+        // interactables changes while spawning buttons?
+        var interactables = new List<Interactable>(InteractionManager.Interactables);
+        using (var enumerator = interactables.GetEnumerator())
         {
-            var interactable = enumerator.Current;
-            var newButton = Instantiate(ButtonPrefab);
-            newButton.transform.SetParent(transform, false);
-            newButton.InteractionWheel = this;
-            newButton.MyAction = interactable;
-            newButton.Icon.sprite = interactable.Icon;
-            var theta = (2 * Mathf.PI / interactables.Count) * i++;
-            var xPos = Mathf.Sin(theta);
-            var yPos = Mathf.Cos(theta);
-            newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 200f;
-            newButton.InteractionWheel = this;
-            newButton.Animate();
-            yield return new WaitForSeconds(.05f);
+            for (var i = 0; enumerator.MoveNext(); i++)
+            {
+                var interactable = enumerator.Current;
+                var newButton = Instantiate(ButtonPrefab);
+                newButton.transform.SetParent(transform, false);
+                newButton.InteractionWheel = this;
+                newButton.MyAction = interactable;
+                newButton.Icon.sprite = interactable.Icon;
+                var theta = (2 * Mathf.PI / interactables.Count) * i++;
+                var xPos = Mathf.Sin(theta);
+                var yPos = Mathf.Cos(theta);
+                newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 200f;
+                newButton.InteractionWheel = this;
+                newButton.Animate();
+                yield return new WaitForSeconds(.05f);
+            }
         }
     }
 
