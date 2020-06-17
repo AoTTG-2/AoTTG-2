@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TextureManager : MonoBehaviour
+public class CharacterTextures : MonoBehaviour
 {
     [SerializeField] private List<Material> textures;
-    private MeshRenderer meshRenderer;
-
-    private void Awake()
-    {
-        meshRenderer = gameObject.GetComponent<MeshRenderer>();
-    }
 
     public void SetTexture(int newTextureID)
     {
         if (newTextureID >= textures.Count)
             throw new IndexOutOfRangeException(message: "Invalid texture id: " + newTextureID);
 
-        meshRenderer.material = textures[newTextureID];
+        foreach (Renderer childRenderer in gameObject.transform)
+            childRenderer.material = textures[newTextureID];
     }
 
     public List<string> GetTextureNames()

@@ -83,7 +83,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4330986227865046}
-  - component: {fileID: 114179421057965612}
+  - component: {fileID: 114254348950474840}
   m_Layer: 0
   m_Name: Uniform Male Collar
   m_TagString: Untagged
@@ -160,7 +160,7 @@ Transform:
   m_Father: {fileID: 4330986227865046}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114179421057965612
+--- !u!114 &114254348950474840
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -168,10 +168,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1916515139703568}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1849fb0d114d0ab46b4b0a4d074b0aa5, type: 3}
+  m_Script: {fileID: 11500000, guid: 45e9e726566e3194887d0c4394cc04a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   textures:
   - {fileID: 2100000, guid: 45f1d477477d29d44a4269bdfcc40396, type: 2}
   - {fileID: 2100000, guid: 98a43ed58476df347848b8794b88d463, type: 2}
