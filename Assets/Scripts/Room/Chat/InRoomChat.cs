@@ -7,6 +7,7 @@ using static ChatUtility;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Net;
 
 public class InRoomChat : Photon.MonoBehaviour
 {
@@ -79,7 +80,7 @@ public class InRoomChat : Photon.MonoBehaviour
             if (MarkupIsOk(message))
             {
                 var chatMessage = new object[] { message, SetNameColorDependingOnteam(PhotonNetwork.player) };
-                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                instance.photonView.RPC(ChatRPC, PhotonTargets.All, chatMessage);
             }
             else
             {
@@ -168,7 +169,10 @@ public class InRoomChat : Photon.MonoBehaviour
     /// <returns></returns>
     private bool MarkupIsOk(string message)
     {
-        return Regex.Matches(message, "[<,>]").Count % 2 == 0;
+        var countOpeningTags = Regex.Matches(message, @"<\w+.{0,2}\w+>").Count;
+        var countClosingTags =  Regex.Matches(message, @"<\W{1}\w+>").Count;
+
+        return countOpeningTags == countClosingTags;
     }
 
     /// <summary>
@@ -196,7 +200,7 @@ public class InRoomChat : Photon.MonoBehaviour
     }
 
     /// <summary>
-    /// Formats text as <color=#FF0000>Error: {input}</color>
+    /// Formats text as <color=#FF0000>Error: {input}</color> and outputs to chat
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
