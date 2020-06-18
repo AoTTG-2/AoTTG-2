@@ -310,7 +310,6 @@
      <Compile Include="Assets\Scripts\Settings\Language.cs" />
      <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
      <Compile Include="Assets\Scripts\UI\AottgUi.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\CAMERA_TYPE.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CameraFacingBillboard.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CameraForLeftEye.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\CameraShake.cs" />
@@ -319,6 +318,7 @@
      <Compile Include="Assets\Scripts\UI\Camera\PlanetMouseOrbit.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\SpectatorMovement.cs" />
      <Compile Include="Assets\Scripts\UI\Camera\STEREO_3D_TYPE.cs" />
+     <Compile Include="Assets\Scripts\UI\CameraMode.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\Command.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\CommandHandler.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\CommandsGUI.cs" />
@@ -332,18 +332,23 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\SettingsGUI.cs" />
+     <Compile Include="Assets\Scripts\UI\CursorMode.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiCheckbox.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiDropdown.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiElementAttribute.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\UiInput.cs" />
+     <Compile Include="Assets\Scripts\UI\GameCursor.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\GameSettingMenu.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\Graphics\FPSLimiter.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\Graphics\GeneralGraphics.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsController.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsEnums.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicSettingMenu.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\Graphics\QualitySwitcher.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\Graphics\ResolutionSwitcher.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\HUD\FPSCounter.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\HUD.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\KillInfo.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\HUD\Labels.cs" />
@@ -351,6 +356,7 @@
      <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\InGameMenu.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\InGameUi.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\RegistrationCounter.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\ServerSettingsPage.cs" />
      <Compile Include="Assets\Scripts\UI\InGame\SpawnMenu.cs" />
      <Compile Include="Assets\Scripts\UI\Interaction Wheel\InteractionWheel.cs" />
@@ -360,6 +366,7 @@
      <Compile Include="Assets\Scripts\UI\Menu\ImportingContributorsList.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\Menu\MenuManager.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\RoomRow.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\ScrollingScrollView.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\Singleplayer.cs" />

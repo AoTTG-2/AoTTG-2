@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
-using UnityEngine;
 
-[CustomEditor(typeof(CharacterSpriteSheet))]
+[CustomEditor(typeof(CharacterSpriteSheet)), CanEditMultipleObjects]
 public class CharacterSpriteSheetEditor : Editor
 {
     private SerializedProperty spriteMaterial;

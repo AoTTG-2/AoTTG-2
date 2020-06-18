@@ -45879,11 +45879,6 @@ MonoBehaviour:
   snapShotCamera: {fileID: 2027999944}
   snapshotRT: {fileID: 0}
   spectatorMode: 0
-  target: {fileID: 0}
-  texture: {fileID: 0}
-  timer: 0
-  xSpeed: -3
-  ySpeed: -0.8
 --- !u!114 &3240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46138,6 +46133,7 @@ MonoBehaviour:
   GeneralGraphic: {fileID: 1373198428}
   QualitySwitcher: {fileID: 18702693}
   ResolutionSwitcher: {fileID: 1586204447}
+  FPSLimiter: {fileID: 0}
   label: {fileID: 1832384813}
   CustomSettings: {fileID: 174910915}
 --- !u!114 &3016765
@@ -51093,6 +51089,7 @@ MonoBehaviour:
   HUD: {fileID: 1000715036}
   Menu: {fileID: 1054417923}
   SpawnMenu: {fileID: 1480323881}
+  GraphicSettingMenu: {fileID: 0}
 --- !u!1 &304578117
 GameObject:
   m_ObjectHideFlags: 0
@@ -56063,7 +56060,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000039044786, y: 300}
+  m_AnchoredPosition: {x: 0.000039044786, y: -0.000017895356}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &692447671
@@ -61182,7 +61179,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4649162642801782, guid: 657d98fbb8f40be4ba152e81e619dac4, type: 2}
       propertyPath: m_RootOrder
-      value: 14
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114687760569500932, guid: 657d98fbb8f40be4ba152e81e619dac4,
         type: 2}
@@ -61669,7 +61666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameSettingsMenu: {fileID: 65975775}
-  GraphicSettingsMenu: {fileID: 2111966061}
+  GraphicsView: {fileID: 0}
 --- !u!224 &1054417924
 RectTransform:
   m_ObjectHideFlags: 0
@@ -62709,8 +62706,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1430843759}
   m_HandleRect: {fileID: 1430843758}
   m_Direction: 2
-  m_Value: 0.00000010172526
-  m_Size: 0
+  m_Value: 0
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -65939,6 +65936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6aabd438724f44a8fada887c9aa7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VSyncCheck: {fileID: 0}
   textureQuality: {fileID: 1778738818}
   shadowRes: {fileID: 990051879}
   antiAliasing: {fileID: 1403668359}
@@ -68352,7 +68350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000091552734, y: 0.000013947989}
+  m_AnchoredPosition: {x: 0.000091552734, y: -0.000053987053}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1502454003
@@ -69147,8 +69145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ec6172e018f6a4c826b7737e2ada57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropdown: {fileID: 1313519193}
-  toggle: {fileID: 421575413}
+  Dropdown: {fileID: 0}
+  Toggle: {fileID: 0}
   DropDownLabel: {fileID: 2044455845}
 --- !u!1 &1594389164
 GameObject:
@@ -76831,8 +76829,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GraphicController: {fileID: 3016764}
   Menu: {fileID: 1054417923}
-  QualityMenu: {fileID: 994406064}
-  ResolutionMenu: {fileID: 1586204444}
 --- !u!224 &2111966062
 RectTransform:
   m_ObjectHideFlags: 0

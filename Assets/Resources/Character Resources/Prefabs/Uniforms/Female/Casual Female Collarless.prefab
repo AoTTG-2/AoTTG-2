@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4323849698371448}
   - component: {fileID: 33956218144012442}
   - component: {fileID: 23188786630553138}
-  - component: {fileID: 114890934489503170}
   m_Layer: 0
   m_Name: Handle Holster Female
   m_TagString: Untagged
@@ -54,6 +53,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4774360764966170}
   - component: {fileID: 114309355206852568}
+  - component: {fileID: 114792327775686926}
   m_Layer: 0
   m_Name: Casual Female Collarless
   m_TagString: Untagged
@@ -246,18 +246,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: d8fdd904e3b12be469c93dda9c80a4a5, type: 2}
---- !u!114 &114890934489503170
+--- !u!114 &114792327775686926
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1021510784446438}
+  m_GameObject: {fileID: 1638943416956814}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentBone: 3
+  attachPoints:
+  - targetObject: {fileID: 1021510784446438}
+    parentBone: 3
 --- !u!137 &137189567456529204
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4776296294699850}
   - component: {fileID: 33923353550962154}
   - component: {fileID: 23778328280022626}
-  - component: {fileID: 114235699487595170}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -86,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4785871634939968}
   - component: {fileID: 114919485318934204}
+  - component: {fileID: 114495153469371394}
   m_Layer: 0
   m_Name: Body AHSS
   m_TagString: Untagged
@@ -203,18 +203,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1441527562450626}
   m_Mesh: {fileID: 4300000, guid: 4c2c79da0d7920e4f91b457470bb7396, type: 2}
---- !u!114 &114235699487595170
+--- !u!114 &114495153469371394
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1441527562450626}
+  m_GameObject: {fileID: 1926261778399176}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentBone: 5
+  attachPoints:
+  - targetObject: {fileID: 1441527562450626}
+    parentBone: 5
 --- !u!114 &114919485318934204
 MonoBehaviour:
   m_ObjectHideFlags: 1

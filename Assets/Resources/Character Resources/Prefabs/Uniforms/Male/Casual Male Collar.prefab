@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4668775348301640}
   - component: {fileID: 33744253640378130}
   - component: {fileID: 23735757663017874}
-  - component: {fileID: 114915310853863412}
   m_Layer: 0
   m_Name: Handle Holster Male
   m_TagString: Untagged
@@ -86,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4433150857406972}
   - component: {fileID: 114585470798624294}
+  - component: {fileID: 114411238453046574}
   m_Layer: 0
   m_Name: Casual Male Collar
   m_TagString: Untagged
@@ -233,6 +233,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1118327253292964}
   m_Mesh: {fileID: 4300000, guid: 5ecc505651ddb7f4497d135325def22c, type: 2}
+--- !u!114 &114411238453046574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1655299866491018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachPoints:
+  - targetObject: {fileID: 1118327253292964}
+    parentBone: 3
 --- !u!114 &114585470798624294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,18 +262,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0bfe78540697d1247bcf4f5abbb47141, type: 2}
   - {fileID: 2100000, guid: f14487438ec2eb04ba04ddcb457c8f78, type: 2}
   - {fileID: 2100000, guid: 503f9f2e18d7c6445849620b2aaa2214, type: 2}
---- !u!114 &114915310853863412
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1118327253292964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentBone: 3
 --- !u!137 &137212281857630516
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 //Defines what bone this object will be parented to
 public class ArmatureAttachment : MonoBehaviour
@@ -28,20 +30,27 @@ public class ArmatureAttachment : MonoBehaviour
         foot_R
     }
 
-    [SerializeField] private ArmatureBone parentBone;
-    private string boneName;
-
-    //Convert the selected enum to a string
-    private void Awake()
+    [Serializable]
+    private struct AttachPoint
     {
-        boneName = parentBone.ToString();
+        [SerializeField] private GameObject targetObject;
+        [SerializeField] private ArmatureBone parentBone;
+
+        public void AttachToArmature(ArmatureData armature)
+        {
+            string boneName = parentBone.ToString();
+            //Use the bone name string to get the corresponding game object
+            GameObject parentBone2 = (GameObject) typeof(ArmatureData).GetProperty(boneName).GetValue(armature, null);
+            //Parent the object to the bone
+            targetObject.transform.parent = parentBone2.transform;
+        }
     }
+
+    [SerializeField] List<AttachPoint> attachPoints;
 
     public void AttachToArmature(ArmatureData armature)
     {
-        //Use the bone name string to get the corresponding game object
-        GameObject parentBone = (GameObject) typeof(ArmatureData).GetProperty(boneName).GetValue(armature, null);
-        //Parent the object to the bone
-        gameObject.transform.parent = parentBone.transform;
+        foreach (AttachPoint attachPoints in attachPoints)
+            attachPoints.AttachToArmature(armature);
     }
 }

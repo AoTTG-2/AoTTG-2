@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ArmatureData))]
+[CustomEditor(typeof(ArmatureData)), CanEditMultipleObjects]
 public class ArmatureDataEditor : Editor
 {
     private ArmatureData script;

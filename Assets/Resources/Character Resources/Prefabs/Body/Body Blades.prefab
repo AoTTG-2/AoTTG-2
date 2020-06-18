@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4708465852329364}
   - component: {fileID: 114823572122382600}
+  - component: {fileID: 114113423942027384}
   m_Layer: 0
   m_Name: Body Blades
   m_TagString: Untagged
@@ -53,7 +54,6 @@ GameObject:
   - component: {fileID: 4114950609645168}
   - component: {fileID: 33163765943123918}
   - component: {fileID: 23567914977202624}
-  - component: {fileID: 114637936437554234}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -203,18 +203,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1895101471615922}
   m_Mesh: {fileID: 4300000, guid: 4c2c79da0d7920e4f91b457470bb7396, type: 2}
---- !u!114 &114637936437554234
+--- !u!114 &114113423942027384
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1895101471615922}
+  m_GameObject: {fileID: 1274847216027988}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentBone: 5
+  attachPoints:
+  - targetObject: {fileID: 1895101471615922}
+    parentBone: 5
 --- !u!114 &114823572122382600
 MonoBehaviour:
   m_ObjectHideFlags: 1

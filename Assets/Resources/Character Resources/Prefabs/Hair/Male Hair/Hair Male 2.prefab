@@ -106,4 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentBone: 5
+  attachPoints:
+  - targetObject: {fileID: 1688342689487556}
+    parentBone: 5
