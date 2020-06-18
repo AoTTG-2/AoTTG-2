@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4393329432103692}
   - component: {fileID: 33096163819458860}
   - component: {fileID: 23352033404549756}
+  - component: {fileID: 114136503989819244}
   m_Layer: 0
   m_Name: Hood Casual
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 37778b967813b224682525c13a78d7e9, type: 2}
+  - {fileID: 2100000, guid: 58858b47846f9bb4fa10b90f92c2eece, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411354810838386}
   m_Mesh: {fileID: 4300000, guid: aebe495301fb1d14fb7ed5561b30f35d, type: 2}
+--- !u!114 &114136503989819244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1411354810838386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 3

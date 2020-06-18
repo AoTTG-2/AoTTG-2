@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 4623841569671176}
   - component: {fileID: 33477697254342704}
   - component: {fileID: 23492512367412706}
+  - component: {fileID: 114514841995308232}
   m_Layer: 0
   m_Name: Handle Holster Female
   m_TagString: Untagged
@@ -232,6 +233,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1483172457841650}
   m_Mesh: {fileID: 4300000, guid: c0ea79076d5bc2942b013029fc3e0a11, type: 2}
+--- !u!114 &114514841995308232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483172457841650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 3
 --- !u!114 &114748452068316122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -243,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e9e726566e3194887d0c4394cc04a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
+  materials:
   - {fileID: 2100000, guid: a549dc0e976bd694fa2ec83336bd2412, type: 2}
   - {fileID: 2100000, guid: f01da0fc1b66e254089846d057604ede, type: 2}
   - {fileID: 2100000, guid: 5c323e94e0229fb4c85142f961d0188f, type: 2}

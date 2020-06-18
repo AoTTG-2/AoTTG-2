@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 33259141132316340}
   - component: {fileID: 23008790133516390}
   - component: {fileID: 114847256233851444}
+  - component: {fileID: 114689565486686750}
   m_Layer: 0
   m_Name: Mouth
   m_TagString: Untagged
@@ -55,6 +56,7 @@ GameObject:
   - component: {fileID: 33375973239710982}
   - component: {fileID: 23129256678352484}
   - component: {fileID: 114802488542915676}
+  - component: {fileID: 114083626761445204}
   m_Layer: 0
   m_Name: Eyes
   m_TagString: Untagged
@@ -73,6 +75,7 @@ GameObject:
   - component: {fileID: 33963735267803810}
   - component: {fileID: 23618062826599022}
   - component: {fileID: 114423929712482018}
+  - component: {fileID: 114186790528091090}
   m_Layer: 0
   m_Name: Glasses
   m_TagString: Untagged
@@ -258,6 +261,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705973659096334}
   m_Mesh: {fileID: 4300000, guid: 74d8a5479f62bf8439dcb66d8e3c1ce7, type: 2}
+--- !u!114 &114083626761445204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686496715749940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 5
+--- !u!114 &114186790528091090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1705973659096334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 5
 --- !u!114 &114423929712482018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,6 +303,18 @@ MonoBehaviour:
   startRow: 0
   endColumn: 5
   endRow: 4
+--- !u!114 &114689565486686750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1325984322900300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 5
 --- !u!114 &114802488542915676
 MonoBehaviour:
   m_ObjectHideFlags: 1

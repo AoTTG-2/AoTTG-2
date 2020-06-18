@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4516319779205248}
   - component: {fileID: 137765239178245316}
   - component: {fileID: 114688052671736282}
+  - component: {fileID: 114155936908866730}
   m_Layer: 0
   m_Name: Cape
   m_TagString: Untagged
@@ -41,6 +42,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114155936908866730
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1123234853521720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 3
 --- !u!114 &114688052671736282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,11 +65,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e9e726566e3194887d0c4394cc04a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
-  - {fileID: 2100000, guid: 308c2a909a20f204284aad449724d3f8, type: 2}
-  - {fileID: 2100000, guid: e0527a16ff383cd4fba1cc7712337015, type: 2}
-  - {fileID: 2100000, guid: 94adfb61c2ab4574fb4c6bcd4c3cb263, type: 2}
-  - {fileID: 2100000, guid: 5f0167d13f1cdcd4a87de3eae9dde312, type: 2}
+  materials:
+  - {fileID: 2100000, guid: 84dbb2b5a326d2a4da7b9b56d250200a, type: 2}
+  - {fileID: 2100000, guid: 61dac9de3e30f2b47a9d8191341675fb, type: 2}
+  - {fileID: 2100000, guid: b24dfb94a49cb4d4d9510038821804dc, type: 2}
+  - {fileID: 2100000, guid: b1353e80b53778c47b88b1058f29c99a, type: 2}
 --- !u!137 &137765239178245316
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

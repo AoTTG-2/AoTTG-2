@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4412725056872130}
   - component: {fileID: 33771045439523724}
   - component: {fileID: 23657707693981100}
+  - component: {fileID: 114543222172254314}
   m_Layer: 0
   m_Name: Handle Holster Male
   m_TagString: Untagged
@@ -243,8 +244,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e9e726566e3194887d0c4394cc04a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
-  - {fileID: 2100000, guid: 10157ced2d5f96042aaf340b43d1f139, type: 2}
+  materials:
+  - {fileID: 2100000, guid: 29e383390572adc44a576de812bc0dec, type: 2}
+  - {fileID: 2100000, guid: 874e5ea2816245b409bcf00a91d9f213, type: 2}
+  - {fileID: 2100000, guid: 5055a0063afade64098166cb451a7da6, type: 2}
+  - {fileID: 2100000, guid: 30beacef5dfce134f8f0a74dc6cb0c88, type: 2}
+--- !u!114 &114543222172254314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1097450163524540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 3
 --- !u!137 &137100791689400788
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

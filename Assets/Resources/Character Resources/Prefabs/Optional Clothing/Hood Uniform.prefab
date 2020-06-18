@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4054724738454318}
   - component: {fileID: 33959186205874318}
   - component: {fileID: 23767782918283662}
+  - component: {fileID: 114116947212723716}
   m_Layer: 0
   m_Name: Hood Uniform
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: f93d8b1908cfc2e4eb0ef01b6c9e6b2a, type: 2}
+  - {fileID: 2100000, guid: 94094f3baaf5fe043bd44652c9eb3979, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1921702603798722}
   m_Mesh: {fileID: 4300000, guid: 392f18dcacc860243b8d5fc39edc9a72, type: 2}
+--- !u!114 &114116947212723716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1921702603798722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 3

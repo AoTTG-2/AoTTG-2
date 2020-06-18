@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33759421605950048}
   - component: {fileID: 23662454640350654}
   - component: {fileID: 114060234327581678}
+  - component: {fileID: 114916638797319410}
   m_Layer: 0
   m_Name: Hair Male 1
   m_TagString: Untagged
@@ -94,5 +95,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  sex: 0
+--- !u!114 &114916638797319410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1984872560578820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 5

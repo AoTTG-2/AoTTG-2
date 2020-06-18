@@ -83,7 +83,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4587259597275002}
-  - component: {fileID: 114914372413644152}
+  - component: {fileID: 114785702320611228}
   m_Layer: 0
   m_Name: Emblems Male
   m_TagString: Untagged
@@ -160,7 +160,7 @@ Transform:
   m_Father: {fileID: 4587259597275002}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114914372413644152
+--- !u!114 &114785702320611228
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -168,14 +168,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1978875496654482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1849fb0d114d0ab46b4b0a4d074b0aa5, type: 3}
+  m_Script: {fileID: 11500000, guid: 45e9e726566e3194887d0c4394cc04a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  materials:
+  - {fileID: 2100000, guid: 84dbb2b5a326d2a4da7b9b56d250200a, type: 2}
+  - {fileID: 2100000, guid: 61dac9de3e30f2b47a9d8191341675fb, type: 2}
+  - {fileID: 2100000, guid: b24dfb94a49cb4d4d9510038821804dc, type: 2}
+  - {fileID: 2100000, guid: b1353e80b53778c47b88b1058f29c99a, type: 2}
 --- !u!137 &137121532217556860
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

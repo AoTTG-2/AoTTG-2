@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33442117589775516}
   - component: {fileID: 23868225486429930}
   - component: {fileID: 114397073295789120}
+  - component: {fileID: 114762065462379696}
   m_Layer: 0
   m_Name: Hair Female 5
   m_TagString: Untagged
@@ -124,7 +125,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b33e2b9abbe00e498678c37bb073c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 14
+--- !u!114 &114762065462379696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1217253025670430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f33af5ae1c363c4081d28d21ff5623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBone: 5
 --- !u!137 &137303711356591782
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

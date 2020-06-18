@@ -2,7 +2,6 @@
 using UnityEngine;
 
 //Sets and stores the references to the bone transforms in a humanoid armature
-[ExecuteInEditMode]
 public class ArmatureData : MonoBehaviour
 {
     //The parent Game Object of the armature hierarchy 
