@@ -29,7 +29,6 @@ namespace Assets.Scripts.UI.InGame
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
-            GraphicSettingsMenu.gameObject.SetActive(false);
             GraphicsView.gameObject.SetActive(false);
 
             MenuManager.RegisterClosed();
