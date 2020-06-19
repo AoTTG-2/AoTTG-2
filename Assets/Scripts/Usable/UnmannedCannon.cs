@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Interactable), typeof(PhotonView))]
-public sealed class UnmannedCannon : Photon.MonoBehaviour, IInteractable
+[RequireComponent(typeof(PhotonView))]
+public sealed class UnmannedCannon : Photon.MonoBehaviour
 {
     public bool destroyed;
     public bool disabled;
@@ -22,13 +22,6 @@ public sealed class UnmannedCannon : Photon.MonoBehaviour, IInteractable
 
     [SerializeField]
     private CannonType type = CannonType.Ground;
-
-    string IInteractable.DefaultIconPath => string.Empty;
-
-    public void OnInteracted(GameObject player)
-    {
-        TryMount(player.GetPhotonView().viewID);
-    }
 
     [PunRPC]
     public void RequestMountRPC(int viewID, PhotonMessageInfo info)
@@ -115,6 +108,12 @@ public sealed class UnmannedCannon : Photon.MonoBehaviour, IInteractable
         }
     }
 
+    public void TryMount(GameObject player)
+    {
+        var playerViewID = player.GetPhotonView().viewID;
+        photonView.RPC<int, PhotonMessageInfo>(RequestMountRPC, PhotonTargets.MasterClient, playerViewID);
+    }
+
     private void OnValidate()
     {
         if (autoGenerateSettings)
@@ -140,11 +139,6 @@ public sealed class UnmannedCannon : Photon.MonoBehaviour, IInteractable
     {
         if ((int) FengGameManagerMKII.settings[0x40] >= 100)
             GetComponent<Collider>().enabled = false;
-    }
-
-    private void TryMount(int playerViewID)
-    {
-        photonView.RPC<int, PhotonMessageInfo>(RequestMountRPC, PhotonTargets.MasterClient, playerViewID);
     }
 
     private IEnumerator WaitAndEnable()

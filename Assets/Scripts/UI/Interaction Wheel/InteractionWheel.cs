@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,10 +31,8 @@ public sealed class InteractionWheel : MonoBehaviour
 
     private IEnumerator SpawnButtons()
     {
-        // Making a copy, so that we can enumerate safely.
-        // What is the expected behaviour when the number of
-        // interactables changes while spawning buttons?
-        var interactables = new List<Interactable>(InteractionManager.Interactables);
+        var interactables = InteractionManager.AvailableInteractables;
+        var count = interactables.Count();
         using (var enumerator = interactables.GetEnumerator())
         {
             for (var i = 0; enumerator.MoveNext(); i++)
@@ -44,7 +43,7 @@ public sealed class InteractionWheel : MonoBehaviour
                 newButton.InteractionWheel = this;
                 newButton.MyAction = interactable;
                 newButton.Icon.sprite = interactable.Icon;
-                var theta = (2 * Mathf.PI / interactables.Count) * i++;
+                var theta = (2 * Mathf.PI / count) * i;
                 var xPos = Mathf.Sin(theta);
                 var yPos = Mathf.Cos(theta);
                 newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 200f;

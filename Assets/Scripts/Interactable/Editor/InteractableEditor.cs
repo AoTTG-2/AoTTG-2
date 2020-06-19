@@ -5,8 +5,8 @@ using UnityEngine;
 public sealed class InteractableEditor : Editor
 {
     private static readonly GUIContent
-        AddButton = new GUIContent("Add Components"),
-        RemoveButton = new GUIContent("Remove Components");
+        AddButton = new GUIContent("Create Collider"),
+        RemoveButton = new GUIContent("Destroy Collider");
 
     private new Interactable target;
 
@@ -15,10 +15,10 @@ public sealed class InteractableEditor : Editor
         DrawDefaultInspector();
 
         if (GUILayout.Button(AddButton))
-            target.AddComponents();
+            target.TryCreateCollider();
 
         if (GUILayout.Button(RemoveButton))
-            target.RemoveComponents();
+            target.TryDestroyCollider();
     }
 
     private void OnEnable()

@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Interactable))]
-public sealed class SupplyStation : MonoBehaviour, IInteractable
+public sealed class SupplyStation : MonoBehaviour
 {
-    string IInteractable.DefaultIconPath => "ui/Minimap/Supply Station";
-
-    public void OnInteracted(GameObject player)
+    public void Interact(GameObject player)
     {
         var hero = player.GetComponent<Hero>();
         Debug.Assert(hero != null, "Interacted event did not send a player.");
@@ -15,5 +13,10 @@ public sealed class SupplyStation : MonoBehaviour, IInteractable
             "Interactable should only act on local player.");
 
         hero.getSupply();
+    }
+
+    private void Reset()
+    {
+        GetComponent<Interactable>().SetDefaults("Resupply", "ui/Minimap/Supply Station", Interact);
     }
 }

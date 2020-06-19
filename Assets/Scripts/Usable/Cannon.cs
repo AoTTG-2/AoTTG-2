@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Interactable), typeof(PhotonView))]
-public sealed class Cannon : Photon.MonoBehaviour, IInteractable
+public sealed class Cannon : Photon.MonoBehaviour
 {
     [HideInInspector]
     public Hero Hero;
@@ -35,13 +35,6 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
 
     [SerializeField]
     private float smoothingDelay = 5f;
-
-    string IInteractable.DefaultIconPath => string.Empty;
-
-    public void OnInteracted(GameObject player)
-    {
-        TryUnmount();
-    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -123,6 +116,24 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
                 }
             }
         }
+    }
+
+    public void TryUnmount(GameObject _)
+    {
+        if (!photonView.isMine)
+            return;
+
+        if (Hero)
+        {
+            Hero.isCannon = false;
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(Hero.gameObject, true, false);
+            Hero.baseRigidBody.velocity = Vector3.zero;
+            Hero.photonView.RPC<PhotonMessageInfo>(Hero.ReturnFromCannon, PhotonTargets.Others);
+            Hero.skillCDLast = Hero.skillCDLastCannon;
+            Hero.skillCDDuration = Hero.skillCDLast;
+        }
+
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void ApplyPlayerInput()
@@ -274,10 +285,16 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
                 }
                 else
                 {
-                    PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(
-                        Convert.ToSingle(strArray[2]),
-                        Convert.ToSingle(strArray[3]),
-                        Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<UnmannedCannon>().settings = settings;
+                    PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1],
+                        new Vector3(
+                            Convert.ToSingle(strArray[2]),
+                            Convert.ToSingle(strArray[3]),
+                            Convert.ToSingle(strArray[4])),
+                        new Quaternion(
+                            Convert.ToSingle(strArray[5]),
+                            Convert.ToSingle(strArray[6]),
+                            Convert.ToSingle(strArray[7]),
+                            Convert.ToSingle(strArray[8])), 0).GetComponent<UnmannedCannon>().settings = settings;
                 }
             }
         }
@@ -299,24 +316,8 @@ public sealed class Cannon : Photon.MonoBehaviour, IInteractable
 
         if (gameObject.name.Contains("CannonGround"))
             isCannonGround = true;
-    }
 
-    private void TryUnmount()
-    {
-        if (!photonView.isMine)
-            return;
-
-        if (Hero)
-        {
-            Hero.isCannon = false;
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(Hero.gameObject, true, false);
-            Hero.baseRigidBody.velocity = Vector3.zero;
-            Hero.photonView.RPC<PhotonMessageInfo>(Hero.ReturnFromCannon, PhotonTargets.Others);
-            Hero.skillCDLast = Hero.skillCDLastCannon;
-            Hero.skillCDDuration = Hero.skillCDLast;
-        }
-
-        PhotonNetwork.Destroy(gameObject);
+        GetComponent<Interactable>().SetDefaults("Unmount Cannon", (UnityEngine.Sprite) null, TryUnmount);
     }
 
     private void Update()

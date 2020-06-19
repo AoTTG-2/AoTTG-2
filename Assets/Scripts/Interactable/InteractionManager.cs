@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public sealed class InteractionManager : MonoBehaviour
@@ -7,7 +8,7 @@ public sealed class InteractionManager : MonoBehaviour
     private readonly HashSet<Interactable> interactables = new HashSet<Interactable>();
     private GameObject player;
 
-    public static IReadOnlyCollection<Interactable> Interactables => _instance.interactables;
+    public static IEnumerable<Interactable> AvailableInteractables => _instance.interactables.Where(i => i.Available);
 
     public static GameObject Player => _instance.player;
 
@@ -17,11 +18,9 @@ public sealed class InteractionManager : MonoBehaviour
     public static void Unregister(Interactable interactable) =>
         _instance?.interactables.Remove(interactable);
 
-    private static Interactable GetInteractable(GameObject gobj)
+    private static Interactable[] GetInteractables(GameObject gobj)
     {
-        var interactable = gobj.GetComponentInParent<Interactable>();
-        Debug.Assert(interactable != null, "Interactable expected in parent of GameObject with Interactable layer");
-        return interactable;
+        return gobj.GetComponentsInParent<Interactable>(true);
     }
 
     private void Awake()
@@ -33,13 +32,15 @@ public sealed class InteractionManager : MonoBehaviour
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.gameObject.layer == LayerMask.NameToLayer(Layer.Interactable))
-            Register(GetInteractable(coll.gameObject));
+            foreach (var interactable in GetInteractables(coll.gameObject))
+                Register(interactable);
     }
 
     private void OnTriggerExit(Collider coll)
     {
         if (coll.gameObject.layer == LayerMask.NameToLayer(Layer.Interactable))
-            Unregister(GetInteractable(coll.gameObject));
+            foreach (var interactable in GetInteractables(coll.gameObject))
+                Unregister(interactable);
     }
 
     private void RegisterSingleton()

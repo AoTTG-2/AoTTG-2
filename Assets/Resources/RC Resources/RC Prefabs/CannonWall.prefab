@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1538755201260910}
   m_IsPrefabParent: 1
+--- !u!1 &1014623503551804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4548194766867328}
+  - component: {fileID: 136480414573512012}
+  m_Layer: 20
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1484276733948914
 GameObject:
   m_ObjectHideFlags: 1
@@ -55,22 +71,6 @@ GameObject:
   - component: {fileID: 4995622772225128}
   m_Layer: 9
   m_Name: PlayerPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1756725145268810
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4123637484046936}
-  - component: {fileID: 136521985730096392}
-  m_Layer: 20
-  m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,19 +142,6 @@ Transform:
   m_Father: {fileID: 4142392679233386}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4123637484046936
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1756725145268810}
-  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children: []
-  m_Father: {fileID: 4142392679233386}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4142392679233386
 Transform:
   m_ObjectHideFlags: 1
@@ -168,7 +155,7 @@ Transform:
   - {fileID: 4012581142774912}
   - {fileID: 4916163470409828}
   - {fileID: 4995622772225128}
-  - {fileID: 4123637484046936}
+  - {fileID: 4548194766867328}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -184,6 +171,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4012581142774912}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4548194766867328
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1014623503551804}
+  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 4142392679233386}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4916163470409828
 Transform:
@@ -349,7 +349,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114656492443382982}
-        m_MethodName: OnInteracted
+        m_MethodName: TryUnmount
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -359,7 +359,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Interactable+InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   context: Unmount Cannon
   icon: {fileID: 0}
@@ -499,12 +499,12 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!136 &136521985730096392
+--- !u!136 &136480414573512012
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1756725145268810}
+  m_GameObject: {fileID: 1014623503551804}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1

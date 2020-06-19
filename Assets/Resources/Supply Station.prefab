@@ -62,6 +62,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1560233301426126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4815917461907462}
+  - component: {fileID: 136473831211729030}
+  m_Layer: 20
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1584339225200760
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,22 +108,6 @@ GameObject:
   - component: {fileID: 23804263836140167}
   m_Layer: 0
   m_Name: Cube_001
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1970071864400770
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4772571780375664}
-  - component: {fileID: 136154839342737286}
-  m_Layer: 20
-  m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,23 +153,10 @@ Transform:
   - {fileID: 4950937706690633}
   - {fileID: 4020352278917140}
   - {fileID: 4778909702170962}
-  - {fileID: 4772571780375664}
+  - {fileID: 4815917461907462}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -88.05862, z: 0}
---- !u!4 &4772571780375664
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1970071864400770}
-  m_LocalRotation: {x: -0, y: -0.6950263, z: -0, w: 0.7189844}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
-  m_Children: []
-  m_Father: {fileID: 4225133640910126}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4778909702170962
 Transform:
   m_ObjectHideFlags: 1
@@ -183,6 +170,19 @@ Transform:
   m_Father: {fileID: 4225133640910126}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 89.11101}
+--- !u!4 &4815917461907462
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560233301426126}
+  m_LocalRotation: {x: -0, y: -0.6950263, z: -0, w: 0.7189844}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Children: []
+  m_Father: {fileID: 4225133640910126}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4950937706690633
 Transform:
   m_ObjectHideFlags: 1
@@ -327,7 +327,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114418006871269466}
-        m_MethodName: OnInteracted
+        m_MethodName: Interact
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -337,16 +337,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Interactable+InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  context: Supply Station
+  context: Resupply
   icon: {fileID: 21300000, guid: f8e666e3a7f15da4c87d485d618f7402, type: 3}
---- !u!136 &136154839342737286
+--- !u!136 &136473831211729030
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1970071864400770}
+  m_GameObject: {fileID: 1560233301426126}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1

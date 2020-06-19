@@ -11,6 +11,24 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1444267864049472}
   m_IsPrefabParent: 1
+--- !u!1 &1313141266741574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4274484573047644}
+  - component: {fileID: 114573491455328476}
+  - component: {fileID: 114511527301653860}
+  - component: {fileID: 114946135514765810}
+  m_Layer: 0
+  m_Name: MoveInteractable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1444267864049472
 GameObject:
   m_ObjectHideFlags: 0
@@ -19,7 +37,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4961555788516312}
-  - component: {fileID: 114979491432332144}
   - component: {fileID: 114061381791353070}
   - component: {fileID: 114684825049711786}
   m_Layer: 16
@@ -29,17 +46,49 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1493793155583806
+--- !u!1 &1448341577073074
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4884497629854370}
-  - component: {fileID: 136431147552416970}
+  - component: {fileID: 4449172544129216}
+  - component: {fileID: 114379408180223904}
+  m_Layer: 0
+  m_Name: MountInteractable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1452496247302372
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4895592539653470}
+  - component: {fileID: 136507911953888832}
   m_Layer: 20
-  m_Name: Interactable
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1521747686127876
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4140986016770288}
+  - component: {fileID: 136557991917886404}
+  m_Layer: 20
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,6 +143,47 @@ Transform:
   m_Father: {fileID: 4961555788516312}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4140986016770288
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1521747686127876}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4274484573047644}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4274484573047644
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1313141266741574}
+  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children:
+  - {fileID: 4140986016770288}
+  m_Father: {fileID: 4961555788516312}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4449172544129216
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1448341577073074}
+  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children:
+  - {fileID: 4895592539653470}
+  m_Father: {fileID: 4961555788516312}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4611700340182434
 Transform:
   m_ObjectHideFlags: 1
@@ -107,18 +197,18 @@ Transform:
   m_Father: {fileID: 4961555788516312}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4884497629854370
+--- !u!4 &4895592539653470
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1493793155583806}
-  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
+  m_GameObject: {fileID: 1452496247302372}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4961555788516312}
-  m_RootOrder: 2
+  m_Father: {fileID: 4449172544129216}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4961555788516312
 Transform:
@@ -132,7 +222,8 @@ Transform:
   m_Children:
   - {fileID: 4611700340182434}
   - {fileID: 4078477461925232}
-  - {fileID: 4884497629854370}
+  - {fileID: 4449172544129216}
+  - {fileID: 4274484573047644}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -272,6 +363,77 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114379408180223904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1448341577073074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3689eedeb8b12bf4db47c1dfe9b65596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Interacted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114684825049711786}
+        m_MethodName: TryMount
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  context: Mount Cannon
+  icon: {fileID: 0}
+--- !u!114 &114511527301653860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1313141266741574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9495350acd1b3428e5331cf51d0d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startMoveInteractable: {fileID: 114573491455328476}
+  stopMoveInteractable: {fileID: 114946135514765810}
+--- !u!114 &114573491455328476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1313141266741574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3689eedeb8b12bf4db47c1dfe9b65596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Interacted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114511527301653860}
+        m_MethodName: StartMoving
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  context: Start Moving
+  icon: {fileID: 0}
 --- !u!114 &114684825049711786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -289,12 +451,12 @@ MonoBehaviour:
   storedHero: {fileID: 0}
   autoGenerateSettings: 1
   type: 0
---- !u!114 &114979491432332144
+--- !u!114 &114946135514765810
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1444267864049472}
+  m_GameObject: {fileID: 1313141266741574}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3689eedeb8b12bf4db47c1dfe9b65596, type: 3}
@@ -303,8 +465,8 @@ MonoBehaviour:
   Interacted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114684825049711786}
-        m_MethodName: OnInteracted
+      - m_Target: {fileID: 114511527301653860}
+        m_MethodName: StopMoving
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -314,16 +476,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Interactable+InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  context: Mount Cannon
+  context: Stop Moving
   icon: {fileID: 0}
---- !u!136 &136431147552416970
+--- !u!136 &136507911953888832
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1493793155583806}
+  m_GameObject: {fileID: 1452496247302372}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 7
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &136557991917886404
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1521747686127876}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1

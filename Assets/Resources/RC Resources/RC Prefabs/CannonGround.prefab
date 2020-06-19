@@ -393,7 +393,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114021772231688526}
-        m_MethodName: OnInteracted
+        m_MethodName: TryUnmount
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -403,7 +403,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Interactable+InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   context: Unmount Cannon
   icon: {fileID: 0}
