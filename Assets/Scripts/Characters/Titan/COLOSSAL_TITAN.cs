@@ -483,10 +483,6 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         Gamemode = FengGameManagerMKII.Gamemode;
         this.startMain();
         this.size = 20f;
-        if (Minimap.instance != null)
-        {
-            Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.black, false, true, Minimap.IconStyle.CIRCLE);
-        }
         if (base.photonView.isMine)
         {
             if (FengGameManagerMKII.Gamemode.Settings.TitanCustomSize)

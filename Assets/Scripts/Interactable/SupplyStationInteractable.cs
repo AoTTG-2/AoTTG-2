@@ -4,11 +4,7 @@ public class SupplyStationInteractable : Interactable
 {
     private void Start () 
     {
-        if (Minimap.instance != null)
-        {
-            Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.white, false, true, Minimap.IconStyle.SUPPLY);
-        }
-        base.Icon = Resources.Load<UnityEngine.Sprite>("ui/Minimap/Supply Station");
+
 	}
 	
     public override void Action(GameObject target)

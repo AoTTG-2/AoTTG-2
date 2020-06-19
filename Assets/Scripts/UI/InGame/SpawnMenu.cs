@@ -87,10 +87,14 @@ namespace Assets.Scripts.UI.InGame
             return (num == num2);
         }
 
-        public void Update()
+        private void OnEnable()
         {
-            Cursor.visible = true;
-            Screen.lockCursor = false;
+            MenuManager.RegisterOpened();
+        }
+
+        private void OnDisable()
+        {
+            MenuManager.RegisterClosed();
         }
     }
 }
