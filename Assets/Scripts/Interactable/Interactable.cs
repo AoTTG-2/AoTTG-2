@@ -10,6 +10,9 @@ public sealed class Interactable : MonoBehaviour
     [SerializeField, Tooltip("Icon displayed on InteractionWheel button.")]
     private UnityEngine.Sprite icon;
 
+    [SerializeField]
+    private InteractionPriority priority = InteractionPriority.Default;
+
     public bool Available => enabled;
 
     public string Context
@@ -23,6 +26,8 @@ public sealed class Interactable : MonoBehaviour
         get { return icon; }
         set { icon = value; }
     }
+
+    public InteractionPriority Priority => priority;
 
     public void Interact(GameObject player)
     {

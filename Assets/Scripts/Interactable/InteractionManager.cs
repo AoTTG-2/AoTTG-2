@@ -5,7 +5,7 @@ using UnityEngine;
 public sealed class InteractionManager : MonoBehaviour
 {
     private static InteractionManager _instance;
-    private readonly HashSet<Interactable> interactables = new HashSet<Interactable>();
+    private readonly SortedSet<Interactable> interactables = new SortedSet<Interactable>(Comparer<Interactable>.Create((x, y) => -x.Priority.CompareTo(y.Priority)));
     private GameObject player;
 
     public static IEnumerable<Interactable> AvailableInteractables => _instance.interactables.Where(i => i.Available);
