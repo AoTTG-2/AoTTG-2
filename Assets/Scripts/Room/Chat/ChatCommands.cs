@@ -27,6 +27,9 @@
     kick, 
     ban, 
     banlist,
-    clear
+    clear,
+    none = 0,
+    cyan = 1,
+    magenta = 2
 }
 

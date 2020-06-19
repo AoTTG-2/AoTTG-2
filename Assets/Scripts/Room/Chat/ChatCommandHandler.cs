@@ -7,6 +7,7 @@ using static PhotonNetwork;
 using static FengGameManagerMKII;
 using static ChatUtility;
 using System.Linq;
+using System.Text;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -55,12 +56,9 @@ public static class ChatCommandHandler
                     return;
                 }
 
-                if (OnPrivateServer || isMasterClient)
-                {
-                    instance.kickPlayerRC(playerToBan, true, string.Empty);
-                    var chatMessage = new object[] { FormatSystemMessage($"{GetPlayerName(playerToBan)} has been banned from the server!"), string.Empty };
-                    instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-                }
+                instance.kickPlayerRC(playerToBan, true, string.Empty);
+                var chatMessage = new object[] { FormatSystemMessage($"{GetPlayerName(playerToBan)} has been banned from the server!"), string.Empty };
+                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
             }
         }
         else
@@ -282,25 +280,12 @@ public static class ChatCommandHandler
         }
     }
 
-    /// <summary>
-    /// Enter/Exit spectate mode
-    /// </summary>
-    private static void EnterExitSpecMode()
+    private static void ToggleSpecMode()
     {
-        string message;
-        if ((int)settings[0xf5] == 0)
-        {
-            settings[0xf5] = 1;
-            instance.EnterSpecMode(true);
-            message = FormatSystemMessage("You have entered spectator mode.");
-        }
-        else
-        {
-            settings[0xf5] = 0;
-            instance.EnterSpecMode(false);
-            message = FormatSystemMessage("You have exited spectator mode.");
-        }
-
+        settings[0xf5] = (int)settings[0xf5] == 1 ? 0 : 1;
+        bool specMode = (int)settings[0xf5] == 1;
+        instance.EnterSpecMode(specMode);
+        string message = FormatSystemMessage(specMode ? "You have entered spectator mode." : "You have exited spectator mode.");
         instance.chatRoom.AddMessage(message);
     }
 
@@ -321,26 +306,22 @@ public static class ChatCommandHandler
         }
     }
 
-    /// <summary>
-    /// Send private message to player with Id
-    /// </summary>
-    /// <param name="input"></param>
-    private static void SendPrivateMessage(string[] input)
+    private static void SendPrivateMessage(string[] parameters)
     {
         int playerId;
-        var playerIdString = input[1];
+        var playerIdString = parameters[1];
         if (int.TryParse(playerIdString, out playerId))
         {
             var targetPlayer = PhotonPlayer.Find(playerId);
 
-            var whatIsThisVar = string.Empty;
-            for (var nameIndex = 2; nameIndex < input.Length; nameIndex++)
+            StringBuilder chatMessage = new StringBuilder();
+            for (var messageIndex = 2; messageIndex < parameters.Length; messageIndex++)
             {
-                whatIsThisVar += input[nameIndex] + " ";
+                chatMessage.Append(parameters[messageIndex] + " ");
             }
-            instance.photonView.RPC("ChatPM", targetPlayer, new object[] { SetNameColorDependingOnteam(player), whatIsThisVar });
+            instance.photonView.RPC("ChatPM", targetPlayer, new object[] { SetNameColorDependingOnteam(player), chatMessage.ToString() });
 
-            var message = $"TO [{targetPlayer.ID}] {SetNameColorDependingOnteam(targetPlayer)}:{whatIsThisVar}";
+            var message = $"TO [{targetPlayer.ID}] {SetNameColorDependingOnteam(targetPlayer)}:{chatMessage}";
             instance.chatRoom.AddMessage(message);
         }
         else
@@ -365,10 +346,6 @@ public static class ChatCommandHandler
         instance.chatRoom.AddMessage(message);
     }
 
-    /// <summary>
-    /// Set max players in room or add time to game
-    /// </summary>
-    /// <param name="input"></param>
     private static void ChangeRoomProperties(string[] input)
     {
         if (isMasterClient)
@@ -387,10 +364,7 @@ public static class ChatCommandHandler
                         case ChatCommand.max:
                             if (int.TryParse(parameter, out maxPlayers))
                             {
-                                instance.maxPlayers = maxPlayers;
-                                room.MaxPlayers = maxPlayers;
-                                var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {maxPlayers}!"), string.Empty };
-                                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                                ChangeRoomMaxPlayers(maxPlayers)
                             }
                             else
                             {
@@ -400,16 +374,13 @@ public static class ChatCommandHandler
                         case ChatCommand.time:
                             if (float.TryParse(parameter, out time))
                             {
-                                instance.addTime(time);
-                                var chatMessage = new object[] { FormatSystemMessage($"{time} seconds added to the clock."), string.Empty };
-                                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                                AddPlayTime(time);
                             }
                             else
                             {
                                 instance.chatRoom.OutputErrorMessage("Time to add must be a number.");
                             }
                             break;
-
                     } 
                 }
                 else
@@ -423,10 +394,21 @@ public static class ChatCommandHandler
             instance.chatRoom.OutputErrorNotMasterClient();
         }
     }
+    private static void ChangeRoomMaxPlayers(int maxPlayers)
+    {
+        instance.maxPlayers = maxPlayers;
+        room.MaxPlayers = maxPlayers;
+        var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {maxPlayers}!"), string.Empty };
+        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+    }
 
-    /// <summary>
-    /// Output ignore list to chat
-    /// </summary>
+    private static void AddPlayTime(float time)
+    {
+        instance.addTime(time);
+        var chatMessage = new object[] { FormatSystemMessage($"{time} seconds added to the clock."), string.Empty };
+        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+    }
+
     private static void OutputIgnoreList()
     {
         foreach (var ignoredPlayer in ignoreList)
@@ -438,33 +420,16 @@ public static class ChatCommandHandler
 
     private static void OutputIsRc()
     {
-        string message;
-        if (masterRC)
-        {
-            message = "Is RC";
-        }
-        else
-        {
-            message = "Not RC";
-                
-        }
-
+        var message = masterRC ? "Is RC" : "Not RC";
         instance.chatRoom.AddMessage(message);
     }
 
-    /// <summary>
-    /// Outputs name of current level to chat
-    /// </summary>
-    /// <param name="player"></param>
     private static void CheckLevel(PhotonPlayer player)
     {
         var message = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.currentLevel]);
         instance.chatRoom.AddMessage(message);
     }
         
-    /// <summary>
-    /// Unpause currently paused game
-    /// </summary>
     private static void UnPauseGame()
     {
         if (isMasterClient)
@@ -479,9 +444,6 @@ public static class ChatCommandHandler
         }
     }
 
-    /// <summary>
-    /// Pause the current game
-    /// </summary>
     private static void PauseGame()
     {
         if (isMasterClient)
@@ -565,41 +527,24 @@ public static class ChatCommandHandler
     /// <param name="team"></param>
     private static void SwitchToTeam(string team)
     {
-        int teamInt;
+        ChatCommand teamEnum;
         string message = string.Empty;
-        if (FengGameManagerMKII.Gamemode.Settings.TeamMode == TeamMode.NoSort)
+        if (Gamemode.Settings.TeamMode == TeamMode.NoSort)
         {
-            if (int.TryParse(team, out teamInt))
+            if (Enum.TryParse(team, out teamEnum))
             {
-                switch (teamInt)
+                switch (teamEnum)
                 {
-                    case 0:
-                        SwitchTeam(0);
-                        message = "You have joined individuals.";
-                        break;
-                    case 1:
-                        SwitchTeam(1);
+                    case ChatCommand.none:
+                        SwitchTeam((int)teamEnum);
                         message = FormatTextColor00FFFF("You have joined team cyan.");
                         break;
-                    case 2:
-                        SwitchTeam(2);
-                        message = FormatTextColorFF00FF("You have joined team magenta.");
-                        break;
-                    default:
-                        instance.chatRoom.OutputErrorMessage("Invalid team code. Accepted number values are 0, 1 or 2.");
-                        break;
-                }
-            }
-            else
-            {
-                switch (team.ToLower())
-                {
-                    case "cyan":
-                        SwitchTeam(1);
+                    case ChatCommand.cyan:
+                        SwitchTeam((int)teamEnum);
                         message = FormatTextColor00FFFF("You have joined team cyan.");
                         break;
-                    case "magenta":
-                        SwitchTeam(2);
+                    case ChatCommand.magenta:
+                        SwitchTeam((int)teamEnum);
                         message = FormatTextColorFF00FF("You have joined team magenta.");
                         break;
                     default:
@@ -654,7 +599,7 @@ public static class ChatCommandHandler
     /// <param name="chatCommand"></param>
     public static void CommandHandler(string chatCommand)
     {
-        var commands = chatCommand.Replace("/", "").ToLower().Split(' ');
+        var commands = chatCommand.Replace("/", "").Split(' ');
         var parameter = string.Empty;
 
         ChatCommand command;
@@ -663,7 +608,7 @@ public static class ChatCommandHandler
         {
             if (commands.Count() > 1)
             {
-                    parameter = commands[1];
+                parameter = commands[1];
             }
 
             string message;
@@ -724,7 +669,7 @@ public static class ChatCommandHandler
                     break;
                 // Info: 
                 case ChatCommand.specmode:
-                    EnterExitSpecMode();
+                    ToggleSpecMode();
                     break;
                 // Info: 
                 case ChatCommand.fov:

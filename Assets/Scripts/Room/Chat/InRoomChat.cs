@@ -32,24 +32,17 @@ public class InRoomChat : Photon.MonoBehaviour
         UpdateChat(this);
     }
 
-    /// <summary>
-    /// Clears Message List
-    /// </summary>
     public void ClearMessages()
     {
         messages.Clear();
     }
 
-    /// <summary>
-    /// Adds message to local message list
-    /// </summary>
-    /// <param name="message"></param>
     public void AddMessage(string message)
     {
-        message = message.Trim();
+        TrimMessage(message);
         if (message.Count() <= MaxMessageLength)
         {
-            RemoveMessageIfMoreThenMax();
+            RemoveMessageIfMoreThanMax();
             messages.Add(message);
         }
         else
@@ -58,10 +51,12 @@ public class InRoomChat : Photon.MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Removes messages when exceding max storage
-    /// </summary>
-    private void RemoveMessageIfMoreThenMax()
+    private void TrimMessage(string message)
+    {
+        message.Trim();
+    }
+
+    private void RemoveMessageIfMoreThanMax()
     {
         if (messages.Count() == MaxStoredMessages)
         {
