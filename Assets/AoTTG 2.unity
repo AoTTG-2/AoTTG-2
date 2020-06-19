@@ -45870,31 +45870,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622a85de26774424e8c7a97c33dac33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmusic: {fileID: 0}
   gameOver: 0
-  height: 5
-  heightDamping: 2
   inputManager: {fileID: 0}
-  justHit: 0
-  lastScore: 0
   main_object: {fileID: 0}
-  maximumX: 360
-  maximumY: 60
-  minimumX: -360
-  minimumY: -60
-  rotationY: 0
-  score: 0
   skyBoxDAWN: {fileID: 0}
   skyBoxDAY: {fileID: 0}
   skyBoxNIGHT: {fileID: 0}
   snapShotCamera: {fileID: 2027999944}
   snapshotRT: {fileID: 0}
   spectatorMode: 0
-  target: {fileID: 0}
-  texture: {fileID: 0}
-  timer: 0
-  xSpeed: -3
-  ySpeed: -0.8
 --- !u!114 &3240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48001,8 +47985,8 @@ RectTransform:
   m_Father: {fileID: 524658405}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.00000023841858}
-  m_AnchorMax: {x: 1, y: 0.99999994}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -55788,10 +55772,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7bdeaeaa01d0397489e43083eb92b84a, type: 3}
-    m_FontSize: 300
+    m_FontSize: 150
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 1
     m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -56186,7 +56170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000000013849652, y: 300}
+  m_AnchoredPosition: {x: -0.000000013849652, y: 299.99997}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &692447671
@@ -56442,7 +56426,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 75951364}
   m_HandleRect: {fileID: 75951363}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -56871,7 +56855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15.02, y: -0.00004552947}
+  m_AnchoredPosition: {x: 15.02, y: 0.000010687722}
   m_SizeDelta: {x: -15.02, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &743627084
@@ -58953,7 +58937,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1561075984053376, guid: 0e4a5faa3e575ae40bb7e80abb160fa3, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4a5faa3e575ae40bb7e80abb160fa3, type: 2}
@@ -62102,7 +62086,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 292}
+  m_AnchoredPosition: {x: 0, y: 150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1072814750
@@ -65963,10 +65947,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7bdeaeaa01d0397489e43083eb92b84a, type: 3}
-    m_FontSize: 300
+    m_FontSize: 150
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 1
     m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -66057,7 +66041,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 157595313}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999976
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -68564,7 +68548,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000091552734, y: -0.000017259903}
+  m_AnchoredPosition: {x: -0.000030517578, y: -0.000017259903}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1502454003

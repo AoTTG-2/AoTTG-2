@@ -21,16 +21,7 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         private void ShowDamage()
         {
-            CancelInvoke("HideDamage");
-            Damage.GetComponent<Animator>().SetFloat("Direction", 1);
-            Damage.GetComponent<Animator>().SetTrigger("Show");
-            Damage.SetActive(true);
-            Invoke("HideDamage", 2f);
-        }
-
-        private void HideDamage()
-        {
-            Damage.GetComponent<Animator>().SetFloat("Direction", -1);
+            Damage.GetComponent<Animator>().SetTrigger("ShowDamage");
         }
     }
 }
