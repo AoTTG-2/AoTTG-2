@@ -1,5 +1,6 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.UI.InGame;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -4068,23 +4069,23 @@ public class Hero : Human
     private void showAimUI2()
     {
         Vector3 vector;
-        if (Cursor.visible)
+        if (MenuManager.IsMenuOpen)
         {
-            GameObject obj2 = this.cross1;
-            GameObject obj3 = this.cross2;
-            GameObject obj4 = this.crossL1;
-            GameObject obj5 = this.crossL2;
-            GameObject obj6 = this.crossR1;
-            GameObject obj7 = this.crossR2;
+            GameObject cross1 = this.cross1;
+            GameObject cross2 = this.cross2;
+            GameObject crossL1 = this.crossL1;
+            GameObject crossL2 = this.crossL2;
+            GameObject crossR1 = this.crossR1;
+            GameObject crossR2 = this.crossR2;
             var labelDistance = this.LabelDistance;
             vector = (Vector3)(Vector3.up * 10000f);
-            obj7.transform.localPosition = vector;
-            obj6.transform.localPosition = vector;
-            obj5.transform.localPosition = vector;
-            obj4.transform.localPosition = vector;
+            crossR2.transform.localPosition = vector;
+            crossR1.transform.localPosition = vector;
+            crossL2.transform.localPosition = vector;
+            crossL1.transform.localPosition = vector;
             labelDistance.gameObject.transform.localPosition = vector;
-            obj3.transform.localPosition = vector;
-            obj2.transform.localPosition = vector;
+            cross2.transform.localPosition = vector;
+            cross1.transform.localPosition = vector;
         }
         else
         {
@@ -4097,12 +4098,12 @@ public class Hero : Human
             if (Physics.Raycast(ray, out hit, 1E+07f, mask3.value))
             {
                 RaycastHit hit2;
-                GameObject obj9 = this.cross1;
-                GameObject obj10 = this.cross2;
-                obj9.transform.localPosition = Input.mousePosition;
-                Transform transform = obj9.transform;
+                GameObject cross1 = this.cross1;
+                GameObject cross2 = this.cross2;
+                cross1.transform.localPosition = Input.mousePosition;
+                Transform transform = cross1.transform;
                 transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                obj10.transform.localPosition = obj9.transform.localPosition;
+                cross2.transform.localPosition = cross1.transform.localPosition;
                 vector = hit.point - this.baseTransform.position;
                 float magnitude = vector.magnitude;
                 string str = (magnitude <= 1000f) ? ((int)magnitude).ToString() : "???";
@@ -4117,15 +4118,13 @@ public class Hero : Human
                 LabelDistance.text = str;
                 if (magnitude > 120f)
                 {
-                    Transform transform11 = obj9.transform;
-                    transform11.localPosition += (Vector3)(Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = obj10.transform.localPosition;
+                    cross1.transform.localPosition += (Vector3)(Vector3.up * 10000f);
+                    LabelDistance.gameObject.transform.localPosition = cross2.transform.localPosition;
                 }
                 else
                 {
-                    Transform transform12 = obj10.transform;
-                    transform12.localPosition += (Vector3)(Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = obj9.transform.localPosition;
+                    cross2.transform.localPosition += (Vector3)(Vector3.up * 10000f);
+                    LabelDistance.gameObject.transform.localPosition = cross1.transform.localPosition;
                 }
                 Transform transform13 = LabelDistance.gameObject.transform;
                 transform13.localPosition -= new Vector3(0f, 15f, 0f);
@@ -4142,45 +4141,27 @@ public class Hero : Human
                 vector5 = (Vector3)(vector5 * 1000000f);
                 if (Physics.Linecast(this.baseTransform.position + vector2, (this.baseTransform.position + vector2) + vector4, out hit2, mask3.value))
                 {
-                    GameObject obj12 = this.crossL1;
-                    obj12.transform.localPosition = this.currentCamera.WorldToScreenPoint(hit2.point);
-                    Transform transform14 = obj12.transform;
-                    transform14.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                    obj12.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(obj12.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), obj12.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f) + 180f);
-                    GameObject obj13 = this.crossL2;
-                    obj13.transform.localPosition = obj12.transform.localPosition;
-                    obj13.transform.localRotation = obj12.transform.localRotation;
+                    crossL1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hit2.point);
+                    crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+                    crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossL1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f) + 180f);
+                    crossL2.transform.localPosition = crossL1.transform.localPosition;
+                    crossL2.transform.localRotation = crossL1.transform.localRotation;
                     if (hit2.distance > 120f)
-                    {
-                        Transform transform15 = obj12.transform;
-                        transform15.localPosition += (Vector3)(Vector3.up * 10000f);
-                    }
+                        crossL1.transform.localPosition += (Vector3)(Vector3.up * 10000f);
                     else
-                    {
-                        Transform transform16 = obj13.transform;
-                        transform16.localPosition += (Vector3)(Vector3.up * 10000f);
-                    }
+                        crossL2.transform.localPosition += (Vector3)(Vector3.up * 10000f);
                 }
                 if (Physics.Linecast(this.baseTransform.position + vector3, (this.baseTransform.position + vector3) + vector5, out hit2, mask3.value))
                 {
-                    GameObject obj14 = this.crossR1;
-                    obj14.transform.localPosition = this.currentCamera.WorldToScreenPoint(hit2.point);
-                    Transform transform17 = obj14.transform;
-                    transform17.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                    obj14.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(obj14.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), obj14.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f);
-                    GameObject obj15 = this.crossR2;
-                    obj15.transform.localPosition = obj14.transform.localPosition;
-                    obj15.transform.localRotation = obj14.transform.localRotation;
+                    crossR1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hit2.point);
+                    crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+                    crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossR1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f);
+                    crossR2.transform.localPosition = crossR1.transform.localPosition;
+                    crossR2.transform.localRotation = crossR1.transform.localRotation;
                     if (hit2.distance > 120f)
-                    {
-                        Transform transform18 = obj14.transform;
-                        transform18.localPosition += (Vector3)(Vector3.up * 10000f);
-                    }
+                        crossR1.transform.localPosition += Vector3.up * 10000f;
                     else
-                    {
-                        Transform transform19 = obj15.transform;
-                        transform19.localPosition += (Vector3)(Vector3.up * 10000f);
-                    }
+                        crossR2.transform.localPosition += Vector3.up * 10000f;
                 }
             }
         }
