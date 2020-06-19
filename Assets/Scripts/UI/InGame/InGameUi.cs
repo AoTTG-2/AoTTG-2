@@ -9,7 +9,7 @@ namespace Assets.Scripts.UI.InGame
         public SpawnMenu SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
 
-        void OnEnable()
+        private void OnEnable()
         {
             HUD.gameObject.SetActive(true);
             SpawnMenu.gameObject.SetActive(true);
@@ -17,13 +17,12 @@ namespace Assets.Scripts.UI.InGame
             Menu.gameObject.SetActive(false);
         }
 
-        void Update()
+        private void Update()
         {
-            
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
+            // The Escape key unlocks the cursor in the editor,
+            // which is why exiting the menu messes with TPS.
+            if (Input.GetKeyDown(KeyCode.P))
                 Menu.gameObject.SetActive(!Menu.isActiveAndEnabled);
-            }
         }
     }
 }

@@ -6,48 +6,42 @@ namespace Assets.Scripts.UI.InGame
     {
         public GameSettingMenu GameSettingsMenu;
         public GameObject GraphicsView;
+
+        // Used by Button.
+        public void Quit()
+        {
+            PhotonNetwork.Disconnect();
+            Destroy(GameObject.Find("Canvas"));
+        }
+
+        // Used by Button.
         public void ShowGameSettingsMenu()
         {
             GameSettingsMenu.gameObject.SetActive(true);
         }
 
-        private void SetGameSettingsMenu()
-        {
-        }
-
+        // Used by Button.
         public void ShowGraphicSettingsMenu()
         {
             GraphicsView.gameObject.SetActive(true);
         }
 
-        private void OnEnable()
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
+            GraphicSettingsMenu.gameObject.SetActive(false);
             GraphicsView.gameObject.SetActive(false);
-            if (FindObjectOfType<GraphicsController>().label.text != "")
-            {
-                FindObjectOfType<GraphicsController>().label.text = "";
-            }
-            Cursor.visible = false;
-            if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Confined;
-            }
+
+            MenuManager.RegisterClosed();
         }
 
-        public void Quit()
+        private void OnEnable()
         {
-            PhotonNetwork.Disconnect();
-			Destroy(GameObject.Find("Canvas"));
+            MenuManager.RegisterOpened();
+        }
+
+        private void SetGameSettingsMenu()
+        {
         }
     }
 }
