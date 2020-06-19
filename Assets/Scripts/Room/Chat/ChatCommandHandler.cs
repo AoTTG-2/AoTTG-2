@@ -364,7 +364,7 @@ public static class ChatCommandHandler
                         case ChatCommand.max:
                             if (int.TryParse(parameter, out maxPlayers))
                             {
-                                ChangeRoomMaxPlayers(maxPlayers)
+                                ChangeRoomMaxPlayers(maxPlayers);
                             }
                             else
                             {
