@@ -8,12 +8,12 @@ public sealed class MoveGroundCannon : MonoBehaviour
         startMoveInteractable,
         stopMoveInteractable;
 
-    public bool IsMoving
+    private bool IsMoving
     {
         set
         {
-            startMoveInteractable.enabled = !value;
-            stopMoveInteractable.enabled = value;
+            startMoveInteractable.Available.Value = !value;
+            stopMoveInteractable.Available.Value = value;
         }
     }
 

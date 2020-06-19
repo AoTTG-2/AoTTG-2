@@ -13,7 +13,7 @@ public sealed class Interactable : MonoBehaviour
     [SerializeField]
     private InteractionPriority priority = InteractionPriority.Default;
 
-    public bool Available => enabled;
+    public Observable<bool> Available { get; private set; } = new Observable<bool>(true);
 
     public string Context
     {

@@ -8,20 +8,41 @@ public sealed class InteractionManager : MonoBehaviour
     private readonly SortedSet<Interactable> interactables = new SortedSet<Interactable>(Comparer<Interactable>.Create((x, y) => -x.Priority.CompareTo(y.Priority)));
     private GameObject player;
 
-    public static IEnumerable<Interactable> AvailableInteractables => _instance.interactables.Where(i => i.Available);
+    public delegate void AvailableInteractablesChangedHandler(IEnumerable<Interactable> availableInteractables);
+
+    public static event AvailableInteractablesChangedHandler AvailableInteractablesChanged;
+
+    public static IEnumerable<Interactable> AvailableInteractables =>
+        _instance.interactables.Where(i => i.Available);
 
     public static GameObject Player => _instance.player;
 
-    public static void Register(Interactable interactable) =>
-        _instance?.interactables.Add(interactable);
-
-    public static void Unregister(Interactable interactable) =>
-        _instance?.interactables.Remove(interactable);
-
-    private static Interactable[] GetInteractables(GameObject gobj)
+    public static void Register(Interactable interactable)
     {
-        return gobj.GetComponentsInParent<Interactable>(true);
+        _instance?.interactables.Add(interactable);
+        if (interactable.Available)
+            InvokeAvailableInteractablesChanged();
+
+        interactable.Available.ValueChanged += OnAvailabilityChanged;
     }
+
+    public static void Unregister(Interactable interactable)
+    {
+        _instance?.interactables.Remove(interactable);
+        if (interactable.Available)
+            InvokeAvailableInteractablesChanged();
+
+        interactable.Available.ValueChanged -= OnAvailabilityChanged;
+    }
+
+    private static Interactable[] GetInteractables(GameObject gobj) =>
+        gobj.GetComponentsInParent<Interactable>(true);
+
+    private static void InvokeAvailableInteractablesChanged() =>
+        AvailableInteractablesChanged?.Invoke(AvailableInteractables);
+
+    private static void OnAvailabilityChanged(bool available) =>
+        InvokeAvailableInteractablesChanged();
 
     private void Awake()
     {

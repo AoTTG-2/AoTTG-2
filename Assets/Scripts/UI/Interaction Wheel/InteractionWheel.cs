@@ -10,14 +10,21 @@ public sealed class InteractionWheel : MonoBehaviour
     public Text Label;
     public Interactable Selected;
 
+    private void OnAvailableInteractablesChanged(IEnumerable<Interactable> availableInteractables)
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            RemoveAllButtons();
+            StartCoroutine(SpawnButtons(availableInteractables.ToList()));
+        }
+    }
+
     private void OnDisable()
     {
+        InteractionManager.AvailableInteractablesChanged -= OnAvailableInteractablesChanged;
+
         // Remove all buttons when menu is closed.
-        foreach (Transform t in transform)
-        {
-            if (t.name != "Context")
-                Destroy(t.gameObject);
-        }
+        RemoveAllButtons();
     }
 
     private void OnEnable()
@@ -26,12 +33,20 @@ public sealed class InteractionWheel : MonoBehaviour
             Label = GetComponentInChildren<Text>();
         Label.text = string.Empty;
 
-        StartCoroutine(SpawnButtons());
+        StartCoroutine(SpawnButtons(InteractionManager.AvailableInteractables.ToArray()));
     }
 
-    private IEnumerator SpawnButtons()
+    private void RemoveAllButtons()
     {
-        var interactables = InteractionManager.AvailableInteractables;
+        foreach (Transform t in transform)
+        {
+            if (t.name != "Context")
+                Destroy(t.gameObject);
+        }
+    }
+
+    private IEnumerator SpawnButtons(IEnumerable<Interactable> interactables)
+    {
         var count = interactables.Count();
         using (var enumerator = interactables.GetEnumerator())
         {
@@ -52,11 +67,16 @@ public sealed class InteractionWheel : MonoBehaviour
                 yield return new WaitForSeconds(.05f);
             }
         }
+
+        InteractionManager.AvailableInteractablesChanged += OnAvailableInteractablesChanged;
     }
 
     private void Update()
     {
         if (Input.GetButtonDown("Fire1") && Selected && InteractionManager.Player)
+        {
             Selected.Interact(InteractionManager.Player);
+            gameObject.SetActive(false);
+        }
     }
 }
