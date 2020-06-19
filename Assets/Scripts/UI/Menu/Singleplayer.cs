@@ -18,10 +18,8 @@ namespace Assets.Scripts.UI.Menu
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
 
-        protected override void OnEnable()
+        public void OnEnable()
         {
-            base.OnEnable();
-
             PhotonNetwork.Disconnect();
             PhotonNetwork.offlineMode = true;
             LevelDropdown.options = new List<Dropdown.OptionData>();

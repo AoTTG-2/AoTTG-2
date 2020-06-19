@@ -15,7 +15,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
 
     private void Awake()
     {
-        this.hair_go_ref = new GameObject("Hair Reference");
+        this.hair_go_ref = new GameObject();
         this.eye.transform.parent = TitanBody.Head.transform;
         this.hair_go_ref.transform.position = (Vector3)((this.eye.transform.position + (Vector3.up * 3.5f)) + (base.transform.forward * 5.2f));
         this.hair_go_ref.transform.rotation = this.eye.transform.rotation;

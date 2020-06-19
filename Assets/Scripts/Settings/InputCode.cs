@@ -13,7 +13,7 @@ public class InputCode
     public static int flare3 = 21;
     public static int focus = 9;
     public static int fullscreen = 17;
-    public static int toggleCursor = 16;
+    public static int hideCursor = 16;
     public static int jump = 4;
     public static int left = 2;
     public static int leftRope = 6;

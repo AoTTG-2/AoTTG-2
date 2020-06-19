@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
     public class UiNavigationElement : MonoBehaviour
     {
-        public UiHandler Canvas { get; set; }
-
         public GameObject PreviousPage { get; set; }
+        public UiHandler Canvas { get; set; }
 
         public virtual void Back()
         {
@@ -23,20 +25,10 @@ namespace Assets.Scripts.UI
                 Debug.LogError("Could not find target");
                 return;
             }
-
+            
             target.gameObject.SetActive(true);
             target.PreviousPage = gameObject;
             gameObject.SetActive(false);
-        }
-
-        protected virtual void OnDisable()
-        {
-            MenuManager.RegisterClosed();
-        }
-
-        protected virtual void OnEnable()
-        {
-            MenuManager.RegisterOpened();
         }
     }
 }
