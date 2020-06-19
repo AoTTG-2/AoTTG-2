@@ -5,45 +5,44 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
+
         public GraphicSettingMenu GraphicSettingsMenu;
+
+        // Used by Button.
+        public void Quit()
+        {
+            PhotonNetwork.Disconnect();
+            Destroy(GameObject.Find("Canvas"));
+        }
+
+        // Used by Button.
         public void ShowGameSettingsMenu()
         {
             GameSettingsMenu.gameObject.SetActive(true);
         }
 
-        private void SetGameSettingsMenu()
-        {
-        }
-
+        // Used by Button.
         public void ShowGraphicSettingsMenu()
         {
             GraphicSettingsMenu.gameObject.SetActive(true);
         }
 
-        private void OnEnable()
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicSettingsMenu.gameObject.SetActive(false);
-            Cursor.visible = false;
-            if (IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.TPS)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Confined;
-            }
+
+
+            MenuManager.RegisterClosed();
         }
 
-        public void Quit()
+        private void OnEnable()
         {
-            PhotonNetwork.Disconnect();
-			Destroy(GameObject.Find("Canvas"));
+            MenuManager.RegisterOpened();
+        }
+
+        private void SetGameSettingsMenu()
+        {
         }
     }
 }

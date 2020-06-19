@@ -36,7 +36,7 @@ public class LevelTriggerHint : MonoBehaviour
 
                 case HintType.CAMA:
                 {
-                    string[] textArray2 = new string[] { "Press [F7D358]", GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().inputString[InputCode.camera], "[-] to change camera mode\nPress [F7D358]", GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().inputString[InputCode.hideCursor], "[-] to hide or show the cursor." };
+                    string[] textArray2 = new string[] { "Press [F7D358]", GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().inputString[InputCode.camera], "[-] to change camera mode\nPress [F7D358]", GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().inputString[InputCode.toggleCursor], "[-] to hide or show the cursor." };
                     this.content = string.Concat(textArray2);
                     break;
                 }
