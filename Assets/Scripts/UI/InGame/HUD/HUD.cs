@@ -10,19 +10,27 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public void SetDamage(int damage)
         {
-            CancelInvoke("HideDamage");
-            Damage.SetActive(true);
-            var texts = Damage.GetComponentsInChildren<Text>();
-            foreach (var text in texts)
+            var damageLabels = Damage.GetComponentsInChildren<Text>();
+            foreach (var label in damageLabels)
             {
-                text.text = damage.ToString();
+                label.text = damage.ToString();
             }
-            Invoke("HideDamage", 3f);
+
+            ShowDamage();
+        }
+
+        private void ShowDamage()
+        {
+            CancelInvoke("HideDamage");
+            Damage.GetComponent<Animator>().SetFloat("Direction", 1);
+            Damage.GetComponent<Animator>().SetTrigger("Show");
+            Damage.SetActive(true);
+            Invoke("HideDamage", 2f);
         }
 
         private void HideDamage()
         {
-            Damage.SetActive(false);
+            Damage.GetComponent<Animator>().SetFloat("Direction", -1);
         }
     }
 }
