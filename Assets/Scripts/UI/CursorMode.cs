@@ -1,5 +1,6 @@
 ﻿public enum CursorMode
 {
     Menu,
-    Loading
+    Loading,
+    InteractionWheel
 }

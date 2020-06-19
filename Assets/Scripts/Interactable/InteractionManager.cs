@@ -19,6 +19,9 @@ public sealed class InteractionManager : MonoBehaviour
 
     public static void Register(Interactable interactable)
     {
+        if (_instance.interactables.Contains(interactable))
+            return;
+
         _instance?.interactables.Add(interactable);
         if (interactable.Available)
             InvokeAvailableInteractablesChanged();
@@ -28,6 +31,9 @@ public sealed class InteractionManager : MonoBehaviour
 
     public static void Unregister(Interactable interactable)
     {
+        if (!_instance.interactables.Contains(interactable))
+            return;
+        
         _instance?.interactables.Remove(interactable);
         if (interactable.Available)
             InvokeAvailableInteractablesChanged();

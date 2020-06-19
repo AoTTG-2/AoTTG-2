@@ -392,6 +392,7 @@ MonoBehaviour:
       PublicKeyToken=null
   context: Mount Cannon
   icon: {fileID: 0}
+  priority: 1
 --- !u!114 &114511527301653860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -434,6 +435,7 @@ MonoBehaviour:
       PublicKeyToken=null
   context: Start Moving
   icon: {fileID: 0}
+  priority: 0
 --- !u!114 &114684825049711786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -480,6 +482,7 @@ MonoBehaviour:
       PublicKeyToken=null
   context: Stop Moving
   icon: {fileID: 0}
+  priority: 0
 --- !u!136 &136507911953888832
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -135,6 +135,11 @@ public class GameCursor : MonoBehaviour
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
                     break;
+
+                case CursorMode.InteractionWheel:
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
             }
         }
     }
