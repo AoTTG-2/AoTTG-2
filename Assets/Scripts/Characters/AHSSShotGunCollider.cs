@@ -51,7 +51,6 @@ public class AHSSShotGunCollider : MonoBehaviour
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            Debug.Log("SinglePlayer");
                             if (!component.transform.root.GetComponent<Hero>().isGrabbed)
                             {
                                 Vector3 vector = component.transform.root.transform.position - base.transform.position;
@@ -60,7 +59,6 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
                         {
-                            Debug.Log("Multiplayer");
                             component.transform.root.GetComponent<Hero>().markDie();
                             object[] parameters = new object[5];
                             Vector3 vector2 = component.transform.root.position - base.transform.position;
