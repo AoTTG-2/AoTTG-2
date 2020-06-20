@@ -944,20 +944,14 @@ public class TITAN_EREN : Photon.MonoBehaviour
                             if (InputManager.KeyDown(InputHuman.Attack) || InputManager.KeyDown(InputHuman.AttackSpecial))
                             {
                                 bool flag = false;
-                                if (((IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.WOW) && InputManager.KeyPressed(InputHuman.Backward) || InputManager.KeyDown(InputHuman.AttackSpecial)))
+                                if (((GameCursor.CameraMode == CameraMode.WOW) && InputManager.KeyPressed(InputHuman.Backward) || InputManager.KeyDown(InputHuman.AttackSpecial)))
                                 {
-                                    if ((IN_GAME_MAIN_CAMERA.cameraMode == CAMERA_TYPE.WOW) && InputManager.KeyDown(InputHuman.AttackSpecial))
+                                    if (InputManager.KeyDown(InputHuman.AttackSpecial))
                                     {
                                         flag = true;
-                                    }
-                                    if (flag)
-                                    {
-                                        flag = true;
-                                    }
-                                    else
-                                    {
+                                    
+                                    if (!flag)
                                         this.attackAnimation = "attack_kick";
-                                    }
                                 }
                                 else
                                 {

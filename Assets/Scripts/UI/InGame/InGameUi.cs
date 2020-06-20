@@ -41,12 +41,12 @@ namespace Assets.Scripts.UI.InGame
             Menu.gameObject.SetActive(false);
         }
 
-        void Update()
+        private void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-            {
+            // The Escape key unlocks the cursor in the editor,
+            // which is why exiting the menu messes with TPS.
+            if (UnityEngine.Input.GetKeyDown(KeyCode.P))
                 Menu.gameObject.SetActive(!Menu.isActiveAndEnabled);
-            }
         }
     }
 }
