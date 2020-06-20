@@ -36,8 +36,8 @@ namespace Assets.Scripts.UI.InGame
 
         void OnEnable()
         {
-            HUD.gameObject.SetActive(true);
-            SpawnMenu.gameObject.SetActive(true);
+            //HUD.gameObject.SetActive(true);
+            //SpawnMenu.gameObject.SetActive(true);
             Menu.gameObject.SetActive(false);
         }
 
