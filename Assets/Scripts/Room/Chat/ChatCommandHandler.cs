@@ -132,10 +132,6 @@ public static class ChatCommandHandler
         }
     }
 
-    /// <summary>
-    /// Unban player with Id
-    /// </summary>
-    /// <param name="playerId"></param>
     private static void UnbanPlayer(string playerId)
     {
         if (OnPrivateServer)
@@ -169,60 +165,52 @@ public static class ChatCommandHandler
         }
     }
 
-    /// <summary>
-    /// Revive all players
-    /// </summary>
     private static void ReviveAllPlayers()
     {
-        if (isMasterClient)
+        if (!isMasterClient)
         {
-            var chatMessage = new object[] { FormatSystemMessage("All players have been revived."), string.Empty };
-            instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-            foreach (PhotonPlayer player in playerList)
+            instance.chatRoom.OutputErrorNotMasterClient();
+            return;
+        }
+
+        var chatMessage = new object[] { FormatSystemMessage("All players have been revived."), string.Empty };
+        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+        foreach (PhotonPlayer player in playerList)
+        {
+            if ((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
             {
-                if ((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
-                {
-                    instance.photonView.RPC("respawnHeroInNewRound", player, new object[0]);
-                }
+                instance.photonView.RPC("respawnHeroInNewRound", player, new object[0]);
             }
         }
+
     }
 
-    /// <summary>
-    /// Revive player with Id
-    /// </summary>
-    /// <param name="playerIdString"></param>
-    private static void RevievePlayer(string playerIdString)
+    private static void RevivePlayer(string playerIdString)
     {
-        if (isMasterClient)
+        if (!isMasterClient)
         {
-            int playerId;
-            if (int.TryParse(playerIdString, out playerId))
-            {
-                var player = playerList.FirstOrDefault(p => p.ID == playerId);
+            instance.chatRoom.OutputErrorNotMasterClient();
+            return;
+        }
 
-                if (playerList.Any(p => p.ID == playerId))
-                {
-                    var message = FormatSystemMessage($"Player {playerId} has been revived.");
-                    instance.chatRoom.AddMessage(message);
-                    instance.photonView.RPC("RespawnRpc", player);
-                }
-            }
-            else
+        int playerId;
+        if (int.TryParse(playerIdString, out playerId))
+        {
+            var player = playerList.FirstOrDefault(p => p.ID == playerId);
+
+            if (playerList.Any(p => p.ID == playerId))
             {
-                instance.chatRoom.OutputErrorPlayerNotFound(playerIdString);
+                var message = FormatSystemMessage($"Player {playerId} has been revived.");
+                instance.chatRoom.AddMessage(message);
+                instance.photonView.RPC("RespawnRpc", player);
             }
         }
         else
         {
-            instance.chatRoom.OutputErrorNotMasterClient();
+            instance.chatRoom.OutputErrorPlayerNotFound(playerIdString);
         }
     }
 
-    /// <summary>
-    /// Spectate player with Id
-    /// </summary>
-    /// <param name="playerIdString"></param>
     private static void SpectatePlayer(string playerIdString)
     {
         int playerId;
@@ -244,9 +232,6 @@ public static class ChatCommandHandler
             
     }
 
-    /// <summary>
-    /// Output number of titan Collisions
-    /// </summary>
     private static void OutputCollisions()
     {
         int collisions = 0;
@@ -261,10 +246,6 @@ public static class ChatCommandHandler
         instance.chatRoom.AddMessage(message);
     }
 
-    /// <summary>
-    /// Set field of view
-    /// </summary>
-    /// <param name="input"></param>
     private static void SetFov(string input)
     {
         int fov;
@@ -289,21 +270,17 @@ public static class ChatCommandHandler
         instance.chatRoom.AddMessage(message);
     }
 
-    /// <summary>
-    /// Restart current game
-    /// </summary>
     private static void RestartGame()
     {
-        if (isMasterClient)
-        {
-            var chatMessage = new object[] { FormatSystemMessage("MasterClient has restarted the game!"), string.Empty };
-            instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-            instance.restartRC();
-        }
-        else
+        if (!isMasterClient)
         {
             instance.chatRoom.OutputErrorNotMasterClient();
+            return;
         }
+
+        var chatMessage = new object[] { FormatSystemMessage("MasterClient has restarted the game!"), string.Empty };
+        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+        instance.restartRC();
     }
 
     private static void SendPrivateMessage(string[] parameters)
@@ -330,9 +307,6 @@ public static class ChatCommandHandler
         }      
     }
 
-    /// <summary>
-    /// Reset your kd
-    /// </summary>
     private static void ResetKd()
     {
         var hashTable = new Hashtable();
@@ -348,50 +322,49 @@ public static class ChatCommandHandler
 
     private static void ChangeRoomProperties(string[] input)
     {
-        if (isMasterClient)
-        {
-            ChatCommand command;
-            if (input.Count() >= 3)
-            {
-                if (Enum.TryParse(input[1], out command))
-                {
-                    string parameter = input[2];
-                    int maxPlayers;
-                    float time;
-
-                    switch (command)
-                    {
-                        case ChatCommand.max:
-                            if (int.TryParse(parameter, out maxPlayers))
-                            {
-                                ChangeRoomMaxPlayers(maxPlayers);
-                            }
-                            else
-                            {
-                                instance.chatRoom.OutputErrorMessage($"{parameter} is not a number.");
-                            }
-                            break;
-                        case ChatCommand.time:
-                            if (float.TryParse(parameter, out time))
-                            {
-                                AddPlayTime(time);
-                            }
-                            else
-                            {
-                                instance.chatRoom.OutputErrorMessage("Time to add must be a number.");
-                            }
-                            break;
-                    } 
-                }
-                else
-                {
-                    instance.chatRoom.OutputErrorMessage("Valid room attributes are max or time");
-                }
-            }
-        }
-        else
+        if (!isMasterClient)
         {
             instance.chatRoom.OutputErrorNotMasterClient();
+            return;
+        }
+
+        ChatCommand command;
+        if (input.Count() >= 3)
+        {
+            if (Enum.TryParse(input[1], true, out command))
+            {
+                string parameter = input[2];
+                int maxPlayers;
+                float time;
+
+                switch (command)
+                {
+                    case ChatCommand.Max:
+                        if (int.TryParse(parameter, out maxPlayers))
+                        {
+                            ChangeRoomMaxPlayers(maxPlayers);
+                        }
+                        else
+                        {
+                            instance.chatRoom.OutputErrorMessage($"{parameter} is not a number.");
+                        }
+                        break;
+                    case ChatCommand.Time:
+                        if (float.TryParse(parameter, out time))
+                        {
+                            AddPlayTime(time);
+                        }
+                        else
+                        {
+                            instance.chatRoom.OutputErrorMessage("Time to add must be a number.");
+                        }
+                        break;
+                } 
+            }
+            else
+            {
+                instance.chatRoom.OutputErrorMessage("Valid room attributes are max or time");
+            }
         }
     }
     private static void ChangeRoomMaxPlayers(int maxPlayers)
@@ -432,118 +405,104 @@ public static class ChatCommandHandler
         
     private static void UnPauseGame()
     {
-        if (isMasterClient)
-        {
-            instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { false });
-            var chatMessage = new object[] { FormatSystemMessage("MasterClient has unpaused the game."), string.Empty };
-            instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-        }
-        else
+        if (!isMasterClient)
         {
             instance.chatRoom.OutputErrorNotMasterClient();
+            return;
         }
+
+        instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { false });
+        var chatMessage = new object[] { FormatSystemMessage("MasterClient has unpaused the game."), string.Empty };
+        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
     }
 
     private static void PauseGame()
     {
-        if (isMasterClient)
-        {
-            instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { true });
-            var chatMessage = new object[] { FormatSystemMessage("MasterClient has paused the game."), string.Empty };
-            instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-        }
-        else
+        if (!isMasterClient)
         {
             instance.chatRoom.OutputErrorNotMasterClient();
+            return;
         }
+
+        instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { true });
+        var chatMessage = new object[] { FormatSystemMessage("MasterClient has paused the game."), string.Empty };
+        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
     }
 
-    /// <summary>
-    /// turn on/off preserve KDR on diconnect
-    /// </summary>
-    /// <param name="command"></param>
-    private static void PreserveKdrOnOFF(string parameter)
+    private static void TogglePreserveKdr(string parameter)
     {
-        string message;
-        if (isMasterClient)
+        
+        if (!isMasterClient)
         {
-            ChatCommand command;
-            if (Enum.TryParse(parameter, out command))
-            {
-                switch (command)
-                {
-                    // Info: 
-                    case ChatCommand.kdr:
-                        if (!FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect)
-                        {
-                            FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect = true;
-                            message = "KDRs will be preserved from disconnects.";
-                        }
-                        else
-                        {
-                            FengGameManagerMKII.Gamemode.Settings.SaveKDROnDisconnect = false;
-                            message = "KDRs will not be preserved from disconnects.";
-                        }
+            instance.chatRoom.OutputErrorNotMasterClient();
+            return;
+        }
 
-                        instance.chatRoom.AddMessage(message);
-                        break;
-                }
+        string message;
+        ChatCommand command;
+        if (Enum.TryParse(parameter, true, out command))
+        {
+            switch (command)
+            {
+                case ChatCommand.Kdr:
+                    if (!Gamemode.Settings.SaveKDROnDisconnect)
+                    {
+                        Gamemode.Settings.SaveKDROnDisconnect = true;
+                        message = "KDRs will be preserved from disconnects.";
+                    }
+                    else
+                    {
+                        Gamemode.Settings.SaveKDROnDisconnect = false;
+                        message = "KDRs will not be preserved from disconnects.";
+                    }
+
+                    instance.chatRoom.AddMessage(message);
+                    break;
             }
         }
-        else
-        {
-            instance.chatRoom.OutputErrorNotMasterClient();
-        }
     }
 
-    /// <summary>
-    /// Reset KD for all players on the server
-    /// </summary>
     private static void ResetKdAll()
     {
-        if (isMasterClient)
-        {
-            foreach (PhotonPlayer player in playerList)
-            {
-                var hashTable = new Hashtable();
-                hashTable.Add(PhotonPlayerProperty.kills, 0);
-                hashTable.Add(PhotonPlayerProperty.deaths, 0);
-                hashTable.Add(PhotonPlayerProperty.max_dmg, 0);
-                hashTable.Add(PhotonPlayerProperty.total_dmg, 0);
-                player.SetCustomProperties(hashTable);
-            }
-            var chatMessage = new object[] { FormatSystemMessage("All stats have been reset."), string.Empty };
-            instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-        }
-        else
+        if (!isMasterClient)
         {
             instance.chatRoom.OutputErrorNotMasterClient();
+            return;
         }
+
+        foreach (PhotonPlayer player in playerList)
+        {
+            var hashTable = new Hashtable();
+            hashTable.Add(PhotonPlayerProperty.kills, 0);
+            hashTable.Add(PhotonPlayerProperty.deaths, 0);
+            hashTable.Add(PhotonPlayerProperty.max_dmg, 0);
+            hashTable.Add(PhotonPlayerProperty.total_dmg, 0);
+            player.SetCustomProperties(hashTable);
+        }
+        var chatMessage = new object[] { FormatSystemMessage("All stats have been reset."), string.Empty };
+        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+
     }
 
-    /// <summary>
-    /// Switch to team
-    /// </summary>
-    /// <param name="team"></param>
     private static void SwitchToTeam(string team)
     {
         ChatCommand teamEnum;
         string message = string.Empty;
         if (Gamemode.Settings.TeamMode == TeamMode.NoSort)
         {
-            if (Enum.TryParse(team, out teamEnum))
+            if (Enum.TryParse(team, true, out teamEnum))
             {
                 switch (teamEnum)
                 {
-                    case ChatCommand.none:
+                    case ChatCommand.None:
                         SwitchTeam((int)teamEnum);
                         message = FormatTextColor00FFFF("You have joined team cyan.");
                         break;
-                    case ChatCommand.cyan:
+                    case ChatCommand.Cyan:
                         SwitchTeam((int)teamEnum);
                         message = FormatTextColor00FFFF("You have joined team cyan.");
                         break;
-                    case ChatCommand.magenta:
+                    case ChatCommand.Magenta:
                         SwitchTeam((int)teamEnum);
                         message = FormatTextColorFF00FF("You have joined team magenta.");
                         break;
@@ -551,9 +510,13 @@ public static class ChatCommandHandler
                         instance.chatRoom.OutputErrorMessage("Invalid team name. Accepted text values are cyan or magenta.");
                         break;
                 }
-            }
+                instance.chatRoom.AddMessage(message);
 
-            instance.chatRoom.AddMessage(message);
+            }
+            else
+            {
+                instance.chatRoom.OutputErrorMessage($"{team} is not a valid team.");
+            }
         }
         else
         {
@@ -561,25 +524,17 @@ public static class ChatCommandHandler
         }
     }
 
-    /// <summary>
-    /// Clear all messages in chat
-    /// </summary>
     private static void ClearChat()
     {
-        if (isMasterClient)
-        {
-            instance.chatRoom.ClearMessages();
-        }
-        else
+        if (!isMasterClient)
         {
             instance.chatRoom.OutputErrorNotMasterClient();
+            return;
         }
+
+        instance.chatRoom.ClearMessages();
     }
 
-    /// <summary>
-    /// Switch to team
-    /// </summary>
-    /// <param name="team"></param>
     private static void SwitchTeam(int team)
     {
         instance.photonView.RPC("setTeamRPC", player, new object[] { team });
@@ -604,119 +559,97 @@ public static class ChatCommandHandler
 
         ChatCommand command;
 
-        if (Enum.TryParse(commands[0].ToLower(), out command))
+        if (!Enum.TryParse(commands[0], true, out command))
         {
-            if (commands.Count() > 1)
-            {
-                parameter = commands[1];
-            }
+            instance.chatRoom.OutputErrorMessage($"No command matches {commands[0]}");
+            return;
+        }
+        if (commands.Count() > 1)
+        {
+            parameter = commands[1];
+        }
 
-            string message;
-            switch (command)
-            {
-                // Info: 
-                case ChatCommand.cloth:
-                    message = ClothFactory.GetDebugInfo();
-                    instance.chatRoom.AddMessage(message);
-                    break;
-                // Info: 
-                case ChatCommand.aso:
-                    PreserveKdrOnOFF(parameter);
-                    break;
-                // Info: Pauses the game
-                case ChatCommand.pause:
-                    PauseGame();
-                    break;
-                // Info: Unpauses the game
-                case ChatCommand.unpause:
-                    UnPauseGame();
-                    break;
-                // Info: Outputs name of level
-                case ChatCommand.checklevel:
-                    CheckLevel(player);
-                    break;
-                // Info: 
-                case ChatCommand.isrc:
-                    OutputIsRc();
-                    break;
-                // Info: 
-                case ChatCommand.ignorelist:
-                    OutputIgnoreList();
-                    break;
-                // Info: 
-                case ChatCommand.room:
-                    ChangeRoomProperties(commands);
-                    break;
-                // Info: Resets your kd
-                case ChatCommand.resetkd:
-                    ResetKd();
-                    break;
-                // Info: Resets kd for all players on the server
-                case ChatCommand.resetkdall:
-                    ResetKdAll();
-                    break;
-                // Info: 
-                case ChatCommand.pm:
-                    SendPrivateMessage(commands);
-                    break;
-                // Info: Switch team
-                case ChatCommand.team:
-                    SwitchToTeam(parameter);
-                    break;
-                // Info: Restarts the server
-                case ChatCommand.restart:
-                    RestartGame();
-                    break;
-                // Info: 
-                case ChatCommand.specmode:
-                    ToggleSpecMode();
-                    break;
-                // Info: 
-                case ChatCommand.fov:
-                    SetFov(parameter);
-                    break;
-                // Info: 
-                case ChatCommand.colliders:
-                    OutputCollisions();
-                    break;
-                // Info: 
-                case ChatCommand.spectate:
-                    SpectatePlayer(parameter);
-                    break;
-                // Info: 
-                case ChatCommand.revive:
-                    RevievePlayer(parameter);
-                    break;
-                // Info: 
-                case ChatCommand.reviveall:
-                    ReviveAllPlayers();
-                    break;
-                // Info: 
-                case ChatCommand.unban:
-                    UnbanPlayer(parameter);
-                    break;
-                // Info: 
-                case ChatCommand.rules:
-                    OutputRules();
-                    break;
-                // Info: 
-                case ChatCommand.kick:
-                    KickPlayer(parameter);
-                    break;
-                // Info: 
-                case ChatCommand.ban:
-                    BanPlayer(parameter);
-                    break;
-                // Info: 
-                case ChatCommand.banlist:
-                    OutputBanList();
-                    break;
-                case ChatCommand.clear:
-                    ClearChat();
-                    break;
-                default:
-                    break;
-            }
+        string message;
+        switch (command)
+        {
+            case ChatCommand.Cloth:
+                message = ClothFactory.GetDebugInfo();
+                instance.chatRoom.AddMessage(message);
+                break;
+            case ChatCommand.Aso:
+                TogglePreserveKdr(parameter);
+                break;
+            case ChatCommand.Pause:
+                PauseGame();
+                break;
+            case ChatCommand.Unpause:
+                UnPauseGame();
+                break;
+            case ChatCommand.Checklevel:
+                CheckLevel(player);
+                break;
+            case ChatCommand.Isrc:
+                OutputIsRc();
+                break;
+            case ChatCommand.Ignorelist:
+                OutputIgnoreList();
+                break;
+            case ChatCommand.Room:
+                ChangeRoomProperties(commands);
+                break;
+            case ChatCommand.Resetkd:
+                ResetKd();
+                break;
+            case ChatCommand.Resetkdall:
+                ResetKdAll();
+                break;
+            case ChatCommand.Pm:
+                SendPrivateMessage(commands);
+                break;
+            case ChatCommand.Team:
+                SwitchToTeam(parameter);
+                break;
+            case ChatCommand.Restart:
+                RestartGame();
+                break;
+            case ChatCommand.Specmode:
+                ToggleSpecMode();
+                break;
+            case ChatCommand.Fov:
+                SetFov(parameter);
+                break;
+            case ChatCommand.Colliders:
+                OutputCollisions();
+                break;
+            case ChatCommand.Spectate:
+                SpectatePlayer(parameter);
+                break;
+            case ChatCommand.Revive:
+                RevivePlayer(parameter);
+                break;
+            case ChatCommand.Reviveall:
+                ReviveAllPlayers();
+                break;
+            case ChatCommand.Unban:
+                UnbanPlayer(parameter);
+                break;
+            case ChatCommand.Rules:
+                OutputRules();
+                break;
+            case ChatCommand.Kick:
+                KickPlayer(parameter);
+                break;
+            case ChatCommand.Ban:
+                BanPlayer(parameter);
+                break;
+            case ChatCommand.Banlist:
+                OutputBanList();
+                break;
+            case ChatCommand.Clear:
+                ClearChat();
+                break;
+            default:
+                break;
         }
     }
 }
