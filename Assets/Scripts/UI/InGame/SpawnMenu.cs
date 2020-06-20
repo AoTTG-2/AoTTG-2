@@ -26,16 +26,6 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
-        private void OnEnable()
-        {
-            InGameUi.OnMenuOpened();
-        }
-
-        private void OnDisable()
-        {
-            InGameUi.OnMenuClosed();
-        }
-
         public void Spawn()
         {
             string selection = "23";
@@ -99,11 +89,13 @@ namespace Assets.Scripts.UI.InGame
 
         private void OnEnable()
         {
+            InGameUi.OnMenuOpened();
             MenuManager.RegisterOpened();
         }
 
         private void OnDisable()
         {
+            InGameUi.OnMenuClosed();
             MenuManager.RegisterClosed();
         }
     }

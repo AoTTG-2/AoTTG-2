@@ -30,6 +30,7 @@ namespace Assets.Scripts.UI.InGame
         private void OnEnable()
         {
             InGameUi.OnMenuOpened();
+            MenuManager.RegisterOpened();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -41,11 +42,6 @@ namespace Assets.Scripts.UI.InGame
 
 
             MenuManager.RegisterClosed();
-        }
-
-        private void OnEnable()
-        {
-            MenuManager.RegisterOpened();
         }
 
         private void SetGameSettingsMenu()

@@ -537,13 +537,13 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             if (this.main_object != null)
             {
                 RaycastHit hit;
-                if (this.inputManager.isInputDown[InputCode.camera])
+                if (InputManager.KeyDown(InputUi.Camera))
                     GameCursor.Cycle();
 
-                if (this.inputManager.isInputDown[InputCode.toggleCursor])
+                if (InputManager.KeyDown(InputUi.ToggleCursor))
                     GameCursor.ForceFreeCursor = !GameCursor.ForceFreeCursor;
 
-                if (this.inputManager.isInputDown[InputCode.focus])
+                if (InputManager.KeyDown(InputHuman.Focus))
                 {
                     triggerAutoLock = !triggerAutoLock;
                     if (triggerAutoLock)
@@ -856,7 +856,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             invertY = PlayerPrefs.GetInt("invertMouseY");
         }
-        this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
         this.setDayLight(dayLight);
         
         // This doesn't exist in the scene and causes a NullReferenceException.
