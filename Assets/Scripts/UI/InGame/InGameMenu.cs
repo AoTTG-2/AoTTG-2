@@ -6,7 +6,7 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
-        public GraphicSettingMenu GraphicSettingsMenu;
+        public GameObject GraphicsView;
         public RebindsMenu RebindsMenu;
 
         // Used by Button.
@@ -25,7 +25,7 @@ namespace Assets.Scripts.UI.InGame
         // Used by Button.
         public void ShowGraphicSettingsMenu()
         {
-            GraphicSettingsMenu.gameObject.SetActive(true);
+            GraphicsView.gameObject.SetActive(true);
         }
 
         // Used by Button.
