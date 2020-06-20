@@ -101,7 +101,8 @@ public sealed class InteractionWheel : MonoBehaviour
             Input.GetAxis("Mouse X"),
             Input.GetAxis("Mouse Y"));
         var shortest = float.MaxValue;
-        accumulatedDelta = Vector2.ClampMagnitude(accumulatedDelta + mouseDelta, 100f);
+        var amplifier = 100f;
+        accumulatedDelta = Vector2.ClampMagnitude(accumulatedDelta + mouseDelta * amplifier, 100f);
         var accumulatedPosition = (Vector2) Input.mousePosition + accumulatedDelta;
         foreach (Transform t in transform)
             if (t.name != "Context")
