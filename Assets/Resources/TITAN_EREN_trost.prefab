@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 111561355937577766}
   - component: {fileID: 54357648349439242}
   - component: {fileID: 114841097727424914}
-  - component: {fileID: 114113473417275320}
+  - component: {fileID: 114471728448056488}
   - component: {fileID: 114542362972118842}
   - component: {fileID: 114995054820934536}
   m_Layer: 0
@@ -1951,7 +1951,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2c57e4b54c59ac34382bbc08a547fa35, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b6f4221401eaed448a663a78f701f84b, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2027,7 +2027,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &82428798088968728
 AudioSource:
   m_ObjectHideFlags: 1
@@ -2037,7 +2037,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3a607f49f09c120408b8ac264a5ee033, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c3c4fdd877176c246b471e053bde1e78, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2113,7 +2113,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &82432334144951389
 AudioSource:
   m_ObjectHideFlags: 1
@@ -2123,7 +2123,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a471a2d222327bc4cb4f280d4f4074b7, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d13685714757130499aaaea0fc77d6e7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2199,7 +2199,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &82625175859318651
 AudioSource:
   m_ObjectHideFlags: 1
@@ -2209,7 +2209,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 64663906e67ca3349b5e10714fe7ab3f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5cdead3cefe55994e9f889225bb2024f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2285,7 +2285,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &82718048475334898
 AudioSource:
   m_ObjectHideFlags: 1
@@ -2295,7 +2295,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0e247c692a03b834d802e5139d723427, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b28a9947a7e3dc04d9676a404ca94ace, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2377,7 +2377,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &82927262451606218
 AudioSource:
   m_ObjectHideFlags: 1
@@ -2387,7 +2387,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6fd48cdf2b0152446b17e40b1242a38f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ee7dbcda6a8aacd439a39dcdf2b99f3c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2463,7 +2463,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!111 &111561355937577766
 Animation:
   m_ObjectHideFlags: 1
@@ -2496,7 +2496,7 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
---- !u!114 &114113473417275320
+--- !u!114 &114471728448056488
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2504,9 +2504,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1449836727997949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correctCameraPos: {x: 0, y: 0, z: 0}
+  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
+  disabled: 0
+  noVelocity: 0
+  PhotonCamera: 0
+  SmoothingDelay: 5
 --- !u!114 &114542362972118842
 MonoBehaviour:
   m_ObjectHideFlags: 1

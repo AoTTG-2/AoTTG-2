@@ -1224,8 +1224,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1517}
   - component: {fileID: 2387}
-  - component: {fileID: 3241}
-  - component: {fileID: 3240}
   m_Layer: 15
   m_Name: AOTTG_HERO 1
   m_TagString: Player
@@ -2417,8 +2415,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1874}
   - component: {fileID: 2389}
-  - component: {fileID: 3752}
-  - component: {fileID: 3751}
   m_Layer: 15
   m_Name: AOTTG_HERO 1
   m_TagString: Player
@@ -2482,7 +2478,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1903}
   - component: {fileID: 2405}
-  - component: {fileID: 3788}
   m_Layer: 19
   m_Name: neck
   m_TagString: titanneck
@@ -3070,8 +3065,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2081}
   - component: {fileID: 2392}
-  - component: {fileID: 4051}
-  - component: {fileID: 4050}
   m_Layer: 15
   m_Name: AOTTG_HERO 1
   m_TagString: Player
@@ -45895,28 +45888,6 @@ MonoBehaviour:
   timer: 0
   xSpeed: -3
   ySpeed: -0.8
---- !u!114 &3240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91cfccf41a6132f45852aa9e64552944, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36df570ef2c183646b99587206dab33c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45931,61 +45902,6 @@ MonoBehaviour:
   IsVisible: 1
   ChatInputField: {fileID: 0}
   ChatText: {fileID: 0}
---- !u!114 &3751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91cfccf41a6132f45852aa9e64552944, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36df570ef2c183646b99587206dab33c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f58c6a181b0cd624fb874045b5c8d5d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91cfccf41a6132f45852aa9e64552944, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36df570ef2c183646b99587206dab33c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4129
 MonoBehaviour:
   m_ObjectHideFlags: 0
