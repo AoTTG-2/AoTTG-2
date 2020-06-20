@@ -7,11 +7,13 @@ namespace Assets.Scripts.UI.InGame
         public HUD.HUD HUD;
         public InGameMenu Menu;
         public SpawnMenu SpawnMenu;
+        public GraphicSettingMenu GraphicSettingMenu;
 
         private void OnEnable()
         {
             HUD.gameObject.SetActive(true);
             SpawnMenu.gameObject.SetActive(true);
+            GraphicSettingMenu.gameObject.SetActive(true);
             Menu.gameObject.SetActive(false);
         }
 
