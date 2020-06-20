@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json;
+using System;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -11,91 +9,164 @@ namespace Assets.Scripts.UI.InGame
 		public GeneralGraphics GeneralGraphic;
 		public QualitySwitcher QualitySwitcher;
 		public ResolutionSwitcher ResolutionSwitcher;
+		public FPSLimiter FPSLimiter;
 		public Text label;
 		public Toggle CustomSettings;
 
+		// Index of the custom quality level
+		public const int CUSTOM = 6;
+		public const string GDATA = "GraphicsData";
+		public const string QDATA = "QualityProfile";
+		public const string FDATA = "FPSLimit";
 
-		private void Update() {
-			
-			if(!CustomSettings.isOn)
+		private void Start()
+		{
+			if(PlayerPrefs.HasKey(GDATA) && PlayerPrefs.HasKey(QDATA) && PlayerPrefs.HasKey(FDATA))
 			{
-				GeneralGraphic.TextureQuality.interactable = false;
-				GeneralGraphic.ShadowRes.interactable = false;
-				GeneralGraphic.AntiAliasing.interactable = false;
-				GeneralGraphic.Shadows.interactable = false;
-				GeneralGraphic.VSync.interactable = false;
-				GeneralGraphic.SoftParticles.interactable = false;
-
-				QualitySwitcher.Slider.interactable = true;
-				
-				
+				LoadGraphicPlayerPrefs();
 			}
 			else
 			{
-				QualitySwitcher.Label.text = "Custom";
+				QualitySwitcher.Slider.value = QualitySettings.GetQualityLevel();
+				QualitySwitcher.UpdateQuality();
+				ChangeObjectValues();
 			}
 
+			AdvancedOptions();
+			
 		}
 
 		public void SaveGraphicPlayerPrefs()
 		{
-			// graphics
-			var data = new GeneralGraphics.Data(GeneralGraphic.TextureQuality.value, GeneralGraphic.ShadowRes.value, GeneralGraphic.AntiAliasing.value, GeneralGraphic.Shadows.value, GeneralGraphic.VSync.isOn, GeneralGraphic.SoftParticles.isOn, CustomSettings.isOn);
-			string json = JsonUtility.ToJson(data);
-			PlayerPrefs.SetString("GraphicsData", json);
+			try
+			{
+				var data1 = new GeneralGraphics.GraphicsData(GeneralGraphic);
+				string json1 = JsonUtility.ToJson(data1);
+				PlayerPrefs.SetString(GDATA, json1);
 
-			// quality profile
-			var _data = new QualitySwitcher.Data((int)QualitySwitcher.Slider.value);
-			string _json = JsonUtility.ToJson(_data);
-			PlayerPrefs.SetString("QualityProfile", _json);
+				// quality profile
+				var data2 = new QualitySwitcher.QualityData(QualitySwitcher);
+				string json2 = JsonUtility.ToJson(data2);
+				PlayerPrefs.SetString(QDATA, json2);
 
-			PlayerPrefs.Save();	
+				// fps limit
+				var data3 = new FPSLimiter.FPSData(FPSLimiter);
+				string json3 = JsonUtility.ToJson(data3);
+				PlayerPrefs.SetString(FDATA, json3);
 
-			label.color = Color.green;
-			label.text = "saved player prefs";
+				PlayerPrefs.Save();
+
+				label.color = Color.green;
+				label.text = "saved player prefs";
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError(ex.ToString());
+				label.color = Color.red;
+				label.text = "error saving player prefs";
+			}
+			
 		}
+
 		public void LoadGraphicPlayerPrefs()
 		{
-			
-			var loaded = JsonUtility.FromJson<GeneralGraphics.Data>(PlayerPrefs.GetString("GraphicsData"));
+			try
+			{
+				var loaded1 = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString(GDATA));
+				var loaded2 = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
+				var loaded3 = JsonUtility.FromJson<FPSLimiter.FPSData>(PlayerPrefs.GetString(FDATA));
+
+				QualitySwitcher.Slider.value = loaded2.Slider;
+
+				FPSLimiter.FPSLimit.text = loaded3.field;
+				FPSLimiter.SetFPSLimit();
+
 				
-			GeneralGraphic.TextureQuality.value = loaded.TextureQuality;
-			GeneralGraphic.ShadowRes.value = loaded.ShadowRes;
-			GeneralGraphic.AntiAliasing.value = loaded.AntiAliasing;
-			GeneralGraphic.Shadows.value = loaded.Shadows;
-			GeneralGraphic.VSync.isOn = loaded.VSync;
-			GeneralGraphic.SoftParticles.isOn = loaded.SoftParticles;
-			GeneralGraphic.CustomSettings.isOn = loaded.CustomSettings;
 
-			GeneralGraphic.UpdateEverything();
+				GeneralGraphic.CustomSettings.isOn = loaded1.CustomSettings;
+				AdvancedOptions();
 
-			var _loaded = JsonUtility.FromJson<QualitySwitcher.Data>(PlayerPrefs.GetString("QualityProfile"));
-			QualitySwitcher.Slider.value = _loaded.Slider;
-			
-			label.color = Color.green;
-			label.text = "loaded player prefs";
+				if (loaded1.CustomSettings)
+				{
+					GeneralGraphic.TextureQuality.value = loaded1.TextureQuality;
+					GeneralGraphic.ShadowRes.value = loaded1.ShadowRes;
+					GeneralGraphic.AntiAliasing.value = loaded1.AntiAliasing;
+					GeneralGraphic.Shadows.value = loaded1.Shadows;
+					GeneralGraphic.VSync.isOn = loaded1.VSync;
+					GeneralGraphic.SoftParticles.isOn = loaded1.SoftParticles;
+					GeneralGraphic.UpdateEverything();
+				}
+
+				GeneralGraphic.UpdateObjects();
+
+				label.color = Color.green;
+				label.text = "loaded player prefs";
+			}
+			catch(NullReferenceException ex)
+			{
+				Debug.LogError("Error loading player prefs");
+
+				label.color = Color.red;
+				label.text = "error loading player prefs";
+			}
 		}
 
 		public void AdvancedOptions()
 		{
-			var selected = CustomSettings.isOn;
-			var temp = QualitySettings.GetQualityLevel();
-			
-			if(!selected)
+			if(CustomSettings.isOn)
 			{
-				QualitySettings.SetQualityLevel(temp);
+				QualitySettings.SetQualityLevel(CUSTOM, true);
+				QualitySwitcher.Slider.interactable = false;
 			}
-			if(selected)
+			else
 			{
-				QualitySettings.SetQualityLevel(QualitySettings.names.Length - 1);
-				GeneralGraphic.TextureQuality.interactable = true;
-				GeneralGraphic.ShadowRes.interactable = true;
-				GeneralGraphic.AntiAliasing.interactable = true;
-				GeneralGraphic.Shadows.interactable = true;
-				GeneralGraphic.VSync.interactable = true;
-				GeneralGraphic.SoftParticles.interactable = true;
+				QualitySettings.SetQualityLevel((int)QualitySwitcher.Slider.value, true);
+				QualitySwitcher.Slider.interactable = true;
+			}
+			GeneralGraphic.SetInteractable(CustomSettings.isOn);
+			GeneralGraphic.UpdateObjects();
+			GeneralGraphic.UpdateEverything();
+		}
 
-				QualitySwitcher.GetComponentInChildren<Slider>().interactable = false;
+		public void DeletePrefs()
+		{
+			PlayerPrefs.DeleteKey(GDATA);
+			PlayerPrefs.DeleteKey(QDATA);
+			PlayerPrefs.DeleteKey(FDATA);
+		}
+
+		private void ChangeObjectValues()
+		{
+			GeneralGraphic.TextureQuality.value = QualitySettings.masterTextureLimit;
+			GeneralGraphic.AntiAliasing.value = (int)QualitySettings.antiAliasing;
+			GeneralGraphic.ShadowRes.value = (int)QualitySettings.shadowResolution;
+			GeneralGraphic.Shadows.value = (int)QualitySettings.shadows;
+			GeneralGraphic.SoftParticles.isOn = QualitySettings.softParticles;
+
+			if(QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._8xMultiSampling)
+			{
+				GeneralGraphic.AntiAliasing.value = 3;
+			}
+			else if (QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._4xMultiSampling)
+			{
+				GeneralGraphic.AntiAliasing.value = 2;
+			}
+			else if (QualitySettings.antiAliasing == (int)GraphicsEnums.AntiAliasing._2xMultiSampling)
+			{
+				GeneralGraphic.AntiAliasing.value = 1;
+			}
+			else
+			{
+				GeneralGraphic.AntiAliasing.value = 0;
+			}
+
+			if (QualitySettings.vSyncCount == 0)
+			{
+				GeneralGraphic.VSync.isOn = false;
+			}
+			else
+			{
+				GeneralGraphic.VSync.isOn = true;
 			}
 		}
 	}
