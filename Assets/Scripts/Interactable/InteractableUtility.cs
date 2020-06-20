@@ -56,9 +56,8 @@ public static class InteractableUtility
             layer = LayerMask.NameToLayer(Layer.Interactable)
         };
 
-        gobj.transform.parent = parent;
-        gobj.transform.localPosition = Vector3.zero;
-
+        gobj.transform.SetParent(parent, false);
+        
         var collider = gobj.AddComponent<CapsuleCollider>();
         collider.radius = 7;
         collider.isTrigger = true;

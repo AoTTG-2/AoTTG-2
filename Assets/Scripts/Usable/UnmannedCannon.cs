@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(PhotonView))]
 public sealed class UnmannedCannon : Photon.MonoBehaviour
 {
+    public const string InteractableName = "MountInteractable";
+
     public bool destroyed;
     public bool disabled;
     public string settings;
@@ -26,21 +28,25 @@ public sealed class UnmannedCannon : Photon.MonoBehaviour
     [PunRPC]
     public void RequestMountRPC(int viewID, PhotonMessageInfo info)
     {
-        if (!((!photonView.isMine || !PhotonNetwork.isMasterClient) || disabled))
+        Debug.Assert(PhotonNetwork.isMasterClient, $"{nameof(RequestMountRPC)} can only be called on MasterClient.");
+        Debug.Assert(photonView.isMine, $"MasterClient should own the {nameof(UnmannedCannon)} when {nameof(RequestMountRPC)} is called.");
+        Debug.Assert(!disabled, $"Can't call {nameof(RequestMountRPC)} when cannon is disabled.");
+
+        var requestingHero = PhotonView.Find(viewID).gameObject.GetComponent<Hero>();
+        Debug.Assert(requestingHero.photonView.owner == info.sender, "Hero owner and RPC sender must match up.");
+
+        var requestExists = FengGameManagerMKII.instance.AllowedCannonRequests.ContainsKey(info.sender.ID);
+        Debug.Assert(!requestExists, "Can't request cannon: One has already been requested.");
+
+        if (!requestExists)
         {
-            var requestingHero = PhotonView.Find(viewID).gameObject.GetComponent<Hero>();
-            if (requestingHero != null
-                && requestingHero.photonView.owner == info.sender
-                && !FengGameManagerMKII.instance.allowedToCannon.ContainsKey(info.sender.ID))
-            {
-                disabled = true;
-                StartCoroutine(WaitAndEnable());
-                FengGameManagerMKII.instance.allowedToCannon.Add(info.sender.ID,
-                    new CannonValues(photonView.viewID, settings));
-                requestingHero.photonView.RPC(nameof(requestingHero.SpawnCannonRPC),
-                    info.sender,
-                    settings);
-            }
+            disabled = true;
+            StartCoroutine(WaitAndEnable());
+            FengGameManagerMKII.instance.AllowedCannonRequests.Add(info.sender.ID,
+                new CannonValues(photonView.viewID, settings));
+            requestingHero.photonView.RPC<string, PhotonMessageInfo>(requestingHero.SpawnCannonRPC,
+                info.sender,
+                settings);
         }
     }
 

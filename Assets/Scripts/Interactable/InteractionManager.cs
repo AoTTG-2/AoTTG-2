@@ -4,25 +4,26 @@ using UnityEngine;
 
 public sealed class InteractionManager : MonoBehaviour
 {
+    private static readonly IComparer<Interactable> Comparer = Comparer<Interactable>.Create((x, y) => -x.Priority.CompareTo(y.Priority));
+    private static readonly List<Interactable> Interactables = new List<Interactable>();
     private static InteractionManager _instance;
-    private readonly SortedSet<Interactable> interactables = new SortedSet<Interactable>(Comparer<Interactable>.Create((x, y) => -x.Priority.CompareTo(y.Priority)));
-    private GameObject player;
 
     public delegate void AvailableInteractablesChangedHandler(IEnumerable<Interactable> availableInteractables);
 
     public static event AvailableInteractablesChangedHandler AvailableInteractablesChanged;
 
     public static IEnumerable<Interactable> AvailableInteractables =>
-        _instance.interactables.Where(i => i.Available);
+        Interactables.Where(i => i.Available);
 
-    public static GameObject Player => _instance.player;
+    public static GameObject Player { get; private set; }
 
     public static void Register(Interactable interactable)
     {
-        if (_instance.interactables.Contains(interactable))
+        if (Interactables.Contains(interactable))
             return;
 
-        _instance?.interactables.Add(interactable);
+        Interactables.Add(interactable);
+        Interactables.Sort(Comparer);
         if (interactable.Available)
             InvokeAvailableInteractablesChanged();
 
@@ -31,10 +32,9 @@ public sealed class InteractionManager : MonoBehaviour
 
     public static void Unregister(Interactable interactable)
     {
-        if (!_instance.interactables.Contains(interactable))
+        if (!Interactables.Remove(interactable))
             return;
-        
-        _instance?.interactables.Remove(interactable);
+
         if (interactable.Available)
             InvokeAvailableInteractablesChanged();
 
@@ -53,7 +53,7 @@ public sealed class InteractionManager : MonoBehaviour
     private void Awake()
     {
         RegisterSingleton();
-        player = gameObject;
+        Player = gameObject;
     }
 
     private void OnTriggerEnter(Collider coll)

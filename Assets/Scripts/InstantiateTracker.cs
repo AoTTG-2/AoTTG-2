@@ -90,10 +90,9 @@ public class InstantiateTracker
 
             case "rc resources/rc prefabs/cannonwall":
             case "rc resources/rc prefabs/cannonground":
-                if (PhotonNetwork.isMasterClient && !(FengGameManagerMKII.instance.allowedToCannon.ContainsKey(photonPlayer.ID) || FengGameManagerMKII.instance.restartingMC))
-                {
+                if (PhotonNetwork.isMasterClient && !(FengGameManagerMKII.instance.AllowedCannonRequests.ContainsKey(photonPlayer.ID) || FengGameManagerMKII.instance.restartingMC))
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning cannon item (" + key + ").");
-                }
+
                 return this.Instantiated(photonPlayer, GameResource.general);
 
             case "rc resources/rc prefabs/cannonwallprop":

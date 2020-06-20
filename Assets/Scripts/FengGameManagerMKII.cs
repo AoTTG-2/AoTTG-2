@@ -21,7 +21,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public static bool showHackMenu = true;
 
-    public Dictionary<int, CannonValues> allowedToCannon;
+    public Dictionary<int, CannonValues> AllowedCannonRequests; // Managed by MasterClient.
     public Dictionary<string, Texture2D> assetCacheTextures;
     public static ExitGames.Client.Photon.Hashtable banHash;
     public static ExitGames.Client.Photon.Hashtable boolVariables;
@@ -2173,7 +2173,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             racingSpawnPoint = new Vector3(0f, 0f, 0f);
             racingSpawnPointSet = false;
             racingDoors = new List<GameObject>();
-            allowedToCannon = new Dictionary<int, CannonValues>();
+            AllowedCannonRequests = new Dictionary<int, CannonValues>();
             if ((!Level.Name.StartsWith("Custom") && (((int) settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
             {
                 var url = string.Empty;

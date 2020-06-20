@@ -31,10 +31,41 @@ public sealed class Cannon : Photon.MonoBehaviour
     [SerializeField]
     private LineRenderer myCannonLine;
 
+    [SerializeField]
+    private Transform playerPoint;
+
     private string settings;
 
     [SerializeField]
     private float smoothingDelay = 5f;
+
+    public static Cannon Create(Hero hero, string settings)
+    {
+        var strArray = settings.Split(new char[] { ',' });
+        var prefabName = "RC Resources/RC Prefabs/" + strArray[1];
+
+        Cannon cannon;
+        if (strArray.Length > 15)
+        {
+            var position = new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14]));
+            var rotation = new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[16]), Convert.ToSingle(strArray[17]), Convert.ToSingle(strArray[18]));
+            cannon = PhotonNetwork.Instantiate(prefabName, position, rotation, 0).GetComponent<Cannon>();
+        }
+        else
+        {
+            var position = new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4]));
+            var rotation = new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]));
+            cannon = PhotonNetwork.Instantiate(prefabName, position, rotation, 0).GetComponent<Cannon>();
+        }
+
+        cannon.Hero = hero;
+        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(cannon.firingPoint.gameObject, true, false);
+        Camera.main.fieldOfView = 55f;
+
+        hero.HeroDied += cannon.OnHeroDied;
+
+        return cannon;
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -220,19 +251,17 @@ public sealed class Cannon : Photon.MonoBehaviour
             if (PhotonNetwork.isMasterClient)
             {
                 var owner = photonView.owner;
-                if (FengGameManagerMKII.instance.allowedToCannon.ContainsKey(owner.ID))
+                CannonValues values;
+                if (FengGameManagerMKII.instance.AllowedCannonRequests.TryGetValue(owner.ID, out values))
                 {
-                    settings = FengGameManagerMKII.instance.allowedToCannon[owner.ID].settings;
-                    photonView.RPC<string, PhotonMessageInfo>(SetSize, PhotonTargets.All, settings);
-                    var viewID = FengGameManagerMKII.instance.allowedToCannon[owner.ID].viewID;
-                    FengGameManagerMKII.instance.allowedToCannon.Remove(owner.ID);
-                    var component = PhotonView.Find(viewID).gameObject.GetComponent<UnmannedCannon>();
-                    if (component != null)
-                    {
-                        component.disabled = true;
-                        component.destroyed = true;
-                        PhotonNetwork.Destroy(component.gameObject);
-                    }
+                    photonView.RPC<string, PhotonMessageInfo>(SetSize, PhotonTargets.All, settings = values.settings);
+                    FengGameManagerMKII.instance.AllowedCannonRequests.Remove(owner.ID);
+
+                    var viewID = values.viewID;
+                    var component = PhotonView.Find(viewID).GetComponent<UnmannedCannon>();
+                    component.disabled = true;
+                    component.destroyed = true;
+                    PhotonNetwork.Destroy(component.gameObject);
                 }
                 else if (!(owner.IsLocal || FengGameManagerMKII.instance.restartingMC))
                     FengGameManagerMKII.instance.kickPlayerRC(owner, false, "spawning cannon without request.");
@@ -262,6 +291,8 @@ public sealed class Cannon : Photon.MonoBehaviour
 
     private void OnDestroy()
     {
+        Hero.HeroDied -= OnHeroDied;
+
         if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.instance.isRestarting)
         {
             var strArray = settings.Split(new char[] { ',' });
@@ -300,6 +331,11 @@ public sealed class Cannon : Photon.MonoBehaviour
         }
     }
 
+    private void OnHeroDied(Hero hero)
+    {
+        PhotonNetwork.Destroy(gameObject);
+    }
+
     private void Reset()
     {
         // Yes, this is null when the component is first added.
@@ -309,6 +345,7 @@ public sealed class Cannon : Photon.MonoBehaviour
         photonView.ObservedComponents.Remove(this);
         photonView.ObservedComponents.Add(this);
 
+        playerPoint = transform.Find("PlayerPoint");
         barrel = transform.Find("Barrel");
         firingPoint = barrel.Find("FiringPoint");
         ballPoint = barrel.Find("BallPoint");
@@ -326,5 +363,11 @@ public sealed class Cannon : Photon.MonoBehaviour
             ApplyPlayerInput();
         else
             ApplyPredictedTransform();
+
+        if (Hero.isCannon)
+        {
+            Hero.transform.position = playerPoint.position;
+            Hero.transform.rotation = playerPoint.rotation;
+        }
     }
 }

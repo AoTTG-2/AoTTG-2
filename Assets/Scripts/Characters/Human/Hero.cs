@@ -123,9 +123,6 @@ public class Hero : Human
     public float maxVelocityChange = 10f;
     public AudioSource meatDie;
     public Bomb myBomb;
-    public GameObject myCannon;
-    public Transform myCannonBase;
-    public Transform myCannonPlayer;
     public GROUP myGroup;
     private GameObject myHorse;
     public GameObject myNetWorkName;
@@ -182,6 +179,9 @@ public class Hero : Human
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
+
+    public delegate void HeroDiedHandler(Hero hero);
+    public event HeroDiedHandler HeroDied;
 
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
@@ -3102,11 +3102,6 @@ public class Hero : Human
             {
                 this.myBomb.destroyMe();
             }
-            // TODO: Invert the dependency.
-            if (this.myCannon != null)
-            {
-                PhotonNetwork.Destroy(this.myCannon);
-            }
             if (this.titanForm && (this.eren_titan != null))
             {
                 this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
@@ -3180,6 +3175,8 @@ public class Hero : Human
         {
             PhotonNetwork.Destroy(base.photonView);
         }
+        
+        HeroDied?.Invoke(this);
     }
 
     [PunRPC]
@@ -3226,11 +3223,6 @@ public class Hero : Human
             if (this.myBomb != null)
             {
                 this.myBomb.destroyMe();
-            }
-            // TODO: Invert the dependency. Why are there two netDie methods?
-            if (this.myCannon != null)
-            {
-                PhotonNetwork.Destroy(this.myCannon);
             }
             PhotonNetwork.RemoveRPCs(base.photonView);
             if (this.titanForm && (this.eren_titan != null))
@@ -3312,6 +3304,8 @@ public class Hero : Human
                 FengGameManagerMKII.heroHash.Remove(iD);
             }
         }
+        
+        HeroDied?.Invoke(this);
     }
 
     public void netDieLocal(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true)
@@ -3326,12 +3320,6 @@ public class Hero : Human
             if (this.myBomb != null)
             {
                 this.myBomb.destroyMe();
-            }
-            // TODO: Invert the dependency. Okay, is this really called three times? Or just two?
-            // I don't think PhotonDestroy should be called locally as well as globally?
-            if (this.myCannon != null)
-            {
-                PhotonNetwork.Destroy(this.myCannon);
             }
             if (this.skillCD != null)
             {
@@ -3406,6 +3394,8 @@ public class Hero : Human
                 FengGameManagerMKII.heroHash.Remove(iD);
             }
         }
+
+        HeroDied?.Invoke(this);
     }
 
     [PunRPC]
@@ -3625,11 +3615,9 @@ public class Hero : Human
     [PunRPC]
     public void ReturnFromCannon(PhotonMessageInfo info)
     {
-        if (info.sender == base.photonView.owner)
-        {
-            this.isCannon = false;
-            base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
-        }
+        Debug.Assert(info.sender == photonView.owner, $"{nameof(ReturnFromCannon)} was called by non-owner.");
+        isCannon = false;
+        GetComponent<SmoothSyncMovement>().disabled = false;
     }
 
     private void rightArmAimTo(Vector3 target)
@@ -3778,22 +3766,16 @@ public class Hero : Human
     }
 
     [PunRPC]
-    public void SetMyCannon(int viewID, PhotonMessageInfo info)
+    public void MountCannonRPC(int viewID, PhotonMessageInfo info)
     {
-        if (info.sender == base.photonView.owner)
-        {
-            PhotonView view = PhotonView.Find(viewID);
-            if (view != null)
-            {
-                this.myCannon = view.gameObject;
-                if (this.myCannon != null)
-                {
-                    this.myCannonBase = this.myCannon.transform;
-                    this.myCannonPlayer = this.myCannonBase.Find("PlayerPoint");
-                    this.isCannon = true;
-                }
-            }
-        }
+        Debug.Assert(info.sender == photonView.owner, $"{nameof(MountCannonRPC)} was called by non-owner.");
+        
+        var view = PhotonView.Find(viewID);
+        var cannon = view.GetComponent<Cannon>();
+        cannon.Hero = this;
+
+        GetComponent<SmoothSyncMovement>().disabled = true;
+        isCannon = true;
     }
 
     [PunRPC]
@@ -4341,52 +4323,39 @@ public class Hero : Human
     [PunRPC]
     public void SpawnCannonRPC(string settings, PhotonMessageInfo info)
     {
-        if ((info.sender.isMasterClient && base.photonView.isMine) && (this.myCannon == null))
-        {
-            if ((this.myHorse != null) && this.isMounted)
-            {
-                this.getOffHorse();
-            }
-            this.idle();
-            if (this.bulletLeft != null)
-            {
-                this.bulletLeft.GetComponent<Bullet>().removeMe();
-            }
-            if (this.bulletRight != null)
-            {
-                this.bulletRight.GetComponent<Bullet>().removeMe();
-            }
-            if ((this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
-            {
-                base.photonView.RPC<bool>(net3DMGSMOKE, PhotonTargets.Others, false);
-            }
-            this.smoke_3dmg.enableEmission = false;
-            base.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            string[] strArray = settings.Split(new char[] { ',' });
-            string prefabName = "RC Resources/RC Prefabs/" + strArray[1];
-            if (strArray.Length > 15)
-            {
-                Vector3 position = new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14]));
-                Quaternion rotation = new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[16]), Convert.ToSingle(strArray[17]), Convert.ToSingle(strArray[18]));
-                this.myCannon = PhotonNetwork.Instantiate(prefabName, position, rotation, 0);
-            }
-            else
-            {
-                Vector3 position = new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4]));
-                Quaternion rotation = new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]));
-                this.myCannon = PhotonNetwork.Instantiate(prefabName, position, rotation, 0);
-            }
-            this.myCannonBase = this.myCannon.transform;
-            this.myCannonPlayer = this.myCannon.transform.Find("PlayerPoint");
-            this.isCannon = true;
-            this.myCannon.GetComponent<Cannon>().Hero = this;
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
-            Camera.main.fieldOfView = 55f;
-            photonView.RPC<int, PhotonMessageInfo>(SetMyCannon, PhotonTargets.OthersBuffered, myCannon.GetPhotonView().viewID);
-            this.skillCDLastCannon = this.skillCDLast;
-            this.skillCDLast = 3.5f;
-            this.skillCDDuration = 3.5f;
-        }
+        Debug.Assert(info.sender.IsMasterClient, $"Only MasterClient may call {nameof(SpawnCannonRPC)}.");
+        Debug.Assert(photonView.isMine, $"{nameof(SpawnCannonRPC)} must be called on the local player.");
+        Debug.Assert(!isCannon, "Can't spawn cannon while using a cannon.");
+
+        PrepareForCannon();
+
+        var cannonViewID = Cannon.Create(this, settings).photonView.viewID;
+        photonView.RPC<int, PhotonMessageInfo>(MountCannonRPC, PhotonTargets.AllBuffered, cannonViewID);
+
+        skillCDLastCannon = skillCDLast;
+        skillCDLast = 3.5f;
+        skillCDDuration = 3.5f;
+    }
+
+    private void PrepareForCannon()
+    {
+        if (myHorse && isMounted)
+            getOffHorse();
+
+        idle();
+
+        if (bulletLeft != null)
+            bulletLeft.GetComponent<Bullet>().removeMe();
+
+        if (bulletRight != null)
+            bulletRight.GetComponent<Bullet>().removeMe();
+
+        if (smoke_3dmg.enableEmission && IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE && photonView.isMine)
+            photonView.RPC<bool>(net3DMGSMOKE, PhotonTargets.Others, false);
+
+        smoke_3dmg.enableEmission = false;
+
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     public void SetHorse()
@@ -4588,11 +4557,7 @@ public class Hero : Human
                     this.baseTransform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
                     base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
                 }
-                else if (this.isCannon && (this.myCannon != null))
-                {
-                    this.updateCannon();
-                    base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
-                }
+
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
                 {
                     if ((this.state == HERO_STATE.Grab) && !this.useGun)
@@ -5627,12 +5592,6 @@ public class Hero : Human
                 }
             }
         }
-    }
-
-    public void updateCannon()
-    {
-        this.baseTransform.position = this.myCannonPlayer.position;
-        this.baseTransform.rotation = this.myCannonBase.rotation;
     }
 
     public void updateExt()
