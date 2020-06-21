@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 4001674441401502}
   - component: {fileID: 54486259779811734}
   - component: {fileID: 114548056060932832}
+  - component: {fileID: 114528004691847404}
   - component: {fileID: 114668278705988802}
   - component: {fileID: 114797219678682386}
   - component: {fileID: 114005892603992372}
@@ -1261,6 +1262,18 @@ MonoBehaviour:
   noVelocity: 0
   PhotonCamera: 1
   SmoothingDelay: 5
+--- !u!114 &114528004691847404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1385805190429242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26043f6f6ef8bb4698240ede7d47557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterPrefabs: {fileID: 11400000, guid: 31cbd44638546e342979824ffeb523ee, type: 2}
 --- !u!114 &114548056060932832
 MonoBehaviour:
   m_ObjectHideFlags: 1
