@@ -14,9 +14,6 @@ using System.Text;
 /// </summary>
 public static class ChatCommandHandler
 {
-    /// <summary>
-    /// Outputs list of banned players to chat
-    /// </summary>
     private static void OutputBanList()
     {
         var message = ChatUtility.FormatSystemMessage("List of banned players:");
@@ -28,10 +25,6 @@ public static class ChatCommandHandler
         }
     }
 
-    /// <summary>
-    /// Ban player with Id
-    /// </summary>
-    /// <param name="playerIdString"></param>
     private static void BanPlayer(string playerIdString)
     {
         int playerId;
@@ -496,7 +489,7 @@ public static class ChatCommandHandler
                 {
                     case ChatCommand.None:
                         SwitchTeam((int)teamEnum);
-                        message = FormatTextColor00FFFF("You have joined team cyan.");
+                        message = FormatTextColor00FFFF("You have joined individuals.");
                         break;
                     case ChatCommand.Cyan:
                         SwitchTeam((int)teamEnum);
@@ -507,7 +500,7 @@ public static class ChatCommandHandler
                         message = FormatTextColorFF00FF("You have joined team magenta.");
                         break;
                     default:
-                        instance.chatRoom.OutputErrorMessage("Invalid team name. Accepted text values are cyan or magenta.");
+                        instance.chatRoom.OutputErrorMessage("Invalid team name. Accepted text values are none, cyan or magenta.");
                         break;
                 }
                 instance.chatRoom.AddMessage(message);
