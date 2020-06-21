@@ -5,8 +5,7 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
-
-        public GraphicSettingMenu GraphicSettingsMenu;
+        public GameObject GraphicsView;
 
         // Used by Button.
         public void Quit()
@@ -24,14 +23,13 @@ namespace Assets.Scripts.UI.InGame
         // Used by Button.
         public void ShowGraphicSettingsMenu()
         {
-            GraphicSettingsMenu.gameObject.SetActive(true);
+            GraphicsView.gameObject.SetActive(true);
         }
 
         private void OnDisable()
         {
             GameSettingsMenu.gameObject.SetActive(false);
-            GraphicSettingsMenu.gameObject.SetActive(false);
-
+            GraphicsView.gameObject.SetActive(false);
 
             MenuManager.RegisterClosed();
         }

@@ -8,32 +8,22 @@ namespace Assets.Scripts.UI.InGame
 		public Text Label;
 		public Slider Slider;
 
-		private void Update() {
-			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
-			// this was causing the bug // gameObject.GetComponentInChildren<Slider>().value = QualitySettings.GetQualityLevel();
-		}
-
-		public void UpdateQualitySliderValue()
+		public void UpdateQuality()
 		{
-			
 			int sValue = (int)Slider.value;
 			QualitySettings.SetQualityLevel(sValue, true);
-			
-		}
-
-		public void LoadPlayerPrefs()
-		{
-			Slider.value = PlayerPrefs.GetInt("QualitySlider");
+			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
+			FindObjectOfType<GeneralGraphics>().UpdateObjects();
 		}
 
 		[Serializable]
-		public struct Data
+		public struct QualityData
 		{
 			public int Slider;
 
-			public Data(int value)
+			public QualityData(QualitySwitcher toCopy)
 			{
-				this.Slider = value;
+				this.Slider = (int)toCopy.Slider.value;
 			}
 		}
 	}
