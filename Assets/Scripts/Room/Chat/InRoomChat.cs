@@ -20,7 +20,7 @@ public class InRoomChat : Photon.MonoBehaviour
     public InputField ChatInputField;
     public Text ChatText;
 
-    public void OnGUI()
+    private void Update()
     {
         if (!IsVisible || (PhotonNetwork.connectionState != ConnectionState.Connected))
         {
