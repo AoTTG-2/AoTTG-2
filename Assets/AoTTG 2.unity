@@ -45863,31 +45863,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622a85de26774424e8c7a97c33dac33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmusic: {fileID: 0}
   gameOver: 0
-  height: 5
-  heightDamping: 2
   inputManager: {fileID: 0}
-  justHit: 0
-  lastScore: 0
   main_object: {fileID: 0}
-  maximumX: 360
-  maximumY: 60
-  minimumX: -360
-  minimumY: -60
-  rotationY: 0
-  score: 0
   skyBoxDAWN: {fileID: 0}
   skyBoxDAY: {fileID: 0}
   skyBoxNIGHT: {fileID: 0}
   snapShotCamera: {fileID: 2027999944}
   snapshotRT: {fileID: 0}
   spectatorMode: 0
-  target: {fileID: 0}
-  texture: {fileID: 0}
-  timer: 0
-  xSpeed: -3
-  ySpeed: -0.8
+--- !u!114 &3240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91cfccf41a6132f45852aa9e64552944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df570ef2c183646b99587206dab33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56220,9 +56226,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: '', y: ''}
-  m_AnchoredPosition: {x: 0.000018676423, y: 0}
-  m_AnchoredPosition: {x: 0.0, y: 0.0}
+  m_AnchoredPosition: {x: 0, y: 0.000030357112}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &692447671
@@ -63035,8 +63039,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1430843759}
   m_HandleRect: {fileID: 1430843758}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -69124,10 +69128,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: '', y: ''}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
-  m_AnchoredPosition: {x: -0.000091552734, y: 0}
-  m_SizeDelta: {x: 0, y: 245.76001}
+  m_AnchoredPosition: {x: -0.000091552734, y: -0.00006108623}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1502454003
 MonoBehaviour:
