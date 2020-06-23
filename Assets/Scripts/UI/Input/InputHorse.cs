@@ -8,7 +8,6 @@
         Right,
         Jump,
         Mount,
-        Walk,
-        Sprint
+        Walk
     }
 }

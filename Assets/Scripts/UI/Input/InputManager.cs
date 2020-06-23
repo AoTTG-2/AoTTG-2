@@ -20,6 +20,9 @@ namespace Assets.Scripts.UI.Input
         private const string TitanPlayerPrefs = "InputTitan";
         private const string UiPlayerPrefs = "InputUi";
 
+        public const KeyCode ScrollUp = KeyCode.Joystick8Button18;
+        public const KeyCode ScrollDown = KeyCode.Joystick8Button19;
+
         private void Awake()
         {
             LoadRebinds();
@@ -135,17 +138,23 @@ namespace Assets.Scripts.UI.Input
 
         private static void LoadRebinds()
         {
-            //var horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
-            //if (string.IsNullOrEmpty(horseRebinds))
-            //    SetDefaultHorseKeybindings();
+            var cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
+            if (string.IsNullOrEmpty(cannonRebinds))
+                SetDefaultCannonKeybindings();
 
-            //inputHorse = JsonConvert.DeserializeObject<Dictionary<InputHorse, KeyCode>>(horseRebinds);
+            inputCannon = JsonConvert.DeserializeObject<Dictionary<InputCannon, KeyCode>>(cannonRebinds);
 
-            SetDefaultCannonKeybindings();
             SetDefaultHorseKeybindings();
             SetDefaultHumanKeybindings();
             SetDefaultTitanKeybindings();
             SetDefaultUiKeybindings();
+        }
+
+        public static void SaveRebinds(Dictionary<InputCannon, KeyCode> newInput)
+        {
+            var json = JsonConvert.SerializeObject(newInput);
+            PlayerPrefs.SetString(CannonPlayerPrefs, json);
+            inputCannon = newInput;
         }
 
         public static bool KeyPressed<T>(T inputEnum)
@@ -154,7 +163,9 @@ namespace Assets.Scripts.UI.Input
             {
                 if (InGameUi.IsMenuOpen()) return false;
                 var input = (InputCannon) (object) inputEnum;
-                return UnityEngine.Input.GetKey(inputCannon[input]);
+                return IsMouseScrollKeyCode(inputCannon[input]) 
+                    ? IsScrolling(inputCannon[input]) 
+                    : UnityEngine.Input.GetKey(inputCannon[input]);
             }
 
             if (inputEnum is InputHuman)
@@ -298,6 +309,36 @@ namespace Assets.Scripts.UI.Input
             }
 
             throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.GetKey");
+        }
+
+        public static bool IsMouseScrollKeyCode(KeyCode keyCode)
+        {
+            return keyCode == KeyCode.Joystick8Button18 || keyCode == KeyCode.Joystick8Button19;
+        }
+
+        public static bool IsScrolling(KeyCode keyCode)
+        {
+            if (keyCode == ScrollUp)
+            {
+                return IsScrollUp();
+            }
+
+            if (keyCode == ScrollDown)
+            {
+                return IsScrollDown();
+            }
+
+            return false;
+        }
+
+        public static bool IsScrollUp()
+        {
+            return UnityEngine.Input.mouseScrollDelta.y > 0;
+        }
+
+        public static bool IsScrollDown()
+        {
+            return UnityEngine.Input.mouseScrollDelta.y < 0;
         }
     }
 }

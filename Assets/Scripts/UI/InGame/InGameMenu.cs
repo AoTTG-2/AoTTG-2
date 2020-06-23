@@ -6,6 +6,7 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
+        public GraphicSettingMenu GraphicSettingsMenu;
         public GameObject GraphicsView;
         public RebindsMenu RebindsMenu;
 

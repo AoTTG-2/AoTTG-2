@@ -13,6 +13,8 @@ namespace Assets.Scripts.UI.InGame.Rebinds
         public GameObject RebindsViewContent;
         public RebindElement RebindElementPrefab;
 
+        private Type CurrentRebinds;
+
         private void OnEnable()
         {
             MenuManager.RegisterOpened();
@@ -40,29 +42,52 @@ namespace Assets.Scripts.UI.InGame.Rebinds
                 var text = inputEnum.Name.Replace("Input", string.Empty);
                 button.name = $"{text}Button";
                 button.GetComponentInChildren<Text>().text = text;
-                button.onClick.AddListener(delegate {ShowRebinds(inputEnum);});
+                button.onClick.AddListener(delegate { ShowRebinds(inputEnum); });
                 button.transform.SetParent(TabViewContent.transform);
             }
         }
 
         private void ShowRebinds(Type inputEnum)
         {
+            foreach (Transform child in RebindsViewContent.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            // Switch case not supported in C# 6.0
             if (inputEnum == typeof(InputCannon))
             {
-                foreach (InputCannon input in Enum.GetValues(typeof(InputCannon)))
-                {
-                    CreateRebindElement(input.ToString(), InputManager.GetKey(input).ToString());
-                }
-                Debug.Log("CANNONS");
+                CreateRebindElement<InputCannon>();
             }
+            else if (inputEnum == typeof(InputHuman))
+            {
+                CreateRebindElement<InputHuman>();
+            }
+            else if (inputEnum == typeof(InputHorse))
+            {
+                CreateRebindElement<InputHorse>();
+            }
+            else if (inputEnum == typeof(InputTitan))
+            {
+                CreateRebindElement<InputTitan>();
+            }
+            else if (inputEnum == typeof(InputUi))
+            {
+                CreateRebindElement<InputUi>();
+            }
+
+            CurrentRebinds = inputEnum;
         }
 
-        private void CreateRebindElement(string name, string value)
+        private void CreateRebindElement<T>()
         {
-            var rebindElement = Instantiate(RebindElementPrefab);
-            rebindElement.transform.SetParent(RebindsViewContent.transform);
-            rebindElement.Label.text = name;
-            rebindElement.InputKey.GetComponentInChildren<Text>().text = value;
+            foreach (T input in Enum.GetValues(typeof(T)))
+            {
+                var key = InputManager.GetKey(input);
+                var rebindElement = Instantiate(RebindElementPrefab);
+                rebindElement.transform.SetParent(RebindsViewContent.transform);
+                rebindElement.SetInputKeycode(key);
+            }
         }
 
         public void Load()
@@ -77,7 +102,16 @@ namespace Assets.Scripts.UI.InGame.Rebinds
 
         public void Save()
         {
-
+            var rebindKeys = RebindsViewContent.GetComponentsInChildren<RebindElement>();
+            if (CurrentRebinds == typeof(InputCannon))
+            {
+                var rebindDictionary = new Dictionary<InputCannon, KeyCode>();
+                foreach (var rebindKey in rebindKeys)
+                {
+                    rebindDictionary.Add((InputCannon) Enum.Parse(CurrentRebinds, rebindKey.Label.text), rebindKey.Key);
+                }
+                InputManager.SaveRebinds(rebindDictionary);
+            }
         }
     }
 }
