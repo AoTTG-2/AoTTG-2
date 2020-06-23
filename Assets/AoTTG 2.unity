@@ -45871,6 +45871,28 @@ MonoBehaviour:
   snapShotCamera: {fileID: 2027999944}
   snapshotRT: {fileID: 0}
   spectatorMode: 0
+--- !u!114 &3240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91cfccf41a6132f45852aa9e64552944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df570ef2c183646b99587206dab33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63705,8 +63727,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1430843759}
   m_HandleRect: {fileID: 1430843758}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
