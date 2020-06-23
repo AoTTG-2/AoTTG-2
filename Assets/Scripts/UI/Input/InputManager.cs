@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.UI.InGame;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +29,7 @@ namespace Assets.Scripts.UI.Input
 
         #region Default Rebinds
 
-        private static void SetDefaultCannonKeybindings()
+        private static void SetDefaultCannonKeyBindings()
         {
             inputCannon = new Dictionary<InputCannon, KeyCode>
             {
@@ -46,7 +45,7 @@ namespace Assets.Scripts.UI.Input
             PlayerPrefs.SetString(CannonPlayerPrefs, JsonConvert.SerializeObject(inputCannon));
         }
 
-        private static void SetDefaultHorseKeybindings()
+        private static void SetDefaultHorseKeyBindings()
         {
             inputHorse = new Dictionary<InputHorse, KeyCode>
             {
@@ -62,7 +61,7 @@ namespace Assets.Scripts.UI.Input
             PlayerPrefs.SetString(HorsePlayerPrefs, JsonConvert.SerializeObject(inputHorse));
         }
 
-        private static void SetDefaultHumanKeybindings()
+        private static void SetDefaultHumanKeyBindings()
         {
             inputHuman = new Dictionary<InputHuman, KeyCode>
             {
@@ -92,7 +91,7 @@ namespace Assets.Scripts.UI.Input
             PlayerPrefs.SetString(HumanPlayerPrefs, JsonConvert.SerializeObject(inputHuman));
         }
 
-        private static void SetDefaultTitanKeybindings()
+        private static void SetDefaultTitanKeyBindings()
         {
             inputTitan = new Dictionary<InputTitan, KeyCode>
             {
@@ -116,7 +115,7 @@ namespace Assets.Scripts.UI.Input
             PlayerPrefs.SetString(TitanPlayerPrefs, JsonConvert.SerializeObject(inputTitan));
         }
 
-        private static void SetDefaultUiKeybindings()
+        private static void SetDefaultUiKeyBindings()
         {
             inputUi = new Dictionary<InputUi, KeyCode>
             {
@@ -136,179 +135,142 @@ namespace Assets.Scripts.UI.Input
 
         #endregion
 
-        private static void LoadRebinds()
+        public static void LoadRebinds()
         {
             var cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
             if (string.IsNullOrEmpty(cannonRebinds))
-                SetDefaultCannonKeybindings();
+                SetDefaultCannonKeyBindings();
 
             inputCannon = JsonConvert.DeserializeObject<Dictionary<InputCannon, KeyCode>>(cannonRebinds);
 
-            SetDefaultHorseKeybindings();
-            SetDefaultHumanKeybindings();
-            SetDefaultTitanKeybindings();
-            SetDefaultUiKeybindings();
+            var horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
+            if (string.IsNullOrEmpty(horseRebinds))
+                SetDefaultHorseKeyBindings();
+
+            inputHorse = JsonConvert.DeserializeObject<Dictionary<InputHorse, KeyCode>>(horseRebinds);
+
+            var humanRebinds = PlayerPrefs.GetString(HumanPlayerPrefs);
+            if (string.IsNullOrEmpty(humanRebinds))
+                SetDefaultHumanKeyBindings();
+
+            inputHuman = JsonConvert.DeserializeObject<Dictionary<InputHuman, KeyCode>>(humanRebinds);
+
+            var titanRebinds = PlayerPrefs.GetString(TitanPlayerPrefs);
+            if (string.IsNullOrEmpty(titanRebinds))
+                SetDefaultTitanKeyBindings();
+
+            inputTitan = JsonConvert.DeserializeObject<Dictionary<InputTitan, KeyCode>>(titanRebinds);
+
+            var uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
+            if (string.IsNullOrEmpty(uiRebinds))
+                SetDefaultUiKeyBindings();
+
+            inputUi = JsonConvert.DeserializeObject<Dictionary<InputUi, KeyCode>>(uiRebinds);
         }
 
-        public static void SaveRebinds(Dictionary<InputCannon, KeyCode> newInput)
+        public static void SaveRebinds<T>(Dictionary<T, KeyCode> newInput)
         {
             var json = JsonConvert.SerializeObject(newInput);
-            PlayerPrefs.SetString(CannonPlayerPrefs, json);
-            inputCannon = newInput;
+            PlayerPrefs.SetString(GetPlayerPrefs<T>(), json);
+            LoadRebinds();
+        }
+
+        public static void SetDefaultRebinds()
+        {
+            SetDefaultCannonKeyBindings();
+            SetDefaultHorseKeyBindings();
+            SetDefaultHumanKeyBindings();
+            SetDefaultTitanKeyBindings();
+            SetDefaultUiKeyBindings();
+        }
+
+        private static Dictionary<T, KeyCode> GetRebinds<T>(T type)
+        {
+            if (type is InputCannon)
+            {
+                return inputCannon as Dictionary<T, KeyCode>;
+            }
+            if (type is InputHorse)
+            {
+                return inputHorse as Dictionary<T, KeyCode>;
+            }
+            if (type is InputHuman)
+            {
+                return inputHuman as Dictionary<T, KeyCode>;
+            }
+            if (type is InputTitan)
+            {
+                return inputTitan as Dictionary<T, KeyCode>;
+            }
+            if (type is InputUi)
+            {
+                return inputUi as Dictionary<T, KeyCode>;
+            }
+
+            throw new ArgumentException($"{type.GetType()} is not implemented in InputManager.GetRebinds");
+        }
+
+        private static bool CanUseKey<T>(T type)
+        {
+            return true;
+        }
+
+        private static string GetPlayerPrefs<T>()
+        {
+            if (typeof(T) == typeof(InputCannon))
+            {
+                return CannonPlayerPrefs;
+            }
+            if (typeof(T) == typeof(InputHorse))
+            {
+                return HorsePlayerPrefs;
+            }
+            if (typeof(T) == typeof(InputHuman))
+            {
+                return HumanPlayerPrefs;
+            }
+            if (typeof(T) == typeof(InputTitan))
+            {
+                return TitanPlayerPrefs;
+            }
+            if (typeof(T) == typeof(InputUi))
+            {
+                return UiPlayerPrefs;
+            }
+            throw new ArgumentException($"{typeof(T)} is not implemented in InputManager.GetPlayerPrefs");
         }
 
         public static bool KeyPressed<T>(T inputEnum)
         {
-            if (inputEnum is InputCannon)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputCannon) (object) inputEnum;
-                return IsMouseScrollKeyCode(inputCannon[input]) 
-                    ? IsScrolling(inputCannon[input]) 
-                    : UnityEngine.Input.GetKey(inputCannon[input]);
-            }
-
-            if (inputEnum is InputHuman)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputHuman) (object) inputEnum;
-                return UnityEngine.Input.GetKey(inputHuman[input]);
-            }
-
-            if (inputEnum is InputHorse)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputHorse) (object) inputEnum;
-                return UnityEngine.Input.GetKey(inputHorse[input]);
-            }
-
-            if (inputEnum is InputTitan)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputTitan) (object) inputEnum;
-                return UnityEngine.Input.GetKey(inputTitan[input]);
-            }
-
-            if (inputEnum is InputUi)
-            {
-                var input = (InputUi) (object) inputEnum;
-                return UnityEngine.Input.GetKey(inputUi[input]);
-            }
-
-            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.KeyPressed");
+            if (!CanUseKey(inputEnum)) return false;
+            var rebinds = GetRebinds(inputEnum);
+            return IsMouseScrollKeyCode(rebinds[inputEnum])
+                ? IsScrolling(rebinds[inputEnum])
+                : UnityEngine.Input.GetKey(rebinds[inputEnum]);
         }
 
         public static bool KeyDown<T>(T inputEnum)
         {
-            if (inputEnum is InputCannon)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputCannon) (object) inputEnum;
-                return UnityEngine.Input.GetKeyDown(inputCannon[input]);
-            }
-
-            if (inputEnum is InputHuman)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputHuman) (object) inputEnum;
-                return UnityEngine.Input.GetKeyDown(inputHuman[input]);
-            }
-
-            if (inputEnum is InputHorse)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputHorse) (object) inputEnum;
-                return UnityEngine.Input.GetKeyDown(inputHorse[input]);
-            }
-
-            if (inputEnum is InputTitan)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputTitan) (object) inputEnum;
-                return UnityEngine.Input.GetKeyDown(inputTitan[input]);
-            }
-
-            if (inputEnum is InputUi)
-            {
-                var input = (InputUi) (object) inputEnum;
-                return UnityEngine.Input.GetKeyDown(inputUi[input]);
-            }
-
-            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.KeyDown");
+            if (!CanUseKey(inputEnum)) return false;
+            var rebinds = GetRebinds(inputEnum);
+            return IsMouseScrollKeyCode(rebinds[inputEnum])
+                ? IsScrolling(rebinds[inputEnum])
+                : UnityEngine.Input.GetKeyDown(rebinds[inputEnum]);
         }
 
         public static bool KeyUp<T>(T inputEnum)
         {
-            if (inputEnum is InputCannon)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputCannon) (object) inputEnum;
-                return UnityEngine.Input.GetKeyUp(inputCannon[input]);
-            }
-
-            if (inputEnum is InputHuman)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputHuman) (object) inputEnum;
-                return UnityEngine.Input.GetKeyUp(inputHuman[input]);
-            }
-
-            if (inputEnum is InputHorse)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputHorse) (object) inputEnum;
-                return UnityEngine.Input.GetKeyUp(inputHorse[input]);
-            }
-
-            if (inputEnum is InputTitan)
-            {
-                if (InGameUi.IsMenuOpen()) return false;
-                var input = (InputTitan) (object) inputEnum;
-                return UnityEngine.Input.GetKeyUp(inputTitan[input]);
-            }
-
-            if (inputEnum is InputUi)
-            {
-                var input = (InputUi) (object) inputEnum;
-                return UnityEngine.Input.GetKeyUp(inputUi[input]);
-            }
-
-            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.KeyUp");
+            if (!CanUseKey(inputEnum)) return false;
+            var rebinds = GetRebinds(inputEnum);
+            return IsMouseScrollKeyCode(rebinds[inputEnum])
+                ? IsScrolling(rebinds[inputEnum])
+                : UnityEngine.Input.GetKeyUp(rebinds[inputEnum]);
         }
 
         public static KeyCode GetKey<T>(T inputEnum)
         {
-            if (inputEnum is InputCannon)
-            {
-                var input = (InputCannon) (object) inputEnum;
-                return inputCannon[input];
-            }
-
-            if (inputEnum is InputHorse)
-            {
-                var input = (InputHorse) (object) inputEnum;
-                return inputHorse[input];
-            }
-
-            if (inputEnum is InputHuman)
-            {
-                var input = (InputHuman) (object) inputEnum;
-                return inputHuman[input];
-            }
-
-            if (inputEnum is InputTitan)
-            {
-                var input = (InputTitan) (object) inputEnum;
-                return inputTitan[input];
-            }
-
-            if (inputEnum is InputUi)
-            {
-                var input = (InputUi) (object) inputEnum;
-                return inputUi[input];
-            }
-
-            throw new ArgumentException($"{inputEnum.GetType()} is not implemented in InputManager.GetKey");
+            var rebinds = GetRebinds(inputEnum);
+            return rebinds[inputEnum];
         }
 
         public static bool IsMouseScrollKeyCode(KeyCode keyCode)

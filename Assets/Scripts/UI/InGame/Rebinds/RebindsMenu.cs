@@ -86,6 +86,7 @@ namespace Assets.Scripts.UI.InGame.Rebinds
                 var key = InputManager.GetKey(input);
                 var rebindElement = Instantiate(RebindElementPrefab);
                 rebindElement.transform.SetParent(RebindsViewContent.transform);
+                rebindElement.Label.text = input.ToString();
                 rebindElement.SetInputKeycode(key);
             }
         }
@@ -97,21 +98,43 @@ namespace Assets.Scripts.UI.InGame.Rebinds
 
         public void Default()
         {
-
+            InputManager.SetDefaultRebinds();
+            ShowRebinds(CurrentRebinds);
         }
 
         public void Save()
         {
-            var rebindKeys = RebindsViewContent.GetComponentsInChildren<RebindElement>();
             if (CurrentRebinds == typeof(InputCannon))
             {
-                var rebindDictionary = new Dictionary<InputCannon, KeyCode>();
-                foreach (var rebindKey in rebindKeys)
-                {
-                    rebindDictionary.Add((InputCannon) Enum.Parse(CurrentRebinds, rebindKey.Label.text), rebindKey.Key);
-                }
-                InputManager.SaveRebinds(rebindDictionary);
+                SaveRebinds<InputCannon>();
             }
+            else if (CurrentRebinds == typeof(InputHorse))
+            {
+                SaveRebinds<InputHorse>();
+            }
+            else if (CurrentRebinds == typeof(InputHuman))
+            {
+                SaveRebinds<InputHuman>();
+            }
+            else if (CurrentRebinds == typeof(InputTitan))
+            {
+                SaveRebinds<InputTitan>();
+            }
+            else if (CurrentRebinds == typeof(InputUi))
+            {
+                SaveRebinds<InputUi>();
+            }
+        }
+
+        private void SaveRebinds<T>()
+        {
+            var rebindKeys = RebindsViewContent.GetComponentsInChildren<RebindElement>();
+            var rebindDictionary = new Dictionary<T, KeyCode>();
+            foreach (var rebindKey in rebindKeys)
+            {
+                rebindDictionary.Add((T) Enum.Parse(CurrentRebinds, rebindKey.Label.text), rebindKey.Key);
+            }
+            InputManager.SaveRebinds(rebindDictionary);
         }
     }
 }
