@@ -41,7 +41,7 @@ namespace Assets.Scripts.UI.InGame
         {
             HUD.gameObject.SetActive(true);
             SpawnMenu.gameObject.SetActive(true);
-            GraphicSettingMenu.gameObject.SetActive(false);
+            GraphicSettingMenu.gameObject.SetActive(true);
             Menu.gameObject.SetActive(false);
             RebindsMenu.gameObject.SetActive(false);
         }

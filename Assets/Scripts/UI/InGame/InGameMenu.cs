@@ -6,7 +6,6 @@ namespace Assets.Scripts.UI.InGame
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
-        public GraphicSettingMenu GraphicSettingsMenu;
         public GameObject GraphicsView;
         public RebindsMenu RebindsMenu;
 
@@ -47,7 +46,7 @@ namespace Assets.Scripts.UI.InGame
         {
             InGameUi.OnMenuClosed();
             GameSettingsMenu.gameObject.SetActive(false);
-            GraphicSettingsMenu.gameObject.SetActive(false);
+            GraphicsView.gameObject.SetActive(false);
             RebindsMenu.gameObject.SetActive(false);
             MenuManager.RegisterClosed();
         }
