@@ -508,7 +508,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     {
                         Time.timeScale = 0f;
                     }
-                    //TODO: #61 Pausing menu
+                    //TODO: Pausing menu
                     //GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
                 }
             }

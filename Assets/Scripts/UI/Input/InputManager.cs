@@ -24,7 +24,11 @@ namespace Assets.Scripts.UI.Input
 
         private void Awake()
         {
-            LoadRebinds();
+            LoadRebinds(typeof(InputCannon));
+            LoadRebinds(typeof(InputHorse));
+            LoadRebinds(typeof(InputHuman));
+            LoadRebinds(typeof(InputTitan));
+            LoadRebinds(typeof(InputUi));
         }
 
         #region Default Rebinds
@@ -135,53 +139,83 @@ namespace Assets.Scripts.UI.Input
 
         #endregion
 
-        public static void LoadRebinds()
+        public static void LoadRebinds(Type inputType)
         {
-            var cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
-            if (string.IsNullOrEmpty(cannonRebinds))
-                SetDefaultCannonKeyBindings();
+            if (inputType == typeof(InputCannon))
+            {
+                var cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
+                if (string.IsNullOrEmpty(cannonRebinds))
+                    SetDefaultCannonKeyBindings();
 
-            inputCannon = JsonConvert.DeserializeObject<Dictionary<InputCannon, KeyCode>>(cannonRebinds);
+                inputCannon = JsonConvert.DeserializeObject<Dictionary<InputCannon, KeyCode>>(cannonRebinds);
+            }
+            else if (inputType == typeof(InputHorse))
+            {
+                var horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
+                if (string.IsNullOrEmpty(horseRebinds))
+                    SetDefaultHorseKeyBindings();
 
-            var horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
-            if (string.IsNullOrEmpty(horseRebinds))
-                SetDefaultHorseKeyBindings();
+                inputHorse = JsonConvert.DeserializeObject<Dictionary<InputHorse, KeyCode>>(horseRebinds);
+            }
+            else if(inputType == typeof(InputHuman))
+            {
+                var humanRebinds = PlayerPrefs.GetString(HumanPlayerPrefs);
+                if (string.IsNullOrEmpty(humanRebinds))
+                    SetDefaultHumanKeyBindings();
 
-            inputHorse = JsonConvert.DeserializeObject<Dictionary<InputHorse, KeyCode>>(horseRebinds);
+                inputHuman = JsonConvert.DeserializeObject<Dictionary<InputHuman, KeyCode>>(humanRebinds);
+            }
+            else if(inputType == typeof(InputTitan))
+            {
+                var titanRebinds = PlayerPrefs.GetString(TitanPlayerPrefs);
+                if (string.IsNullOrEmpty(titanRebinds))
+                    SetDefaultTitanKeyBindings();
 
-            var humanRebinds = PlayerPrefs.GetString(HumanPlayerPrefs);
-            if (string.IsNullOrEmpty(humanRebinds))
-                SetDefaultHumanKeyBindings();
+                inputTitan = JsonConvert.DeserializeObject<Dictionary<InputTitan, KeyCode>>(titanRebinds);
+            }
+            else if(inputType == typeof(InputUi))
+            {
+                var uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
+                if (string.IsNullOrEmpty(uiRebinds))
+                    SetDefaultUiKeyBindings();
 
-            inputHuman = JsonConvert.DeserializeObject<Dictionary<InputHuman, KeyCode>>(humanRebinds);
-
-            var titanRebinds = PlayerPrefs.GetString(TitanPlayerPrefs);
-            if (string.IsNullOrEmpty(titanRebinds))
-                SetDefaultTitanKeyBindings();
-
-            inputTitan = JsonConvert.DeserializeObject<Dictionary<InputTitan, KeyCode>>(titanRebinds);
-
-            var uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
-            if (string.IsNullOrEmpty(uiRebinds))
-                SetDefaultUiKeyBindings();
-
-            inputUi = JsonConvert.DeserializeObject<Dictionary<InputUi, KeyCode>>(uiRebinds);
+                inputUi = JsonConvert.DeserializeObject<Dictionary<InputUi, KeyCode>>(uiRebinds);
+            }
+            else
+            {
+                throw new ArgumentException($"{inputType} is not implemented in InputManager.LoadRebinds");
+            }
         }
 
         public static void SaveRebinds<T>(Dictionary<T, KeyCode> newInput)
         {
             var json = JsonConvert.SerializeObject(newInput);
             PlayerPrefs.SetString(GetPlayerPrefs<T>(), json);
-            LoadRebinds();
+            LoadRebinds(typeof(T));
         }
 
-        public static void SetDefaultRebinds()
+        public static void SetDefaultRebinds(Type inputEnum)
         {
-            SetDefaultCannonKeyBindings();
-            SetDefaultHorseKeyBindings();
-            SetDefaultHumanKeyBindings();
-            SetDefaultTitanKeyBindings();
-            SetDefaultUiKeyBindings();
+            if (inputEnum == typeof(InputCannon))
+            {
+                SetDefaultCannonKeyBindings();
+            }
+            else if (inputEnum == typeof(InputHorse))
+            {
+                SetDefaultHorseKeyBindings();
+            }
+            else if (inputEnum == typeof(InputHuman))
+            {
+                SetDefaultHumanKeyBindings();
+            }
+            else if (inputEnum == typeof(InputTitan))
+            {
+                SetDefaultTitanKeyBindings();
+            }
+            else if (inputEnum == typeof(InputUi))
+            {
+                SetDefaultUiKeyBindings();
+            }
         }
 
         private static Dictionary<T, KeyCode> GetRebinds<T>(T type)

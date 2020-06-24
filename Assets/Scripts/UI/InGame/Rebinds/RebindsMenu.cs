@@ -47,6 +47,42 @@ namespace Assets.Scripts.UI.InGame.Rebinds
             }
         }
 
+        public void Default()
+        {
+            InputManager.SetDefaultRebinds(CurrentRebinds);
+            ShowRebinds(CurrentRebinds);
+        }
+
+        public void Load()
+        {
+            InputManager.LoadRebinds(CurrentRebinds);
+            ShowRebinds(CurrentRebinds);
+        }
+
+        public void Save()
+        {
+            if (CurrentRebinds == typeof(InputCannon))
+            {
+                SaveRebinds<InputCannon>();
+            }
+            else if (CurrentRebinds == typeof(InputHorse))
+            {
+                SaveRebinds<InputHorse>();
+            }
+            else if (CurrentRebinds == typeof(InputHuman))
+            {
+                SaveRebinds<InputHuman>();
+            }
+            else if (CurrentRebinds == typeof(InputTitan))
+            {
+                SaveRebinds<InputTitan>();
+            }
+            else if (CurrentRebinds == typeof(InputUi))
+            {
+                SaveRebinds<InputUi>();
+            }
+        }
+
         private void ShowRebinds(Type inputEnum)
         {
             foreach (Transform child in RebindsViewContent.transform)
@@ -54,7 +90,6 @@ namespace Assets.Scripts.UI.InGame.Rebinds
                 GameObject.Destroy(child.gameObject);
             }
 
-            // Switch case not supported in C# 6.0
             if (inputEnum == typeof(InputCannon))
             {
                 CreateRebindElement<InputCannon>();
@@ -91,40 +126,7 @@ namespace Assets.Scripts.UI.InGame.Rebinds
             }
         }
 
-        public void Load()
-        {
 
-        }
-
-        public void Default()
-        {
-            InputManager.SetDefaultRebinds();
-            ShowRebinds(CurrentRebinds);
-        }
-
-        public void Save()
-        {
-            if (CurrentRebinds == typeof(InputCannon))
-            {
-                SaveRebinds<InputCannon>();
-            }
-            else if (CurrentRebinds == typeof(InputHorse))
-            {
-                SaveRebinds<InputHorse>();
-            }
-            else if (CurrentRebinds == typeof(InputHuman))
-            {
-                SaveRebinds<InputHuman>();
-            }
-            else if (CurrentRebinds == typeof(InputTitan))
-            {
-                SaveRebinds<InputTitan>();
-            }
-            else if (CurrentRebinds == typeof(InputUi))
-            {
-                SaveRebinds<InputUi>();
-            }
-        }
 
         private void SaveRebinds<T>()
         {

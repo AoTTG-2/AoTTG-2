@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.InGame.Rebinds;
+using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -8,6 +9,7 @@ namespace Assets.Scripts.UI.InGame
         public InGameMenu Menu;
         public SpawnMenu SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
+        public RebindsMenu RebindsMenu;
 
         private static int _activeMenus;
 
@@ -37,10 +39,11 @@ namespace Assets.Scripts.UI.InGame
 
         void OnEnable()
         {
-            //HUD.gameObject.SetActive(true);
-            //SpawnMenu.gameObject.SetActive(true);
-            //GraphicSettingMenu.gameObject.SetActive(true);
+            HUD.gameObject.SetActive(true);
+            SpawnMenu.gameObject.SetActive(true);
+            GraphicSettingMenu.gameObject.SetActive(false);
             Menu.gameObject.SetActive(false);
+            RebindsMenu.gameObject.SetActive(false);
         }
 
         private void Update()

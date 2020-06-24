@@ -48,6 +48,7 @@ namespace Assets.Scripts.UI.InGame
             InGameUi.OnMenuClosed();
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicSettingsMenu.gameObject.SetActive(false);
+            RebindsMenu.gameObject.SetActive(false);
             MenuManager.RegisterClosed();
         }
     }
