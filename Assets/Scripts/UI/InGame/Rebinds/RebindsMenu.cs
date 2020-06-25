@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.UI.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace Assets.Scripts.UI.InGame.Rebinds
         public GameObject RebindsViewContent;
         public RebindElement RebindElementPrefab;
 
-        private Type CurrentRebinds;
+        private Type currentRebindType = typeof(InputHuman);
         
         private void Awake()
         {
@@ -35,39 +36,41 @@ namespace Assets.Scripts.UI.InGame.Rebinds
                 button.onClick.AddListener(delegate { ShowRebinds(inputEnum); });
                 button.transform.SetParent(TabViewContent.transform);
             }
+
+            ShowRebinds(currentRebindType);
         }
 
         public void Default()
         {
-            InputManager.SetDefaultRebinds(CurrentRebinds);
-            ShowRebinds(CurrentRebinds);
+            InputManager.SetDefaultRebinds(currentRebindType);
+            ShowRebinds(currentRebindType);
         }
 
         public void Load()
         {
-            InputManager.LoadRebinds(CurrentRebinds);
-            ShowRebinds(CurrentRebinds);
+            InputManager.LoadRebinds(currentRebindType);
+            ShowRebinds(currentRebindType);
         }
 
         public void Save()
         {
-            if (CurrentRebinds == typeof(InputCannon))
+            if (currentRebindType == typeof(InputCannon))
             {
                 SaveRebinds<InputCannon>();
             }
-            else if (CurrentRebinds == typeof(InputHorse))
+            else if (currentRebindType == typeof(InputHorse))
             {
                 SaveRebinds<InputHorse>();
             }
-            else if (CurrentRebinds == typeof(InputHuman))
+            else if (currentRebindType == typeof(InputHuman))
             {
                 SaveRebinds<InputHuman>();
             }
-            else if (CurrentRebinds == typeof(InputTitan))
+            else if (currentRebindType == typeof(InputTitan))
             {
                 SaveRebinds<InputTitan>();
             }
-            else if (CurrentRebinds == typeof(InputUi))
+            else if (currentRebindType == typeof(InputUi))
             {
                 SaveRebinds<InputUi>();
             }
@@ -101,7 +104,7 @@ namespace Assets.Scripts.UI.InGame.Rebinds
                 CreateRebindElement<InputUi>();
             }
 
-            CurrentRebinds = inputEnum;
+            currentRebindType = inputEnum;
         }
 
         private void CreateRebindElement<T>()
@@ -119,12 +122,8 @@ namespace Assets.Scripts.UI.InGame.Rebinds
         private void SaveRebinds<T>()
         {
             var rebindKeys = RebindsViewContent.GetComponentsInChildren<RebindElement>();
-            var rebindDictionary = new Dictionary<T, KeyCode>();
-            foreach (var rebindKey in rebindKeys)
-            {
-                rebindDictionary.Add((T) Enum.Parse(CurrentRebinds, rebindKey.Label.text), rebindKey.Key);
-            }
-            InputManager.SaveRebinds(rebindDictionary);
+            var keys = rebindKeys.Select(x => x.Key).ToArray();
+            InputManager.SaveRebinds<T>(keys);
         }
     }
 }

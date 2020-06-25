@@ -1,17 +1,18 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Input
 {
     public class InputManager : MonoBehaviour
     {
-        private static Dictionary<InputCannon, KeyCode> inputCannon = new Dictionary<InputCannon, KeyCode>();
-        private static Dictionary<InputHorse, KeyCode> inputHorse = new Dictionary<InputHorse, KeyCode>();
-        private static Dictionary<InputHuman, KeyCode> inputHuman = new Dictionary<InputHuman, KeyCode>();
-        private static Dictionary<InputTitan, KeyCode> inputTitan = new Dictionary<InputTitan, KeyCode>();
-        private static Dictionary<InputUi, KeyCode> inputUi = new Dictionary<InputUi, KeyCode>();
+        private static KeyCode[] _cannonKeys;
+        private static KeyCode[] _horseKeys;
+        private static KeyCode[] _humanKeys;
+        private static KeyCode[] _titanKeys;
+        private static KeyCode[] _uiKeys;
 
         private const string CannonPlayerPrefs = "InputCannon";
         private const string HorsePlayerPrefs = "InputHorse";
@@ -36,46 +37,48 @@ namespace Assets.Scripts.UI.Input
 
         private static void SetDefaultCannonKeyBindings()
         {
-            inputCannon = new Dictionary<InputCannon, KeyCode>
+            var cannonKeys = new Dictionary<InputCannon, KeyCode>
             {
                 [InputCannon.Up] = KeyCode.W,
                 [InputCannon.Down] = KeyCode.S,
                 [InputCannon.Left] = KeyCode.A,
                 [InputCannon.Right] = KeyCode.D,
-                [InputCannon.Shoot] = KeyCode.Q,
                 [InputCannon.Slow] = KeyCode.LeftShift,
+                [InputCannon.Shoot] = KeyCode.Q,
                 [InputCannon.Mount] = KeyCode.G
             };
 
-            PlayerPrefs.SetString(CannonPlayerPrefs, JsonConvert.SerializeObject(inputCannon));
+            _cannonKeys = cannonKeys.Values.ToArray();
+            PlayerPrefs.SetString(CannonPlayerPrefs, JsonConvert.SerializeObject(_cannonKeys));
         }
 
         private static void SetDefaultHorseKeyBindings()
         {
-            inputHorse = new Dictionary<InputHorse, KeyCode>
+            var horseKeys = new Dictionary<InputHorse, KeyCode>
             {
                 [InputHorse.Forward] = KeyCode.W,
                 [InputHorse.Backward] = KeyCode.S,
                 [InputHorse.Left] = KeyCode.A,
                 [InputHorse.Right] = KeyCode.D,
                 [InputHorse.Jump] = KeyCode.LeftShift,
+                [InputHorse.Mount] = KeyCode.LeftControl,
                 [InputHorse.Walk] = KeyCode.Space,
-                [InputHorse.Mount] = KeyCode.LeftControl
             };
 
-            PlayerPrefs.SetString(HorsePlayerPrefs, JsonConvert.SerializeObject(inputHorse));
+            _horseKeys = horseKeys.Values.ToArray();
+            PlayerPrefs.SetString(HorsePlayerPrefs, JsonConvert.SerializeObject(_horseKeys));
         }
 
         private static void SetDefaultHumanKeyBindings()
         {
-            inputHuman = new Dictionary<InputHuman, KeyCode>
+            var humanKeys = new Dictionary<InputHuman, KeyCode>
             {
                 [InputHuman.Forward] = KeyCode.W,
                 [InputHuman.Backward] = KeyCode.S,
                 [InputHuman.Left] = KeyCode.A,
                 [InputHuman.Right] = KeyCode.D,
-                [InputHuman.Jump] = KeyCode.LeftShift,
                 [InputHuman.Gas] = KeyCode.LeftShift,
+                [InputHuman.Jump] = KeyCode.LeftShift,
                 [InputHuman.Dodge] = KeyCode.LeftControl,
                 [InputHuman.Salute] = KeyCode.N,
                 [InputHuman.Reload] = KeyCode.R,
@@ -93,36 +96,38 @@ namespace Assets.Scripts.UI.Input
                 [InputHuman.Focus] = KeyCode.F
             };
 
-            PlayerPrefs.SetString(HumanPlayerPrefs, JsonConvert.SerializeObject(inputHuman));
+            _humanKeys = humanKeys.Values.ToArray();
+            PlayerPrefs.SetString(HumanPlayerPrefs, JsonConvert.SerializeObject(_humanKeys));
         }
 
         private static void SetDefaultTitanKeyBindings()
         {
-            inputTitan = new Dictionary<InputTitan, KeyCode>
+            var titanKeys = new Dictionary<InputTitan, KeyCode>
             {
                 [InputTitan.Forward] = KeyCode.W,
                 [InputTitan.Backward] = KeyCode.S,
                 [InputTitan.Left] = KeyCode.A,
                 [InputTitan.Right] = KeyCode.D,
-                [InputTitan.AttackGrabFront] = KeyCode.Alpha1,
+                [InputTitan.AttackSlap] = KeyCode.Mouse0,
                 [InputTitan.AttackBite] = KeyCode.Alpha2,
+                [InputTitan.AttackGrabFront] = KeyCode.Alpha1,
+                [InputTitan.AttackGrabNape] = KeyCode.Mouse1,
                 [InputTitan.AttackGrabBack] = KeyCode.Alpha3,
-                [InputTitan.Jump] = KeyCode.Space,
-                [InputTitan.Walk] = KeyCode.LeftShift,
                 [InputTitan.AttackPunch] = KeyCode.Q,
                 [InputTitan.AttackBodySlam] = KeyCode.E,
-                [InputTitan.AttackSlap] = KeyCode.Mouse0,
-                [InputTitan.AttackGrabNape] = KeyCode.Mouse1,
+                [InputTitan.Jump] = KeyCode.Space,
                 [InputTitan.Cover] = KeyCode.Z,
+                [InputTitan.Walk] = KeyCode.LeftShift,
                 [InputTitan.Blend] = KeyCode.F
             };
 
-            PlayerPrefs.SetString(TitanPlayerPrefs, JsonConvert.SerializeObject(inputTitan));
+            _titanKeys = titanKeys.Values.ToArray();
+            PlayerPrefs.SetString(TitanPlayerPrefs, JsonConvert.SerializeObject(_titanKeys));
         }
 
         private static void SetDefaultUiKeyBindings()
         {
-            inputUi = new Dictionary<InputUi, KeyCode>
+            var uiKeys = new Dictionary<InputUi, KeyCode>
             {
                 [InputUi.Chat] = KeyCode.Return,
                 [InputUi.ToggleCursor] = KeyCode.X,
@@ -135,7 +140,8 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.InteractionWheel] = KeyCode.Tab
             };
 
-            PlayerPrefs.SetString(UiPlayerPrefs, JsonConvert.SerializeObject(inputUi));
+            _uiKeys = uiKeys.Values.ToArray();
+            PlayerPrefs.SetString(UiPlayerPrefs, JsonConvert.SerializeObject(_uiKeys));
         }
 
         #endregion
@@ -148,7 +154,7 @@ namespace Assets.Scripts.UI.Input
                 if (string.IsNullOrEmpty(cannonRebinds))
                     SetDefaultCannonKeyBindings();
 
-                inputCannon = JsonConvert.DeserializeObject<Dictionary<InputCannon, KeyCode>>(cannonRebinds);
+                _cannonKeys = JsonConvert.DeserializeObject<KeyCode[]>(cannonRebinds);
             }
             else if (inputType == typeof(InputHorse))
             {
@@ -156,7 +162,7 @@ namespace Assets.Scripts.UI.Input
                 if (string.IsNullOrEmpty(horseRebinds))
                     SetDefaultHorseKeyBindings();
 
-                inputHorse = JsonConvert.DeserializeObject<Dictionary<InputHorse, KeyCode>>(horseRebinds);
+                _horseKeys = JsonConvert.DeserializeObject<KeyCode[]>(horseRebinds);
             }
             else if(inputType == typeof(InputHuman))
             {
@@ -164,7 +170,7 @@ namespace Assets.Scripts.UI.Input
                 if (string.IsNullOrEmpty(humanRebinds))
                     SetDefaultHumanKeyBindings();
 
-                inputHuman = JsonConvert.DeserializeObject<Dictionary<InputHuman, KeyCode>>(humanRebinds);
+                _humanKeys = JsonConvert.DeserializeObject<KeyCode[]>(humanRebinds);
             }
             else if(inputType == typeof(InputTitan))
             {
@@ -172,7 +178,7 @@ namespace Assets.Scripts.UI.Input
                 if (string.IsNullOrEmpty(titanRebinds))
                     SetDefaultTitanKeyBindings();
 
-                inputTitan = JsonConvert.DeserializeObject<Dictionary<InputTitan, KeyCode>>(titanRebinds);
+                _titanKeys = JsonConvert.DeserializeObject<KeyCode[]>(titanRebinds);
             }
             else if(inputType == typeof(InputUi))
             {
@@ -180,7 +186,7 @@ namespace Assets.Scripts.UI.Input
                 if (string.IsNullOrEmpty(uiRebinds))
                     SetDefaultUiKeyBindings();
 
-                inputUi = JsonConvert.DeserializeObject<Dictionary<InputUi, KeyCode>>(uiRebinds);
+                _uiKeys = JsonConvert.DeserializeObject<KeyCode[]>(uiRebinds);
             }
             else
             {
@@ -188,9 +194,9 @@ namespace Assets.Scripts.UI.Input
             }
         }
 
-        public static void SaveRebinds<T>(Dictionary<T, KeyCode> newInput)
+        public static void SaveRebinds<T>(KeyCode[] newKeys)
         {
-            var json = JsonConvert.SerializeObject(newInput);
+            var json = JsonConvert.SerializeObject(newKeys);
             PlayerPrefs.SetString(GetPlayerPrefs<T>(), json);
             LoadRebinds(typeof(T));
         }
@@ -219,27 +225,28 @@ namespace Assets.Scripts.UI.Input
             }
         }
 
-        private static Dictionary<T, KeyCode> GetRebinds<T>(T type)
+        private static KeyCode GetRebind<T>(T type)
         {
+            var index = (int) (object) type;
             if (type is InputCannon)
             {
-                return inputCannon as Dictionary<T, KeyCode>;
+                return _cannonKeys[index];
             }
             if (type is InputHorse)
             {
-                return inputHorse as Dictionary<T, KeyCode>;
+                return _horseKeys[index];
             }
             if (type is InputHuman)
             {
-                return inputHuman as Dictionary<T, KeyCode>;
+                return _humanKeys[index];
             }
             if (type is InputTitan)
             {
-                return inputTitan as Dictionary<T, KeyCode>;
+                return _titanKeys[index];
             }
             if (type is InputUi)
             {
-                return inputUi as Dictionary<T, KeyCode>;
+                return _uiKeys[index];
             }
 
             throw new ArgumentException($"{type.GetType()} is not implemented in InputManager.GetRebinds");
@@ -275,40 +282,45 @@ namespace Assets.Scripts.UI.Input
         public static bool KeyDown(InputCannon input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputCannon[input])
-                ? IsScrolling(inputCannon[input])
-                : UnityEngine.Input.GetKeyDown(inputCannon[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_cannonKeys[index])
+                ? IsScrolling(_cannonKeys[index])
+                : UnityEngine.Input.GetKeyDown(_cannonKeys[index]);
         }
 
         public static bool KeyDown(InputHuman input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputHuman[input])
-                ? IsScrolling(inputHuman[input])
-                : UnityEngine.Input.GetKeyDown(inputHuman[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_humanKeys[index])
+                ? IsScrolling(_humanKeys[index])
+                : UnityEngine.Input.GetKeyDown(_humanKeys[index]);
         }
 
         public static bool KeyDown(InputHorse input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputHorse[input])
-                ? IsScrolling(inputHorse[input])
-                : UnityEngine.Input.GetKeyDown(inputHorse[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_horseKeys[index])
+                ? IsScrolling(_horseKeys[index])
+                : UnityEngine.Input.GetKeyDown(_horseKeys[index]);
         }
 
         public static bool KeyDown(InputTitan input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputTitan[input])
-                ? IsScrolling(inputTitan[input])
-                : UnityEngine.Input.GetKeyDown(inputTitan[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_titanKeys[index])
+                ? IsScrolling(_titanKeys[index])
+                : UnityEngine.Input.GetKeyDown(_titanKeys[index]);
         }
 
         public static bool KeyDown(InputUi input)
         {
-            return IsMouseScrollKeyCode(inputUi[input])
-                ? IsScrolling(inputUi[input])
-                : UnityEngine.Input.GetKeyDown(inputUi[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_uiKeys[index])
+                ? IsScrolling(_uiKeys[index])
+                : UnityEngine.Input.GetKeyDown(_uiKeys[index]);
         }
 
         #endregion
@@ -318,40 +330,45 @@ namespace Assets.Scripts.UI.Input
         public static bool KeyPressed(InputCannon input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputCannon[input])
-                ? IsScrolling(inputCannon[input])
-                : UnityEngine.Input.GetKey(inputCannon[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_cannonKeys[index])
+                ? IsScrolling(_cannonKeys[index])
+                : UnityEngine.Input.GetKey(_cannonKeys[index]);
         }
 
         public static bool KeyPressed(InputHuman input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputHuman[input])
-                ? IsScrolling(inputHuman[input])
-                : UnityEngine.Input.GetKey(inputHuman[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_humanKeys[index])
+                ? IsScrolling(_humanKeys[index])
+                : UnityEngine.Input.GetKey(_humanKeys[index]);
         }
 
         public static bool KeyPressed(InputHorse input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputHorse[input])
-                ? IsScrolling(inputHorse[input])
-                : UnityEngine.Input.GetKey(inputHorse[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_horseKeys[index])
+                ? IsScrolling(_horseKeys[index])
+                : UnityEngine.Input.GetKey(_horseKeys[index]);
         }
 
         public static bool KeyPressed(InputTitan input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputTitan[input])
-                ? IsScrolling(inputTitan[input])
-                : UnityEngine.Input.GetKey(inputTitan[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_titanKeys[index])
+                ? IsScrolling(_titanKeys[index])
+                : UnityEngine.Input.GetKey(_titanKeys[index]);
         }
 
         public static bool KeyPressed(InputUi input)
         {
-            return IsMouseScrollKeyCode(inputUi[input])
-                ? IsScrolling(inputUi[input])
-                : UnityEngine.Input.GetKey(inputUi[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_uiKeys[index])
+                ? IsScrolling(_uiKeys[index])
+                : UnityEngine.Input.GetKey(_uiKeys[index]);
         }
 
         #endregion
@@ -361,48 +378,52 @@ namespace Assets.Scripts.UI.Input
         public static bool KeyUp(InputCannon input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputCannon[input])
-                ? IsScrolling(inputCannon[input])
-                : UnityEngine.Input.GetKeyUp(inputCannon[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_cannonKeys[index])
+                ? IsScrolling(_cannonKeys[index])
+                : UnityEngine.Input.GetKeyUp(_cannonKeys[index]);
         }
 
         public static bool KeyUp(InputHuman input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputHuman[input])
-                ? IsScrolling(inputHuman[input])
-                : UnityEngine.Input.GetKeyUp(inputHuman[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_humanKeys[index])
+                ? IsScrolling(_humanKeys[index])
+                : UnityEngine.Input.GetKeyUp(_humanKeys[index]);
         }
 
         public static bool KeyUp(InputHorse input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputHorse[input])
-                ? IsScrolling(inputHorse[input])
-                : UnityEngine.Input.GetKeyUp(inputHorse[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_horseKeys[index])
+                ? IsScrolling(_horseKeys[index])
+                : UnityEngine.Input.GetKeyUp(_horseKeys[index]);
         }
 
         public static bool KeyUp(InputTitan input)
         {
             if (MenuManager.IsMenuOpen) return false;
-            return IsMouseScrollKeyCode(inputTitan[input])
-                ? IsScrolling(inputTitan[input])
-                : UnityEngine.Input.GetKeyUp(inputTitan[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_titanKeys[index])
+                ? IsScrolling(_titanKeys[index])
+                : UnityEngine.Input.GetKeyUp(_titanKeys[index]);
         }
 
         public static bool KeyUp(InputUi input)
         {
-            return IsMouseScrollKeyCode(inputUi[input])
-                ? IsScrolling(inputUi[input])
-                : UnityEngine.Input.GetKeyUp(inputUi[input]);
+            var index = (int) input;
+            return IsMouseScrollKeyCode(_uiKeys[index])
+                ? IsScrolling(_uiKeys[index])
+                : UnityEngine.Input.GetKeyUp(_uiKeys[index]);
         }
 
         #endregion
-        
+
         public static KeyCode GetKey<T>(T inputEnum)
         {
-            var rebinds = GetRebinds(inputEnum);
-            return rebinds[inputEnum];
+            return GetRebind(inputEnum);
         }
 
         public static bool IsMouseScrollKeyCode(KeyCode keyCode)

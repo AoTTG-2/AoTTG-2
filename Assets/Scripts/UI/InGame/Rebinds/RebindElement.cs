@@ -49,6 +49,13 @@ namespace Assets.Scripts.UI.InGame.Rebinds
                 return;
             }
 
+            // Return is not recognized via events
+            if (UnityEngine.Input.GetKey(KeyCode.Return))
+            {
+                SetInputKeycode(KeyCode.Return);
+                return;
+            }
+
             if (UnityEngine.Input.mouseScrollDelta.y > 0)
             {
                 SetInputKeycode(InputManager.ScrollUp);
