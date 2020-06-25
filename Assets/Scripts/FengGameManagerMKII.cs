@@ -1970,7 +1970,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         objArray[0xb2] = PlayerPrefs.GetString("customskyright", string.Empty);
         objArray[0xb3] = PlayerPrefs.GetString("customskyup", string.Empty);
         objArray[180] = PlayerPrefs.GetString("customskydown", string.Empty);
-        objArray[0xb5] = PlayerPrefs.GetInt("dashenable", 0);
         objArray[0xb6] = PlayerPrefs.GetString("dashkey", "RightControl");
         objArray[0xb8] = PlayerPrefs.GetString("fpscap", "0");
         objArray[0xb9] = 0;

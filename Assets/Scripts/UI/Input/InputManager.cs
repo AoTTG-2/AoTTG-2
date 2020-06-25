@@ -19,10 +19,13 @@ namespace Assets.Scripts.UI.Input
         private const string HumanPlayerPrefs = "InputHuman";
         private const string TitanPlayerPrefs = "InputTitan";
         private const string UiPlayerPrefs = "InputUi";
+        private const string OtherPlayersPrefs = "InputOther";
 
         public const KeyCode ScrollUp = KeyCode.Joystick8Button18;
         public const KeyCode ScrollDown = KeyCode.Joystick8Button19;
         public const KeyCode Menu = KeyCode.P;
+
+        public static bool GasBurstDoubleTap;
 
         private void Awake()
         {
@@ -31,6 +34,7 @@ namespace Assets.Scripts.UI.Input
             LoadRebinds(typeof(InputHuman));
             LoadRebinds(typeof(InputTitan));
             LoadRebinds(typeof(InputUi));
+            GasBurstDoubleTap = JsonConvert.DeserializeObject<bool>(PlayerPrefs.GetString(OtherPlayersPrefs, "false"));
         }
 
         #region Default Rebinds
@@ -96,8 +100,10 @@ namespace Assets.Scripts.UI.Input
                 [InputHuman.Focus] = KeyCode.F
             };
 
+            GasBurstDoubleTap = false;
             _humanKeys = humanKeys.Values.ToArray();
             PlayerPrefs.SetString(HumanPlayerPrefs, JsonConvert.SerializeObject(_humanKeys));
+            PlayerPrefs.SetString(OtherPlayersPrefs, JsonConvert.SerializeObject(GasBurstDoubleTap));
         }
 
         private static void SetDefaultTitanKeyBindings()
@@ -199,6 +205,11 @@ namespace Assets.Scripts.UI.Input
             var json = JsonConvert.SerializeObject(newKeys);
             PlayerPrefs.SetString(GetPlayerPrefs<T>(), json);
             LoadRebinds(typeof(T));
+        }
+
+        public static void SaveOtherPlayerPrefs()
+        {
+            PlayerPrefs.SetString(OtherPlayersPrefs, JsonConvert.SerializeObject(GasBurstDoubleTap));
         }
 
         public static void SetDefaultRebinds(Type inputEnum)

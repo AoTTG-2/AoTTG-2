@@ -4718,13 +4718,13 @@ public class Hero : Human
                         this.updateExt();
                         if (!this.grounded && (this.state != HERO_STATE.AirDodge))
                         {
-                            if (((int)FengGameManagerMKII.settings[0xb5]) == 1)
+                            if (InputManager.GasBurstDoubleTap)
                             {
-                                this.checkDashRebind();
+                                this.checkDashDoubleTap();
                             }
                             else
                             {
-                                this.checkDashDoubleTap();
+                                this.checkDashRebind();
                             }
                             if (this.dashD)
                             {

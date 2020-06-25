@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Input;
+﻿using Assets.Scripts.UI.Elements;
+using Assets.Scripts.UI.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Assets.Scripts.UI.InGame.Rebinds
         public Button TabViewButton;
         public GameObject RebindsViewContent;
         public RebindElement RebindElementPrefab;
+        public UiCheckbox UiCheckbox;
 
         private Type currentRebindType = typeof(InputHuman);
         
@@ -65,6 +67,9 @@ namespace Assets.Scripts.UI.InGame.Rebinds
             else if (currentRebindType == typeof(InputHuman))
             {
                 SaveRebinds<InputHuman>();
+                var gasBurstCheckbox = RebindsViewContent.GetComponentInChildren<UiCheckbox>();
+                InputManager.GasBurstDoubleTap = gasBurstCheckbox.Value;
+                InputManager.SaveOtherPlayerPrefs();
             }
             else if (currentRebindType == typeof(InputTitan))
             {
@@ -90,6 +95,11 @@ namespace Assets.Scripts.UI.InGame.Rebinds
             else if (inputEnum == typeof(InputHuman))
             {
                 CreateRebindElement<InputHuman>();
+                var gasBurstCheckbox = Instantiate(UiCheckbox);
+                gasBurstCheckbox.transform.SetParent(RebindsViewContent.transform);
+                gasBurstCheckbox.Value = InputManager.GasBurstDoubleTap;
+                gasBurstCheckbox.Label = "Gas Burst double tap";
+                gasBurstCheckbox.Initialize();
             }
             else if (inputEnum == typeof(InputHorse))
             {
