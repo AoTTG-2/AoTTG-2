@@ -488,30 +488,31 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     return;
                 }
             }
-            if (InputManager.KeyDown(InputUi.Pause))
-            {
-                if (isPausing)
-                {
-                    if (this.main_object != null)
-                    {
-                        Vector3 position = base.transform.position;
-                        position = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
-                        position += (Vector3)(Vector3.up * this.heightMulti);
-                        base.transform.position = Vector3.Lerp(base.transform.position, position - ((Vector3)(base.transform.forward * 5f)), 0.2f);
-                    }
-                    return;
-                }
-                isPausing = !isPausing;
-                if (isPausing)
-                {
-                    if (gametype == GAMETYPE.SINGLE)
-                    {
-                        Time.timeScale = 0f;
-                    }
-                    //TODO: Pausing menu
-                    //GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
-                }
-            }
+            //TODO #204 - Pause Menu
+            //if (InputManager.KeyDown(InputUi.Pause))
+            //{
+            //    if (isPausing)
+            //    {
+            //        if (this.main_object != null)
+            //        {
+            //            Vector3 position = base.transform.position;
+            //            position = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
+            //            position += (Vector3)(Vector3.up * this.heightMulti);
+            //            base.transform.position = Vector3.Lerp(base.transform.position, position - ((Vector3)(base.transform.forward * 5f)), 0.2f);
+            //        }
+            //        return;
+            //    }
+            //    isPausing = !isPausing;
+            //    if (isPausing)
+            //    {
+            //        if (gametype == GAMETYPE.SINGLE)
+            //        {
+            //            Time.timeScale = 0f;
+            //        }
+            //        //TODO: Pausing menu disable input
+            //        //GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
+            //    }
+            //}
             if (this.needSetHUD)
             {
                 this.needSetHUD = false;

@@ -41,7 +41,7 @@ public class InRoomChat : Photon.MonoBehaviour
             && Event.current.keyCode == InputManager.GetKey(InputUi.Chat)
             && !ChatInputField.isFocused)
         {
-            InGameUi.OnMenuClosed();
+            MenuManager.RegisterClosed();
             EventSystem.current.SetSelectedGameObject(null);
             this.inputLine = string.Empty;
             ChatInputField.text = string.Empty;
@@ -52,7 +52,7 @@ public class InRoomChat : Photon.MonoBehaviour
             && Event.current.keyCode == InputManager.GetKey(InputUi.Chat) 
             && ChatInputField.isFocused)
         {
-            InGameUi.OnMenuOpened();
+            MenuManager.RegisterOpened();
             goto Label_013D;
         }
 

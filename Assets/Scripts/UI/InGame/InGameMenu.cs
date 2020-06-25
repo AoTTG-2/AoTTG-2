@@ -36,7 +36,6 @@ namespace Assets.Scripts.UI.InGame
 
         private void OnEnable()
         {
-            InGameUi.OnMenuOpened();
             MenuManager.RegisterOpened();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -44,11 +43,10 @@ namespace Assets.Scripts.UI.InGame
 
         private void OnDisable()
         {
-            InGameUi.OnMenuClosed();
+            MenuManager.RegisterClosed();
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicsView.gameObject.SetActive(false);
             RebindsMenu.gameObject.SetActive(false);
-            MenuManager.RegisterClosed();
         }
     }
 }

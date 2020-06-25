@@ -14,17 +14,7 @@ namespace Assets.Scripts.UI.InGame.Rebinds
         public RebindElement RebindElementPrefab;
 
         private Type CurrentRebinds;
-
-        private void OnEnable()
-        {
-            MenuManager.RegisterOpened();
-        }
-
-        private void OnDisable()
-        {
-            MenuManager.RegisterClosed();
-        }
-
+        
         private void Awake()
         {
             var inputEnums = new List<Type>
@@ -125,8 +115,6 @@ namespace Assets.Scripts.UI.InGame.Rebinds
                 rebindElement.SetInputKeycode(key);
             }
         }
-
-
 
         private void SaveRebinds<T>()
         {

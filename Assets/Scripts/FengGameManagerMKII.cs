@@ -4476,15 +4476,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     //Major performance increase can be achieved by moving some of this into fixed update.
     private void Update()
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (GameObject.Find("LabelNetworkStatus") != null))
-        {
+        //if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (GameObject.Find("LabelNetworkStatus") != null))
+        //{
             //GameObject.Find("LabelNetworkStatus").GetComponent<UILabel>().text = PhotonNetwork.connectionState.ToString();
             //if (PhotonNetwork.connected)
             //{
             //    UILabel component = GameObject.Find("LabelNetworkStatus").GetComponent<UILabel>();
             //    component.text = component.text + " ping:" + PhotonNetwork.GetPing();
             //}
-        }
+        //}
         if (this.gameStart)
         {
             IEnumerator enumerator = this.heroes.GetEnumerator();

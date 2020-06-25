@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI.InGame.Rebinds;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
@@ -12,25 +13,6 @@ namespace Assets.Scripts.UI.InGame
         public RebindsMenu RebindsMenu;
 
         private static int _activeMenus;
-
-        public static void OnMenuOpened()
-        {
-            Debug.Log("Menu opened");
-            _activeMenus++;
-        }
-
-        public static void OnMenuClosed()
-        {
-            Debug.Log("Menu closed");
-            if (_activeMenus == 0)
-            {
-                Debug.LogError("Tried to close a menu while there was none");
-            }
-            else
-            {
-                _activeMenus--;
-            }
-        }
 
         public static bool IsMenuOpen()
         {
@@ -50,7 +32,7 @@ namespace Assets.Scripts.UI.InGame
         {
             // The Escape key unlocks the cursor in the editor,
             // which is why exiting the menu messes with TPS.
-            if (UnityEngine.Input.GetKeyDown(KeyCode.P))
+            if (UnityEngine.Input.GetKeyDown(InputManager.Menu))
                 Menu.gameObject.SetActive(!Menu.isActiveAndEnabled);
         }
     }

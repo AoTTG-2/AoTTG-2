@@ -21,6 +21,7 @@ namespace Assets.Scripts.UI.Input
 
         public const KeyCode ScrollUp = KeyCode.Joystick8Button18;
         public const KeyCode ScrollDown = KeyCode.Joystick8Button19;
+        public const KeyCode Menu = KeyCode.P;
 
         private void Awake()
         {
@@ -244,11 +245,6 @@ namespace Assets.Scripts.UI.Input
             throw new ArgumentException($"{type.GetType()} is not implemented in InputManager.GetRebinds");
         }
 
-        private static bool CanUseKey<T>(T type)
-        {
-            return true;
-        }
-
         private static string GetPlayerPrefs<T>()
         {
             if (typeof(T) == typeof(InputCannon))
@@ -274,33 +270,135 @@ namespace Assets.Scripts.UI.Input
             throw new ArgumentException($"{typeof(T)} is not implemented in InputManager.GetPlayerPrefs");
         }
 
-        public static bool KeyPressed<T>(T inputEnum)
+        #region KeyDown
+
+        public static bool KeyDown(InputCannon input)
         {
-            if (!CanUseKey(inputEnum)) return false;
-            var rebinds = GetRebinds(inputEnum);
-            return IsMouseScrollKeyCode(rebinds[inputEnum])
-                ? IsScrolling(rebinds[inputEnum])
-                : UnityEngine.Input.GetKey(rebinds[inputEnum]);
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputCannon[input])
+                ? IsScrolling(inputCannon[input])
+                : UnityEngine.Input.GetKeyDown(inputCannon[input]);
         }
 
-        public static bool KeyDown<T>(T inputEnum)
+        public static bool KeyDown(InputHuman input)
         {
-            if (!CanUseKey(inputEnum)) return false;
-            var rebinds = GetRebinds(inputEnum);
-            return IsMouseScrollKeyCode(rebinds[inputEnum])
-                ? IsScrolling(rebinds[inputEnum])
-                : UnityEngine.Input.GetKeyDown(rebinds[inputEnum]);
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputHuman[input])
+                ? IsScrolling(inputHuman[input])
+                : UnityEngine.Input.GetKeyDown(inputHuman[input]);
         }
 
-        public static bool KeyUp<T>(T inputEnum)
+        public static bool KeyDown(InputHorse input)
         {
-            if (!CanUseKey(inputEnum)) return false;
-            var rebinds = GetRebinds(inputEnum);
-            return IsMouseScrollKeyCode(rebinds[inputEnum])
-                ? IsScrolling(rebinds[inputEnum])
-                : UnityEngine.Input.GetKeyUp(rebinds[inputEnum]);
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputHorse[input])
+                ? IsScrolling(inputHorse[input])
+                : UnityEngine.Input.GetKeyDown(inputHorse[input]);
         }
 
+        public static bool KeyDown(InputTitan input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputTitan[input])
+                ? IsScrolling(inputTitan[input])
+                : UnityEngine.Input.GetKeyDown(inputTitan[input]);
+        }
+
+        public static bool KeyDown(InputUi input)
+        {
+            return IsMouseScrollKeyCode(inputUi[input])
+                ? IsScrolling(inputUi[input])
+                : UnityEngine.Input.GetKeyDown(inputUi[input]);
+        }
+
+        #endregion
+
+        #region KeyPressed
+
+        public static bool KeyPressed(InputCannon input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputCannon[input])
+                ? IsScrolling(inputCannon[input])
+                : UnityEngine.Input.GetKey(inputCannon[input]);
+        }
+
+        public static bool KeyPressed(InputHuman input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputHuman[input])
+                ? IsScrolling(inputHuman[input])
+                : UnityEngine.Input.GetKey(inputHuman[input]);
+        }
+
+        public static bool KeyPressed(InputHorse input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputHorse[input])
+                ? IsScrolling(inputHorse[input])
+                : UnityEngine.Input.GetKey(inputHorse[input]);
+        }
+
+        public static bool KeyPressed(InputTitan input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputTitan[input])
+                ? IsScrolling(inputTitan[input])
+                : UnityEngine.Input.GetKey(inputTitan[input]);
+        }
+
+        public static bool KeyPressed(InputUi input)
+        {
+            return IsMouseScrollKeyCode(inputUi[input])
+                ? IsScrolling(inputUi[input])
+                : UnityEngine.Input.GetKey(inputUi[input]);
+        }
+
+        #endregion
+
+        #region KeyUp
+
+        public static bool KeyUp(InputCannon input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputCannon[input])
+                ? IsScrolling(inputCannon[input])
+                : UnityEngine.Input.GetKeyUp(inputCannon[input]);
+        }
+
+        public static bool KeyUp(InputHuman input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputHuman[input])
+                ? IsScrolling(inputHuman[input])
+                : UnityEngine.Input.GetKeyUp(inputHuman[input]);
+        }
+
+        public static bool KeyUp(InputHorse input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputHorse[input])
+                ? IsScrolling(inputHorse[input])
+                : UnityEngine.Input.GetKeyUp(inputHorse[input]);
+        }
+
+        public static bool KeyUp(InputTitan input)
+        {
+            if (MenuManager.IsMenuOpen) return false;
+            return IsMouseScrollKeyCode(inputTitan[input])
+                ? IsScrolling(inputTitan[input])
+                : UnityEngine.Input.GetKeyUp(inputTitan[input]);
+        }
+
+        public static bool KeyUp(InputUi input)
+        {
+            return IsMouseScrollKeyCode(inputUi[input])
+                ? IsScrolling(inputUi[input])
+                : UnityEngine.Input.GetKeyUp(inputUi[input]);
+        }
+
+        #endregion
+        
         public static KeyCode GetKey<T>(T inputEnum)
         {
             var rebinds = GetRebinds(inputEnum);
@@ -327,12 +425,12 @@ namespace Assets.Scripts.UI.Input
             return false;
         }
 
-        public static bool IsScrollUp()
+        private static bool IsScrollUp()
         {
             return UnityEngine.Input.mouseScrollDelta.y > 0;
         }
 
-        public static bool IsScrollDown()
+        private static bool IsScrollDown()
         {
             return UnityEngine.Input.mouseScrollDelta.y < 0;
         }
