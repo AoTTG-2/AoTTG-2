@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.UI.InGame.Rebinds
+﻿namespace Assets.Scripts.UI.InGame.Controls
 {
     public enum RebindCategory
     {

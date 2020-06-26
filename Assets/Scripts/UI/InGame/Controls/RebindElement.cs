@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.InGame.Rebinds
+namespace Assets.Scripts.UI.InGame.Controls
 {
     public class RebindElement : MonoBehaviour
     {

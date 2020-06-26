@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.UI.InGame.Rebinds;
+﻿using Assets.Scripts.UI.InGame.Controls;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
@@ -7,7 +7,7 @@ namespace Assets.Scripts.UI.InGame
     {
         public GameSettingMenu GameSettingsMenu;
         public GameObject GraphicsView;
-        public RebindsMenu RebindsMenu;
+        public ControlsMenu ControlsMenu;
 
         // Used by Button.
         public void Quit()
@@ -31,7 +31,7 @@ namespace Assets.Scripts.UI.InGame
         // Used by Button.
         public void ShowRebindsMenu()
         {
-            RebindsMenu.gameObject.SetActive(true);
+            ControlsMenu.gameObject.SetActive(true);
         }
 
         private void OnEnable()
@@ -46,7 +46,7 @@ namespace Assets.Scripts.UI.InGame
             MenuManager.RegisterClosed();
             GameSettingsMenu.gameObject.SetActive(false);
             GraphicsView.gameObject.SetActive(false);
-            RebindsMenu.gameObject.SetActive(false);
+            ControlsMenu.gameObject.SetActive(false);
         }
     }
 }

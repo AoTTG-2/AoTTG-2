@@ -1,46 +1,17 @@
 ﻿using Assets.Scripts.UI.Elements;
 using Assets.Scripts.UI.Input;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.InGame.Rebinds
+namespace Assets.Scripts.UI.InGame.Controls
 {
-    public class RebindsMenu : MonoBehaviour
+    public class RebindsPage : MonoBehaviour
     {
-        public GameObject TabViewContent;
-        public Button TabViewButton;
         public GameObject RebindsViewContent;
         public RebindElement RebindElementPrefab;
-        public UiCheckbox UiCheckbox;
 
         private Type currentRebindType = typeof(InputHuman);
-        
-        private void Awake()
-        {
-            var inputEnums = new List<Type>
-            {
-                typeof(InputCannon),
-                typeof(InputHuman),
-                typeof(InputHorse),
-                typeof(InputTitan),
-                typeof(InputUi)
-            };
-
-            foreach (var inputEnum in inputEnums)
-            {
-                var button = Instantiate(TabViewButton);
-                var text = inputEnum.Name.Replace("Input", string.Empty);
-                button.name = $"{text}Button";
-                button.GetComponentInChildren<Text>().text = text;
-                button.onClick.AddListener(delegate { ShowRebinds(inputEnum); });
-                button.transform.SetParent(TabViewContent.transform);
-            }
-
-            ShowRebinds(currentRebindType);
-        }
 
         public void Default()
         {
@@ -81,7 +52,7 @@ namespace Assets.Scripts.UI.InGame.Rebinds
             }
         }
 
-        private void ShowRebinds(Type inputEnum)
+        public void ShowRebinds(Type inputEnum)
         {
             foreach (Transform child in RebindsViewContent.transform)
             {
@@ -95,11 +66,6 @@ namespace Assets.Scripts.UI.InGame.Rebinds
             else if (inputEnum == typeof(InputHuman))
             {
                 CreateRebindElement<InputHuman>();
-                var gasBurstCheckbox = Instantiate(UiCheckbox);
-                gasBurstCheckbox.transform.SetParent(RebindsViewContent.transform);
-                gasBurstCheckbox.Value = InputManager.GasBurstDoubleTap;
-                gasBurstCheckbox.Label = "Gas Burst double tap";
-                gasBurstCheckbox.Initialize();
             }
             else if (inputEnum == typeof(InputHorse))
             {
