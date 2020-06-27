@@ -60,6 +60,11 @@ namespace Assets.Scripts.UI.Elements
         private void ValueChangedRangeCheck()
         {
             if (InputField.text.EndsWith(".")) return;
+            if (string.IsNullOrEmpty(InputField.text))
+            {
+                Value = InputField.placeholder.GetComponent<Text>().text;
+                return;
+            }
             Value = Mathf.Clamp(Convert.ToSingle(InputField.text, CultureInfo.InvariantCulture), MinValue, MaxValue);
             InputField.text = Value.ToString();
         }
