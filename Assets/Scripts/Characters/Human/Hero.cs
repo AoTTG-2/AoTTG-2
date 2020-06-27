@@ -128,7 +128,7 @@ public class Hero : Human
     public Transform myCannonPlayer;
     public CannonPropRegion myCannonRegion;
     public GROUP myGroup;
-    private GameObject myHorse;
+    private Horse myHorse;
     public GameObject myNetWorkName;
     public float myScale = 1f;
     public int myTeam = 1;
@@ -941,7 +941,7 @@ public class Hero : Human
 
     private void dodge2(bool offTheWall = false)
     {
-        if (((!InputManager.KeyPressed(InputHorse.Mount) || (this.myHorse == null)) || this.isMounted) || (Vector3.Distance(this.myHorse.transform.position, base.transform.position) >= 15f))
+        if (((!InputManager.KeyPressed(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
         {
             this.state = HERO_STATE.GroundDodge;
             if (!offTheWall)
@@ -1417,9 +1417,9 @@ public class Hero : Human
                             float num7 = 6f;
                             force = -this.baseRigidBody.velocity;
                             force.y = num7;
-                            float num8 = Vector3.Distance(this.myHorse.transform.position, this.baseTransform.position);
+                            float num8 = Vector3.Distance(myHorse.transform.position, baseTransform.position);
                             float num9 = ((0.6f * this.gravity) * num8) / 12f;
-                            vector7 = this.myHorse.transform.position - this.baseTransform.position;
+                            vector7 = myHorse.transform.position - baseTransform.position;
                             force += (Vector3)(num9 * vector7.normalized);
                         }
                         if (!((this.state == HERO_STATE.Attack) && this.useGun))
@@ -1434,13 +1434,13 @@ public class Hero : Human
                         {
                             this.sparks.enableEmission = false;
                         }
-                        if (((this.myHorse != null) && (this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("air_fall"))) && ((this.baseRigidBody.velocity.y < 0f) && (Vector3.Distance(this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f)), this.baseTransform.position) < 0.5f)))
+                        if ((myHorse && (baseAnimation.IsPlaying("horse_geton") || baseAnimation.IsPlaying("air_fall"))) && ((baseRigidBody.velocity.y < 0f) && (Vector3.Distance(myHorse.transform.position + Vector3.up * 1.65f, baseTransform.position) < 0.5f)))
                         {
-                            this.baseTransform.position = this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f));
-                            this.baseTransform.rotation = this.myHorse.transform.rotation;
-                            this.isMounted = true;
-                            this.crossFade("horse_idle", 0.1f);
-                            this.myHorse.GetComponent<Horse>().Mounted();
+                            baseTransform.position = myHorse.transform.position + Vector3.up * 1.65f;
+                            baseTransform.rotation = myHorse.transform.rotation;
+                            isMounted = true;
+                            crossFade("horse_idle", 0.1f);
+                            myHorse.Mount();
                         }
                         if (!((((((this.state != HERO_STATE.Idle) || this.baseAnimation.IsPlaying("dash")) || (this.baseAnimation.IsPlaying("wallrun") || this.baseAnimation.IsPlaying("toRoof"))) || ((this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("horse_getoff")) || (this.baseAnimation.IsPlaying("air_release") || this.isMounted))) || ((this.baseAnimation.IsPlaying("air_hook_l_just") && (this.baseAnimation["air_hook_l_just"].normalizedTime < 1f)) || (this.baseAnimation.IsPlaying("air_hook_r_just") && (this.baseAnimation["air_hook_r_just"].normalizedTime < 1f)))) ? (this.baseAnimation["dash"].normalizedTime < 0.99f) : false))
                         {
@@ -1883,9 +1883,9 @@ public class Hero : Human
 
     private void getOnHorse()
     {
-        this.playAnimation("horse_geton");
-        this.facingDirection = this.myHorse.transform.rotation.eulerAngles.y;
-        this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
+        playAnimation("horse_geton");
+        facingDirection = myHorse.transform.rotation.eulerAngles.y;
+        targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
     }
 
     public void getSupply()
@@ -2413,9 +2413,9 @@ public class Hero : Human
                 else
                 {
                     int viewID = -1;
-                    if (this.myHorse != null)
+                    if (myHorse)
                     {
-                        viewID = this.myHorse.GetPhotonView().viewID;
+                        viewID = myHorse.photonView.viewID;
                     }
                     base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { viewID, url });
                 }
@@ -4373,21 +4373,19 @@ public class Hero : Human
     [PunRPC]
     public void SpawnCannonRPC(string settings, PhotonMessageInfo info)
     {
-        if ((info.sender.isMasterClient && base.photonView.isMine) && (this.myCannon == null))
+        if (info.sender.isMasterClient && photonView.isMine && !myCannon)
         {
-            if ((this.myHorse != null) && this.isMounted)
-            {
-                this.getOffHorse();
-            }
-            this.idle();
-            if (this.bulletLeft != null)
-            {
-                this.bulletLeft.GetComponent<Bullet>().removeMe();
-            }
-            if (this.bulletRight != null)
-            {
-                this.bulletRight.GetComponent<Bullet>().removeMe();
-            }
+            if (myHorse && isMounted)
+                getOffHorse();
+
+            idle();
+            
+            if (bulletLeft)
+                bulletLeft.GetComponent<Bullet>().removeMe();
+
+            if (bulletRight)
+                bulletRight.GetComponent<Bullet>().removeMe();
+
             if ((this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
             {
                 object[] parameters = new object[] { false };
@@ -4423,8 +4421,9 @@ public class Hero : Human
         if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER || !photonView.isMine) return;
         if (FengGameManagerMKII.Gamemode.Settings.Horse && myHorse == null)
         {
-            this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
-            this.myHorse.GetComponent<Horse>().MyHero = this;
+            var position = baseTransform.position + Vector3.up * 5f;
+            var rotation = baseTransform.rotation;
+            myHorse = Horse.Create(this, position, rotation);
         }
 
         if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)
@@ -4596,7 +4595,7 @@ public class Hero : Human
 
     private void unmounted()
     {
-        this.myHorse.GetComponent<Horse>().Unmounted();
+        this.myHorse.GetComponent<Horse>().Unmount();
         this.isMounted = false;
     }
 
