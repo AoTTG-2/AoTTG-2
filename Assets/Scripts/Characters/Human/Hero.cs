@@ -842,7 +842,6 @@ public class Hero : Human
 
     private void dash(float horizontal, float vertical)
     {
-        UnityEngine.MonoBehaviour.print(this.dashTime + " " + this.currentGas);
         if (((this.dashTime <= 0f) && (this.currentGas > 0f)) && !this.isMounted)
         {
             this.useGas(this.totalGas * 0.04f);
@@ -2056,7 +2055,7 @@ public class Hero : Human
         }
         if (!this.titanForm && !this.isCannon)
         {
-            if ((IN_GAME_MAIN_CAMERA.cameraTilt == 1) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+            if (InputManager.Settings.CameraTilt && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
             {
                 Quaternion quaternion2;
                 Vector3 zero = Vector3.zero;
@@ -4718,7 +4717,7 @@ public class Hero : Human
                         this.updateExt();
                         if (!this.grounded && (this.state != HERO_STATE.AirDodge))
                         {
-                            if (InputManager.GasBurstDoubleTap)
+                            if (InputManager.Settings.GasBurstDoubleTap)
                             {
                                 this.checkDashDoubleTap();
                             }

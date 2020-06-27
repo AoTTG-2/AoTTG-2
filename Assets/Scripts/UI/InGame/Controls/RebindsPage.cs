@@ -38,9 +38,6 @@ namespace Assets.Scripts.UI.InGame.Controls
             else if (currentRebindType == typeof(InputHuman))
             {
                 SaveRebinds<InputHuman>();
-                var gasBurstCheckbox = RebindsViewContent.GetComponentInChildren<UiCheckbox>();
-                InputManager.GasBurstDoubleTap = gasBurstCheckbox.Value;
-                InputManager.SaveOtherPlayerPrefs();
             }
             else if (currentRebindType == typeof(InputTitan))
             {

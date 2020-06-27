@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Assets.Scripts.UI.InGame.Controls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,13 @@ namespace Assets.Scripts.UI.Input
         private const string HumanPlayerPrefs = "InputHuman";
         private const string TitanPlayerPrefs = "InputTitan";
         private const string UiPlayerPrefs = "InputUi";
-        private const string OtherPlayersPrefs = "InputOther";
+        private const string OtherPlayersPrefs = "OtherControls";
 
         public const KeyCode ScrollUp = KeyCode.Joystick8Button18;
         public const KeyCode ScrollDown = KeyCode.Joystick8Button19;
         public const KeyCode Menu = KeyCode.P;
 
-        public static bool GasBurstDoubleTap;
+        public static ControlSettings Settings;
 
         private void Awake()
         {
@@ -34,7 +35,13 @@ namespace Assets.Scripts.UI.Input
             LoadRebinds(typeof(InputHuman));
             LoadRebinds(typeof(InputTitan));
             LoadRebinds(typeof(InputUi));
-            GasBurstDoubleTap = JsonConvert.DeserializeObject<bool>(PlayerPrefs.GetString(OtherPlayersPrefs, "false"));
+
+            Settings = JsonConvert.DeserializeObject<ControlSettings>(PlayerPrefs.GetString(OtherPlayersPrefs));
+            if (Settings == null)
+            {
+                Settings = new ControlSettings();
+                PlayerPrefs.SetString(OtherPlayersPrefs, JsonConvert.SerializeObject(Settings));
+            }
         }
 
         #region Default Rebinds
@@ -100,10 +107,8 @@ namespace Assets.Scripts.UI.Input
                 [InputHuman.Focus] = KeyCode.F
             };
 
-            GasBurstDoubleTap = false;
             _humanKeys = humanKeys.Values.ToArray();
             PlayerPrefs.SetString(HumanPlayerPrefs, JsonConvert.SerializeObject(_humanKeys));
-            PlayerPrefs.SetString(OtherPlayersPrefs, JsonConvert.SerializeObject(GasBurstDoubleTap));
         }
 
         private static void SetDefaultTitanKeyBindings()
@@ -209,7 +214,7 @@ namespace Assets.Scripts.UI.Input
 
         public static void SaveOtherPlayerPrefs()
         {
-            PlayerPrefs.SetString(OtherPlayersPrefs, JsonConvert.SerializeObject(GasBurstDoubleTap));
+            PlayerPrefs.SetString(OtherPlayersPrefs, JsonConvert.SerializeObject(Settings));
         }
 
         public static void SetDefaultRebinds(Type inputEnum)
