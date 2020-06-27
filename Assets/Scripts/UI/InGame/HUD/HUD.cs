@@ -27,7 +27,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         }
         private int ScaleDamageText(int damage)
         {
-            var rateOfChange = 0.263;
+            var rateOfChange = 0.214;
             var fontSize = 150;
             var scale = (damage * rateOfChange) + fontSize;
             var maxScaling = (1400 * rateOfChange) + fontSize;
