@@ -24,9 +24,19 @@ namespace Assets.Scripts.UI.Input
 
         public const KeyCode ScrollUp = KeyCode.Joystick8Button18;
         public const KeyCode ScrollDown = KeyCode.Joystick8Button19;
-        public const KeyCode Menu = KeyCode.P;
+        public static KeyCode Menu;
 
-        public static ControlSettings Settings;
+        public InputManager()
+        {
+#if UNITY_EDITOR
+            Menu = KeyCode.P;
+#else
+            Menu = KeyCode.Escape;
+#endif
+        }
+
+
+    public static ControlSettings Settings;
 
         private void Awake()
         {
