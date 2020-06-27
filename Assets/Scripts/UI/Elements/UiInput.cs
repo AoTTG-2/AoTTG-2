@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,7 +60,7 @@ namespace Assets.Scripts.UI.Elements
         private void ValueChangedRangeCheck()
         {
             if (InputField.text.EndsWith(".")) return;
-            Value = Mathf.Clamp(Convert.ToSingle(InputField.text), MinValue, MaxValue);
+            Value = Mathf.Clamp(Convert.ToSingle(InputField.text, CultureInfo.InvariantCulture), MinValue, MaxValue);
             InputField.text = Value.ToString();
         }
     }

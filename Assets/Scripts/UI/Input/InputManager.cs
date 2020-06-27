@@ -343,6 +343,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputUi input)
         {
+            if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])
@@ -391,6 +392,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyPressed(InputUi input)
         {
+            if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])
@@ -439,6 +441,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp(InputUi input)
         {
+            if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])

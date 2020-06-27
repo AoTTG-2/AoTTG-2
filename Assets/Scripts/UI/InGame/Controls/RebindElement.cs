@@ -14,6 +14,12 @@ namespace Assets.Scripts.UI.InGame.Controls
         private bool IsRebinding { get; set; }
         private const int MouseButtons = 7;
 
+        // KeyCodes that are not recognized via Event.current.keyCode
+        private KeyCode[] nonEventKeyCodes = new[]
+        {
+            KeyCode.LeftShift, KeyCode.RightShift, KeyCode.Return, KeyCode.Space
+        };
+
         private void Awake()
         {
             InputKey.onClick.AddListener(EnableRebinding);
@@ -35,25 +41,13 @@ namespace Assets.Scripts.UI.InGame.Controls
                 return;
             }
 
-            // LeftShift is not recognized via events
-            if (UnityEngine.Input.GetKey(KeyCode.LeftShift))
+            foreach (var keyCode in nonEventKeyCodes)
             {
-                SetInputKeycode(KeyCode.LeftShift);
-                return;
-            }
-
-            // RightShift is not recognized via events
-            if (UnityEngine.Input.GetKey(KeyCode.RightShift))
-            {
-                SetInputKeycode(KeyCode.RightShift);
-                return;
-            }
-
-            // Return is not recognized via events
-            if (UnityEngine.Input.GetKey(KeyCode.Return))
-            {
-                SetInputKeycode(KeyCode.Return);
-                return;
+                if (UnityEngine.Input.GetKey(keyCode))
+                {
+                    SetInputKeycode(keyCode);
+                    return;
+                }
             }
 
             if (UnityEngine.Input.mouseScrollDelta.y > 0)
