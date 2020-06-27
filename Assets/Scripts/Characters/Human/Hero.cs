@@ -1440,7 +1440,7 @@ public class Hero : Human
                             this.baseTransform.rotation = this.myHorse.transform.rotation;
                             this.isMounted = true;
                             this.crossFade("horse_idle", 0.1f);
-                            this.myHorse.GetComponent<Horse>().mounted();
+                            this.myHorse.GetComponent<Horse>().Mounted();
                         }
                         if (!((((((this.state != HERO_STATE.Idle) || this.baseAnimation.IsPlaying("dash")) || (this.baseAnimation.IsPlaying("wallrun") || this.baseAnimation.IsPlaying("toRoof"))) || ((this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("horse_getoff")) || (this.baseAnimation.IsPlaying("air_release") || this.isMounted))) || ((this.baseAnimation.IsPlaying("air_hook_l_just") && (this.baseAnimation["air_hook_l_just"].normalizedTime < 1f)) || (this.baseAnimation.IsPlaying("air_hook_r_just") && (this.baseAnimation["air_hook_r_just"].normalizedTime < 1f)))) ? (this.baseAnimation["dash"].normalizedTime < 0.99f) : false))
                         {
@@ -4424,7 +4424,7 @@ public class Hero : Human
         if (FengGameManagerMKII.Gamemode.Settings.Horse && myHorse == null)
         {
             this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
-            this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
+            this.myHorse.GetComponent<Horse>().MyHero = this;
         }
 
         if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)
@@ -4596,7 +4596,7 @@ public class Hero : Human
 
     private void unmounted()
     {
-        this.myHorse.GetComponent<Horse>().unmounted();
+        this.myHorse.GetComponent<Horse>().Unmounted();
         this.isMounted = false;
     }
 
