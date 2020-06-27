@@ -27,12 +27,16 @@ namespace Assets.Scripts.UI.InGame.HUD
         }
         private int ScaleDamageText(int damage)
         {
-            var rateOfChange = 0.214;
-            var fontSize = 150;
-            var scale = (damage * rateOfChange) + fontSize;
-            var maxScaling = (1400 * rateOfChange) + fontSize;
+            var baseFontSize = 150;
+            var lowestDamageScaling = 10;
+            var highestDamageScaling = 1400;
+            var rateOfChange = 0.216;
 
-            if (damage < 1400)
+            var damageOffset = rateOfChange * lowestDamageScaling;
+            var scale = (damage * rateOfChange) - damageOffset + baseFontSize;
+            var maxScaling = (highestDamageScaling * rateOfChange) - damageOffset + baseFontSize;
+
+            if (damage < highestDamageScaling)
             {
                 return (int) Math.Round(scale);
             }
