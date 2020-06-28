@@ -489,7 +489,7 @@ public static class ChatCommandHandler
                 {
                     case ChatCommand.None:
                         SwitchTeam((int)teamEnum);
-                        message = FormatTextColor00FFFF("You have joined individuals.");
+                        message = "You have joined individuals.";
                         break;
                     case ChatCommand.Cyan:
                         SwitchTeam((int)teamEnum);
