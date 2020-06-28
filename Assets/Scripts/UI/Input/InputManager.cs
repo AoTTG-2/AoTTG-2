@@ -354,7 +354,7 @@ namespace Assets.Scripts.UI.Input
 
         #region KeyPressed
 
-        public static bool KeyPressed(InputCannon input)
+        public static bool Key(InputCannon input)
         {
             if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;
@@ -363,7 +363,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_cannonKeys[index]);
         }
 
-        public static bool KeyPressed(InputHuman input)
+        public static bool Key(InputHuman input)
         {
             if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;
@@ -372,7 +372,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_humanKeys[index]);
         }
 
-        public static bool KeyPressed(InputHorse input)
+        public static bool Key(InputHorse input)
         {
             if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;
@@ -381,7 +381,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_horseKeys[index]);
         }
 
-        public static bool KeyPressed(InputTitan input)
+        public static bool Key(InputTitan input)
         {
             if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;
@@ -390,7 +390,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_titanKeys[index]);
         }
 
-        public static bool KeyPressed(InputUi input)
+        public static bool Key(InputUi input)
         {
             if (MenuManager.IsMenuOpen) return false;
             var index = (int) input;

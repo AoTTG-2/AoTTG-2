@@ -218,7 +218,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (IsAttacking()) return;
 
-            if (!IsCovering && InputManager.KeyPressed(InputTitan.Cover))
+            if (!IsCovering && InputManager.Key(InputTitan.Cover))
             {
                 CrossFade(AnimationCover, 0.0f);
                 SpeedModifier = 0f;
@@ -232,11 +232,11 @@ namespace Assets.Scripts.Characters.Titan
             float num4;
             float num5;
 
-            if (InputManager.KeyPressed(InputTitan.Forward))
+            if (InputManager.Key(InputTitan.Forward))
             {
                 num = 1;
             }
-            else if (InputManager.KeyPressed(InputTitan.Backward))
+            else if (InputManager.Key(InputTitan.Backward))
             {
                 num = -1;
             }
@@ -244,11 +244,11 @@ namespace Assets.Scripts.Characters.Titan
             {
                 num = 0;
             }
-            if (InputManager.KeyPressed(InputTitan.Left))
+            if (InputManager.Key(InputTitan.Left))
             {
                 num2 = -1;
             }
-            else if (InputManager.KeyPressed(InputTitan.Right))
+            else if (InputManager.Key(InputTitan.Right))
             {
                 num2 = 1;
             }
@@ -263,7 +263,7 @@ namespace Assets.Scripts.Characters.Titan
                 num4 = -num4 + 90f;
                 num5 = y + num4;
                 this.targetDirection = num5;
-                if (InputManager.KeyPressed(InputTitan.Walk))
+                if (InputManager.Key(InputTitan.Walk))
                 {
                     SpeedModifier = 0.2f;
                     CrossFade(AnimationWalk, 0.0f);

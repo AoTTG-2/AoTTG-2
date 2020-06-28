@@ -19,12 +19,12 @@ public class HorseController : MonoBehaviour
     private void Update()
     {
         var inputY =
-            (InputManager.KeyPressed(InputHorse.Forward) ? 1 : 0)
-            + (InputManager.KeyPressed(InputHorse.Backward) ? -1 : 0);
+            (InputManager.Key(InputHorse.Forward) ? 1 : 0)
+            + (InputManager.Key(InputHorse.Backward) ? -1 : 0);
 
         var inputX =
-            (InputManager.KeyPressed(InputHorse.Left) ? -1 : 0)
-            + (InputManager.KeyPressed(InputHorse.Right) ? 1 : 0);
+            (InputManager.Key(InputHorse.Left) ? -1 : 0)
+            + (InputManager.Key(InputHorse.Right) ? 1 : 0);
 
         if (inputX != 0 || inputY != 0)
         {
@@ -40,7 +40,7 @@ public class HorseController : MonoBehaviour
         if (TargetDirection != -874f)
             CurrentDirection = TargetDirection;
 
-        ShouldJump = InputManager.KeyDown(InputHorse.Jump);
-        ShouldWalk = InputManager.KeyPressed(InputHorse.Walk);
+        ShouldJump = InputManager.Key(InputHorse.Jump);
+        ShouldWalk = InputManager.Key(InputHorse.Walk);
     }
 }

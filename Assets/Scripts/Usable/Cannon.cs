@@ -204,13 +204,13 @@ public class Cannon : Photon.MonoBehaviour
                 vector3 += (Vector3) (vector * num);
             }
             float num3 = 30f;
-            if (InputManager.KeyPressed(InputCannon.Slow))
+            if (InputManager.Key(InputCannon.Slow))
             {
                 num3 = 5f;
             }
             if (this.isCannonGround)
             {
-                if (InputManager.KeyPressed(InputCannon.Up))
+                if (InputManager.Key(InputCannon.Up))
                 {
                     if (this.currentRot <= 32f)
                     {
@@ -218,23 +218,23 @@ public class Cannon : Photon.MonoBehaviour
                         this.barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * num3));
                     }
                 }
-                else if (InputManager.KeyPressed(InputCannon.Down) && (this.currentRot >= -18f))
+                else if (InputManager.Key(InputCannon.Down) && (this.currentRot >= -18f))
                 {
                     this.currentRot += Time.deltaTime * -num3;
                     this.barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * -num3));
                 }
-                if (InputManager.KeyPressed(InputCannon.Left))
+                if (InputManager.Key(InputCannon.Left))
                 {
                     base.transform.Rotate(new Vector3(0f, Time.deltaTime * -num3, 0f));
                 }
-                else if (InputManager.KeyPressed(InputCannon.Right))
+                else if (InputManager.Key(InputCannon.Right))
                 {
                     base.transform.Rotate(new Vector3(0f, Time.deltaTime * num3, 0f));
                 }
             }
             else
             {
-                if (InputManager.KeyPressed(InputCannon.Up))
+                if (InputManager.Key(InputCannon.Up))
                 {
                     if (this.currentRot >= -50f)
                     {
@@ -242,21 +242,21 @@ public class Cannon : Photon.MonoBehaviour
                         this.barrel.Rotate(new Vector3(Time.deltaTime * -num3, 0f, 0f));
                     }
                 }
-                else if (InputManager.KeyPressed(InputCannon.Down) && (this.currentRot <= 40f))
+                else if (InputManager.Key(InputCannon.Down) && (this.currentRot <= 40f))
                 {
                     this.currentRot += Time.deltaTime * num3;
                     this.barrel.Rotate(new Vector3(Time.deltaTime * num3, 0f, 0f));
                 }
-                if (InputManager.KeyPressed(InputCannon.Left))
+                if (InputManager.Key(InputCannon.Left))
                 {
                     base.transform.Rotate(new Vector3(0f, Time.deltaTime * -num3, 0f));
                 }
-                else if (InputManager.KeyPressed(InputCannon.Right))
+                else if (InputManager.Key(InputCannon.Right))
                 {
                     base.transform.Rotate(new Vector3(0f, Time.deltaTime * num3, 0f));
                 }
             }
-            if (InputManager.KeyPressed(InputCannon.Shoot))
+            if (InputManager.Key(InputCannon.Shoot))
             {
                 this.Fire();
             }
