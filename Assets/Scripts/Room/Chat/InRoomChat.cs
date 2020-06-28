@@ -20,7 +20,7 @@ public class InRoomChat : Photon.MonoBehaviour
     public InputField ChatInputField;
     public Text ChatText;
 
-    public void OnGUI()
+    private void Update()
     {
         if (!IsVisible || (PhotonNetwork.connectionState != ConnectionState.Connected))
         {
@@ -90,7 +90,8 @@ public class InRoomChat : Photon.MonoBehaviour
 
     private void HandleChatInput(InRoomChat chat)
     {
-        if (current.keyCode == KeyCode.KeypadEnter || current.keyCode == KeyCode.Return)
+        //TODO: Change this in Issue 61
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             if (!string.IsNullOrEmpty(inputLine))
             {
