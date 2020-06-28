@@ -16,12 +16,12 @@ public static class ChatCommandHandler
 {
     private static void OutputBanList()
     {
-        var message = ChatUtility.FormatSystemMessage("List of banned players:");
-        instance.chatRoom.AddMessage(message);
+        var message = "List of banned players:";
+        instance.chatRoom.OutputSystemMessage(message);
         foreach (int key in banHash.Keys)
         {
-            message = ChatUtility.FormatSystemMessage($"{key}:{banHash[key]}");
-            instance.chatRoom.AddMessage(message);
+            message = $"{key}:{banHash[key]}";
+            instance.chatRoom.OutputSystemMessage(message);
         }
     }
 
@@ -111,17 +111,17 @@ public static class ChatCommandHandler
     /// </summary>
     private static void OutputRules()
     {
-        var message = FormatSystemMessage("Currently activated gamemodes:");
-        instance.chatRoom.AddMessage(message);
+        var message = "Currently activated gamemodes:";
+        instance.chatRoom.OutputSystemMessage(message);
         if (FengGameManagerMKII.Gamemode.Settings.Horse)
         {
-            message = FormatSystemMessage("Horses are enabled.");
-            instance.chatRoom.AddMessage(message);
+            message = "Horses are enabled.";
+            instance.chatRoom.OutputSystemMessage(message);
         }
         if (FengGameManagerMKII.Gamemode.Settings.Motd != string.Empty)
         {
-            message = FormatSystemMessage($"MOTD: {FengGameManagerMKII.Gamemode.Settings.Motd}");
-            instance.chatRoom.AddMessage(message);
+            message = $"MOTD: {FengGameManagerMKII.Gamemode.Settings.Motd}";
+            instance.chatRoom.OutputSystemMessage(message);
         }
     }
 
@@ -193,8 +193,8 @@ public static class ChatCommandHandler
 
             if (playerList.Any(p => p.ID == playerId))
             {
-                var message = FormatSystemMessage($"Player {playerId} has been revived.");
-                instance.chatRoom.AddMessage(message);
+                var message = $"Player {playerId} has been revived.";
+                instance.chatRoom.OutputSystemMessage(message);
                 instance.photonView.RPC("RespawnRpc", player);
             }
         }
@@ -259,8 +259,8 @@ public static class ChatCommandHandler
         settings[0xf5] = (int)settings[0xf5] == 1 ? 0 : 1;
         bool specMode = (int)settings[0xf5] == 1;
         instance.EnterSpecMode(specMode);
-        string message = FormatSystemMessage(specMode ? "You have entered spectator mode." : "You have exited spectator mode.");
-        instance.chatRoom.AddMessage(message);
+        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        instance.chatRoom.OutputSystemMessage(message);
     }
 
     private static void RestartGame()
@@ -289,9 +289,9 @@ public static class ChatCommandHandler
             {
                 chatMessage.Append(parameters[messageIndex] + " ");
             }
-            instance.photonView.RPC("ChatPM", targetPlayer, new object[] { SetNameColorDependingOnteam(player), chatMessage.ToString() });
+            instance.photonView.RPC("ChatPM", targetPlayer, new object[] { GetPlayerName(player), chatMessage.ToString() });
 
-            var message = $"TO [{targetPlayer.ID}] {SetNameColorDependingOnteam(targetPlayer)}:{chatMessage}";
+            var message = $"TO [{targetPlayer.ID}] {GetPlayerName(targetPlayer)}:{chatMessage}";
             instance.chatRoom.AddMessage(message);
         }
         else
@@ -493,11 +493,11 @@ public static class ChatCommandHandler
                         break;
                     case ChatCommand.Cyan:
                         SwitchTeam((int)teamEnum);
-                        message = FormatTextColor00FFFF("You have joined team cyan.");
+                        message = FormatTextColorCyan("You have joined team cyan.");
                         break;
                     case ChatCommand.Magenta:
                         SwitchTeam((int)teamEnum);
-                        message = FormatTextColorFF00FF("You have joined team magenta.");
+                        message = FormatTextColorMagenta("You have joined team magenta.");
                         break;
                     default:
                         instance.chatRoom.OutputErrorMessage("Invalid team name. Accepted text values are none, cyan or magenta.");
@@ -517,7 +517,7 @@ public static class ChatCommandHandler
         }
     }
 
-    private static void ClearChat()
+    private static void ClearChatAll()
     {
         if (!isMasterClient)
         {
@@ -525,6 +525,11 @@ public static class ChatCommandHandler
             return;
         }
 
+        instance.photonView.RPC("ClearChat", PhotonTargets.All);
+    }
+
+    private static void ClearChat()
+    {
         instance.chatRoom.ClearMessages();
     }
 
@@ -640,6 +645,9 @@ public static class ChatCommandHandler
                 break;
             case ChatCommand.Clear:
                 ClearChat();
+                break;
+            case ChatCommand.ClearAll:
+                ClearChatAll();
                 break;
             default:
                 break;

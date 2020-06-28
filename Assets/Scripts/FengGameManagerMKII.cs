@@ -261,6 +261,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.chatRoom.AddMessage(content);
     }
 
+    [PunRPC]
+    private void ClearChat()
+    {
+        chatRoom.ClearMessages();
+    }
+
     private ExitGames.Client.Photon.Hashtable checkGameGUI()
     {
         int num;
@@ -3802,7 +3808,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             ExitGames.Client.Photon.Hashtable hashtable2 = new ExitGames.Client.Photon.Hashtable();
             hashtable2.Add(PhotonPlayerProperty.RCteam, 1);
-            string name = LoginFengKAI.player.name;
+            var name = LoginFengKAI.player.name;
             if (!name.StartsWith("<color=#00ffff>"))
             {
                 name = $"<color=#00ffff>{name}</color>";
@@ -3815,12 +3821,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             ExitGames.Client.Photon.Hashtable hashtable3 = new ExitGames.Client.Photon.Hashtable();
             hashtable3.Add(PhotonPlayerProperty.RCteam, 2);
-            string str2 = LoginFengKAI.player.name;
-            if (!str2.StartsWith("<color=#ff00ff>"))
+            var name = LoginFengKAI.player.name;
+            if (!name.StartsWith("<color=#ff00ff>"))
             {
-                str2 = $"<color=#ff00ff>{str2}</color>";
+                name = $"<color=#ff00ff>{name}</color>";
             }
-            this.name = str2;
+            this.name = name;
             hashtable3.Add(PhotonPlayerProperty.name, this.name);
             PhotonNetwork.player.SetCustomProperties(hashtable3);
         }

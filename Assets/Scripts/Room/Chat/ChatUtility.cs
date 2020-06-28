@@ -10,7 +10,7 @@ public static class ChatUtility
     /// </summary>
     /// <param name="input"></param>
     /// <returns><color=#00FFFF>{input}</color></returns>
-    public static string FormatTextColor00FFFF(string input)
+    public static string FormatTextColorCyan(string input)
     {
         return $"<color=#00FFFF>{input}</color>";
     }
@@ -20,7 +20,7 @@ public static class ChatUtility
     /// </summary>
     /// <param name="input"></param>
     /// <returns><color=#FF00FF>{input}</color></returns>
-    public static string FormatTextColorFF00FF(string input)
+    public static string FormatTextColorMagenta(string input)
     {
         return $"<color=#FF00FF>{input}</color>";
     }
@@ -43,30 +43,6 @@ public static class ChatUtility
     public static string GetPlayerName(PhotonPlayer player)
     {
         return RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
-    }
-
-    /// <summary>
-    /// sets color of name in chat depending on what team PhotonPlayer.player is in
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
-    public static string SetNameColorDependingOnteam(PhotonPlayer player)
-    {
-        var name = GetPlayerName(player);
-        var playerTeam = player.GetTeam();
-        switch (playerTeam)
-        {
-            case PunTeams.Team.red:
-                name = FormatTextColor00FFFF(name);
-                break;
-            case PunTeams.Team.blue:
-                name = FormatTextColorFF00FF(name);
-                break;
-            default:
-                break;
-        }
-
-        return name;
     }
 }
 

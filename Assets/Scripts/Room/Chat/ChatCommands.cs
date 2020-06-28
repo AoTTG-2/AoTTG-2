@@ -28,6 +28,7 @@
     Ban, 
     Banlist,
     Clear,
+    ClearAll,
     None = 0,
     Cyan = 1,
     Magenta = 2

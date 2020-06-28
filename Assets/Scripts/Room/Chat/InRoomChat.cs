@@ -64,17 +64,13 @@ public class InRoomChat : Photon.MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Send message to all clients on the server
-    /// </summary>
-    /// <param name="message"></param>
     private void ChatAll(string message)
     {
         if (message.Count() <= 1000)
         {
             if (MarkupIsOk(message))
             {
-                var chatMessage = new object[] { message, SetNameColorDependingOnteam(PhotonNetwork.player) };
+                var chatMessage = new object[] { message, GetPlayerName(PhotonNetwork.player) };
                 instance.photonView.RPC(ChatRPC, PhotonTargets.All, chatMessage);
             }
             else
@@ -130,9 +126,6 @@ public class InRoomChat : Photon.MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Update GUI chat text
-    /// </summary>
     private void UpdateChat(InRoomChat chat)
     {
         StringBuilder messageHandler = new StringBuilder();
@@ -149,20 +142,11 @@ public class InRoomChat : Photon.MonoBehaviour
         chat.inputLine = chat.ChatInputField?.text;
     }
 
-    /// <summary>
-    /// Handle commands in chat
-    /// </summary>
-    /// <param name="input"></param>
     private void CommandHandler(string input)
     {
         ChatCommandHandler.CommandHandler(input);
     }
 
-    /// <summary>
-    /// Check if message contains valid markup
-    /// </summary>
-    /// <param name="message"></param>
-    /// <returns></returns>
     private bool MarkupIsOk(string message)
     {
         var countOpeningTags = Regex.Matches(message, @"<\w+.{0,2}\w+>").Count;
@@ -171,9 +155,6 @@ public class InRoomChat : Photon.MonoBehaviour
         return countOpeningTags == countClosingTags;
     }
 
-    /// <summary>
-    /// If InputField is focused disable hero input, else enable hero input
-    /// </summary>
     private void LockControlsToChat(InRoomChat chat)
     {
         foreach (Hero hero in instance.getPlayers())
