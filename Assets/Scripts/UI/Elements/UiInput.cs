@@ -65,8 +65,9 @@ namespace Assets.Scripts.UI.Elements
                 Value = InputField.placeholder.GetComponent<Text>().text;
                 return;
             }
-            Value = Mathf.Clamp(Convert.ToSingle(InputField.text, CultureInfo.InvariantCulture), MinValue, MaxValue);
-            InputField.text = Value.ToString();
+            var number = Mathf.Clamp(Convert.ToSingle(InputField.text, CultureInfo.InvariantCulture), MinValue, MaxValue);
+            Value = number;
+            InputField.text = number.ToString(CultureInfo.InvariantCulture);
         }
     }
 }
