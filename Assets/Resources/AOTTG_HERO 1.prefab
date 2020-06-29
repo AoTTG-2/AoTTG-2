@@ -1704,7 +1704,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 0.75
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -2495,6 +2495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ade5059944e77468ce66f0f1fb36c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpeedModifier: 0
+  currentSpeed: 0
   EquipmentType: 0
   _state: 0
   audio_ally: {fileID: 82695054796010076}
@@ -2525,7 +2527,6 @@ MonoBehaviour:
   currentBladeNum: 5
   currentBladeSta: 100
   currentCamera: {fileID: 0}
-  currentSpeed: 0
   currentV: {x: 0, y: 0, z: 0}
   detonate: 0
   grounded: 0
@@ -2534,7 +2535,6 @@ MonoBehaviour:
   hookRefL2: {fileID: 1043721212689072}
   hookRefR1: {fileID: 1468413483550624}
   hookRefR2: {fileID: 1876948360171630}
-  inputManager: {fileID: 0}
   isCannon: 0
   isPhotonCamera: 0
   jumpHeight: 2
