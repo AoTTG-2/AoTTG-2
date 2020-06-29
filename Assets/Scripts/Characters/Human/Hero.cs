@@ -666,21 +666,21 @@ public class Hero : Human
 
     private void checkDashRebind()
     {
-        if (InputManager.KeyPressed(InputHuman.GasBurst))
+        if (InputManager.Key(InputHuman.GasBurst))
         {
-            if (InputManager.KeyPressed(InputHuman.Forward))
+            if (InputManager.Key(InputHuman.Forward))
             {
                 this.dashU = true;
             }
-            else if (InputManager.KeyPressed(InputHuman.Backward))
+            else if (InputManager.Key(InputHuman.Backward))
             {
                 this.dashD = true;
             }
-            else if (InputManager.KeyPressed(InputHuman.Left))
+            else if (InputManager.Key(InputHuman.Left))
             {
                 this.dashL = true;
             }
-            else if (InputManager.KeyPressed(InputHuman.Right))
+            else if (InputManager.Key(InputHuman.Right))
             {
                 this.dashR = true;
             }
@@ -941,18 +941,18 @@ public class Hero : Human
 
     private void dodge2(bool offTheWall = false)
     {
-        if (((!InputManager.KeyPressed(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
+        if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
         {
             this.state = HERO_STATE.GroundDodge;
             if (!offTheWall)
             {
                 float num;
                 float num2;
-                if (InputManager.KeyPressed(InputHuman.Forward))
+                if (InputManager.Key(InputHuman.Forward))
                 {
                     num = 1f;
                 }
-                else if (InputManager.KeyPressed(InputHuman.Backward))
+                else if (InputManager.Key(InputHuman.Backward))
                 {
                     num = -1f;
                 }
@@ -960,11 +960,11 @@ public class Hero : Human
                 {
                     num = 0f;
                 }
-                if (InputManager.KeyPressed(InputHuman.Left))
+                if (InputManager.Key(InputHuman.Left))
                 {
                     num2 = -1f;
                 }
-                else if (InputManager.KeyPressed(InputHuman.Right))
+                else if (InputManager.Key(InputHuman.Right))
                 {
                     num2 = 1f;
                 }
@@ -1155,11 +1155,11 @@ public class Hero : Human
                     float z = 0f;
                     if (!IN_GAME_MAIN_CAMERA.isTyping)
                     {
-                        if (InputManager.KeyPressed(InputHuman.Forward))
+                        if (InputManager.Key(InputHuman.Forward))
                         {
                             z = 1f;
                         }
-                        else if (InputManager.KeyPressed(InputHuman.Backward))
+                        else if (InputManager.Key(InputHuman.Backward))
                         {
                             z = -1f;
                         }
@@ -1167,11 +1167,11 @@ public class Hero : Human
                         {
                             z = 0f;
                         }
-                        if (InputManager.KeyPressed(InputHuman.Left))
+                        if (InputManager.Key(InputHuman.Left))
                         {
                             x = -1f;
                         }
-                        else if (InputManager.KeyPressed(InputHuman.Right))
+                        else if (InputManager.Key(InputHuman.Right))
                         {
                             x = 1f;
                         }
@@ -1197,7 +1197,7 @@ public class Hero : Human
                             {
                                 to = (Vector3)(to * 2f);
                             }
-                            if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && InputManager.KeyPressed(InputHuman.Jump))
+                            if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
                                 flag3 = true;
                                 flag2 = true;
@@ -1240,7 +1240,7 @@ public class Hero : Human
                             {
                                 vector5 = (Vector3)(vector5 * 2f);
                             }
-                            if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && InputManager.KeyPressed(InputHuman.Jump))
+                            if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
                                 flag4 = true;
                                 flag2 = true;
@@ -1541,10 +1541,10 @@ public class Hero : Human
                             }
                         }
                         else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) ||
-                                     (InputManager.KeyPressed(InputHuman.Jump) ||
-                                      InputManager.KeyPressed(InputHuman.HookLeft))) ||
-                                    ((InputManager.KeyPressed(InputHuman.HookRight) ||
-                                      InputManager.KeyPressed(InputHuman.HookBoth)) ||
+                                     (InputManager.Key(InputHuman.Jump) ||
+                                      InputManager.Key(InputHuman.HookLeft))) ||
+                                    ((InputManager.Key(InputHuman.HookRight) ||
+                                      InputManager.Key(InputHuman.HookBoth)) ||
                                      (!this.IsFrontGrounded() || this.baseAnimation.IsPlaying("wallrun")))) ||
                                    this.baseAnimation.IsPlaying("dodge")))
                         {
@@ -1591,7 +1591,7 @@ public class Hero : Human
                                 this.facingDirection = num12;
                                 this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                             }
-                            if (((!flag3 && !flag4) && (!this.isMounted && InputManager.KeyPressed(InputHuman.Jump))) && (this.currentGas > 0f))
+                            if (((!flag3 && !flag4) && (!this.isMounted && InputManager.Key(InputHuman.Jump))) && (this.currentGas > 0f))
                             {
                                 if ((x != 0f) || (z != 0f))
                                 {
@@ -1616,11 +1616,11 @@ public class Hero : Human
                         baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
                         Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
                         float num15 = 0f;
-                        if (InputManager.KeyPressed(InputHuman.ReelIn))
+                        if (InputManager.Key(InputHuman.ReelIn))
                         {
                             num15 = -1f;
                         }
-                        else if (InputManager.KeyPressed(InputHuman.ReelOut))
+                        else if (InputManager.Key(InputHuman.ReelOut))
                         {
                             num15 = 1f;
                         }
@@ -1641,11 +1641,11 @@ public class Hero : Human
                         baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
                         Vector3 vector15 = this.bulletLeft.transform.position - this.baseTransform.position;
                         float num18 = 0f;
-                        if (InputManager.KeyPressed(InputHuman.ReelIn))
+                        if (InputManager.Key(InputHuman.ReelIn))
                         {
                             num18 = -1f;
                         }
-                        else if (InputManager.KeyPressed(InputHuman.ReelOut))
+                        else if (InputManager.Key(InputHuman.ReelOut))
                         {
                             num18 = 1f;
                         }
@@ -1666,11 +1666,11 @@ public class Hero : Human
                         baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
                         Vector3 vector17 = this.bulletRight.transform.position - this.baseTransform.position;
                         float num21 = 0f;
-                        if (InputManager.KeyPressed(InputHuman.ReelIn))
+                        if (InputManager.Key(InputHuman.ReelIn))
                         {
                             num21 = -1f;
                         }
-                        else if (InputManager.KeyPressed(InputHuman.ReelOut))
+                        else if (InputManager.Key(InputHuman.ReelOut))
                         {
                             num21 = 1f;
                         }
@@ -3086,26 +3086,26 @@ public class Hero : Human
             {
                 if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (viewID < 0)
                 {
                     if (titanName == "")
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
                     else
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
                 }
                 else if (PhotonView.Find(viewID) == null)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (PhotonView.Find(viewID).owner.ID != info.sender.ID)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
             }
         }
@@ -3218,26 +3218,26 @@ public class Hero : Human
             {
                 if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (viewID < 0)
                 {
                     if (titanName == "")
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
                     else if ((FengGameManagerMKII.Gamemode.Settings.PvPBomb) && (!FengGameManagerMKII.Gamemode.Settings.PvpCannons))
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
                 }
                 else if (PhotonView.Find(viewID) == null)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (PhotonView.Find(viewID).owner.ID != info.sender.ID)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
             }
         }
@@ -4944,11 +4944,11 @@ public class Hero : Human
                                 {
                                     if (this.needLean)
                                     {
-                                        if (InputManager.KeyPressed(InputHuman.Left))
+                                        if (InputManager.Key(InputHuman.Left))
                                         {
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_l1" : "attack1_hook_l2";
                                         }
-                                        else if (InputManager.KeyPressed(InputHuman.Right))
+                                        else if (InputManager.Key(InputHuman.Right))
                                         {
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
                                         }
@@ -4961,11 +4961,11 @@ public class Hero : Human
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
                                         }
                                     }
-                                    else if (InputManager.KeyPressed(InputHuman.Left))
+                                    else if (InputManager.Key(InputHuman.Left))
                                     {
                                         this.attackAnimation = "attack2";
                                     }
-                                    else if (InputManager.KeyPressed(InputHuman.Right))
+                                    else if (InputManager.Key(InputHuman.Right))
                                     {
                                         this.attackAnimation = "attack1";
                                     }
@@ -5051,12 +5051,12 @@ public class Hero : Human
                             }
                             if (this.useGun)
                             {
-                                if (InputManager.KeyPressed(InputHuman.AttackSpecial))
+                                if (InputManager.Key(InputHuman.AttackSpecial))
                                 {
                                     this.leftArmAim = true;
                                     this.rightArmAim = true;
                                 }
-                                else if (InputManager.KeyPressed(InputHuman.Attack))
+                                else if (InputManager.Key(InputHuman.Attack))
                                 {
                                     if (this.leftGunHasBullet)
                                     {
@@ -5192,7 +5192,7 @@ public class Hero : Human
                         {
                             if (!this.useGun)
                             {
-                                if (!InputManager.KeyPressed(InputHuman.Attack))
+                                if (!InputManager.Key(InputHuman.Attack))
                                 {
                                     this.buttonAttackRelease = true;
                                 }
@@ -5538,7 +5538,7 @@ public class Hero : Human
                                 this.idle();
                             }
                         }
-                        if (InputManager.KeyPressed(InputHuman.HookLeft))
+                        if (InputManager.Key(InputHuman.HookLeft))
                         {
                             ReflectorVariable0 = true;
                         }
@@ -5570,7 +5570,7 @@ public class Hero : Human
                         {
                             this.QHold = false;
                         }
-                        if (InputManager.KeyPressed(InputHuman.HookRight))
+                        if (InputManager.Key(InputHuman.HookRight))
                         {
                             ReflectorVariable1 = true;
                         }
@@ -5602,7 +5602,7 @@ public class Hero : Human
                         {
                             this.EHold = false;
                         }
-                        if (InputManager.KeyPressed(InputHuman.HookBoth))
+                        if (InputManager.Key(InputHuman.HookBoth))
                         {
                             ReflectorVariable2 = true;
                         }

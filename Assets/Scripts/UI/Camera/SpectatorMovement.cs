@@ -13,15 +13,15 @@ public class SpectatorMovement : MonoBehaviour
             float num2;
             float num3;
             float speed = this.speed;
-            if (InputManager.KeyPressed(InputHuman.Jump))
+            if (InputManager.Key(InputHuman.Jump))
             {
                 speed *= 3f;
             }
-            if (InputManager.KeyPressed(InputHuman.Forward))
+            if (InputManager.Key(InputHuman.Forward))
             {
                 num2 = 1f;
             }
-            else if (InputManager.KeyPressed(InputHuman.Backward))
+            else if (InputManager.Key(InputHuman.Backward))
             {
                 num2 = -1f;
             }
@@ -29,11 +29,11 @@ public class SpectatorMovement : MonoBehaviour
             {
                 num2 = 0f;
             }
-            if (InputManager.KeyPressed(InputHuman.Left))
+            if (InputManager.Key(InputHuman.Left))
             {
                 num3 = -1f;
             }
-            else if (InputManager.KeyPressed(InputHuman.Right))
+            else if (InputManager.Key(InputHuman.Right))
             {
                 num3 = 1f;
             }
@@ -58,11 +58,11 @@ public class SpectatorMovement : MonoBehaviour
             {
                 transform.position -= (Vector3) ((base.transform.right * speed) * Time.deltaTime);
             }
-            if (InputManager.KeyPressed(InputHuman.HookLeft))
+            if (InputManager.Key(InputHuman.HookLeft))
             {
                 transform.position -= (Vector3) ((base.transform.up * speed) * Time.deltaTime);
             }
-            else if (InputManager.KeyPressed(InputHuman.HookRight))
+            else if (InputManager.Key(InputHuman.HookRight))
             {
                 transform.position += (Vector3) ((base.transform.up * speed) * Time.deltaTime);
             }
