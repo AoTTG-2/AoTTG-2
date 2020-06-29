@@ -17,7 +17,8 @@ namespace Assets.Scripts.UI.InGame.Controls
         // KeyCodes that are not recognized via Event.current.keyCode
         private KeyCode[] nonEventKeyCodes = new[]
         {
-            KeyCode.LeftShift, KeyCode.RightShift, KeyCode.Return, KeyCode.Space
+            KeyCode.LeftShift, KeyCode.RightShift, KeyCode.Return, KeyCode.Space,
+            KeyCode.Mouse3, KeyCode.Mouse4, KeyCode.Mouse5, KeyCode.Mouse6
         };
 
         private void Awake()
@@ -37,6 +38,11 @@ namespace Assets.Scripts.UI.InGame.Controls
 
             if (Event.current.isKey && Event.current.type == EventType.KeyDown)
             {
+                if (Event.current.keyCode == InputManager.Menu)
+                {
+                    SetInputKeycode(Key);
+                    return;
+                }
                 SetInputKeycode(Event.current.keyCode);
                 return;
             }
