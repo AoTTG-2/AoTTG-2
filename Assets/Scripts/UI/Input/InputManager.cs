@@ -343,7 +343,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputUi input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (input != InputUi.Chat && MenuManager.IsMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])

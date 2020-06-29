@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.Event;
-using static FengGameManagerMKII;
-using static ChatUtility;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Text;
-using System.Net;
+using System.Text.RegularExpressions;
+using Assets.Scripts.UI.Input;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using static ChatUtility;
+using static FengGameManagerMKII;
 
 public class InRoomChat : Photon.MonoBehaviour
 {
@@ -19,6 +19,7 @@ public class InRoomChat : Photon.MonoBehaviour
     private readonly List<string> messages = new List<string>();
     public InputField ChatInputField;
     public Text ChatText;
+    private bool IsChatOpen { get; set; }
 
     private void Update()
     {
@@ -86,43 +87,46 @@ public class InRoomChat : Photon.MonoBehaviour
 
     private void HandleChatInput(InRoomChat chat)
     {
-        //TODO: Change this in Issue 61
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (InputManager.KeyDown(InputUi.Chat))
         {
-            if (!string.IsNullOrEmpty(inputLine))
+            if (MenuManager.IsMenuOpen && IsChatOpen)
             {
-                if (RCEvents.ContainsKey("OnChatInput"))
+                if (!string.IsNullOrEmpty(inputLine))
                 {
-                    var key = RCVariableNames["OnChatInput"].ToString();
-                    if (stringVariables.ContainsKey(key))
+                    if (RCEvents.ContainsKey("OnChatInput"))
                     {
-                        stringVariables[key] = chat.inputLine;
+                        var key = RCVariableNames["OnChatInput"].ToString();
+                        if (stringVariables.ContainsKey(key))
+                        {
+                            stringVariables[key] = chat.inputLine;
+                        }
+                        else
+                        {
+                            stringVariables.Add(key, chat.inputLine);
+                        }
+                    }
+
+                    if (inputLine.StartsWith("/"))
+                    {
+                        CommandHandler(chat.inputLine);
                     }
                     else
                     {
-                        stringVariables.Add(key, chat.inputLine);
+                        ChatAll(chat.inputLine);
                     }
                 }
-
-                if (inputLine.StartsWith("/"))
-                {
-                    CommandHandler(chat.inputLine);
-                }
-                else
-                {
-                    ChatAll(chat.inputLine);
-                }
-
                 chat.inputLine = string.Empty;
                 chat.ChatInputField.text = string.Empty;
-                chat.ChatInputField?.Select();
+                EventSystem.current.SetSelectedGameObject(null);
+                IsChatOpen = false;
+                MenuManager.RegisterClosed();
             }
-            else
+            else if (!MenuManager.IsMenuOpen)
             {
                 chat.ChatInputField?.Select();
+                MenuManager.RegisterOpened();
+                IsChatOpen = true;
             }
-
-            LockControlsToChat(chat);
         }
     }
 
@@ -153,21 +157,6 @@ public class InRoomChat : Photon.MonoBehaviour
         var countClosingTags =  Regex.Matches(message, @"<\W{1}\w+>").Count;
 
         return countOpeningTags == countClosingTags;
-    }
-
-    private void LockControlsToChat(InRoomChat chat)
-    {
-        foreach (Hero hero in instance.getPlayers())
-        {
-            if (hero.photonView.isMine)
-            {
-                if (chat.ChatInputField != null)
-                {
-                    hero.inputManager.enabled = !chat.ChatInputField.isFocused;
-                    break;
-                }
-            }
-        }
     }
 
     public void OutputSystemMessage(string input)
