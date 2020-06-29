@@ -28,18 +28,32 @@ public sealed class Horse : PhotonView
     {
         var horse = PhotonNetwork.Instantiate("horse", position, rotation, 0).GetComponent<Horse>();
 
-        horse.followState = new FollowState(horse);
-        horse.idleState = new IdleState(horse);
-        horse.mountState = new MountState(horse, horse.GetComponent<HorseController>());
-
-        horse.hero = hero;
-        horse.heroTransform = hero.transform;
-        horse.mountState.HeroAnimation = hero.GetComponent<Animation>();
-        horse.mountState.HeroRigidbody = hero.GetComponent<Rigidbody>();
-
-        horse.TransitionToState(horse.idleState);
+        horse.RPC(nameof(InitializeRPC), PhotonTargets.AllBuffered, hero.photonView.viewID);
 
         return horse;
+    }
+
+    [PunRPC]
+    private void InitializeRPC(int heroViewID)
+    {
+        animation = GetComponent<Animation>();
+        rigidbody = GetComponent<Rigidbody>();
+
+        LayerMask enemyBoxMask = 1 << LayerMask.NameToLayer("EnemyBox");
+        groundMask = 1 << LayerMask.NameToLayer("Ground");
+        isGroundedMask = enemyBoxMask | groundMask;
+
+        hero = Find(heroViewID).GetComponent<Hero>();
+
+        followState = new FollowState(this);
+        idleState = new IdleState(this);
+        mountState = new MountState(this, GetComponent<HorseController>());
+
+        heroTransform = hero.transform;
+        mountState.HeroAnimation = hero.GetComponent<Animation>();
+        mountState.HeroRigidbody = hero.GetComponent<Rigidbody>();
+
+        TransitionToState(idleState);
     }
 
     public void Mount()
@@ -119,16 +133,6 @@ public sealed class Horse : PhotonView
     {
         if (dustParticles.enableEmission)
             dustParticles.enableEmission = enable;
-    }
-
-    private void Start()
-    {
-        animation = GetComponent<Animation>();
-        rigidbody = GetComponent<Rigidbody>();
-
-        LayerMask enemyBoxMask = 1 << LayerMask.NameToLayer("EnemyBox");
-        groundMask = 1 << LayerMask.NameToLayer("Ground");
-        isGroundedMask = enemyBoxMask | groundMask;
     }
 
     private void ToIdleAnimation()
@@ -213,10 +217,15 @@ public sealed class Horse : PhotonView
 
         public override void Enter()
         {
+            GetNewTarget();
+        }
+
+        private void GetNewTarget()
+        {
             var randomOffset = new Vector3(
-                Random.Range(-6, 6),
-                5f,
-                Random.Range(-6, 6));
+                            Random.Range(-6, 6),
+                            5f,
+                            Random.Range(-6, 6));
             var point = Horse.heroTransform.position + randomOffset;
             point.y = GetHeight(point);
             target = point;
@@ -272,13 +281,12 @@ public sealed class Horse : PhotonView
             {
                 timeElapsed = 0f;
                 if (Vector3.Distance(Horse.heroTransform.position, target) > 20f)
-                    Horse.TransitionToState(this);
+                    GetNewTarget();
             }
 
             if (Vector3.Distance(Horse.heroTransform.position, Horse.transform.position) < 5f)
                 Horse.TransitionToState(Horse.idleState);
-
-            if (Vector3.Distance(target, Horse.transform.position) < 5f)
+            else if (Vector3.Distance(target, Horse.transform.position) < 5f)
                 Horse.TransitionToState(Horse.idleState);
 
             awayTimer += Time.deltaTime;
