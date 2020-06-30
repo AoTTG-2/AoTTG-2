@@ -8,7 +8,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private int currentPeekPlayerIndex;
     public static DayLight dayLight = DayLight.Dawn;
     private float decay;
-    public static int difficulty;
     private float distance = 10f;
     private float distanceMulti;
     private float distanceOffsetMulti;

@@ -3,11 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Assets.Scripts.Gamemode;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 public class FEMALE_TITAN : MonoBehaviour
 {
+    private GamemodeBase Gamemode { get; set; }
+
     [CompilerGenerated]
     public static Dictionary<string, int> f__switchSmap1;
     [CompilerGenerated]
@@ -1330,6 +1333,7 @@ public class FEMALE_TITAN : MonoBehaviour
 
     private void Start()
     {
+        Gamemode = FengGameManagerMKII.Gamemode;
         this.startMain();
         this.size = 4f;
         if (base.photonView.isMine)
@@ -1393,16 +1397,16 @@ public class FEMALE_TITAN : MonoBehaviour
         this.AnkleRHP = 50;
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
-        var flag = FengGameManagerMKII.Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
-        if (IN_GAME_MAIN_CAMERA.difficulty == 0)
+        var flag = Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
+        if (Gamemode.Settings.Difficulty == Difficulty.Normal)
         {
-            this.NapeArmor = !flag ? 0x3e8 : 0x3e8;
-            this.AnkleLHP = this.AnkleLHPMAX = !flag ? 50 : 50;
-            this.AnkleRHP = this.AnkleRHPMAX = !flag ? 50 : 50;
+            this.NapeArmor = 1000;
+            this.AnkleLHP = this.AnkleLHPMAX = 50;
+            this.AnkleRHP = this.AnkleRHPMAX = 50;
         }
-        else if (IN_GAME_MAIN_CAMERA.difficulty == 1)
+        else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
         {
-            this.NapeArmor = !flag ? 0xbb8 : 0x9c4;
+            this.NapeArmor = !flag ? 3000 : 2500;
             this.AnkleLHP = this.AnkleLHPMAX = !flag ? 200 : 100;
             this.AnkleRHP = this.AnkleRHPMAX = !flag ? 200 : 100;
             IEnumerator enumerator2 = base.GetComponent<Animation>().GetEnumerator();
@@ -1425,11 +1429,11 @@ public class FEMALE_TITAN : MonoBehaviour
             }
             base.GetComponent<Animation>()["ft_turn180"].speed = 0.7f;
         }
-        else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+        else if (Gamemode.Settings.Difficulty == Difficulty.Abnormal)
         {
-            this.NapeArmor = !flag ? 0x1770 : 0xfa0;
-            this.AnkleLHP = this.AnkleLHPMAX = !flag ? 0x3e8 : 200;
-            this.AnkleRHP = this.AnkleRHPMAX = !flag ? 0x3e8 : 200;
+            this.NapeArmor = !flag ? 6000 : 4000;
+            this.AnkleLHP = this.AnkleLHPMAX = !flag ? 1000 : 200;
+            this.AnkleRHP = this.AnkleRHPMAX = !flag ? 1000 : 200;
             IEnumerator enumerator3 = base.GetComponent<Animation>().GetEnumerator();
             try
             {

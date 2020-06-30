@@ -10,6 +10,7 @@ namespace Assets.Scripts.Gamemode.Settings
     public abstract class GamemodeSettings
     {
         public GamemodeType GamemodeType;
+        public Difficulty Difficulty = Difficulty.Hard;
 
         private string name;
         public string Name
@@ -125,8 +126,6 @@ namespace Assets.Scripts.Gamemode.Settings
         public bool PlayerShifters = true;
 
         public bool RestartOnTitansKilled = true;
-
-        public int Difficulty = 1;
 
         public bool IsSinglePlayer = IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE;
 

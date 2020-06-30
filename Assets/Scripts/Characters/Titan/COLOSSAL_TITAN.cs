@@ -516,15 +516,15 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             this.findNearestHero();
         }
         base.name = "COLOSSAL_TITAN";
-        this.NapeArmor = 0x3e8;
+        this.NapeArmor = 1000;
         var flag = FengGameManagerMKII.Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
-        if (IN_GAME_MAIN_CAMERA.difficulty == 0)
+        if (Gamemode.Settings.Difficulty == Difficulty.Normal)
         {
-            this.NapeArmor = !flag ? 0x1388 : 0x7d0;
+            this.NapeArmor = !flag ? 5000 : 2000;
         }
-        else if (IN_GAME_MAIN_CAMERA.difficulty == 1)
+        else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
         {
-            this.NapeArmor = !flag ? 0x1f40 : 0xdac;
+            this.NapeArmor = !flag ? 8000 : 3500;
             IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
             try
             {
@@ -544,9 +544,9 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 }
             }
         }
-        else if (IN_GAME_MAIN_CAMERA.difficulty == 2)
+        else if (Gamemode.Settings.Difficulty == Difficulty.Abnormal)
         {
-            this.NapeArmor = !flag ? 0x2ee0 : 0x1388;
+            this.NapeArmor = !flag ? 12000 : 5000;
             IEnumerator enumerator2 = base.GetComponent<Animation>().GetEnumerator();
             try
             {

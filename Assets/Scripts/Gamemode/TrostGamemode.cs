@@ -25,11 +25,6 @@ namespace Assets.Scripts.Gamemode
             var obj4 = GameObject.Find("titanRespawnTrost");
             if (obj4 == null) return;
 
-            var rate = 90;
-            if (Settings.Difficulty == 1)
-            {
-                rate = 70;
-            }
             var objArray2 = GameObject.FindGameObjectsWithTag("titanRespawn");
             foreach (GameObject obj5 in objArray2)
             {

@@ -667,7 +667,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     this.ShowHUDInfoTopCenter(content);
                     content = Gamemode.GetGamemodeStatusTopRight((int)timeTotalServer, time);
                     this.ShowHUDInfoTopRight(content);
-                    string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0) ? ((IN_GAME_MAIN_CAMERA.difficulty != 0) ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard") : "Normal") : "Trainning";
+                    string str4 = Gamemode.Settings.Difficulty.ToString();
                     this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                     {
@@ -2969,7 +2969,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //{
         //    this.difficulty = 2;
         //}
-        IN_GAME_MAIN_CAMERA.difficulty = this.difficulty;
         this.time = 5000;//int.Parse(strArray[3]);
         this.time *= 60;
         //if (strArray[4] == "day")
