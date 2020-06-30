@@ -434,6 +434,7 @@ namespace Assets.Scripts.Characters.Titan
         [PunRPC]
         public void OnEyeHitRpc(int viewId, int damage)
         {
+            if (Type != MindlessTitanType.Crawler) return;
             if (!photonView.isMine) return;
             if (!IsAlive) return;
             TitanBody.AddBodyPart(BodyPart.Eyes, Animation[AnimationEyes].length * Animation[AnimationEyes].speed);
