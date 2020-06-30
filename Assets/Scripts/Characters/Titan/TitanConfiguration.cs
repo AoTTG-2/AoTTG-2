@@ -52,7 +52,7 @@ namespace Assets.Scripts.Characters.Titan
             switch (type)
             {
                 case MindlessTitanType.Normal:
-                    AnimationWalk = AnimationRun = "run_walk";
+                    AnimationWalk = "run_walk";
                     Attacks.Add(new ComboAttack());
                     Speed = 7f;
                     Focus = 10f;
@@ -60,16 +60,16 @@ namespace Assets.Scripts.Characters.Titan
                 case MindlessTitanType.Abberant:
                     AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
-                    Speed = 18f;
-                    RunSpeed = 23f;
+                    Speed = 16f;
+                    RunSpeed = 20f;
                     Focus = 8f;
                     Attacks.Add(new BodySlamAttack());
                     break;
                 case MindlessTitanType.Jumper:
                     AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
-                    Speed = 18f;
-                    RunSpeed = 24f;
+                    Speed = 16f;
+                    RunSpeed = 20f;
                     Focus = 4f;
                     Attacks.Add(new BodySlamAttack());
                     Attacks.Add(new JumpAttack());
@@ -81,8 +81,8 @@ namespace Assets.Scripts.Characters.Titan
                     Attacks.Add(new RockThrowAttack());
                     Attacks.Add(new SlapAttack());
                     Attacks.Add(new BodySlamAttack());
-                    Speed = 9f;
-                    RunSpeed = 26f;
+                    Speed = 8f;
+                    RunSpeed = 18f;
                     Focus = 1f;
                     break;
                 case MindlessTitanType.Crawler:
@@ -95,8 +95,8 @@ namespace Assets.Scripts.Characters.Titan
                         new JumpAttack(true)
                     };
                     Behaviors = new List<TitanBehavior> { new DeathOnFaceBehavior() };
-                    Speed = 25f;
-                    RunSpeed = 30f;
+                    Speed = 22f;
+                    RunSpeed = 37f;
                     Focus = 2f;
                     break;
                 case MindlessTitanType.Stalker:

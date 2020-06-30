@@ -567,7 +567,6 @@ namespace Assets.Scripts.Characters.Titan
             if (state == TitanState) return;
 
             if (TitanState != MindlessTitanState.Idle 
-                && TitanState != MindlessTitanState.Attacking
                 && state != MindlessTitanState.Dead
                 && PreviousState != MindlessTitanState.Idle)
             {
