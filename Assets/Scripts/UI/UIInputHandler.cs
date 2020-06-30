@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.Input;
+using UnityEngine;
+
 public class UIInputHandler : MonoBehaviour
 {
-
-    public FengCustomInputs inputManager;
     private GameObject interactionWheel;
 
     private void Start()
@@ -12,16 +12,13 @@ public class UIInputHandler : MonoBehaviour
 
     private void Update()
     {
-
-        if (inputManager == null) return;
-
-        if (inputManager.isInput[InputCode.interactionWheel])
+        if (InputManager.KeyDown(InputUi.InteractionWheel))
         {
             if (!interactionWheel.activeSelf)
                 interactionWheel.SetActive(true);
         }
 
-        if (inputManager.isInputUp[InputCode.interactionWheel])
+        if (InputManager.KeyUp(InputUi.InteractionWheel))
         {
             if (interactionWheel.activeSelf)
                 interactionWheel.SetActive(false);

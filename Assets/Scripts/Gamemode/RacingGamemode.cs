@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.UI.Input;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -31,7 +32,7 @@ namespace Assets.Scripts.Gamemode
             if (GamemodeSettings.IsSinglePlayer)
             {
                 var num = (((int)(totalServerTime * 10f)) * 0.1f) - 5f;
-                return $"{num}s !!\n Press {FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart]}  to Restart.\n\n\n";
+                return $"{num}s !!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return $"{localRacingResult}\n\nGame Restart in {(int) timeUntilRestart}";
         }
