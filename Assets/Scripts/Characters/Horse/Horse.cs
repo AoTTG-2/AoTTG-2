@@ -197,8 +197,6 @@ public sealed class Horse : PhotonView
 
     private void TransitionToState(State nextState)
     {
-        Debug.Log($"{currentState?.GetType().Name ?? "null"} -> {nextState?.GetType().Name ?? "null"}");
-
         currentState?.Exit();
         currentState = nextState;
         currentState?.Enter();
