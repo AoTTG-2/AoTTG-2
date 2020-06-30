@@ -14,6 +14,7 @@ namespace Assets.Scripts.Characters.Titan
     {
         public MindlessTitanState TitanState = MindlessTitanState.Wandering;
         public MindlessTitanState PreviousState;
+        public MindlessTitanState NextState;
         public MindlessTitanType Type;
 
         public bool IsAlive => TitanState != MindlessTitanState.Dead;
@@ -51,6 +52,7 @@ namespace Assets.Scripts.Characters.Titan
         public int HealthRegeneration;
         public float ViewDistance;
         public float Focus = 10f;
+        public float Idle = 15f;
         private float FocusTimer { get; set; }
         private int MaxHealth { get; set; }
 
@@ -563,7 +565,25 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!IsAlive) return;
             if (state == TitanState) return;
-            PreviousState = TitanState;
+
+            if (TitanState != MindlessTitanState.Idle 
+                && TitanState != MindlessTitanState.Attacking
+                && state != MindlessTitanState.Dead
+                && PreviousState != MindlessTitanState.Idle)
+            {
+                PreviousState = TitanState;
+                NextState = state;
+                TitanState = MindlessTitanState.Idle;
+                IdleTimer = Idle;
+                CrossFade("idle_2", 0.2f);
+                return;
+            }
+
+            if (TitanState == MindlessTitanState.Idle) {}
+
+            PreviousState = TitanState == MindlessTitanState.Idle 
+                ? MindlessTitanState.Chase
+                : TitanState;
             TitanState = state;
         }
 
@@ -757,6 +777,7 @@ namespace Assets.Scripts.Characters.Titan
                     OnDisabled();
                     break;
                 case MindlessTitanState.Idle:
+                    OnIdle();
                     break;
                 case MindlessTitanState.Dead:
                     break;
@@ -909,6 +930,16 @@ namespace Assets.Scripts.Characters.Titan
             if (Animation[CurrentAnimation].normalizedTime > 1f)
             {
                 ChangeState(PreviousState);
+            }
+        }
+
+        public float IdleTimer;
+        protected void OnIdle()
+        {
+            IdleTimer -= Time.deltaTime;
+            if (IdleTimer <= 0)
+            {
+                ChangeState(NextState);
             }
         }
 
