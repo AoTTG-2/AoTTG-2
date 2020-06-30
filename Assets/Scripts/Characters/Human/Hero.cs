@@ -1090,6 +1090,13 @@ public class Hero : Human
         return obj2;
     }
 
+    //Hotfix for Issue 97.
+    private void AddRightForce()
+    {
+        //Whereas this may not be completely accurate to AoTTG, it is very close. Further balancing required in the future.
+        baseRigidBody.AddForce(baseRigidBody.velocity * 0.00f, ForceMode.Acceleration);
+    }
+
     private void FixedUpdate()
     {
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
@@ -1613,7 +1620,7 @@ public class Hero : Human
                     if (flag3 && flag4)
                     {
                         float num14 = this.currentSpeed + 0.1f;
-                        baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
+                        AddRightForce();
                         Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
                         float num15 = 0f;
                         if (InputManager.Key(InputHuman.ReelIn))
@@ -1638,7 +1645,7 @@ public class Hero : Human
                     else if (flag3)
                     {
                         float num17 = this.currentSpeed + 0.1f;
-                        baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
+                        AddRightForce();
                         Vector3 vector15 = this.bulletLeft.transform.position - this.baseTransform.position;
                         float num18 = 0f;
                         if (InputManager.Key(InputHuman.ReelIn))
@@ -1663,7 +1670,7 @@ public class Hero : Human
                     else if (flag4)
                     {
                         float num20 = this.currentSpeed + 0.1f;
-                        baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
+                        AddRightForce();
                         Vector3 vector17 = this.bulletRight.transform.position - this.baseTransform.position;
                         float num21 = 0f;
                         if (InputManager.Key(InputHuman.ReelIn))
