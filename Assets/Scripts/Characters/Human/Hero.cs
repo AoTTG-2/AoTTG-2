@@ -11,9 +11,6 @@ using Xft;
 
 public class Hero : Human
 {
-    public float SpeedModifier = 0.25f;
-    public float currentSpeed;
-
     public Equipment Equipment { get; set; }
     public EquipmentType EquipmentType;
 
@@ -61,6 +58,7 @@ public class Hero : Human
     private BUFF currentBuff;
     public Camera currentCamera;
     private float currentGas = 100f;
+    public float currentSpeed;
     public Vector3 currentV;
     private bool dashD;
     private Vector3 dashDirection;
@@ -1092,10 +1090,11 @@ public class Hero : Human
         return obj2;
     }
 
-
+    //Hotfix for Issue 97.
     private void AddRightForce()
     {
-        baseRigidBody.AddForce(baseRigidBody.velocity * SpeedModifier, ForceMode.Acceleration);
+        //Whereas this may not be completely accurate to AoTTG, it is very close. Further balancing required in the future.
+        baseRigidBody.AddForce(baseRigidBody.velocity * 0.00f, ForceMode.Acceleration);
     }
 
     private void FixedUpdate()
@@ -1205,7 +1204,6 @@ public class Hero : Human
                             {
                                 to = (Vector3)(to * 2f);
                             }
-                            //TODO: #97
                             if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
                                 flag3 = true;
@@ -1249,7 +1247,6 @@ public class Hero : Human
                             {
                                 vector5 = (Vector3)(vector5 * 2f);
                             }
-                            //TODO: #97
                             if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
                                 flag4 = true;
@@ -1601,7 +1598,6 @@ public class Hero : Human
                                 this.facingDirection = num12;
                                 this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                             }
-                            //TODO: #97
                             if (((!flag3 && !flag4) && (!this.isMounted && InputManager.Key(InputHuman.Jump))) && (this.currentGas > 0f))
                             {
                                 if ((x != 0f) || (z != 0f))
@@ -1624,8 +1620,6 @@ public class Hero : Human
                     if (flag3 && flag4)
                     {
                         float num14 = this.currentSpeed + 0.1f;
-                        //TODO: #97
-                        //this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
                         AddRightForce();
                         Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
                         float num15 = 0f;
@@ -1651,8 +1645,6 @@ public class Hero : Human
                     else if (flag3)
                     {
                         float num17 = this.currentSpeed + 0.1f;
-                        //TODO: #97
-                        //this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
                         AddRightForce();
                         Vector3 vector15 = this.bulletLeft.transform.position - this.baseTransform.position;
                         float num18 = 0f;
@@ -1678,8 +1670,6 @@ public class Hero : Human
                     else if (flag4)
                     {
                         float num20 = this.currentSpeed + 0.1f;
-                        //TODO: #97
-                        //this.baseRigidBody.AddForce(-this.baseRigidBody.velocity, ForceMode.VelocityChange);
                         AddRightForce();
                         Vector3 vector17 = this.bulletRight.transform.position - this.baseTransform.position;
                         float num21 = 0f;
