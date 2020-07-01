@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Xft;
 
+[RequireComponent(typeof(ArmatureData))]
+[RequireComponent(typeof(CharacterSetup))]
 public class Hero : Human
 {
     [SerializeField] private GameObject ahssGearPrefab;

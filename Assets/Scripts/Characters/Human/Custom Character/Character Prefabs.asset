@@ -11,6 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523fe6f8cb1006b4f8e295c5a29d299f, type: 3}
   m_Name: Character Prefabs
   m_EditorClassIdentifier: 
+  body:
+  - {fileID: 1274847216027988, guid: 5964aae09f16c3d41846222f17325e25, type: 2}
+  - {fileID: 1926261778399176, guid: 0f21f5f2d926f5d4f9736ec419fa5751, type: 2}
+  eyes: {fileID: 1689965733072464, guid: 43c42c477370f1746ad421ca8e80f014, type: 2}
+  glasses: {fileID: 1319829682133158, guid: 33e44c5533f321c4ea2950da66524c31, type: 2}
+  mouth: {fileID: 1733571824337950, guid: 6e57994b811c2d7458c6bf497853900a, type: 2}
   maleHair:
   - {fileID: 1984872560578820, guid: 10ecc574df2d0ec4fa8acb90bf5da980, type: 2}
   - {fileID: 1688342689487556, guid: 9f07535494f8c96499198f10196497bc, type: 2}
@@ -34,26 +40,31 @@ MonoBehaviour:
   - {fileID: 1528352391004598, guid: adbc2c5c1050a1148ae85ef9dafef016, type: 2}
   - {fileID: 1666357677725766, guid: e3c19ff228407424bbe6f0489bb0e0e2, type: 2}
   - {fileID: 1334201653396848, guid: 14d3911241d3e4b429d289b71e44882c, type: 2}
-  maleUniforms:
+  maleCasualOutfits:
   - {fileID: 1655299866491018, guid: f901188403a01094a80116ea352c6ab9, type: 2}
   - {fileID: 1771917856232136, guid: 9f7b22e0ef51ba341a7c22ce1cbff0ac, type: 2}
   - {fileID: 1936162912131418, guid: 03bf370486fbe5e448e7c0af707f8379, type: 2}
+  maleUniformOutfits:
   - {fileID: 1916515139703568, guid: 2f731f3929a164e4490b430bc6630155, type: 2}
   - {fileID: 1016339177193056, guid: 5bc692221ce2b4348a20184f157e633c, type: 2}
-  femaleUniforms:
+  femaleCasualOutfits:
   - {fileID: 1873160365946572, guid: 03bee85bc183c9147ad4957b4d2feaf7, type: 2}
   - {fileID: 1926891202554270, guid: 30885b8d10a6e1c46bc379ccc6f9e0b2, type: 2}
   - {fileID: 1638943416956814, guid: ec5eaa70c0a544e4bb1bc92196d4c382, type: 2}
-  - {fileID: 1638943416956814, guid: e143ef9fc50ccc04aafcdb9b1b8ffa13, type: 2}
+  femaleUniformOutfits:
   - {fileID: 1811027661417136, guid: 06edba740a4ae1e44bbce342299318c3, type: 2}
   - {fileID: 1832104346063714, guid: 5eacaa75d22cbd84190479b788091b6c, type: 2}
-  - {fileID: 1832104346063714, guid: 7baefdedabc0faa4592bd7beaff88645, type: 2}
-  body:
-  - {fileID: 1274847216027988, guid: 5964aae09f16c3d41846222f17325e25, type: 2}
-  - {fileID: 1926261778399176, guid: 0f21f5f2d926f5d4f9736ec419fa5751, type: 2}
-  equipment:
-  - {fileID: 1005542101653008, guid: e563e49f25b6a8543aeac5dd2c7dc454, type: 2}
-  - {fileID: 1774809143572772, guid: 67494b1fccbb1ef4990610b710ea28d4, type: 2}
+  optionalClothingCasual:
+  - {fileID: 1972291493245928, guid: 36015e5b1643f9d49b156bc2bd3e0dce, type: 2}
+  - {fileID: 1411354810838386, guid: 86982bfa82ea75c40ad31b3b9f39d5f8, type: 2}
+  - {fileID: 1057966571078946, guid: 267da4902e4d6f2458c4239db6d4ea49, type: 2}
+  optionalClothingUniform:
+  - {fileID: 1849073919526488, guid: a5280a9c9de12d5468013df0567cee23, type: 2}
+  - {fileID: 1921702603798722, guid: 52840a779d2924c40a4a3d870dd96ba8, type: 2}
+  - {fileID: 1021940459864010, guid: 4db68901b20fb394fae494118fbc54e8, type: 2}
   emblems:
   - {fileID: 1978875496654482, guid: 98636750a3dd84d4d8984b9465d9b01e, type: 2}
   - {fileID: 1806461665866464, guid: c52552448cc71ea4e896db4ceebf448e, type: 2}
+  equipment:
+  - {fileID: 1005542101653008, guid: e563e49f25b6a8543aeac5dd2c7dc454, type: 2}
+  - {fileID: 1774809143572772, guid: 67494b1fccbb1ef4990610b710ea28d4, type: 2}

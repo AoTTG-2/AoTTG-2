@@ -58,11 +58,11 @@ public abstract class OdmgEquipment : MonoBehaviour
     }
 
     #region Virtual Methods
-    //public virtual void SetStats(HeroStat heroStat)
-    //{
-    //    maxGas = heroStat.GAS;
-    //    currentGas = maxGas;
-    //}
+    public virtual void SetStats(CharacterStat stat)
+    {
+        maxGas = stat.Gas;
+        currentGas = maxGas;
+    }
 
     public virtual void Equip()
     {

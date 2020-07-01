@@ -20,19 +20,16 @@ public enum Odmg
 
 public enum OutfitType
 {
-    CasualCollar,
-    CasualCollarless,
-    CsualCollarAHSS,
-    UniformCollar,
-    UniformCollarless
+    Casual,
+    Uniform
 }
 
 public enum Division
 {
-    TraineesSquad,
-    TheSurveryCorps,
-    TheGarrison,
-    TheMilitaryPolice
+    TraineesSquad = 0,
+    TheSurveryCorps = 1,
+    TheGarrison = 2,
+    TheMilitaryPolice = 3
 }
 
 public enum HERO_STATE

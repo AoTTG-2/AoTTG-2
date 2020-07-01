@@ -1,16 +1,23 @@
 ﻿//Stores the outfit options
+using UnityEngine;
+
 public struct CharacterOutfit
 {
-    Sex sex;
-    SkinColor skinColor;
-    int hairID;
-    Odmg odmg;
-    OutfitType outfitType;
-    int outfitTextureID;
-    Division division;
-    bool capeEnabled;
-    bool hoodEnabled;
-    bool scarfEnabled;
+    public Sex sex;
+    public SkinColor skinColor;
+    public int hairID;
+    public Color hairColor;
+    public int eyeID;
+    public int glassesID;
+    public int mouthID;
+    public Odmg odmg;
+    public OutfitType outfitType;
+    public int outfitID;
+    public int outfitTextureID;
+    public Division division;
+    public bool capeEnabled;
+    public bool hoodEnabled;
+    public bool scarfEnabled;
 }
 
 //Stores and manages the stats of the character

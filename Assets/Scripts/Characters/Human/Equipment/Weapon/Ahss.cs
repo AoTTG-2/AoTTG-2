@@ -19,10 +19,10 @@ public class Ahss : OdmgEquipment, Weapon
     }
 
     #region Equipment Methods
-    //public override void SetStats(HeroStat heroStat)
-    //{
-    //    base.SetStats(heroStat);
-    //}
+    public override void SetStats(CharacterStat stat)
+    {
+        base.SetStats(stat);
+    }
 
     public override void Equip()
     {

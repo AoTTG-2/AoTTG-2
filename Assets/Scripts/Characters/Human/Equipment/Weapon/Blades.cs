@@ -9,7 +9,6 @@ public class Blades : OdmgEquipment, Weapon
 
     protected override void Awake()
     {
-        NumBlades = maxBlades;
         BladeDurability = maxDurability;
     }
 
@@ -18,12 +17,12 @@ public class Blades : OdmgEquipment, Weapon
     }
 
     #region Equipment Methods
-    //public override void SetStats(HeroStat heroStat)
-    //{
-    //    base.SetStats(heroStat);
-    //    maxDurability = heroStat.BLA;
-    //    BladeDurability = maxDurability;
-    //}
+    public override void SetStats(CharacterStat stat)
+    {
+        base.SetStats(stat);
+        maxBlades = stat.Equipment;
+        NumBlades = maxBlades;
+    }
 
     public override void Equip()
     {
