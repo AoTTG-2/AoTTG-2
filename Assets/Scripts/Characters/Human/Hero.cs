@@ -1,6 +1,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.UI.InGame;
+using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -93,7 +94,6 @@ public class Hero : Human
     public GameObject hookRefR2;
     private bool hookSomeOne;
     private GameObject hookTarget;
-    public FengCustomInputs inputManager;
     private float invincible = 3f;
     public bool isCannon;
     private bool isLaunchLeft;
@@ -128,7 +128,7 @@ public class Hero : Human
     public Transform myCannonPlayer;
     public CannonPropRegion myCannonRegion;
     public GROUP myGroup;
-    private GameObject myHorse;
+    private Horse myHorse;
     public GameObject myNetWorkName;
     public float myScale = 1f;
     public int myTeam = 1;
@@ -618,7 +618,7 @@ public class Hero : Human
                 this.rTapTime = -1f;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.up])
+        if (InputManager.KeyDown(InputHuman.Forward))
         {
             if (this.uTapTime == -1f)
             {
@@ -629,7 +629,7 @@ public class Hero : Human
                 this.dashU = true;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.down])
+        if (InputManager.KeyDown(InputHuman.Backward))
         {
             if (this.dTapTime == -1f)
             {
@@ -640,7 +640,7 @@ public class Hero : Human
                 this.dashD = true;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.left])
+        if (InputManager.KeyDown(InputHuman.Left))
         {
             if (this.lTapTime == -1f)
             {
@@ -651,7 +651,7 @@ public class Hero : Human
                 this.dashL = true;
             }
         }
-        if (this.inputManager.isInputDown[InputCode.right])
+        if (InputManager.KeyDown(InputHuman.Right))
         {
             if (this.rTapTime == -1f)
             {
@@ -666,21 +666,21 @@ public class Hero : Human
 
     private void checkDashRebind()
     {
-        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.dash))
+        if (InputManager.Key(InputHuman.GasBurst))
         {
-            if (this.inputManager.isInput[InputCode.up])
+            if (InputManager.Key(InputHuman.Forward))
             {
                 this.dashU = true;
             }
-            else if (this.inputManager.isInput[InputCode.down])
+            else if (InputManager.Key(InputHuman.Backward))
             {
                 this.dashD = true;
             }
-            else if (this.inputManager.isInput[InputCode.left])
+            else if (InputManager.Key(InputHuman.Left))
             {
                 this.dashL = true;
             }
-            else if (this.inputManager.isInput[InputCode.right])
+            else if (InputManager.Key(InputHuman.Right))
             {
                 this.dashR = true;
             }
@@ -842,7 +842,6 @@ public class Hero : Human
 
     private void dash(float horizontal, float vertical)
     {
-        UnityEngine.MonoBehaviour.print(this.dashTime + " " + this.currentGas);
         if (((this.dashTime <= 0f) && (this.currentGas > 0f)) && !this.isMounted)
         {
             this.useGas(this.totalGas * 0.04f);
@@ -942,18 +941,18 @@ public class Hero : Human
 
     private void dodge2(bool offTheWall = false)
     {
-        if (((!FengGameManagerMKII.inputRC.isInputHorse(InputCodeRC.horseMount) || (this.myHorse == null)) || this.isMounted) || (Vector3.Distance(this.myHorse.transform.position, base.transform.position) >= 15f))
+        if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
         {
             this.state = HERO_STATE.GroundDodge;
             if (!offTheWall)
             {
                 float num;
                 float num2;
-                if (this.inputManager.isInput[InputCode.up])
+                if (InputManager.Key(InputHuman.Forward))
                 {
                     num = 1f;
                 }
-                else if (this.inputManager.isInput[InputCode.down])
+                else if (InputManager.Key(InputHuman.Backward))
                 {
                     num = -1f;
                 }
@@ -961,11 +960,11 @@ public class Hero : Human
                 {
                     num = 0f;
                 }
-                if (this.inputManager.isInput[InputCode.left])
+                if (InputManager.Key(InputHuman.Left))
                 {
                     num2 = -1f;
                 }
-                else if (this.inputManager.isInput[InputCode.right])
+                else if (InputManager.Key(InputHuman.Right))
                 {
                     num2 = 1f;
                 }
@@ -1091,6 +1090,13 @@ public class Hero : Human
         return obj2;
     }
 
+    //Hotfix for Issue 97.
+    private void AddRightForce()
+    {
+        //Whereas this may not be completely accurate to AoTTG, it is very close. Further balancing required in the future.
+        baseRigidBody.AddForce(baseRigidBody.velocity * 0.00f, ForceMode.Acceleration);
+    }
+
     private void FixedUpdate()
     {
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
@@ -1156,11 +1162,11 @@ public class Hero : Human
                     float z = 0f;
                     if (!IN_GAME_MAIN_CAMERA.isTyping)
                     {
-                        if (this.inputManager.isInput[InputCode.up])
+                        if (InputManager.Key(InputHuman.Forward))
                         {
                             z = 1f;
                         }
-                        else if (this.inputManager.isInput[InputCode.down])
+                        else if (InputManager.Key(InputHuman.Backward))
                         {
                             z = -1f;
                         }
@@ -1168,11 +1174,11 @@ public class Hero : Human
                         {
                             z = 0f;
                         }
-                        if (this.inputManager.isInput[InputCode.left])
+                        if (InputManager.Key(InputHuman.Left))
                         {
                             x = -1f;
                         }
-                        else if (this.inputManager.isInput[InputCode.right])
+                        else if (InputManager.Key(InputHuman.Right))
                         {
                             x = 1f;
                         }
@@ -1198,7 +1204,7 @@ public class Hero : Human
                             {
                                 to = (Vector3)(to * 2f);
                             }
-                            if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && this.inputManager.isInput[InputCode.jump])
+                            if ((Vector3.Angle(this.baseRigidBody.velocity, to) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
                                 flag3 = true;
                                 flag2 = true;
@@ -1241,7 +1247,7 @@ public class Hero : Human
                             {
                                 vector5 = (Vector3)(vector5 * 2f);
                             }
-                            if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && this.inputManager.isInput[InputCode.jump])
+                            if ((Vector3.Angle(this.baseRigidBody.velocity, vector5) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
                                 flag4 = true;
                                 flag2 = true;
@@ -1418,9 +1424,9 @@ public class Hero : Human
                             float num7 = 6f;
                             force = -this.baseRigidBody.velocity;
                             force.y = num7;
-                            float num8 = Vector3.Distance(this.myHorse.transform.position, this.baseTransform.position);
+                            float num8 = Vector3.Distance(myHorse.transform.position, baseTransform.position);
                             float num9 = ((0.6f * this.gravity) * num8) / 12f;
-                            vector7 = this.myHorse.transform.position - this.baseTransform.position;
+                            vector7 = myHorse.transform.position - baseTransform.position;
                             force += (Vector3)(num9 * vector7.normalized);
                         }
                         if (!((this.state == HERO_STATE.Attack) && this.useGun))
@@ -1435,13 +1441,13 @@ public class Hero : Human
                         {
                             this.sparks.enableEmission = false;
                         }
-                        if (((this.myHorse != null) && (this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("air_fall"))) && ((this.baseRigidBody.velocity.y < 0f) && (Vector3.Distance(this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f)), this.baseTransform.position) < 0.5f)))
+                        if ((myHorse && (baseAnimation.IsPlaying("horse_geton") || baseAnimation.IsPlaying("air_fall"))) && ((baseRigidBody.velocity.y < 0f) && (Vector3.Distance(myHorse.transform.position + Vector3.up * 1.65f, baseTransform.position) < 0.5f)))
                         {
-                            this.baseTransform.position = this.myHorse.transform.position + ((Vector3)(Vector3.up * 1.65f));
-                            this.baseTransform.rotation = this.myHorse.transform.rotation;
-                            this.isMounted = true;
-                            this.crossFade("horse_idle", 0.1f);
-                            this.myHorse.GetComponent<Horse>().mounted();
+                            baseTransform.position = myHorse.transform.position + Vector3.up * 1.65f;
+                            baseTransform.rotation = myHorse.transform.rotation;
+                            isMounted = true;
+                            crossFade("horse_idle", 0.1f);
+                            myHorse.Mount();
                         }
                         if (!((((((this.state != HERO_STATE.Idle) || this.baseAnimation.IsPlaying("dash")) || (this.baseAnimation.IsPlaying("wallrun") || this.baseAnimation.IsPlaying("toRoof"))) || ((this.baseAnimation.IsPlaying("horse_geton") || this.baseAnimation.IsPlaying("horse_getoff")) || (this.baseAnimation.IsPlaying("air_release") || this.isMounted))) || ((this.baseAnimation.IsPlaying("air_hook_l_just") && (this.baseAnimation["air_hook_l_just"].normalizedTime < 1f)) || (this.baseAnimation.IsPlaying("air_hook_r_just") && (this.baseAnimation["air_hook_r_just"].normalizedTime < 1f)))) ? (this.baseAnimation["dash"].normalizedTime < 0.99f) : false))
                         {
@@ -1541,7 +1547,13 @@ public class Hero : Human
                                 this.playAnimation("air_rise");
                             }
                         }
-                        else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) || (this.inputManager.isInput[InputCode.jump] || this.inputManager.isInput[InputCode.leftRope])) || ((this.inputManager.isInput[InputCode.rightRope] || this.inputManager.isInput[InputCode.bothRope]) || (!this.IsFrontGrounded() || this.baseAnimation.IsPlaying("wallrun")))) || this.baseAnimation.IsPlaying("dodge")))
+                        else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) ||
+                                     (InputManager.Key(InputHuman.Jump) ||
+                                      InputManager.Key(InputHuman.HookLeft))) ||
+                                    ((InputManager.Key(InputHuman.HookRight) ||
+                                      InputManager.Key(InputHuman.HookBoth)) ||
+                                     (!this.IsFrontGrounded() || this.baseAnimation.IsPlaying("wallrun")))) ||
+                                   this.baseAnimation.IsPlaying("dodge")))
                         {
                             this.crossFade("wallrun", 0.1f);
                             this.wallRunTime = 0f;
@@ -1586,7 +1598,7 @@ public class Hero : Human
                                 this.facingDirection = num12;
                                 this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                             }
-                            if (((!flag3 && !flag4) && (!this.isMounted && this.inputManager.isInput[InputCode.jump])) && (this.currentGas > 0f))
+                            if (((!flag3 && !flag4) && (!this.isMounted && InputManager.Key(InputHuman.Jump))) && (this.currentGas > 0f))
                             {
                                 if ((x != 0f) || (z != 0f))
                                 {
@@ -1608,14 +1620,14 @@ public class Hero : Human
                     if (flag3 && flag4)
                     {
                         float num14 = this.currentSpeed + 0.1f;
-                        baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
+                        AddRightForce();
                         Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
                         float num15 = 0f;
-                        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if (InputManager.Key(InputHuman.ReelIn))
                         {
                             num15 = -1f;
                         }
-                        else if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if (InputManager.Key(InputHuman.ReelOut))
                         {
                             num15 = 1f;
                         }
@@ -1633,14 +1645,14 @@ public class Hero : Human
                     else if (flag3)
                     {
                         float num17 = this.currentSpeed + 0.1f;
-                        baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
+                        AddRightForce();
                         Vector3 vector15 = this.bulletLeft.transform.position - this.baseTransform.position;
                         float num18 = 0f;
-                        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if (InputManager.Key(InputHuman.ReelIn))
                         {
                             num18 = -1f;
                         }
-                        else if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if (InputManager.Key(InputHuman.ReelOut))
                         {
                             num18 = 1f;
                         }
@@ -1658,14 +1670,14 @@ public class Hero : Human
                     else if (flag4)
                     {
                         float num20 = this.currentSpeed + 0.1f;
-                        baseRigidBody.AddForce(-baseRigidBody.velocity * 0.5f, ForceMode.Acceleration);
+                        AddRightForce();
                         Vector3 vector17 = this.bulletRight.transform.position - this.baseTransform.position;
                         float num21 = 0f;
-                        if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelin))
+                        if (InputManager.Key(InputHuman.ReelIn))
                         {
                             num21 = -1f;
                         }
-                        else if (FengGameManagerMKII.inputRC.isInputHuman(InputCodeRC.reelout))
+                        else if (InputManager.Key(InputHuman.ReelOut))
                         {
                             num21 = 1f;
                         }
@@ -1878,9 +1890,9 @@ public class Hero : Human
 
     private void getOnHorse()
     {
-        this.playAnimation("horse_geton");
-        this.facingDirection = this.myHorse.transform.rotation.eulerAngles.y;
-        this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
+        playAnimation("horse_geton");
+        facingDirection = myHorse.transform.rotation.eulerAngles.y;
+        targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
     }
 
     public void getSupply()
@@ -2050,7 +2062,7 @@ public class Hero : Human
         }
         if (!this.titanForm && !this.isCannon)
         {
-            if ((IN_GAME_MAIN_CAMERA.cameraTilt == 1) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+            if (InputManager.Settings.CameraTilt && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
             {
                 Quaternion quaternion2;
                 Vector3 zero = Vector3.zero;
@@ -2408,9 +2420,9 @@ public class Hero : Human
                 else
                 {
                     int viewID = -1;
-                    if (this.myHorse != null)
+                    if (myHorse)
                     {
-                        viewID = this.myHorse.GetPhotonView().viewID;
+                        viewID = myHorse.photonView.viewID;
                     }
                     base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { viewID, url });
                 }
@@ -3081,26 +3093,26 @@ public class Hero : Human
             {
                 if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (viewID < 0)
                 {
                     if (titanName == "")
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
                     else
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
                 }
                 else if (PhotonView.Find(viewID) == null)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (PhotonView.Find(viewID).owner.ID != info.sender.ID)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
             }
         }
@@ -3213,26 +3225,26 @@ public class Hero : Human
             {
                 if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (viewID < 0)
                 {
                     if (titanName == "")
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
                     else if ((FengGameManagerMKII.Gamemode.Settings.PvPBomb) && (!FengGameManagerMKII.Gamemode.Settings.PvpCannons))
                     {
-                        FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
                 }
                 else if (PhotonView.Find(viewID) == null)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
                 else if (PhotonView.Find(viewID).owner.ID != info.sender.ID)
                 {
-                    FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                    FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                 }
             }
         }
@@ -4368,21 +4380,19 @@ public class Hero : Human
     [PunRPC]
     public void SpawnCannonRPC(string settings, PhotonMessageInfo info)
     {
-        if ((info.sender.isMasterClient && base.photonView.isMine) && (this.myCannon == null))
+        if (info.sender.isMasterClient && photonView.isMine && !myCannon)
         {
-            if ((this.myHorse != null) && this.isMounted)
-            {
-                this.getOffHorse();
-            }
-            this.idle();
-            if (this.bulletLeft != null)
-            {
-                this.bulletLeft.GetComponent<Bullet>().removeMe();
-            }
-            if (this.bulletRight != null)
-            {
-                this.bulletRight.GetComponent<Bullet>().removeMe();
-            }
+            if (myHorse && isMounted)
+                getOffHorse();
+
+            idle();
+            
+            if (bulletLeft)
+                bulletLeft.GetComponent<Bullet>().removeMe();
+
+            if (bulletRight)
+                bulletRight.GetComponent<Bullet>().removeMe();
+
             if ((this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
             {
                 object[] parameters = new object[] { false };
@@ -4418,8 +4428,9 @@ public class Hero : Human
         if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER || !photonView.isMine) return;
         if (FengGameManagerMKII.Gamemode.Settings.Horse && myHorse == null)
         {
-            this.myHorse = PhotonNetwork.Instantiate("horse", this.baseTransform.position + ((Vector3)(Vector3.up * 5f)), this.baseTransform.rotation, 0);
-            this.myHorse.GetComponent<Horse>().myHero = base.gameObject;
+            var position = baseTransform.position + Vector3.up * 5f;
+            var rotation = baseTransform.rotation;
+            myHorse = Horse.Create(this, position, rotation);
         }
 
         if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)
@@ -4548,7 +4559,6 @@ public class Hero : Human
         else
         {
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
             this.loadskin();
             this.hasspawn = true;
             base.StartCoroutine(this.reloadSky());
@@ -4592,7 +4602,7 @@ public class Hero : Human
 
     private void unmounted()
     {
-        this.myHorse.GetComponent<Horse>().unmounted();
+        this.myHorse.GetComponent<Horse>().Unmount();
         this.isMounted = false;
     }
 
@@ -4621,7 +4631,7 @@ public class Hero : Human
                     if (this.myCannonRegion != null)
                     {
                         FengGameManagerMKII.instance.ShowHUDInfoCenter("Press 'Cannon Mount' key to use Cannon.");
-                        if (FengGameManagerMKII.inputRC.isInputCannonDown(InputCodeRC.cannonMount))
+                        if (InputManager.KeyDown(InputCannon.Mount))
                         {
                             this.myCannonRegion.photonView.RPC("RequestControlRPC", PhotonTargets.MasterClient, new object[] { base.photonView.viewID });
                         }
@@ -4630,7 +4640,10 @@ public class Hero : Human
                     {
                         if (this.skillId == "jean")
                         {
-                            if (((this.state != HERO_STATE.Attack) && (this.inputManager.isInputDown[InputCode.attack0] || this.inputManager.isInputDown[InputCode.attack1])) && ((this.escapeTimes > 0) && !this.baseAnimation.IsPlaying("grabbed_jean")))
+                            if (((this.state != HERO_STATE.Attack) &&
+                                 (InputManager.KeyDown(InputHuman.Attack) ||
+                                  InputManager.KeyDown(InputHuman.AttackSpecial))) &&
+                                ((this.escapeTimes > 0) && !this.baseAnimation.IsPlaying("grabbed_jean")))
                             {
                                 this.playAnimation("grabbed_jean");
                                 this.baseAnimation["grabbed_jean"].time = 0f;
@@ -4666,7 +4679,7 @@ public class Hero : Human
                                 this.calcSkillCD();
                                 this.calcFlareCD();
                             }
-                            if (this.inputManager.isInputDown[InputCode.attack1])
+                            if (InputManager.KeyDown(InputHuman.AttackSpecial))
                             {
                                 bool flag2 = false;
                                 if ((this.skillCDDuration > 0f) || flag2)
@@ -4710,13 +4723,13 @@ public class Hero : Human
                         this.updateExt();
                         if (!this.grounded && (this.state != HERO_STATE.AirDodge))
                         {
-                            if (((int)FengGameManagerMKII.settings[0xb5]) == 1)
+                            if (InputManager.Settings.GasBurstDoubleTap)
                             {
-                                this.checkDashRebind();
+                                this.checkDashDoubleTap();
                             }
                             else
                             {
-                                this.checkDashDoubleTap();
+                                this.checkDashRebind();
                             }
                             if (this.dashD)
                             {
@@ -4745,17 +4758,17 @@ public class Hero : Human
                         }
                         if (this.grounded && ((this.state == HERO_STATE.Idle) || (this.state == HERO_STATE.Slide)))
                         {
-                            if (!((!this.inputManager.isInputDown[InputCode.jump] || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
+                            if (!((!InputManager.KeyDown(InputHuman.Jump) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
                             {
                                 this.idle();
                                 this.crossFade("jump", 0.1f);
                                 this.sparks.enableEmission = false;
                             }
-                            if (!((!FengGameManagerMKII.inputRC.isInputHorseDown(InputCodeRC.horseMount) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")) && (((this.myHorse != null) && !this.isMounted) && (Vector3.Distance(this.myHorse.transform.position, base.transform.position) < 15f)))
+                            if (!((!InputManager.KeyDown(InputHorse.Mount) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")) && (((this.myHorse != null) && !this.isMounted) && (Vector3.Distance(this.myHorse.transform.position, base.transform.position) < 15f)))
                             {
                                 this.getOnHorse();
                             }
-                            if (!((!this.inputManager.isInputDown[InputCode.dodge] || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
+                            if (!((!InputManager.KeyDown(InputHuman.Dodge) || this.baseAnimation.IsPlaying("jump")) || this.baseAnimation.IsPlaying("horse_geton")))
                             {
                                 this.dodge2(false);
                                 return;
@@ -4763,40 +4776,40 @@ public class Hero : Human
                         }
                         if (this.state == HERO_STATE.Idle)
                         {
-                            if (this.inputManager.isInputDown[InputCode.flare1])
+                            if (InputManager.KeyDown(InputHuman.Item1))
                             {
                                 this.shootFlare(1);
                             }
-                            if (this.inputManager.isInputDown[InputCode.flare2])
+                            if (InputManager.KeyDown(InputHuman.Item2))
                             {
                                 this.shootFlare(2);
                             }
-                            if (this.inputManager.isInputDown[InputCode.flare3])
+                            if (InputManager.KeyDown(InputHuman.Item3))
                             {
                                 this.shootFlare(3);
                             }
-                            if (this.inputManager.isInputDown[InputCode.restart])
+                            if (InputManager.KeyDown(InputUi.Restart))
                             {
                                 this.suicide2();
                             }
-                            if (((this.myHorse != null) && this.isMounted) && FengGameManagerMKII.inputRC.isInputHorseDown(InputCodeRC.horseMount))
+                            if (((this.myHorse != null) && this.isMounted) && InputManager.KeyDown(InputHorse.Mount))
                             {
                                 this.getOffHorse();
                             }
-                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && this.inputManager.isInputDown[InputCode.reload]) && ((!this.useGun || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)) || this.grounded))
+                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)) || this.grounded))
                             {
                                 this.changeBlade();
                                 return;
                             }
-                            if (this.baseAnimation.IsPlaying(this.standAnimation) && this.inputManager.isInputDown[InputCode.salute])
+                            if (this.baseAnimation.IsPlaying(this.standAnimation) && InputManager.KeyDown(InputHuman.Salute))
                             {
                                 this.salute();
                                 return;
                             }
-                            if ((!this.isMounted && (this.inputManager.isInputDown[InputCode.attack0] || this.inputManager.isInputDown[InputCode.attack1])) && !this.useGun)
+                            if ((!this.isMounted && (InputManager.KeyDown(InputHuman.Attack) || InputManager.KeyDown(InputHuman.AttackSpecial))) && !this.useGun)
                             {
                                 bool flag3 = false;
-                                if (this.inputManager.isInputDown[InputCode.attack1])
+                                if (InputManager.KeyDown(InputHuman.AttackSpecial))
                                 {
                                     if ((this.skillCDDuration > 0f) || flag3)
                                     {
@@ -4934,15 +4947,15 @@ public class Hero : Human
                                         }
                                     }
                                 }
-                                else if (this.inputManager.isInputDown[InputCode.attack0])
+                                else if (InputManager.KeyDown(InputHuman.Attack))
                                 {
                                     if (this.needLean)
                                     {
-                                        if (this.inputManager.isInput[InputCode.left])
+                                        if (InputManager.Key(InputHuman.Left))
                                         {
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_l1" : "attack1_hook_l2";
                                         }
-                                        else if (this.inputManager.isInput[InputCode.right])
+                                        else if (InputManager.Key(InputHuman.Right))
                                         {
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
                                         }
@@ -4955,11 +4968,11 @@ public class Hero : Human
                                             this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
                                         }
                                     }
-                                    else if (this.inputManager.isInput[InputCode.left])
+                                    else if (InputManager.Key(InputHuman.Left))
                                     {
                                         this.attackAnimation = "attack2";
                                     }
-                                    else if (this.inputManager.isInput[InputCode.right])
+                                    else if (InputManager.Key(InputHuman.Right))
                                     {
                                         this.attackAnimation = "attack1";
                                     }
@@ -5045,12 +5058,12 @@ public class Hero : Human
                             }
                             if (this.useGun)
                             {
-                                if (this.inputManager.isInput[InputCode.attack1])
+                                if (InputManager.Key(InputHuman.AttackSpecial))
                                 {
                                     this.leftArmAim = true;
                                     this.rightArmAim = true;
                                 }
-                                else if (this.inputManager.isInput[InputCode.attack0])
+                                else if (InputManager.Key(InputHuman.Attack))
                                 {
                                     if (this.leftGunHasBullet)
                                     {
@@ -5090,7 +5103,7 @@ public class Hero : Human
                                 bool flag4 = false;
                                 bool flag5 = false;
                                 bool flag6 = false;
-                                if (this.inputManager.isInputUp[InputCode.attack1] && (this.skillId != "bomb"))
+                                if (InputManager.KeyUp(InputHuman.AttackSpecial) && (this.skillId != "bomb"))
                                 {
                                     if (this.leftGunHasBullet && this.rightGunHasBullet)
                                     {
@@ -5113,7 +5126,7 @@ public class Hero : Human
                                         flag6 = true;
                                     }
                                 }
-                                if (flag6 || this.inputManager.isInputUp[InputCode.attack0])
+                                if (flag6 || InputManager.KeyUp(InputHuman.Attack))
                                 {
                                     if (this.grounded)
                                     {
@@ -5186,7 +5199,7 @@ public class Hero : Human
                         {
                             if (!this.useGun)
                             {
-                                if (!this.inputManager.isInput[InputCode.attack0])
+                                if (!InputManager.Key(InputHuman.Attack))
                                 {
                                     this.buttonAttackRelease = true;
                                 }
@@ -5532,7 +5545,7 @@ public class Hero : Human
                                 this.idle();
                             }
                         }
-                        if (this.inputManager.isInput[InputCode.leftRope])
+                        if (InputManager.Key(InputHuman.HookLeft))
                         {
                             ReflectorVariable0 = true;
                         }
@@ -5564,7 +5577,7 @@ public class Hero : Human
                         {
                             this.QHold = false;
                         }
-                        if (this.inputManager.isInput[InputCode.rightRope])
+                        if (InputManager.Key(InputHuman.HookRight))
                         {
                             ReflectorVariable1 = true;
                         }
@@ -5596,7 +5609,7 @@ public class Hero : Human
                         {
                             this.EHold = false;
                         }
-                        if (this.inputManager.isInput[InputCode.bothRope])
+                        if (InputManager.Key(InputHuman.HookBoth))
                         {
                             ReflectorVariable2 = true;
                         }
@@ -5680,7 +5693,7 @@ public class Hero : Human
     {
         if (this.skillId == "bomb")
         {
-            if (this.inputManager.isInputDown[InputCode.attack1] && (this.skillCDDuration <= 0f))
+            if (InputManager.KeyDown(InputHuman.AttackSpecial) && (this.skillCDDuration <= 0f))
             {
                 if (!((this.myBomb == null) || this.myBomb.disabled))
                 {
@@ -5709,11 +5722,11 @@ public class Hero : Human
             {
                 this.bombTime += Time.deltaTime;
                 bool flag2 = false;
-                if (this.inputManager.isInputUp[InputCode.attack1])
+                if (InputManager.KeyUp(InputHuman.AttackSpecial))
                 {
                     this.detonate = true;
                 }
-                else if (this.inputManager.isInputDown[InputCode.attack1] && this.detonate)
+                else if (InputManager.KeyDown(InputHuman.AttackSpecial) && this.detonate)
                 {
                     this.detonate = false;
                     flag2 = true;

@@ -102,7 +102,7 @@ public static class TeamExtensions
         object teamId;
         if (player.CustomProperties.TryGetValue(PunTeams.TeamPlayerProp, out teamId))
         {
-            return (PunTeams.Team)teamId;
+            return (PunTeams.Team)(int)teamId;
         }
 
         return PunTeams.Team.none;

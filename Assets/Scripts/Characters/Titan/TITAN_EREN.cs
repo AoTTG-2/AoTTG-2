@@ -1,6 +1,7 @@
 using Assets.Scripts.Characters.Titan;
 using System;
 using System.Collections;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 public class TITAN_EREN : Photon.MonoBehaviour
@@ -23,7 +24,6 @@ public class TITAN_EREN : Photon.MonoBehaviour
     private string hitAnimation;
     private float hitPause;
     private ArrayList hitTargets;
-    public FengCustomInputs inputManager;
     private bool isAttack;
     public bool isHit;
     private bool isHitWhileCarryingRock;
@@ -155,11 +155,11 @@ public class TITAN_EREN : Photon.MonoBehaviour
                     float z = 0f;
                     if (!IN_GAME_MAIN_CAMERA.isTyping)
                     {
-                        if (inputManager.isInput[InputCode.up])
+                        if (InputManager.Key(InputHuman.Forward))
                         {
                             z = 1f;
                         }
-                        else if (inputManager.isInput[InputCode.down])
+                        else if (InputManager.Key(InputHuman.Backward))
                         {
                             z = -1f;
                         }
@@ -167,11 +167,11 @@ public class TITAN_EREN : Photon.MonoBehaviour
                         {
                             z = 0f;
                         }
-                        if (inputManager.isInput[InputCode.left])
+                        if (InputManager.Key(InputHuman.Left))
                         {
                             x = -1f;
                         }
-                        else if (inputManager.isInput[InputCode.right])
+                        else if (InputManager.Key(InputHuman.Right))
                         {
                             x = 1f;
                         }
@@ -836,7 +836,6 @@ public class TITAN_EREN : Photon.MonoBehaviour
         else
         {
             currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
             oldCorePosition = transform.position - transform.Find("Amarture/Core").position;
             myR = sqrt2 * 6f;
             GetComponent<Animation>()["hit_annie_1"].speed = 0.8f;
@@ -942,12 +941,12 @@ public class TITAN_EREN : Photon.MonoBehaviour
                         }
                         if (((grounded && !isAttack) && (!GetComponent<Animation>().IsPlaying("jump_land") && !isAttack)) && !GetComponent<Animation>().IsPlaying("born"))
                         {
-                            if (inputManager.isInputDown[InputCode.attack0] || inputManager.isInputDown[InputCode.attack1])
+                            if (InputManager.KeyDown(InputHuman.Attack) || InputManager.KeyDown(InputHuman.AttackSpecial))
                             {
                                 bool flag = false;
-                                if (((GameCursor.CameraMode == CameraMode.WOW) && inputManager.isInput[InputCode.down]) || inputManager.isInputDown[InputCode.attack1])
+                                if (((GameCursor.CameraMode == CameraMode.WOW) && InputManager.Key(InputHuman.Backward)) || InputManager.KeyDown(InputHuman.AttackSpecial))
                                 {
-                                    if (inputManager.isInputDown[InputCode.attack1] && inputManager.inputKey[11] == KeyCode.Mouse1)
+                                    if (InputManager.KeyDown(InputHuman.AttackSpecial))
                                         flag = true;
                                     
                                     if (!flag)
@@ -978,7 +977,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
                                     hitTargets = new ArrayList();
                                 }
                             }
-                            if (inputManager.isInputDown[InputCode.salute])
+                            if (InputManager.KeyDown(InputHuman.Salute))
                             {
                                 crossFade("born", 0.1f);
                                 GetComponent<Animation>()["born"].normalizedTime = 0.28f;
@@ -987,14 +986,18 @@ public class TITAN_EREN : Photon.MonoBehaviour
                         }
                         if (!isAttack)
                         {
-                            if ((grounded || GetComponent<Animation>().IsPlaying("idle")) && ((!GetComponent<Animation>().IsPlaying("jump_start") && !GetComponent<Animation>().IsPlaying("jump_air")) && (!GetComponent<Animation>().IsPlaying("jump_land") && inputManager.isInput[InputCode.bothRope])))
+                            if ((grounded || GetComponent<Animation>().IsPlaying("idle")) 
+                                && ((!GetComponent<Animation>().IsPlaying("jump_start") 
+                                && !GetComponent<Animation>().IsPlaying("jump_air")) 
+                                && (!GetComponent<Animation>().IsPlaying("jump_land") 
+                                && InputManager.Key(InputHuman.HookBoth))))
                             {
                                 crossFade("jump_start", 0.1f);
                             }
                         }
                         else
                         {
-                            if ((GetComponent<Animation>()[attackAnimation].time >= 0.1f) && inputManager.isInputDown[InputCode.attack0])
+                            if ((GetComponent<Animation>()[attackAnimation].time >= 0.1f) && InputManager.KeyDown(InputHuman.Attack))
                             {
                                 isNextAttack = true;
                             }

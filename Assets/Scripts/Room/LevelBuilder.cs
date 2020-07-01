@@ -27,6 +27,8 @@ public class LevelBuilder
                 new WaveGamemodeSettings
                 {
                     Titans = 1,
+                    Horse = true,
+                    IsPlayerTitanEnabled = true
                 },
                 new KillTitansSettings
                 {

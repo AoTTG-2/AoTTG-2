@@ -1,10 +1,9 @@
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
-    public static float cameraDistance = 0.6f;
-    public static int cameraTilt = 1;
     private float closestDistance;
     private int currentPeekPlayerIndex;
     public static DayLight dayLight = DayLight.Dawn;
@@ -21,8 +20,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private bool hasSnapShot;
     private Transform head;
     private float heightMulti;
-    public FengCustomInputs inputManager;
-    public static int invertY = 1;
     public static bool isPausing;
     public static bool isTyping;
     private bool lockAngle;
@@ -32,7 +29,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public GameObject main_object;
     private bool needSetHUD;
     private float R;
-    public static float sensitivityMulti = 0.5f;
     public static string singleCharacter;
     public Material skyBoxDAWN;
     public Material skyBoxDAY;
@@ -67,7 +63,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 50f, 0.1f);
         }
         float num2 = (hero.CameraMultiplier * (200f - Camera.main.fieldOfView)) / 150f;
-        base.transform.position = (Vector3)((this.head.transform.position + (Vector3.up * this.heightMulti)) - ((Vector3.up * (0.6f - cameraDistance)) * 2f));
+        base.transform.position = (Vector3)((this.head.transform.position + (Vector3.up * this.heightMulti)) - ((Vector3.up * (0.6f - InputManager.Settings.CameraDistance)) * 2f));
         Transform transform = base.transform;
         transform.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * num2);
         if (hero.CameraMultiplier < 0.65f)
@@ -437,7 +433,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             if ((gametype != GAMETYPE.SINGLE) && this.gameOver)
             {
-                if (this.inputManager.isInputDown[InputCode.attack1])
+                if (InputManager.KeyDown(InputHuman.AttackSpecial))
                 {
                     if (this.spectatorMode)
                     {
@@ -448,7 +444,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         this.setSpectorMode(true);
                     }
                 }
-                if (this.inputManager.isInputDown[InputCode.flare1])
+                if (InputManager.KeyDown(InputHuman.Item1))
                 {
                     this.currentPeekPlayerIndex++;
                     int length = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -463,7 +459,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         this.lockAngle = false;
                     }
                 }
-                if (this.inputManager.isInputDown[InputCode.flare2])
+                if (InputManager.KeyDown(InputHuman.Item2))
                 {
                     this.currentPeekPlayerIndex--;
                     int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -487,35 +483,37 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     return;
                 }
             }
-            if (this.inputManager.isInputDown[InputCode.pause])
-            {
-                if (isPausing)
-                {
-                    if (this.main_object != null)
-                    {
-                        Vector3 position = base.transform.position;
-                        position = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
-                        position += (Vector3)(Vector3.up * this.heightMulti);
-                        base.transform.position = Vector3.Lerp(base.transform.position, position - ((Vector3)(base.transform.forward * 5f)), 0.2f);
-                    }
-                    return;
-                }
-                isPausing = !isPausing;
-                if (isPausing)
-                {
-                    if (gametype == GAMETYPE.SINGLE)
-                    {
-                        Time.timeScale = 0f;
-                    }
-                    GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
-                }
-            }
+            //TODO #204 - Pause Menu
+            //if (InputManager.KeyDown(InputUi.Pause))
+            //{
+            //    if (isPausing)
+            //    {
+            //        if (this.main_object != null)
+            //        {
+            //            Vector3 position = base.transform.position;
+            //            position = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
+            //            position += (Vector3)(Vector3.up * this.heightMulti);
+            //            base.transform.position = Vector3.Lerp(base.transform.position, position - ((Vector3)(base.transform.forward * 5f)), 0.2f);
+            //        }
+            //        return;
+            //    }
+            //    isPausing = !isPausing;
+            //    if (isPausing)
+            //    {
+            //        if (gametype == GAMETYPE.SINGLE)
+            //        {
+            //            Time.timeScale = 0f;
+            //        }
+            //        //TODO: Pausing menu disable input
+            //        //GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().menuOn = true;
+            //    }
+            //}
             if (this.needSetHUD)
             {
                 this.needSetHUD = false;
                 this.setHUDposition();
             }
-            if (this.inputManager.isInputDown[InputCode.fullscreen])
+            if (InputManager.KeyDown(InputUi.Fullscreen))
             {
                 Screen.fullScreen = !Screen.fullScreen;
                 if (Screen.fullScreen)
@@ -528,20 +526,20 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
                 this.needSetHUD = true;
             }
-            if (this.inputManager.isInputDown[InputCode.restart])
+            if (InputManager.KeyDown(InputUi.Restart))
             {
                 this.reset();
             }
             if (this.main_object != null)
             {
                 RaycastHit hit;
-                if (this.inputManager.isInputDown[InputCode.camera])
+                if (InputManager.KeyDown(InputUi.Camera))
                     GameCursor.Cycle();
 
-                if (this.inputManager.isInputDown[InputCode.toggleCursor])
+                if (InputManager.KeyDown(InputUi.ToggleCursor))
                     GameCursor.ForceFreeCursor = !GameCursor.ForceFreeCursor;
 
-                if (this.inputManager.isInputDown[InputCode.focus])
+                if (InputManager.KeyDown(InputHuman.Focus))
                 {
                     triggerAutoLock = !triggerAutoLock;
                     if (triggerAutoLock)
@@ -556,7 +554,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
                 if (this.gameOver && (this.main_object != null))
                 {
-                    if (FengGameManagerMKII.inputRC.isInputHumanDown(InputCodeRC.liveCam))
+                    if (InputManager.KeyDown(InputUi.LiveCamera))
                     {
                         if (((int)FengGameManagerMKII.settings[0x107]) == 0)
                         {
@@ -671,10 +669,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void DoCameraMovement()
     {
-        distanceOffsetMulti = cameraDistance * (200f - GetComponent<Camera>().fieldOfView) / 150f;
+        distanceOffsetMulti = InputManager.Settings.CameraDistance * (200f - GetComponent<Camera>().fieldOfView) / 150f;
         transform.position = (head == null) ? main_object.transform.position : head.transform.position;
         transform.position += Vector3.up * heightMulti;
-        transform.position -= Vector3.up * (0.6f - cameraDistance) * 2f;
+        transform.position -= Vector3.up * (0.6f - InputManager.Settings.CameraDistance) * 2f;
 
         switch (GameCursor.CameraMode)
         {
@@ -695,10 +693,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 break;
         }
 
-        if (cameraDistance < 0.65f)
+        if (InputManager.Settings.CameraDistance < 0.65f)
         {
             Transform transform6 = base.transform;
-            transform6.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - cameraDistance) * 2f), (float)0.65f));
+            transform6.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - InputManager.Settings.CameraDistance) * 2f), (float)0.65f));
         }
     }
 
@@ -776,17 +774,19 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private int getReverse()
     {
-        return invertY;
+        return InputManager.Settings.MouseInvert 
+            ? -1 
+            : 1;
     }
 
     private float getSensitivityMulti()
     {
-        return sensitivityMulti;
+        return InputManager.Settings.MouseSensitivity;
     }
 
     private float getSensitivityMultiWithDeltaTime()
     {
-        return ((sensitivityMulti * Time.deltaTime) * 62f);
+        return InputManager.Settings.MouseSensitivity * Time.deltaTime * 62f;
     }
 
     private void reset()
@@ -846,34 +846,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         QualitySettings.vSyncCount = 0;
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
-        if (PlayerPrefs.HasKey("MouseSensitivity"))
-        {
-            sensitivityMulti = PlayerPrefs.GetFloat("MouseSensitivity");
-        }
-        if (PlayerPrefs.HasKey("invertMouseY"))
-        {
-            invertY = PlayerPrefs.GetInt("invertMouseY");
-        }
-        this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
         this.setDayLight(dayLight);
         
         // This doesn't exist in the scene and causes a NullReferenceException.
         // TODO: Fix titan locking
         this.locker = GameObject.Find("locker");
-
-        if (PlayerPrefs.HasKey("cameraTilt"))
-        {
-            cameraTilt = PlayerPrefs.GetInt("cameraTilt");
-        }
-        else
-        {
-            cameraTilt = 1;
-        }
-        if (PlayerPrefs.HasKey("cameraDistance"))
-        {
-            cameraDistance = PlayerPrefs.GetFloat("cameraDistance") + 0.3f;
-        }
-
         this.createSnapShotRT2();
     }
 }
