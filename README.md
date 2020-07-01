@@ -1,7 +1,7 @@
 # AoTTG-2
 ## The future of AoTTG
 
-Welcome to the official AoTTG 2 repository! From here, we are developing an open-source project known as AoTTG 2. AoTTG 2 is a community effort to continue the development of an indie game known as ["Attack on Titan Tribute Game"](http://www.fenglee.com/game/aog/) (AoTTG) developed by FengLee. AoTTG was released in 2014, yet development ceased ever since 2016. Whereas FengLee is not working himself on AoTTG 2, he has given us permission to work on AoTTG 2 ([Source](https://weibo.com/1664859317/J9bZrB0kh))
+Welcome to the official AoTTG 2 repository! From here, we are developing an open-source project known as AoTTG 2. AoTTG 2 is a community effort to continue the development of an indie game known as ["Attack on Titan Tribute Game"](http://www.fenglee.com/game/aog/) (AoTTG) developed by FengLee. AoTTG was released in 2013, yet development ceased ever since 2016. Whereas FengLee is not working himself on AoTTG 2, he has given us permission to work on AoTTG 2 ([Source](https://weibo.com/1664859317/J9bZrB0kh))
 
 The community kept the game alive by creating various mods, but now it is time to move to the next level. The community of AoTTG is large, and by combining our powers, we have forged the AoTTG 2 community.
 
