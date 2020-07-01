@@ -49,7 +49,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         gameObject.GetComponent<TITAN_EREN>().hitByTitan();
                     }
                 }
-                else if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                else if ((gameObject.GetComponent<Hero>() != null) 
+                         && !gameObject.GetComponent<Hero>().isInvincible()
+                         && gameObject.GetComponent<Hero>()._state != HERO_STATE.Grab)
                 {
                     return gameObject;
                 }
