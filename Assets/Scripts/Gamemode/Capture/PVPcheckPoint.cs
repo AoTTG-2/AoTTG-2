@@ -74,7 +74,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     if (gameManager.checkpoint != gameObject)
                     {
                         gameManager.checkpoint = gameObject;
-                        FengGameManagerMKII.instance.chatRoom.AddLine("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
                     }
                     break;
                 }
@@ -90,7 +90,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     if (gameManager.checkpoint != base.gameObject)
                     {
                         gameManager.checkpoint = base.gameObject;
-                        FengGameManagerMKII.instance.chatRoom.AddLine("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
                     }
                     break;
                 }

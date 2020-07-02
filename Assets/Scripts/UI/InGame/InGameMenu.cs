@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.InGame.Controls;
+using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
-
-        public GraphicSettingMenu GraphicSettingsMenu;
+        public GameObject GraphicsView;
+        public ControlsMenu ControlsMenu;
 
         // Used by Button.
         public void Quit()
@@ -24,25 +25,28 @@ namespace Assets.Scripts.UI.InGame
         // Used by Button.
         public void ShowGraphicSettingsMenu()
         {
-            GraphicSettingsMenu.gameObject.SetActive(true);
+            GraphicsView.gameObject.SetActive(true);
         }
 
-        private void OnDisable()
+        // Used by Button.
+        public void ShowRebindsMenu()
         {
-            GameSettingsMenu.gameObject.SetActive(false);
-            GraphicSettingsMenu.gameObject.SetActive(false);
-
-
-            MenuManager.RegisterClosed();
+            ControlsMenu.gameObject.SetActive(true);
         }
 
         private void OnEnable()
         {
             MenuManager.RegisterOpened();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
-        private void SetGameSettingsMenu()
+        private void OnDisable()
         {
+            MenuManager.RegisterClosed();
+            GameSettingsMenu.gameObject.SetActive(false);
+            GraphicsView.gameObject.SetActive(false);
+            ControlsMenu.gameObject.SetActive(false);
         }
     }
 }

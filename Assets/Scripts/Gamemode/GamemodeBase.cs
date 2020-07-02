@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.UI.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -191,7 +192,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                return "Humanity Win!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
+                return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
         }
@@ -333,7 +334,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (Settings.IsSinglePlayer)
             {
-                return "Humanity Fail!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
+                return $"Humanity Fail!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return "Humanity Fail!\nAgain!\nGame Restart in " + ((int) gameEndCd) + "s\n\n";
         }

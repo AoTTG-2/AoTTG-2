@@ -1,247 +1,107 @@
-using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class Horse : PhotonView
+public sealed class Horse : PhotonView
 {
-    private float awayTimer;
-    private HorseController controller;
     private new Animation animation;
-    private new Rigidbody rigidbody;
-    public GameObject dust;
-    public GameObject myHeroGobj;
-    private Vector3 setPoint;
-    private float speed = 45f;
-    private string State = "idle";
-    private float timeElapsed;
 
-    private void crossFade(string aniName, float time)
+    private State currentState;
+
+    [SerializeField]
+    private ParticleSystem dustParticles;
+
+    private FollowState followState;
+    private MountState mountState;
+    private IdleState idleState;
+
+    [SerializeField]
+    private float gravityFactor = -20f;
+
+    private LayerMask groundMask;
+    private Hero hero;
+    private Transform heroTransform;
+    private LayerMask isGroundedMask;
+    private new Rigidbody rigidbody;
+
+    private float speed = 45f;
+
+    public static Horse Create(Hero hero, Vector3 position, Quaternion rotation)
+    {
+        var horse = PhotonNetwork.Instantiate("horse", position, rotation, 0).GetComponent<Horse>();
+
+        horse.RPC(nameof(InitializeRPC), PhotonTargets.AllBuffered, hero.photonView.viewID);
+
+        return horse;
+    }
+
+    [PunRPC]
+    private void InitializeRPC(int heroViewID)
+    {
+        animation = GetComponent<Animation>();
+        rigidbody = GetComponent<Rigidbody>();
+
+        LayerMask enemyBoxMask = 1 << LayerMask.NameToLayer("EnemyBox");
+        groundMask = 1 << LayerMask.NameToLayer("Ground");
+        isGroundedMask = enemyBoxMask | groundMask;
+
+        hero = Find(heroViewID).GetComponent<Hero>();
+
+        followState = new FollowState(this);
+        idleState = new IdleState(this);
+        mountState = new MountState(this, GetComponent<HorseController>());
+
+        heroTransform = hero.transform;
+        mountState.HeroAnimation = hero.GetComponent<Animation>();
+        mountState.HeroRigidbody = hero.GetComponent<Rigidbody>();
+
+        TransitionToState(idleState);
+    }
+
+    public void Mount()
+    {
+        TransitionToState(mountState);
+    }
+
+    public void Unmount()
+    {
+        TransitionToState(idleState);
+    }
+
+    private void CrossFade(string aniName, float time)
     {
         animation.CrossFade(aniName, time);
         if (PhotonNetwork.connected && photonView.isMine)
+            photonView.RPC("netCrossFade", PhotonTargets.Others, aniName, time);
+    }
+
+    private void DisableDust()
+    {
+        if (dustParticles.enableEmission)
         {
-            photonView.RPC<string, float>(netCrossFade, PhotonTargets.Others, aniName, time);
+            dustParticles.enableEmission = false;
+            photonView.RPC("setDust", PhotonTargets.Others, false);
         }
     }
 
-    private void followed()
+    private void EnableDust()
     {
-        if (myHeroGobj != null)
+        if (!dustParticles.enableEmission)
         {
-            State = "follow";
-            setPoint = (myHeroGobj.transform.position + (Vector3.right * Random.Range(-6, 6))) + (Vector3.forward * Random.Range(-6, 6));
-            setPoint.y = getHeight(setPoint + ((Vector3) (Vector3.up * 5f)));
-            awayTimer = 0f;
+            dustParticles.enableEmission = true;
+            photonView.RPC("setDust", PhotonTargets.Others, true);
         }
-    }
-
-    private float getHeight(Vector3 pt)
-    {
-        RaycastHit hit;
-        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Ground");
-        if (Physics.Raycast(pt, -Vector3.up, out hit, 1000f, mask2.value))
-        {
-            return hit.point.y;
-        }
-        return 0f;
-    }
-
-    public bool IsGrounded()
-    {
-        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-        LayerMask mask3 = mask2 | mask;
-        return Physics.Raycast(gameObject.transform.position + ((Vector3) (Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask3.value);
     }
 
     private void LateUpdate()
     {
-        if ((myHeroGobj == null) && photonView.isMine)
+        if (!hero && photonView.isMine)
         {
             PhotonNetwork.Destroy(gameObject);
+            return;
         }
-        if (State == "mounted")
-        {
-            if (myHeroGobj == null)
-            {
-                unmounted();
-                return;
-            }
-            myHeroGobj.transform.position = transform.position + ((Vector3) (Vector3.up * 1.68f));
-            myHeroGobj.transform.rotation = transform.rotation;
-            var myHero = myHeroGobj.GetComponent<Hero>();
-            var myHeroRigidbody = myHeroGobj.GetComponent<Rigidbody>();
-            var myHeroAnimation = myHeroGobj.GetComponent<Animation>();
-            myHeroRigidbody.velocity = rigidbody.velocity;
-            if (controller.targetDirection != -874f)
-            {
-                gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, controller.targetDirection, 0f), (100f * Time.deltaTime) / (rigidbody.velocity.magnitude + 20f));
-                if (controller.isWALKDown)
-                {
-                    rigidbody.AddForce((Vector3) ((transform.forward * speed) * 0.6f), ForceMode.Acceleration);
-                    if (rigidbody.velocity.magnitude >= (speed * 0.6f))
-                    {
-                        rigidbody.AddForce((Vector3) ((-speed * 0.6f) * rigidbody.velocity.normalized), ForceMode.Acceleration);
-                    }
-                }
-                else
-                {
-                    rigidbody.AddForce((Vector3) (transform.forward * speed), ForceMode.Acceleration);
-                    if (rigidbody.velocity.magnitude >= speed)
-                    {
-                        rigidbody.AddForce((Vector3) (-speed * rigidbody.velocity.normalized), ForceMode.Acceleration);
-                    }
-                }
-                if (rigidbody.velocity.magnitude > 8f)
-                {
-                    if (!animation.IsPlaying("horse_Run"))
-                    {
-                        crossFade("horse_Run", 0.1f);
-                    }
-                    if (!myHeroAnimation.IsPlaying("horse_Run"))
-                    {
-                        myHero.crossFade("horse_run", 0.1f);
-                    }
-                    if (!dust.GetComponent<ParticleSystem>().enableEmission)
-                    {
-                        dust.GetComponent<ParticleSystem>().enableEmission = true;
-                        object[] parameters = new object[] { true };
-                        photonView.RPC<bool>(setDust, PhotonTargets.Others, parameters);
-                    }
-                }
-                else
-                {
-                    if (!animation.IsPlaying("horse_WALK"))
-                    {
-                        crossFade("horse_WALK", 0.1f);
-                    }
-                    if (!myHeroAnimation.IsPlaying("horse_idle"))
-                    {
-                        myHero.crossFade("horse_idle", 0.1f);
-                    }
-                    if (dust.GetComponent<ParticleSystem>().enableEmission)
-                    {
-                        dust.GetComponent<ParticleSystem>().enableEmission = false;
-                        object[] objArray2 = new object[] { false };
-                        photonView.RPC<bool>(setDust, PhotonTargets.Others, objArray2);
-                    }
-                }
-            }
-            else
-            {
-                toIdleAnimation();
-                if (rigidbody.velocity.magnitude > 15f)
-                {
-                    if (!myHeroAnimation.IsPlaying("horse_Run"))
-                    {
-                        myHero.crossFade("horse_run", 0.1f);
-                    }
-                }
-                else if (!myHeroAnimation.IsPlaying("horse_idle"))
-                {
-                    myHero.crossFade("horse_idle", 0.1f);
-                }
-            }
-            if ((controller.isAttackDown || controller.isAttackIIDown) && IsGrounded())
-            {
-                rigidbody.AddForce((Vector3) (Vector3.up * 25f), ForceMode.VelocityChange);
-            }
-        }
-        else if (State == "follow")
-        {
-            if (myHeroGobj == null)
-            {
-                unmounted();
-                return;
-            }
-            if (rigidbody.velocity.magnitude > 8f)
-            {
-                if (!animation.IsPlaying("horse_Run"))
-                {
-                    crossFade("horse_Run", 0.1f);
-                }
-                if (!dust.GetComponent<ParticleSystem>().enableEmission)
-                {
-                    dust.GetComponent<ParticleSystem>().enableEmission = true;
-                    photonView.RPC<bool>(setDust, PhotonTargets.Others, true);
-                }
-            }
-            else
-            {
-                if (!animation.IsPlaying("horse_WALK"))
-                {
-                    crossFade("horse_WALK", 0.1f);
-                }
-                if (dust.GetComponent<ParticleSystem>().enableEmission)
-                {
-                    dust.GetComponent<ParticleSystem>().enableEmission = false;
-                    photonView.RPC<bool>(setDust, PhotonTargets.Others, false);
-                }
-            }
 
-            var horizontalVector = setPoint - transform.position;
-            var horizontalAngle = -Mathf.Atan2(horizontalVector.z, horizontalVector.x) * 57.29578f;
-            float num = -Mathf.DeltaAngle(horizontalAngle, gameObject.transform.rotation.eulerAngles.y - 90f);
-            gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, gameObject.transform.rotation.eulerAngles.y + num, 0f), (200f * Time.deltaTime) / (rigidbody.velocity.magnitude + 20f));
-            if (Vector3.Distance(setPoint, transform.position) < 20f)
-            {
-                rigidbody.AddForce((Vector3) ((transform.forward * speed) * 0.7f), ForceMode.Acceleration);
-                if (rigidbody.velocity.magnitude >= speed)
-                {
-                    rigidbody.AddForce((Vector3) ((-speed * 0.7f) * rigidbody.velocity.normalized), ForceMode.Acceleration);
-                }
-            }
-            else
-            {
-                rigidbody.AddForce((Vector3) (transform.forward * speed), ForceMode.Acceleration);
-                if (rigidbody.velocity.magnitude >= speed)
-                {
-                    rigidbody.AddForce((Vector3) (-speed * rigidbody.velocity.normalized), ForceMode.Acceleration);
-                }
-            }
-            timeElapsed += Time.deltaTime;
-            if (timeElapsed > 0.6f)
-            {
-                timeElapsed = 0f;
-                if (Vector3.Distance(myHeroGobj.transform.position, setPoint) > 20f)
-                {
-                    followed();
-                }
-            }
-            if (Vector3.Distance(myHeroGobj.transform.position, transform.position) < 5f)
-            {
-                unmounted();
-            }
-            if (Vector3.Distance(setPoint, transform.position) < 5f)
-            {
-                unmounted();
-            }
-            awayTimer += Time.deltaTime;
-            if (awayTimer > 6f)
-            {
-                awayTimer = 0f;
-                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                if (Physics.Linecast(transform.position + Vector3.up, myHeroGobj.transform.position + Vector3.up, mask2.value))
-                {
-                    transform.position = new Vector3(myHeroGobj.transform.position.x, getHeight(myHeroGobj.transform.position + ((Vector3) (Vector3.up * 5f))), myHeroGobj.transform.position.z);
-                }
-            }
-        }
-        else if (State == "idle")
-        {
-            toIdleAnimation();
-            if ((myHeroGobj != null) && (Vector3.Distance(myHeroGobj.transform.position, transform.position) > 20f))
-            {
-                followed();
-            }
-        }
-        rigidbody.AddForce(new Vector3(0f, -50f * rigidbody.mass, 0f));
-    }
+        currentState.Update();
 
-    public void mounted()
-    {
-        State = "mounted";
-        controller.enabled = true;
+        rigidbody.AddForce(new Vector3(0f, gravityFactor * rigidbody.mass, 0f));
     }
 
     [PunRPC]
@@ -263,117 +123,347 @@ public class Horse : PhotonView
         animation[aniName].normalizedTime = normalizedTime;
     }
 
-    public void playAnimation(string aniName)
+    private void Reset()
     {
-        animation.Play(aniName);
-        if (PhotonNetwork.connected && photonView.isMine)
-            photonView.RPC<string>(netPlayAnimation, PhotonTargets.Others, aniName);
+        dustParticles = GetComponentInChildren<ParticleSystem>();
     }
 
-    private void playAnimationAt(string aniName, float normalizedTime)
-    {
-        animation.Play(aniName);
-        animation[aniName].normalizedTime = normalizedTime;
-        if (PhotonNetwork.connected && photonView.isMine)
-            photonView.RPC<string, float>(
-                netPlayAnimationAt,
-                PhotonTargets.Others,
-                aniName,
-                normalizedTime);
-    }
-
-    [PunRPC, Obsolete]
+    [PunRPC]
     private void setDust(bool enable)
     {
-        var particleSystem = dust.GetComponent<ParticleSystem>();
-        if (particleSystem.enableEmission)
-            particleSystem.enableEmission = enable;
+        if (dustParticles.enableEmission)
+            dustParticles.enableEmission = enable;
     }
 
-    private void Start()
-    {
-        controller = GetComponent<HorseController>();
-        animation = GetComponent<Animation>();
-    }
-
-    private void toIdleAnimation()
+    private void ToIdleAnimation()
     {
         if (rigidbody.velocity.magnitude > 0.1f)
         {
             if (rigidbody.velocity.magnitude > 15f)
             {
                 if (!animation.IsPlaying("horse_Run"))
-                {
-                    crossFade("horse_Run", 0.1f);
-                }
-                if (!dust.GetComponent<ParticleSystem>().enableEmission)
-                {
-                    dust.GetComponent<ParticleSystem>().enableEmission = true;
-                    object[] parameters = new object[] { true };
-                    photonView.RPC<bool>(setDust, PhotonTargets.Others, parameters);
-                }
+                    CrossFade("horse_Run", 0.1f);
+
+                EnableDust();
             }
             else
             {
                 if (!animation.IsPlaying("horse_WALK"))
-                {
-                    crossFade("horse_WALK", 0.1f);
-                }
-                if (dust.GetComponent<ParticleSystem>().enableEmission)
-                {
-                    dust.GetComponent<ParticleSystem>().enableEmission = false;
-                    object[] objArray2 = new object[] { false };
-                    photonView.RPC<bool>(setDust, PhotonTargets.Others, objArray2);
-                }
+                    CrossFade("horse_WALK", 0.1f);
+
+                DisableDust();
             }
         }
         else
         {
             if (animation.IsPlaying("horse_idle1") && (animation["horse_idle1"].normalizedTime >= 1f))
-            {
-                crossFade("horse_idle0", 0.1f);
-            }
+                CrossFade("horse_idle0", 0.1f);
+
             if (animation.IsPlaying("horse_idle2") && (animation["horse_idle2"].normalizedTime >= 1f))
-            {
-                crossFade("horse_idle0", 0.1f);
-            }
+                CrossFade("horse_idle0", 0.1f);
+
             if (animation.IsPlaying("horse_idle3") && (animation["horse_idle3"].normalizedTime >= 1f))
-            {
-                crossFade("horse_idle0", 0.1f);
-            }
+                CrossFade("horse_idle0", 0.1f);
+
             if ((!animation.IsPlaying("horse_idle0") && !animation.IsPlaying("horse_idle1")) && (!animation.IsPlaying("horse_idle2") && !animation.IsPlaying("horse_idle3")))
-            {
-                crossFade("horse_idle0", 0.1f);
-            }
+                CrossFade("horse_idle0", 0.1f);
+
             if (animation.IsPlaying("horse_idle0"))
             {
-                int num = Random.Range(0, 0x2710);
-                if (num < 10)
+                switch (Random.Range(0, 1000))
                 {
-                    crossFade("horse_idle1", 0.1f);
-                }
-                else if (num < 20)
-                {
-                    crossFade("horse_idle2", 0.1f);
-                }
-                else if (num < 30)
-                {
-                    crossFade("horse_idle3", 0.1f);
+                    case 0:
+                        CrossFade("horse_idle1", 0.1f);
+                        break;
+
+                    case 1:
+                        CrossFade("horse_idle2", 0.1f);
+                        break;
+
+                    case 2:
+                        CrossFade("horse_idle3", 0.1f);
+                        break;
+
+                    default:
+                        break;
                 }
             }
-            if (dust.GetComponent<ParticleSystem>().enableEmission)
-            {
-                dust.GetComponent<ParticleSystem>().enableEmission = false;
-                photonView.RPC<bool>(setDust, PhotonTargets.Others, false);
-            }
+
+            DisableDust();
+
             rigidbody.AddForce(-rigidbody.velocity, ForceMode.VelocityChange);
         }
-    }   
+    }
 
-    public void unmounted()
+    private void TransitionToState(State nextState)
     {
-        State = "idle";
-        controller.enabled = false;
+        currentState?.Exit();
+        currentState = nextState;
+        currentState?.Enter();
+    }
+
+    private sealed class FollowState : State
+    {
+        private float awayTimer;
+        private Vector3 target;
+        private float timeElapsed;
+
+        public FollowState(Horse horse)
+            : base(horse)
+        {
+        }
+
+        public override void Enter()
+        {
+            GetNewTarget();
+        }
+
+        private void GetNewTarget()
+        {
+            var randomOffset = new Vector3(
+                            Random.Range(-6, 6),
+                            5f,
+                            Random.Range(-6, 6));
+            var point = Horse.heroTransform.position + randomOffset;
+            point.y = GetHeight(point);
+            target = point;
+            awayTimer = 0f;
+        }
+
+        public override void Update()
+        {
+            if (!Horse.hero)
+            {
+                Horse.TransitionToState(Horse.idleState);
+                return;
+            }
+
+            if (Horse.rigidbody.velocity.magnitude > 8f)
+            {
+                if (!Horse.animation.IsPlaying("horse_Run"))
+                    Horse.CrossFade("horse_Run", 0.1f);
+
+                Horse.EnableDust();
+            }
+            else
+            {
+                if (!Horse.animation.IsPlaying("horse_WALK"))
+                    Horse.CrossFade("horse_WALK", 0.1f);
+
+                Horse.DisableDust();
+            }
+
+            var horizontalVector = target - Horse.transform.position;
+            var horizontalAngle = -Mathf.Atan2(horizontalVector.z, horizontalVector.x) * 57.29578f;
+            var num = -Mathf.DeltaAngle(horizontalAngle, Horse.gameObject.transform.rotation.eulerAngles.y - 90f);
+            Horse.gameObject.transform.rotation = Quaternion.Lerp(
+                Horse.gameObject.transform.rotation,
+                Quaternion.Euler(0f, Horse.gameObject.transform.rotation.eulerAngles.y + num, 0f),
+                (200f * Time.deltaTime) / (Horse.rigidbody.velocity.magnitude + 20f));
+
+            if (Vector3.Distance(target, Horse.transform.position) < 20f)
+            {
+                Horse.rigidbody.AddForce((Horse.transform.forward * Horse.speed) * 0.7f, ForceMode.Acceleration);
+                if (Horse.rigidbody.velocity.magnitude >= Horse.speed)
+                    Horse.rigidbody.AddForce((-Horse.speed * 0.7f) * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
+            }
+            else
+            {
+                Horse.rigidbody.AddForce(Horse.transform.forward * Horse.speed, ForceMode.Acceleration);
+                if (Horse.rigidbody.velocity.magnitude >= Horse.speed)
+                    Horse.rigidbody.AddForce(-Horse.speed * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
+            }
+
+            timeElapsed += Time.deltaTime;
+            if (timeElapsed > 0.6f)
+            {
+                timeElapsed = 0f;
+                if (Vector3.Distance(Horse.heroTransform.position, target) > 20f)
+                    GetNewTarget();
+            }
+
+            if (Vector3.Distance(Horse.heroTransform.position, Horse.transform.position) < 5f)
+                Horse.TransitionToState(Horse.idleState);
+            else if (Vector3.Distance(target, Horse.transform.position) < 5f)
+                Horse.TransitionToState(Horse.idleState);
+
+            awayTimer += Time.deltaTime;
+            if (awayTimer > 6f)
+            {
+                awayTimer = 0f;
+                var start = Horse.transform.position + Vector3.up;
+                var end = Horse.heroTransform.position + Vector3.up;
+                if (Physics.Linecast(
+                    start,
+                    end,
+                    Horse.groundMask))
+                    Horse.transform.position = new Vector3(
+                        Horse.heroTransform.position.x,
+                        GetHeight(Horse.heroTransform.position + Vector3.up * 5f),
+                        Horse.heroTransform.position.z);
+            }
+        }
+
+        private float GetHeight(Vector3 pt)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(pt, -Vector3.up, out hit, 1000f, Horse.groundMask.value))
+                return hit.point.y;
+
+            return 0f;
+        }
+    }
+
+    private sealed class IdleState : State
+    {
+        public IdleState(Horse horse)
+            : base(horse)
+        {
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+        }
+
+        public override void Update()
+        {
+            Horse.ToIdleAnimation();
+            var heroDistance = Vector3.Distance(Horse.heroTransform.position, Horse.transform.position);
+            if (Horse.hero && heroDistance > 20f)
+                Horse.TransitionToState(Horse.followState);
+        }
+    }
+
+    private sealed class MountState : State
+    {
+        private readonly HorseController controller;
+
+        public MountState(Horse horse, HorseController controller)
+            : base(horse)
+        {
+            this.controller = controller;
+        }
+
+        public Animation HeroAnimation { get; set; }
+
+        public Rigidbody HeroRigidbody { get; set; }
+
+        private bool IsGrounded =>
+            Physics.Raycast(
+                Horse.gameObject.transform.position + Vector3.up * 0.1f,
+                -Vector3.up,
+                0.3f,
+                Horse.isGroundedMask.value);
+
+        public override void Enter()
+        {
+            controller.enabled = true;
+        }
+
+        public override void Exit()
+        {
+            controller.enabled = false;
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+        }
+
+        public override void Update()
+        {
+            if (!Horse.hero)
+            {
+                Horse.TransitionToState(Horse.idleState);
+                return;
+            }
+
+            var playerOffset = Vector3.up * 1.68f;
+            Horse.heroTransform.position = Horse.transform.position + playerOffset;
+            Horse.heroTransform.rotation = Horse.transform.rotation;
+            HeroRigidbody.velocity = Horse.rigidbody.velocity;
+
+            if (controller.TargetDirection != -874f)
+            {
+                Horse.gameObject.transform.rotation = Quaternion.Lerp(
+                    Horse.gameObject.transform.rotation,
+                    Quaternion.Euler(0f, controller.TargetDirection, 0f),
+                    (100f * Time.deltaTime) / (Horse.rigidbody.velocity.magnitude + 20f));
+                if (controller.ShouldWalk)
+                {
+                    Horse.rigidbody.AddForce((Horse.transform.forward * Horse.speed) * 0.6f, ForceMode.Acceleration);
+                    if (Horse.rigidbody.velocity.magnitude >= (Horse.speed * 0.6f))
+                        Horse.rigidbody.AddForce((-Horse.speed * 0.6f) * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
+                }
+                else
+                {
+                    Horse.rigidbody.AddForce(Horse.transform.forward * Horse.speed, ForceMode.Acceleration);
+                    if (Horse.rigidbody.velocity.magnitude >= Horse.speed)
+                        Horse.rigidbody.AddForce(-Horse.speed * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
+                }
+
+                if (Horse.rigidbody.velocity.magnitude > 8f)
+                {
+                    if (!Horse.animation.IsPlaying("horse_Run"))
+                        Horse.CrossFade("horse_Run", 0.1f);
+
+                    if (!HeroAnimation.IsPlaying("horse_Run"))
+                        Horse.hero.crossFade("horse_run", 0.1f);
+
+                    Horse.EnableDust();
+                }
+                else
+                {
+                    if (!Horse.animation.IsPlaying("horse_WALK"))
+                        Horse.CrossFade("horse_WALK", 0.1f);
+
+                    if (!HeroAnimation.IsPlaying("horse_idle"))
+                        Horse.hero.crossFade("horse_idle", 0.1f);
+
+                    Horse.DisableDust();
+                }
+            }
+            else
+            {
+                Horse.ToIdleAnimation();
+                if (Horse.rigidbody.velocity.magnitude > 15f)
+                {
+                    if (!HeroAnimation.IsPlaying("horse_Run"))
+                        Horse.hero.crossFade("horse_run", 0.1f);
+                }
+                else if (!HeroAnimation.IsPlaying("horse_idle"))
+                    Horse.hero.crossFade("horse_idle", 0.1f);
+            }
+
+            if (controller.ShouldJump && IsGrounded)
+                Horse.rigidbody.AddForce(Vector3.up * 25f, ForceMode.VelocityChange);
+        }
+    }
+
+    private abstract class State
+    {
+        protected readonly Horse Horse;
+
+        public State(Horse horse)
+        {
+            Horse = horse;
+        }
+
+        public virtual void Enter()
+        {
+        }
+
+        public virtual void Exit()
+        {
+        }
+
+        public virtual void FixedUpdate()
+        {
+        }
+
+        public virtual void Update()
+        {
+        }
     }
 }
-

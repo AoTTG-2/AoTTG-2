@@ -79,8 +79,6 @@ namespace Assets.Scripts.UI.InGame
                 input.Initialize(property.PropertyType);
             }
 
-
-
             if (uiObject != null)
             {
                 uiObject.transform.SetParent(Content.transform);
