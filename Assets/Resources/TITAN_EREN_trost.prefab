@@ -2472,7 +2472,7 @@ Animation:
   m_GameObject: {fileID: 1449836727997949}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
+  m_Animation: {fileID: 7400000, guid: f516ef75755860f4fb11ffe372227500, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 647010060c42ce94e990bcda832d329f, type: 2}
   - {fileID: 7400000, guid: 574f629804d33ff45b3828bf79bcffef, type: 2}
@@ -2553,7 +2553,6 @@ MonoBehaviour:
   dashDirection: {x: 0, y: 0, z: 0}
   hasDied: 0
   hasSpawn: 0
-  inputManager: {fileID: 0}
   isHit: 0
   jumpHeight: 2
   lifeTime: 9999

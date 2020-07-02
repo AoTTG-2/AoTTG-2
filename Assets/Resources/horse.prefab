@@ -1840,7 +1840,7 @@ Animation:
   m_GameObject: {fileID: 1965692679872925}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
+  m_Animation: {fileID: 7400000, guid: 6feaf2ec029cee843b3fcb2b620f31ac, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: fd51009637d143349895bdd9fc8f2361, type: 2}
   - {fileID: 7400000, guid: 6feaf2ec029cee843b3fcb2b620f31ac, type: 2}
@@ -1878,8 +1878,8 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
-  dust: {fileID: 1420590395356996}
-  myHero: {fileID: 0}
+  dustParticles: {fileID: 198199218511497426}
+  gravityFactor: -20
 --- !u!114 &114563645587361564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1891,14 +1891,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4174f7a6503194ca5c13adc51d7579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentCamera: {fileID: 0}
-  currentDirection: 0
-  inputManager: {fileID: 0}
-  isAttackDown: 0
-  isAttackIIDown: 0
-  isWALKDown: 0
-  sit: 0
-  targetDirection: 0
+  CurrentDirection: 0
+  ShouldJump: 0
+  ShouldWalk: 0
+  TargetDirection: 0
 --- !u!114 &114713276086319258
 MonoBehaviour:
   m_ObjectHideFlags: 1
