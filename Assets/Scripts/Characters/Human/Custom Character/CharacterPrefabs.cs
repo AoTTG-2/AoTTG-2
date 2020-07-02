@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Character Prefabs", menuName = "Character Prefabs")]
+[CreateAssetMenu(fileName = "New Character Prefabs", menuName = "Character/Character Prefabs")]
 public class CharacterPrefabs : ScriptableObject
 {
     [SerializeField] public List<GameObject> body;

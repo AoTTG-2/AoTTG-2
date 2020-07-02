@@ -1,26 +1,29 @@
 ﻿//Stores the outfit options
+using System;
 using UnityEngine;
 
+[Serializable]
 public struct CharacterOutfit
 {
-    public Sex sex;
-    public SkinColor skinColor;
-    public int hairID;
-    public Color hairColor;
-    public int eyeID;
-    public int glassesID;
-    public int mouthID;
-    public Odmg odmg;
-    public OutfitType outfitType;
-    public int outfitID;
-    public int outfitTextureID;
-    public Division division;
-    public bool capeEnabled;
-    public bool hoodEnabled;
-    public bool scarfEnabled;
+    [SerializeField] public Sex sex;
+    [SerializeField] public SkinColor skinColor;
+    [SerializeField] public int hairID;
+    [SerializeField] public Color hairColor;
+    [SerializeField] public int eyeID;
+    [SerializeField] public int glassesID;
+    [SerializeField] public int mouthID;
+    [SerializeField] public Odmg odmg;
+    [SerializeField] public OutfitType outfitType;
+    [SerializeField] public int outfitID;
+    [SerializeField] public int outfitTextureID;
+    [SerializeField] public Division division;
+    [SerializeField] public bool capeEnabled;
+    [SerializeField] public bool hoodEnabled;
+    [SerializeField] public bool scarfEnabled;
 }
 
 //Stores and manages the stats of the character
+[Serializable]
 public class CharacterStat
 {
     #region Fields
@@ -29,10 +32,10 @@ public class CharacterStat
     private static readonly int MaxStat = 125;
 
     private int availablePoints;
-    private int gas;
-    private int equipment;
-    private int acceleration;
-    private int speed;
+    [SerializeField] private int gas;
+    [SerializeField] private int equipment;
+    [SerializeField] private int acceleration;
+    [SerializeField] private int speed;
     #endregion
 
     #region Properties
