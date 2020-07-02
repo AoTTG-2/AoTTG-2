@@ -1,4 +1,4 @@
-namespace Xft
+/*namespace Xft
 {
     using System;
     using System.Collections.Generic;
@@ -326,3 +326,4 @@ namespace Xft
     }
 }
 
+*/
