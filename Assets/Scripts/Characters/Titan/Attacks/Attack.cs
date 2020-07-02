@@ -8,30 +8,36 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         public float Cooldown { get; set; }
         public BodyPart[] BodyParts { get; set; }
         public float Stamina { get; set; } = 10f;
+        protected MindlessTitan Titan { get; set; }
 
-        protected bool IsDisabled(MindlessTitan titan)
+        protected bool IsDisabled()
         {
-            return titan.IsDisabled(BodyParts);
+            return Titan.IsDisabled(BodyParts);
         }
 
-        protected bool IsDisabled(MindlessTitan titan, BodyPart bodyPart)
+        protected bool IsDisabled(BodyPart bodyPart)
         {
-            return titan.IsDisabled(bodyPart);
+            return Titan.IsDisabled(bodyPart);
         }
 
-        public virtual bool CanAttack(MindlessTitan titan)
+        public virtual bool CanAttack()
         {
             return true;
         }
 
         public virtual bool CanAttack(PlayerTitan titan)
         {
-            if (IsDisabled(titan)) return false;
+            if (titan.IsDisabled(BodyParts)) return false;
             return true;
         }
 
-        public virtual void Execute(MindlessTitan titan)
+        public virtual void Execute()
         {
+        }
+
+        public virtual void Initialize(MindlessTitan titan)
+        {
+            Titan = titan;
         }
 
         protected GameObject checkIfHitHand(Transform hand, float titanSize)

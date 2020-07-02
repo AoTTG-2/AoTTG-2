@@ -10,33 +10,33 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         protected virtual string Effect { get; set; }
         protected virtual Transform TitanBodyPart { get; set; }
 
-        public override void Execute(MindlessTitan titan)
+        public override void Execute()
         {
-            ExecuteBoomAttack(titan);
+            ExecuteBoomAttack();
         }
         
-        private void ExecuteBoomAttack(MindlessTitan titan)
+        private void ExecuteBoomAttack()
         {
             if (IsFinished) return;
-            if (!titan.Animation.IsPlaying(AttackAnimation))
+            if (!Titan.Animation.IsPlaying(AttackAnimation))
             {
-                titan.CrossFade(AttackAnimation, 0.1f);
+                Titan.CrossFade(AttackAnimation, 0.1f);
                 HasExploded = false;
                 return;
             }
 
-            if (titan.IsDisabled(BodyParts))
+            if (Titan.IsDisabled(BodyParts))
             {
                 IsFinished = true;
                 return;
             }
 
-            if (!HasExploded && titan.Animation[AttackAnimation].normalizedTime >= BoomTimer)
+            if (!HasExploded && Titan.Animation[AttackAnimation].normalizedTime >= BoomTimer)
             {
                 HasExploded = true;
                 GameObject obj9;
                 var rotation = Quaternion.Euler(270f, 0f, 0f);
-                if (titan.photonView.isMine)
+                if (Titan.photonView.isMine)
                 {
                     obj9 = PhotonNetwork.Instantiate(Effect, TitanBodyPart.position, rotation, 0);
                 }
@@ -44,14 +44,14 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 {
                     return;
                 }
-                obj9.transform.localScale = titan.transform.localScale;
+                obj9.transform.localScale = Titan.transform.localScale;
                 if (obj9.GetComponent<EnemyfxIDcontainer>() != null)
                 {
-                    obj9.GetComponent<EnemyfxIDcontainer>().titanName = titan.name;
+                    obj9.GetComponent<EnemyfxIDcontainer>().titanName = Titan.name;
                 }
             }
 
-            if (titan.Animation[AttackAnimation].normalizedTime >= 1f)
+            if (Titan.Animation[AttackAnimation].normalizedTime >= 1f)
             {
                 IsFinished = true;
             }

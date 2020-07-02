@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Gamemode;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Assets.Scripts.Characters.Titan
         public MindlessTitanState PreviousState;
         public MindlessTitanState NextState;
         public MindlessTitanType Type;
+
+        public Difficulty Difficulty { get; private set; }
 
         public bool IsAlive => TitanState != MindlessTitanState.Dead;
         private float DamageTimer { get; set; }
@@ -160,10 +163,20 @@ namespace Assets.Scripts.Characters.Titan
             Focus = configuration.Focus;
             FocusTimer = 0f;
             Behaviors = configuration.Behaviors.ToArray();
+            Difficulty = configuration.Difficulty;
+
             foreach (var behavior in Behaviors)
             {
                 behavior.Initialize(this);
             }
+
+            Attacks = new Attack[] {new GrabAttack()};
+
+            foreach (var attack in Attacks)
+            {
+                attack.Initialize(this);
+            }
+
             Type = configuration.Type;
             name = Type.ToString();
 
@@ -174,6 +187,7 @@ namespace Assets.Scripts.Characters.Titan
             headscale = new Vector3(scale, scale, scale);
             TitanBody.Head.localScale = headscale;
             LoadSkin();
+            SetAnimationSpeed();
 
             AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
 
@@ -208,6 +222,13 @@ namespace Assets.Scripts.Characters.Titan
                     photonView.RPC("UpdateHealthLabelRpc", PhotonTargets.AllBuffered, Health, MaxHealth);
                 }
             }
+        }
+
+        private void SetAnimationSpeed()
+        {
+            //Animation[AnimationWalk].speed = Mathf.Clamp(Speed / 8f, 0.5f, 1.5f);
+            //if (AnimationRun != null)
+            //    Animation[AnimationRun].speed = Mathf.Clamp(Speed / 16f, 0.5f, 1.5f);
         }
 
         [PunRPC]
@@ -737,8 +758,6 @@ namespace Assets.Scripts.Characters.Titan
             RotationModifier = 0f;
         }
 
-
-
         #region OnUpdate
 
         protected virtual void Update()
@@ -840,7 +859,7 @@ namespace Assets.Scripts.Characters.Titan
                 ChangeState(MindlessTitanState.Chase);
                 return;
             }
-            CurrentAttack.Execute(this);
+            CurrentAttack.Execute();
         }
 
         protected void OnChasing()
@@ -874,7 +893,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            var availableAttacks = Attacks.Where(x => x.CanAttack(this)).ToArray();
+            var availableAttacks = Attacks.Where(x => x.CanAttack()).ToArray();
             if (availableAttacks.Length > 0)
             {
                 CurrentAttack = availableAttacks[Random.Range(0, availableAttacks.Length)];

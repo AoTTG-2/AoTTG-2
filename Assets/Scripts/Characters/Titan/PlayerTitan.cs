@@ -123,7 +123,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (CurrentAttack != null)
             {
-                CurrentAttack.Execute(this);
+                CurrentAttack.Execute();
                 if (CurrentAttack.IsFinished)
                 {
                     CurrentAttack.IsFinished = false;
