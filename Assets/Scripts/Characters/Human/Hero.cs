@@ -10,6 +10,8 @@ using Xft;
 
 public class Hero : Human
 {
+    public GameObject Trail;
+    public GameObject Trail2;
     public Equipment Equipment { get; set; }
     public EquipmentType EquipmentType;
 
@@ -188,7 +190,7 @@ public class Hero : Human
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
         GO.GetComponent<Rigidbody>().AddForce(v);
-        GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f));
+        GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f));
     }
 
     public void attackAccordingToMouse()
@@ -199,6 +201,7 @@ public class Hero : Human
         }
         else
         {
+
             this.attackAnimation = "attack1";
         }
     }
@@ -220,6 +223,7 @@ public class Hero : Human
         {
             this.attackAnimation = "attack2";
         }
+
     }
 
     private void Awake()
@@ -237,7 +241,20 @@ public class Hero : Human
         this.upperarmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
         Equipment = gameObject.AddComponent<Equipment>();
     }
-
+    void Update()
+    {
+        
+    }
+    public void disabletrail()
+    {
+        Trail.SetActive(false);
+        Trail2.SetActive(false);
+    }
+    public void enabletrail() 
+    {
+        Trail.SetActive(true);
+        Trail2.SetActive(true);
+    }
     public void backToHuman()
     {
         base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
@@ -1100,6 +1117,7 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
+
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
@@ -4459,6 +4477,7 @@ public class Hero : Human
 
     private void Start()
     {
+
         FengGameManagerMKII.instance.addHero(this);
         gameObject.AddComponent<PlayerInteractable>();
         SetHorse();
