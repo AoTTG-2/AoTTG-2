@@ -49,48 +49,45 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         {
                             num3 = Mathf.Max((float) 5f, (float) (num2 - vector.magnitude));
                         }
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                        {
-                            component.transform.root.GetComponent<Hero>().blowAway((Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)));
-                        }
-                        else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                        {
-                            object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
-                        }
+
+                        object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
+                        component.transform.root.GetComponent<Hero>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
+
                     }
                     else if (!component.transform.root.GetComponent<Hero>().isInvincible())
                     {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
                             if (!component.transform.root.GetComponent<Hero>().isGrabbed)
                             {
+                                Debug.Log("Singleplayer");
                                 Vector3 vector4 = component.transform.root.transform.position - base.transform.position;
                                 component.transform.root.GetComponent<Hero>().die((Vector3) (((vector4.normalized * b) * 1000f) + (Vector3.up * 50f)), this.isThisBite);
-                            }
-                        }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
-                        {
-                            component.transform.root.GetComponent<Hero>().markDie();
-                            int myOwnerViewID = -1;
-                            string titanName = string.Empty;
-                            if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
-                            {
-                                myOwnerViewID = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID;
-                                titanName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
-                            }
-                            object[] objArray2 = new object[5];
-                            Vector3 vector5 = component.transform.root.position - base.transform.position;
-                            objArray2[0] = (Vector3) (((vector5.normalized * b) * 1000f) + (Vector3.up * 50f));
-                            objArray2[1] = this.isThisBite;
-                            objArray2[2] = myOwnerViewID;
-                            objArray2[3] = titanName;
-                            objArray2[4] = true;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray2);
-                        }
+                            }*/
                     }
+                    if ((/*(IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && */!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                    {
+                        component.transform.root.GetComponent<Hero>().markDie();
+                        int myOwnerViewID = -1;
+                        string titanName = string.Empty;
+                        if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
+                        {
+                            myOwnerViewID = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID;
+                            titanName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
+                        }
+                        object[] objArray2 = new object[5];
+                        Vector3 vector5 = component.transform.root.position - base.transform.position;
+                        objArray2[0] = (Vector3) (((vector5.normalized * b) * 1000f) + (Vector3.up * 50f));
+                        objArray2[1] = this.isThisBite;
+                        objArray2[2] = myOwnerViewID;
+                        objArray2[3] = titanName;
+                        objArray2[4] = true;
+                        component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray2);
+                    }
+
                 }
             }
+
             else if (((other.gameObject.tag == "erenHitbox") && (this.dmg > 0)) && !other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().isHit)
             {
                 other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByTitan();

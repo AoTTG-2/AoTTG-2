@@ -358,11 +358,11 @@ public class Bullet : Photon.MonoBehaviour
             PhotonNetwork.Destroy(base.photonView);
             PhotonNetwork.RemoveRPCs(base.photonView);
         }
-        else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        /*else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             UnityEngine.Object.Destroy(this.rope);
             UnityEngine.Object.Destroy(base.gameObject);
-        }
+        }*/
     }
 
     private void setLinePhase0()

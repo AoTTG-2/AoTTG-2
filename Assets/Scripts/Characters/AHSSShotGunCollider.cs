@@ -49,7 +49,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                     HitBox component = other.gameObject.GetComponent<HitBox>();
                     if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
                     {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
                             if (!component.transform.root.GetComponent<Hero>().isGrabbed)
                             {
@@ -57,7 +57,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                                 component.transform.root.GetComponent<Hero>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        else */if (/*((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && */!component.transform.root.GetComponent<Hero>().HasDied() && !component.transform.root.GetComponent<Hero>().isGrabbed)
                         {
                             component.transform.root.GetComponent<Hero>().markDie();
                             object[] parameters = new object[5];
@@ -160,14 +160,14 @@ public class AHSSShotGunCollider : MonoBehaviour
                     GameObject gameObject = other.gameObject.transform.root.gameObject;
                     if (gameObject.GetComponent<FEMALE_TITAN>() != null)
                     {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
                             if (!gameObject.GetComponent<FEMALE_TITAN>().hasDie)
                             {
                                 gameObject.GetComponent<FEMALE_TITAN>().hitEye();
                             }
                         }
-                        else if (!PhotonNetwork.isMasterClient)
+                        else */if (!PhotonNetwork.isMasterClient)
                         {
                             if (!gameObject.GetComponent<FEMALE_TITAN>().hasDie)
                             {
@@ -213,7 +213,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                 }
                 else if (obj3.GetComponent<FEMALE_TITAN>() != null)
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                    /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
                         if (other.gameObject.name == "ankleR")
                         {
@@ -227,7 +227,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             obj3.GetComponent<FEMALE_TITAN>().hitAnkleL(num9);
                         }
                     }
-                    else if (other.gameObject.name == "ankleR")
+                    else */if (other.gameObject.name == "ankleR")
                     {
                         if (!PhotonNetwork.isMasterClient)
                         {
