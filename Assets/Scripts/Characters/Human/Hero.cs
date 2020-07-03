@@ -851,14 +851,13 @@ public class Hero : Human
             Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
             base.GetComponent<Rigidbody>().rotation = quaternion;
             this.targetRotation = quaternion;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 UnityEngine.Object.Instantiate(Resources.Load("FX/boost_smoke"), base.transform.position, base.transform.rotation);
             }
             else
-            {
-                PhotonNetwork.Instantiate("FX/boost_smoke", base.transform.position, base.transform.rotation, 0);
-            }
+            {*/
+            PhotonNetwork.Instantiate("FX/boost_smoke", base.transform.position, base.transform.rotation, 0);
             this.dashTime = 0.5f;
             this.crossFade("dash", 0.1f);
             base.GetComponent<Animation>()["dash"].time = 0.1f;
@@ -1000,14 +999,13 @@ public class Hero : Human
         {
             this.bulletRight.GetComponent<Bullet>().removeMe();
         }
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             this.eren_titan = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_EREN"), base.transform.position, base.transform.rotation);
-        }
-        else
-        {
+        }*/
+        
             this.eren_titan = PhotonNetwork.Instantiate("TITAN_EREN", base.transform.position, base.transform.rotation, 0);
-        }
+        
         this.eren_titan.GetComponent<TITAN_EREN>().realBody = base.gameObject;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.eren_titan, true, false);
@@ -2255,11 +2253,11 @@ public class Hero : Human
         if (this.currentGas != 0f)
         {
             this.useGas(0f);
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 this.bulletLeft = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
-            }
-            else if (base.photonView.isMine)
+            }*/
+            if (base.photonView.isMine)
             {
                 this.bulletLeft = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
             }
@@ -2287,11 +2285,11 @@ public class Hero : Human
         if (this.currentGas != 0f)
         {
             this.useGas(0f);
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 this.bulletRight = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
-            }
-            else if (base.photonView.isMine)
+            }*/
+            if (base.photonView.isMine)
             {
                 this.bulletRight = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
             }
@@ -2400,19 +2398,18 @@ public class Hero : Human
                 string str12 = (string)FengGameManagerMKII.settings[num13];
                 string str13 = (string)FengGameManagerMKII.settings[num14];
                 string url = str12 + "," + str2 + "," + str3 + "," + str4 + "," + str5 + "," + str6 + "," + str7 + "," + str8 + "," + str9 + "," + str10 + "," + str11 + "," + str + "," + str13;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     base.StartCoroutine(this.loadskinE(-1, url));
                 }
                 else
-                {
+                {*/
                     int viewID = -1;
                     if (this.myHorse != null)
                     {
                         viewID = this.myHorse.GetPhotonView().viewID;
                     }
                     base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { viewID, url });
-                }
             }
         }
     }
@@ -4079,16 +4076,15 @@ public class Hero : Human
         }
         if (flag)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/flareBullet" + type), base.transform.position, base.transform.rotation);
                 obj2.GetComponent<FlareMovement>().dontShowHint();
                 UnityEngine.Object.Destroy(obj2, 25f);
-            }
-            else
-            {
-                PhotonNetwork.Instantiate("FX/flareBullet" + type, base.transform.position, base.transform.rotation, 0).GetComponent<FlareMovement>().dontShowHint();
-            }
+            }*/
+            
+               PhotonNetwork.Instantiate("FX/flareBullet" + type, base.transform.position, base.transform.rotation, 0).GetComponent<FlareMovement>().dontShowHint();
+            
         }
     }
 
@@ -4667,12 +4663,11 @@ public class Hero : Human
                             {
                                 this.ungrabbed();
                                 this.baseRigidBody.velocity = (Vector3)(Vector3.up * 30f);
-                                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                                /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                                 {
                                     this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
-                                }
-                                else
-                                {
+                                }*/
+                                
                                     base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
                                     if (PhotonNetwork.isMasterClient)
                                     {
@@ -4682,7 +4677,7 @@ public class Hero : Human
                                     {
                                         PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                     }
-                                }
+                                
                             }
                         }
                         else if (this.skillId == "eren")
@@ -4706,12 +4701,11 @@ public class Hero : Human
                                     if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                                     {
                                         this.ungrabbed();
-                                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                                        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                                         {
                                             this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
-                                        }
-                                        else
-                                        {
+                                        }*/
+                                        
                                             base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
                                             if (PhotonNetwork.isMasterClient)
                                             {
@@ -4721,7 +4715,7 @@ public class Hero : Human
                                             {
                                                 PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                             }
-                                        }
+                                        
                                         this.erenTransform();
                                     }
                                 }

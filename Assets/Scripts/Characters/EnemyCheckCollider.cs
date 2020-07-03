@@ -84,7 +84,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         objArray2[4] = true;
                         component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray2);
                     }
-
+                   
                 }
             }
 

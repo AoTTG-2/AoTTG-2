@@ -1044,7 +1044,7 @@ public class FEMALE_TITAN : MonoBehaviour
 
     private void justEatHero(GameObject target, Transform hand)
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             if (!target.GetComponent<Hero>().HasDied())
             {
@@ -1053,10 +1053,10 @@ public class FEMALE_TITAN : MonoBehaviour
                 target.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, parameters);
             }
         }
-        else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        /*else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             target.GetComponent<Hero>().die2(hand);
-        }
+        }*/
     }
 
     private void justHitEye()
@@ -1069,14 +1069,14 @@ public class FEMALE_TITAN : MonoBehaviour
         if (hitHero != null)
         {
             Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 if (!hitHero.GetComponent<Hero>().HasDied())
                 {
                     hitHero.GetComponent<Hero>().die((Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false);
                 }
-            }
-            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient) && !hitHero.GetComponent<Hero>().HasDied())
+            }*/
+            if (PhotonNetwork.isMasterClient && !hitHero.GetComponent<Hero>().HasDied())
             {
                 hitHero.GetComponent<Hero>().markDie();
                 object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Female Titan", true };
@@ -1552,27 +1552,27 @@ public class FEMALE_TITAN : MonoBehaviour
                 if ((this.dieTime > 2f) && !this.hasDieSteam)
                 {
                     this.hasDieSteam = true;
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                    /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
                         GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanDie1"));
                         obj3.transform.position = base.transform.Find("Amarture/Core/Controller_Body/hip").position;
                         obj3.transform.localScale = base.transform.localScale;
-                    }
-                    else if (base.photonView.isMine)
+                    }*/
+                    if (base.photonView.isMine)
                     {
                         PhotonNetwork.Instantiate("FX/FXtitanDie1", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                     }
                 }
                 if (this.dieTime > FengGameManagerMKII.Gamemode.Settings.FemaleTitanDespawnTimer)
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                    /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
                         GameObject obj5 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanDie"));
                         obj5.transform.position = base.transform.Find("Amarture/Core/Controller_Body/hip").position;
                         obj5.transform.localScale = base.transform.localScale;
                         UnityEngine.Object.Destroy(base.gameObject);
-                    }
-                    else if (base.photonView.isMine)
+                    }*/
+                    if (base.photonView.isMine)
                     {
                         PhotonNetwork.Instantiate("FX/FXtitanDie", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                         PhotonNetwork.Destroy(base.gameObject);
