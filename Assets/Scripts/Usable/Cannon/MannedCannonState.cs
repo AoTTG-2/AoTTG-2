@@ -5,13 +5,12 @@ using Zenject;
 
 namespace Cannon
 {
-    internal sealed class MannedCannonState : ICannonState, IInitializable, IDisposable
+    internal sealed class MannedCannonState : CannonState, IInitializable, IDisposable
     {
         private readonly CannonBase @base;
         private readonly CannonBarrel barrel;
         private readonly Interactable mountInteractable;
         private readonly Settings settings;
-        private readonly CannonStateManager stateManager;
         private readonly Interactable unmountInteractable;
         private Hero mountedHero;
 
@@ -24,9 +23,9 @@ namespace Cannon
             Interactable mountInteractable,
             [Inject(Id = "UnmountInteractable")]
             Interactable unmountInteractable)
+            : base(stateManager)
         {
             this.settings = settings;
-            this.stateManager = stateManager;
             this.@base = @base;
             this.barrel = barrel;
             this.mountInteractable = mountInteractable;
@@ -39,13 +38,13 @@ namespace Cannon
             unmountInteractable.Interacted.RemoveListener(OnUnmount);
         }
 
-        void ICannonState.Enter()
+        public override void Enter()
         {
             Debug.Log($"Mounted hero: {mountedHero.name}");
             SetMountedAvailability();
         }
 
-        void ICannonState.Exit()
+        public override void Exit()
         {
             SetUnmountedAvailability();
         }
@@ -58,7 +57,7 @@ namespace Cannon
             SetUnmountedAvailability();
         }
 
-        void ICannonState.Update()
+        public override void Update()
         {
             var left = InputManager.Key(InputCannon.Left) ? -1f : 0f;
             var right = InputManager.Key(InputCannon.Right) ? 1f : 0f;
@@ -78,13 +77,13 @@ namespace Cannon
         private void OnMount(Hero hero)
         {
             mountedHero = hero;
-            stateManager.Transition<MannedCannonState>();
+            StateManager.Transition<MannedCannonState>();
         }
 
         private void OnUnmount(Hero hero)
         {
             Debug.Assert(mountedHero == hero, "Mounted Hero and unmounting Hero should match.");
-            stateManager.Transition<UnmannedCannonState>();
+            StateManager.Transition<UnmannedCannonState>();
         }
 
         private void SetMountedAvailability()

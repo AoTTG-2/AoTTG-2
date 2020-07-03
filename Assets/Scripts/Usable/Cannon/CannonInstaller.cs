@@ -9,10 +9,10 @@ namespace Cannon
         private CannonBarrel.Settings barrelSettings;
 
         [SerializeField]
-        private MannedCannonState.Settings mannedStateSettings;
+        private string cannonBallPrefabName = "Cannon/CannonBall";
 
         [SerializeField]
-        private string cannonBallPrefabName = "Cannon/CannonBall";
+        private MannedCannonState.Settings mannedStateSettings;
 
         public override void InstallBindings()
         {

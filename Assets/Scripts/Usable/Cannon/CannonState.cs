@@ -1,9 +1,24 @@
-﻿namespace Cannon
+﻿using StateManager;
+
+namespace Cannon
 {
-    internal enum CannonState
+    internal class CannonState : State<CannonState>
     {
-        Unmanned,
-        Manned,
-        Moving
+        public CannonState(StateManager<CannonState> stateManager)
+            : base(stateManager)
+        {
+        }
+
+        public virtual void Enter()
+        {
+        }
+
+        public virtual void Exit()
+        {
+        }
+
+        public virtual void Update()
+        {
+        }
     }
 }

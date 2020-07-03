@@ -3,10 +3,9 @@ using Zenject;
 
 namespace Cannon
 {
-    internal sealed class MovingCannonState : ICannonState, IInitializable, IDisposable
+    internal sealed class MovingCannonState : CannonState, IInitializable, IDisposable
     {
         private readonly Interactable startMovingInteractable;
-        private readonly CannonStateManager stateManager;
         private readonly Interactable stopMovingInteractable;
 
         public MovingCannonState(
@@ -15,8 +14,8 @@ namespace Cannon
             Interactable startMovingInteractable,
             [Inject(Id = "StopMovingInteractable")]
             Interactable stopMovingInteractable)
+            : base(stateManager)
         {
-            this.stateManager = stateManager;
             this.startMovingInteractable = startMovingInteractable;
             this.stopMovingInteractable = stopMovingInteractable;
         }
@@ -27,12 +26,12 @@ namespace Cannon
             stopMovingInteractable.Interacted.RemoveListener(OnStopMoving);
         }
 
-        void ICannonState.Enter()
+        public override void Enter()
         {
             SetMovingAvailability();
         }
 
-        void ICannonState.Exit()
+        public override void Exit()
         {
             SetStoppedAvailability();
         }
@@ -45,18 +44,18 @@ namespace Cannon
             SetStoppedAvailability();
         }
 
-        void ICannonState.Update()
+        public override void Update()
         {
         }
 
         private void OnStartMoving(Hero _)
         {
-            stateManager.Transition<MovingCannonState>();
+            StateManager.Transition<MovingCannonState>();
         }
 
         private void OnStopMoving(Hero _)
         {
-            stateManager.Transition<UnmannedCannonState>();
+            StateManager.Transition<UnmannedCannonState>();
         }
 
         private void SetMovingAvailability()

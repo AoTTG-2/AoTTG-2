@@ -1,16 +1,28 @@
-﻿namespace Cannon
+﻿using Zenject;
+
+namespace Cannon
 {
-    internal sealed class UnmannedCannonState : ICannonState
+    internal sealed class UnmannedCannonState : CannonState, IInitializable
     {
-        void ICannonState.Enter()
+        public UnmannedCannonState(CannonStateManager stateManager)
+            : base(stateManager)
         {
         }
 
-        void ICannonState.Exit()
+        public override void Enter()
         {
         }
 
-        void ICannonState.Update()
+        public override void Exit()
+        {
+        }
+
+        void IInitializable.Initialize()
+        {
+            // NonLazy didn't work, so I'm using this.
+        }
+
+        public override void Update()
         {
         }
     }
