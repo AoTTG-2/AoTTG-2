@@ -1,6 +1,5 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
@@ -15,6 +14,8 @@ public class Hero : Human
     public EquipmentType EquipmentType;
 
     public List<HeroSkill> Skills;
+
+    private const float HookRaycastDistance = 1000f;
 
     public HERO_STATE _state;
     private bool almostSingleHook;
@@ -2263,14 +2264,14 @@ public class Hero : Human
         this.sparks.enableEmission = false;
     }
 
-    private void launchLeftRope(RaycastHit hit, bool single, int mode = 0)
+    private void LaunchLeftRope(float distance, Vector3 point, bool single, int mode = 0)
     {
         if (this.currentGas != 0f)
         {
             this.useGas(0f);
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                this.bulletLeft = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
+                this.bulletLeft = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hook"));
             }
             else if (base.photonView.isMine)
             {
@@ -2280,22 +2281,22 @@ public class Hero : Human
             string str = !this.useGun ? "hookRefL1" : "hookRefL2";
             this.bulletLeft.transform.position = obj2.transform.position;
             Bullet component = this.bulletLeft.GetComponent<Bullet>();
-            float num = !single ? ((hit.distance <= 50f) ? (hit.distance * 0.05f) : (hit.distance * 0.3f)) : 0f;
-            Vector3 vector = (hit.point - ((Vector3)(base.transform.right * num))) - this.bulletLeft.transform.position;
+            float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
+            Vector3 vector = (point - ((Vector3) (base.transform.right * num))) - this.bulletLeft.transform.position;
             vector.Normalize();
             if (mode == 1)
             {
-                component.launch((Vector3)(vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, true);
+                component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, true);
             }
             else
             {
-                component.launch((Vector3)(vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, false);
+                component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, false);
             }
             this.launchPointLeft = Vector3.zero;
         }
     }
 
-    private void launchRightRope(RaycastHit hit, bool single, int mode = 0)
+    private void LaunchRightRope(float distance, Vector3 point, bool single, int mode = 0)
     {
         if (this.currentGas != 0f)
         {
@@ -2312,8 +2313,8 @@ public class Hero : Human
             string str = !this.useGun ? "hookRefR1" : "hookRefR2";
             this.bulletRight.transform.position = obj2.transform.position;
             Bullet component = this.bulletRight.GetComponent<Bullet>();
-            float num = !single ? ((hit.distance <= 50f) ? (hit.distance * 0.05f) : (hit.distance * 0.3f)) : 0f;
-            Vector3 vector = (hit.point + ((Vector3)(base.transform.right * num))) - this.bulletRight.transform.position;
+            float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
+            Vector3 vector = (point + ((Vector3)(base.transform.right * num))) - this.bulletRight.transform.position;
             vector.Normalize();
             if (mode == 1)
             {
@@ -4128,81 +4129,98 @@ public class Hero : Human
         }
         else
         {
-            RaycastHit hit;
             this.checkTitan();
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
             LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
-            if (Physics.Raycast(ray, out hit, 1E+07f, mask3.value))
+            var distance = "???";
+            var magnitude = HookRaycastDistance;
+            var hitDistance = HookRaycastDistance;
+            var hitPoint = ray.GetPoint(hitDistance);
+
+            cross1.transform.localPosition = Input.mousePosition;
+            cross1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+            cross2.transform.localPosition = cross1.transform.localPosition;
+
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1000f, mask3.value))
             {
-                RaycastHit hit2;
-                GameObject cross1 = this.cross1;
-                GameObject cross2 = this.cross2;
-                cross1.transform.localPosition = Input.mousePosition;
-                Transform transform = cross1.transform;
-                transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                cross2.transform.localPosition = cross1.transform.localPosition;
-                vector = hit.point - this.baseTransform.position;
-                float magnitude = vector.magnitude;
-                string str = (magnitude <= 1000f) ? ((int)magnitude).ToString() : "???";
-                if (((int)FengGameManagerMKII.settings[0xbd]) == 1)
-                {
-                    str = str + "\n" + this.currentSpeed.ToString("F1") + " u/s";
-                }
-                else if (((int)FengGameManagerMKII.settings[0xbd]) == 2)
-                {
-                    str = str + "\n" + ((this.currentSpeed / 100f)).ToString("F1") + "K";
-                }
-                LabelDistance.text = str;
-                if (magnitude > 120f)
-                {
-                    cross1.transform.localPosition += (Vector3)(Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = cross2.transform.localPosition;
-                }
-                else
-                {
-                    cross2.transform.localPosition += (Vector3)(Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = cross1.transform.localPosition;
-                }
-                Transform transform13 = LabelDistance.gameObject.transform;
-                transform13.localPosition -= new Vector3(0f, 15f, 0f);
-                Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
-                vector2 -= (Vector3)(this.baseTransform.right * 0.3f);
-                Vector3 vector3 = new Vector3(0f, 0.4f, 0f);
-                vector3 += (Vector3)(this.baseTransform.right * 0.3f);
-                float num4 = (hit.distance <= 50f) ? (hit.distance * 0.05f) : (hit.distance * 0.3f);
-                Vector3 vector4 = (hit.point - ((Vector3)(this.baseTransform.right * num4))) - (this.baseTransform.position + vector2);
-                Vector3 vector5 = (hit.point + ((Vector3)(this.baseTransform.right * num4))) - (this.baseTransform.position + vector3);
-                vector4.Normalize();
-                vector5.Normalize();
-                vector4 = (Vector3)(vector4 * 1000000f);
-                vector5 = (Vector3)(vector5 * 1000000f);
-                if (Physics.Linecast(this.baseTransform.position + vector2, (this.baseTransform.position + vector2) + vector4, out hit2, mask3.value))
-                {
-                    crossL1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hit2.point);
-                    crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                    crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossL1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f) + 180f);
-                    crossL2.transform.localPosition = crossL1.transform.localPosition;
-                    crossL2.transform.localRotation = crossL1.transform.localRotation;
-                    if (hit2.distance > 120f)
-                        crossL1.transform.localPosition += (Vector3)(Vector3.up * 10000f);
-                    else
-                        crossL2.transform.localPosition += (Vector3)(Vector3.up * 10000f);
-                }
-                if (Physics.Linecast(this.baseTransform.position + vector3, (this.baseTransform.position + vector3) + vector5, out hit2, mask3.value))
-                {
-                    crossR1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hit2.point);
-                    crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                    crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossR1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f);
-                    crossR2.transform.localPosition = crossR1.transform.localPosition;
-                    crossR2.transform.localRotation = crossR1.transform.localRotation;
-                    if (hit2.distance > 120f)
-                        crossR1.transform.localPosition += Vector3.up * 10000f;
-                    else
-                        crossR2.transform.localPosition += Vector3.up * 10000f;
-                }
+                magnitude = (hit.point - baseTransform.position).magnitude;
+                distance = ((int) magnitude).ToString();
+                hitDistance = hit.distance;
+                hitPoint = hit.point;
             }
+
+            if (magnitude > 120f)
+            {
+                cross1.transform.localPosition += (Vector3) (Vector3.up * 10000f);
+                LabelDistance.gameObject.transform.localPosition = cross2.transform.localPosition;
+            }
+            else
+            {
+                cross2.transform.localPosition += (Vector3) (Vector3.up * 10000f);
+                LabelDistance.gameObject.transform.localPosition = cross1.transform.localPosition;
+            }
+            LabelDistance.gameObject.transform.localPosition -= new Vector3(0f, 15f, 0f);
+
+            if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
+            {
+                distance += "\n" + this.currentSpeed.ToString("F1") + " u/s";
+            }
+            else if (((int) FengGameManagerMKII.settings[0xbd]) == 2)
+            {
+                distance += "\n" + ((this.currentSpeed / 100f)).ToString("F1") + "K";
+            }
+            LabelDistance.text = distance;
+
+            Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
+            vector2 -= (Vector3) (this.baseTransform.right * 0.3f);
+            Vector3 vector3 = new Vector3(0f, 0.4f, 0f);
+            vector3 += (Vector3) (this.baseTransform.right * 0.3f);
+            float num4 = (hitDistance <= 50f) ? (hitDistance * 0.05f) : (hitDistance * 0.3f);
+            Vector3 vector4 = (hitPoint - ((Vector3) (this.baseTransform.right * num4))) - (this.baseTransform.position + vector2);
+            Vector3 vector5 = (hitPoint + ((Vector3) (this.baseTransform.right * num4))) - (this.baseTransform.position + vector3);
+            vector4.Normalize();
+            vector5.Normalize();
+            vector4 = (Vector3) (vector4 * HookRaycastDistance);
+            vector5 = (Vector3) (vector5 * HookRaycastDistance);
+            RaycastHit hit2;
+            hitPoint = (this.baseTransform.position + vector2) + vector4;
+            hitDistance = HookRaycastDistance;
+            if (Physics.Linecast(this.baseTransform.position + vector2, (this.baseTransform.position + vector2) + vector4, out hit2, mask3.value))
+            {
+                hitPoint = hit2.point;
+                hitDistance = hit2.distance;
+            }
+
+            crossL1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
+            crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+            crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossL1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f) + 180f);
+            crossL2.transform.localPosition = crossL1.transform.localPosition;
+            crossL2.transform.localRotation = crossL1.transform.localRotation;
+            if (hitDistance > 120f)
+                crossL1.transform.localPosition += (Vector3) (Vector3.up * 10000f);
+            else
+                crossL2.transform.localPosition += (Vector3) (Vector3.up * 10000f);
+
+            hitPoint = (this.baseTransform.position + vector3) + vector5;
+            hitDistance = HookRaycastDistance;
+            if (Physics.Linecast(this.baseTransform.position + vector3, (this.baseTransform.position + vector3) + vector5, out hit2, mask3.value))
+            {
+                hitPoint = hit2.point;
+                hitDistance = hit2.distance;
+            }
+
+            crossR1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
+            crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+            crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossR1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f);
+            crossR2.transform.localPosition = crossR1.transform.localPosition;
+            crossR2.transform.localRotation = crossR1.transform.localRotation;
+            if (hitDistance > 120f)
+                crossR1.transform.localPosition += Vector3.up * 10000f;
+            else
+                crossR2.transform.localPosition += Vector3.up * 10000f;
         }
     }
 
@@ -4888,7 +4906,7 @@ public class Hero : Human
                                                     this.releaseIfIHookSb();
                                                 }
                                                 this.dashDirection = hit.point - this.baseTransform.position;
-                                                this.launchRightRope(hit, true, 1);
+                                                LaunchRightRope(hit.distance, hit.point, true);
                                                 this.rope.Play();
                                             }
                                             this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * 57.29578f;
@@ -4918,8 +4936,8 @@ public class Hero : Human
                                                     this.releaseIfIHookSb();
                                                 }
                                                 this.dashDirection = hit2.point - this.baseTransform.position;
-                                                this.launchLeftRope(hit2, true, 0);
-                                                this.launchRightRope(hit2, true, 0);
+                                                LaunchLeftRope(hit2.distance, hit2.point, true);
+                                                LaunchRightRope(hit2.distance, hit2.point, true);
                                                 this.rope.Play();
                                             }
                                             this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * 57.29578f;
@@ -5566,11 +5584,15 @@ public class Hero : Human
                                 LayerMask mask10 = ((int)1) << LayerMask.NameToLayer("Ground");
                                 LayerMask mask11 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                 LayerMask mask12 = mask11 | mask10;
-                                if (Physics.Raycast(ray4, out hit4, 10000f, mask12.value))
+                                if (Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask12.value))
                                 {
-                                    this.launchLeftRope(hit4, true, 0);
-                                    this.rope.Play();
+                                    LaunchLeftRope(hit4.distance, hit4.point, true);
                                 }
+                                else
+                                {
+                                    LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
+                                }
+                                rope.Play();
                             }
                         }
                         else
@@ -5598,11 +5620,15 @@ public class Hero : Human
                                 LayerMask mask13 = ((int)1) << LayerMask.NameToLayer("Ground");
                                 LayerMask mask14 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                 LayerMask mask15 = mask14 | mask13;
-                                if (Physics.Raycast(ray5, out hit5, 10000f, mask15.value))
+                                if (Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask15.value))
                                 {
-                                    this.launchRightRope(hit5, true, 0);
-                                    this.rope.Play();
+                                    LaunchRightRope(hit5.distance, hit5.point, true);
                                 }
+                                else
+                                {
+                                    LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
+                                }
+                                this.rope.Play();
                             }
                         }
                         else
@@ -5628,12 +5654,17 @@ public class Hero : Human
                                 LayerMask mask16 = ((int)1) << LayerMask.NameToLayer("Ground");
                                 LayerMask mask17 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
                                 LayerMask mask18 = mask17 | mask16;
-                                if (Physics.Raycast(ray6, out hit6, 1000000f, mask18.value))
+                                if (Physics.Raycast(ray6, out hit6, HookRaycastDistance, mask18.value))
                                 {
-                                    this.launchLeftRope(hit6, false, 0);
-                                    this.launchRightRope(hit6, false, 0);
-                                    this.rope.Play();
+                                    LaunchLeftRope(hit6.distance, hit6.point, false);
+                                    LaunchRightRope(hit6.distance, hit6.point, false);
                                 }
+                                else
+                                {
+                                    LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
+                                    LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
+                                }
+                                rope.Play();
                             }
                         }
                         if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) || ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && !IN_GAME_MAIN_CAMERA.isPausing))

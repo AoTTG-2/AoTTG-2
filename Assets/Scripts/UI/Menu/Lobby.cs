@@ -11,6 +11,14 @@ namespace Assets.Scripts.UI.Menu
 
         public GameObject ScrollViewContent;
         public GameObject Row;
+        private static string IpAddress { get; set; }
+
+        public static void SetPhotonServerIp(bool isLocal)
+        {
+            IpAddress = isLocal 
+                    ? "127.0.0.1"
+                    : "145.239.88.211";
+        }
 
         private int Region { get; set; }
 
@@ -25,7 +33,7 @@ namespace Assets.Scripts.UI.Menu
 
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", versionManager.Version);
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
@@ -39,7 +47,7 @@ namespace Assets.Scripts.UI.Menu
         {
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster("145.239.88.211", 5055, "", versionManager.Version);
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
         }
 
