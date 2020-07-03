@@ -9,12 +9,12 @@ public class LevelTriggerRacingEnd : MonoBehaviour
     {
         if (!this.disable && (other.gameObject.tag == "Player"))
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
                 this.disable = true;
-            }
-            else if (other.gameObject.GetComponent<Hero>().photonView.isMine)
+            }*/
+            if (other.gameObject.GetComponent<Hero>().photonView.isMine)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().multiplayerRacingFinsih();
                 this.disable = true;

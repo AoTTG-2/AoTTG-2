@@ -152,7 +152,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnPlayerSpawned(GameObject player)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
+           // if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
         }
 
         protected void SpawnTitans(int amount)
@@ -189,10 +189,10 @@ namespace Assets.Scripts.Gamemode
 
         public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 return "Humanity Win!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
-            }
+            }*/
             return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
         }
 
@@ -209,16 +209,15 @@ namespace Assets.Scripts.Gamemode
             var content = "Titan Left: ";
             var length = GameObject.FindGameObjectsWithTag("titan").Length;
             content = content + length + "  Time : ";
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 length = time;
                 content += length.ToString();
-            }
-            else
-            {
-                length = totalRoomTime - (time);
-                content += length.ToString();
-            }
+            }*/
+            
+            length = totalRoomTime - (time);
+            content += length.ToString();
+            
 
             return content;
         }

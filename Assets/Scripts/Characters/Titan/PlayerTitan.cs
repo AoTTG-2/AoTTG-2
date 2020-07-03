@@ -22,10 +22,10 @@ namespace Assets.Scripts.Characters.Titan
             base.Awake();
             this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 base.enabled = false;
-            }
+            }*/
         }
 
         protected override void FixedUpdate()

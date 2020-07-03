@@ -87,11 +87,11 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     {
         Vector3 vector = -(Vector3)((neck.position + (base.transform.forward * 50f)) - player.transform.position);
         float num = 20f;
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             player.GetComponent<Hero>().blowAway((Vector3) ((vector.normalized * num) + (Vector3.up * 1f)));
-        }
-        else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+        }*/
+        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { (Vector3) ((vector.normalized * num) + (Vector3.up * 1f)) };
             player.GetComponent<Hero>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
@@ -194,14 +194,14 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         if (hitHero != null)
         {
             Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 if (!hitHero.GetComponent<Hero>().HasDied())
                 {
                     hitHero.GetComponent<Hero>().die((Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false);
                 }
-            }
-            else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            }*/
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
                 if (FengGameManagerMKII.LAN)
                 {
@@ -680,11 +680,11 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     base.transform.position = new Vector3(30f, 0f, 784f);
                     UnityEngine.Object.Instantiate(Resources.Load("FX/ThunderCT"), base.transform.position + ((Vector3) (Vector3.up * 350f)), Quaternion.Euler(270f, 0f, 0f));
                     Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                   /* if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
                         this.idle();
-                    }
-                    else if (base.photonView.isMine)
+                    }*/
+                    if (base.photonView.isMine)
                     {
                         this.idle();
                     }
@@ -874,11 +874,11 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                         }
                         if (this.hasDie)
                         {
-                            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                             {
                                 UnityEngine.Object.Destroy(base.gameObject);
-                            }
-                            else if (FengGameManagerMKII.LAN)
+                            }*/
+                            if (FengGameManagerMKII.LAN)
                             {
                                 if (base.photonView.isMine)
                                 {

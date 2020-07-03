@@ -501,7 +501,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                     }
                 }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                     {
@@ -516,7 +516,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         this.ShowHUDInfoTopLeft(string.Concat(new object[] { "Kills:", this.single_kills, "\nMax Damage:", this.single_maxDamage, "\nTotal Damage:", this.single_totalDamage }));
                     }
-                }
+                }*/
                 if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
                 {
                     ShowHUDInfoCenter(Gamemode.GetDefeatMessage(gameEndCD));
@@ -558,7 +558,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 this.timeElapse += Time.deltaTime;
                 this.roundTime += Time.deltaTime;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     //TODO Investigate the purpose of this
                     if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
@@ -572,14 +572,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         this.timeTotalServer += Time.deltaTime;
                     }
-                }
-                else
-                {
-                    this.timeTotalServer += Time.deltaTime;
-                }
+                }*/
+                
+                this.timeTotalServer += Time.deltaTime;
+                
                 if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                    /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                     {
                         if (!this.isWinning)
                         {
@@ -596,9 +595,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             this.endRacing = false;
                             GameObject.Find("door").SetActive(false);
                         }
-                    }
-                    else
-                    {
+                    }*/
+                    
                         this.ShowHUDInfoTopCenter("Time : " + ((this.roundTime >= 20f) ? (num3 = (((int)(this.roundTime * 10f)) * 0.1f) - 20f).ToString() : "WAITING"));
                         if (this.roundTime < 20f)
                         {
@@ -631,7 +629,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             }
                             this.racingDoors = null;
                         }
-                    }
+                    
                     if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) && customLevelLoaded)
                     {
                         this.myRespawnTime += Time.deltaTime;
@@ -2242,11 +2240,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         strArray3[num] = (string)settings[num + 0xa3];
                     }
                 }
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     base.StartCoroutine(this.loadskinE(n, url, str3, strArray3));
-                }
-                else if (PhotonNetwork.isMasterClient)
+                }*/
+                if (PhotonNetwork.isMasterClient)
                 {
                     base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
                 }
@@ -3146,7 +3144,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
             //TODO: How should a gamemode and level be loaded in singlePlayer?
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 this.single_kills = 0;
                 this.single_maxDamage = 0;
@@ -3173,9 +3171,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 throw new NotImplementedException("Titan spawners for singleplayer don't exist yet");
                 //this.spawnTitanCustom("titanRespawn", abnormal, Gamemode.Titans, false);
-            }
-            else
-            {
+            }*/
+            
                 PVPcheckPoint.chkPts = new ArrayList();
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
                 Camera.main.GetComponent<CameraShake>().enabled = false;
@@ -3213,7 +3210,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     this.EnterSpecMode(true);
                 }
-            }
+            
         }
     }
 
@@ -4145,7 +4142,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             IN_GAME_MAIN_CAMERA component = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
             this.myLastHero = id.ToUpper();
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 if (IN_GAME_MAIN_CAMERA.singleCharacter == "TITAN_EREN")
                 {
@@ -4197,9 +4194,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                     }
                 }
-            }
-            else
-            {
+            }*/
+            
                 component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0), true, false);
                 id = id.ToUpper();
                 if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
@@ -4257,7 +4253,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 hashtable.Add(PhotonPlayerProperty.isTitan, 1);
                 propertiesToSet = hashtable;
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            }
+            
             Gamemode.OnPlayerSpawned(component.main_object);
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();

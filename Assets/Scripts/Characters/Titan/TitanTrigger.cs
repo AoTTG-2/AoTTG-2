@@ -30,14 +30,14 @@ public class TitanTrigger : MonoBehaviour
                         Titan.IsColliding = true;
                     }
                 }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     GameObject obj3 = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object;
                     if ((obj3 != null) && (obj3 == gameObject))
                     {
                         Titan.IsColliding = true;
                     }
-                }
+                }*/
             }
         }
     }
@@ -56,14 +56,14 @@ public class TitanTrigger : MonoBehaviour
                         Titan.IsColliding = false;
                     }
                 }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     GameObject obj3 = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object;
                     if ((obj3 != null) && (obj3 == gameObject))
                     {
                         Titan.IsColliding = false;
                     }
-                }
+                }*/
             }
         }
     }

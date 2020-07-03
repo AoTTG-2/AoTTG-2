@@ -72,11 +72,11 @@ public class TITAN_EREN : Photon.MonoBehaviour
             this.isPlayRoar = false;
         }
         this.playSound("snd_eren_shift");
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             UnityEngine.Object.Instantiate(Resources.Load("FX/Thunder"), base.transform.position + ((Vector3) (Vector3.up * 23f)), Quaternion.Euler(270f, 0f, 0f));
-        }
-        else if (base.photonView.isMine)
+        }*/
+        if (base.photonView.isMine)
         {
             PhotonNetwork.Instantiate("FX/Thunder", base.transform.position + ((Vector3) (Vector3.up * 23f)), Quaternion.Euler(270f, 0f, 0f), 0);
         }
@@ -430,15 +430,15 @@ public class TITAN_EREN : Photon.MonoBehaviour
 
     public void loadskin()
     {
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             string url = (string) FengGameManagerMKII.settings[0x41];
             if ((((int) FengGameManagerMKII.settings[1]) == 1) && ((url.EndsWith(".jpg") || url.EndsWith(".png")) || url.EndsWith(".jpeg")))
             {
                 base.StartCoroutine(this.loadskinE(url));
             }
-        }
-        else if (base.photonView.isMine && (((int) FengGameManagerMKII.settings[1]) == 1))
+        }*/
+        if (base.photonView.isMine && (((int) FengGameManagerMKII.settings[1]) == 1))
         {
             base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x41] });
         }
@@ -889,27 +889,27 @@ public class TITAN_EREN : Photon.MonoBehaviour
                         if ((this.dieTime > 2f) && !this.hasDieSteam)
                         {
                             this.hasDieSteam = true;
-                            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                             {
                                 GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanDie1"));
                                 obj2.transform.position = base.transform.Find("Amarture/Core/Controller_Body/hip").position;
                                 obj2.transform.localScale = base.transform.localScale;
-                            }
-                            else if (base.photonView.isMine)
+                            }*/
+                            if (base.photonView.isMine)
                             {
                                 PhotonNetwork.Instantiate("FX/FXtitanDie1", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                             }
                         }
                         if (this.dieTime > 5f)
                         {
-                            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                             {
                                 GameObject obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/FXtitanDie"));
                                 obj4.transform.position = base.transform.Find("Amarture/Core/Controller_Body/hip").position;
                                 obj4.transform.localScale = base.transform.localScale;
                                 UnityEngine.Object.Destroy(base.gameObject);
-                            }
-                            else if (base.photonView.isMine)
+                            }*/
+                            if (base.photonView.isMine)
                             {
                                 PhotonNetwork.Instantiate("FX/FXtitanDie", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                                 PhotonNetwork.Destroy(base.photonView);

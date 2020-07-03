@@ -28,28 +28,27 @@ public class RockThrow : Photon.MonoBehaviour
         float b = 1f - (Vector3.Distance(GameObject.Find("MainCamera").transform.position, obj2.transform.position) * 0.05f);
         b = Mathf.Min(1f, b);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startShake(b, b, 0.95f);
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
         {
             UnityEngine.Object.Destroy(base.gameObject);
-        }
-        else
-        {
+        }*/
+        
             PhotonNetwork.Destroy(base.photonView);
-        }
+        
     }
 
     private void hitPlayer(GameObject hero)
     {
         if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isInvincible())
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 if (!hero.GetComponent<Hero>().isGrabbed)
                 {
                     hero.GetComponent<Hero>().die((Vector3) ((this.v.normalized * 1000f) + (Vector3.up * 50f)), false);
                 }
-            }
-            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isGrabbed)
+            }*/
+            if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isGrabbed)
             {
                 hero.GetComponent<Hero>().markDie();
                 int myOwnerViewID = -1;

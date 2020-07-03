@@ -69,11 +69,11 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (obj7 != null)
             {
                 Vector3 vector4 = titan.TitanBody.Chest.position;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     obj7.GetComponent<Hero>().die((Vector3)(((obj7.transform.position - vector4) * 15f) * titan.Size), false);
-                }
-                else if (!(((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine) || obj7.GetComponent<Hero>().HasDied()))
+                }*/
+                if (!(((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine) || obj7.GetComponent<Hero>().HasDied()))
                 {
                     obj7.GetComponent<Hero>().markDie();
                     object[] objArray5 = new object[] { (Vector3)(((obj7.transform.position - vector4) * 15f) * titan.Size), false, titan.photonView.viewID, titan.name, true };

@@ -142,7 +142,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
                     base.photonView.RPC("setHairPRC", PhotonTargets.AllBuffered, objArray2);
                 }
             }
-            else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            /*else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 if (flag2)
                 {
@@ -153,7 +153,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
                     color = HeroCostume.costume[UnityEngine.Random.Range(0, HeroCostume.costume.Length - 5)].hair_color;
                     this.setHairPRC(num, eye, color.r, color.g, color.b);
                 }
-            }
+            }*/
         }
         else
         {
