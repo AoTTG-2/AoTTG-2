@@ -10,8 +10,7 @@ using Xft;
 
 public class Hero : Human
 {
-    public GameObject Trail;
-    public GameObject Trail2;
+
     public Equipment Equipment { get; set; }
     public EquipmentType EquipmentType;
 
@@ -241,20 +240,7 @@ public class Hero : Human
         this.upperarmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
         Equipment = gameObject.AddComponent<Equipment>();
     }
-    void Update()
-    {
-        
-    }
-    public void disabletrail()
-    {
-        Trail.SetActive(false);
-        Trail2.SetActive(false);
-    }
-    public void enabletrail() 
-    {
-        Trail.SetActive(true);
-        Trail2.SetActive(true);
-    }
+ 
     public void backToHuman()
     {
         base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
@@ -903,13 +889,7 @@ public class Hero : Human
                 this.bulletRight.GetComponent<Bullet>().removeMe();
             }
             this.meatDie.Play();
-            if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine) && !this.useGun)
-            {
-                this.leftbladetrail.Deactivate();
-                this.rightbladetrail.Deactivate();
-                this.leftbladetrail2.Deactivate();
-                this.rightbladetrail2.Deactivate();
-            }
+
             this.breakApart2(v, isBite);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
@@ -2998,28 +2978,16 @@ public class Hero : Human
                 if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[12]))
                 {
                     iteratorVariable1 = true;
-                    this.leftbladetrail.MyMaterial.mainTexture = iteratorVariable43;
-                    this.rightbladetrail.MyMaterial.mainTexture = iteratorVariable43;
-                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[12], this.leftbladetrail.MyMaterial);
-                    this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.leftbladetrail2.MyMaterial = this.leftbladetrail.MyMaterial;
-                    this.rightbladetrail2.MyMaterial = this.leftbladetrail.MyMaterial;
+               
                 }
                 else
                 {
-                    this.leftbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.rightbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
+               
                 }
             }
             else
             {
-                this.leftbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                this.rightbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
+      
             }
         }
         if (iteratorVariable1)
@@ -3392,11 +3360,7 @@ public class Hero : Human
         }
         this.meatDie.Play();
         if (!(this.useGun || ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && !base.photonView.isMine)))
-        {
-            this.leftbladetrail.Deactivate();
-            this.rightbladetrail.Deactivate();
-            this.leftbladetrail2.Deactivate();
-            this.rightbladetrail2.Deactivate();
+        { 
         }
         this.falseAttack();
         this.breakApart2(v, isBite);
@@ -5261,10 +5225,7 @@ public class Hero : Human
                                             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
                                             if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
                                             {
-                                                this.leftbladetrail2.Activate();
-                                                this.rightbladetrail2.Activate();
-                                                this.leftbladetrail.Activate();
-                                                this.rightbladetrail.Activate();
+
                                             }
                                             this.baseRigidBody.velocity = (Vector3)(-Vector3.up * 30f);
                                         }
