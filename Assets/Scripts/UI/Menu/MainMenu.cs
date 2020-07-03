@@ -9,6 +9,13 @@
 
         public void Multiplayer()
         {
+            Lobby.SetPhotonServerIp(false);
+            Navigate(typeof(Lobby));
+        }
+
+        public void LAN()
+        {
+            Lobby.SetPhotonServerIp(true);
             Navigate(typeof(Lobby));
         }
 
