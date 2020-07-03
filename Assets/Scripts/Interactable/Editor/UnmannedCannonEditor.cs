@@ -1,81 +1,85 @@
-﻿using UnityEditor;
+﻿using OldCannon;
+using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(UnmannedCannon))]
-public sealed class UnmannedCannonEditor : Editor
+namespace OldCannon
 {
-    private static readonly GUIContent
-        GroundButtonContent = new GUIContent("Make Ground Cannon"),
-        WallButtonContent = new GUIContent("Make Wall Cannon");
-
-    private new UnmannedCannon target;
-    private SerializedProperty typeProperty;
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(UnmannedCannon))]
+    public sealed class UnmannedCannonEditor : Editor
     {
-        DrawDefaultInspector();
+        private static readonly GUIContent
+            GroundButtonContent = new GUIContent("Make Ground Cannon"),
+            WallButtonContent = new GUIContent("Make Wall Cannon");
 
-        serializedObject.Update();
+        private new UnmannedCannon target;
+        private SerializedProperty typeProperty;
 
-        if (GUILayout.Button(GroundButtonContent))
-            MakeGroundCannon();
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
 
-        if (GUILayout.Button(WallButtonContent))
-            MakeWallCannon();
+            serializedObject.Update();
 
-        serializedObject.ApplyModifiedProperties();
-    }
+            if (GUILayout.Button(GroundButtonContent))
+                MakeGroundCannon();
 
-    private void MakeGroundCannon()
-    {
-        typeProperty.intValue = (int) CannonType.Ground;
-        TryAddMountInteractable();
-        TryAddMoveInteractable();
-    }
+            if (GUILayout.Button(WallButtonContent))
+                MakeWallCannon();
 
-    private void MakeWallCannon()
-    {
-        typeProperty.intValue = (int) CannonType.Wall;
-        TryAddMountInteractable();
-        TryRemoveMoveInteractable();
-    }
+            serializedObject.ApplyModifiedProperties();
+        }
 
-    private void OnEnable()
-    {
-        target = (UnmannedCannon) base.target;
-        typeProperty = serializedObject.FindProperty("type");
-    }
+        private void MakeGroundCannon()
+        {
+            typeProperty.intValue = (int) CannonType.Ground;
+            TryAddMountInteractable();
+            TryAddMoveInteractable();
+        }
 
-    private void TryAddMountInteractable()
-    {
-        Transform _;
-        if (target.transform.TryFindChild(UnmannedCannon.InteractableName, out _))
-            return;
+        private void MakeWallCannon()
+        {
+            typeProperty.intValue = (int) CannonType.Wall;
+            TryAddMountInteractable();
+            TryRemoveMoveInteractable();
+        }
 
-        var mountInteractable = new GameObject(UnmannedCannon.InteractableName, typeof(Interactable)).GetComponent<Interactable>();
-        mountInteractable.transform.parent = target.transform;
-        mountInteractable.transform.localPosition = Vector3.zero;
-        mountInteractable.TryCreateCollider();
-        mountInteractable.SetDefaults("Mount Cannon", (UnityEngine.Sprite) null, target.TryMount);
-    }
+        private void OnEnable()
+        {
+            target = (UnmannedCannon) base.target;
+            typeProperty = serializedObject.FindProperty("type");
+        }
 
-    private void TryAddMoveInteractable()
-    {
-        Transform _;
-        if (target.transform.TryFindChild(MoveGroundCannon.InteractableName, out _))
-            return;
+        private void TryAddMountInteractable()
+        {
+            Transform _;
+            if (target.transform.TryFindChild(UnmannedCannon.InteractableName, out _))
+                return;
 
-        var moveInteractable = new GameObject(MoveGroundCannon.InteractableName, typeof(Interactable)).GetComponent<Interactable>();
-        moveInteractable.transform.parent = target.transform;
-        moveInteractable.transform.localPosition = Vector3.zero;
-        moveInteractable.TryCreateCollider();
-        moveInteractable.gameObject.AddComponent<MoveGroundCannon>();
-    }
+            var mountInteractable = new GameObject(UnmannedCannon.InteractableName, typeof(Interactable)).GetComponent<Interactable>();
+            mountInteractable.transform.parent = target.transform;
+            mountInteractable.transform.localPosition = Vector3.zero;
+            mountInteractable.TryCreateCollider();
+            mountInteractable.SetDefaults("Mount Cannon", (UnityEngine.Sprite) null, target.TryMount);
+        }
 
-    private void TryRemoveMoveInteractable()
-    {
-        Transform moveInteractableTransform;
-        if (target.transform.TryFindChild(MoveGroundCannon.InteractableName, out moveInteractableTransform))
-            DestroyImmediate(moveInteractableTransform.gameObject);
+        private void TryAddMoveInteractable()
+        {
+            Transform _;
+            if (target.transform.TryFindChild(MoveGroundCannon.InteractableName, out _))
+                return;
+
+            var moveInteractable = new GameObject(MoveGroundCannon.InteractableName, typeof(Interactable)).GetComponent<Interactable>();
+            moveInteractable.transform.parent = target.transform;
+            moveInteractable.transform.localPosition = Vector3.zero;
+            moveInteractable.TryCreateCollider();
+            moveInteractable.gameObject.AddComponent<MoveGroundCannon>();
+        }
+
+        private void TryRemoveMoveInteractable()
+        {
+            Transform moveInteractableTransform;
+            if (target.transform.TryFindChild(MoveGroundCannon.InteractableName, out moveInteractableTransform))
+                DestroyImmediate(moveInteractableTransform.gameObject);
+        }
     }
 }

@@ -1,5 +1,8 @@
-﻿public enum CannonType
+﻿namespace OldCannon
 {
-    Ground,
-    Wall
+    public enum CannonType
+    {
+        Ground,
+        Wall
+    }
 }

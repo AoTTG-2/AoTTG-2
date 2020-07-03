@@ -15,7 +15,7 @@ public sealed class InteractionManager : MonoBehaviour
     public static IEnumerable<Interactable> AvailableInteractables =>
         Interactables.Where(i => i.Available);
 
-    public static GameObject Player { get; private set; }
+    public static Hero Player { get; private set; }
 
     public static void Register(Interactable interactable)
     {
@@ -53,7 +53,7 @@ public sealed class InteractionManager : MonoBehaviour
     private void Awake()
     {
         RegisterSingleton();
-        Player = gameObject;
+        Player = GetComponent<Hero>();
     }
 
     private void OnTriggerEnter(Collider coll)

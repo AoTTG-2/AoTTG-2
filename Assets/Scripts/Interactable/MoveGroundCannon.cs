@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using OldCannon;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,14 +29,14 @@ public sealed class MoveGroundCannon : MonoBehaviour
         }
     }
 
-    public void StartMoving(GameObject mover)
+    public void StartMoving(Hero mover)
     {
         IsMoving = true;
 
         movement = StartCoroutine(Move(mover.GetComponent<Hero>()));
     }
 
-    public void StopMoving(GameObject mover)
+    public void StopMoving(Hero mover)
     {
         StopCoroutine(movement);
         movement = null;

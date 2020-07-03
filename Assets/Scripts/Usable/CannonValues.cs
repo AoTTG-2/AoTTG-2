@@ -1,14 +1,14 @@
-using System;
-
-public class CannonValues
+namespace OldCannon
 {
-    public string settings = string.Empty;
-    public int viewID = -1;
-
-    public CannonValues(int id, string str)
+    public class CannonValues
     {
-        this.viewID = id;
-        this.settings = str;
+        public string settings = string.Empty;
+        public int viewID = -1;
+
+        public CannonValues(int id, string str)
+        {
+            viewID = id;
+            settings = str;
+        }
     }
 }
-

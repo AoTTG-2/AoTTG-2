@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Interactable))]
 public sealed class SupplyStation : MonoBehaviour
 {
-    public void Interact(GameObject player)
+    public void Interact(Hero player)
     {
         var hero = player.GetComponent<Hero>();
         Debug.Assert(hero != null, "Interacted event did not send a player.");

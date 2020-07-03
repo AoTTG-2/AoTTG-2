@@ -14,7 +14,7 @@ public static class InteractableUtility
     /// <summary>
     /// Adds <paramref name="action"/> as a subscriber to <paramref name="event"/> in the editor.
     /// </summary>
-    public static void RegisterUnique(InteractedEvent @event, UnityAction<GameObject> action)
+    public static void RegisterUnique(InteractedEvent @event, UnityAction<Hero> action)
     {
 #if UNITY_EDITOR
         UnityEventTools.RemovePersistentListener(@event, action);
@@ -22,7 +22,7 @@ public static class InteractableUtility
 #endif
     }
 
-    public static void SetDefaults(this Interactable that, string context, UnityEngine.Sprite icon, params UnityAction<GameObject>[] actions)
+    public static void SetDefaults(this Interactable that, string context, UnityEngine.Sprite icon, params UnityAction<Hero>[] actions)
     {
         that.Context = context;
 
@@ -32,7 +32,7 @@ public static class InteractableUtility
             RegisterUnique(that.Interacted, action);
     }
 
-    public static void SetDefaults(this Interactable that, string context, string iconPath, params UnityAction<GameObject>[] actions) =>
+    public static void SetDefaults(this Interactable that, string context, string iconPath, params UnityAction<Hero>[] actions) =>
         that.SetDefaults(context, Resources.Load<UnityEngine.Sprite>(iconPath), actions);
 
     public static void TryCreateCollider(this Interactable that)

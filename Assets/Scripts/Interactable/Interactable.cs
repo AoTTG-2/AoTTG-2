@@ -29,9 +29,9 @@ public sealed class Interactable : MonoBehaviour
 
     public InteractionPriority Priority => priority;
 
-    public void Interact(GameObject player)
+    public void Interact(Hero hero)
     {
-        Interacted.Invoke(player);
+        Interacted.Invoke(hero);
     }
 
     private void OnDestroy()

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
+using OldCannon;
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour

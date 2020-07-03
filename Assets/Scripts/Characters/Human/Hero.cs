@@ -2,6 +2,7 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.Input;
+using Cannon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -3778,19 +3779,6 @@ public class Hero : Human
     }
 
     [PunRPC]
-    public void MountCannonRPC(int viewID, PhotonMessageInfo info)
-    {
-        Debug.Assert(info.sender == photonView.owner, $"{nameof(MountCannonRPC)} was called by non-owner.");
-        
-        var view = PhotonView.Find(viewID);
-        var cannon = view.GetComponent<Cannon>();
-        cannon.Hero = this;
-
-        GetComponent<SmoothSyncMovement>().disabled = true;
-        isCannon = true;
-    }
-
-    [PunRPC]
     public void SetMyPhotonCamera(float offset, PhotonMessageInfo info)
     {
         if (base.photonView.owner == info.sender)
@@ -4332,21 +4320,19 @@ public class Hero : Human
         }
     }
 
-    [PunRPC]
-    public void SpawnCannonRPC(string settings, PhotonMessageInfo info)
+
+    /// <summary>
+    /// Called locally by <paramref name="cannon"/>.
+    /// </summary>
+    /// <param name="cannon"></param>
+    public void OnMountingCannon(CannonFacade cannon)
     {
-        Debug.Assert(info.sender.IsMasterClient, $"Only MasterClient may call {nameof(SpawnCannonRPC)}.");
-        Debug.Assert(photonView.isMine, $"{nameof(SpawnCannonRPC)} must be called on the local player.");
-        Debug.Assert(!isCannon, "Can't spawn cannon while using a cannon.");
+        Debug.Assert(photonView.isMine, $"{nameof(OnMountingCannon)} must be called on the local player.");
+        Debug.Assert(!isCannon, "Can't mount cannon while using a cannon.");
 
+        var cannonID = cannon.photonView.viewID;
         PrepareForCannon();
-
-        var cannonViewID = Cannon.Create(this, settings).photonView.viewID;
-        photonView.RPC<int, PhotonMessageInfo>(MountCannonRPC, PhotonTargets.AllBuffered, cannonViewID);
-
-        skillCDLastCannon = skillCDLast;
-        skillCDLast = 3.5f;
-        skillCDDuration = 3.5f;
+        photonView.RPC<int, PhotonMessageInfo>(MountCannonRPC, PhotonTargets.AllBuffered, cannonID);
     }
 
     private void PrepareForCannon()
@@ -4368,6 +4354,22 @@ public class Hero : Human
         smoke_3dmg.enableEmission = false;
 
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Called on all clients.
+    /// </summary>
+    [PunRPC]
+    private void MountCannonRPC(int viewID, PhotonMessageInfo info)
+    {
+        Debug.Assert(info.sender == photonView.owner, $"{nameof(MountCannonRPC)} was called by non-owner.");
+
+        var view = PhotonView.Find(viewID);
+        var cannon = view.GetComponent<CannonFacade>();
+        cannon.Mount(this);
+
+        GetComponent<SmoothSyncMovement>().disabled = true;
+        isCannon = true;
     }
 
     public void SetHorse()
