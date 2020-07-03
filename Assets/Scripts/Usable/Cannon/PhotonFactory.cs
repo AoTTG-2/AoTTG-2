@@ -148,3 +148,16 @@ public class PhotonFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6,
         return Container.InstantiateAndInject<TValue>(PrefabName, position, rotation, group, args);
     }
 }
+
+public class PhotonFactoryWithArgs<TValue> : PhotonFactory, IFactory<object[], Vector3, Quaternion, byte, TValue>
+{
+    public PhotonFactoryWithArgs(DiContainer container, string prefabName)
+        : base(container, prefabName)
+    {
+    }
+
+    public TValue Create(object[] args, Vector3 position, Quaternion rotation, byte group)
+    {
+        return Container.InstantiateAndInject<TValue>(PrefabName, position, rotation, group, args);
+    }
+}
