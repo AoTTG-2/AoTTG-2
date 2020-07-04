@@ -198,9 +198,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 titan.Grab(false);
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)
                 {
-                    titan.photonView.RPC<bool>(titan.Grab, PhotonTargets.Others, false);
-                    hero.photonView.RPC<string>(hero.netPlayAnimation, PhotonTargets.All, "grabbed");
-                    hero.photonView.RPC<int, bool>(hero.netGrabbed, PhotonTargets.All, titan.photonView.viewID, false);
+                    titan.photonView.RPC(nameof(titan.Grab), PhotonTargets.Others, false);
+                    hero.photonView.RPC(nameof(hero.netPlayAnimation), PhotonTargets.All, "grabbed");
+                    hero.photonView.RPC(nameof(hero.netGrabbed), PhotonTargets.All, titan.photonView.viewID, false);
                 }
                 else
                 {
@@ -218,9 +218,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 titan.Grab(true);
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && titan.photonView.isMine)
                 {
-                    titan.photonView.RPC<bool>(titan.Grab, PhotonTargets.Others, true);
-                    hero.photonView.RPC<string>(hero.netPlayAnimation, PhotonTargets.All, "grabbed");
-                    hero.photonView.RPC<int, bool>(hero.netGrabbed, PhotonTargets.All, titan.photonView.viewID, true);
+                    titan.photonView.RPC(nameof(titan.Grab), PhotonTargets.Others, true);
+                    hero.photonView.RPC(nameof(hero.netPlayAnimation), PhotonTargets.All, "grabbed");
+                    hero.photonView.RPC(nameof(hero.netGrabbed), PhotonTargets.All, titan.photonView.viewID, true);
                 }
                 else
                 {

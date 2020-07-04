@@ -28,7 +28,7 @@ namespace Cannon
         public void RequestMount(Hero hero)
         {
             var viewID = hero.photonView.viewID;
-            photonView.RPC<int, PhotonMessageInfo>(RequestMountRPC, PhotonTargets.MasterClient, viewID);
+            photonView.RPC(nameof(RequestMountRPC), PhotonTargets.MasterClient, viewID);
         }
 
         [Inject]
@@ -72,7 +72,7 @@ namespace Cannon
             if (requestAccepted)
             {
                 photonView.TransferOwnership(info.sender.ID);
-                photonView.RPC<int, PhotonMessageInfo>(OnRequestAcceptedRPC, info.sender, requestingHero.photonView.viewID);
+                photonView.RPC(nameof(OnRequestAcceptedRPC), info.sender, requestingHero.photonView.viewID);
             }
         }
 

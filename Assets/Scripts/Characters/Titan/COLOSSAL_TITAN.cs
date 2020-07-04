@@ -66,7 +66,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 }
             }
             else if (PhotonNetwork.isMasterClient)
-                photonView.RPC(startSweepSmoke, PhotonTargets.Others);
+                photonView.RPC(nameof(startSweepSmoke), PhotonTargets.Others);
         }
     }
 
@@ -90,7 +90,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             hero.blowAway(force);
         else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
-            hero.photonView.RPC<Vector3>(hero.blowAway, PhotonTargets.All, force);
+            hero.photonView.RPC(nameof(hero.blowAway), PhotonTargets.All, force);
     }
 
     private void callTitanHAHA()
@@ -138,7 +138,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     {
         base.GetComponent<Animation>().CrossFade(aniName, time);
         if ((!FengGameManagerMKII.LAN && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient)
-            photonView.RPC<string, float>(netCrossFade, PhotonTargets.Others, aniName, time);
+            photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, aniName, time);
     }
 
     private void findNearestHero()
@@ -202,8 +202,8 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 else if (!hero.HasDied())
                 {
                     hero.markDie();
-                    hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
-                        hero.netDie,
+                    hero.photonView.RPC(
+                        nameof(hero.netDie),
                         PhotonTargets.All,
                         (hitHero.transform.position - position) * 15f * 4f,
                         false,
@@ -262,7 +262,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     public void loadskin()
     {
         if (PhotonNetwork.isMasterClient && (((int) FengGameManagerMKII.settings[1]) == 1))
-            photonView.RPC<string>(loadskinRPC, PhotonTargets.AllBuffered, (string) FengGameManagerMKII.settings[0x43]);
+            photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, (string) FengGameManagerMKII.settings[0x43]);
     }
 
     public IEnumerator loadskinE(string url)
@@ -333,7 +333,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 }
             }
             else if (PhotonNetwork.isMasterClient)
-                photonView.RPC(startNeckSteam, PhotonTargets.Others);
+                photonView.RPC(nameof(startNeckSteam), PhotonTargets.Others);
         }
         isSteamNeed = true;
         var neck = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
@@ -391,7 +391,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     {
         GetComponent<Animation>().Play(aniName);
         if ((!FengGameManagerMKII.LAN && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient)
-            photonView.RPC<string>(netPlayAnimation, PhotonTargets.Others, aniName);
+            photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, aniName);
     }
 
     private void playAnimationAt(string aniName, float normalizedTime)
@@ -399,7 +399,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         GetComponent<Animation>().Play(aniName);
         GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
         if ((!FengGameManagerMKII.LAN && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient)
-            photonView.RPC<string, float>(netPlayAnimationAt, PhotonTargets.Others, aniName, normalizedTime);
+            photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, aniName, normalizedTime);
     }
 
     private void playSound(string sndname)
@@ -414,7 +414,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 }
             }
             else if (PhotonNetwork.isMasterClient)
-                photonView.RPC<string>(playsoundRPC, PhotonTargets.Others, sndname);
+                photonView.RPC(nameof(playsoundRPC), PhotonTargets.Others, sndname);
         }
     }
 
@@ -472,7 +472,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 var sizeLower = FengGameManagerMKII.Gamemode.Settings.TitanMinimumSize;
                 var sizeUpper = FengGameManagerMKII.Gamemode.Settings.TitanMaximumSize;
                 size = UnityEngine.Random.Range(sizeLower, sizeUpper);
-                photonView.RPC<float, PhotonMessageInfo>(setSize, PhotonTargets.AllBuffered, size);
+                photonView.RPC(nameof(setSize), PhotonTargets.AllBuffered, size);
             }
             lagMax = 150f + (size * 3f);
             healthTime = 0f;
@@ -481,7 +481,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 maxHealth = NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.Settings.TitanHealthMinimum, FengGameManagerMKII.Gamemode.Settings.TitanHealthMaximum);
 
             if (NapeArmor > 0)
-                photonView.RPC<int, int>(labelRPC, PhotonTargets.AllBuffered, NapeArmor, maxHealth);
+                photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, NapeArmor, maxHealth);
 
             loadskin();
         }
@@ -609,7 +609,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     NapeArmor -= speed;
 
                 if (maxHealth > 0f)
-                    photonView.RPC<int, int>(labelRPC, PhotonTargets.AllBuffered, NapeArmor, maxHealth);
+                    photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, NapeArmor, maxHealth);
 
                 neckSteam();
                 if (NapeArmor <= 0)
@@ -623,7 +623,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                         }
                         else
                         {
-                            photonView.RPC(netDie, PhotonTargets.OthersBuffered);
+                            photonView.RPC(nameof(netDie), PhotonTargets.OthersBuffered);
                             netDie();
                             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().titanGetKill(view.owner, speed, name);
                         }
@@ -706,7 +706,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                         sweepSmokeObject.GetComponent<ParticleSystem>().Stop();
 
                         if (!((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || FengGameManagerMKII.LAN))
-                            photonView.RPC(stopSweepSmoke, PhotonTargets.Others);
+                            photonView.RPC(nameof(stopSweepSmoke), PhotonTargets.Others);
 
                         findNearestHero();
                         idle();
@@ -721,7 +721,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                         door_broken.SetActive(true);
                         door_closed.SetActive(false);
                         if (!((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || FengGameManagerMKII.LAN))
-                            photonView.RPC(changeDoor, PhotonTargets.OthersBuffered);
+                            photonView.RPC(nameof(changeDoor), PhotonTargets.OthersBuffered);
 
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                         {

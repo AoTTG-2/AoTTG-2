@@ -154,7 +154,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.titanPt = 0f;
             this.syncPts();
             this.state = CheckPointState.Human;
-            photonView.RPC<int>(changeState, PhotonTargets.All, 1);
+            photonView.RPC(nameof(changeState), PhotonTargets.All, 1);
             if (((CaptureGamemodeSettings)gamemode.Settings).SpawnSupplyStationOnHumanCapture)
             {
                 supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
@@ -184,7 +184,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.state != CheckPointState.Titan)
                 {
                     this.state = CheckPointState.Non;
-                    photonView.RPC<int>(changeState, PhotonTargets.Others, 0);
+                    photonView.RPC(nameof(changeState), PhotonTargets.Others, 0);
                 }
             }
         }
@@ -247,8 +247,8 @@ public class PVPcheckPoint : Photon.MonoBehaviour
 
     private void syncPts()
     {
-        photonView.RPC<float>(changeTitanPt, PhotonTargets.Others, titanPt);
-        photonView.RPC<float>(changeHumanPt, PhotonTargets.Others, humanPt);
+        photonView.RPC(nameof(changeTitanPt), PhotonTargets.Others, titanPt);
+        photonView.RPC(nameof(changeHumanPt), PhotonTargets.Others, humanPt);
     }
 
     private void titanGetsPoint()
@@ -263,7 +263,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 PhotonNetwork.Destroy(this.supply);
             }
             this.state = CheckPointState.Titan;
-            photonView.RPC<int>(changeState, PhotonTargets.All, 2);
+            photonView.RPC(nameof(changeState), PhotonTargets.All, 2);
             gamemode.AddTitanScore(2);
             if (this.checkIfTitanWins())
             {
@@ -304,7 +304,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.state != CheckPointState.Human)
                 {
                     this.state = CheckPointState.Non;
-                    photonView.RPC<int>(changeState, PhotonTargets.All, 0);
+                    photonView.RPC(nameof(changeState), PhotonTargets.All, 0);
                 }
             }
         }

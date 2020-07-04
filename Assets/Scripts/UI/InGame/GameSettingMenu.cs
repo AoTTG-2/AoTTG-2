@@ -121,7 +121,7 @@ namespace Assets.Scripts.UI.InGame
             if (!PhotonNetwork.isMasterClient) return;
             var gamemode = GetGamemodeFromSettings();
             var json = JsonConvert.SerializeObject(gamemode);
-            FengGameManagerMKII.instance.photonView.RPC<string, GamemodeType, PhotonMessageInfo>(FengGameManagerMKII.instance.SyncSettings, PhotonTargets.All, json, gamemode.GamemodeType);
+            FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.instance.SyncSettings), PhotonTargets.All, json, gamemode.GamemodeType);
         }
     }
 }

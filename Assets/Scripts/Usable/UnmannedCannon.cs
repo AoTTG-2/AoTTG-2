@@ -46,7 +46,7 @@ namespace OldCannon
                 StartCoroutine(WaitAndEnable());
                 FengGameManagerMKII.instance.AllowedCannonRequests.Add(info.sender.ID,
                     new CannonValues(photonView.viewID, settings));
-                //requestingHero.photonView.RPC<string, PhotonMessageInfo>(requestingHero.SpawnCannonRPC,
+                //requestingHero.photonView.RPC(nameof(requestingHero.SpawnCannonRPC),
                 //    info.sender,
                 //    settings);
             }
@@ -119,7 +119,7 @@ namespace OldCannon
         public void TryMount(Hero player)
         {
             var playerViewID = player.photonView.viewID;
-            photonView.RPC<int, PhotonMessageInfo>(RequestMountRPC, PhotonTargets.MasterClient, playerViewID);
+            photonView.RPC(nameof(RequestMountRPC), PhotonTargets.MasterClient, playerViewID);
         }
 
         private void OnValidate()

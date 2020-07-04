@@ -96,7 +96,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
         }
 
         SentPickup = true;
-        photonView.RPC<PhotonMessageInfo>(PunPickup, PhotonTargets.AllViaServer);
+        photonView.RPC(nameof(PunPickup), PhotonTargets.AllViaServer);
     }
 
 
@@ -104,7 +104,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
     public void Drop()
     {
         if (PickupIsMine)
-            photonView.RPC(PunRespawn, PhotonTargets.AllViaServer);
+            photonView.RPC(nameof(PunRespawn), PhotonTargets.AllViaServer);
     }
 
     /// <summary>Makes use of RPC PunRespawn to drop an item (sent through server for all).</summary>
@@ -112,7 +112,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
     {
         if (PickupIsMine)
         {
-            photonView.RPC(PunRespawn, PhotonTargets.AllViaServer, newPosition);
+            photonView.RPC(nameof(PunRespawn), PhotonTargets.AllViaServer, newPosition);
         }
     }
 

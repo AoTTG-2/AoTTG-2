@@ -70,7 +70,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                                 ownerName,
                                 false
                             };
-                            enemy.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(enemy.netDie, PhotonTargets.All, parameters);
+                            enemy.photonView.RPC(nameof(enemy.netDie), PhotonTargets.All, parameters);
                         }
                     }
                 }
@@ -99,7 +99,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         if (PhotonNetwork.isMasterClient)
                             mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
                         else
-                            mindlessTitan.photonView.RPC<int, int>(mindlessTitan.OnNapeHitRpc, mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(mindlessTitan.OnNapeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                     }
                     else if (!PhotonNetwork.isMasterClient)
                     {
@@ -110,7 +110,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             speed = Mathf.Max(10, speed);
                             var femaleTitan = item.transform.root.GetComponent<FEMALE_TITAN>();
                             if (!femaleTitan.hasDie)
-                                femaleTitan.photonView.RPC<int, int>(femaleTitan.titanGetHit, femaleTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, speed);
+                                femaleTitan.photonView.RPC(nameof(femaleTitan.titanGetHit), femaleTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, speed);
                         }
                         else if ((item.transform.root.GetComponent<COLOSSAL_TITAN>() != null) && !item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                         {
@@ -118,7 +118,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             int speed = (int) ((vector6.magnitude * 10f) * this.scoreMulti);
                             speed = Mathf.Max(10, speed);
                             var colossalTitan = item.transform.root.GetComponent<COLOSSAL_TITAN>();
-                            colossalTitan.photonView.RPC<int, int>(colossalTitan.titanGetHit, colossalTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, speed);
+                            colossalTitan.photonView.RPC(nameof(colossalTitan.titanGetHit), colossalTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, speed);
                         }
                     }
                     else if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
@@ -170,7 +170,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             if (!femaleTitan.hasDie)
                             {
                                 object[] objArray5 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID };
-                                femaleTitan.photonView.RPC<int>(femaleTitan.hitEyeRPC, PhotonTargets.MasterClient, objArray5);
+                                femaleTitan.photonView.RPC(nameof(femaleTitan.hitEyeRPC), PhotonTargets.MasterClient, objArray5);
                             }
                         }
                         else if (!femaleTitan.hasDie)
@@ -190,7 +190,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC<int, int>(mindlessTitan.OnEyeHitRpc, mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(mindlessTitan.OnEyeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                         this.showCriticalHitFX(other.gameObject.transform.position);
                     }
@@ -231,13 +231,13 @@ public class AHSSShotGunCollider : MonoBehaviour
                             if (PhotonNetwork.isMasterClient)
                                 femaleTitan.hitAnkleRRPC(playerViewID, speed);
                             else if (!femaleTitan.hasDie)
-                                femaleTitan.photonView.RPC<int, int>(femaleTitan.hitAnkleRRPC, PhotonTargets.MasterClient, playerViewID, speed);
+                                femaleTitan.photonView.RPC(nameof(femaleTitan.hitAnkleRRPC), PhotonTargets.MasterClient, playerViewID, speed);
                         }
                     }
                     else if (!PhotonNetwork.isMasterClient)
                     {
                         if (!femaleTitan.hasDie)
-                            femaleTitan.photonView.RPC<int, int>(femaleTitan.hitAnkleLRPC, PhotonTargets.MasterClient, playerViewID, speed);
+                            femaleTitan.photonView.RPC(nameof(femaleTitan.hitAnkleLRPC), PhotonTargets.MasterClient, playerViewID, speed);
                     }
                     else if (!femaleTitan.hasDie)
                     {

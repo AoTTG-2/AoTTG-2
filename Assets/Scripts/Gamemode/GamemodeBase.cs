@@ -261,8 +261,8 @@ namespace Assets.Scripts.Gamemode
             FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                FengGameManagerMKII.instance.photonView.RPC<int, PhotonMessageInfo>(
-                    FengGameManagerMKII.instance.netGameWin,
+                FengGameManagerMKII.instance.photonView.RPC(
+                    nameof(FengGameManagerMKII.instance.netGameWin),
                     PhotonTargets.Others,
                     Settings.HumanScore);
                 if (((int)FengGameManagerMKII.settings[0xf4]) == 1)
@@ -277,8 +277,8 @@ namespace Assets.Scripts.Gamemode
             Settings.TitanScore++;
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                FengGameManagerMKII.instance.photonView.RPC<int, PhotonMessageInfo>(
-                    FengGameManagerMKII.instance.netGameLose,
+                FengGameManagerMKII.instance.photonView.RPC(
+                    nameof(FengGameManagerMKII.instance.netGameLose),
                     PhotonTargets.Others,
                     Settings.TitanScore);
                 if ((int)FengGameManagerMKII.settings[0xf4] == 1)

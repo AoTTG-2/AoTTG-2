@@ -200,10 +200,10 @@ namespace Assets.Scripts.Characters.Titan
             {
                 configuration.Behaviors = new List<TitanBehavior>();
                 var config = JsonConvert.SerializeObject(configuration);
-                photonView.RPC<string, PhotonMessageInfo>(InitializeRpc, PhotonTargets.OthersBuffered, config);
+                photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
 
                 if (Health > 0)
-                    photonView.RPC<int, int>(UpdateHealthLabelRpc, PhotonTargets.AllBuffered, Health, MaxHealth);
+                    photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.AllBuffered, Health, MaxHealth);
             }
         }
 
@@ -292,7 +292,7 @@ namespace Assets.Scripts.Characters.Titan
                     if (!grabTarget.HasDied())
                     {
                         grabTarget.markDie();
-                        grabTarget.photonView.RPC<int, string, PhotonMessageInfo>(grabTarget.netDie2, PhotonTargets.All, -1, name);
+                        grabTarget.photonView.RPC(nameof(grabTarget.netDie2), PhotonTargets.All, -1, name);
                     }
                 }
                 else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
@@ -326,14 +326,14 @@ namespace Assets.Scripts.Characters.Titan
                             if (!asClientLookTarget)
                             {
                                 asClientLookTarget = true;
-                                photonView.RPC<bool>(setIfLookTarget, PhotonTargets.Others, true);
+                                photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, true);
                             }
                             flag2 = true;
                         }
                         if (!(flag2 || !asClientLookTarget))
                         {
                             asClientLookTarget = false;
-                            photonView.RPC<bool>(setIfLookTarget, PhotonTargets.Others, false);
+                            photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, false);
                         }
                         if (TitanState == MindlessTitanState.Attacking)
                         {
@@ -442,8 +442,8 @@ namespace Assets.Scripts.Characters.Titan
                 var damage = 0;
                 FengGameManagerMKII.instance.titanGetKill(attacker.photonView.owner, damage, name);
                 OnTitanDeath();
-                photonView.RPC<Vector3, bool>(
-                    OnKilledByCannon,
+                photonView.RPC(
+                    nameof(OnKilledByCannon),
                     PhotonTargets.All,
                     attacker.transform.position,
                     isCrawler);
@@ -556,7 +556,7 @@ namespace Assets.Scripts.Characters.Titan
             Health -= damage;
 
             if (MaxHealth > 0)
-                photonView.RPC<int, int>(UpdateHealthLabelRpc, PhotonTargets.AllBuffered, Health, MaxHealth);
+                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.AllBuffered, Health, MaxHealth);
 
             if (Health > 0)
                 return;
@@ -591,7 +591,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void ReleaseGrabbedTarget()
         {
-            GrabTarget?.photonView.RPC(GrabTarget.netUngrabbed, PhotonTargets.All);
+            GrabTarget?.photonView.RPC(nameof(GrabTarget.netUngrabbed), PhotonTargets.All);
         }
 
         private void Explode()
@@ -609,7 +609,7 @@ namespace Assets.Scripts.Characters.Titan
                 if (Vector3.Distance(player.transform.position, position) < FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode)
                 {
                     player.markDie();
-                    player.photonView.RPC<int, string, PhotonMessageInfo>(player.netDie2, PhotonTargets.All);
+                    player.photonView.RPC(nameof(player.netDie2), PhotonTargets.All);
                 }
             }
         }
@@ -706,8 +706,8 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CurrentAnimation = newAnimation;
                 Animation.CrossFade(newAnimation, fadeLength);
-                photonView.RPC<string, float, PhotonMessageInfo>(
-                    CrossFadeRpc,
+                photonView.RPC(
+                    nameof(CrossFadeRpc),
                     PhotonTargets.Others,
                     newAnimation,
                     fadeLength);

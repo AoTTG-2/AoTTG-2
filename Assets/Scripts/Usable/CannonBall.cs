@@ -144,7 +144,7 @@ namespace OldCannon
         {
             var myName = $"{PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name] ?? "ERROR"} ";
             player.markDie();
-            player.photonView.RPC<int, string, PhotonMessageInfo>(player.netDie2, PhotonTargets.All, -1, myName);
+            player.photonView.RPC(nameof(player.netDie2), PhotonTargets.All, -1, myName);
             FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
         }
 
@@ -160,7 +160,7 @@ namespace OldCannon
                 var titan = collision.gameObject.GetComponent<MindlessTitan>();
                 if (titan != null)
                 {
-                    titan.photonView.RPC<int, string>(titan.OnCannonHitRpc, titan.photonView.owner, heroViewId, collider.name);
+                    titan.photonView.RPC(nameof(titan.OnCannonHitRpc), titan.photonView.owner, heroViewId, collider.name);
                     SelfDestruct();
                 }
             }

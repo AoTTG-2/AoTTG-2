@@ -59,8 +59,8 @@ public class RockThrow : Photon.MonoBehaviour
                     titanName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
                 }
                 Debug.Log("rock hit player " + titanName);
-                hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
-                    hero.netDie,
+                hero.photonView.RPC(
+                    nameof(hero.netDie),
                     PhotonTargets.All,
                     v.normalized * 1000 + Vector3.up * 50f,
                     false,
@@ -87,7 +87,7 @@ public class RockThrow : Photon.MonoBehaviour
         oldP = transform.position;
         v = v1;
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
-            photonView.RPC<Vector3, Vector3>(launchRPC, PhotonTargets.Others, v, oldP);
+            photonView.RPC(nameof(launchRPC), PhotonTargets.Others, v, oldP);
     }
 
     [PunRPC]

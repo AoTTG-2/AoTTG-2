@@ -64,8 +64,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 Rock.transform.parent = transform;
                 if (titan.photonView.isMine)
                 {
-                    rockThrow.photonView.RPC<int, Vector3, Vector3, float>(
-                        rockThrow.initRPC,
+                    rockThrow.photonView.RPC(
+                        nameof(rockThrow.initRPC),
                         PhotonTargets.Others,
                         titan.photonView.viewID,
                         titan.transform.localScale,

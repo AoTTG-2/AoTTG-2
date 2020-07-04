@@ -18,8 +18,8 @@ namespace Assets.Scripts.Gamemode
 
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
-                FengGameManagerMKII.instance.photonView.RPC<int, PhotonMessageInfo>(
-                    FengGameManagerMKII.instance.netGameWin,
+                FengGameManagerMKII.instance.photonView.RPC(
+                    nameof(FengGameManagerMKII.instance.netGameWin),
                     PhotonTargets.Others,
                     0);
                 if (((int)FengGameManagerMKII.settings[0xf4]) == 1)

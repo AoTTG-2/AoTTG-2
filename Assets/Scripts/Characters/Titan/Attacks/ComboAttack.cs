@@ -130,8 +130,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER || titan.photonView.isMine || !hero.HasDied()))
                         {
                             hero.markDie();
-                            hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
-                                hero.netDie,
+                            hero.photonView.RPC(
+                                nameof(hero.netDie),
                                 PhotonTargets.All,
                                 (target.transform.position - position) * 15f * titan.Size,
                                 false,

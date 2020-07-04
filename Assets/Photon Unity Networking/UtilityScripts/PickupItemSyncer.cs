@@ -56,7 +56,7 @@ public class PickupItemSyncer : Photon.MonoBehaviour
             
             if (nextPlayer != null && !nextPlayer.Equals(PhotonNetwork.player))
             {
-                photonView.RPC<PhotonMessageInfo>(RequestForPickupItems, nextPlayer);
+                photonView.RPC(nameof(RequestForPickupItems), nextPlayer);
                 
                 // you could restart this invoke and try to find another player after 4 seconds. but after a while it doesnt make a difference anymore
                 //this.Invoke("AskForPickupItemSpawnTimes", 2.0f);
@@ -128,7 +128,7 @@ public class PickupItemSyncer : Photon.MonoBehaviour
         }
 
         Debug.Log("Sent count: " + valuesToSend.Count + " now: " + now);
-        photonView.RPC<double, float[]>(PickupItemInit, targetPlayer, PhotonNetwork.time, valuesToSend.ToArray());
+        photonView.RPC(nameof(PickupItemInit), targetPlayer, PhotonNetwork.time, valuesToSend.ToArray());
     }
 
 

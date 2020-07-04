@@ -150,7 +150,7 @@ namespace Assets.Scripts.Characters.Titan
             steamEffect.transform.parent = bodyPartEffect;
             steamEffect.transform.localPosition = new Vector3();
             SteamEffectDictionary.Add(body, steamEffect);
-            photonView.RPC<BodyPart[], PhotonMessageInfo>(SyncBodyPartRpc, PhotonTargets.Others, bodyPart);
+            photonView.RPC(nameof(SyncBodyPartRpc), PhotonTargets.Others, bodyPart);
         }
 
         [PunRPC]

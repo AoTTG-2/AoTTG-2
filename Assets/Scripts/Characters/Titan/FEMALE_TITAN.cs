@@ -618,7 +618,7 @@ public class FEMALE_TITAN : MonoBehaviour
     {
         GetComponent<Animation>().CrossFade(aniName, time);
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
-            photonView.RPC<string, float>(netCrossFade, PhotonTargets.Others, aniName, time);
+            photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, aniName, time);
     }
 
     private void eatSet(GameObject grabTarget)
@@ -629,9 +629,9 @@ public class FEMALE_TITAN : MonoBehaviour
             grabToRight();
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
             {
-                heroToGrab.photonView.RPC<int, bool>(heroToGrab.netGrabbed, PhotonTargets.All, photonView.viewID, false);
-                heroToGrab.photonView.RPC<string>(heroToGrab.netPlayAnimation, PhotonTargets.All, "grabbed");
-                photonView.RPC(grabToRight, PhotonTargets.Others);
+                heroToGrab.photonView.RPC(nameof(heroToGrab.netGrabbed), PhotonTargets.All, photonView.viewID, false);
+                heroToGrab.photonView.RPC(nameof(heroToGrab.netPlayAnimation), PhotonTargets.All, "grabbed");
+                photonView.RPC(nameof(grabToRight), PhotonTargets.Others);
             }
             else
             {
@@ -649,9 +649,9 @@ public class FEMALE_TITAN : MonoBehaviour
             grabToLeft();
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
             {
-                grabbedHero.photonView.RPC<int, bool>(grabbedHero.netGrabbed, PhotonTargets.All, photonView.viewID, true);
-                grabbedHero.photonView.RPC<string>(grabbedHero.netPlayAnimation, PhotonTargets.All, "grabbed");
-                photonView.RPC(grabToLeft, PhotonTargets.Others);
+                grabbedHero.photonView.RPC(nameof(grabbedHero.netGrabbed), PhotonTargets.All, photonView.viewID, true);
+                grabbedHero.photonView.RPC(nameof(grabbedHero.netPlayAnimation), PhotonTargets.All, "grabbed");
+                photonView.RPC(nameof(grabToLeft), PhotonTargets.Others);
             }
             else
             {
@@ -937,7 +937,7 @@ public class FEMALE_TITAN : MonoBehaviour
                 if (grabbedTarget != null)
                 {
                     var grabbedHero = grabbedTarget.GetComponent<Hero>();
-                    grabbedHero.photonView.RPC(grabbedHero.netUngrabbed, PhotonTargets.All);
+                    grabbedHero.photonView.RPC(nameof(grabbedHero.netUngrabbed), PhotonTargets.All);
                 }
                 Vector3 vector = view.gameObject.transform.position - transform.Find("Amarture/Core/Controller_Body").transform.position;
                 if (vector.magnitude < 20f)
@@ -947,7 +947,7 @@ public class FEMALE_TITAN : MonoBehaviour
                         getDown();
 
                     FengGameManagerMKII.instance.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
-                    FengGameManagerMKII.instance.photonView.RPC<int>(FengGameManagerMKII.instance.netShowDamage, view.owner, dmg);
+                    FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.instance.netShowDamage), view.owner, dmg);
                 }
             }
         }
@@ -976,7 +976,7 @@ public class FEMALE_TITAN : MonoBehaviour
                 if (grabbedTarget != null)
                 {
                     var grabbedHero = grabbedTarget.GetComponent<Hero>();
-                    grabbedHero.photonView.RPC(grabbedHero.netUngrabbed, PhotonTargets.All);
+                    grabbedHero.photonView.RPC(nameof(grabbedHero.netUngrabbed), PhotonTargets.All);
                 }
 
                 Vector3 vector = view.gameObject.transform.position - transform.Find("Amarture/Core/Controller_Body").transform.position;
@@ -987,7 +987,7 @@ public class FEMALE_TITAN : MonoBehaviour
                         getDown();
 
                     FengGameManagerMKII.instance.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
-                    FengGameManagerMKII.instance.photonView.RPC<int>(FengGameManagerMKII.instance.netShowDamage, view.owner, dmg);
+                    FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.instance.netShowDamage), view.owner, dmg);
                 }
             }
         }
@@ -1007,7 +1007,7 @@ public class FEMALE_TITAN : MonoBehaviour
             if (grabbedTarget != null)
             {
                 var hero = grabbedTarget.GetComponent<Hero>();
-                hero.photonView.RPC(hero.netUngrabbed, PhotonTargets.All);
+                hero.photonView.RPC(nameof(hero.netUngrabbed), PhotonTargets.All);
             }
 
             Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
@@ -1042,8 +1042,8 @@ public class FEMALE_TITAN : MonoBehaviour
             if (!hero.HasDied())
             {
                 hero.markDie();
-                hero.photonView.RPC<int, string, PhotonMessageInfo>(
-                    hero.netDie2,
+                hero.photonView.RPC(
+                    nameof(hero.netDie2),
                     PhotonTargets.All,
                     -1,
                     "Female Titan");
@@ -1072,7 +1072,8 @@ public class FEMALE_TITAN : MonoBehaviour
             else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient) && !hero.HasDied())
             {
                 hero.markDie();
-                hero.photonView.RPC(netDie,
+                hero.photonView.RPC(
+                    nameof(netDie),
                     PhotonTargets.All,
                     (hitHero.transform.position - position) * 15f * 4f,
                     false,
@@ -1183,7 +1184,7 @@ public class FEMALE_TITAN : MonoBehaviour
     public void loadskin()
     {
         if (((int) FengGameManagerMKII.settings[1]) == 1)
-            photonView.RPC<string>(loadskinRPC, PhotonTargets.AllBuffered, (string) FengGameManagerMKII.settings[0x42]);
+            photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, (string) FengGameManagerMKII.settings[0x42]);
     }
 
     public IEnumerator loadskinE(string url)
@@ -1279,7 +1280,7 @@ public class FEMALE_TITAN : MonoBehaviour
     {
         GetComponent<Animation>().Play(aniName);
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
-            photonView.RPC<string>(netPlayAnimation, PhotonTargets.Others, aniName);
+            photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, aniName);
     }
 
     private void playAnimationAt(string aniName, float normalizedTime)
@@ -1287,14 +1288,14 @@ public class FEMALE_TITAN : MonoBehaviour
         GetComponent<Animation>().Play(aniName);
         GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
-            photonView.RPC<string, float>(netPlayAnimationAt, PhotonTargets.Others, aniName, normalizedTime);
+            photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, aniName, normalizedTime);
     }
 
     private void playSound(string sndname)
     {
         playsoundRPC(sndname);
         if (Network.peerType == NetworkPeerType.Server)
-            photonView.RPC<string>(playsoundRPC, PhotonTargets.Others, sndname);
+            photonView.RPC(nameof(playsoundRPC), PhotonTargets.Others, sndname);
     }
 
     [PunRPC]
@@ -1326,7 +1327,7 @@ public class FEMALE_TITAN : MonoBehaviour
                 float sizeLower = FengGameManagerMKII.Gamemode.Settings.TitanMinimumSize;
                 float sizeUpper = FengGameManagerMKII.Gamemode.Settings.TitanMaximumSize;
                 size = UnityEngine.Random.Range(sizeLower, sizeUpper);
-                photonView.RPC<float, PhotonMessageInfo>(setSize, PhotonTargets.AllBuffered, size);
+                photonView.RPC(nameof(setSize), PhotonTargets.AllBuffered, size);
             }
             lagMax = 150f + (size * 3f);
             healthTime = 0f;
@@ -1335,7 +1336,7 @@ public class FEMALE_TITAN : MonoBehaviour
                 maxHealth = NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.Settings.TitanHealthMinimum, FengGameManagerMKII.Gamemode.Settings.TitanHealthMaximum);
 
             if (NapeArmor > 0)
-                photonView.RPC<int, int>(labelRPC, PhotonTargets.AllBuffered, NapeArmor, maxHealth);
+                photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, NapeArmor, maxHealth);
 
             loadskin();
         }
@@ -1456,18 +1457,18 @@ public class FEMALE_TITAN : MonoBehaviour
                     NapeArmor -= speed;
 
                 if (maxHealth > 0f)
-                    photonView.RPC<int, int>(labelRPC, PhotonTargets.AllBuffered, NapeArmor, maxHealth);
+                    photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, NapeArmor, maxHealth);
 
                 if (NapeArmor <= 0)
                 {
                     NapeArmor = 0;
                     if (!hasDie)
                     {
-                        photonView.RPC(netDie, PhotonTargets.OthersBuffered);
+                        photonView.RPC(nameof(netDie), PhotonTargets.OthersBuffered);
                         if (grabbedTarget != null)
                         {
                             var grabbedHero = grabbedTarget.GetComponent<Hero>();
-                            grabbedHero.photonView.RPC(grabbedHero.netUngrabbed, PhotonTargets.All);
+                            grabbedHero.photonView.RPC(nameof(grabbedHero.netUngrabbed), PhotonTargets.All);
                         }
                         
                         netDie();
@@ -1477,7 +1478,7 @@ public class FEMALE_TITAN : MonoBehaviour
                 else
                 {
                     gameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's neck", speed);
-                    gameManager.photonView.RPC<int>(gameManager.netShowDamage, view.owner, speed);
+                    gameManager.photonView.RPC(nameof(gameManager.netShowDamage), view.owner, speed);
                 }
 
                 healthTime = 0.2f;

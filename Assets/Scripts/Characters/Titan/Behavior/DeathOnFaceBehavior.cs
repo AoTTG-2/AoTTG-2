@@ -21,8 +21,8 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                     if (!hero.HasDied())
                     {
                         hero.markDie();
-                        hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
-                            hero.netDie,
+                        hero.photonView.RPC(
+                            nameof(hero.netDie),
                             PhotonTargets.All,
                             (hero.transform.position - vector15) * 15f * Titan.Size,
                             true,

@@ -15,8 +15,8 @@ public class RacingKillTrigger : MonoBehaviour
                 if (hero != null)
                 {
                     hero.markDie();
-                    hero.photonView.RPC<int, string, PhotonMessageInfo>(
-                        hero.netDie2,
+                    hero.photonView.RPC(
+                        nameof(hero.netDie2),
                         PhotonTargets.All,
                         -1, "Server");
                 }

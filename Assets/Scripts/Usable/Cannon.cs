@@ -162,7 +162,7 @@ namespace OldCannon
                 Hero.isCannon = false;
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(Hero.gameObject, true, false);
                 Hero.baseRigidBody.velocity = Vector3.zero;
-                Hero.photonView.RPC<PhotonMessageInfo>(Hero.ReturnFromCannon, PhotonTargets.Others);
+                Hero.photonView.RPC(nameof(Hero.ReturnFromCannon), PhotonTargets.Others);
                 Hero.skillCDLast = Hero.skillCDLastCannon;
                 Hero.skillCDDuration = Hero.skillCDLast;
             }
@@ -258,7 +258,7 @@ namespace OldCannon
                     CannonValues values;
                     if (FengGameManagerMKII.instance.AllowedCannonRequests.TryGetValue(owner.ID, out values))
                     {
-                        photonView.RPC<string, PhotonMessageInfo>(SetSize, PhotonTargets.All, settings = values.settings);
+                        photonView.RPC(nameof(SetSize), PhotonTargets.All, settings = values.settings);
                         FengGameManagerMKII.instance.AllowedCannonRequests.Remove(owner.ID);
 
                         var viewID = values.viewID;
@@ -316,7 +316,7 @@ namespace OldCannon
                                 Convert.ToSingle(strArray[0x11]),
                                 Convert.ToSingle(strArray[0x12])), 0).GetComponent<UnmannedCannon>();
                         cannon.settings = settings;
-                        cannon.photonView.RPC<string, PhotonMessageInfo>(cannon.SetSize, PhotonTargets.AllBuffered, settings);
+                        cannon.photonView.RPC(nameof(cannon.SetSize), PhotonTargets.AllBuffered, settings);
                     }
                     else
                     {

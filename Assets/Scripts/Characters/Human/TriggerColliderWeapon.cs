@@ -41,7 +41,7 @@ public class TriggerColliderWeapon : MonoBehaviour
         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             titan.GetHit(num2);
         else
-            titan.photonView.RPC<int>(titan.GetHit, PhotonTargets.All, num2);
+            titan.photonView.RPC(nameof(titan.GetHit), PhotonTargets.All, num2);
 
         FengGameManagerMKII.instance.netShowDamage(num2);
     }
@@ -108,8 +108,8 @@ public class TriggerColliderWeapon : MonoBehaviour
                         else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hitHero.HasDied()) && !hitHero.isGrabbed)
                         {
                             hitHero.markDie();
-                            hitHero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(
-                                hitHero.netDie,
+                            hitHero.photonView.RPC(
+                                nameof(hitHero.netDie),
                                 PhotonTargets.All,
                                 (hitBox.transform.root.position - transform.position).normalized * b * 1000f + Vector3.up * 50f,
                                 false,
@@ -140,7 +140,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC<int, int>(mindlessTitan.OnNapeHitRpc, mindlessTitan.photonView.owner, viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(mindlessTitan.OnNapeHitRpc), mindlessTitan.photonView.owner, viewID, damage);
                         }
                     }
                     else if (!PhotonNetwork.isMasterClient)
@@ -228,7 +228,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         else if (!PhotonNetwork.isMasterClient)
                         {
                             if (!femaleTitan.hasDie)
-                                femaleTitan.photonView.RPC<int>(femaleTitan.hitEyeRPC, PhotonTargets.MasterClient, viewID);
+                                femaleTitan.photonView.RPC(nameof(femaleTitan.hitEyeRPC), PhotonTargets.MasterClient, viewID);
                         }
                         else if (!femaleTitan.hasDie)
                         {
@@ -317,8 +317,8 @@ public class TriggerColliderWeapon : MonoBehaviour
                         {
                             if (!femaleTitan.hasDie)
                             {
-                                femaleTitan.photonView.RPC<int, int>(
-                                    femaleTitan.hitAnkleRRPC,
+                                femaleTitan.photonView.RPC(
+                                    nameof(femaleTitan.hitAnkleRRPC),
                                     PhotonTargets.MasterClient,
                                     viewID,
                                     num9);
@@ -330,8 +330,8 @@ public class TriggerColliderWeapon : MonoBehaviour
                     else if (!PhotonNetwork.isMasterClient)
                     {
                         if (!femaleTitan.hasDie)
-                            femaleTitan.photonView.RPC<int, int>(
-                                femaleTitan.hitAnkleLRPC,
+                            femaleTitan.photonView.RPC(
+                                nameof(femaleTitan.hitAnkleLRPC),
                                 PhotonTargets.MasterClient,
                                 viewID,
                                 num9);

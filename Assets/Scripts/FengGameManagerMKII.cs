@@ -707,8 +707,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
 
                     var roundEndMessage = Gamemode.GetRoundEndedMessage();
-                    photonView.RPC<string, string, string, string, string, string, PhotonMessageInfo>(
-                        showResult,
+                    photonView.RPC(
+                        nameof(showResult),
                         PhotonTargets.AllBuffered,
                         names,
                         kills,
@@ -1291,7 +1291,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         if (strArray.Length > 15)
                         {
                             var cannon = PhotonNetwork.Instantiate("RC Resources/RC Prefabs/" + "Unmanned" + strArray[1], new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0).GetComponent<UnmannedCannon>();
-                            cannon.photonView.RPC<string, PhotonMessageInfo>(cannon.SetSize, PhotonTargets.AllBuffered, cannon.settings = content[num]);
+                            cannon.photonView.RPC(nameof(cannon.SetSize), PhotonTargets.AllBuffered, cannon.settings = content[num]);
                         }
                         else
                         {
@@ -1681,7 +1681,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             PhotonNetwork.DestroyPlayerObjects(player);
             PhotonNetwork.CloseConnection(player);
-            photonView.RPC<int, PhotonMessageInfo>(ignorePlayer, PhotonTargets.Others, player.ID);
+            photonView.RPC(nameof(ignorePlayer), PhotonTargets.Others, player.ID);
             if (!ignoreList.Contains(player.ID))
             {
                 ignoreList.Add(player.ID);
@@ -2144,7 +2144,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     oldScriptLogic = currentScriptLogic;
                 }
 
-                photonView.RPC<PhotonMessageInfo>(setMasterRC, PhotonTargets.All);
+                photonView.RPC(nameof(setMasterRC), PhotonTargets.All);
             }
             logicLoaded = true;
             racingSpawnPoint = new Vector3(0f, 0f, 0f);
@@ -2212,7 +2212,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
                 else if (PhotonNetwork.isMasterClient)
                 {
-                    photonView.RPC<string, string, string, string[], PhotonMessageInfo>(loadskinRPC, PhotonTargets.AllBuffered, new object[] { n, url, str3, customLevelUrls });
+                    photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { n, url, str3, customLevelUrls });
                 }
             }
             else if (Level.Name.StartsWith("Custom") && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
@@ -2246,7 +2246,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
                     // Custom ground texture.
                     customLevelUrls[6] = (string) settings[0xa2];
-                    photonView.RPC<string[], PhotonMessageInfo>(clearlevel, PhotonTargets.AllBuffered, customLevelUrls);
+                    photonView.RPC(nameof(clearlevel), PhotonTargets.AllBuffered, customLevelUrls);
                     RCRegions.Clear();
                     if (oldScript != currentScript)
                     {
@@ -2789,7 +2789,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (PhotonNetwork.isMasterClient)
             getRacingResult(LoginFengKAI.player.name, time);
         else
-            photonView.RPC<string, float>(getRacingResult, PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
+            photonView.RPC(nameof(getRacingResult), PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
 
         gameWin2();
     }
@@ -3022,8 +3022,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //InRoomChat.messages = new List<string>();
         if (!PhotonNetwork.isMasterClient)
         {
-            photonView.RPC(RequireStatus, PhotonTargets.MasterClient);
-            photonView.RPC<PhotonMessageInfo>(RequestSettings, PhotonTargets.MasterClient);
+            photonView.RPC(nameof(RequireStatus), PhotonTargets.MasterClient);
+            photonView.RPC(nameof(RequestSettings), PhotonTargets.MasterClient);
         }
         assetCacheTextures = new Dictionary<string, Texture2D>();
         isFirstLoad = true;
@@ -3137,7 +3137,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
 
                 if (!PhotonNetwork.isMasterClient)
-                    photonView.RPC(RequireStatus, PhotonTargets.MasterClient);
+                    photonView.RPC(nameof(RequireStatus), PhotonTargets.MasterClient);
 
                 Gamemode.OnLevelLoaded(Level, PhotonNetwork.isMasterClient);
                 if (((int) settings[0xf5]) == 1)
@@ -3168,7 +3168,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (!(gameTimesUp || !PhotonNetwork.isMasterClient))
             {
                 restartGame2(true);
-                photonView.RPC<PhotonMessageInfo>(setMasterRC, PhotonTargets.All);
+                photonView.RPC(nameof(setMasterRC), PhotonTargets.All);
             }
         }
         noRestart = false;
@@ -3278,7 +3278,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
         InstantiateTracker.instance.TryRemovePlayer(player.ID);
         if (PhotonNetwork.isMasterClient)
-            photonView.RPC<int, PhotonMessageInfo>(verifyPlayerHasLeft, PhotonTargets.All, player.ID);
+            photonView.RPC(nameof(verifyPlayerHasLeft), PhotonTargets.All, player.ID);
 
         if (Gamemode.Settings.SaveKDROnDisconnect)
         {
@@ -3442,7 +3442,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.localRacingResult = this.localRacingResult + "\n";
         }
 
-        photonView.RPC<string>(netRefreshRacingResult, PhotonTargets.All, localRacingResult);
+        photonView.RPC(nameof(netRefreshRacingResult), PhotonTargets.All, localRacingResult);
     }
 
     [PunRPC]
@@ -3498,7 +3498,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void RequireStatus()
     {
-        photonView.RPC<float, float, bool, bool>(refreshStatus, PhotonTargets.Others, roundTime, timeTotalServer, startRacing, endRacing);
+        photonView.RPC(nameof(refreshStatus), PhotonTargets.Others, roundTime, timeTotalServer, startRacing, endRacing);
     }
 
     private void resetGameSettings()
@@ -3631,8 +3631,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             DestroyAllExistingCloths();
             PhotonNetwork.DestroyAll();
             var hash = checkGameGUI();
-            photonView.RPC<ExitGames.Client.Photon.Hashtable, PhotonMessageInfo>(settingRPC, PhotonTargets.Others, hash);
-            photonView.RPC<PhotonMessageInfo>(RPCLoadLevel, PhotonTargets.All);
+            photonView.RPC(nameof(settingRPC), PhotonTargets.Others, hash);
+            photonView.RPC(nameof(RPCLoadLevel), PhotonTargets.All);
             setGameSettings(hash);
             if (masterclientSwitched)
             {
@@ -3675,8 +3675,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             };
             PhotonNetwork.room.SetCustomProperties(hash);
             var json = JsonConvert.SerializeObject(Gamemode.Settings);
-            photonView.RPC<string, GamemodeType, PhotonMessageInfo>(
-                SyncSettings,
+            photonView.RPC(
+                nameof(SyncSettings),
                 PhotonTargets.Others,
                 json,
                 Gamemode.Settings.GamemodeType);
@@ -3692,8 +3692,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             };
             PhotonNetwork.room.SetCustomProperties(hash);
             var json = JsonConvert.SerializeObject(Gamemode.Settings);
-            photonView.RPC<string, GamemodeType, PhotonMessageInfo>(
-                SyncSettings,
+            photonView.RPC(
+                nameof(SyncSettings),
                 PhotonTargets.Others,
                 json,
                 Gamemode.Settings.GamemodeType);
@@ -3740,8 +3740,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void sendChatContentInfo(string content)
     {
-        photonView.RPC<string, string, PhotonMessageInfo>(
-            Chat,
+        photonView.RPC(
+            nameof(Chat),
             PhotonTargets.All,
             content,
             string.Empty);
@@ -3749,7 +3749,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void sendKillInfo(bool t1, string killer, bool t2, string victim, int dmg = 0)
     {
-        photonView.RPC<bool, string, bool, string, int>(updateKillInfo, PhotonTargets.All, t1, killer, t2, victim, dmg);
+        photonView.RPC(nameof(updateKillInfo), PhotonTargets.All, t1, killer, t2, victim, dmg);
     }
 
     public static void ServerCloseConnection(PhotonPlayer targetPlayer, bool requestIpBan, string inGameName = null)
@@ -3895,7 +3895,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 if (obj2.GetPhotonView().isMine)
                 {
-                    photonView.RPC<int, PhotonMessageInfo>(labelRPC, PhotonTargets.All, obj2.GetPhotonView().viewID);
+                    photonView.RPC(nameof(labelRPC), PhotonTargets.All, obj2.GetPhotonView().viewID);
                 }
             }
         }
@@ -4510,8 +4510,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void titanGetKill(PhotonPlayer player, int Damage, string name)
     {
         Damage = Mathf.Max(10, Damage);
-        photonView.RPC<int>(netShowDamage, player, Damage);
-        photonView.RPC<string>(oneTitanDown, PhotonTargets.MasterClient, name);
+        photonView.RPC(nameof(netShowDamage), player, Damage);
+        photonView.RPC(nameof(oneTitanDown), PhotonTargets.MasterClient, name);
         sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
         playerKillInfoUpdate(player, Damage);
     }
@@ -5110,8 +5110,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     if (cyanKills >= Gamemode.Settings.PointMode)
                     {
-                        photonView.RPC<string, string, PhotonMessageInfo>(
-                            Chat,
+                        photonView.RPC(
+                            nameof(Chat),
                             PhotonTargets.All,
                             "<color=#00FFFF>Team Cyan wins! </color>",
                             string.Empty);
@@ -5119,8 +5119,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                     else if (magentaKills >= Gamemode.Settings.PointMode)
                     {
-                        photonView.RPC<string, string, PhotonMessageInfo>(
-                            Chat,
+                        photonView.RPC(
+                            nameof(Chat),
                             PhotonTargets.All,
                             "<color=#FF00FF>Team Magenta wins! </color>",
                             string.Empty);
@@ -5136,7 +5136,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         {
                             var winner = RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor();
                             photonView.RPC(
-                                (Action<string, string, PhotonMessageInfo>) Chat,
+                                nameof(Chat),
                                 PhotonTargets.All,
                                 "<color=#FFCC00>" + winner + " wins!</color>",
                                 string.Empty);
@@ -5182,8 +5182,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         {
                             if (num24 == 0)
                             {
-                                photonView.RPC<string, string, PhotonMessageInfo>(
-                                    Chat,
+                                photonView.RPC(
+                                    nameof(Chat),
                                     PhotonTargets.All,
                                     "<color=#FF00FF>Team Magenta wins! </color>",
                                     string.Empty);
@@ -5191,8 +5191,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             }
                             else if (num25 == 0)
                             {
-                                photonView.RPC<string, string, PhotonMessageInfo>(
-                                    Chat,
+                                photonView.RPC(
+                                    nameof(Chat),
                                     PhotonTargets.All,
                                     "<color=#00FFFF>Team Cyan wins! </color>",
                                     string.Empty);
@@ -5230,8 +5230,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                 }
                             }
 
-                            photonView.RPC<string, string, PhotonMessageInfo>(
-                                Chat,
+                            photonView.RPC(
+                                nameof(Chat),
                                 PhotonTargets.All,
                                 "<color=#FFCC00>" + text.hexColor() + " wins." + scoreText + "</color>",
                                 string.Empty);

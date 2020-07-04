@@ -53,7 +53,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         }
                         else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                         {
-                            hero.photonView.RPC<Vector3>(hero.blowAway, PhotonTargets.All, force);
+                            hero.photonView.RPC(nameof(hero.blowAway), PhotonTargets.All, force);
                         }
                     }
                     else if (!hero.isInvincible())
@@ -86,7 +86,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                                 titanName,
                                 true
                             };
-                            hero.photonView.RPC<Vector3, bool, int, string, bool, PhotonMessageInfo>(hero.netDie, PhotonTargets.All, parameters);
+                            hero.photonView.RPC(nameof(hero.netDie), PhotonTargets.All, parameters);
                         }
                     }
                 }

@@ -131,11 +131,11 @@ public class TITAN_SETUP : Photon.MonoBehaviour
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
             {
                 if (flag2)
-                    photonView.RPC<int, int, string>(setHairRPC2, PhotonTargets.AllBuffered, num, eye, hairlink);
+                    photonView.RPC(nameof(setHairRPC2), PhotonTargets.AllBuffered, num, eye, hairlink);
                 else
                 {
                     color = HeroCostume.costume[UnityEngine.Random.Range(0, HeroCostume.costume.Length - 5)].hair_color;
-                    photonView.RPC<int, int, float, float, float>(setHairPRC, PhotonTargets.AllBuffered, num, eye, color.r, color.g, color.b);
+                    photonView.RPC(nameof(setHairPRC), PhotonTargets.AllBuffered, num, eye, color.r, color.g, color.b);
                 }
             }
             else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
@@ -178,7 +178,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
             {
                 var hairColor = part_hair.GetComponent<Renderer>().material.color;
-                photonView.RPC<int, int, float, float, float>(setHairPRC, PhotonTargets.OthersBuffered, hairType, id, hairColor.r, hairColor.g, hairColor.b);
+                photonView.RPC(nameof(setHairPRC), PhotonTargets.OthersBuffered, hairType, id, hairColor.r, hairColor.g, hairColor.b);
             }
         }
     }

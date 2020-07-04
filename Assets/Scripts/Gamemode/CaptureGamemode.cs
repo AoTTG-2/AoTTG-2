@@ -76,8 +76,8 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                photonView.RPC<int, int, PhotonMessageInfo>(
-                    RefreshCaptureScore,
+                photonView.RPC(
+                    nameof(RefreshCaptureScore),
                     PhotonTargets.Others,
                     Settings.HumanScore,
                     Settings.TitanScore);
@@ -182,8 +182,8 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.photonView.RPC<int, int, PhotonMessageInfo>(
-                    RefreshCaptureScore,
+                FengGameManagerMKII.instance.photonView.RPC(
+                    nameof(RefreshCaptureScore),
                     PhotonTargets.Others,
                     CaptureSettings.PvpHumanScoreLimit,
                     CaptureSettings.PvpTitanScoreLimit);
