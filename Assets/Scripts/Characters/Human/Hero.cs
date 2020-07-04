@@ -4325,14 +4325,13 @@ public class Hero : Human
     /// Called locally by <paramref name="cannon"/>.
     /// </summary>
     /// <param name="cannon"></param>
-    public void OnMountingCannon(CannonFacade cannon)
+    public void OnMountingCannon()
     {
         Debug.Assert(photonView.isMine, $"{nameof(OnMountingCannon)} must be called on the local player.");
         Debug.Assert(!isCannon, "Can't mount cannon while using a cannon.");
 
-        var cannonID = cannon.photonView.viewID;
         PrepareForCannon();
-        photonView.RPC(nameof(MountCannonRPC), PhotonTargets.AllBuffered, cannonID);
+        photonView.RPC(nameof(MountCannonRPC), PhotonTargets.AllBuffered);
     }
 
     private void PrepareForCannon()
@@ -4360,13 +4359,9 @@ public class Hero : Human
     /// Called on all clients.
     /// </summary>
     [PunRPC]
-    private void MountCannonRPC(int viewID, PhotonMessageInfo info)
+    private void MountCannonRPC(PhotonMessageInfo info)
     {
         Debug.Assert(info.sender == photonView.owner, $"{nameof(MountCannonRPC)} was called by non-owner.");
-
-        var view = PhotonView.Find(viewID);
-        var cannon = view.GetComponent<CannonFacade>();
-        cannon.Mount(this);
 
         GetComponent<SmoothSyncMovement>().disabled = true;
         isCannon = true;

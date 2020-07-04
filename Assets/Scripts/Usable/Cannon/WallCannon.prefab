@@ -120,6 +120,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1936111066624256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4569621565475904}
+  - component: {fileID: 114366818121387300}
+  m_Layer: 9
+  m_Name: PlayerPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4167768162737504
 Transform:
   m_ObjectHideFlags: 1
@@ -140,12 +156,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1299774100921748}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18, y: 50, z: -132}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4645436129072740}
   - {fileID: 4426689122950072}
   - {fileID: 4548625496343180}
+  - {fileID: 4569621565475904}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -188,6 +205,19 @@ Transform:
   - {fileID: 4167768162737504}
   m_Father: {fileID: 4171424535166842}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4569621565475904
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1936111066624256}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.28, z: -2.24}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_Children: []
+  m_Father: {fileID: 4171424535166842}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4645436129072740
 Transform:
@@ -394,6 +424,23 @@ MonoBehaviour:
   _useSceneContext: 0
   _context: {fileID: 114157546145112100}
   _bindType: 0
+--- !u!114 &114366818121387300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1936111066624256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 4569621565475904}
+  _identifier: PlayerPoint
+  _useSceneContext: 0
+  _context: {fileID: 114157546145112100}
+  _bindType: 0
 --- !u!114 &114373866147409098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -453,10 +500,10 @@ MonoBehaviour:
   barrelSettings:
     Cooldown: 2
     Force: 100
+  cannonBallPrefabName: Cannon/CannonBall
   mannedStateSettings:
     NormalSpeed: 50
     SlowSpeed: 10
-  cannonBallPrefabName: Cannon/CannonBall
 --- !u!114 &114435406936343226
 MonoBehaviour:
   m_ObjectHideFlags: 1

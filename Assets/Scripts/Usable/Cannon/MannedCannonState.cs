@@ -12,6 +12,8 @@ namespace Cannon
         private readonly Interactable mountInteractable;
         private readonly Settings settings;
         private readonly Interactable unmountInteractable;
+        private readonly Transform firePoint;
+        private readonly Transform playerPoint;
         private Hero mountedHero;
 
         public MannedCannonState(
@@ -22,7 +24,11 @@ namespace Cannon
             [Inject(Id = "MountInteractable")]
             Interactable mountInteractable,
             [Inject(Id = "UnmountInteractable")]
-            Interactable unmountInteractable)
+            Interactable unmountInteractable,
+            [Inject(Id = "FirePoint")]
+            Transform firePoint,
+            [Inject(Id = "PlayerPoint")]
+            Transform playerPoint)
             : base(stateManager)
         {
             this.settings = settings;
@@ -30,6 +36,8 @@ namespace Cannon
             this.barrel = barrel;
             this.mountInteractable = mountInteractable;
             this.unmountInteractable = unmountInteractable;
+            this.firePoint = firePoint;
+            this.playerPoint = playerPoint;
         }
 
         void IDisposable.Dispose()
@@ -40,13 +48,26 @@ namespace Cannon
 
         public override void Enter()
         {
-            Debug.Log($"Mounted hero: {mountedHero.name}");
             SetMountedAvailability();
+
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(firePoint.gameObject, true, false);
+            Camera.main.fieldOfView = 55f;
+            mountedHero.OnMountingCannon();
         }
 
         public override void Exit()
         {
             SetUnmountedAvailability();
+
+            if (mountedHero)
+            {
+                mountedHero.isCannon = false;
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(mountedHero.gameObject, true, false);
+                mountedHero.baseRigidBody.velocity = Vector3.zero;
+                mountedHero.photonView.RPC(nameof(mountedHero.ReturnFromCannon), PhotonTargets.Others);
+                mountedHero.skillCDLast = mountedHero.skillCDLastCannon;
+                mountedHero.skillCDDuration = mountedHero.skillCDLast;
+            }
         }
 
         void IInitializable.Initialize()
@@ -72,6 +93,10 @@ namespace Cannon
 
             if (InputManager.KeyDown(InputCannon.Shoot))
                 barrel.TryFire();
+
+            mountedHero.transform.SetPositionAndRotation(
+                playerPoint.position,
+                playerPoint.rotation);
         }
 
         private void OnMount(Hero hero)

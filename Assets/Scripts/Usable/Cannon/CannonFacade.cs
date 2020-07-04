@@ -49,7 +49,7 @@ namespace Cannon
             Debug.Assert(info.sender.IsMasterClient, $"Only MasterClient may call {nameof(OnRequestAcceptedRPC)}.");
 
             var owner = PhotonView.Find(ownerID).GetComponent<Hero>();
-            owner.OnMountingCannon(this);
+            owner.OnMountingCannon();
         }
 
         /// <summary>
