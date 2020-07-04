@@ -33,6 +33,7 @@ namespace Cannon
 
         [Inject]
         private void Construct(
+            [InjectOptional]
             CannonRequestManager requestManager,
             CannonStateManager stateManager)
         {
