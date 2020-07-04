@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.UI;
-using Assets.Scripts.UI.Menu;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -23,7 +21,7 @@ namespace Assets.Scripts.UI.Menu
         public void JoinLobby()
         {
             if (!IsJoinable) return;
-            PhotonNetwork.JoinRoom(Room);
+            PhotonNetwork.JoinRoom(Room, "testtest2");
             SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         }
 

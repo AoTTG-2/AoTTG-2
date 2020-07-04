@@ -65,7 +65,7 @@ namespace Assets.Scripts.UI.Menu
             };
 
             PhotonNetwork.PhotonServerSettings.JoinLobby = true;
-            PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);
+            PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default); 
             SceneManager.sceneLoaded += SceneLoaded;
         }
 
