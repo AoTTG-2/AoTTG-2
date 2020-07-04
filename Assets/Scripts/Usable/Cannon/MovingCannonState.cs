@@ -10,9 +10,7 @@ namespace Cannon
 
         public MovingCannonState(
             CannonStateManager stateManager,
-            [Inject(Id = "StartMovingInteractable")]
             Interactable startMovingInteractable,
-            [Inject(Id = "StopMovingInteractable")]
             Interactable stopMovingInteractable)
             : base(stateManager)
         {

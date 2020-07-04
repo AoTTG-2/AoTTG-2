@@ -721,6 +721,14 @@ MonoBehaviour:
   mannedStateSettings:
     NormalSpeed: 50
     SlowSpeed: 10
+  base: {fileID: 4827261812517340}
+  barrel: {fileID: 4042372439190206}
+  firePoint: {fileID: 4838504033374752}
+  playerPoint: {fileID: 4675338730204042}
+  mountInteractable: {fileID: 114880331069297932}
+  unmountInteractable: {fileID: 114414637443340258}
+  startMovingInteractable: {fileID: 114211079229720384}
+  stopMovingInteractable: {fileID: 114367608341438552}
 --- !u!114 &114989822349062346
 MonoBehaviour:
   m_ObjectHideFlags: 1

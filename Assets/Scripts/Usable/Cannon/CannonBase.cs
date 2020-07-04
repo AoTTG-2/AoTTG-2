@@ -7,9 +7,7 @@ namespace Cannon
     {
         private Transform @base;
 
-        public CannonBase(
-            [Inject(Id = "Base")]
-            Transform @base)
+        public CannonBase(Transform @base)
         {
             this.@base = @base;
         }

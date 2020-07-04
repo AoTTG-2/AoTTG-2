@@ -21,13 +21,9 @@ namespace Cannon
             CannonStateManager stateManager,
             CannonBase @base,
             CannonBarrel barrel,
-            [Inject(Id = "MountInteractable")]
             Interactable mountInteractable,
-            [Inject(Id = "UnmountInteractable")]
             Interactable unmountInteractable,
-            [Inject(Id = "FirePoint")]
             Transform firePoint,
-            [Inject(Id = "PlayerPoint")]
             Transform playerPoint)
             : base(stateManager)
         {

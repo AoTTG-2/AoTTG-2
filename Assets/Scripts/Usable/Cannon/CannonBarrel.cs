@@ -18,9 +18,7 @@ namespace Cannon
             Settings settings,
             CannonFacade cannon,
             CannonBall.Factory cannonBallFactory,
-            [Inject(Id = "Barrel")]
             Transform barrel,
-            [Inject(Id = "FirePoint")]
             Transform firePoint)
         {
             this.settings = settings;
