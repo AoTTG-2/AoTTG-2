@@ -198,8 +198,8 @@ GameObject:
   - component: {fileID: 54501945940075210}
   - component: {fileID: 114777195825919506}
   - component: {fileID: 114647941984633822}
-  - component: {fileID: 114152188073145566}
   - component: {fileID: 114687760569500932}
+  - component: {fileID: 114313374406548982}
   m_Layer: 0
   m_Name: PlayerTitan
   m_TagString: titan
@@ -2651,23 +2651,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
---- !u!114 &114152188073145566
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1107765608982526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctCameraPos: {x: 0, y: 0, z: 0}
-  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
-  disabled: 0
-  noVelocity: 0
-  PhotonCamera: 0
-  SmoothingDelay: 5
 --- !u!114 &114192226184588286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2706,11 +2689,22 @@ MonoBehaviour:
   Focus: 10
   currentCamera: {fileID: 0}
   currentDirection: 0
-  inputManager: {fileID: 0}
   sit: 0
   targetDirection: 0
   IsCovering: 0
   Ai: 0
+--- !u!114 &114313374406548982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1107765608982526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingDelay: 20
 --- !u!114 &114522673634256826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2760,7 +2754,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114152188073145566}
+  - {fileID: 114313374406548982}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

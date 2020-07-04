@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 54823658647038594}
   - component: {fileID: 135133109799499342}
   - component: {fileID: 114679220063761730}
+  - component: {fileID: 114864714730242070}
   m_Layer: 0
   m_Name: BombMain
   m_TagString: Untagged
@@ -75,12 +76,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 114864714730242070}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -98,8 +99,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disabled: 0
-  myExplosion: {fileID: 0}
+  myExplosion: {fileID: 1578244121071038, guid: 66763cd81457572478c2631cf458dee2,
+    type: 2}
   SmoothingDelay: 10
+--- !u!114 &114864714730242070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1578244121071038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingDelay: 20
 --- !u!135 &135133109799499342
 SphereCollider:
   m_ObjectHideFlags: 1

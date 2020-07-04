@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 75219249502025382}
   - component: {fileID: 198091036077166726}
   - component: {fileID: 199323720685135920}
+  - component: {fileID: 114809259159287958}
   m_Layer: 8
   m_Name: CannonBallObject
   m_TagString: Untagged
@@ -165,6 +166,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114647646072285574}
+  - {fileID: 114809259159287958}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -182,6 +184,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smoothingDelay: 10
+--- !u!114 &114809259159287958
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898299900801978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingDelay: 20
 --- !u!135 &135763420631123058
 SphereCollider:
   m_ObjectHideFlags: 1

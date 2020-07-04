@@ -829,8 +829,8 @@ GameObject:
   - component: {fileID: 54197300092460074}
   - component: {fileID: 114338049395213770}
   - component: {fileID: 114986312314889836}
-  - component: {fileID: 114642288650367630}
   - component: {fileID: 114288680120854022}
+  - component: {fileID: 114467976296011278}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2719,7 +2719,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114642288650367630}
+  - {fileID: 114467976296011278}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -2775,6 +2775,18 @@ MonoBehaviour:
   AttackBiteLeft: {fileID: 4174104206074642}
   AttackBite: {fileID: 4419495927181526}
   AttackAbnormalJump: {fileID: 4014965717870646}
+--- !u!114 &114467976296011278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingDelay: 20
 --- !u!114 &114468590170453910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2789,23 +2801,6 @@ MonoBehaviour:
   group: 1
   hitPosition: {x: 0, y: 0, z: 0}
   multiple: 1
---- !u!114 &114642288650367630
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1638316428728248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctCameraPos: {x: 0, y: 0, z: 0}
-  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
-  disabled: 0
-  noVelocity: 0
-  PhotonCamera: 0
-  SmoothingDelay: 5
 --- !u!114 &114986312314889836
 MonoBehaviour:
   m_ObjectHideFlags: 1

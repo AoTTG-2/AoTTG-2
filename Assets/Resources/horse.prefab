@@ -882,7 +882,7 @@ GameObject:
   - component: {fileID: 114563645587361564}
   - component: {fileID: 54005744515832989}
   - component: {fileID: 136902303604188331}
-  - component: {fileID: 114713276086319258}
+  - component: {fileID: 114295234888806904}
   m_Layer: 8
   m_Name: horse
   m_TagString: Untagged
@@ -1872,7 +1872,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 114295234888806904}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -1880,6 +1881,18 @@ MonoBehaviour:
   isRuntimeInstantiated: 0
   dustParticles: {fileID: 198199218511497426}
   gravityFactor: -20
+--- !u!114 &114295234888806904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965692679872925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingDelay: 20
 --- !u!114 &114563645587361564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1895,23 +1908,6 @@ MonoBehaviour:
   ShouldJump: 0
   ShouldWalk: 0
   TargetDirection: 0
---- !u!114 &114713276086319258
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1965692679872925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctCameraPos: {x: 0, y: 0, z: 0}
-  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
-  disabled: 0
-  noVelocity: 0
-  PhotonCamera: 0
-  SmoothingDelay: 5
 --- !u!136 &136902303604188331
 CapsuleCollider:
   m_ObjectHideFlags: 1

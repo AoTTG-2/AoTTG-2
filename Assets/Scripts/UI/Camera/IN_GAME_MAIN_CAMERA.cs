@@ -71,7 +71,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             Transform transform2 = base.transform;
             transform2.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - hero.CameraMultiplier) * 2f), (float)0.65f));
         }
-        base.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, hero.GetComponent<SmoothSyncMovement>().correctCameraRot, Time.deltaTime * 5f);
     }
 
     public void createSnapShotRT2()
@@ -566,7 +565,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         }
                     }
                     Hero component = this.main_object.GetComponent<Hero>();
-                    if ((((component != null) && (((int)FengGameManagerMKII.settings[0x107]) == 1)) && component.GetComponent<SmoothSyncMovement>().enabled) && component.isPhotonCamera)
+                    if ((((component != null) && (((int)FengGameManagerMKII.settings[0x107]) == 1)) && component.GetComponent<TransformSynchronization>().enabled) && component.isPhotonCamera)
                     {
                         this.CameraMovementLive(component);
                     }

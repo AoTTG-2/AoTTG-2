@@ -239,7 +239,6 @@ public class Hero : Human
 
     public void backToHuman()
     {
-        base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
         this.titanForm = false;
         this.ungrabbed();
@@ -257,7 +256,6 @@ public class Hero : Human
     {
         this.titanForm = false;
         this.eren_titan = null;
-        base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
     }
 
     [PunRPC]
@@ -3156,7 +3154,7 @@ public class Hero : Human
             transform.parent = null;
             transform.GetComponent<AudioSource>().Play();
         }
-        base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+
         if (base.photonView.isMine)
         {
             PhotonNetwork.RemoveRPCs(base.photonView);
@@ -3268,7 +3266,7 @@ public class Hero : Human
         }
         this.falseAttack();
         this.hasDied = true;
-        base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+
         if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
         {
             PhotonNetwork.RemoveRPCs(base.photonView);
@@ -3367,7 +3365,7 @@ public class Hero : Human
         Transform transform = base.transform.Find("audio_die");
         transform.parent = null;
         transform.GetComponent<AudioSource>().Play();
-        base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+
         if (base.photonView.isMine)
         {
             PhotonNetwork.RemoveRPCs(base.photonView);
@@ -3630,7 +3628,6 @@ public class Hero : Human
     {
         Debug.Assert(info.sender == photonView.owner, $"{nameof(ReturnFromCannon)} was called by non-owner.");
         isCannon = false;
-        GetComponent<SmoothSyncMovement>().disabled = false;
     }
 
     private void rightArmAimTo(Vector3 target)
@@ -3784,7 +3781,6 @@ public class Hero : Human
         if (base.photonView.owner == info.sender)
         {
             this.CameraMultiplier = offset;
-            base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
             this.isPhotonCamera = true;
         }
     }
@@ -4363,7 +4359,6 @@ public class Hero : Human
     {
         Debug.Assert(info.sender == photonView.owner, $"{nameof(MountCannonRPC)} was called by non-owner.");
 
-        GetComponent<SmoothSyncMovement>().disabled = true;
         isCannon = true;
     }
 
@@ -4424,7 +4419,6 @@ public class Hero : Human
             //this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
             if (base.photonView.isMine)
             {
-                base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
                 base.photonView.RPC(nameof(SetMyPhotonCamera), PhotonTargets.OthersBuffered, PlayerPrefs.GetFloat("cameraDistance") + 0.3f);
             }
             else
@@ -4564,7 +4558,6 @@ public class Hero : Human
                 if (this.titanForm && (this.eren_titan != null))
                 {
                     this.baseTransform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
-                    base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
                 }
 
                 if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)

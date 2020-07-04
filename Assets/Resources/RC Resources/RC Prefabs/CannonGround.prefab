@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 114471901334465030}
   - component: {fileID: 114214041787699028}
   - component: {fileID: 114021772231688526}
+  - component: {fileID: 114549551257338314}
   m_Layer: 9
   m_Name: CannonGround
   m_TagString: Untagged
@@ -374,6 +375,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114021772231688526}
+  - {fileID: 114549551257338314}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -409,6 +411,18 @@ MonoBehaviour:
   context: Unmount Cannon
   icon: {fileID: 0}
   priority: 1
+--- !u!114 &114549551257338314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1967761125736442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingDelay: 20
 --- !u!120 &120096359723433904
 LineRenderer:
   m_ObjectHideFlags: 1

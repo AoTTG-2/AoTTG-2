@@ -134,9 +134,9 @@ GameObject:
   - component: {fileID: 136433170677078478}
   - component: {fileID: 114713982096500546}
   - component: {fileID: 114527013748581878}
-  - component: {fileID: 114527695106602110}
   - component: {fileID: 114334409464566206}
   - component: {fileID: 114986807620732952}
+  - component: {fileID: 114836221492572756}
   m_Layer: 8
   m_Name: AOTTG_HERO 1
   m_TagString: Player
@@ -2396,7 +2396,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114527695106602110}
+  - {fileID: 114836221492572756}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -2467,23 +2467,6 @@ MonoBehaviour:
   part_upper_body: {fileID: 0}
   reference: {fileID: 0}
   timer: 0
---- !u!114 &114527695106602110
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1132127204168986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctCameraPos: {x: 0, y: 0, z: 0}
-  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
-  disabled: 0
-  noVelocity: 0
-  PhotonCamera: 1
-  SmoothingDelay: 5
 --- !u!114 &114588469607938866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2547,10 +2530,6 @@ MonoBehaviour:
   maxVelocityChange: 10
   meatDie: {fileID: 82385810793831916}
   myBomb: {fileID: 0}
-  myCannon: {fileID: 0}
-  myCannonBase: {fileID: 0}
-  myCannonPlayer: {fileID: 0}
-  myCannonRegion: {fileID: 0}
   myGroup: 0
   myNetWorkName: {fileID: 0}
   myScale: 1
@@ -2626,6 +2605,18 @@ MonoBehaviour:
   group: 0
   hitPosition: {x: 0, y: 0, z: 0}
   multiple: 1
+--- !u!114 &114836221492572756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132127204168986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingDelay: 20
 --- !u!114 &114986807620732952
 MonoBehaviour:
   m_ObjectHideFlags: 1

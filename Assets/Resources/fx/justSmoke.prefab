@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199414673833834186}
   - component: {fileID: 114107195372430908}
   - component: {fileID: 114388604740935282}
-  - component: {fileID: 114300276549267522}
+  - component: {fileID: 114111934858027030}
   m_Layer: 0
   m_Name: justSmoke
   m_TagString: Untagged
@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CountDown: 5
---- !u!114 &114300276549267522
+--- !u!114 &114111934858027030
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -64,15 +64,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1926945609486102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctCameraPos: {x: 0, y: 0, z: 0}
-  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
-  disabled: 0
-  noVelocity: 0
-  PhotonCamera: 0
-  SmoothingDelay: 5
+  smoothingDelay: 20
 --- !u!114 &114388604740935282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,7 +88,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114300276549267522}
+  - {fileID: 114111934858027030}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

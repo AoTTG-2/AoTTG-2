@@ -764,11 +764,10 @@ GameObject:
   - component: {fileID: 111890814756749644}
   - component: {fileID: 114945147116622692}
   - component: {fileID: 54598100361760440}
-  - component: {fileID: 114629991408713126}
   - component: {fileID: 114910940220337518}
   - component: {fileID: 114989710454650408}
   - component: {fileID: 114011271680777398}
-  - component: {fileID: 114536747994156700}
+  - component: {fileID: 114724937680932996}
   m_Layer: 0
   m_Name: TITAN_VER3.1
   m_TagString: titan
@@ -2642,6 +2641,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 4989483294058142}
+  - {fileID: 114724937680932996}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -2661,24 +2661,7 @@ MonoBehaviour:
   group: 1
   hitPosition: {x: 0, y: 0, z: 0}
   multiple: 1
---- !u!114 &114536747994156700
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1665375215680936}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctCameraPos: {x: 0, y: 0, z: 0}
-  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
-  disabled: 0
-  noVelocity: 0
-  PhotonCamera: 0
-  SmoothingDelay: 5
---- !u!114 &114629991408713126
+--- !u!114 &114724937680932996
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2686,34 +2669,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1665375215680936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a11a4234755e5c4f9cc345b44d9961f, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bite: 0
-  bitel: 0
-  biter: 0
-  chopl: 0
-  chopr: 0
-  choptl: 0
-  choptr: 0
-  cover: 0
-  currentCamera: {fileID: 0}
-  currentDirection: 0
-  grabbackl: 0
-  grabbackr: 0
-  grabfrontl: 0
-  grabfrontr: 0
-  grabnapel: 0
-  grabnaper: 0
-  inputManager: {fileID: 0}
-  isAttackDown: 0
-  isAttackIIDown: 0
-  isHorse: 0
-  isJumpDown: 0
-  isSuicide: 0
-  isWALKDown: 0
-  sit: 0
-  targetDirection: 0
+  smoothingDelay: 20
 --- !u!114 &114910940220337518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2728,6 +2687,7 @@ MonoBehaviour:
   eye: {fileID: 1650123222190160}
   haseye: 0
   skin: 0
+  TitanBody: {fileID: 0}
 --- !u!114 &114945147116622692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2739,52 +2699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e435363bf943924da6ffda8d67e5a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TitanType: 0
-  activeRad: 2147483647
-  asClientLookTarget: 0
-  attackDistance: 13
-  attackWait: 1
-  baseAnimation: {fileID: 0}
-  baseAudioSource: {fileID: 0}
-  baseColliders: []
-  baseGameObjectTransform: {fileID: 0}
-  baseRigidBody: {fileID: 0}
-  baseTransform: {fileID: 0}
-  chaseDistance: 80
-  colliderEnabled: 0
-  controller: {fileID: 0}
-  currentCamera: {fileID: 0}
-  currentHealth: 0
-  eye: 0
-  grabTF: {fileID: 0}
-  hasDie: 0
-  hasExplode: 0
-  hasload: 0
-  hasSetLevel: 0
-  hasSpawn: 0
-  healthLabel: {fileID: 0}
-  healthLabelEnabled: 1
-  healthTime: 0
-  isAlarm: 0
-  isHooked: 0
-  isLook: 0
-  lagMax: 0
-  mainMaterial: {fileID: 1000302716660418}
-  maxHealth: 0
-  maxVelocityChange: 10
-  MultiplayerManager: {fileID: 0}
-  myDifficulty: 0
-  myDistance: 0
-  myGroup: 1
-  myHero: {fileID: 0}
-  myLevel: 1
-  myTitanTrigger: {fileID: 0}
-  nonAI: 0
-  PVPfromCheckPt: {fileID: 0}
-  rockthrow: 0
-  skin: 0
-  speed: 7
-  state: 0
 --- !u!114 &114986393260977852
 MonoBehaviour:
   m_ObjectHideFlags: 1
