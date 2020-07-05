@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Zenject;
 
 namespace Cannon
@@ -11,26 +12,34 @@ namespace Cannon
 
         private CannonStateManager stateManager;
 
-        public Hero Hero { get; private set; }
-
-        /// <summary>
-        /// Called on all clients by <paramref name="hero"/>.
-        /// </summary>
-        public void Mount(Hero hero)
+        public void OnOwnershipRequest(object[] viewAndPlayer)
         {
-            // TODO: Set up the cannon mounting properly on all clients.
-            Hero = hero;
+            var view = viewAndPlayer[0] as PhotonView;
+            var requestingPlayer = viewAndPlayer[1] as PhotonPlayer;
+
+            if (photonView.isMine)
+                photonView.TransferOwnership(requestingPlayer);
         }
 
-        /// <summary>
-        /// Called locally by <see cref="Interactable.Interacted"/>.
-        /// </summary>
+        public void OnOwnershipTransfered(object[] viewAndPlayers)
+        {
+            var view = viewAndPlayers[0] as PhotonView;
+            var newOwner = viewAndPlayers[1] as PhotonPlayer;
+            var oldOwner = viewAndPlayers[2] as PhotonPlayer;
+        }
+
         public void RequestMount(Hero hero)
         {
-            var viewID = hero.photonView.viewID;
-            photonView.RPC(nameof(RequestMountRPC), PhotonTargets.MasterClient, viewID);
+            photonView.RequestOwnership();
         }
 
+        public void RequestUnmount(Hero hero)
+        {
+            Debug.Log(nameof(RequestUnmount));
+            Assert.IsTrue(photonView.isMine);
+            photonView.TransferOwnership(0);
+        }
+        
         [Inject]
         private void Construct(
             [InjectOptional]
@@ -39,54 +48,13 @@ namespace Cannon
         {
             this.requestManager = requestManager;
             this.stateManager = stateManager;
-        }
 
-        /// <summary>
-        /// Called locally by MasterClient.
-        /// </summary>
-        [PunRPC]
-        private void OnRequestAcceptedRPC(int ownerID, PhotonMessageInfo info)
-        {
-            Debug.Assert(info.sender.IsMasterClient, $"Only MasterClient may call {nameof(OnRequestAcceptedRPC)}.");
-
-            var owner = PhotonView.Find(ownerID).GetComponent<Hero>();
-            owner.OnMountingCannon();
-        }
-
-        /// <summary>
-        /// Called on MasterClient.
-        /// </summary>
-        [PunRPC]
-        private void RequestMountRPC(int viewID, PhotonMessageInfo info)
-        {
-            Debug.Log(nameof(RequestMountRPC));
-
-            Debug.Assert(PhotonNetwork.isMasterClient, $"{nameof(RequestMountRPC)} can only be called on MasterClient.");
-            Debug.Assert(photonView.isMine, $"MasterClient should own the {nameof(CannonFacade)} when {nameof(RequestMountRPC)} is called.");
-
-            var requestingHero = PhotonView.Find(viewID).gameObject.GetComponent<Hero>();
-            Debug.Assert(requestingHero.photonView.owner == info.sender, "Hero owner and RPC sender must match up.");
-
-            var requestAccepted = requestManager.TryRequest(info.sender.ID, photonView.viewID);
-            Debug.Assert(requestAccepted, "Cannon request was denied.");
-
-            if (requestAccepted)
-            {
-                photonView.TransferOwnership(info.sender.ID);
-                photonView.RPC(nameof(OnRequestAcceptedRPC), info.sender, requestingHero.photonView.viewID);
-            }
+            photonView.RequestOwnership();
         }
 
         private void Reset()
         {
-            // Yes, this is null when the component is first added.
-            if (photonView.ObservedComponents == null)
-                photonView.ObservedComponents = new List<Component>();
-
-            photonView.ObservedComponents.Remove(this);
-            photonView.ObservedComponents.Add(this);
-
-            photonView.ownershipTransfer = OwnershipOption.Fixed;
+            photonView.ownershipTransfer = OwnershipOption.Request;
         }
 
         private void Start()
