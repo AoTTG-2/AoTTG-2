@@ -3623,13 +3623,6 @@ public class Hero : Human
         this.customAnimationSpeed();
     }
 
-    [PunRPC]
-    public void ReturnFromCannon(PhotonMessageInfo info)
-    {
-        Debug.Assert(info.sender == photonView.owner, $"{nameof(ReturnFromCannon)} was called by non-owner.");
-        isCannon = false;
-    }
-
     private void rightArmAimTo(Vector3 target)
     {
         float y = target.x - this.upperarmR.transform.position.x;
@@ -4316,7 +4309,6 @@ public class Hero : Human
         }
     }
 
-
     /// <summary>
     /// Called locally by <paramref name="cannon"/>.
     /// </summary>
@@ -4329,6 +4321,25 @@ public class Hero : Human
         PrepareForCannon();
         photonView.RPC(nameof(MountCannonRPC), PhotonTargets.AllBuffered);
     }
+
+    /// <summary>
+    /// Called on all clients.
+    /// </summary>
+    [PunRPC]
+    private void MountCannonRPC(PhotonMessageInfo info)
+    {
+        Debug.Assert(info.sender == photonView.owner, $"{nameof(MountCannonRPC)} was called by non-owner.");
+
+        isCannon = true;
+    }
+    
+    [PunRPC]
+    public void ReturnFromCannon(PhotonMessageInfo info)
+    {
+        Debug.Assert(info.sender == photonView.owner, $"{nameof(ReturnFromCannon)} was called by non-owner.");
+        isCannon = false;
+    }
+
 
     private void PrepareForCannon()
     {
@@ -4349,17 +4360,6 @@ public class Hero : Human
         smoke_3dmg.enableEmission = false;
 
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-    }
-
-    /// <summary>
-    /// Called on all clients.
-    /// </summary>
-    [PunRPC]
-    private void MountCannonRPC(PhotonMessageInfo info)
-    {
-        Debug.Assert(info.sender == photonView.owner, $"{nameof(MountCannonRPC)} was called by non-owner.");
-
-        isCannon = true;
     }
 
     public void SetHorse()

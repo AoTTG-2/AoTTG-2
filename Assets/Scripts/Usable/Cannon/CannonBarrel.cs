@@ -1,17 +1,15 @@
 ﻿using System;
 using UnityEngine;
-using Zenject;
 
 namespace Cannon
 {
     internal sealed class CannonBarrel
     {
-        private readonly Transform barrel;
-
+        private readonly Settings settings;
         private readonly CannonFacade cannon;
         private readonly CannonBall.Factory cannonBallFactory;
+        private readonly Transform barrel;
         private readonly Transform firePoint;
-        private readonly Settings settings;
         private float lastFireTime;
 
         public CannonBarrel(
@@ -41,12 +39,6 @@ namespace Cannon
             if (!CooldownActive)
                 Fire();
         }
-
-        //[Inject]
-        //private void Construct(CannonFacade cannon)
-        //{
-        //    this.cannon = cannon;
-        //}
 
         private void Fire()
         {

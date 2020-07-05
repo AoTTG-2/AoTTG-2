@@ -53,7 +53,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4675338730204042}
-  - component: {fileID: 114123842872711132}
   m_Layer: 9
   m_Name: PlayerPoint
   m_TagString: Untagged
@@ -74,7 +73,7 @@ GameObject:
   - component: {fileID: 114305296364483554}
   - component: {fileID: 114972686875930208}
   - component: {fileID: 114950546632146562}
-  - component: {fileID: 114124506629142326}
+  - component: {fileID: 114120651914374406}
   m_Layer: 0
   m_Name: GroundCannon
   m_TagString: Untagged
@@ -84,7 +83,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1409646787947376
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -123,8 +122,6 @@ GameObject:
   - component: {fileID: 4168213989465732}
   - component: {fileID: 114880331069297932}
   - component: {fileID: 114414637443340258}
-  - component: {fileID: 114795602791001808}
-  - component: {fileID: 114638341374148746}
   m_Layer: 0
   m_Name: MountInteractable
   m_TagString: Untagged
@@ -142,8 +139,6 @@ GameObject:
   - component: {fileID: 4426635809308660}
   - component: {fileID: 114211079229720384}
   - component: {fileID: 114367608341438552}
-  - component: {fileID: 114989822349062346}
-  - component: {fileID: 114415017888969782}
   m_Layer: 0
   m_Name: MoveInteractable
   m_TagString: Untagged
@@ -159,7 +154,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4838504033374752}
-  - component: {fileID: 114290641291210366}
   m_Layer: 9
   m_Name: FirePoint
   m_TagString: Untagged
@@ -178,7 +172,6 @@ GameObject:
   - component: {fileID: 33446361522578612}
   - component: {fileID: 23019952030002614}
   - component: {fileID: 64806184297852878}
-  - component: {fileID: 114630891884935020}
   m_Layer: 9
   m_Name: Barrel
   m_TagString: Untagged
@@ -251,7 +244,6 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4091189741015422}
-  - {fileID: 4448949815132946}
   m_Father: {fileID: 4827261812517340}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -261,12 +253,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1409646787947376}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0, z: -2.49}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
-  m_Father: {fileID: 4426635809308660}
-  m_RootOrder: 1
+  m_Father: {fileID: 4827261812517340}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4675338730204042
 Transform:
@@ -296,6 +288,7 @@ Transform:
   - {fileID: 4168213989465732}
   - {fileID: 4426635809308660}
   - {fileID: 4675338730204042}
+  - {fileID: 4448949815132946}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -435,24 +428,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: f20174807e67d6b41bc5b41785b0a86d, type: 2}
---- !u!114 &114123842872711132
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1216552401289622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 4675338730204042}
-  _identifier: PlayerPoint
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
---- !u!114 &114124506629142326
+--- !u!114 &114120651914374406
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -460,15 +436,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1341638070060048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c02dce0390fd684085f8207b9b3ad97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 4827261812517340}
-  _identifier: Base
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
+  smoothingDelay: 20
 --- !u!114 &114211079229720384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -488,23 +459,6 @@ MonoBehaviour:
   context: Start Moving
   icon: {fileID: 0}
   priority: 0
---- !u!114 &114290641291210366
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1639806988934608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 4838504033374752}
-  _identifier: FirePoint
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
 --- !u!114 &114305296364483554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -554,29 +508,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Interacted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114484144941006048}
+        m_MethodName: RequestUnmount
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   context: Unmount Cannon
   icon: {fileID: 0}
   priority: 1
---- !u!114 &114415017888969782
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1570007965076844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 114367608341438552}
-  _identifier: StopMovingInteractable
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
 --- !u!114 &114484144941006048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -606,66 +554,16 @@ MonoBehaviour:
   synchronization: 2
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
+  ownershipTransfer: 2
   ObservedComponents:
   - {fileID: 4827261812517340}
   - {fileID: 4042372439190206}
+  - {fileID: 114120651914374406}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114630891884935020
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938933765964954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 4042372439190206}
-  _identifier: Barrel
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
---- !u!114 &114638341374148746
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483858745736024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 114414637443340258}
-  _identifier: UnmountInteractable
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
---- !u!114 &114795602791001808
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483858745736024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 114880331069297932}
-  _identifier: MountInteractable
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
 --- !u!114 &114880331069297932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -679,7 +577,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Interacted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114484144941006048}
+        m_MethodName: RequestMount
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: InteractedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   context: Mount Cannon
@@ -728,23 +637,6 @@ MonoBehaviour:
   unmountInteractable: {fileID: 114414637443340258}
   startMovingInteractable: {fileID: 114211079229720384}
   stopMovingInteractable: {fileID: 114367608341438552}
---- !u!114 &114989822349062346
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1570007965076844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 114211079229720384}
-  _identifier: StartMovingInteractable
-  _useSceneContext: 0
-  _context: {fileID: 114305296364483554}
-  _bindType: 0
 --- !u!136 &136182074472240886
 CapsuleCollider:
   m_ObjectHideFlags: 1
