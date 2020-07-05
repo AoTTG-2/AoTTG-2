@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Room;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Menu
@@ -11,6 +12,22 @@ namespace Assets.Scripts.UI.Menu
 
         public GameObject ScrollViewContent;
         public GameObject Row;
+
+        private RoomRow selectedRoom;
+
+        public RoomRow SelectedRoom
+        {
+            get
+            {
+                return selectedRoom;
+            }
+            set
+            {
+                selectedRoom?.PasswordPanel.SetActive(false);
+                selectedRoom = value;
+            }
+        }
+
         private static string IpAddress { get; set; }
 
         public static void SetPhotonServerIp(bool isLocal)
@@ -61,18 +78,30 @@ namespace Assets.Scripts.UI.Menu
         {
             foreach (Transform child in ScrollViewContent.transform)
             {
+                if (child == SelectedRoom?.transform) continue;
                 Destroy(child.gameObject);
             }
 
-            var rooms = PhotonNetwork.GetRoomList();
+            var rooms = PhotonNetwork.GetRoomList().ToList();
 
-            if (rooms.Length == 0)
+            if (rooms.Count == 0)
             {
                 var row = Instantiate(Row, ScrollViewContent.transform);
-                var room = row.GetComponent<RoomRow>();
-                room.DisplayName = "No Lobbies available...";
-                room.IsJoinable = false;
+                var noRoom = row.GetComponent<RoomRow>();
+                noRoom.DisplayName = "No Lobbies available...";
+                noRoom.IsJoinable = false;
+                Destroy(SelectedRoom?.gameObject);
                 return;
+            }
+
+            var room = rooms.SingleOrDefault(x => x.Name == SelectedRoom?.Room);
+            if (selectedRoom == null)
+            {
+                Destroy(SelectedRoom?.gameObject);
+            }
+            else
+            {
+                rooms.Remove(room);
             }
 
             foreach (var roomInfo in rooms)
@@ -82,6 +111,7 @@ namespace Assets.Scripts.UI.Menu
                 roomRow.Room = roomInfo.Name;
                 roomRow.DisplayName = $"{roomInfo.GetName()} | {roomInfo.GetLevel()} | {roomInfo.GetGamemode()} | {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
                 roomRow.Lobby = this;
+                roomRow.IsSecure = roomInfo.GetSecure();
             }
         }
     }
