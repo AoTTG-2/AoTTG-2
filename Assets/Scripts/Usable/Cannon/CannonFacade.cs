@@ -12,7 +12,7 @@ namespace Cannon
 
         private CannonStateManager stateManager;
 
-        public void OnOwnershipRequest(object[] viewAndPlayer)
+        private void OnOwnershipRequest(object[] viewAndPlayer)
         {
             var view = viewAndPlayer[0] as PhotonView;
             var requestingPlayer = viewAndPlayer[1] as PhotonPlayer;
@@ -21,7 +21,7 @@ namespace Cannon
                 photonView.TransferOwnership(requestingPlayer);
         }
 
-        public void OnOwnershipTransfered(object[] viewAndPlayers)
+        private void OnOwnershipTransfered(object[] viewAndPlayers)
         {
             var view = viewAndPlayers[0] as PhotonView;
             var newOwner = viewAndPlayers[1] as PhotonPlayer;
