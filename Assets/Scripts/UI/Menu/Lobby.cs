@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
@@ -68,6 +69,13 @@ namespace Assets.Scripts.UI.Menu
             //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
         }
 
+        public void OnPhotonJoinRoomFailed(object[] codeAndMsg)
+        {
+            if (SelectedRoom == null) return;
+            SelectedRoom.PasswordInputField.text = string.Empty;
+            SelectedRoom.PasswordInputField.placeholder.GetComponent<Text>().text = codeAndMsg[1]?.ToString();
+        }
+
         public void OnConnectedToPhoton()
         {
             CancelInvoke("RefreshLobby");
@@ -91,6 +99,7 @@ namespace Assets.Scripts.UI.Menu
                 noRoom.DisplayName = "No Lobbies available...";
                 noRoom.IsJoinable = false;
                 Destroy(SelectedRoom?.gameObject);
+                SelectedRoom = null;
                 return;
             }
 
@@ -98,6 +107,7 @@ namespace Assets.Scripts.UI.Menu
             if (selectedRoom == null)
             {
                 Destroy(SelectedRoom?.gameObject);
+                SelectedRoom = null;
             }
             else
             {
