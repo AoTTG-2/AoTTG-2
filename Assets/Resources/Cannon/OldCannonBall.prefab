@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4121885997544078}
   - component: {fileID: 33537147510327286}
   - component: {fileID: 23571686807344524}
-  m_Layer: 8
+  m_Layer: 23
   m_Name: GeoSphere001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,15 +37,15 @@ GameObject:
   m_Component:
   - component: {fileID: 4087095926061850}
   - component: {fileID: 114356071046677168}
-  - component: {fileID: 114647646072285574}
+  - component: {fileID: 114002027615744654}
   - component: {fileID: 135763420631123058}
   - component: {fileID: 54448707554962566}
   - component: {fileID: 75219249502025382}
-  - component: {fileID: 198091036077166726}
   - component: {fileID: 199323720685135920}
+  - component: {fileID: 198091036077166726}
   - component: {fileID: 114809259159287958}
-  m_Layer: 8
-  m_Name: CannonBallObject
+  m_Layer: 23
+  m_Name: OldCannonBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,6 +145,17 @@ ConstantForce:
   m_RelativeForce: {x: 0, y: 0, z: 0}
   m_Torque: {x: 0, y: 0, z: 0}
   m_RelativeTorque: {x: 0, y: 0, z: 0}
+--- !u!114 &114002027615744654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898299900801978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aa1c804d2374b34d9743561f213ec3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114356071046677168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,30 +171,17 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 3
+  synchronization: 2
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114647646072285574}
   - {fileID: 114809259159287958}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114647646072285574
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1898299900801978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aa8f7c3dc95ff04ea4ea5d8bbc9a037, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smoothingDelay: 10
 --- !u!114 &114809259159287958
 MonoBehaviour:
   m_ObjectHideFlags: 1

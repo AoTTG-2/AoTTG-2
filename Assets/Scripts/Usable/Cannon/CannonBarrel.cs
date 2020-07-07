@@ -5,22 +5,19 @@ namespace Cannon
 {
     internal sealed class CannonBarrel
     {
-        private readonly Settings settings;
-        private readonly CannonFacade cannon;
-        private readonly CannonBall.Factory cannonBallFactory;
         private readonly Transform barrel;
+        private readonly CannonBall.Factory cannonBallFactory;
         private readonly Transform firePoint;
+        private readonly Settings settings;
         private float lastFireTime;
 
         public CannonBarrel(
             Settings settings,
-            CannonFacade cannon,
             CannonBall.Factory cannonBallFactory,
             Transform barrel,
             Transform firePoint)
         {
             this.settings = settings;
-            this.cannon = cannon;
             this.cannonBallFactory = cannonBallFactory;
             this.barrel = barrel;
             this.firePoint = firePoint;
@@ -34,16 +31,17 @@ namespace Cannon
             barrel.Rotate(0f, 0f, degrees * Time.deltaTime);
         }
 
-        public void TryFire()
+        public void TryFire(int heroViewID)
         {
             if (!CooldownActive)
-                Fire();
+                Fire(heroViewID);
         }
 
-        private void Fire()
+        private void Fire(int heroViewID)
         {
             var velocity = firePoint.forward * settings.Force;
-            cannonBallFactory.Create(cannon, velocity, firePoint.position, firePoint.rotation, 0);
+            cannonBallFactory.Create(heroViewID, velocity, firePoint.position,
+                firePoint.rotation, 0);
             lastFireTime = Time.time;
         }
 

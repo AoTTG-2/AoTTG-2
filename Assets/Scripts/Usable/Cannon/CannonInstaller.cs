@@ -39,7 +39,8 @@ namespace Cannon
                 .To<UnmannedCannonState>()
                 .AsSingle();
 
-            Container.Bind(typeof(CannonState),
+            Container.Bind(typeof(MannedCannonState),
+                    typeof(CannonState),
                     typeof(IInitializable),
                     typeof(IDisposable))
                 .To<MannedCannonState>()
@@ -61,9 +62,9 @@ namespace Cannon
                 .AsSingle()
                 .WithArguments(@base);
 
-            Container.BindInstance(cannonBallPrefabName).WhenInjectedInto<PhotonFactory<CannonFacade, Vector3, CannonBall>>();
-            Container.BindFactory<CannonFacade, Vector3, Vector3, Quaternion, byte, CannonBall, CannonBall.Factory>()
-                .FromFactory<PhotonFactory<CannonFacade, Vector3, CannonBall>>();
+            Container.BindInstance(cannonBallPrefabName).WhenInjectedInto<PhotonFactory<int, Vector3, CannonBall>>();
+            Container.BindFactory<int, Vector3, Vector3, Quaternion, byte, CannonBall, CannonBall.Factory>()
+                .FromFactory<PhotonFactory<int, Vector3, CannonBall>>();
 
             Container.BindInstance(barrelSettings).AsSingle();
             Container.Bind<CannonBarrel>()

@@ -101,7 +101,7 @@ namespace Cannon
             barrel.Rotate(y);
 
             if (InputManager.KeyDown(InputCannon.Shoot))
-                barrel.TryFire();
+                barrel.TryFire(mountedHero.photonView.viewID);
 
             if (mountedHero)
                 mountedHero.transform.SetPositionAndRotation(
