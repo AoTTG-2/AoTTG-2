@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Zenject;
 
 namespace Cannon
 {
@@ -12,7 +14,13 @@ namespace Cannon
         public override void InstallBindings()
         {
             base.InstallBindings();
-            Container.BindInterfacesTo<MovingCannonState>()
+            
+            Container.BindInstances(startMovingInteractable, stopMovingInteractable);
+            
+            Container.Bind(typeof(CannonState),
+                    typeof(IInitializable),
+                    typeof(IDisposable))
+                .To<MovingCannonState>()
                 .AsSingle()
                 .WithArguments(
                     startMovingInteractable,

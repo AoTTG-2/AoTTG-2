@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 namespace Cannon
@@ -28,17 +29,33 @@ namespace Cannon
 
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<CannonOwnershipManager>().AsSingle();
+            
             Container.BindInstance(mannedStateSettings).AsSingle();
             Container.BindInterfacesAndSelfTo<CannonStateManager>().AsSingle();
-            Container.BindInterfacesTo<UnmannedCannonState>().AsSingle();
+            Container.Bind(typeof(CannonState),
+                typeof(IInitializable),
+                typeof(IDisposable))
+                .To<UnmannedCannonState>()
+                .AsSingle();
 
-            Container.BindInterfacesTo<MannedCannonState>()
+            Container.Bind(typeof(CannonState),
+                    typeof(IInitializable),
+                    typeof(IDisposable))
+                .To<MannedCannonState>()
                 .AsSingle()
                 .WithArguments(
                     mountInteractable,
                     unmountInteractable,
                     firePoint,
                     playerPoint);
+
+            Container.BindInstances(mountInteractable, unmountInteractable);
+            Container.Bind(typeof(CannonState),
+                    typeof(IInitializable),
+                    typeof(IDisposable))
+                .To<RemoteControlledCannonState>()
+                .AsSingle();
 
             Container.Bind<CannonBase>()
                 .AsSingle()

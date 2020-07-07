@@ -43,20 +43,16 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                return $"Survive All Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
-            }
-            return $"Survive All Waves!\nGame Restart in {(int) timeUntilRestart}s\n\n";
+            return IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE
+                ? $"Survive All Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n"
+                : $"Survive All Waves!\nGame Restart in {(int) timeUntilRestart}s\n\n";
         }
 
         public override string GetDefeatMessage(float gameEndCd)
         {
-            if (GamemodeSettings.IsSinglePlayer)
-            {
-                return $"Survive {Wave} Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
-            }
-            return $"Survive {Wave} Waves!\nGame Restart in {(int) gameEndCd}s\n\n";
+            return GamemodeSettings.IsSinglePlayer
+                ? $"Survive {Wave} Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n"
+                : $"Survive {Wave} Waves!\nGame Restart in {(int) gameEndCd}s\n\n";
         }
 
         public override string GetRoundEndedMessage()
@@ -69,13 +65,10 @@ namespace Assets.Scripts.Gamemode
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
             if (GamemodeSettings.Name.Contains("Annie"))
-            {
-                PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
-            }
+                PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position,
+                    GameObject.Find("titanRespawn").transform.rotation, 0);
             else
-            {
                 StartCoroutine(SpawnTitan(GamemodeSettings.Titans));
-            }
         }
 
         public override void OnRestart()

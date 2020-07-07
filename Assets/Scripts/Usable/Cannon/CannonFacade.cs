@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Assertions;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Cannon
@@ -8,48 +6,38 @@ namespace Cannon
     [RequireComponent(typeof(PhotonView))]
     public sealed class CannonFacade : Photon.MonoBehaviour
     {
-        private CannonRequestManager requestManager;
-
         private CannonStateManager stateManager;
+        private CannonOwnershipManager ownershipManager;
 
         private void OnOwnershipRequest(object[] viewAndPlayer)
         {
             var view = viewAndPlayer[0] as PhotonView;
             var requestingPlayer = viewAndPlayer[1] as PhotonPlayer;
 
-            if (photonView.isMine)
-                photonView.TransferOwnership(requestingPlayer);
+            if (photonView != view)
+                return;
+            
+            ownershipManager.OnOwnerShipRequest(requestingPlayer);
         }
 
         private void OnOwnershipTransfered(object[] viewAndPlayers)
         {
             var view = viewAndPlayers[0] as PhotonView;
             var newOwner = viewAndPlayers[1] as PhotonPlayer;
-            var oldOwner = viewAndPlayers[2] as PhotonPlayer;
+
+            if (photonView != view)
+                return;
+
+            ownershipManager.OnOwnershipTransferred(newOwner, PhotonNetwork.player);
         }
 
-        public void RequestMount(Hero hero)
-        {
-            photonView.RequestOwnership();
-        }
-
-        public void RequestUnmount(Hero hero)
-        {
-            Debug.Log(nameof(RequestUnmount));
-            Assert.IsTrue(photonView.isMine);
-            photonView.TransferOwnership(0);
-        }
-        
         [Inject]
         private void Construct(
-            [InjectOptional]
-            CannonRequestManager requestManager,
-            CannonStateManager stateManager)
+            CannonStateManager stateManager,
+            CannonOwnershipManager ownershipManager)
         {
-            this.requestManager = requestManager;
             this.stateManager = stateManager;
-
-            photonView.RequestOwnership();
+            this.ownershipManager = ownershipManager;
         }
 
         private void Reset()

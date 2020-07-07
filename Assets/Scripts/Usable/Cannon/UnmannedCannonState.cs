@@ -1,29 +1,47 @@
-﻿using Zenject;
+﻿using System;
+using Zenject;
 
 namespace Cannon
 {
-    internal sealed class UnmannedCannonState : CannonState, IInitializable
+    internal sealed class UnmannedCannonState : CannonState, IInitializable, IDisposable
     {
-        public UnmannedCannonState(CannonStateManager stateManager)
+        private readonly ICannonOwnershipManager ownershipManager;
+
+        public UnmannedCannonState(
+            CannonStateManager stateManager,
+            ICannonOwnershipManager ownershipManager)
             : base(stateManager)
         {
+            this.ownershipManager = ownershipManager;
         }
 
-        public override void Enter()
+        void IDisposable.Dispose()
         {
-        }
-
-        public override void Exit()
-        {
+            ownershipManager.WorldOwnershipTaken -= OnWorldOwnershipTaken;
         }
 
         void IInitializable.Initialize()
         {
-            // NonLazy didn't work, so I'm using this.
+            ownershipManager.WorldOwnershipTaken += OnWorldOwnershipTaken;
+        }
+
+        public override void Enter()
+        {
+            ownershipManager.AllowOwnershipTransfer = true;
+        }
+
+        public override void Exit()
+        {
+            ownershipManager.AllowOwnershipTransfer = false;
         }
 
         public override void Update()
         {
+        }
+
+        private void OnWorldOwnershipTaken()
+        {
+            StateManager.Transition<UnmannedCannonState>();
         }
     }
 }

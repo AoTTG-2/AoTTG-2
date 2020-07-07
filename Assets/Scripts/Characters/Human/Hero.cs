@@ -4310,9 +4310,8 @@ public class Hero : Human
     }
 
     /// <summary>
-    /// Called locally by <paramref name="cannon"/>.
+    /// Called locally.
     /// </summary>
-    /// <param name="cannon"></param>
     public void OnMountingCannon()
     {
         Debug.Assert(photonView.isMine, $"{nameof(OnMountingCannon)} must be called on the local player.");

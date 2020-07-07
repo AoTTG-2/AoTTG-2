@@ -7,18 +7,20 @@ namespace Cannon
 {
     internal sealed class MannedCannonState : CannonState, IInitializable, IDisposable
     {
-        private readonly CannonBase @base;
         private readonly CannonBarrel barrel;
+        private readonly CannonBase @base;
+        private readonly Transform firePoint;
         private readonly Interactable mountInteractable;
+        private readonly ICannonOwnershipManager ownershipManager;
+        private readonly Transform playerPoint;
         private readonly Settings settings;
         private readonly Interactable unmountInteractable;
-        private readonly Transform firePoint;
-        private readonly Transform playerPoint;
         private Hero mountedHero;
 
         public MannedCannonState(
             Settings settings,
             CannonStateManager stateManager,
+            ICannonOwnershipManager ownershipManager,
             CannonBase @base,
             CannonBarrel barrel,
             Interactable mountInteractable,
@@ -28,6 +30,7 @@ namespace Cannon
             : base(stateManager)
         {
             this.settings = settings;
+            this.ownershipManager = ownershipManager;
             this.@base = @base;
             this.barrel = barrel;
             this.mountInteractable = mountInteractable;
@@ -42,9 +45,17 @@ namespace Cannon
             unmountInteractable.Interacted.RemoveListener(OnUnmount);
         }
 
+        void IInitializable.Initialize()
+        {
+            mountInteractable.Interacted.AddListener(OnMount);
+            unmountInteractable.Interacted.AddListener(OnUnmount);
+
+            SetAvailability(false);
+        }
+
         public override void Enter()
         {
-            SetMountedAvailability();
+            SetAvailability(true);
 
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(firePoint.gameObject, true, false);
             Camera.main.fieldOfView = 55f;
@@ -53,7 +64,7 @@ namespace Cannon
 
         public override void Exit()
         {
-            SetUnmountedAvailability();
+            SetAvailability(false);
 
             if (mountedHero)
             {
@@ -64,14 +75,6 @@ namespace Cannon
                 mountedHero.skillCDLast = mountedHero.skillCDLastCannon;
                 mountedHero.skillCDDuration = mountedHero.skillCDLast;
             }
-        }
-
-        void IInitializable.Initialize()
-        {
-            mountInteractable.Interacted.AddListener(OnMount);
-            unmountInteractable.Interacted.AddListener(OnUnmount);
-
-            SetUnmountedAvailability();
         }
 
         public override void Update()
@@ -98,25 +101,25 @@ namespace Cannon
         private void OnMount(Hero hero)
         {
             mountedHero = hero;
+            ownershipManager.LocalOwnershipTaken += OnLocalOwnershipTaken;
+            ownershipManager.RequestOwnership();
+        }
+
+        private void OnLocalOwnershipTaken()
+        {
             StateManager.Transition<MannedCannonState>();
+            ownershipManager.LocalOwnershipTaken -= OnLocalOwnershipTaken;
         }
 
         private void OnUnmount(Hero hero)
         {
-            Debug.Assert(mountedHero == hero, "Mounted Hero and unmounting Hero should match.");
-            StateManager.Transition<UnmannedCannonState>();
+            ownershipManager.RelinquishOwnership();
         }
 
-        private void SetMountedAvailability()
+        public override void SetAvailability(bool isActive)
         {
-            mountInteractable.Available.Value = false;
-            unmountInteractable.Available.Value = true;
-        }
-
-        private void SetUnmountedAvailability()
-        {
-            mountInteractable.Available.Value = true;
-            unmountInteractable.Available.Value = false;
+            mountInteractable.Available.Value = !isActive;
+            unmountInteractable.Available.Value = isActive;
         }
 
         [Serializable]

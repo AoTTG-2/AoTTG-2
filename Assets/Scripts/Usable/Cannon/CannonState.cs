@@ -4,8 +4,12 @@ namespace Cannon
 {
     internal class CannonState : State<CannonState>
     {
-        public CannonState(StateManager<CannonState> stateManager)
+        public CannonState(CannonStateManager stateManager)
             : base(stateManager)
+        {
+        }
+
+        public virtual void SetAvailability(bool isActive)
         {
         }
 
