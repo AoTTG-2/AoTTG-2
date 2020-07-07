@@ -63,7 +63,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 #if USE_INTERPOLATION
 	List<Point> _smoothedPoints = new List<Point>();
 #endif
-	GameObject _trailObject;
+	public static GameObject _trailObject;
 	Mesh _trailMesh;
 	Vector3 _lastPosition;
 
@@ -335,7 +335,13 @@ public class MeleeWeaponTrail : MonoBehaviour
 			_trailMesh.uv = newUV;
 			_trailMesh.triangles = newTriangles;
 		}
-	}
+     
+       
+
+    }
+    
+    
+   
 
 	void RemoveOldPoints(List<Point> pointList)
 	{

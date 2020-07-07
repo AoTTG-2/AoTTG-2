@@ -3,10 +3,8 @@ using System.Collections;
 
 public class SwooshTest : MonoBehaviour
 {
-	[SerializeField]
-	AnimationClip _animation;
-	AnimationState _animationState;
-	
+
+
 	[SerializeField]
 	int _start = 0;
 	
@@ -27,16 +25,12 @@ public class SwooshTest : MonoBehaviour
 	
 	void Start()
 	{
-		float frames = _animation.frameRate * _animation.length;
-		_startN = _start/frames;
-		_endN = _end/frames;
-		_animationState = GetComponent<Animation>()[_animation.name];
+        _trail = gameObject.GetComponentInChildren<MeleeWeaponTrail>();
 		_trail.Emit = false;
 	}
 	
 	void Update()
 	{
-		_time += _animationState.normalizedTime - _prevAnimTime;
 		if (_time > 1.0f || _firstFrame)
 		{
 			if (!_firstFrame)
@@ -56,6 +50,5 @@ public class SwooshTest : MonoBehaviour
 		}
 		
 		_prevTime = _time;
-		_prevAnimTime = _animationState.normalizedTime;
 	}
 }

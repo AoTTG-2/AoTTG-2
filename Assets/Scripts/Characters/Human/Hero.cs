@@ -200,6 +200,7 @@ public class Hero : Human
         else
         {
             this.attackAnimation = "attack1";
+
         }
     }
 
@@ -211,6 +212,7 @@ public class Hero : Human
         if (((Mathf.Abs(f) < 90f) && (vector.magnitude < 6f)) && ((a.position.y <= (base.transform.position.y + 2f)) && (a.position.y >= (base.transform.position.y - 5f))))
         {
             this.attackAnimation = "attack4";
+            gameObject.GetComponentInChildren<MeleeWeaponTrail>().gameObject.SetActive(true);
         }
         else if (f > 0f)
         {
@@ -939,7 +941,17 @@ public class Hero : Human
             UnityEngine.Object.Destroy(base.gameObject);
         }
     }
-
+    void Update() 
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            MeleeWeaponTrail._trailObject.SetActive(false);
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            MeleeWeaponTrail._trailObject.SetActive(true);
+        }
+    }
     private void dodge2(bool offTheWall = false)
     {
         if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))

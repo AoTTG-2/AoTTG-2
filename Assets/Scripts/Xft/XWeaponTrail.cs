@@ -196,6 +196,10 @@ namespace Xft
                     }
                 }
             }
+            if (Input.GetKeyDown(KeyCode.Mouse0)) 
+            {
+
+            }
         }
 
         private void UpdateFade()
