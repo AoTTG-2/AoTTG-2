@@ -287,10 +287,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void reset()
     {
-        if (gametype == GAMETYPE.SINGLE)
+        /*if (gametype == GAMETYPE.SINGLE)
         {
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().restartGameSingle2();
-        }
+        }*/
     }
 
     private Texture2D RTImage(Camera cam)

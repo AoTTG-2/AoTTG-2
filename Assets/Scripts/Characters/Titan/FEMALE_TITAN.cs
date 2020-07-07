@@ -679,7 +679,7 @@ public class FEMALE_TITAN : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if ((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if ((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) &&  base.photonView.isMine)
         {
             if (this.bottomObject.GetComponent<CheckHitGround>().isGrounded)
             {
@@ -1150,7 +1150,7 @@ public class FEMALE_TITAN : MonoBehaviour
                     transform2.GetComponent<AudioSource>().Play();
                 }
             }
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
             }
         }
@@ -1532,7 +1532,7 @@ public class FEMALE_TITAN : MonoBehaviour
 
     public void update()
     {
-        if ((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if ((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
         {
             if (this.hasDie)
             {

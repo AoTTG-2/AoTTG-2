@@ -117,7 +117,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
             {
                 this.RockUpdate();
             }
-            else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            else if (base.photonView.isMine)
             {
                 if (this.hitPause > 0f)
                 {
@@ -128,7 +128,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
                     base.GetComponent<Rigidbody>().velocity = Vector3.zero + ((Vector3) (Vector3.up * base.GetComponent<Rigidbody>().velocity.y));
                     base.GetComponent<Rigidbody>().AddForce(new Vector3(0f, -this.gravity * base.GetComponent<Rigidbody>().mass, 0f));
                 }
-                else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+                else if (base.photonView.isMine)
                 {
                     if (base.GetComponent<Rigidbody>().velocity.magnitude > 50f)
                     {
@@ -421,7 +421,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
 
     public void lateUpdate()
     {
-        if (((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && !this.rockLift) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if (((!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && !this.rockLift) && base.photonView.isMine)
         {
             Quaternion to = Quaternion.Euler(GameObject.Find("MainCamera").transform.rotation.eulerAngles.x, GameObject.Find("MainCamera").transform.rotation.eulerAngles.y, 0f);
             GameObject.Find("MainCamera").transform.rotation = Quaternion.Lerp(GameObject.Find("MainCamera").transform.rotation, to, Time.deltaTime * 2f);
@@ -600,7 +600,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
                 this.rock.transform.position = base.transform.position;
                 this.rock.transform.rotation = base.transform.rotation;
             }
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 if (this.rockPhase == 0)
                 {
@@ -873,7 +873,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
                     transform2.GetComponent<AudioSource>().Play();
                 }
             }
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 if (this.hasDied)
                 {
@@ -917,7 +917,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
                         }
                     }
                 }
-                else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+                else if (base.photonView.isMine)
                 {
                     if (this.isHit)
                     {

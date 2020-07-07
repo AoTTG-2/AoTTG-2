@@ -226,7 +226,7 @@ namespace Assets.Scripts.Characters.Titan
         private void LoadSkin()
         {
             var eye = false;
-            if (!(((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
+            if (!((base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
             {
                 int index = (int)UnityEngine.Random.Range((float)86f, (float)90f);
                 int num2 = index - 60;
@@ -299,10 +299,10 @@ namespace Assets.Scripts.Characters.Titan
                         grabTarget.photonView.RPC("netDie2", PhotonTargets.All, objArray2);
                     }
                 }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                /*else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
                     grabTarget.die2(null);
-                }
+                }*/
             }
         }
 

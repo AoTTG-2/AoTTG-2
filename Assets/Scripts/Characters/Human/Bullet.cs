@@ -79,7 +79,7 @@ public class Bullet : Photon.MonoBehaviour
                 return;
             }
         }
-        if (!((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if (!(base.photonView.isMine))
         {
             if (this.phase == 0)
             {

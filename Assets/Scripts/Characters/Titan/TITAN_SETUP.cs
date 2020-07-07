@@ -100,7 +100,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
     {
         int num;
         object[] objArray2;
-        if ((((int) FengGameManagerMKII.settings[1]) == 1) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if ((((int) FengGameManagerMKII.settings[1]) == 1) && base.photonView.isMine)
         {
             Color color;
             num = UnityEngine.Random.Range(0, 9);

@@ -458,7 +458,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER))
+            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER))
             {
                 int length;
                 float num3;
@@ -2180,7 +2180,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.racingSpawnPointSet = false;
             this.racingDoors = new List<GameObject>();
             this.allowedToCannon = new Dictionary<int, CannonValues>();
-            if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
+            if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && PhotonNetwork.isMasterClient)
             {
                 obj4 = GameObject.Find("aot_supply");
                 if ((obj4 != null) && (Minimap.instance != null))
@@ -2966,7 +2966,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void oneTitanDown(string titanName)
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             EventManager.OnTitanKilled.Invoke(titanName);
         }

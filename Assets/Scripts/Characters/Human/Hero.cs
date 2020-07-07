@@ -269,7 +269,7 @@ public class Hero : Human
     [PunRPC]
     public void blowAway(Vector3 force)
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             base.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
             base.transform.LookAt(base.transform.position);
@@ -278,7 +278,7 @@ public class Hero : Human
 
     private void bodyLean()
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             float z = 0f;
             this.needLean = false;
@@ -424,12 +424,12 @@ public class Hero : Human
             this.applyForceToBody(gO, v);
             this.applyForceToBody(obj4, v);
             this.applyForceToBody(obj5, v);
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gO, false, false);
             }
         }
-        else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        else if (base.photonView.isMine)
         {
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
         }
@@ -486,7 +486,7 @@ public class Hero : Human
         this.baseTransform = base.transform;
         this.baseRigidBody = base.GetComponent<Rigidbody>();
         this.maincamera = GameObject.Find("MainCamera");
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             this.baseAnimation = base.GetComponent<Animation>();
             this.cross1 = GameObject.Find("cross1");
@@ -884,7 +884,7 @@ public class Hero : Human
                 this.bulletRight.GetComponent<Bullet>().removeMe();
             }
             this.meatDie.Play();
-            if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine) && !this.useGun)
+            if (base.photonView.isMine && !this.useGun)
             {
                 this.leftbladetrail.Deactivate();
                 this.rightbladetrail.Deactivate();
@@ -1044,7 +1044,7 @@ public class Hero : Human
         }
         else
         {
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
@@ -1093,7 +1093,7 @@ public class Hero : Human
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 if (!((this.baseAnimation.IsPlaying("attack3_2") || this.baseAnimation.IsPlaying("attack5")) || this.baseAnimation.IsPlaying("special_petra")))
                 {
@@ -1903,7 +1903,7 @@ public class Hero : Human
         {
             this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
         }
-        if (!this.useGun && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if (!this.useGun && base.photonView.isMine)
         {
             //this.leftbladetrail.Deactivate();
             //this.rightbladetrail.Deactivate();
@@ -2047,7 +2047,7 @@ public class Hero : Human
         }
         if (!this.titanForm && !this.isCannon)
         {
-            if ((IN_GAME_MAIN_CAMERA.cameraTilt == 1) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+            if ((IN_GAME_MAIN_CAMERA.cameraTilt == 1) && base.photonView.isMine)
             {
                 Quaternion quaternion2;
                 Vector3 zero = Vector3.zero;
@@ -2325,7 +2325,7 @@ public class Hero : Human
 
     public void loadskin()
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             if (((int)FengGameManagerMKII.settings[0x5d]) == 1)
             {
@@ -2438,7 +2438,7 @@ public class Hero : Human
             iteratorVariable4 = true;
         }
         bool iteratorVariable5 = false;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || this.photonView.isMine)
+        if (this.photonView.isMine)
         {
             iteratorVariable5 = true;
         }
@@ -3950,7 +3950,7 @@ public class Hero : Human
         //this.skillCD = GameObject.Find("skill_cd_" + this.skillIDHUD);
         //this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
         //GameObject.Find("GasUI").transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             //GameObject.Find("bulletL").GetComponent<UISprite>().enabled = false;
             //GameObject.Find("bulletR").GetComponent<UISprite>().enabled = false;
@@ -3979,7 +3979,7 @@ public class Hero : Human
             this.gunDummy.transform.rotation = this.baseTransform.rotation;
             this.myGroup = GROUP.A;
             this.setTeam2(2);
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 //GameObject.Find("bladeCL").GetComponent<UISprite>().enabled = false;
                 //GameObject.Find("bladeCR").GetComponent<UISprite>().enabled = false;
@@ -4639,7 +4639,7 @@ public class Hero : Human
                     this.updateCannon();
                     base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
                 }
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+                if (base.photonView.isMine)
                 {
                     if (this.myCannonRegion != null)
                     {
@@ -4683,7 +4683,7 @@ public class Hero : Human
                         else if (this.skillId == "eren")
                         {
                             this.showSkillCD();
-                            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) || ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && !IN_GAME_MAIN_CAMERA.isPausing))
+                            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) || !IN_GAME_MAIN_CAMERA.isPausing)
                             {
                                 this.calcSkillCD();
                                 this.calcFlareCD();
@@ -5644,7 +5644,7 @@ public class Hero : Human
                                 }
                             }
                         }
-                        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) || ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && !IN_GAME_MAIN_CAMERA.isPausing))
+                        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) || !IN_GAME_MAIN_CAMERA.isPausing)
                         {
                             this.calcSkillCD();
                             this.calcFlareCD();
