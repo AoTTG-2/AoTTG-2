@@ -6,46 +6,40 @@ using UnityEngine.UI;
 
 public sealed class InteractionWheel : MonoBehaviour
 {
-    public WheelButton ButtonPrefab;
-    public Text Label;
-    public WheelButton Selected;
+    [SerializeField] private WheelButton buttonPrefab;
+    [SerializeField] private Text label;
 
+    private readonly List<WheelButton> buttons = new List<WheelButton>();
     private readonly WaitForSeconds buttonSpawnInterval = new WaitForSeconds(.05f);
 
     private Vector2 accumulatedDelta;
     private Coroutine spawnButtonsCoroutine;
 
+    public WheelButton Selected { get; set; }
+
+    public string Label
+    {
+        set { label.text = value; }
+    }
+
+    private void Reset()
+    {
+        label = GetComponentInChildren<Text>();
+    }
+
     private void Update()
     {
         // TODO: Better selection.
-        var mouseDelta = new Vector2(
-            Input.GetAxis("Mouse X"),
-            Input.GetAxis("Mouse Y"));
-        var shortest = float.MaxValue;
-        var amplifier = 100f;
-        accumulatedDelta = Vector2.ClampMagnitude(accumulatedDelta + mouseDelta * amplifier, 100f);
-        var accumulatedPosition = (Vector2) Input.mousePosition + accumulatedDelta;
-        foreach (Transform t in transform)
-            if (t.name != "Context")
-            {
-                var current = ((Vector2) t.position - accumulatedPosition).sqrMagnitude;
-                if (current < shortest)
-                {
-                    shortest = current;
-                    Selected?.Deselect();
-                    t.GetComponent<WheelButton>().Select();
-                }
-            }
+        // Consider keeping old code by using strategy pattern.
+        // This could allow for hot-switching of prototypes.
+        SelectFromMouseDelta();
     }
 
     private void OnEnable()
     {
         GameCursor.CursorMode = CursorMode.InteractionWheel;
 
-        if (!Label)
-            Label = GetComponentInChildren<Text>();
-        Label.text = string.Empty;
-
+        Label = string.Empty;
         SpawnButtons();
 
         InteractionManager.AvailableInteractablesChanged += OnAvailableInteractablesChanged;
@@ -58,15 +52,42 @@ public sealed class InteractionWheel : MonoBehaviour
         if (InteractionManager.Player && Selected)
             Selected.MyAction.Interact(InteractionManager.Player);
 
-        // Remove all buttons when menu is closed.
+        Label = string.Empty;
         RemoveAllButtons();
 
         GameCursor.ApplyCameraMode();
     }
 
+    private void SelectFromMouseDelta()
+    {
+        if (buttons.Count == 0)
+            return;
+        
+        var mouseDelta = new Vector2(
+            Input.GetAxis("Mouse X"),
+            Input.GetAxis("Mouse Y"));
+        var shortest = float.MaxValue;
+        var amplifier = 100f;
+        accumulatedDelta = Vector2.ClampMagnitude(accumulatedDelta + mouseDelta * amplifier, 100f);
+        var accumulatedPosition = (Vector2) Input.mousePosition + accumulatedDelta;
+        WheelButton newSelected = null;
+        foreach (var button in buttons)
+        {
+            var current = ((Vector2) button.transform.position - accumulatedPosition).sqrMagnitude;
+            if (current >= shortest) continue;
+            shortest = current;
+            newSelected = button;
+        }
+
+        if (newSelected == Selected) return;
+        Selected.Deselect();
+        Selected = newSelected;
+        Selected.Select();
+    }
+
     private WheelButton InstantiateButton(int count, Interactable interactable, int i)
     {
-        var newButton = Instantiate(ButtonPrefab, transform, false);
+        var newButton = Instantiate(buttonPrefab, transform, false);
         newButton.InteractionWheel = this;
         newButton.MyAction = interactable;
         newButton.Icon.sprite = interactable.Icon;
@@ -81,12 +102,10 @@ public sealed class InteractionWheel : MonoBehaviour
 
     private void OnAvailableInteractablesChanged(IEnumerable<Interactable> availableInteractables)
     {
-        if (gameObject && gameObject.activeInHierarchy)
-        {
-            Selected?.Deselect();
-            RemoveAllButtons();
-            spawnButtonsCoroutine = StartCoroutine(SpawnButtonsCoroutine(availableInteractables.ToList()));
-        }
+        Label = string.Empty;
+        RemoveAllButtons();
+        if (!availableInteractables.Any()) return;
+        SpawnButtons();
     }
 
     private void SpawnButtons()
@@ -102,9 +121,10 @@ public sealed class InteractionWheel : MonoBehaviour
             spawnButtonsCoroutine = null;
         }
 
-        foreach (Transform t in transform)
-            if (t.name != "Context")
-                Destroy(t.gameObject);
+        foreach (var button in buttons)
+            Destroy(button.gameObject);
+
+        buttons.Clear();
     }
 
     private IEnumerator SpawnButtonsCoroutine(List<Interactable> interactables)
@@ -113,12 +133,16 @@ public sealed class InteractionWheel : MonoBehaviour
         using (var enumerator = interactables.GetEnumerator())
         {
             if (enumerator.MoveNext())
-                InstantiateButton(count, enumerator.Current, 0).Select();
+            {
+                var button = InstantiateButton(count, enumerator.Current, 0);
+                buttons.Add(button);
+                button.Select();
+            }
             
             for (var i = 1; enumerator.MoveNext(); i++)
             {
                 yield return buttonSpawnInterval;
-                InstantiateButton(count, enumerator.Current, i);
+                buttons.Add(InstantiateButton(count, enumerator.Current, i));
             }
         }
 

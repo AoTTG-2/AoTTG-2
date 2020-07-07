@@ -104,10 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd109604078d10b4e8c0543faffd9082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Label: {fileID: 114791788293938054}
-  ButtonPrefab: {fileID: 114390860223681688, guid: 55f2b5ec516e16a40ba9a7e4f174c46e,
+  buttonPrefab: {fileID: 114390860223681688, guid: 55f2b5ec516e16a40ba9a7e4f174c46e,
     type: 2}
-  Selected: {fileID: 0}
+  label: {fileID: 114791788293938054}
 --- !u!222 &222291679419601508
 CanvasRenderer:
   m_ObjectHideFlags: 1
