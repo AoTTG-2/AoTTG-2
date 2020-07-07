@@ -10,89 +10,10 @@ public sealed class InteractionWheel : MonoBehaviour
     public Text Label;
     public WheelButton Selected;
 
+    private readonly WaitForSeconds buttonSpawnInterval = new WaitForSeconds(.05f);
+
     private Vector2 accumulatedDelta;
-
-    private WheelButton IntantiateButton(int count, IEnumerator<Interactable> enumerator, int i)
-    {
-        var interactable = enumerator.Current;
-        var newButton = Instantiate(ButtonPrefab);
-        newButton.transform.SetParent(transform, false);
-        newButton.InteractionWheel = this;
-        newButton.MyAction = interactable;
-        newButton.Icon.sprite = interactable.Icon;
-        var theta = (2 * Mathf.PI / count) * i;
-        var xPos = Mathf.Sin(theta);
-        var yPos = Mathf.Cos(theta);
-        newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 200f;
-        newButton.InteractionWheel = this;
-        newButton.Animate();
-        return newButton;
-    }
-
-    private void OnAvailableInteractablesChanged(IEnumerable<Interactable> availableInteractables)
-    {
-        if (gameObject && gameObject.activeInHierarchy)
-        {
-            Selected?.Deselect();
-            RemoveAllButtons();
-            StartCoroutine(SpawnButtons(availableInteractables.ToList()));
-        }
-    }
-
-    private void OnDisable()
-    {
-        Debug.Log("OnDisable");
-
-        InteractionManager.AvailableInteractablesChanged -= OnAvailableInteractablesChanged;
-
-        if (InteractionManager.Player && Selected)
-            Selected.MyAction.Interact(InteractionManager.Player);
-
-        // Remove all buttons when menu is closed.
-        RemoveAllButtons();
-
-        GameCursor.ApplyCameraMode();
-    }
-
-    private void OnEnable()
-    {
-        Debug.Log("OnEnable");
-
-        GameCursor.CursorMode = CursorMode.InteractionWheel;
-
-        if (!Label)
-            Label = GetComponentInChildren<Text>();
-        Label.text = string.Empty;
-
-        StartCoroutine(SpawnButtons(InteractionManager.AvailableInteractables.ToArray()));
-
-        InteractionManager.AvailableInteractablesChanged += OnAvailableInteractablesChanged;
-    }
-
-    private void RemoveAllButtons()
-    {
-        foreach (Transform t in transform)
-            if (t.name != "Context")
-                Destroy(t.gameObject);
-    }
-
-    private IEnumerator SpawnButtons(IEnumerable<Interactable> interactables)
-    {
-        Debug.Log("SpawnButtons");
-
-        var count = interactables.Count();
-        using (var enumerator = interactables.GetEnumerator())
-        {
-            if (enumerator.MoveNext())
-                IntantiateButton(count, enumerator, 0).Select();
-
-            for (var i = 1; enumerator.MoveNext(); i++)
-            {
-                yield return new WaitForSeconds(.05f);
-                IntantiateButton(count, enumerator, i);
-            }
-        }
-    }
+    private Coroutine spawnButtonsCoroutine;
 
     private void Update()
     {
@@ -111,9 +32,96 @@ public sealed class InteractionWheel : MonoBehaviour
                 if (current < shortest)
                 {
                     shortest = current;
-                    Selected.Deselect();
+                    Selected?.Deselect();
                     t.GetComponent<WheelButton>().Select();
                 }
             }
+    }
+
+    private void OnEnable()
+    {
+        GameCursor.CursorMode = CursorMode.InteractionWheel;
+
+        if (!Label)
+            Label = GetComponentInChildren<Text>();
+        Label.text = string.Empty;
+
+        SpawnButtons();
+
+        InteractionManager.AvailableInteractablesChanged += OnAvailableInteractablesChanged;
+    }
+
+    private void OnDisable()
+    {
+        InteractionManager.AvailableInteractablesChanged -= OnAvailableInteractablesChanged;
+
+        if (InteractionManager.Player && Selected)
+            Selected.MyAction.Interact(InteractionManager.Player);
+
+        // Remove all buttons when menu is closed.
+        RemoveAllButtons();
+
+        GameCursor.ApplyCameraMode();
+    }
+
+    private WheelButton InstantiateButton(int count, Interactable interactable, int i)
+    {
+        var newButton = Instantiate(ButtonPrefab, transform, false);
+        newButton.InteractionWheel = this;
+        newButton.MyAction = interactable;
+        newButton.Icon.sprite = interactable.Icon;
+        var theta = (2 * Mathf.PI / count) * i;
+        var xPos = Mathf.Sin(theta);
+        var yPos = Mathf.Cos(theta);
+        newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 200f;
+        newButton.InteractionWheel = this;
+        newButton.Animate();
+        return newButton;
+    }
+
+    private void OnAvailableInteractablesChanged(IEnumerable<Interactable> availableInteractables)
+    {
+        if (gameObject && gameObject.activeInHierarchy)
+        {
+            Selected?.Deselect();
+            RemoveAllButtons();
+            spawnButtonsCoroutine = StartCoroutine(SpawnButtonsCoroutine(availableInteractables.ToList()));
+        }
+    }
+
+    private void SpawnButtons()
+    {
+        StartCoroutine(SpawnButtonsCoroutine(InteractionManager.AvailableInteractables.ToList()));
+    }
+
+    private void RemoveAllButtons()
+    {
+        if (spawnButtonsCoroutine != null)
+        {
+            StopCoroutine(spawnButtonsCoroutine);
+            spawnButtonsCoroutine = null;
+        }
+
+        foreach (Transform t in transform)
+            if (t.name != "Context")
+                Destroy(t.gameObject);
+    }
+
+    private IEnumerator SpawnButtonsCoroutine(List<Interactable> interactables)
+    {
+        var count = interactables.Count;
+        using (var enumerator = interactables.GetEnumerator())
+        {
+            if (enumerator.MoveNext())
+                InstantiateButton(count, enumerator.Current, 0).Select();
+            
+            for (var i = 1; enumerator.MoveNext(); i++)
+            {
+                yield return buttonSpawnInterval;
+                InstantiateButton(count, enumerator.Current, i);
+            }
+        }
+
+        spawnButtonsCoroutine = null;
     }
 }
