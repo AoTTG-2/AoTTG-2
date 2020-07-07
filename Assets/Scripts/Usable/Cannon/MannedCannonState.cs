@@ -57,6 +57,7 @@ namespace Cannon
         {
             SetAvailability(true);
 
+            // TODO: Improve this.
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(firePoint.gameObject, true, false);
             Camera.main.fieldOfView = 55f;
             mountedHero.OnMountingCannon();
