@@ -60,25 +60,34 @@ namespace Cannon
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(firePoint.gameObject, true, false);
             Camera.main.fieldOfView = 55f;
             mountedHero.OnMountingCannon();
+            mountedHero.HeroDied += OnHeroDied;
         }
 
         public override void Exit()
         {
             SetAvailability(false);
 
-            if (mountedHero)
-            {
-                mountedHero.isCannon = false;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(mountedHero.gameObject, true, false);
-                mountedHero.baseRigidBody.velocity = Vector3.zero;
-                mountedHero.photonView.RPC(nameof(mountedHero.ReturnFromCannon), PhotonTargets.Others);
-                mountedHero.skillCDLast = mountedHero.skillCDLastCannon;
-                mountedHero.skillCDDuration = mountedHero.skillCDLast;
-            }
+            if (!mountedHero) return;
+            
+            // TODO: Improve this.
+            mountedHero.isCannon = false;
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(mountedHero.gameObject, true, false);
+            mountedHero.baseRigidBody.velocity = Vector3.zero;
+            mountedHero.photonView.RPC(nameof(mountedHero.ReturnFromCannon), PhotonTargets.Others);
+            mountedHero.skillCDLast = mountedHero.skillCDLastCannon;
+            mountedHero.skillCDDuration = mountedHero.skillCDLast;
+            mountedHero.HeroDied -= OnHeroDied;
+        }
+
+        public override void SetAvailability(bool isActive)
+        {
+            mountInteractable.Available.Value = !isActive;
+            unmountInteractable.Available.Value = isActive;
         }
 
         public override void Update()
         {
+            // TODO: Possibly move this out to avoid dependency on Input.
             var left = InputManager.Key(InputCannon.Left) ? -1f : 0f;
             var right = InputManager.Key(InputCannon.Right) ? 1f : 0f;
             var up = InputManager.Key(InputCannon.Up) ? 1f : 0f;
@@ -93,9 +102,10 @@ namespace Cannon
             if (InputManager.KeyDown(InputCannon.Shoot))
                 barrel.TryFire();
 
-            mountedHero.transform.SetPositionAndRotation(
-                playerPoint.position,
-                playerPoint.rotation);
+            if (mountedHero)
+                mountedHero.transform.SetPositionAndRotation(
+                    playerPoint.position,
+                    playerPoint.rotation);
         }
 
         private void OnMount(Hero hero)
@@ -105,21 +115,20 @@ namespace Cannon
             ownershipManager.RequestOwnership();
         }
 
-        private void OnLocalOwnershipTaken()
-        {
-            StateManager.Transition<MannedCannonState>();
-            ownershipManager.LocalOwnershipTaken -= OnLocalOwnershipTaken;
-        }
-
         private void OnUnmount(Hero hero)
         {
             ownershipManager.RelinquishOwnership();
         }
 
-        public override void SetAvailability(bool isActive)
+        private void OnHeroDied(Hero hero)
         {
-            mountInteractable.Available.Value = !isActive;
-            unmountInteractable.Available.Value = isActive;
+            ownershipManager.RelinquishOwnership();
+        }
+
+        private void OnLocalOwnershipTaken()
+        {
+            StateManager.Transition<MannedCannonState>();
+            ownershipManager.LocalOwnershipTaken -= OnLocalOwnershipTaken;
         }
 
         [Serializable]
