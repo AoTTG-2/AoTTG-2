@@ -12,6 +12,10 @@ namespace Assets.Scripts.UI.Menu
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
+
+        public InputField RoomName;
+        public InputField RoomPassword;
+
         private List<Level> levels = LevelBuilder.GetAllLevels();
 
         private Level selectedLevel;
@@ -42,9 +46,7 @@ namespace Assets.Scripts.UI.Menu
 
         public void Create()
         {
-            // TODO: This will fail when multiple input fields are present.
-            var input = GetComponentsInChildren<InputField>();
-            var roomNameInput = input[0].text.Trim();
+            var roomNameInput = RoomName.text.Trim();
             var roomName = string.IsNullOrEmpty(roomNameInput)
                 ? "FoodForTitans"
                 : roomNameInput;
@@ -64,8 +66,19 @@ namespace Assets.Scripts.UI.Menu
                 CustomRoomPropertiesForLobby = new []{"name", "level", "gamemode"}
             };
 
+            var password = RoomPassword.text.Trim();
+            if (!string.IsNullOrEmpty(password))
+            {
+                roomOptions.CustomRoomProperties.Add("password", password);
+                roomOptions.CustomRoomProperties.Add("secure", true);
+
+                var lobbyOptions = roomOptions.CustomRoomPropertiesForLobby.ToList();
+                lobbyOptions.Add("secure");
+                roomOptions.CustomRoomPropertiesForLobby = lobbyOptions.ToArray();
+            }
+
             PhotonNetwork.PhotonServerSettings.JoinLobby = true;
-            PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);
+            PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default); 
             SceneManager.sceneLoaded += SceneLoaded;
         }
 

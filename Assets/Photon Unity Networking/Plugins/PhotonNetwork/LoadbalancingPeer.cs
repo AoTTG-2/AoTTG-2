@@ -262,6 +262,12 @@ using ExitGames.Client.Photon;
                 op[ParameterCode.RoomName] = opParams.RoomName;
             }
 
+            //AOTTG2 Room Password Modification
+            if (!string.IsNullOrEmpty(opParams.RoomPassword))
+            {
+                op[ParameterCode.RoomPassword] = opParams.RoomPassword;
+            }
+
             if (opParams.CreateIfNotExists)
             {
                 op[ParameterCode.JoinMode] = (byte)JoinMode.CreateIfNotExists;
@@ -972,6 +978,9 @@ using ExitGames.Client.Photon;
         public bool CreateIfNotExists;
         public bool RejoinOnly;
         public string[] ExpectedUsers;
+
+        //AOTTG2 Addition
+        public string RoomPassword;
     }
 
 
@@ -1487,6 +1496,11 @@ using ExitGames.Client.Photon;
 
         /// <summary>(191) An int parameter summarizing several boolean room-options with bit-flags.</summary>
         public const byte RoomOptionFlags = 191;
+
+        
+        //AOTTG2 Custom  ParameterCode
+        /// <summary> Used for Rooms which have a password </summary>
+        public const byte RoomPassword = 10;
     }
 
 
