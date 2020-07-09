@@ -455,9 +455,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e144e968f150873458bc1c9b0b014361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cannonBallSettings:
+    Gravity: {x: 0, y: -30, z: 0}
   barrelSettings:
     Cooldown: 2
     Force: 300
+    MinRotation: 85
+    MaxRotation: 100
     TrajectoryLengthFactor: 3
   cannonBallPrefabName: Cannon/OldCannonBall
   mannedStateSettings:

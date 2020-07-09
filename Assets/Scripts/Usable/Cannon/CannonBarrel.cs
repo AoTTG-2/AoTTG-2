@@ -29,12 +29,21 @@ namespace Cannon
         public void Rotate(float degrees)
         {
             barrel.Rotate(0f, 0f, degrees * Time.deltaTime);
+            ClampRotation();
         }
 
         public void TryFire(int heroViewID)
         {
             if (!CooldownActive)
                 Fire(heroViewID);
+        }
+
+        private void ClampRotation()
+        {
+            var newRotation = barrel.rotation.eulerAngles;
+            var zRot = newRotation.z;
+            newRotation.z = Mathf.Clamp(zRot, settings.MinRotation, settings.MaxRotation);
+            barrel.rotation = Quaternion.Euler(newRotation);
         }
 
         private void Fire(int heroViewID)
@@ -50,6 +59,8 @@ namespace Cannon
         {
             public float Cooldown = 2f;
             public float Force = 300f;
+            public float MinRotation = 85f;
+            public float MaxRotation = 100f;
             public float TrajectoryLengthFactor = 3f;
         }
     }
