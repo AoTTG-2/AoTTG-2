@@ -1102,21 +1102,17 @@ public class FEMALE_TITAN : MonoBehaviour
                 this.healthLabel = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
                 this.healthLabel.name = "LabelNameOverHead";
                 this.healthLabel.transform.parent = base.transform;
-                this.healthLabel.transform.localPosition = new Vector3(0f, 50f + (5f / size), 5f);
-
-                float x = 1f;
-                if (size < 1f)
+                this.healthLabel.transform.localPosition = new Vector3(0f, 52f, 0f);
+                float a = 0.2f;
+                if ((this.size > 0f) && (this.size < 1f))
                 {
-                    x = 1f / size;
+                    a = 1f / this.size;
+                    a = Mathf.Min(a, 15f);
                 }
-
-                x *= 0.2f;
-                healthLabel.transform.localScale = new Vector3(x, x, x);
-
-
+                this.healthLabel.transform.localScale = new Vector3(a, a, a);
             }
         }
-        string color = "7FFF00";
+            string color = "7FFF00";
         float num2 = ((float) health) / ((float) maxHealth);
         if ((num2 < 0.75f) && (num2 >= 0.5f))
         {
