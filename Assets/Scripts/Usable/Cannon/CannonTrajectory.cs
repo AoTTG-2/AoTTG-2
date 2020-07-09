@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Cannon
@@ -11,7 +10,6 @@ namespace Cannon
         private readonly Vector3 gravity = new Vector3(0f, -30f, 0f);
         private CannonBarrel.Settings barrelSettings;
 
-        private float fireForceMultiplier;
         private Vector3[] newPositions;
         private new Transform transform;
 
@@ -25,13 +23,12 @@ namespace Cannon
             lineRenderer.startWidth = 0.5f;
             lineRenderer.endWidth = 40f;
             lineRenderer.startColor = lineRenderer.endColor = new Color(0f, 1f, 0f, 0.588f);
-            lineRenderer.widthCurve = AnimationCurve.EaseInOut(0f, 1f/3f, 1f, 1f);
+            lineRenderer.widthCurve = AnimationCurve.EaseInOut(0f, 1f / 3f, 1f, 1f);
         }
 
         private void Start()
         {
             transform = base.transform;
-            fireForceMultiplier = 1 / Time.fixedDeltaTime;
         }
 
         private void LateUpdate()
@@ -48,12 +45,12 @@ namespace Cannon
         {
             var accumulatedPosition = transform.position;
             var velocity = transform.forward * (barrelSettings.Force);
-
+            var timeStep = Time.fixedDeltaTime * barrelSettings.TrajectoryLengthFactor;
             newPositions[0] = accumulatedPosition;
             for (var i = 1; i < newPositions.Length; i++)
             {
-                accumulatedPosition += velocity * Time.fixedDeltaTime;
-                velocity += gravity * Time.fixedDeltaTime;
+                accumulatedPosition += velocity * timeStep + gravity * (0.5f * timeStep * timeStep);
+                velocity += gravity * timeStep;
                 newPositions[i] = accumulatedPosition;
             }
 

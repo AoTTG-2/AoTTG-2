@@ -639,7 +639,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrelSettings:
     Cooldown: 2
-    Force: 100
+    Force: 300
+    TrajectoryLengthFactor: 3
   cannonBallPrefabName: Cannon/OldCannonBall
   mannedStateSettings:
     NormalSpeed: 50

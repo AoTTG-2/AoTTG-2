@@ -48,8 +48,9 @@ namespace Cannon
         [Serializable]
         public class Settings
         {
-            public float Cooldown;
-            public float Force;
+            public float Cooldown = 2f;
+            public float Force = 300f;
+            public float TrajectoryLengthFactor = 3f;
         }
     }
 }
