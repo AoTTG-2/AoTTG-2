@@ -41,8 +41,7 @@ namespace Cannon
         private void ClampRotation()
         {
             var newRotation = barrel.rotation.eulerAngles;
-            var zRot = newRotation.z;
-            newRotation.z = Mathf.Clamp(zRot, settings.MinRotation, settings.MaxRotation);
+            newRotation.z = MathfExtras.ClampAngle(newRotation.z, settings.MinRotation, settings.MaxRotation);
             barrel.rotation = Quaternion.Euler(newRotation);
         }
 

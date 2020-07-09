@@ -639,6 +639,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannonBallSettings:
     Gravity: {x: 0, y: -30, z: 0}
+  baseSettings:
+    MinRotation: 0
+    MaxRotation: 360
   barrelSettings:
     Cooldown: 2
     Force: 300

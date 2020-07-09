@@ -7,6 +7,7 @@ namespace Cannon
     internal class CannonInstaller : MonoInstaller
     {
         [SerializeField] private CannonBall.Settings cannonBallSettings;
+        [SerializeField] private CannonBase.Settings baseSettings;
         [SerializeField] private CannonBarrel.Settings barrelSettings;
         [SerializeField] private string cannonBallPrefabName = "Cannon/CannonBall";
         [SerializeField] private MannedCannonState.Settings mannedStateSettings;
@@ -54,6 +55,7 @@ namespace Cannon
                 .To<RemoteControlledCannonState>()
                 .AsSingle();
 
+            Container.BindInstance(baseSettings).AsSingle();
             Container.Bind<CannonBase>()
                 .AsSingle()
                 .WithArguments(@base);
