@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters.Titan;
+﻿using System;
+using Assets.Scripts.Characters.Titan;
 using Logging;
 using UnityEngine;
 using Zenject;
@@ -12,13 +13,25 @@ namespace Cannon
         private new Collider collider;
         private int heroViewId;
         private ILogger logger;
+        private new Rigidbody rigidbody;
+        private Settings settings;
         private new Transform transform;
 
-        private void Start()
+        private void Awake()
         {
             transform = base.transform;
             collider = GetComponent<SphereCollider>();
+            rigidbody = GetComponent<Rigidbody>();
+        }
+
+        private void Start()
+        {
             collider.isTrigger = true;
+        }
+
+        private void FixedUpdate()
+        {
+            rigidbody.AddForce(settings.Gravity);
         }
 
         private void OnCollisionEnter(Collision other)
@@ -47,18 +60,26 @@ namespace Cannon
 
         [Inject]
         private void Construct(
+            Settings settings,
             LoggerFactory loggerFactory,
             BoomFactory boomFactory,
             Vector3 velocity,
             int heroViewId)
         {
+            this.settings = settings;
             logger = loggerFactory.Create(this);
             this.boomFactory = boomFactory;
             this.heroViewId = heroViewId;
             
-            GetComponent<Rigidbody>().velocity = velocity;
+            rigidbody.velocity = velocity;
         }
 
         public sealed class Factory : PlaceholderFactory<int, Vector3, Vector3, Quaternion, byte, CannonBall> {}
+
+        [Serializable]
+        public class Settings
+        {
+            public Vector3 Gravity = Vector3.down * 30f;
+        }
     }
 }

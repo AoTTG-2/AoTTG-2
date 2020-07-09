@@ -6,14 +6,10 @@ namespace Cannon
 {
     internal class CannonInstaller : MonoInstaller
     {
-        [SerializeField]
-        private CannonBarrel.Settings barrelSettings;
-
-        [SerializeField]
-        private string cannonBallPrefabName = "Cannon/CannonBall";
-
-        [SerializeField]
-        private MannedCannonState.Settings mannedStateSettings;
+        [SerializeField] private CannonBall.Settings cannonBallSettings;
+        [SerializeField] private CannonBarrel.Settings barrelSettings;
+        [SerializeField] private string cannonBallPrefabName = "Cannon/CannonBall";
+        [SerializeField] private MannedCannonState.Settings mannedStateSettings;
 
         [SerializeField]
         private Transform
@@ -66,6 +62,7 @@ namespace Cannon
             Container.BindFactory<int, Vector3, Vector3, Quaternion, byte, CannonBall, CannonBall.Factory>()
                 .FromFactory<PhotonFactory<int, Vector3, CannonBall>>();
 
+            Container.BindInstance(cannonBallSettings).AsSingle();
             Container.BindInstance(barrelSettings).AsSingle();
             Container.Bind<CannonBarrel>()
                 .AsSingle()
