@@ -1,6 +1,5 @@
 ﻿using System;
 using Assets.Scripts.Characters.Titan;
-using Logging;
 using UnityEngine;
 using Zenject;
 
@@ -12,7 +11,6 @@ namespace Cannon
         private BoomFactory boomFactory;
         private new Collider collider;
         private int heroViewId;
-        private ILogger logger;
         private new Rigidbody rigidbody;
         private Settings settings;
         private new Transform transform;
@@ -43,8 +41,6 @@ namespace Cannon
                 titan.photonView.RPC(nameof(titan.OnCannonHitRpc), titan.photonView.owner, heroViewId, other.collider.name);
             
             Explode();
-            
-            logger.Log($"{nameof(CannonBall)} entered {other.gameObject.name}", this);
         }
 
         private void OnTriggerExit(Collider other)
@@ -61,13 +57,11 @@ namespace Cannon
         [Inject]
         private void Construct(
             Settings settings,
-            LoggerFactory loggerFactory,
             BoomFactory boomFactory,
             Vector3 velocity,
             int heroViewId)
         {
             this.settings = settings;
-            logger = loggerFactory.Create(this);
             this.boomFactory = boomFactory;
             this.heroViewId = heroViewId;
             
