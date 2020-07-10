@@ -2478,15 +2478,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ade5059944e77468ce66f0f1fb36c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EquipmentType: 0
-  _state: 0
-  audio_ally: {fileID: 82695054796010076}
-  audio_hitwall: {fileID: 82538630642059820}
+  equipmentType: 0
+  state: 0
+  audioAlly: {fileID: 82695054796010076}
+  audioHitwall: {fileID: 82538630642059820}
   baseAnimation: {fileID: 0}
   baseRigidBody: {fileID: 0}
   baseTransform: {fileID: 0}
   bigLean: 0
-  bombCD: 0
+  bombCd: 0
   bombImmune: 0
   bombRadius: 0
   bombSpeed: 0
@@ -2494,7 +2494,7 @@ MonoBehaviour:
   bombTimeMax: 0
   bulletLeft: {fileID: 0}
   bulletRight: {fileID: 0}
-  CameraMultiplier: 0
+  cameraMultiplier: 0
   canJump: 1
   checkBoxLeft: {fileID: 1315045163539384}
   checkBoxRight: {fileID: 1447805055229568}
@@ -2520,7 +2520,7 @@ MonoBehaviour:
   isCannon: 0
   isPhotonCamera: 0
   jumpHeight: 2
-  LabelDistance: {fileID: 0}
+  labelDistance: {fileID: 0}
   lastHook: {fileID: 0}
   leftbladetrail: {fileID: 0}
   leftbladetrail2: {fileID: 0}
@@ -2542,10 +2542,10 @@ MonoBehaviour:
   rightGunHasBullet: 1
   rope: {fileID: 82693287769379562}
   setup: {fileID: 0}
-  skillCDDuration: 0
-  skillCDLast: 0
-  skillCDLastCannon: 0
-  skillIDHUD: 
+  skillCdDuration: 0
+  skillCdLast: 0
+  skillCdLastCannon: 0
+  skillIdhud: 
   slash: {fileID: 82921464492189474}
   slashHit: {fileID: 82600709219731810}
   speed: 10
@@ -2558,8 +2558,8 @@ MonoBehaviour:
   totalBladeSta: 100
   totalGas: 100
   useGun: 0
-  InGameUI: {fileID: 0}
-  PlayerName: {fileID: 102465881733688448}
+  inGameUI: {fileID: 0}
+  playerName: {fileID: 102465881733688448}
 --- !u!114 &114713982096500546
 MonoBehaviour:
   m_ObjectHideFlags: 1
