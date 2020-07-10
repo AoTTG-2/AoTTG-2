@@ -17,20 +17,23 @@ namespace Cannon
             leftWheel,
             rightWheel;
 
-        [SerializeField] private GroundCannonBase.Settings groundBaseSettings;
+        [SerializeField] private GroundCannonWheels.Settings wheelSettings;
 
         public override void InstallBindings()
         {
             base.InstallBindings();
 
-            Container.BindInstance(groundBaseSettings).AsSingle();
+            Container.BindInstance(wheelSettings).AsSingle();
+            Container.Bind<GroundCannonWheels>()
+                .AsSingle()
+                .WithArguments(
+                    leftWheel,
+                    rightWheel);
+
             Container.Rebind<CannonBase>()
                 .To<GroundCannonBase>()
                 .AsSingle()
-                .WithArguments(
-                    Base,
-                    leftWheel,
-                    rightWheel);
+                .WithArguments(Base);
             
             Container.BindInstances(startMovingInteractable, stopMovingInteractable);
             
