@@ -4312,13 +4312,29 @@ public class Hero : Human
     /// <summary>
     /// Called locally.
     /// </summary>
-    public void OnMountingCannon()
+    public void OnMountingCannon(GameObject cameraFocus = null)
     {
         Debug.Assert(photonView.isMine, $"{nameof(OnMountingCannon)} must be called on the local player.");
         Debug.Assert(!isCannon, "Can't mount cannon while using a cannon.");
 
+        // TODO: Improve this.
+        if (cameraFocus)
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(cameraFocus);
+        Camera.main.fieldOfView = 55f;
+        
         PrepareForCannon();
         photonView.RPC(nameof(MountCannonRPC), PhotonTargets.AllBuffered);
+    }
+
+    public void OnUnmountingCannon()
+    {
+        // TODO: Improve this.
+        isCannon = false;
+        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gameObject);
+        baseRigidBody.velocity = Vector3.zero;
+        photonView.RPC(nameof(ReturnFromCannon), PhotonTargets.Others);
+        skillCDLast = skillCDLastCannon;
+        skillCDDuration = skillCDLast;
     }
 
     /// <summary>

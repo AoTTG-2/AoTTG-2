@@ -57,10 +57,7 @@ namespace Cannon
         {
             SetAvailability(true);
 
-            // TODO: Improve this.
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(firePoint.gameObject, true, false);
-            Camera.main.fieldOfView = 55f;
-            mountedHero.OnMountingCannon();
+            mountedHero.OnMountingCannon(firePoint.gameObject);
             mountedHero.HeroDied += OnHeroDied;
         }
 
@@ -70,13 +67,7 @@ namespace Cannon
 
             if (mountedHero)
             {
-                // TODO: Improve this.
-                mountedHero.isCannon = false;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(mountedHero.gameObject, true, false);
-                mountedHero.baseRigidBody.velocity = Vector3.zero;
-                mountedHero.photonView.RPC(nameof(mountedHero.ReturnFromCannon), PhotonTargets.Others);
-                mountedHero.skillCDLast = mountedHero.skillCDLastCannon;
-                mountedHero.skillCDDuration = mountedHero.skillCDLast;
+                mountedHero.OnUnmountingCannon();
                 mountedHero.HeroDied -= OnHeroDied;
             }
 

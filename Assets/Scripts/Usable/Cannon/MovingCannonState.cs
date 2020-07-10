@@ -59,12 +59,26 @@ namespace Cannon
         public override void Enter()
         {
             SetAvailability(true);
+            
+            mountedHero.OnMountingCannon();
+            mountedHero.HeroDied += OnHeroDied;
+        }
+
+        private void OnHeroDied(Hero hero)
+        {
+            ownershipManager.RelinquishOwnership();
         }
 
         public override void Exit()
         {
             SetAvailability(false);
 
+            if (mountedHero)
+            {
+                mountedHero.OnUnmountingCannon();
+                mountedHero.HeroDied -= OnHeroDied;
+            }
+            
             mountedHero = null;
         }
 
