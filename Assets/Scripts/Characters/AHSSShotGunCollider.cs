@@ -47,20 +47,20 @@ public class AHSSShotGunCollider : MonoBehaviour
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);
                     HitBox component = other.gameObject.GetComponent<HitBox>();
-                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
+                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().IsInvincible())
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            if (!component.transform.root.GetComponent<Hero>().isGrabbed)
+                            if (!component.transform.root.GetComponent<Hero>().IsGrabbed)
                             {
                                 Vector3 vector = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<Hero>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
+                                component.transform.root.GetComponent<Hero>().Die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().IsGrabbed)
                         {
                             var enemy = component.transform.root.GetComponent<Hero>();
-                            enemy.markDie();
+                            enemy.MarkDie();
                             Vector3 delta = component.transform.root.position - transform.position;
                             var parameters = new object[]
                             {

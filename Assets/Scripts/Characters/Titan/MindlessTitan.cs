@@ -291,13 +291,13 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     if (!grabTarget.HasDied())
                     {
-                        grabTarget.markDie();
+                        grabTarget.MarkDie();
                         grabTarget.photonView.RPC(nameof(grabTarget.netDie2), PhotonTargets.All, -1, name);
                     }
                 }
                 else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    grabTarget.die2(null);
+                    grabTarget.Die2(null);
                 }
             }
         }
@@ -608,7 +608,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (Vector3.Distance(player.transform.position, position) < FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode)
                 {
-                    player.markDie();
+                    player.MarkDie();
                     player.photonView.RPC(nameof(player.netDie2), PhotonTargets.All);
                 }
             }

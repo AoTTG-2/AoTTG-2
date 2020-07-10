@@ -62,14 +62,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 50f, 0.1f);
         }
-        float num2 = (hero.CameraMultiplier * (200f - Camera.main.fieldOfView)) / 150f;
+        float num2 = (hero.cameraMultiplier * (200f - Camera.main.fieldOfView)) / 150f;
         base.transform.position = (Vector3)((this.head.transform.position + (Vector3.up * this.heightMulti)) - ((Vector3.up * (0.6f - InputManager.Settings.CameraDistance)) * 2f));
         Transform transform = base.transform;
         transform.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * num2);
-        if (hero.CameraMultiplier < 0.65f)
+        if (hero.cameraMultiplier < 0.65f)
         {
             Transform transform2 = base.transform;
-            transform2.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - hero.CameraMultiplier) * 2f), (float)0.65f));
+            transform2.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - hero.cameraMultiplier) * 2f), (float)0.65f));
         }
     }
 
@@ -169,11 +169,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             if (gametype == GAMETYPE.SINGLE)
             {
-                this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                this.main_object.GetComponent<Hero>().SetSkillHudPosition2();
             }
             else if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
             {
-                this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                this.main_object.GetComponent<Hero>().SetSkillHudPosition2();
             }
         }
         if (stereoType == STEREO_3D_TYPE.SIDE_BY_SIDE)

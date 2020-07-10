@@ -85,7 +85,7 @@ public class Bomb : Photon.MonoBehaviour
                     int num2 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                     if ((num == 0) || (num != num2))
                     {
-                        hero.markDie();
+                        hero.MarkDie();
                         hero.photonView.RPC(
                             nameof(hero.netDie2),
                             PhotonTargets.All,
@@ -96,7 +96,7 @@ public class Bomb : Photon.MonoBehaviour
                 }
                 else
                 {
-                    hero.markDie();
+                    hero.MarkDie();
                     hero.photonView.RPC(
                         nameof(hero.netDie2),
                         PhotonTargets.All,

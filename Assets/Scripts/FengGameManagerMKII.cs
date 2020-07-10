@@ -1745,7 +1745,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     var current = (Hero) enumerator.Current;
                     if (current != null)
-                        current.lateUpdate2();
+                        current.LateUpdate2();
                 }
             }
             finally
@@ -4143,8 +4143,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
                         }
                         component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                        component.main_object.GetComponent<Hero>().SetStat2();
+                        component.main_object.GetComponent<Hero>().SetSkillHudPosition2();
                     }
                     else
                     {
@@ -4161,8 +4161,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                 component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[index];
                                 component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[index].name.ToUpper());
                                 component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                                component.main_object.GetComponent<Hero>().SetStat2();
+                                component.main_object.GetComponent<Hero>().SetSkillHudPosition2();
                                 break;
                             }
                         }
@@ -4191,8 +4191,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume2.name.ToUpper());
                     }
                     component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                    component.main_object.GetComponent<Hero>().setStat2();
-                    component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                    component.main_object.GetComponent<Hero>().SetStat2();
+                    component.main_object.GetComponent<Hero>().SetSkillHudPosition2();
                 }
                 else
                 {
@@ -4213,8 +4213,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[num4];
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                            component.main_object.GetComponent<Hero>().setStat2();
-                            component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                            component.main_object.GetComponent<Hero>().SetStat2();
+                            component.main_object.GetComponent<Hero>().SetSkillHudPosition2();
                             break;
                         }
                     }
@@ -4277,8 +4277,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
                         }
                         component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                        component.main_object.GetComponent<Hero>().SetStat2();
+                        component.main_object.GetComponent<Hero>().SetSkillHudPosition2();
                         break;
                     }
                 default:
@@ -4299,8 +4299,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[id];
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[id].name.ToUpper());
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                            component.main_object.GetComponent<Hero>().setStat2();
-                            component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                            component.main_object.GetComponent<Hero>().SetStat2();
+                            component.main_object.GetComponent<Hero>().SetSkillHudPosition2();
                             break;
                         }
                     }
@@ -4572,7 +4572,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     var current = (Hero) enumerator.Current;
                     if (current != null)
-                        current.update2();
+                        current.Update2();
                 }
             }
             finally

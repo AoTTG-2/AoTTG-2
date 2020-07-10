@@ -588,7 +588,7 @@ public class FEMALE_TITAN : MonoBehaviour
                     }
                     return gameObject;
                 }
-                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible())
                 {
                     return gameObject;
                 }
@@ -602,7 +602,7 @@ public class FEMALE_TITAN : MonoBehaviour
         float num = rad * 4f;
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if ((obj2.GetComponent<TITAN_EREN>() == null) && !obj2.GetComponent<Hero>().isInvincible())
+            if ((obj2.GetComponent<TITAN_EREN>() == null) && !obj2.GetComponent<Hero>().IsInvincible())
             {
                 float num3 = obj2.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(obj2.transform.position + ((Vector3) (Vector3.up * num3)), head.transform.position + ((Vector3) ((Vector3.up * 1.5f) * 4f))) < (num + num3))
@@ -624,7 +624,7 @@ public class FEMALE_TITAN : MonoBehaviour
     private void eatSet(GameObject grabTarget)
     {
         var heroToGrab = grabTarget.GetComponent<Hero>();
-        if (!heroToGrab.isGrabbed)
+        if (!heroToGrab.IsGrabbed)
         {
             grabToRight();
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
@@ -635,7 +635,7 @@ public class FEMALE_TITAN : MonoBehaviour
             }
             else
             {
-                heroToGrab.grabbed(gameObject, false);
+                heroToGrab.Grabbed(gameObject, false);
                 heroToGrab.GetComponent<Animation>().Play("grabbed");
             }
         }
@@ -644,7 +644,7 @@ public class FEMALE_TITAN : MonoBehaviour
     private void eatSetL(GameObject grabTarget)
     {
         var grabbedHero = grabTarget.GetComponent<Hero>();
-        if (!grabbedHero.isGrabbed)
+        if (!grabbedHero.IsGrabbed)
         {
             grabToLeft();
             if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
@@ -655,7 +655,7 @@ public class FEMALE_TITAN : MonoBehaviour
             }
             else
             {
-                grabbedHero.grabbed(gameObject, true);
+                grabbedHero.Grabbed(gameObject, true);
                 grabbedHero.GetComponent<Animation>().Play("grabbed");
             }
         }
@@ -1041,7 +1041,7 @@ public class FEMALE_TITAN : MonoBehaviour
         {
             if (!hero.HasDied())
             {
-                hero.markDie();
+                hero.MarkDie();
                 hero.photonView.RPC(
                     nameof(hero.netDie2),
                     PhotonTargets.All,
@@ -1050,7 +1050,7 @@ public class FEMALE_TITAN : MonoBehaviour
             }
         }
         else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            hero.die2(hand);
+            hero.Die2(hand);
     }
 
     private void justHitEye()
@@ -1067,11 +1067,11 @@ public class FEMALE_TITAN : MonoBehaviour
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 if (!hero.HasDied())
-                    hero.die((hitHero.transform.position - position) * 15f * 4f, false);
+                    hero.Die((hitHero.transform.position - position) * 15f * 4f, false);
             }
             else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient) && !hero.HasDied())
             {
-                hero.markDie();
+                hero.MarkDie();
                 hero.photonView.RPC(
                     nameof(netDie),
                     PhotonTargets.All,

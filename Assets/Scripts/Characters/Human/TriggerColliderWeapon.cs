@@ -95,19 +95,19 @@ public class TriggerColliderWeapon : MonoBehaviour
                     b = Mathf.Min(1f, b);
                     HitBox hitBox = other.gameObject.GetComponent<HitBox>();
                     var hitHero = hitBox.transform.root.GetComponent<Hero>();
-                    if ((((hitBox != null) && (hitBox.transform.root != null)) && (hitHero.myTeam != myTeam)) && !hitHero.isInvincible())
+                    if ((((hitBox != null) && (hitBox.transform.root != null)) && (hitHero.myTeam != myTeam)) && !hitHero.IsInvincible())
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            if (!hitHero.isGrabbed)
+                            if (!hitHero.IsGrabbed)
                             {
                                 Vector3 vector = hitBox.transform.root.transform.position - transform.position;
-                                hitHero.die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
+                                hitHero.Die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hitHero.HasDied()) && !hitHero.isGrabbed)
+                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hitHero.HasDied()) && !hitHero.IsGrabbed)
                         {
-                            hitHero.markDie();
+                            hitHero.MarkDie();
                             hitHero.photonView.RPC(
                                 nameof(hitHero.netDie),
                                 PhotonTargets.All,

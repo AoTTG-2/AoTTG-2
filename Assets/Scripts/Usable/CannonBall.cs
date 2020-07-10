@@ -143,7 +143,7 @@ namespace OldCannon
         private void KillPlayer(Hero player)
         {
             var myName = $"{PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name] ?? "ERROR"} ";
-            player.markDie();
+            player.MarkDie();
             player.photonView.RPC(nameof(player.netDie2), PhotonTargets.All, -1, myName);
             FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
         }

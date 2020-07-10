@@ -72,11 +72,11 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 var slappedHero = slappedGobj.GetComponent<Hero>();
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    slappedHero.die((Vector3) (((slappedGobj.transform.position - vector4) * 15f) * titan.Size), false);
+                    slappedHero.Die((Vector3) (((slappedGobj.transform.position - vector4) * 15f) * titan.Size), false);
                 }
                 else if (!(((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine) || slappedHero.HasDied()))
                 {
-                    slappedHero.markDie();
+                    slappedHero.MarkDie();
                     slappedHero.photonView.RPC(
                         nameof(slappedHero.netDie),
                         PhotonTargets.All,

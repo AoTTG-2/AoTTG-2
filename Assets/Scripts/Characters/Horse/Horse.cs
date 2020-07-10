@@ -409,7 +409,7 @@ public sealed class Horse : PhotonView
                         Horse.CrossFade("horse_Run", 0.1f);
 
                     if (!HeroAnimation.IsPlaying("horse_Run"))
-                        Horse.hero.crossFade("horse_run", 0.1f);
+                        Horse.hero.CrossFade("horse_run", 0.1f);
 
                     Horse.EnableDust();
                 }
@@ -419,7 +419,7 @@ public sealed class Horse : PhotonView
                         Horse.CrossFade("horse_WALK", 0.1f);
 
                     if (!HeroAnimation.IsPlaying("horse_idle"))
-                        Horse.hero.crossFade("horse_idle", 0.1f);
+                        Horse.hero.CrossFade("horse_idle", 0.1f);
 
                     Horse.DisableDust();
                 }
@@ -430,10 +430,10 @@ public sealed class Horse : PhotonView
                 if (Horse.rigidbody.velocity.magnitude > 15f)
                 {
                     if (!HeroAnimation.IsPlaying("horse_Run"))
-                        Horse.hero.crossFade("horse_run", 0.1f);
+                        Horse.hero.CrossFade("horse_run", 0.1f);
                 }
                 else if (!HeroAnimation.IsPlaying("horse_idle"))
-                    Horse.hero.crossFade("horse_idle", 0.1f);
+                    Horse.hero.CrossFade("horse_idle", 0.1f);
             }
 
             if (controller.ShouldJump && IsGrounded)

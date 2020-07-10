@@ -14,7 +14,7 @@ public class RacingKillTrigger : MonoBehaviour
                 Hero hero = gameObject.GetComponent<Hero>();
                 if (hero != null)
                 {
-                    hero.markDie();
+                    hero.MarkDie();
                     hero.photonView.RPC(
                         nameof(hero.netDie2),
                         PhotonTargets.All,

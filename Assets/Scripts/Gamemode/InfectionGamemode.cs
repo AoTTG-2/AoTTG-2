@@ -67,7 +67,7 @@ namespace Assets.Scripts.Gamemode
                                 Hero hero = (Hero)FengGameManagerMKII.instance.getPlayers()[k];
                                 if (hero.photonView.owner == targetPlayer)
                                 {
-                                    hero.markDie();
+                                    hero.MarkDie();
                                     hero.photonView.RPC(
                                         nameof(hero.netDie2),
                                         PhotonTargets.All,

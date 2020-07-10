@@ -63,7 +63,7 @@ public class HERO_SETUP : MonoBehaviour
         var hero = gameObject.GetComponent<Hero>();
         if (hero != null)
         {
-            equipmentType = hero.EquipmentType;
+            equipmentType = hero.equipmentType;
         }
         this.part_head.transform.parent = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head").transform;
         this.mount_3dmg = new GameObject();

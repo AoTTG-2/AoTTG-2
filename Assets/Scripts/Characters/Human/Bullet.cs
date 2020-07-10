@@ -127,7 +127,7 @@ public class Bullet : Photon.MonoBehaviour
                     if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
                         photonView.RPC(nameof(tieMeToOBJ), PhotonTargets.Others, viewID);
 
-                    master.GetComponent<Hero>().hookToHuman(hit.collider.transform.root.gameObject, transform.position);
+                    master.GetComponent<Hero>().HookToHuman(hit.collider.transform.root.gameObject, transform.position);
                     transform.parent = hit.collider.transform;
                     master.GetComponent<Hero>().lastHook = null;
                 }
@@ -141,7 +141,7 @@ public class Bullet : Photon.MonoBehaviour
                 }
                 if (flag4)
                 {
-                    master.GetComponent<Hero>().launch(hit.point, left, leviMode);
+                    master.GetComponent<Hero>().Launch(hit.point, left, leviMode);
                     transform.position = hit.point;
                     if (phase != 2)
                     {

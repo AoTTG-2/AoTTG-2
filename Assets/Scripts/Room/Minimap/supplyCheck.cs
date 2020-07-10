@@ -25,12 +25,12 @@ public class supplyCheck : MonoBehaviour
                     {
                         if (Vector3.Distance(obj2.transform.position, base.transform.position) < 1.5f)
                         {
-                            obj2.GetComponent<Hero>().getSupply();
+                            obj2.GetComponent<Hero>().GETSupply();
                         }
                     }
                     else if (obj2.GetPhotonView().isMine && (Vector3.Distance(obj2.transform.position, base.transform.position) < 1.5f))
                     {
-                        obj2.GetComponent<Hero>().getSupply();
+                        obj2.GetComponent<Hero>().GETSupply();
                     }
                 }
             }

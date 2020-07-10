@@ -11,7 +11,7 @@ public class Equipment : MonoBehaviour
     private void Awake()
     {
         Hero = gameObject.GetComponent<Hero>();
-        switch (Hero.EquipmentType)
+        switch (Hero.equipmentType)
         {
             case EquipmentType.Blades:
                 Weapon = new Blades();

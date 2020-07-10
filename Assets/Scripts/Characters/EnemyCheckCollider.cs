@@ -56,19 +56,19 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                             hero.photonView.RPC(nameof(hero.blowAway), PhotonTargets.All, force);
                         }
                     }
-                    else if (!hero.isInvincible())
+                    else if (!hero.IsInvincible())
                     {
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            if (!hero.isGrabbed)
+                            if (!hero.IsGrabbed)
                             {
                                 Vector3 delta = component.transform.root.transform.position - transform.position;
-                                hero.die(delta.normalized * b * 1000f + Vector3.up * 50f, isThisBite);
+                                hero.Die(delta.normalized * b * 1000f + Vector3.up * 50f, isThisBite);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.HasDied()) && !hero.isGrabbed)
+                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.HasDied()) && !hero.IsGrabbed)
                         {
-                            hero.markDie();
+                            hero.MarkDie();
                             int myOwnerViewID = -1;
                             string titanName = string.Empty;
                             var enemyfxIDcontainer = transform.root.gameObject.GetComponent<EnemyfxIDcontainer>();

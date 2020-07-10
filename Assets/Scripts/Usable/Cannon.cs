@@ -163,8 +163,8 @@ namespace OldCannon
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(Hero.gameObject, true, false);
                 Hero.baseRigidBody.velocity = Vector3.zero;
                 Hero.photonView.RPC(nameof(Hero.ReturnFromCannon), PhotonTargets.Others);
-                Hero.skillCDLast = Hero.skillCDLastCannon;
-                Hero.skillCDDuration = Hero.skillCDLast;
+                Hero.skillCdLast = Hero.skillCdLastCannon;
+                Hero.skillCdDuration = Hero.skillCdLast;
             }
 
             PhotonNetwork.Destroy(gameObject);
@@ -275,7 +275,7 @@ namespace OldCannon
 
         private void Fire()
         {
-            if (Hero.skillCDDuration <= 0f)
+            if (Hero.skillCdDuration <= 0f)
             {
                 var boom = PhotonNetwork.Instantiate("FX/boom2", firingPoint.position, firingPoint.rotation, 0);
                 var boomCheckColliders = boom.GetComponentsInChildren<EnemyCheckCollider>();
@@ -289,7 +289,7 @@ namespace OldCannon
                     this,
                     Hero.photonView.viewID);
 
-                Hero.skillCDDuration = 3.5f;
+                Hero.skillCdDuration = 3.5f;
             }
         }
 

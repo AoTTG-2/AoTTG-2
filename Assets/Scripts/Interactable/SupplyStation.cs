@@ -12,7 +12,7 @@ public sealed class SupplyStation : MonoBehaviour
             IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE || hero.photonView.isMine,
             "Interactable should only act on local player.");
 
-        hero.getSupply();
+        hero.GETSupply();
     }
 
     private void Reset()

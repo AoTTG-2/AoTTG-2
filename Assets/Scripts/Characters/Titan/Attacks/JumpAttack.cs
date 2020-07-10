@@ -89,7 +89,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var num = rad * titanSize;
             foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
             {
-                if (hero.isInvincible()) continue;
+                if (hero.IsInvincible()) continue;
                 var num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(hero.transform.position + Vector3.up * num3, head.position + Vector3.up * 1.5f * titanSize) < (num + num3))
                 {
@@ -184,11 +184,11 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         Vector3 vector13 = titan.TitanBody.Chest.position;
                         if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                         {
-                            hero.die((hero.transform.position - vector13) * 15f * titan.Size, false);
+                            hero.Die((hero.transform.position - vector13) * 15f * titan.Size, false);
                         }
                         else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER || titan.photonView.isMine || !hero.HasDied())
                         {
-                            hero.markDie();
+                            hero.MarkDie();
                             hero.photonView.RPC(
                                 nameof(hero.netDie),
                                 PhotonTargets.All,

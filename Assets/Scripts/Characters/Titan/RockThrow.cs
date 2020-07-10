@@ -41,16 +41,16 @@ public class RockThrow : Photon.MonoBehaviour
     private void hitPlayer(GameObject heroGobj)
     {
         var hero = heroGobj.GetComponent<Hero>();
-        if (((heroGobj != null) && !hero.HasDied()) && !hero.isInvincible())
+        if (((heroGobj != null) && !hero.HasDied()) && !hero.IsInvincible())
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                if (!hero.isGrabbed)
-                    hero.die(v.normalized * 1000f + Vector3.up * 50f, false);
+                if (!hero.IsGrabbed)
+                    hero.Die(v.normalized * 1000f + Vector3.up * 50f, false);
             }
-            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.HasDied()) && !hero.isGrabbed)
+            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.HasDied()) && !hero.IsGrabbed)
             {
-                hero.markDie();
+                hero.MarkDie();
                 int myOwnerViewID = -1;
                 string titanName = string.Empty;
                 if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
@@ -154,7 +154,7 @@ public class RockThrow : Photon.MonoBehaviour
                                 hero.GetComponent<TITAN_EREN>().hitByTitan();
                             }
                         }
-                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().isInvincible())
+                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().IsInvincible())
                         {
                             this.hitPlayer(hero);
                         }

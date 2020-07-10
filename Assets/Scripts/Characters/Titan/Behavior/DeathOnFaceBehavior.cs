@@ -12,7 +12,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 Vector3 vector15 = Titan.TitanBody.Chest.position;
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
                 {
-                    hero.die((Vector3)(((hero.transform.position - vector15) * 15f) * Titan.Size), false);
+                    hero.Die((Vector3)(((hero.transform.position - vector15) * 15f) * Titan.Size), false);
                     return true;
                 }
 
@@ -20,7 +20,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 {
                     if (!hero.HasDied())
                     {
-                        hero.markDie();
+                        hero.MarkDie();
                         hero.photonView.RPC(
                             nameof(hero.netDie),
                             PhotonTargets.All,
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             float num = rad * size;
             foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
             {
-                if (hero.GetComponent<TITAN_EREN>() == null && !hero.GetComponent<Hero>().isInvincible())
+                if (hero.GetComponent<TITAN_EREN>() == null && !hero.GetComponent<Hero>().IsInvincible())
                 {
                     float num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;
                     if (Vector3.Distance(hero.transform.position + ((Vector3)(Vector3.up * num3)), head.position - ((Vector3)((Vector3.up * 1.5f) * size))) < (num + num3))

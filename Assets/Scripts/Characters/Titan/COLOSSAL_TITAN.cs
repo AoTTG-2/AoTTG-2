@@ -125,7 +125,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     }
                     return gameObject;
                 }
-                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible())
                 {
                     return gameObject;
                 }
@@ -190,18 +190,18 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 if (!hero.HasDied())
-                    hero.die((hitHero.transform.position - position) * 15f * 4f, false);
+                    hero.Die((hitHero.transform.position - position) * 15f * 4f, false);
             }
             else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
             {
                 if (FengGameManagerMKII.LAN)
                 {
                     if (!hero.HasDied())
-                        hero.markDie();
+                        hero.MarkDie();
                 }
                 else if (!hero.HasDied())
                 {
-                    hero.markDie();
+                    hero.MarkDie();
                     hero.photonView.RPC(
                         nameof(hero.netDie),
                         PhotonTargets.All,

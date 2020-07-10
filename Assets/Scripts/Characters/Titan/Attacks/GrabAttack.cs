@@ -192,7 +192,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         private void EatSet(MindlessTitan titan, GameObject grabTarget)
         {
-            if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().isGrabbed)
+            if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().IsGrabbed)
             {
                 var hero = grabTarget.GetComponent<Hero>();
                 titan.Grab(false);
@@ -204,7 +204,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 }
                 else
                 {
-                    hero.grabbed(titan.gameObject, false);
+                    hero.Grabbed(titan.gameObject, false);
                     hero.GetComponent<Animation>().Play("grabbed");
                 }
             }
@@ -212,7 +212,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         private void EatSetL(MindlessTitan titan, GameObject grabTarget)
         {
-            if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().isGrabbed)
+            if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().IsGrabbed)
             {
                 var hero = grabTarget.GetComponent<Hero>();
                 titan.Grab(true);
@@ -224,7 +224,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 }
                 else
                 {
-                    hero.grabbed(titan.gameObject, true);
+                    hero.Grabbed(titan.gameObject, true);
                     hero.GetComponent<Animation>().Play("grabbed");
                 }
             }
