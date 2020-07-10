@@ -39,6 +39,8 @@ namespace Cannon
                 .To<UnmannedCannonState>()
                 .AsSingle();
 
+            Container.Bind<CannonInput>().AsSingle();
+
             Container.Bind(typeof(MannedCannonState),
                     typeof(CannonState),
                     typeof(IInitializable),

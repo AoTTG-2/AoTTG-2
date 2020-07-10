@@ -10,6 +10,7 @@ namespace Cannon
         private readonly CannonBarrel barrel;
         private readonly CannonBase @base;
         private readonly Transform firePoint;
+        private readonly CannonInput input;
         private readonly Interactable mountInteractable;
         private readonly ICannonOwnershipManager ownershipManager;
         private readonly Transform playerPoint;
@@ -23,6 +24,7 @@ namespace Cannon
             ICannonOwnershipManager ownershipManager,
             CannonBase @base,
             CannonBarrel barrel,
+            CannonInput input,
             Interactable mountInteractable,
             Interactable unmountInteractable,
             Transform firePoint,
@@ -33,6 +35,7 @@ namespace Cannon
             this.ownershipManager = ownershipManager;
             this.@base = @base;
             this.barrel = barrel;
+            this.input = input;
             this.mountInteractable = mountInteractable;
             this.unmountInteractable = unmountInteractable;
             this.firePoint = firePoint;
@@ -93,14 +96,10 @@ namespace Cannon
         {
             if (!mountedHero) return;
             
-            // TODO: Possibly move this out to avoid dependency on Input.
-            var left = InputManager.Key(InputCannon.Left) ? -1f : 0f;
-            var right = InputManager.Key(InputCannon.Right) ? 1f : 0f;
-            var up = InputManager.Key(InputCannon.Up) ? 1f : 0f;
-            var down = InputManager.Key(InputCannon.Down) ? -1f : 0f;
+            var inputAxes = input.GetAxes();
             var speed = InputManager.Key(InputCannon.Slow) ? settings.SlowSpeed : settings.NormalSpeed;
-            var x = (left + right) * speed;
-            var y = (up + down) * speed;
+            var x = inputAxes.x * speed;
+            var y = inputAxes.y * speed;
 
             @base.Rotate(x);
             barrel.Rotate(y);

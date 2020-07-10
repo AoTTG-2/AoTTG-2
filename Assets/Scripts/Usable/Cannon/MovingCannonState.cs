@@ -6,21 +6,24 @@ namespace Cannon
 {
     internal sealed class MovingCannonState : CannonState, IInitializable, IDisposable
     {
+        private readonly CannonInput input;
+        private readonly Transform movePoint;
         private readonly ICannonOwnershipManager ownershipManager;
         private readonly Interactable startMovingInteractable;
         private readonly Interactable stopMovingInteractable;
-        private readonly Transform movePoint;
         private Hero mountedHero;
 
         public MovingCannonState(
             CannonStateManager stateManager,
             ICannonOwnershipManager ownershipManager,
+            CannonInput input,
             Interactable startMovingInteractable,
             Interactable stopMovingInteractable,
             Transform movePoint)
             : base(stateManager)
         {
             this.ownershipManager = ownershipManager;
+            this.input = input;
             this.startMovingInteractable = startMovingInteractable;
             this.stopMovingInteractable = stopMovingInteractable;
             this.movePoint = movePoint;
@@ -61,6 +64,8 @@ namespace Cannon
         public override void Update()
         {
             if (!mountedHero) return;
+
+            var inputAxes = input.GetAxes();            
             
             mountedHero.transform.SetPositionAndRotation(
                 movePoint.position,
