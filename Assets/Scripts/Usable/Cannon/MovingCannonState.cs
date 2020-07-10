@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using Zenject;
 
 namespace Cannon
@@ -8,17 +9,21 @@ namespace Cannon
         private readonly ICannonOwnershipManager ownershipManager;
         private readonly Interactable startMovingInteractable;
         private readonly Interactable stopMovingInteractable;
+        private readonly Transform movePoint;
+        private Hero mountedHero;
 
         public MovingCannonState(
             CannonStateManager stateManager,
             ICannonOwnershipManager ownershipManager,
             Interactable startMovingInteractable,
-            Interactable stopMovingInteractable)
+            Interactable stopMovingInteractable,
+            Transform movePoint)
             : base(stateManager)
         {
             this.ownershipManager = ownershipManager;
             this.startMovingInteractable = startMovingInteractable;
             this.stopMovingInteractable = stopMovingInteractable;
+            this.movePoint = movePoint;
         }
 
         void IDisposable.Dispose()
@@ -49,14 +54,22 @@ namespace Cannon
         public override void Exit()
         {
             SetAvailability(false);
+
+            mountedHero = null;
         }
 
         public override void Update()
         {
+            if (!mountedHero) return;
+            
+            mountedHero.transform.SetPositionAndRotation(
+                movePoint.position,
+                movePoint.rotation);
         }
 
-        private void OnStartMoving(Hero _)
+        private void OnStartMoving(Hero hero)
         {
+            mountedHero = hero;
             ownershipManager.LocalOwnershipTaken += OnLocalOwnershipTaken;
             ownershipManager.RequestOwnership();
         }

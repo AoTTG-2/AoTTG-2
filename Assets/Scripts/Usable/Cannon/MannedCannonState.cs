@@ -68,16 +68,19 @@ namespace Cannon
         {
             SetAvailability(false);
 
-            if (!mountedHero) return;
-            
-            // TODO: Improve this.
-            mountedHero.isCannon = false;
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(mountedHero.gameObject, true, false);
-            mountedHero.baseRigidBody.velocity = Vector3.zero;
-            mountedHero.photonView.RPC(nameof(mountedHero.ReturnFromCannon), PhotonTargets.Others);
-            mountedHero.skillCDLast = mountedHero.skillCDLastCannon;
-            mountedHero.skillCDDuration = mountedHero.skillCDLast;
-            mountedHero.HeroDied -= OnHeroDied;
+            if (mountedHero)
+            {
+                // TODO: Improve this.
+                mountedHero.isCannon = false;
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(mountedHero.gameObject, true, false);
+                mountedHero.baseRigidBody.velocity = Vector3.zero;
+                mountedHero.photonView.RPC(nameof(mountedHero.ReturnFromCannon), PhotonTargets.Others);
+                mountedHero.skillCDLast = mountedHero.skillCDLastCannon;
+                mountedHero.skillCDDuration = mountedHero.skillCDLast;
+                mountedHero.HeroDied -= OnHeroDied;
+            }
+
+            mountedHero = null;
         }
 
         public override void SetAvailability(bool isActive)
@@ -88,6 +91,8 @@ namespace Cannon
 
         public override void Update()
         {
+            if (!mountedHero) return;
+            
             // TODO: Possibly move this out to avoid dependency on Input.
             var left = InputManager.Key(InputCannon.Left) ? -1f : 0f;
             var right = InputManager.Key(InputCannon.Right) ? 1f : 0f;
@@ -103,10 +108,9 @@ namespace Cannon
             if (InputManager.KeyDown(InputCannon.Shoot))
                 barrel.TryFire(mountedHero.photonView.viewID);
 
-            if (mountedHero)
-                mountedHero.transform.SetPositionAndRotation(
-                    playerPoint.position,
-                    playerPoint.rotation);
+            mountedHero.transform.SetPositionAndRotation(
+                playerPoint.position,
+                playerPoint.rotation);
         }
 
         private void OnMount(Hero hero)
@@ -116,12 +120,12 @@ namespace Cannon
             ownershipManager.RequestOwnership();
         }
 
-        private void OnUnmount(Hero hero)
+        private void OnUnmount(Hero _)
         {
             ownershipManager.RelinquishOwnership();
         }
 
-        private void OnHeroDied(Hero hero)
+        private void OnHeroDied(Hero _)
         {
             ownershipManager.RelinquishOwnership();
         }
@@ -135,8 +139,8 @@ namespace Cannon
         [Serializable]
         public class Settings
         {
-            public float NormalSpeed;
-            public float SlowSpeed;
+            public float NormalSpeed = 30;
+            public float SlowSpeed = 10;
         }
     }
 }

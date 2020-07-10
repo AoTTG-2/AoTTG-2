@@ -6,6 +6,8 @@ namespace Cannon
 {
     internal sealed class GroundCannonInstaller : CannonInstaller
     {
+        [SerializeField] private Transform movePoint;
+        
         [SerializeField]
         private Interactable
             startMovingInteractable,
@@ -24,7 +26,8 @@ namespace Cannon
                 .AsSingle()
                 .WithArguments(
                     startMovingInteractable,
-                    stopMovingInteractable);
+                    stopMovingInteractable,
+                    movePoint);
         }
     }
 }

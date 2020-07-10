@@ -29,16 +29,13 @@ namespace Cannon
         private void Start()
         {
             transform = base.transform;
+            
+            newPositions = new Vector3[lineRenderer.positionCount];
         }
 
         private void LateUpdate()
         {
             DrawTrajectory();
-        }
-
-        private void OnValidate()
-        {
-            newPositions = new Vector3[lineRenderer.positionCount];
         }
 
         private void DrawTrajectory()

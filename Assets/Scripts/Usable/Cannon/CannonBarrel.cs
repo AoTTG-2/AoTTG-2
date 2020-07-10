@@ -28,7 +28,7 @@ namespace Cannon
 
         public void Rotate(float degrees)
         {
-            barrel.Rotate(0f, 0f, degrees * Time.deltaTime);
+            barrel.Rotate(-degrees * Time.deltaTime, 0f, 0f);
             ClampRotation();
         }
 
@@ -41,7 +41,7 @@ namespace Cannon
         private void ClampRotation()
         {
             var newRotation = barrel.rotation.eulerAngles;
-            newRotation.z = MathfExtras.ClampAngle(newRotation.z, settings.MinRotation, settings.MaxRotation);
+            newRotation.x = MathfExtras.ClampAngle(newRotation.x, settings.MinRotation, settings.MaxRotation);
             barrel.rotation = Quaternion.Euler(newRotation);
         }
 
