@@ -12,9 +12,10 @@ namespace Cannon
         [SerializeField] private string cannonBallPrefabName = "Cannon/CannonBall";
         [SerializeField] private MannedCannonState.Settings mannedStateSettings;
 
+        [SerializeField] private Transform @base;
+
         [SerializeField]
         private Transform
-            @base,
             barrel,
             firePoint,
             playerPoint;
@@ -23,6 +24,8 @@ namespace Cannon
         private Interactable
             mountInteractable,
             unmountInteractable;
+
+        protected Transform Base => this.@base;
 
         public override void InstallBindings()
         {
@@ -54,10 +57,10 @@ namespace Cannon
                     typeof(IDisposable))
                 .To<RemoteControlledCannonState>()
                 .AsSingle();
-
+            
             Container.BindInstance(baseSettings).AsSingle();
-            Container.Bind<CannonBase>()
-                .AsSingle()
+            Container.Bind<CannonBase>().
+                AsSingle()
                 .WithArguments(@base);
 
             Container.BindInstance(cannonBallPrefabName).WhenInjectedInto<PhotonFactory<int, Vector3, CannonBall>>();

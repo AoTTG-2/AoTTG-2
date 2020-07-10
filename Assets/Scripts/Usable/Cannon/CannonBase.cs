@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Cannon
 {
-    internal sealed class CannonBase
+    internal class CannonBase
     {
         private readonly Transform @base;
         private readonly Settings settings;
@@ -18,8 +18,14 @@ namespace Cannon
 
         public void Rotate(float degrees)
         {
-            @base.Rotate(0f, degrees * Time.deltaTime, 0f);
+            if (degrees == 0f) return;
+            ApplyRotation(degrees);
             ClampRotation();
+        }
+
+        protected virtual void ApplyRotation(float degrees)
+        {
+            @base.Rotate(0f, degrees * Time.deltaTime, 0f);
         }
 
         private void ClampRotation()
