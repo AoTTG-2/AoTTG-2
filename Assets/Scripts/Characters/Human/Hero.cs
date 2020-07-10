@@ -5,7 +5,6 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Xft;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -14,24 +13,24 @@ using Random = UnityEngine.Random;
 public class Hero : Human
 {
     private Equipment Equipment { get; set; }
-    [FormerlySerializedAs("EquipmentType")] public EquipmentType equipmentType;
+    public EquipmentType equipmentType;
 
     public List<HeroSkill> Skills;
 
-    [FormerlySerializedAs("_state")] public HERO_STATE state;
+    public HERO_STATE state;
     private bool almostSingleHook;
     private string attackAnimation;
     private int attackLoop;
     private bool attackMove;
     private bool attackReleased;
-    [FormerlySerializedAs("audio_ally")] public AudioSource audioAlly;
-    [FormerlySerializedAs("audio_hitwall")] public AudioSource audioHitwall;
+    public AudioSource audioAlly;
+    public AudioSource audioHitwall;
     private GameObject badGuy;
     public Animation baseAnimation;
     public Rigidbody baseRigidBody;
     public Transform baseTransform;
     public bool bigLean;
-    [FormerlySerializedAs("bombCD")] public float bombCd;
+    public float bombCd;
     public bool bombImmune;
     public float bombRadius;
     public float bombSpeed;
@@ -43,7 +42,7 @@ public class Hero : Human
     public GameObject bulletRight;
     private bool buttonAttackRelease;
     private Dictionary<string, Image> CachedSprites;
-    [FormerlySerializedAs("CameraMultiplier")] public float cameraMultiplier;
+    public float cameraMultiplier;
     public bool canJump = true;
     public GameObject checkBoxLeft;
     public GameObject checkBoxRight;
@@ -106,7 +105,7 @@ public class Hero : Human
     private bool isRightHandHooked;
     public float jumpHeight = 2f;
     private bool justGrounded;
-    [FormerlySerializedAs("LabelDistance")] public Text labelDistance;
+    public Text labelDistance;
     public Transform lastHook;
     private float launchElapsedTimeL;
     private float launchElapsedTimeR;
@@ -146,11 +145,11 @@ public class Hero : Human
     private float rTapTime = -1f;
     public HERO_SETUP setup;
     private GameObject skillCd;
-    [FormerlySerializedAs("skillCDDuration")] public float skillCdDuration;
-    [FormerlySerializedAs("skillCDLast")] public float skillCdLast;
-    [FormerlySerializedAs("skillCDLastCannon")] public float skillCdLastCannon;
+    public float skillCdDuration;
+    public float skillCdLast;
+    public float skillCdLastCannon;
     private string skillId;
-    [FormerlySerializedAs("skillIDHUD")] public string skillIdhud;
+    public string skillIdhud;
     public AudioSource slash;
     public AudioSource slashHit;
     private ParticleSystem smoke3Dmg;
@@ -179,8 +178,8 @@ public class Hero : Human
     private bool wallJump;
     private float wallRunTime;
 
-    [FormerlySerializedAs("InGameUI")] public GameObject inGameUI;
-    [FormerlySerializedAs("PlayerName")] public TextMesh playerName;
+    public GameObject inGameUI;
+    public TextMesh playerName;
 
     public delegate void HeroDiedHandler(Hero hero);
     public event HeroDiedHandler HeroDied;
