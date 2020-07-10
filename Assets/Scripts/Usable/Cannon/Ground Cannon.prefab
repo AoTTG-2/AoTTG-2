@@ -892,16 +892,17 @@ MonoBehaviour:
   baseSettings:
     MinRotation: 0
     MaxRotation: 360
+    NormalSpeed: 30
+    SlowSpeed: 10
   barrelSettings:
     Cooldown: 2
     Force: 300
     MinRotation: 320.096
     MaxRotation: 22.188
-    TrajectoryLengthFactor: 0.2
-  cannonBallPrefabName: Cannon/CannonBall
-  mannedStateSettings:
     NormalSpeed: 30
     SlowSpeed: 10
+    TrajectoryLengthFactor: 0.2
+  cannonBallPrefabName: Cannon/CannonBall
   base: {fileID: 4082310344571120}
   barrel: {fileID: 4142534339432638}
   firePoint: {fileID: 4152110269270546}
@@ -914,7 +915,10 @@ MonoBehaviour:
   leftWheel: {fileID: 4559228214049022}
   rightWheel: {fileID: 4341452143315414}
   wheelSettings:
-    WheelRotationSpeed: 2
+    NormalSpeed: 5
+    SlowSpeed: 2
+    WheelTurnRotationSpeed: 2
+    WheelMoveRotationSpeed: 30
 --- !u!114 &114259609002453496
 MonoBehaviour:
   m_ObjectHideFlags: 1

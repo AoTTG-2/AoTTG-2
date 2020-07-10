@@ -10,7 +10,6 @@ namespace Cannon
         [SerializeField] private CannonBase.Settings baseSettings;
         [SerializeField] private CannonBarrel.Settings barrelSettings;
         [SerializeField] private string cannonBallPrefabName = "Cannon/CannonBall";
-        [SerializeField] private MannedCannonState.Settings mannedStateSettings;
 
         [SerializeField] private Transform @base;
 
@@ -31,7 +30,6 @@ namespace Cannon
         {
             Container.BindInterfacesAndSelfTo<CannonOwnershipManager>().AsSingle();
             
-            Container.BindInstance(mannedStateSettings).AsSingle();
             Container.BindInterfacesAndSelfTo<CannonStateManager>().AsSingle();
             Container.Bind(typeof(CannonState),
                 typeof(IInitializable),

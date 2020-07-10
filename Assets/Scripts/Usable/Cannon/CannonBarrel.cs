@@ -26,9 +26,13 @@ namespace Cannon
         private bool CooldownActive =>
             Time.time < lastFireTime + settings.Cooldown;
 
-        public void Rotate(float degrees)
+        public void Rotate(float input, bool slow)
         {
-            barrel.Rotate(-degrees * Time.deltaTime, 0f, 0f);
+            if (input == 0f) return;
+            
+            var speed = slow ? settings.SlowSpeed : settings.NormalSpeed;
+            var degrees = -input * Time.deltaTime * speed;
+            barrel.Rotate(degrees, 0f, 0f);
             ClampRotation();
         }
 
@@ -60,6 +64,8 @@ namespace Cannon
             public float Force = 300f;
             public float MinRotation = 85f;
             public float MaxRotation = 100f;
+            public float NormalSpeed = 30;
+            public float SlowSpeed = 10;
             public float TrajectoryLengthFactor = 3f;
         }
     }

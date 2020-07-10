@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 using Zenject;
 
@@ -6,17 +7,21 @@ namespace Cannon
 {
     internal sealed class MovingCannonState : CannonState, IInitializable, IDisposable
     {
+        private readonly CannonBase @base;
         private readonly CannonInput input;
         private readonly Transform movePoint;
         private readonly ICannonOwnershipManager ownershipManager;
         private readonly Interactable startMovingInteractable;
         private readonly Interactable stopMovingInteractable;
+        private readonly GroundCannonWheels wheels;
         private Hero mountedHero;
 
         public MovingCannonState(
             CannonStateManager stateManager,
             ICannonOwnershipManager ownershipManager,
             CannonInput input,
+            CannonBase @base,
+            GroundCannonWheels wheels,
             Interactable startMovingInteractable,
             Interactable stopMovingInteractable,
             Transform movePoint)
@@ -24,6 +29,8 @@ namespace Cannon
         {
             this.ownershipManager = ownershipManager;
             this.input = input;
+            this.@base = @base;
+            this.wheels = wheels;
             this.startMovingInteractable = startMovingInteractable;
             this.stopMovingInteractable = stopMovingInteractable;
             this.movePoint = movePoint;
@@ -65,7 +72,10 @@ namespace Cannon
         {
             if (!mountedHero) return;
 
-            var inputAxes = input.GetAxes();            
+            var inputAxes = input.GetAxes();
+            var slow = InputManager.Key(InputCannon.Slow);
+            @base.Rotate(inputAxes.x, slow);
+            wheels.Move(inputAxes.y, slow);
             
             mountedHero.transform.SetPositionAndRotation(
                 movePoint.position,

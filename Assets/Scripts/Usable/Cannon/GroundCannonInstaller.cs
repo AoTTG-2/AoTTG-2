@@ -27,6 +27,7 @@ namespace Cannon
             Container.Bind<GroundCannonWheels>()
                 .AsSingle()
                 .WithArguments(
+                    Base,
                     leftWheel,
                     rightWheel);
 

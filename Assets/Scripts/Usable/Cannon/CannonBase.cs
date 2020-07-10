@@ -16,10 +16,12 @@ namespace Cannon
             this.@base = @base;
         }
 
-        public void Rotate(float degrees)
+        public void Rotate(float input, bool slow)
         {
-            if (degrees == 0f) return;
-            ApplyRotation(degrees);
+            if (input == 0f) return;
+            
+            var speed = slow ? settings.SlowSpeed : settings.NormalSpeed;
+            ApplyRotation(input * speed);
             ClampRotation();
         }
 
@@ -40,6 +42,8 @@ namespace Cannon
         {
             public float MinRotation = 0f;
             public float MaxRotation = 360f;
+            public float NormalSpeed = 30;
+            public float SlowSpeed = 10;
         }
     }
 }

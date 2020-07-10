@@ -14,12 +14,10 @@ namespace Cannon
         private readonly Interactable mountInteractable;
         private readonly ICannonOwnershipManager ownershipManager;
         private readonly Transform playerPoint;
-        private readonly Settings settings;
         private readonly Interactable unmountInteractable;
         private Hero mountedHero;
 
         public MannedCannonState(
-            Settings settings,
             CannonStateManager stateManager,
             ICannonOwnershipManager ownershipManager,
             CannonBase @base,
@@ -31,7 +29,6 @@ namespace Cannon
             Transform playerPoint)
             : base(stateManager)
         {
-            this.settings = settings;
             this.ownershipManager = ownershipManager;
             this.@base = @base;
             this.barrel = barrel;
@@ -95,14 +92,11 @@ namespace Cannon
         public override void Update()
         {
             if (!mountedHero) return;
-            
-            var inputAxes = input.GetAxes();
-            var speed = InputManager.Key(InputCannon.Slow) ? settings.SlowSpeed : settings.NormalSpeed;
-            var x = inputAxes.x * speed;
-            var y = inputAxes.y * speed;
 
-            @base.Rotate(x);
-            barrel.Rotate(y);
+            var inputAxes = input.GetAxes();
+            var slow = InputManager.Key(InputCannon.Slow);
+            @base.Rotate(inputAxes.x, slow);
+            barrel.Rotate(inputAxes.y, slow);
 
             if (InputManager.KeyDown(InputCannon.Shoot))
                 barrel.TryFire(mountedHero.photonView.viewID);
@@ -133,13 +127,6 @@ namespace Cannon
         {
             StateManager.Transition<MannedCannonState>();
             ownershipManager.LocalOwnershipTaken -= OnLocalOwnershipTaken;
-        }
-
-        [Serializable]
-        public class Settings
-        {
-            public float NormalSpeed = 30;
-            public float SlowSpeed = 10;
         }
     }
 }
