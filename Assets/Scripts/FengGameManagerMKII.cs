@@ -21,7 +21,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [SerializeField]
     private VersionManager versionManager;
 
-    public RCLegacyPrefab RcLegacyPrefab;
+    public RCLegacy RcLegacy;
 
     public static bool showHackMenu = true;
 
@@ -110,7 +110,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private ArrayList racingResult;
     public Vector3 racingSpawnPoint;
     public bool racingSpawnPointSet;
-    public static AssetBundle RCassets { get; set; }
+    //public static AssetBundle RCassets { get; set; }
     public static ExitGames.Client.Photon.Hashtable RCEvents;
     public static ExitGames.Client.Photon.Hashtable RCRegions;
     public static ExitGames.Client.Photon.Hashtable RCRegionTriggers;
@@ -1052,7 +1052,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     if (strArray[0].StartsWith("custom"))
                     {
                         num2 = 1f;
-                        obj2 = CustomMapHelper.LegacyMapToPrefab(strArray);
+                        obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Custom);
                         if (strArray[2] != "default")
                         {
                             if (strArray[2].StartsWith("transparent"))
@@ -1063,7 +1063,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                 }
                                 foreach (Renderer renderer in obj2.GetComponentsInChildren<Renderer>())
                                 {
-                                    renderer.material = (Material) RCassets.LoadAsset("transparent");
+                                    renderer.material = RcLegacy.GetMaterial("transparent");
                                     if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                                     {
                                         renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
@@ -1074,7 +1074,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 foreach (Renderer renderer in obj2.GetComponentsInChildren<Renderer>())
                                 {
-                                    renderer.material = (Material) RCassets.LoadAsset(strArray[2]);
+                                    renderer.material = RcLegacy.GetMaterial(strArray[2]);
                                     if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                                     {
                                         renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
@@ -1108,13 +1108,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         if (strArray.Length < 15)
                         {
-                            UnityEngine.Object.Instantiate(Resources.Load(strArray[1]), new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])));
+                            CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.BaseSpecial);
                         }
                         else
                         {
                             num2 = 1f;
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) Resources.Load(strArray[1]), new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Base);
                             if (strArray[2] != "default")
                             {
                                 if (strArray[2].StartsWith("transparent"))
@@ -1125,7 +1124,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                     }
                                     foreach (Renderer renderer in obj2.GetComponentsInChildren<Renderer>())
                                     {
-                                        renderer.material = (Material) RCassets.LoadAsset("transparent");
+                                        renderer.material = RcLegacy.GetMaterial("transparent");
                                         if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                                         {
                                             renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
@@ -1138,7 +1137,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                     {
                                         if (!(renderer.name.Contains("Particle System") && obj2.name.Contains("aot_supply")))
                                         {
-                                            renderer.material = (Material) RCassets.LoadAsset(strArray[2]);
+                                            renderer.material = RcLegacy.GetMaterial(strArray[2]);
                                             if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                                             {
                                                 renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
@@ -1172,8 +1171,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         if (strArray[1].StartsWith("barrier"))
                         {
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Misc);
                             num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
                             num5 -= 0.001f;
                             num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
@@ -1182,8 +1180,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                         else if (strArray[1].StartsWith("racingStart"))
                         {
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Misc);
                             num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
                             num5 -= 0.001f;
                             num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
@@ -1196,8 +1193,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                         else if (strArray[1].StartsWith("racingEnd"))
                         {
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Misc);
                             num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
                             num5 -= 0.001f;
                             num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
@@ -1212,7 +1208,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             string key = strArray[2];
                             if (RCRegionTriggers.ContainsKey(key))
                             {
-                                GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset("region"));
+                                GameObject obj3 = RcLegacy.GetPrefab("region");
                                 obj3.transform.position = loc;
                                 //obj3.AddComponent<RegionTrigger>();
                                 //obj3.GetComponent<RegionTrigger>().CopyTrigger((RegionTrigger)RCRegionTriggers[key]);
@@ -1230,8 +1226,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         if (strArray[1].StartsWith("start"))
                         {
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Racing);
                             num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
                             num5 -= 0.001f;
                             num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
@@ -1244,8 +1239,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                         else if (strArray[1].StartsWith("end"))
                         {
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Racing);
                             num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
                             num5 -= 0.001f;
                             num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
@@ -1255,8 +1249,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                         else if (strArray[1].StartsWith("kill"))
                         {
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Racing);
                             num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
                             num5 -= 0.001f;
                             num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
@@ -1266,8 +1259,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                         else if (strArray[1].StartsWith("checkpoint"))
                         {
-                            obj2 = null;
-                            obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
+                            obj2 = CustomMapHelper.LegacyMapToPrefab(strArray, RcObjectType.Racing);
                             num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
                             num5 -= 0.001f;
                             num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
@@ -1281,7 +1273,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         if (strArray[1].StartsWith("disablebounds"))
                         {
                             UnityEngine.Object.Destroy(GameObject.Find("gameobjectOutSide"));
-                            //UnityEngine.Object.Instantiate(RCassets.LoadAsset("outside"));
+                            //Outside Barriers are no longer required as per issue 197
                         }
                     }
                     else if (PhotonNetwork.isMasterClient && strArray[0].StartsWith("photon"))
@@ -1614,12 +1606,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
         this.RecompilePlayerList(0.1f);
-    }
-
-    public static GameObject InstantiateCustomAsset(string key)
-    {
-        key = key.Substring(8);
-        return (GameObject)RCassets.LoadAsset(key);
     }
 
     private void ReloadPlayerlist()
@@ -2111,8 +2097,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     UnityEngine.Object.Destroy(obj2);
                 }
             }
-            GameObject.Find("Cube_001").GetComponent<Renderer>().material.mainTexture = ((Material)RCassets.LoadAsset("grass")).mainTexture;
-            UnityEngine.Object.Instantiate(RCassets.LoadAsset("spawnPlayer"), new Vector3(-10f, 1f, -10f), new Quaternion(0f, 0f, 0f, 1f));
+            GameObject.Find("Cube_001").GetComponent<Renderer>().material.mainTexture = (RcLegacy.GetMaterial("grass")).mainTexture;
+            UnityEngine.Object.Instantiate(RcLegacy.GetPrefab("spawnPlayer"), new Vector3(-10f, 1f, -10f), new Quaternion(0f, 0f, 0f, 1f));
             for (num = 0; num < strArray2.Length; num++)
             {
                 string name = strArray2[num];
@@ -3762,7 +3748,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (isAssetLoaded)
         {
-            UnityEngine.Object.Instantiate(RCassets.LoadAsset("backgroundCamera"));
+            UnityEngine.Object.Instantiate(RcLegacy.GetPrefab("backgroundCamera"));
         }
     }
 
@@ -4359,30 +4345,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.ShowHUDInfoCenter(string.Empty);
     }
 
-    private IEnumerator LoadAssetBundleFromStreamingAssetsCoroutine()
-    {
-        string url = Application.streamingAssetsPath + "/RCAssets.unity3d";
-        if (!Application.isPlaying)
-        {
-            url = "File://" + url;
-        }
-        while (!Caching.ready)
-        {
-            yield return null;
-        }
-        int version = 1;
-        using (WWW iteratorVariable2 = WWW.LoadFromCacheOrDownload(url, version))
-        {
-            yield return iteratorVariable2;
-            if (iteratorVariable2.error != null)
-            {
-                throw new Exception("WWW download had an error:" + iteratorVariable2.error);
-            }
-            RCassets = iteratorVariable2.assetBundle;
-        }
-    }
-
-
     private void Start()
     {
         var map = System.IO.File.ReadAllText(Application.streamingAssetsPath + "\\" + "custom_map.txt");
@@ -4391,8 +4353,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             "Map is empty".SendError();
             return;
         }
-
-        StartCoroutine(LoadAssetBundleFromStreamingAssetsCoroutine());
 
         FengGameManagerMKII.currentScript = map;
         Debug.Log(FengGameManagerMKII.currentScript);

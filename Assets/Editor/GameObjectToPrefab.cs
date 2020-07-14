@@ -9,7 +9,7 @@ namespace Assets.Editor
 {
     public class GameObjectToPrefab : EditorWindow
     {
-        [SerializeField] public RCLegacyPrefab rcLegacyPrefab;
+        [SerializeField] public RCLegacy RcLegacy;
         private List<GameObjectInformation> gameObjectCache;
 
         private bool HasClosed { get; set; }
@@ -40,7 +40,7 @@ namespace Assets.Editor
 
         private void OnGUI()
         {
-            rcLegacyPrefab = (RCLegacyPrefab) EditorGUILayout.ObjectField("RC Legacy Prefabs", rcLegacyPrefab, typeof(RCLegacyPrefab), false);
+            RcLegacy = (RCLegacy) EditorGUILayout.ObjectField("RC Legacy Prefabs", RcLegacy, typeof(RCLegacy), false);
 
             if (GUILayout.Button("Replace"))
             {
@@ -65,7 +65,7 @@ namespace Assets.Editor
 
                 foreach (var cachedGameObject in gameObjectCache)
                 {
-                    var prefab = rcLegacyPrefab.Get(cachedGameObject.PrefabName);
+                    var prefab = RcLegacy.GetPrefab(cachedGameObject.PrefabName);
                     if (prefab == null) continue;
 
                     var prefabType = PrefabUtility.GetPrefabType(prefab);
