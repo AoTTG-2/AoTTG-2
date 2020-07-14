@@ -40,6 +40,7 @@ public class CommandHandler : MonoBehaviour
         Command Info = new Command("/help", "Use this command to get the description of any available command in this system!", "[first characters]", ConsoleCommands.GetInfoAboutCommand);
         Command InfoAboutCommandLine = new Command("/info", "More information about this Command Line", string.Empty, ConsoleCommands.Info);
         Command SwitchDebugLevel = new Command("/debug", "Enable/Disable debug levels for this console. Only messages with allowed levels will be shown.", "[level (0-8)]", ConsoleCommands.SwitchDebugLevel);
+        new Command("/mapconvert", "Enable/Disable debug levels for this console. Only messages with allowed levels will be shown.", "[1] Custom Map Script", ConsoleCommands.CustomMapToUnityScene);
     }
 
     public static void ExecuteLine(string line)

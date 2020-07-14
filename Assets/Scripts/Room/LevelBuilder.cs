@@ -19,6 +19,24 @@ public class LevelBuilder
     {
         _levels.Add(new Level
         {
+            Name = "Custom",
+            Description = "Custom Map",
+            SceneName = "The Forest",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new KillTitansSettings(),
+                new WaveGamemodeSettings(),
+                new InfectionGamemodeSettings(),
+                new RacingSettings(),
+                new CaptureGamemodeSettings(),
+                new RushSettings(),
+                new EndlessSettings(),
+                new PvPAhssSettings()
+            }
+        });
+
+        _levels.Add(new Level
+        {
             Name = "Test Zone",
             Description = "Classic City Map from AoTTG",
             SceneName = "Test Zone",
@@ -127,24 +145,6 @@ public class LevelBuilder
                     Supply = true,
                     SpawnSupplyStationOnHumanCapture = true
                 }
-            }
-        });
-
-        _levels.Add(new Level
-        {
-            Name = "Custom",
-            Description = "Custom Map",
-            SceneName = "The Forest",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new KillTitansSettings(),              
-                new WaveGamemodeSettings(),
-                new InfectionGamemodeSettings(),
-                new RacingSettings(),
-                new CaptureGamemodeSettings(),
-                new RushSettings(),
-                new EndlessSettings(),
-                new PvPAhssSettings()
             }
         });
 
