@@ -45,8 +45,10 @@ namespace Assets.Editor
             if (GUILayout.Button("Replace"))
             {
                 gameObjectCache = new List<GameObjectInformation>();
-                var selection = Selection.gameObjects;
-                foreach (var selected in selection)
+                var sceneObjects = new List<GameObject>();
+                Scene scene = SceneManager.GetActiveScene();
+                scene.GetRootGameObjects(sceneObjects);
+                foreach (var selected in sceneObjects)
                 {
                     gameObjectCache.Add(new GameObjectInformation(selected));
                 }
@@ -64,18 +66,14 @@ namespace Assets.Editor
                 foreach (var cachedGameObject in gameObjectCache)
                 {
                     var prefab = rcLegacyPrefab.Get(cachedGameObject.PrefabName);
+                    if (prefab == null) continue;
 
                     var prefabType = PrefabUtility.GetPrefabType(prefab);
-                    GameObject newObject;
+                    GameObject newObject = null;
 
                     if (prefabType == PrefabType.Prefab)
                     {
                         newObject = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
-                    }
-                    else
-                    {
-                        newObject = Instantiate(prefab);
-                        newObject.name = prefab.name;
                     }
 
                     if (newObject == null)
