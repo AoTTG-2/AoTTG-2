@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Legacy.CustomMap;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -29,6 +30,8 @@ namespace Assets.Editor
                 LocalRotation = gameObject.transform.localRotation;
                 PrefabName = gameObject.name.Replace("(Clone)", "");
                 SiblingIndex = gameObject.transform.GetSiblingIndex();
+                Materials = gameObject.GetComponentsInChildren<Renderer>().Select(x => new MaterialInformation(x))
+                    .ToArray();
             }
 
             public readonly Vector3 LocalPosition;
@@ -36,6 +39,19 @@ namespace Assets.Editor
             public readonly Quaternion LocalRotation;
             public readonly string PrefabName;
             public readonly int SiblingIndex;
+            public readonly MaterialInformation[] Materials;
+        }
+
+        private struct MaterialInformation
+        {
+            public MaterialInformation(Renderer renderer)
+            {
+                Material = renderer.material.name.Replace("(Instance)", "").Trim();
+                TextureScale = renderer.material.mainTextureScale;
+            }
+
+            public readonly string Material;
+            public readonly Vector2 TextureScale;
         }
 
         private void OnGUI()
@@ -87,6 +103,21 @@ namespace Assets.Editor
                     newObject.transform.localRotation = cachedGameObject.LocalRotation;
                     newObject.transform.localScale = cachedGameObject.LocalScale;
                     newObject.transform.SetSiblingIndex(cachedGameObject.SiblingIndex);
+
+                    var renderers = newObject.GetComponentsInChildren<Renderer>();
+                    for (var i = 0; i < renderers.Length; i++)
+                    {
+                        try
+                        {
+                            renderers[i].material = RcLegacy.GetMaterial(cachedGameObject.Materials[i].Material);
+                            renderers[i].sharedMaterial.mainTextureScale = cachedGameObject.Materials[i].TextureScale;
+                        }
+                        catch
+                        {
+                            Debug.LogError($"Material: {cachedGameObject.Materials[i].Material} exception");
+                        }
+
+                    }
                 }
             }
 

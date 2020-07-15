@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace Assets.Scripts.Legacy.CustomMap
         {
             try
             {
-                return RCPrefabs.Single(x => x.name == name);
+                return RCPrefabs.Single(x => string.Equals(x.name, name, StringComparison.InvariantCultureIgnoreCase));
             }
             catch
             {
@@ -28,7 +29,7 @@ namespace Assets.Scripts.Legacy.CustomMap
         {
             try
             {
-                return RcMaterials.Single(x => x.name == name);
+                return RcMaterials.Single(x => string.Equals(x.name, name, StringComparison.InvariantCultureIgnoreCase));
             }
             catch
             {

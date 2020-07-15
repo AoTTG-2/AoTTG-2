@@ -17,7 +17,7 @@ namespace Assets.Scripts.Room
         private static Vector3 GetPosition(string[] mapData, RcObjectType type)
         {
             var index = GetPositionIndex(type);
-            return new Vector3(Convert.ToSingle(mapData[index[0]]), Convert.ToSingle(index[1]), Convert.ToSingle(mapData[index[2]]));
+            return new Vector3(Convert.ToSingle(mapData[index[0]]), Convert.ToSingle(mapData[index[1]]), Convert.ToSingle(mapData[index[2]]));
         }
 
         private static Quaternion GetRotation(string[] mapData, RcObjectType type)
