@@ -181,6 +181,8 @@ public class Hero : Human
     private float uTapTime = -1f;
     private bool wallJump;
     private float wallRunTime;
+    private bool ReelInInput=false;
+    private bool ReelOutInput=false;
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
@@ -1098,6 +1100,14 @@ public class Hero : Human
         baseRigidBody.AddForce(baseRigidBody.velocity * 0.00f, ForceMode.Acceleration);
     }
 
+    private void Update(){
+                        
+         if (InputManager.Key(InputHuman.ReelIn))
+             ReelInInput=true;
+         else if (InputManager.Key(InputHuman.ReelOut))
+             ReelOutInput=true;
+                        }
+
     private void FixedUpdate()
     {
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
@@ -1649,14 +1659,16 @@ public class Hero : Human
                         AddRightForce();
                         Vector3 vector15 = this.bulletLeft.transform.position - this.baseTransform.position;
                         float num18 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
+                        if (ReelInInput)
                         {
+                            ReelInInput = false;
                             num18 = -1f;
                         }
-                        else if (InputManager.Key(InputHuman.ReelOut))
-                        {
+                        else if (ReelOutInput)
+                        { 
+                            ReelOutInput = false;
                             num18 = 1f;
-                        }
+                        }  
                         else
                         {
                             num18 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
@@ -1674,12 +1686,14 @@ public class Hero : Human
                         AddRightForce();
                         Vector3 vector17 = this.bulletRight.transform.position - this.baseTransform.position;
                         float num21 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
-                        {
+                        if (ReelInInput)
+                        {   
+                            ReelInInput=false;
                             num21 = -1f;
                         }
-                        else if (InputManager.Key(InputHuman.ReelOut))
+                        else if (ReelOutInput)
                         {
+                            ReelOutInput=false;
                             num21 = 1f;
                         }
                         else
