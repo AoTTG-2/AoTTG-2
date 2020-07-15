@@ -209,7 +209,8 @@ public class CostumeConeveter
             return HeroCostume.costume[0];
         }
         HeroCostume costume = new HeroCostume();
-        costume = new HeroCostume {
+        costume = new HeroCostume
+        {
             sex = IntToSex(PlayerPrefs.GetInt(slot + PhotonPlayerProperty.sex)),
             id = PlayerPrefs.GetInt(slot + PhotonPlayerProperty.heroCostumeId),
             costumeId = PlayerPrefs.GetInt(slot + PhotonPlayerProperty.costumeId),
@@ -223,6 +224,7 @@ public class CostumeConeveter
             division = IntToDivision(PlayerPrefs.GetInt(slot + PhotonPlayerProperty.division)),
             stat = new HeroStat()
         };
+        costume.hairInfo = (costume.sex != SEX.MALE) ? CostumeHair.hairsF[PlayerPrefs.GetInt(slot + PhotonPlayerProperty.hairInfo)] : CostumeHair.hairsM[PlayerPrefs.GetInt(slot + PhotonPlayerProperty.hairInfo)];
         costume.stat.SPD = PlayerPrefs.GetInt(slot + PhotonPlayerProperty.statSPD);
         costume.stat.GAS = PlayerPrefs.GetInt(slot + PhotonPlayerProperty.statGAS);
         costume.stat.BLA = PlayerPrefs.GetInt(slot + PhotonPlayerProperty.statBLA);
@@ -252,6 +254,7 @@ public class CostumeConeveter
             division = IntToDivision((int) player.CustomProperties[PhotonPlayerProperty.division]),
             stat = new HeroStat()
         };
+        costume.hairInfo = (sex != SEX.MALE) ? CostumeHair.hairsF[(int)player.CustomProperties[PhotonPlayerProperty.hairInfo]] : CostumeHair.hairsM[(int)player.CustomProperties[PhotonPlayerProperty.hairInfo]];
         costume.stat.SPD = (int) player.CustomProperties[PhotonPlayerProperty.statSPD];
         costume.stat.GAS = (int) player.CustomProperties[PhotonPlayerProperty.statGAS];
         costume.stat.BLA = (int) player.CustomProperties[PhotonPlayerProperty.statBLA];
