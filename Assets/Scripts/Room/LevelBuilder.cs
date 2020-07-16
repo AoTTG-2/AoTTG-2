@@ -24,10 +24,10 @@ public class LevelBuilder
             SceneName = "The Forest",
             Gamemodes = new List<GamemodeSettings>
             {
+                new RacingSettings(),
                 new KillTitansSettings(),
                 new WaveGamemodeSettings(),
                 new InfectionGamemodeSettings(),
-                new RacingSettings(),
                 new CaptureGamemodeSettings(),
                 new RushSettings(),
                 new EndlessSettings(),
