@@ -1,8 +1,9 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Room;
+using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Gamemode.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ namespace Assets.Scripts.UI.Menu
     public class CreateRoom : UiNavigationElement
     {
         public Dropdown LevelDropdown;
+        public Dropdown CustomLevelDropdown;
         public Dropdown GamemodeDropdown;
 
         public InputField RoomName;
@@ -20,6 +22,7 @@ namespace Assets.Scripts.UI.Menu
 
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
+        private string SelectedCustomLevel { get; set; } = "None";
         
         public void Start()
         {
@@ -42,6 +45,18 @@ namespace Assets.Scripts.UI.Menu
             });
 
             OnLevelSelected(levels[0]);
+
+            CustomLevelDropdown.options = new List<Dropdown.OptionData>();
+            CustomLevelDropdown.options.Add(new Dropdown.OptionData("None"));;
+            foreach (var level in CustomLevelHelper.GetAll())
+            {
+                CustomLevelDropdown.options.Add(new Dropdown.OptionData(level));
+            }
+            CustomLevelDropdown.captionText.text = CustomLevelDropdown.options[0].text;
+            CustomLevelDropdown.onValueChanged.AddListener(delegate
+            {
+                SelectedCustomLevel = CustomLevelDropdown.captionText.text;
+            });
         }
 
         public void Create()
@@ -65,6 +80,11 @@ namespace Assets.Scripts.UI.Menu
                 },
                 CustomRoomPropertiesForLobby = new []{"name", "level", "gamemode"}
             };
+
+            if (SelectedCustomLevel != "None")
+            {
+                roomOptions.CustomRoomProperties["level"] = SelectedCustomLevel;
+            }
 
             var password = RoomPassword.text.Trim();
             if (!string.IsNullOrEmpty(password))

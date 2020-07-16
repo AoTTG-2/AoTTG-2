@@ -2049,8 +2049,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     else if (((obj2.name == "Cube_001") && (obj2.transform.parent.gameObject.tag != "player")) && (obj2.GetComponent<Renderer>() != null))
                     {
                         this.groundList.Add(obj2);
-                        //TODO: 227 EXCEPTION
-                        //obj2.GetComponent<Renderer>().material.mainTexture = ((Material)RCassets.LoadAsset("grass")).mainTexture;
+                        obj2.GetComponent<Renderer>().material.mainTexture = RcLegacy.GetMaterial("grass").mainTexture;
                     }
                 }
                 if (PhotonNetwork.isMasterClient)
