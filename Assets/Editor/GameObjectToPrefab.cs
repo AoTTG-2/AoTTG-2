@@ -32,6 +32,8 @@ namespace Assets.Editor
                 SiblingIndex = gameObject.transform.GetSiblingIndex();
                 Materials = gameObject.GetComponentsInChildren<Renderer>().Select(x => new MaterialInformation(x))
                     .ToArray();
+                Colors = gameObject.GetComponentsInChildren<MeshFilter>().FirstOrDefault(x => x.mesh.colors.Length > 0)?
+                    .mesh.colors.FirstOrDefault();
             }
 
             public readonly Vector3 LocalPosition;
@@ -40,6 +42,7 @@ namespace Assets.Editor
             public readonly string PrefabName;
             public readonly int SiblingIndex;
             public readonly MaterialInformation[] Materials;
+            public readonly Color? Colors;
         }
 
         private struct MaterialInformation
@@ -58,7 +61,7 @@ namespace Assets.Editor
         {
             RcLegacy = (RCLegacy) EditorGUILayout.ObjectField("RC Legacy Prefabs", RcLegacy, typeof(RCLegacy), false);
 
-            if (GUILayout.Button("Replace"))
+            if (GUILayout.Button("Convert"))
             {
                 gameObjectCache = new List<GameObjectInformation>();
                 var sceneObjects = new List<GameObject>();
@@ -110,11 +113,23 @@ namespace Assets.Editor
                         try
                         {
                             renderers[i].material = RcLegacy.GetMaterial(cachedGameObject.Materials[i].Material);
-                            renderers[i].sharedMaterial.mainTextureScale = cachedGameObject.Materials[i].TextureScale;
+                            renderers[i].material.mainTextureScale = cachedGameObject.Materials[i].TextureScale;
                         }
                         catch
                         {
                             Debug.LogError($"Material: {cachedGameObject.Materials[i].Material} exception");
+                        }
+
+                        try
+                        {
+                            if (cachedGameObject.Colors.HasValue)
+                            {
+                                renderers[i].material.color = cachedGameObject.Colors.Value;
+                            }
+                        }
+                        catch
+                        {
+                            Debug.LogError($"Color: {cachedGameObject.Colors} exception");
                         }
 
                     }
