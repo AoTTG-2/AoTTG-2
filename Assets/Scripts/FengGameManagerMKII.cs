@@ -3029,15 +3029,18 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             ServerRequestAuthentication(PrivateServerAuthPass);
         }
+        GameObject.FindObjectOfType<DiscordRichPresence>().InGame(PhotonNetwork.room);
     }
 
     public void OnLeftLobby()
     {
         UnityEngine.MonoBehaviour.print("OnLeftLobby");
+        
     }
 
     public void OnLeftRoom()
     {
+        
         if (Application.loadedLevel != 0)
         {
             Time.timeScale = 1f;
@@ -3050,6 +3053,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
             this.gameStart = false;
             this.DestroyAllExistingCloths();
+           
             UnityEngine.Object.Destroy(GameObject.Find("MultiplayerManager"));
             Application.LoadLevel(0);
         }
@@ -3272,6 +3276,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.PreservedPlayerKDR.Add(key, numArray2);
         }
         this.RecompilePlayerList(0.1f);
+        
     }
 
     public void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
