@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -98,8 +99,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static string passwordField;
     public float pauseWaitTime;
     public string playerList;
+    [Obsolete("Use PlayerSpawns instead")]
     public List<Vector3> playerSpawnsC;
+    [Obsolete("Use PlayerSpawns instead")]
     public List<Vector3> playerSpawnsM;
+    public List<PlayerSpawner> PlayerSpawners { get; set; } = new List<PlayerSpawner>();
     public List<PhotonPlayer> playersRPC;
     public static ExitGames.Client.Photon.Hashtable playerVariables;
     public Dictionary<string, int[]> PreservedPlayerKDR;
@@ -3843,34 +3847,30 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 position = this.racingSpawnPoint;
             }
-            else if (Level.Name.StartsWith("Custom"))
+            else
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                 {
-                    List<Vector3> list = new List<Vector3>();
-                    foreach (Vector3 vector2 in this.playerSpawnsC)
-                    {
-                        list.Add(vector2);
-                    }
-                    foreach (Vector3 vector2 in this.playerSpawnsM)
-                    {
-                        list.Add(vector2);
-                    }
-                    if (list.Count > 0)
-                    {
-                        position = list[UnityEngine.Random.Range(0, list.Count)];
-                    }
+                    position = PlayerSpawners[UnityEngine.Random.Range(0, PlayerSpawners.Count)].gameObject.transform
+                        .position;
                 }
                 else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                 {
-                    if (this.playerSpawnsC.Count > 0)
+                    var cyanSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Cyan).ToArray();
+                    if (cyanSpawners.Length > 0)
                     {
-                        position = this.playerSpawnsC[UnityEngine.Random.Range(0, this.playerSpawnsC.Count)];
+                        position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
+                            .position;
                     }
                 }
-                else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2) && (this.playerSpawnsM.Count > 0))
+                else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
                 {
-                    position = this.playerSpawnsM[UnityEngine.Random.Range(0, this.playerSpawnsM.Count)];
+                    var magentaSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Magenta).ToArray();
+                    if (magentaSpawners.Length > 0)
+                    {
+                        position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Length)].gameObject.transform
+                            .position;
+                    }
                 }
             }
             IN_GAME_MAIN_CAMERA component = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4273358221747164}
   - component: {fileID: 33643488536378324}
   - component: {fileID: 23971288019137048}
+  - component: {fileID: 114598869077062896}
   m_Layer: 23
   m_Name: playerRespawn
   m_TagString: playerRespawn
@@ -82,3 +83,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1004776814672758}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114598869077062896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1004776814672758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0

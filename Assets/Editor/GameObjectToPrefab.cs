@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Legacy.CustomMap;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Room;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace Assets.Editor
     {
         [SerializeField] public RCLegacy RcLegacy;
         private List<GameObjectInformation> gameObjectCache;
+        private List<SpawnInformation> spawnersCache;
 
         private bool HasClosed { get; set; }
 
@@ -59,6 +62,34 @@ namespace Assets.Editor
             public readonly Vector2 TextureScale;
         }
 
+        private enum SpawnType
+        {
+            HumanCyan,
+            HumanMagenta,
+            Titan
+        }
+
+        private struct SpawnInformation
+        {
+            public SpawnInformation(Vector3 position, SpawnType type)
+            {
+                Position = position;
+                Type = type;
+            }
+
+            public readonly Vector3 Position;
+            public readonly SpawnType Type;
+        }
+
+        private struct AutomaticTitanSpawnerInformation
+        {
+            public AutomaticTitanSpawnerInformation(Vector3 position, MindlessTitanType type, int respawnTimer,
+                bool isEndless)
+            {
+
+            }
+        }
+
         private void OnGUI()
         {
             RcLegacy = (RCLegacy) EditorGUILayout.ObjectField("RC Legacy Prefabs", RcLegacy, typeof(RCLegacy), false);
@@ -66,6 +97,7 @@ namespace Assets.Editor
             if (GUILayout.Button("Convert"))
             {
                 gameObjectCache = new List<GameObjectInformation>();
+                spawnersCache = new List<SpawnInformation>();
                 var sceneObjects = new List<GameObject>();
                 Scene scene = SceneManager.GetActiveScene();
                 scene.GetRootGameObjects(sceneObjects);
@@ -75,7 +107,7 @@ namespace Assets.Editor
                     {
                         foreach (Transform child in selected.transform)
                         {
-                            child.gameObject.transform.localScale = new Vector3(20,1, 20);
+                            child.gameObject.transform.localScale = new Vector3(20, 1, 20);
                             gameObjectCache.Add(new GameObjectInformation(child.gameObject));
                         }
                     }
@@ -84,6 +116,13 @@ namespace Assets.Editor
                         gameObjectCache.Add(new GameObjectInformation(selected));
                     }
                 }
+
+                FengGameManagerMKII.instance.playerSpawnsC.ForEach(x =>
+                    spawnersCache.Add(new SpawnInformation(x, SpawnType.HumanCyan)));
+                FengGameManagerMKII.instance.playerSpawnsM.ForEach(x =>
+                    spawnersCache.Add(new SpawnInformation(x, SpawnType.HumanMagenta)));
+                FengGameManagerMKII.instance.titanSpawns.ForEach(x =>
+                    spawnersCache.Add(new SpawnInformation(x, SpawnType.Titan)));
 
                 Debug.Log(gameObjectCache.Count);
                 EditorApplication.ExecuteMenuItem("Edit/Play");
@@ -95,6 +134,7 @@ namespace Assets.Editor
                 HasClosed = false;
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
                 CreateObjects();
+                spawnersCache.ForEach(CreateSpawner);
             }
 
             GUI.enabled = false;
@@ -108,15 +148,8 @@ namespace Assets.Editor
             foreach (var cachedGameObject in gameObjectCache)
             {
                 var prefab = RcLegacy.GetPrefab(cachedGameObject.PrefabName);
-                if (prefab == null)
-                {
-                    CreateGameObject(cachedGameObject);
-                    continue;
-                }
-
+                if (prefab == null) continue;
                 var prefabType = PrefabUtility.GetPrefabType(prefab);
-                GameObject newObject = null;
-
                 if (prefabType == PrefabType.Prefab)
                 {
                     CreatePrefab(prefab, cachedGameObject);
@@ -126,7 +159,6 @@ namespace Assets.Editor
 
         private void CreatePrefab(GameObject prefab, GameObjectInformation information)
         {
-
             var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
             if (gameObject == null)
             {
@@ -167,18 +199,25 @@ namespace Assets.Editor
             }
         }
 
-        private void CreateGameObject(GameObjectInformation gameObject)
+        private void CreateSpawner(SpawnInformation information)
         {
-            if (gameObject.Tag == "playerRespawn")
+            if (information.Type == SpawnType.HumanCyan)
             {
                 var prefab = RcLegacy.GetPrefab("playerRespawn");
-                CreatePrefab(prefab, gameObject);
+                var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
+                gameObject.transform.position = information.Position;
+                gameObject.GetComponent<PlayerSpawner>().Type = PlayerSpawnType.Cyan;
             }
-
-            if (gameObject.Tag == "titanRespawn")
+            else if (information.Type == SpawnType.HumanMagenta)
             {
-                var prefab = RcLegacy.GetPrefab("titanRespawn");
-                CreatePrefab(prefab, gameObject);
+                var prefab = RcLegacy.GetPrefab("playerRespawn");
+                var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
+                gameObject.transform.position = information.Position;
+                gameObject.GetComponent<PlayerSpawner>().Type = PlayerSpawnType.Magenta;
+            }
+            else if (information.Type == SpawnType.Titan)
+            {
+
             }
         }
 
