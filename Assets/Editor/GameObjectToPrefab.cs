@@ -153,6 +153,7 @@ namespace Assets.Editor
         {
             PrefabUtility.InstantiatePrefab(RcLegacy.GetPrefab("cameraDefaultPosition"));
             PrefabUtility.InstantiatePrefab(RcLegacy.GetPrefab("Cube_001"));
+            PrefabUtility.InstantiatePrefab(RcLegacy.GetPrefab("LightSet"));
 
             foreach (var cachedGameObject in gameObjectCache)
             {
