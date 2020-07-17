@@ -88,7 +88,7 @@ namespace Assets.Scripts.Gamemode
             return GetTitanConfiguration(GetTitanType());
         }
 
-        protected virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
+        public virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
         {
             var size = Settings.TitanCustomSize ? Random.Range(Settings.TitanMinimumSize, Settings.TitanMaximumSize) : Random.Range(0.7f, 3f);
             var health = GetTitanHealth(size);
@@ -154,12 +154,6 @@ namespace Assets.Scripts.Gamemode
         public virtual void OnPlayerSpawned(GameObject player)
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
-        }
-
-        public virtual void SpawnTitan(MindlessTitanType type)
-        {
-            var func = new Func<TitanConfiguration>(() => GetTitanConfiguration(type));
-            SpawnTitans(1, func);
         }
 
         protected void SpawnTitans(int amount)

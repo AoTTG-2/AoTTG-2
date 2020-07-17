@@ -1,5 +1,5 @@
-﻿using System;
-using Assets.Scripts.Characters.Titan;
+﻿using Assets.Scripts.Characters.Titan;
+using System;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
@@ -21,6 +21,10 @@ namespace Assets.Scripts.Room
         {
             Timer = Delay;
             FengGameManagerMKII.instance.TitanSpawners.Add(this);
+            if (Type != TitanSpawnerType.None)
+            {
+                tag = "Untagged";
+            }
         }
 
         private void OnDestroy()
@@ -54,15 +58,19 @@ namespace Assets.Scripts.Room
                 case TitanSpawnerType.None:
                     break;
                 case TitanSpawnerType.Normal:
-                    FengGameManagerMKII.Gamemode.SpawnTitan(MindlessTitanType.Normal);
+                    SpawnMindlessTitan(MindlessTitanType.Normal);
                     break;
                 case TitanSpawnerType.Aberrant:
+                    SpawnMindlessTitan(MindlessTitanType.Abberant);
                     break;
                 case TitanSpawnerType.Jumper:
+                    SpawnMindlessTitan(MindlessTitanType.Jumper);
                     break;
                 case TitanSpawnerType.Punk:
+                    SpawnMindlessTitan(MindlessTitanType.Punk);
                     break;
                 case TitanSpawnerType.Crawler:
+                    SpawnMindlessTitan(MindlessTitanType.Crawler);
                     break;
                 case TitanSpawnerType.Annie:
                     break;
@@ -70,5 +78,12 @@ namespace Assets.Scripts.Room
                     throw new ArgumentOutOfRangeException(nameof(Type), Type, null);
             }
         }
+
+        private void SpawnMindlessTitan(MindlessTitanType type)
+        {
+            if (FengGameManagerMKII.instance.getTitans().Count >= FengGameManagerMKII.Gamemode.Settings.TitanLimit) return;
+            FengGameManagerMKII.instance.SpawnTitan(transform.position, transform.rotation, FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
+        }
+
     }
 }
