@@ -1,7 +1,6 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode.Settings;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +10,15 @@ namespace Assets.Scripts.UI.InGame
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
-        private List<Level> levels = LevelBuilder.GetAllLevels();
+        private List<Level> levels;
 
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
+
+        private void Awake()
+        {
+            levels = LevelBuilder.GetAllLevels();
+        }
 
         public void Start()
         {

@@ -23,12 +23,6 @@ namespace Assets.Scripts.Room
         public static Level GetLevel(this global::Room room)
         {
             var level = room.CustomProperties["level"].ToString();
-
-            if (level.Contains("_"))
-            {
-                return CustomLevelHelper.Load(level);
-            }
-
             return LevelBuilder.GetAllLevels().Single(x => x.Name == level);
         }
 

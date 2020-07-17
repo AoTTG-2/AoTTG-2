@@ -2747,7 +2747,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //}
 
         GameCursor.CursorMode = CursorMode.Loading;
-        PhotonNetwork.LoadLevel(Level.SceneName);
+        LevelHelper.Load(Level);
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add(PhotonPlayerProperty.name, LoginFengKAI.player.name);
         hashtable.Add(PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname);
@@ -3399,7 +3399,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             PhotonNetwork.room.SetCustomProperties(hash);
             var json = JsonConvert.SerializeObject(Gamemode.Settings);
             photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
-            PhotonNetwork.LoadLevel(Level.SceneName);
+            LevelHelper.Load(Level);
         }
         else if (NewRoundGamemode != null && Gamemode.Settings.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
         {
@@ -3429,7 +3429,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (info.sender.isMasterClient)
         {
             this.DestroyAllExistingCloths();
-            PhotonNetwork.LoadLevel(Level.SceneName);
+            LevelHelper.Load(Level);
         }
         else if (PhotonNetwork.isMasterClient)
         {
@@ -3448,7 +3448,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (this.restartCount.Count < 6)
             {
                 this.DestroyAllExistingCloths();
-                PhotonNetwork.LoadLevel(Level.SceneName);
+                LevelHelper.Load(Level);
             }
         }
     }

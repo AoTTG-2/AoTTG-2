@@ -1,18 +1,46 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Room;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class LevelBuilder
+public class LevelBuilder : MonoBehaviour
 {
     private static List<Level> _levels;
     public static List<Level> GetAllLevels()
     {
         if (_levels != null) return _levels;
         _levels = new List<Level>();
+        AddCustomMaps();
         AddClassicMaps();
         AddAoTTG2Maps();
         return _levels;
+    }
+
+    private static void AddCustomMaps()
+    {
+        foreach (var level in LevelHelper.GetAll())
+        {
+            _levels.Add(new Level
+            {
+                Name = level.Split('_')[0],
+                SceneName = null,
+                AssetBundle = level,
+                IsCustom = true,
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new RacingSettings(),
+                    new KillTitansSettings(),
+                    new WaveGamemodeSettings(),
+                    new InfectionGamemodeSettings(),
+                    new CaptureGamemodeSettings(),
+                    new RushSettings(),
+                    new EndlessSettings(),
+                    new PvPAhssSettings()
+                }
+            });
+        }
     }
 
     private static void AddClassicMaps()
