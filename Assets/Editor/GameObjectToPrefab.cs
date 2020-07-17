@@ -1,8 +1,7 @@
 ﻿using Assets.Scripts.Legacy.CustomMap;
+using Assets.Scripts.Room;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Room;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace Assets.Editor
         [SerializeField] public RCLegacy RcLegacy;
         private List<GameObjectInformation> gameObjectCache;
         private List<SpawnInformation> spawnersCache;
-
+        private List<TitanSpawnerInformation> titanSpawnerCache;
         private bool HasClosed { get; set; }
 
         [MenuItem("Tools/Replace With Prefab")]
@@ -81,13 +80,20 @@ namespace Assets.Editor
             public readonly SpawnType Type;
         }
 
-        private struct AutomaticTitanSpawnerInformation
+        private struct TitanSpawnerInformation
         {
-            public AutomaticTitanSpawnerInformation(Vector3 position, MindlessTitanType type, int respawnTimer,
-                bool isEndless)
+            public TitanSpawnerInformation(TitanSpawner spawner)
             {
-
+                Position = spawner.gameObject.transform.position;
+                Delay = spawner.Delay;
+                Endless = spawner.Endless;
+                Type = spawner.Type;
             }
+
+            public readonly Vector3 Position;
+            public readonly float Delay;
+            public readonly bool Endless;
+            public readonly TitanSpawnerType Type;
         }
 
         private void OnGUI()
@@ -98,12 +104,14 @@ namespace Assets.Editor
             {
                 gameObjectCache = new List<GameObjectInformation>();
                 spawnersCache = new List<SpawnInformation>();
+                titanSpawnerCache = new List<TitanSpawnerInformation>();
                 var sceneObjects = new List<GameObject>();
                 Scene scene = SceneManager.GetActiveScene();
                 scene.GetRootGameObjects(sceneObjects);
                 foreach (var selected in sceneObjects)
                 {
-                    if (selected.name == "playerRespawn" || selected.name == "titanRespawn")
+                    if (selected.name.Contains("titanRespawn")) continue;
+                    if (selected.name == "playerRespawn")
                     {
                         foreach (Transform child in selected.transform)
                         {
@@ -121,8 +129,8 @@ namespace Assets.Editor
                     spawnersCache.Add(new SpawnInformation(x, SpawnType.HumanCyan)));
                 FengGameManagerMKII.instance.playerSpawnsM.ForEach(x =>
                     spawnersCache.Add(new SpawnInformation(x, SpawnType.HumanMagenta)));
-                FengGameManagerMKII.instance.titanSpawns.ForEach(x =>
-                    spawnersCache.Add(new SpawnInformation(x, SpawnType.Titan)));
+
+                FengGameManagerMKII.instance.TitanSpawners.ForEach(x => titanSpawnerCache.Add(new TitanSpawnerInformation(x)));
 
                 Debug.Log(gameObjectCache.Count);
                 EditorApplication.ExecuteMenuItem("Edit/Play");
@@ -135,6 +143,7 @@ namespace Assets.Editor
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
                 CreateObjects();
                 spawnersCache.ForEach(CreateSpawner);
+                titanSpawnerCache.ForEach(CreateTitanSpawner);
             }
 
             GUI.enabled = false;
@@ -219,6 +228,17 @@ namespace Assets.Editor
             {
 
             }
+        }
+
+        private void CreateTitanSpawner(TitanSpawnerInformation information)
+        {
+            var prefab = RcLegacy.GetPrefab("titanRespawn");
+            var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
+            gameObject.transform.position = information.Position;
+            var spawner = gameObject.GetComponent<TitanSpawner>();
+            spawner.Delay = information.Delay;
+            spawner.Endless = information.Endless;
+            spawner.Type = information.Type;
         }
 
     }

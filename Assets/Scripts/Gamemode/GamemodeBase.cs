@@ -156,6 +156,12 @@ namespace Assets.Scripts.Gamemode
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
         }
 
+        public virtual void SpawnTitan(MindlessTitanType type)
+        {
+            var func = new Func<TitanConfiguration>(() => GetTitanConfiguration(type));
+            SpawnTitans(1, func);
+        }
+
         protected void SpawnTitans(int amount)
         {
             SpawnTitans(amount, GetTitanConfiguration);

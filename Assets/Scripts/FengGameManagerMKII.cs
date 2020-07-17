@@ -142,8 +142,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private float timeElapse;
     private float timeTotalServer;
     private ArrayList titans;
-    public List<TitanSpawner> titanSpawners;
-    public List<Vector3> titanSpawns;
+    public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
     public static ExitGames.Client.Photon.Hashtable titanVariables;
     public float transparencySlider;
     public float updateTime;
@@ -202,7 +201,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         ClothFactory.ClearClothCache();
         this.playersRPC.Clear();
-        this.titanSpawners.Clear();
         this.groundList.Clear();
         this.PreservedPlayerKDR = new Dictionary<string, int[]>();
         noRestart = false;
@@ -727,54 +725,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void coreadd()
     {
-        if (PhotonNetwork.isMasterClient)
-        {
-            if (customLevelLoaded)
-            {
-                for (int i = 0; i < this.titanSpawners.Count; i++)
-                {
-                    TitanSpawner item = this.titanSpawners[i];
-                    item.time -= Time.deltaTime;
-                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.Settings.TitanLimit))
-                    {
-                        string name = item.name;
-                        throw new NotImplementedException("Spawning titans on custom maps is not supported for mindless titans");
-                        //if (name == "spawnAnnie")
-                        //{
-                        //    PhotonNetwork.Instantiate("FEMALE_TITAN", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                        //}
-                        //else
-                        //{
-                        //    GameObject obj2 = PhotonNetwork.Instantiate("TITAN_VER3.1", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                        //    if (name == "spawnAbnormal")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                        //    }
-                        //    else if (name == "spawnJumper")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                        //    }
-                        //    else if (name == "spawnCrawler")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                        //    }
-                        //    else if (name == "spawnPunk")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                        //    }
-                        //}
-                        //if (item.endless)
-                        //{
-                        //    item.time = item.delay;
-                        //}
-                        //else
-                        //{
-                        //    this.titanSpawners.Remove(item);
-                        //}
-                    }
-                }
-            }
-        }
         if (Time.timeScale <= 0.1f)
         {
             if (this.pauseWaitTime <= 3f)
@@ -835,7 +785,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 currentLevel = string.Empty;
                 this.levelCache.Clear();
-                this.titanSpawns.Clear();
                 this.playerSpawnsC.Clear();
                 this.playerSpawnsM.Clear();
                 for (num = 0; num < content.Length; num++)
@@ -843,7 +792,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     strArray = content[num].Split(new char[] { ',' });
                     if (strArray[0] == "titan")
                     {
-                        this.titanSpawns.Add(new Vector3(Convert.ToSingle(strArray[1]), Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3])));
+                        Instantiate(RcLegacy.GetPrefab("titanRespawn"), new Vector3(Convert.ToSingle(strArray[1]), Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3])), new Quaternion());
                     }
                     else if (strArray[0] == "playerC")
                     {
@@ -1123,25 +1072,19 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
                         else
                         {
-                            TitanSpawner item = new TitanSpawner();
+                            var titanSpawner = GameObject.Instantiate(RcLegacy.GetPrefab("titanRespawn"),
+                                new Vector3(Convert.ToSingle(strArray[4]), Convert.ToSingle(strArray[5]),
+                                    Convert.ToSingle(strArray[6])), new Quaternion()).GetComponent<TitanSpawner>();
+
                             num5 = 30f;
                             if (float.TryParse(strArray[2], out num3))
                             {
                                 num5 = Mathf.Max(Convert.ToSingle(strArray[2]), 1f);
                             }
-                            item.time = num5;
-                            item.delay = num5;
-                            item.name = strArray[1];
-                            if (strArray[3] == "1")
-                            {
-                                item.endless = true;
-                            }
-                            else
-                            {
-                                item.endless = false;
-                            }
-                            item.location = new Vector3(Convert.ToSingle(strArray[4]), Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]));
-                            this.titanSpawners.Add(item);
+
+                            titanSpawner.Type = TitanSpawnerType.Normal;
+                            titanSpawner.Delay = num5;
+                            titanSpawner.Endless = strArray[3] == "1";
                         }
                     }
                 } catch (Exception e)
@@ -1208,7 +1151,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 currentLevel = string.Empty;
                 this.levelCache.Clear();
-                this.titanSpawns.Clear();
                 this.playerSpawnsC.Clear();
                 this.playerSpawnsM.Clear();
                 ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
@@ -2071,10 +2013,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         ExitGames.Client.Photon.Hashtable hashtable;
                         this.levelCache.Clear();
-                        this.titanSpawns.Clear();
                         this.playerSpawnsC.Clear();
                         this.playerSpawnsM.Clear();
-                        this.titanSpawners.Clear();
                         currentLevel = string.Empty;
                         if (currentScript == string.Empty)
                         {
@@ -2104,7 +2044,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                             strArray6 = strArray4[num2].Split(new char[] { ',' });
                                             if (strArray6[1] == "titan")
                                             {
-                                                this.titanSpawns.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
+                                                Instantiate(RcLegacy.GetPrefab("titanRespawn"), new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])), new Quaternion());
                                             }
                                             else if (strArray6[1] == "playerC")
                                             {
@@ -2135,7 +2075,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                             strArray6 = strArray4[num2].Split(new char[] { ',' });
                                             if (strArray6[1] == "titan")
                                             {
-                                                this.titanSpawns.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
+                                                Instantiate(RcLegacy.GetPrefab("titanRespawn"), new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])), new Quaternion());
                                             }
                                             else if (strArray6[1] == "playerC")
                                             {
@@ -2156,10 +2096,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                 }
                             }
                             List<string> list = new List<string>();
-                            foreach (Vector3 vector in this.titanSpawns)
-                            {
-                                list.Add("titan," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
-                            }
                             foreach (Vector3 vector in this.playerSpawnsC)
                             {
                                 list.Add("playerC," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
@@ -3307,10 +3243,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             currentLevel = string.Empty;
             propertiesToSet.Add(PhotonPlayerProperty.currentLevel, string.Empty);
             this.levelCache = new List<string[]>();
-            this.titanSpawns.Clear();
             this.playerSpawnsC.Clear();
             this.playerSpawnsM.Clear();
-            this.titanSpawners.Clear();
             intVariables.Clear();
             boolVariables.Clear();
             stringVariables.Clear();
@@ -4103,9 +4037,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         Vector3 position = new Vector3();
         Quaternion rotation = new Quaternion();
-        if (titanSpawns.Count > 0) // RC Custom Map Spawns
+        var titanSpawners = TitanSpawners.Where(x => x.Type == TitanSpawnerType.None).ToArray();
+        if (titanSpawners.Length > 0) // RC Custom Map Spawns
         {
-            position = titanSpawns[UnityEngine.Random.Range(0, titanSpawns.Count)];
+            position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
         }
         else
         {
@@ -4146,9 +4081,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         var tag = "titanRespawn";
         var location = Gamemode.GetPlayerSpawnLocation(tag);
         Vector3 position = location.transform.position;
-        if (Level.Name.StartsWith("Custom") && (this.titanSpawns.Count > 0))
+        var titanSpawners = TitanSpawners.Where(x => x.Type == TitanSpawnerType.None).ToArray();
+        if (titanSpawners.Length > 0) // RC Custom Map Spawns
         {
-            position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
+            position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
         }
         this.myLastHero = id.ToUpper();
         PlayerTitan playerTitan = PhotonNetwork.Instantiate("PlayerTitan", position, new Quaternion(), 0).GetComponent<PlayerTitan>();
@@ -4215,12 +4151,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             currentScript = string.Empty;
         }
-        this.titanSpawns = new List<Vector3>();
         this.playerSpawnsC = new List<Vector3>();
         this.playerSpawnsM = new List<Vector3>();
         this.playersRPC = new List<PhotonPlayer>();
         this.levelCache = new List<string[]>();
-        this.titanSpawners = new List<TitanSpawner>();
         this.restartCount = new List<float>();
         ignoreList = new List<int>();
         this.groundList = new List<GameObject>();
