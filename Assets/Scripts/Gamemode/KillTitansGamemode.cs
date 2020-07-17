@@ -26,7 +26,7 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                SpawnTitans(GamemodeSettings.TitanLimit);
+                SpawnTitans(GamemodeSettings.Titans);
             }
         }
     }
