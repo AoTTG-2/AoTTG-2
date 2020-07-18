@@ -27,15 +27,8 @@ namespace Assets.Scripts.Legacy.CustomMap
 
         public Material GetMaterial(string name)
         {
-            try
-            {
-                return RcMaterials.Single(x => string.Equals(x.name, name, StringComparison.InvariantCultureIgnoreCase));
-            }
-            catch
-            {
-                Debug.LogError("Could not find: " + name);
-                return null;
-            }
+            return RcMaterials.SingleOrDefault(x => string.Equals(x.name, name, StringComparison.InvariantCultureIgnoreCase))
+                           ?? RcMaterials.Single(x => string.Equals(x.name, "empty", StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

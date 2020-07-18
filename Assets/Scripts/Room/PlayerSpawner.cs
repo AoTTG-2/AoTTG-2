@@ -8,13 +8,11 @@ namespace Assets.Scripts.Room
 
         private void Awake()
         {
-            Debug.Log("Added");
             FengGameManagerMKII.instance.PlayerSpawners.Add(this);
         }
 
         private void OnDestroy()
         {
-            Debug.Log("Removed");
             FengGameManagerMKII.instance.PlayerSpawners.Remove(this);
         }
     }

@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 33855057615488056}
   - component: {fileID: 23795149271376236}
   - component: {fileID: 64055841710745226}
+  - component: {fileID: 114977265303681960}
   m_Layer: 0
   m_Name: Tube001
   m_TagString: Untagged
@@ -126,3 +127,14 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: f5f337009a6aa9e4ca3398d25aee8049, type: 2}
+--- !u!114 &114977265303681960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1760815371892482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a706c7c179a5e4c9445b56036c70ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

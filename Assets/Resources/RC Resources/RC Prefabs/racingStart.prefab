@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33105884380283972}
   - component: {fileID: 23439896613107348}
   - component: {fileID: 64562229568584142}
+  - component: {fileID: 114965449623817068}
   m_Layer: 9
   m_Name: racingStart
   m_TagString: Untagged
@@ -97,3 +98,14 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114965449623817068
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1234625002250994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 580f43be82a42b4459d5462b8e08dd8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

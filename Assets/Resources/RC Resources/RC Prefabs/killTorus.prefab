@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33546764669738026}
   - component: {fileID: 23427801821239778}
   - component: {fileID: 64524459947255276}
+  - component: {fileID: 114403312737904436}
   m_Layer: 0
   m_Name: Torus001
   m_TagString: Untagged
@@ -126,3 +127,14 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 22c77132f46a46c47bac3df6a25b5178, type: 2}
+--- !u!114 &114403312737904436
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1319228282288688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a706c7c179a5e4c9445b56036c70ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

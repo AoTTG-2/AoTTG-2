@@ -110,7 +110,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static string PrivateServerAuthPass;
     public static string privateServerField;
     public float qualitySlider;
-    public List<GameObject> racingDoors;
+    public List<GameObject> racingDoors = new List<GameObject>();
     private ArrayList racingResult;
     public Vector3 racingSpawnPoint;
     public bool racingSpawnPointSet;
@@ -623,22 +623,20 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 obj2.SetActive(false);
                             }
-                            if ((this.racingDoors != null) && customLevelLoaded)
+                            if (this.racingDoors.Any())
                             {
                                 foreach (GameObject obj3 in this.racingDoors)
                                 {
-                                    obj3.SetActive(false);
+                                    Destroy(obj3);
                                 }
-                                this.racingDoors = null;
                             }
                         }
-                        else if ((this.racingDoors != null) && customLevelLoaded)
+                        else if ((this.racingDoors.Any()))
                         {
                             foreach (GameObject obj3 in this.racingDoors)
                             {
-                                obj3.SetActive(false);
+                                Destroy(obj3);
                             }
-                            this.racingDoors = null;
                         }
                     }
                     if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) && customLevelLoaded)
@@ -1910,7 +1908,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             logicLoaded = true;
             this.racingSpawnPoint = new Vector3(0f, 0f, 0f);
             this.racingSpawnPointSet = false;
-            this.racingDoors = new List<GameObject>();
             this.allowedToCannon = new Dictionary<int, CannonValues>();
             if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
             {
