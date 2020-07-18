@@ -198,7 +198,26 @@ namespace Assets.Editor
                 {
                     if (information.Colors.HasValue)
                     {
+
+                        //foreach (MeshFilter filter in gameObject.GetComponentsInChildren<MeshFilter>())
+                        //{
+                        //    var mesh = filter.mesh;
+                        //    var colorArray = new Color[mesh.vertexCount];
+                        //    var num8 = 0;
+                        //    while (num8 < mesh.vertexCount)
+                        //    {
+                        //        colorArray[num8] = information.Colors.Value;
+                        //        num8++;
+                        //    }
+                        //    mesh.colors = colorArray;
+                        //}
+
                         renderers[i].material.color = information.Colors.Value;
+
+                        var tintColor = renderers[i].material.GetColor("_TintColor");
+                        var mixedColor = Color.Lerp(tintColor, information.Colors.Value, 0.5f);
+                        mixedColor.a = tintColor.a;
+                        renderers[i].material.SetColor("_TintColor", mixedColor);
                     }
                 }
                 catch

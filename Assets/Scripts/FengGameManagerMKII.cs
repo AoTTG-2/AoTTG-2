@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -4108,15 +4109,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
-        var map = System.IO.File.ReadAllText(Application.streamingAssetsPath + "\\" + "custom_map.txt");
+        var map = File.ReadAllText(Application.streamingAssetsPath + Path.AltDirectorySeparatorChar + "custom_map.txt");
         if (string.IsNullOrEmpty(map))
         {
             "Map is empty".SendError();
             return;
         }
 
-        FengGameManagerMKII.currentScript = map;
-        Debug.Log(FengGameManagerMKII.currentScript);
+        currentScript = map;
 
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;

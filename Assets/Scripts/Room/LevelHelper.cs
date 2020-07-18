@@ -13,7 +13,7 @@ namespace Assets.Scripts.Room
         {
             Directory.CreateDirectory(Path.Combine(Application.dataPath, "Custom Maps"));
             var files = Directory.GetFiles(Path.Combine(Application.dataPath, "Custom Maps")).Where(x => x.EndsWith(".unity3d")).ToArray();
-            files = files.Select(x => x.Split('\\').Last().Replace(".unity3d", "")).ToArray();
+            files = files.Select(x => x.Split(Path.DirectorySeparatorChar).Last().Replace(".unity3d", "")).ToArray();
             return files;
         }
 
