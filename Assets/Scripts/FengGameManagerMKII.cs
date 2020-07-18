@@ -1909,71 +1909,71 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.racingSpawnPoint = new Vector3(0f, 0f, 0f);
             this.racingSpawnPointSet = false;
             this.allowedToCannon = new Dictionary<int, CannonValues>();
-            if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
-            {
-                string url = string.Empty;
-                string str3 = string.Empty;
-                string n = string.Empty;
-                strArray3 = new string[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
-                if (Level.SceneName.Contains("City"))
-                {
-                    for (num = 0x33; num < 0x3b; num++)
-                    {
-                        url = url + ((string)settings[num]) + ",";
-                    }
-                    url.TrimEnd(new char[] { ',' });
-                    num2 = 0;
-                    while (num2 < 250)
-                    {
-                        n = n + Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
-                        num2++;
-                    }
-                    str3 = ((string)settings[0x3b]) + "," + ((string)settings[60]) + "," + ((string)settings[0x3d]);
-                    for (num = 0; num < 6; num++)
-                    {
-                        strArray3[num] = (string)settings[num + 0xa9];
-                    }
-                }
-                else if (Level.SceneName.Contains("Forest"))
-                {
-                    for (int i = 0x21; i < 0x29; i++)
-                    {
-                        url = url + ((string)settings[i]) + ",";
-                    }
-                    url.TrimEnd(new char[] { ',' });
-                    for (int j = 0x29; j < 0x31; j++)
-                    {
-                        str3 = str3 + ((string)settings[j]) + ",";
-                    }
-                    str3 = str3 + ((string)settings[0x31]);
-                    for (int k = 0; k < 150; k++)
-                    {
-                        string str5 = Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
-                        n = n + str5;
-                        if (((int)settings[50]) == 0)
-                        {
-                            n = n + str5;
-                        }
-                        else
-                        {
-                            n = n + Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
-                        }
-                    }
-                    for (num = 0; num < 6; num++)
-                    {
-                        strArray3[num] = (string)settings[num + 0xa3];
-                    }
-                }
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                {
-                    base.StartCoroutine(this.loadskinE(n, url, str3, strArray3));
-                }
-                else if (PhotonNetwork.isMasterClient)
-                {
-                    base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
-                }
-            }
-            else if (Level.Name.StartsWith("Custom") && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
+            //if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
+            //{
+            //    string url = string.Empty;
+            //    string str3 = string.Empty;
+            //    string n = string.Empty;
+            //    strArray3 = new string[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
+            //    if (Level.SceneName.Contains("City"))
+            //    {
+            //        for (num = 0x33; num < 0x3b; num++)
+            //        {
+            //            url = url + ((string)settings[num]) + ",";
+            //        }
+            //        url.TrimEnd(new char[] { ',' });
+            //        num2 = 0;
+            //        while (num2 < 250)
+            //        {
+            //            n = n + Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
+            //            num2++;
+            //        }
+            //        str3 = ((string)settings[0x3b]) + "," + ((string)settings[60]) + "," + ((string)settings[0x3d]);
+            //        for (num = 0; num < 6; num++)
+            //        {
+            //            strArray3[num] = (string)settings[num + 0xa9];
+            //        }
+            //    }
+            //    else if (Level.SceneName.Contains("Forest"))
+            //    {
+            //        for (int i = 0x21; i < 0x29; i++)
+            //        {
+            //            url = url + ((string)settings[i]) + ",";
+            //        }
+            //        url.TrimEnd(new char[] { ',' });
+            //        for (int j = 0x29; j < 0x31; j++)
+            //        {
+            //            str3 = str3 + ((string)settings[j]) + ",";
+            //        }
+            //        str3 = str3 + ((string)settings[0x31]);
+            //        for (int k = 0; k < 150; k++)
+            //        {
+            //            string str5 = Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
+            //            n = n + str5;
+            //            if (((int)settings[50]) == 0)
+            //            {
+            //                n = n + str5;
+            //            }
+            //            else
+            //            {
+            //                n = n + Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
+            //            }
+            //        }
+            //        for (num = 0; num < 6; num++)
+            //        {
+            //            strArray3[num] = (string)settings[num + 0xa3];
+            //        }
+            //    }
+            //    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            //    {
+            //        base.StartCoroutine(this.loadskinE(n, url, str3, strArray3));
+            //    }
+            //    else if (PhotonNetwork.isMasterClient)
+            //    {
+            //        base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
+            //    }
+            //}
+            if (Level.Name.StartsWith("Custom") && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
             {
                 GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("playerRespawn");
                 for (num = 0; num < objArray3.Length; num++)
@@ -3780,27 +3780,30 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             else
             {
-                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
+                if (Level.IsCustom)
                 {
-                    position = PlayerSpawners[UnityEngine.Random.Range(0, PlayerSpawners.Count)].gameObject.transform
-                        .position;
-                }
-                else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
-                {
-                    var cyanSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Cyan).ToArray();
-                    if (cyanSpawners.Length > 0)
+                    if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                     {
-                        position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
+                        position = PlayerSpawners[UnityEngine.Random.Range(0, PlayerSpawners.Count)].gameObject.transform
                             .position;
                     }
-                }
-                else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
-                {
-                    var magentaSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Magenta).ToArray();
-                    if (magentaSpawners.Length > 0)
+                    else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                     {
-                        position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Length)].gameObject.transform
-                            .position;
+                        var cyanSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Cyan).ToArray();
+                        if (cyanSpawners.Length > 0)
+                        {
+                            position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
+                                .position;
+                        }
+                    }
+                    else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
+                    {
+                        var magentaSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Magenta).ToArray();
+                        if (magentaSpawners.Length > 0)
+                        {
+                            position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Length)].gameObject.transform
+                                .position;
+                        }
                     }
                 }
             }
