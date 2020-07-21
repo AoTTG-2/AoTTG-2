@@ -177,10 +177,12 @@ namespace Assets.Scripts.Characters.Titan
                 propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                PhotonNetwork.Destroy(base.photonView);
+                // PhotonNetwork.Destroy(base.photonView);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name], 0);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = true;
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().justSuicide = true;
+                ChangeState(MindlessTitanState.Dead);
+                Dead();
             }
             else 
             {
