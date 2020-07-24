@@ -11,13 +11,16 @@ namespace Assets.Scripts.Characters.Titan
     {
         public int Health { get; set; } = 500;
         public int HealthRegeneration { get; set; } = 10;
-        public float LimbHealth { get; set; } = 100;
+        public float LimbHealth { get; set; } = 100f;
+        public float LimbRegeneration { get; set; } = 10f;
         public float ViewDistance { get; set; } = 200f;
         public float Speed { get; set; } = 20f;
+        public float RunSpeed { get; set; } = 25f;
         public float Size { get; set; } = 3f;
-        public List<Attack> Attacks { get; set; } = new List<Attack> {new GrabAttack(), new KickAttack(), new BiteAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack()};
+        public List<Attack> Attacks { get; set; } = new List<Attack> { new BiteAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack(), new GrabAttack()};
         public float Stamina { get; set; } = 100f;
         public float StaminaRegeneration { get; set; } = 1f;
+        public float Focus { get; set; } = 5f;
         public string AnimationWalk { get; set; } = "run_walk";
         public string AnimationRun { get; set; }
         public string AnimationDeath { get; set; } = "die_back";
@@ -29,31 +32,19 @@ namespace Assets.Scripts.Characters.Titan
 
         public TitanConfiguration() { }
 
-        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, int viewDistance, float speed, float size, MindlessTitanType type)
+        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, float viewDistance, float size, MindlessTitanType type)
         {
             Health = health;
             HealthRegeneration = healthRegeneration;
             LimbHealth = limbHealth;
-            ViewDistance = viewDistance;
             Size = size;
+            ViewDistance = viewDistance * size;
             Type = type;
             SetMindlessTitanType(type);
-            Speed = speed;
-        }
-
-        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, int viewDistance, float size, MindlessTitanType type)
-        {
-            Health = health;
-            HealthRegeneration = healthRegeneration;
-            LimbHealth = limbHealth;
-            ViewDistance = viewDistance;
-            Size = size;
-            Type = type;
-            SetMindlessTitanType(type);
-            if (Size > 1f)
-            {
-                Speed *= Mathf.Sqrt(Size);
-            }
+            Speed *= Mathf.Sqrt(Size);
+            RunSpeed *= Mathf.Sqrt(Size);
+            Stamina *= Mathf.Sqrt(Size);
+            StaminaRegeneration *= Mathf.Sqrt(Size);
         }
 
         private void SetMindlessTitanType(MindlessTitanType type)
@@ -62,38 +53,55 @@ namespace Assets.Scripts.Characters.Titan
             {
                 case MindlessTitanType.Normal:
                     AnimationWalk = AnimationRun = "run_walk";
+                    Attacks.Add(new ComboAttack());
                     Speed = 7f;
+                    Focus = 10f;
                     break;
                 case MindlessTitanType.Abberant:
-                    AnimationWalk = "run_walk";
+                    AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
                     Speed = 18f;
+                    RunSpeed = 23f;
+                    Focus = 8f;
                     Attacks.Add(new BodySlamAttack());
                     break;
                 case MindlessTitanType.Jumper:
-                    AnimationWalk = "run_walk";
+                    AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
                     Speed = 18f;
+                    RunSpeed = 24f;
+                    Focus = 4f;
                     Attacks.Add(new BodySlamAttack());
+                    Attacks.Add(new JumpAttack());
                     break;
                 case MindlessTitanType.Punk:
                     AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal_1";
+                    Attacks.Add(new ComboAttack(true));
                     Attacks.Add(new RockThrowAttack());
                     Attacks.Add(new SlapAttack());
                     Attacks.Add(new BodySlamAttack());
-                    Speed = 18f;
+                    Speed = 9f;
+                    RunSpeed = 26f;
+                    Focus = 1f;
                     break;
                 case MindlessTitanType.Crawler:
                     AnimationWalk = AnimationRun = "crawler_run";
+                    AnimationDeath = "crawler_die";
                     AnimationTurnLeft = "crawler_turnaround_L";
                     AnimationTurnRight = "crawler_turnaround_R";
-                    Attacks = new List<Attack>();
+                    Attacks = new List<Attack>
+                    {
+                        new JumpAttack(true)
+                    };
                     Behaviors = new List<TitanBehavior> { new DeathOnFaceBehavior() };
                     Speed = 25f;
+                    RunSpeed = 30f;
+                    Focus = 2f;
                     break;
                 case MindlessTitanType.Stalker:
                     Speed = 18f;
+                    Focus = 200f;
                     break;
                 case MindlessTitanType.Burster:
                     Speed = 18f;
@@ -113,11 +121,13 @@ namespace Assets.Scripts.Characters.Titan
             AnimationWalk = walkingAnimations[Random.Range(0, walkingAnimations.Length)];
             AnimationRun = runningAnimations[Random.Range(0, runningAnimations.Length)];
             Speed = Random.Range(7f, 25f);
+            RunSpeed = Random.Range(Speed, Speed + 10f);
+            Focus = Random.Range(1f, 15f);
             Attacks = new List<Attack>();
             Behaviors = new List<TitanBehavior> { new RandomAttackBehavior() };
             var attacks = new List<Attack>
             {
-                new BiteAttack(), new BodySlamAttack(), new GrabAttack(), new KickAttack(), 
+                new BiteAttack(), new BodySlamAttack(), new GrabAttack(), new KickAttack(), new JumpAttack(),
                 new RockThrowAttack(), new SlapFaceAttack(), new SlapAttack(), new StompAttack(), new SmashAttack(),
             };
 

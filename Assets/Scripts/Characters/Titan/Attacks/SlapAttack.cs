@@ -47,6 +47,18 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             return false;
         }
 
+        public bool CanAttack(PlayerTitan titan, bool isLeftHand)
+        {
+            Hand = isLeftHand
+                ? BodyPart.HandLeft
+                : BodyPart.HandRight;
+            if (titan.IsDisabled(Hand)) return false;
+            AttackAnimation = isLeftHand
+                ? "attack_anti_AE_l"
+                : "attack_anti_AE_r";
+            return true;
+        }
+
         private void HandleHit(MindlessTitan titan)
         {
             var hand = Hand == BodyPart.HandLeft

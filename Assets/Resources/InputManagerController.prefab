@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4166574009320592}
-  - component: {fileID: 114166688468020630}
+  - component: {fileID: 114533358246716624}
   m_Layer: 0
   m_Name: InputManagerController
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114166688468020630
+--- !u!114 &114533358246716624
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,75 +48,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1191642311506242}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92992cef9940fba4a830a65fd172bef3, type: 3}
+  m_Script: {fileID: 11500000, guid: 67435531247fef14fb9ebcae6d5c784b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowDuplicates: 0
-  analogFeel_down: 0
-  analogFeel_gravity: 0.2
-  analogFeel_jump: 0
-  analogFeel_left: 0
-  analogFeel_right: 0
-  analogFeel_sensitivity: 0.8
-  analogFeel_up: 0
-  default_inputKeys: 7700000073000000610000006400000030010000000000007100000065000000200000000000000043010000440100000000000063000000000000000000000000000000000000000000000031000000320000003300000066000000
-  DescriptionString:
-  - Up
-  - Down
-  - Left
-  - Right
-  - Jump
-  - Dodge
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - Flare3
-  - InteractionWheel
-  inputKey: 7700000073000000610000006400000030010000000000007100000065000000200000000000000043010000440100000000000063000000000000000000000000000000000000007200000031000000320000003300000066000000
-  inputString:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  isInput: 
-  isInputDown: 
-  isInputUp: 
-  joystickActive: 
-  joystickString: []
-  menuOn: 1
-  mouseAxisOn: 0
-  mouseButtonsOn: 1
-  OurSkin: {fileID: 0}
-  tempbool: 0
-  tempkeyPressed: 

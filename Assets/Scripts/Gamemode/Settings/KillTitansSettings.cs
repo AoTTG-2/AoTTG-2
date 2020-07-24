@@ -5,6 +5,8 @@
         public KillTitansSettings()
         {
             GamemodeType = GamemodeType.Titans;
+            RestartOnTitansKilled = true;
+            RespawnMode = RespawnMode.NEVER;
         }
     }
 }

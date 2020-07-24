@@ -1840,7 +1840,7 @@ Animation:
   m_GameObject: {fileID: 1965692679872925}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
+  m_Animation: {fileID: 7400000, guid: 6feaf2ec029cee843b3fcb2b620f31ac, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: fd51009637d143349895bdd9fc8f2361, type: 2}
   - {fileID: 7400000, guid: 6feaf2ec029cee843b3fcb2b620f31ac, type: 2}
@@ -1878,8 +1878,8 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
-  dust: {fileID: 1420590395356996}
-  myHero: {fileID: 0}
+  dustParticles: {fileID: 198199218511497426}
+  gravityFactor: -20
 --- !u!114 &114563645587361564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1888,34 +1888,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965692679872925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a11a4234755e5c4f9cc345b44d9961f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f4174f7a6503194ca5c13adc51d7579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bite: 0
-  bitel: 0
-  biter: 0
-  chopl: 0
-  chopr: 0
-  choptl: 0
-  choptr: 0
-  cover: 0
-  currentCamera: {fileID: 0}
-  currentDirection: 0
-  grabbackl: 0
-  grabbackr: 0
-  grabfrontl: 0
-  grabfrontr: 0
-  grabnapel: 0
-  grabnaper: 0
-  inputManager: {fileID: 0}
-  isAttackDown: 0
-  isAttackIIDown: 0
-  isHorse: 1
-  isJumpDown: 0
-  isSuicide: 0
-  isWALKDown: 0
-  sit: 0
-  targetDirection: 0
+  CurrentDirection: 0
+  ShouldJump: 0
+  ShouldWalk: 0
+  TargetDirection: 0
 --- !u!114 &114713276086319258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1924,9 +1903,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965692679872925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correctCameraPos: {x: 0, y: 0, z: 0}
+  correctCameraRot: {x: 0, y: 0, z: 0, w: 0}
+  disabled: 0
+  noVelocity: 0
+  PhotonCamera: 0
+  SmoothingDelay: 5
 --- !u!136 &136902303604188331
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -2096,7 +2081,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: 1093435773
   InitialModule:
     serializedVersion: 3
     enabled: 1

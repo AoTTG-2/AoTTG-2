@@ -24,10 +24,17 @@ public class LevelBuilder
             SceneName = "Test Zone",
             Gamemodes = new List<GamemodeSettings>
             {
+                new WaveGamemodeSettings
+                {
+                    Titans = 1,
+                    Horse = true,
+                    IsPlayerTitanEnabled = true
+                },
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
-                    Titans = 1
+                    Titans = 1,
+                    IsPlayerTitanEnabled = true
                 }
             }
         });

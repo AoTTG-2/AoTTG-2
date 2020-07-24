@@ -7,6 +7,9 @@ namespace Assets.Scripts.UI
 {
     public class UiHandler : MonoBehaviour
     {
+        [SerializeField]
+        private VersionManager versionManager;
+
         [HideInInspector]
         public UiNavigationElement[] Elements;
 
@@ -25,7 +28,7 @@ namespace Assets.Scripts.UI
                 element.gameObject.SetActive(false);
             }
             Elements[0].gameObject.SetActive(true);
-            Version.text = FengGameManagerMKII.Version;
+            Version.text = versionManager.Version;
         }
 
         public void ShowMenu()

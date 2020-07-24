@@ -5,28 +5,11 @@ namespace Assets.Scripts.Gamemode
 {
     public class PvPAhssGamemode : GamemodeBase
     {
-        public new PvPAhssSettings Settings { get; set; }
-        public PvPAhssGamemode()
-        {
-            Settings = new PvPAhssSettings
-            {
-                GamemodeType = GamemodeType.PvpAhss,
-                AhssAirReload = false,
-                Titans = -1,
-                Pvp = PvpMode.AhssVsBlades,
-                PlayerTitanShifters = true,
-                Horse = false,
-                TitansEnabled = false
-            };
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private PvPAhssSettings GamemodeSettings => Settings as PvPAhssSettings;
 
         private int teamWinner;
         private readonly int[] teamScores = new int[2];
-
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as PvPAhssSettings;
-        }
 
         public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {

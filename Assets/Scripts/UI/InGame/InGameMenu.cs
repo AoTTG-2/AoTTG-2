@@ -1,35 +1,52 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.InGame.Controls;
+using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
     public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
-        public GraphicSettingMenu GraphicSettingsMenu;
+        public GameObject GraphicsView;
+        public ControlsMenu ControlsMenu;
+
+        // Used by Button.
+        public void Quit()
+        {
+            PhotonNetwork.Disconnect();
+            Destroy(GameObject.Find("Canvas"));
+        }
+
+        // Used by Button.
         public void ShowGameSettingsMenu()
         {
             GameSettingsMenu.gameObject.SetActive(true);
         }
 
-        private void SetGameSettingsMenu()
-        {
-        }
-
+        // Used by Button.
         public void ShowGraphicSettingsMenu()
         {
-            GraphicSettingsMenu.gameObject.SetActive(true);
+            GraphicsView.gameObject.SetActive(true);
+        }
+
+        // Used by Button.
+        public void ShowRebindsMenu()
+        {
+            ControlsMenu.gameObject.SetActive(true);
+        }
+
+        private void OnEnable()
+        {
+            MenuManager.RegisterOpened();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         private void OnDisable()
         {
+            MenuManager.RegisterClosed();
             GameSettingsMenu.gameObject.SetActive(false);
-            GraphicSettingsMenu.gameObject.SetActive(false);
-        }
-
-        public void Quit()
-        {
-            PhotonNetwork.Disconnect();
-			Destroy(GameObject.Find("Canvas"));
+            GraphicsView.gameObject.SetActive(false);
+            ControlsMenu.gameObject.SetActive(false);
         }
     }
 }

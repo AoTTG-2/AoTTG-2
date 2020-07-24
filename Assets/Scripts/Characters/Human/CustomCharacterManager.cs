@@ -402,7 +402,8 @@ public class CustomCharacterManager : MonoBehaviour
     private void Start()
     {
         int num;
-        QualitySettings.SetQualityLevel(5, true);
+        //IS THIS LINE OF CODE IMPORTANT??? IT AFFECTS GRAPHICS SCRIPTS
+        //QualitySettings.SetQualityLevel(5, true);
         this.costumeOption = HeroCostume.costumeOption;
         this.setup = this.character.GetComponent<HERO_SETUP>();
         this.setup.init();

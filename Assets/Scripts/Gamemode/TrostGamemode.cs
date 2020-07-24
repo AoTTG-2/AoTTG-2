@@ -1,28 +1,12 @@
-﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Settings;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
     public class TrostGamemode : GamemodeBase
     {
-        public new TrostSettings Settings { get; set; }
-        public TrostGamemode()
-        {
-            Settings = new TrostSettings
-            {
-                GamemodeType = GamemodeType.Trost,
-                PlayerTitanShifters = false,
-                Titans = 2,
-                DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk}
-            };
-        }
-
-        public override void SetSettings(GamemodeSettings settings)
-        {
-            Settings = settings as TrostSettings;
-        }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private TrostSettings GamemodeSettings => Settings as TrostSettings;
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
