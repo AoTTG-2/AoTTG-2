@@ -199,6 +199,13 @@ public class Hero : Human
             {
                 photonView.RPC(nameof(netDie2), PhotonTargets.All, -1, "Lava");
             }
+            if (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Racing)
+            {
+                if (collision.gameObject.layer == 9)
+                {
+                    photonView.RPC(nameof(netDie2), PhotonTargets.All, -1, "Lava");
+                }
+            }
         }
     }
 
