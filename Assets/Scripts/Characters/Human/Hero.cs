@@ -191,6 +191,17 @@ public class Hero : Human
         GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f));
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (FengGameManagerMKII.Gamemode.Settings.LavaMode)
+        {
+            if (collision.gameObject.GetComponent<Terrain>() != null)
+            {
+                photonView.RPC(nameof(netDie2), PhotonTargets.All, -1, "Lava");
+            }
+        }
+    }
+
     public void attackAccordingToMouse()
     {
         if (Input.mousePosition.x < (Screen.width * 0.5))
