@@ -222,7 +222,7 @@ public static class ChatCommandHandler
         {
             instance.chatRoom.OutputErrorPlayerNotFound(playerIdString);
         }
-            
+
     }
 
     private static void OutputCollisions()
@@ -256,8 +256,8 @@ public static class ChatCommandHandler
 
     private static void ToggleSpecMode()
     {
-        settings[0xf5] = (int)settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int)settings[0xf5] == 1;
+        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
+        bool specMode = (int) settings[0xf5] == 1;
         instance.EnterSpecMode(specMode);
         string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
@@ -297,7 +297,7 @@ public static class ChatCommandHandler
         else
         {
             instance.chatRoom.OutputErrorPlayerNotFound(playerIdString);
-        }      
+        }
     }
 
     private static void ResetKd()
@@ -352,7 +352,7 @@ public static class ChatCommandHandler
                             instance.chatRoom.OutputErrorMessage("Time to add must be a number.");
                         }
                         break;
-                } 
+                }
             }
             else
             {
@@ -395,7 +395,7 @@ public static class ChatCommandHandler
         var message = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.currentLevel]);
         instance.chatRoom.AddMessage(message);
     }
-        
+
     private static void UnPauseGame()
     {
         if (!isMasterClient)
@@ -404,12 +404,12 @@ public static class ChatCommandHandler
             return;
         }
 
-        instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { false });
+        instance.photonView.RPC("PauseRPC", PhotonTargets.All, new object[] { });
         var chatMessage = new object[] { FormatSystemMessage("MasterClient has unpaused the game."), string.Empty };
         instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
     }
 
-    private static void PauseGame()
+    private static void TogglePauseGame()
     {
         if (!isMasterClient)
         {
@@ -417,14 +417,15 @@ public static class ChatCommandHandler
             return;
         }
 
-        instance.photonView.RPC("pauseRPC", PhotonTargets.All, new object[] { true });
-        var chatMessage = new object[] { FormatSystemMessage("MasterClient has paused the game."), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+        instance.photonView.RPC("PauseRPC", PhotonTargets.All, new object[] { });
+        // send out the appropriate message
+        string chatMessage = FengGameManagerMKII.instance.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
+        instance.photonView.RPC("Chat", PhotonTargets.All, new object[] { FormatSystemMessage(chatMessage), string.Empty });
     }
 
     private static void TogglePreserveKdr(string parameter)
     {
-        
+
         if (!isMasterClient)
         {
             instance.chatRoom.OutputErrorNotMasterClient();
@@ -488,15 +489,15 @@ public static class ChatCommandHandler
                 switch (teamEnum)
                 {
                     case ChatCommand.None:
-                        SwitchTeam((int)teamEnum);
+                        SwitchTeam((int) teamEnum);
                         message = "You have joined individuals.";
                         break;
                     case ChatCommand.Cyan:
-                        SwitchTeam((int)teamEnum);
+                        SwitchTeam((int) teamEnum);
                         message = FormatTextColorCyan("You have joined team cyan.");
                         break;
                     case ChatCommand.Magenta:
-                        SwitchTeam((int)teamEnum);
+                        SwitchTeam((int) teamEnum);
                         message = FormatTextColorMagenta("You have joined team magenta.");
                         break;
                     default:
@@ -578,10 +579,7 @@ public static class ChatCommandHandler
                 TogglePreserveKdr(parameter);
                 break;
             case ChatCommand.Pause:
-                PauseGame();
-                break;
-            case ChatCommand.Unpause:
-                UnPauseGame();
+                TogglePauseGame();
                 break;
             case ChatCommand.Checklevel:
                 CheckLevel(player);
