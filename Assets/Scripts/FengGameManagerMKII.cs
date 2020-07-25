@@ -3363,10 +3363,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 pauseWaitTime = 100000f;
                 Time.timeScale = 1E-06f;
+                InGameUI.ToggleIndicator(true);
             }
             else
             {
                 pauseWaitTime = 3f;
+                InGameUI.ToggleIndicator(false);
             }
         }
     }
