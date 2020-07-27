@@ -747,6 +747,19 @@ public class Hero : Human
         this.myTitans = list2;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        float force = collision.impulse.magnitude / Time.fixedDeltaTime;
+        if (FengGameManagerMKII.Gamemode.Settings.ImpactForce > 0 && force >= FengGameManagerMKII.Gamemode.Settings.ImpactForce)
+        {
+            die(new Vector3(), false);
+            FengGameManagerMKII.print(FengGameManagerMKII.Gamemode.Settings.ImpactForce);
+            FengGameManagerMKII.print(force);
+            
+        }
+    }
+
     public void ClearPopup()
     {
         FengGameManagerMKII.instance.ShowHUDInfoCenter(string.Empty);
