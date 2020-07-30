@@ -11,8 +11,24 @@ namespace Assets.Scripts.UI.InGame
         public SpawnMenu SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
+        public PauseIndicator PauseIndicator;
 
         private static int _activeMenus;
+
+        /// <summary>
+        /// Toggles the Pause Indicator
+        /// </summary>
+        /// <param name="state">true to toggle it active</param>
+        public void ToggleIndicator(bool state)
+        {
+            if (state)
+            {
+                PauseIndicator.Pause();
+            }
+            else {
+                PauseIndicator.UnPause();
+            }
+        }
 
         public static bool IsMenuOpen()
         {
