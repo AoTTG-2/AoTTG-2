@@ -396,19 +396,6 @@ public static class ChatCommandHandler
         instance.chatRoom.AddMessage(message);
     }
 
-    private static void UnPauseGame()
-    {
-        if (!isMasterClient)
-        {
-            instance.chatRoom.OutputErrorNotMasterClient();
-            return;
-        }
-
-        instance.photonView.RPC("PauseRPC", PhotonTargets.All, new object[] { });
-        var chatMessage = new object[] { FormatSystemMessage("MasterClient has unpaused the game."), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-    }
-
     private static void TogglePauseGame()
     {
         if (!isMasterClient)
@@ -417,9 +404,8 @@ public static class ChatCommandHandler
             return;
         }
 
-        instance.photonView.RPC("PauseRPC", PhotonTargets.All, new object[] { });
-        // send out the appropriate message
-        string chatMessage = FengGameManagerMKII.instance.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
+        instance.photonView.RPC(nameof(FengGameManagerMKII.PauseRPC), PhotonTargets.All);
+        var chatMessage = instance.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
         instance.photonView.RPC("Chat", PhotonTargets.All, new object[] { FormatSystemMessage(chatMessage), string.Empty });
     }
 

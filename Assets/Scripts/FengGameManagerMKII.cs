@@ -6,12 +6,12 @@ using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Room;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.UI.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 //[Obsolete]
@@ -3245,7 +3245,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 photonView.RPC("setMasterRC", player, new object[0]);
                 if ((Time.timeScale <= 0.1f) && (pauseWaitTime > 3f))
                 {
-                    photonView.RPC("PauseRPC", player, new object[] { });
+                    photonView.RPC(nameof(PauseRPC), player, new object[] { });
                     object[] parameters = new object[] { "<color=#FFCC00>MasterClient has paused the game.</color>", "" };
                     photonView.RPC("Chat", player, parameters);
                 }
@@ -3357,19 +3357,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void PauseRPC(PhotonMessageInfo info)
     {
-        if (info.sender.isMasterClient)
+        if (!info.sender.IsMasterClient) return;
+        if (!IsPaused())
         {
-            if (!IsPaused())
-            {
-                pauseWaitTime = 100000f;
-                Time.timeScale = 1E-06f;
-                InGameUI.ToggleIndicator(true);
-            }
-            else
-            {
-                pauseWaitTime = 3f;
-                InGameUI.ToggleIndicator(false);
-            }
+            pauseWaitTime = 100000f;
+            Time.timeScale = 1E-06f;
+            InGameUI.ToggleIndicator(true);
+        }
+        else
+        {
+            pauseWaitTime = 3f;
+            InGameUI.ToggleIndicator(false);
         }
     }
 
