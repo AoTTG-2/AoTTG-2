@@ -808,7 +808,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
         GameObject obj5 = GameObject.Find("crossL2");
         GameObject obj6 = GameObject.Find("crossR1");
         GameObject obj7 = GameObject.Find("crossR2");
-        GameObject obj8 = GameObject.Find("LabelDistance");
+        GameObject obj8 = GameObject.Find("Distance");
         Vector3 vector = (Vector3) (Vector3.up * 10000f);
         obj7.transform.localPosition = vector;
         obj6.transform.localPosition = vector;

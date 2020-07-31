@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
 
-[AddComponentMenu("Camera-Control/Mouse Look")]
 public enum GAMETYPE
 {
-    [Obsolete("Use PhotonNetwork.OfflineMode instead as per #184 Singleplayer", true)]
+    [Obsolete("Use PhotonNetwork.OfflineMode instead as per #184 Singleplayer", false)]
     SINGLE,
-    SERVER,
-    CLIENT,
-    STOP,
+    Stop,
+    Playing,
+    [Obsolete("This is almost always true", false)]
     MULTIPLAYER
 }
 

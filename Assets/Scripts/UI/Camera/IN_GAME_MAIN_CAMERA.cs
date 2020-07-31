@@ -16,7 +16,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float flashDuration;
     private bool flip;
     public bool gameOver;
-    public static GAMETYPE gametype = GAMETYPE.STOP;
+    public static GAMETYPE gametype = GAMETYPE.Stop;
     private bool hasSnapShot;
     private Transform head;
     private float heightMulti;
@@ -429,7 +429,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
             //GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
         }
-        if (gametype != GAMETYPE.STOP)
+        if (gametype != GAMETYPE.Stop)
         {
             if ((gametype != GAMETYPE.SINGLE) && this.gameOver)
             {

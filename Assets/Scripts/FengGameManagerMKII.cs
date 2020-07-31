@@ -215,25 +215,26 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             base.StartCoroutine(this.WaitAndResetRestarts());
         }
-        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+
+        this.roundTime = 0f;
+        if (Level.Name.StartsWith("Custom"))
         {
-            this.roundTime = 0f;
-            if (Level.Name.StartsWith("Custom"))
+            customLevelLoaded = false;
+        }
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            if (this.isFirstLoad)
             {
-                customLevelLoaded = false;
-            }
-            if (PhotonNetwork.isMasterClient)
-            {
-                if (this.isFirstLoad)
-                {
-                    this.setGameSettings(this.checkGameGUI());
-                }
-            }
-            if (((int) settings[0xf4]) == 1)
-            {
-                this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round Start.");
+                this.setGameSettings(this.checkGameGUI());
             }
         }
+
+        if (((int) settings[0xf4]) == 1)
+        {
+            this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round Start.");
+        }
+
         this.isFirstLoad = false;
         this.RecompilePlayerList(0.5f);
     }
@@ -456,264 +457,267 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         else
         {
-            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && this.needChooseSide)
+            if (this.needChooseSide)
             {
                 InGameUI.SpawnMenu.gameObject.SetActive(true);
             }
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER))
+
+            int length;
+            float num3;
+
+            if (PhotonNetwork.offlineMode)
             {
-                int length;
-                float num3;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+                if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
                 {
-                    this.coreadd();
-                    this.ShowHUDInfoTopLeft(this.playerList);
-                    if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) && (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) && (((int) settings[0xf5]) == 0))
+                    if (!this.isLosing)
                     {
-                        this.ShowHUDInfoCenter($"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to spectate the next player.\n" +
-                                               $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the previous player.\n" +
-                                               $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
-                        if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) || (Gamemode.Settings.EndlessRevive > 0)) || !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled)) ? (Gamemode.Settings.PointMode <= 0) : true))
-                        {
-                            this.myRespawnTime += Time.deltaTime;
-                            int endlessMode = 5;
-                            if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                            {
-                                endlessMode = 10;
-                            }
-                            if (Gamemode.Settings.EndlessRevive > 0)
-                            {
-                                endlessMode = Gamemode.Settings.EndlessRevive;
-                            }
-                            length = endlessMode - ((int) this.myRespawnTime);
-                            this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
-                            if (this.myRespawnTime > endlessMode)
-                            {
-                                this.myRespawnTime = 0f;
-                                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                                {
-                                    SpawnPlayerTitan();
-                                }
-                                else
-                                {
-                                    base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
-                                }
-                                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                                this.ShowHUDInfoCenter(string.Empty);
-                            }
-                        }
-                    }
-                }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                {
-                    if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
-                    {
-                        if (!this.isLosing)
-                        {
-                            this.currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity.magnitude;
-                            this.maxSpeed = Mathf.Max(this.maxSpeed, this.currentSpeed);
-                            this.ShowHUDInfoTopLeft(string.Concat(new object[] { "Current Speed : ", (int) this.currentSpeed, "\nMax Speed:", this.maxSpeed }));
-                        }
-                    }
-                    else
-                    {
-                        this.ShowHUDInfoTopLeft(string.Concat(new object[] { "Kills:", this.single_kills, "\nMax Damage:", this.single_maxDamage, "\nTotal Damage:", this.single_totalDamage }));
-                    }
-                }
-                if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
-                {
-                    ShowHUDInfoCenter(Gamemode.GetDefeatMessage(gameEndCD));
-                    if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-                    {
-                        if (this.gameEndCD <= 0f)
-                        {
-                            this.gameEndCD = 0f;
-                            if (PhotonNetwork.isMasterClient)
-                            {
-                                this.restartRC();
-                            }
-
-                            this.ShowHUDInfoCenter(string.Empty);
-                        }
-                        else
-                        {
-                            this.gameEndCD -= Time.deltaTime;
-                        }
-                    }
-                }
-                if (this.isWinning)
-                {
-                    ShowHUDInfoCenter(Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
-                    if (this.gameEndCD <= 0f)
-                    {
-                        this.gameEndCD = 0f;
-                        if (PhotonNetwork.isMasterClient)
-                        {
-                            this.restartRC();
-                        }
-                        this.ShowHUDInfoCenter(string.Empty);
-                    }
-                    else
-                    {
-                        this.gameEndCD -= Time.deltaTime;
-                    }
-
-                }
-                this.timeElapse += Time.deltaTime;
-                this.roundTime += Time.deltaTime;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                {
-                    //TODO Investigate the purpose of this
-                    if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
-                    {
-                        if (!this.isWinning)
-                        {
-                            this.timeTotalServer += Time.deltaTime;
-                        }
-                    }
-                    else if (!(this.isLosing || this.isWinning))
-                    {
-                        this.timeTotalServer += Time.deltaTime;
+                        this.currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object
+                            .GetComponent<Rigidbody>().velocity.magnitude;
+                        this.maxSpeed = Mathf.Max(this.maxSpeed, this.currentSpeed);
+                        this.ShowHUDInfoTopLeft(string.Concat(new object[]
+                            {"Current Speed : ", (int) this.currentSpeed, "\nMax Speed:", this.maxSpeed}));
                     }
                 }
                 else
                 {
-                    this.timeTotalServer += Time.deltaTime;
+                    this.ShowHUDInfoTopLeft(string.Concat(new object[]
+                    {
+                        "Kills:", this.single_kills, "\nMax Damage:", this.single_maxDamage, "\nTotal Damage:",
+                        this.single_totalDamage
+                    }));
                 }
-                if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
+            }
+            else
+            {
+                this.coreadd();
+                this.ShowHUDInfoTopLeft(this.playerList);
+                if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) &&
+                     (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
+                    (((int) settings[0xf5]) == 0))
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                    {
-                        if (!this.isWinning)
-                        {
-                            this.ShowHUDInfoTopCenter("Time : " + ((((int) (this.timeTotalServer * 10f)) * 0.1f) - 5f));
-                        }
-                        if (this.timeTotalServer < 5f)
-                        {
-                            this.ShowHUDInfoCenter("RACE START IN " + ((int) (5f - this.timeTotalServer)));
-                        }
-                        else if (!this.startRacing)
-                        {
-                            this.ShowHUDInfoCenter(string.Empty);
-                            this.startRacing = true;
-                            this.endRacing = false;
-                            GameObject.Find("door").SetActive(false);
-                        }
-                    }
-                    else
-                    {
-                        this.ShowHUDInfoTopCenter("Time : " + ((this.roundTime >= 20f) ? (num3 = (((int) (this.roundTime * 10f)) * 0.1f) - 20f).ToString() : "WAITING"));
-                        if (this.roundTime < 20f)
-                        {
-                            this.ShowHUDInfoCenter("RACE START IN " + ((int) (20f - this.roundTime)) + (!(this.localRacingResult == string.Empty) ? ("\nLast Round\n" + this.localRacingResult) : "\n\n"));
-                        }
-                        else if (!this.startRacing)
-                        {
-                            this.ShowHUDInfoCenter(string.Empty);
-                            this.startRacing = true;
-                            this.endRacing = false;
-                            GameObject obj2 = GameObject.Find("door");
-                            if (obj2 != null)
-                            {
-                                obj2.SetActive(false);
-                            }
-                            if ((this.racingDoors != null) && customLevelLoaded)
-                            {
-                                foreach (GameObject obj3 in this.racingDoors)
-                                {
-                                    obj3.SetActive(false);
-                                }
-                                this.racingDoors = null;
-                            }
-                        }
-                        else if ((this.racingDoors != null) && customLevelLoaded)
-                        {
-                            foreach (GameObject obj3 in this.racingDoors)
-                            {
-                                obj3.SetActive(false);
-                            }
-                            this.racingDoors = null;
-                        }
-                    }
-                    if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) && customLevelLoaded)
+                    this.ShowHUDInfoCenter(
+                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to spectate the next player.\n" +
+                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the previous player.\n" +
+                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
+                    if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) ||
+                         (Gamemode.Settings.EndlessRevive > 0)) ||
+                        !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled))
+                            ? (Gamemode.Settings.PointMode <= 0)
+                            : true))
                     {
                         this.myRespawnTime += Time.deltaTime;
-                        if (this.myRespawnTime > 1.5f)
+                        int endlessMode = 5;
+                        if (RCextensions.returnIntFromObject(
+                            PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
+                        {
+                            endlessMode = 10;
+                        }
+
+                        if (Gamemode.Settings.EndlessRevive > 0)
+                        {
+                            endlessMode = Gamemode.Settings.EndlessRevive;
+                        }
+
+                        length = endlessMode - ((int) this.myRespawnTime);
+                        this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
+                        if (this.myRespawnTime > endlessMode)
                         {
                             this.myRespawnTime = 0f;
                             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                            if (this.checkpoint != null)
+                            if (RCextensions.returnIntFromObject(
+                                PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                             {
-                                base.StartCoroutine(this.WaitAndRespawn2(0.1f, this.checkpoint));
+                                SpawnPlayerTitan();
                             }
                             else
                             {
                                 base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
                             }
+
                             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
                             this.ShowHUDInfoCenter(string.Empty);
                         }
                     }
                 }
-                if (this.timeElapse > 1f)
+            }
+
+            if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
+            {
+                ShowHUDInfoCenter(Gamemode.GetDefeatMessage(gameEndCD));
+                if (this.gameEndCD <= 0f)
                 {
-                    this.timeElapse--;
-                    var content = Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time);
-                    if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
+                    this.gameEndCD = 0f;
+                    if (PhotonNetwork.isMasterClient)
                     {
-                        content += $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>";
-                    }
-                    this.ShowHUDInfoTopCenter(content);
-                    content = Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time);
-                    this.ShowHUDInfoTopRight(content);
-                    string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0) ? ((IN_GAME_MAIN_CAMERA.difficulty != 0) ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard") : "Normal") : "Trainning";
-                    this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                    {
-                        char[] separator = new char[] { "`"[0] };
-                        string str5 = PhotonNetwork.room.name.Split(separator)[0];
-                        if (str5.Length > 20)
-                        {
-                            str5 = str5.Remove(0x13) + "...";
-                        }
-                        this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" + Convert.ToString(PhotonNetwork.room.playerCount) + "/" + Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
-                        if (this.needChooseSide)
-                        {
-                            this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
-                        }
-                    }
-                }
-                if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && (this.killInfoGO.Count > 0)) && (this.killInfoGO[0] == null))
-                {
-                    this.killInfoGO.RemoveAt(0);
-                }
-                if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && PhotonNetwork.isMasterClient) && (this.timeTotalServer > this.time))
-                {
-                    string str11;
-                    IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
-                    this.gameStart = false;
-                    string str6 = string.Empty;
-                    string str7 = string.Empty;
-                    string str8 = string.Empty;
-                    string str9 = string.Empty;
-                    string str10 = string.Empty;
-                    foreach (PhotonPlayer player in PhotonNetwork.playerList)
-                    {
-                        if (player != null)
-                        {
-                            str6 = str6 + player.CustomProperties[PhotonPlayerProperty.name] + "\n";
-                            str7 = str7 + player.CustomProperties[PhotonPlayerProperty.kills] + "\n";
-                            str8 = str8 + player.CustomProperties[PhotonPlayerProperty.deaths] + "\n";
-                            str9 = str9 + player.CustomProperties[PhotonPlayerProperty.max_dmg] + "\n";
-                            str10 = str10 + player.CustomProperties[PhotonPlayerProperty.total_dmg] + "\n";
-                        }
+                        this.restartRC();
                     }
 
-                    str11 = Gamemode.GetRoundEndedMessage();
-                    object[] parameters = new object[] { str6, str7, str8, str9, str10, str11 };
-                    base.photonView.RPC("showResult", PhotonTargets.AllBuffered, parameters);
+                    this.ShowHUDInfoCenter(string.Empty);
                 }
+                else
+                {
+                    this.gameEndCD -= Time.deltaTime;
+                }
+            }
+
+            if (this.isWinning)
+            {
+                ShowHUDInfoCenter(Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
+                if (this.gameEndCD <= 0f)
+                {
+                    this.gameEndCD = 0f;
+                    if (PhotonNetwork.isMasterClient)
+                    {
+                        this.restartRC();
+                    }
+
+                    this.ShowHUDInfoCenter(string.Empty);
+                }
+                else
+                {
+                    this.gameEndCD -= Time.deltaTime;
+                }
+
+            }
+
+            this.timeElapse += Time.deltaTime;
+            this.roundTime += Time.deltaTime;
+            this.timeTotalServer += Time.deltaTime;
+            if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
+            {
+                this.ShowHUDInfoTopCenter("Time : " + ((this.roundTime >= 20f)
+                    ? (num3 = (((int) (this.roundTime * 10f)) * 0.1f) - 20f).ToString()
+                    : "WAITING"));
+                if (this.roundTime < 20f)
+                {
+                    this.ShowHUDInfoCenter("RACE START IN " + ((int) (20f - this.roundTime)) +
+                                           (!(this.localRacingResult == string.Empty)
+                                               ? ("\nLast Round\n" + this.localRacingResult)
+                                               : "\n\n"));
+                }
+                else if (!this.startRacing)
+                {
+                    this.ShowHUDInfoCenter(string.Empty);
+                    this.startRacing = true;
+                    this.endRacing = false;
+                    GameObject obj2 = GameObject.Find("door");
+                    if (obj2 != null)
+                    {
+                        obj2.SetActive(false);
+                    }
+
+                    if ((this.racingDoors != null) && customLevelLoaded)
+                    {
+                        foreach (GameObject obj3 in this.racingDoors)
+                        {
+                            obj3.SetActive(false);
+                        }
+
+                        this.racingDoors = null;
+                    }
+                }
+                else if ((this.racingDoors != null) && customLevelLoaded)
+                {
+                    foreach (GameObject obj3 in this.racingDoors)
+                    {
+                        obj3.SetActive(false);
+                    }
+
+                    this.racingDoors = null;
+                }
+
+                if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
+                    customLevelLoaded)
+                {
+                    this.myRespawnTime += Time.deltaTime;
+                    if (this.myRespawnTime > 1.5f)
+                    {
+                        this.myRespawnTime = 0f;
+                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
+                        if (this.checkpoint != null)
+                        {
+                            base.StartCoroutine(this.WaitAndRespawn2(0.1f, this.checkpoint));
+                        }
+                        else
+                        {
+                            base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
+                        }
+
+                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
+                        this.ShowHUDInfoCenter(string.Empty);
+                    }
+                }
+            }
+
+            if (this.timeElapse > 1f)
+            {
+                this.timeElapse--;
+                var content = Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time);
+                if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
+                {
+                    content +=
+                        $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>";
+                }
+
+                this.ShowHUDInfoTopCenter(content);
+                content = Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time);
+                this.ShowHUDInfoTopRight(content);
+                string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0)
+                    ? ((IN_GAME_MAIN_CAMERA.difficulty != 0)
+                        ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard")
+                        : "Normal")
+                    : "Trainning";
+                this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
+                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Playing)
+                {
+                    char[] separator = new char[] {"`"[0]};
+                    string str5 = PhotonNetwork.room.name.Split(separator)[0];
+                    if (str5.Length > 20)
+                    {
+                        str5 = str5.Remove(0x13) + "...";
+                    }
+
+                    this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" +
+                                                    Convert.ToString(PhotonNetwork.room.playerCount) + "/" +
+                                                    Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
+                    if (this.needChooseSide)
+                    {
+                        this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+                    }
+                }
+            }
+
+            if (this.killInfoGO.Count > 0 && this.killInfoGO[0] == null)
+            {
+                this.killInfoGO.RemoveAt(0);
+            }
+
+            if (PhotonNetwork.isMasterClient &&
+                (this.timeTotalServer > this.time))
+            {
+                string str11;
+                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
+                this.gameStart = false;
+                string str6 = string.Empty;
+                string str7 = string.Empty;
+                string str8 = string.Empty;
+                string str9 = string.Empty;
+                string str10 = string.Empty;
+                foreach (PhotonPlayer player in PhotonNetwork.playerList)
+                {
+                    if (player != null)
+                    {
+                        str6 = str6 + player.CustomProperties[PhotonPlayerProperty.name] + "\n";
+                        str7 = str7 + player.CustomProperties[PhotonPlayerProperty.kills] + "\n";
+                        str8 = str8 + player.CustomProperties[PhotonPlayerProperty.deaths] + "\n";
+                        str9 = str9 + player.CustomProperties[PhotonPlayerProperty.max_dmg] + "\n";
+                        str10 = str10 + player.CustomProperties[PhotonPlayerProperty.total_dmg] + "\n";
+                    }
+                }
+
+                str11 = Gamemode.GetRoundEndedMessage();
+                object[] parameters = new object[] {str6, str7, str8, str9, str10, str11};
+                base.photonView.RPC("showResult", PhotonTargets.AllBuffered, parameters);
             }
         }
     }
@@ -2130,7 +2134,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             string[] strArray3;
             int num2;
             InstantiateTracker.instance.Dispose();
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+            if (PhotonNetwork.isMasterClient)
             {
                 this.updateTime = 1f;
                 if (oldScriptLogic != currentScriptLogic)
@@ -2154,7 +2158,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.racingSpawnPointSet = false;
             this.racingDoors = new List<GameObject>();
             this.allowedToCannon = new Dictionary<int, CannonValues>();
-            if ((!Level.Name.StartsWith("Custom") && (((int) settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
+            if ((!Level.Name.StartsWith("Custom") && (((int) settings[2]) == 1)) || PhotonNetwork.isMasterClient)
             {
                 string url = string.Empty;
                 string str3 = string.Empty;
@@ -2209,16 +2213,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         strArray3[num] = (string) settings[num + 0xa3];
                     }
                 }
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                if (PhotonNetwork.isMasterClient)
                 {
-                    base.StartCoroutine(this.loadskinE(n, url, str3, strArray3));
-                }
-                else if (PhotonNetwork.isMasterClient)
-                {
-                    base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
+                    base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
                 }
             }
-            else if (Level.Name.StartsWith("Custom") && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
+            else if (Level.Name.StartsWith("Custom"))
             {
                 GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("playerRespawn");
                 for (num = 0; num < objArray3.Length; num++)
@@ -2889,7 +2889,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnConnectionFail(DisconnectCause cause)
     {
         UnityEngine.MonoBehaviour.print("OnConnectionFail : " + cause.ToString());
-        IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
+        IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
         this.gameStart = false;
     }
 
@@ -2912,7 +2912,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void oneTitanDown(string titanName)
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             EventManager.OnTitanKilled.Invoke(titanName);
         }
@@ -3056,7 +3056,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             this.resetSettings(true);
             this.loadconfig();
-            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
             this.gameStart = false;
             this.DestroyAllExistingCloths();
             UnityEngine.Object.Destroy(GameObject.Find("MultiplayerManager"));
@@ -3976,7 +3976,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             this.gameTimesUp = true;
             GameObject obj2 = GameObject.Find("UI_IN_GAME");
-            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.STOP;
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
             this.gameStart = false;
         }
         else if (!(t.sender.isMasterClient || !PhotonNetwork.player.isMasterClient))
@@ -4005,6 +4005,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void SpawnPlayerAt2(string id, GameObject pos)
     {
+        id = "TITAN_EREN";
         // HACK
         if (false)
         //if (!logicLoaded || !customLevelLoaded)
@@ -4050,62 +4051,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             IN_GAME_MAIN_CAMERA component = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
             this.myLastHero = id.ToUpper();
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (myLastHero == "TITAN_EREN")
             {
-                if (IN_GAME_MAIN_CAMERA.singleCharacter == "TITAN_EREN")
-                {
-                    component.setMainObject((GameObject) UnityEngine.Object.Instantiate(Resources.Load("TITAN_EREN"), pos.transform.position, pos.transform.rotation), true, false);
-                }
-                else
-                {
-                    component.setMainObject((GameObject) UnityEngine.Object.Instantiate(Resources.Load("AOTTG_HERO 1"), pos.transform.position, pos.transform.rotation), true, false);
-                    if (((IN_GAME_MAIN_CAMERA.singleCharacter == "SET 1") || (IN_GAME_MAIN_CAMERA.singleCharacter == "SET 2")) || (IN_GAME_MAIN_CAMERA.singleCharacter == "SET 3"))
-                    {
-                        HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(IN_GAME_MAIN_CAMERA.singleCharacter);
-                        costume.checkstat();
-                        CostumeConeveter.HeroCostumeToLocalData(costume, IN_GAME_MAIN_CAMERA.singleCharacter);
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                        if (costume != null)
-                        {
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
-                        }
-                        else
-                        {
-                            costume = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
-                        }
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                    }
-                    else
-                    {
-                        for (int i = 0; i < HeroCostume.costume.Length; i++)
-                        {
-                            if (HeroCostume.costume[i].name.ToUpper() == IN_GAME_MAIN_CAMERA.singleCharacter.ToUpper())
-                            {
-                                int index = (HeroCostume.costume[i].id + CheckBoxCostume.costumeSet) - 1;
-                                if (HeroCostume.costume[index].name != HeroCostume.costume[i].name)
-                                {
-                                    index = HeroCostume.costume[i].id + 1;
-                                }
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[index];
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[index].name.ToUpper());
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                                break;
-                            }
-                        }
-                    }
-                }
+                component.setMainObject(PhotonNetwork.Instantiate("TITAN_EREN", position, pos.transform.rotation, 0),
+                    true, false);
             }
             else
             {
-                component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0), true, false);
+                component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0),
+                    true, false);
                 id = id.ToUpper();
                 if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
                 {
@@ -4116,14 +4070,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     if (costume2 != null)
                     {
                         component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume2.stat;
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                            costume2.stat;
                     }
                     else
                     {
                         costume2 = HeroCostume.costumeOption[3];
                         component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume2.name.ToUpper());
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                            HeroStat.getInfo(costume2.name.ToUpper());
                     }
+
                     component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
                     component.main_object.GetComponent<Hero>().setStat2();
                     component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
@@ -4139,21 +4096,29 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 num4 += CheckBoxCostume.costumeSet - 1;
                             }
+
                             if (HeroCostume.costume[num4].name != HeroCostume.costume[j].name)
                             {
                                 num4 = HeroCostume.costume[j].id + 1;
                             }
+
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[num4];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume =
+                                HeroCostume.costume[num4];
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                                HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>()
+                                .setCharacterComponent();
                             component.main_object.GetComponent<Hero>().setStat2();
                             component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
                             break;
                         }
                     }
                 }
-                CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
+
+                CostumeConeveter.HeroCostumeToPhotonData2(
+                    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume,
+                    PhotonNetwork.player);
                 ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                 hashtable.Add("dead", false);
                 ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
@@ -4163,6 +4128,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 propertiesToSet = hashtable;
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             }
+
             Gamemode.OnPlayerSpawned(component.main_object);
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
