@@ -27,6 +27,13 @@ namespace Assets.Scripts.Room
             return LevelBuilder.GetAllLevels().Single(x => x.Name == level);
         }
 
+        public static bool GetSecure(this RoomInfo room)
+        {
+            if (!room.CustomProperties.ContainsKey("secure")) return false;
+            return (bool)room.CustomProperties["secure"];
+        }
+
+
         public static GamemodeSettings GetGamemodeSetting(this global::Room room, Level level)
         {
             var gamemode = room.CustomProperties["gamemode"].ToString();

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.UI.Input;
 using System.Collections;
 using UnityEngine;
 
@@ -31,21 +32,21 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {
-            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 var content = "Time : ";
                 var length = totalRoomTime;
                 return content + length.ToString();
-            }*/
+            }
             return base.GetGamemodeStatusTopRight(time, totalRoomTime);
         }
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                return "Survive All Waves!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
-            }*/
+                return $"Survive All Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
+            }
             return $"Survive All Waves!\nGame Restart in {(int) timeUntilRestart}s\n\n";
         }
 
@@ -53,7 +54,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (GamemodeSettings.IsSinglePlayer)
             {
-                return $"Survive {Wave} Waves!\n Press {FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart]} to Restart.\n\n\n";
+                return $"Survive {Wave} Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return $"Survive {Wave} Waves!\nGame Restart in {(int) gameEndCd}s\n\n";
         }

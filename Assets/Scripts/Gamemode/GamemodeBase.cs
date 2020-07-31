@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.UI.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -152,7 +153,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnPlayerSpawned(GameObject player)
         {
-           // if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
         }
 
         protected void SpawnTitans(int amount)
@@ -189,10 +190,10 @@ namespace Assets.Scripts.Gamemode
 
         public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
-                return "Humanity Win!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
-            }*/
+                return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
+            }
             return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
         }
 
@@ -328,7 +329,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (Settings.IsSinglePlayer)
             {
-                return "Humanity Fail!\n Press " + FengGameManagerMKII.instance.inputManager.inputString[InputCode.restart] + " to Restart.\n\n\n";
+                return $"Humanity Fail!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return "Humanity Fail!\nAgain!\nGame Restart in " + ((int) gameEndCd) + "s\n\n";
         }

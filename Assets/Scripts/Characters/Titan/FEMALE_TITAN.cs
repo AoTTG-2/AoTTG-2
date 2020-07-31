@@ -1103,32 +1103,31 @@ public class FEMALE_TITAN : MonoBehaviour
                 this.healthLabel.name = "LabelNameOverHead";
                 this.healthLabel.transform.parent = base.transform;
                 this.healthLabel.transform.localPosition = new Vector3(0f, 52f, 0f);
-                float a = 4f;
+                float a = 0.2f;
                 if ((this.size > 0f) && (this.size < 1f))
                 {
-                    a = 4f / this.size;
+                    a = 1f / this.size;
                     a = Mathf.Min(a, 15f);
                 }
                 this.healthLabel.transform.localScale = new Vector3(a, a, a);
             }
-            string str = "[7FFF00]";
-            float num2 = ((float) health) / ((float) maxHealth);
-            if ((num2 < 0.75f) && (num2 >= 0.5f))
-            {
-                str = "[f2b50f]";
-            }
-            else if ((num2 < 0.5f) && (num2 >= 0.25f))
-            {
-                str = "[ff8100]";
-            }
-            else if (num2 < 0.25f)
-            {
-                str = "[ff3333]";
-            }
-            //this.healthLabel.GetComponent<UILabel>().text = str + Convert.ToString(health);
         }
+            string color = "7FFF00";
+        float num2 = ((float) health) / ((float) maxHealth);
+        if ((num2 < 0.75f) && (num2 >= 0.5f))
+        {
+            color = "f2b50f";
+        }
+        else if ((num2 < 0.5f) && (num2 >= 0.25f))
+        {
+            color = "ff8100";
+        }
+        else if (num2 < 0.25f)
+        {
+            color = "ff3333";
+        }
+        healthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{health}</color>";
     }
-
     public void lateUpdate()
     {
         if (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE))
@@ -1198,7 +1197,7 @@ public class FEMALE_TITAN : MonoBehaviour
         }
         bool mipmap = true;
         bool iteratorVariable1 = false;
-        if (((int)FengGameManagerMKII.settings[0x3f]) == 1)
+        if (((int) FengGameManagerMKII.settings[0x3f]) == 1)
         {
             mipmap = false;
         }
@@ -1215,16 +1214,16 @@ public class FEMALE_TITAN : MonoBehaviour
                     iteratorVariable1 = true;
                     iteratorVariable4.material.mainTexture = iteratorVariable6;
                     FengGameManagerMKII.linkHash[2].Add(url, iteratorVariable4.material);
-                    iteratorVariable4.material = (Material)FengGameManagerMKII.linkHash[2][url];
+                    iteratorVariable4.material = (Material) FengGameManagerMKII.linkHash[2][url];
                 }
                 else
                 {
-                    iteratorVariable4.material = (Material)FengGameManagerMKII.linkHash[2][url];
+                    iteratorVariable4.material = (Material) FengGameManagerMKII.linkHash[2][url];
                 }
             }
             else
             {
-                iteratorVariable4.material = (Material)FengGameManagerMKII.linkHash[2][url];
+                iteratorVariable4.material = (Material) FengGameManagerMKII.linkHash[2][url];
             }
         }
         if (iteratorVariable1)
@@ -1867,6 +1866,7 @@ public class FEMALE_TITAN : MonoBehaviour
     {
         if ((this.healthLabel != null)) //&& this.healthLabel.GetComponent<UILabel>().isVisible)
         {
+
             this.healthLabel.transform.LookAt(((Vector3) (2f * this.healthLabel.transform.position)) - Camera.main.transform.position);
         }
     }

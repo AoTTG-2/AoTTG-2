@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
+using Assets.Scripts.UI.Input;
 using System.Linq;
 using UnityEngine;
 
@@ -8,7 +9,6 @@ namespace Assets.Scripts.Characters.Titan
     {
         public Camera currentCamera;
         public float currentDirection;
-        public FengCustomInputs inputManager;
         public bool sit;
         public float targetDirection;
 
@@ -20,12 +20,11 @@ namespace Assets.Scripts.Characters.Titan
         protected override void Awake()
         {
             base.Awake();
-            this.inputManager = GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>();
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            /*if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
             {
                 base.enabled = false;
-            }*/
+            }
         }
 
         protected override void FixedUpdate()
@@ -53,14 +52,14 @@ namespace Assets.Scripts.Characters.Titan
             base.Initialize(configuration);
         }
 
-        private Attack CanAttack(int key)
+        private Attack CanAttack()
         {
-            if (key == InputCodeRC.titanSlam)
+            if (InputManager.KeyDown(InputTitan.AttackBodySlam)) 
             {
                 return Attacks.FirstOrDefault(x => x is BodySlamAttack);
             }
 
-            if (key == InputCodeRC.titanAntiAE)
+            if (InputManager.KeyDown(InputTitan.AttackSlap))
             {
                 var attack = Attacks.SingleOrDefault(x => x is SlapAttack) as SlapAttack;
                 if (attack == null) return null;
@@ -70,7 +69,7 @@ namespace Assets.Scripts.Characters.Titan
                     : null;
             }
 
-            if (key == InputCodeRC.titanGrabNape)
+            if (InputManager.KeyDown(InputTitan.AttackGrabNape))
             {
                 var attack = Attacks.SingleOrDefault(x => x is GrabAttack) as GrabAttack;
                 if (attack == null) return null;
@@ -79,7 +78,7 @@ namespace Assets.Scripts.Characters.Titan
                     : null;
             }
 
-            if (key == InputCodeRC.titanGrabFront)
+            if (InputManager.KeyDown(InputTitan.AttackGrabFront))
             {
                 var attack = Attacks.SingleOrDefault(x => x is GrabAttack) as GrabAttack;
                 if (attack == null) return null;
@@ -88,7 +87,7 @@ namespace Assets.Scripts.Characters.Titan
                     : null;
             }
 
-            if (key == InputCodeRC.titanGrabBack)
+            if (InputManager.KeyDown(InputTitan.AttackGrabBack))
             {
                 var attack = Attacks.SingleOrDefault(x => x is GrabAttack) as GrabAttack;
                 if (attack == null) return null;
@@ -97,7 +96,7 @@ namespace Assets.Scripts.Characters.Titan
                     : null;
             }
 
-            if (key == InputCodeRC.titanBite)
+            if (InputManager.KeyDown(InputTitan.AttackBite))
             {
                 var attack = Attacks.SingleOrDefault(x => x is BiteAttack) as BiteAttack;
                 if (attack == null) return null;
@@ -109,20 +108,15 @@ namespace Assets.Scripts.Characters.Titan
             return null;
         }
 
-        private bool Attack(int keycode)
+        private bool Attack()
         {
-            if (FengGameManagerMKII.inputRC.isInputTitan(keycode))
+            CurrentAttack = CanAttack();
+            if (CurrentAttack == null) return false;
+            if (!CurrentAttack.CanAttack(this))
             {
-                CurrentAttack = CanAttack(keycode);
-                if (CurrentAttack == null) return false;
-                if (!CurrentAttack.CanAttack(this))
-                {
-                    CurrentAttack = null;
-                }
-                return true;
+                CurrentAttack = null;
             }
-
-            return false;
+            return true;
         }
 
         private bool IsAttacking()
@@ -139,13 +133,7 @@ namespace Assets.Scripts.Characters.Titan
                 return true;
             }
 
-            if (Attack(InputCodeRC.titanSlam)) return true;
-            if (Attack(InputCodeRC.titanAntiAE)) return true;
-            if (Attack(InputCodeRC.titanGrabNape)) return true;
-            if (Attack(InputCodeRC.titanGrabBack)) return true;
-            if (Attack(InputCodeRC.titanGrabFront)) return true;
-            if (Attack(InputCodeRC.titanBite)) return true;
-
+            if (Attack()) return true;
             //if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanPunch))
             //{
             //    this.isAttackDown = true;
@@ -186,7 +174,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (InputManager.KeyDown(InputTitan.Blend))
             {
                 Ai = !Ai;
             }
@@ -230,7 +218,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (IsAttacking()) return;
 
-            if (!IsCovering && FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanCover))
+            if (!IsCovering && InputManager.Key(InputTitan.Cover))
             {
                 CrossFade(AnimationCover, 0.0f);
                 SpeedModifier = 0f;
@@ -244,11 +232,11 @@ namespace Assets.Scripts.Characters.Titan
             float num4;
             float num5;
 
-            if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanForward))
+            if (InputManager.Key(InputTitan.Forward))
             {
                 num = 1;
             }
-            else if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanBack))
+            else if (InputManager.Key(InputTitan.Backward))
             {
                 num = -1;
             }
@@ -256,11 +244,11 @@ namespace Assets.Scripts.Characters.Titan
             {
                 num = 0;
             }
-            if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanLeft))
+            if (InputManager.Key(InputTitan.Left))
             {
                 num2 = -1;
             }
-            else if (FengGameManagerMKII.inputRC.isInputTitan(InputCodeRC.titanRight))
+            else if (InputManager.Key(InputTitan.Right))
             {
                 num2 = 1;
             }
@@ -275,7 +263,7 @@ namespace Assets.Scripts.Characters.Titan
                 num4 = -num4 + 90f;
                 num5 = y + num4;
                 this.targetDirection = num5;
-                if (FengGameManagerMKII.inputRC.isInputLevel(InputCodeRC.titanWalk))
+                if (InputManager.Key(InputTitan.Walk))
                 {
                     SpeedModifier = 0.2f;
                     CrossFade(AnimationWalk, 0.0f);
