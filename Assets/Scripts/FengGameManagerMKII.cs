@@ -3087,56 +3087,42 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
             //TODO: How should a gamemode and level be loaded in singlePlayer?
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                this.single_kills = 0;
-                this.single_maxDamage = 0;
-                this.single_totalDamage = 0;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-                Camera.main.GetComponent<SpectatorMovement>().disable = true;
-                //TODO MouseLook
-                //Camera.main.GetComponent<MouseLook>().disable = true;
-                //this.SpawnPlayer(IN_GAME_MAIN_CAMERA.singleCharacter.ToUpper(), "playerRespawn");
-                SpawnPlayer(null);
-                int abnormal = 90;
-                if (this.difficulty == 1)
-                {
-                    abnormal = 70;
-                }
-                throw new NotImplementedException("Titan spawners for singleplayer don't exist yet");
-                //this.spawnTitanCustom("titanRespawn", abnormal, Gamemode.Titans, false);
-            }
-            else
-            {
-                PVPcheckPoint.chkPts = new ArrayList();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
-                Camera.main.GetComponent<CameraShake>().enabled = false;
-                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.MULTIPLAYER;
-                if (this.needChooseSide)
-                {
-                    this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
-                }
-                else if (((int) settings[0xf5]) == 0)
-                {
-                    if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                    {
-                        SpawnPlayerTitan();
-                    }
-                    else
-                    {
-                        this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
-                    }
-                }
 
-                if (!PhotonNetwork.isMasterClient)
+            if (PhotonNetwork.offlineMode)
+            {
+                single_kills = 0;
+                single_maxDamage = 0;
+                single_totalDamage = 0;
+            }
+
+            PVPcheckPoint.chkPts = new ArrayList();
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
+            Camera.main.GetComponent<CameraShake>().enabled = false;
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.MULTIPLAYER;
+            if (this.needChooseSide)
+            {
+                this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+            }
+            else if (((int) settings[0xf5]) == 0)
+            {
+                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                 {
-                    base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
+                    SpawnPlayerTitan();
                 }
-                Gamemode.OnLevelLoaded(Level, PhotonNetwork.isMasterClient);
-                if (((int) settings[0xf5]) == 1)
+                else
                 {
-                    this.EnterSpecMode(true);
+                    this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
                 }
+            }
+
+            if (!PhotonNetwork.isMasterClient)
+            {
+                base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
+            }
+            Gamemode.OnLevelLoaded(Level, PhotonNetwork.isMasterClient);
+            if (((int) settings[0xf5]) == 1)
+            {
+                this.EnterSpecMode(true);
             }
         }
     }
@@ -4005,6 +3991,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         EventManager.OnPlayerKilled.Invoke(id);
     }
 
+    //TODO: 184 - This gets called upon MapLoaded
     public void SpawnPlayer(string id, string tag = "playerRespawn")
     {
         if (id == null)

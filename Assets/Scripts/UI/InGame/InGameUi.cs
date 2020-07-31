@@ -53,9 +53,18 @@ namespace Assets.Scripts.UI.InGame
                 if (Menu.gameObject.activeSelf && MenuManager.IsMenuOpen)
                 {
                     Menu.gameObject.SetActive(false);
+                    if (PhotonNetwork.offlineMode)
+                    {
+                        FengGameManagerMKII.instance.pauseWaitTime = 0.0f;
+                    }
                 } else if (!Menu.gameObject.activeSelf && !MenuManager.IsMenuOpen)
                 {
                     Menu.gameObject.SetActive(true);
+                    if (PhotonNetwork.offlineMode)
+                    {
+                        FengGameManagerMKII.instance.pauseWaitTime = 100000f;
+                        Time.timeScale = 1E-06f;
+                    }
                 }
             }
         }
