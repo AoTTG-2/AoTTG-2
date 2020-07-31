@@ -12,7 +12,7 @@ public class HorseController : MonoBehaviour
     private void Start()
     {
         camera = Camera.main;
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+        if (PhotonNetwork.offlineMode)
             enabled = false;
     }
 

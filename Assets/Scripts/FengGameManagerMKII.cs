@@ -668,22 +668,19 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         : "Normal")
                     : "Trainning";
                 this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Playing)
+                char[] separator = new char[] { "`"[0] };
+                string str5 = PhotonNetwork.room.name.Split(separator)[0];
+                if (str5.Length > 20)
                 {
-                    char[] separator = new char[] {"`"[0]};
-                    string str5 = PhotonNetwork.room.name.Split(separator)[0];
-                    if (str5.Length > 20)
-                    {
-                        str5 = str5.Remove(0x13) + "...";
-                    }
+                    str5 = str5.Remove(0x13) + "...";
+                }
 
-                    this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" +
-                                                    Convert.ToString(PhotonNetwork.room.playerCount) + "/" +
-                                                    Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
-                    if (this.needChooseSide)
-                    {
-                        this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
-                    }
+                this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" +
+                                                Convert.ToString(PhotonNetwork.room.playerCount) + "/" +
+                                                Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
+                if (this.needChooseSide)
+                {
+                    this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
                 }
             }
 
@@ -3086,8 +3083,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.loadskin();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
-            //TODO: How should a gamemode and level be loaded in singlePlayer?
-
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
             if (PhotonNetwork.offlineMode)
             {
                 single_kills = 0;
@@ -3098,7 +3094,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             PVPcheckPoint.chkPts = new ArrayList();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
             Camera.main.GetComponent<CameraShake>().enabled = false;
-            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.MULTIPLAYER;
             if (this.needChooseSide)
             {
                 this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
@@ -4005,7 +4000,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void SpawnPlayerAt2(string id, GameObject pos)
     {
-        id = "TITAN_EREN";
         // HACK
         if (false)
         //if (!logicLoaded || !customLevelLoaded)

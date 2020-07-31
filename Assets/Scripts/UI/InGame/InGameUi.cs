@@ -56,6 +56,7 @@ namespace Assets.Scripts.UI.InGame
                     if (PhotonNetwork.offlineMode)
                     {
                         FengGameManagerMKII.instance.pauseWaitTime = 0.0f;
+                        Time.timeScale = 1f;
                     }
                 } else if (!Menu.gameObject.activeSelf && !MenuManager.IsMenuOpen)
                 {

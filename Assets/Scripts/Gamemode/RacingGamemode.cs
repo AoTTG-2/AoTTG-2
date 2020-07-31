@@ -16,20 +16,17 @@ namespace Assets.Scripts.Gamemode
                 ? 20f
                 : 9999f;
 
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            var parameters = new object[] { 0 };
+            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
             {
-                var parameters = new object[] { 0 };
-                FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-                if (((int)FengGameManagerMKII.settings[0xf4]) == 1)
-                {
-                    //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-                }
+                //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
             }
         }
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (GamemodeSettings.IsSinglePlayer)
+            if (PhotonNetwork.offlineMode)
             {
                 var num = (((int)(totalServerTime * 10f)) * 0.1f) - 5f;
                 return $"{num}s !!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
