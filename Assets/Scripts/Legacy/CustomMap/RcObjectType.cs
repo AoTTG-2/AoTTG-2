@@ -6,6 +6,8 @@
         Base,
         BaseSpecial,
         Misc,
-        Racing
+        Racing,
+        Spawnpoint,
+        Spawn
     }
 }
