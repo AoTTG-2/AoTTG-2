@@ -457,6 +457,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         else
         {
+            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
             if (this.needChooseSide)
             {
                 InGameUI.SpawnMenu.gameObject.SetActive(true);
@@ -2904,6 +2905,22 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnDisconnectedFromPhoton()
     {
         UnityEngine.MonoBehaviour.print("OnDisconnectedFromPhoton");
+        if (Application.loadedLevel != 0)
+        {
+            Time.timeScale = 1f;
+            if (PhotonNetwork.connected)
+            {
+                PhotonNetwork.Disconnect();
+            }
+            this.resetSettings(true);
+            this.loadconfig();
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
+            this.gameStart = false;
+            this.DestroyAllExistingCloths();
+            Destroy(GameObject.Find("MultiplayerManager"));
+            Destroy(GameObject.Find("Canvas"));
+            Application.LoadLevel(0);
+        }
     }
 
     [PunRPC]
@@ -3044,21 +3061,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnLeftRoom()
     {
-        if (Application.loadedLevel != 0)
-        {
-            Time.timeScale = 1f;
-            if (PhotonNetwork.connected)
-            {
-                PhotonNetwork.Disconnect();
-            }
-            this.resetSettings(true);
-            this.loadconfig();
-            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-            this.gameStart = false;
-            this.DestroyAllExistingCloths();
-            UnityEngine.Object.Destroy(GameObject.Find("MultiplayerManager"));
-            Application.LoadLevel(0);
-        }
+        UnityEngine.MonoBehaviour.print("OnLeftRoom");
     }
 
     private void OnLevelWasLoaded(int level)
