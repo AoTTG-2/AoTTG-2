@@ -181,8 +181,8 @@ public class Hero : Human
     private float uTapTime = -1f;
     private bool wallJump;
     private float wallRunTime;
-    private bool ReelInInput=false;
-    private bool ReelOutInput=false;
+    private bool ReelInInput;
+    private bool ReelOutInput;
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
@@ -1100,12 +1100,21 @@ public class Hero : Human
         baseRigidBody.AddForce(baseRigidBody.velocity * 0.00f, ForceMode.Acceleration);
     }
 
+    void DisableReel()
+    {
+        ReelInInput=false;
+        ReelOutInput=false;
+    }
+
+
     private void Update(){
                         
-         if (InputManager.Key(InputHuman.ReelIn))
+         if (InputManager.Key(InputHuman.ReelIn)){
              ReelInInput=true;
-         else if (InputManager.Key(InputHuman.ReelOut))
+             Invoke("DisableReel",0.5f);}
+         else if (InputManager.Key(InputHuman.ReelOut)){
              ReelOutInput=true;
+             Invoke("DisableReel",0.5f);}
                         }
 
     private void FixedUpdate()
@@ -1634,11 +1643,11 @@ public class Hero : Human
                         AddRightForce();
                         Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.baseTransform.position;
                         float num15 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
+                        if (ReelInInput)
                         {
                             num15 = -1f;
                         }
-                        else if (InputManager.Key(InputHuman.ReelOut))
+                        else if (ReelOutInput)
                         {
                             num15 = 1f;
                         }
@@ -1661,12 +1670,10 @@ public class Hero : Human
                         float num18 = 0f;
                         if (ReelInInput)
                         {
-                            ReelInInput = false;
                             num18 = -1f;
                         }
                         else if (ReelOutInput)
                         { 
-                            ReelOutInput = false;
                             num18 = 1f;
                         }  
                         else
@@ -1688,12 +1695,10 @@ public class Hero : Human
                         float num21 = 0f;
                         if (ReelInInput)
                         {   
-                            ReelInInput=false;
                             num21 = -1f;
                         }
                         else if (ReelOutInput)
                         {
-                            ReelOutInput=false;
                             num21 = 1f;
                         }
                         else
