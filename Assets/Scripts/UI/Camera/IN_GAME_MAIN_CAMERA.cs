@@ -16,7 +16,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float flashDuration;
     private bool flip;
     public bool gameOver;
-    public static GAMETYPE gametype = GAMETYPE.STOP;
+    public static GAMETYPE gametype = GAMETYPE.Stop;
     private bool hasSnapShot;
     private Transform head;
     private float heightMulti;
@@ -143,7 +143,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         GameObject.Find("LabelNetworkStatus").transform.localPosition = new Vector3((float)((int)(-Screen.width * 0.5f)), (float)((int)(Screen.height * 0.5f)), 0f);
         GameObject.Find("LabelInfoTopLeft").transform.localPosition = new Vector3((float)((int)(-Screen.width * 0.5f)), (float)((int)((Screen.height * 0.5f) - 20f)), 0f);
         GameObject.Find("Chatroom").transform.localPosition = new Vector3((float)((int)(-Screen.width * 0.5f)), (float)((int)(-Screen.height * 0.5f)), 0f);
-        if (usingTitan && (gametype != GAMETYPE.SINGLE))
+        if (usingTitan)
         {
             Vector3 vector = new Vector3(0f, 9999f, 0f);
             GameObject.Find("skill_cd_bottom").transform.localPosition = vector;
@@ -168,11 +168,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         if ((this.main_object != null) && (this.main_object.GetComponent<Hero>() != null))
         {
-            if (gametype == GAMETYPE.SINGLE)
-            {
-                this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-            }
-            else if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
+            if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
             {
                 this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
             }
@@ -429,9 +425,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
             //GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
         }
-        if (gametype != GAMETYPE.STOP)
+        if (gametype != GAMETYPE.Stop)
         {
-            if ((gametype != GAMETYPE.SINGLE) && this.gameOver)
+            if (this.gameOver)
             {
                 if (InputManager.KeyDown(InputHuman.AttackSpecial))
                 {
@@ -791,9 +787,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void reset()
     {
-        if (gametype == GAMETYPE.SINGLE)
+        if (PhotonNetwork.offlineMode)
         {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().restartGameSingle2();
+            FengGameManagerMKII.instance.restartGameSingle2();
         }
     }
 

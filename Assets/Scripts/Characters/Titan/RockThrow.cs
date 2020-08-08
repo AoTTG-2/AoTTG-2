@@ -11,7 +11,7 @@ public class RockThrow : Photon.MonoBehaviour
     private void explore()
     {
         GameObject obj2;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             obj2 = PhotonNetwork.Instantiate("FX/boom6", base.transform.position, base.transform.rotation, 0);
             if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
@@ -28,28 +28,14 @@ public class RockThrow : Photon.MonoBehaviour
         float b = 1f - (Vector3.Distance(GameObject.Find("MainCamera").transform.position, obj2.transform.position) * 0.05f);
         b = Mathf.Min(1f, b);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startShake(b, b, 0.95f);
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            UnityEngine.Object.Destroy(base.gameObject);
-        }
-        else
-        {
-            PhotonNetwork.Destroy(base.photonView);
-        }
+        PhotonNetwork.Destroy(base.photonView);
     }
 
     private void hitPlayer(GameObject hero)
     {
         if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isInvincible())
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                if (!hero.GetComponent<Hero>().isGrabbed)
-                {
-                    hero.GetComponent<Hero>().die((Vector3) ((this.v.normalized * 1000f) + (Vector3.up * 50f)), false);
-                }
-            }
-            else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isGrabbed)
+            if ((!hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isGrabbed)
             {
                 hero.GetComponent<Hero>().markDie();
                 int myOwnerViewID = -1;
@@ -81,7 +67,7 @@ public class RockThrow : Photon.MonoBehaviour
         this.launched = true;
         this.oldP = base.transform.position;
         this.v = v1;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { this.v, this.oldP };
             base.photonView.RPC("launchRPC", PhotonTargets.Others, parameters);
@@ -112,7 +98,7 @@ public class RockThrow : Photon.MonoBehaviour
             this.v -= (Vector3) ((20f * Vector3.up) * Time.deltaTime);
             Transform transform = base.transform;
             transform.position += (Vector3) (this.v * Time.deltaTime);
-            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || PhotonNetwork.isMasterClient)
+            if (PhotonNetwork.isMasterClient)
             {
                 LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
                 LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Players");
