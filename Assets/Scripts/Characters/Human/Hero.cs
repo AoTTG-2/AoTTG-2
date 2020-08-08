@@ -249,10 +249,7 @@ public class Hero : Human
         this.falseAttack();
         this.skillCDDuration = this.skillCDLast;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(base.gameObject, true, false);
-        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-        {
-            base.photonView.RPC("backToHumanRPC", PhotonTargets.Others, new object[0]);
-        }
+        base.photonView.RPC(nameof(backToHumanRPC), PhotonTargets.Others, new object[0]);
     }
 
     [PunRPC]
@@ -273,7 +270,7 @@ public class Hero : Human
     [PunRPC]
     public void blowAway(Vector3 force)
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             base.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
             base.transform.LookAt(base.transform.position);
@@ -282,7 +279,7 @@ public class Hero : Human
 
     private void bodyLean()
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             float z = 0f;
             this.needLean = false;
@@ -428,12 +425,12 @@ public class Hero : Human
             this.applyForceToBody(gO, v);
             this.applyForceToBody(obj4, v);
             this.applyForceToBody(obj5, v);
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gO, false, false);
             }
         }
-        else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        else if (base.photonView.isMine)
         {
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
         }
@@ -490,7 +487,7 @@ public class Hero : Human
         this.baseTransform = base.transform;
         this.baseRigidBody = base.GetComponent<Rigidbody>();
         this.maincamera = GameObject.Find("MainCamera");
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             this.baseAnimation = base.GetComponent<Animation>();
             this.cross1 = GameObject.Find("cross1");
@@ -779,9 +776,9 @@ public class Hero : Human
         }
         this.customAnimationSpeed();
         this.playAnimation(this.currentPlayingClipName());
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
+        if (base.photonView.isMine)
         {
-            base.photonView.RPC("netContinueAnimation", PhotonTargets.Others, new object[0]);
+            base.photonView.RPC(nameof(netContinueAnimation), PhotonTargets.Others, new object[0]);
         }
     }
 
@@ -854,14 +851,7 @@ public class Hero : Human
             Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
             base.GetComponent<Rigidbody>().rotation = quaternion;
             this.targetRotation = quaternion;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                UnityEngine.Object.Instantiate(Resources.Load("FX/boost_smoke"), base.transform.position, base.transform.rotation);
-            }
-            else
-            {
-                PhotonNetwork.Instantiate("FX/boost_smoke", base.transform.position, base.transform.rotation, 0);
-            }
+            PhotonNetwork.Instantiate("FX/boost_smoke", base.transform.position, base.transform.rotation, 0);
             this.dashTime = 0.5f;
             this.crossFade("dash", 0.1f);
             base.GetComponent<Animation>()["dash"].time = 0.1f;
@@ -888,7 +878,7 @@ public class Hero : Human
                 this.bulletRight.GetComponent<Bullet>().removeMe();
             }
             this.meatDie.Play();
-            if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine) && !this.useGun)
+            if ((base.photonView.isMine) && !this.useGun)
             {
                 this.leftbladetrail.Deactivate();
                 this.rightbladetrail.Deactivate();
@@ -1003,14 +993,7 @@ public class Hero : Human
         {
             this.bulletRight.GetComponent<Bullet>().removeMe();
         }
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            this.eren_titan = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("TITAN_EREN"), base.transform.position, base.transform.rotation);
-        }
-        else
-        {
-            this.eren_titan = PhotonNetwork.Instantiate("TITAN_EREN", base.transform.position, base.transform.rotation, 0);
-        }
+        this.eren_titan = PhotonNetwork.Instantiate("TITAN_EREN", base.transform.position, base.transform.rotation, 0);
         this.eren_titan.GetComponent<TITAN_EREN>().realBody = base.gameObject;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.eren_titan, true, false);
@@ -1019,12 +1002,9 @@ public class Hero : Human
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
         base.transform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
         this.titanForm = true;
-        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-        {
-            object[] parameters = new object[] { this.eren_titan.GetPhotonView().viewID };
-            base.photonView.RPC("whoIsMyErenTitan", PhotonTargets.Others, parameters);
-        }
-        if ((this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
+        object[] parameters = new object[] { this.eren_titan.GetPhotonView().viewID };
+        base.photonView.RPC(nameof(whoIsMyErenTitan), PhotonTargets.Others, parameters);
+        if ((this.smoke_3dmg.enableEmission && base.photonView.isMine))
         {
             object[] objArray2 = new object[] { false };
             base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray2);
@@ -1049,7 +1029,7 @@ public class Hero : Human
         }
         else
         {
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
@@ -1119,10 +1099,10 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
-        if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)))
+        if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 if (!((this.baseAnimation.IsPlaying("attack3_2") || this.baseAnimation.IsPlaying("attack5")) || this.baseAnimation.IsPlaying("special_petra")))
                 {
@@ -1772,7 +1752,7 @@ public class Hero : Human
                     if (flag2)
                     {
                         this.useGas(this.useGasSpeed * Time.deltaTime);
-                        if ((!this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
+                        if (!this.smoke_3dmg.enableEmission && base.photonView.isMine)
                         {
                             object[] parameters = new object[] { true };
                             base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
@@ -1781,7 +1761,7 @@ public class Hero : Human
                     }
                     else
                     {
-                        if ((this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
+                        if (this.smoke_3dmg.enableEmission && base.photonView.isMine)
                         {
                             object[] objArray3 = new object[] { false };
                             base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray3);
@@ -1938,7 +1918,7 @@ public class Hero : Human
         {
             this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
         }
-        if (!this.useGun && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if (!this.useGun && photonView.isMine)
         {
             //this.leftbladetrail.Deactivate();
             //this.rightbladetrail.Deactivate();
@@ -2059,7 +2039,7 @@ public class Hero : Human
 
     public void lateUpdate2()
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (this.myNetWorkName != null))
+        if ((this.myNetWorkName != null))
         {
             if (this.titanForm && (this.eren_titan != null))
             {
@@ -2082,7 +2062,7 @@ public class Hero : Human
         }
         if (!this.titanForm && !this.isCannon)
         {
-            if (InputManager.Settings.CameraTilt && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+            if (InputManager.Settings.CameraTilt && (base.photonView.isMine))
             {
                 Quaternion quaternion2;
                 Vector3 zero = Vector3.zero;
@@ -2288,14 +2268,7 @@ public class Hero : Human
         if (this.currentGas != 0f)
         {
             this.useGas(0f);
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                this.bulletLeft = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hook"));
-            }
-            else if (base.photonView.isMine)
-            {
-                this.bulletLeft = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
-            }
+            this.bulletLeft = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
             GameObject obj2 = !this.useGun ? this.hookRefL1 : this.hookRefL2;
             string str = !this.useGun ? "hookRefL1" : "hookRefL2";
             this.bulletLeft.transform.position = obj2.transform.position;
@@ -2320,14 +2293,7 @@ public class Hero : Human
         if (this.currentGas != 0f)
         {
             this.useGas(0f);
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                this.bulletRight = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hook"));
-            }
-            else if (base.photonView.isMine)
-            {
-                this.bulletRight = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
-            }
+            this.bulletRight = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
             GameObject obj2 = !this.useGun ? this.hookRefR1 : this.hookRefR2;
             string str = !this.useGun ? "hookRefR1" : "hookRefR2";
             this.bulletRight.transform.position = obj2.transform.position;
@@ -2360,7 +2326,7 @@ public class Hero : Human
 
     public void loadskin()
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             if (((int)FengGameManagerMKII.settings[0x5d]) == 1)
             {
@@ -2433,19 +2399,12 @@ public class Hero : Human
                 string str12 = (string)FengGameManagerMKII.settings[num13];
                 string str13 = (string)FengGameManagerMKII.settings[num14];
                 string url = str12 + "," + str2 + "," + str3 + "," + str4 + "," + str5 + "," + str6 + "," + str7 + "," + str8 + "," + str9 + "," + str10 + "," + str11 + "," + str + "," + str13;
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                int viewID = -1;
+                if (myHorse)
                 {
-                    base.StartCoroutine(this.loadskinE(-1, url));
+                    viewID = myHorse.photonView.viewID;
                 }
-                else
-                {
-                    int viewID = -1;
-                    if (myHorse)
-                    {
-                        viewID = myHorse.photonView.viewID;
-                    }
-                    base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { viewID, url });
-                }
+                base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { viewID, url });
             }
         }
     }
@@ -2474,7 +2433,7 @@ public class Hero : Human
             iteratorVariable4 = true;
         }
         bool iteratorVariable5 = false;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || this.photonView.isMine)
+        if (this.photonView.isMine)
         {
             iteratorVariable5 = true;
         }
@@ -3173,7 +3132,7 @@ public class Hero : Human
             this.bulletRight.GetComponent<Bullet>().removeMe();
         }
         this.meatDie.Play();
-        if (!(this.useGun || ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && !base.photonView.isMine)))
+        if (!(this.useGun || (!base.photonView.isMine)))
         {
             //TODO: Re-enable these again
             //this.leftbladetrail.Deactivate();
@@ -3311,7 +3270,7 @@ public class Hero : Human
         this.falseAttack();
         this.hasDied = true;
         base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             PhotonNetwork.RemoveRPCs(base.photonView);
             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
@@ -3338,7 +3297,7 @@ public class Hero : Human
             object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
             FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
         }
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             obj2 = PhotonNetwork.Instantiate("hitMeat2", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
         }
@@ -3392,7 +3351,7 @@ public class Hero : Human
             this.bulletRight.GetComponent<Bullet>().removeMe();
         }
         this.meatDie.Play();
-        if (!(this.useGun || ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && !base.photonView.isMine)))
+        if (!(this.useGun || (!base.photonView.isMine)))
         {
             this.leftbladetrail.Deactivate();
             this.rightbladetrail.Deactivate();
@@ -3553,10 +3512,7 @@ public class Hero : Human
         {
             UnityEngine.Object.Destroy(this.gunDummy);
         }
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-        {
-            this.releaseIfIHookSb();
-        }
+        this.releaseIfIHookSb();
         if (GameObject.Find("MultiplayerManager") != null)
         {
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().removeHero(this);
@@ -3606,7 +3562,7 @@ public class Hero : Human
                 disposable.Dispose();
             }
         }
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             base.photonView.RPC("netPauseAnimation", PhotonTargets.Others, new object[0]);
         }
@@ -3868,7 +3824,7 @@ public class Hero : Human
         this.myTeam = val;
         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().myTeam = val;
         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().myTeam = val;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             object[] objArray;
             //TODO: Sync these upon gamemode syncSettings
@@ -3944,7 +3900,7 @@ public class Hero : Human
         if (this.skillId == "eren")
         {
             this.skillCDLast = 120f;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            if (!PhotonNetwork.offlineMode)
             {
                 if (!FengGameManagerMKII.Gamemode.Settings.PlayerShifters)
                 {
@@ -3986,7 +3942,7 @@ public class Hero : Human
         //this.skillCD = GameObject.Find("skill_cd_" + this.skillIDHUD);
         //this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
         //GameObject.Find("GasUI").transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             //GameObject.Find("bulletL").GetComponent<UISprite>().enabled = false;
             //GameObject.Find("bulletR").GetComponent<UISprite>().enabled = false;
@@ -4015,7 +3971,7 @@ public class Hero : Human
             this.gunDummy.transform.rotation = this.baseTransform.rotation;
             this.myGroup = GROUP.A;
             this.setTeam2(2);
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 //GameObject.Find("bladeCL").GetComponent<UISprite>().enabled = false;
                 //GameObject.Find("bladeCR").GetComponent<UISprite>().enabled = false;
@@ -4066,7 +4022,7 @@ public class Hero : Human
     public void setTeam(int team)
     {
         this.setMyTeam(team);
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             object[] parameters = new object[] { team };
             base.photonView.RPC("setMyTeam", PhotonTargets.OthersBuffered, parameters);
@@ -4078,7 +4034,7 @@ public class Hero : Human
 
     public void setTeam2(int team)
     {
-        if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             object[] parameters = new object[] { team };
             base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, parameters);
@@ -4112,16 +4068,7 @@ public class Hero : Human
         }
         if (flag)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/flareBullet" + type), base.transform.position, base.transform.rotation);
-                obj2.GetComponent<FlareMovement>().dontShowHint();
-                UnityEngine.Object.Destroy(obj2, 25f);
-            }
-            else
-            {
-                PhotonNetwork.Instantiate("FX/flareBullet" + type, base.transform.position, base.transform.rotation, 0).GetComponent<FlareMovement>().dontShowHint();
-            }
+            PhotonNetwork.Instantiate("FX/flareBullet" + type, base.transform.position, base.transform.rotation, 0).GetComponent<FlareMovement>().dontShowHint();
         }
     }
 
@@ -4430,7 +4377,7 @@ public class Hero : Human
             if (bulletRight)
                 bulletRight.GetComponent<Bullet>().removeMe();
 
-            if ((this.smoke_3dmg.enableEmission && (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)) && base.photonView.isMine)
+            if ((this.smoke_3dmg.enableEmission) && base.photonView.isMine)
             {
                 object[] parameters = new object[] { false };
                 base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
@@ -4462,7 +4409,7 @@ public class Hero : Human
 
     public void SetHorse()
     {
-        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER || !photonView.isMine) return;
+        if (!photonView.isMine) return;
         if (FengGameManagerMKII.Gamemode.Settings.Horse && myHorse == null)
         {
             var position = baseTransform.position + Vector3.up * 5f;
@@ -4491,87 +4438,87 @@ public class Hero : Human
         //HACK
         //this.speedFXPS = this.speedFX1.GetComponent<ParticleSystem>();
         //this.speedFXPS.enableEmission = false;
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+        if (PhotonNetwork.isMasterClient)
         {
-            if (PhotonNetwork.isMasterClient)
+            int iD = base.photonView.owner.ID;
+            if (FengGameManagerMKII.heroHash.ContainsKey(iD))
             {
-                int iD = base.photonView.owner.ID;
-                if (FengGameManagerMKII.heroHash.ContainsKey(iD))
-                {
-                    FengGameManagerMKII.heroHash[iD] = this;
-                }
-                else
-                {
-                    FengGameManagerMKII.heroHash.Add(iD, this);
-                }
-            }
-            PlayerName.GetComponent<TextMesh>().text = FengGameManagerMKII.instance.name;
-            ////HACK
-            ////GameObject obj2 = GameObject.Find("UI_IN_GAME");
-            //this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
-            //this.myNetWorkName.name = "LabelNameOverHead";
-            ////HACK
-            ////this.myNetWorkName.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
-            //this.myNetWorkName.transform.localScale = new Vector3(14f, 14f, 14f);
-            //this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
-            if (base.photonView.isMine)
-            {
-                base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
-                base.photonView.RPC("SetMyPhotonCamera", PhotonTargets.OthersBuffered, new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });
+                FengGameManagerMKII.heroHash[iD] = this;
             }
             else
             {
-                bool flag2 = false;
-                //HACK
-                //if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
-                //{
-                //    switch (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam]))
-                //    {
-                //        case 1:
-                //            flag2 = true;
-                //            if (Minimap.instance != null)
-                //            {
-                //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.cyan, false, true, Minimap.IconStyle.CIRCLE);
-                //            }
-                //            break;
-
-                //        case 2:
-                //            flag2 = true;
-                //            if (Minimap.instance != null)
-                //            {
-                //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.magenta, false, true, Minimap.IconStyle.CIRCLE);
-                //            }
-                //            break;
-                //    }
-                //}
-                //if (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.team]) == 2)
-                //{
-                //    this.myNetWorkName.GetComponent<UILabel>().text = "[FF0000]AHSS\n[FFFFFF]";
-                //    if (!flag2 && (Minimap.instance != null))
-                //    {
-                //        Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.red, false, true, Minimap.IconStyle.CIRCLE);
-                //    }
-                //}
-                //else if (!flag2 && (Minimap.instance != null))
-                //{
-                //    Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.blue, false, true, Minimap.IconStyle.CIRCLE);
-                //}
+                FengGameManagerMKII.heroHash.Add(iD, this);
             }
-            //string str = RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.guildName]);
-            //if (str != string.Empty)
+        }
+
+        PlayerName.GetComponent<TextMesh>().text = FengGameManagerMKII.instance.name;
+        ////HACK
+        ////GameObject obj2 = GameObject.Find("UI_IN_GAME");
+        //this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
+        //this.myNetWorkName.name = "LabelNameOverHead";
+        ////HACK
+        ////this.myNetWorkName.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
+        //this.myNetWorkName.transform.localScale = new Vector3(14f, 14f, 14f);
+        //this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
+        if (base.photonView.isMine)
+        {
+            base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
+            base.photonView.RPC("SetMyPhotonCamera", PhotonTargets.OthersBuffered,
+                new object[] {PlayerPrefs.GetFloat("cameraDistance") + 0.3f});
+        }
+        else
+        {
+            bool flag2 = false;
+            //HACK
+            //if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
             //{
-            //    UILabel component = this.myNetWorkName.GetComponent<UILabel>();
-            //    string text = component.text;
-            //    string[] strArray2 = new string[] { text, "[FFFF00]", str, "\n[FFFFFF]", RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.name]) };
-            //    component.text = string.Concat(strArray2);
+            //    switch (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam]))
+            //    {
+            //        case 1:
+            //            flag2 = true;
+            //            if (Minimap.instance != null)
+            //            {
+            //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.cyan, false, true, Minimap.IconStyle.CIRCLE);
+            //            }
+            //            break;
+
+            //        case 2:
+            //            flag2 = true;
+            //            if (Minimap.instance != null)
+            //            {
+            //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.magenta, false, true, Minimap.IconStyle.CIRCLE);
+            //            }
+            //            break;
+            //    }
             //}
-            //else
+            //if (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.team]) == 2)
             //{
-            //    UILabel label2 = this.myNetWorkName.GetComponent<UILabel>();
-            //    label2.text = label2.text + RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.name]);
+            //    this.myNetWorkName.GetComponent<UILabel>().text = "[FF0000]AHSS\n[FFFFFF]";
+            //    if (!flag2 && (Minimap.instance != null))
+            //    {
+            //        Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.red, false, true, Minimap.IconStyle.CIRCLE);
+            //    }
+            //}
+            //else if (!flag2 && (Minimap.instance != null))
+            //{
+            //    Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.blue, false, true, Minimap.IconStyle.CIRCLE);
             //}
         }
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && !base.photonView.isMine)
+
+        //string str = RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.guildName]);
+        //if (str != string.Empty)
+        //{
+        //    UILabel component = this.myNetWorkName.GetComponent<UILabel>();
+        //    string text = component.text;
+        //    string[] strArray2 = new string[] { text, "[FFFF00]", str, "\n[FFFFFF]", RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.name]) };
+        //    component.text = string.Concat(strArray2);
+        //}
+        //else
+        //{
+        //    UILabel label2 = this.myNetWorkName.GetComponent<UILabel>();
+        //    label2.text = label2.text + RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.name]);
+        //}
+        if (!base.photonView.isMine)
         {
             base.gameObject.layer = LayerMask.NameToLayer("NetworkObject");
             if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
@@ -4614,18 +4561,11 @@ public class Hero : Human
         this.bombImmune = false;
     }
 
-    private void suicide()
-    {
-    }
-
     private void suicide2()
     {
-        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-        {
-            this.netDieLocal((Vector3)(base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
-            FengGameManagerMKII.instance.needChooseSide = true;
-            FengGameManagerMKII.instance.justSuicide = true;
-        }
+        this.netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+        FengGameManagerMKII.instance.needChooseSide = true;
+        FengGameManagerMKII.instance.justSuicide = true;
     }
 
     public void ungrabbed()
@@ -4663,7 +4603,7 @@ public class Hero : Human
                     this.updateCannon();
                     base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
                 }
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine)
+                if (base.photonView.isMine)
                 {
                     if (this.myCannonRegion != null)
                     {
@@ -4690,28 +4630,21 @@ public class Hero : Human
                             {
                                 this.ungrabbed();
                                 this.baseRigidBody.velocity = (Vector3)(Vector3.up * 30f);
-                                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                                base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
+                                if (PhotonNetwork.isMasterClient)
                                 {
                                     this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                 }
                                 else
                                 {
-                                    base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
-                                    if (PhotonNetwork.isMasterClient)
-                                    {
-                                        this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
-                                    }
-                                    else
-                                    {
-                                        PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
-                                    }
+                                    PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                 }
                             }
                         }
                         else if (this.skillId == "eren")
                         {
                             this.showSkillCD();
-                            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) || ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && !IN_GAME_MAIN_CAMERA.isPausing))
+                            if (!IN_GAME_MAIN_CAMERA.isPausing)
                             {
                                 this.calcSkillCD();
                                 this.calcFlareCD();
@@ -4729,21 +4662,14 @@ public class Hero : Human
                                     if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                                     {
                                         this.ungrabbed();
-                                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                                        base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
+                                        if (PhotonNetwork.isMasterClient)
                                         {
-                                            this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
+                                            titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                         }
                                         else
                                         {
-                                            base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
-                                            if (PhotonNetwork.isMasterClient)
-                                            {
-                                                titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
-                                            }
-                                            else
-                                            {
-                                                PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
-                                            }
+                                            PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                         }
                                         this.erenTransform();
                                     }
@@ -5365,17 +5291,10 @@ public class Hero : Human
                                 {
                                     if ((this.attackAnimation == "special_marco_0") || (this.attackAnimation == "special_marco_1"))
                                     {
-                                        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+                                        if (!PhotonNetwork.isMasterClient)
                                         {
-                                            if (!PhotonNetwork.isMasterClient)
-                                            {
-                                                object[] parameters = new object[] { 5f, 100f };
-                                                base.photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
-                                            }
-                                            else
-                                            {
-                                                this.netTauntAttack(5f, 100f);
-                                            }
+                                            object[] parameters = new object[] { 5f, 100f };
+                                            base.photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
                                         }
                                         else
                                         {
@@ -5386,26 +5305,13 @@ public class Hero : Human
                                     }
                                     else if (this.attackAnimation == "special_armin")
                                     {
-                                        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+                                        if (!PhotonNetwork.isMasterClient)
                                         {
-                                            if (!PhotonNetwork.isMasterClient)
-                                            {
-                                                base.photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
-                                            }
-                                            else
-                                            {
-                                                this.netlaughAttack();
-                                            }
+                                            base.photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
                                         }
                                         else
                                         {
-                                            foreach (GameObject obj3 in GameObject.FindGameObjectsWithTag("titan"))
-                                            {
-                                                //if (((Vector3.Distance(obj3.transform.position, this.baseTransform.position) < 50f) && (Vector3.Angle(obj3.transform.forward, this.baseTransform.position - obj3.transform.position) < 90f)) && (obj3.GetComponent<TITAN>() != null))
-                                                //{
-                                                //    obj3.GetComponent<TITAN>().beLaughAttacked();
-                                                //}
-                                            }
+                                            this.netlaughAttack();
                                         }
                                         this.falseAttack();
                                         this.idle();
@@ -5468,7 +5374,7 @@ public class Hero : Human
                                     {
                                         prefabName = "FX/shotGun 1";
                                     }
-                                    if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+                                    if (base.photonView.isMine)
                                     {
                                         obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3)((this.baseTransform.position + (this.baseTransform.up * 0.8f)) - (this.baseTransform.right * 0.1f)), this.baseTransform.rotation, 0);
                                         if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
@@ -5686,7 +5592,7 @@ public class Hero : Human
                                 rope.Play();
                             }
                         }
-                        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) || ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) && !IN_GAME_MAIN_CAMERA.isPausing))
+                        if (!IN_GAME_MAIN_CAMERA.isPausing)
                         {
                             this.calcSkillCD();
                             this.calcFlareCD();

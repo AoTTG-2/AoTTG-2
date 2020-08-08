@@ -14,16 +14,9 @@ public class LevelBottom : MonoBehaviour
             {
                 if (other.gameObject.GetComponent<Hero>() != null)
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+                    if (other.gameObject.GetPhotonView().isMine)
                     {
-                        if (other.gameObject.GetPhotonView().isMine)
-                        {
-                            other.gameObject.GetComponent<Hero>().netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
-                        }
-                    }
-                    else
-                    {
-                        other.gameObject.GetComponent<Hero>().die((Vector3) (other.gameObject.GetComponent<Rigidbody>().velocity * 50f), false);
+                        other.gameObject.GetComponent<Hero>().netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
                     }
                 }
             }

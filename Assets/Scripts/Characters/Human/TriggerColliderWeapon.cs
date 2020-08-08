@@ -37,15 +37,8 @@ public class TriggerColliderWeapon : MonoBehaviour
         Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity;
         int num2 = (int)((vector3.magnitude * 10f) * this.scoreMulti);
         num2 = Mathf.Max(10, num2);
-        
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            titan.GetHit(num2);
-        }
-        else
-        {
-            titan.photonView.RPC("GetHit", PhotonTargets.All, new object[] { num2 });
-        }
+
+        titan.photonView.RPC("GetHit", PhotonTargets.All, new object[] { num2 });
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().netShowDamage(num2);
     }
 
@@ -77,14 +70,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                 {
                     GameObject obj2;
                     this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Hero>().slashHit.Play();
-                    if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-                    {
-                        obj2 = PhotonNetwork.Instantiate("hitMeat", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-                    }
-                    else
-                    {
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat"));
-                    }
+                    obj2 = PhotonNetwork.Instantiate("hitMeat", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
                     obj2.transform.position = base.transform.position;
                     Equipment.Weapon.Use(0);
                 }
@@ -98,7 +84,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     HitBox component = other.gameObject.GetComponent<HitBox>();
                     if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
                     {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                        if (PhotonNetwork.offlineMode)
                         {
                             if (!component.transform.root.GetComponent<Hero>().isGrabbed)
                             {
@@ -106,7 +92,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                                 component.transform.root.GetComponent<Hero>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
                         {
                             component.transform.root.GetComponent<Hero>().markDie();
                             object[] parameters = new object[5];
@@ -220,14 +206,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     GameObject gameObject = other.gameObject.transform.root.gameObject;
                     if (gameObject.GetComponent<FEMALE_TITAN>() != null)
                     {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                        {
-                            if (!gameObject.GetComponent<FEMALE_TITAN>().hasDie)
-                            {
-                                gameObject.GetComponent<FEMALE_TITAN>().hitEye();
-                            }
-                        }
-                        else if (!PhotonNetwork.isMasterClient)
+                        if (!PhotonNetwork.isMasterClient)
                         {
                             if (!gameObject.GetComponent<FEMALE_TITAN>().hasDie)
                             {
@@ -301,21 +280,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                 }
                 else if (obj4.GetComponent<FEMALE_TITAN>() != null)
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                    {
-                        if (other.gameObject.name == "ankleR")
-                        {
-                            if ((obj4.GetComponent<FEMALE_TITAN>() != null) && !obj4.GetComponent<FEMALE_TITAN>().hasDie)
-                            {
-                                obj4.GetComponent<FEMALE_TITAN>().hitAnkleR(num9);
-                            }
-                        }
-                        else if ((obj4.GetComponent<FEMALE_TITAN>() != null) && !obj4.GetComponent<FEMALE_TITAN>().hasDie)
-                        {
-                            obj4.GetComponent<FEMALE_TITAN>().hitAnkleL(num9);
-                        }
-                    }
-                    else if (other.gameObject.name == "ankleR")
+                    if (other.gameObject.name == "ankleR")
                     {
                         if (!PhotonNetwork.isMasterClient)
                         {
@@ -356,14 +321,7 @@ public class TriggerColliderWeapon : MonoBehaviour
     {
         GameObject obj2;
         this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
-        if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-        {
-            obj2 = PhotonNetwork.Instantiate("redCross", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-        }
-        else
-        {
-            obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("redCross"));
-        }
+        obj2 = PhotonNetwork.Instantiate("redCross", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
         obj2.transform.position = base.transform.position;
     }
 
