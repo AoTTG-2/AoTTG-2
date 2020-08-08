@@ -23,20 +23,9 @@ public class TitanTrigger : MonoBehaviour
             GameObject gameObject = other.transform.root.gameObject;
             if (gameObject.layer == 8)
             {
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+                if (gameObject.GetPhotonView().isMine)
                 {
-                    if (gameObject.GetPhotonView().isMine)
-                    {
-                        Titan.IsColliding = true;
-                    }
-                }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                {
-                    GameObject obj3 = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object;
-                    if ((obj3 != null) && (obj3 == gameObject))
-                    {
-                        Titan.IsColliding = true;
-                    }
+                    Titan.IsColliding = true;
                 }
             }
         }
@@ -49,20 +38,9 @@ public class TitanTrigger : MonoBehaviour
             GameObject gameObject = other.transform.root.gameObject;
             if (gameObject.layer == 8)
             {
-                if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+                if (gameObject.GetPhotonView().isMine)
                 {
-                    if (gameObject.GetPhotonView().isMine)
-                    {
-                        Titan.IsColliding = false;
-                    }
-                }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                {
-                    GameObject obj3 = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object;
-                    if ((obj3 != null) && (obj3 == gameObject))
-                    {
-                        Titan.IsColliding = false;
-                    }
+                    Titan.IsColliding = false;
                 }
             }
         }

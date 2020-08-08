@@ -226,7 +226,7 @@ namespace Assets.Scripts.Characters.Titan
         private void LoadSkin()
         {
             var eye = false;
-            if (!(((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
+            if (!((base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
             {
                 int index = (int)UnityEngine.Random.Range((float)86f, (float)90f);
                 int num2 = index - 60;
@@ -290,7 +290,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (grabTarget != null)
             {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+                if (base.photonView.isMine)
                 {
                     if (!grabTarget.HasDied())
                     {
@@ -299,10 +299,6 @@ namespace Assets.Scripts.Characters.Titan
                         grabTarget.photonView.RPC("netDie2", PhotonTargets.All, objArray2);
                     }
                 }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                {
-                    grabTarget.die2(null);
-                }
             }
         }
 
@@ -310,72 +306,81 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (TitanState != MindlessTitanState.Dead)
             {
-
-                if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+                if (base.photonView.isMine)
                 {
-                    if (base.photonView.isMine)
+                    targetHeadRotation = TitanBody.Head.rotation;
+                    bool flag2 = false;
+                    if (TitanState == MindlessTitanState.Chase && TargetDistance < 100f && Target != null)
                     {
-                        targetHeadRotation = TitanBody.Head.rotation;
-                        bool flag2 = false;
-                        if (TitanState == MindlessTitanState.Chase && TargetDistance < 100f && Target != null)
+                        Vector3 vector = Target.transform.position - transform.position;
+                        var angle = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                        float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
+                        num = Mathf.Clamp(num, -40f, 40f);
+                        float y = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                        float num3 = Mathf.Atan2(y, TargetDistance) * 57.29578f;
+                        num3 = Mathf.Clamp(num3, -40f, 30f);
+                        targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num3,
+                            TitanBody.Head.rotation.eulerAngles.y + num, TitanBody.Head.rotation.eulerAngles.z);
+                        if (!this.asClientLookTarget)
                         {
-                            Vector3 vector = Target.transform.position - transform.position;
-                            var angle = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
-                            float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
-                            num = Mathf.Clamp(num, -40f, 40f);
-                            float y = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                            float num3 = Mathf.Atan2(y, TargetDistance) * 57.29578f;
-                            num3 = Mathf.Clamp(num3, -40f, 30f);
-                            targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num3, TitanBody.Head.rotation.eulerAngles.y + num, TitanBody.Head.rotation.eulerAngles.z);
-                            if (!this.asClientLookTarget)
-                            {
-                                this.asClientLookTarget = true;
-                                object[] parameters = new object[] { true };
-                                base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
-                            }
-                            flag2 = true;
+                            this.asClientLookTarget = true;
+                            object[] parameters = new object[] {true};
+                            base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
                         }
-                        if (!(flag2 || !this.asClientLookTarget))
-                        {
-                            this.asClientLookTarget = false;
-                            object[] objArray3 = new object[] { false };
-                            base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
-                        }
-                        if (TitanState == MindlessTitanState.Attacking)
-                        {
-                            oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 20f);
-                        }
-                        else
-                        {
-                            oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 10f);
-                        }
+
+                        flag2 = true;
+                    }
+
+                    if (!(flag2 || !this.asClientLookTarget))
+                    {
+                        this.asClientLookTarget = false;
+                        object[] objArray3 = new object[] {false};
+                        base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
+                    }
+
+                    if (TitanState == MindlessTitanState.Attacking)
+                    {
+                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 20f);
                     }
                     else
                     {
-                        var hasTarget = Target != null;
-                        if (hasTarget)
-                        {
-                            TargetDistance = Mathf.Sqrt(((Target.transform.position.x - transform.position.x) * (Target.transform.position.x - transform.position.x)) + ((Target.transform.position.z - transform.position.z) * (Target.transform.position.z - transform.position.z)));
-                        }
-                        else
-                        {
-                            TargetDistance = float.MaxValue;
-                        }
-                        this.targetHeadRotation = TitanBody.Head.rotation;
-                        if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
-                        {
-                            Vector3 vector2 = Target.transform.position - transform.position;
-                            var angle = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
-                            float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
-                            num4 = Mathf.Clamp(num4, -40f, 40f);
-                            float num5 = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                            float num6 = Mathf.Atan2(num5, TargetDistance) * 57.29578f;
-                            num6 = Mathf.Clamp(num6, -40f, 30f);
-                            this.targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num6, TitanBody.Head.rotation.eulerAngles.y + num4, TitanBody.Head.rotation.eulerAngles.z);
-                        }
-                        this.oldHeadRotation = Quaternion.Slerp(this.oldHeadRotation, this.targetHeadRotation, Time.deltaTime * 10f);
+                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 10f);
                     }
                 }
+                else
+                {
+                    var hasTarget = Target != null;
+                    if (hasTarget)
+                    {
+                        TargetDistance = Mathf.Sqrt(
+                            ((Target.transform.position.x - transform.position.x) *
+                             (Target.transform.position.x - transform.position.x)) +
+                            ((Target.transform.position.z - transform.position.z) *
+                             (Target.transform.position.z - transform.position.z)));
+                    }
+                    else
+                    {
+                        TargetDistance = float.MaxValue;
+                    }
+
+                    this.targetHeadRotation = TitanBody.Head.rotation;
+                    if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
+                    {
+                        Vector3 vector2 = Target.transform.position - transform.position;
+                        var angle = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
+                        float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
+                        num4 = Mathf.Clamp(num4, -40f, 40f);
+                        float num5 = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                        float num6 = Mathf.Atan2(num5, TargetDistance) * 57.29578f;
+                        num6 = Mathf.Clamp(num6, -40f, 30f);
+                        this.targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num6,
+                            TitanBody.Head.rotation.eulerAngles.y + num4, TitanBody.Head.rotation.eulerAngles.z);
+                    }
+
+                    this.oldHeadRotation = Quaternion.Slerp(this.oldHeadRotation, this.targetHeadRotation,
+                        Time.deltaTime * 10f);
+                }
+
                 TitanBody.Head.rotation = this.oldHeadRotation;
             }
             if (!base.GetComponent<Animation>().IsPlaying("die_headOff"))

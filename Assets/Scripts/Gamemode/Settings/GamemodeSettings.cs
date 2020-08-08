@@ -128,8 +128,6 @@ namespace Assets.Scripts.Gamemode.Settings
 
         public int Difficulty = 1;
 
-        public bool IsSinglePlayer = IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE;
-
         //TODO: Be able to change these via UI
         public Dictionary<MindlessTitanType, float> TitanTypeRatio = new Dictionary<MindlessTitanType, float>
         {
