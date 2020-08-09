@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.UI;
-using UnityEngine;
 
 public class ConsoleCommands
 {
@@ -13,19 +12,6 @@ public class ConsoleCommands
     {
         FengGameManagerMKII.instance.StartCoroutine(EMCli.ConnectAndJoinIE(true));
         FengGameManagerMKII.showHackMenu = false;
-    }
-
-    public static void CustomMapToUnityScene(Command command)
-    {
-        var map = System.IO.File.ReadAllText(Application.streamingAssetsPath + "\\" + "custom_map.txt");
-        if (string.IsNullOrEmpty(map))
-        {
-            "Map is empty".SendError();
-            return;
-        }
-
-        FengGameManagerMKII.currentScript = map;
-        Debug.Log(FengGameManagerMKII.currentScript);
     }
 
     public static void ClearCommandsHistory(Command command)

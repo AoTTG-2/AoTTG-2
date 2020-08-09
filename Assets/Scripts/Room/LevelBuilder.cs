@@ -47,46 +47,6 @@ public class LevelBuilder : MonoBehaviour
     {
         _levels.Add(new Level
         {
-            Name = "Custom",
-            Description = "Custom Map",
-            SceneName = "The Forest",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new RacingSettings(),
-                new KillTitansSettings(),
-                new WaveGamemodeSettings(),
-                new InfectionGamemodeSettings(),
-                new CaptureGamemodeSettings(),
-                new RushSettings(),
-                new EndlessSettings(),
-                new PvPAhssSettings()
-            }
-        });
-
-        _levels.Add(new Level
-        {
-            Name = "Test Zone",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "Test Zone",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new WaveGamemodeSettings
-                {
-                    Titans = 1,
-                    Horse = true,
-                    IsPlayerTitanEnabled = true
-                },
-                new KillTitansSettings
-                {
-                    GamemodeType = GamemodeType.Titans,
-                    Titans = 1,
-                    IsPlayerTitanEnabled = true
-                }
-            }
-        });
-
-        _levels.Add(new Level
-        {
             Name = "The City - Classic",
             Description = "Classic City Map from AoTTG",
             SceneName = "The City I",
@@ -123,6 +83,28 @@ public class LevelBuilder : MonoBehaviour
                     Description = "Classic map where you fight the Female Titan",
                     DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk},
                     Pvp = PvpMode.AhssVsBlades
+                }
+            }
+        });
+
+        _levels.Add(new Level
+        {
+            Name = "Test Zone",
+            Description = "Classic City Map from AoTTG",
+            SceneName = "Test Zone",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new WaveGamemodeSettings
+                {
+                    Titans = 1,
+                    Horse = true,
+                    IsPlayerTitanEnabled = true
+                },
+                new KillTitansSettings
+                {
+                    GamemodeType = GamemodeType.Titans,
+                    Titans = 1,
+                    IsPlayerTitanEnabled = true
                 }
             }
         });
