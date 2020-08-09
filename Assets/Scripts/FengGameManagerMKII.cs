@@ -613,7 +613,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         obj2.SetActive(false);
                     }
 
-                    if ((this.racingDoors != null) && customLevelLoaded)
+                    if ((this.racingDoors != null))
                     {
                         foreach (GameObject obj3 in this.racingDoors)
                         {
@@ -623,7 +623,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.racingDoors = null;
                     }
                 }
-                else if ((this.racingDoors != null) && customLevelLoaded)
+                else if ((this.racingDoors != null))
                 {
                     foreach (GameObject obj3 in this.racingDoors)
                     {
