@@ -149,6 +149,8 @@ namespace Assets.Scripts.Gamemode.Settings
             {
                 case GamemodeType.Titans:
                     return typeof(KillTitansGamemode);
+                case GamemodeType.Standoff:
+                    return typeof(StandoffGamemode);
                 case GamemodeType.Endless:
                     return typeof(EndlessGamemode);
                 case GamemodeType.Capture:
