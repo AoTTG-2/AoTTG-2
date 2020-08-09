@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Assets.Scripts.Gamemode.Racing;
 using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Room;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Editor
 {
@@ -70,6 +69,12 @@ namespace Assets.Editor
                     {
                         num2 = 1f;
                         obj2 = CreatePrefab(strArray, RcObjectType.Custom);
+
+                        // Objects which start with custom and use a racing prefab, should not have a script
+                        DestroyImmediate(obj2.GetComponentInChildren<RacingKillTrigger>());
+                        DestroyImmediate(obj2.GetComponentInChildren<RacingCheckpointTrigger>());
+                        DestroyImmediate(obj2.GetComponentInChildren<RacingStartBarrier>());
+
                         if (strArray[2] != "default")
                         {
                             if (strArray[2].StartsWith("transparent"))
@@ -369,6 +374,11 @@ namespace Assets.Editor
                 {
                     Debug.LogError($"{content[num]}: {e.StackTrace}");
                 }
+            }
+
+            if (GameObject.FindObjectOfType<PlayerSpawner>() == null)
+            {
+                PrefabUtility.InstantiatePrefab(RcLegacy.GetPrefab("playerRespawn"));
             }
         }
 
