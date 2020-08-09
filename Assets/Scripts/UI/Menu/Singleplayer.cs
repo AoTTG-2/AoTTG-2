@@ -13,10 +13,15 @@ namespace Assets.Scripts.UI.Menu
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
-        private List<Level> levels = LevelBuilder.GetAllLevels();
+        private List<Level> levels;
 
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
+
+        private void Awake()
+        {
+            levels = LevelBuilder.GetAllLevels();
+        }
 
         protected override void OnEnable()
         {

@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Room;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
@@ -11,6 +12,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -19,6 +22,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 {
     [SerializeField]
     private VersionManager versionManager;
+
+    public RCLegacy RcLegacy;
 
     public static bool showHackMenu = true;
 
@@ -95,19 +100,22 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static string passwordField;
     public float pauseWaitTime;
     public string playerList;
+    [Obsolete("Use PlayerSpawns instead")]
     public List<Vector3> playerSpawnsC;
+    [Obsolete("Use PlayerSpawns instead")]
     public List<Vector3> playerSpawnsM;
+    public List<PlayerSpawner> PlayerSpawners { get; set; } = new List<PlayerSpawner>();
     public List<PhotonPlayer> playersRPC;
     public static ExitGames.Client.Photon.Hashtable playerVariables;
     public Dictionary<string, int[]> PreservedPlayerKDR;
     public static string PrivateServerAuthPass;
     public static string privateServerField;
     public float qualitySlider;
-    public List<GameObject> racingDoors;
+    public List<GameObject> racingDoors = new List<GameObject>();
     private ArrayList racingResult;
     public Vector3 racingSpawnPoint;
     public bool racingSpawnPointSet;
-    public static AssetBundle RCassets;
+    //public static AssetBundle RCassets { get; set; }
     public static ExitGames.Client.Photon.Hashtable RCEvents;
     public static ExitGames.Client.Photon.Hashtable RCRegions;
     public static ExitGames.Client.Photon.Hashtable RCRegionTriggers;
@@ -135,8 +143,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private float timeElapse;
     private float timeTotalServer;
     private ArrayList titans;
-    public List<TitanSpawner> titanSpawners;
-    public List<Vector3> titanSpawns;
+    public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
     public static ExitGames.Client.Photon.Hashtable titanVariables;
     public float transparencySlider;
     public float updateTime;
@@ -195,7 +202,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         ClothFactory.ClearClothCache();
         this.playersRPC.Clear();
-        this.titanSpawners.Clear();
         this.groundList.Clear();
         this.PreservedPlayerKDR = new Dictionary<string, int[]>();
         noRestart = false;
@@ -453,7 +459,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (((int) settings[0x40]) >= 100)
         {
-            this.coreeditor();
+            throw new NotImplementedException("Level editor is not implemented");
         }
         else
         {
@@ -607,7 +613,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         obj2.SetActive(false);
                     }
 
-                    if ((this.racingDoors != null) && customLevelLoaded)
+                    if ((this.racingDoors != null))
                     {
                         foreach (GameObject obj3 in this.racingDoors)
                         {
@@ -617,7 +623,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.racingDoors = null;
                     }
                 }
-                else if ((this.racingDoors != null) && customLevelLoaded)
+                else if ((this.racingDoors != null))
                 {
                     foreach (GameObject obj3 in this.racingDoors)
                     {
@@ -722,54 +728,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void coreadd()
     {
-        if (PhotonNetwork.isMasterClient)
-        {
-            if (customLevelLoaded)
-            {
-                for (int i = 0; i < this.titanSpawners.Count; i++)
-                {
-                    TitanSpawner item = this.titanSpawners[i];
-                    item.time -= Time.deltaTime;
-                    if ((item.time <= 0f) && ((this.titans.Count + this.fT.Count) < Gamemode.Settings.TitanLimit))
-                    {
-                        string name = item.name;
-                        throw new NotImplementedException("Spawning titans on custom maps is not supported for mindless titans");
-                        //if (name == "spawnAnnie")
-                        //{
-                        //    PhotonNetwork.Instantiate("FEMALE_TITAN", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                        //}
-                        //else
-                        //{
-                        //    GameObject obj2 = PhotonNetwork.Instantiate("TITAN_VER3.1", item.location, new Quaternion(0f, 0f, 0f, 1f), 0);
-                        //    if (name == "spawnAbnormal")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_I, false);
-                        //    }
-                        //    else if (name == "spawnJumper")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_JUMPER, false);
-                        //    }
-                        //    else if (name == "spawnCrawler")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_CRAWLER, true);
-                        //    }
-                        //    else if (name == "spawnPunk")
-                        //    {
-                        //        obj2.GetComponent<TITAN>().setAbnormalType2(TitanType.TYPE_PUNK, false);
-                        //    }
-                        //}
-                        //if (item.endless)
-                        //{
-                        //    item.time = item.delay;
-                        //}
-                        //else
-                        //{
-                        //    this.titanSpawners.Remove(item);
-                        //}
-                    }
-                }
-            }
-        }
         if (Time.timeScale <= 0.1f)
         {
             if (this.pauseWaitTime <= 3f)
@@ -786,612 +744,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
             this.ReloadPlayerlist();
-        }
-    }
-
-    private void coreeditor()
-    {
-        throw new NotImplementedException("Level editor is not implemented");
-        //if (Input.GetKey(KeyCode.Tab))
-        //{
-        //    GUI.FocusControl(null);
-        //}
-        //if (this.selectedObj != null)
-        //{
-        //    float num = 0.2f;
-        //    if (inputRC.isInputLevel(InputCodeRC.levelSlow))
-        //    {
-        //        num = 0.04f;
-        //    }
-        //    else if (inputRC.isInputLevel(InputCodeRC.levelFast))
-        //    {
-        //        num = 0.6f;
-        //    }
-        //    if (inputRC.isInputLevel(InputCodeRC.levelForward))
-        //    {
-        //        Transform transform = this.selectedObj.transform;
-        //        transform.position += (Vector3)(num * new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z));
-        //    }
-        //    else if (inputRC.isInputLevel(InputCodeRC.levelBack))
-        //    {
-        //        Transform transform9 = this.selectedObj.transform;
-        //        transform9.position -= (Vector3)(num * new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z));
-        //    }
-        //    if (inputRC.isInputLevel(InputCodeRC.levelLeft))
-        //    {
-        //        Transform transform10 = this.selectedObj.transform;
-        //        transform10.position -= (Vector3)(num * new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z));
-        //    }
-        //    else if (inputRC.isInputLevel(InputCodeRC.levelRight))
-        //    {
-        //        Transform transform11 = this.selectedObj.transform;
-        //        transform11.position += (Vector3)(num * new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z));
-        //    }
-        //    if (inputRC.isInputLevel(InputCodeRC.levelDown))
-        //    {
-        //        Transform transform12 = this.selectedObj.transform;
-        //        transform12.position -= (Vector3)(Vector3.up * num);
-        //    }
-        //    else if (inputRC.isInputLevel(InputCodeRC.levelUp))
-        //    {
-        //        Transform transform13 = this.selectedObj.transform;
-        //        transform13.position += (Vector3)(Vector3.up * num);
-        //    }
-        //    if (!this.selectedObj.name.StartsWith("misc,region"))
-        //    {
-        //        if (inputRC.isInputLevel(InputCodeRC.levelRRight))
-        //        {
-        //            this.selectedObj.transform.Rotate((Vector3)(Vector3.up * num));
-        //        }
-        //        else if (inputRC.isInputLevel(InputCodeRC.levelRLeft))
-        //        {
-        //            this.selectedObj.transform.Rotate((Vector3)(Vector3.down * num));
-        //        }
-        //        if (inputRC.isInputLevel(InputCodeRC.levelRCCW))
-        //        {
-        //            this.selectedObj.transform.Rotate((Vector3)(Vector3.forward * num));
-        //        }
-        //        else if (inputRC.isInputLevel(InputCodeRC.levelRCW))
-        //        {
-        //            this.selectedObj.transform.Rotate((Vector3)(Vector3.back * num));
-        //        }
-        //        if (inputRC.isInputLevel(InputCodeRC.levelRBack))
-        //        {
-        //            this.selectedObj.transform.Rotate((Vector3)(Vector3.left * num));
-        //        }
-        //        else if (inputRC.isInputLevel(InputCodeRC.levelRForward))
-        //        {
-        //            this.selectedObj.transform.Rotate((Vector3)(Vector3.right * num));
-        //        }
-        //    }
-        //    if (inputRC.isInputLevel(InputCodeRC.levelPlace))
-        //    {
-        //        linkHash[3].Add(this.selectedObj.GetInstanceID(), this.selectedObj.name + "," + Convert.ToString(this.selectedObj.transform.position.x) + "," + Convert.ToString(this.selectedObj.transform.position.y) + "," + Convert.ToString(this.selectedObj.transform.position.z) + "," + Convert.ToString(this.selectedObj.transform.rotation.x) + "," + Convert.ToString(this.selectedObj.transform.rotation.y) + "," + Convert.ToString(this.selectedObj.transform.rotation.z) + "," + Convert.ToString(this.selectedObj.transform.rotation.w));
-        //        this.selectedObj = null;
-        //        //TODO Mouselook
-        //        //Camera.main.GetComponent<MouseLook>().enabled = true;
-        //        Screen.lockCursor = true;
-        //    }
-        //    if (inputRC.isInputLevel(InputCodeRC.levelDelete))
-        //    {
-        //        UnityEngine.Object.Destroy(this.selectedObj);
-        //        this.selectedObj = null;
-        //        //TODO Mouselook
-        //        //Camera.main.GetComponent<MouseLook>().enabled = true;
-        //        Screen.lockCursor = true;
-        //        linkHash[3].Remove(this.selectedObj.GetInstanceID());
-        //    }
-        //}
-        //else
-        //{
-        //    if (Screen.lockCursor)
-        //    {
-        //        float num2 = 100f;
-        //        if (inputRC.isInputLevel(InputCodeRC.levelSlow))
-        //        {
-        //            num2 = 20f;
-        //        }
-        //        else if (inputRC.isInputLevel(InputCodeRC.levelFast))
-        //        {
-        //            num2 = 400f;
-        //        }
-        //        Transform transform7 = Camera.main.transform;
-        //        if (inputRC.isInputLevel(InputCodeRC.levelForward))
-        //        {
-        //            transform7.position += (Vector3)((transform7.forward * num2) * Time.deltaTime);
-        //        }
-        //        else if (inputRC.isInputLevel(InputCodeRC.levelBack))
-        //        {
-        //            transform7.position -= (Vector3)((transform7.forward * num2) * Time.deltaTime);
-        //        }
-        //        if (inputRC.isInputLevel(InputCodeRC.levelLeft))
-        //        {
-        //            transform7.position -= (Vector3)((transform7.right * num2) * Time.deltaTime);
-        //        }
-        //        else if (inputRC.isInputLevel(InputCodeRC.levelRight))
-        //        {
-        //            transform7.position += (Vector3)((transform7.right * num2) * Time.deltaTime);
-        //        }
-        //        if (inputRC.isInputLevel(InputCodeRC.levelUp))
-        //        {
-        //            transform7.position += (Vector3)((transform7.up * num2) * Time.deltaTime);
-        //        }
-        //        else if (inputRC.isInputLevel(InputCodeRC.levelDown))
-        //        {
-        //            transform7.position -= (Vector3)((transform7.up * num2) * Time.deltaTime);
-        //        }
-        //    }
-        //    if (inputRC.isInputLevelDown(InputCodeRC.levelCursor))
-        //    {
-        //        if (Screen.lockCursor)
-        //        {
-        //            //TODO Mouselook
-        //            //Camera.main.GetComponent<MouseLook>().enabled = false;
-        //            Screen.lockCursor = false;
-        //        }
-        //        else
-        //        {
-        //            //TODO Mouselook
-        //            //Camera.main.GetComponent<MouseLook>().enabled = true;
-        //            Screen.lockCursor = true;
-        //        }
-        //    }
-        //    if (((Input.GetKeyDown(KeyCode.Mouse0) && !Screen.lockCursor) && (GUIUtility.hotControl == 0)) && !(((Input.mousePosition.x <= 300f) || (Input.mousePosition.x >= (Screen.width - 300f))) ? ((Screen.height - Input.mousePosition.y) <= 600f) : false))
-        //    {
-        //        RaycastHit hitInfo = new RaycastHit();
-        //        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
-        //        {
-        //            Transform transform8 = hitInfo.transform;
-        //            if ((((transform8.gameObject.name.StartsWith("custom") || transform8.gameObject.name.StartsWith("base")) || (transform8.gameObject.name.StartsWith("racing") || transform8.gameObject.name.StartsWith("photon"))) || transform8.gameObject.name.StartsWith("spawnpoint")) || transform8.gameObject.name.StartsWith("misc"))
-        //            {
-        //                this.selectedObj = transform8.gameObject;
-        //                //TODO Mouselook
-        //                //Camera.main.GetComponent<MouseLook>().enabled = false;
-        //                Screen.lockCursor = true;
-        //                linkHash[3].Remove(this.selectedObj.GetInstanceID());
-        //            }
-        //            else if (((transform8.parent.gameObject.name.StartsWith("custom") || transform8.parent.gameObject.name.StartsWith("base")) || transform8.parent.gameObject.name.StartsWith("racing")) || transform8.parent.gameObject.name.StartsWith("photon"))
-        //            {
-        //                this.selectedObj = transform8.parent.gameObject;
-        //                //TODO Mouselook
-        //                //Camera.main.GetComponent<MouseLook>().enabled = false;
-        //                Screen.lockCursor = true;
-        //                linkHash[3].Remove(this.selectedObj.GetInstanceID());
-        //            }
-        //        }
-        //    }
-        //}
-    }
-
-    private IEnumerator customlevelcache()
-    {
-        int iteratorVariable0 = 0;
-        while (true)
-        {
-            if (iteratorVariable0 >= this.levelCache.Count)
-            {
-                yield break;
-            }
-            this.customlevelclientE(this.levelCache[iteratorVariable0], false);
-            yield return new WaitForEndOfFrame();
-            iteratorVariable0++;
-        }
-    }
-
-    private void customlevelclientE(string[] content, bool renewHash)
-    {
-        int num;
-        string[] strArray;
-        bool flag = false;
-        bool flag2 = false;
-        if (content[content.Length - 1].StartsWith("a"))
-        {
-            flag = true;
-        }
-        else if (content[content.Length - 1].StartsWith("z"))
-        {
-            flag2 = true;
-            customLevelLoaded = true;
-            this.spawnPlayerCustomMap();
-            this.unloadAssets();
-            //TODO TiltShift
-            //Camera.main.GetComponent<TiltShift>().enabled = false;
-        }
-        if (renewHash)
-        {
-            if (flag)
-            {
-                currentLevel = string.Empty;
-                this.levelCache.Clear();
-                this.titanSpawns.Clear();
-                this.playerSpawnsC.Clear();
-                this.playerSpawnsM.Clear();
-                for (num = 0; num < content.Length; num++)
-                {
-                    strArray = content[num].Split(new char[] { ',' });
-                    if (strArray[0] == "titan")
-                    {
-                        this.titanSpawns.Add(new Vector3(Convert.ToSingle(strArray[1]), Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3])));
-                    }
-                    else if (strArray[0] == "playerC")
-                    {
-                        this.playerSpawnsC.Add(new Vector3(Convert.ToSingle(strArray[1]), Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3])));
-                    }
-                    else if (strArray[0] == "playerM")
-                    {
-                        this.playerSpawnsM.Add(new Vector3(Convert.ToSingle(strArray[1]), Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3])));
-                    }
-                }
-                this.spawnPlayerCustomMap();
-            }
-            currentLevel = currentLevel + content[content.Length - 1];
-            this.levelCache.Add(content);
-            ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.currentLevel, currentLevel);
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        }
-        if (!flag && !flag2)
-        {
-            for (num = 0; num < content.Length; num++)
-            {
-                float num2;
-                GameObject obj2;
-                float num3;
-                float num5;
-                float num6;
-                float num7;
-                Color color;
-                Mesh mesh;
-                Color[] colorArray;
-                int num8;
-                strArray = content[num].Split(new char[] { ',' });
-                if (strArray[0].StartsWith("custom"))
-                {
-                    num2 = 1f;
-                    obj2 = null;
-                    obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])));
-                    if (strArray[2] != "default")
-                    {
-                        if (strArray[2].StartsWith("transparent"))
-                        {
-                            if (float.TryParse(strArray[2].Substring(11), out num3))
-                            {
-                                num2 = num3;
-                            }
-                            foreach (Renderer renderer in obj2.GetComponentsInChildren<Renderer>())
-                            {
-                                renderer.material = (Material) RCassets.LoadAsset("transparent");
-                                if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
-                                {
-                                    renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            foreach (Renderer renderer in obj2.GetComponentsInChildren<Renderer>())
-                            {
-                                renderer.material = (Material) RCassets.LoadAsset(strArray[2]);
-                                if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
-                                {
-                                    renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
-                                }
-                            }
-                        }
-                    }
-                    num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[3]);
-                    num5 -= 0.001f;
-                    num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[4]);
-                    num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[5]);
-                    obj2.transform.localScale = new Vector3(num5, num6, num7);
-                    if (strArray[6] != "0")
-                    {
-                        color = new Color(Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), num2);
-                        foreach (MeshFilter filter in obj2.GetComponentsInChildren<MeshFilter>())
-                        {
-                            mesh = filter.mesh;
-                            colorArray = new Color[mesh.vertexCount];
-                            num8 = 0;
-                            while (num8 < mesh.vertexCount)
-                            {
-                                colorArray[num8] = color;
-                                num8++;
-                            }
-                            mesh.colors = colorArray;
-                        }
-                    }
-                }
-                else if (strArray[0].StartsWith("base"))
-                {
-                    if (strArray.Length < 15)
-                    {
-                        UnityEngine.Object.Instantiate(Resources.Load(strArray[1]), new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])));
-                    }
-                    else
-                    {
-                        num2 = 1f;
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) Resources.Load(strArray[1]), new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])));
-                        if (strArray[2] != "default")
-                        {
-                            if (strArray[2].StartsWith("transparent"))
-                            {
-                                if (float.TryParse(strArray[2].Substring(11), out num3))
-                                {
-                                    num2 = num3;
-                                }
-                                foreach (Renderer renderer in obj2.GetComponentsInChildren<Renderer>())
-                                {
-                                    renderer.material = (Material) RCassets.LoadAsset("transparent");
-                                    if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
-                                    {
-                                        renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                foreach (Renderer renderer in obj2.GetComponentsInChildren<Renderer>())
-                                {
-                                    if (!(renderer.name.Contains("Particle System") && obj2.name.Contains("aot_supply")))
-                                    {
-                                        renderer.material = (Material) RCassets.LoadAsset(strArray[2]);
-                                        if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
-                                        {
-                                            renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[3]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[4]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[5]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                        if (strArray[6] != "0")
-                        {
-                            color = new Color(Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), num2);
-                            foreach (MeshFilter filter in obj2.GetComponentsInChildren<MeshFilter>())
-                            {
-                                mesh = filter.mesh;
-                                colorArray = new Color[mesh.vertexCount];
-                                for (num8 = 0; num8 < mesh.vertexCount; num8++)
-                                {
-                                    colorArray[num8] = color;
-                                }
-                                mesh.colors = colorArray;
-                            }
-                        }
-                    }
-                }
-                else if (strArray[0].StartsWith("misc"))
-                {
-                    if (strArray[1].StartsWith("barrier"))
-                    {
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[4]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                    }
-                    else if (strArray[1].StartsWith("racingStart"))
-                    {
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[4]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                        if (this.racingDoors != null)
-                        {
-                            this.racingDoors.Add(obj2);
-                        }
-                    }
-                    else if (strArray[1].StartsWith("racingEnd"))
-                    {
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[4]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                        obj2.AddComponent<LevelTriggerRacingEnd>();
-                    }
-                    else if (strArray[1].StartsWith("region") && PhotonNetwork.isMasterClient)
-                    {
-                        Vector3 loc = new Vector3(Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8]));
-                        RCRegion region = new RCRegion(loc, Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4]), Convert.ToSingle(strArray[5]));
-                        string key = strArray[2];
-                        if (RCRegionTriggers.ContainsKey(key))
-                        {
-                            GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset("region"));
-                            obj3.transform.position = loc;
-                            //obj3.AddComponent<RegionTrigger>();
-                            //obj3.GetComponent<RegionTrigger>().CopyTrigger((RegionTrigger)RCRegionTriggers[key]);
-                            num5 = obj3.transform.localScale.x * Convert.ToSingle(strArray[3]);
-                            num5 -= 0.001f;
-                            num6 = obj3.transform.localScale.y * Convert.ToSingle(strArray[4]);
-                            num7 = obj3.transform.localScale.z * Convert.ToSingle(strArray[5]);
-                            obj3.transform.localScale = new Vector3(num5, num6, num7);
-                            region.myBox = obj3;
-                        }
-                        RCRegions.Add(key, region);
-                    }
-                }
-                else if (strArray[0].StartsWith("racing"))
-                {
-                    if (strArray[1].StartsWith("start"))
-                    {
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[4]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                        if (this.racingDoors != null)
-                        {
-                            this.racingDoors.Add(obj2);
-                        }
-                    }
-                    else if (strArray[1].StartsWith("end"))
-                    {
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[4]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                        obj2.GetComponentInChildren<Collider>().gameObject.AddComponent<LevelTriggerRacingEnd>();
-                    }
-                    else if (strArray[1].StartsWith("kill"))
-                    {
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[4]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                        obj2.GetComponentInChildren<Collider>().gameObject.AddComponent<RacingKillTrigger>();
-                    }
-                    else if (strArray[1].StartsWith("checkpoint"))
-                    {
-                        obj2 = null;
-                        obj2 = (GameObject) UnityEngine.Object.Instantiate((GameObject) RCassets.LoadAsset(strArray[1]), new Vector3(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7])), new Quaternion(Convert.ToSingle(strArray[8]), Convert.ToSingle(strArray[9]), Convert.ToSingle(strArray[10]), Convert.ToSingle(strArray[11])));
-                        num5 = obj2.transform.localScale.x * Convert.ToSingle(strArray[2]);
-                        num5 -= 0.001f;
-                        num6 = obj2.transform.localScale.y * Convert.ToSingle(strArray[3]);
-                        num7 = obj2.transform.localScale.z * Convert.ToSingle(strArray[4]);
-                        obj2.transform.localScale = new Vector3(num5, num6, num7);
-                        obj2.GetComponentInChildren<Collider>().gameObject.AddComponent<RacingCheckpointTrigger>();
-                    }
-                }
-                else if (strArray[0].StartsWith("map"))
-                {
-                    if (strArray[1].StartsWith("disablebounds"))
-                    {
-                        UnityEngine.Object.Destroy(GameObject.Find("gameobjectOutSide"));
-                        UnityEngine.Object.Instantiate(RCassets.LoadAsset("outside"));
-                    }
-                }
-                else if (PhotonNetwork.isMasterClient && strArray[0].StartsWith("photon"))
-                {
-                    if (strArray[1].StartsWith("Cannon"))
-                    {
-                        if (strArray.Length > 15)
-                        {
-                            GameObject go = PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
-                            go.GetComponent<CannonPropRegion>().settings = content[num];
-                            go.GetPhotonView().RPC("SetSize", PhotonTargets.AllBuffered, new object[] { content[num] });
-                        }
-                        else
-                        {
-                            PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<CannonPropRegion>().settings = content[num];
-                        }
-                    }
-                    else
-                    {
-                        TitanSpawner item = new TitanSpawner();
-                        num5 = 30f;
-                        if (float.TryParse(strArray[2], out num3))
-                        {
-                            num5 = Mathf.Max(Convert.ToSingle(strArray[2]), 1f);
-                        }
-                        item.time = num5;
-                        item.delay = num5;
-                        item.name = strArray[1];
-                        if (strArray[3] == "1")
-                        {
-                            item.endless = true;
-                        }
-                        else
-                        {
-                            item.endless = false;
-                        }
-                        item.location = new Vector3(Convert.ToSingle(strArray[4]), Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]));
-                        this.titanSpawners.Add(item);
-                    }
-                }
-            }
-        }
-    }
-
-    private IEnumerator customlevelE(List<PhotonPlayer> players)
-    {
-        string[] strArray;
-        if (!(currentLevel == string.Empty))
-        {
-            for (int i = 0; i < this.levelCache.Count; i++)
-            {
-                foreach (PhotonPlayer player in players)
-                {
-                    if (((player.CustomProperties[PhotonPlayerProperty.currentLevel] != null) && (currentLevel != string.Empty)) && (RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.currentLevel]) == currentLevel))
-                    {
-                        if (i == 0)
-                        {
-                            strArray = new string[] { "loadcached" };
-                            this.photonView.RPC("customlevelRPC", player, new object[] { strArray });
-                        }
-                    }
-                    else
-                    {
-                        this.photonView.RPC("customlevelRPC", player, new object[] { this.levelCache[i] });
-                    }
-                }
-                if (i > 0)
-                {
-                    yield return new WaitForSeconds(0.75f);
-                }
-                else
-                {
-                    yield return new WaitForSeconds(0.25f);
-                }
-            }
-        }
-        else
-        {
-            strArray = new string[] { "loadempty" };
-            foreach (PhotonPlayer player in players)
-            {
-                this.photonView.RPC("customlevelRPC", player, new object[] { strArray });
-            }
-            customLevelLoaded = true;
-        }
-    }
-
-    [PunRPC]
-    private void customlevelRPC(string[] content, PhotonMessageInfo info)
-    {
-        if (info.sender.isMasterClient)
-        {
-            if ((content.Length == 1) && (content[0] == "loadcached"))
-            {
-                base.StartCoroutine(this.customlevelcache());
-            }
-            else if ((content.Length == 1) && (content[0] == "loadempty"))
-            {
-                currentLevel = string.Empty;
-                this.levelCache.Clear();
-                this.titanSpawns.Clear();
-                this.playerSpawnsC.Clear();
-                this.playerSpawnsM.Clear();
-                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                propertiesToSet.Add(PhotonPlayerProperty.currentLevel, currentLevel);
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                customLevelLoaded = true;
-                this.spawnPlayerCustomMap();
-            }
-            else
-            {
-                this.customlevelclientE(content, true);
-            }
         }
     }
 
@@ -1607,12 +959,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
         this.RecompilePlayerList(0.1f);
-    }
-
-    public static GameObject InstantiateCustomAsset(string key)
-    {
-        key = key.Substring(8);
-        return (GameObject) RCassets.LoadAsset(key);
     }
 
     /// <summary>
@@ -2113,8 +1459,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     UnityEngine.Object.Destroy(obj2);
                 }
             }
-            GameObject.Find("Cube_001").GetComponent<Renderer>().material.mainTexture = ((Material) RCassets.LoadAsset("grass")).mainTexture;
-            UnityEngine.Object.Instantiate(RCassets.LoadAsset("spawnPlayer"), new Vector3(-10f, 1f, -10f), new Quaternion(0f, 0f, 0f, 1f));
+            GameObject.Find("Cube_001").GetComponent<Renderer>().material.mainTexture = (RcLegacy.GetMaterial("grass")).mainTexture;
+            UnityEngine.Object.Instantiate(RcLegacy.GetPrefab("spawnPlayer"), new Vector3(-10f, 1f, -10f), new Quaternion(0f, 0f, 0f, 1f));
             for (num = 0; num < strArray2.Length; num++)
             {
                 string name = strArray2[num];
@@ -2154,69 +1500,72 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             logicLoaded = true;
             this.racingSpawnPoint = new Vector3(0f, 0f, 0f);
             this.racingSpawnPointSet = false;
-            this.racingDoors = new List<GameObject>();
             this.allowedToCannon = new Dictionary<int, CannonValues>();
-            if ((!Level.Name.StartsWith("Custom") && (((int) settings[2]) == 1)) || PhotonNetwork.isMasterClient)
-            {
-                string url = string.Empty;
-                string str3 = string.Empty;
-                string n = string.Empty;
-                strArray3 = new string[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
-                if (Level.SceneName.Contains("City"))
-                {
-                    for (num = 0x33; num < 0x3b; num++)
-                    {
-                        url = url + ((string) settings[num]) + ",";
-                    }
-                    url.TrimEnd(new char[] { ',' });
-                    num2 = 0;
-                    while (num2 < 250)
-                    {
-                        n = n + Convert.ToString((int) UnityEngine.Random.Range((float) 0f, (float) 8f));
-                        num2++;
-                    }
-                    str3 = ((string) settings[0x3b]) + "," + ((string) settings[60]) + "," + ((string) settings[0x3d]);
-                    for (num = 0; num < 6; num++)
-                    {
-                        strArray3[num] = (string) settings[num + 0xa9];
-                    }
-                }
-                else if (Level.SceneName.Contains("Forest"))
-                {
-                    for (int i = 0x21; i < 0x29; i++)
-                    {
-                        url = url + ((string) settings[i]) + ",";
-                    }
-                    url.TrimEnd(new char[] { ',' });
-                    for (int j = 0x29; j < 0x31; j++)
-                    {
-                        str3 = str3 + ((string) settings[j]) + ",";
-                    }
-                    str3 = str3 + ((string) settings[0x31]);
-                    for (int k = 0; k < 150; k++)
-                    {
-                        string str5 = Convert.ToString((int) UnityEngine.Random.Range((float) 0f, (float) 8f));
-                        n = n + str5;
-                        if (((int) settings[50]) == 0)
-                        {
-                            n = n + str5;
-                        }
-                        else
-                        {
-                            n = n + Convert.ToString((int) UnityEngine.Random.Range((float) 0f, (float) 8f));
-                        }
-                    }
-                    for (num = 0; num < 6; num++)
-                    {
-                        strArray3[num] = (string) settings[num + 0xa3];
-                    }
-                }
-                if (PhotonNetwork.isMasterClient)
-                {
-                    base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
-                }
-            }
-            else if (Level.Name.StartsWith("Custom"))
+            //if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
+            //{
+            //    string url = string.Empty;
+            //    string str3 = string.Empty;
+            //    string n = string.Empty;
+            //    strArray3 = new string[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
+            //    if (Level.SceneName.Contains("City"))
+            //    {
+            //        for (num = 0x33; num < 0x3b; num++)
+            //        {
+            //            url = url + ((string)settings[num]) + ",";
+            //        }
+            //        url.TrimEnd(new char[] { ',' });
+            //        num2 = 0;
+            //        while (num2 < 250)
+            //        {
+            //            n = n + Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
+            //            num2++;
+            //        }
+            //        str3 = ((string)settings[0x3b]) + "," + ((string)settings[60]) + "," + ((string)settings[0x3d]);
+            //        for (num = 0; num < 6; num++)
+            //        {
+            //            strArray3[num] = (string)settings[num + 0xa9];
+            //        }
+            //    }
+            //    else if (Level.SceneName.Contains("Forest"))
+            //    {
+            //        for (int i = 0x21; i < 0x29; i++)
+            //        {
+            //            url = url + ((string)settings[i]) + ",";
+            //        }
+            //        url.TrimEnd(new char[] { ',' });
+            //        for (int j = 0x29; j < 0x31; j++)
+            //        {
+            //            str3 = str3 + ((string)settings[j]) + ",";
+            //        }
+            //        str3 = str3 + ((string)settings[0x31]);
+            //        for (int k = 0; k < 150; k++)
+            //        {
+            //            string str5 = Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
+            //            n = n + str5;
+            //            if (((int)settings[50]) == 0)
+            //            {
+            //                n = n + str5;
+            //            }
+            //            else
+            //            {
+            //                n = n + Convert.ToString((int)UnityEngine.Random.Range((float)0f, (float)8f));
+            //            }
+            //        }
+            //        for (num = 0; num < 6; num++)
+            //        {
+            //            strArray3[num] = (string)settings[num + 0xa3];
+            //        }
+            //    }
+            //    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            //    {
+            //        base.StartCoroutine(this.loadskinE(n, url, str3, strArray3));
+            //    }
+            //    else if (PhotonNetwork.isMasterClient)
+            //    {
+            //        base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
+            //    }
+            //}
+            if (Level.Name.StartsWith("Custom"))
             {
                 GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("playerRespawn");
                 for (num = 0; num < objArray3.Length; num++)
@@ -2235,7 +1584,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     else if (((obj2.name == "Cube_001") && (obj2.transform.parent.gameObject.tag != "player")) && (obj2.GetComponent<Renderer>() != null))
                     {
                         this.groundList.Add(obj2);
-                        obj2.GetComponent<Renderer>().material.mainTexture = ((Material) RCassets.LoadAsset("grass")).mainTexture;
+                        obj2.GetComponent<Renderer>().material.mainTexture = RcLegacy.GetMaterial("grass").mainTexture;
                     }
                 }
                 if (PhotonNetwork.isMasterClient)
@@ -2253,10 +1602,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         ExitGames.Client.Photon.Hashtable hashtable;
                         this.levelCache.Clear();
-                        this.titanSpawns.Clear();
                         this.playerSpawnsC.Clear();
                         this.playerSpawnsM.Clear();
-                        this.titanSpawners.Clear();
                         currentLevel = string.Empty;
                         if (currentScript == string.Empty)
                         {
@@ -2286,7 +1633,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                             strArray6 = strArray4[num2].Split(new char[] { ',' });
                                             if (strArray6[1] == "titan")
                                             {
-                                                this.titanSpawns.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
+                                                Instantiate(RcLegacy.GetPrefab("titanRespawn"), new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])), new Quaternion());
                                             }
                                             else if (strArray6[1] == "playerC")
                                             {
@@ -2317,7 +1664,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                             strArray6 = strArray4[num2].Split(new char[] { ',' });
                                             if (strArray6[1] == "titan")
                                             {
-                                                this.titanSpawns.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
+                                                Instantiate(RcLegacy.GetPrefab("titanRespawn"), new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])), new Quaternion());
                                             }
                                             else if (strArray6[1] == "playerC")
                                             {
@@ -2338,10 +1685,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                 }
                             }
                             List<string> list = new List<string>();
-                            foreach (Vector3 vector in this.titanSpawns)
-                            {
-                                list.Add("titan," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
-                            }
                             foreach (Vector3 vector in this.playerSpawnsC)
                             {
                                 list.Add("playerC," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
@@ -2371,8 +1714,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             this.playersRPC.Add(player);
                         }
                     }
-                    base.StartCoroutine(this.customlevelE(this.playersRPC));
-                    base.StartCoroutine(this.customlevelcache());
                 }
             }
         }
@@ -3009,7 +2350,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //}
 
         GameCursor.CursorMode = CursorMode.Loading;
-        PhotonNetwork.LoadLevel(Level.SceneName);
+        LevelHelper.Load(Level);
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add(PhotonPlayerProperty.name, LoginFengKAI.player.name);
         hashtable.Add(PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname);
@@ -3215,10 +2556,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (Gamemode.Settings.SaveKDROnDisconnect)
                 {
                     base.StartCoroutine(this.WaitAndReloadKDR(player));
-                }
-                if (Level.Name.StartsWith("Custom"))
-                {
-                    base.StartCoroutine(this.customlevelE(new List<PhotonPlayer> { player }));
                 }
                 ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                 if ((ignoreList != null) && (ignoreList.Count > 0))
@@ -3475,10 +2812,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             currentLevel = string.Empty;
             propertiesToSet.Add(PhotonPlayerProperty.currentLevel, string.Empty);
             this.levelCache = new List<string[]>();
-            this.titanSpawns.Clear();
             this.playerSpawnsC.Clear();
             this.playerSpawnsM.Clear();
-            this.titanSpawners.Clear();
             intVariables.Clear();
             boolVariables.Clear();
             stringVariables.Clear();
@@ -3633,7 +2968,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             PhotonNetwork.room.SetCustomProperties(hash);
             var json = JsonConvert.SerializeObject(Gamemode.Settings);
             photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
-            PhotonNetwork.LoadLevel(Level.SceneName);
+            LevelHelper.Load(Level);
         }
         else if (NewRoundGamemode != null && Gamemode.Settings.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
         {
@@ -3663,7 +2998,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (info.sender.isMasterClient)
         {
             this.DestroyAllExistingCloths();
-            PhotonNetwork.LoadLevel(Level.SceneName);
+            LevelHelper.Load(Level);
         }
         else if (PhotonNetwork.isMasterClient)
         {
@@ -3682,7 +3017,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (this.restartCount.Count < 6)
             {
                 this.DestroyAllExistingCloths();
-                PhotonNetwork.LoadLevel(Level.SceneName);
+                LevelHelper.Load(Level);
             }
         }
     }
@@ -3745,7 +3080,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (isAssetLoaded)
         {
-            UnityEngine.Object.Instantiate(RCassets.LoadAsset("backgroundCamera"));
+            UnityEngine.Object.Instantiate(RcLegacy.GetPrefab("backgroundCamera"));
         }
     }
 
@@ -4016,34 +3351,33 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 position = this.racingSpawnPoint;
             }
-            else if (Level.Name.StartsWith("Custom"))
+            else
             {
-                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
+                if (Level.IsCustom)
                 {
-                    List<Vector3> list = new List<Vector3>();
-                    foreach (Vector3 vector2 in this.playerSpawnsC)
+                    if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                     {
-                        list.Add(vector2);
+                        position = PlayerSpawners[UnityEngine.Random.Range(0, PlayerSpawners.Count)].gameObject.transform
+                            .position;
                     }
-                    foreach (Vector3 vector2 in this.playerSpawnsM)
+                    else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                     {
-                        list.Add(vector2);
+                        var cyanSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Cyan).ToArray();
+                        if (cyanSpawners.Length > 0)
+                        {
+                            position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
+                                .position;
+                        }
                     }
-                    if (list.Count > 0)
+                    else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
                     {
-                        position = list[UnityEngine.Random.Range(0, list.Count)];
+                        var magentaSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Magenta).ToArray();
+                        if (magentaSpawners.Length > 0)
+                        {
+                            position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Length)].gameObject.transform
+                                .position;
+                        }
                     }
-                }
-                else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
-                {
-                    if (this.playerSpawnsC.Count > 0)
-                    {
-                        position = this.playerSpawnsC[UnityEngine.Random.Range(0, this.playerSpawnsC.Count)];
-                    }
-                }
-                else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2) && (this.playerSpawnsM.Count > 0))
-                {
-                    position = this.playerSpawnsM[UnityEngine.Random.Range(0, this.playerSpawnsM.Count)];
                 }
             }
             IN_GAME_MAIN_CAMERA component = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
@@ -4241,9 +3575,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         Vector3 position = new Vector3();
         Quaternion rotation = new Quaternion();
-        if (titanSpawns.Count > 0) // RC Custom Map Spawns
+        var titanSpawners = TitanSpawners.Where(x => x.Type == TitanSpawnerType.None).ToArray();
+        if (titanSpawners.Length > 0) // RC Custom Map Spawns
         {
-            position = titanSpawns[UnityEngine.Random.Range(0, titanSpawns.Count)];
+            position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
         }
         else
         {
@@ -4284,9 +3619,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         var tag = "titanRespawn";
         var location = Gamemode.GetPlayerSpawnLocation(tag);
         Vector3 position = location.transform.position;
-        if (Level.Name.StartsWith("Custom") && (this.titanSpawns.Count > 0))
+        var titanSpawners = TitanSpawners.Where(x => x.Type == TitanSpawnerType.None).ToArray();
+        if (titanSpawners.Length > 0) // RC Custom Map Spawns
         {
-            position = this.titanSpawns[UnityEngine.Random.Range(0, this.titanSpawns.Count)];
+            position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
         }
         this.myLastHero = id.ToUpper();
         PlayerTitan playerTitan = PhotonNetwork.Instantiate("PlayerTitan", position, new Quaternion(), 0).GetComponent<PlayerTitan>();
@@ -4343,12 +3679,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             currentScript = string.Empty;
         }
-        this.titanSpawns = new List<Vector3>();
         this.playerSpawnsC = new List<Vector3>();
         this.playerSpawnsM = new List<Vector3>();
         this.playersRPC = new List<PhotonPlayer>();
         this.levelCache = new List<string[]>();
-        this.titanSpawners = new List<TitanSpawner>();
         this.restartCount = new List<float>();
         ignoreList = new List<int>();
         this.groundList = new List<GameObject>();
