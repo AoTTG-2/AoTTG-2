@@ -1088,7 +1088,7 @@ public class Hero : Human
 
 
     private void Update(){
-                        
+           
          if (InputManager.Key(InputHuman.ReelIn)){
              ReelInInput=true;
              Invoke("DisableReel",0.5f);}
@@ -1625,14 +1625,17 @@ public class Hero : Human
                         float num15 = 0f;
                         if (ReelInInput)
                         {
+                                    
                             num15 = -1f;
                         }
                         else if (ReelOutInput)
                         {
+                                    
                             num15 = 1f;
                         }
                         else
                         {
+                                         
                             num15 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
                         }
                         num15 = Mathf.Clamp(num15, -0.8f, 0.8f);
@@ -1650,14 +1653,17 @@ public class Hero : Human
                         float num18 = 0f;
                         if (ReelInInput)
                         {
+                                        
                             num18 = -1f;
                         }
                         else if (ReelOutInput)
                         { 
+                                    
                             num18 = 1f;
                         }  
                         else
                         {
+                                   
                             num18 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
                         }
                         num18 = Mathf.Clamp(num18, -0.8f, 0.8f);
@@ -1679,10 +1685,11 @@ public class Hero : Human
                         }
                         else if (ReelOutInput)
                         {
+                            
                             num21 = 1f;
                         }
                         else
-                        {
+                        {  
                             num21 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
                         }
                         num21 = Mathf.Clamp(num21, -0.8f, 0.8f);
