@@ -14,7 +14,7 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Gamemode
 {
-    public abstract class GamemodeBase : MonoBehaviour
+    public abstract class StandoffGamemode : MonoBehaviour
     {
         public abstract GamemodeSettings Settings { get; set; }
         private MindlessTitanType GetTitanType()
