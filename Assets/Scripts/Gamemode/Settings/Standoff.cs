@@ -10,11 +10,17 @@ namespace Assets.Scripts.Gamemode.Settings
             GamemodeType = GamemodeType.Standoff;
             PlayerShifters = false;
             Titans = 0;
-            TitanLimit = 50;
+            TitanLimit = 40;
             TitanChaseDistance = 60f;
             RespawnMode = RespawnMode.NEWROUND;
 
         }
+
+        [UiElement("Alpha team points", "Once this reaches 0, the team wins")]
+        public int AlphaScore { get; set; } = 0;
+
+        [UiElement("Beta team points", "Once this reaches 0, the team wins")]
+        public int BetaScore { get; set; } = 0;
 
 
     }

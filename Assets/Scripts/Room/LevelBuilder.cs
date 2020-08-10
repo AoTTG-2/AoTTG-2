@@ -204,7 +204,8 @@ public class LevelBuilder : MonoBehaviour
                 {
                     Titans = 20
                 },
-                new WaveGamemodeSettings()
+                new WaveGamemodeSettings(),
+                new StandoffGamemodeSettings()
             }
         });
     }
