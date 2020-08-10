@@ -14,9 +14,15 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Gamemode
 {
-    public class StandoffGamemode : MonoBehaviour
+    public class StandoffGamemode : GamemodeBase
     {
-        public GamemodeSettings Settings { get; set; }
+        public sealed override GamemodeSettings Settings { get; set; }
+        private StandoffGamemodeSettings GamemodeSettings => Settings as StandoffGamemodeSettings;
+
+        private int teamWinner;
+        private readonly int[] teamScores = new int[2];
+
+
         private MindlessTitanType GetTitanType()
         {
             if (Settings.CustomTitanRatio)
@@ -66,23 +72,6 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        public virtual TitanConfiguration GetPlayerTitanConfiguration()
-        {
-            var configuration = GetTitanConfiguration();
-            if (configuration.Type == MindlessTitanType.Crawler)
-            {
-                configuration.Attacks = new List<Attack>();
-                return configuration;
-            }
-
-            configuration.Attacks = new List<Attack>
-            {
-                new KickAttack(), new SlapAttack(), new SlapFaceAttack(),
-                new BiteAttack(), new BodySlamAttack(), new GrabAttack()
-            };
-            return configuration;
-        }
-
         public virtual TitanConfiguration GetTitanConfiguration()
         {
             return GetTitanConfiguration(GetTitanType());
@@ -97,10 +86,26 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnPlayerKilled(int id)
         {
+            //if (IsAllPlayersDead())
+            //{
+            //    FengGameManagerMKII.instance.gameLose2();
+            //}
             if (IsAllPlayersDead())
             {
                 FengGameManagerMKII.instance.gameLose2();
+                teamWinner = 0;
             }
+            if (IsTeamAllDead(1))
+            {
+                teamWinner = 2;
+                FengGameManagerMKII.instance.gameWin2();
+            }
+            if (IsTeamAllDead(2))
+            {
+                teamWinner = 1;
+                FengGameManagerMKII.instance.gameWin2();
+            }
+
         }
 
         public virtual void OnRestart()
@@ -123,33 +128,6 @@ namespace Assets.Scripts.Gamemode
         }
 
         public virtual void OnUpdate(float interval) { }
-
-        public static GamemodeSettings ConvertToGamemode(string json, GamemodeType type)
-        {
-            switch (type)
-            {
-                case GamemodeType.Racing:
-                    return JsonConvert.DeserializeObject<RacingSettings>(json);
-                case GamemodeType.Capture:
-                    return JsonConvert.DeserializeObject<CaptureGamemodeSettings>(json);
-                case GamemodeType.Titans:
-                    return JsonConvert.DeserializeObject<KillTitansSettings>(json);
-                case GamemodeType.Endless:
-                    return JsonConvert.DeserializeObject<EndlessSettings>(json);
-                case GamemodeType.Wave:
-                    return JsonConvert.DeserializeObject<WaveGamemodeSettings>(json);
-                case GamemodeType.Trost:
-                    return JsonConvert.DeserializeObject<TrostSettings>(json);
-                case GamemodeType.TitanRush:
-                    return JsonConvert.DeserializeObject<RushSettings>(json);
-                case GamemodeType.PvpAhss:
-                    return JsonConvert.DeserializeObject<PvPAhssSettings>(json);
-                case GamemodeType.Infection:
-                    return JsonConvert.DeserializeObject<InfectionGamemodeSettings>(json);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-        }
 
         public virtual void OnPlayerSpawned(GameObject player)
         {
@@ -189,10 +167,10 @@ namespace Assets.Scripts.Gamemode
 
         public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (PhotonNetwork.offlineMode)
-            {
-                return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
-            }
+            //if (PhotonNetwork.offlineMode)
+            //{
+            //    return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
+            //}
             return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
         }
 

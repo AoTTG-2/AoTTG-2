@@ -146,6 +146,8 @@ namespace Assets.Scripts.Gamemode
                     return JsonConvert.DeserializeObject<PvPAhssSettings>(json);
                 case GamemodeType.Infection:
                     return JsonConvert.DeserializeObject<InfectionGamemodeSettings>(json);
+                case GamemodeType.StandoffGamemode:
+                    return JsonConvert.DeserializeObject<Standoff>(json);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

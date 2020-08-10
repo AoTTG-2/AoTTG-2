@@ -37,7 +37,7 @@ public class LevelBuilder : MonoBehaviour
                     new CaptureGamemodeSettings(),
                     new RushSettings(),
                     new EndlessSettings(),
-                    new PvPAhssSettings()
+                    new PvPAhssSettings() 
                 }
             });
         }
