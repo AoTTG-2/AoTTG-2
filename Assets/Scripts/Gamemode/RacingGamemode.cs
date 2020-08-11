@@ -1,11 +1,15 @@
-﻿using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Gamemode.Racing;
+using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.UI.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
         public string localRacingResult = string.Empty;
+        public List<RacingObjective> Objectives = new List<RacingObjective>();
 
         public sealed override GamemodeSettings Settings { get; set; }
         private RacingSettings GamemodeSettings => Settings as RacingSettings;
@@ -22,6 +26,17 @@ namespace Assets.Scripts.Gamemode
             {
                 //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
             }
+        }
+
+        private void OnLevelWasLoaded()
+        {
+            Objectives = Objectives.OrderBy(x => x.Order).ToList();
+            for (int i = 0; i < Objectives.Count; i++)
+            {
+                if (i + 1 >= Objectives.Count) continue;
+                Objectives[i].NextObjective = Objectives[i + 1];
+            }
+            Objectives[0].Next();
         }
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
