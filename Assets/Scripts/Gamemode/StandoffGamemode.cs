@@ -17,7 +17,7 @@ namespace Assets.Scripts.Gamemode
     public class StandoffGamemode : GamemodeBase
     {
         public sealed override GamemodeSettings Settings { get; set; }
-        private StandoffGamemodeSettings GamemodeSettings => Settings as StandoffGamemodeSettings;
+        private StandoffSettings GamemodeSettings => Settings as StandoffSettings;
 
         private int teamWinner;
         private readonly int[] teamScores = new int[2];
@@ -106,6 +106,24 @@ namespace Assets.Scripts.Gamemode
                 FengGameManagerMKII.instance.gameWin2();
             }
 
+        }
+
+        private static bool IsTeamAllDead(int team)
+        {
+            var num = 0;
+            var num2 = 0;
+            foreach (var player in PhotonNetwork.playerList)
+            {
+                if (((player.CustomProperties[PhotonPlayerProperty.isTitan] != null) && (player.CustomProperties[PhotonPlayerProperty.team] != null)) && ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]) == team)))
+                {
+                    num++;
+                    if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+                    {
+                        num2++;
+                    }
+                }
+            }
+            return (num == num2);
         }
 
         public virtual void OnRestart()
