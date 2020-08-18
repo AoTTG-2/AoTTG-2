@@ -28,7 +28,7 @@ namespace Assets.Scripts.Gamemode
         {
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
-                SpawnTitans(20);
+                SpawnTitans(10);
 
         }
 
@@ -168,7 +168,7 @@ namespace Assets.Scripts.Gamemode
 
         protected void SpawnTitans(int amount)
         {
-            for(int i=0;i<amount/2;i++){
+            for(int i=0;i<amount;i++){
              newTitanTeam1();
              newTitanTeam2();}
         }
