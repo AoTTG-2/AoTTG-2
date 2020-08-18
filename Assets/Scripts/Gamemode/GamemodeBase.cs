@@ -162,6 +162,24 @@ namespace Assets.Scripts.Gamemode
             SpawnTitans(amount, GetTitanConfiguration);
         }
 
+        protected static bool IsTeamAllDead(int team)
+        {
+            var num = 0;
+            var num2 = 0;
+            foreach (var player in PhotonNetwork.playerList)
+            {
+                if (((player.CustomProperties[PhotonPlayerProperty.isTitan] != null) && (player.CustomProperties[PhotonPlayerProperty.team] != null)) && ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]) == team)))
+                {
+                    num++;
+                    if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+                    {
+                        num2++;
+                    }
+                }
+            }
+            return (num == num2);
+        }
+
         protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)
         {
             StartCoroutine(SpawnTitan(amount, titanConfiguration));

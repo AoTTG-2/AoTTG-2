@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.UI.Input;
+using ModestTree;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -18,112 +19,126 @@ namespace Assets.Scripts.Gamemode
     {
         public sealed override GamemodeSettings Settings { get; set; }
         private StandoffSettings GamemodeSettings => Settings as StandoffSettings;
+        private readonly StandoffGamemode gamemode = FengGameManagerMKII.Gamemode as StandoffGamemode;
 
         private int teamWinner;
-        private readonly int[] teamScores = new int[2];
+        private readonly int[] teamScores = new int[2] {10, 10};
 
-
-        private MindlessTitanType GetTitanType()
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            if (Settings.CustomTitanRatio)
-            {
-                var titanTypes = new Dictionary<MindlessTitanType, float>(Settings.TitanTypeRatio);
-                foreach (var disabledTitanType in Settings.DisabledTitans)
-                {
-                    titanTypes.Remove(disabledTitanType);
-                }
+            base.OnLevelLoaded(level, isMasterClient);
+            if (!isMasterClient) return;
+                SpawnTitans(20);
 
-                var totalRatio = Settings.TitanTypeRatio.Values.Sum();
-                var ratioList = new List<KeyValuePair<MindlessTitanType, float>>();
-                var ratio = 0f;
-                foreach (var titanTypeRatio in titanTypes)
-                {
-                    ratio += titanTypeRatio.Value / totalRatio;
-                    ratioList.Add(new KeyValuePair<MindlessTitanType, float>(titanTypeRatio.Key, ratio));
-                }
-
-                var randomNumber = Random.Range(0f, 1f);
-                foreach (var titanTypeRatio in ratioList)
-                {
-                    if (randomNumber < titanTypeRatio.Value)
-                    {
-                        return titanTypeRatio.Key;
-                    }
-                }
-
-            }
-
-            var types = Enum.GetValues(typeof(MindlessTitanType));
-            return (MindlessTitanType) types.GetValue(Random.Range(0, types.Length));
         }
 
-        private int GetTitanHealth(float titanSize)
+        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
-            switch (Settings.TitanHealthMode)
-            {
-                case TitanHealthMode.Fixed:
-                    return Random.Range(Settings.TitanHealthMinimum, Settings.TitanHealthMaximum + 1);
-                case TitanHealthMode.Scaled:
-                    return Mathf.Clamp(Mathf.RoundToInt(titanSize / 4f * Random.Range(Settings.TitanHealthMinimum, Settings.TitanHealthMaximum + 1)), Settings.TitanHealthMinimum, Settings.TitanHealthMaximum);
-                case TitanHealthMode.Disabled:
-                    return 0;
-                default:
-                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {Settings.TitanHealthMode}");
-            }
+
+            object[] objArray = new object[6];
+            objArray[0] = "Cyan: ";
+            objArray[1] = (20-teamScores[0]).ToString();
+            objArray[2] = "Magenta: ";
+            objArray[3] = (20-teamScores[1]).ToString();
+            objArray[4] = "\n\t\t\tTime: "; 
+            //int length = totalRoomTime - (time);
+            var length = GameObject.FindGameObjectsWithTag("titan").Length;
+            objArray[5] = length.ToString();
+            return string.Concat(objArray);
         }
 
-        public virtual TitanConfiguration GetTitanConfiguration()
+        private void Awake()
         {
-            return GetTitanConfiguration(GetTitanType());
+            //FengGameManagerMKII.instance.barrier.Add(gameObject);
         }
 
-        public virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
+        public override void OnPlayerKilled(int id)
         {
-            var size = Settings.TitanCustomSize ? Random.Range(Settings.TitanMinimumSize, Settings.TitanMaximumSize) : Random.Range(0.7f, 3f);
-            var health = GetTitanHealth(size);
-            return new TitanConfiguration(health, 10, 100, 150f, size, type);
-        }
-
-        public virtual void OnPlayerKilled(int id)
-        {
-            //if (IsAllPlayersDead())
-            //{
-            //    FengGameManagerMKII.instance.gameLose2();
-            //}
             if (IsAllPlayersDead())
             {
                 FengGameManagerMKII.instance.gameLose2();
                 teamWinner = 0;
             }
-            if (IsTeamAllDead(1))
+            if (GamemodeBase.IsTeamAllDead(1))
             {
                 teamWinner = 2;
                 FengGameManagerMKII.instance.gameWin2();
             }
-            if (IsTeamAllDead(2))
+            if (GamemodeBase.IsTeamAllDead(2))
             {
                 teamWinner = 1;
                 FengGameManagerMKII.instance.gameWin2();
             }
-
         }
 
-        private static bool IsTeamAllDead(int team)
+        public void OnTitanKilledStandoff(string titanName, PhotonPlayer player)
         {
-            var num = 0;
-            var num2 = 0;
-            foreach (var player in PhotonNetwork.playerList)
-            {
-                if (((player.CustomProperties[PhotonPlayerProperty.isTitan] != null) && (player.CustomProperties[PhotonPlayerProperty.team] != null)) && ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]) == team)))
-                {
-                    num++;
-                    if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
-                    {
-                        num2++;
-                    }
-                }
+            int team = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]);
+         if(team==1)
+            {//1 - cyan 2- magenta
+                 newTitanTeam1();
+                 teamScores[0]++;
+                 teamScores[1]--;
             }
-            return (num == num2);
+         else
+            {
+                newTitanTeam2();
+                teamScores[1]++;
+                teamScores[0]--;
+            }
+              //add titan
+           
+            Debug.Log($"Titan name: {titanName}");
+           //heckWinConditions();
+
+
+        }
+    private float getHeight(Vector3 pt)
+    {
+        RaycastHit hit;
+        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Ground");
+        if (Physics.Raycast(pt, -Vector3.up, out hit, 1000f, mask2.value))
+        {
+            return hit.point.y;
+        }
+        return 0f;
+    }
+
+    private void newTitanTeam1()
+    {
+        Vector3 position = new Vector3 (Random.Range(0, 500), 0f, Random.Range(-500, 500));
+        Quaternion rotation=GameObject.Find("Barrier").transform.rotation;
+        var configuration = GetTitanConfiguration();
+        FengGameManagerMKII.instance.SpawnTitan(position, rotation, configuration).GetComponent<MindlessTitan>();
+        
+    }
+
+    private void newTitanTeam2()
+    {
+        Vector3 position = new Vector3 (-Random.Range(0, 500), 0f, Random.Range(-500, 500));
+        Quaternion rotation=GameObject.Find("Barrier").transform.rotation;
+        var configuration = GetTitanConfiguration();
+        FengGameManagerMKII.instance.SpawnTitan(position, rotation, configuration).GetComponent<MindlessTitan>();
+        
+    }
+
+
+    
+
+        public void CheckWinConditions()
+        {
+            if (teamScores[1]==20)
+            {
+                teamWinner = 1;
+                FengGameManagerMKII.instance.gameWin2();
+            }
+            else if(teamScores[2]==20)
+            {
+                teamWinner = 2;
+                FengGameManagerMKII.instance.gameWin2();
+            }
+
+
         }
 
         public virtual void OnRestart()
@@ -153,24 +168,9 @@ namespace Assets.Scripts.Gamemode
 
         protected void SpawnTitans(int amount)
         {
-            SpawnTitans(amount, GetTitanConfiguration);
-        }
-
-        protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)
-        {
-            StartCoroutine(SpawnTitan(amount, titanConfiguration));
-        }
-
-        private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
-        {
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-            for (var i = 0; i < amount; i++)
-            {
-                if (FengGameManagerMKII.instance.getTitans().Count >= Settings.TitanLimit) break;
-                var randomSpawn = spawns[Random.Range(0, spawns.Length)];
-                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, titanConfiguration.Invoke());
-                yield return new WaitForEndOfFrame();
-            }
+            for(int i=0;i<amount/2;i++){
+             newTitanTeam1();
+             newTitanTeam2();}
         }
 
         public virtual void OnTitanSpawned(MindlessTitan titan)
@@ -192,33 +192,6 @@ namespace Assets.Scripts.Gamemode
             return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
         }
 
-        public virtual void OnTitanKilled(string titanName)
-        {
-            if (Settings.RestartOnTitansKilled && IsAllTitansDead())
-            {
-                OnAllTitansDead();
-            }
-        }
-
-        public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
-        {
-            var content = "Titan Left: ";
-            var length = GameObject.FindGameObjectsWithTag("titan").Length;
-            content = content + length + "  Time : ";
-            if (PhotonNetwork.offlineMode)
-            {
-                length = time;
-                content += length.ToString();
-            }
-            else
-            {
-                length = totalRoomTime - (time);
-                content += length.ToString();
-            }
-
-            return content;
-        }
-
         public virtual string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {
             return string.Concat("Humanity ", Settings.HumanScore, " : Titan ", Settings.TitanScore, " ");
@@ -232,23 +205,23 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnAllTitansDead() { }
 
-        public virtual void OnLevelLoaded(Level level, bool isMasterClient = false)
-        {
-            if (!Settings.Supply)
-            {
-                UnityEngine.Object.Destroy(GameObject.Find("aot_supply"));
-            }
-
-            if (Settings.LavaMode)
-            {
-                UnityEngine.Object.Instantiate(Resources.Load("levelBottom"), new Vector3(0f, -29.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
-                var lavaSupplyStation = GameObject.Find("aot_supply_lava_position");
-                var supplyStation = GameObject.Find("aot_supply");
-                if (lavaSupplyStation == null || supplyStation == null) return;
-                supplyStation.transform.position = lavaSupplyStation.transform.position;
-                supplyStation.transform.rotation = lavaSupplyStation.transform.rotation;
-            }
-        }
+      // public virtual void onlevelloaded(level level, bool ismasterclient = false)
+      // {
+      //     if (!settings.supply)
+      //     {
+      //         unityengine.object.destroy(gameobject.find("aot_supply"));
+      //     }
+      //
+      //     if (settings.lavamode)
+      //     {
+      //         unityengine.object.instantiate(resources.load("levelbottom"), new vector3(0f, -29.5f, 0f), quaternion.euler(0f, 0f, 0f));
+      //         var lavasupplystation = gameobject.find("aot_supply_lava_position");
+      //         var supplystation = gameobject.find("aot_supply");
+      //         if (lavasupplystation == null || supplystation == null) return;
+      //         supplystation.transform.position = lavasupplystation.transform.position;
+      //         supplystation.transform.rotation = lavasupplystation.transform.rotation;
+      //     }
+      // }
 
         public virtual void OnGameWon()
         {

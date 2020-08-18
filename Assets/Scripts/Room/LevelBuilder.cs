@@ -64,7 +64,8 @@ public class LevelBuilder : MonoBehaviour
                 },
                 new WaveGamemodeSettings(),
                 new CaptureGamemodeSettings(),
-                new InfectionGamemodeSettings()
+                new InfectionGamemodeSettings(),
+                new StandoffSettings()
             }
         });
 
@@ -83,7 +84,8 @@ public class LevelBuilder : MonoBehaviour
                     Description = "Classic map where you fight the Female Titan",
                     DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk},
                     Pvp = PvpMode.AhssVsBlades
-                }
+                },
+                new StandoffSettings()
             }
         });
 

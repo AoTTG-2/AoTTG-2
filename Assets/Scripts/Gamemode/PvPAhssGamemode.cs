@@ -41,12 +41,12 @@ namespace Assets.Scripts.Gamemode
                 FengGameManagerMKII.instance.gameLose2();
                 teamWinner = 0;
             }
-            if (IsTeamAllDead(1))
+            if (GamemodeBase.IsTeamAllDead(1))
             {
                 teamWinner = 2;
                 FengGameManagerMKII.instance.gameWin2();
             }
-            if (IsTeamAllDead(2))
+            if (GamemodeBase.IsTeamAllDead(2))
             {
                 teamWinner = 1;
                 FengGameManagerMKII.instance.gameWin2();
@@ -60,24 +60,6 @@ namespace Assets.Scripts.Gamemode
                 return $"Team {teamWinner}, Win!\nGame Restart in {(int)timeUntilRestart}s\n\n";
             }
             return $"Round Ended!\nGame Restart in {(int)timeUntilRestart}s\n\n";
-        }
-
-        private static bool IsTeamAllDead(int team)
-        {
-            var num = 0;
-            var num2 = 0;
-            foreach (var player in PhotonNetwork.playerList)
-            {
-                if (((player.CustomProperties[PhotonPlayerProperty.isTitan] != null) && (player.CustomProperties[PhotonPlayerProperty.team] != null)) && ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]) == team)))
-                {
-                    num++;
-                    if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
-                    {
-                        num2++;
-                    }
-                }
-            }
-            return (num == num2);
         }
 
         public override void OnGameWon()

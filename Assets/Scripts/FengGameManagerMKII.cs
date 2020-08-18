@@ -112,6 +112,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static string privateServerField;
     public float qualitySlider;
     public List<GameObject> racingDoors = new List<GameObject>();
+    public List<GameObject> ForestBarrier = new List<GameObject>();
+    public List<GameObject> CityBarrier = new List<GameObject>();
     private ArrayList racingResult;
     public Vector3 racingSpawnPoint;
     public bool racingSpawnPointSet;
@@ -654,6 +656,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.ShowHUDInfoCenter(string.Empty);
                     }
                 }
+            }
+             if (Gamemode.Settings.GamemodeType == GamemodeType.Standoff){
+            
             }
 
             if (this.timeElapse > 1f)
@@ -2265,11 +2270,27 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void oneTitanDown(string titanName)
+    public void oneTitanDown(string titanName, PhotonPlayer player)
     {
         if (PhotonNetwork.isMasterClient)
         {
-            EventManager.OnTitanKilled.Invoke(titanName);
+
+            var standoffGamemode = Gamemode as StandoffGamemode;
+            if (standoffGamemode != null)
+            {
+                standoffGamemode.OnTitanKilledStandoff(titanName, player);
+            } else
+            {
+                EventManager.OnTitanKilled.Invoke(titanName);
+            }
+                        //bool isStandoff= Convert.ToBoolean(Gamemode.Settings.GamemodeType.CompareTo(GamemodeType.Standoff));
+            //if(isStandoff)
+            //{
+            //    object[] objArray = new object[2];
+            //    objArray[0] = titanName;
+            //    objArray[1] = player;
+            //    StandoffGamemode.OnTitanKilledStandoff(objArray);
+            //}
         }
     }
 
@@ -2579,7 +2600,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (!this.gameTimesUp)
         {
-            this.oneTitanDown(string.Empty);
+            this.oneTitanDown(string.Empty, null);
             this.someOneIsDead(0);
         }
         if (ignoreList.Contains(player.ID))
@@ -3731,7 +3752,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Damage = Mathf.Max(10, Damage);
         object[] parameters = new object[] { Damage };
         base.photonView.RPC("netShowDamage", player, parameters);
-        base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, name);
+        base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, name, player);
         this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
         this.playerKillInfoUpdate(player, Damage);
     }
@@ -3741,7 +3762,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Damage = Mathf.Max(10, Damage);
         this.sendKillInfo(false, LoginFengKAI.player.name, true, name, Damage);
         this.netShowDamage(Damage);
-        this.oneTitanDown(name);
+        this.oneTitanDown(name, PhotonNetwork.player);
         this.playerKillInfoUpdate(PhotonNetwork.player, Damage);
     }
 
