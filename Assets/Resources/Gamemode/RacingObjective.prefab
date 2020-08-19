@@ -429,7 +429,7 @@ Transform:
   m_LocalScale: {x: 3900.0002, y: 3900.001, z: 3900.002}
   m_Children: []
   m_Father: {fileID: 4325762571430244}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4325762571430244
 Transform:
@@ -443,8 +443,8 @@ Transform:
   m_Children:
   - {fileID: 4020405283787366}
   - {fileID: 4474474529281776}
-  - {fileID: 4272456340350900}
   - {fileID: 4918294487660374}
+  - {fileID: 4272456340350900}
   - {fileID: 4218716474078182}
   - {fileID: 4464803140488108}
   - {fileID: 4761357308376590}
@@ -626,7 +626,7 @@ Transform:
   m_LocalScale: {x: 3900.0002, y: 3900.001, z: 3900.002}
   m_Children: []
   m_Father: {fileID: 4325762571430244}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23096452112459298
 MeshRenderer:
@@ -1540,4 +1540,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bdf5cccfb45e84693ed57c46f21d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextObjective: {fileID: 0}
+  Order: 0

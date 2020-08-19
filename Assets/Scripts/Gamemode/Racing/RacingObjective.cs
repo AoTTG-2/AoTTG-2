@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
@@ -7,7 +8,8 @@ namespace Assets.Scripts.Gamemode.Racing
     {
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
         private enum ObjectiveState { Taken, Next, Ignore }
-        private ObjectiveState _state = ObjectiveState.Ignore;
+
+        private ObjectiveState _state;
         private ObjectiveState State
         {
             get
@@ -24,7 +26,41 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private void OnStateChanged(ObjectiveState state)
         {
+            switch (state)
+            {
+                case ObjectiveState.Ignore:
+                    SetColor(Color.red, Color.gray);
+                    break;
+                case ObjectiveState.Taken:
+                    SetColor(Color.gray, Color.gray);
+                    break;
+                case ObjectiveState.Next:
+                    SetColor(Color.blue, Color.yellow);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
 
+        private void SetColor(Color evenColor, Color unevenColor)
+        {
+            var renderers = gameObject.transform.root.GetComponentsInChildren<Renderer>();
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                var materialBlock = new MaterialPropertyBlock();
+                renderers[i].GetPropertyBlock(materialBlock);
+
+                if (i % 2 == 0)
+                {
+                    materialBlock.SetColor("_Color", evenColor);
+                }
+                else
+                {
+                    materialBlock.SetColor("_Color", unevenColor);
+                }
+
+                renderers[i].SetPropertyBlock(materialBlock);
+            }
         }
 
         public RacingObjective NextObjective { get; set; }
@@ -43,6 +79,7 @@ namespace Assets.Scripts.Gamemode.Racing
                 return;
             }
             Gamemode.Objectives.Add(this);
+            State = ObjectiveState.Ignore;
         }
 
         private void OnDestroy()
