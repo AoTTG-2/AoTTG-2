@@ -44,7 +44,7 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private void SetColor(Color evenColor, Color unevenColor)
         {
-            var renderers = gameObject.transform.root.GetComponentsInChildren<Renderer>();
+            var renderers = gameObject.transform.parent.GetComponentsInChildren<Renderer>();
             for (int i = 0; i < renderers.Length; i++)
             {
                 var materialBlock = new MaterialPropertyBlock();
