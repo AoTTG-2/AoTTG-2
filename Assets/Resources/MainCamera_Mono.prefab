@@ -104,7 +104,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4291098591
+    m_Bits: 4282709983
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -219,33 +219,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622a85de26774424e8c7a97c33dac33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axes: 0
-  bgmusic: {fileID: 0}
   gameOver: 0
-  height: 5
-  heightDamping: 2
-  inputManager: {fileID: 0}
-  justHit: 0
-  lastScore: 0
   main_object: {fileID: 0}
-  maximumX: 360
-  maximumY: 60
-  minimumX: -360
-  minimumY: -60
-  rotationY: 0
-  score: 0
   skyBoxDAWN: {fileID: 0}
   skyBoxDAY: {fileID: 0}
   skyBoxNIGHT: {fileID: 0}
   snapShotCamera: {fileID: 1755169644233082}
   snapshotRT: {fileID: 0}
   spectatorMode: 0
-  target: {fileID: 0}
-  texture: {fileID: 0}
-  timer: 0
-  verticalRotationOffset: 0
-  xSpeed: -3
-  ySpeed: -0.8
 --- !u!114 &114903885872353628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -258,7 +239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disable: 0
-  inputManager: {fileID: 0}
 --- !u!114 &114921527658842558
 MonoBehaviour:
   m_ObjectHideFlags: 1

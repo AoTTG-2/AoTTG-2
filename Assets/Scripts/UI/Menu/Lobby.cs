@@ -35,7 +35,7 @@ namespace Assets.Scripts.UI.Menu
         {
             IpAddress = isLocal 
                     ? "127.0.0.1"
-                    : "145.239.88.211";
+                    : "51.210.5.100";
         }
 
         private int Region { get; set; }

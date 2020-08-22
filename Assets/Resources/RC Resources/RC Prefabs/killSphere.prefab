@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 33938835171118162}
   - component: {fileID: 23522103829899694}
   - component: {fileID: 64438758657560848}
+  - component: {fileID: 114087133690227330}
   m_Layer: 0
   m_Name: GeoSphere001
   m_TagString: Untagged
@@ -119,10 +120,21 @@ MeshCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1975538579016722}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 8208555e3792bfe4caffe61778d791e3, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 1e8e804bf2d613240b2c8a7556c7ae2a, type: 2}
+--- !u!114 &114087133690227330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1975538579016722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a706c7c179a5e4c9445b56036c70ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using Assets.Scripts.UI;
+﻿using Assets.Scripts.UI;
 
 public class ConsoleCommands
 {

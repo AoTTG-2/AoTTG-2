@@ -1,44 +1,50 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Room;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class LevelBuilder
+public class LevelBuilder : MonoBehaviour
 {
     private static List<Level> _levels;
     public static List<Level> GetAllLevels()
     {
         if (_levels != null) return _levels;
         _levels = new List<Level>();
+        AddCustomMaps();
         AddClassicMaps();
         AddAoTTG2Maps();
         return _levels;
     }
 
+    private static void AddCustomMaps()
+    {
+        foreach (var level in LevelHelper.GetAll())
+        {
+            _levels.Add(new Level
+            {
+                Name = level.Split('_')[0],
+                SceneName = null,
+                AssetBundle = level,
+                IsCustom = true,
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new RacingSettings(),
+                    new KillTitansSettings(),
+                    new WaveGamemodeSettings(),
+                    new InfectionGamemodeSettings(),
+                    new CaptureGamemodeSettings(),
+                    new RushSettings(),
+                    new EndlessSettings(),
+                    new PvPAhssSettings()
+                }
+            });
+        }
+    }
+
     private static void AddClassicMaps()
     {
-        _levels.Add(new Level
-        {
-            Name = "Test Zone",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "Test Zone",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new WaveGamemodeSettings
-                {
-                    Titans = 1,
-                    Horse = true,
-                    IsPlayerTitanEnabled = true
-                },
-                new KillTitansSettings
-                {
-                    GamemodeType = GamemodeType.Titans,
-                    Titans = 1,
-                    IsPlayerTitanEnabled = true
-                }
-            }
-        });
-
         _levels.Add(new Level
         {
             Name = "The City - Classic",
@@ -46,6 +52,7 @@ public class LevelBuilder
             SceneName = "The City I",
             Gamemodes = new List<GamemodeSettings>
             {
+                new RacingSettings(),
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
@@ -77,6 +84,28 @@ public class LevelBuilder
                     Description = "Classic map where you fight the Female Titan",
                     DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk},
                     Pvp = PvpMode.AhssVsBlades
+                }
+            }
+        });
+
+        _levels.Add(new Level
+        {
+            Name = "Test Zone",
+            Description = "Classic City Map from AoTTG",
+            SceneName = "Test Zone",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new WaveGamemodeSettings
+                {
+                    Titans = 1,
+                    Horse = true,
+                    IsPlayerTitanEnabled = true
+                },
+                new KillTitansSettings
+                {
+                    GamemodeType = GamemodeType.Titans,
+                    Titans = 1,
+                    IsPlayerTitanEnabled = true
                 }
             }
         });
@@ -127,24 +156,6 @@ public class LevelBuilder
                     Supply = true,
                     SpawnSupplyStationOnHumanCapture = true
                 }
-            }
-        });
-
-        _levels.Add(new Level
-        {
-            Name = "Custom",
-            Description = "Custom Map",
-            SceneName = "The Forest",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new KillTitansSettings(),              
-                new WaveGamemodeSettings(),
-                new InfectionGamemodeSettings(),
-                new RacingSettings(),
-                new CaptureGamemodeSettings(),
-                new RushSettings(),
-                new EndlessSettings(),
-                new PvPAhssSettings()
             }
         });
 

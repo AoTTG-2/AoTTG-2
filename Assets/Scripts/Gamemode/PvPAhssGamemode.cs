@@ -83,14 +83,11 @@ namespace Assets.Scripts.Gamemode
         public override void OnGameWon()
         {
             FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            var parameters = new object[] { teamWinner };
+            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
             {
-                var parameters = new object[] { teamWinner };
-                FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-                if (((int)FengGameManagerMKII.settings[0xf4]) == 1)
-                {
-                    //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-                }
+                //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
             }
             this.teamScores[this.teamWinner - 1]++;
         }
