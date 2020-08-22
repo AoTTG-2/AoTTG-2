@@ -3,12 +3,9 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
   m_Name: RED FLARE
   m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_ShaderKeywords:
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -26,4 +23,4 @@ Material:
     - _InvFade: 1
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
-    - _TintColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+    - _TintColor: {r: 1, g: 0, b: 0, a: 0.5019608}
