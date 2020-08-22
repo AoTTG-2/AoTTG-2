@@ -30,13 +30,14 @@ namespace Assets.Scripts.Gamemode
 
         private void OnLevelWasLoaded()
         {
+            if (Objectives.Count == 0) return;
             Objectives = Objectives.OrderBy(x => x.Order).ToList();
             for (int i = 0; i < Objectives.Count; i++)
             {
                 if (i + 1 >= Objectives.Count) continue;
                 Objectives[i].NextObjective = Objectives[i + 1];
             }
-            Objectives[0].Next();
+            Objectives[0].Current();
         }
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)

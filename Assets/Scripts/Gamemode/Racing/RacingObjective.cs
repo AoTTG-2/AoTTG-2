@@ -7,9 +7,9 @@ namespace Assets.Scripts.Gamemode.Racing
     public class RacingObjective : MonoBehaviour
     {
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
-        private enum ObjectiveState { Taken, Next, Ignore }
+        private enum ObjectiveState { Taken, Current, Next, Queue }
 
-        private ObjectiveState _state;
+        [SerializeField] private ObjectiveState _state;
         private ObjectiveState State
         {
             get
@@ -28,14 +28,21 @@ namespace Assets.Scripts.Gamemode.Racing
         {
             switch (state)
             {
-                case ObjectiveState.Ignore:
+                case ObjectiveState.Queue:
                     SetColor(Color.red, Color.gray);
                     break;
                 case ObjectiveState.Taken:
                     SetColor(Color.gray, Color.gray);
                     break;
-                case ObjectiveState.Next:
+                case ObjectiveState.Current:
                     SetColor(Color.blue, Color.yellow);
+                    if (NextObjective != null)
+                    {
+                        NextObjective.State = ObjectiveState.Next;
+                    }
+                    break;
+                case ObjectiveState.Next:
+                    SetColor(new Color(1f, 0.39f, 0f), Color.yellow);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -66,9 +73,9 @@ namespace Assets.Scripts.Gamemode.Racing
         public RacingObjective NextObjective { get; set; }
         public int Order;
 
-        public void Next()
+        public void Current()
         {
-            State = ObjectiveState.Next;
+            State = ObjectiveState.Current;
         }
 
         private void Awake()
@@ -79,7 +86,7 @@ namespace Assets.Scripts.Gamemode.Racing
                 return;
             }
             Gamemode.Objectives.Add(this);
-            State = ObjectiveState.Ignore;
+            State = ObjectiveState.Queue;
         }
 
         private void OnDestroy()
@@ -111,7 +118,7 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private void OnTriggerEnter(Collider collider)
         {
-            if (collider.gameObject.layer != 8 || State != ObjectiveState.Next) return;
+            if (collider.gameObject.layer != 8 || State != ObjectiveState.Current) return;
             var hero = collider.gameObject.GetComponent<Hero>();
             if (!hero.photonView.isMine) return;
             State = ObjectiveState.Taken;
@@ -121,7 +128,7 @@ namespace Assets.Scripts.Gamemode.Racing
 
             if (NextObjective != null)
             {
-                NextObjective.State = ObjectiveState.Next;
+                NextObjective.State = ObjectiveState.Current;
                 hintTimer = 0f;
                 this.hint = (GameObject) Instantiate(Resources.Load("Gamemode/RacingObjectiveHint"));
                 this.hint.transform.parent = Hero.transform;

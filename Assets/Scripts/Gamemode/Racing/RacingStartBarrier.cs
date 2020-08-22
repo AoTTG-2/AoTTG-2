@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
 {
@@ -14,7 +15,11 @@ namespace Assets.Scripts.Gamemode.Racing
                 return;
             }
 
-            FengGameManagerMKII.instance.racingDoors?.Add(gameObject);
+            if (FengGameManagerMKII.instance.racingDoors == null)
+            {
+                FengGameManagerMKII.instance.racingDoors = new List<GameObject>();
+            }
+            FengGameManagerMKII.instance.racingDoors.Add(gameObject);
         }
 
         private void OnDestroy()
