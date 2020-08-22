@@ -9,7 +9,7 @@ namespace Assets.Scripts.Gamemode.Racing
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
         private enum ObjectiveState { Taken, Current, Next, Queue }
 
-        [SerializeField] private ObjectiveState _state;
+        private ObjectiveState _state;
         private ObjectiveState State
         {
             get
@@ -52,20 +52,11 @@ namespace Assets.Scripts.Gamemode.Racing
         private void SetColor(Color evenColor, Color unevenColor)
         {
             var renderers = gameObject.transform.parent.GetComponentsInChildren<Renderer>();
-            for (int i = 0; i < renderers.Length; i++)
+            for (var i = 0; i < renderers.Length; i++)
             {
                 var materialBlock = new MaterialPropertyBlock();
                 renderers[i].GetPropertyBlock(materialBlock);
-
-                if (i % 2 == 0)
-                {
-                    materialBlock.SetColor("_Color", evenColor);
-                }
-                else
-                {
-                    materialBlock.SetColor("_Color", unevenColor);
-                }
-
+                materialBlock.SetColor("_Color", i % 2 == 0 ? evenColor : unevenColor);
                 renderers[i].SetPropertyBlock(materialBlock);
             }
         }
