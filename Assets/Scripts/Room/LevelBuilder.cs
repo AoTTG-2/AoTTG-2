@@ -52,6 +52,7 @@ public class LevelBuilder : MonoBehaviour
             SceneName = "The City I",
             Gamemodes = new List<GamemodeSettings>
             {
+                new RacingSettings(),
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
