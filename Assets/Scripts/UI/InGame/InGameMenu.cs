@@ -13,7 +13,6 @@ namespace Assets.Scripts.UI.InGame
         public void Quit()
         {
             PhotonNetwork.Disconnect();
-            Destroy(GameObject.Find("Canvas"));
         }
 
         // Used by Button.

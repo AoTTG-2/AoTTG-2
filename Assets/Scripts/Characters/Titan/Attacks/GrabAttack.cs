@@ -198,10 +198,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private void EatSet(GameObject grabTarget)
         {
             var isLeftHand = Hand == BodyPart.HandLeft;
-            if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || !Titan.photonView.isMine)) || !grabTarget.GetComponent<Hero>().isGrabbed)
+            if (!Titan.photonView.isMine || !grabTarget.GetComponent<Hero>().isGrabbed)
             {
                 Titan.Grab(isLeftHand);
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && Titan.photonView.isMine)
+                if (Titan.photonView.isMine)
                 {
                     Titan.photonView.RPC("Grab", PhotonTargets.Others, isLeftHand);
                     var parameters = new object[] { "grabbed" };

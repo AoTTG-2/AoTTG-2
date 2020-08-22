@@ -44,14 +44,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 UsedRock = true;
                 Transform transform = Titan.TitanBody.HandRight;
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && Titan.photonView.isMine)
-                {
-                    Rock = PhotonNetwork.Instantiate("FX/rockThrow", transform.position, transform.rotation, 0);
-                }
-                else
-                {
-                    Rock = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("FX/rockThrow"), transform.position, transform.rotation);
-                }
+                Rock = PhotonNetwork.Instantiate("FX/rockThrow", transform.position, transform.rotation, 0);
                 Rock.transform.localScale = Titan.transform.localScale;
                 Transform transform1 = Rock.transform;
                 transform1.position -= (Vector3)((Rock.transform.forward * 2.5f) * Titan.Size);

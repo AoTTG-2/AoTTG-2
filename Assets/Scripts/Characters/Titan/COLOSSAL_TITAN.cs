@@ -57,18 +57,9 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         this.attackChkOnce = false;
         this.sweepSmokeObject.GetComponent<ParticleSystem>().enableEmission = true;
         this.sweepSmokeObject.GetComponent<ParticleSystem>().Play();
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+        if (PhotonNetwork.isMasterClient)
         {
-            if (FengGameManagerMKII.LAN)
-            {
-                if (Network.peerType != NetworkPeerType.Server)
-                {
-                }
-            }
-            else if (PhotonNetwork.isMasterClient)
-            {
-                base.photonView.RPC("startSweepSmoke", PhotonTargets.Others, new object[0]);
-            }
+            base.photonView.RPC(nameof(startSweepSmoke), PhotonTargets.Others, new object[0]);
         }
     }
 
@@ -87,14 +78,10 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     {
         Vector3 vector = -(Vector3)((neck.position + (base.transform.forward * 50f)) - player.transform.position);
         float num = 20f;
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            player.GetComponent<Hero>().blowAway((Vector3) ((vector.normalized * num) + (Vector3.up * 1f)));
-        }
-        else if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { (Vector3) ((vector.normalized * num) + (Vector3.up * 1f)) };
-            player.GetComponent<Hero>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
+            player.GetComponent<Hero>().photonView.RPC(nameof(Hero.blowAway), PhotonTargets.All, parameters);
         }
     }
 
@@ -142,7 +129,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     private void crossFade(string aniName, float time)
     {
         base.GetComponent<Animation>().CrossFade(aniName, time);
-        if ((!FengGameManagerMKII.LAN && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { aniName, time };
             base.photonView.RPC("netCrossFade", PhotonTargets.Others, parameters);
@@ -194,28 +181,11 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         if (hitHero != null)
         {
             Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (!hitHero.GetComponent<Hero>().HasDied())
             {
-                if (!hitHero.GetComponent<Hero>().HasDied())
-                {
-                    hitHero.GetComponent<Hero>().die((Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false);
-                }
-            }
-            else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-            {
-                if (FengGameManagerMKII.LAN)
-                {
-                    if (!hitHero.GetComponent<Hero>().HasDied())
-                    {
-                        hitHero.GetComponent<Hero>().markDie();
-                    }
-                }
-                else if (!hitHero.GetComponent<Hero>().HasDied())
-                {
-                    hitHero.GetComponent<Hero>().markDie();
-                    object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Colossal Titan", true };
-                    hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
-                }
+                hitHero.GetComponent<Hero>().markDie();
+                object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Colossal Titan", true };
+                hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
             }
         }
     }
@@ -331,18 +301,9 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     {
         this.neckSteamObject.GetComponent<ParticleSystem>().Stop();
         this.neckSteamObject.GetComponent<ParticleSystem>().Play();
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+        if (PhotonNetwork.isMasterClient)
         {
-            if (FengGameManagerMKII.LAN)
-            {
-                if (Network.peerType != NetworkPeerType.Server)
-                {
-                }
-            }
-            else if (PhotonNetwork.isMasterClient)
-            {
-                base.photonView.RPC("startNeckSteam", PhotonTargets.Others, new object[0]);
-            }
+            base.photonView.RPC(nameof(startNeckSteam), PhotonTargets.Others, new object[0]);
         }
         this.isSteamNeed = true;
         Transform neck = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
@@ -399,7 +360,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     private void playAnimation(string aniName)
     {
         base.GetComponent<Animation>().Play(aniName);
-        if ((!FengGameManagerMKII.LAN && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { aniName };
             base.photonView.RPC("netPlayAnimation", PhotonTargets.Others, parameters);
@@ -410,7 +371,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     {
         base.GetComponent<Animation>().Play(aniName);
         base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
-        if ((!FengGameManagerMKII.LAN && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { aniName, normalizedTime };
             base.photonView.RPC("netPlayAnimationAt", PhotonTargets.Others, parameters);
@@ -420,19 +381,10 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     private void playSound(string sndname)
     {
         this.playsoundRPC(sndname);
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+        if (PhotonNetwork.isMasterClient)
         {
-            if (FengGameManagerMKII.LAN)
-            {
-                if (Network.peerType != NetworkPeerType.Server)
-                {
-                }
-            }
-            else if (PhotonNetwork.isMasterClient)
-            {
-                object[] parameters = new object[] { sndname };
-                base.photonView.RPC("playsoundRPC", PhotonTargets.Others, parameters);
-            }
+            object[] parameters = new object[] { sndname };
+            base.photonView.RPC("playsoundRPC", PhotonTargets.Others, parameters);
         }
     }
 
@@ -676,11 +628,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     base.transform.position = new Vector3(30f, 0f, 784f);
                     UnityEngine.Object.Instantiate(Resources.Load("FX/ThunderCT"), base.transform.position + ((Vector3) (Vector3.up * 350f)), Quaternion.Euler(270f, 0f, 0f));
                     Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                    {
-                        this.idle();
-                    }
-                    else if (base.photonView.isMine)
+                    if (base.photonView.isMine)
                     {
                         this.idle();
                     }
@@ -707,7 +655,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                             {
                                 this.killPlayer(gameObject);
                             }
-                            if ((((gameObject.tag == "erenHitbox") && (this.attackAnimation == "combo_3")) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && (!FengGameManagerMKII.LAN ? PhotonNetwork.isMasterClient : Network.isServer))
+                            if ((((gameObject.tag == "erenHitbox") && (this.attackAnimation == "combo_3")) && PhotonNetwork.isMasterClient))
                             {
                                 gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByFTByServer(3);
                             }
@@ -726,10 +674,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     {
                         this.sweepSmokeObject.GetComponent<ParticleSystem>().enableEmission = false;
                         this.sweepSmokeObject.GetComponent<ParticleSystem>().Stop();
-                        if (!((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || FengGameManagerMKII.LAN))
-                        {
-                            base.photonView.RPC("stopSweepSmoke", PhotonTargets.Others, new object[0]);
-                        }
+                        base.photonView.RPC(nameof(stopSweepSmoke), PhotonTargets.Others, new object[0]);
                         this.findNearestHero();
                         this.idle();
                         this.playAnimation("idle");
@@ -742,28 +687,9 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                         this.attackChkOnce = true;
                         this.door_broken.SetActive(true);
                         this.door_closed.SetActive(false);
-                        if (!((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || FengGameManagerMKII.LAN))
-                        {
-                            base.photonView.RPC("changeDoor", PhotonTargets.OthersBuffered, new object[0]);
-                        }
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                        {
-                            if (FengGameManagerMKII.LAN)
-                            {
-                                Network.Instantiate(Resources.Load("FX/boom1_CT_KICK"), (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                Network.Instantiate(Resources.Load("rock"), (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(0f, 0f, 0f), 0);
-                            }
-                            else
-                            {
-                                PhotonNetwork.Instantiate("FX/boom1_CT_KICK", (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                PhotonNetwork.Instantiate("rock", (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(0f, 0f, 0f), 0);
-                            }
-                        }
-                        else
-                        {
-                            UnityEngine.Object.Instantiate(Resources.Load("FX/boom1_CT_KICK"), (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(270f, 0f, 0f));
-                            UnityEngine.Object.Instantiate(Resources.Load("rock"), (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(0f, 0f, 0f));
-                        }
+                        base.photonView.RPC(nameof(changeDoor), PhotonTargets.OthersBuffered, new object[0]);
+                        PhotonNetwork.Instantiate("FX/boom1_CT_KICK", (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(270f, 0f, 0f), 0);
+                        PhotonNetwork.Instantiate("rock", (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(0f, 0f, 0f), 0);
                     }
                     if (base.GetComponent<Animation>()[this.actionName].normalizedTime >= 1f)
                     {
@@ -778,24 +704,10 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     {
                         GameObject obj4;
                         this.attackChkOnce = true;
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+                        obj4 = PhotonNetwork.Instantiate("FX/boom1", this.checkHitCapsuleStart.position, Quaternion.Euler(270f, 0f, 0f), 0);
+                        if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
                         {
-                            if (FengGameManagerMKII.LAN)
-                            {
-                                obj4 = (GameObject) Network.Instantiate(Resources.Load("FX/boom1"), this.checkHitCapsuleStart.position, Quaternion.Euler(270f, 0f, 0f), 0);
-                            }
-                            else
-                            {
-                                obj4 = PhotonNetwork.Instantiate("FX/boom1", this.checkHitCapsuleStart.position, Quaternion.Euler(270f, 0f, 0f), 0);
-                            }
-                            if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
-                            {
-                                obj4.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
-                            }
-                        }
-                        else
-                        {
-                            obj4 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("FX/boom1"), this.checkHitCapsuleStart.position, Quaternion.Euler(270f, 0f, 0f));
+                            obj4.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
                         }
                         obj4.transform.localScale = new Vector3(5f, 5f, 5f);
                     }
@@ -811,76 +723,30 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     if (!this.attackChkOnce && (base.GetComponent<Animation>()[this.actionName].normalizedTime >= this.attackCheckTime))
                     {
                         this.attackChkOnce = true;
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                        {
-                            if (FengGameManagerMKII.LAN)
-                            {
-                                Network.Instantiate(Resources.Load("FX/colossal_steam"), base.transform.position + ((Vector3) (base.transform.up * 185f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                Network.Instantiate(Resources.Load("FX/colossal_steam"), base.transform.position + ((Vector3) (base.transform.up * 303f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                Network.Instantiate(Resources.Load("FX/colossal_steam"), base.transform.position + ((Vector3) (base.transform.up * 50f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                            }
-                            else
-                            {
-                                PhotonNetwork.Instantiate("FX/colossal_steam", base.transform.position + ((Vector3) (base.transform.up * 185f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                PhotonNetwork.Instantiate("FX/colossal_steam", base.transform.position + ((Vector3) (base.transform.up * 303f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                PhotonNetwork.Instantiate("FX/colossal_steam", base.transform.position + ((Vector3) (base.transform.up * 50f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                            }
-                        }
-                        else
-                        {
-                            UnityEngine.Object.Instantiate(Resources.Load("FX/colossal_steam"), base.transform.position + ((Vector3) (base.transform.forward * 185f)), Quaternion.Euler(270f, 0f, 0f));
-                            UnityEngine.Object.Instantiate(Resources.Load("FX/colossal_steam"), base.transform.position + ((Vector3) (base.transform.forward * 303f)), Quaternion.Euler(270f, 0f, 0f));
-                            UnityEngine.Object.Instantiate(Resources.Load("FX/colossal_steam"), base.transform.position + ((Vector3) (base.transform.forward * 50f)), Quaternion.Euler(270f, 0f, 0f));
-                        }
+                        PhotonNetwork.Instantiate("FX/colossal_steam", base.transform.position + ((Vector3) (base.transform.up * 185f)), Quaternion.Euler(270f, 0f, 0f), 0);
+                        PhotonNetwork.Instantiate("FX/colossal_steam", base.transform.position + ((Vector3) (base.transform.up * 303f)), Quaternion.Euler(270f, 0f, 0f), 0);
+                        PhotonNetwork.Instantiate("FX/colossal_steam", base.transform.position + ((Vector3) (base.transform.up * 50f)), Quaternion.Euler(270f, 0f, 0f), 0);
                     }
                     if (base.GetComponent<Animation>()[this.actionName].normalizedTime >= 1f)
                     {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+                        GameObject obj5 = PhotonNetwork.Instantiate("FX/colossal_steam_dmg", base.transform.position + ((Vector3) (base.transform.up * 185f)), Quaternion.Euler(270f, 0f, 0f), 0);
+                        if (obj5.GetComponent<EnemyfxIDcontainer>() != null)
                         {
-                            if (FengGameManagerMKII.LAN)
-                            {
-                                Network.Instantiate(Resources.Load("FX/colossal_steam_dmg"), base.transform.position + ((Vector3) (base.transform.up * 185f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                Network.Instantiate(Resources.Load("FX/colossal_steam_dmg"), base.transform.position + ((Vector3) (base.transform.up * 303f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                Network.Instantiate(Resources.Load("FX/colossal_steam_dmg"), base.transform.position + ((Vector3) (base.transform.up * 50f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                            }
-                            else
-                            {
-                                GameObject obj5 = PhotonNetwork.Instantiate("FX/colossal_steam_dmg", base.transform.position + ((Vector3) (base.transform.up * 185f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                if (obj5.GetComponent<EnemyfxIDcontainer>() != null)
-                                {
-                                    obj5.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
-                                }
-                                obj5 = PhotonNetwork.Instantiate("FX/colossal_steam_dmg", base.transform.position + ((Vector3) (base.transform.up * 303f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                if (obj5.GetComponent<EnemyfxIDcontainer>() != null)
-                                {
-                                    obj5.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
-                                }
-                                obj5 = PhotonNetwork.Instantiate("FX/colossal_steam_dmg", base.transform.position + ((Vector3) (base.transform.up * 50f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                                if (obj5.GetComponent<EnemyfxIDcontainer>() != null)
-                                {
-                                    obj5.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
-                                }
-                            }
+                            obj5.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
                         }
-                        else
+                        obj5 = PhotonNetwork.Instantiate("FX/colossal_steam_dmg", base.transform.position + ((Vector3) (base.transform.up * 303f)), Quaternion.Euler(270f, 0f, 0f), 0);
+                        if (obj5.GetComponent<EnemyfxIDcontainer>() != null)
                         {
-                            UnityEngine.Object.Instantiate(Resources.Load("FX/colossal_steam_dmg"), base.transform.position + ((Vector3) (base.transform.forward * 185f)), Quaternion.Euler(270f, 0f, 0f));
-                            UnityEngine.Object.Instantiate(Resources.Load("FX/colossal_steam_dmg"), base.transform.position + ((Vector3) (base.transform.forward * 303f)), Quaternion.Euler(270f, 0f, 0f));
-                            UnityEngine.Object.Instantiate(Resources.Load("FX/colossal_steam_dmg"), base.transform.position + ((Vector3) (base.transform.forward * 50f)), Quaternion.Euler(270f, 0f, 0f));
+                            obj5.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
+                        }
+                        obj5 = PhotonNetwork.Instantiate("FX/colossal_steam_dmg", base.transform.position + ((Vector3) (base.transform.up * 50f)), Quaternion.Euler(270f, 0f, 0f), 0);
+                        if (obj5.GetComponent<EnemyfxIDcontainer>() != null)
+                        {
+                            obj5.GetComponent<EnemyfxIDcontainer>().titanName = base.name;
                         }
                         if (this.hasDie)
                         {
-                            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                            {
-                                UnityEngine.Object.Destroy(base.gameObject);
-                            }
-                            else if (FengGameManagerMKII.LAN)
-                            {
-                                if (base.photonView.isMine)
-                                {
-                                }
-                            }
-                            else if (PhotonNetwork.isMasterClient)
+                            if (PhotonNetwork.isMasterClient)
                             {
                                 PhotonNetwork.Destroy(base.photonView);
                             }
