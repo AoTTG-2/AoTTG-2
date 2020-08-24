@@ -10,7 +10,6 @@ namespace Assets.Scripts.Gamemode.Settings
     public abstract class GamemodeSettings
     {
         public GamemodeType GamemodeType;
-        public Difficulty Difficulty = Difficulty.Hard;
 
         private string name;
         public string Name
@@ -20,6 +19,9 @@ namespace Assets.Scripts.Gamemode.Settings
         }
 
         public string Description;
+
+        [UiElement("Difficulty", "", SettingCategory.General)]
+        public Difficulty Difficulty { get; set; } = Difficulty.Normal;
 
         [UiElement("MOTD", "Message of the Day")]
         public string Motd { get; set; } = string.Empty;

@@ -6,12 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan
 {
-    public class MindlessTitan : MonoBehaviour
+    public class MindlessTitan : TitanBase
     {
         public MindlessTitanState TitanState = MindlessTitanState.Wandering;
         public MindlessTitanState PreviousState;
@@ -55,7 +54,7 @@ namespace Assets.Scripts.Characters.Titan
         public int HealthRegeneration;
         public float ViewDistance;
         public float Focus = 10f;
-        public float Idle = 15f;
+        public float Idle = 1.5f;
         private float FocusTimer { get; set; }
         private int MaxHealth { get; set; }
 
@@ -593,7 +592,7 @@ namespace Assets.Scripts.Characters.Titan
             if (!IsAlive) return;
             if (state == TitanState) return;
 
-            if (TitanState != MindlessTitanState.Idle 
+            if ((TitanState == MindlessTitanState.Attacking)
                 && state != MindlessTitanState.Dead
                 && PreviousState != MindlessTitanState.Idle)
             {
@@ -655,6 +654,7 @@ namespace Assets.Scripts.Characters.Titan
         
         public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
         {
+            if (string.IsNullOrWhiteSpace(newAnimation)) return;
             if (Animation.IsPlaying(newAnimation)) return;
             if (photonView.isMine)
             {

@@ -30,7 +30,7 @@ namespace Assets.Scripts.Characters.Titan
         public string AnimationTurnRight { get; set; } = "turnaround1";
         public MindlessTitanType Type { get; set; } = MindlessTitanType.Normal;
         public List<TitanBehavior> Behaviors { get; set; } = new List<TitanBehavior>();
-        public Difficulty Difficulty { get; set; } = Difficulty.Hard;
+        public Difficulty Difficulty { get; set; } = Difficulty.Normal;
 
         public TitanConfiguration() { }
 

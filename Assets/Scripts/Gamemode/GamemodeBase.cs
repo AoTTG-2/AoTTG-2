@@ -19,36 +19,112 @@ namespace Assets.Scripts.Gamemode
         public abstract GamemodeSettings Settings { get; set; }
         private MindlessTitanType GetTitanType()
         {
-            if (Settings.CustomTitanRatio)
+            return Settings.CustomTitanRatio ? GetTitanTypeFromDictionary(Settings.TitanTypeRatio) : GetDefaultTitanType();
+        }
+
+        private MindlessTitanType GetTitanTypeFromDictionary(Dictionary<MindlessTitanType, float> titanRatio)
+        {
+            foreach (var disabledTitanType in Settings.DisabledTitans)
             {
-                var titanTypes = new Dictionary<MindlessTitanType, float>(Settings.TitanTypeRatio);
-                foreach (var disabledTitanType in Settings.DisabledTitans)
-                {
-                    titanTypes.Remove(disabledTitanType);
-                }
-
-                var totalRatio = Settings.TitanTypeRatio.Values.Sum();
-                var ratioList = new List<KeyValuePair<MindlessTitanType, float>>();
-                var ratio = 0f;
-                foreach (var titanTypeRatio in titanTypes)
-                {
-                    ratio += titanTypeRatio.Value / totalRatio;
-                    ratioList.Add(new KeyValuePair<MindlessTitanType, float>(titanTypeRatio.Key, ratio));
-                }
-
-                var randomNumber = Random.Range(0f, 1f);
-                foreach (var titanTypeRatio in ratioList)
-                {
-                    if (randomNumber < titanTypeRatio.Value)
-                    {
-                        return titanTypeRatio.Key;
-                    }
-                }
-
+                titanRatio.Remove(disabledTitanType);
             }
 
-            var types = Enum.GetValues(typeof(MindlessTitanType));
-            return (MindlessTitanType) types.GetValue(Random.Range(0, types.Length));
+            var totalRatio = titanRatio.Values.Sum();
+            var ratioList = new List<KeyValuePair<MindlessTitanType, float>>();
+            var ratio = 0f;
+            foreach (var titanTypeRatio in titanRatio)
+            {
+                ratio += titanTypeRatio.Value / totalRatio;
+                ratioList.Add(new KeyValuePair<MindlessTitanType, float>(titanTypeRatio.Key, ratio));
+            }
+
+            var randomNumber = Random.Range(0f, 1f);
+            foreach (var titanTypeRatio in ratioList)
+            {
+                if (randomNumber < titanTypeRatio.Value)
+                {
+                    return titanTypeRatio.Key;
+                }
+            }
+
+            throw new ArgumentOutOfRangeException("Titan Ratio dictionary is out of range");
+        }
+
+        protected MindlessTitanType GetDefaultTitanType()
+        {
+            Dictionary<MindlessTitanType, float> ratio;
+            switch (Settings.Difficulty)
+            {
+                case Difficulty.Easy:
+                    ratio = new Dictionary<MindlessTitanType, float>
+                    {
+                        {MindlessTitanType.Normal, 80f},
+                        {MindlessTitanType.Abberant, 40f},
+                        {MindlessTitanType.Jumper, 25f},
+                        {MindlessTitanType.Punk, 5f},
+                        {MindlessTitanType.Crawler, 0f},
+                        {MindlessTitanType.Burster, 0f},
+                        {MindlessTitanType.Stalker, 0f},
+                        {MindlessTitanType.Abnormal, 5f}
+                    };
+                    break;
+                case Difficulty.Normal:
+                    ratio = new Dictionary<MindlessTitanType, float>
+                    {
+                        {MindlessTitanType.Normal, 80f},
+                        {MindlessTitanType.Abberant, 40f},
+                        {MindlessTitanType.Jumper, 25f},
+                        {MindlessTitanType.Punk, 15f},
+                        {MindlessTitanType.Crawler, 5f},
+                        {MindlessTitanType.Burster, 0f},
+                        {MindlessTitanType.Stalker, 5f},
+                        {MindlessTitanType.Abnormal, 5f}
+                    };
+                    break;
+                case Difficulty.Hard:
+                    ratio = new Dictionary<MindlessTitanType, float>
+                    {
+                        {MindlessTitanType.Normal, 40f},
+                        {MindlessTitanType.Abberant, 60f},
+                        {MindlessTitanType.Jumper, 25f},
+                        {MindlessTitanType.Punk, 15f},
+                        {MindlessTitanType.Crawler, 5f},
+                        {MindlessTitanType.Burster, 5f},
+                        {MindlessTitanType.Stalker, 15f},
+                        {MindlessTitanType.Abnormal, 20f}
+                    };
+                    break;
+                case Difficulty.Abnormal:
+                    ratio = new Dictionary<MindlessTitanType, float>
+                    {
+                        {MindlessTitanType.Normal, 25f},
+                        {MindlessTitanType.Abberant, 40f},
+                        {MindlessTitanType.Jumper, 25f},
+                        {MindlessTitanType.Punk, 15f},
+                        {MindlessTitanType.Crawler, 10f},
+                        {MindlessTitanType.Burster, 10f},
+                        {MindlessTitanType.Stalker, 10f},
+                        {MindlessTitanType.Abnormal, 30f}
+                    };
+                    break;
+                case Difficulty.Realism:
+                    ratio = new Dictionary<MindlessTitanType, float>
+                    {
+                        {MindlessTitanType.Normal, 20f},
+                        {MindlessTitanType.Abberant, 40f},
+                        {MindlessTitanType.Jumper, 25f},
+                        {MindlessTitanType.Punk, 40f},
+                        {MindlessTitanType.Crawler, 15f},
+                        {MindlessTitanType.Burster, 10f},
+                        {MindlessTitanType.Stalker, 10f},
+                        {MindlessTitanType.Abnormal, 100f}
+                    };
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return GetTitanTypeFromDictionary(ratio);
         }
 
         private int GetTitanHealth(float titanSize)
@@ -287,7 +363,7 @@ namespace Assets.Scripts.Gamemode
             Settings.HumanScore = score;
         }
 
-        internal bool IsAllPlayersDead()
+        protected bool IsAllPlayersDead()
         {
             var num = 0;
             var num2 = 0;
@@ -303,7 +379,7 @@ namespace Assets.Scripts.Gamemode
             return (num == num2);
         }
 
-        internal bool IsAllTitansDead()
+        protected bool IsAllTitansDead()
         {
             foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
             {

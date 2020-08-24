@@ -47,6 +47,28 @@ public class LevelBuilder : MonoBehaviour
     {
         _levels.Add(new Level
         {
+            Name = "Test Zone",
+            Description = "Classic City Map from AoTTG",
+            SceneName = "Test Zone",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new WaveGamemodeSettings
+                {
+                    Titans = 25,
+                    Horse = true,
+                    IsPlayerTitanEnabled = true
+                },
+                new KillTitansSettings
+                {
+                    GamemodeType = GamemodeType.Titans,
+                    Titans = 1,
+                    IsPlayerTitanEnabled = true
+                }
+            }
+        });
+
+        _levels.Add(new Level
+        {
             Name = "The City - Classic",
             Description = "Classic City Map from AoTTG",
             SceneName = "The City I",
@@ -87,29 +109,7 @@ public class LevelBuilder : MonoBehaviour
                 }
             }
         });
-
-        _levels.Add(new Level
-        {
-            Name = "Test Zone",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "Test Zone",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new WaveGamemodeSettings
-                {
-                    Titans = 1,
-                    Horse = true,
-                    IsPlayerTitanEnabled = true
-                },
-                new KillTitansSettings
-                {
-                    GamemodeType = GamemodeType.Titans,
-                    Titans = 1,
-                    IsPlayerTitanEnabled = true
-                }
-            }
-        });
-
+        
         _levels.Add(new Level
         {
             Name = "Trost - Classic",
