@@ -9,6 +9,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             Titan = titan;
         }
         protected MindlessTitan Titan { get; set; }
+
         public bool OnUpdate()
         {
             switch (Titan.TitanState)
