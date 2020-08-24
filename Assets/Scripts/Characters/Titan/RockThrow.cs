@@ -131,11 +131,11 @@ public class RockThrow : Photon.MonoBehaviour
                     if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "Players")
                     {
                         GameObject hero = hit.collider.gameObject.transform.root.gameObject;
-                        if (hero.GetComponent<TITAN_EREN>() != null)
+                        if (hero.GetComponent<ErenTitan>() != null)
                         {
-                            if (!hero.GetComponent<TITAN_EREN>().isHit)
+                            if (!hero.GetComponent<ErenTitan>().isHit)
                             {
-                                hero.GetComponent<TITAN_EREN>().hitByTitan();
+                                hero.GetComponent<ErenTitan>().hitByTitan();
                             }
                         }
                         else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().isInvincible())

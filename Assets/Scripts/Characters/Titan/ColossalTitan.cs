@@ -1,10 +1,11 @@
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
 using UnityEngine;
 
-public class COLOSSAL_TITAN : Photon.MonoBehaviour
+public class ColossalTitan : TitanBase
 {
     private string actionName;
     private string attackAnimation;
@@ -109,11 +110,11 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             if (collider.transform.root.tag == "Player")
             {
                 GameObject gameObject = collider.transform.root.gameObject;
-                if (gameObject.GetComponent<TITAN_EREN>() != null)
+                if (gameObject.GetComponent<ErenTitan>() != null)
                 {
-                    if (!gameObject.GetComponent<TITAN_EREN>().isHit)
+                    if (!gameObject.GetComponent<ErenTitan>().isHit)
                     {
-                        gameObject.GetComponent<TITAN_EREN>().hitByTitan();
+                        gameObject.GetComponent<ErenTitan>().hitByTitan();
                     }
                     return gameObject;
                 }
@@ -148,7 +149,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         float positiveInfinity = float.PositiveInfinity;
         foreach (GameObject obj3 in objArray)
         {
-            if (((obj3.GetComponent<Hero>() == null) || !obj3.GetComponent<Hero>().HasDied()) && ((obj3.GetComponent<TITAN_EREN>() == null) || !obj3.GetComponent<TITAN_EREN>().hasDied))
+            if (((obj3.GetComponent<Hero>() == null) || !obj3.GetComponent<Hero>().HasDied()) && ((obj3.GetComponent<ErenTitan>() == null) || !obj3.GetComponent<ErenTitan>().hasDied))
             {
                 float num3 = Mathf.Sqrt(((obj3.transform.position.x - base.transform.position.x) * (obj3.transform.position.x - base.transform.position.x)) + ((obj3.transform.position.z - base.transform.position.z) * (obj3.transform.position.z - base.transform.position.z)));
                 if (((obj3.transform.position.y - base.transform.position.y) < 450f) && (num3 < positiveInfinity))
@@ -313,7 +314,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
             if (collider.transform.root.tag == "Player")
             {
                 GameObject gameObject = collider.transform.root.gameObject;
-                if ((gameObject.GetComponent<TITAN_EREN>() == null) && (gameObject.GetComponent<Hero>() != null))
+                if ((gameObject.GetComponent<ErenTitan>() == null) && (gameObject.GetComponent<Hero>() != null))
                 {
                     this.blowPlayer(gameObject, neck);
                 }
@@ -467,7 +468,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
         {
             this.findNearestHero();
         }
-        base.name = "COLOSSAL_TITAN";
+        base.name = "ColossalTitan";
         this.NapeArmor = 1000;
         var flag = FengGameManagerMKII.Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
         if (Gamemode.Settings.Difficulty == Difficulty.Normal)
@@ -657,7 +658,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                             }
                             if ((((gameObject.tag == "erenHitbox") && (this.attackAnimation == "combo_3")) && PhotonNetwork.isMasterClient))
                             {
-                                gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByFTByServer(3);
+                                gameObject.transform.root.gameObject.GetComponent<ErenTitan>().hitByFTByServer(3);
                             }
                         }
                         foreach (RaycastHit hit2 in this.checkHitCapsule(this.checkHitCapsuleEndOld, this.checkHitCapsuleEnd.position, this.checkHitCapsuleR))

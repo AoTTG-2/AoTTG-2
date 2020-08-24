@@ -1,13 +1,13 @@
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Assets.Scripts.Gamemode;
 using UnityEngine;
-using MonoBehaviour = Photon.MonoBehaviour;
 
-public class FEMALE_TITAN : MonoBehaviour
+public class FemaleTitan : TitanBase
 {
     private GamemodeBase Gamemode { get; set; }
 
@@ -583,11 +583,11 @@ public class FEMALE_TITAN : MonoBehaviour
             if (collider.transform.root.tag == "Player")
             {
                 GameObject gameObject = collider.transform.root.gameObject;
-                if (gameObject.GetComponent<TITAN_EREN>() != null)
+                if (gameObject.GetComponent<ErenTitan>() != null)
                 {
-                    if (!gameObject.GetComponent<TITAN_EREN>().isHit)
+                    if (!gameObject.GetComponent<ErenTitan>().isHit)
                     {
-                        gameObject.GetComponent<TITAN_EREN>().hitByTitan();
+                        gameObject.GetComponent<ErenTitan>().hitByTitan();
                     }
                     return gameObject;
                 }
@@ -605,7 +605,7 @@ public class FEMALE_TITAN : MonoBehaviour
         float num = rad * 4f;
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if ((obj2.GetComponent<TITAN_EREN>() == null) && !obj2.GetComponent<Hero>().isInvincible())
+            if ((obj2.GetComponent<ErenTitan>() == null) && !obj2.GetComponent<Hero>().isInvincible())
             {
                 float num3 = obj2.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(obj2.transform.position + ((Vector3) (Vector3.up * num3)), head.transform.position + ((Vector3) ((Vector3.up * 1.5f) * 4f))) < (num + num3))
@@ -749,7 +749,7 @@ public class FEMALE_TITAN : MonoBehaviour
         Vector3 position = base.transform.position;
         foreach (GameObject obj3 in objArray)
         {
-            if (((obj3.GetComponent<Hero>() == null) || !obj3.GetComponent<Hero>().HasDied()) && ((obj3.GetComponent<TITAN_EREN>() == null) || !obj3.GetComponent<TITAN_EREN>().hasDied))
+            if (((obj3.GetComponent<Hero>() == null) || !obj3.GetComponent<Hero>().HasDied()) && ((obj3.GetComponent<ErenTitan>() == null) || !obj3.GetComponent<ErenTitan>().hasDied))
             {
                 Vector3 vector2 = obj3.transform.position - position;
                 float sqrMagnitude = vector2.sqrMagnitude;
@@ -1552,7 +1552,7 @@ public class FEMALE_TITAN : MonoBehaviour
                 }
                 if (this.eren != null)
                 {
-                    if (!this.eren.GetComponent<TITAN_EREN>().hasDied)
+                    if (!this.eren.GetComponent<ErenTitan>().hasDied)
                     {
                         this.myHero = this.eren;
                     }
@@ -1651,19 +1651,19 @@ public class FEMALE_TITAN : MonoBehaviour
                                 {
                                     if (PhotonNetwork.isMasterClient)
                                     {
-                                        gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByFTByServer(1);
+                                        gameObject.transform.root.gameObject.GetComponent<ErenTitan>().hitByFTByServer(1);
                                     }
                                 }
                                 else if (this.attackAnimation == "combo_2")
                                 {
                                     if (PhotonNetwork.isMasterClient)
                                     {
-                                        gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByFTByServer(2);
+                                        gameObject.transform.root.gameObject.GetComponent<ErenTitan>().hitByFTByServer(2);
                                     }
                                 }
                                 else if ((this.attackAnimation == "combo_3") && PhotonNetwork.isMasterClient)
                                 {
-                                    gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByFTByServer(3);
+                                    gameObject.transform.root.gameObject.GetComponent<ErenTitan>().hitByFTByServer(3);
                                 }
                             }
                         }

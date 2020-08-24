@@ -11376,6 +11376,42 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 569911a028c73ca42937b93858c27b71, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &596009467 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1322130226024100, guid: 569911a028c73ca42937b93858c27b71,
+    type: 2}
+  m_PrefabInternal: {fileID: 596009466}
+--- !u!114 &596009468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 596009467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d788e3fc37d93468aeb8650bc22c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AABB: {fileID: 0}
+  Core: {fileID: 0}
+  Head: {fileID: 0}
+  Neck: {fileID: 0}
+  HandRight: {fileID: 0}
+  HandLeft: {fileID: 0}
+  Chest: {fileID: 0}
+  ArmRight: {fileID: 0}
+  UpperArmRight: {fileID: 0}
+  ShoulderRight: {fileID: 0}
+  ArmLeft: {fileID: 0}
+  UpperArmLeft: {fileID: 0}
+  ShoulderLeft: {fileID: 0}
+  Hip: {fileID: 0}
+  LegLeft: {fileID: 0}
+  LegRight: {fileID: 0}
+  AttackSlapLeft1: {fileID: 0}
+  AttackSlapLeft2: {fileID: 0}
+  AttackSlapRight1: {fileID: 0}
+  AttackSlapRight2: {fileID: 0}
 --- !u!1 &605849996
 GameObject:
   m_ObjectHideFlags: 0
@@ -14000,9 +14036,65 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114338049395213770, guid: 6f053f6638514284ab1e166e57dcc1c8, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 6f053f6638514284ab1e166e57dcc1c8, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &792978201 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1638316428728248, guid: 6f053f6638514284ab1e166e57dcc1c8,
+    type: 2}
+  m_PrefabInternal: {fileID: 792978200}
+--- !u!114 &792978202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 792978201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02563b2de8af1d144856397a138f7c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AABB: {fileID: 0}
+  Core: {fileID: 0}
+  Head: {fileID: 0}
+  Neck: {fileID: 0}
+  HandRight: {fileID: 0}
+  HandLeft: {fileID: 0}
+  Chest: {fileID: 0}
+  ArmRight: {fileID: 0}
+  UpperArmRight: {fileID: 0}
+  ShoulderRight: {fileID: 0}
+  ArmLeft: {fileID: 0}
+  UpperArmLeft: {fileID: 0}
+  ShoulderLeft: {fileID: 0}
+  Hip: {fileID: 0}
+  LegLeft: {fileID: 0}
+  LegRight: {fileID: 0}
+  checkAeLLeft: {fileID: 0}
+  checkAeLRight: {fileID: 0}
+  checkAeRight: {fileID: 0}
+  checkAeLeft: {fileID: 0}
+  CheckOverhead: {fileID: 0}
+  CheckFrontRight: {fileID: 0}
+  CheckFrontLeft: {fileID: 0}
+  CheckFront: {fileID: 0}
+  CheckBackRight: {fileID: 0}
+  CheckBackLowRight: {fileID: 0}
+  CheckBackLowLeft: {fileID: 0}
+  CheckBackLeft: {fileID: 0}
+  CheckBack: {fileID: 0}
+  AttackStomp: {fileID: 0}
+  AttackSlapFace: {fileID: 0}
+  AttackSlapBack: {fileID: 0}
+  AttackKick: {fileID: 0}
+  AttackFrontGround: {fileID: 0}
+  AttackCombo: {fileID: 0}
+  AttackBiteRight: {fileID: 0}
+  AttackBiteLeft: {fileID: 0}
+  AttackBite: {fileID: 0}
+  AttackAbnormalJump: {fileID: 0}
 --- !u!1 &797050952
 GameObject:
   m_ObjectHideFlags: 0

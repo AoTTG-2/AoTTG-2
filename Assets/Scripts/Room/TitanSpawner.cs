@@ -73,7 +73,7 @@ namespace Assets.Scripts.Room
                     SpawnMindlessTitan(MindlessTitanType.Crawler);
                     break;
                 case TitanSpawnerType.Annie:
-                    PhotonNetwork.Instantiate("FEMALE_TITAN", base.transform.position, base.transform.rotation, 0);
+                    PhotonNetwork.Instantiate("FemaleTitan", base.transform.position, base.transform.rotation, 0);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(Type), Type, null);

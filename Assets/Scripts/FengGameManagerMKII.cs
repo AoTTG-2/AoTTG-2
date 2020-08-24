@@ -163,17 +163,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.mainCamera = c;
     }
 
-    public void addCT(COLOSSAL_TITAN titan)
+    public void addCT(ColossalTitan titan)
     {
         this.cT.Add(titan);
     }
 
-    public void addET(TITAN_EREN hero)
+    public void addET(ErenTitan hero)
     {
         this.eT.Add(hero);
     }
 
-    public void addFT(FEMALE_TITAN titan)
+    public void addFT(FemaleTitan titan)
     {
         this.fT.Add(titan);
     }
@@ -1109,7 +1109,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 while (enumerator2.MoveNext())
                 {
-                    var titanEren = (TITAN_EREN) enumerator2.Current;
+                    var titanEren = (ErenTitan) enumerator2.Current;
                     if (titanEren != null)
                         titanEren.lateUpdate();
                 }
@@ -1127,7 +1127,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 while (enumerator4.MoveNext())
                 {
-                    var femaleTitan = (FEMALE_TITAN) enumerator4.Current;
+                    var femaleTitan = (FemaleTitan) enumerator4.Current;
                     if (femaleTitan != null)
                         femaleTitan.lateUpdate2();
                 }
@@ -2755,17 +2755,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<Skybox>().material = skyMaterial;
     }
 
-    public void removeCT(COLOSSAL_TITAN titan)
+    public void removeCT(ColossalTitan titan)
     {
         this.cT.Remove(titan);
     }
 
-    public void removeET(TITAN_EREN hero)
+    public void removeET(ErenTitan hero)
     {
         this.eT.Remove(hero);
     }
 
-    public void removeFT(FEMALE_TITAN titan)
+    public void removeFT(FemaleTitan titan)
     {
         this.fT.Remove(titan);
     }
@@ -3377,9 +3377,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             IN_GAME_MAIN_CAMERA component = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
             this.myLastHero = id.ToUpper();
-            if (myLastHero == "TITAN_EREN")
+            if (myLastHero == "ErenTitan")
             {
-                component.setMainObject(PhotonNetwork.Instantiate("TITAN_EREN", position, pos.transform.rotation, 0),
+                component.setMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
                     true, false);
             }
             else
@@ -3825,7 +3825,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 while (enumerator3.MoveNext())
                 {
-                    var titanEren = (TITAN_EREN) enumerator3.Current;
+                    var titanEren = (ErenTitan) enumerator3.Current;
                     if (titanEren != null)
                         titanEren.update();
                 }
@@ -3843,7 +3843,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 while (enumerator5.MoveNext())
                 {
-                    var femaleTitan = (FEMALE_TITAN) enumerator5.Current;
+                    var femaleTitan = (FemaleTitan) enumerator5.Current;
                     if (femaleTitan != null)
                         femaleTitan.update();
                 }
@@ -3861,7 +3861,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 while (enumerator6.MoveNext())
                 {
-                    var colossalTitan = (COLOSSAL_TITAN) enumerator6.Current;
+                    var colossalTitan = (ColossalTitan) enumerator6.Current;
                     if (colossalTitan != null)
                         colossalTitan.update2();
                 }

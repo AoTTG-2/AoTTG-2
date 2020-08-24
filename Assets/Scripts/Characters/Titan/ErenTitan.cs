@@ -1,10 +1,10 @@
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
-using Assets.Scripts.UI.Input;
 using UnityEngine;
 
-public class TITAN_EREN : Photon.MonoBehaviour
+public class ErenTitan : TitanBase
 {
     private string attackAnimation;
     private Transform attackBox;
@@ -55,9 +55,9 @@ public class TITAN_EREN : Photon.MonoBehaviour
     {
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
         {
-            if (obj2.GetComponent<FEMALE_TITAN>() != null)
+            if (obj2.GetComponent<FemaleTitan>() != null)
             {
-                obj2.GetComponent<FEMALE_TITAN>().erenIsHere(gameObject);
+                obj2.GetComponent<FemaleTitan>().erenIsHere(gameObject);
             }
         }
         if (!bottomObject.GetComponent<CheckHitGround>().isGrounded)
@@ -513,9 +513,9 @@ public class TITAN_EREN : Photon.MonoBehaviour
                 throw new NotImplementedException("Mindless Titans should be taunted by Eren Titan");
                 //obj2.GetComponent<TITAN>().beTauntedBy(gameObject, tauntTime);
             }
-            if (obj2.GetComponent<FEMALE_TITAN>() != null)
+            if (obj2.GetComponent<FemaleTitan>() != null)
             {
-                obj2.GetComponent<FEMALE_TITAN>().erenIsHere(gameObject);
+                obj2.GetComponent<FemaleTitan>().erenIsHere(gameObject);
             }
         }
     }

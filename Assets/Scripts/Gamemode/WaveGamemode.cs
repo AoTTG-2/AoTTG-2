@@ -70,7 +70,7 @@ namespace Assets.Scripts.Gamemode
             if (!isMasterClient) return;
             if (GamemodeSettings.Name.Contains("Annie"))
             {
-                PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
+                PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }
             else
             {

@@ -28,7 +28,7 @@ namespace Assets.Scripts.Gamemode
             Object.Destroy(GameObject.Find("rock"));
             if (!isMasterClient) return;
             //if (IsAllPlayersDead()) return;
-            PhotonNetwork.Instantiate("COLOSSAL_TITAN", (Vector3)(-Vector3.up * 10000f), Quaternion.Euler(0f, 180f, 0f), 0);
+            PhotonNetwork.Instantiate("ColossalTitan", (Vector3)(-Vector3.up * 10000f), Quaternion.Euler(0f, 180f, 0f), 0);
             Routes = GameObject.FindGameObjectsWithTag("route");
             GameObject[] objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
             var spawns = new List<GameObject>();

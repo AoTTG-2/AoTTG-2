@@ -48,11 +48,11 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 if (collider.transform.root.tag != "Player") continue;
                 GameObject gameObject = collider.transform.root.gameObject;
-                if (gameObject.GetComponent<TITAN_EREN>() != null)
+                if (gameObject.GetComponent<ErenTitan>() != null)
                 {
-                    if (!gameObject.GetComponent<TITAN_EREN>().isHit)
+                    if (!gameObject.GetComponent<ErenTitan>().isHit)
                     {
-                        gameObject.GetComponent<TITAN_EREN>().hitByTitan();
+                        gameObject.GetComponent<ErenTitan>().hitByTitan();
                     }
                 }
                 else if ((gameObject.GetComponent<Hero>() != null) 

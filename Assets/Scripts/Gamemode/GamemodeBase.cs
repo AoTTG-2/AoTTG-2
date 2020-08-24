@@ -387,7 +387,7 @@ namespace Assets.Scripts.Gamemode
                 {
                     return false;
                 }
-                if (obj2.GetComponent<FEMALE_TITAN>() != null)
+                if (obj2.GetComponent<FemaleTitan>() != null)
                 {
                     return false;
                 }

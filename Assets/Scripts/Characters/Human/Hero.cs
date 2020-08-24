@@ -865,7 +865,7 @@ public class Hero : Human
         {
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
+                this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
             }
             if (this.bulletLeft != null)
             {
@@ -905,7 +905,7 @@ public class Hero : Human
         {
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
+                this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
             }
             if (this.bulletLeft != null)
             {
@@ -991,11 +991,11 @@ public class Hero : Human
         {
             this.bulletRight.GetComponent<Bullet>().removeMe();
         }
-        this.eren_titan = PhotonNetwork.Instantiate("TITAN_EREN", base.transform.position, base.transform.rotation, 0);
-        this.eren_titan.GetComponent<TITAN_EREN>().realBody = base.gameObject;
+        this.eren_titan = PhotonNetwork.Instantiate("ErenTitan", base.transform.position, base.transform.rotation, 0);
+        this.eren_titan.GetComponent<ErenTitan>().realBody = base.gameObject;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.eren_titan, true, false);
-        this.eren_titan.GetComponent<TITAN_EREN>().born();
+        this.eren_titan.GetComponent<ErenTitan>().born();
         this.eren_titan.GetComponent<Rigidbody>().velocity = base.GetComponent<Rigidbody>().velocity;
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
         base.transform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
@@ -1897,7 +1897,7 @@ public class Hero : Human
         this.titanWhoGrabMe = titan;
         if (this.titanForm && (this.eren_titan != null))
         {
-            this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
+            this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
         }
         if (!this.useGun && photonView.isMine)
         {
@@ -2091,10 +2091,10 @@ public class Hero : Human
                     this.baseTransform.position = this.titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.position;
                     this.baseTransform.rotation = this.titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.rotation;
                 }
-                else if (this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>() != null)
+                else if (this.titanWhoGrabMe.GetComponent<FemaleTitan>() != null)
                 {
-                    this.baseTransform.position = this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>().grabTF.transform.position;
-                    this.baseTransform.rotation = this.titanWhoGrabMe.GetComponent<FEMALE_TITAN>().grabTF.transform.rotation;
+                    this.baseTransform.position = this.titanWhoGrabMe.GetComponent<FemaleTitan>().grabTF.transform.position;
+                    this.baseTransform.rotation = this.titanWhoGrabMe.GetComponent<FemaleTitan>().grabTF.transform.rotation;
                 }
             }
             if (this.useGun)
@@ -3097,7 +3097,7 @@ public class Hero : Human
             }
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
+                this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
             }
             if (this.skillCD != null)
             {
@@ -3222,7 +3222,7 @@ public class Hero : Human
             PhotonNetwork.RemoveRPCs(base.photonView);
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
+                this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
             }
             if (this.skillCD != null)
             {
@@ -3308,7 +3308,7 @@ public class Hero : Human
             Vector3 vector = (Vector3)(Vector3.up * 5000f);
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.eren_titan.GetComponent<TITAN_EREN>().lifeTime = 0.1f;
+                this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
             }
             if (this.myBomb != null)
             {

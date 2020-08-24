@@ -28,32 +28,6 @@ namespace Assets.Scripts.Characters.Titan
         public Transform LegLeft;
         public Transform LegRight;
 
-        public Transform checkAeLLeft;
-        public Transform checkAeLRight;
-        public Transform checkAeRight;
-        public Transform checkAeLeft;
-
-        public Transform CheckOverhead;
-        public Transform CheckFrontRight;
-        public Transform CheckFrontLeft;
-        public Transform CheckFront;
-        public Transform CheckBackRight;
-        public Transform CheckBackLowRight;
-        public Transform CheckBackLowLeft;
-        public Transform CheckBackLeft;
-        public Transform CheckBack;
-
-        public Transform AttackStomp;
-        public Transform AttackSlapFace;
-        public Transform AttackSlapBack;
-        public Transform AttackKick;
-        public Transform AttackFrontGround;
-        public Transform AttackCombo;
-        public Transform AttackBiteRight;
-        public Transform AttackBiteLeft;
-        public Transform AttackBite;
-        public Transform AttackAbnormalJump;
-
         private float LimbRegeneration { get; set; }
         private float LimbHealth { get; set; }
         private readonly Vector3 bodyPartDamagedSize = new Vector3(0.001f, 0.001f, 0.001f);

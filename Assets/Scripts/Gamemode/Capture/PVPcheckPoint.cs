@@ -279,7 +279,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (!this.annie)
                 {
                     this.annie = true;
-                    PhotonNetwork.Instantiate("FEMALE_TITAN", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
+                    PhotonNetwork.Instantiate("FemaleTitan", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
                 }
                 else
                 {

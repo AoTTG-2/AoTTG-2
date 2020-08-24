@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Characters.Titan.Body;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,7 +22,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public bool IsAlive => TitanState != MindlessTitanState.Dead;
         private float DamageTimer { get; set; }
-        public TitanBody TitanBody { get; private set; }
+        public MindlessTitanBody TitanBody { get; private set; }
         public Animation Animation { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
         private TitanBehavior[] Behaviors { get; set; }
@@ -113,7 +114,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             GameManager = FengGameManagerMKII.instance;
             GameManager.addTitan(this);
-            TitanBody = GetComponent<TitanBody>();
+            TitanBody = GetComponent<MindlessTitanBody>();
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             this.oldHeadRotation = TitanBody.Head.rotation;
