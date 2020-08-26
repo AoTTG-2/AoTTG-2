@@ -76,6 +76,7 @@ public class LevelBuilder : MonoBehaviour
             SceneName = "The Forest",
             Gamemodes = new List<GamemodeSettings>
             {
+                new RacingSettings(),
                 new WaveGamemodeSettings(),
                 new KillTitansSettings
                 {
@@ -149,6 +150,7 @@ public class LevelBuilder : MonoBehaviour
             SceneName = "OutSide",
             Gamemodes = new List<GamemodeSettings>
             {
+                new RacingSettings(),
                 new CaptureGamemodeSettings
                 {
                     TitanChaseDistance = 200,
@@ -191,6 +193,7 @@ public class LevelBuilder : MonoBehaviour
             SceneName = "Utgard",
             Gamemodes = new List<GamemodeSettings>
             {
+                new RacingSettings(),
                 new KillTitansSettings
                 {
                     Titans = 20
@@ -205,7 +208,7 @@ public class LevelBuilder : MonoBehaviour
                 {
                     Titans = 20
                 },
-                new WaveGamemodeSettings()
+                new WaveGamemodeSettings(),
             }
         });
     }
