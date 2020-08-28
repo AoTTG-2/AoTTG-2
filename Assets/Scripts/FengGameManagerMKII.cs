@@ -16,6 +16,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
@@ -656,9 +658,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.ShowHUDInfoCenter(string.Empty);
                     }
                 }
-            }
-             if (Gamemode.Settings.GamemodeType == GamemodeType.Standoff){
-            
             }
 
             if (this.timeElapse > 1f)
@@ -2274,23 +2273,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-
             var standoffGamemode = Gamemode as StandoffGamemode;
             if (standoffGamemode != null)
-            {
                 standoffGamemode.OnTitanKilledStandoff(titanName, player);
-            } else
-            {
+            else         
                 EventManager.OnTitanKilled.Invoke(titanName);
-            }
-                        //bool isStandoff= Convert.ToBoolean(Gamemode.Settings.GamemodeType.CompareTo(GamemodeType.Standoff));
-            //if(isStandoff)
-            //{
-            //    object[] objArray = new object[2];
-            //    objArray[0] = titanName;
-            //    objArray[1] = player;
-            //    StandoffGamemode.OnTitanKilledStandoff(objArray);
-            //}
         }
     }
 
@@ -3347,13 +3334,23 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     //TODO: 184 - This gets called upon MapLoaded
     public void SpawnPlayer(string id, string tag = "playerRespawn")
-    {
+    {   
         if (id == null)
         {
             id = "1";
         }
         myLastRespawnTag = tag;
+        var standoffGamemode = Gamemode as StandoffGamemode;
+        var objArray=GameObject.FindGameObjectsWithTag(tag);
         var location = Gamemode.GetPlayerSpawnLocation(tag);
+        if (standoffGamemode != null)
+        {
+           if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
+               objArray = GameObject.FindGameObjectsWithTag("CyanSpawn");       
+           else
+               objArray = GameObject.FindGameObjectsWithTag("MagentaSpawn");
+           location = objArray[Random.Range(0, objArray.Length)];
+        }
         SpawnPlayerAt2(id, location);
     }
 
@@ -3368,6 +3365,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             Vector3 position = pos.transform.position;
+            
             if (this.racingSpawnPointSet)
             {
                 position = this.racingSpawnPoint;
@@ -3389,6 +3387,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
                                 .position;
                         }
+                        
                     }
                     else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
                     {
