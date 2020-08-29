@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using System;
+using Assets.Scripts.Settings;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
@@ -82,7 +83,7 @@ namespace Assets.Scripts.Room
 
         private void SpawnMindlessTitan(MindlessTitanType type)
         {
-            if (FengGameManagerMKII.instance.getTitans().Count >= FengGameManagerMKII.Gamemode.Settings.TitanLimit) return;
+            if (FengGameManagerMKII.instance.getTitans().Count >= GameSettings.Titan.Limit.Value) return;
             FengGameManagerMKII.instance.SpawnTitan(transform.position, transform.rotation, FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
         }
 

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Input;
 using System.Collections;
 using UnityEngine;
@@ -74,7 +75,7 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                StartCoroutine(SpawnTitan(GamemodeSettings.Titans));
+                StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value));
             }
         }
 
@@ -142,7 +143,7 @@ namespace Assets.Scripts.Gamemode
                 }
                 else
                 {
-                    StartCoroutine(SpawnTitan(GamemodeSettings.Titans + Wave * GamemodeSettings.WaveIncrement));
+                    StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value + Wave * GamemodeSettings.WaveIncrement));
                 }
             }
         }

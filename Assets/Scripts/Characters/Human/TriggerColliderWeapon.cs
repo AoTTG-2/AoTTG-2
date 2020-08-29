@@ -1,6 +1,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using System.Collections;
+using Assets.Scripts.Settings;
 using UnityEngine;
 
 public class TriggerColliderWeapon : MonoBehaviour
@@ -77,7 +78,7 @@ public class TriggerColliderWeapon : MonoBehaviour
             }
             if (other.gameObject.tag == "playerHitbox")
             {
-                if (FengGameManagerMKII.Gamemode.Settings.Pvp != PvpMode.Disabled)
+                if (GameSettings.PvP.Mode != PvpMode.Disabled)
                 {
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);

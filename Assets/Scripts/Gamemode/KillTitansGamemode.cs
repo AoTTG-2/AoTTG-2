@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                SpawnTitans(GamemodeSettings.Titans);
+                SpawnTitans(GameSettings.Titan.Start.Value);
             }
         }
     }

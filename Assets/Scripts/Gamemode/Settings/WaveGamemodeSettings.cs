@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Elements;
+﻿using Assets.Scripts.Settings.Titans;
+using Assets.Scripts.UI.Elements;
 
 namespace Assets.Scripts.Gamemode.Settings
 {
@@ -6,11 +7,15 @@ namespace Assets.Scripts.Gamemode.Settings
     {
         public WaveGamemodeSettings()
         {
+            Titan = new SettingsTitan
+            {
+                Start = 3
+            };
             GamemodeType = GamemodeType.Wave;
             TitanChaseDistanceEnabled = false;
-            Titans = 3;
             RespawnMode = RespawnMode.NEWROUND;
         }
+
         [UiElement("Start Wave", "What is the start wave?")]
         public int StartWave { get; set; } = 1;
         [UiElement("Max Wave", "What is the final wave?")]

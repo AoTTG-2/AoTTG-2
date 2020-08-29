@@ -1,4 +1,5 @@
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Settings;
 using UnityEngine;
 
 public class InstantiateTracker
@@ -30,7 +31,7 @@ public class InstantiateTracker
         {
             case "rcasset/bombmain":
             case "rcasset/bombexplodemain":
-                if (!FengGameManagerMKII.Gamemode.Settings.PvPBomb)
+                if (!GameSettings.PvP.Bomb.Value)
                 {
                     if (PhotonNetwork.isMasterClient)
                     {

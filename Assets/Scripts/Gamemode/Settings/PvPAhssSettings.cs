@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Titans;
 
 namespace Assets.Scripts.Gamemode.Settings
 {
@@ -7,9 +9,16 @@ namespace Assets.Scripts.Gamemode.Settings
         public PvPAhssSettings()
         {
             GamemodeType = GamemodeType.PvpAhss;
+            Pvp = new PvPSettings
+            {
+                Cannons = false,
+                Mode = PvpMode.AhssVsBlades
+            };
+            Titan = new SettingsTitan
+            {
+                Start = -1
+            };
             AhssAirReload = false;
-            Titans = -1;
-            Pvp = PvpMode.AhssVsBlades;
             PlayerShifters = false;
             Horse = false;
             TitansEnabled = false;

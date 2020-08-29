@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Input;
 using Newtonsoft.Json;
 using System;
@@ -52,79 +53,7 @@ namespace Assets.Scripts.Gamemode
 
         protected MindlessTitanType GetDefaultTitanType()
         {
-            Dictionary<MindlessTitanType, float> ratio;
-            switch (Settings.Difficulty)
-            {
-                case Difficulty.Easy:
-                    ratio = new Dictionary<MindlessTitanType, float>
-                    {
-                        {MindlessTitanType.Normal, 80f},
-                        {MindlessTitanType.Abberant, 40f},
-                        {MindlessTitanType.Jumper, 25f},
-                        {MindlessTitanType.Punk, 5f},
-                        {MindlessTitanType.Crawler, 0f},
-                        {MindlessTitanType.Burster, 0f},
-                        {MindlessTitanType.Stalker, 0f},
-                        {MindlessTitanType.Abnormal, 5f}
-                    };
-                    break;
-                case Difficulty.Normal:
-                    ratio = new Dictionary<MindlessTitanType, float>
-                    {
-                        {MindlessTitanType.Normal, 80f},
-                        {MindlessTitanType.Abberant, 40f},
-                        {MindlessTitanType.Jumper, 25f},
-                        {MindlessTitanType.Punk, 15f},
-                        {MindlessTitanType.Crawler, 5f},
-                        {MindlessTitanType.Burster, 0f},
-                        {MindlessTitanType.Stalker, 5f},
-                        {MindlessTitanType.Abnormal, 5f}
-                    };
-                    break;
-                case Difficulty.Hard:
-                    ratio = new Dictionary<MindlessTitanType, float>
-                    {
-                        {MindlessTitanType.Normal, 40f},
-                        {MindlessTitanType.Abberant, 60f},
-                        {MindlessTitanType.Jumper, 25f},
-                        {MindlessTitanType.Punk, 15f},
-                        {MindlessTitanType.Crawler, 5f},
-                        {MindlessTitanType.Burster, 5f},
-                        {MindlessTitanType.Stalker, 15f},
-                        {MindlessTitanType.Abnormal, 20f}
-                    };
-                    break;
-                case Difficulty.Abnormal:
-                    ratio = new Dictionary<MindlessTitanType, float>
-                    {
-                        {MindlessTitanType.Normal, 25f},
-                        {MindlessTitanType.Abberant, 40f},
-                        {MindlessTitanType.Jumper, 25f},
-                        {MindlessTitanType.Punk, 15f},
-                        {MindlessTitanType.Crawler, 10f},
-                        {MindlessTitanType.Burster, 10f},
-                        {MindlessTitanType.Stalker, 10f},
-                        {MindlessTitanType.Abnormal, 30f}
-                    };
-                    break;
-                case Difficulty.Realism:
-                    ratio = new Dictionary<MindlessTitanType, float>
-                    {
-                        {MindlessTitanType.Normal, 20f},
-                        {MindlessTitanType.Abberant, 40f},
-                        {MindlessTitanType.Jumper, 25f},
-                        {MindlessTitanType.Punk, 40f},
-                        {MindlessTitanType.Crawler, 15f},
-                        {MindlessTitanType.Burster, 10f},
-                        {MindlessTitanType.Stalker, 10f},
-                        {MindlessTitanType.Abnormal, 100f}
-                    };
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return GetTitanTypeFromDictionary(ratio);
+            return GetTitanTypeFromDictionary(GameSettings.Titan.Mindless.TypeRatio);
         }
 
         private int GetTitanHealth(float titanSize)
@@ -246,7 +175,7 @@ namespace Assets.Scripts.Gamemode
             var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
             for (var i = 0; i < amount; i++)
             {
-                if (FengGameManagerMKII.instance.getTitans().Count >= Settings.TitanLimit) break;
+                if (FengGameManagerMKII.instance.getTitans().Count >= GameSettings.Titan.Limit) break;
                 var randomSpawn = spawns[Random.Range(0, spawns.Length)];
                 FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, titanConfiguration.Invoke());
                 yield return new WaitForEndOfFrame();

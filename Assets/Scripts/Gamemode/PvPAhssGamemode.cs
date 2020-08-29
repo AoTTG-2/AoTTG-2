@@ -35,7 +35,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnPlayerKilled(int id)
         {
-            if (Settings.Pvp != PvpMode.Disabled || Settings.PvPBomb) return;
+            if (Settings.Pvp.Mode != PvpMode.Disabled || Settings.Pvp.Bomb.Value) return;
             if (IsAllPlayersDead())
             {
                 FengGameManagerMKII.instance.gameLose2();
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (Settings.Pvp == PvpMode.Disabled && !Settings.PvPBomb)
+            if (Settings.Pvp.Mode == PvpMode.Disabled && !Settings.Pvp.Bomb.Value)
             {
                 return $"Team {teamWinner}, Win!\nGame Restart in {(int)timeUntilRestart}s\n\n";
             }

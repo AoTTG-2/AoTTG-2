@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Elements;
+﻿using Assets.Scripts.Settings.Titans;
+using Assets.Scripts.UI.Elements;
 
 namespace Assets.Scripts.Gamemode.Settings
 {
@@ -6,11 +7,13 @@ namespace Assets.Scripts.Gamemode.Settings
     {
         public CaptureGamemodeSettings()
         {
+            Titan = new SettingsTitan
+            {
+                Limit = 25,
+                Start = 0
+            };
             GamemodeType = GamemodeType.Capture;
-            RespawnTime = 20f;
             PlayerShifters = false;
-            Titans = 0;
-            TitanLimit = 25;
             TitanChaseDistance = 120f;
             SpawnTitansOnFemaleTitanDefeat = false;
             FemaleTitanDespawnTimer = 20f;

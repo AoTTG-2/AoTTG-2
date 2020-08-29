@@ -80,7 +80,7 @@ namespace Assets.Scripts.Gamemode
 
         private void SpawnTitan()
         {
-            if (FengGameManagerMKII.instance.getTitans().Count >= Settings.TitanLimit) return;
+            if (FengGameManagerMKII.instance.getTitans().Count >= GameSettings.Titan.Limit.Value) return;
             var configuration = GetTitanConfiguration();
             var route = GetRoute();
             configuration.Behaviors.Add(new RushBehavior(route));

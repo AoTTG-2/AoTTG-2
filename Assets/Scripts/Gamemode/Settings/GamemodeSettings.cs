@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.Elements;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,29 @@ namespace Assets.Scripts.Gamemode.Settings
 {
     public abstract class GamemodeSettings
     {
+        public PvPSettings Pvp { get; set; }
+        public SettingsTitan Titan { get; set; }
+
         public GamemodeType GamemodeType;
+
+        public GamemodeSettings() : this (Difficulty.Normal) { }
+
+        public GamemodeSettings(Difficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                case Difficulty.Normal:
+                case Difficulty.Hard:
+                case Difficulty.Abnormal:
+                case Difficulty.Realism:
+                    Pvp = new PvPSettings(difficulty);
+                    Titan = new SettingsTitan(difficulty);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
+            }
+        }
 
         private string name;
         public string Name
@@ -20,17 +43,11 @@ namespace Assets.Scripts.Gamemode.Settings
 
         public string Description;
 
-        [UiElement("Difficulty", "", SettingCategory.General)]
-        public Difficulty Difficulty { get; set; } = Difficulty.Normal;
-
         [UiElement("MOTD", "Message of the Day")]
         public string Motd { get; set; } = string.Empty;
 
-        [UiElement("Start Titans", "The amount of titans that will spawn at the start", SettingCategory.Titans)]
-        public int Titans { get; set; } = 25;
-
-        [UiElement("Titan Limit", "The max amount of titans", SettingCategory.Titans)]
-        public int TitanLimit { get; set; } = 30;
+        [UiElement("Difficulty", "", SettingCategory.General)]
+        public Difficulty Difficulty { get; set; } = Difficulty.Normal;
 
         [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
         public float TitanMinimumSize { get; set; } = 0.7f;
@@ -80,9 +97,6 @@ namespace Assets.Scripts.Gamemode.Settings
         [UiElement("Female Titan Despawn Time", "How long (in seconds), will the FT be on the map after dying?", SettingCategory.Advanced)]
         public float FemaleTitanDespawnTimer { get; set; } = 5f;
 
-        [UiElement("PvP Cannons", "Can cannons kill humans?", SettingCategory.Pvp)]
-        public bool PvpCannons { get; set; }
-
         public float FemaleTitanHealthModifier = 1f;
 
         //LevelInfo attributes
@@ -93,15 +107,6 @@ namespace Assets.Scripts.Gamemode.Settings
 
         [UiElement("Lava mode", "The floor is lava! Touching the floor means that you will die...")]
         public bool LavaMode { get; set; }
-
-        [UiElement("PvP", "Can players kill each other?", SettingCategory.Pvp)]
-        public PvpMode Pvp { get; set; } = PvpMode.Disabled;
-
-        [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?", SettingCategory.Pvp)]
-        public bool PvPWinOnEnemiesDead { get; set; } = false;
-
-        [UiElement("Bomb PvP", "", SettingCategory.Pvp)]
-        public bool PvPBomb { get; set; }
 
         [UiElement("Team mode", "Enable teams", SettingCategory.Pvp)]
         public TeamMode TeamMode { get; set; }
@@ -122,7 +127,6 @@ namespace Assets.Scripts.Gamemode.Settings
         public int HumanScore = 0;
         public int TitanScore = 0;
 
-        public float RespawnTime = 5f;
         [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?", SettingCategory.Pvp)]
         public bool AhssAirReload { get; set; } = true;
         public bool PlayerShifters = true;

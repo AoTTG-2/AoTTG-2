@@ -4,6 +4,7 @@ using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 using Xft;
@@ -336,7 +337,7 @@ public class Hero : Human
     {
         this.skillIDHUD = this.skillId;
         this.skillCDDuration = this.skillCDLast;
-        if (FengGameManagerMKII.Gamemode.Settings.PvPBomb)
+        if (GameSettings.PvP.Bomb == true)
         {
             int num = (int)FengGameManagerMKII.settings[250];
             int num2 = (int)FengGameManagerMKII.settings[0xfb];
@@ -3193,7 +3194,7 @@ public class Hero : Human
                     {
                         FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
                     }
-                    else if ((FengGameManagerMKII.Gamemode.Settings.PvPBomb) && (!FengGameManagerMKII.Gamemode.Settings.PvpCannons))
+                    else if (GameSettings.PvP.Bomb.Value && (!GameSettings.PvP.Cannons.Value))
                     {
                         FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
                     }
@@ -3809,7 +3810,7 @@ public class Hero : Human
         {
             object[] objArray;
             //TODO: Sync these upon gamemode syncSettings
-            if (FengGameManagerMKII.Gamemode.Settings.Pvp == PvpMode.AhssVsBlades)
+            if (GameSettings.PvP.Mode == PvpMode.AhssVsBlades)
             {
                 int num = 0;
                 if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
@@ -3822,7 +3823,7 @@ public class Hero : Human
                     base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
                 }
             }
-            else if (FengGameManagerMKII.Gamemode.Settings.Pvp == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
+            else if (GameSettings.PvP.Mode == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
             {
                 objArray = new object[] { base.photonView.owner.ID };
                 base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
@@ -3846,15 +3847,15 @@ public class Hero : Human
     public void setSkillHUDPosition2()
     {
         return;
-        this.skillCD = GameObject.Find("skill_cd_" + this.skillIDHUD);
-        if (this.skillCD != null)
-        {
-            this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
-        }
-        if (this.useGun && (FengGameManagerMKII.Gamemode.Settings.PvPBomb))
-        {
-            this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
-        }
+        //this.skillCD = GameObject.Find("skill_cd_" + this.skillIDHUD);
+        //if (this.skillCD != null)
+        //{
+        //    this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
+        //}
+        //if (this.useGun && (FengGameManagerMKII.Gamemode.Settings.PvPBomb))
+        //{
+        //    this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
+        //}
     }
 
     public void setStat2()
@@ -4529,7 +4530,7 @@ public class Hero : Human
             base.StartCoroutine(this.reloadSky());
         }
         this.bombImmune = false;
-        if (FengGameManagerMKII.Gamemode.Settings.PvPBomb)
+        if (GameSettings.PvP.Bomb.Value)
         {
             this.bombImmune = true;
             base.StartCoroutine(this.stopImmunity());

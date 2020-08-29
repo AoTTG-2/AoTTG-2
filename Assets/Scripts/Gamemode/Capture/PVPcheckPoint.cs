@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -396,7 +397,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.spawnTitanTimer > this.titanInterval)
                 {
                     this.spawnTitanTimer = 0f;
-                    if (GameObject.FindGameObjectsWithTag("titan").Length < gamemode.Settings.TitanLimit)
+                    if (GameObject.FindGameObjectsWithTag("titan").Length < GameSettings.Titan.Limit)
                     {
                         this.newTitan();
                     }

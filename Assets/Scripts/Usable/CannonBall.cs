@@ -2,6 +2,7 @@ using Assets.Scripts.Gamemode.Options;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Settings;
 using UnityEngine;
 
 public class CannonBall : Photon.MonoBehaviour
@@ -40,7 +41,7 @@ public class CannonBall : Photon.MonoBehaviour
             {
                 collider.dmg = 0;
             }
-            if (FengGameManagerMKII.Gamemode.Settings.PvpCannons)
+            if (GameSettings.PvP.Cannons.Value)
             {
                 foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
                 {

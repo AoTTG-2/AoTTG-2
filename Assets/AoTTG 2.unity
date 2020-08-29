@@ -8953,6 +8953,10 @@ Prefab:
       propertyPath: instantiationId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1501045975914121, guid: c2a8649b61360c04c82662c9999e8430, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c2a8649b61360c04c82662c9999e8430, type: 2}
   m_IsPrefabParent: 0
@@ -11373,6 +11377,10 @@ Prefab:
       propertyPath: instantiationId
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1322130226024100, guid: 569911a028c73ca42937b93858c27b71, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 569911a028c73ca42937b93858c27b71, type: 2}
   m_IsPrefabParent: 0
@@ -12152,7 +12160,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 311747886}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14034,7 +14042,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1638316428728248, guid: 6f053f6638514284ab1e166e57dcc1c8, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114338049395213770, guid: 6f053f6638514284ab1e166e57dcc1c8, type: 2}
@@ -16223,6 +16231,10 @@ Prefab:
         type: 2}
       propertyPath: instantiationId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749931844138876, guid: c75957cb3a14d9b45a48e0116ad8a2c7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c75957cb3a14d9b45a48e0116ad8a2c7, type: 2}
@@ -28699,7 +28711,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000007991074, y: -0.000029074947}
+  m_AnchoredPosition: {x: 0.000007991074, y: -0.00004577842}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1649431726

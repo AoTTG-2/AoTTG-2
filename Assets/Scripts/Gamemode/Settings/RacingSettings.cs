@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.Elements;
 
 namespace Assets.Scripts.Gamemode.Settings
@@ -7,12 +8,14 @@ namespace Assets.Scripts.Gamemode.Settings
     {
         public RacingSettings()
         {
+            Titan = new SettingsTitan
+            {
+                Start = 0
+            };
             GamemodeType = GamemodeType.Racing;
             PlayerShifters = false;
-            Pvp = PvpMode.Disabled;
             Supply = false;
             RespawnMode = RespawnMode.NEVER;
-            Titans = 0;
             TitansEnabled = false;
         }
         [UiElement("Restart on Finish", "Should the game restart in 10s upon someone finishing?")]

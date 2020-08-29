@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -29,7 +30,7 @@ namespace Assets.Scripts.Gamemode
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             if (!isMasterClient) return;
-            SpawnTitans(Settings.Titans);
+            SpawnTitans(GameSettings.Titan.Start.Value);
         }
     }
 }

@@ -3,6 +3,8 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Room;
 using System.Collections.Generic;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Titans;
 using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour
@@ -52,18 +54,25 @@ public class LevelBuilder : MonoBehaviour
             SceneName = "Test Zone",
             Gamemodes = new List<GamemodeSettings>
             {
-                new WaveGamemodeSettings
-                {
-                    Titans = 25,
-                    Horse = true,
-                    IsPlayerTitanEnabled = true
-                },
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
-                    Titans = 1,
+                    Titan = new SettingsTitan()
+                    {
+                        Start = 20
+                    },
+                    IsPlayerTitanEnabled = true,
+                    Pvp = new PvPSettings
+                    {
+                        Cannons = true
+                    }
+                },
+                new WaveGamemodeSettings
+                {
+                    Horse = true,
                     IsPlayerTitanEnabled = true
                 }
+
             }
         });
 
@@ -78,12 +87,10 @@ public class LevelBuilder : MonoBehaviour
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
-                    Titans = 10
                 },
                 new EndlessSettings
                 {
                     GamemodeType = GamemodeType.Endless,
-                    Titans = 10
                 },
                 new WaveGamemodeSettings(),
                 new CaptureGamemodeSettings(),
@@ -105,7 +112,6 @@ public class LevelBuilder : MonoBehaviour
                     Name = "Annie",
                     Description = "Classic map where you fight the Female Titan",
                     DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk},
-                    Pvp = PvpMode.AhssVsBlades
                 }
             }
         });
@@ -193,7 +199,6 @@ public class LevelBuilder : MonoBehaviour
             {
                 new KillTitansSettings
                 {
-                    Titans = 20
                 },
                 new CaptureGamemodeSettings
                 {
@@ -203,7 +208,6 @@ public class LevelBuilder : MonoBehaviour
                 },
                 new EndlessSettings
                 {
-                    Titans = 20
                 },
                 new WaveGamemodeSettings()
             }

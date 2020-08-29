@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Titans;
 using UnityEngine;
 
 //[Obsolete]
@@ -157,6 +159,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public static Level NewRoundLevel { get; set; }
     public static GamemodeSettings NewRoundGamemode { get; set; }
+
+    private GameSettings Settings { get; set; }
 
     public void addCamera(IN_GAME_MAIN_CAMERA c)
     {
@@ -508,7 +512,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
                     if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) ||
                          (Gamemode.Settings.EndlessRevive > 0)) ||
-                        !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled))
+                        !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
                             ? (Gamemode.Settings.PointMode <= 0)
                             : true))
                     {
@@ -2290,6 +2294,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (Gamemode == null)
         {
+            Settings.ChangeSettings(settings);
             var gamemodeObject = new GameObject("Gamemode");
             gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
             gamemodeObject.transform.parent = gameObject.transform;
@@ -3641,6 +3646,26 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
+        //var gamesettings = new GameSettings();
+        //gamesettings.Initialize(null, new PvPSettings
+        //{
+        //    Cannons = true
+        //}, null);
+
+        //if (PlayerPrefs.GetString("GameSettings") == null)
+        //{
+        //    PlayerPrefs.SetString("GameSettings", JsonConvert.SerializeObject(gamesettings));
+        //}
+
+        //gamesettings.ChangeSettings(new PvPAhssSettings());
+
+        Settings = new GameSettings();
+        Settings.Initialize(new List<GamemodeSettings>
+        {
+            new KillTitansSettings() //TODO: Support all gamemodes here (REQUIRED)
+        }, new PvPSettings(), new SettingsTitan());
+        var json = JsonConvert.SerializeObject((object) Settings);
+        Debug.Log(json);
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";
@@ -4350,9 +4375,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if ((Gamemode.Settings.PointMode <= 0) && ((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled)))
+            else if ((Gamemode.Settings.PointMode <= 0) && ((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled)))
             {
-                if (Gamemode.Settings.PvPWinOnEnemiesDead)
+                if (GameSettings.PvP.PvPWinOnEnemiesDead.Value)
                 {
                     if ((Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
                     {

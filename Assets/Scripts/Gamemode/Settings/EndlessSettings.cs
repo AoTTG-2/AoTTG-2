@@ -8,8 +8,6 @@ namespace Assets.Scripts.Gamemode.Settings
         {
             GamemodeType = GamemodeType.Endless;
             RespawnMode = RespawnMode.NEVER;
-            Pvp = PvpMode.Disabled;
-            Titans = 10;
         }
     }
 }

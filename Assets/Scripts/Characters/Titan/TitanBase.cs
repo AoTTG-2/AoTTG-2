@@ -11,7 +11,7 @@ namespace Assets.Scripts.Characters.Titan
     {
         protected TitanBase()
         {
-            Faction = FactionManager.SetTitanity(gameObject);
+            //Faction = FactionManager.SetTitanity(gameObject);
         }
 
         public Animation Animation { get; protected set; }
