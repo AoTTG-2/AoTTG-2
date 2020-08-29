@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Elements;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame

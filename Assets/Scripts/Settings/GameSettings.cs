@@ -1,10 +1,10 @@
-﻿using System;
-using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Titans;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Assets.Scripts.Settings.Titans;
-using Newtonsoft.Json;
 
 namespace Assets.Scripts.Settings
 {

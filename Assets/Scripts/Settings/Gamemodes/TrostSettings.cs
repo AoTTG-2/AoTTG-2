@@ -1,8 +1,8 @@
 ﻿using Assets.Scripts.Characters.Titan;
-using System.Collections.Generic;
 using Assets.Scripts.Settings.Titans;
+using System.Collections.Generic;
 
-namespace Assets.Scripts.Gamemode.Settings
+namespace Assets.Scripts.Settings.Gamemodes
 {
     public class TrostSettings : GamemodeSettings
     {

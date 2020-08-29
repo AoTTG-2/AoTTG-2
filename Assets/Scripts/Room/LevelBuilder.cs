@@ -1,10 +1,9 @@
 ﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Room;
-using System.Collections.Generic;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour
@@ -127,7 +126,6 @@ public class LevelBuilder : MonoBehaviour
                 {
                     Name = "Colossal Titan",
                     Description = "Defeat the Colossal! Defeat the Colossal Titan.\nPrevent the abnormal titan from running to the north gate.",
-                    TitanCustomSize = false,
                 },
                 new TrostSettings
                 {

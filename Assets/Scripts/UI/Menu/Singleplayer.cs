@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Gamemode;
-using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Settings.Gamemodes;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;

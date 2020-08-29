@@ -1,7 +1,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
-using System;
+using Assets.Scripts.Settings;
 using System.Collections;
 using UnityEngine;
 
@@ -438,13 +438,8 @@ public class ColossalTitan : TitanBase
         this.size = 20f;
         if (base.photonView.isMine)
         {
-            if (FengGameManagerMKII.Gamemode.Settings.TitanCustomSize)
-            {
-                float sizeLower = FengGameManagerMKII.Gamemode.Settings.TitanMinimumSize;
-                float sizeUpper = FengGameManagerMKII.Gamemode.Settings.TitanMaximumSize;
-                this.size = UnityEngine.Random.Range(sizeLower, sizeUpper);
-                base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
-            }
+            this.size = GameSettings.Titan.Colossal.Size;
+            base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
@@ -471,54 +466,55 @@ public class ColossalTitan : TitanBase
         base.name = "ColossalTitan";
         this.NapeArmor = 1000;
         var flag = FengGameManagerMKII.Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
-        if (Gamemode.Settings.Difficulty == Difficulty.Normal)
-        {
-            this.NapeArmor = !flag ? 5000 : 2000;
-        }
-        else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
-        {
-            this.NapeArmor = !flag ? 8000 : 3500;
-            IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
-            try
-            {
-                while (enumerator.MoveNext())
-                {
-                    AnimationState current = (AnimationState)enumerator.Current;
-                    if (current != null)
-                        current.speed = 1.02f;
-                }
-            }
-            finally
-            {
-                IDisposable disposable = enumerator as IDisposable;
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
-            }
-        }
-        else if (Gamemode.Settings.Difficulty == Difficulty.Abnormal)
-        {
-            this.NapeArmor = !flag ? 12000 : 5000;
-            IEnumerator enumerator2 = base.GetComponent<Animation>().GetEnumerator();
-            try
-            {
-                while (enumerator2.MoveNext())
-                {
-                    AnimationState state2 = (AnimationState)enumerator2.Current;
-                    if (state2 != null)
-                        state2.speed = 1.05f;
-                }
-            }
-            finally
-            {
-                IDisposable disposable2 = enumerator2 as IDisposable;
-                if (disposable2 != null)
-                {
-                    disposable2.Dispose();
-                }
-            }
-        }
+        NapeArmor = !flag ? 5000 : 2000;
+        //if (Gamemode.Settings.Difficulty == Difficulty.Normal)
+        //{
+        //    this.NapeArmor = !flag ? 5000 : 2000;
+        //}
+        //else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
+        //{
+        //    this.NapeArmor = !flag ? 8000 : 3500;
+        //    IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
+        //    try
+        //    {
+        //        while (enumerator.MoveNext())
+        //        {
+        //            AnimationState current = (AnimationState)enumerator.Current;
+        //            if (current != null)
+        //                current.speed = 1.02f;
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        IDisposable disposable = enumerator as IDisposable;
+        //        if (disposable != null)
+        //        {
+        //            disposable.Dispose();
+        //        }
+        //    }
+        //}
+        //else if (Gamemode.Settings.Difficulty == Difficulty.Abnormal)
+        //{
+        //    this.NapeArmor = !flag ? 12000 : 5000;
+        //    IEnumerator enumerator2 = base.GetComponent<Animation>().GetEnumerator();
+        //    try
+        //    {
+        //        while (enumerator2.MoveNext())
+        //        {
+        //            AnimationState state2 = (AnimationState)enumerator2.Current;
+        //            if (state2 != null)
+        //                state2.speed = 1.05f;
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        IDisposable disposable2 = enumerator2 as IDisposable;
+        //        if (disposable2 != null)
+        //        {
+        //            disposable2.Dispose();
+        //        }
+        //    }
+        //}
         this.NapeArmorTotal = this.NapeArmor;
         this.state = "wait";
         Transform transform = base.transform;

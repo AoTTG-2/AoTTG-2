@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Racing;
-using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Input;
 using System.Collections.Generic;
 using System.Linq;

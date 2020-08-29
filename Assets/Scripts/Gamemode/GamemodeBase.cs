@@ -1,8 +1,8 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Input;
 using Newtonsoft.Json;
 using System;
@@ -95,7 +95,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
         {
-            var size = Settings.TitanCustomSize ? Random.Range(Settings.TitanMinimumSize, Settings.TitanMaximumSize) : Random.Range(0.7f, 3f);
+            var size = GameSettings.Titan.Mindless.Size;
             var health = GetTitanHealth(size);
             return new TitanConfiguration(health, 10, 100, 150f, size, type);
         }

@@ -1,12 +1,12 @@
 ﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.Elements;
 using System;
 using System.Collections.Generic;
 
-namespace Assets.Scripts.Gamemode.Settings
+namespace Assets.Scripts.Settings.Gamemodes
 {
     public abstract class GamemodeSettings
     {
@@ -45,19 +45,7 @@ namespace Assets.Scripts.Gamemode.Settings
 
         [UiElement("MOTD", "Message of the Day")]
         public string Motd { get; set; } = string.Empty;
-
-        [UiElement("Difficulty", "", SettingCategory.General)]
-        public Difficulty Difficulty { get; set; } = Difficulty.Normal;
-
-        [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
-        public float TitanMinimumSize { get; set; } = 0.7f;
-
-        [UiElement("Max size", "Maximun titan size", SettingCategory.Titans)]
-        public float TitanMaximumSize { get; set; } = 3.0f;
-
-        [UiElement("Custom Size", "Enable custom titan sizes", SettingCategory.Titans)]
-        public bool TitanCustomSize { get; set; } = false;
-
+        
         [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
         public float TitanChaseDistance { get; set; } = 100f;
 

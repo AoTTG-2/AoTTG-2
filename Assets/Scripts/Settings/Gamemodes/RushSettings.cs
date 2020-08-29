@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Settings.Titans;
 
-namespace Assets.Scripts.Gamemode.Settings
+namespace Assets.Scripts.Settings.Gamemodes
 {
     public class RushSettings : GamemodeSettings
     {

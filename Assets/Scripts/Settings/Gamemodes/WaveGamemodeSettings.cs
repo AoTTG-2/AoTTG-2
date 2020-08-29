@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.Elements;
 
-namespace Assets.Scripts.Gamemode.Settings
+namespace Assets.Scripts.Settings.Gamemodes
 {
     public class WaveGamemodeSettings : GamemodeSettings
     {

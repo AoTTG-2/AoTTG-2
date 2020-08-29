@@ -1,6 +1,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1300,13 +1301,8 @@ public class FemaleTitan : TitanBase
         this.size = 4f;
         if (base.photonView.isMine)
         {
-            if (FengGameManagerMKII.Gamemode.Settings.TitanCustomSize)
-            {
-                float sizeLower = FengGameManagerMKII.Gamemode.Settings.TitanMinimumSize;
-                float sizeUpper = FengGameManagerMKII.Gamemode.Settings.TitanMaximumSize;
-                this.size = UnityEngine.Random.Range(sizeLower, sizeUpper);
-                base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
-            }
+            size = GameSettings.Titan.Female.Size;
+            base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
@@ -1360,63 +1356,66 @@ public class FemaleTitan : TitanBase
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
         var flag = Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
-        if (Gamemode.Settings.Difficulty == Difficulty.Normal)
-        {
-            this.NapeArmor = 1000;
-            this.AnkleLHP = this.AnkleLHPMAX = 50;
-            this.AnkleRHP = this.AnkleRHPMAX = 50;
-        }
-        else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
-        {
-            this.NapeArmor = !flag ? 3000 : 2500;
-            this.AnkleLHP = this.AnkleLHPMAX = !flag ? 200 : 100;
-            this.AnkleRHP = this.AnkleRHPMAX = !flag ? 200 : 100;
-            IEnumerator enumerator2 = base.GetComponent<Animation>().GetEnumerator();
-            try
-            {
-                while (enumerator2.MoveNext())
-                {
-                    AnimationState state2 = (AnimationState) enumerator2.Current;
-                    if (state2 != null)
-                        state2.speed = 0.7f;
-                }
-            }
-            finally
-            {
-                IDisposable disposable2 = enumerator2 as IDisposable;
-                if (disposable2 != null)
-                {
-                    disposable2.Dispose();
-                }
-            }
-            base.GetComponent<Animation>()["ft_turn180"].speed = 0.7f;
-        }
-        else if (Gamemode.Settings.Difficulty == Difficulty.Abnormal)
-        {
-            this.NapeArmor = !flag ? 6000 : 4000;
-            this.AnkleLHP = this.AnkleLHPMAX = !flag ? 1000 : 200;
-            this.AnkleRHP = this.AnkleRHPMAX = !flag ? 1000 : 200;
-            IEnumerator enumerator3 = base.GetComponent<Animation>().GetEnumerator();
-            try
-            {
-                while (enumerator3.MoveNext())
-                {
-                    AnimationState state3 = (AnimationState) enumerator3.Current;
-                    if (state3 != null)
-                        state3.speed = 1f;
-                }
-            }
-            finally
-            {
-                IDisposable disposable3 = enumerator3 as IDisposable;
-                if (disposable3 != null)
-                {
-                    disposable3.Dispose();
-                }
-            }
-            base.GetComponent<Animation>()["ft_turn180"].speed = 0.9f;
-        }
-        NapeArmor *= (int) FengGameManagerMKII.Gamemode.Settings.FemaleTitanHealthModifier;
+        this.NapeArmor = 1000;
+        this.AnkleLHP = this.AnkleLHPMAX = 50;
+        this.AnkleRHP = this.AnkleRHPMAX = 50;
+        //if (Gamemode.Settings.Difficulty == Difficulty.Normal)
+        //{
+        //    this.NapeArmor = 1000;
+        //    this.AnkleLHP = this.AnkleLHPMAX = 50;
+        //    this.AnkleRHP = this.AnkleRHPMAX = 50;
+        //}
+        //else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
+        //{
+        //    this.NapeArmor = !flag ? 3000 : 2500;
+        //    this.AnkleLHP = this.AnkleLHPMAX = !flag ? 200 : 100;
+        //    this.AnkleRHP = this.AnkleRHPMAX = !flag ? 200 : 100;
+        //    IEnumerator enumerator2 = base.GetComponent<Animation>().GetEnumerator();
+        //    try
+        //    {
+        //        while (enumerator2.MoveNext())
+        //        {
+        //            AnimationState state2 = (AnimationState) enumerator2.Current;
+        //            if (state2 != null)
+        //                state2.speed = 0.7f;
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        IDisposable disposable2 = enumerator2 as IDisposable;
+        //        if (disposable2 != null)
+        //        {
+        //            disposable2.Dispose();
+        //        }
+        //    }
+        //    base.GetComponent<Animation>()["ft_turn180"].speed = 0.7f;
+        //}
+        //else if (Gamemode.Settings.Difficulty == Difficulty.Abnormal)
+        //{
+        //    this.NapeArmor = !flag ? 6000 : 4000;
+        //    this.AnkleLHP = this.AnkleLHPMAX = !flag ? 1000 : 200;
+        //    this.AnkleRHP = this.AnkleRHPMAX = !flag ? 1000 : 200;
+        //    IEnumerator enumerator3 = base.GetComponent<Animation>().GetEnumerator();
+        //    try
+        //    {
+        //        while (enumerator3.MoveNext())
+        //        {
+        //            AnimationState state3 = (AnimationState) enumerator3.Current;
+        //            if (state3 != null)
+        //                state3.speed = 1f;
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        IDisposable disposable3 = enumerator3 as IDisposable;
+        //        if (disposable3 != null)
+        //        {
+        //            disposable3.Dispose();
+        //        }
+        //    }
+        //    base.GetComponent<Animation>()["ft_turn180"].speed = 0.9f;
+        //}
+        //NapeArmor *= (int) FengGameManagerMKII.Gamemode.Settings.FemaleTitanHealthModifier;
         base.GetComponent<Animation>()["ft_legHurt"].speed = 1f;
         base.GetComponent<Animation>()["ft_legHurt_loop"].speed = 1f;
         base.GetComponent<Animation>()["ft_legHurt_getup"].speed = 1f;

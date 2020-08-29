@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using Assets.Scripts.Gamemode.Settings;
-using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode

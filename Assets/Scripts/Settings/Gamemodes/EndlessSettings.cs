@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Gamemode.Options;
-
-namespace Assets.Scripts.Gamemode.Settings
+﻿namespace Assets.Scripts.Settings.Gamemodes
 {
     public class EndlessSettings : GamemodeSettings
     {

@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
 {

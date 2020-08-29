@@ -2,9 +2,11 @@ using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Room;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
@@ -12,11 +14,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Titans;
 using UnityEngine;
 
 //[Obsolete]
@@ -673,8 +672,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 this.ShowHUDInfoTopCenter(content);
                 content = Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time);
                 this.ShowHUDInfoTopRight(content);
-                string str4 = Gamemode.Settings.Difficulty.ToString();
-                this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
+                //TODO: Display difficulty
+                //string str4 = Gamemode.Settings.Difficulty.ToString();
+                //this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
                 char[] separator = new char[] { "`"[0] };
                 string str5 = PhotonNetwork.room.name.Split(separator)[0];
                 if (str5.Length > 20)

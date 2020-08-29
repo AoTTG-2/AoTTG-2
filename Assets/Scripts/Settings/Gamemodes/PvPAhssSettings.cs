@@ -1,8 +1,7 @@
 ﻿using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Titans;
 
-namespace Assets.Scripts.Gamemode.Settings
+namespace Assets.Scripts.Settings.Gamemodes
 {
     public class PvPAhssSettings : GamemodeSettings
     {
