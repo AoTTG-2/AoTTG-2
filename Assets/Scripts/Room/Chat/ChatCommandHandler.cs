@@ -8,6 +8,7 @@ using static FengGameManagerMKII;
 using static ChatUtility;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Settings;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -113,7 +114,7 @@ public static class ChatCommandHandler
     {
         var message = "Currently activated gamemodes:";
         instance.chatRoom.OutputSystemMessage(message);
-        if (FengGameManagerMKII.Gamemode.Settings.Horse)
+        if (GameSettings.Horse.Enabled.Value)
         {
             message = "Horses are enabled.";
             instance.chatRoom.OutputSystemMessage(message);

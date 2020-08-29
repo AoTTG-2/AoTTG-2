@@ -17,7 +17,7 @@ namespace Assets.Scripts.Settings.Titans
         public int? Limit { get; set; }
 
         public MindlessTitanSettings Mindless { get; set; }
-        public TitanSettings Female { get; set; }
+        public FemaleTitanSettings Female { get; set; }
         public TitanSettings Colossal { get; set; }
         public TitanSettings Eren { get; set; }
 

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Titans.Attacks;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
@@ -14,7 +16,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack()
         {
-            if (!FengGameManagerMKII.Gamemode.Settings.PunkRockThrow) return false;
+            if (!GameSettings.Titan.Mindless.Attacks<RockThrowSetting>().Enabled.Value) return false;
             if (IsDisabled()) return false;
             var distance = Vector3.Distance(Titan.transform.position, Titan.Target.transform.position);
             if (distance < 100 && !Titan.Animation.IsPlaying(attackAnimation)) return false;

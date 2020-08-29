@@ -1,13 +1,17 @@
 ﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.UI.Elements;
 using System;
 
-namespace Assets.Scripts.Settings.Gamemodes
+namespace Assets.Scripts.Settings
 {
-    public class KillTitansSettings : GamemodeSettings
+    public class HorseSettings
     {
-        public KillTitansSettings() { }
+        [UiElement("Enabled", "Enables/Disables horses in the game")]
+        public bool? Enabled { get; set; }
+        public float? BaseSpeed { get; set; }
 
-        public KillTitansSettings(Difficulty difficulty) : base(difficulty)
+        public HorseSettings() { }
+        public HorseSettings(Difficulty difficulty)
         {
             switch (difficulty)
             {
@@ -16,8 +20,7 @@ namespace Assets.Scripts.Settings.Gamemodes
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
-                    GamemodeType = GamemodeType.Titans;
-                    RespawnMode = RespawnMode.NEVER;
+                    BaseSpeed = 45f;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

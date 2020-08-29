@@ -1,13 +1,24 @@
-﻿using System;
-using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings.Titans.Attacks;
 using Assets.Scripts.UI.Elements;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Settings.Titans
 {
     public class TitanSettings
     {
+        public List<AttackSetting> AttackSettings { get; set; }
+
+        public T Attacks<T>() where T : AttackSetting
+        {
+            return AttackSettings.Single(x => x.GetType() == typeof(T)) as T;
+        }
+
         [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
         public float? SizeMinimum { get; set; }
 
@@ -31,7 +42,11 @@ namespace Assets.Scripts.Settings.Titans
         [UiElement("Explode mode", "", SettingCategory.Titans)]
         public int? ExplodeMode { get; set; }
 
+        [JsonIgnore]
         public float Size => Random.Range(SizeMinimum.Value, SizeMaximum.Value);
+
+        [JsonIgnore]
+        public int Health => Random.Range(HealthMinimum.Value, HealthMaximum.Value);
 
         public TitanSettings() : this(Difficulty.Normal) { }
 

@@ -1,10 +1,8 @@
-﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.Elements;
 using System;
-using System.Collections.Generic;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
@@ -12,27 +10,7 @@ namespace Assets.Scripts.Settings.Gamemodes
     {
         public PvPSettings Pvp { get; set; }
         public SettingsTitan Titan { get; set; }
-
-        public GamemodeType GamemodeType;
-
-        public GamemodeSettings() : this (Difficulty.Normal) { }
-
-        public GamemodeSettings(Difficulty difficulty)
-        {
-            switch (difficulty)
-            {
-                case Difficulty.Easy:
-                case Difficulty.Normal:
-                case Difficulty.Hard:
-                case Difficulty.Abnormal:
-                case Difficulty.Realism:
-                    Pvp = new PvPSettings(difficulty);
-                    Titan = new SettingsTitan(difficulty);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
-            }
-        }
+        public HorseSettings Horse { get; set; }
 
         private string name;
         public string Name
@@ -41,32 +19,13 @@ namespace Assets.Scripts.Settings.Gamemodes
             set { name = value; }
         }
 
+        public GamemodeType GamemodeType { get; set; }
+        
         public string Description;
 
         [UiElement("MOTD", "Message of the Day")]
-        public string Motd { get; set; } = string.Empty;
+        public string Motd { get; set; }
         
-        [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
-        public float TitanChaseDistance { get; set; } = 100f;
-
-        [UiElement("Enable Titan Chase Distance", "", SettingCategory.Titans)]
-        public bool TitanChaseDistanceEnabled { get; set; } = true;
-
-        [UiElement("Titan Health Mode", "", SettingCategory.Titans)]
-        public TitanHealthMode TitanHealthMode { get; set; } = TitanHealthMode.Disabled;
-
-        [UiElement("Titan Minimum Health", "", SettingCategory.Titans)]
-        public int TitanHealthMinimum { get; set; } = 200;
-
-        [UiElement("Titan Maximum Health", "", SettingCategory.Titans)]
-        public int TitanHealthMaximum { get; set; } = 500;
-
-        [UiElement("Punk rock throwing", "", SettingCategory.Titans)]
-        public bool PunkRockThrow { get; set; } = true;
-
-        [UiElement("Custom Titans", "Should custom titan rates be used?", SettingCategory.Titans)]
-        public bool CustomTitanRatio { get; set; } = true;
-
         [UiElement("Damage Mode", "Minimum damage you need to do", SettingCategory.Titans)]
         public int DamageMode { get; set; }
 
@@ -75,23 +34,12 @@ namespace Assets.Scripts.Settings.Gamemodes
         public int TitanExplodeMode { get; set; } = 0;
 
         [UiElement("Allow Titan Shifters", "")]
-        public bool TitanShifters { get; set; } = true;
+        public bool TitanShifters { get; set; } = true; // This is the anti eren kick
 
         public bool TitansEnabled { get; set; } = true;
 
-        [UiElement("Spawn Titans on FT Defeat", "Should titans spawn when the Female Titan is killed?", SettingCategory.Advanced)]
-        public bool SpawnTitansOnFemaleTitanDefeat { get; set; } = true;
-
-        [UiElement("Female Titan Despawn Time", "How long (in seconds), will the FT be on the map after dying?", SettingCategory.Advanced)]
-        public float FemaleTitanDespawnTimer { get; set; } = 5f;
-
-        public float FemaleTitanHealthModifier = 1f;
-
         //LevelInfo attributes
         public bool Hint;
-
-        [UiElement("Horses", "Enables/Disables horses in the game")]
-        public bool Horse { get; set; }
 
         [UiElement("Lava mode", "The floor is lava! Touching the floor means that you will die...")]
         public bool LavaMode { get; set; }
@@ -121,20 +69,24 @@ namespace Assets.Scripts.Settings.Gamemodes
 
         public bool RestartOnTitansKilled = true;
 
-        //TODO: Be able to change these via UI
-        public Dictionary<MindlessTitanType, float> TitanTypeRatio = new Dictionary<MindlessTitanType, float>
-        {
-            {MindlessTitanType.Normal, 80f},
-            {MindlessTitanType.Abberant, 40f},
-            {MindlessTitanType.Jumper, 25f},
-            {MindlessTitanType.Punk, 15f},
-            {MindlessTitanType.Crawler, 5f},
-            {MindlessTitanType.Burster, 0f},
-            {MindlessTitanType.Stalker, 0f},
-            { MindlessTitanType.Abnormal, 5f }
-        };
+        public GamemodeSettings() { }
 
-        public List<MindlessTitanType> DisabledTitans { get; set; } = new List<MindlessTitanType>();
+        public GamemodeSettings(Difficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                case Difficulty.Normal:
+                case Difficulty.Hard:
+                case Difficulty.Abnormal:
+                case Difficulty.Realism:
+                    Pvp = new PvPSettings(difficulty);
+                    Titan = new SettingsTitan(difficulty);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
+            }
+        }
 
         public Type GetGamemodeFromSettings()
         {
@@ -161,8 +113,6 @@ namespace Assets.Scripts.Settings.Gamemodes
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return null;
         }
     }
 }

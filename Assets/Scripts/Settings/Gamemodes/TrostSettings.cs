@@ -14,7 +14,13 @@ namespace Assets.Scripts.Settings.Gamemodes
             };
             GamemodeType = GamemodeType.Trost;
             PlayerShifters = false;
-            DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk};
+            Titan = new SettingsTitan()
+            {
+                Mindless = new MindlessTitanSettings
+                {
+                    Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
+                }
+            };
         }
     }
 }

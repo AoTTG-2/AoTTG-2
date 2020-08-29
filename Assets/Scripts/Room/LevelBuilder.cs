@@ -110,7 +110,13 @@ public class LevelBuilder : MonoBehaviour
                     GamemodeType = GamemodeType.Titans,
                     Name = "Annie",
                     Description = "Classic map where you fight the Female Titan",
-                    DisabledTitans = new List<MindlessTitanType> {MindlessTitanType.Punk},
+                    Titan = new SettingsTitan
+                    {
+                        Mindless = new MindlessTitanSettings
+                        {
+                            Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
+                        }
+                    }
                 }
             }
         });
@@ -155,7 +161,6 @@ public class LevelBuilder : MonoBehaviour
             {
                 new CaptureGamemodeSettings
                 {
-                    TitanChaseDistance = 200,
                     Horse = true,
                     Supply = true,
                     SpawnSupplyStationOnHumanCapture = true

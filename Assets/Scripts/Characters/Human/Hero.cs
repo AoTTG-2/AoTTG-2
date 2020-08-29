@@ -2410,7 +2410,7 @@ public class Hero : Human
             iteratorVariable3 = true;
         }
         bool iteratorVariable4 = false;
-        if (FengGameManagerMKII.Gamemode.Settings.Horse)
+        if (GameSettings.Horse.Enabled.Value)
         {
             iteratorVariable4 = true;
         }
@@ -4392,14 +4392,14 @@ public class Hero : Human
     public void SetHorse()
     {
         if (!photonView.isMine) return;
-        if (FengGameManagerMKII.Gamemode.Settings.Horse && myHorse == null)
+        if (GameSettings.Horse.Enabled.Value && myHorse == null)
         {
             var position = baseTransform.position + Vector3.up * 5f;
             var rotation = baseTransform.rotation;
             myHorse = Horse.Create(this, position, rotation);
         }
 
-        if (!FengGameManagerMKII.Gamemode.Settings.Horse && myHorse != null)
+        if (!GameSettings.Horse.Enabled.Value && myHorse != null)
         {
             PhotonNetwork.Destroy(myHorse);
         }

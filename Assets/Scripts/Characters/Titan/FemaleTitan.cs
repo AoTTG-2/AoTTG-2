@@ -1306,9 +1306,9 @@ public class FemaleTitan : TitanBase
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
-            if (FengGameManagerMKII.Gamemode.Settings.TitanHealthMode != TitanHealthMode.Disabled)
+            if (GameSettings.Titan.Female.HealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.Settings.TitanHealthMinimum, FengGameManagerMKII.Gamemode.Settings.TitanHealthMaximum);
+                this.maxHealth = this.NapeArmor = GameSettings.Titan.Female.Health;
             }
             if (this.NapeArmor > 0)
             {
@@ -1501,7 +1501,7 @@ public class FemaleTitan : TitanBase
                 if (base.GetComponent<Animation>()["ft_die"].normalizedTime >= 1f)
                 {
                     this.playAnimation("ft_die_cry");
-                    if (FengGameManagerMKII.Gamemode.Settings.SpawnTitansOnFemaleTitanDefeat)
+                    if (GameSettings.Titan.Female.SpawnTitansOnDefeat.Value)
                     {
                         for (int i = 0; i < 15; i++)
                         {
@@ -1518,7 +1518,7 @@ public class FemaleTitan : TitanBase
                         PhotonNetwork.Instantiate("FX/FXtitanDie1", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                     }
                 }
-                if (this.dieTime > FengGameManagerMKII.Gamemode.Settings.FemaleTitanDespawnTimer)
+                if (this.dieTime > GameSettings.Titan.Female.DespawnTimer.Value)
                 {
                     if (base.photonView.isMine)
                     {

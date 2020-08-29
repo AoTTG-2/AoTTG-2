@@ -13,6 +13,7 @@ namespace Assets.Scripts.Settings
         public static PvPSettings PvP { get; private set; }
         public static GamemodeSettings Gamemode { get; private set; }
         public static SettingsTitan Titan { get; private set; }
+        public static HorseSettings Horse { get; private set; }
 
         [JsonProperty]
         private List<GamemodeSettings> ConfigGamemodes { get; set; }
@@ -20,12 +21,15 @@ namespace Assets.Scripts.Settings
         private PvPSettings ConfigPvP { get; set; }
         [JsonProperty]
         private SettingsTitan ConfigTitan { get; set; }
+        [JsonProperty]
+        private HorseSettings ConfigHorse { get; set; }
 
-        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan)
+        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse)
         {
             PvP = ConfigPvP = pvp;
             Titan = ConfigTitan = titan;
             ConfigGamemodes = gamemodes;
+            Horse = ConfigHorse = horse;
         }
 
         public void ChangeSettings(GamemodeSettings levelGamemode)
@@ -34,6 +38,7 @@ namespace Assets.Scripts.Settings
             var playerGamemodeSettings = ConfigGamemodes.Single(x => x.GamemodeType == levelGamemode.GamemodeType);
             PvP = CreateFromObjects(ConfigPvP, playerGamemodeSettings.Pvp, levelGamemode.Pvp);
             Titan = CreateFromObjects(ConfigTitan, playerGamemodeSettings.Titan, levelGamemode.Titan);
+            Horse = CreateFromObjects(ConfigHorse, playerGamemodeSettings.Horse, levelGamemode.Horse)
         }
 
         public T CreateFromObjects<T>(params T[] sources)

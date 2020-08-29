@@ -20,12 +20,12 @@ namespace Assets.Scripts.Gamemode
         public abstract GamemodeSettings Settings { get; set; }
         private MindlessTitanType GetTitanType()
         {
-            return Settings.CustomTitanRatio ? GetTitanTypeFromDictionary(Settings.TitanTypeRatio) : GetDefaultTitanType();
+            return GetDefaultTitanType();
         }
 
         private MindlessTitanType GetTitanTypeFromDictionary(Dictionary<MindlessTitanType, float> titanRatio)
         {
-            foreach (var disabledTitanType in Settings.DisabledTitans)
+            foreach (var disabledTitanType in GameSettings.Titan.Mindless.Disabled)
             {
                 titanRatio.Remove(disabledTitanType);
             }
@@ -58,16 +58,16 @@ namespace Assets.Scripts.Gamemode
 
         private int GetTitanHealth(float titanSize)
         {
-            switch (Settings.TitanHealthMode)
+            switch (GameSettings.Titan.Mindless.HealthMode)
             {
                 case TitanHealthMode.Fixed:
-                    return Random.Range(Settings.TitanHealthMinimum, Settings.TitanHealthMaximum + 1);
+                    return GameSettings.Titan.Mindless.Health;
                 case TitanHealthMode.Scaled:
-                    return Mathf.Clamp(Mathf.RoundToInt(titanSize / 4f * Random.Range(Settings.TitanHealthMinimum, Settings.TitanHealthMaximum + 1)), Settings.TitanHealthMinimum, Settings.TitanHealthMaximum);
+                    return Mathf.Clamp(Mathf.RoundToInt(titanSize / 4f * GameSettings.Titan.Mindless.Health), GameSettings.Titan.Mindless.HealthMinimum.Value, GameSettings.Titan.Mindless.HealthMaximum.Value);
                 case TitanHealthMode.Disabled:
                     return 0;
                 default:
-                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {Settings.TitanHealthMode}");
+                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {GameSettings.Titan.Mindless.HealthMode}");
             }
         }
 

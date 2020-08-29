@@ -443,9 +443,9 @@ public class ColossalTitan : TitanBase
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.NapeArmor;
-            if (FengGameManagerMKII.Gamemode.Settings.TitanHealthMode != TitanHealthMode.Disabled)
+            if (GameSettings.Titan.Colossal.HealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.NapeArmor = UnityEngine.Random.Range(FengGameManagerMKII.Gamemode.Settings.TitanHealthMinimum, FengGameManagerMKII.Gamemode.Settings.TitanHealthMaximum);
+                this.maxHealth = this.NapeArmor = GameSettings.Titan.Colossal.Health;
             }
             if (this.NapeArmor > 0)
             {

@@ -12,7 +12,6 @@ namespace Assets.Scripts.Settings.Gamemodes
                 Start = 3
             };
             GamemodeType = GamemodeType.Wave;
-            TitanChaseDistanceEnabled = false;
             RespawnMode = RespawnMode.NEWROUND;
         }
 

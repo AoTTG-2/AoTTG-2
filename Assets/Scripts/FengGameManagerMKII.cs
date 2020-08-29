@@ -3660,11 +3660,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //gamesettings.ChangeSettings(new PvPAhssSettings());
 
         Settings = new GameSettings();
+        var difficulty = Difficulty.Normal;
         Settings.Initialize(new List<GamemodeSettings>
         {
-            new KillTitansSettings() //TODO: Support all gamemodes here (REQUIRED)
-        }, new PvPSettings(), new SettingsTitan());
-        var json = JsonConvert.SerializeObject((object) Settings);
+            new KillTitansSettings(difficulty) //TODO: Support all gamemodes here (REQUIRED)
+        }, new PvPSettings(difficulty), new SettingsTitan(difficulty), new HorseSettings(difficulty));
+        var json = JsonConvert.SerializeObject((object) Settings, Formatting.Indented, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
         Debug.Log(json);
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;

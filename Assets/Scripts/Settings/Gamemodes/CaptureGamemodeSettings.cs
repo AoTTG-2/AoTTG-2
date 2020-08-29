@@ -14,10 +14,6 @@ namespace Assets.Scripts.Settings.Gamemodes
             };
             GamemodeType = GamemodeType.Capture;
             PlayerShifters = false;
-            TitanChaseDistance = 120f;
-            SpawnTitansOnFemaleTitanDefeat = false;
-            FemaleTitanDespawnTimer = 20f;
-            FemaleTitanHealthModifier = 0.8f;
         }
 
         [UiElement("Human Point Limit", "Once this reaches 0, the titans win")]

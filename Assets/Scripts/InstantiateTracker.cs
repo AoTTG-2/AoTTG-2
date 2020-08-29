@@ -167,11 +167,11 @@ public class InstantiateTracker
                 return false;
 
             case "horse":
-                if (FengGameManagerMKII.Gamemode.Settings.Horse)
+                if (GameSettings.Horse.Enabled.Value)
                 {
                     return this.Instantiated(photonPlayer, GameResource.general);
                 }
-                if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.Gamemode.Settings.Horse)
+                if (PhotonNetwork.isMasterClient && !GameSettings.Horse.Enabled.Value)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning horse (" + key + ").");
                 }
