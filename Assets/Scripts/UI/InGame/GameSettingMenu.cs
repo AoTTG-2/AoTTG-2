@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Elements;
 using Newtonsoft.Json;
 using System;
@@ -17,7 +18,7 @@ namespace Assets.Scripts.UI.InGame
         private void OnEnable()
         {
             var page = Instantiate(GameSettingPage, gameObject.transform);
-            page.Data = Gamemode = FengGameManagerMKII.Gamemode.Settings;
+            page.Data = Gamemode = GameSettings.Gamemode;
             page.Initialize();
             Pages.Add(page);
             Pages[0].gameObject.SetActive(true);

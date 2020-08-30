@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Characters.Titan.Body;
+using Assets.Scripts.Settings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -478,7 +479,11 @@ namespace Assets.Scripts.Characters.Titan
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
             if (view == null || !IsAlive && Time.time - DamageTimer > 0.2f) return;
-            if (damage < FengGameManagerMKII.Gamemode.Settings.DamageMode) return;
+            if (damage < GameSettings.Titan.MinimumDamage.Value) return;
+            if (damage > GameSettings.Titan.MaximumDamage.Value)
+            {
+                damage = GameSettings.Titan.MaximumDamage.Value;
+            }
 
             DamageTimer = Time.time;
             Health -= damage;
@@ -519,8 +524,8 @@ namespace Assets.Scripts.Characters.Titan
         protected virtual void OnTitanDeath()
         {
             ReleaseGrabbedTarget();
-            if (FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode > 0)
-                Invoke("Explode", 1f);
+            if (GameSettings.Titan.Mindless.ExplodeMode.Value > 0)
+                Invoke(nameof(Explode), 1f);
         }
 
         private void ReleaseGrabbedTarget()
@@ -543,7 +548,7 @@ namespace Assets.Scripts.Characters.Titan
             PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
             foreach (Hero player in FengGameManagerMKII.instance.getPlayers())
             {
-                if (Vector3.Distance(player.transform.position, position) < FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode)
+                if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
                 {
                     player.markDie();
                     player.photonView.RPC("netDie2", PhotonTargets.All,  -1, "Server ");

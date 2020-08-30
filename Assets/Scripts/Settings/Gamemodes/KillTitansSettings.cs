@@ -5,10 +5,14 @@ namespace Assets.Scripts.Settings.Gamemodes
 {
     public class KillTitansSettings : GamemodeSettings
     {
-        public KillTitansSettings() { }
+        public KillTitansSettings()
+        {
+            GamemodeType = GamemodeType.Titans;
+        }
 
         public KillTitansSettings(Difficulty difficulty) : base(difficulty)
         {
+            GamemodeType = GamemodeType.Titans;
             switch (difficulty)
             {
                 case Difficulty.Easy:
@@ -16,8 +20,7 @@ namespace Assets.Scripts.Settings.Gamemodes
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
-                    GamemodeType = GamemodeType.Titans;
-                    RespawnMode = RespawnMode.NEVER;
+                    Respawn.Mode = RespawnMode.NEWROUND;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

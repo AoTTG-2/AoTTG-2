@@ -12,7 +12,7 @@ namespace Assets.Scripts.Settings.Titans
         [UiElement("Spawn Titans on FT Defeat", "Should titans spawn when the Female Titan is killed?", SettingCategory.Advanced)]
         public bool? SpawnTitansOnDefeat { get; set; }
 
-        public FemaleTitanSettings() : this(Difficulty.Normal) { }
+        public FemaleTitanSettings() { }
 
         public FemaleTitanSettings(Difficulty difficulty) : base(difficulty)
         {

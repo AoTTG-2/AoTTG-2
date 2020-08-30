@@ -1,11 +1,11 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
 {
     public class InfectionGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private InfectionGamemodeSettings GamemodeSettings => Settings as InfectionGamemodeSettings;
+        private InfectionGamemodeSettings Settings => GameSettings.Gamemode as InfectionGamemodeSettings;
 
         public override void OnRestart()
         {
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Gamemode
                 player.SetCustomProperties(propertiesToSet);
             }
             var length = PhotonNetwork.playerList.Length;
-            var infectionMode = GamemodeSettings.Infected;
+            var infectionMode = Settings.Infected.Value;
             for (num = 0; num < PhotonNetwork.playerList.Length; num++)
             {
                 PhotonPlayer player2 = PhotonNetwork.playerList[num];

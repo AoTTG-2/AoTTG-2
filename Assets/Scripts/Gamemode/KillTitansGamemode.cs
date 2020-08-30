@@ -6,13 +6,13 @@ namespace Assets.Scripts.Gamemode
 {
     public class KillTitansGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private KillTitansSettings GamemodeSettings => Settings as KillTitansSettings;
+        private KillTitansSettings Settings => GameSettings.Gamemode as KillTitansSettings;
 
         public override void OnAllTitansDead()
         {
             FengGameManagerMKII.instance.gameWin2();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+
         }
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
@@ -20,7 +20,7 @@ namespace Assets.Scripts.Gamemode
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
 
-            if (GamemodeSettings.Name.Contains("Annie"))
+            if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
                 PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }

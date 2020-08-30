@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Settings.Titans;
+﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.UI.Elements;
 
 namespace Assets.Scripts.Settings.Gamemodes
@@ -7,17 +7,19 @@ namespace Assets.Scripts.Settings.Gamemodes
     {
         public RacingSettings()
         {
-            Titan = new SettingsTitan
-            {
-                Start = 0
-            };
             GamemodeType = GamemodeType.Racing;
+        }
+
+        public RacingSettings(Difficulty difficulty) : base(difficulty)
+        {
+            GamemodeType = GamemodeType.Racing;
+            Titan.Start = 0;
             PlayerShifters = false;
             Supply = false;
-            RespawnMode = RespawnMode.NEVER;
-            TitansEnabled = false;
+            RestartOnFinish = true;
         }
+
         [UiElement("Restart on Finish", "Should the game restart in 10s upon someone finishing?")]
-        public bool RestartOnFinish { get; set; } = true;
+        public bool? RestartOnFinish { get; set; }
     }
 }

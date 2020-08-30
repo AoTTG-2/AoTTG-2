@@ -1,7 +1,7 @@
-﻿using System;
-using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.UI.Elements;
+using System;
 
 namespace Assets.Scripts.Settings
 {
@@ -20,28 +20,25 @@ namespace Assets.Scripts.Settings
         [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?")]
         public bool? PvPWinOnEnemiesDead { get; set; }
 
+        [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?", SettingCategory.Pvp)]
+        public bool? AhssAirReload { get; set; }
 
-        public PvPSettings()
-        {
-            Cannons = false;
-            Bomb = false;
-            Mode = PvpMode.Disabled;
-            PvPWinOnEnemiesDead = false;
-        }
+        public PvPSettings() { }
 
         public PvPSettings(Difficulty difficulty)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    break;
                 case Difficulty.Normal:
-                    break;
                 case Difficulty.Hard:
-                    break;
                 case Difficulty.Abnormal:
-                    break;
                 case Difficulty.Realism:
+                    Cannons = false;
+                    Bomb = false;
+                    Mode = PvpMode.Disabled;
+                    PvPWinOnEnemiesDead = false;
+                    AhssAirReload = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

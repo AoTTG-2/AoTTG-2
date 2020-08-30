@@ -11,7 +11,7 @@ namespace Assets.Scripts.Settings.Titans
 
         public List<MindlessTitanType> Disabled { get; set; }
 
-        public MindlessTitanSettings() : this(Difficulty.Normal) { }
+        public MindlessTitanSettings() { }
 
         public MindlessTitanSettings(Difficulty difficulty) : base(difficulty)
         {

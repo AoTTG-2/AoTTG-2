@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Settings.Titans;
+using Assets.Scripts.Gamemode;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Settings.Gamemodes
@@ -8,19 +8,15 @@ namespace Assets.Scripts.Settings.Gamemodes
     {
         public TrostSettings()
         {
-            Titan = new SettingsTitan
-            {
-                Start = 2
-            };
             GamemodeType = GamemodeType.Trost;
+        }
+
+        public TrostSettings(Difficulty difficulty) : base(difficulty)
+        {
+            GamemodeType = GamemodeType.Trost;
+            Titan.Start = 2;
+            Titan.Mindless.Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk};
             PlayerShifters = false;
-            Titan = new SettingsTitan()
-            {
-                Mindless = new MindlessTitanSettings
-                {
-                    Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
-                }
-            };
         }
     }
 }

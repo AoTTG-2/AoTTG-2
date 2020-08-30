@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Settings.Titans;
+﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Options;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
@@ -8,19 +8,15 @@ namespace Assets.Scripts.Settings.Gamemodes
         public PvPAhssSettings()
         {
             GamemodeType = GamemodeType.PvpAhss;
-            Pvp = new PvPSettings
-            {
-                Cannons = false,
-                Mode = PvpMode.AhssVsBlades
-            };
-            Titan = new SettingsTitan
-            {
-                Start = -1
-            };
-            AhssAirReload = false;
+        }
+
+        public PvPAhssSettings(Difficulty difficulty) : base(difficulty)
+        {
+            GamemodeType = GamemodeType.PvpAhss;
+            Pvp.Cannons = false;
+            Pvp.Mode = PvpMode.AhssVsBlades;
+            Titan.Start = -1;
             PlayerShifters = false;
-            Horse = false;
-            TitansEnabled = false;
         }
     }
 }

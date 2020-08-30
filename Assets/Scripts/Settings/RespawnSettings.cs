@@ -1,5 +1,5 @@
-﻿using System;
-using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode;
+using System;
 
 namespace Assets.Scripts.Settings
 {
@@ -9,7 +9,7 @@ namespace Assets.Scripts.Settings
 
         public int? EndlessRevive { get; set; }
 
-        public RespawnSettings() : this(Difficulty.Normal) { }
+        public RespawnSettings() { }
 
         public RespawnSettings(Difficulty difficulty)
         {

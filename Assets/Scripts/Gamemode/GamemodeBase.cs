@@ -17,7 +17,8 @@ namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : MonoBehaviour
     {
-        public abstract GamemodeSettings Settings { get; set; }
+        private GamemodeSettings Settings => GameSettings.Gamemode;
+
         private MindlessTitanType GetTitanType()
         {
             return GetDefaultTitanType();
@@ -203,7 +204,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnTitanKilled(string titanName)
         {
-            if (Settings.RestartOnTitansKilled && IsAllTitansDead())
+            if (GameSettings.Gamemode.RestartOnTitansKilled.Value && IsAllTitansDead())
             {
                 OnAllTitansDead();
             }
@@ -243,12 +244,12 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            if (!Settings.Supply)
+            if (!GameSettings.Gamemode.Supply.Value)
             {
                 UnityEngine.Object.Destroy(GameObject.Find("aot_supply"));
             }
 
-            if (Settings.LavaMode)
+            if (GameSettings.Gamemode.LavaMode.Value)
             {
                 UnityEngine.Object.Instantiate(Resources.Load("levelBottom"), new Vector3(0f, -29.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
                 var lavaSupplyStation = GameObject.Find("aot_supply_lava_position");

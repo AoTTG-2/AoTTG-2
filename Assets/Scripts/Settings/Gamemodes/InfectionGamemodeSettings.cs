@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Elements;
+﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.UI.Elements;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
@@ -7,10 +8,15 @@ namespace Assets.Scripts.Settings.Gamemodes
         public InfectionGamemodeSettings()
         {
             GamemodeType = GamemodeType.Infection;
-            RespawnMode = RespawnMode.NEVER;
-            IsPlayerTitanEnabled = true;
         }
+        public InfectionGamemodeSettings(Difficulty difficulty)
+        {
+            GamemodeType = GamemodeType.Infection;
+            IsPlayerTitanEnabled = true;
+            Infected = 1;
+        }
+
         [UiElement("Start Infected", "The amount of players that start as an infected")]
-        public int Infected { get; set; } = 1;
+        public int? Infected { get; set; }
     }
 }

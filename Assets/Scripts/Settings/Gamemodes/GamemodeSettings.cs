@@ -3,6 +3,7 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.Elements;
 using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
@@ -11,6 +12,7 @@ namespace Assets.Scripts.Settings.Gamemodes
         public PvPSettings Pvp { get; set; }
         public SettingsTitan Titan { get; set; }
         public HorseSettings Horse { get; set; }
+        public RespawnSettings Respawn { get; set; }
 
         private string name;
         public string Name
@@ -20,54 +22,32 @@ namespace Assets.Scripts.Settings.Gamemodes
         }
 
         public GamemodeType GamemodeType { get; set; }
-        
-        public string Description;
+
+        public string Description { get; set; }
 
         [UiElement("MOTD", "Message of the Day")]
         public string Motd { get; set; }
         
-        [UiElement("Damage Mode", "Minimum damage you need to do", SettingCategory.Titans)]
-        public int DamageMode { get; set; }
-
-        //If the explode mode <= 0, then it's disabled, 0 > then it's enabled.
-        [UiElement("Explode mode", "", SettingCategory.Titans)]
-        public int TitanExplodeMode { get; set; } = 0;
-
-        [UiElement("Allow Titan Shifters", "")]
-        public bool TitanShifters { get; set; } = true; // This is the anti eren kick
-
-        public bool TitansEnabled { get; set; } = true;
-
-        //LevelInfo attributes
-        public bool Hint;
-
         [UiElement("Lava mode", "The floor is lava! Touching the floor means that you will die...")]
-        public bool LavaMode { get; set; }
+        public bool? LavaMode { get; set; }
 
         [UiElement("Team mode", "Enable teams", SettingCategory.Pvp)]
         public TeamMode TeamMode { get; set; }
 
         [UiElement("Save KDR on DC", "When a player disconnects, should their KDR be saved?")]
-        public bool SaveKDROnDisconnect { get; set; } = true;
-
-        [UiElement("Endless Revive", "")]
-        public int EndlessRevive { get; set; }
+        public bool? SaveKDROnDisconnect { get; set; } = true;
 
         [UiElement("Point mode", "", SettingCategory.Advanced)]
-        public int PointMode { get; set; }
+        public int? PointMode { get; set; }
 
-        public bool Supply { get; set; } = true;
-        public bool IsPlayerTitanEnabled { get; set; }
-        public RespawnMode RespawnMode { get; set; } = RespawnMode.DEATHMATCH;
+        public bool? Supply { get; set; }
+        public bool? IsPlayerTitanEnabled { get; set; }
+        public int? HumanScore { get; set; }
+        public int? TitanScore { get; set; }
 
-        public int HumanScore = 0;
-        public int TitanScore = 0;
+        public bool? PlayerShifters { get; set; }
 
-        [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?", SettingCategory.Pvp)]
-        public bool AhssAirReload { get; set; } = true;
-        public bool PlayerShifters = true;
-
-        public bool RestartOnTitansKilled = true;
+        public bool? RestartOnTitansKilled { get; set; }
 
         public GamemodeSettings() { }
 
@@ -80,12 +60,47 @@ namespace Assets.Scripts.Settings.Gamemodes
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
-                    Pvp = new PvPSettings(difficulty);
-                    Titan = new SettingsTitan(difficulty);
+                    Pvp = new PvPSettings();
+                    Titan = new SettingsTitan
+                    {
+                        Colossal = new TitanSettings(),
+                        Eren = new TitanSettings(),
+                        Female = new FemaleTitanSettings(),
+                        Mindless = new MindlessTitanSettings()
+                    };
+                    Horse = new HorseSettings();
+                    Respawn = new RespawnSettings();
+                    TeamMode = TeamMode.Disabled;
+                    SaveKDROnDisconnect = true;
+                    PointMode = 0;
+                    Supply = true;
+                    IsPlayerTitanEnabled = true;
+                    LavaMode = false;
+                    RestartOnTitansKilled = true;
+                    PlayerShifters = true;
+                    HumanScore = TitanScore = 0;
+                    PlayerShifters = true;
+                    RestartOnTitansKilled = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
             }
+        }
+
+        public static List<GamemodeSettings> GetAll(Difficulty difficulty)
+        {
+            return new List<GamemodeSettings>
+            {
+                new CaptureGamemodeSettings(difficulty),
+                new EndlessSettings(difficulty),
+                new InfectionGamemodeSettings(difficulty),
+                new KillTitansSettings(difficulty),
+                new PvPAhssSettings(difficulty),
+                new RacingSettings(difficulty),
+                new RushSettings(difficulty),
+                new TrostSettings(difficulty),
+                new WaveGamemodeSettings(difficulty)
+            };
         }
 
         public Type GetGamemodeFromSettings()

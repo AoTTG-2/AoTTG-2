@@ -5,8 +5,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private EndlessSettings GamemodeSettings => Settings as EndlessSettings;
+        private EndlessSettings Settings => GameSettings.Gamemode as EndlessSettings;
 
         private int Score { get; set; }
 

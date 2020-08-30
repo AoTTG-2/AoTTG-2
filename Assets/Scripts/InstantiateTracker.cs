@@ -68,11 +68,11 @@ public class InstantiateTracker
             case "fx/boom5":
             case "fx/rockthrow":
             case "fx/bite":
-                if (FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled || FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush)
+                if (GameSettings.Gamemode.IsPlayerTitanEnabled.Value || GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 {
                     return this.Instantiated(photonPlayer, GameResource.effect);
                 }
-                if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled)
+                if (PhotonNetwork.isMasterClient && !GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan effects.");
                 }
@@ -108,7 +108,7 @@ public class InstantiateTracker
             case "titan_eren":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if(!FengGameManagerMKII.Gamemode.Settings.TitanShifters)
+                    if(!GameSettings.Gamemode.PlayerShifters.Value)
                     {
                         if (PhotonNetwork.isMasterClient)
                         {
@@ -132,7 +132,7 @@ public class InstantiateTracker
             case "hitmeatbig":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if (!FengGameManagerMKII.Gamemode.Settings.TitanShifters)
+                    if (!GameSettings.Gamemode.PlayerShifters.Value)
                     {
                         if (PhotonNetwork.isMasterClient)
                         {
@@ -151,7 +151,7 @@ public class InstantiateTracker
             case "fx/colossal_steam_dmg":
             case "fx/colossal_steam":
             case "fx/boom1_ct_kick":
-                if (!PhotonNetwork.isMasterClient || (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush))
+                if (!PhotonNetwork.isMasterClient || (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush))
                 {
                     return this.Instantiated(photonPlayer, GameResource.effect);
                 }
@@ -159,7 +159,7 @@ public class InstantiateTracker
                 return false;
 
             case "rock":
-                if (!PhotonNetwork.isMasterClient || (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush))
+                if (!PhotonNetwork.isMasterClient || (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush))
                 {
                     return this.Instantiated(photonPlayer, GameResource.general);
                 }
@@ -181,7 +181,7 @@ public class InstantiateTracker
                 int num4;
                 if (!PhotonNetwork.isMasterClient)
                 {
-                    if (FengGameManagerMKII.masterRC && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush))
+                    if (FengGameManagerMKII.masterRC && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
                     {
                         num4 = 0;
                         foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
@@ -198,9 +198,9 @@ public class InstantiateTracker
                     }
                     break;
                 }
-                if (FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled || FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush)
+                if (GameSettings.Gamemode.IsPlayerTitanEnabled.Value || GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 {
-                    if (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush)
+                    if (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
                     {
                         break;
                     }

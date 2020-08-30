@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Racing;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Input;
 using System.Collections.Generic;
@@ -11,12 +12,11 @@ namespace Assets.Scripts.Gamemode
         public string localRacingResult = string.Empty;
         public List<RacingObjective> Objectives = new List<RacingObjective>();
 
-        public sealed override GamemodeSettings Settings { get; set; }
-        private RacingSettings GamemodeSettings => Settings as RacingSettings;
+        private RacingSettings Settings => GameSettings.Gamemode as RacingSettings;
 
         public override void OnGameWon()
         {
-            FengGameManagerMKII.instance.gameEndCD = GamemodeSettings.RestartOnFinish
+            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish.Value
                 ? 20f
                 : 9999f;
 
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnNetGameWon(int score)
         {
-            FengGameManagerMKII.instance.gameEndCD = GamemodeSettings.RestartOnFinish
+            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish.Value
                 ? 20f
                 : 9999f;
         }

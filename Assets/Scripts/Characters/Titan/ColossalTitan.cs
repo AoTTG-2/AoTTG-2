@@ -465,7 +465,7 @@ public class ColossalTitan : TitanBase
         }
         base.name = "ColossalTitan";
         this.NapeArmor = 1000;
-        var flag = FengGameManagerMKII.Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
+        var flag = GameSettings.Respawn.Mode == RespawnMode.NEVER;
         NapeArmor = !flag ? 5000 : 2000;
         //if (Gamemode.Settings.Difficulty == Difficulty.Normal)
         //{
@@ -574,7 +574,7 @@ public class ColossalTitan : TitanBase
             Vector3 vector = view.gameObject.transform.position - transform.transform.position;
             if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
             {
-                if (speed >= FengGameManagerMKII.Gamemode.Settings.DamageMode)
+                if (speed >= GameSettings.Titan.MinimumDamage.Value)
                 {
                     this.NapeArmor -= speed;
                 }

@@ -1,12 +1,12 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
     public class TrostGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private TrostSettings GamemodeSettings => Settings as TrostSettings;
+        private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {

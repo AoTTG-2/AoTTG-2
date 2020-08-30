@@ -10,14 +10,10 @@ namespace Assets.Scripts.Gamemode
 {
     public class WaveGamemode : GamemodeBase
     {
+        private WaveGamemodeSettings Settings => GameSettings.Gamemode as WaveGamemodeSettings;
+
         private int highestWave = 1;
-
-        public bool PunkWave { get; set; } = true;
-        private readonly int _punkWave = 5;
         public int Wave = 1;
-
-        public sealed override GamemodeSettings Settings { get; set; }
-        private WaveGamemodeSettings GamemodeSettings => Settings as WaveGamemodeSettings;
 
         public override string GetGamemodeStatusTop(int totalRoomTime = 0, int timeLeft = 0)
         {
@@ -69,7 +65,7 @@ namespace Assets.Scripts.Gamemode
         {
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
-            if (GamemodeSettings.Name.Contains("Annie"))
+            if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
                 PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }
@@ -81,7 +77,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnRestart()
         {
-            Wave = GamemodeSettings.StartWave;
+            Wave = Settings.StartWave.Value;
             base.OnRestart();
         }
 
@@ -106,7 +102,7 @@ namespace Assets.Scripts.Gamemode
             if (!IsAllTitansDead()) return;
             Wave++;
             var level = FengGameManagerMKII.Level.Name;
-            if (!(GamemodeSettings.RespawnMode != RespawnMode.NEWROUND && (!level.StartsWith("Custom"))))
+            if (!(GameSettings.Respawn.Mode != RespawnMode.NEWROUND && (!level.StartsWith("Custom"))))
             {
                 foreach (var player in PhotonNetwork.playerList)
                 {
@@ -128,22 +124,22 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.RequireStatus();
             }
-            if (!((GamemodeSettings.MaxWave != 0 || Wave <= GamemodeSettings.MaxWave) && (GamemodeSettings.MaxWave <= 0 || Wave <= GamemodeSettings.MaxWave)))
+            if (!((Settings.MaxWave.Value != 0 || Wave <= Settings.MaxWave.Value) && (Settings.MaxWave.Value <= 0 || Wave <= Settings.MaxWave.Value)))
             {
                 FengGameManagerMKII.instance.gameWin2();
             }
             else
             {
-                if (Wave % _punkWave == 0)
+                if (Wave % Settings.BossWave.Value == 0)
                 {
-                    for (int i = 0; i < Wave / _punkWave; i++)
+                    for (int i = 0; i < Wave / Settings.BossWave.Value; i++)
                     {
-                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration(MindlessTitanType.Punk));
+                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration(Settings.BossType.Value));
                     }
                 }
                 else
                 {
-                    StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value + Wave * GamemodeSettings.WaveIncrement));
+                    StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value + Wave * Settings.WaveIncrement.Value));
                 }
             }
         }

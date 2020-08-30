@@ -156,7 +156,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.state = CheckPointState.Human;
             object[] parameters = new object[] { 1 };
             base.photonView.RPC("changeState", PhotonTargets.All, parameters);
-            if (((CaptureGamemodeSettings)gamemode.Settings).SpawnSupplyStationOnHumanCapture)
+            if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().SpawnSupplyStationOnHumanCapture.Value)
             {
                 supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
             }

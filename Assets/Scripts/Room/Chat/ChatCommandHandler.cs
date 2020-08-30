@@ -119,9 +119,9 @@ public static class ChatCommandHandler
             message = "Horses are enabled.";
             instance.chatRoom.OutputSystemMessage(message);
         }
-        if (FengGameManagerMKII.Gamemode.Settings.Motd != string.Empty)
+        if (GameSettings.Gamemode.Motd != string.Empty)
         {
-            message = $"MOTD: {FengGameManagerMKII.Gamemode.Settings.Motd}";
+            message = $"MOTD: {GameSettings.Gamemode.Motd}";
             instance.chatRoom.OutputSystemMessage(message);
         }
     }
@@ -426,14 +426,14 @@ public static class ChatCommandHandler
             switch (command)
             {
                 case ChatCommand.Kdr:
-                    if (!Gamemode.Settings.SaveKDROnDisconnect)
+                    if (!GameSettings.Gamemode.SaveKDROnDisconnect.Value)
                     {
-                        Gamemode.Settings.SaveKDROnDisconnect = true;
+                        GameSettings.Gamemode.SaveKDROnDisconnect = true;
                         message = "KDRs will be preserved from disconnects.";
                     }
                     else
                     {
-                        Gamemode.Settings.SaveKDROnDisconnect = false;
+                        GameSettings.Gamemode.SaveKDROnDisconnect = false;
                         message = "KDRs will not be preserved from disconnects.";
                     }
 
@@ -469,7 +469,7 @@ public static class ChatCommandHandler
     {
         ChatCommand teamEnum;
         string message = string.Empty;
-        if (Gamemode.Settings.TeamMode == TeamMode.NoSort)
+        if (GameSettings.Gamemode.TeamMode == TeamMode.NoSort)
         {
             if (Enum.TryParse(team, true, out teamEnum))
             {

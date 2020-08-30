@@ -1,12 +1,12 @@
 ﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
 {
     public class PvPAhssGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private PvPAhssSettings GamemodeSettings => Settings as PvPAhssSettings;
+        private PvPAhssSettings Settings => GameSettings.Gamemode as PvPAhssSettings;
 
         private int teamWinner;
         private readonly int[] teamScores = new int[2];

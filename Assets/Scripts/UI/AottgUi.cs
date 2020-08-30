@@ -1,4 +1,5 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Settings;
+using ExitGames.Client.Photon;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
@@ -63,7 +64,7 @@ namespace Assets.Scripts.UI
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
                 }
             }
-            else if (((FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Capture)
+            else if (((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())

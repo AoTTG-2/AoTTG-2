@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using UnityEngine;
 
@@ -7,8 +8,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class CaptureGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private CaptureGamemodeSettings CaptureSettings => Settings as CaptureGamemodeSettings;
+        private CaptureGamemodeSettings Settings => GameSettings.Gamemode as CaptureGamemodeSettings;
 
         public int PvpTitanScore;
         public int PvpHumanScore;
@@ -25,7 +25,7 @@ namespace Assets.Scripts.Gamemode
             }
             str2 = str2 + "|";
             var length = totalRoomTime - time;
-            return $"{CaptureSettings.PvpTitanScoreLimit - PvpTitanScore} {str2} {CaptureSettings.PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
+            return $"{Settings.PvpTitanScoreLimit - PvpTitanScore} {str2} {Settings.PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
         }
 
         public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
@@ -79,14 +79,14 @@ namespace Assets.Scripts.Gamemode
                 photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.HumanScore, Settings.TitanScore);
             }
 
-            if (PvpTitanScore >= CaptureSettings.PvpTitanScoreLimit)
+            if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
             {
-                PvpTitanScore = CaptureSettings.PvpTitanScoreLimit;
+                PvpTitanScore = Settings.PvpTitanScoreLimit.Value;
                 FengGameManagerMKII.instance.gameLose2();
             }
-            else if (PvpHumanScore >= CaptureSettings.PvpHumanScoreLimit)
+            else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
             {
-                PvpHumanScore = CaptureSettings.PvpHumanScoreLimit;
+                PvpHumanScore = Settings.PvpHumanScoreLimit.Value;
                 FengGameManagerMKII.instance.gameWin2();
             }
         }
@@ -178,7 +178,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, CaptureSettings.PvpHumanScoreLimit, CaptureSettings.PvpTitanScoreLimit);
+                FengGameManagerMKII.instance.photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, Settings.PvpHumanScoreLimit.Value, Settings.PvpTitanScoreLimit.Value);
             }
         }
 

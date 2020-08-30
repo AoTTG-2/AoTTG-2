@@ -1,4 +1,5 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Settings;
+using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Assets.Scripts.UI.InGame
             }
             EquipmentDropdown.captionText.text = EquipmentDropdown.options[0].text;
 
-            if (!FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled)
+            if (!GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
             {
                 PlayerTitanButton.SetActive(false);
             }
@@ -41,7 +42,7 @@ namespace Assets.Scripts.UI.InGame
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
                 }
             }
-            else if (((FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Capture)
+            else if (((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())

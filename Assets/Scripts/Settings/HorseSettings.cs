@@ -20,6 +20,7 @@ namespace Assets.Scripts.Settings
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
+                    Enabled = false;
                     BaseSpeed = 45f;
                     break;
                 default:

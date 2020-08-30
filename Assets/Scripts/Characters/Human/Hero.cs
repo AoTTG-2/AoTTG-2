@@ -575,7 +575,7 @@ public class Hero : Human
 
     private void changeBlade()
     {
-        if ((!this.useGun || this.grounded) || FengGameManagerMKII.Gamemode.Settings.AhssAirReload)
+        if ((!this.useGun || this.grounded) || GameSettings.PvP.AhssAirReload.Value)
         {
             this.state = HERO_STATE.ChangeBlade;
             this.throwedBlades = false;
@@ -3043,7 +3043,7 @@ public class Hero : Human
     [PunRPC]
     public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
     {
-        if ((base.photonView.isMine && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush)))
+        if ((base.photonView.isMine && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush)))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3175,7 +3175,7 @@ public class Hero : Human
     private void netDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
     {
         GameObject obj2;
-        if ((base.photonView.isMine) && (FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.TitanRush))
+        if ((base.photonView.isMine) && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
         {
             if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
             {
@@ -3884,7 +3884,7 @@ public class Hero : Human
             this.skillCDLast = 120f;
             if (!PhotonNetwork.offlineMode)
             {
-                if (!FengGameManagerMKII.Gamemode.Settings.PlayerShifters)
+                if (!GameSettings.Gamemode.PlayerShifters.Value)
                 {
                     this.skillId = "petra";
                     this.skillCDLast = 1f;
@@ -4741,7 +4741,7 @@ public class Hero : Human
                             {
                                 this.getOffHorse();
                             }
-                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)) || this.grounded))
+                            if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (GameSettings.PvP.AhssAirReload.Value)) || this.grounded))
                             {
                                 this.changeBlade();
                                 return;
@@ -5134,7 +5134,7 @@ public class Hero : Human
                                     this.facingDirection = this.gunDummy.transform.rotation.eulerAngles.y;
                                     this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                 }
-                                else if (flag5 && (this.grounded || (FengGameManagerMKII.Gamemode.Settings.AhssAirReload)))
+                                else if (flag5 && (this.grounded || (GameSettings.PvP.AhssAirReload.Value)))
                                 {
                                     this.changeBlade();
                                 }

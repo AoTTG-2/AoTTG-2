@@ -68,7 +68,6 @@ public class LevelBuilder : MonoBehaviour
                 },
                 new WaveGamemodeSettings
                 {
-                    Horse = true,
                     IsPlayerTitanEnabled = true
                 }
 
@@ -161,7 +160,10 @@ public class LevelBuilder : MonoBehaviour
             {
                 new CaptureGamemodeSettings
                 {
-                    Horse = true,
+                    Horse = new HorseSettings
+                    {
+                        Enabled = true
+                    },
                     Supply = true,
                     SpawnSupplyStationOnHumanCapture = true
                 }

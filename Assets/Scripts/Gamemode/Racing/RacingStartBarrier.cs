@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Settings;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
@@ -9,7 +10,7 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private void Awake()
         {
-            if (IsRacingOnly && FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.Racing)
+            if (IsRacingOnly && GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)
             {
                 Destroy(gameObject);
                 return;

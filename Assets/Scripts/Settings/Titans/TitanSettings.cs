@@ -12,6 +12,8 @@ namespace Assets.Scripts.Settings.Titans
 {
     public class TitanSettings
     {
+        public bool? Enabled { get; set; } //TODO: New attribute which prevents titans from being spawned
+
         public List<AttackSetting> AttackSettings { get; set; }
 
         public T Attacks<T>() where T : AttackSetting
@@ -22,7 +24,7 @@ namespace Assets.Scripts.Settings.Titans
         [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
         public float? SizeMinimum { get; set; }
 
-        [UiElement("Max size", "Maximun titan size", SettingCategory.Titans)]
+        [UiElement("Max size", "Maximum titan size", SettingCategory.Titans)]
         public float? SizeMaximum { get; set; }
 
         [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
@@ -48,7 +50,7 @@ namespace Assets.Scripts.Settings.Titans
         [JsonIgnore]
         public int Health => Random.Range(HealthMinimum.Value, HealthMaximum.Value);
 
-        public TitanSettings() : this(Difficulty.Normal) { }
+        public TitanSettings() { }
 
         public TitanSettings(Difficulty difficulty)
         {

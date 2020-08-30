@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Settings.Titans;
+﻿using Assets.Scripts.Gamemode;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
@@ -7,10 +7,12 @@ namespace Assets.Scripts.Settings.Gamemodes
         public RushSettings()
         {
             GamemodeType = GamemodeType.TitanRush;
-            Titan = new SettingsTitan
-            {
-                Start = 2
-            };
+        }
+
+        public RushSettings(Difficulty difficulty) : base(difficulty)
+        {
+            GamemodeType = GamemodeType.TitanRush;
+            Titan.Start = 2;
         }
     }
 }

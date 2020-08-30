@@ -1355,7 +1355,7 @@ public class FemaleTitan : TitanBase
         this.AnkleRHP = 50;
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
-        var flag = Gamemode.Settings.RespawnMode == RespawnMode.NEVER;
+        var flag = GameSettings.Respawn.Mode == RespawnMode.NEVER;
         this.NapeArmor = 1000;
         this.AnkleLHP = this.AnkleLHPMAX = 50;
         this.AnkleRHP = this.AnkleRHPMAX = 50;
@@ -1431,7 +1431,7 @@ public class FemaleTitan : TitanBase
             Vector3 vector = view.gameObject.transform.position - transform.transform.position;
             if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
             {
-                if (speed >= FengGameManagerMKII.Gamemode.Settings.DamageMode)
+                if (speed >= GameSettings.Titan.MinimumDamage.Value)
                 {
                     this.NapeArmor -= speed;
                 }

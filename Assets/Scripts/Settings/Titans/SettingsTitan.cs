@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.UI.Elements;
+using System;
 
 namespace Assets.Scripts.Settings.Titans
 {
@@ -16,12 +12,18 @@ namespace Assets.Scripts.Settings.Titans
         [UiElement("Titan Limit", "The max amount of titans", SettingCategory.Titans)]
         public int? Limit { get; set; }
 
+        [UiElement("Minimum Damage Mode", "Minimum damage you need to do", SettingCategory.Titans)]
+        public int? MinimumDamage { get; set; }
+
+        [UiElement("Maximum Damage Mode", "Maximum damage that can be dealt", SettingCategory.Titans)]
+        public int? MaximumDamage { get; set; }
+
         public MindlessTitanSettings Mindless { get; set; }
         public FemaleTitanSettings Female { get; set; }
         public TitanSettings Colossal { get; set; }
         public TitanSettings Eren { get; set; }
 
-        public SettingsTitan() : this (Difficulty.Normal) { }
+        public SettingsTitan() { }
 
         public SettingsTitan(Difficulty difficulty)
         {
@@ -34,6 +36,8 @@ namespace Assets.Scripts.Settings.Titans
                 case Difficulty.Realism:
                     Start = 10;
                     Limit = 30;
+                    MinimumDamage = 0;
+                    MaximumDamage = int.MaxValue;
                     Mindless = new MindlessTitanSettings();
                     Female = new FemaleTitanSettings();
                     Colossal = new TitanSettings();
