@@ -1,12 +1,12 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Gamemode;
+using Assets.Scripts.Settings;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Characters.Titan.Body;
-using Assets.Scripts.Settings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -171,8 +171,6 @@ namespace Assets.Scripts.Characters.Titan
             {
                 behavior.Initialize(this);
             }
-
-            Attacks = new Attack[] {new GrabAttack()};
 
             foreach (var attack in Attacks)
             {

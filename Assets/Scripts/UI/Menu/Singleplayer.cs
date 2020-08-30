@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Settings.Gamemodes;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.UI.Menu
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
+        public Dropdown DifficultyDropdown;
         private List<Level> levels;
 
         private Level selectedLevel;
@@ -47,6 +49,13 @@ namespace Assets.Scripts.UI.Menu
             });
 
             OnLevelSelected(levels[0]);
+
+            DifficultyDropdown.options = new List<Dropdown.OptionData>();
+            foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
+            {
+                DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
+            }
+            DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
         }
 
         public override void Back()
@@ -57,6 +66,8 @@ namespace Assets.Scripts.UI.Menu
 
         public void Create()
         {
+            var difficulty = (Difficulty) DifficultyDropdown.value;
+            FengGameManagerMKII.instance.SetSettings(difficulty);
             var roomOptions = new RoomOptions
             {
                 IsVisible = true,

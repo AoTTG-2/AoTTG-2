@@ -7,6 +7,7 @@ using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
+using Assets.Scripts.Settings.Titans.Attacks;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
@@ -43,8 +44,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private float currentSpeed;
     public static bool customLevelLoaded;
     public int cyanKills;
-    [Obsolete("Please use Gamemode.Difficulty")]
-    public int difficulty;
     public float distanceSlider;
     private bool endRacing;
     private ArrayList eT;
@@ -2320,19 +2319,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.gameTimesUp = false;
         char[] chArray3 = new char[] { "`"[0] };
         string[] strArray = PhotonNetwork.room.name.Split(chArray3);
-        this.difficulty = 0;
-        //if (strArray[2] == "normal")
-        //{
-        //    this.difficulty = 0;
-        //}
-        //else if (strArray[2] == "hard")
-        //{
-        //    this.difficulty = 1;
-        //}
-        //else if (strArray[2] == "abnormal")
-        //{
-        //    this.difficulty = 2;
-        //}
         this.time = 5000;//int.Parse(strArray[3]);
         this.time *= 60;
         //if (strArray[4] == "day")
@@ -3643,21 +3629,29 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.ShowHUDInfoCenter(string.Empty);
     }
 
+    public void SetSettings(Difficulty difficulty)
+    {
+        Settings = new GameSettings();
+        Settings.Initialize(
+            GamemodeSettings.GetAll(difficulty),
+            new PvPSettings(difficulty),
+            new SettingsTitan(difficulty)
+            {
+                Mindless = new MindlessTitanSettings(difficulty)
+                {
+                    AttackSettings = AttackSetting.GetAll<MindlessTitan>(difficulty)
+                },
+                Female = new FemaleTitanSettings(difficulty),
+                Colossal = new TitanSettings(difficulty),
+                Eren = new TitanSettings(difficulty)
+            },
+            new HorseSettings(difficulty),
+            new RespawnSettings(difficulty)
+        );
+    }
+
     private void Start()
     {
-        //var gamesettings = new GameSettings();
-        //gamesettings.Initialize(null, new PvPSettings
-        //{
-        //    Cannons = true
-        //}, null);
-
-        //if (PlayerPrefs.GetString("GameSettings") == null)
-        //{
-        //    PlayerPrefs.SetString("GameSettings", JsonConvert.SerializeObject(gamesettings));
-        //}
-
-        //gamesettings.ChangeSettings(new PvPAhssSettings());
-
         Settings = new GameSettings();
         var difficulty = Difficulty.Normal;
         Settings.Initialize(
@@ -3665,7 +3659,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             new PvPSettings(difficulty), 
             new SettingsTitan(difficulty)
             {
-                Mindless = new MindlessTitanSettings(difficulty),
+                Mindless = new MindlessTitanSettings(difficulty)
+                {
+                    AttackSettings = AttackSetting.GetAll<MindlessTitan>(difficulty)
+                },
                 Female = new FemaleTitanSettings(difficulty),
                 Colossal = new TitanSettings(difficulty),
                 Eren = new TitanSettings(difficulty)

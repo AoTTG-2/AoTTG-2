@@ -1,12 +1,23 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.Settings.Titans.Attacks
 {
     public abstract class AttackSetting
     {
+
+        public static List<AttackSetting> GetAll<T>(Difficulty difficulty) where T : TitanBase
+        {
+            if (typeof(T) == typeof(MindlessTitan))
+            {
+                return new List<AttackSetting>
+                {
+                    new RockThrowSetting(difficulty)
+                };
+            }
+
+            return null;
+        }
     }
 }
