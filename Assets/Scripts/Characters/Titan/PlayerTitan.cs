@@ -164,6 +164,32 @@ namespace Assets.Scripts.Characters.Titan
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
         }
 
+        public void ptdie() 
+        {
+            if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+            {
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                propertiesToSet.Add(PhotonPlayerProperty.dead, true);
+                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+                propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.customProperties[PhotonPlayerProperty.deaths]) + 1);
+                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+                // PhotonNetwork.Destroy(base.photonView);
+                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name], 0);
+                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = true;
+                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().justSuicide = true;
+                ChangeState(MindlessTitanState.Dead);
+                Dead();
+            }
+            else 
+            {
+            //SinglePlayer Restart
+            }
+
+        }
         protected override void Update()
         {
             if (!photonView.isMine) return;
@@ -174,6 +200,10 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            if (InputManager.KeyDown(InputUi.Restart)) 
+            {
+                ptdie();
+            }
             if (InputManager.KeyDown(InputTitan.Blend))
             {
                 Ai = !Ai;
