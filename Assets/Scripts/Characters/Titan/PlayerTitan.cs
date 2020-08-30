@@ -166,8 +166,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void ptdie() 
         {
-            if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
-            {
+         
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
@@ -183,12 +182,7 @@ namespace Assets.Scripts.Characters.Titan
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().justSuicide = true;
                 ChangeState(MindlessTitanState.Dead);
                 Dead();
-            }
-            else 
-            {
-            //SinglePlayer Restart
-            }
-
+       
         }
         protected override void Update()
         {
