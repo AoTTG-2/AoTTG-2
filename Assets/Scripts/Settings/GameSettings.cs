@@ -92,7 +92,13 @@ namespace Assets.Scripts.Settings
                     throw new ArgumentOutOfRangeException();
             }
             PvP = CreateFromObjects(ConfigPvP, playerGamemodeSettings.Pvp, levelGamemode.Pvp);
-            Titan = CreateFromObjects(ConfigTitan, playerGamemodeSettings.Titan, levelGamemode.Titan);
+
+            //TODO: Nested classes need to run CreateFromObjects
+            Titan.Mindless = CreateFromObjects(ConfigTitan.Mindless, playerGamemodeSettings.Titan.Mindless, levelGamemode.Titan.Mindless);
+            Titan.Colossal = CreateFromObjects(ConfigTitan.Colossal, playerGamemodeSettings.Titan.Colossal, levelGamemode.Titan.Colossal);
+            Titan.Female = CreateFromObjects(ConfigTitan.Female, playerGamemodeSettings.Titan.Female, levelGamemode.Titan.Female);
+            Titan.Eren = CreateFromObjects(ConfigTitan.Eren, playerGamemodeSettings.Titan.Eren, levelGamemode.Titan.Eren);
+
             Horse = CreateFromObjects(ConfigHorse, playerGamemodeSettings.Horse, levelGamemode.Horse);
             Respawn = CreateFromObjects(ConfigRespawn, playerGamemodeSettings.Respawn, levelGamemode.Respawn);
         }
@@ -132,6 +138,14 @@ namespace Assets.Scripts.Settings
         {
             foreach (var propertyInfo in typeof(T).GetProperties().Where(prop => prop.CanRead && prop.CanWrite))
             {
+                //var nullableType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
+                //if (nullableType == null && !propertyInfo.PropertyType.IsPrimitive)
+                //{
+                //    var arr = sources.Select(x => propertyInfo.GetValue(x)).ToArray();
+                //    MergeObjects(propertyInfo.PropertyType, sources.Select(x => propertyInfo.GetValue(x)).ToArray());
+                //    continue;
+                //}
+
                 foreach (var source in sources)
                 {
                     if (source == null)

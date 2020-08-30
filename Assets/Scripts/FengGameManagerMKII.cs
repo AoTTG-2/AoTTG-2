@@ -3663,7 +3663,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Settings.Initialize(
             GamemodeSettings.GetAll(difficulty), 
             new PvPSettings(difficulty), 
-            new SettingsTitan(difficulty), 
+            new SettingsTitan(difficulty)
+            {
+                Mindless = new MindlessTitanSettings(difficulty),
+                Female = new FemaleTitanSettings(difficulty),
+                Colossal = new TitanSettings(difficulty),
+                Eren = new TitanSettings(difficulty)
+            },
             new HorseSettings(difficulty), 
             new RespawnSettings(difficulty)
         );

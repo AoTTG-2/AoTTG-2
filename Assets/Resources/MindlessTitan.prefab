@@ -827,10 +827,10 @@ GameObject:
   - component: {fileID: 111162959378680422}
   - component: {fileID: 114137919348889350}
   - component: {fileID: 54197300092460074}
-  - component: {fileID: 114338049395213770}
   - component: {fileID: 114986312314889836}
   - component: {fileID: 114642288650367630}
   - component: {fileID: 114288680120854022}
+  - component: {fileID: 114021182772690314}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2161,7 +2161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1638316428728248}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -69, y: 0, z: 0}
+  m_LocalPosition: {x: -1000, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4252563199533188}
@@ -2651,6 +2651,56 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &114021182772690314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02563b2de8af1d144856397a138f7c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AABB: {fileID: 4562939801880540}
+  Core: {fileID: 4541709052506242}
+  Head: {fileID: 4785721790656888}
+  Neck: {fileID: 4615471509580868}
+  HandRight: {fileID: 4392246336210114}
+  HandLeft: {fileID: 4750408942487292}
+  Chest: {fileID: 4026096054525048}
+  ArmRight: {fileID: 4332437840038354}
+  UpperArmRight: {fileID: 4359070867701286}
+  ShoulderRight: {fileID: 4483567270133998}
+  ArmLeft: {fileID: 4901757834267432}
+  UpperArmLeft: {fileID: 4587935427260762}
+  ShoulderLeft: {fileID: 4385744030590588}
+  Hip: {fileID: 4757557157045464}
+  LegLeft: {fileID: 4261563218926432}
+  LegRight: {fileID: 4990088436780208}
+  checkAeLLeft: {fileID: 4718549205490738}
+  checkAeLRight: {fileID: 4065975121523036}
+  checkAeRight: {fileID: 4974204882645096}
+  checkAeLeft: {fileID: 4420247305095092}
+  CheckOverhead: {fileID: 4488880852085178}
+  CheckFrontRight: {fileID: 4730531045254670}
+  CheckFrontLeft: {fileID: 4058318642582830}
+  CheckFront: {fileID: 4064912103518338}
+  CheckBackRight: {fileID: 4875233727775272}
+  CheckBackLowRight: {fileID: 4092127304610076}
+  CheckBackLowLeft: {fileID: 4354356785587242}
+  CheckBackLeft: {fileID: 4496855998612014}
+  CheckBack: {fileID: 4511085027267988}
+  AttackStomp: {fileID: 4363781619409792}
+  AttackSlapFace: {fileID: 4177038870267934}
+  AttackSlapBack: {fileID: 4560791289368008}
+  AttackKick: {fileID: 4447708169098136}
+  AttackFrontGround: {fileID: 4499465451910394}
+  AttackCombo: {fileID: 4954706669601616}
+  AttackBiteRight: {fileID: 4010774233382968}
+  AttackBiteLeft: {fileID: 4174104206074642}
+  AttackBite: {fileID: 4419495927181526}
+  AttackAbnormalJump: {fileID: 4014965717870646}
 --- !u!114 &114052573935933328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2728,56 +2778,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114338049395213770
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1638316428728248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700c18b296b00f042b6a2afddf78233e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AABB: {fileID: 4562939801880540}
-  Core: {fileID: 4541709052506242}
-  Head: {fileID: 4785721790656888}
-  Neck: {fileID: 4615471509580868}
-  HandRight: {fileID: 4392246336210114}
-  HandLeft: {fileID: 4750408942487292}
-  Chest: {fileID: 4026096054525048}
-  ArmRight: {fileID: 4332437840038354}
-  UpperArmRight: {fileID: 4359070867701286}
-  ShoulderRight: {fileID: 4483567270133998}
-  ArmLeft: {fileID: 4901757834267432}
-  UpperArmLeft: {fileID: 4587935427260762}
-  ShoulderLeft: {fileID: 4385744030590588}
-  Hip: {fileID: 4757557157045464}
-  LegLeft: {fileID: 4199486576510812}
-  LegRight: {fileID: 4169512168961186}
-  checkAeLLeft: {fileID: 4718549205490738}
-  checkAeLRight: {fileID: 4065975121523036}
-  checkAeRight: {fileID: 4974204882645096}
-  checkAeLeft: {fileID: 4420247305095092}
-  CheckOverhead: {fileID: 4488880852085178}
-  CheckFrontRight: {fileID: 4730531045254670}
-  CheckFrontLeft: {fileID: 4058318642582830}
-  CheckFront: {fileID: 4064912103518338}
-  CheckBackRight: {fileID: 4875233727775272}
-  CheckBackLowRight: {fileID: 4092127304610076}
-  CheckBackLowLeft: {fileID: 4354356785587242}
-  CheckBackLeft: {fileID: 4496855998612014}
-  CheckBack: {fileID: 4511085027267988}
-  AttackStomp: {fileID: 4363781619409792}
-  AttackSlapFace: {fileID: 4177038870267934}
-  AttackSlapBack: {fileID: 4560791289368008}
-  AttackKick: {fileID: 4447708169098136}
-  AttackFrontGround: {fileID: 4499465451910394}
-  AttackCombo: {fileID: 4954706669601616}
-  AttackBiteRight: {fileID: 4010774233382968}
-  AttackBiteLeft: {fileID: 4174104206074642}
-  AttackBite: {fileID: 4419495927181526}
-  AttackAbnormalJump: {fileID: 4014965717870646}
 --- !u!114 &114468590170453910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2823,7 +2823,7 @@ MonoBehaviour:
   eye: {fileID: 1735526763489876}
   haseye: 0
   skin: 0
-  TitanBody: {fileID: 114338049395213770}
+  TitanBody: {fileID: 114021182772690314}
 --- !u!135 &135028457441990780
 SphereCollider:
   m_ObjectHideFlags: 1

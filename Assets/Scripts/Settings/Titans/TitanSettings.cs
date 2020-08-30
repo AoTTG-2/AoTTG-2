@@ -31,7 +31,7 @@ namespace Assets.Scripts.Settings.Titans
         public float? ChaseDistance { get; set; }
 
         [UiElement("Titan Health Mode", "", SettingCategory.Titans)]
-        public TitanHealthMode HealthMode { get; set; }
+        public TitanHealthMode? HealthMode { get; set; }
 
         [UiElement("Titan Minimum Health", "", SettingCategory.Titans)]
         public int? HealthMinimum { get; set; }

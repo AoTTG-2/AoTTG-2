@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode;
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Characters.Titan;
 
 namespace Assets.Scripts.Settings.Titans
 {

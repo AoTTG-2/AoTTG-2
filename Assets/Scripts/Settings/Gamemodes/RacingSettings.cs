@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.UI.Elements;
 
 namespace Assets.Scripts.Settings.Gamemodes
@@ -14,6 +15,7 @@ namespace Assets.Scripts.Settings.Gamemodes
         {
             GamemodeType = GamemodeType.Racing;
             Titan.Start = 0;
+            Pvp.Mode = PvpMode.Disabled;
             PlayerShifters = false;
             Supply = false;
             RestartOnFinish = true;

@@ -121,6 +121,7 @@ namespace Assets.Scripts.Characters.Titan
             this.oldHeadRotation = TitanBody.Head.rotation;
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
+            grabTF.transform.SetParent(transform);
             Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection")
                 .ToArray();
             CheckColliders();

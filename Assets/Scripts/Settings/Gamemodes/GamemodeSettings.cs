@@ -9,11 +9,6 @@ namespace Assets.Scripts.Settings.Gamemodes
 {
     public abstract class GamemodeSettings
     {
-        public PvPSettings Pvp { get; set; }
-        public SettingsTitan Titan { get; set; }
-        public HorseSettings Horse { get; set; }
-        public RespawnSettings Respawn { get; set; }
-
         private string name;
         public string Name
         {
@@ -48,6 +43,10 @@ namespace Assets.Scripts.Settings.Gamemodes
         public bool? PlayerShifters { get; set; }
 
         public bool? RestartOnTitansKilled { get; set; }
+        public PvPSettings Pvp { get; set; }
+        public SettingsTitan Titan { get; set; }
+        public HorseSettings Horse { get; set; }
+        public RespawnSettings Respawn { get; set; }
 
         public GamemodeSettings() { }
 
