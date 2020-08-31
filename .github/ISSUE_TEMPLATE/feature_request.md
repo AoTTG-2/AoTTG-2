@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**How will this feature improve the game?**
+A clear and concise description of what the idea is.
 
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
