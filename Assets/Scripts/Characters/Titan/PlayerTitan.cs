@@ -166,7 +166,8 @@ namespace Assets.Scripts.Characters.Titan
 
         public void ptdie() 
         {
-         
+            if (!PhotonNetwork.offlineMode)
+            { 
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
@@ -182,7 +183,7 @@ namespace Assets.Scripts.Characters.Titan
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().justSuicide = true;
                 ChangeState(MindlessTitanState.Dead);
                 Dead();
-       
+            }
         }
         protected override void Update()
         {

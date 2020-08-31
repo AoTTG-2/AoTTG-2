@@ -4750,7 +4750,10 @@ public class Hero : Human
                             }
                             if (InputManager.KeyDown(InputUi.Restart))
                             {
+                                if (!PhotonNetwork.offlineMode)
+                                { 
                                 this.suicide2();
+                                }
                             }
                             if (((this.myHorse != null) && this.isMounted) && InputManager.KeyDown(InputHorse.Mount))
                             {
