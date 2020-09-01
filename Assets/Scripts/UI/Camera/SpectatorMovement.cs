@@ -10,7 +10,7 @@ public class SpectatorMovement : MonoBehaviour
     {
         if (PhotonNetwork.offlineMode)
         {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().restartGameSingle2();
+            FengGameManagerMKII.instance.restartGameSingle2();
         }
     }
     private void Update()
@@ -33,9 +33,14 @@ public class SpectatorMovement : MonoBehaviour
             {
                 num2 = -1f;
             }
+
             else
             {
                 num2 = 0f;
+            }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                reset();
             }
             if (InputManager.Key(InputHuman.Left))
             {
@@ -45,6 +50,7 @@ public class SpectatorMovement : MonoBehaviour
             {
                 num3 = 1f;
             }
+        
             else
             {
                 num3 = 0f;
