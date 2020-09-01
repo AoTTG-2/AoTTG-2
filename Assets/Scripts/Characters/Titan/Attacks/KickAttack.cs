@@ -22,7 +22,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (Mathf.Abs(between) >= 90f || between <= 0 ||
                 Titan.TargetDistance > Titan.AttackDistance * 0.25f) return false;
 
-            TitanBodyPart = Titan.TitanBody.AttackKick;
+            TitanBodyPart = Titan.Body.AttackKick;
             return true;
         }
     }

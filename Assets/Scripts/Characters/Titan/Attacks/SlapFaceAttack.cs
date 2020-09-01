@@ -15,7 +15,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
             if (IsDisabled()) return false;
-            if (Titan.Target.transform.position.y <= Titan.TitanBody.Neck.position.y - 3f * Titan.Size
+            if (Titan.Target.transform.position.y <= Titan.Body.Neck.position.y - 3f * Titan.Size
                 || Titan.TargetDistance >= Titan.AttackDistance * 0.5f) return false;
 
             Vector3 vector18 = Titan.Target.transform.position - Titan.transform.position;
@@ -24,26 +24,26 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
             if (Mathf.Abs(between) < 30f)
             {
-                if (Vector3.Distance(Titan.Target.transform.position, Titan.TitanBody.CheckFront.position) < (2.5f * Titan.Size))
+                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckFront.position) < (2.5f * Titan.Size))
                 {
                     AttackAnimation = "attack_slap_face";
-                    TitanBodyPart = Titan.TitanBody.AttackSlapFace;
+                    TitanBodyPart = Titan.Body.AttackSlapFace;
                     return true;
                 }
             }
             else if (between > 0f)
             {
-                if (Vector3.Distance(Titan.Target.transform.position, Titan.TitanBody.CheckBackRight.position) < (2.8f * Titan.Size))
+                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckBackRight.position) < (2.8f * Titan.Size))
                 {
                     AttackAnimation = "attack_slap_back";
-                    TitanBodyPart = Titan.TitanBody.AttackSlapBack;
+                    TitanBodyPart = Titan.Body.AttackSlapBack;
                     return true;
                 }
             }
-            else if (Vector3.Distance(Titan.Target.transform.position, Titan.TitanBody.CheckBackLeft.position) < (2.8f * Titan.Size))
+            else if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckBackLeft.position) < (2.8f * Titan.Size))
             {
                 AttackAnimation = "attack_slap_back";
-                TitanBodyPart = Titan.TitanBody.AttackSlapBack;
+                TitanBodyPart = Titan.Body.AttackSlapBack;
                 return true;
             }
             return false;

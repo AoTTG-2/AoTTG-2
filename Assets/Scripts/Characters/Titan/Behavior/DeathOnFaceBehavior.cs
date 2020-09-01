@@ -6,10 +6,10 @@ namespace Assets.Scripts.Characters.Titan.Behavior
     {
         protected override bool OnChase()
         {
-            var hero = this.checkIfHitCrawlerMouth(Titan.TitanBody.Head, 2.2f, Titan.Size);
+            var hero = this.checkIfHitCrawlerMouth(Titan.Body.Head, 2.2f, Titan.Size);
             if (hero == null) return false;
             {
-                Vector3 vector15 = Titan.TitanBody.Chest.position;
+                Vector3 vector15 = Titan.Body.Chest.position;
                 if (Titan.photonView.isMine)
                 {
                     if (!hero.HasDied())

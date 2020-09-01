@@ -64,8 +64,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private Transform GetHand()
         {
             return Hand == BodyPart.HandRight 
-                ? Titan.TitanBody.HandRight 
-                : Titan.TitanBody.HandLeft;
+                ? Titan.Body.HandRight 
+                : Titan.Body.HandLeft;
         }
 
         public override void Execute()
@@ -121,7 +121,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     var target = checkIfHitHand(GetHand(), Titan.Size);
                     if (target != null)
                     {
-                        Vector3 position = Titan.TitanBody.Chest.position;
+                        Vector3 position = Titan.Body.Chest.position;
                         if (Titan.photonView.isMine || !target.GetComponent<Hero>().HasDied())
                         {
                             target.GetComponent<Hero>().markDie();
@@ -141,7 +141,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     var rotation = Quaternion.Euler(270f, 0f, 0f);
                     if (Titan.photonView.isMine)
                     {
-                        obj9 = PhotonNetwork.Instantiate(BoomEffect, Titan.TitanBody.AttackFrontGround.position, rotation, 0);
+                        obj9 = PhotonNetwork.Instantiate(BoomEffect, Titan.Body.AttackFrontGround.position, rotation, 0);
                     }
                     else
                     {

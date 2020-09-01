@@ -43,8 +43,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 var f = -Mathf.DeltaAngle(current, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
                 if (Titan.TargetDistance < Titan.AttackDistance * 3f
                     && Mathf.Abs(f) < 90f
-                    && Titan.Target.transform.position.y < Titan.TitanBody.Neck.position.y + 30f * Titan.Size
-                    && Titan.Target.transform.position.y > Titan.TitanBody.Neck.position.y + 10f * Titan.Size)
+                    && Titan.Target.transform.position.y < Titan.Body.Neck.position.y + 30f * Titan.Size
+                    && Titan.Target.transform.position.y > Titan.Body.Neck.position.y + 10f * Titan.Size)
                 {
                     AttackAnimation = AnimationJump;
                     AddJumpForce = false;
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             else
             {
                 if (Titan.TargetDistance > Titan.AttackDistance
-                    && Titan.Target.transform.position.y > Titan.TitanBody.Head.position.y + 4f * Titan.Size
+                    && Titan.Target.transform.position.y > Titan.Body.Head.position.y + 4f * Titan.Size
                     && Vector3.Distance(Titan.transform.position, Titan.Target.transform.position) < 1.5f * Titan.Target.transform.position.y)
                 {
                     AttackAnimation = AnimationJump;
@@ -141,7 +141,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         float num18;
                         var yVel = Titan.Target.GetComponent<Rigidbody>().velocity.y;
                         var num10 = -20f;
-                        var num12 = Titan.TitanBody.Neck.position.y;
+                        var num12 = Titan.Body.Neck.position.y;
                         var num13 = (num10 - Gravity) * 0.5f;
                         var num15 = Titan.Target.transform.position.y - num12;
                         var num16 = Mathf.Abs((float) ((Mathf.Sqrt((yVel * yVel) - ((4f * num13) * num15)) - yVel) / (2f * num13)));
@@ -178,10 +178,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
             if (Titan.Animation[AttackAnimation].normalizedTime >= 1f)
             {
-                var hero = GetPlayerHitHead(Titan.TitanBody.Head, 3f, Titan.Size);
+                var hero = GetPlayerHitHead(Titan.Body.Head, 3f, Titan.Size);
                 if (hero != null)
                 {
-                    var vector13 = Titan.TitanBody.Chest.position;
+                    var vector13 = Titan.Body.Chest.position;
                     if (Titan.photonView.isMine || !hero.HasDied())
                     {
                         hero.markDie();

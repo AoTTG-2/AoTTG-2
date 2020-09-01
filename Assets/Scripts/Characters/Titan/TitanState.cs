@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Characters.Titan
 {
-    public enum MindlessTitanState
+    public enum TitanState
     {
         Idle,
         Dead,

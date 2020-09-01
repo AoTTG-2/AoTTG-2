@@ -39,7 +39,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 var rotation = Quaternion.Euler(270f, Titan.transform.rotation.eulerAngles.y, 0f);
                 if (Titan.photonView.isMine)
                 {
-                    obj9 = PhotonNetwork.Instantiate("FX/boom4", Titan.TitanBody.AttackAbnormalJump.position, rotation, 0);
+                    obj9 = PhotonNetwork.Instantiate("FX/boom4", Titan.Body.AttackAbnormalJump.position, rotation, 0);
                 }
                 else
                 {

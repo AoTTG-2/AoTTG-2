@@ -16,28 +16,28 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (IsDisabled()) return false;
             Vector3 line = (Vector3)((Titan.Target.GetComponent<Rigidbody>().velocity * Time.deltaTime) * 30f);
             if (line.sqrMagnitude <= 10f) return false;
-            if (this.simpleHitTestLineAndBall(line, Titan.TitanBody.checkAeLeft.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeLeft.position - Titan.Target.transform.position, 5f * Titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_l";
                 Hand = BodyPart.HandLeft;
                 if (IsDisabled(Hand)) return false;
                 return true;
             }
-            if (this.simpleHitTestLineAndBall(line, Titan.TitanBody.checkAeLLeft.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeLLeft.position - Titan.Target.transform.position, 5f * Titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_low_l";
                 Hand = BodyPart.HandLeft;
                 if (IsDisabled(Hand)) return false;
                 return true;
             }
-            if (this.simpleHitTestLineAndBall(line, Titan.TitanBody.checkAeRight.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeRight.position - Titan.Target.transform.position, 5f * Titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_r";
                 Hand = BodyPart.HandRight;
                 if (IsDisabled(Hand)) return false;
                 return true;
             }
-            if (this.simpleHitTestLineAndBall(line, Titan.TitanBody.checkAeLRight.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeLRight.position - Titan.Target.transform.position, 5f * Titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_low_r";
                 Hand = BodyPart.HandRight;
@@ -62,13 +62,13 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private void HandleHit()
         {
             var hand = Hand == BodyPart.HandLeft
-                ? Titan.TitanBody.HandLeft
-                : Titan.TitanBody.HandRight;
+                ? Titan.Body.HandLeft
+                : Titan.Body.HandRight;
 
             GameObject obj7 = this.checkIfHitHand(hand, Titan.Size);
             if (obj7 != null)
             {
-                Vector3 vector4 = Titan.TitanBody.Chest.position;
+                Vector3 vector4 = Titan.Body.Chest.position;
                 if (!((!Titan.photonView.isMine) || obj7.GetComponent<Hero>().HasDied()))
                 {
                     obj7.GetComponent<Hero>().markDie();

@@ -18,7 +18,7 @@ namespace Assets.Scripts.Gamemode
     public abstract class GamemodeBase : MonoBehaviour
     {
         private GamemodeSettings Settings => GameSettings.Gamemode;
-
+        
         private MindlessTitanType GetTitanType()
         {
             return GetDefaultTitanType();
@@ -313,7 +313,7 @@ namespace Assets.Scripts.Gamemode
         {
             foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
             {
-                if ((obj2.GetComponent<MindlessTitan>() != null) && obj2.GetComponent<MindlessTitan>().TitanState != MindlessTitanState.Dead)
+                if ((obj2.GetComponent<MindlessTitan>() != null) && obj2.GetComponent<MindlessTitan>().State != TitanState.Dead)
                 {
                     return false;
                 }

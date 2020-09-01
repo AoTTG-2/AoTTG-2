@@ -28,10 +28,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var angle = -Mathf.Atan2(delta.z, delta.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
 
-            if (Titan.Target.transform.position.y > Titan.TitanBody.Neck.position.y - 3f * Titan.Size
+            if (Titan.Target.transform.position.y > Titan.Body.Neck.position.y - 3f * Titan.Size
                 && Titan.TargetDistance < Titan.AttackDistance * 0.5f)
             {
-                if (Vector3.Distance(Titan.Target.transform.position, Titan.TitanBody.CheckOverhead.position) < (3.6f * Titan.Size))
+                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckOverhead.position) < (3.6f * Titan.Size))
                 {
                     if (between > 0f)
                     {
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
                 if (between > 0f)
                 {
-                    if (Vector3.Distance(Titan.Target.transform.position, Titan.TitanBody.CheckBackRight.position) < (2.8f * Titan.Size))
+                    if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckBackRight.position) < (2.8f * Titan.Size))
                     {
                         AttackAnimation = "grab_head_back_r";
                         Hand = BodyPart.HandLeft;
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         return true;
                     }
                 }
-                if (Vector3.Distance(Titan.Target.transform.position, Titan.TitanBody.CheckBackLeft.position) < (2.8f * Titan.Size))
+                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckBackLeft.position) < (2.8f * Titan.Size))
                 {
                     AttackAnimation = "grab_head_back_l";
                     Hand = BodyPart.HandRight;
@@ -76,8 +76,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (Titan.Difficulty > Difficulty.Normal)
             {
                 var targetHeight = Titan.Target.transform.position.y;
-                var titanGrabHeight = Titan.TitanBody.AttackFrontGround.position.y;
-                Debug.Log($"Target height: {Titan.Target.transform.position.y}, hand height: {Titan.TitanBody.AttackFrontGround.position.y}");
+                var titanGrabHeight = Titan.Body.AttackFrontGround.position.y;
+                Debug.Log($"Target height: {Titan.Target.transform.position.y}, hand height: {Titan.Body.AttackFrontGround.position.y}");
 
                 if (targetHeight < titanGrabHeight - 2f || targetHeight > titanGrabHeight + 5f * Titan.Size)
                 {
@@ -175,8 +175,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (Titan.Animation[AttackAnimation].normalizedTime >= AttackCheckTimeA && Titan.Animation[AttackAnimation].normalizedTime <= AttackCheckTimeB && GrabbedTarget == null)
             {
                 var hand = Hand == BodyPart.HandLeft
-                    ? Titan.TitanBody.HandLeft
-                    : Titan.TitanBody.HandRight;
+                    ? Titan.Body.HandLeft
+                    : Titan.Body.HandRight;
 
                 var grabTarget = checkIfHitHand(hand, Titan.Size);
                 if (grabTarget != null)

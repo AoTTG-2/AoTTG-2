@@ -192,9 +192,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (TitanState == MindlessTitanState.Disabled)
+            if (State == TitanState.Disabled)
             {
-                var disabledBodyParts = TitanBody.GetDisabledBodyParts();
+                var disabledBodyParts = Body.GetDisabledBodyParts();
                 if (disabledBodyParts.Any(x => x == BodyPart.LegLeft)
                     || disabledBodyParts.Any(x => x == BodyPart.LegRight))
                 {
@@ -202,7 +202,7 @@ namespace Assets.Scripts.Characters.Titan
                     CrossFade(CurrentAnimation, 0.1f);
                     return;
                 }
-                ChangeState(MindlessTitanState.Wandering);
+                ChangeState(TitanState.Wandering);
             }
 
             if (IsCovering && Animation.IsPlaying(AnimationCover) && Animation[AnimationCover].normalizedTime < 1f)

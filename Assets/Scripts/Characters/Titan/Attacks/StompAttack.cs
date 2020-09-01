@@ -21,7 +21,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
             if (Mathf.Abs(between) < 90f && between > 0f && Titan.TargetDistance < Titan.AttackDistance * 0.25)
             {
-                TitanBodyPart = Titan.TitanBody.AttackStomp;
+                TitanBodyPart = Titan.Body.AttackStomp;
                 return true;
             }
             return false;

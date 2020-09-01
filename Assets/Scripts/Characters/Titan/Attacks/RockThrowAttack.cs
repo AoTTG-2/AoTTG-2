@@ -45,7 +45,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (!UsedRock && (Titan.Animation[attackAnimation].normalizedTime >= 0.11f && Titan.Animation[attackAnimation].normalizedTime <= 1f))
             {
                 UsedRock = true;
-                Transform transform = Titan.TitanBody.HandRight;
+                Transform transform = Titan.Body.HandRight;
                 Rock = PhotonNetwork.Instantiate("FX/rockThrow", transform.position, transform.rotation, 0);
                 Rock.transform.localScale = Titan.transform.localScale;
                 Transform transform1 = Rock.transform;

@@ -21,7 +21,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
             if (Mathf.Abs(between) < 90f && between > 0f && Titan.TargetDistance < Titan.AttackDistance * 0.25f)
             {
-                TitanBodyPart = Titan.TitanBody.AttackFrontGround;
+                TitanBodyPart = Titan.Body.AttackFrontGround;
                 return true;
             }
             return false;
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         public override bool CanAttack(PlayerTitan titan)
         {
             if (IsDisabled()) return false;
-            TitanBodyPart = Titan.TitanBody.AttackFrontGround;
+            TitanBodyPart = Titan.Body.AttackFrontGround;
             return true;
         }
     }

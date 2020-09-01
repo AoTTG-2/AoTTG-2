@@ -1,6 +1,5 @@
-﻿using System;
-using Assets.Scripts.Characters.Titan.Behavior;
-using Assets.Scripts.Characters.Titan.State;
+﻿using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Gamemode;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
@@ -18,13 +17,13 @@ namespace Assets.Scripts.Characters.Titan
         public TitanBody Body { get; protected set; }
         public Rigidbody Rigidbody { get; protected set; }
 
-        public TitanState State { get; protected set; }
+        public TitanState State { get; protected set; } = TitanState.Wandering;
         public TitanType Type { get; set; }
         public Difficulty Difficulty { get; set; } = Difficulty.Normal;
 
         protected string CurrentAnimation { get; set; } = "idle";
 
-        private TitanBehavior[] Behaviors { get; set; }
+        protected TitanBehavior[] Behaviors { get; set; }
 
         /// <summary cref="Size">
         /// The distance a titan can reach with its attacks. Value influenced by Size
@@ -137,6 +136,9 @@ namespace Assets.Scripts.Characters.Titan
         protected virtual void Awake()
         {
             TitanManager.Add(this);
+            Animation = GetComponent<Animation>();
+            Rigidbody = GetComponent<Rigidbody>();
+            Body = GetComponent<MindlessTitanBody>();
         }
 
         protected virtual void Update()
@@ -147,7 +149,7 @@ namespace Assets.Scripts.Characters.Titan
 
         protected virtual void OnDestroy()
         {
-            TitanManager.Add(this);
+            TitanManager.Remove(this);
         }
     }
 }

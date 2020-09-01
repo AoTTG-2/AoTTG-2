@@ -30,7 +30,6 @@ namespace Assets.Scripts.Characters.Titan
         public string AnimationTurnRight { get; set; } = "turnaround1";
         public MindlessTitanType Type { get; set; } = MindlessTitanType.Normal;
         public List<TitanBehavior> Behaviors { get; set; } = new List<TitanBehavior>();
-        public Difficulty Difficulty { get; set; } = Difficulty.Normal;
 
         public TitanConfiguration() { }
 
@@ -47,12 +46,6 @@ namespace Assets.Scripts.Characters.Titan
             RunSpeed *= Mathf.Sqrt(Size);
             Stamina *= Mathf.Sqrt(Size);
             StaminaRegeneration *= Mathf.Sqrt(Size);
-        }
-
-        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, float viewDistance, float size, MindlessTitanType type, Difficulty difficulty)
-            : this(health, healthRegeneration, limbHealth, viewDistance, size, type)
-        {
-            Difficulty = difficulty;
         }
 
         private void SetMindlessTitanType(MindlessTitanType type)
