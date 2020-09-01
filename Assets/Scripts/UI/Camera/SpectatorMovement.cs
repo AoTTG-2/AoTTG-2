@@ -6,6 +6,13 @@ public class SpectatorMovement : MonoBehaviour
     public bool disable;
     private float speed = 100f;
 
+    private void reset()
+    {
+        if (PhotonNetwork.offlineMode)
+        {
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().restartGameSingle2();
+        }
+    }
     private void Update()
     {
         if (!this.disable)
@@ -13,6 +20,7 @@ public class SpectatorMovement : MonoBehaviour
             float num2;
             float num3;
             float speed = this.speed;
+
             if (InputManager.Key(InputHuman.Jump))
             {
                 speed *= 3f;
@@ -32,7 +40,7 @@ public class SpectatorMovement : MonoBehaviour
             if (InputManager.Key(InputHuman.Left))
             {
                 num3 = -1f;
-            }
+            }      
             else if (InputManager.Key(InputHuman.Right))
             {
                 num3 = 1f;
@@ -49,6 +57,10 @@ public class SpectatorMovement : MonoBehaviour
             else if (num2 < 0f)
             {
                 transform.position -= (Vector3) ((base.transform.forward * speed) * Time.deltaTime);
+            }
+            if (InputManager.KeyDown(InputUi.Restart))
+            {
+                this.reset();
             }
             if (num3 > 0f)
             {
