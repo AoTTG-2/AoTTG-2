@@ -32,7 +32,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (PhotonNetwork.offlineMode)
             {
                 var content = "Time : ";
                 var length = totalRoomTime;
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (PhotonNetwork.offlineMode)
             {
                 return $"Survive All Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetDefeatMessage(float gameEndCd)
         {
-            if (GamemodeSettings.IsSinglePlayer)
+            if (PhotonNetwork.offlineMode)
             {
                 return $"Survive {Wave} Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
@@ -105,7 +105,7 @@ namespace Assets.Scripts.Gamemode
             if (!IsAllTitansDead()) return;
             Wave++;
             var level = FengGameManagerMKII.Level.Name;
-            if (!(GamemodeSettings.RespawnMode != RespawnMode.NEWROUND && (!level.StartsWith("Custom")) || (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER)))
+            if (!(GamemodeSettings.RespawnMode != RespawnMode.NEWROUND && (!level.StartsWith("Custom"))))
             {
                 foreach (var player in PhotonNetwork.playerList)
                 {
@@ -115,10 +115,10 @@ namespace Assets.Scripts.Gamemode
                     }
                 }
             }
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-            {
-                //this.sendChatContentInfo("<color=#A8FF24>Wave : " + this.wave + "</color>");
-            }
+            //if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            //{
+            //    //this.sendChatContentInfo("<color=#A8FF24>Wave : " + this.wave + "</color>");
+            //}
             if (Wave > highestWave)
             {
                 highestWave = Wave;

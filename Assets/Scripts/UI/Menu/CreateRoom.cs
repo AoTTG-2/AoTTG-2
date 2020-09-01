@@ -1,8 +1,9 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Room;
+using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Gamemode.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -16,12 +17,17 @@ namespace Assets.Scripts.UI.Menu
         public InputField RoomName;
         public InputField RoomPassword;
 
-        private List<Level> levels = LevelBuilder.GetAllLevels();
+        private List<Level> levels;
 
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
-        
-        public void Start()
+
+        private void Awake()
+        {
+            levels = LevelBuilder.GetAllLevels();
+        }
+
+        private void Start()
         {
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)

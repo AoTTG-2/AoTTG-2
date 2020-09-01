@@ -182,11 +182,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 if (hero != null)
                 {
                     var vector13 = titan.TitanBody.Chest.position;
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                    {
-                        hero.die((hero.transform.position - vector13) * 15f * titan.Size, false);
-                    }
-                    else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER || titan.photonView.isMine || !hero.HasDied())
+                    if (titan.photonView.isMine || !hero.HasDied())
                     {
                         hero.markDie();
                         object[] objArray8 = { (hero.transform.position - vector13) * 15f * titan.Size, true, titan.photonView.viewID, titan.name, true };

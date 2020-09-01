@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode.Settings;
 using System.Linq;
-using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Room
 {

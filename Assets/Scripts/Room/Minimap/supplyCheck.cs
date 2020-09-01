@@ -21,14 +21,7 @@ public class supplyCheck : MonoBehaviour
             {
                 if (obj2.GetComponent<Hero>() != null)
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                    {
-                        if (Vector3.Distance(obj2.transform.position, base.transform.position) < 1.5f)
-                        {
-                            obj2.GetComponent<Hero>().getSupply();
-                        }
-                    }
-                    else if (obj2.GetPhotonView().isMine && (Vector3.Distance(obj2.transform.position, base.transform.position) < 1.5f))
+                    if (obj2.GetPhotonView().isMine && (Vector3.Distance(obj2.transform.position, base.transform.position) < 1.5f))
                     {
                         obj2.GetComponent<Hero>().getSupply();
                     }

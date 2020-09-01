@@ -88,7 +88,7 @@ namespace Assets.Scripts.Gamemode
             return GetTitanConfiguration(GetTitanType());
         }
 
-        protected virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
+        public virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
         {
             var size = Settings.TitanCustomSize ? Random.Range(Settings.TitanMinimumSize, Settings.TitanMaximumSize) : Random.Range(0.7f, 3f);
             var health = GetTitanHealth(size);
@@ -153,7 +153,6 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnPlayerSpawned(GameObject player)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) return;
         }
 
         protected void SpawnTitans(int amount)
@@ -190,7 +189,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (PhotonNetwork.offlineMode)
             {
                 return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
@@ -210,7 +209,7 @@ namespace Assets.Scripts.Gamemode
             var content = "Titan Left: ";
             var length = GameObject.FindGameObjectsWithTag("titan").Length;
             content = content + length + "  Time : ";
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (PhotonNetwork.offlineMode)
             {
                 length = time;
                 content += length.ToString();
@@ -259,28 +258,22 @@ namespace Assets.Scripts.Gamemode
         {
             Settings.HumanScore++;
             FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            var parameters = new object[] { Settings.HumanScore };
+            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
             {
-                var parameters = new object[] { Settings.HumanScore };
-                FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-                if (((int)FengGameManagerMKII.settings[0xf4]) == 1)
-                {
-                    //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-                }
+                //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
             }
         }
 
         public virtual void OnGameLost()
         {
             Settings.TitanScore++;
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            var parameters = new object[] { Settings.TitanScore };
+            FengGameManagerMKII.instance.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
+            if ((int) FengGameManagerMKII.settings[0xf4] == 1)
             {
-                var parameters = new object[] { Settings.TitanScore };
-                FengGameManagerMKII.instance.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
-                if ((int)FengGameManagerMKII.settings[0xf4] == 1)
-                {
-                    //FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
-                }
+                //FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
             }
         }
         
@@ -328,7 +321,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual string GetDefeatMessage(float gameEndCd)
         {
-            if (Settings.IsSinglePlayer)
+            if (PhotonNetwork.offlineMode)
             {
                 return $"Humanity Fail!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
