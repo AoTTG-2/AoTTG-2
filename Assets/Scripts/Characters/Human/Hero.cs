@@ -4560,12 +4560,11 @@ public class Hero : Human
 
     private void suicide2()
     {      
-        if (!PhotonNetwork.offlineMode)
-        {
+ 
             this.netDieLocal((Vector3)(base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
             FengGameManagerMKII.instance.needChooseSide = true;
             FengGameManagerMKII.instance.justSuicide = true;
-        }
+        
         
     }
 

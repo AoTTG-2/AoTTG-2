@@ -6,7 +6,7 @@ public class SpectatorMovement : MonoBehaviour
     public bool disable;
     private float speed = 100f;
 
-    private void reset()
+    private void Reset()
     {
         if (PhotonNetwork.offlineMode)
         {
@@ -38,10 +38,7 @@ public class SpectatorMovement : MonoBehaviour
             {
                 num2 = 0f;
             }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                reset();
-            }
+    
             if (InputManager.Key(InputHuman.Left))
             {
                 num3 = -1f;
@@ -66,7 +63,7 @@ public class SpectatorMovement : MonoBehaviour
             }
             if (InputManager.KeyDown(InputUi.Restart))
             {
-                this.reset();
+                Reset();
             }
             if (num3 > 0f)
             {

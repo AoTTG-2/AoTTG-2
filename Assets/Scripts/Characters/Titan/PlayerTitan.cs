@@ -164,7 +164,7 @@ namespace Assets.Scripts.Characters.Titan
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
         }
 
-        public void ptdie() 
+        public void Die() 
         {
             if (!PhotonNetwork.offlineMode)
             { 
@@ -197,7 +197,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (InputManager.KeyDown(InputUi.Restart)) 
             {
-                ptdie();
+                Die();
             }
             if (InputManager.KeyDown(InputTitan.Blend))
             {
