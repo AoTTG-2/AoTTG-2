@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33329016794538974}
   - component: {fileID: 23845009060536790}
   - component: {fileID: 64241177090856084}
+  - component: {fileID: 114558634098768170}
   m_Layer: 0
   m_Name: killPlane
   m_TagString: Untagged
@@ -90,10 +91,21 @@ MeshCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1766495379708764}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 21ecd6b533e7f9442a7e296585904bc8, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 47191ca374516774491b9d4c56ae988b, type: 2}
+--- !u!114 &114558634098768170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1766495379708764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a706c7c179a5e4c9445b56036c70ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

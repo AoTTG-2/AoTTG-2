@@ -11,8 +11,24 @@ namespace Assets.Scripts.UI.InGame
         public SpawnMenu SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
+        public PauseIndicator PauseIndicator;
 
         private static int _activeMenus;
+
+        /// <summary>
+        /// Toggles the Pause Indicator
+        /// </summary>
+        /// <param name="state">true to toggle it active</param>
+        public void ToggleIndicator(bool state)
+        {
+            if (state)
+            {
+                PauseIndicator.Pause();
+            }
+            else {
+                PauseIndicator.UnPause();
+            }
+        }
 
         public static bool IsMenuOpen()
         {
@@ -37,9 +53,19 @@ namespace Assets.Scripts.UI.InGame
                 if (Menu.gameObject.activeSelf && MenuManager.IsMenuOpen)
                 {
                     Menu.gameObject.SetActive(false);
+                    if (PhotonNetwork.offlineMode)
+                    {
+                        FengGameManagerMKII.instance.pauseWaitTime = 0.0f;
+                        Time.timeScale = 1f;
+                    }
                 } else if (!Menu.gameObject.activeSelf && !MenuManager.IsMenuOpen)
                 {
                     Menu.gameObject.SetActive(true);
+                    if (PhotonNetwork.offlineMode)
+                    {
+                        FengGameManagerMKII.instance.pauseWaitTime = 100000f;
+                        Time.timeScale = 1E-06f;
+                    }
                 }
             }
         }

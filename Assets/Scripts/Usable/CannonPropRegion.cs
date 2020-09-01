@@ -93,7 +93,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
                         }
                         foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
                         {
-                            renderer.material = (Material) FengGameManagerMKII.RCassets.LoadAsset("transparent");
+                            renderer.material = FengGameManagerMKII.instance.RcLegacy.GetMaterial("transparent");
                             if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                             {
                                 renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));
@@ -104,7 +104,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
                     {
                         foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
                         {
-                            renderer.material = (Material) FengGameManagerMKII.RCassets.LoadAsset(strArray[2]);
+                            renderer.material = FengGameManagerMKII.instance.RcLegacy.GetMaterial(strArray[2]);
                             if ((Convert.ToSingle(strArray[10]) != 1f) || (Convert.ToSingle(strArray[11]) != 1f))
                             {
                                 renderer.material.mainTextureScale = new Vector2(renderer.material.mainTextureScale.x * Convert.ToSingle(strArray[10]), renderer.material.mainTextureScale.y * Convert.ToSingle(strArray[11]));

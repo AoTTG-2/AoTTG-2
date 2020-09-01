@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Gamemode.Settings;
 using System.Linq;
-using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Room
 {
@@ -26,6 +25,13 @@ namespace Assets.Scripts.Room
             var level = room.CustomProperties["level"].ToString();
             return LevelBuilder.GetAllLevels().Single(x => x.Name == level);
         }
+
+        public static bool GetSecure(this RoomInfo room)
+        {
+            if (!room.CustomProperties.ContainsKey("secure")) return false;
+            return (bool)room.CustomProperties["secure"];
+        }
+
 
         public static GamemodeSettings GetGamemodeSetting(this global::Room room, Level level)
         {

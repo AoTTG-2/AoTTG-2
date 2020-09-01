@@ -1745,10 +1745,11 @@ public static class PhotonNetwork
     /// <see cref="PhotonNetworkingMessage.OnPhotonJoinRoomFailed"/>
     /// <see cref="PhotonNetworkingMessage.OnJoinedRoom"/>
     /// <param name="roomName">Unique name of the room to join.</param>
+    /// <param name="password">The password of the room to join.</param>
     /// <returns>If the operation got queued and will be sent.</returns>
-    public static bool JoinRoom(string roomName)
+    public static bool JoinRoom(string roomName, string password = null)
     {
-        return JoinRoom(roomName, null);
+        return JoinRoom(roomName, null, password);
     }
 
     /// <summary>Join room by roomname and on success calls OnJoinedRoom(). This is not affected by lobbies.</summary>
@@ -1772,6 +1773,32 @@ public static class PhotonNetwork
     /// <param name="expectedUsers">Optional list of users (by UserId) who are expected to join this game and who you want to block a slot for.</param>
     /// <returns>If the operation got queued and will be sent.</returns>
     public static bool JoinRoom(string roomName, string[] expectedUsers)
+    {
+        return JoinRoom(roomName, expectedUsers, null);
+    }
+
+    /// <summary>Join room by roomname and on success calls OnJoinedRoom(). This is not affected by lobbies.</summary>
+    /// <remarks>
+    /// On success, the method OnJoinedRoom() is called on any script. You can implement it to react to joining a room.
+    ///
+    /// JoinRoom fails if the room is either full or no longer available (it might become empty while you attempt to join).
+    /// Implement OnPhotonJoinRoomFailed() to get a callback in error case.
+    ///
+    /// To join a room from the lobby's listing, use RoomInfo.Name as roomName here.
+    /// Despite using multiple lobbies, a roomName is always "global" for your application and so you don't
+    /// have to specify which lobby it's in. The Master Server will find the room.
+    /// In the Photon Cloud, an application is defined by AppId, Game- and PUN-version.
+    ///
+    /// You can define an array of expectedUsers, to block player slots in the room for these users.
+    /// The corresponding feature in Photon is called "Slot Reservation" and can be found in the doc pages.
+    /// </remarks>
+    /// <see cref="PhotonNetworkingMessage.OnPhotonJoinRoomFailed"/>
+    /// <see cref="PhotonNetworkingMessage.OnJoinedRoom"/>
+    /// <param name="roomName">Unique name of the room to join.</param>
+    /// <param name="expectedUsers">Optional list of users (by UserId) who are expected to join this game and who you want to block a slot for.</param>
+    /// <param name="password">The password of the room to join.</param>
+    /// <returns>If the operation got queued and will be sent.</returns>
+    public static bool JoinRoom(string roomName, string[] expectedUsers, string password)
     {
         if (offlineMode)
         {
@@ -1798,10 +1825,10 @@ public static class PhotonNetwork
         EnterRoomParams opParams = new EnterRoomParams();
         opParams.RoomName = roomName;
         opParams.ExpectedUsers = expectedUsers;
+        opParams.RoomPassword = password;
 
         return networkingPeer.OpJoinRoom(opParams);
     }
-
 
     /// <summary>Lets you either join a named room or create it on the fly - you don't have to know if someone created the room already.</summary>
     /// <remarks>
