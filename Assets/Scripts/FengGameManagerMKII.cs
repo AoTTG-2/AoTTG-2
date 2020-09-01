@@ -82,6 +82,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static ExitGames.Client.Photon.Hashtable[] linkHash;
     [Obsolete("Use RacingGamemode.localRacingResult")]
     private string localRacingResult;
+    private readonly int[] teamScores = new int[2] {10, 10};
     public static bool logicLoaded;
     public static int loginstate;
     public int magentaKills;
@@ -659,7 +660,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
+            else if (Gamemode.Settings.GamemodeType == GamemodeType.Standoff){
+                this.ShowHUDInfoTopCenter("Cyan: " + (20-teamScores[0]).ToString()+ "Magenta: "+(20-teamScores[1]).ToString());
+                    GameObject obj2 = GameObject.Find("Barrier");
+                    if (obj2 == null)
+                    {
+                        obj2.SetActive(true);
+                    }
 
+            }
             if (this.timeElapse > 1f)
             {
                 this.timeElapse--;
@@ -2275,11 +2284,32 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             var standoffGamemode = Gamemode as StandoffGamemode;
             if (standoffGamemode != null)
+            {
                 standoffGamemode.OnTitanKilledStandoff(titanName, player);
+                base.photonView.RPC("StandoffPoints", PhotonTargets.MasterClient, titanName, player);
+            }
             else         
                 EventManager.OnTitanKilled.Invoke(titanName);
         }
     }
+
+    [PunRPC]
+    public void StandoffPoints(string titanName, PhotonPlayer player)
+    {
+        int team = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]);
+        if(team==1)
+                   {//1 - cyan 2- magenta
+                        this.teamScores[0]++;
+                        this.teamScores[1]--;
+                   }
+                else
+                   {
+                       this.teamScores[1]++;
+                       this.teamScores[0]--;
+                   }
+    }
+
+
 
     public void OnFailedToConnectToPhoton()
     {
