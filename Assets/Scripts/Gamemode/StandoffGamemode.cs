@@ -22,7 +22,7 @@ namespace Assets.Scripts.Gamemode
         private readonly StandoffGamemode gamemode = FengGameManagerMKII.Gamemode as StandoffGamemode;
 
         private int teamWinner;
-        private readonly int[] teamScores = new int[2] {10, 10};
+        public readonly int[] teamScores = new int[2] {10, 10};
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {

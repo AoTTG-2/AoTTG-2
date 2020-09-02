@@ -660,16 +660,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            else if (Gamemode.Settings.GamemodeType == GamemodeType.Standoff){
-                this.ShowHUDInfoTopCenter("Cyan: " + (20-teamScores[0]).ToString()+ "Magenta: "+(20-teamScores[1]).ToString());
-                    GameObject obj2 = GameObject.Find("Barrier");
-                    if (obj2 == null)
-                    {
-                        obj2.SetActive(true);
-                    }
-
-            }
-            else{
+            if(Gamemode.Settings.GamemodeType != GamemodeType.Standoff)
+            {
             GameObject obj2 = GameObject.Find("Barrier");
                     if (obj2 != null)
                     {
@@ -2293,7 +2285,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (standoffGamemode != null)
             {
                 standoffGamemode.OnTitanKilledStandoff(titanName, player);
-                base.photonView.RPC("StandoffPoints", PhotonTargets.MasterClient, titanName, player);
+                base.photonView.RPC("StandoffPoints", PhotonTargets.All, titanName, player);
             }
             else         
                 EventManager.OnTitanKilled.Invoke(titanName);
@@ -2302,18 +2294,21 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     [PunRPC]
     public void StandoffPoints(string titanName, PhotonPlayer player)
-    {
-        int team = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]);
-        if(team==1)
-                   {//1 - cyan 2- magenta
-                        this.teamScores[0]++;
-                        this.teamScores[1]--;
-                   }
-                else
-                   {
-                       this.teamScores[1]++;
-                       this.teamScores[0]--;
-                   }
+    {   if (PhotonNetwork.isMasterClient)
+        {
+            var standoffGamemode = Gamemode as StandoffGamemode;
+            int team = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]);
+            if(team==1)
+                       {//1 - cyan 2- magenta
+                           standoffGamemode.teamScores[0]++;
+                           standoffGamemode.teamScores[1]--;
+                       }
+                    else
+                       {
+                           standoffGamemode.teamScores[1]++;
+                           standoffGamemode.teamScores[0]--;
+                       }
+            }
     }
 
 
