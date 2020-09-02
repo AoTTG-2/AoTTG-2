@@ -669,6 +669,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
 
             }
+            else{
+            GameObject obj2 = GameObject.Find("Barrier");
+                    if (obj2 != null)
+                    {
+                        obj2.SetActive(false);
+                    }
+            }
             if (this.timeElapse > 1f)
             {
                 this.timeElapse--;
