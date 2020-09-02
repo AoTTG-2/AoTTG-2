@@ -244,8 +244,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         this.spectatorMode = val;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
-
-        //TODO MouseLook
         GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
     }
 

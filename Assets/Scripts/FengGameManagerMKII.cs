@@ -3465,7 +3465,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            //TODO MouseLook
             GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
@@ -3547,7 +3546,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            //TODO MouseLook
             GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
@@ -3631,7 +3629,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(playerTitan.gameObject);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-        //TODO MouseLook
         GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
