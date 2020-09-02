@@ -246,7 +246,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
 
         //TODO MouseLook
-        GameObject.Find("MainCamera").GetComponent<SmoothMouseLook>().disable = !val;
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
     }
 
     public void snapShot2(int index)
