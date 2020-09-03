@@ -464,11 +464,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
-            if (this.needChooseSide)
+           /* if (this.needChooseSide)
+            {
+                InGameUI.SpawnMenu.gameObject.SetActive(true);
+            }*/
+            if (InputManager.KeyDown(InputHuman.Item1))
             {
                 InGameUI.SpawnMenu.gameObject.SetActive(true);
             }
-
             int length;
             float num3;
 

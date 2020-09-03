@@ -436,9 +436,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     else
                     {
                         this.setSpectorMode(true);
+                        FengGameManagerMKII.instance.ShowHUDInfoCenter(
+                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
+                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n" +
+                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
                     }
                 }
-                if (InputManager.KeyDown(InputHuman.Item1))
+
+                if (InputManager.KeyDown(InputHuman.Item2))
                 {
                     this.currentPeekPlayerIndex++;
                     int length = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -449,11 +454,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     if (length > 0)
                     {
                         this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
+                        this.setSpectorMode(true);
                         this.lockAngle = false;
                     }
                 }
-                if (InputManager.KeyDown(InputHuman.Item2))
+                if (InputManager.KeyDown(InputHuman.Item3))
                 {
                     this.currentPeekPlayerIndex--;
                     int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -468,7 +473,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     if (num2 > 0)
                     {
                         this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
+                        this.setSpectorMode(true);
                         this.lockAngle = false;
                     }
                 }
