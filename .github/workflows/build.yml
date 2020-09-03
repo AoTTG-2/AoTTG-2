@@ -20,6 +20,6 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         args: >
-          -Dsonar.organization=AoTTG-2_AoTTG-2
-          -Dsonar.projectKey=aottg-2
+          -Dsonar.organization=aottg-2
+          -Dsonar.projectKey=AoTTG-2_AoTTG-2
 
