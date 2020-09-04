@@ -3,22 +3,23 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 5578b046-8264-438c-99c5-fb15c71b6744
+  AppID: 
   VoiceAppID: 
-  ChatAppID: 5578b046-8264-438c-99c5-fb15c71b6744
-  HostType: 4
-  PreferredRegion: 4
-  EnabledRegions: 15
+  ChatAppID: 
+  HostType: 2
+  PreferredRegion: 0
+  EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 
+  ServerAddress: 51.210.5.100
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 1
@@ -36,40 +37,35 @@ MonoBehaviour:
   - changeTitanPt
   - Chat
   - ChatPM
+  - ClearChat
   - clearlevel
-  - ColorRpc
-  - customlevelRPC
+  - CrossFadeRpc
   - DestroyRpc
-  - dieBlowRPC
-  - DieByCannon
-  - dieHeadBlowRPC
-  - DoJump
   - endMovingRock
-  - Flash
+  - GetHit
   - getRacingResult
+  - Grab
   - grabbedTargetEscape
+  - GrabEscapeRpc
   - grabToLeft
   - grabToRight
   - hitAnkleLRPC
-  - hitAnkleRPC
   - hitAnkleRRPC
   - hitByFTRPC
   - hitByTitanRPC
   - hitEyeRPC
-  - hitLRPC
-  - hitRRPC
   - hookFail
   - ignorePlayer
   - ignorePlayerArray
+  - InitializeRpc
+  - InitializeRPC
   - initRPC
   - InstantiateRpc
   - killObject
   - labelRPC
-  - laugh
   - launchRPC
   - loadskinE
   - loadskinRPC
-  - Marco
   - moveToRPC
   - myMasterIs
   - net3DMGSMOKE
@@ -86,33 +82,32 @@ MonoBehaviour:
   - netPlayAnimation
   - netPlayAnimationAt
   - netRefreshRacingResult
-  - netSetAbnormalType
   - netSetIsGrabbedFalse
-  - netSetLevel
   - netShowDamage
   - netTauntAttack
   - netUngrabbed
   - netUpdateLeviSpiral
   - netUpdatePhase1
-  - OnAwakeRPC
+  - OnBodyPartHitRpc
   - oneTitanDown
-  - pauseRPC
+  - OnEyeHitRpc
+  - OnNapeHitRpc
+  - PauseRPC
   - PickupItemInit
   - playsoundRPC
-  - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
-  - refreshPVPStatus
-  - refreshPVPStatus_AHSS
+  - RefreshCaptureScore
   - refreshStatus
   - removeMe
   - RequestControlRPC
   - RequestForPickupItems
   - RequestForPickupTimes
+  - RequestSettings
   - RequireStatus
   - respawnHeroInNewRound
-  - restartGameByClient
+  - RespawnRpc
   - ReturnFromCannon
   - rockPlayAnimation
   - RPCHookedByHuman
@@ -124,7 +119,6 @@ MonoBehaviour:
   - setMasterRC
   - SetMyCannon
   - SetMyPhotonCamera
-  - setMyTarget
   - setMyTeam
   - setPhase
   - setSize
@@ -138,39 +132,19 @@ MonoBehaviour:
   - someOneIsDead
   - SpawnCannonRPC
   - spawnPlayerAtRPC
-  - spawnTitanRPC
+  - SpawnPlayerTitanRpc
   - startMovingRock
   - startNeckSteam
   - startSweepSmoke
   - stopSweepSmoke
-  - TaggedPlayer
+  - SyncBodyPartRpc
+  - SyncSettings
   - tieMeTo
   - tieMeToOBJ
   - titanGetHit
   - titanGetKill
+  - UpdateHealthLabelRpc
   - updateKillInfo
-  - updateMovement
-  - updateMovement1
   - verifyPlayerHasLeft
   - whoIsMyErenTitan
-  - SyncSettings
-  - RequestSettings
-  - GetHit
-  - OnAnkleHitRPC
-  - Grab
-  - InitializeRpc
-  - UpdateHealthLabelRpc
-  - CrossFade
-  - RefreshCaptureScore
-  - CrossFadeRpc
-  - OnNapeHitRpc
-  - OnBodyPartHitRpc
-  - SyncBodyPartRpc
-  - GrabEscapeRpc
-  - SpawnPlayerTitanRpc
-  - RespawnRpc
-  - OnEyeHitRpc
-  - ClearChat
-  - InitializeRPC
-  - PauseRPC
   DisableAutoOpenWizard: 1
