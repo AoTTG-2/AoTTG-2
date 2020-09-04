@@ -427,22 +427,13 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             if (this.gameOver)
             {
-                if (InputManager.KeyDown(InputHuman.AttackSpecial))
-                {
-                    if (this.spectatorMode)
-                    {
-                        this.setSpectorMode(false);
-                    }
-                    else
-                    {
-                        this.setSpectorMode(true);
-                        FengGameManagerMKII.instance.ShowHUDInfoCenter(
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n" +
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
-                    }
-                }
-
+                
+                this.setSpectorMode(true);
+                FengGameManagerMKII.instance.ShowHUDInfoCenter(
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to open the spawn menu.\n" +
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
+                        
                 if (InputManager.KeyDown(InputHuman.Item2))
                 {
                     this.currentPeekPlayerIndex++;
