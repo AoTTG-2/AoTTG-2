@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class iTween : MonoBehaviour
 {
@@ -112,13 +113,13 @@ public class iTween : MonoBehaviour
             this.colors[i, 2].b = this.ease(this.colors[i, 0].b, this.colors[i, 1].b, this.percentage);
             this.colors[i, 2].a = this.ease(this.colors[i, 0].a, this.colors[i, 1].a, this.percentage);
         }
-        if (base.GetComponent<GUITexture>() != null)
+        if (base.GetComponent<Image>() != null)
         {
-            base.GetComponent<GUITexture>().color = this.colors[0, 2];
+            base.GetComponent<Image>().color = this.colors[0, 2];
         }
-        else if (base.GetComponent<GUIText>() != null)
+        else if (base.GetComponent<Text>() != null)
         {
-            base.GetComponent<GUIText>().material.color = this.colors[0, 2];
+            base.GetComponent<Text>().material.color = this.colors[0, 2];
         }
         else if (base.GetComponent<Renderer>() != null)
         {
@@ -133,13 +134,13 @@ public class iTween : MonoBehaviour
         }
         if (this.percentage == 1f)
         {
-            if (base.GetComponent<GUITexture>() != null)
+            if (base.GetComponent<Image>() != null)
             {
-                base.GetComponent<GUITexture>().color = this.colors[0, 1];
+                base.GetComponent<Image>().color = this.colors[0, 1];
             }
-            else if (base.GetComponent<GUIText>() != null)
+            else if (base.GetComponent<Text>() != null)
             {
-                base.GetComponent<GUIText>().material.color = this.colors[0, 1];
+                base.GetComponent<Text>().material.color = this.colors[0, 1];
             }
             else if (base.GetComponent<Renderer>() != null)
             {
@@ -729,9 +730,9 @@ public class iTween : MonoBehaviour
         }
         cameraFade = new GameObject("iTween Camera Fade");
         cameraFade.transform.position = new Vector3(0.5f, 0.5f, (float)Defaults.cameraFadeDepth);
-        cameraFade.AddComponent<GUITexture>();
-        cameraFade.GetComponent<GUITexture>().texture = CameraTexture(Color.black);
-        cameraFade.GetComponent<GUITexture>().color = new Color(0.5f, 0.5f, 0.5f, 0f);
+        cameraFade.AddComponent<Image>();
+        //cameraFade.GetComponent<Image>().texture = CameraTexture(Color.black);
+        cameraFade.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0f);
         return cameraFade;
     }
 
@@ -743,9 +744,9 @@ public class iTween : MonoBehaviour
         }
         cameraFade = new GameObject("iTween Camera Fade");
         cameraFade.transform.position = new Vector3(0.5f, 0.5f, (float)Defaults.cameraFadeDepth);
-        cameraFade.AddComponent<GUITexture>();
-        cameraFade.GetComponent<GUITexture>().texture = texture;
-        cameraFade.GetComponent<GUITexture>().color = new Color(0.5f, 0.5f, 0.5f, 0f);
+        cameraFade.AddComponent<Image>();
+        //cameraFade.GetComponent<Image>().texture = texture;
+        cameraFade.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0f);
         return cameraFade;
     }
 
@@ -757,9 +758,9 @@ public class iTween : MonoBehaviour
         }
         cameraFade = new GameObject("iTween Camera Fade");
         cameraFade.transform.position = new Vector3(0.5f, 0.5f, (float)depth);
-        cameraFade.AddComponent<GUITexture>();
-        cameraFade.GetComponent<GUITexture>().texture = texture;
-        cameraFade.GetComponent<GUITexture>().color = new Color(0.5f, 0.5f, 0.5f, 0f);
+        cameraFade.AddComponent<Image>();
+        //cameraFade.GetComponent<Image>().texture = texture;
+        cameraFade.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0f);
         return cameraFade;
     }
 
@@ -808,7 +809,7 @@ public class iTween : MonoBehaviour
     {
         if (cameraFade != null)
         {
-            cameraFade.GetComponent<GUITexture>().texture = texture;
+            //cameraFade.GetComponent<Image>().texture = texture;
         }
     }
 
@@ -981,13 +982,13 @@ public class iTween : MonoBehaviour
         {
             args.Add("easetype", EaseType.linear);
         }
-        if (target.GetComponent<GUITexture>() != null)
+        if (target.GetComponent<Image>() != null)
         {
-            color2 = color = target.GetComponent<GUITexture>().color;
+            color2 = color = target.GetComponent<Image>().color;
         }
-        else if (target.GetComponent<GUIText>() != null)
+        else if (target.GetComponent<Text>() != null)
         {
-            color2 = color = target.GetComponent<GUIText>().material.color;
+            color2 = color = target.GetComponent<Text>().material.color;
         }
         else if (target.GetComponent<Renderer>() != null)
         {
@@ -1030,13 +1031,13 @@ public class iTween : MonoBehaviour
             color.a = (float)args["alpha"];
             args.Remove("alpha");
         }
-        if (target.GetComponent<GUITexture>() != null)
+        if (target.GetComponent<Image>() != null)
         {
-            target.GetComponent<GUITexture>().color = color;
+            target.GetComponent<Image>().color = color;
         }
-        else if (target.GetComponent<GUIText>() != null)
+        else if (target.GetComponent<Text>() != null)
         {
-            target.GetComponent<GUIText>().material.color = color;
+            target.GetComponent<Text>().material.color = color;
         }
         else if (target.GetComponent<Renderer>() != null)
         {
@@ -1134,13 +1135,13 @@ public class iTween : MonoBehaviour
         {
             updateTime = Defaults.updateTime;
         }
-        if (target.GetComponent<GUITexture>() != null)
+        if (target.GetComponent<Image>() != null)
         {
-            colorArray[0] = colorArray[1] = target.GetComponent<GUITexture>().color;
+            colorArray[0] = colorArray[1] = target.GetComponent<Image>().color;
         }
-        else if (target.GetComponent<GUIText>() != null)
+        else if (target.GetComponent<Text>() != null)
         {
-            colorArray[0] = colorArray[1] = target.GetComponent<GUIText>().material.color;
+            colorArray[0] = colorArray[1] = target.GetComponent<Text>().material.color;
         }
         else if (target.GetComponent<Renderer>() != null)
         {
@@ -1177,13 +1178,13 @@ public class iTween : MonoBehaviour
         colorArray[3].g = Mathf.SmoothDamp(colorArray[0].g, colorArray[1].g, ref colorArray[2].g, updateTime);
         colorArray[3].b = Mathf.SmoothDamp(colorArray[0].b, colorArray[1].b, ref colorArray[2].b, updateTime);
         colorArray[3].a = Mathf.SmoothDamp(colorArray[0].a, colorArray[1].a, ref colorArray[2].a, updateTime);
-        if (target.GetComponent<GUITexture>() != null)
+        if (target.GetComponent<Image>() != null)
         {
-            target.GetComponent<GUITexture>().color = colorArray[3];
+            target.GetComponent<Image>().color = colorArray[3];
         }
-        else if (target.GetComponent<GUIText>() != null)
+        else if (target.GetComponent<Text>() != null)
         {
-            target.GetComponent<GUIText>().material.color = colorArray[3];
+            target.GetComponent<Text>().material.color = colorArray[3];
         }
         else if (target.GetComponent<Renderer>() != null)
         {
@@ -2025,15 +2026,15 @@ public class iTween : MonoBehaviour
 
     private void GenerateColorToTargets()
     {
-        if (base.GetComponent<GUITexture>() != null)
+        if (base.GetComponent<Image>() != null)
         {
             this.colors = new Color[1, 3];
-            this.colors[0, 0] = this.colors[0, 1] = base.GetComponent<GUITexture>().color;
+            this.colors[0, 0] = this.colors[0, 1] = base.GetComponent<Image>().color;
         }
-        else if (base.GetComponent<GUIText>() != null)
+        else if (base.GetComponent<Text>() != null)
         {
             this.colors = new Color[1, 3];
-            this.colors[0, 0] = this.colors[0, 1] = base.GetComponent<GUIText>().material.color;
+            this.colors[0, 0] = this.colors[0, 1] = base.GetComponent<Text>().material.color;
         }
         else if (base.GetComponent<Renderer>() != null)
         {
