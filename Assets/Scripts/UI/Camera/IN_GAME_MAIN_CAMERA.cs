@@ -425,6 +425,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         if (gametype != GAMETYPE.Stop)
         {
+
             if (this.gameOver)
             {
                 
@@ -453,6 +454,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                             this.setSpectorMode(false);
                             this.lockAngle = false;
                         }
+                        
                     }
                     if (InputManager.KeyDown(InputHuman.Item3))
                     {
@@ -472,6 +474,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                             this.setSpectorMode(false);
                             this.lockAngle = false;
                         }
+                        
                     }
                     if (this.spectatorMode)
                     {

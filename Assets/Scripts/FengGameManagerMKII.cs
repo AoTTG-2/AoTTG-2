@@ -466,8 +466,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
              if (this.needChooseSide)
              {
-                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = false;
-                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = false;
+                FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
              }
 
             int length;
@@ -2955,6 +2954,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.ShowHUDInfoCenter(string.Empty);
         this.DestroyAllExistingCloths();
         Application.LoadLevel(Application.loadedLevel);
+
     }
 
     public void restartRC()
