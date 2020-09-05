@@ -1269,11 +1269,8 @@ public class FemaleTitan : TitanBase
     private void playSound(string sndname)
     {
         this.playsoundRPC(sndname);
-        if (Network.peerType == NetworkPeerType.Server)
-        {
-            object[] parameters = new object[] { sndname };
-            base.photonView.RPC("playsoundRPC", PhotonTargets.Others, parameters);
-        }
+        object[] parameters = new object[] { sndname };
+        base.photonView.RPC("playsoundRPC", PhotonTargets.Others, parameters);
     }
 
     [PunRPC]
