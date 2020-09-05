@@ -248,9 +248,21 @@ namespace Assets.Scripts.Gamemode
                 UnityEngine.Object.Instantiate(Resources.Load("levelBottom"), new Vector3(0f, -29.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
                 var lavaSupplyStation = GameObject.Find("aot_supply_lava_position");
                 var supplyStation = GameObject.Find("aot_supply");
+                var playerRespawn = GameObject.Find("playerSpawn");
+                var playerLavaRespawn = GameObject.Find("playerLavaSpawn");
+                var lavaFloor = GameObject.Find("levelBottomLava");
+                lavaFloor.SetActive(true);
+                if (playerLavaRespawn == null || playerRespawn == null) return;
+                playerRespawn.transform.position = playerLavaRespawn.transform.position;
+                playerRespawn.transform.rotation = playerLavaRespawn.transform.rotation;
                 if (lavaSupplyStation == null || supplyStation == null) return;
                 supplyStation.transform.position = lavaSupplyStation.transform.position;
                 supplyStation.transform.rotation = lavaSupplyStation.transform.rotation;
+            }
+            else
+            {
+                var lavaFloor = GameObject.Find("levelBottomLava");
+                lavaFloor.SetActive(false);
             }
         }
 
