@@ -28,7 +28,7 @@ env:
 
 jobs:   
   CI:
-    name: Test
+    name: Build
     runs-on: ubuntu-latest
     steps:
       # Checkout
