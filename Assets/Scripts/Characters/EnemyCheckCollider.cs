@@ -1,5 +1,4 @@
-using Photon;
-using System;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class EnemyCheckCollider : Photon.MonoBehaviour
