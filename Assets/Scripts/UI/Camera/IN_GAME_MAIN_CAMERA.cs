@@ -433,44 +433,50 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to open the spawn menu.\n" +
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
-                        
-                if (InputManager.KeyDown(InputHuman.Item2))
-                {
-                    this.currentPeekPlayerIndex++;
-                    int length = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= length)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (length > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(true);
-                        this.lockAngle = false;
-                    }
-                }
-                if (InputManager.KeyDown(InputHuman.Item3))
-                {
-                    this.currentPeekPlayerIndex--;
-                    int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= num2)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (this.currentPeekPlayerIndex < 0)
-                    {
-                        this.currentPeekPlayerIndex = num2;
-                    }
-                    if (num2 > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(true);
-                        this.lockAngle = false;
-                    }
-                }
                 if (this.spectatorMode)
                 {
-                    return;
+                    if (InputManager.KeyDown(InputHuman.Item1))
+                    {
+                        FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
+                    }
+                    if (InputManager.KeyDown(InputHuman.Item2))
+                    {
+                        this.currentPeekPlayerIndex++;
+                        int length = GameObject.FindGameObjectsWithTag("Player").Length;
+                        if (this.currentPeekPlayerIndex >= length)
+                        {
+                            this.currentPeekPlayerIndex = 0;
+                        }
+                        if (length > 0)
+                        {
+                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                            this.setSpectorMode(false);
+                            this.lockAngle = false;
+                        }
+                    }
+                    if (InputManager.KeyDown(InputHuman.Item3))
+                    {
+                        this.currentPeekPlayerIndex--;
+                        int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
+                        if (this.currentPeekPlayerIndex >= num2)
+                        {
+                            this.currentPeekPlayerIndex = 0;
+                        }
+                        if (this.currentPeekPlayerIndex < 0)
+                        {
+                            this.currentPeekPlayerIndex = num2;
+                        }
+                        if (num2 > 0)
+                        {
+                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                            this.setSpectorMode(false);
+                            this.lockAngle = false;
+                        }
+                    }
+                    if (this.spectatorMode)
+                    {
+                        return;
+                    }
                 }
             }
             //TODO #204 - Pause Menu

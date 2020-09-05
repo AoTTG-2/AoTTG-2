@@ -464,19 +464,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
-           /* if (this.needChooseSide)
-            {
-                InGameUI.SpawnMenu.gameObject.SetActive(true);
-            }*/
-            if (InputManager.KeyDown(InputHuman.Item1))
-            {
-                InGameUI.SpawnMenu.gameObject.SetActive(true);
-            }
-
-
-
-
-
+             if (this.needChooseSide)
+             {
+                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = false;
+                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = false;
+             }
 
             int length;
             float num3;
@@ -511,10 +503,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                      (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                     (((int) settings[0xf5]) == 0))
                 {
-                    this.ShowHUDInfoCenter(
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to spectate the next player.\n" +
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the previous player.\n" +
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
+                    this.ShowHUDInfoCenter(     
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to open the spawn menu.\n" +
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
+ 
                     if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) ||
                          (Gamemode.Settings.EndlessRevive > 0)) ||
                         !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled))
