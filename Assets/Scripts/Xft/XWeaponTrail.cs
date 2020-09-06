@@ -1,3 +1,4 @@
+/*
 namespace Xft
 {
     using System;
@@ -326,3 +327,4 @@ namespace Xft
     }
 }
 
+*/

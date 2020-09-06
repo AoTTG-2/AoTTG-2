@@ -483,8 +483,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     if (!this.isLosing)
                     {
-                        this.currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object
-                            .GetComponent<Rigidbody>().velocity.magnitude;
+                        //this.currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object
+                        //    .GetComponent<Rigidbody>().velocity.magnitude;
                         this.maxSpeed = Mathf.Max(this.maxSpeed, this.currentSpeed);
                         this.ShowHUDInfoTopLeft(string.Concat(new object[]
                             {"Current Speed : ", (int) this.currentSpeed, "\nMax Speed:", this.maxSpeed}));

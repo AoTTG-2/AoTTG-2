@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.HUD
@@ -10,19 +11,39 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public void SetDamage(int damage)
         {
-            CancelInvoke("HideDamage");
-            Damage.SetActive(true);
-            var texts = Damage.GetComponentsInChildren<Text>();
-            foreach (var text in texts)
+            var damageLabels = Damage.GetComponentsInChildren<Text>();
+            foreach (var label in damageLabels)
             {
-                text.text = damage.ToString();
+                label.fontSize = ScaleDamageText(damage);
+                label.text = damage.ToString();
             }
-            Invoke("HideDamage", 3f);
+
+            ShowDamage();
         }
 
-        private void HideDamage()
+        private void ShowDamage()
         {
-            Damage.SetActive(false);
+            Damage.GetComponent<Animator>().SetTrigger("ShowDamage");
+        }
+        private int ScaleDamageText(int damage)
+        {
+            var baseFontSize = 150;
+            var lowestDamageScaling = 10;
+            var highestDamageScaling = 1400;
+            var rateOfChange = 0.216;
+
+            var damageOffset = rateOfChange * lowestDamageScaling;
+            var scale = (damage * rateOfChange) - damageOffset + baseFontSize;
+            var maxScaling = (highestDamageScaling * rateOfChange) - damageOffset + baseFontSize;
+
+            if (damage < highestDamageScaling)
+            {
+                return (int) Math.Round(scale);
+            }
+            else
+            {
+                return (int) Math.Round(maxScaling);
+            }
         }
     }
 }
