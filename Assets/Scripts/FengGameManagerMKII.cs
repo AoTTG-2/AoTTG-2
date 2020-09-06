@@ -1472,7 +1472,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
             Camera.main.GetComponent<SpectatorMovement>().disable = true;
-            Camera.main.GetComponent<MouseLook>().disable = true;
+            Camera.main.GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
         }
         else
         {
@@ -3467,7 +3467,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+            GameObject.Find("MainCamera").GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
@@ -3548,7 +3548,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+            GameObject.Find("MainCamera").GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
@@ -3631,7 +3631,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(playerTitan.gameObject);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+        GameObject.Find("MainCamera").GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add("dead", false);
