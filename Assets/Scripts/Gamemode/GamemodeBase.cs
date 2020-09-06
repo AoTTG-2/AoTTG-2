@@ -146,6 +146,8 @@ namespace Assets.Scripts.Gamemode
                     return JsonConvert.DeserializeObject<PvPAhssSettings>(json);
                 case GamemodeType.Infection:
                     return JsonConvert.DeserializeObject<InfectionGamemodeSettings>(json);
+                case GamemodeType.Standoff:
+                    return JsonConvert.DeserializeObject<StandoffSettings>(json);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -158,6 +160,24 @@ namespace Assets.Scripts.Gamemode
         protected void SpawnTitans(int amount)
         {
             SpawnTitans(amount, GetTitanConfiguration);
+        }
+
+        protected static bool IsTeamAllDead(int team)
+        {
+            var num = 0;
+            var num2 = 0;
+            foreach (var player in PhotonNetwork.playerList)
+            {
+                if (((player.CustomProperties[PhotonPlayerProperty.isTitan] != null) && (player.CustomProperties[PhotonPlayerProperty.team] != null)) && ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]) == team)))
+                {
+                    num++;
+                    if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+                    {
+                        num2++;
+                    }
+                }
+            }
+            return (num == num2);
         }
 
         protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)

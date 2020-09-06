@@ -165,6 +165,8 @@ namespace Assets.Scripts.Gamemode.Settings
                     return typeof(PvPAhssGamemode);
                 case GamemodeType.Infection:
                     return typeof(InfectionGamemode);
+                case GamemodeType.Standoff:
+                    return typeof(StandoffGamemode);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

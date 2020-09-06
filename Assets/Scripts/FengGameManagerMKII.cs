@@ -16,6 +16,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
@@ -80,6 +82,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static ExitGames.Client.Photon.Hashtable[] linkHash;
     [Obsolete("Use RacingGamemode.localRacingResult")]
     private string localRacingResult;
+    private readonly int[] teamScores = new int[2] {10, 10};
     public static bool logicLoaded;
     public static int loginstate;
     public int magentaKills;
@@ -112,6 +115,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static string privateServerField;
     public float qualitySlider;
     public List<GameObject> racingDoors = new List<GameObject>();
+    public List<GameObject> ForestBarrier = new List<GameObject>();
+    public List<GameObject> CityBarrier = new List<GameObject>();
     private ArrayList racingResult;
     public Vector3 racingSpawnPoint;
     public bool racingSpawnPointSet;
@@ -655,7 +660,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-
+            if(Gamemode.Settings.GamemodeType != GamemodeType.Standoff)
+            {
+            GameObject obj2 = GameObject.Find("Barrier");
+                    if (obj2 != null)
+                    {
+                        obj2.SetActive(false);
+                    }
+            }
             if (this.timeElapse > 1f)
             {
                 this.timeElapse--;
@@ -2265,13 +2277,41 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void oneTitanDown(string titanName)
+    public void oneTitanDown(string titanName, PhotonPlayer player)
     {
         if (PhotonNetwork.isMasterClient)
         {
-            EventManager.OnTitanKilled.Invoke(titanName);
+            var standoffGamemode = Gamemode as StandoffGamemode;
+            if (standoffGamemode != null)
+            {
+                standoffGamemode.OnTitanKilledStandoff(titanName, player);
+                base.photonView.RPC("StandoffPoints", PhotonTargets.All, titanName, player);
+            }
+            else         
+                EventManager.OnTitanKilled.Invoke(titanName);
         }
     }
+
+    [PunRPC]
+    public void StandoffPoints(string titanName, PhotonPlayer player)
+    {   if (PhotonNetwork.isMasterClient)
+        {
+            var standoffGamemode = Gamemode as StandoffGamemode;
+            int team = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.RCteam]);
+            if(team==1)
+                       {//1 - cyan 2- magenta
+                           standoffGamemode.teamScores[0]++;
+                           standoffGamemode.teamScores[1]--;
+                       }
+                    else
+                       {
+                           standoffGamemode.teamScores[1]++;
+                           standoffGamemode.teamScores[0]--;
+                       }
+            }
+    }
+
+
 
     public void OnFailedToConnectToPhoton()
     {
@@ -2579,7 +2619,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (!this.gameTimesUp)
         {
-            this.oneTitanDown(string.Empty);
+            this.oneTitanDown(string.Empty, null);
             this.someOneIsDead(0);
         }
         if (ignoreList.Contains(player.ID))
@@ -3326,13 +3366,23 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     //TODO: 184 - This gets called upon MapLoaded
     public void SpawnPlayer(string id, string tag = "playerRespawn")
-    {
+    {   
         if (id == null)
         {
             id = "1";
         }
         myLastRespawnTag = tag;
+        var standoffGamemode = Gamemode as StandoffGamemode;
+        var objArray=GameObject.FindGameObjectsWithTag(tag);
         var location = Gamemode.GetPlayerSpawnLocation(tag);
+        if (standoffGamemode != null)
+        {
+           if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
+               objArray = GameObject.FindGameObjectsWithTag("CyanSpawn");       
+           else
+               objArray = GameObject.FindGameObjectsWithTag("MagentaSpawn");
+           location = objArray[Random.Range(0, objArray.Length)];
+        }
         SpawnPlayerAt2(id, location);
     }
 
@@ -3347,6 +3397,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             Vector3 position = pos.transform.position;
+            
             if (this.racingSpawnPointSet)
             {
                 position = this.racingSpawnPoint;
@@ -3368,6 +3419,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
                                 .position;
                         }
+                        
                     }
                     else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
                     {
@@ -3731,7 +3783,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Damage = Mathf.Max(10, Damage);
         object[] parameters = new object[] { Damage };
         base.photonView.RPC("netShowDamage", player, parameters);
-        base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, name);
+        base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, name, player);
         this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
         this.playerKillInfoUpdate(player, Damage);
     }
@@ -3741,7 +3793,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Damage = Mathf.Max(10, Damage);
         this.sendKillInfo(false, LoginFengKAI.player.name, true, name, Damage);
         this.netShowDamage(Damage);
-        this.oneTitanDown(name);
+        this.oneTitanDown(name, PhotonNetwork.player);
         this.playerKillInfoUpdate(PhotonNetwork.player, Damage);
     }
 
