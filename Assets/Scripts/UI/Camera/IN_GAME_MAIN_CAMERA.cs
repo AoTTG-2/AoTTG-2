@@ -1,7 +1,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
-
+using static FengGameManagerMKII;
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
     private float closestDistance;
@@ -246,7 +246,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
         GameObject.Find("MainCamera").GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = !val;
     }
-
     public void snapShot2(int index)
     {
         Vector3 vector;
@@ -438,6 +437,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     if (InputManager.KeyDown(InputHuman.Item1))
                     {
+                        ///cant call this straight, so copied code instead
+                        //ChatCommandHandler.ToggleSpecMode();
+                        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
+                        bool specMode = (int) settings[0xf5] == 1;
+                        instance.EnterSpecMode(specMode);
+                        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+                        instance.chatRoom.OutputSystemMessage(message);
+
                         FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
                     }
                     if (InputManager.KeyDown(InputHuman.Item2))
