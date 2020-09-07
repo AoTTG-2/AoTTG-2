@@ -635,7 +635,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
 
                 if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
-                    customLevelLoaded)
+                    customLevelLoaded && !mainCamera.IsSpecmode)
                 {
                     this.myRespawnTime += Time.deltaTime;
                     if (this.myRespawnTime > 1.5f)

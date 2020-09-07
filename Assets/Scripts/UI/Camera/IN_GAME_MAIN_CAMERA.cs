@@ -51,6 +51,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool triggerAutoLock;
     public static bool usingTitan;
 
+    public bool IsSpecmode => (int) settings[0xf5] == 1;
+
     public void CameraMovementLive(Hero hero)
     {
         float magnitude = hero.GetComponent<Rigidbody>().velocity.magnitude;
