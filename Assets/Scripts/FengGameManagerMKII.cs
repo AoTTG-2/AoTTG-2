@@ -27,130 +27,151 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public static bool showHackMenu = true;
 
+    [Obsolete("Cannon specific logic. Should be moved into a dedicated Cannon manager.")]
     public Dictionary<int, CannonValues> allowedToCannon;
-    public Dictionary<string, Texture2D> assetCacheTextures;
+
     public static ExitGames.Client.Photon.Hashtable banHash;
-    public static ExitGames.Client.Photon.Hashtable boolVariables;
-    public static Dictionary<string, GameObject> CachedPrefabs;
-    private ArrayList chatContent;
+
+    [Obsolete("FengGameManager should not have a public InRoomChat variable. This must be made private. Use DependencyInjection instead to get a reference to InRoomChat.")]
     public InRoomChat chatRoom;
+
+    [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
     public GameObject checkpoint;
+
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList cT;
+
+    [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static string currentLevel;
+    [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static string currentScript;
+    [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
     public static string currentScriptLogic;
+    [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
     private float currentSpeed;
+    [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static bool customLevelLoaded;
+    [Obsolete("Migrate this to a dedicated TeamService")]
     public int cyanKills;
-    [Obsolete("Please use Gamemode.Difficulty")]
+    [Obsolete("Avoid using this property as it is removed as per issue #160")]
     public int difficulty;
-    public float distanceSlider;
+    [Obsolete("Move this into RacingGamemode")]
     private bool endRacing;
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList eT;
-    public static ExitGames.Client.Photon.Hashtable floatVariables;
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList fT;
     public float gameEndCD;
     public float gameEndTotalCDtime = 9f;
     public bool gameStart;
     private bool gameTimesUp;
-    public static ExitGames.Client.Photon.Hashtable globalVariables;
+    [Obsolete("This list is only used to replace the CUBE_001 TEXTURE when CUSTOM MAP is loaded. For AoTTG2 we no longer require this method")]
     public List<GameObject> groundList;
-    public static bool hasLogged;
+    [Obsolete("A dedicated Hero Service should keep track over heroes, not FengGameManager.")]
     private ArrayList heroes;
+    [Obsolete("This is a hashtable which keeps track of every HERO.cs instance. Appears to do the same as 'FengGameManager.heroes' yet no logic happens to this Hashtable other than adding and deleting items.")]
     public static ExitGames.Client.Photon.Hashtable heroHash;
+    [Obsolete("A collection of hooks used as Legacy AoTTG approach to call an update() method on FengGameManager.Update() instead of using the MonoBehavior's Update. Remove any references.")]
     private ArrayList hooks;
     public static List<int> ignoreList;
+    [Obsolete("Hashtable only used for InfectionGamemode. Migrate code to InfectionGamemode")]
     public static ExitGames.Client.Photon.Hashtable imatitan;
+    [Obsolete("A static reference to the god class is something we don't want. Avoid introducing new code which makes use of this, and refactor and introduce a new services instead.")]
     public static FengGameManagerMKII instance;
-    public static ExitGames.Client.Photon.Hashtable intVariables;
-    public static bool isAssetLoaded;
-    public bool isFirstLoad;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     private bool isLosing;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     public bool isPlayer1Winning;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     public bool isPlayer2Winning;
     public bool isRecompiling;
+    [Obsolete("Only used for Cannons. Remove in Issue #75")]
     public bool isRestarting;
-    public bool isSpawning;
     public bool isUnloading;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     private bool isWinning;
-    public bool justSuicide;
     private ArrayList killInfoGO = new ArrayList();
-    public static bool LAN;
+    [Obsolete("Legacy method of keeping track of custom level scripts, which we no longer support")]
     public List<string[]> levelCache;
     public static ExitGames.Client.Photon.Hashtable[] linkHash;
     [Obsolete("Use RacingGamemode.localRacingResult")]
     private string localRacingResult;
     public static bool logicLoaded;
-    public static int loginstate;
+    [Obsolete("Migrate this to a dedicated TeamService")]
     public int magentaKills;
     private IN_GAME_MAIN_CAMERA mainCamera;
+    [Obsolete("Legacy method which appears to have been used to determine if a client is 'master' RC or not. This would have given special permissions, but the feature is only used within 2 locations and is obviously prone to cheating.")]
     public static bool masterRC;
+    [Obsolete("PhotonNetwork.room.MaxPlayers returns the max players. This was used to prevent clients from modifying the MaxRoom players, but may create an endless loop resulting into the MC crashing. Our PhotonServer should block any RoomProperty modifications and automatically server ban anyone who attempts to modify this without being MC")]
     public int maxPlayers;
+    [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
     private float maxSpeed;
-    public float mouseSlider;
+    [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
     private string myLastHero;
+    [Obsolete("Value is always playerRespawn")]
     private string myLastRespawnTag = "playerRespawn";
+    [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
     public float myRespawnTime;
-    public static string nameField;
+    [Obsolete("A gamemode should decide whether or not a player has to choose between humanity, AHSS or titanity")]
     public bool needChooseSide;
+    [Obsolete("A bool used to prevent restarting when true, yet this is never true. Refactor this in the future so it does have a purpose")]
     public static bool noRestart;
+    [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
     public static string oldScript;
+    [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
     public static string oldScriptLogic;
+    [Obsolete("This value is always false")]
     public static bool OnPrivateServer;
-    public static string passwordField;
+    [Obsolete("A pause script should know for how long it needs to wait, not FengGameManager")]
     public float pauseWaitTime;
     public string playerList;
-    [Obsolete("Use PlayerSpawns instead")]
+    [Obsolete("Use the class PlayerSpawns instead")]
     public List<Vector3> playerSpawnsC;
-    [Obsolete("Use PlayerSpawns instead")]
+    [Obsolete("Use the class PlayerSpawns instead")]
     public List<Vector3> playerSpawnsM;
     public List<PlayerSpawner> PlayerSpawners { get; set; } = new List<PlayerSpawner>();
     public List<PhotonPlayer> playersRPC;
-    public static ExitGames.Client.Photon.Hashtable playerVariables;
     public Dictionary<string, int[]> PreservedPlayerKDR;
+    [Obsolete("A value is never assigned")]
     public static string PrivateServerAuthPass;
+    [Obsolete("Value is always string.empty")]
     public static string privateServerField;
-    public float qualitySlider;
+    [Obsolete("A list which is used to determine when a 'Racing Start Barrier' class should delete itself. Instead, move this logic to the RacingStartBarrier class and work via an event from the racing gamemode.")]
     public List<GameObject> racingDoors = new List<GameObject>();
+    [Obsolete("Use RacingGamemode instead")]
     private ArrayList racingResult;
+    [Obsolete("Use RacingGamemode instead")]
     public Vector3 racingSpawnPoint;
+    [Obsolete("Use RacingGamemode instead")]
     public bool racingSpawnPointSet;
-    //public static AssetBundle RCassets { get; set; }
-    public static ExitGames.Client.Photon.Hashtable RCEvents;
-    public static ExitGames.Client.Photon.Hashtable RCRegions;
-    public static ExitGames.Client.Photon.Hashtable RCRegionTriggers;
-    public static ExitGames.Client.Photon.Hashtable RCVariableNames;
+    [Obsolete("This is only used for the obsolete MasterRC field")]
     public List<float> restartCount;
-    public bool restartingBomb;
     public bool restartingMC;
-    public float retryTime;
     public float roundTime;
+    [Obsolete("Hardcoded string. Avoid using this")]
     public static string[] s = "verified343,hair,character_eye,glass,character_face,character_head,character_hand,character_body,character_arm,character_leg,character_chest,character_cape,character_brand,character_3dmg,r,character_blade_l,character_3dmg_gas_r,character_blade_r,3dmg_smoke,HORSE,hair,body_001,Cube,Plane_031,mikasa_asset,character_cap_,character_gun".Split(new char[] { ',' });
-    public Vector2 scroll;
-    public Vector2 scroll2;
-    public GameObject selectedObj;
+    [Obsolete("A god class array for settings. Move these settings to the classes where they belong")]
     public static object[] settings;
+    [Obsolete("Migrate this to HERO.cs")]
     private int single_kills;
+    [Obsolete("Migrate this to HERO.cs")]
     private int single_maxDamage;
+    [Obsolete("Migrate this to HERO.cs")]
     private int single_totalDamage;
     public static Material skyMaterial;
     public List<GameObject> spectateSprites;
+    [Obsolete("Use RacingGamemode instead")]
     private bool startRacing;
-    public static ExitGames.Client.Photon.Hashtable stringVariables;
-    public Texture2D textureBackgroundBlack;
-    public Texture2D textureBackgroundBlue;
     public int time = 600;
     private float timeElapse;
     private float timeTotalServer;
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList titans;
     public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
-    public static ExitGames.Client.Photon.Hashtable titanVariables;
-    public float transparencySlider;
-    public float updateTime;
-    public static string usernameField;
 
     public InGameUi InGameUI;
 
+    [Obsolete("This is used to assign a name to the HERO, but it shouldn't be within FengGameManager")]
     public new string name { get; set; }
     public static GamemodeBase Gamemode { get; private set; }
     public static Level Level { get; set; }
@@ -206,8 +227,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.PreservedPlayerKDR = new Dictionary<string, int[]>();
         noRestart = false;
         skyMaterial = null;
-        this.isSpawning = false;
-        this.retryTime = 0f;
         logicLoaded = false;
         customLevelLoaded = true;
         this.isUnloading = false;
@@ -228,20 +247,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             customLevelLoaded = false;
         }
 
-        if (PhotonNetwork.isMasterClient)
-        {
-            if (this.isFirstLoad)
-            {
-                this.setGameSettings(this.checkGameGUI());
-            }
-        }
-
         if (((int) settings[0xf4]) == 1)
         {
             this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round Start.");
         }
 
-        this.isFirstLoad = false;
         this.RecompilePlayerList(0.5f);
     }
 
@@ -269,19 +279,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         chatRoom.ClearMessages();
     }
-
-    private ExitGames.Client.Photon.Hashtable checkGameGUI()
-    {
-        int num;
-        int num2;
-        PhotonPlayer player;
-        int num4;
-        float num8;
-        float num9;
-        ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-        return hashtable;
-    }
-
+    
     [PunRPC]
     private void clearlevel(string[] link, PhotonMessageInfo info)
     {
@@ -1434,12 +1432,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         AudioListener.volume = PlayerPrefs.GetFloat("vol", 1f);
         linkHash = new ExitGames.Client.Photon.Hashtable[] { new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable() };
         settings = objArray;
-        this.scroll = Vector2.zero;
-        this.scroll2 = Vector2.zero;
-        this.distanceSlider = PlayerPrefs.GetFloat("cameraDistance", 1f);
-        this.mouseSlider = PlayerPrefs.GetFloat("MouseSensitivity", 0.5f);
-        this.qualitySlider = PlayerPrefs.GetFloat("GameQuality", 0f);
-        this.transparencySlider = 1f;
     }
 
     private void loadskin()
@@ -1480,19 +1472,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             InstantiateTracker.instance.Dispose();
             if (PhotonNetwork.isMasterClient)
             {
-                this.updateTime = 1f;
                 if (oldScriptLogic != currentScriptLogic)
                 {
-                    intVariables.Clear();
-                    boolVariables.Clear();
-                    stringVariables.Clear();
-                    floatVariables.Clear();
-                    globalVariables.Clear();
-                    RCEvents.Clear();
-                    RCVariableNames.Clear();
-                    playerVariables.Clear();
-                    titanVariables.Clear();
-                    RCRegionTriggers.Clear();
                     oldScriptLogic = currentScriptLogic;
                 }
                 base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
@@ -1597,7 +1578,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                     strArray3[6] = (string) settings[0xa2];
                     base.photonView.RPC("clearlevel", PhotonTargets.AllBuffered, new object[] { strArray3 });
-                    RCRegions.Clear();
                     if (oldScript != currentScript)
                     {
                         ExitGames.Client.Photon.Hashtable hashtable;
@@ -2365,27 +2345,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
         this.needChooseSide = true;
-        this.chatContent = new ArrayList();
         this.killInfoGO = new ArrayList();
-        //InRoomChat.messages = new List<string>();
         if (!PhotonNetwork.isMasterClient)
         {
             base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
             base.photonView.RPC("RequestSettings", PhotonTargets.MasterClient);
         }
-        this.assetCacheTextures = new Dictionary<string, Texture2D>();
-        this.isFirstLoad = true;
         this.name = LoginFengKAI.player.name;
-        if (loginstate != 3)
-        {
-            this.name = nameField;
-            if ((!this.name.StartsWith("[") || (this.name.Length < 8)) || (this.name.Substring(7, 1) != "]"))
-            {
-                this.name = $"<color=#9999ff>{this.name}</color>";
-            }
-            this.name = this.name.Replace("[-]", "");
-            LoginFengKAI.player.name = this.name;
-        }
         ExitGames.Client.Photon.Hashtable hashtable3 = new ExitGames.Client.Photon.Hashtable();
         hashtable3.Add(PhotonPlayerProperty.name, this.name);
         PhotonNetwork.player.SetCustomProperties(hashtable3);
@@ -2562,7 +2528,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     photonView.RPC("ignorePlayerArray", player, new object[] { ignoreList.ToArray() });
                 }
-                //photonView.RPC("settingRPC", player, new object[] { hashtable });
                 photonView.RPC("setMasterRC", player, new object[0]);
                 if ((Time.timeScale <= 0.1f) && (pauseWaitTime > 3f))
                 {
@@ -2814,17 +2779,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.levelCache = new List<string[]>();
             this.playerSpawnsC.Clear();
             this.playerSpawnsM.Clear();
-            intVariables.Clear();
-            boolVariables.Clear();
-            stringVariables.Clear();
-            floatVariables.Clear();
-            globalVariables.Clear();
-            RCRegions.Clear();
-            RCEvents.Clear();
-            RCVariableNames.Clear();
-            playerVariables.Clear();
-            titanVariables.Clear();
-            RCRegionTriggers.Clear();
             currentScriptLogic = string.Empty;
             propertiesToSet.Add(PhotonPlayerProperty.statACL, 100);
             propertiesToSet.Add(PhotonPlayerProperty.statBLA, 100);
@@ -2922,10 +2876,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.isRestarting = true;
             this.DestroyAllExistingCloths();
             PhotonNetwork.DestroyAll();
-            ExitGames.Client.Photon.Hashtable hash = this.checkGameGUI();
-            base.photonView.RPC("settingRPC", PhotonTargets.Others, new object[] { hash });
             base.photonView.RPC("RPCLoadLevel", PhotonTargets.All, new object[0]);
-            this.setGameSettings(hash);
             if (masterclientSwitched)
             {
                 this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + ((string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor());
@@ -2983,12 +2934,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
         }
 
-        intVariables.Clear();
-        boolVariables.Clear();
-        stringVariables.Clear();
-        floatVariables.Clear();
-        playerVariables.Clear();
-        titanVariables.Clear();
         EventManager.OnRestart.Invoke();
     }
 
@@ -3074,18 +3019,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             eventContent[(byte) 0] = bannedAddress;
             PhotonNetwork.RaiseEvent(0xc7, eventContent, true, new RaiseEventOptions());
         }
-    }
-
-    public void setBackground()
-    {
-        if (isAssetLoaded)
-        {
-            UnityEngine.Object.Instantiate(RcLegacy.GetPrefab("backgroundCamera"));
-        }
-    }
-
-    private void setGameSettings(ExitGames.Client.Photon.Hashtable hash)
-    {
     }
 
     [PunRPC]
@@ -3178,31 +3111,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             this.setTeam(setting);
         }
-    }
-
-    [PunRPC]
-    private void settingRPC(ExitGames.Client.Photon.Hashtable hash, PhotonMessageInfo info)
-    {
-        if (info.sender.isMasterClient)
-        {
-            this.setGameSettings(hash);
-        }
-    }
-
-    [PunRPC]
-    private void showChatContent(string content)
-    {
-        this.chatContent.Add(content);
-        if (this.chatContent.Count > 10)
-        {
-            this.chatContent.RemoveAt(0);
-        }
-        //GameObject.Find("LabelChatContent").GetComponent<UILabel>().text = string.Empty;
-        //for (int i = 0; i < this.chatContent.Count; i++)
-        //{
-        //    UILabel component = GameObject.Find("LabelChatContent").GetComponent<UILabel>();
-        //    component.text = component.text + this.chatContent[i];
-        //}
     }
 
     [PunRPC]
@@ -3660,16 +3568,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.cT = new ArrayList();
         this.hooks = new ArrayList();
         this.name = string.Empty;
-        if (nameField == null)
-        {
-            nameField = "GUEST" + UnityEngine.Random.Range(0, 0x186a0);
-        }
         if (privateServerField == null)
         {
             privateServerField = string.Empty;
         }
-        usernameField = string.Empty;
-        passwordField = string.Empty;
         this.resetGameSettings();
         banHash = new ExitGames.Client.Photon.Hashtable();
         imatitan = new ExitGames.Client.Photon.Hashtable();
@@ -3688,40 +3590,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.groundList = new List<GameObject>();
         noRestart = false;
         masterRC = false;
-        this.isSpawning = false;
-        intVariables = new ExitGames.Client.Photon.Hashtable();
         heroHash = new ExitGames.Client.Photon.Hashtable();
-        boolVariables = new ExitGames.Client.Photon.Hashtable();
-        stringVariables = new ExitGames.Client.Photon.Hashtable();
-        floatVariables = new ExitGames.Client.Photon.Hashtable();
-        globalVariables = new ExitGames.Client.Photon.Hashtable();
-        RCRegions = new ExitGames.Client.Photon.Hashtable();
-        RCEvents = new ExitGames.Client.Photon.Hashtable();
-        RCVariableNames = new ExitGames.Client.Photon.Hashtable();
-        RCRegionTriggers = new ExitGames.Client.Photon.Hashtable();
-        playerVariables = new ExitGames.Client.Photon.Hashtable();
-        titanVariables = new ExitGames.Client.Photon.Hashtable();
         logicLoaded = false;
         customLevelLoaded = false;
         oldScriptLogic = string.Empty;
         currentScriptLogic = string.Empty;
-        this.retryTime = 0f;
         this.playerList = string.Empty;
         this.updateTime = 0f;
-        if (this.textureBackgroundBlack == null)
-        {
-            this.textureBackgroundBlack = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-            this.textureBackgroundBlack.SetPixel(0, 0, new Color(0f, 0f, 0f, 1f));
-            this.textureBackgroundBlack.Apply();
-        }
-        if (this.textureBackgroundBlue == null)
-        {
-            this.textureBackgroundBlue = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-            this.textureBackgroundBlue.SetPixel(0, 0, new Color(0.08f, 0.3f, 0.4f, 1f));
-            this.textureBackgroundBlue.Apply();
-        }
         this.loadconfig();
-        this.setBackground();
         ChangeQuality.setCurrentQuality();
     }
 
