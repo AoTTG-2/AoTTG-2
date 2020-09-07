@@ -857,6 +857,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
     }
+    public static void FengSpecModeToggle()
+    {
+        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
+        bool specMode = (int) settings[0xf5] == 1;
+        instance.EnterSpecMode(specMode);
+        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        instance.chatRoom.OutputSystemMessage(message);
+    }
 
     public void gameLose2()
     {

@@ -437,14 +437,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     if (InputManager.KeyDown(InputHuman.Item1))
                     {
-                        ///cant call this straight, so copied code instead
-                        //ChatCommandHandler.ToggleSpecMode();
-                        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-                        bool specMode = (int) settings[0xf5] == 1;
-                        instance.EnterSpecMode(specMode);
-                        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
-                        instance.chatRoom.OutputSystemMessage(message);
-
+                        FengSpecModeToggle();
                         FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
                     }
                     if (InputManager.KeyDown(InputHuman.Item2))
