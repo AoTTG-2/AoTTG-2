@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Assets.Scripts.UI.Camera;
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
@@ -466,7 +467,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
              if (this.needChooseSide)
              {
-                FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
+                InGameUI.SpawnMenu.gameObject.SetActive(true);
              }
 
             int length;
@@ -502,10 +503,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                      (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                     (((int) settings[0xf5]) == 0))
                 {
-                    this.ShowHUDInfoCenter(     
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to open the spawn menu.\n" +
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
  
                     if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) ||
                          (Gamemode.Settings.EndlessRevive > 0)) ||
@@ -856,14 +853,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
-    }
-    public static void FengSpecModeToggle()
-    {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
-        instance.chatRoom.OutputSystemMessage(message);
     }
 
     public void gameLose2()
@@ -2962,7 +2951,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.ShowHUDInfoCenter(string.Empty);
         this.DestroyAllExistingCloths();
         Application.LoadLevel(Application.loadedLevel);
-
     }
 
     public void restartRC()
@@ -3475,7 +3463,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            GameObject.Find("MainCamera").GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
+            GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
@@ -3556,7 +3544,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            GameObject.Find("MainCamera").GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
+            GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
@@ -3639,7 +3627,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(playerTitan.gameObject);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-        GameObject.Find("MainCamera").GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add("dead", false);
