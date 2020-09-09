@@ -52,7 +52,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static STEREO_3D_TYPE stereoType;
     public static bool triggerAutoLock;
     public static bool usingTitan;
-    public static bool IsActive = false;
+    public static bool IsActive;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
 
     public void CameraMovementLive(Hero hero)
