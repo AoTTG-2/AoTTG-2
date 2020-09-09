@@ -441,16 +441,17 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     if (InputManager.KeyDown(InputHuman.Item1))
                     {
-                        ToggleSpecMode();
+                        // ToggleSpecMode();
                         //FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
-                        {
-                            if (InputManager.KeyDown(InputHuman.Item1))
+                        ToggleSpecMode();
+                        ToggleSpawnMenu();
+                        if (InputManager.KeyDown(InputHuman.Item1))
                             {
                                 ToggleSpecMode();
                                 ToggleSpawnMenu();
-
+                            Debug.Log("listener works");
                             }
-                        }
+                        
                     
                     
                 
@@ -696,13 +697,15 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
         if (IsActive == true)
         {
+            Debug.Log("spawnmenu toggle on");
             FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
-            ToggleSpecMode();
+            
         }
         else
         {
+            Debug.Log("spawn menu toggle off");
             FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(false);
-            ToggleSpecMode();
+           
         }
     }
 
