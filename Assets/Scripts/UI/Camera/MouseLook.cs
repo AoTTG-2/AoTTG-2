@@ -15,6 +15,14 @@ namespace Assets.Scripts.UI.Camera
             {
                 rotation.y += UnityEngine.Input.GetAxis("Mouse X");
                 rotation.x += -UnityEngine.Input.GetAxis("Mouse Y");
+                if (rotation.x > 30)
+                 {
+                     rotation.x = 30;
+                 }
+                 if (rotation.x < -30)
+                 {
+                     rotation.x = -30;
+                 }
                 transform.eulerAngles = rotation * speed;
             }
         }
