@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 
+[Obsolete]
 public class IComparerPVPchkPtID : IComparer
 {
     int IComparer.Compare(object x, object y)

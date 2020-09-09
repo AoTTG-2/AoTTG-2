@@ -28,8 +28,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public RCLegacy RcLegacy;
 
-    public static bool showHackMenu = true;
-
     [Obsolete("Cannon specific logic. Should be moved into a dedicated Cannon manager.")]
     public Dictionary<int, CannonValues> allowedToCannon;
 

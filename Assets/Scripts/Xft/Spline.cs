@@ -6,6 +6,7 @@ namespace Xft
     using System.Runtime.InteropServices;
     using UnityEngine;
 
+    //TODO: Remove this for #223
     public class Spline
     {
         public int Granularity = 20;

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Obsolete]
 public class FengColor
 {
     public static Color dawnAmbientLight = new Color(0.345f, 0.305f, 0.271f);

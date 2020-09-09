@@ -1,5 +1,6 @@
 using System;
 
+[Obsolete("AoTTG Legacy Tutorial script")]
 public enum HintType
 {
     MOVE,
