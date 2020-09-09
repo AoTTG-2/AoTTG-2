@@ -1395,10 +1395,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             InstantiateTracker.instance.Dispose();
             if (PhotonNetwork.isMasterClient)
             {
-                if (oldScriptLogic != currentScriptLogic)
-                {
-                    oldScriptLogic = currentScriptLogic;
-                }
+                oldScriptLogic = currentScriptLogic;
                 base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
             }
             logicLoaded = true;

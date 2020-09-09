@@ -8,7 +8,7 @@ namespace Assets.Scripts.Services
 {
     public class RespawnService : IRespawnService
     {
-        private List<PlayerSpawner> playerSpawners = new List<PlayerSpawner>();
+        private readonly List<PlayerSpawner> playerSpawners = new List<PlayerSpawner>();
 
         public void Add(PlayerSpawner playerSpawner)
         {

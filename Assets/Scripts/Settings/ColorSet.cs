@@ -1,6 +1,6 @@
 using System;
 
-[Obsolete]
+[Obsolete("Migrate into a new Colors class with const properties")]
 public class ColorSet
 {
     public static string color_A = "FAAC58";
