@@ -5,6 +5,8 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Room;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
@@ -12,7 +14,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -20,6 +21,8 @@ using UnityEngine;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
+    private readonly IRespawnService _respawnService = Service.Respawn;
+
     [SerializeField]
     private VersionManager versionManager;
 
@@ -129,13 +132,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public List<Vector3> playerSpawnsC;
     [Obsolete("Use the class PlayerSpawns instead")]
     public List<Vector3> playerSpawnsM;
-    public List<PlayerSpawner> PlayerSpawners { get; set; } = new List<PlayerSpawner>();
     public List<PhotonPlayer> playersRPC;
     public Dictionary<string, int[]> PreservedPlayerKDR;
     [Obsolete("A value is never assigned")]
     public static string PrivateServerAuthPass;
-    [Obsolete("Value is always string.empty")]
-    public static string privateServerField;
     [Obsolete("A list which is used to determine when a 'Racing Start Barrier' class should delete itself. Instead, move this logic to the RacingStartBarrier class and work via an event from the racing gamemode.")]
     public List<GameObject> racingDoors = new List<GameObject>();
     [Obsolete("Use RacingGamemode instead")]
@@ -3265,24 +3265,23 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                     {
-                        position = PlayerSpawners[UnityEngine.Random.Range(0, PlayerSpawners.Count)].gameObject.transform
-                            .position;
+                        position = _respawnService.GetRandom().gameObject.transform.position;
                     }
                     else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                     {
-                        var cyanSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Cyan).ToArray();
-                        if (cyanSpawners.Length > 0)
+                        var cyanSpawners = _respawnService.GetByType(PlayerSpawnType.Cyan);
+                        if (cyanSpawners.Count > 0)
                         {
-                            position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
+                            position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Count)].gameObject.transform
                                 .position;
                         }
                     }
                     else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
                     {
-                        var magentaSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Magenta).ToArray();
-                        if (magentaSpawners.Length > 0)
+                        var magentaSpawners = _respawnService.GetByType(PlayerSpawnType.Magenta);
+                        if (magentaSpawners.Count > 0)
                         {
-                            position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Length)].gameObject.transform
+                            position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Count)].gameObject.transform
                                 .position;
                         }
                     }
@@ -3568,10 +3567,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.cT = new ArrayList();
         this.hooks = new ArrayList();
         this.name = string.Empty;
-        if (privateServerField == null)
-        {
-            privateServerField = string.Empty;
-        }
         this.resetGameSettings();
         banHash = new ExitGames.Client.Photon.Hashtable();
         imatitan = new ExitGames.Client.Photon.Hashtable();
@@ -3596,7 +3591,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         oldScriptLogic = string.Empty;
         currentScriptLogic = string.Empty;
         this.playerList = string.Empty;
-        this.updateTime = 0f;
         this.loadconfig();
         ChangeQuality.setCurrentQuality();
     }
