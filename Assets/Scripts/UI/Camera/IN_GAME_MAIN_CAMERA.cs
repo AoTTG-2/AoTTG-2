@@ -53,6 +53,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool triggerAutoLock;
     public static bool usingTitan;
     public static bool IsActive = false;
+    int x = 1;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
 
     public void CameraMovementLive(Hero hero)
@@ -416,6 +417,16 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void update2()
     {
+        if (x == 0)
+        {
+            if (InputManager.KeyDown(InputHuman.Item1))
+            {
+                ToggleSpecMode();
+                ToggleSpawnMenu();
+                Debug.Log("listener works");
+                x = 1;
+            }
+        }
         if (this.flashDuration > 0f)
         {
             this.flashDuration -= Time.deltaTime;
@@ -428,7 +439,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         if (gametype != GAMETYPE.Stop)
         {
-
+            
             if (this.gameOver)
             {
                 
@@ -445,13 +456,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         //FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
                         ToggleSpecMode();
                         ToggleSpawnMenu();
-                        if (InputManager.KeyDown(InputHuman.Item1))
-                            {
-                                ToggleSpecMode();
-                                ToggleSpawnMenu();
-                            Debug.Log("listener works");
-                            }
-                        
+                        x = 0;
+                    }
                     
                     
                 
@@ -491,13 +497,23 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                             }
                         }
                         
-                    }
+                    
                     if (this.spectatorMode)
                     {
                         return;
                     }
                 }
             }
+            /*if (x == 0)
+            {
+                if (InputManager.KeyDown(InputHuman.Item1))
+                {
+                    ToggleSpecMode();
+                    ToggleSpawnMenu();
+                    Debug.Log("listener works");
+                    x = 1;
+                }
+            }*/
             //TODO #204 - Pause Menu
             //if (InputManager.KeyDown(InputUi.Pause))
             //{
