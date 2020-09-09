@@ -591,16 +591,9 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                     this.NapeArmor = 0;
                     if (!this.hasDie)
                     {
-                        if (FengGameManagerMKII.LAN)
-                        {
-                            this.netDie();
-                        }
-                        else
-                        {
-                            base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
-                            this.netDie();
-                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().titanGetKill(view.owner, speed, base.name);
-                        }
+                        base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
+                        this.netDie();
+                        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().titanGetKill(view.owner, speed, base.name);
                     }
                 }
                 else

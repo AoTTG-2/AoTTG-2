@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI;
+﻿using System;
+using Assets.Scripts.UI;
 
 public class ConsoleCommands
 {
@@ -11,7 +12,6 @@ public class ConsoleCommands
     public static void FastLoadAndSpawn(Command command)
     {
         FengGameManagerMKII.instance.StartCoroutine(EMCli.ConnectAndJoinIE(true));
-        FengGameManagerMKII.showHackMenu = false;
     }
 
     public static void ClearCommandsHistory(Command command)
@@ -28,13 +28,12 @@ public class ConsoleCommands
 
     public static void Spawn(Command command)
     {
-        AottgUi.TestSpawn();
+        throw new NotImplementedException();
     }
 
     public static void TestConnect(Command command)
     {
         FengGameManagerMKII.instance.StartCoroutine(EMCli.ConnectAndJoinIE(false));
-        FengGameManagerMKII.showHackMenu = false;
     }
 
     public static void PrintMessage(Command command)

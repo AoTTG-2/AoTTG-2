@@ -324,10 +324,6 @@ public class Bullet : Photon.MonoBehaviour
 
     private void OnDestroy()
     {
-        if (FengGameManagerMKII.instance != null)
-        {
-            FengGameManagerMKII.instance.removeHook(this);
-        }
         if (this.myTitan != null)
         {
             myTitan.IsHooked = false;
@@ -386,7 +382,6 @@ public class Bullet : Photon.MonoBehaviour
     {
         this.rope = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("rope"));
         this.lineRenderer = this.rope.GetComponent<LineRenderer>();
-        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addHook(this);
     }
 
     [PunRPC]
@@ -401,7 +396,7 @@ public class Bullet : Photon.MonoBehaviour
         base.transform.parent = PhotonView.Find(id).gameObject.transform;
     }
 
-    public void update()
+    private void Update()
     {
         if (this.master == null)
         {

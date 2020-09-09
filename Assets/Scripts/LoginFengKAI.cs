@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[Obsolete("LoginFengKAI is the previous aotskins login method. This will be replaced with a new login system.")]
 public class LoginFengKAI : MonoBehaviour
 {
     private string ChangeGuildURL = "http://aotskins.com/version/guild.php";
