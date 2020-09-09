@@ -53,7 +53,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool triggerAutoLock;
     public static bool usingTitan;
     public static bool IsActive = false;
-    int x = 1;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
 
     public void CameraMovementLive(Hero hero)
@@ -417,16 +416,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void update2()
     {
-        if (x == 0)
-        {
-            if (InputManager.KeyDown(InputHuman.Item1))
-            {
-                ToggleSpecMode();
-                ToggleSpawnMenu();
-                Debug.Log("listener works");
-                x = 1;
-            }
-        }
         if (this.flashDuration > 0f)
         {
             this.flashDuration -= Time.deltaTime;
@@ -448,19 +437,13 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
+                if (InputManager.KeyDown(InputHuman.Item1))
+                {
+                    ToggleSpecMode();
+                    ToggleSpawnMenu();
+                }
                 if (this.spectatorMode)
                 {
-                    if (InputManager.KeyDown(InputHuman.Item1))
-                    {
-                        // ToggleSpecMode();
-                        //FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
-                        ToggleSpecMode();
-                        ToggleSpawnMenu();
-                        x = 0;
-                    }
-                    
-                    
-                
                     if (InputManager.KeyDown(InputHuman.Item2))
                     {
                         this.currentPeekPlayerIndex++;
@@ -477,26 +460,26 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         }
                         
                     }
-                        if (InputManager.KeyDown(InputHuman.Item3))
+
+                    if (InputManager.KeyDown(InputHuman.Item3))
+                    {
+                        this.currentPeekPlayerIndex--;
+                        int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
+                        if (this.currentPeekPlayerIndex >= num2)
                         {
-                            this.currentPeekPlayerIndex--;
-                            int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
-                            if (this.currentPeekPlayerIndex >= num2)
-                            {
-                                this.currentPeekPlayerIndex = 0;
-                            }
-                            if (this.currentPeekPlayerIndex < 0)
-                            {
-                                this.currentPeekPlayerIndex = num2;
-                            }
-                            if (num2 > 0)
-                            {
-                                this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                                this.setSpectorMode(false);
-                                this.lockAngle = false;
-                            }
+                            this.currentPeekPlayerIndex = 0;
                         }
-                        
+                        if (this.currentPeekPlayerIndex < 0)
+                        {
+                            this.currentPeekPlayerIndex = num2;
+                        }
+                        if (num2 > 0)
+                        {
+                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                            this.setSpectorMode(false);
+                            this.lockAngle = false;
+                        }
+                    }
                     
                     if (this.spectatorMode)
                     {
@@ -504,16 +487,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     }
                 }
             }
-            /*if (x == 0)
-            {
-                if (InputManager.KeyDown(InputHuman.Item1))
-                {
-                    ToggleSpecMode();
-                    ToggleSpawnMenu();
-                    Debug.Log("listener works");
-                    x = 1;
-                }
-            }*/
             //TODO #204 - Pause Menu
             //if (InputManager.KeyDown(InputUi.Pause))
             //{
@@ -708,21 +681,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public static void ToggleSpawnMenu()
     {
-        
         IsActive = !IsActive;
-
-        if (IsActive == true)
-        {
-            Debug.Log("spawnmenu toggle on");
-            FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(true);
-            
-        }
-        else
-        {
-            Debug.Log("spawn menu toggle off");
-            FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(false);
-           
-        }
+        FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject.SetActive(IsActive);
     }
 
     private void DoCameraMovement()
