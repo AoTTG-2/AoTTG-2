@@ -1,15 +1,20 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.UI.Input;
+using System;
 using UnityEngine;
 using static FengGameManagerMKII;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
+using Random = UnityEngine.Random;
+
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
     private float closestDistance;
     private int currentPeekPlayerIndex;
+    [Obsolete("Replace with a Time Service")]
     public static DayLight dayLight = DayLight.Dawn;
     private float decay;
+    [Obsolete("Difficulty no longer exists in the form of an integer")]
     public static int difficulty;
     private float distance = 10f;
     private float distanceMulti;
@@ -18,6 +23,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float flashDuration;
     private bool flip;
     public bool gameOver;
+    [Obsolete("Refactor so that this static field is no longer required")]
     public static GAMETYPE gametype = GAMETYPE.Stop;
     private bool hasSnapShot;
     private Transform head;
@@ -31,7 +37,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public GameObject main_object;
     private bool needSetHUD;
     private float R;
-    public static string singleCharacter;
     public Material skyBoxDAWN;
     public Material skyBoxDAY;
     public Material skyBoxNIGHT;

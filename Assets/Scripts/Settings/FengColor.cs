@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Obsolete("Migrate into a new Colors class with const properties")]
 public class FengColor
 {
     public static Color dawnAmbientLight = new Color(0.345f, 0.305f, 0.271f);
