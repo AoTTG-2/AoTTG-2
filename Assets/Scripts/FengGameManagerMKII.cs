@@ -8,9 +8,10 @@ using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.Settings.Titans.Attacks;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
-using Assets.Scripts.UI.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -18,139 +19,155 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Assets.Scripts.UI.Camera;
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
+    private readonly IRespawnService _respawnService = Service.Respawn;
+
     [SerializeField]
     private VersionManager versionManager;
 
     public RCLegacy RcLegacy;
 
-    public static bool showHackMenu = true;
-
+    [Obsolete("Cannon specific logic. Should be moved into a dedicated Cannon manager.")]
     public Dictionary<int, CannonValues> allowedToCannon;
-    public Dictionary<string, Texture2D> assetCacheTextures;
+
     public static ExitGames.Client.Photon.Hashtable banHash;
-    public static ExitGames.Client.Photon.Hashtable boolVariables;
-    public static Dictionary<string, GameObject> CachedPrefabs;
-    private ArrayList chatContent;
+
+    [Obsolete("FengGameManager should not have a public InRoomChat variable. This must be made private. Use DependencyInjection instead to get a reference to InRoomChat.")]
     public InRoomChat chatRoom;
+
+    [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
     public GameObject checkpoint;
+
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList cT;
+
+    [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static string currentLevel;
+    [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static string currentScript;
+    [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
     public static string currentScriptLogic;
+    [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
     private float currentSpeed;
+    [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static bool customLevelLoaded;
+    [Obsolete("Migrate this to a dedicated TeamService")]
     public int cyanKills;
-    public float distanceSlider;
+    [Obsolete("Move this into RacingGamemode")]
     private bool endRacing;
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList eT;
-    public static ExitGames.Client.Photon.Hashtable floatVariables;
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList fT;
     public float gameEndCD;
     public float gameEndTotalCDtime = 9f;
     public bool gameStart;
     private bool gameTimesUp;
-    public static ExitGames.Client.Photon.Hashtable globalVariables;
+    [Obsolete("This list is only used to replace the CUBE_001 TEXTURE when CUSTOM MAP is loaded. For AoTTG2 we no longer require this method")]
     public List<GameObject> groundList;
-    public static bool hasLogged;
+    [Obsolete("A dedicated Hero Service should keep track over heroes, not FengGameManager.")]
     private ArrayList heroes;
+    [Obsolete("This is a hashtable which keeps track of every HERO.cs instance. Appears to do the same as 'FengGameManager.heroes' yet no logic happens to this Hashtable other than adding and deleting items.")]
     public static ExitGames.Client.Photon.Hashtable heroHash;
-    private ArrayList hooks;
     public static List<int> ignoreList;
+    [Obsolete("Hashtable only used for InfectionGamemode. Migrate code to InfectionGamemode")]
     public static ExitGames.Client.Photon.Hashtable imatitan;
+    [Obsolete("A static reference to the god class is something we don't want. Avoid introducing new code which makes use of this, and refactor and introduce a new services instead.")]
     public static FengGameManagerMKII instance;
-    public static ExitGames.Client.Photon.Hashtable intVariables;
-    public static bool isAssetLoaded;
-    public bool isFirstLoad;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     private bool isLosing;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     public bool isPlayer1Winning;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     public bool isPlayer2Winning;
     public bool isRecompiling;
+    [Obsolete("Only used for Cannons. Remove in Issue #75")]
     public bool isRestarting;
-    public bool isSpawning;
     public bool isUnloading;
+    [Obsolete("This logic is Gamemode Specific. Migrate this to GamemodeBase and its derived classes")]
     private bool isWinning;
-    public bool justSuicide;
     private ArrayList killInfoGO = new ArrayList();
-    public static bool LAN;
+    [Obsolete("Legacy method of keeping track of custom level scripts, which we no longer support")]
     public List<string[]> levelCache;
     public static ExitGames.Client.Photon.Hashtable[] linkHash;
     [Obsolete("Use RacingGamemode.localRacingResult")]
     private string localRacingResult;
     public static bool logicLoaded;
-    public static int loginstate;
+    [Obsolete("Migrate this to a dedicated TeamService")]
     public int magentaKills;
     private IN_GAME_MAIN_CAMERA mainCamera;
+    [Obsolete("Legacy method which appears to have been used to determine if a client is 'master' RC or not. This would have given special permissions, but the feature is only used within 2 locations and is obviously prone to cheating.")]
     public static bool masterRC;
+    [Obsolete("PhotonNetwork.room.MaxPlayers returns the max players. This was used to prevent clients from modifying the MaxRoom players, but may create an endless loop resulting into the MC crashing. Our PhotonServer should block any RoomProperty modifications and automatically server ban anyone who attempts to modify this without being MC")]
     public int maxPlayers;
+    [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
     private float maxSpeed;
-    public float mouseSlider;
+    [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
     private string myLastHero;
+    [Obsolete("Value is always playerRespawn")]
     private string myLastRespawnTag = "playerRespawn";
+    [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
     public float myRespawnTime;
-    public static string nameField;
+    [Obsolete("A gamemode should decide whether or not a player has to choose between humanity, AHSS or titanity")]
     public bool needChooseSide;
+    [Obsolete("A bool used to prevent restarting when true, yet this is never true. Refactor this in the future so it does have a purpose")]
     public static bool noRestart;
+    [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
     public static string oldScript;
+    [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
     public static string oldScriptLogic;
+    [Obsolete("This value is always false")]
     public static bool OnPrivateServer;
-    public static string passwordField;
+    [Obsolete("A pause script should know for how long it needs to wait, not FengGameManager")]
     public float pauseWaitTime;
     public string playerList;
-    [Obsolete("Use PlayerSpawns instead")]
+    [Obsolete("Use the class PlayerSpawns instead")]
     public List<Vector3> playerSpawnsC;
-    [Obsolete("Use PlayerSpawns instead")]
+    [Obsolete("Use the class PlayerSpawns instead")]
     public List<Vector3> playerSpawnsM;
-    public List<PlayerSpawner> PlayerSpawners { get; set; } = new List<PlayerSpawner>();
     public List<PhotonPlayer> playersRPC;
-    public static ExitGames.Client.Photon.Hashtable playerVariables;
     public Dictionary<string, int[]> PreservedPlayerKDR;
+    [Obsolete("A value is never assigned")]
     public static string PrivateServerAuthPass;
-    public static string privateServerField;
-    public float qualitySlider;
+    [Obsolete("A list which is used to determine when a 'Racing Start Barrier' class should delete itself. Instead, move this logic to the RacingStartBarrier class and work via an event from the racing gamemode.")]
     public List<GameObject> racingDoors = new List<GameObject>();
+    [Obsolete("Use RacingGamemode instead")]
     private ArrayList racingResult;
+    [Obsolete("Use RacingGamemode instead")]
     public Vector3 racingSpawnPoint;
+    [Obsolete("Use RacingGamemode instead")]
     public bool racingSpawnPointSet;
-    //public static AssetBundle RCassets { get; set; }
-    public static ExitGames.Client.Photon.Hashtable RCEvents;
-    public static ExitGames.Client.Photon.Hashtable RCRegions;
-    public static ExitGames.Client.Photon.Hashtable RCRegionTriggers;
-    public static ExitGames.Client.Photon.Hashtable RCVariableNames;
+    [Obsolete("This is only used for the obsolete MasterRC field")]
     public List<float> restartCount;
-    public bool restartingBomb;
     public bool restartingMC;
-    public float retryTime;
     public float roundTime;
+    [Obsolete("Hardcoded string. Avoid using this")]
     public static string[] s = "verified343,hair,character_eye,glass,character_face,character_head,character_hand,character_body,character_arm,character_leg,character_chest,character_cape,character_brand,character_3dmg,r,character_blade_l,character_3dmg_gas_r,character_blade_r,3dmg_smoke,HORSE,hair,body_001,Cube,Plane_031,mikasa_asset,character_cap_,character_gun".Split(new char[] { ',' });
-    public Vector2 scroll;
-    public Vector2 scroll2;
-    public GameObject selectedObj;
+    [Obsolete("A god class array for settings. Move these settings to the classes where they belong")]
     public static object[] settings;
+    [Obsolete("Migrate this to HERO.cs")]
     private int single_kills;
+    [Obsolete("Migrate this to HERO.cs")]
     private int single_maxDamage;
+    [Obsolete("Migrate this to HERO.cs")]
     private int single_totalDamage;
     public static Material skyMaterial;
-    public List<GameObject> spectateSprites;
+    [Obsolete("Use RacingGamemode instead")]
     private bool startRacing;
-    public static ExitGames.Client.Photon.Hashtable stringVariables;
-    public Texture2D textureBackgroundBlack;
-    public Texture2D textureBackgroundBlue;
     public int time = 600;
     private float timeElapse;
     private float timeTotalServer;
+    [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList titans;
     public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
-    public static ExitGames.Client.Photon.Hashtable titanVariables;
-    public float transparencySlider;
-    public float updateTime;
-    public static string usernameField;
 
     public InGameUi InGameUI;
 
+    [Obsolete("This is used to assign a name to the HERO, but it shouldn't be within FengGameManager")]
     public new string name { get; set; }
     public static GamemodeBase Gamemode { get; private set; }
     public static Level Level { get; set; }
@@ -160,41 +177,43 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private GameSettings Settings { get; set; }
 
+    [Obsolete("FengGameManager doesn't require the usage of IN_GAME_MAIN_CAMERA.")]
     public void addCamera(IN_GAME_MAIN_CAMERA c)
     {
         this.mainCamera = c;
     }
 
+    [Obsolete("Move to a TitanService")]
     public void addCT(ColossalTitan titan)
     {
         this.cT.Add(titan);
     }
 
-    public void addET(ErenTitan hero)
+    [Obsolete("Move to a TitanService")]
+public void addET(ErenTitan hero)
     {
         this.eT.Add(hero);
     }
 
+    [Obsolete("Move to a TitanService")]
     public void addFT(FemaleTitan titan)
     {
         this.fT.Add(titan);
     }
 
+    [Obsolete("Move to a PlayerService")]
     public void addHero(Hero hero)
     {
         this.heroes.Add(hero);
     }
-
-    public void addHook(Bullet h)
-    {
-        this.hooks.Add(h);
-    }
-
+    
+    [Obsolete("Room expiration no longer exists in AoTTG2.")]
     public void addTime(float time)
     {
         this.timeTotalServer -= time;
     }
 
+    [Obsolete("Move to a TitanService")]
     public void addTitan(MindlessTitan titan)
     {
         this.titans.Add(titan);
@@ -208,16 +227,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.PreservedPlayerKDR = new Dictionary<string, int[]>();
         noRestart = false;
         skyMaterial = null;
-        this.isSpawning = false;
-        this.retryTime = 0f;
         logicLoaded = false;
         customLevelLoaded = true;
         this.isUnloading = false;
         this.isRecompiling = false;
         Time.timeScale = 1f;
-        Camera.main.farClipPlane = 1500f;
+        Camera.main.farClipPlane = 1500f; //TODO Make camera view distance a configurable setting
         this.pauseWaitTime = 0f;
-        this.spectateSprites = new List<GameObject>();
         this.isRestarting = false;
         if (PhotonNetwork.isMasterClient)
         {
@@ -230,23 +246,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             customLevelLoaded = false;
         }
 
-        if (PhotonNetwork.isMasterClient)
-        {
-            if (this.isFirstLoad)
-            {
-                this.setGameSettings(this.checkGameGUI());
-            }
-        }
-
         if (((int) settings[0xf4]) == 1)
         {
             this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round Start.");
         }
 
-        this.isFirstLoad = false;
         this.RecompilePlayerList(0.5f);
     }
 
+    [Obsolete("This is a responsibility for the InRoomChat.")]
     [PunRPC]
     private void Chat(string content, string sender, PhotonMessageInfo info)
     {
@@ -258,6 +266,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.chatRoom.AddMessage(content);
     }
 
+    [Obsolete("This is a responsibility for the InRoomChat.")]
     [PunRPC]
     private void ChatPM(string sender, string content, PhotonMessageInfo info)
     {
@@ -266,24 +275,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.chatRoom.AddMessage(content);
     }
 
+    [Obsolete("This is a responsibility for the InRoomChat.")]
     [PunRPC]
     private void ClearChat()
     {
         chatRoom.ClearMessages();
     }
-
-    private ExitGames.Client.Photon.Hashtable checkGameGUI()
-    {
-        int num;
-        int num2;
-        PhotonPlayer player;
-        int num4;
-        float num8;
-        float num9;
-        ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-        return hashtable;
-    }
-
+    
     [PunRPC]
     private void clearlevel(string[] link, PhotonMessageInfo info)
     {
@@ -429,34 +427,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public int conditionType(string str)
-    {
-        if (!str.StartsWith("Int"))
-        {
-            if (str.StartsWith("Bool"))
-            {
-                return 1;
-            }
-            if (str.StartsWith("String"))
-            {
-                return 2;
-            }
-            if (str.StartsWith("Float"))
-            {
-                return 3;
-            }
-            if (str.StartsWith("Titan"))
-            {
-                return 5;
-            }
-            if (str.StartsWith("Player"))
-            {
-                return 4;
-            }
-        }
-        return 0;
-    }
-
+    [Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
     private void core2()
     {
         if (((int) settings[0x40]) >= 100)
@@ -466,10 +437,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
-            if (this.needChooseSide)
-            {
+             if (this.needChooseSide)
+             {
                 InGameUI.SpawnMenu.gameObject.SetActive(true);
-            }
+             }
 
             int length;
             float num3;
@@ -504,10 +475,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                      (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                     (((int) settings[0xf5]) == 0))
                 {
-                    this.ShowHUDInfoCenter(
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to spectate the next player.\n" +
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the previous player.\n" +
-                        $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enter the spectator mode.\n\n\n\n");
                     if (((GameSettings.Respawn.Mode == RespawnMode.DEATHMATCH) ||
                          (GameSettings.Respawn.EndlessRevive.Value > 0)) ||
                         !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
@@ -636,7 +603,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
 
                 if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
-                    customLevelLoaded)
+                    customLevelLoaded && !mainCamera.IsSpecmode)
                 {
                     this.myRespawnTime += Time.deltaTime;
                     if (this.myRespawnTime > 1.5f)
@@ -746,11 +713,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public void debugChat(string str)
-    {
-        this.chatRoom.AddMessage(str);
-    }
-
     public void DestroyAllExistingCloths()
     {
         Cloth[] clothArray = UnityEngine.Object.FindObjectsOfType<Cloth>();
@@ -762,44 +724,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
     }
-
-    private void endGameRC()
-    {
-    }
-
+    
     public void EnterSpecMode(bool enter)
     {
         if (enter)
         {
-            this.spectateSprites = new List<GameObject>();
-            foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-            {
-                //if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
-                //{
-                //    string name = obj2.name;
-                //    if (((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd"))
-                //    {
-                //        if (!this.spectateSprites.Contains(obj2))
-                //        {
-                //            this.spectateSprites.Add(obj2);
-                //        }
-                //        obj2.SetActive(false);
-                //    }
-                //}
-            }
-            string[] strArray2 = new string[] { "Flare", "LabelInfoBottomRight" };
-            foreach (string str2 in strArray2)
-            {
-                GameObject item = GameObject.Find(str2);
-                if (item != null)
-                {
-                    if (!this.spectateSprites.Contains(item))
-                    {
-                        this.spectateSprites.Add(item);
-                    }
-                    item.SetActive(false);
-                }
-            }
             foreach (Hero hero in instance.getPlayers())
             {
                 if (hero.photonView.isMine)
@@ -838,17 +767,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
             }
-            if (this.spectateSprites != null)
-            {
-                foreach (GameObject obj2 in this.spectateSprites)
-                {
-                    if (obj2 != null)
-                    {
-                        obj2.SetActive(true);
-                    }
-                }
-            }
-            this.spectateSprites = new List<GameObject>();
             instance.needChooseSide = true;
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
@@ -856,6 +774,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Move into GamemodeBase")]
     public void gameLose2()
     {
         if (!(this.isWinning || this.isLosing))
@@ -866,6 +785,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Move into GamemodeBase")]
     public void gameWin2()
     {
         if (!this.isLosing && !this.isWinning)
@@ -875,11 +795,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Migrate to a PlayerService")]
     public ArrayList getPlayers()
     {
         return this.heroes;
     }
 
+    [Obsolete("Move into RacingGamemode")]
     [PunRPC]
     private void getRacingResult(string player, float time)
     {
@@ -892,18 +814,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.refreshRacingResult2();
     }
 
+    [Obsolete("Migrate to a TitanService")]
     public ArrayList getTitans()
     {
         return this.titans;
-    }
-
-    private string hairtype(int lol)
-    {
-        if (lol < 0)
-        {
-            return "Random";
-        }
-        return ("Male " + lol);
     }
 
     [PunRPC]
@@ -969,6 +883,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return pauseWaitTime > 3f;
     }
 
+    [Obsolete("Highly inefficient and expensive method to create a player list. Refactor by using StringBuilder")]
     private void ReloadPlayerlist()
     {
         var playerList = "";
@@ -1055,6 +970,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("This is used to set the label of the HERO to a different team color. Move to HERO.cs and TeamService")]
     [PunRPC]
     private void labelRPC(int setting, PhotonMessageInfo info)
     {
@@ -1147,6 +1063,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Refactor to use a JSON instead.")]
     private void loadconfig()
     {
         int num;
@@ -1433,14 +1350,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         AudioListener.volume = PlayerPrefs.GetFloat("vol", 1f);
         linkHash = new ExitGames.Client.Photon.Hashtable[] { new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable() };
         settings = objArray;
-        this.scroll = Vector2.zero;
-        this.scroll2 = Vector2.zero;
-        this.distanceSlider = PlayerPrefs.GetFloat("cameraDistance", 1f);
-        this.mouseSlider = PlayerPrefs.GetFloat("MouseSensitivity", 0.5f);
-        this.qualitySlider = PlayerPrefs.GetFloat("GameQuality", 0f);
-        this.transparencySlider = 1f;
     }
 
+    [Obsolete("Too high complexity and obsolete UI Gameobjects. Refactor")]
     private void loadskin()
     {
         GameObject[] objArray;
@@ -1470,6 +1382,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
             Camera.main.GetComponent<SpectatorMovement>().disable = true;
+            Camera.main.GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
         }
         else
         {
@@ -1479,21 +1392,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             InstantiateTracker.instance.Dispose();
             if (PhotonNetwork.isMasterClient)
             {
-                this.updateTime = 1f;
-                if (oldScriptLogic != currentScriptLogic)
-                {
-                    intVariables.Clear();
-                    boolVariables.Clear();
-                    stringVariables.Clear();
-                    floatVariables.Clear();
-                    globalVariables.Clear();
-                    RCEvents.Clear();
-                    RCVariableNames.Clear();
-                    playerVariables.Clear();
-                    titanVariables.Clear();
-                    RCRegionTriggers.Clear();
-                    oldScriptLogic = currentScriptLogic;
-                }
+                oldScriptLogic = currentScriptLogic;
                 base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
             }
             logicLoaded = true;
@@ -1596,7 +1495,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                     strArray3[6] = (string) settings[0xa2];
                     base.photonView.RPC("clearlevel", PhotonTargets.AllBuffered, new object[] { strArray3 });
-                    RCRegions.Clear();
                     if (oldScript != currentScript)
                     {
                         ExitGames.Client.Photon.Hashtable hashtable;
@@ -2107,19 +2005,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    private string mastertexturetype(int lol)
-    {
-        if (lol == 0)
-        {
-            return "High";
-        }
-        if (lol == 1)
-        {
-            return "Med";
-        }
-        return "Low";
-    }
-
+    [Obsolete("Migrate to RacingGamemode")]
     public void multiplayerRacingFinsih()
     {
         float time = this.roundTime - 20f;
@@ -2135,6 +2021,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.gameWin2();
     }
 
+    [Obsolete("Migrate to GamemodeBase")]
     [PunRPC]
     private void netGameLose(int score, PhotonMessageInfo info)
     {
@@ -2151,6 +2038,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Migrate to GamemodeBase")]
     [PunRPC]
     private void netGameWin(int score, PhotonMessageInfo info)
     {
@@ -2167,6 +2055,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Migrate to RacingGamemode")]
     [PunRPC]
     private void netRefreshRacingResult(string tmp)
     {
@@ -2179,6 +2068,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         InGameUI.HUD.SetDamage(damage);
     }
 
+    [Obsolete("Use RespawnService instead")]
     public void NOTSpawnPlayer(string id = "2")
     {
         this.myLastHero = id.ToUpper();
@@ -2197,6 +2087,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
     }
 
+    [Obsolete("Use RespawnService instead")]
     public void NOTSpawnPlayerRC(string id)
     {
         this.myLastHero = id.ToUpper();
@@ -2263,6 +2154,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Migrate to a Titan Event Manager")]
     [PunRPC]
     public void oneTitanDown(string titanName)
     {
@@ -2283,10 +2175,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             PhotonNetwork.Instantiate("DummyTitanPrefab", GameObject.FindGameObjectWithTag("Player").transform.position, Quaternion.identity, 0);
         }
-    }
-
-    public void OnJoinedLobby()
-    {
     }
 
     private void SetGamemode(GamemodeSettings settings)
@@ -2350,27 +2238,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
         this.needChooseSide = true;
-        this.chatContent = new ArrayList();
         this.killInfoGO = new ArrayList();
-        //InRoomChat.messages = new List<string>();
         if (!PhotonNetwork.isMasterClient)
         {
             base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
             base.photonView.RPC("RequestSettings", PhotonTargets.MasterClient);
         }
-        this.assetCacheTextures = new Dictionary<string, Texture2D>();
-        this.isFirstLoad = true;
         this.name = LoginFengKAI.player.name;
-        if (loginstate != 3)
-        {
-            this.name = nameField;
-            if ((!this.name.StartsWith("[") || (this.name.Length < 8)) || (this.name.Substring(7, 1) != "]"))
-            {
-                this.name = $"<color=#9999ff>{this.name}</color>";
-            }
-            this.name = this.name.Replace("[-]", "");
-            LoginFengKAI.player.name = this.name;
-        }
         ExitGames.Client.Photon.Hashtable hashtable3 = new ExitGames.Client.Photon.Hashtable();
         hashtable3.Add(PhotonPlayerProperty.name, this.name);
         PhotonNetwork.player.SetCustomProperties(hashtable3);
@@ -2484,22 +2358,22 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-            if (!PhotonNetwork.room.open)
+            if (!PhotonNetwork.room.IsOpen)
             {
-                PhotonNetwork.room.open = true;
+                PhotonNetwork.room.IsOpen = true;
             }
-            if (!PhotonNetwork.room.visible)
+            if (!PhotonNetwork.room.IsVisible)
             {
-                PhotonNetwork.room.visible = true;
+                PhotonNetwork.room.IsVisible = true;
             }
-            if (PhotonNetwork.room.maxPlayers != this.maxPlayers)
+            if (PhotonNetwork.room.MaxPlayers != this.maxPlayers)
             {
-                PhotonNetwork.room.maxPlayers = this.maxPlayers;
+                PhotonNetwork.room.MaxPlayers = this.maxPlayers;
             }
         }
         else
         {
-            this.maxPlayers = PhotonNetwork.room.maxPlayers;
+            this.maxPlayers = PhotonNetwork.room.MaxPlayers;
         }
     }
 
@@ -2547,7 +2421,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     photonView.RPC("ignorePlayerArray", player, new object[] { ignoreList.ToArray() });
                 }
-                //photonView.RPC("settingRPC", player, new object[] { hashtable });
                 photonView.RPC("setMasterRC", player, new object[0]);
                 if ((Time.timeScale <= 0.1f) && (pauseWaitTime > 3f))
                 {
@@ -2677,13 +2550,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public void playerKillInfoSingleUpdate(int dmg)
-    {
-        this.single_kills++;
-        this.single_maxDamage = Mathf.Max(dmg, this.single_maxDamage);
-        this.single_totalDamage += dmg;
-    }
-
     public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
     {
         ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
@@ -2706,6 +2572,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Migrate into RacingGamemode")]
     private void refreshRacingResult2()
     {
         this.localRacingResult = "Result\n";
@@ -2725,6 +2592,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
     }
 
+    [Obsolete("Migrate into RacingGamemode")]
     [PunRPC]
     private void refreshStatus(float time1, float time2, bool startRacin, bool endRacin)
     {
@@ -2745,31 +2613,31 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<Skybox>().material = skyMaterial;
     }
 
+    [Obsolete("Move to a TitanService")]
     public void removeCT(ColossalTitan titan)
     {
         this.cT.Remove(titan);
     }
 
+    [Obsolete("Move to a TitanService")]
     public void removeET(ErenTitan hero)
     {
         this.eT.Remove(hero);
     }
 
+    [Obsolete("Move to a TitanService")]
     public void removeFT(FemaleTitan titan)
     {
         this.fT.Remove(titan);
     }
 
+    [Obsolete("Move to a PlayerService")]
     public void removeHero(Hero hero)
     {
         this.heroes.Remove(hero);
     }
 
-    public void removeHook(Bullet h)
-    {
-        this.hooks.Remove(h);
-    }
-
+    [Obsolete("Move to a TitanService")]
     public void removeTitan(MindlessTitan titan)
     {
         this.titans.Remove(titan);
@@ -2780,10 +2648,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         object[] parameters = new object[] { this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing };
         base.photonView.RPC("refreshStatus", PhotonTargets.Others, parameters);
-    }
-
-    private void resetGameSettings()
-    {
     }
 
     private void resetSettings(bool isLeave)
@@ -2799,17 +2663,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.levelCache = new List<string[]>();
             this.playerSpawnsC.Clear();
             this.playerSpawnsM.Clear();
-            intVariables.Clear();
-            boolVariables.Clear();
-            stringVariables.Clear();
-            floatVariables.Clear();
-            globalVariables.Clear();
-            RCRegions.Clear();
-            RCEvents.Clear();
-            RCVariableNames.Clear();
-            playerVariables.Clear();
-            titanVariables.Clear();
-            RCRegionTriggers.Clear();
             currentScriptLogic = string.Empty;
             propertiesToSet.Add(PhotonPlayerProperty.statACL, 100);
             propertiesToSet.Add(PhotonPlayerProperty.statBLA, 100);
@@ -2818,7 +2671,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.restartingMC = false;
         }
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        this.resetGameSettings();
         banHash = new ExitGames.Client.Photon.Hashtable();
         imatitan = new ExitGames.Client.Photon.Hashtable();
         oldScript = string.Empty;
@@ -2827,6 +2679,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         heroHash = new ExitGames.Client.Photon.Hashtable();
     }
 
+    [Obsolete("Move into a RespawnService")]
     [PunRPC]
     public void RespawnRpc(PhotonMessageInfo info)
     {
@@ -2834,6 +2687,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Respawn(PhotonNetwork.player);
     }
 
+    [Obsolete("Move into a RespawnService")]
     private void Respawn(PhotonPlayer player)
     {
         if (player.CustomProperties[PhotonPlayerProperty.dead] == null
@@ -2851,6 +2705,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Move into a RespawnService")]
     private IEnumerator respawnE(float seconds)
     {
         while (true)
@@ -2870,6 +2725,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Move into a RespawnService")]
     [PunRPC]
     private void respawnHeroInNewRound()
     {
@@ -2880,13 +2736,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.ShowHUDInfoCenter(string.Empty);
         }
     }
-
-    public IEnumerator restartE(float time)
-    {
-        yield return new WaitForSeconds(time);
-        this.restartGame2(false);
-    }
-
+    
     public void restartGame2(bool masterclientSwitched = false)
     {
         if (!this.gameTimesUp)
@@ -2907,10 +2757,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.isRestarting = true;
             this.DestroyAllExistingCloths();
             PhotonNetwork.DestroyAll();
-            ExitGames.Client.Photon.Hashtable hash = this.checkGameGUI();
-            base.photonView.RPC("settingRPC", PhotonTargets.Others, new object[] { hash });
             base.photonView.RPC("RPCLoadLevel", PhotonTargets.All, new object[0]);
-            this.setGameSettings(hash);
             if (masterclientSwitched)
             {
                 this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + ((string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor());
@@ -2968,12 +2815,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             photonView.RPC(nameof(SyncSettings), PhotonTargets.Others, json, GameSettings.Gamemode.GamemodeType);
         }
 
-        intVariables.Clear();
-        boolVariables.Clear();
-        stringVariables.Clear();
-        floatVariables.Clear();
-        playerVariables.Clear();
-        titanVariables.Clear();
         EventManager.OnRestart.Invoke();
     }
 
@@ -3007,6 +2848,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Make use directly of the InRoomChat RPCs.")]
     public void sendChatContentInfo(string content)
     {
         object[] parameters = new object[] { content, string.Empty };
@@ -3061,18 +2903,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public void setBackground()
-    {
-        if (isAssetLoaded)
-        {
-            UnityEngine.Object.Instantiate(RcLegacy.GetPrefab("backgroundCamera"));
-        }
-    }
-
-    private void setGameSettings(ExitGames.Client.Photon.Hashtable hash)
-    {
-    }
-
     [PunRPC]
     private void setMasterRC(PhotonMessageInfo info)
     {
@@ -3082,6 +2912,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Migrate to TeamService")]
     private void setTeam(int setting)
     {
         if (setting == 0)
@@ -3156,6 +2987,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Migrate to TeamService")]
     [PunRPC]
     private void setTeamRPC(int setting, PhotonMessageInfo info)
     {
@@ -3163,31 +2995,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             this.setTeam(setting);
         }
-    }
-
-    [PunRPC]
-    private void settingRPC(ExitGames.Client.Photon.Hashtable hash, PhotonMessageInfo info)
-    {
-        if (info.sender.isMasterClient)
-        {
-            this.setGameSettings(hash);
-        }
-    }
-
-    [PunRPC]
-    private void showChatContent(string content)
-    {
-        this.chatContent.Add(content);
-        if (this.chatContent.Count > 10)
-        {
-            this.chatContent.RemoveAt(0);
-        }
-        //GameObject.Find("LabelChatContent").GetComponent<UILabel>().text = string.Empty;
-        //for (int i = 0; i < this.chatContent.Count; i++)
-        //{
-        //    UILabel component = GameObject.Find("LabelChatContent").GetComponent<UILabel>();
-        //    component.text = component.text + this.chatContent[i];
-        //}
     }
 
     [PunRPC]
@@ -3252,36 +3059,43 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         photonView.RPC(nameof(SyncSettings), info.sender, json, GameSettings.Gamemode.GamemodeType);
     }
 
+    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
     public void ShowHUDInfoCenter(string content)
     {
         InGameUI.HUD.Labels.Center.text = content;
 
     }
 
+    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
     public void ShowHUDInfoCenterADD(string content)
     {
     }
 
+    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
     private void ShowHUDInfoTopCenter(string content)
     {
         InGameUI.HUD.Labels.Top.text = content;
     }
 
+    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
     private void ShowHUDInfoTopCenterADD(string content)
     {
 
     }
 
+    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
     private void ShowHUDInfoTopLeft(string content)
     {
         InGameUI.HUD.Labels.TopLeft.text = content;
     }
 
+    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
     private void ShowHUDInfoTopRight(string content)
     {
         InGameUI.HUD.Labels.TopRight.text = content;
     }
 
+    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
     private void ShowHUDInfoTopRightMAPNAME(string content)
     {
 
@@ -3310,6 +3124,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     }
 
     //TODO: 184 - This gets called upon MapLoaded
+    [Obsolete("Migrate into a SpawnService")]
     public void SpawnPlayer(string id, string tag = "playerRespawn")
     {
         if (id == null)
@@ -3321,6 +3136,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         SpawnPlayerAt2(id, location);
     }
 
+    [Obsolete("Migrate into a SpawnService")]
     public void SpawnPlayerAt2(string id, GameObject pos)
     {
         // HACK
@@ -3342,24 +3158,23 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 {
                     if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                     {
-                        position = PlayerSpawners[UnityEngine.Random.Range(0, PlayerSpawners.Count)].gameObject.transform
-                            .position;
+                        position = _respawnService.GetRandom().gameObject.transform.position;
                     }
                     else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                     {
-                        var cyanSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Cyan).ToArray();
-                        if (cyanSpawners.Length > 0)
+                        var cyanSpawners = _respawnService.GetByType(PlayerSpawnType.Cyan);
+                        if (cyanSpawners.Count > 0)
                         {
-                            position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Length)].gameObject.transform
+                            position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Count)].gameObject.transform
                                 .position;
                         }
                     }
                     else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
                     {
-                        var magentaSpawners = PlayerSpawners.Where(x => x.Type == PlayerSpawnType.Magenta).ToArray();
-                        if (magentaSpawners.Length > 0)
+                        var magentaSpawners = _respawnService.GetByType(PlayerSpawnType.Magenta);
+                        if (magentaSpawners.Count > 0)
                         {
-                            position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Length)].gameObject.transform
+                            position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Count)].gameObject.transform
                                 .position;
                         }
                     }
@@ -3449,8 +3264,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            //TODO MouseLook
-            //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+            GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
@@ -3459,6 +3273,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
 
     [PunRPC]
+    [Obsolete("Migrate into a SpawnService")]
     public void spawnPlayerAtRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
     {
         if (((info.sender.isMasterClient && logicLoaded) && (customLevelLoaded && !this.needChooseSide)) && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
@@ -3531,31 +3346,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-            //TODO MouseLook
-            //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+            GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
             component.gameOver = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
         }
     }
 
-    private void spawnPlayerCustomMap()
-    {
-        if (!this.needChooseSide && GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
-        {
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-            if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-            {
-                SpawnPlayerTitan();
-            }
-            else
-            {
-                this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
-            }
-            this.ShowHUDInfoCenter(string.Empty);
-        }
-    }
-
+    [Obsolete("Migrate into a SpawnService")]
     public GameObject SpawnTitan(TitanConfiguration configuration)
     {
         Vector3 position = new Vector3();
@@ -3586,11 +3384,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return SpawnTitan(position, rotation, configuration);
     }
 
+    [Obsolete("Migrate into a SpawnService")]
     public GameObject SpawnTitan(Vector3 position, Quaternion rotation)
     {
         return SpawnTitan(position, rotation, new TitanConfiguration());
     }
 
+    [Obsolete("Migrate into a SpawnService")]
     public GameObject SpawnTitan(Vector3 position, Quaternion rotation, TitanConfiguration configuration)
     {
         var titan = PhotonNetwork.Instantiate("MindlessTitan", position, rotation, 0);
@@ -3598,6 +3398,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         return titan;
     }
 
+    [Obsolete("Migrate into a SpawnService")]
     public void SpawnPlayerTitan()
     {
         var id = "TITAN";
@@ -3615,8 +3416,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(playerTitan.gameObject);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-        //TODO MouseLook
-        //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add("dead", false);
@@ -3679,25 +3479,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         CostumeHair.init();
         CharacterMaterials.init();
         HeroCostume.init2();
+        PhotonNetwork.automaticallySyncScene = true;
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
         this.heroes = new ArrayList();
         this.eT = new ArrayList();
         this.titans = new ArrayList();
         this.fT = new ArrayList();
         this.cT = new ArrayList();
-        this.hooks = new ArrayList();
         this.name = string.Empty;
-        if (nameField == null)
-        {
-            nameField = "GUEST" + UnityEngine.Random.Range(0, 0x186a0);
-        }
-        if (privateServerField == null)
-        {
-            privateServerField = string.Empty;
-        }
-        usernameField = string.Empty;
-        passwordField = string.Empty;
-        this.resetGameSettings();
         banHash = new ExitGames.Client.Photon.Hashtable();
         imatitan = new ExitGames.Client.Photon.Hashtable();
         oldScript = string.Empty;
@@ -3715,40 +3504,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.groundList = new List<GameObject>();
         noRestart = false;
         masterRC = false;
-        this.isSpawning = false;
-        intVariables = new ExitGames.Client.Photon.Hashtable();
         heroHash = new ExitGames.Client.Photon.Hashtable();
-        boolVariables = new ExitGames.Client.Photon.Hashtable();
-        stringVariables = new ExitGames.Client.Photon.Hashtable();
-        floatVariables = new ExitGames.Client.Photon.Hashtable();
-        globalVariables = new ExitGames.Client.Photon.Hashtable();
-        RCRegions = new ExitGames.Client.Photon.Hashtable();
-        RCEvents = new ExitGames.Client.Photon.Hashtable();
-        RCVariableNames = new ExitGames.Client.Photon.Hashtable();
-        RCRegionTriggers = new ExitGames.Client.Photon.Hashtable();
-        playerVariables = new ExitGames.Client.Photon.Hashtable();
-        titanVariables = new ExitGames.Client.Photon.Hashtable();
         logicLoaded = false;
         customLevelLoaded = false;
         oldScriptLogic = string.Empty;
         currentScriptLogic = string.Empty;
-        this.retryTime = 0f;
         this.playerList = string.Empty;
-        this.updateTime = 0f;
-        if (this.textureBackgroundBlack == null)
-        {
-            this.textureBackgroundBlack = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-            this.textureBackgroundBlack.SetPixel(0, 0, new Color(0f, 0f, 0f, 1f));
-            this.textureBackgroundBlack.Apply();
-        }
-        if (this.textureBackgroundBlue == null)
-        {
-            this.textureBackgroundBlue = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-            this.textureBackgroundBlue.SetPixel(0, 0, new Color(0.08f, 0.3f, 0.4f, 1f));
-            this.textureBackgroundBlue.Apply();
-        }
         this.loadconfig();
-        this.setBackground();
         ChangeQuality.setCurrentQuality();
     }
 
@@ -3761,15 +3523,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, name);
         this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
         this.playerKillInfoUpdate(player, Damage);
-    }
-
-    public void titanGetKillbyServer(int Damage, string name)
-    {
-        Damage = Mathf.Max(10, Damage);
-        this.sendKillInfo(false, LoginFengKAI.player.name, true, name, Damage);
-        this.netShowDamage(Damage);
-        this.oneTitanDown(name);
-        this.playerKillInfoUpdate(PhotonNetwork.player, Damage);
     }
 
     public void unloadAssets()
@@ -3788,17 +3541,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.isUnloading = false;
     }
 
-    public void unloadAssetsEditor()
-    {
-        if (!this.isUnloading)
-        {
-            this.isUnloading = true;
-            base.StartCoroutine(this.unloadAssetsE(30f));
-        }
-    }
-
-    //TODO: This is called every frame... wtf???
-    //Major performance increase can be achieved by moving some of this into fixed update.
     private void Update()
     {
         //if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (GameObject.Find("LabelNetworkStatus") != null))
@@ -3828,24 +3570,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 if (disposable != null)
                 {
                     disposable.Dispose();
-                }
-            }
-            IEnumerator enumerator2 = this.hooks.GetEnumerator();
-            try
-            {
-                while (enumerator2.MoveNext())
-                {
-                    var current = (Bullet) enumerator2.Current;
-                    if (current != null)
-                        current.update();
-                }
-            }
-            finally
-            {
-                IDisposable disposable2 = enumerator2 as IDisposable;
-                if (disposable2 != null)
-                {
-                    disposable2.Dispose();
                 }
             }
             if (this.mainCamera != null)
@@ -3961,6 +3685,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("Too high complexity. Refactor")]
     public IEnumerator WaitAndRecompilePlayerList(float time)
     {
         int num16;
@@ -4494,12 +4219,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.restartingMC = false;
     }
 
+    [Obsolete("Migrate into a SpawnService")]
     public IEnumerator WaitAndRespawn1(float time, string str)
     {
         yield return new WaitForSeconds(time);
         this.SpawnPlayer(this.myLastHero, str);
     }
 
+    [Obsolete("Migrate into a SpawnService")]
     public IEnumerator WaitAndRespawn2(float time, GameObject pos)
     {
         yield return new WaitForSeconds(time);

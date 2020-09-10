@@ -180,7 +180,6 @@ namespace Assets.Scripts.Characters.Titan
                 // PhotonNetwork.Destroy(base.photonView);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name], 0);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = true;
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().justSuicide = true;
                 ChangeState(TitanState.Dead);
                 Dead();
             }

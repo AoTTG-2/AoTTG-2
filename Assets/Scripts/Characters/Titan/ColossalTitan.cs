@@ -78,7 +78,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void blowPlayer(GameObject player, Transform neck)
         {
-            Vector3 vector = -(Vector3)((neck.position + (base.transform.forward * 50f)) - player.transform.position);
+            Vector3 vector = -(Vector3) ((neck.position + (base.transform.forward * 50f)) - player.transform.position);
             float num = 20f;
             if (PhotonNetwork.isMasterClient)
             {
@@ -252,7 +252,7 @@ namespace Assets.Scripts.Characters.Titan
             }
             bool mipmap = true;
             bool iteratorVariable1 = false;
-            if (((int)FengGameManagerMKII.settings[0x3f]) == 1)
+            if (((int) FengGameManagerMKII.settings[0x3f]) == 1)
             {
                 mipmap = false;
             }
@@ -271,16 +271,16 @@ namespace Assets.Scripts.Characters.Titan
                             iteratorVariable1 = true;
                             iteratorVariable2.material.mainTexture = iteratorVariable4;
                             FengGameManagerMKII.linkHash[2].Add(url, iteratorVariable2.material);
-                            iteratorVariable2.material = (Material)FengGameManagerMKII.linkHash[2][url];
+                            iteratorVariable2.material = (Material) FengGameManagerMKII.linkHash[2][url];
                         }
                         else
                         {
-                            iteratorVariable2.material = (Material)FengGameManagerMKII.linkHash[2][url];
+                            iteratorVariable2.material = (Material) FengGameManagerMKII.linkHash[2][url];
                         }
                     }
                     else
                     {
-                        iteratorVariable2.material = (Material)FengGameManagerMKII.linkHash[2][url];
+                        iteratorVariable2.material = (Material) FengGameManagerMKII.linkHash[2][url];
                     }
                 }
             }
@@ -519,7 +519,7 @@ namespace Assets.Scripts.Characters.Titan
             this.NapeArmorTotal = this.NapeArmor;
             this.state = "wait";
             Transform transform = base.transform;
-            transform.position += (Vector3)(-Vector3.up * 10000f);
+            transform.position += (Vector3) (-Vector3.up * 10000f);
             //if (FengGameManagerMKII.LAN)
             //{
             //    base.GetComponent<PhotonView>().enabled = false;
@@ -589,16 +589,9 @@ namespace Assets.Scripts.Characters.Titan
                         this.NapeArmor = 0;
                         if (!this.hasDie)
                         {
-                            if (FengGameManagerMKII.LAN)
-                            {
-                                this.netDie();
-                            }
-                            else
-                            {
-                                base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
-                                this.netDie();
-                                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().titanGetKill(view.owner, speed, base.name);
-                            }
+                            base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
+                            this.netDie();
+                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().titanGetKill(view.owner, speed, base.name);
                         }
                     }
                     else

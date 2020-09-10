@@ -2,6 +2,7 @@ using System;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
 
+[Obsolete("AoTTG Legacy Tutorial script")]
 public class LevelTriggerHint : MonoBehaviour
 {
     public string content;

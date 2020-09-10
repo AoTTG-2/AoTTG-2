@@ -1,4 +1,13 @@
 # AoTTG-2
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=alert_status)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=bugs)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=code_smells)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=ncloc)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=coverage)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+
 ## The future of AoTTG
 
 Welcome to the official AoTTG 2 repository! From here, we are developing an open-source project known as AoTTG 2. AoTTG 2 is a community effort to continue the development of an indie game known as ["Attack on Titan Tribute Game"](http://www.fenglee.com/game/aog/) (AoTTG) developed by FengLee. AoTTG was released in 2013, yet development ceased ever since 2016. Whereas FengLee is not working himself on AoTTG 2, he has given us permission to work on AoTTG 2 ([Source](https://weibo.com/1664859317/J9bZrB0kh))

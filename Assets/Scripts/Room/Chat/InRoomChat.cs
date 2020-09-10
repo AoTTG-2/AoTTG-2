@@ -93,19 +93,6 @@ public class InRoomChat : Photon.MonoBehaviour
             {
                 if (!string.IsNullOrEmpty(inputLine))
                 {
-                    if (RCEvents.ContainsKey("OnChatInput"))
-                    {
-                        var key = RCVariableNames["OnChatInput"].ToString();
-                        if (stringVariables.ContainsKey(key))
-                        {
-                            stringVariables[key] = chat.inputLine;
-                        }
-                        else
-                        {
-                            stringVariables.Add(key, chat.inputLine);
-                        }
-                    }
-
                     if (inputLine.StartsWith("/"))
                     {
                         CommandHandler(chat.inputLine);
