@@ -3451,12 +3451,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
+
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";
         CostumeHair.init();
         CharacterMaterials.init();
         HeroCostume.init2();
+        PhotonNetwork.automaticallySyncScene = true;
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
         this.heroes = new ArrayList();
         this.eT = new ArrayList();
