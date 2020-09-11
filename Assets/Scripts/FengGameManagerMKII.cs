@@ -1,15 +1,17 @@
 using Assets.Scripts;
+using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Room;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.Settings.Titans.Attacks;
-using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
+using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Newtonsoft.Json;
@@ -19,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using Assets.Scripts.UI.Camera;
 
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
@@ -161,8 +162,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public int time = 600;
     private float timeElapse;
     private float timeTotalServer;
-    [Obsolete("Please use the TitanManager (#160) instead")]
-    private ArrayList titans;
     public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
 
     public InGameUi InGameUI;
@@ -211,12 +210,6 @@ public void addET(ErenTitan hero)
     public void addTime(float time)
     {
         this.timeTotalServer -= time;
-    }
-
-    [Obsolete("Move to a TitanService")]
-    public void addTitan(MindlessTitan titan)
-    {
-        this.titans.Add(titan);
     }
 
     private void cache()
@@ -729,22 +722,9 @@ public void addET(ErenTitan hero)
     {
         if (enter)
         {
-            foreach (Hero hero in instance.getPlayers())
+            if (Service.Player.Self.photonView.isMine)
             {
-                if (hero.photonView.isMine)
-                {
-                    PhotonNetwork.Destroy(hero.photonView);
-                }
-            }
-            if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2) && !RCextensions.returnBoolFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.dead]))
-            {
-                foreach (MindlessTitan titan in instance.getTitans())
-                {
-                    if (titan.photonView.isMine)
-                    {
-                        PhotonNetwork.Destroy(titan.photonView);
-                    }
-                }
+                PhotonNetwork.Destroy(Service.Player.Self.photonView);
             }
             instance.needChooseSide = false;
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
@@ -813,13 +793,7 @@ public void addET(ErenTitan hero)
         this.racingResult.Add(result);
         this.refreshRacingResult2();
     }
-
-    [Obsolete("Migrate to a TitanService")]
-    public ArrayList getTitans()
-    {
-        return this.titans;
-    }
-
+    
     [PunRPC]
     private void ignorePlayer(int ID, PhotonMessageInfo info)
     {
@@ -2637,12 +2611,6 @@ public void addET(ErenTitan hero)
         this.heroes.Remove(hero);
     }
 
-    [Obsolete("Move to a TitanService")]
-    public void removeTitan(MindlessTitan titan)
-    {
-        this.titans.Remove(titan);
-    }
-
     [PunRPC]
     public void RequireStatus()
     {
@@ -3268,6 +3236,7 @@ public void addET(ErenTitan hero)
             component.gameOver = false;
             this.isLosing = false;
             this.ShowHUDInfoCenter(string.Empty);
+            Service.Player.Self = component.main_object.GetComponent<Entity>();
         }
     }
 
@@ -3413,6 +3382,7 @@ public void addET(ErenTitan hero)
         this.myLastHero = id.ToUpper();
         PlayerTitan playerTitan = PhotonNetwork.Instantiate("PlayerTitan", position, new Quaternion(), 0).GetComponent<PlayerTitan>();
         playerTitan.Initialize(Gamemode.GetPlayerTitanConfiguration());
+        Service.Player.Self = playerTitan;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(playerTitan.gameObject);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
@@ -3483,7 +3453,6 @@ public void addET(ErenTitan hero)
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
         this.heroes = new ArrayList();
         this.eT = new ArrayList();
-        this.titans = new ArrayList();
         this.fT = new ArrayList();
         this.cT = new ArrayList();
         this.name = string.Empty;

@@ -1,17 +1,20 @@
 ﻿using Assets.Scripts.Characters.Titan.Behavior;
-using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Gamemode;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using UnityEngine;
-using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Characters.Titan
 {
-    public abstract class TitanBase : MonoBehaviour
+    public abstract class TitanBase : Entity
     {
         protected TitanBase()
         {
             //Faction = FactionManager.SetTitanity(gameObject);
         }
+
+        protected readonly IFactionService FactionService = Service.Faction;
+        protected readonly IEntityService EntityService = Service.Entity;
 
         public Animation Animation { get; protected set; }
         public TitanBody Body { get; protected set; }
@@ -30,7 +33,7 @@ namespace Assets.Scripts.Characters.Titan
         /// </summary>
         public float AttackDistance { get; protected set; }
 
-        public Faction Faction { get; protected set; }
+        public Faction Faction { get; set; }
 
         /// <summary>
         /// Time in seconds on how long a titan will remain focused on one individual player. Value should not be lower than 1 due to performance reasons
@@ -135,10 +138,11 @@ namespace Assets.Scripts.Characters.Titan
 
         protected virtual void Awake()
         {
-            TitanManager.Add(this);
+            EntityService.Register(this);
+            Faction = FactionService.GetTitanity();
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
-            Body = GetComponent<MindlessTitanBody>();
+            Body = GetComponent<TitanBody>();
         }
 
         protected virtual void Update()
@@ -147,9 +151,14 @@ namespace Assets.Scripts.Characters.Titan
 
         }
 
+        protected virtual void OnDeath()
+        {
+            EntityService.UnRegister(this);
+        }
+
         protected virtual void OnDestroy()
         {
-            TitanManager.Remove(this);
+            OnDeath();
         }
     }
 }

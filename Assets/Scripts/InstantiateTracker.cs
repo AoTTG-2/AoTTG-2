@@ -1,4 +1,5 @@
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using UnityEngine;
 
@@ -179,47 +180,47 @@ public class InstantiateTracker
 
             case "titan_ver3.1":
                 int num4;
-                if (!PhotonNetwork.isMasterClient)
-                {
-                    if (FengGameManagerMKII.masterRC && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
-                    {
-                        num4 = 0;
-                        foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
-                        {
-                            if (titan.photonView.owner == photonPlayer)
-                            {
-                                num4++;
-                            }
-                        }
-                        if (num4 > 1)
-                        {
-                            return false;
-                        }
-                    }
-                    break;
-                }
-                if (GameSettings.Gamemode.IsPlayerTitanEnabled.Value || GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
-                {
-                    if (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
-                    {
-                        break;
-                    }
-                    num4 = 0;
-                    foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
-                    {
-                        if (titan.photonView.owner == photonPlayer)
-                        {
-                            num4++;
-                        }
-                    }
-                    if (num4 <= 1)
-                    {
-                        break;
-                    }
-                    FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan (" + key + ").");
-                    return false;
-                }
-                FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan (" + key + ").");
+                //if (!PhotonNetwork.isMasterClient)
+                //{
+                //    if (FengGameManagerMKII.masterRC && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
+                //    {
+                //        num4 = 0;
+                //        foreach (MindlessTitan titan in  FengGameManagerMKII.instance.getTitans())
+                //        {
+                //            if (titan.photonView.owner == photonPlayer)
+                //            {
+                //                num4++;
+                //            }
+                //        }
+                //        if (num4 > 1)
+                //        {
+                //            return false;
+                //        }
+                //    }
+                //    break;
+                //}
+                //if (GameSettings.Gamemode.IsPlayerTitanEnabled.Value || GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
+                //{
+                //    if (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
+                //    {
+                //        break;
+                //    }
+                //    num4 = 0;
+                //    foreach (MindlessTitan titan in FengGameManagerMKII.instance.getTitans())
+                //    {
+                //        if (titan.photonView.owner == photonPlayer)
+                //        {
+                //            num4++;
+                //        }
+                //    }
+                //    if (num4 <= 1)
+                //    {
+                //        break;
+                //    }
+                //    FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan (" + key + ").");
+                //    return false;
+                //}
+                //FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan (" + key + ").");
                 return false;
 
             case "colossal_titan":

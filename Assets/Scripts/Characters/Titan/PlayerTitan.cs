@@ -20,11 +20,8 @@ namespace Assets.Scripts.Characters.Titan
         protected override void Awake()
         {
             base.Awake();
+            Faction = FactionService.GetHumanity();
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            if (PhotonNetwork.offlineMode)
-            {
-                base.enabled = false;
-            }
         }
 
         protected override void FixedUpdate()

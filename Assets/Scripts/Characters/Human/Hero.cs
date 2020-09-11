@@ -131,7 +131,6 @@ public class Hero : Human
     public Transform myCannonBase;
     public Transform myCannonPlayer;
     public CannonPropRegion myCannonRegion;
-    public GROUP myGroup;
     private Horse myHorse;
     public GameObject myNetWorkName;
     public float myScale = 1f;
@@ -3965,7 +3964,6 @@ public class Hero : Human
             this.gunDummy.name = "gunDummy";
             this.gunDummy.transform.position = this.baseTransform.position;
             this.gunDummy.transform.rotation = this.baseTransform.rotation;
-            this.myGroup = GROUP.A;
             this.setTeam2(2);
             if (base.photonView.isMine)
             {

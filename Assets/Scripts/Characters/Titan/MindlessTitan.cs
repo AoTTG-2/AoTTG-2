@@ -510,6 +510,7 @@ namespace Assets.Scripts.Characters.Titan
 
         protected virtual void OnTitanDeath()
         {
+            base.OnDeath();
             ReleaseGrabbedTarget();
             if (GameSettings.Titan.Mindless.ExplodeMode.Value > 0)
                 Invoke(nameof(Explode), 1f);
@@ -720,11 +721,6 @@ namespace Assets.Scripts.Characters.Titan
                     targetDistance = distance;
                 }
             }
-        }
-
-        private void OnDestroy()
-        {
-            FengGameManagerMKII.instance.removeTitan(this);
         }
         
         private void Pathfinding()

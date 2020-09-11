@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Characters.Titan;
-using System;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
+using System;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
@@ -12,6 +14,8 @@ namespace Assets.Scripts.Room
         public bool Endless;
         public TitanSpawnerType Type;
         private float Timer { get; set; }
+
+        private readonly IEntityService entityService = Service.Entity;
 
         public TitanSpawner()
         {
@@ -83,7 +87,7 @@ namespace Assets.Scripts.Room
 
         private void SpawnMindlessTitan(MindlessTitanType type)
         {
-            if (FengGameManagerMKII.instance.getTitans().Count >= GameSettings.Titan.Limit.Value) return;
+            if (entityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
             FengGameManagerMKII.instance.SpawnTitan(transform.position, transform.rotation, FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
         }
 

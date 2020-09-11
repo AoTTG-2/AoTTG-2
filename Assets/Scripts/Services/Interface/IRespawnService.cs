@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Interface
 {
-    public interface IRespawnService
+    public interface IRespawnService : IService
     {
         void Add(PlayerSpawner playerSpawner);
         void Remove(PlayerSpawner playerSpawner);

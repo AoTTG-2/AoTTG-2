@@ -4,6 +4,7 @@ using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Elements;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -79,7 +80,7 @@ namespace Assets.Scripts.Gamemode
 
         private void SpawnTitan()
         {
-            if (FengGameManagerMKII.instance.getTitans().Count >= GameSettings.Titan.Limit.Value) return;
+            if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
             var configuration = GetTitanConfiguration();
             var route = GetRoute();
             configuration.Behaviors.Add(new RushBehavior(route));

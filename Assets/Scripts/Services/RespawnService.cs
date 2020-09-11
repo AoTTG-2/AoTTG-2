@@ -34,5 +34,9 @@ namespace Assets.Scripts.Services
         {
             return playerSpawners[Random.Range(0, playerSpawners.Count)];
         }
+
+        public void OnRestart()
+        {
+        }
     }
 }

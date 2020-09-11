@@ -9,6 +9,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
@@ -18,7 +20,9 @@ namespace Assets.Scripts.Gamemode
     public abstract class GamemodeBase : MonoBehaviour
     {
         private GamemodeSettings Settings => GameSettings.Gamemode;
-        
+        protected readonly IEntityService EntityService = Service.Entity;
+        protected readonly IFactionService FactionService = Service.Faction;
+
         private MindlessTitanType GetTitanType()
         {
             return GetDefaultTitanType();
@@ -176,7 +180,7 @@ namespace Assets.Scripts.Gamemode
             var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
             for (var i = 0; i < amount; i++)
             {
-                if (FengGameManagerMKII.instance.getTitans().Count >= GameSettings.Titan.Limit) break;
+                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
                 var randomSpawn = spawns[Random.Range(0, spawns.Length)];
                 FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, titanConfiguration.Invoke());
                 yield return new WaitForEndOfFrame();
@@ -213,7 +217,7 @@ namespace Assets.Scripts.Gamemode
         public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
             var content = "Titan Left: ";
-            var length = GameObject.FindGameObjectsWithTag("titan").Length;
+            var length = FactionService.CountHostile(Service.Player.Self);
             content = content + length + "  Time : ";
             if (PhotonNetwork.offlineMode)
             {

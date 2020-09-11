@@ -229,13 +229,14 @@ public static class ChatCommandHandler
     private static void OutputCollisions()
     {
         int collisions = 0;
-        foreach (MindlessTitan titan in instance.getTitans())
-        {
-            if (titan.IsColliding)
-            {
-                collisions++;
-            }
-        }
+        //TODO: 160
+        //foreach (MindlessTitan titan in instance.getTitans())
+        //{
+        //    if (titan.IsColliding)
+        //    {
+        //        collisions++;
+        //    }
+        //}
         var message = collisions.ToString();
         instance.chatRoom.AddMessage(message);
     }
