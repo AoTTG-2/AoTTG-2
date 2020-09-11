@@ -24,6 +24,11 @@ namespace Assets.Scripts.Services
             return entities;
         }
 
+        public HashSet<T> GetAll<T>() where T : Entity
+        {
+            return new HashSet<T>(entities.OfType<T>());
+        }
+
         public HashSet<Entity> GetAllExcept(Entity entity)
         {
             var allEntity = entities.ToList();

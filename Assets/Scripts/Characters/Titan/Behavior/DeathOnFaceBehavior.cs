@@ -27,7 +27,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         private Hero checkIfHitCrawlerMouth(Transform head, float rad, float size)
         {
             float num = rad * size;
-            foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+            foreach (Hero hero in EntityService.GetAll<Hero>())
             {
                 if (hero.GetComponent<ErenTitan>() == null && !hero.GetComponent<Hero>().isInvincible())
                 {

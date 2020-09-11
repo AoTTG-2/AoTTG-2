@@ -1,4 +1,6 @@
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using System;
 using System.Collections;
@@ -7,6 +9,8 @@ using UnityEngine;
 
 public class CannonBall : Photon.MonoBehaviour
 {
+    protected readonly IEntityService EntityService = Service.Entity;
+    
     private Vector3 correctPos;
     private Vector3 correctVelocity;
     public bool disabled;
@@ -43,7 +47,7 @@ public class CannonBall : Photon.MonoBehaviour
             }
             if (GameSettings.PvP.Cannons.Value)
             {
-                foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+                foreach (Hero hero in EntityService.GetAll<Hero>())
                 {
                     if (((hero != null) && (Vector3.Distance(hero.transform.position, base.transform.position) <= 20f)) && !hero.photonView.isMine)
                     {

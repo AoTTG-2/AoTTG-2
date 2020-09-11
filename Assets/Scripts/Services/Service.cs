@@ -7,6 +7,6 @@ namespace Assets.Scripts.Services
         public static readonly IEntityService Entity = new EntityService();
         public static readonly IFactionService Faction = new FactionService();
         public static readonly IPlayerService Player = new PlayerService();
-        public static readonly IRespawnService Respawn = new RespawnService();
+        public static readonly ISpawnService Spawn = new SpawnService();
     }
 }

@@ -416,8 +416,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
     }
 
-    public void update2()
+    public void Update()
     {
+        snapShotUpdate();
         if (this.flashDuration > 0f)
         {
             this.flashDuration -= Time.deltaTime;

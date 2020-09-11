@@ -25,7 +25,8 @@ using UnityEngine;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
-    private readonly IRespawnService _respawnService = Service.Respawn;
+    protected readonly ISpawnService SpawnService = Service.Spawn;
+    protected readonly IEntityService EntityService = Service.Entity;
 
     [SerializeField]
     private VersionManager versionManager;
@@ -70,8 +71,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private bool gameTimesUp;
     [Obsolete("This list is only used to replace the CUBE_001 TEXTURE when CUSTOM MAP is loaded. For AoTTG2 we no longer require this method")]
     public List<GameObject> groundList;
-    [Obsolete("A dedicated Hero Service should keep track over heroes, not FengGameManager.")]
-    private ArrayList heroes;
     [Obsolete("This is a hashtable which keeps track of every HERO.cs instance. Appears to do the same as 'FengGameManager.heroes' yet no logic happens to this Hashtable other than adding and deleting items.")]
     public static ExitGames.Client.Photon.Hashtable heroHash;
     public static List<int> ignoreList;
@@ -162,7 +161,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public int time = 600;
     private float timeElapse;
     private float timeTotalServer;
-    public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
 
     public InGameUi InGameUI;
 
@@ -200,12 +198,6 @@ public void addET(ErenTitan hero)
         this.fT.Add(titan);
     }
 
-    [Obsolete("Move to a PlayerService")]
-    public void addHero(Hero hero)
-    {
-        this.heroes.Add(hero);
-    }
-    
     [Obsolete("Room expiration no longer exists in AoTTG2.")]
     public void addTime(float time)
     {
@@ -774,13 +766,7 @@ public void addET(ErenTitan hero)
             this.isWinning = true;
         }
     }
-
-    [Obsolete("Migrate to a PlayerService")]
-    public ArrayList getPlayers()
-    {
-        return this.heroes;
-    }
-
+    
     [Obsolete("Move into RacingGamemode")]
     [PunRPC]
     private void getRacingResult(string player, float time)
@@ -979,24 +965,6 @@ public void addET(ErenTitan hero)
     {
         if (this.gameStart)
         {
-            IEnumerator enumerator = this.heroes.GetEnumerator();
-            try
-            {
-                while (enumerator.MoveNext())
-                {
-                    var current = (Hero) enumerator.Current;
-                    if (current != null)
-                        current.lateUpdate2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable = enumerator as IDisposable;
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
-            }
             IEnumerator enumerator2 = this.eT.GetEnumerator();
             try
             {
@@ -2605,12 +2573,6 @@ public void addET(ErenTitan hero)
         this.fT.Remove(titan);
     }
 
-    [Obsolete("Move to a PlayerService")]
-    public void removeHero(Hero hero)
-    {
-        this.heroes.Remove(hero);
-    }
-
     [PunRPC]
     public void RequireStatus()
     {
@@ -3126,11 +3088,11 @@ public void addET(ErenTitan hero)
                 {
                     if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                     {
-                        position = _respawnService.GetRandom().gameObject.transform.position;
+                        position = SpawnService.GetRandom<HumanSpawner>().gameObject.transform.position;
                     }
                     else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                     {
-                        var cyanSpawners = _respawnService.GetByType(PlayerSpawnType.Cyan);
+                        var cyanSpawners = SpawnService.GetByType(PlayerSpawnType.Cyan);
                         if (cyanSpawners.Count > 0)
                         {
                             position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Count)].gameObject.transform
@@ -3139,7 +3101,7 @@ public void addET(ErenTitan hero)
                     }
                     else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
                     {
-                        var magentaSpawners = _respawnService.GetByType(PlayerSpawnType.Magenta);
+                        var magentaSpawners = SpawnService.GetByType(PlayerSpawnType.Magenta);
                         if (magentaSpawners.Count > 0)
                         {
                             position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Count)].gameObject.transform
@@ -3327,7 +3289,7 @@ public void addET(ErenTitan hero)
     {
         Vector3 position = new Vector3();
         Quaternion rotation = new Quaternion();
-        var titanSpawners = TitanSpawners.Where(x => x.Type == TitanSpawnerType.None).ToArray();
+        var titanSpawners = SpawnService.GetAll<TitanSpawner>().Where(x => x.Type == TitanSpawnerType.None).ToArray();
         if (titanSpawners.Length > 0) // RC Custom Map Spawns
         {
             position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
@@ -3374,7 +3336,7 @@ public void addET(ErenTitan hero)
         var tag = "titanRespawn";
         var location = Gamemode.GetPlayerSpawnLocation(tag);
         Vector3 position = location.transform.position;
-        var titanSpawners = TitanSpawners.Where(x => x.Type == TitanSpawnerType.None).ToArray();
+        var titanSpawners = SpawnService.GetAll<TitanSpawner>().Where(x => x.Type == TitanSpawnerType.None).ToArray();
         if (titanSpawners.Length > 0) // RC Custom Map Spawns
         {
             position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
@@ -3451,7 +3413,6 @@ public void addET(ErenTitan hero)
         HeroCostume.init2();
         PhotonNetwork.automaticallySyncScene = true;
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
-        this.heroes = new ArrayList();
         this.eT = new ArrayList();
         this.fT = new ArrayList();
         this.cT = new ArrayList();
@@ -3523,28 +3484,6 @@ public void addET(ErenTitan hero)
         //}
         if (this.gameStart)
         {
-            IEnumerator enumerator = this.heroes.GetEnumerator();
-            try
-            {
-                while (enumerator.MoveNext())
-                {
-                    var current = (Hero) enumerator.Current;
-                    if (current != null)
-                        current.update2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable = enumerator as IDisposable;
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
-            }
-            if (this.mainCamera != null)
-            {
-                this.mainCamera.snapShotUpdate();
-            }
             IEnumerator enumerator3 = this.eT.GetEnumerator();
             try
             {
@@ -3598,10 +3537,6 @@ public void addET(ErenTitan hero)
                 {
                     disposable6.Dispose();
                 }
-            }
-            if (this.mainCamera != null)
-            {
-                this.mainCamera.update2();
             }
         }
     }

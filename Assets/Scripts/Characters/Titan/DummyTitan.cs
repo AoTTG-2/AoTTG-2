@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using UnityEngine;
 
 public class DummyTitan : Photon.MonoBehaviour
 {
+    protected readonly IEntityService EntityService = Service.Entity;
+
     public int health = 300;
-    private FengGameManagerMKII MultiplayerManager;
     public GameObject myHero;
     public Transform pivot;
     public bool dead = false;
@@ -17,7 +20,6 @@ public class DummyTitan : Photon.MonoBehaviour
 
     private void Start()
     {
-        this.MultiplayerManager = FengGameManagerMKII.instance;
         pivot = transform.Find("BodyPivot");
         healthLabel = pivot.Find("Body/HealthLabel").gameObject.GetComponent<TextMesh>();
         healthLabel2 = pivot.Find("Body/HealthLabel2").gameObject.GetComponent<TextMesh>();
@@ -45,7 +47,7 @@ public class DummyTitan : Photon.MonoBehaviour
     {
         GameObject obj2 = null;
         float positiveInfinity = float.PositiveInfinity;
-        foreach (Hero hero in this.MultiplayerManager.getPlayers())
+        foreach (Hero hero in EntityService.GetAll<Hero>())
         {
             GameObject gameObject = hero.gameObject;
             float num2 = Vector3.Distance(gameObject.transform.position, transform.position);

@@ -14,7 +14,6 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         protected readonly IFactionService FactionService = Service.Faction;
-        protected readonly IEntityService EntityService = Service.Entity;
 
         public Animation Animation { get; protected set; }
         public TitanBody Body { get; protected set; }
@@ -136,9 +135,9 @@ namespace Assets.Scripts.Characters.Titan
         }
 
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
-            EntityService.Register(this);
+            base.Awake();
             Faction = FactionService.GetTitanity();
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
@@ -153,12 +152,7 @@ namespace Assets.Scripts.Characters.Titan
 
         protected virtual void OnDeath()
         {
-            EntityService.UnRegister(this);
-        }
-
-        protected virtual void OnDestroy()
-        {
-            OnDeath();
+            base.OnDestroy();
         }
     }
 }

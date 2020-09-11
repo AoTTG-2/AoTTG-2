@@ -1,13 +1,13 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
-using Xft;
 
 public class Hero : Human
 {
@@ -226,8 +226,9 @@ public class Hero : Human
         }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         InGameUI = GameObject.Find("InGameUi");
         this.cache();
         this.setup = base.gameObject.GetComponent<HERO_SETUP>();
@@ -240,6 +241,7 @@ public class Hero : Human
         this.upperarmL = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
         this.upperarmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
         Equipment = gameObject.AddComponent<Equipment>();
+        Faction = Service.Faction.GetHumanity();
     }
 
     public void backToHuman()
@@ -2024,7 +2026,7 @@ public class Hero : Human
         UnityEngine.Object.Destroy(base.gameObject);
     }
 
-    public void lateUpdate2()
+    public void LateUpdate()
     {
         if ((this.myNetWorkName != null))
         {
@@ -3497,8 +3499,9 @@ public class Hero : Human
         this.falseAttack();
     }
     
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         if (this.myNetWorkName != null)
         {
             UnityEngine.Object.Destroy(this.myNetWorkName);
@@ -3508,10 +3511,6 @@ public class Hero : Human
             UnityEngine.Object.Destroy(this.gunDummy);
         }
         this.releaseIfIHookSb();
-        if (GameObject.Find("MultiplayerManager") != null)
-        {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().removeHero(this);
-        }
         //if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
         //{
         //    Vector3 vector = (Vector3) (Vector3.up * 5000f);
@@ -4419,7 +4418,6 @@ public class Hero : Human
 
     private void Start()
     {
-        FengGameManagerMKII.instance.addHero(this);
         gameObject.AddComponent<PlayerInteractable>();
         SetHorse();
         this.sparks = this.baseTransform.Find("slideSparks").GetComponent<ParticleSystem>();
@@ -4578,7 +4576,7 @@ public class Hero : Human
         this.isMounted = false;
     }
 
-    public void update2()
+    public void Update()
     {
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {

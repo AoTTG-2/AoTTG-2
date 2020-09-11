@@ -10,6 +10,7 @@ namespace Assets.Scripts.Services.Interface
         int Count();
         int Count<T>() where T : Entity;
         HashSet<Entity> GetAll();
+        HashSet<T> GetAll<T>() where T : Entity;
         HashSet<Entity> GetAllExcept(Entity entity);
     }
 }

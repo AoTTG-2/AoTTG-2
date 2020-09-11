@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Services;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
@@ -87,7 +88,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private static Hero GetPlayerHitHead(Transform head, float rad, float titanSize)
         {
             var num = rad * titanSize;
-            foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+            foreach (Hero hero in Service.Entity.GetAll<Hero>())
             {
                 if (hero.isInvincible()) continue;
                 var num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;

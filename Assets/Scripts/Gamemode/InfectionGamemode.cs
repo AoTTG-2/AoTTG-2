@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
+using System.Linq;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -62,9 +63,8 @@ namespace Assets.Scripts.Gamemode
                         }
                         else if (FengGameManagerMKII.imatitan.ContainsKey(targetPlayer.ID))
                         {
-                            for (int k = 0; k < FengGameManagerMKII.instance.getPlayers().Count; k++)
+                            foreach (var hero in EntityService.GetAll<Hero>())
                             {
-                                Hero hero = (Hero)FengGameManagerMKII.instance.getPlayers()[k];
                                 if (hero.photonView.owner == targetPlayer)
                                 {
                                     hero.markDie();

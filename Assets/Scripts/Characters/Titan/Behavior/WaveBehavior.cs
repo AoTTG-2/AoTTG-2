@@ -11,7 +11,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             GameObject obj2 = null;
             float positiveInfinity = float.PositiveInfinity;
             Vector3 position = Titan.transform.position;
-            foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+            foreach (Hero hero in EntityService.GetAll<Hero>())
             {
                 GameObject gameObject = hero.gameObject;
                 float num2 = Vector3.Distance(gameObject.transform.position, position);

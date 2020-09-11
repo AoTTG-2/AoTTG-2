@@ -105,7 +105,6 @@ namespace Assets.Scripts.Characters.Titan
         {
             base.Awake();
             GameManager = FengGameManagerMKII.instance;
-            GameManager.addTitan(this);
             Body = GetComponent<MindlessTitanBody>();
             this.oldHeadRotation = Body.Head.rotation;
             this.grabTF = new GameObject();
@@ -534,7 +533,7 @@ namespace Assets.Scripts.Characters.Titan
             Vector3 position = transform.position + Vector3.up * height;
             PhotonNetwork.Instantiate("FX/Thunder", position, Quaternion.Euler(270f, 0f, 0f), 0);
             PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
-            foreach (Hero player in FengGameManagerMKII.instance.getPlayers())
+            foreach (Hero player in EntityService.GetAll<Hero>())
             {
                 if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
                 {
@@ -712,7 +711,7 @@ namespace Assets.Scripts.Characters.Titan
             FocusTimer = 0f;
             var targetDistance = float.PositiveInfinity;
             var position = transform.position;
-            foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+            foreach (Hero hero in EntityService.GetAll<Hero>())
             {
                 var distance = Vector3.Distance(hero.gameObject.transform.position, position);
                 if (distance < targetDistance)

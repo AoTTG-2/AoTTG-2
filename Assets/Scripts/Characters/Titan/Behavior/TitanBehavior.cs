@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using System;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
     public abstract class TitanBehavior
     {
+        protected readonly IEntityService EntityService = Service.Entity;
+
         public void Initialize(MindlessTitan titan)
         {
             Titan = titan;

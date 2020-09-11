@@ -4,11 +4,10 @@ using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using System;
 using UnityEngine;
-using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Room
 {
-    public class TitanSpawner : MonoBehaviour
+    public class TitanSpawner : Spawner
     {
         public float Delay = 30f;
         public bool Endless;
@@ -22,21 +21,15 @@ namespace Assets.Scripts.Room
             Timer = Delay;
         }
 
-        public void Awake()
+        protected override void Awake()
         {
             Timer = Delay;
-            FengGameManagerMKII.instance.TitanSpawners.Add(this);
             if (Type != TitanSpawnerType.None)
             {
                 tag = "Untagged";
             }
         }
-
-        private void OnDestroy()
-        {
-            FengGameManagerMKII.instance.TitanSpawners.Remove(this);
-        }
-
+        
         private void Update()
         {
             if (Type == TitanSpawnerType.None) return;
