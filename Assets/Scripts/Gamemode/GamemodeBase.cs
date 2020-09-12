@@ -1,6 +1,9 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
+using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Input;
@@ -9,8 +12,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;

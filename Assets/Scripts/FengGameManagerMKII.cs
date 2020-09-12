@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Legacy.CustomMap;
@@ -115,8 +116,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static string oldScriptLogic;
     [Obsolete("This value is always false")]
     public static bool OnPrivateServer;
-    [Obsolete("A pause script should know for how long it needs to wait, not FengGameManager")]
-    public float pauseWaitTime;
     public string playerList;
     [Obsolete("Use the class PlayerSpawns instead")]
     public List<Vector3> playerSpawnsC;
@@ -193,7 +192,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.isRecompiling = false;
         Time.timeScale = 1f;
         Camera.main.farClipPlane = 1500f; //TODO Make camera view distance a configurable setting
-        this.pauseWaitTime = 0f;
         this.isRestarting = false;
         if (PhotonNetwork.isMasterClient)
         {
@@ -656,19 +654,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (Time.timeScale <= 0.1f)
         {
-            if (this.pauseWaitTime <= 3f)
-            {
-                this.pauseWaitTime -= Time.deltaTime * 1000000f;
-                if (this.pauseWaitTime <= 1f)
-                {
-                    Camera.main.farClipPlane = 1500f;
-                }
-                if (this.pauseWaitTime <= 0f)
-                {
-                    this.pauseWaitTime = 0f;
-                    Time.timeScale = 1f;
-                }
-            }
             this.ReloadPlayerlist();
         }
     }
@@ -808,16 +793,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         this.RecompilePlayerList(0.1f);
     }
-
-    /// <summary>
-    /// Returns true if the game is paused
-    /// </summary>
-    /// <returns>true if the game is paused</returns>
-    public bool IsPaused()
-    {
-        return pauseWaitTime > 3f;
-    }
-
+    
     [Obsolete("Highly inefficient and expensive method to create a player list. Refactor by using StringBuilder")]
     private void ReloadPlayerlist()
     {
@@ -2295,12 +2271,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     photonView.RPC("ignorePlayerArray", player, new object[] { ignoreList.ToArray() });
                 }
                 photonView.RPC("setMasterRC", player, new object[0]);
-                if ((Time.timeScale <= 0.1f) && (pauseWaitTime > 3f))
-                {
-                    photonView.RPC(nameof(PauseRPC), player, new object[] { });
-                    object[] parameters = new object[] { "<color=#FFCC00>MasterClient has paused the game.</color>", "" };
-                    photonView.RPC("Chat", player, parameters);
-                }
             }
         }
         this.RecompilePlayerList(0.1f);
@@ -2405,24 +2375,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         UnityEngine.MonoBehaviour.print("OnUpdatedFriendList");
     }
-
-    [PunRPC]
-    public void PauseRPC(PhotonMessageInfo info)
-    {
-        if (!info.sender.IsMasterClient) return;
-        if (!IsPaused())
-        {
-            pauseWaitTime = 100000f;
-            Time.timeScale = 1E-06f;
-            InGameUI.ToggleIndicator(true);
-        }
-        else
-        {
-            pauseWaitTime = 3f;
-            InGameUI.ToggleIndicator(false);
-        }
-    }
-
+    
     public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
     {
         ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();

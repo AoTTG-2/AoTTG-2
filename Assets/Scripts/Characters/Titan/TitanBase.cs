@@ -32,8 +32,6 @@ namespace Assets.Scripts.Characters.Titan
         /// </summary>
         public float AttackDistance { get; protected set; }
 
-        public Faction Faction { get; set; }
-
         /// <summary>
         /// Time in seconds on how long a titan will remain focused on one individual player. Value should not be lower than 1 due to performance reasons
         /// </summary>

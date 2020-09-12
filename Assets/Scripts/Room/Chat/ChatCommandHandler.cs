@@ -1,14 +1,15 @@
-﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Options;
+﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Settings;
 using ExitGames.Client.Photon;
 using System;
-using UnityEngine;
-using static PhotonNetwork;
-using static FengGameManagerMKII;
-using static ChatUtility;
 using System.Linq;
 using System.Text;
-using Assets.Scripts.Settings;
+using UnityEngine;
+using static ChatUtility;
+using static FengGameManagerMKII;
+using static PhotonNetwork;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -406,8 +407,8 @@ public static class ChatCommandHandler
             return;
         }
 
-        instance.photonView.RPC(nameof(FengGameManagerMKII.PauseRPC), PhotonTargets.All);
-        var chatMessage = instance.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
+        Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All);
+        var chatMessage = Service.Pause.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
         instance.photonView.RPC("Chat", PhotonTargets.All, new object[] { FormatSystemMessage(chatMessage), string.Empty });
     }
 

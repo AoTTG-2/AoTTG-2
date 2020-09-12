@@ -1,14 +1,13 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
-using Assets.Scripts.Gamemode;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts.Characters.Titan
+namespace Assets.Scripts.Characters.Titan.Configuration
 {
-    public class TitanConfiguration
+    public class TitanConfiguration : EntityConfiguration
     {
         public int Health { get; set; } = 500;
         public int HealthRegeneration { get; set; } = 10;

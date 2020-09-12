@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
-using System.Linq;
 
 namespace Assets.Scripts.Gamemode
 {

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
+using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Settings;
 using Newtonsoft.Json;
 using System;
@@ -13,6 +14,12 @@ namespace Assets.Scripts.Characters.Titan
 {
     public class MindlessTitan : TitanBase
     {
+
+        public new static Entity Spawn()
+        {
+            return new ErenTitan();
+        }
+
         public TitanState PreviousState;
         public TitanState NextState;
         public MindlessTitanType MindlessType;

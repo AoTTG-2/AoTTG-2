@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Input;

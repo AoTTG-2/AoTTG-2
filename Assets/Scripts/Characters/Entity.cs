@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Photon;
+using System;
 
 namespace Assets.Scripts.Characters
 {
@@ -18,6 +19,16 @@ namespace Assets.Scripts.Characters
         protected virtual void OnDestroy()
         {
             EntityService.UnRegister(this);
+        }
+
+        protected static void Initialize<T>(T entityConfiguration) where T : EntityConfiguration
+        {
+
+        }
+
+        public static Entity Spawn()
+        {
+            throw new NotImplementedException($"Derived class has not overridden Entity.Spawn");
         }
     }
 }

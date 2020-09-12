@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
+using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.UI.Input;
 using System.Linq;
 using UnityEngine;

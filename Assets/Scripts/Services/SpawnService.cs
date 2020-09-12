@@ -1,12 +1,16 @@
-﻿using Assets.Scripts.Room;
+﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Room;
 using Assets.Scripts.Services.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Services
 {
-    public class SpawnService : ISpawnService
+    public class SpawnService : MonoBehaviour, ISpawnService
     {
         private readonly List<Spawner> spawners = new List<Spawner>();
 
@@ -41,8 +45,49 @@ namespace Assets.Scripts.Services
             return GetAll<TitanSpawner>().Where(x => x.Type == type).ToList();
         }
 
+        public T Spawn<T>() where T : Entity
+        {
+            var type = typeof(T);
+            if (type == typeof(MindlessTitan))
+            {
+                return (T) MindlessTitan.Spawn();
+            }
+
+            if (type == typeof(ErenTitan))
+            {
+                return (T) ErenTitan.Spawn();
+            }
+
+            if (type == typeof(MindlessTitan))
+            {
+                return (T) MindlessTitan.Spawn();
+            }
+
+            if (type == typeof(MindlessTitan))
+            {
+                return (T) MindlessTitan.Spawn();
+            }
+
+            if (type == typeof(MindlessTitan))
+            {
+                return (T) MindlessTitan.Spawn();
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public T Spawn<T>(Vector3 position) where T : Entity
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void OnRestart()
         {
+        }
+
+        private void LateUpdate()
+        {
+
         }
     }
 }

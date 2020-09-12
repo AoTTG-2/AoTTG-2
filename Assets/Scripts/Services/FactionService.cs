@@ -54,19 +54,20 @@ namespace Assets.Scripts.Services
 
         private List<Faction> GetHostileFactions(Faction faction)
         {
-            return factions.Where(x => x.Allies.Any(ally => ally != faction)).ToList();
+            //TODO: #160 implement Allied factions
+            return factions.Where(x => x != faction).ToList();
         }
 
         private HashSet<Entity> GetAllHostile(Entity entity)
         {
-            if (entity.Faction == null)
+            if (entity?.Faction == null)
             {
                 return EntityService.GetAllExcept(entity);
             }
 
             var hostileFactions = GetHostileFactions(entity.Faction);
             var hostileEntities = EntityService
-                .GetAllExcept(entity).ToList().Where(x => hostileFactions.Any(faction => faction == x.Faction));
+                .GetAllExcept(entity).ToList().Where(x => hostileFactions.Any(faction => faction == x.Faction) || x.Faction == null).ToList();
             return new HashSet<Entity>(hostileEntities);
         }
 
