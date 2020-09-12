@@ -554,8 +554,9 @@ public class FemaleTitan : TitanBase
         return false;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         base.GetComponent<Rigidbody>().freezeRotation = true;
         base.GetComponent<Rigidbody>().useGravity = false;
     }
@@ -1122,7 +1123,7 @@ public class FemaleTitan : TitanBase
         healthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{health}</color>";
     }
 
-    public void lateUpdate2()
+    public void LateUpdate()
     {
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {
@@ -1237,14 +1238,6 @@ public class FemaleTitan : TitanBase
         base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
     }
 
-    private void OnDestroy()
-    {
-        if (GameObject.Find("MultiplayerManager") != null)
-        {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().removeFT(this);
-        }
-    }
-
     private void playAnimation(string aniName)
     {
         base.GetComponent<Animation>().Play(aniName);
@@ -1318,7 +1311,6 @@ public class FemaleTitan : TitanBase
 
     private void startMain()
     {
-        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addFT(this);
         base.name = "Female Titan";
         this.grabTF = new GameObject();
         this.grabTF.name = "titansTmpGrabTF";
@@ -1488,7 +1480,7 @@ public class FemaleTitan : TitanBase
         this.needFreshCorePosition = true;
     }
 
-    public void update()
+    protected override void Update()
     {
         if ((!IN_GAME_MAIN_CAMERA.isPausing || base.photonView.isMine))
         {

@@ -416,7 +416,7 @@ namespace Assets.Scripts.Characters.Titan
             return bottomObject.GetComponent<CheckHitGround>().isGrounded;
         }
 
-        public void lateUpdate()
+        public void LateUpdate()
         {
             if (((!IN_GAME_MAIN_CAMERA.isPausing) && !rockLift) && (photonView.isMine))
             {
@@ -520,15 +520,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
             }
         }
-
-        private void OnDestroy()
-        {
-            if (GameObject.Find("MultiplayerManager") != null)
-            {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().removeET(this);
-            }
-        }
-
+        
         public void playAnimation(string aniName)
         {
             GetComponent<Animation>().Play(aniName);
@@ -813,7 +805,6 @@ namespace Assets.Scripts.Characters.Titan
         private void Start()
         {
             loadskin();
-            FengGameManagerMKII.instance.addET(this);
             if (rockLift)
             {
                 rock = GameObject.Find("rock");
@@ -837,7 +828,7 @@ namespace Assets.Scripts.Characters.Titan
             isROCKMOVE = true;
         }
 
-        public void update()
+        protected override void Update()
         {
             if ((!IN_GAME_MAIN_CAMERA.isPausing) && !rockLift)
             {

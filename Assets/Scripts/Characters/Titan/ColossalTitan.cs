@@ -65,13 +65,14 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             base.GetComponent<Rigidbody>().freezeRotation = true;
             base.GetComponent<Rigidbody>().useGravity = false;
             base.GetComponent<Rigidbody>().isKinematic = true;
         }
-
+        
         public void beTauntedBy(GameObject target, float tauntTime)
         {
         }
@@ -350,15 +351,7 @@ namespace Assets.Scripts.Characters.Titan
             base.GetComponent<Animation>().Play(aniName);
             base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
         }
-
-        private void OnDestroy()
-        {
-            if (GameObject.Find("MultiplayerManager") != null)
-            {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().removeCT(this);
-            }
-        }
-
+        
         private void playAnimation(string aniName)
         {
             base.GetComponent<Animation>().Play(aniName);
@@ -459,7 +452,6 @@ namespace Assets.Scripts.Characters.Titan
 
         private void startMain()
         {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCT(this);
             if (this.myHero == null)
             {
                 this.findNearestHero();
@@ -605,7 +597,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public void update2()
+        protected override void Update()
         {
             this.healthTime -= Time.deltaTime;
             this.updateLabel();

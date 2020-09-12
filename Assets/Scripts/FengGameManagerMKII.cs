@@ -43,10 +43,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
     public GameObject checkpoint;
-
-    [Obsolete("Please use the TitanManager (#160) instead")]
-    private ArrayList cT;
-
+    
     [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static string currentLevel;
     [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
@@ -61,10 +58,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public int cyanKills;
     [Obsolete("Move this into RacingGamemode")]
     private bool endRacing;
-    [Obsolete("Please use the TitanManager (#160) instead")]
-    private ArrayList eT;
-    [Obsolete("Please use the TitanManager (#160) instead")]
-    private ArrayList fT;
     public float gameEndCD;
     public float gameEndTotalCDtime = 9f;
     public bool gameStart;
@@ -179,25 +172,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         this.mainCamera = c;
     }
-
-    [Obsolete("Move to a TitanService")]
-    public void addCT(ColossalTitan titan)
-    {
-        this.cT.Add(titan);
-    }
-
-    [Obsolete("Move to a TitanService")]
-public void addET(ErenTitan hero)
-    {
-        this.eT.Add(hero);
-    }
-
-    [Obsolete("Move to a TitanService")]
-    public void addFT(FemaleTitan titan)
-    {
-        this.fT.Add(titan);
-    }
-
+    
     [Obsolete("Room expiration no longer exists in AoTTG2.")]
     public void addTime(float time)
     {
@@ -413,7 +388,7 @@ public void addET(ErenTitan hero)
     }
 
     [Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
-    private void core2()
+    private void LateUpdate()
     {
         if (((int) settings[0x40]) >= 100)
         {
@@ -960,51 +935,7 @@ public void addET(ErenTitan hero)
             }
         }
     }
-
-    private void LateUpdate()
-    {
-        if (this.gameStart)
-        {
-            IEnumerator enumerator2 = this.eT.GetEnumerator();
-            try
-            {
-                while (enumerator2.MoveNext())
-                {
-                    var titanEren = (ErenTitan) enumerator2.Current;
-                    if (titanEren != null)
-                        titanEren.lateUpdate();
-                }
-            }
-            finally
-            {
-                IDisposable disposable2 = enumerator2 as IDisposable;
-                if (disposable2 != null)
-                {
-                    disposable2.Dispose();
-                }
-            }
-            IEnumerator enumerator4 = this.fT.GetEnumerator();
-            try
-            {
-                while (enumerator4.MoveNext())
-                {
-                    var femaleTitan = (FemaleTitan) enumerator4.Current;
-                    if (femaleTitan != null)
-                        femaleTitan.lateUpdate2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable4 = enumerator4 as IDisposable;
-                if (disposable4 != null)
-                {
-                    disposable4.Dispose();
-                }
-            }
-            this.core2();
-        }
-    }
-
+    
     [Obsolete("Refactor to use a JSON instead.")]
     private void loadconfig()
     {
@@ -2555,24 +2486,6 @@ public void addET(ErenTitan hero)
             Camera.main.GetComponent<Skybox>().material = skyMaterial;
     }
 
-    [Obsolete("Move to a TitanService")]
-    public void removeCT(ColossalTitan titan)
-    {
-        this.cT.Remove(titan);
-    }
-
-    [Obsolete("Move to a TitanService")]
-    public void removeET(ErenTitan hero)
-    {
-        this.eT.Remove(hero);
-    }
-
-    [Obsolete("Move to a TitanService")]
-    public void removeFT(FemaleTitan titan)
-    {
-        this.fT.Remove(titan);
-    }
-
     [PunRPC]
     public void RequireStatus()
     {
@@ -3413,9 +3326,6 @@ public void addET(ErenTitan hero)
         HeroCostume.init2();
         PhotonNetwork.automaticallySyncScene = true;
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
-        this.eT = new ArrayList();
-        this.fT = new ArrayList();
-        this.cT = new ArrayList();
         this.name = string.Empty;
         banHash = new ExitGames.Client.Photon.Hashtable();
         imatitan = new ExitGames.Client.Photon.Hashtable();
@@ -3470,77 +3380,7 @@ public void addET(ErenTitan hero)
         Resources.UnloadUnusedAssets();
         this.isUnloading = false;
     }
-
-    private void Update()
-    {
-        //if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && (GameObject.Find("LabelNetworkStatus") != null))
-        //{
-        //GameObject.Find("LabelNetworkStatus").GetComponent<UILabel>().text = PhotonNetwork.connectionState.ToString();
-        //if (PhotonNetwork.connected)
-        //{
-        //    UILabel component = GameObject.Find("LabelNetworkStatus").GetComponent<UILabel>();
-        //    component.text = component.text + " ping:" + PhotonNetwork.GetPing();
-        //}
-        //}
-        if (this.gameStart)
-        {
-            IEnumerator enumerator3 = this.eT.GetEnumerator();
-            try
-            {
-                while (enumerator3.MoveNext())
-                {
-                    var titanEren = (ErenTitan) enumerator3.Current;
-                    if (titanEren != null)
-                        titanEren.update();
-                }
-            }
-            finally
-            {
-                IDisposable disposable3 = enumerator3 as IDisposable;
-                if (disposable3 != null)
-                {
-                    disposable3.Dispose();
-                }
-            }
-            IEnumerator enumerator5 = this.fT.GetEnumerator();
-            try
-            {
-                while (enumerator5.MoveNext())
-                {
-                    var femaleTitan = (FemaleTitan) enumerator5.Current;
-                    if (femaleTitan != null)
-                        femaleTitan.update();
-                }
-            }
-            finally
-            {
-                IDisposable disposable5 = enumerator5 as IDisposable;
-                if (disposable5 != null)
-                {
-                    disposable5.Dispose();
-                }
-            }
-            IEnumerator enumerator6 = this.cT.GetEnumerator();
-            try
-            {
-                while (enumerator6.MoveNext())
-                {
-                    var colossalTitan = (ColossalTitan) enumerator6.Current;
-                    if (colossalTitan != null)
-                        colossalTitan.update2();
-                }
-            }
-            finally
-            {
-                IDisposable disposable6 = enumerator6 as IDisposable;
-                if (disposable6 != null)
-                {
-                    disposable6.Dispose();
-                }
-            }
-        }
-    }
-
+    
     [PunRPC]
     private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
     {
