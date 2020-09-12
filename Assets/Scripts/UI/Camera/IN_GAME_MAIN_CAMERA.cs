@@ -435,8 +435,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             
             if (this.gameOver)
             {
-                
-                this.setSpectorMode(true);
                 FengGameManagerMKII.instance.ShowHUDInfoCenter(
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
@@ -446,48 +444,38 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     ToggleSpecMode();
                     ToggleSpawnMenu();
                 }
-                if (this.spectatorMode)
+                if (InputManager.KeyDown(InputHuman.Item2))
                 {
-                    if (InputManager.KeyDown(InputHuman.Item2))
+                    this.currentPeekPlayerIndex++;
+                    int length = GameObject.FindGameObjectsWithTag("Player").Length;
+                    if (this.currentPeekPlayerIndex >= length)
                     {
-                        this.currentPeekPlayerIndex++;
-                        int length = GameObject.FindGameObjectsWithTag("Player").Length;
-                        if (this.currentPeekPlayerIndex >= length)
-                        {
-                            this.currentPeekPlayerIndex = 0;
-                        }
-                        if (length > 0)
-                        {
-                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                            this.setSpectorMode(false);
-                            this.lockAngle = false;
-                        }
-                        
+                        this.currentPeekPlayerIndex = 0;
                     }
-
-                    if (InputManager.KeyDown(InputHuman.Item3))
+                    if (length > 0)
                     {
-                        this.currentPeekPlayerIndex--;
-                        int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
-                        if (this.currentPeekPlayerIndex >= num2)
-                        {
-                            this.currentPeekPlayerIndex = 0;
-                        }
-                        if (this.currentPeekPlayerIndex < 0)
-                        {
-                            this.currentPeekPlayerIndex = num2;
-                        }
-                        if (num2 > 0)
-                        {
-                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                            this.setSpectorMode(false);
-                            this.lockAngle = false;
-                        }
+                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                        this.setSpectorMode(false);
+                        this.lockAngle = false;
                     }
-                    
-                    if (this.spectatorMode)
+                }
+                if (InputManager.KeyDown(InputHuman.Item3))
+                {
+                    this.currentPeekPlayerIndex--;
+                    int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
+                    if (this.currentPeekPlayerIndex >= num2)
                     {
-                        return;
+                        this.currentPeekPlayerIndex = 0;
+                    }
+                    if (this.currentPeekPlayerIndex < 0)
+                    {
+                        this.currentPeekPlayerIndex = num2;
+                    }
+                    if (num2 > 0)
+                    {
+                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                        this.setSpectorMode(false);
+                        this.lockAngle = false;
                     }
                 }
             }
