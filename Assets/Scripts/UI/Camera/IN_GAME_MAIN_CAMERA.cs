@@ -469,7 +469,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     }
                     if (this.currentPeekPlayerIndex < 0)
                     {
-                        this.currentPeekPlayerIndex = num2;
+                        this.currentPeekPlayerIndex = num2 - 1;
                     }
                     if (num2 > 0)
                     {
