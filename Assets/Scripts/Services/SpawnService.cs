@@ -97,6 +97,9 @@ namespace Assets.Scripts.Services
             if (type == typeof(ColossalTitan))
                 return SpawnTitan("ColossalTitan", position, rotation, null) as T;
 
+            if (type == typeof(ErenTitan))
+                return SpawnTitan("ErenTitan", position, rotation, null) as T;
+
             throw new ArgumentException($"{type} is not implemented");
         }
 

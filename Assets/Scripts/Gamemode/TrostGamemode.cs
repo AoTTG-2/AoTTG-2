@@ -21,8 +21,9 @@ namespace Assets.Scripts.Gamemode
 
             if (!isMasterClient) return;
             //if (IsAllPlayersDead()) return;
-        
-            PhotonNetwork.Instantiate("TITAN_EREN_trost", new Vector3(-200f, 0f, -194f), Quaternion.Euler(0f, 180f, 0f), 0).GetComponent<ErenTitan>().rockLift = true;
+
+            var eren = SpawnService.Spawn<ErenTitan>(new Vector3(-200f, 0f, -194f), Quaternion.Euler(0f, 180f, 0f), null);
+            eren.rockLift = true;
             var obj4 = GameObject.Find("titanRespawnTrost");
             if (obj4 == null) return;
 
