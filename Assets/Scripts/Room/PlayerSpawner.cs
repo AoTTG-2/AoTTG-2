@@ -1,19 +1,23 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using UnityEngine;
 
 namespace Assets.Scripts.Room
 {
     public class PlayerSpawner : MonoBehaviour
     {
+        private readonly IRespawnService _respawnService = Service.Respawn;
+
         public PlayerSpawnType Type = PlayerSpawnType.None;
 
         private void Awake()
         {
-            FengGameManagerMKII.instance.PlayerSpawners.Add(this);
+            _respawnService.Add(this);
         }
 
         private void OnDestroy()
         {
-            FengGameManagerMKII.instance.PlayerSpawners.Remove(this);
+            _respawnService.Remove(this);
         }
     }
 }

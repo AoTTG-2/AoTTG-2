@@ -1,13 +1,20 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.UI.Input;
+using System;
 using UnityEngine;
+using static FengGameManagerMKII;
+using Assets.Scripts.UI.Camera;
+using Assets.Scripts.UI.InGame;
+using Random = UnityEngine.Random;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
     private float closestDistance;
     private int currentPeekPlayerIndex;
+    [Obsolete("Replace with a Time Service")]
     public static DayLight dayLight = DayLight.Dawn;
     private float decay;
+    [Obsolete("Difficulty no longer exists in the form of an integer")]
     public static int difficulty;
     private float distance = 10f;
     private float distanceMulti;
@@ -16,6 +23,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float flashDuration;
     private bool flip;
     public bool gameOver;
+    [Obsolete("Refactor so that this static field is no longer required")]
     public static GAMETYPE gametype = GAMETYPE.Stop;
     private bool hasSnapShot;
     private Transform head;
@@ -29,7 +37,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public GameObject main_object;
     private bool needSetHUD;
     private float R;
-    public static string singleCharacter;
     public Material skyBoxDAWN;
     public Material skyBoxDAY;
     public Material skyBoxNIGHT;
@@ -50,6 +57,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static STEREO_3D_TYPE stereoType;
     public static bool triggerAutoLock;
     public static bool usingTitan;
+    public bool IsSpecmode => (int) settings[0xf5] == 1;
 
     public void CameraMovementLive(Hero hero)
     {
@@ -244,11 +252,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         this.spectatorMode = val;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
-
-        //TODO MouseLook
-        //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
     }
-
     public void snapShot2(int index)
     {
         Vector3 vector;
@@ -427,56 +432,63 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         if (gametype != GAMETYPE.Stop)
         {
+            
             if (this.gameOver)
             {
-                if (InputManager.KeyDown(InputHuman.AttackSpecial))
-                {
-                    if (this.spectatorMode)
-                    {
-                        this.setSpectorMode(false);
-                    }
-                    else
-                    {
-                        this.setSpectorMode(true);
-                    }
-                }
+                
+                this.setSpectorMode(true);
+                FengGameManagerMKII.instance.ShowHUDInfoCenter(
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
+                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
                 if (InputManager.KeyDown(InputHuman.Item1))
                 {
-                    this.currentPeekPlayerIndex++;
-                    int length = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= length)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (length > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
-                        this.lockAngle = false;
-                    }
-                }
-                if (InputManager.KeyDown(InputHuman.Item2))
-                {
-                    this.currentPeekPlayerIndex--;
-                    int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= num2)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (this.currentPeekPlayerIndex < 0)
-                    {
-                        this.currentPeekPlayerIndex = num2;
-                    }
-                    if (num2 > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
-                        this.lockAngle = false;
-                    }
+                    ToggleSpecMode();
+                    ToggleSpawnMenu();
                 }
                 if (this.spectatorMode)
                 {
-                    return;
+                    if (InputManager.KeyDown(InputHuman.Item2))
+                    {
+                        this.currentPeekPlayerIndex++;
+                        int length = GameObject.FindGameObjectsWithTag("Player").Length;
+                        if (this.currentPeekPlayerIndex >= length)
+                        {
+                            this.currentPeekPlayerIndex = 0;
+                        }
+                        if (length > 0)
+                        {
+                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                            this.setSpectorMode(false);
+                            this.lockAngle = false;
+                        }
+                        
+                    }
+
+                    if (InputManager.KeyDown(InputHuman.Item3))
+                    {
+                        this.currentPeekPlayerIndex--;
+                        int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
+                        if (this.currentPeekPlayerIndex >= num2)
+                        {
+                            this.currentPeekPlayerIndex = 0;
+                        }
+                        if (this.currentPeekPlayerIndex < 0)
+                        {
+                            this.currentPeekPlayerIndex = num2;
+                        }
+                        if (num2 > 0)
+                        {
+                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                            this.setSpectorMode(false);
+                            this.lockAngle = false;
+                        }
+                    }
+                    
+                    if (this.spectatorMode)
+                    {
+                        return;
+                    }
                 }
             }
             //TODO #204 - Pause Menu
@@ -661,6 +673,20 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             //base.GetComponent<TiltShift>().enabled = true;
         }
+    }
+    public static void ToggleSpecMode()
+    {
+        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
+        bool specMode = (int) settings[0xf5] == 1;
+        instance.EnterSpecMode(specMode);
+        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        instance.chatRoom.OutputSystemMessage(message);
+    }
+
+    public static void ToggleSpawnMenu()
+    {
+        var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
+        spawnMenu.SetActive(!spawnMenu.activeSelf);
     }
 
     private void DoCameraMovement()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 
+[Obsolete("Use System.Linq")]
 public class IComparerRacingResult : IComparer
 {
     int IComparer.Compare(object x, object y)
