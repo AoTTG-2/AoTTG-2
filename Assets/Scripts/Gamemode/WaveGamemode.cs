@@ -135,7 +135,7 @@ namespace Assets.Scripts.Gamemode
                 {
                     for (int i = 0; i < Wave / Settings.BossWave.Value; i++)
                     {
-                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration(Settings.BossType.Value));
+                        SpawnService.Spawn<MindlessTitan>(GetWaveTitanConfiguration(Settings.BossType.Value));
                     }
                 }
                 else
@@ -151,7 +151,8 @@ namespace Assets.Scripts.Gamemode
             for (int i = 0; i < titans; i++)
             {
                 var randomSpawn = spawns[Random.Range(0, spawns.Length)];
-                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, GetWaveTitanConfiguration());
+                SpawnService.Spawn<MindlessTitan>(randomSpawn.transform.position, randomSpawn.transform.rotation,
+                    GetWaveTitanConfiguration());
                 yield return new WaitForEndOfFrame();
             }
         }

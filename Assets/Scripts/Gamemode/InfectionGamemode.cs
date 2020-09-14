@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
@@ -90,7 +91,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (info.sender.IsMasterClient)
             {
-                FengGameManagerMKII.instance.SpawnPlayerTitan();
+                SpawnService.Spawn<PlayerTitan>();
             }
         }
     }

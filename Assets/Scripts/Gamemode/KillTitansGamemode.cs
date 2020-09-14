@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using UnityEngine;
 
@@ -22,7 +23,8 @@ namespace Assets.Scripts.Gamemode
 
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
-                PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
+                var ftSpawn = GameObject.Find("titanRespawn").transform;
+                SpawnService.Spawn<FemaleTitan>(ftSpawn.position, ftSpawn.rotation, new TitanConfiguration());
             }
             else
             {

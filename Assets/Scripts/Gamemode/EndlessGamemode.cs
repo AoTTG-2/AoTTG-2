@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
@@ -12,7 +13,7 @@ namespace Assets.Scripts.Gamemode
         public override void OnTitanKilled(string titanName)
         {
             Score++;
-            FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
+            SpawnService.Spawn<MindlessTitan>(GetTitanConfiguration());
         }
 
         public override void OnRestart()

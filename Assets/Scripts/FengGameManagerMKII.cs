@@ -26,8 +26,8 @@ using UnityEngine;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
-    protected readonly ISpawnService SpawnService = Service.Spawn;
-    protected readonly IEntityService EntityService = Service.Entity;
+    protected ISpawnService SpawnService => Service.Spawn;
+    protected IEntityService EntityService => Service.Entity;
 
     [SerializeField]
     private VersionManager versionManager;
@@ -461,7 +461,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             if (RCextensions.returnIntFromObject(
                                 PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                             {
-                                SpawnPlayerTitan();
+                                SpawnService.Spawn<PlayerTitan>();
                             }
                             else
                             {
@@ -2154,7 +2154,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                 {
-                    SpawnPlayerTitan();
+                    SpawnService.Spawn<PlayerTitan>();
                 }
                 else
                 {
@@ -2493,7 +2493,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         var isPlayerTitan = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2;
         if (isPlayerTitan)
         {
-            SpawnPlayerTitan();
+            SpawnService.Spawn<PlayerTitan>();
         }
         else
         {
@@ -3149,84 +3149,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.ShowHUDInfoCenter(string.Empty);
         }
     }
-
-    [Obsolete("Migrate into a SpawnService")]
-    public GameObject SpawnTitan(TitanConfiguration configuration)
-    {
-        Vector3 position = new Vector3();
-        Quaternion rotation = new Quaternion();
-        var titanSpawners = SpawnService.GetAll<TitanSpawner>().Where(x => x.Type == TitanSpawnerType.None).ToArray();
-        if (titanSpawners.Length > 0) // RC Custom Map Spawns
-        {
-            position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
-        }
-        else
-        {
-            var randomSpawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-            if (randomSpawns.Length > 0)
-            {
-                var random = UnityEngine.Random.Range(0, randomSpawns.Length);
-                var randomSpawn = randomSpawns[random];
-                while (randomSpawn == null)
-                {
-                    random = UnityEngine.Random.Range(0, randomSpawns.Length);
-                    randomSpawn = randomSpawns[random];
-                }
-                randomSpawns[random] = null;
-                position = randomSpawn.transform.position;
-                rotation = randomSpawn.transform.rotation;
-            }
-        }
-
-        return SpawnTitan(position, rotation, configuration);
-    }
-
-    [Obsolete("Migrate into a SpawnService")]
-    public GameObject SpawnTitan(Vector3 position, Quaternion rotation)
-    {
-        return SpawnTitan(position, rotation, new TitanConfiguration());
-    }
-
-    [Obsolete("Migrate into a SpawnService")]
-    public GameObject SpawnTitan(Vector3 position, Quaternion rotation, TitanConfiguration configuration)
-    {
-        var titan = PhotonNetwork.Instantiate("MindlessTitan", position, rotation, 0);
-        titan.GetComponent<MindlessTitan>().Initialize(configuration);
-        return titan;
-    }
-
-    [Obsolete("Migrate into a SpawnService")]
-    public void SpawnPlayerTitan()
-    {
-        var id = "TITAN";
-        var tag = "titanRespawn";
-        var location = Gamemode.GetPlayerSpawnLocation(tag);
-        Vector3 position = location.transform.position;
-        var titanSpawners = SpawnService.GetAll<TitanSpawner>().Where(x => x.Type == TitanSpawnerType.None).ToArray();
-        if (titanSpawners.Length > 0) // RC Custom Map Spawns
-        {
-            position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
-        }
-        this.myLastHero = id.ToUpper();
-        PlayerTitan playerTitan = PhotonNetwork.Instantiate("PlayerTitan", position, new Quaternion(), 0).GetComponent<PlayerTitan>();
-        playerTitan.Initialize(Gamemode.GetPlayerTitanConfiguration());
-        Service.Player.Self = playerTitan;
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObjectASTITAN(playerTitan.gameObject);
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-        GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-        ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-        hashtable.Add("dead", false);
-        ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
-        PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        hashtable = new ExitGames.Client.Photon.Hashtable();
-        hashtable.Add(PhotonPlayerProperty.isTitan, 2);
-        propertiesToSet = hashtable;
-        PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        this.ShowHUDInfoCenter(string.Empty);
-    }
-
+    
     public void SetSettings(Difficulty difficulty)
     {
         Settings = new GameSettings();

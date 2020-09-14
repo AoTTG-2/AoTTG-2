@@ -48,6 +48,37 @@ public class LevelBuilder : MonoBehaviour
     {
         _levels.Add(new Level
         {
+            Name = "The Forest - Classic",
+            Description = "Classic forest map",
+            SceneName = "The Forest",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new WaveGamemodeSettings
+                {
+                    StartWave = 25,
+                    Titan = new SettingsTitan
+                    {
+                        Start = 25
+                    }
+                },
+                new KillTitansSettings
+                {
+                    GamemodeType = GamemodeType.Titans,
+                    Name = "Annie",
+                    Description = "Classic map where you fight the Female Titan",
+                    Titan = new SettingsTitan
+                    {
+                        Mindless = new MindlessTitanSettings
+                        {
+                            Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
+                        }
+                    }
+                }
+            }
+        });
+
+        _levels.Add(new Level
+        {
             Name = "Test Zone",
             Description = "Classic City Map from AoTTG",
             SceneName = "Test Zone",
@@ -93,30 +124,6 @@ public class LevelBuilder : MonoBehaviour
                 new WaveGamemodeSettings(),
                 new CaptureGamemodeSettings(),
                 new InfectionGamemodeSettings()
-            }
-        });
-
-        _levels.Add(new Level
-        {
-            Name = "The Forest - Classic",
-            Description = "Classic forest map",
-            SceneName = "The Forest",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new WaveGamemodeSettings(),
-                new KillTitansSettings
-                {
-                    GamemodeType = GamemodeType.Titans,
-                    Name = "Annie",
-                    Description = "Classic map where you fight the Female Titan",
-                    Titan = new SettingsTitan
-                    {
-                        Mindless = new MindlessTitanSettings
-                        {
-                            Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
-                        }
-                    }
-                }
             }
         });
         

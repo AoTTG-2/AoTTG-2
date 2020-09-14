@@ -677,7 +677,7 @@ namespace Assets.Scripts.Characters.Titan
                                             if (obj3.transform.parent.gameObject == obj2)
                                             {
                                                 throw new NotImplementedException("Eren titan requires punk disabling and titans to automatically start chasing");
-                                                var obj4 = FengGameManagerMKII.instance.SpawnTitan(obj3.transform.position, obj3.transform.rotation);
+                                                //var obj4 = FengGameManagerMKII.instance.SpawnTitan(obj3.transform.position, obj3.transform.rotation);
                                                 //obj4.GetComponent<MindlessTitan>().isAlarm = true;
                                                 //obj4.GetComponent<MindlessTitan>().chaseDistance = 999999f;
                                             }

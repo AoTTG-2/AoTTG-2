@@ -2,6 +2,9 @@
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +12,8 @@ namespace Assets.Scripts.UI.InGame
 {
     public class SpawnMenu : MonoBehaviour
     {
+        private ISpawnService SpawnService => Service.Spawn;
+
         public Dropdown EquipmentDropdown;
         public GameObject PlayerTitanButton;
 
@@ -66,7 +71,7 @@ namespace Assets.Scripts.UI.InGame
         public void SpawnPlayerTitan()
         {
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
-            FengGameManagerMKII.instance.SpawnPlayerTitan();
+            SpawnService.Spawn<PlayerTitan>();
             gameObject.SetActive(false);
         }
 

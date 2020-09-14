@@ -32,7 +32,7 @@ namespace Assets.Scripts.Gamemode
         {
             var configuration = GetTitanConfiguration();
             configuration.Behaviors.Add(new CaptureBehavior(target));
-            FengGameManagerMKII.instance.SpawnTitan(position, rotation, configuration).GetComponent<MindlessTitan>();
+            SpawnService.Spawn<MindlessTitan>(position, rotation, configuration);
         }
 
         public override void OnTitanKilled(string titanName)
@@ -120,15 +120,15 @@ namespace Assets.Scripts.Gamemode
 
             if (isMasterClient && FengGameManagerMKII.Level.SceneName == "OutSide")
             {
-                GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("titanRespawn");
-                if (objArray3.Length <= 0)
+                GameObject[] respawns = GameObject.FindGameObjectsWithTag("titanRespawn");
+                if (respawns.Length <= 0)
                 {
                     return;
                 }
-                for (int i = 0; i < objArray3.Length; i++)
+                foreach (var respawn in respawns)
                 {
                     var configuration = GetTitanConfiguration(MindlessTitanType.Crawler);
-                    FengGameManagerMKII.instance.SpawnTitan(objArray3[i].transform.position, objArray3[i].transform.rotation, configuration);
+                    SpawnService.Spawn<MindlessTitan>(respawn.transform.position, respawn.transform.rotation, configuration);
                 }
             }
         }

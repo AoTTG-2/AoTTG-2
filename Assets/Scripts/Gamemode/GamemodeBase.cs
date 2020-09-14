@@ -23,6 +23,7 @@ namespace Assets.Scripts.Gamemode
         private GamemodeSettings Settings => GameSettings.Gamemode;
         protected readonly IEntityService EntityService = Service.Entity;
         protected readonly IFactionService FactionService = Service.Faction;
+        protected ISpawnService SpawnService => Service.Spawn;
 
         private MindlessTitanType GetTitanType()
         {
@@ -182,8 +183,8 @@ namespace Assets.Scripts.Gamemode
             for (var i = 0; i < amount; i++)
             {
                 if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
-                var randomSpawn = spawns[Random.Range(0, spawns.Length)];
-                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, titanConfiguration.Invoke());
+                var randomSpawn = spawns[Random.Range(0, spawns.Length)].transform;
+                SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
                 yield return new WaitForEndOfFrame();
             }
         }

@@ -139,7 +139,7 @@ namespace Assets.Scripts.Characters.Titan
             obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
         }
         
-        public virtual void Initialize(TitanConfiguration configuration)
+        public override void Initialize(TitanConfiguration configuration)
         {
             Health = configuration.Health;
             MaxHealth = Health;

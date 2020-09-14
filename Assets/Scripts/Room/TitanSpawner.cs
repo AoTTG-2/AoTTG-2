@@ -14,7 +14,7 @@ namespace Assets.Scripts.Room
         public TitanSpawnerType Type;
         private float Timer { get; set; }
 
-        private readonly IEntityService entityService = Service.Entity;
+        private static IEntityService EntityService => Service.Entity;
 
         public TitanSpawner()
         {
@@ -71,7 +71,7 @@ namespace Assets.Scripts.Room
                     SpawnMindlessTitan(MindlessTitanType.Crawler);
                     break;
                 case TitanSpawnerType.Annie:
-                    PhotonNetwork.Instantiate("FemaleTitan", base.transform.position, base.transform.rotation, 0);
+                    SpawnService.Spawn<FemaleTitan>(transform.position, transform.rotation, null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(Type), Type, null);
@@ -80,8 +80,9 @@ namespace Assets.Scripts.Room
 
         private void SpawnMindlessTitan(MindlessTitanType type)
         {
-            if (entityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
-            FengGameManagerMKII.instance.SpawnTitan(transform.position, transform.rotation, FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
+            if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
+            SpawnService.Spawn<MindlessTitan>(transform.position, transform.rotation,
+                FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
         }
 
     }

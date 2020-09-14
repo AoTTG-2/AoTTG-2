@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
@@ -141,6 +142,8 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody = GetComponent<Rigidbody>();
             Body = GetComponent<TitanBody>();
         }
+
+        public virtual void Initialize(TitanConfiguration configuration) { }
 
         protected virtual void Update()
         {

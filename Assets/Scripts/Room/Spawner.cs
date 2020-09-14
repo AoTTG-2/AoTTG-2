@@ -6,7 +6,7 @@ namespace Assets.Scripts.Room
 {
     public abstract class Spawner : MonoBehaviour
     {
-        protected readonly ISpawnService SpawnService = Service.Spawn;
+        protected ISpawnService SpawnService => Service.Spawn;
 
         protected virtual void Awake()
         {

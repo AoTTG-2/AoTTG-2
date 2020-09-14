@@ -5,6 +5,10 @@ using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Gamemode;
+using Assets.Scripts.Services.Events;
+using Assets.Scripts.UI.Camera;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,7 +16,10 @@ namespace Assets.Scripts.Services
 {
     public class SpawnService : MonoBehaviour, ISpawnService
     {
+        public event OnSpawn<Entity> OnSpawned;
+
         private readonly List<Spawner> spawners = new List<Spawner>();
+        private static GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
 
         public void Add(Spawner spawner)
         {
@@ -45,45 +52,94 @@ namespace Assets.Scripts.Services
             return GetAll<TitanSpawner>().Where(x => x.Type == type).ToList();
         }
 
+        public void OnRestart()
+        {
+        }
+
         public T Spawn<T>() where T : Entity
+        {
+            var type = typeof(T);
+            if (type == typeof(PlayerTitan))
+            {
+                return Spawn<T>(new TitanConfiguration());
+            }
+
+            throw new ArgumentException($"{type} is not implemented");
+        }
+
+        public T Spawn<T>(EntityConfiguration configuration) where T : Entity
+        {
+            var type = typeof(T);
+            if (type == typeof(PlayerTitan))
+            {
+                return SpawnPlayerTitan() as T;
+            }
+
+            if (type == typeof(MindlessTitan))
+            {
+                return SpawnTitan("MindlessTitan", configuration as TitanConfiguration) as T;
+            }
+
+            throw new ArgumentException($"{type} is not implemented");
+        }
+
+        public T Spawn<T>(Vector3 position, Quaternion rotation, EntityConfiguration configuration) where T : Entity
         {
             var type = typeof(T);
             if (type == typeof(MindlessTitan))
             {
-                return (T) MindlessTitan.Spawn();
+                return SpawnTitan("MindlessTitan", position, rotation, configuration as TitanConfiguration) as T;
             }
 
-            if (type == typeof(ErenTitan))
-            {
-                return (T) ErenTitan.Spawn();
-            }
+            if (type == typeof(FemaleTitan))
+                return SpawnTitan("FemaleTitan", position, rotation, null) as T;
 
-            if (type == typeof(MindlessTitan))
-            {
-                return (T) MindlessTitan.Spawn();
-            }
+            if (type == typeof(ColossalTitan))
+                return SpawnTitan("ColossalTitan", position, rotation, null) as T;
 
-            if (type == typeof(MindlessTitan))
-            {
-                return (T) MindlessTitan.Spawn();
-            }
-
-            if (type == typeof(MindlessTitan))
-            {
-                return (T) MindlessTitan.Spawn();
-            }
-
-            throw new NotImplementedException();
+            throw new ArgumentException($"{type} is not implemented");
         }
 
-        public T Spawn<T>(Vector3 position) where T : Entity
+        private TitanBase SpawnTitan(string prefab, TitanConfiguration configuration)
         {
-            throw new System.NotImplementedException();
+            var spawn = GetRandom<TitanSpawner>();
+            return SpawnTitan(prefab, spawn.transform.position, spawn.transform.rotation, configuration);
         }
 
-        public void OnRestart()
+        private TitanBase SpawnTitan(string prefab, Vector3 position, Quaternion rotation, TitanConfiguration configuration)
         {
+            var titan = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<TitanBase>();
+            titan.Initialize(configuration);
+            return titan;
         }
+
+        private PlayerTitan SpawnPlayerTitan()
+        {
+            var id = "TITAN";
+            var tag = "titanRespawn";
+            var location = Gamemode.GetPlayerSpawnLocation(tag);
+            Vector3 position = location.transform.position;
+            var titanSpawners = GetAll<TitanSpawner>().Where(x => x.Type == TitanSpawnerType.None).ToArray();
+            if (titanSpawners.Length > 0) // RC Custom Map Spawns
+            {
+                position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
+            }
+            PlayerTitan playerTitan = PhotonNetwork.Instantiate("PlayerTitan", position, new Quaternion(), 0).GetComponent<PlayerTitan>();
+            playerTitan.Initialize(Gamemode.GetPlayerTitanConfiguration());
+            Service.Player.Self = playerTitan;
+            ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+            hashtable.Add("dead", false);
+            ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
+            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            hashtable = new ExitGames.Client.Photon.Hashtable();
+            hashtable.Add(PhotonPlayerProperty.isTitan, 2);
+            propertiesToSet = hashtable;
+            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            OnSpawned?.Invoke(playerTitan);
+            return playerTitan;
+        }
+
+
 
         private void LateUpdate()
         {

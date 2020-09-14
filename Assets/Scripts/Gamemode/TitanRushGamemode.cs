@@ -28,7 +28,7 @@ namespace Assets.Scripts.Gamemode
             Object.Destroy(GameObject.Find("rock"));
             if (!isMasterClient) return;
             //if (IsAllPlayersDead()) return;
-            PhotonNetwork.Instantiate("ColossalTitan", (Vector3)(-Vector3.up * 10000f), Quaternion.Euler(0f, 180f, 0f), 0);
+            SpawnService.Spawn<ColossalTitan>(-Vector3.up * 10000f, Quaternion.Euler(0f, 180f, 0f), null);
             Routes = GameObject.FindGameObjectsWithTag("route");
             GameObject[] objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
             var spawns = new List<GameObject>();
@@ -84,8 +84,8 @@ namespace Assets.Scripts.Gamemode
             var configuration = GetTitanConfiguration();
             var route = GetRoute();
             configuration.Behaviors.Add(new RushBehavior(route));
-            var spawn = Spawns[Random.Range(0, Spawns.Length)];
-            FengGameManagerMKII.instance.SpawnTitan(spawn.transform.position, spawn.transform.rotation, configuration);
+            var spawn = Spawns[Random.Range(0, Spawns.Length)].transform;
+            SpawnService.Spawn<MindlessTitan>(spawn.position, spawn.rotation, configuration);
         }
 
     }

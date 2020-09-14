@@ -31,7 +31,7 @@ namespace Assets.Scripts.Gamemode
             {
                 if (obj5.transform.parent.gameObject == obj4)
                 {
-                    FengGameManagerMKII.instance.SpawnTitan(obj5.transform.position, obj5.transform.rotation);
+                    SpawnService.Spawn<MindlessTitan>(obj5.transform.position, obj5.transform.rotation, GetTitanConfiguration());
                 }
             }
         }
