@@ -439,9 +439,12 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
                 $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
-                if (InputManager.KeyDown(InputHuman.Item1))
+                if (InputManager.KeyDown(InputHuman.AttackSpecial))
                 {
                     ToggleSpecMode();
+                }
+                if (InputManager.KeyDown(InputHuman.Item1))
+                {
                     ToggleSpawnMenu();
                 }
                 if (InputManager.KeyDown(InputHuman.Item2))

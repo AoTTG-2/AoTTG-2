@@ -768,7 +768,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
             }
-            instance.needChooseSide = true;
+            instance.needChooseSide = false;
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
