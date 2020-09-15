@@ -3,15 +3,17 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92b898900b75e8441b9a2de41ed5242d, type: 3}
   m_Name: Version Manager
   m_EditorClassIdentifier: 
-  version: version-manager
+  branchNameFormatter:
+    issueRegex: '#(?<issue>\d+)'
+    versionPattern: Alpha-Issue<issue>
   useBranchName: 1
-  issueRegex: '#(?<issue>\d+)'
-  versionPattern: Alpha-Issue<issue>
+  version: ISSUE-#265
