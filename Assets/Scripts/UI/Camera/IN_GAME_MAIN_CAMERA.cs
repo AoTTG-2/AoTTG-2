@@ -251,6 +251,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public void setSpectorMode(bool val)
     {
         this.spectatorMode = val;
+        settings[0xf5] = this.spectatorMode == true ? 0 : 1;
+        string message = this.spectatorMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        instance.chatRoom.OutputSystemMessage(message);
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
         GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
     }
@@ -671,8 +674,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
         bool specMode = (int) settings[0xf5] == 1;
         instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
-        instance.chatRoom.OutputSystemMessage(message);
     }
 
     public static void ToggleSpawnMenu()
