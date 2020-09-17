@@ -204,6 +204,7 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
+        //would be better to get float value for time and totalRoomTime instead as those are float value to begin with so this method won't have any loss of infos
         public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
             var content = "Titan Left: ";

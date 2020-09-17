@@ -159,6 +159,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private bool startRacing;
     public int time = 600;
     private float timeElapse;
+    //should be better to be able to retrive this info somehow in order to be used in other place
     private float timeTotalServer;
     [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList titans;
@@ -440,7 +441,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
              }
 
             int length;
-            float num3;
+            //no more used
+            //float num3;
 
             if (PhotonNetwork.offlineMode)
             {
@@ -559,9 +561,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.timeTotalServer += Time.deltaTime;
             if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
             {
+                //getgamemodestatustop require a int value so i just pass the time*10 so that i have data of the time plus the first digit which is what we want to print anyway
+                this.ShowHUDInfoTopCenter(Gamemode.GetGamemodeStatusTop((int)(this.roundTime*10)));
+                /*
                 this.ShowHUDInfoTopCenter("Time : " + ((this.roundTime >= 20f)
                     ? (num3 = (((int) (this.roundTime * 10f)) * 0.1f) - 20f).ToString()
                     : "WAITING"));
+                */
                 if (this.roundTime < 20f)
                 {
                     this.ShowHUDInfoCenter("RACE START IN " + ((int) (20f - this.roundTime)) +
@@ -626,16 +632,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (this.timeElapse > 1f)
             {
                 this.timeElapse--;
-                var content = Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time);
-                if (Gamemode.Settings.TeamMode != TeamMode.Disabled)
-                {
-                    content +=
-                        $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>";
-                }
-
-                this.ShowHUDInfoTopCenter(content);
-                content = Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time);
-                this.ShowHUDInfoTopRight(content);
+                //All of this has to go as it's a double from also the previous if
+                if(Gamemode.Settings.GamemodeType != GamemodeType.Racing)
+                    this.ShowHUDInfoTopCenter(Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time) + (Gamemode.Settings.TeamMode != TeamMode.Disabled? $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>":""));
+                this.ShowHUDInfoTopRight(Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time));
                 string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0)
                     ? ((IN_GAME_MAIN_CAMERA.difficulty != 0)
                         ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard")

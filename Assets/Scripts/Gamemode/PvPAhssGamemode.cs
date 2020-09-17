@@ -19,7 +19,7 @@ namespace Assets.Scripts.Gamemode
             //    string str3 = content;
             //    content = string.Concat(new object[] { str3, (j == 0) ? string.Empty : " : ", "Team", j + 1, " ", this.teamScores[j], string.Empty });
             //}
-            content += content + "\nTime : " + (totalRoomTime - time);
+            content += content + "\nTime : " + (totalRoomTime - time).ToString("f1");
             return content;
         }
 
