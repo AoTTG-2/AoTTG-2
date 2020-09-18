@@ -33,8 +33,7 @@ public class VersionFormatterTest
     [Test]
     public void DictionaryTestBenchmark()
     {
-        var formatter = new VersionFormatter("#(?<issue>\\d+)", "Alpha-Issue<issue>");
-        RunDictionaryTest(formatter);
+        RunDictionaryTest(new VersionFormatter("#(?<issue>\\d+)", "Alpha-Issue<issue>"));
     }
 
     private void RunDictionaryTest(VersionFormatter formatter)

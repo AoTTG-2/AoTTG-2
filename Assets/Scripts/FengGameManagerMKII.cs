@@ -3446,7 +3446,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
-
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";

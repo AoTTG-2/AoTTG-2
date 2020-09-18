@@ -9,7 +9,7 @@ public sealed class VersionFormatter
     private string issueRegex = "#(?<issue>\\d+)";
 
     [SerializeField]
-    private string versionPattern = "Alpha-Issue<issue>";
+    private string versionPattern = "Alpha-Issue#<issue>";
 
     public VersionFormatter()
     {
@@ -23,15 +23,15 @@ public sealed class VersionFormatter
 
     public string FormatBranchName(string branchName)
     {
-        var regex = new Regex(issueRegex);
+        Regex regex = new Regex(issueRegex);
 
-        var match = regex.Match(branchName);
+        Match match = regex.Match(branchName);
         if (!match.Success)
             return branchName;
 
-        var formatted = versionPattern;
-        var names = regex.GetGroupNames();
-        foreach (var name in names)
+        string formatted = versionPattern;
+        string[] names = regex.GetGroupNames();
+        foreach (string name in names)
         {
             var group = match.Groups[name];
             formatted = formatted.Replace($"<{name}>", group.Value);
