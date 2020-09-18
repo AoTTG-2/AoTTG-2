@@ -1,10 +1,13 @@
-﻿using Assets.Scripts.Services;
+﻿using System;
+using Assets.Scripts.Services;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class JumpAttack : Attack
+    public class JumpAttack : Attack<MindlessTitan>
     {
+        public override Type[] TargetTypes { get; } = { typeof(Human) };
+
         private const float Gravity = 120f;
 
         private readonly bool isCrawler;

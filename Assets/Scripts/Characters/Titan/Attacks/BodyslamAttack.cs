@@ -1,13 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class BodySlamAttack : Attack
+    public class BodySlamAttack : Attack<MindlessTitan>
     {
         private readonly string _startAnimation = "attack_abnormal_jump";
         private readonly string _endAnimation = "attack_abnormal_getup";
         private bool HasExploded { get; set; }
         private float WaitTime { get; set; }
+
+        public override Type[] TargetTypes { get; } = { typeof(Human) };
+
 
         public override bool CanAttack()
         {

@@ -1,14 +1,17 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using System;
+using Assets.Scripts.Gamemode;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class GrabAttack : Attack
+    public class GrabAttack : Attack<MindlessTitan>
     {
         public GrabAttack()
         {
             BodyParts = new[] { BodyPart.HandLeft, BodyPart.HandRight };
         }
+
+        public override Type[] TargetTypes { get; } = { typeof(Human) };
 
         private string AttackAnimation { get; set; }
 
@@ -22,6 +25,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack()
         {
+            if (Titan.Target.GetType() != typeof(Human)) return false;
+
             if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
             if (IsDisabled()) return false;
             var delta = Titan.Target.transform.position - Titan.transform.position;
@@ -120,7 +125,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.IsDisabled(Hand)) return false;
+            if (titan.Body.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "grab_ground_front_l"
                 : "grab_ground_front_r";
@@ -134,7 +139,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.IsDisabled(Hand)) return false;
+            if (titan.Body.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "grab_ground_back_l"
                 : "grab_ground_back_r";
@@ -148,7 +153,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.IsDisabled(Hand)) return false;
+            if (titan.Body.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "grab_head_back_l"
                 : "grab_head_back_r";

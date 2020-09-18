@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class SlapAttack : Attack
+    public class SlapAttack : Attack<MindlessTitan>
     {
         public SlapAttack()
         {
             BodyParts = new[] { BodyPart.HandLeft, BodyPart.HandRight };
         }
+
+        public override Type[] TargetTypes { get; } = { typeof(Human) };
 
         private string AttackAnimation { get; set; }
         private BodyPart Hand { get; set; }
@@ -52,7 +55,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.IsDisabled(Hand)) return false;
+            if (titan.Body.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "attack_anti_AE_l"
                 : "attack_anti_AE_r";

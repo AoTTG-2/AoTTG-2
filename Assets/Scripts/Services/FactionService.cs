@@ -58,6 +58,12 @@ namespace Assets.Scripts.Services
             return factions.Where(x => x != faction).ToList();
         }
 
+        private List<Faction> GetFriendlyFactions(Faction faction)
+        {
+            //TODO: #160 implement Allied factions
+            return factions.Where(x => x == faction).ToList();
+        }
+
         private HashSet<Entity> GetAllHostile(Entity entity)
         {
             if (entity?.Faction == null)
@@ -71,9 +77,17 @@ namespace Assets.Scripts.Services
             return new HashSet<Entity>(hostileEntities);
         }
 
-        private List<Entity> GetAllFriendly()
+        private HashSet<Entity> GetAllFriendly(Entity entity)
         {
-            return new List<Entity>();
+            if (entity?.Faction == null)
+            {
+                return EntityService.GetAllExcept(entity);
+            }
+
+            var friendlyFactions = GetFriendlyFactions(entity.Faction);
+            var friendlyEntities = EntityService
+                .GetAllExcept(entity).ToList().Where(x => friendlyFactions.Any(faction => faction == x.Faction) || x.Faction == null).ToList();
+            return new HashSet<Entity>(friendlyEntities);
         }
 
         public void OnRestart()
@@ -88,7 +102,7 @@ namespace Assets.Scripts.Services
 
         public bool IsFriendly(Entity self, Entity target)
         {
-            return true;
+            return !IsHostile(self, target);
         }
 
         public int CountHostile(Entity entity)
@@ -96,9 +110,9 @@ namespace Assets.Scripts.Services
             return GetAllHostile(entity).Count;
         }
 
-        public int CountFriendly()
+        public int CountFriendly(Entity entity)
         {
-            return GetAllFriendly().Count;
+            return GetAllFriendly(entity).Count;
         }
     }
 }

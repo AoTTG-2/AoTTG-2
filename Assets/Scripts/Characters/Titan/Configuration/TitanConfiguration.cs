@@ -9,7 +9,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 {
     public class TitanConfiguration : EntityConfiguration
     {
-        public int Health { get; set; } = 500;
+        public int Health { get; set; } = 5000;
         public int HealthRegeneration { get; set; } = 10;
         public float LimbHealth { get; set; } = 100f;
         public float LimbRegeneration { get; set; } = 10f;
@@ -17,7 +17,9 @@ namespace Assets.Scripts.Characters.Titan.Configuration
         public float Speed { get; set; } = 20f;
         public float RunSpeed { get; set; } = 25f;
         public float Size { get; set; } = 3f;
-        public List<Attack> Attacks { get; set; } = new List<Attack> { new BiteAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack(), new GrabAttack()};
+        //public List<Attack> Attacks { get; set; } = new List<Attack> { new BiteAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack(), new GrabAttack()};
+        public List<Attack<MindlessTitan>> Attacks { get; set; } = new List<Attack<MindlessTitan>> { new ComboAttack() };
+
         public float Stamina { get; set; } = 100f;
         public float StaminaRegeneration { get; set; } = 1f;
         public float Focus { get; set; } = 5f;
@@ -90,7 +92,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                     AnimationDeath = "crawler_die";
                     AnimationTurnLeft = "crawler_turnaround_L";
                     AnimationTurnRight = "crawler_turnaround_R";
-                    Attacks = new List<Attack>
+                    Attacks = new List<Attack<MindlessTitan>>
                     {
                         new JumpAttack(true)
                     };
@@ -123,9 +125,9 @@ namespace Assets.Scripts.Characters.Titan.Configuration
             Speed = Random.Range(7f, 25f);
             RunSpeed = Random.Range(Speed, Speed + 10f);
             Focus = Random.Range(1f, 15f);
-            Attacks = new List<Attack>();
+            Attacks = new List<Attack<MindlessTitan>>();
             Behaviors = new List<TitanBehavior> { new RandomAttackBehavior() };
-            var attacks = new List<Attack>
+            var attacks = new List<Attack<MindlessTitan>>
             {
                 new BiteAttack(), new BodySlamAttack(), new GrabAttack(), new KickAttack(), new JumpAttack(),
                 new RockThrowAttack(), new SlapFaceAttack(), new SlapAttack(), new StompAttack(), new SmashAttack(),

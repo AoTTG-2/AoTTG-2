@@ -48,6 +48,60 @@ public class LevelBuilder : MonoBehaviour
     {
         _levels.Add(new Level
         {
+            Name = "Test Zone",
+            Description = "Classic City Map from AoTTG",
+            SceneName = "Test Zone",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new KillTitansSettings
+                {
+                    Name = "Test",
+                    Description = "Classic map where you fight the Female Titan"
+                },
+                new KillTitansSettings
+                {
+                    Titan = new SettingsTitan()
+                    {
+                        Start = 20
+                    },
+                    IsPlayerTitanEnabled = true,
+                    Pvp = new PvPSettings
+                    {
+                        Cannons = true
+                    }
+                },
+                new WaveGamemodeSettings
+                {
+                    IsPlayerTitanEnabled = true
+                }
+
+            }
+        });
+        
+        _levels.Add(new Level
+        {
+            Name = "The City - Classic",
+            Description = "Classic City Map from AoTTG",
+            SceneName = "The City I",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new RacingSettings(),
+                new KillTitansSettings
+                {
+                    GamemodeType = GamemodeType.Titans,
+                },
+                new EndlessSettings
+                {
+                    GamemodeType = GamemodeType.Endless,
+                },
+                new WaveGamemodeSettings(),
+                new CaptureGamemodeSettings(),
+                new InfectionGamemodeSettings()
+            }
+        });
+
+        _levels.Add(new Level
+        {
             Name = "The Forest - Classic",
             Description = "Classic forest map",
             SceneName = "The Forest",
@@ -77,56 +131,6 @@ public class LevelBuilder : MonoBehaviour
             }
         });
 
-        _levels.Add(new Level
-        {
-            Name = "Test Zone",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "Test Zone",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new KillTitansSettings
-                {
-                    GamemodeType = GamemodeType.Titans,
-                    Titan = new SettingsTitan()
-                    {
-                        Start = 20
-                    },
-                    IsPlayerTitanEnabled = true,
-                    Pvp = new PvPSettings
-                    {
-                        Cannons = true
-                    }
-                },
-                new WaveGamemodeSettings
-                {
-                    IsPlayerTitanEnabled = true
-                }
-
-            }
-        });
-
-        _levels.Add(new Level
-        {
-            Name = "The City - Classic",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "The City I",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new RacingSettings(),
-                new KillTitansSettings
-                {
-                    GamemodeType = GamemodeType.Titans,
-                },
-                new EndlessSettings
-                {
-                    GamemodeType = GamemodeType.Endless,
-                },
-                new WaveGamemodeSettings(),
-                new CaptureGamemodeSettings(),
-                new InfectionGamemodeSettings()
-            }
-        });
-        
         _levels.Add(new Level
         {
             Name = "Trost - Classic",

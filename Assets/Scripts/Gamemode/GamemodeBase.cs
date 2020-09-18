@@ -83,11 +83,11 @@ namespace Assets.Scripts.Gamemode
             var configuration = GetTitanConfiguration();
             if (configuration.Type == MindlessTitanType.Crawler)
             {
-                configuration.Attacks = new List<Attack>();
+                configuration.Attacks = new List<Attack<MindlessTitan>>();
                 return configuration;
             }
 
-            configuration.Attacks = new List<Attack>
+            configuration.Attacks = new List<Attack<MindlessTitan>>
             {
                 new KickAttack(), new SlapAttack(), new SlapFaceAttack(),
                 new BiteAttack(), new BodySlamAttack(), new GrabAttack()
@@ -218,20 +218,9 @@ namespace Assets.Scripts.Gamemode
 
         public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
-            var content = "Titan Left: ";
-            var length = FactionService.CountHostile(Service.Player.Self);
-            content = content + length + "  Time : ";
-            if (PhotonNetwork.offlineMode)
-            {
-                length = time;
-                content += length.ToString();
-            }
-            else
-            {
-                length = totalRoomTime - (time);
-                content += length.ToString();
-            }
-
+            var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} |" +
+                          $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)}";
+            content = content + "  Time: " + time;
             return content;
         }
 

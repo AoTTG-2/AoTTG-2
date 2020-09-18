@@ -14,6 +14,6 @@ namespace Assets.Scripts.Services.Interface
         bool IsHostile(Entity self, Entity target);
         bool IsFriendly(Entity self, Entity target);
         int CountHostile(Entity entity);
-        int CountFriendly();
+        int CountFriendly(Entity entity);
     }
 }

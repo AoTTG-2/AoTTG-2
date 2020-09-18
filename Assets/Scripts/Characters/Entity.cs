@@ -25,10 +25,5 @@ namespace Assets.Scripts.Characters
         {
 
         }
-
-        public static Entity Spawn()
-        {
-            throw new NotImplementedException($"Derived class has not overridden Entity.Spawn");
-        }
     }
 }

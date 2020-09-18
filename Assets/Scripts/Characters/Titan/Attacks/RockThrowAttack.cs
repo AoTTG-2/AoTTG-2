@@ -1,15 +1,19 @@
 ﻿using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Titans.Attacks;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class RockThrowAttack : Attack
+    public class RockThrowAttack : Attack<MindlessTitan>
     {
         public RockThrowAttack()
         {
             BodyParts = new[] {BodyPart.ArmRight};
         }
+
+        public override Type[] TargetTypes { get; } = { typeof(Human) };
+
         private GameObject Rock { get; set; }
         private bool UsedRock { get; set; }
         private string attackAnimation = "attack_throw";
@@ -36,7 +40,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 return;
             }
 
-            if (Titan.IsDisabled(BodyParts))
+            if (IsDisabled())
             {
                 IsFinished = true;
                 return;

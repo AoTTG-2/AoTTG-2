@@ -1,14 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public abstract class BoomAttack : Attack
+    public abstract class BoomAttack : Attack<MindlessTitan>
     {
         protected bool HasExploded { get; set; }
         protected virtual string AttackAnimation { get; set; }
         protected virtual float BoomTimer { get; set; }
         protected virtual string Effect { get; set; }
         protected virtual Transform TitanBodyPart { get; set; }
+
+        public override Type[] TargetTypes { get; } = { typeof(Human) };
 
         public override void Execute()
         {
@@ -25,7 +28,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 return;
             }
 
-            if (Titan.IsDisabled(BodyParts))
+            if (IsDisabled())
             {
                 IsFinished = true;
                 return;

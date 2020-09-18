@@ -50,7 +50,7 @@ namespace Assets.Scripts.Characters.Titan
             base.Initialize(configuration);
         }
 
-        private Attack CanAttack()
+        private Attack<MindlessTitan> CanAttack()
         {
             if (InputManager.KeyDown(InputTitan.AttackBodySlam)) 
             {

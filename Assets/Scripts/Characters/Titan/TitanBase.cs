@@ -9,11 +9,6 @@ namespace Assets.Scripts.Characters.Titan
 {
     public abstract class TitanBase : Entity
     {
-        protected TitanBase()
-        {
-            //Faction = FactionManager.SetTitanity(gameObject);
-        }
-
         protected readonly IFactionService FactionService = Service.Faction;
 
         public Animation Animation { get; protected set; }
@@ -49,6 +44,11 @@ namespace Assets.Scripts.Characters.Titan
         public float Health { get; protected set; }
 
         /// <summary>
+        /// The health the titan spawned with
+        /// </summary>
+        protected float MaxHealth { get; set; }
+
+        /// <summary>
         /// The amount of health a titan regenerates per second. This value does not exceed the max health that a titan spawned with
         /// </summary>
         public float HealthRegeneration { get; protected set; }
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Characters.Titan
         /// <summary>
         /// An objective or enemy that the titan is targeting
         /// </summary>
-        public GameObject Target { get; protected set; }
+        public Entity Target { get; protected set; }
 
         /// <summary>
         /// The distance between the target and the titan
@@ -133,7 +133,6 @@ namespace Assets.Scripts.Characters.Titan
                 : Mathf.Sqrt((Target.transform.position.x - transform.position.x) * (Target.transform.position.x - transform.position.x) + ((Target.transform.position.z - transform.position.z) * (Target.transform.position.z - transform.position.z)));
         }
 
-
         protected override void Awake()
         {
             base.Awake();
@@ -149,6 +148,16 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!photonView.isMine) return;
 
+        }
+        
+        [PunRPC]
+        public virtual void OnNapeHitRpc2(Entity attacker, int damage)
+        {
+            Debug.Log("Received damage!");
+            if (this is MindlessTitan t)
+            {
+                t.OnNapeHitRpc(attacker.photonView.viewID, damage);
+            }
         }
 
         protected virtual void OnDeath()

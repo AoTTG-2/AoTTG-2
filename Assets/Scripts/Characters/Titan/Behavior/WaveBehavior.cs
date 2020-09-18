@@ -22,10 +22,11 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 }
             }
 
-            if (obj2 != null)
-            {
-                Titan.OnTargetDetected(obj2);
-            }
+            //TODO: 160 wave behavior
+            //if (obj2 != null)
+            //{
+            //    Titan.OnTargetDetected(obj2);
+            //}
 
             return false;
         }

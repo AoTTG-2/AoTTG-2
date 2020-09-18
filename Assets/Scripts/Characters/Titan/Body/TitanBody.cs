@@ -143,6 +143,12 @@ namespace Assets.Scripts.Characters.Titan
             return CooldownDictionary.Keys;
         }
 
+        public bool IsDisabled(params BodyPart[] bodyParts)
+        {
+            if (bodyParts == null) return false;
+            return bodyParts.All(bodyPart => GetDisabledBodyParts().Contains(bodyPart));
+        }
+
         private void SetDamagedBodyPart(BodyPart bodyPart)
         {
             switch (bodyPart)
@@ -179,7 +185,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             if (!photonView.isMine) return;
             foreach (var effect in SteamEffectDictionary)

@@ -14,12 +14,6 @@ namespace Assets.Scripts.Characters.Titan
 {
     public class MindlessTitan : TitanBase
     {
-
-        public new static Entity Spawn()
-        {
-            return new ErenTitan();
-        }
-
         public TitanState PreviousState;
         public TitanState NextState;
         public MindlessTitanType MindlessType;
@@ -93,12 +87,11 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public Hero Target { get; set; }
         private Hero GrabTarget { get; set; }
         public float RotationModifier { get; private set; }
 
-        public Attack[] Attacks { get; private set; }
-        public Attack CurrentAttack { get; set; }
+        public Attack<MindlessTitan>[] Attacks { get; private set; }
+        public Attack<MindlessTitan> CurrentAttack { get; set; } = new BodySlamAttack();
         private Collider[] Colliders { get; set; }
         private GameObject HealthLabel { get; set; }
         private FengGameManagerMKII GameManager { get; set; }
@@ -234,11 +227,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public bool IsDisabled(params BodyPart[] bodyParts)
-        {
-            if (bodyParts == null) return false;
-            return bodyParts.All(bodyPart => Body.GetDisabledBodyParts().Contains(bodyPart));
-        }
+
 
         private void LoadSkin()
         {
@@ -578,9 +567,9 @@ namespace Assets.Scripts.Characters.Titan
             return Target != null;
         }
 
-        public void OnTargetDetected(GameObject target)
+        public void OnTargetDetected(Entity target)
         {
-            Target = target.GetComponent<Hero>();
+            Target = target;
             TargetDistance = float.MaxValue;
             ChangeState(TitanState.Chase);
             FocusTimer = 0f;
@@ -718,8 +707,9 @@ namespace Assets.Scripts.Characters.Titan
             FocusTimer = 0f;
             var targetDistance = float.PositiveInfinity;
             var position = transform.position;
-            foreach (Hero hero in EntityService.GetAll<Hero>())
+            foreach (Entity hero in EntityService.GetAll<Entity>())
             {
+                if (FactionService.IsFriendly(this, hero)) continue;
                 var distance = Vector3.Distance(hero.gameObject.transform.position, position);
                 if (distance < targetDistance)
                 {
