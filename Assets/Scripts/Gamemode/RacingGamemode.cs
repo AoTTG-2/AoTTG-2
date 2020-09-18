@@ -81,7 +81,7 @@ namespace Assets.Scripts.Gamemode
             time -= RacingGamemode.IntRoundTimeStatusTopScale*RacingGamemode.StartTimerCountdown;
             if (time > 0)
                 //if the starting time has passed it return 
-                return (time / 10f).ToString("000.0");
+                return (time / RacingGamemode.IntRoundTimeStatusTopScale).ToString("000.0");
             else
                 //if the game has not started yet it tell waiting and the countdown 
                 return "Time: WAITING ";
