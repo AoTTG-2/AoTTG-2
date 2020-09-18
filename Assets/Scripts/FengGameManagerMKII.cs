@@ -441,8 +441,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
              }
 
             int length;
-            //no more used
-            //float num3;
 
             if (PhotonNetwork.offlineMode)
             {
@@ -562,15 +560,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
             {
                 //getgamemodestatustop require a int value so i just pass the time*10 so that i have data of the time plus the first digit which is what we want to print anyway
-                this.ShowHUDInfoTopCenter(Gamemode.GetGamemodeStatusTop((int)(this.roundTime*10)));
-                /*
-                this.ShowHUDInfoTopCenter("Time : " + ((this.roundTime >= 20f)
-                    ? (num3 = (((int) (this.roundTime * 10f)) * 0.1f) - 20f).ToString()
-                    : "WAITING"));
-                */
+                this.ShowHUDInfoTopCenter(Gamemode.GetGamemodeStatusTop((int)(this.roundTime*RacingGamemode.IntRoundTimeStatusTopScale)));
+
                 if (this.roundTime < 20f)
                 {
-                    this.ShowHUDInfoCenter("RACE START IN " + ((int) (20f - this.roundTime)) +
+                    this.ShowHUDInfoCenter("RACE START IN " + ((int) (RacingGamemode.StartTimerCountdown - this.roundTime)) +
                                            (!(this.localRacingResult == string.Empty)
                                                ? ("\nLast Round\n" + this.localRacingResult)
                                                : "\n\n"));
