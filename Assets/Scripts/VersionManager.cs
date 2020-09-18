@@ -29,30 +29,15 @@ public sealed class VersionManager : ScriptableObject
     {
         try
         {
-            var startInfo = new ProcessStartInfo("git.exe")
-            {
-                UseShellExecute = false,
-                WorkingDirectory = Directory.GetCurrentDirectory(),
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                Arguments = "rev-parse --abbrev-ref HEAD"
-            };
-
-            using (var process = new Process
-            {
-                StartInfo = startInfo
-            })
-            {
-                process.Start();
-                branchName = process.StandardOutput.ReadLine();
-                return true;
-            }
+            string head_text = System.IO.File.ReadAllText(Directory.GetCurrentDirectory() + "\\.git\\HEAD");
+            branchName = head_text.Substring(head_text.IndexOf('#'));
+            return true;
         }
         catch (Exception e)
         {
+            Debug.Log("unable to retrive the branch name");
             Debug.LogException(e);
         }
-
         return false;
     }
 
