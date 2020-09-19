@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI.Input;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ScreenshotHandler : MonoBehaviour
@@ -11,10 +13,13 @@ public class ScreenshotHandler : MonoBehaviour
 
     public static string ScreenShotName(int width, int height)
     {
-        return string.Format("{0}/screenshots/screen_{1}x{2}_{3}.png",
+        
+        string date = System.DateTime.Now.ToString("dd-MM-yyyy");
+        string time = System.DateTime.Now.ToString("HHmmss");
+        Directory.CreateDirectory(Application.dataPath + "/Screenshots/" + date);
+        return string.Format("{0}/Screenshots/{1}/{2}_{3}.png",
                              Application.dataPath,
-                             width, height,
-                             System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
+                             date, System.DateTime.Now.ToString("ddMMyyyy"), time);
     }
 
     public void TakeHiResShot()
@@ -24,8 +29,8 @@ public class ScreenshotHandler : MonoBehaviour
 
     void LateUpdate()
     {
-        takeHiResShot |= Input.GetKeyDown("k");
-        if (takeHiResShot)
+        
+        if (Input.GetKeyDown(KeyCode.F12))
         {
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
             GetComponent<Camera>().targetTexture = rt;
@@ -38,6 +43,7 @@ public class ScreenshotHandler : MonoBehaviour
             Destroy(rt);
             byte[] bytes = screenShot.EncodeToPNG();
             string filename = ScreenShotName(resWidth, resHeight);
+            
             System.IO.File.WriteAllBytes(filename, bytes);
             Debug.Log(string.Format("Took screenshot to: {0}", filename));
             takeHiResShot = false;

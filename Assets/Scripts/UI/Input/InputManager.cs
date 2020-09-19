@@ -157,6 +157,7 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.Fullscreen] = KeyCode.Backspace,
                 [InputUi.Camera] = KeyCode.C,
                 [InputUi.Pause] = KeyCode.P,
+              //  [InputUi.Screenshot] = KeyCode.F12,
                 [InputUi.Restart] = KeyCode.T,
                 [InputUi.InteractionWheel] = KeyCode.Tab
             };

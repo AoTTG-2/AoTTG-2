@@ -9,6 +9,7 @@
         Fullscreen,
         Camera,
         Pause,
+       // Screenshot,
         Restart,
         InteractionWheel
     }
