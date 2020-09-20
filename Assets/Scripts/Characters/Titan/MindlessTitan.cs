@@ -40,7 +40,6 @@ namespace Assets.Scripts.Characters.Titan
         public float Speed = 10f;
         private float RunSpeed { get; set; }
         public float TargetDistance = 1f;
-        public float Size = 3f;
         public float Stamina = 10f;
         public float StaminaRecovery = 1f;
         public int Health;

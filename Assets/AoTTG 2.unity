@@ -703,8 +703,6 @@ MonoBehaviour:
   gameEndTotalCDtime: 9
   gameStart: 0
   groundList: []
-  isPlayer1Winning: 0
-  isPlayer2Winning: 0
   isRecompiling: 0
   isRestarting: 0
   isUnloading: 0
@@ -720,8 +718,6 @@ MonoBehaviour:
   racingSpawnPointSet: 0
   restartCount: []
   restartingMC: 0
-  roundTime: 0
-  time: 600
   InGameUI: {fileID: 300455404}
 --- !u!1 &1176800
 GameObject:
@@ -19102,6 +19098,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MindlessTitan
       objectReference: {fileID: 0}
+    - target: {fileID: 1638316428728248, guid: 6f053f6638514284ab1e166e57dcc1c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4970633147100212, guid: 6f053f6638514284ab1e166e57dcc1c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1000
@@ -28382,7 +28382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000007991074, y: 117.90655}
+  m_AnchoredPosition: {x: 0.000010747154, y: -0.0000040125838}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1441017592
@@ -28720,7 +28720,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1096822191}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.37888205
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -36888,6 +36888,7 @@ GameObject:
   - component: {fileID: 1879450171}
   - component: {fileID: 1879450170}
   - component: {fileID: 1879450172}
+  - component: {fileID: 1879450173}
   m_Layer: 0
   m_Name: ServiceManager
   m_TagString: Untagged
@@ -36944,10 +36945,23 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 1
-  instantiationId: 1
+  viewIdField: 998
+  instantiationId: 998
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &1879450173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879450169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c019554b240854e9a6e747cba6e4ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ui: {fileID: 300455404}
 --- !u!1 &1883604105
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,7 +40,8 @@ namespace Assets.Scripts.Gamemode
             FengGameManagerMKII.instance.restartGame2();
         }
 
-        public override void OnUpdate(float interval)
+        //TODO: In AoTTG this ran every 0.1s instead of per frame. Investigate
+        private void Update()
         {
             int num21 = 0;
             for (var num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)

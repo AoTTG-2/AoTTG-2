@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters.Titan;
+﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
@@ -14,7 +15,23 @@ namespace Assets.Scripts.Gamemode
         {
             FengGameManagerMKII.instance.gameWin2();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+        }
 
+        protected override void OnFactionDefeated(Faction faction)
+        {
+            if (faction == FactionService.GetHumanity())
+            {
+                TitanScore++;
+                //FengGameManagerMKII.instance.gameLose2();
+            }
+            else
+            {
+                HumanScore++;
+                //FengGameManagerMKII.instance.gameWin2();
+            }
+
+            photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, "Round Ended Message", HumanScore, TitanScore);
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
@@ -36,17 +53,17 @@ namespace Assets.Scripts.Gamemode
                 tit1.Faction = FactionService.GetHumanity();
                 tit2.Faction = FactionService.GetTitanity();
 
-                for (int i = 0; i < 15; i++)
-                {
-                    var tit3 = SpawnService.Spawn<MindlessTitan>(ftSpawn[0].transform.position, ftSpawn[0].transform.rotation, new TitanConfiguration());
-                    tit3.Faction = FactionService.GetHumanity();
-                }
+                //for (int i = 0; i < 15; i++)
+                //{
+                //    var tit3 = SpawnService.Spawn<MindlessTitan>(ftSpawn[0].transform.position, ftSpawn[0].transform.rotation, new TitanConfiguration());
+                //    tit3.Faction = FactionService.GetHumanity();
+                //}
 
-                for (int i = 0; i < 25; i++)
-                {
-                    var tit3 = SpawnService.Spawn<MindlessTitan>(ftSpawn[0].transform.position, ftSpawn[0].transform.rotation, new TitanConfiguration());
-                    tit3.Faction = FactionService.GetTitanity();
-                }
+                //for (int i = 0; i < 25; i++)
+                //{
+                //    var tit3 = SpawnService.Spawn<MindlessTitan>(ftSpawn[0].transform.position, ftSpawn[0].transform.rotation, new TitanConfiguration());
+                //    tit3.Faction = FactionService.GetTitanity();
+                //}
             }
             else
             {

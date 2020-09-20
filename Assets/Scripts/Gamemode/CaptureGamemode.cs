@@ -76,7 +76,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.HumanScore, Settings.TitanScore);
+                photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, HumanScore, TitanScore);
             }
 
             if (PvpTitanScore >= Settings.PvpTitanScoreLimit)

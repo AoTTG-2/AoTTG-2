@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Photon;
-using System;
 
 namespace Assets.Scripts.Characters
 {
@@ -20,6 +19,8 @@ namespace Assets.Scripts.Characters
         {
             EntityService.UnRegister(this);
         }
+
+        public abstract void OnHit(Entity attacker, int damage);
 
         protected static void Initialize<T>(T entityConfiguration) where T : EntityConfiguration
         {

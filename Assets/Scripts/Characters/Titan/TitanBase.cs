@@ -149,20 +149,20 @@ namespace Assets.Scripts.Characters.Titan
             if (!photonView.isMine) return;
 
         }
-        
-        [PunRPC]
-        public virtual void OnNapeHitRpc2(Entity attacker, int damage)
-        {
-            Debug.Log("Received damage!");
-            if (this is MindlessTitan t)
-            {
-                t.OnNapeHitRpc(attacker.photonView.viewID, damage);
-            }
-        }
 
         protected virtual void OnDeath()
         {
             base.OnDestroy();
+        }
+
+        public override void OnHit(Entity attacker, int damage)
+        {
+            var direction = (transform.position - attacker.transform.position).normalized;
+            Rigidbody.AddForce(direction * 100f * 0.1f * 0.25f, ForceMode.VelocityChange);
+            if (this is MindlessTitan t)
+            {
+                t.OnNapeHitRpc(attacker.photonView.viewID, damage);
+            }
         }
     }
 }

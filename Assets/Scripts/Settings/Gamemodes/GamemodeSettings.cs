@@ -37,9 +37,6 @@ namespace Assets.Scripts.Settings.Gamemodes
 
         public bool? Supply { get; set; }
         public bool? IsPlayerTitanEnabled { get; set; }
-        public int? HumanScore { get; set; }
-        public int? TitanScore { get; set; }
-
         public bool? PlayerShifters { get; set; }
 
         public bool? RestartOnTitansKilled { get; set; }
@@ -77,7 +74,6 @@ namespace Assets.Scripts.Settings.Gamemodes
                     LavaMode = false;
                     RestartOnTitansKilled = true;
                     PlayerShifters = true;
-                    HumanScore = TitanScore = 0;
                     PlayerShifters = true;
                     RestartOnTitansKilled = true;
                     break;

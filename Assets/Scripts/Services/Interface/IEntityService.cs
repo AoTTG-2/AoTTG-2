@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
-using Assets.Scripts.Characters;
+﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Services.Events;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Interface
 {
     public interface IEntityService : IService
     {
+        event OnUnRegister<Entity> OnUnRegister;
+
         void Register(Entity entity);
         void UnRegister(Entity entity);
         int Count();

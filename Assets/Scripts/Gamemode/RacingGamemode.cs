@@ -2,8 +2,10 @@
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Input;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -55,6 +57,29 @@ namespace Assets.Scripts.Gamemode
             FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish.Value
                 ? 20f
                 : 9999f;
+        }
+
+        protected override IEnumerator OnUpdateEverySecond()
+        {
+            yield break;
+        }
+
+        protected override IEnumerator OnUpdateEveryTenthSecond()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(0.1f);
+                SetStatusTopLeft();
+            }
+        }
+
+        protected override void SetStatusTopLeft()
+        {
+            //    //this.currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object
+            //    //    .GetComponent<Rigidbody>().velocity.magnitude;
+            //    this.maxSpeed = Mathf.Max(this.maxSpeed, this.currentSpeed);
+            //    this.ShowHUDInfoTopLeft(string.Concat(new object[]
+            //        {"Current Speed : ", (int) this.currentSpeed, "\nMax Speed:", this.maxSpeed}));
         }
     }
 }

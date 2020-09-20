@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Services.Events;
 using Assets.Scripts.Services.Interface;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace Assets.Scripts.Services
     {
         private readonly HashSet<Entity> entities = new HashSet<Entity>();
 
+        public event OnUnRegister<Entity> OnUnRegister;
+
         public void Register(Entity entity)
         {
             entities.Add(entity);
@@ -17,6 +20,7 @@ namespace Assets.Scripts.Services
         public void UnRegister(Entity entity)
         {
             entities.Remove(entity);
+            OnUnRegister?.Invoke(entity);
         }
 
         public HashSet<Entity> GetAll()

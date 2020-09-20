@@ -4,10 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
 public class CannonPropRegion : Photon.MonoBehaviour
 {
+    protected IUiService UiService => Service.Ui;
+
     public bool destroyed;
     public bool disabled;
     public string settings;
@@ -18,7 +23,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
         if (this.storedHero != null)
         {
             this.storedHero.myCannonRegion = null;
-            this.storedHero.ClearPopup();
+            UiService.ResetMessage(LabelPosition.Center);
         }
     }
 
@@ -49,7 +54,7 @@ public class CannonPropRegion : Photon.MonoBehaviour
             if (((component != null) && (this.storedHero != null)) && (component == this.storedHero))
             {
                 component.myCannonRegion = null;
-                component.ClearPopup();
+                UiService.ResetMessage(LabelPosition.Center);
                 this.storedHero = null;
             }
         }

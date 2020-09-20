@@ -374,6 +374,11 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        public override void OnHit(Entity attacker, int damage)
+        {
+            hitByTitan();
+        }
+
         public void hitByTitan()
         {
             if ((!isHit && !hasDied) && !GetComponent<Animation>().IsPlaying("born"))

@@ -8,7 +8,6 @@ namespace Assets.Scripts
 
     public delegate void OnGameLost();
 
-    public delegate void OnGameWon();
 
     public delegate void OnPlayerKilled(int id);
 
@@ -18,18 +17,14 @@ namespace Assets.Scripts
 
     public delegate void OnTitanSpawned(MindlessTitan titan);
 
-    public delegate void OnUpdate(float interval);
-
+    [Obsolete("Use Service Events instead")]
     public class EventManager : MonoBehaviour
     {
-        public static OnGameLoading OnGameLoading;
         public static OnGameLost OnGameLost;
-        public static OnGameWon OnGameWon;
         public static OnPlayerKilled OnPlayerKilled;
         public static OnRestart OnRestart;
         public static OnTitanKilled OnTitanKilled;
         public static OnTitanSpawned OnTitanSpawned;
-        public static OnUpdate OnUpdate;
         private static FengGameManagerMKII _gameManager = FengGameManagerMKII.instance;
 
         private void EventManager_OnGameLost()
@@ -61,21 +56,14 @@ namespace Assets.Scripts
         {
             FengGameManagerMKII.Gamemode.OnTitanSpawned(titan);
         }
-
-        private void EventManager_OnUpdate(float interval)
-        {
-            FengGameManagerMKII.Gamemode.OnUpdate(interval);
-        }
-
+        
         private void Start()
         {
             OnGameLost += EventManager_OnGameLost;
-            OnGameWon += EventManager_OnGameWon;
             OnPlayerKilled += EventManager_OnPlayerKilled;
             OnRestart += EventManager_OnRestart;
             OnTitanKilled += EventManager_OnTitanKilled;
             OnTitanSpawned += EventManager_OnTitanSpawned;
-            OnUpdate += EventManager_OnUpdate;
         }
     }
 }

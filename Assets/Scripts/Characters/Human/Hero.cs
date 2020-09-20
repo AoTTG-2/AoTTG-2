@@ -1,7 +1,9 @@
+using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
+using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
@@ -188,6 +190,13 @@ public class Hero : Human
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
+
+    public override void OnHit(Entity attacker, int damage)
+    {
+        //TODO: 160 HERO OnHit logic
+        //if (!isInvincible() && _state != HERO_STATE.Grab)
+        //    markDie();
+    }
 
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
@@ -394,7 +403,7 @@ public class Hero : Human
             this.skillIDHUD = "armin";
             this.skillCDLast = this.bombCD;
             this.skillCDDuration = 10f;
-            if (FengGameManagerMKII.instance.roundTime > 10f)
+            if (Service.Time.GetRoundTime() > 10f)
             {
                 this.skillCDDuration = 5f;
             }
@@ -749,12 +758,7 @@ public class Hero : Human
         }
         this.myTitans = list2;
     }
-
-    public void ClearPopup()
-    {
-        FengGameManagerMKII.instance.ShowHUDInfoCenter(string.Empty);
-    }
-
+    
     public void continueAnimation()
     {
         IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
@@ -4600,7 +4604,7 @@ public class Hero : Human
                 {
                     if (this.myCannonRegion != null)
                     {
-                        FengGameManagerMKII.instance.ShowHUDInfoCenter("Press 'Cannon Mount' key to use Cannon.");
+                        Service.Ui.SetMessage(LabelPosition.Center, "Press 'Cannon Mount' key to use Cannon.");
                         if (InputManager.KeyDown(InputCannon.Mount))
                         {
                             this.myCannonRegion.photonView.RPC("RequestControlRPC", PhotonTargets.MasterClient, new object[] { base.photonView.viewID });

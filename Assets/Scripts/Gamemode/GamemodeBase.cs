@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters.Titan;
+﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode.Options;
@@ -6,24 +7,62 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
-using Newtonsoft.Json;
+using Photon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Gamemode
 {
-    public abstract class GamemodeBase : MonoBehaviour
+    public abstract class GamemodeBase : PunBehaviour
     {
         private GamemodeSettings Settings => GameSettings.Gamemode;
         protected readonly IEntityService EntityService = Service.Entity;
         protected readonly IFactionService FactionService = Service.Faction;
+
+        protected IUiService UiService => Service.Ui;
         protected ISpawnService SpawnService => Service.Spawn;
+        protected ITimeService TimeService => Service.Time;
+
+        public int HumanScore { get; set; }
+        public int TitanScore { get; set; }
+
+        private void Awake()
+        {
+            FactionService.OnFactionDefeated += OnFactionDefeated;
+            StartCoroutine(OnUpdateEverySecond());
+            StartCoroutine(OnUpdateEveryTenthSecond());
+        }
+
+        private void OnDestroy()
+        {
+            FactionService.OnFactionDefeated -=OnFactionDefeated;
+        }
+
+        protected virtual IEnumerator OnUpdateEverySecond()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+                SetStatusTop();
+                SetStatusTopLeft();
+            }
+        }
+
+        protected virtual IEnumerator OnUpdateEveryTenthSecond()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        protected virtual void OnFactionDefeated(Faction faction) { }
 
         private MindlessTitanType GetTitanType()
         {
@@ -117,6 +156,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnRestart()
         {
+            UiService.ResetMessagesAll();
             if (Settings.PointMode > 0)
             {
                 for (int i = 0; i < PhotonNetwork.playerList.Length; i++)
@@ -132,35 +172,6 @@ namespace Assets.Scripts.Gamemode
             }
             FengGameManagerMKII.instance.gameEndCD = 0f;
             FengGameManagerMKII.instance.restartGame2();
-        }
-
-        public virtual void OnUpdate(float interval) { }
-
-        public static GamemodeSettings ConvertToGamemode(string json, GamemodeType type)
-        {
-            switch (type)
-            {
-                case GamemodeType.Racing:
-                    return JsonConvert.DeserializeObject<RacingSettings>(json);
-                case GamemodeType.Capture:
-                    return JsonConvert.DeserializeObject<CaptureGamemodeSettings>(json);
-                case GamemodeType.Titans:
-                    return JsonConvert.DeserializeObject<KillTitansSettings>(json);
-                case GamemodeType.Endless:
-                    return JsonConvert.DeserializeObject<EndlessSettings>(json);
-                case GamemodeType.Wave:
-                    return JsonConvert.DeserializeObject<WaveGamemodeSettings>(json);
-                case GamemodeType.Trost:
-                    return JsonConvert.DeserializeObject<TrostSettings>(json);
-                case GamemodeType.TitanRush:
-                    return JsonConvert.DeserializeObject<RushSettings>(json);
-                case GamemodeType.PvpAhss:
-                    return JsonConvert.DeserializeObject<PvPAhssSettings>(json);
-                case GamemodeType.Infection:
-                    return JsonConvert.DeserializeObject<InfectionGamemodeSettings>(json);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
         }
 
         public virtual void OnPlayerSpawned(GameObject player)
@@ -216,6 +227,32 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
+        protected virtual void SetStatusTop()
+        {
+            var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} | " +
+                          $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)} | " + 
+                          $"Time: {(int) Mathf.Floor(TimeService.GetRoundTime())}";
+            UiService.SetMessage(LabelPosition.Top, content);
+        }
+
+        protected virtual void SetStatusTopLeft()
+        {
+            if (PhotonNetwork.offlineMode)
+            {
+                var player = PhotonNetwork.player;
+                var kills = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]);
+                var deaths = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.deaths]);
+                var maxDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]);
+                var totalDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]);
+
+                var content = $"Kills: {kills}\n" +
+                              $"Deaths: {deaths}\n" +
+                              $"Max Damage: {maxDamage}\n" +
+                              $"Total Damage: {totalDamage}";
+                UiService.SetMessage(LabelPosition.TopLeft, content);
+            }
+        }
+
         public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
             var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} |" +
@@ -226,13 +263,13 @@ namespace Assets.Scripts.Gamemode
 
         public virtual string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {
-            return string.Concat("Humanity ", Settings.HumanScore, " : Titan ", Settings.TitanScore, " ");
+            return string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
 
         }
 
         public virtual string GetRoundEndedMessage()
         {
-            return $"Humanity {Settings.HumanScore} : Titan {Settings.TitanScore}";
+            return $"Humanity {HumanScore} : Titan {TitanScore}";
         }
 
         public virtual void OnAllTitansDead() { }
@@ -255,37 +292,40 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        public virtual void OnGameWon()
+        [PunRPC]
+        public virtual void OnGameEndRpc(string raw, int humanScore, int titanScore, PhotonMessageInfo info)
         {
-            Settings.HumanScore++;
-            FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
-            var parameters = new object[] { Settings.HumanScore };
-            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
-            {
-                //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-            }
+            if (!info.sender.IsMasterClient) return;
+            HumanScore = humanScore;
+            TitanScore = titanScore;
+            UiService.SetMessage(LabelPosition.Center, raw);
         }
 
+        [Obsolete]
+        public virtual void OnGameWon()
+        {
+            HumanScore++;
+            FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
+            var parameters = new object[] { HumanScore };
+            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+        }
+
+        [Obsolete]
         public virtual void OnGameLost()
         {
-            Settings.TitanScore++;
-            var parameters = new object[] { Settings.TitanScore };
+            TitanScore++;
+            var parameters = new object[] { TitanScore };
             FengGameManagerMKII.instance.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
-            if ((int) FengGameManagerMKII.settings[0xf4] == 1)
-            {
-                //FengGameManagerMKII.instance.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
-            }
         }
         
         public virtual void OnNetGameLost(int score)
         {
-            Settings.TitanScore = score;
+            TitanScore = score;
         }
 
         public virtual void OnNetGameWon(int score)
         {
-            Settings.HumanScore = score;
+            HumanScore = score;
         }
 
         protected bool IsAllPlayersDead()

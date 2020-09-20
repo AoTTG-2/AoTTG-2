@@ -478,10 +478,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             {
 
                 this.setSpectorMode(true);
-                FengGameManagerMKII.instance.ShowHUDInfoCenter(
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
+                //TODO #160
+                //FengGameManagerMKII.instance.ShowHUDInfoCenter(
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
                 if (InputManager.KeyDown(InputHuman.Item1))
                 {
                     ToggleSpecMode();

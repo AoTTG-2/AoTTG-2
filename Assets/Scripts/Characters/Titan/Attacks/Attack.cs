@@ -31,7 +31,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             if (IsDisabled()) return false;
             //TODO: 160 (Rather create a new Attack list upon target switch than every chase frame)
-            if (TargetTypes.All(x => Titan.Target.GetType().IsSubclassOf(x))) return false;
+            if (!TargetTypes.Any(x => Titan.Target.GetType().IsSubclassOf(x))) return false;
 
             return true;
         }
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             float num = titanSize * 2.2f + 1f;
             var mask = LayerMask.GetMask("PlayerHitBox", "EnemyAABB");
-            foreach (Collider collider in Physics.OverlapSphere(hand.GetComponent<SphereCollider>().transform.position, num, mask))
+            foreach (Collider collider in Physics.OverlapSphere(hand.GetComponent<Collider>().transform.position, num, mask))
             {
                 if (collider.transform.root.tag != "Player" && collider.name != "AABB") continue;
                 GameObject gameObject = collider.transform.root.gameObject;
@@ -76,14 +76,6 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 {
                     return gameObject;
                 }
-                else if (entity is TitanBase titanBase && titanBase != Titan)
-                {
-
-                    titanBase.OnNapeHitRpc2(Titan, 100);
-
-                    var direction = (entity.transform.position - Titan.transform.position).normalized;
-                    titanBase.Rigidbody.AddForce(direction * 100f * 0.1f * 0.25f, ForceMode.VelocityChange);
-                }
             }
             return null;
         }
@@ -98,34 +90,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 //TODO #160
                 if (collider.transform.root.tag != "Player" && collider.name != "AABB") continue;
-                
+
                 var entity = collider.transform.root.gameObject.GetComponent<Entity>();
                 if (entity == Titan || Service.Faction.IsFriendly(Titan, entity)) continue;
 
-                if (entity is ErenTitan erenTitan)
-                {
-                    entities.Add(entity);
-                    if (!erenTitan.isHit)
-                    {
-                        erenTitan.hitByTitan();
-                    }
-                }
-                else if (entity is Hero hero
-                        && !hero.isInvincible()
-                        && hero._state != HERO_STATE.Grab)
-                {
-                    entities.Add(entity);
-                }
-                else if (entity is TitanBase titanBase)
-                {
-                    entities.Add(entity);
-
-                    //TODO: Determine how damage logic should be calculated
-                    titanBase.OnNapeHitRpc2(Titan, 100);
-
-                    var direction = (entity.transform.position - Titan.transform.position).normalized;
-                    titanBase.Rigidbody.AddForce(direction * 100f * 0.1f * 0.25f, ForceMode.VelocityChange);
-                }
+                entities.Add(entity);
+                entity.OnHit(Titan, 100);
             }
             return entities.Any();
         }

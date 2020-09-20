@@ -345,16 +345,6 @@ public static class ChatCommandHandler
                             instance.chatRoom.OutputErrorMessage($"{parameter} is not a number.");
                         }
                         break;
-                    case ChatCommand.Time:
-                        if (float.TryParse(parameter, out time))
-                        {
-                            AddPlayTime(time);
-                        }
-                        else
-                        {
-                            instance.chatRoom.OutputErrorMessage("Time to add must be a number.");
-                        }
-                        break;
                 }
             }
             else
@@ -368,13 +358,6 @@ public static class ChatCommandHandler
         instance.maxPlayers = maxPlayers;
         room.MaxPlayers = maxPlayers;
         var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {maxPlayers}!"), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-    }
-
-    private static void AddPlayTime(float time)
-    {
-        instance.addTime(time);
-        var chatMessage = new object[] { FormatSystemMessage($"{time} seconds added to the clock."), string.Empty };
         instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
     }
 

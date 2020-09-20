@@ -1,13 +1,17 @@
 ﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Services.Events;
 using Assets.Scripts.Services.Interface;
+using Photon;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
-    public class FactionService : IFactionService
+    public class FactionService : PunBehaviour, IFactionService
     {
+        public event OnFactionDefeated OnFactionDefeated;
+
         private IPlayerService PlayerService => Service.Player;
         private IEntityService EntityService => Service.Entity;
 
@@ -26,6 +30,17 @@ namespace Assets.Scripts.Services
         };
 
         private readonly List<Faction> factions = new List<Faction> { Humanity, Titanity };
+
+        private void Awake()
+        {
+            EntityService.OnUnRegister += EntityService_OnUnRegister;
+        }
+
+        private void EntityService_OnUnRegister(Entity entity)
+        {
+            if (GetAllMembers(entity).Count == 0)
+                OnFactionDefeated?.Invoke(entity.Faction);
+        }
 
         public void Add(Faction faction)
         {
@@ -62,6 +77,17 @@ namespace Assets.Scripts.Services
         {
             //TODO: #160 implement Allied factions
             return factions.Where(x => x == faction).ToList();
+        }
+
+        private HashSet<Entity> GetAllMembers(Entity entity)
+        {
+            if (entity?.Faction == null)
+            {
+                return EntityService.GetAllExcept(entity);
+            }
+
+            var factionMembers = EntityService.GetAllExcept(entity).Where(x => x.Faction == entity.Faction).ToList();
+            return new HashSet<Entity>(factionMembers);
         }
 
         private HashSet<Entity> GetAllHostile(Entity entity)
