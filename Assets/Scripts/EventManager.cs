@@ -4,11 +4,6 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public delegate void OnGameLoading();
-
-    public delegate void OnGameLost();
-
-
     public delegate void OnPlayerKilled(int id);
 
     public delegate void OnRestart();
@@ -20,22 +15,10 @@ namespace Assets.Scripts
     [Obsolete("Use Service Events instead")]
     public class EventManager : MonoBehaviour
     {
-        public static OnGameLost OnGameLost;
         public static OnPlayerKilled OnPlayerKilled;
         public static OnRestart OnRestart;
         public static OnTitanKilled OnTitanKilled;
         public static OnTitanSpawned OnTitanSpawned;
-        private static FengGameManagerMKII _gameManager = FengGameManagerMKII.instance;
-
-        private void EventManager_OnGameLost()
-        {
-            FengGameManagerMKII.Gamemode.OnGameLost();
-        }
-
-        private void EventManager_OnGameWon()
-        {
-            FengGameManagerMKII.Gamemode.OnGameWon();
-        }
 
         private void EventManager_OnPlayerKilled(int id)
         {
@@ -59,7 +42,6 @@ namespace Assets.Scripts
         
         private void Start()
         {
-            OnGameLost += EventManager_OnGameLost;
             OnPlayerKilled += EventManager_OnPlayerKilled;
             OnRestart += EventManager_OnRestart;
             OnTitanKilled += EventManager_OnTitanKilled;

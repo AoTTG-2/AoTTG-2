@@ -82,7 +82,6 @@ namespace Assets.Scripts.UI.Menu
                 CustomRoomPropertiesForLobby = new[] { "name", "level", "gamemode" }
             };
             PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);
-            FengGameManagerMKII.instance.OnJoinedRoom();
             SceneManager.sceneLoaded += SceneLoaded;
         }
 

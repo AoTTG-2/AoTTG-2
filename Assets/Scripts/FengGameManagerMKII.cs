@@ -115,8 +115,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public Dictionary<string, int[]> PreservedPlayerKDR;
     [Obsolete("A value is never assigned")]
     public static string PrivateServerAuthPass;
-    [Obsolete("A list which is used to determine when a 'Racing Start Barrier' class should delete itself. Instead, move this logic to the RacingStartBarrier class and work via an event from the racing gamemode.")]
-    public List<GameObject> racingDoors = new List<GameObject>();
     [Obsolete("Use RacingGamemode instead")]
     private ArrayList racingResult;
     [Obsolete("Use RacingGamemode instead")]
@@ -372,8 +370,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if(!PhotonNetwork.offlineMode)
             {
                 this.coreadd();
-                //TODO:
-                //this.ShowHUDInfoTopLeft(this.playerList);
+                Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
                 if ((((Camera.main != null) && (GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)) &&
                      (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                     (((int) settings[0xf5]) == 0))
@@ -421,89 +418,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
 
-            //TODO #160 - win / losing handling new round
-            //if (this.isLosing && (GameSettings.Gamemode.GamemodeType != GamemodeType.Racing))
-            //{
-            //    ShowHUDInfoCenter(Gamemode.GetDefeatMessage(gameEndCD));
-            //    if (this.gameEndCD <= 0f)
-            //    {
-            //        this.gameEndCD = 0f;
-            //        if (PhotonNetwork.isMasterClient)
-            //        {
-            //            this.restartRC();
-            //        }
-
-            //        this.ShowHUDInfoCenter(string.Empty);
-            //    }
-            //    else
-            //    {
-            //        this.gameEndCD -= Time.deltaTime;
-            //    }
-            //}
-
-            //if (this.isWinning)
-            //{
-            //    ShowHUDInfoCenter(Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
-            //    if (this.gameEndCD <= 0f)
-            //    {
-            //        this.gameEndCD = 0f;
-            //        if (PhotonNetwork.isMasterClient)
-            //        {
-            //            this.restartRC();
-            //        }
-
-            //        this.ShowHUDInfoCenter(string.Empty);
-            //    }
-            //    else
-            //    {
-            //        this.gameEndCD -= Time.deltaTime;
-            //    }
-
-            //}
-
             if (GameSettings.Gamemode.GamemodeType == GamemodeType.Racing)
             {
                 //this.ShowHUDInfoTopCenter("Time : " + ((this.roundTime >= 20f)
                 //    ? (num3 = (((int) (this.roundTime * 10f)) * 0.1f) - 20f).ToString()
                 //    : "WAITING"));
-                if (Service.Time.GetRoundTime() < 20f)
-                {
-                    //this.ShowHUDInfoCenter("RACE START IN " + ((int) (20f - this.roundTime)) +
-                    //                       (!(this.localRacingResult == string.Empty)
-                    //                           ? ("\nLast Round\n" + this.localRacingResult)
-                    //                           : "\n\n"));
-                }
-                else if (!this.startRacing)
-                {
-                    //TODO #160 So once the racing starts, clear it
-                    this.startRacing = true;
-                    this.endRacing = false;
-                    GameObject obj2 = GameObject.Find("door");
-                    if (obj2 != null)
-                    {
-                        obj2.SetActive(false);
-                    }
-
-                    if ((this.racingDoors != null))
-                    {
-                        foreach (GameObject obj3 in this.racingDoors)
-                        {
-                            obj3.SetActive(false);
-                        }
-
-                        this.racingDoors = null;
-                    }
-                }
-                else if ((this.racingDoors != null))
-                {
-                    foreach (GameObject obj3 in this.racingDoors)
-                    {
-                        obj3.SetActive(false);
-                    }
-
-                    this.racingDoors = null;
-                }
-
                 if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
                     customLevelLoaded && !mainCamera.IsSpecmode)
                 {
@@ -1965,16 +1884,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         if (Gamemode == null)
         {
             Settings.ChangeSettings(settings);
-            
-            var gamemodeObject = PhotonNetwork.Instantiate("Gamemode", new Vector3(), new Quaternion(), 0);
+            var gamemodeObject = GameObject.Find("Gamemode");
             gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
-            gamemodeObject.transform.parent = gameObject.transform;
             Gamemode = gamemodeObject.GetComponent<GamemodeBase>();
         }
         else
         {
-            var gamemodeComponent = GetComponentInChildren<GamemodeBase>();
-            Destroy(gamemodeComponent.gameObject);
+            var gamemodeComponent = GameObject.Find("Gamemode").GetComponent<GamemodeBase>();
+            Destroy(gamemodeComponent);
             Gamemode = null;
             SetGamemode(settings);
         }
@@ -2023,7 +1940,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.killInfoGO = new ArrayList();
         if (!PhotonNetwork.isMasterClient)
         {
-            base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
             base.photonView.RPC("RequestSettings", PhotonTargets.MasterClient);
         }
         this.name = LoginFengKAI.player.name;
@@ -2087,10 +2003,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
 
-            if (!PhotonNetwork.isMasterClient)
-            {
-                base.photonView.RPC("RequireStatus", PhotonTargets.MasterClient, new object[0]);
-            }
             Gamemode.OnLevelLoaded(Level, PhotonNetwork.isMasterClient);
             if (((int) settings[0xf5]) == 1)
             {
@@ -2342,33 +2254,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         object[] parameters = new object[] { this.localRacingResult };
         base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
     }
-
-    [Obsolete("Migrate into RacingGamemode")]
-    [PunRPC]
-    private void refreshStatus(float time1, float time2, bool startRacin, bool endRacin)
-    {
-        this.startRacing = startRacin;
-        this.endRacing = endRacin;
-        if (this.startRacing && (GameObject.Find("door") != null))
-        {
-            GameObject.Find("door").SetActive(false);
-        }
-    }
-
+    
     public IEnumerator reloadSky()
     {
         yield return new WaitForSeconds(0.5f);
         if ((skyMaterial != null) && (Camera.main.GetComponent<Skybox>().material != skyMaterial))
             Camera.main.GetComponent<Skybox>().material = skyMaterial;
     }
-
-    [PunRPC]
-    public void RequireStatus()
-    {
-        object[] parameters = new object[] { /*this.roundTime, this.timeTotalServer, */this.startRacing, this.endRacing };
-        base.photonView.RPC("refreshStatus", PhotonTargets.Others, parameters);
-    }
-
+    
     private void resetSettings(bool isLeave)
     {
         this.name = LoginFengKAI.player.name;
@@ -2490,6 +2383,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void restartRC()
     {
+        Debug.Log("RestartRC");
         if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
         {
             Level = NewRoundLevel;
@@ -3033,6 +2927,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
+        var gamemode = GameObject.Find("Gamemode");
+        DontDestroyOnLoad(gamemode);
+
         Settings = new GameSettings();
         var difficulty = Difficulty.Normal;
         Settings.Initialize(

@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Settings;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
@@ -16,16 +15,14 @@ namespace Assets.Scripts.Gamemode.Racing
                 return;
             }
 
-            if (FengGameManagerMKII.instance.racingDoors == null)
-            {
-                FengGameManagerMKII.instance.racingDoors = new List<GameObject>();
-            }
-            FengGameManagerMKII.instance.racingDoors.Add(gameObject);
+            var racingGamemode = (RacingGamemode) FengGameManagerMKII.Gamemode;
+            racingGamemode.StartBarriers.Add(this);
         }
 
         private void OnDestroy()
         {
-            FengGameManagerMKII.instance.racingDoors?.Remove(gameObject);
+            var racingGamemode = (RacingGamemode) FengGameManagerMKII.Gamemode;
+            racingGamemode.StartBarriers.Remove(this);
         }
     }
 }

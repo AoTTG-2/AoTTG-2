@@ -121,10 +121,6 @@ namespace Assets.Scripts.Gamemode
             {
                 highestWave = Wave;
             }
-            if (PhotonNetwork.isMasterClient)
-            {
-                FengGameManagerMKII.instance.RequireStatus();
-            }
             if (!((Settings.MaxWave.Value != 0 || Wave <= Settings.MaxWave.Value) && (Settings.MaxWave.Value <= 0 || Wave <= Settings.MaxWave.Value)))
             {
                 FengGameManagerMKII.instance.gameWin2();

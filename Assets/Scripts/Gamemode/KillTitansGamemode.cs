@@ -11,6 +11,8 @@ namespace Assets.Scripts.Gamemode
     {
         private KillTitansSettings Settings => GameSettings.Gamemode as KillTitansSettings;
 
+        private bool IsRestarting;
+
         public override void OnAllTitansDead()
         {
             FengGameManagerMKII.instance.gameWin2();
@@ -19,6 +21,9 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnFactionDefeated(Faction faction)
         {
+            if (IsRestarting) return;
+            IsRestarting = true;
+
             if (faction == FactionService.GetHumanity())
             {
                 TitanScore++;
@@ -36,6 +41,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
+            IsRestarting = false;
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
 

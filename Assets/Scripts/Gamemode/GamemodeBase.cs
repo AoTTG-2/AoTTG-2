@@ -299,6 +299,16 @@ namespace Assets.Scripts.Gamemode
             HumanScore = humanScore;
             TitanScore = titanScore;
             UiService.SetMessage(LabelPosition.Center, raw);
+            //StartCoroutine(GameEndingCountdown());
+        }
+
+        private IEnumerator GameEndingCountdown()
+        {
+            yield return new WaitForSeconds(10f);
+            if (PhotonNetwork.isMasterClient)
+            {
+                FengGameManagerMKII.instance.restartRC();
+            }
         }
 
         [Obsolete]
