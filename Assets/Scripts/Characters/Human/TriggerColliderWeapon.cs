@@ -8,7 +8,7 @@ public class TriggerColliderWeapon : MonoBehaviour
     public Equipment Equipment { get; set; }
 
     public bool active_me;
-    public GameObject currentCamera;
+    public IN_GAME_MAIN_CAMERA currentCamera;
     public ArrayList currentHits = new ArrayList();
     public ArrayList currentHitsII = new ArrayList();
     public AudioSource meatDie;
@@ -34,7 +34,7 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     public void DummyNapeHit(DummyTitan titan)
     {
-        Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity;
+        Vector3 vector3 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity;
         int num2 = (int)((vector3.magnitude * 10f) * this.scoreMulti);
         num2 = Mathf.Max(10, num2);
 
@@ -65,11 +65,11 @@ public class TriggerColliderWeapon : MonoBehaviour
             if (!this.currentHitsII.Contains(other.gameObject))
             {
                 this.currentHitsII.Add(other.gameObject);
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.1f, 0.1f, 0.95f);
+                this.currentCamera.startShake(0.1f, 0.1f, 0.95f);
                 if (other.gameObject.transform.root.gameObject.tag == "titan")
                 {
                     GameObject obj2;
-                    this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Hero>().slashHit.Play();
+                    this.currentCamera.main_object.GetComponent<Hero>().slashHit.Play();
                     obj2 = PhotonNetwork.Instantiate("hitMeat", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
                     obj2.transform.position = base.transform.position;
                     Equipment.Weapon.Use(0);
@@ -117,7 +117,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     this.meatDie.Play();
                     if (item.transform.root.GetComponent<MindlessTitan>() != null)
                     {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                        Vector3 vector4 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
@@ -135,7 +135,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
                         {
                             Equipment.Weapon.Use(0x7fffffff);
-                            Vector3 vector5 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                            Vector3 vector5 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num4 = (int) ((vector5.magnitude * 10f) * this.scoreMulti);
                             num4 = Mathf.Max(10, num4);
                             if (!item.transform.root.GetComponent<FEMALE_TITAN>().hasDie)
@@ -149,7 +149,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                             Equipment.Weapon.Use(0x7fffffff);
                             if (!item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                             {
-                                Vector3 vector6 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                                Vector3 vector6 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                                 int num5 = (int) ((vector6.magnitude * 10f) * this.scoreMulti);
                                 num5 = Mathf.Max(10, num5);
                                 object[] objArray4 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, num5 };
@@ -166,7 +166,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         Equipment.Weapon.Use(0x7fffffff);
                         if (!item.transform.root.GetComponent<FEMALE_TITAN>().hasDie)
                         {
-                            Vector3 vector8 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                            Vector3 vector8 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num7 = (int) ((vector8.magnitude * 10f) * this.scoreMulti);
                             num7 = Mathf.Max(10, num7);
                             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
@@ -181,7 +181,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                         Equipment.Weapon.Use(0x7fffffff);
                         if (!item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                         {
-                            Vector3 vector9 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                            Vector3 vector9 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num8 = (int) ((vector9.magnitude * 10f) * this.scoreMulti);
                             num8 = Mathf.Max(10, num8);
                             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
@@ -221,7 +221,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     }
                     else if (gameObject.GetComponent<MindlessTitan>() != null)
                     {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
+                        Vector3 vector4 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
@@ -245,7 +245,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     GameObject gameObject = other.gameObject.transform.root.gameObject;
                     if (gameObject.GetComponent<MindlessTitan>() != null)
                     {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
+                        Vector3 vector4 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
@@ -268,7 +268,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                 Vector3 vector10 = Vector3.zero;
                 if (obj4.GetComponent<Rigidbody>())//patch for dummy titan
                 {
-                    vector10 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - obj4.GetComponent<Rigidbody>().velocity;
+                    vector10 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - obj4.GetComponent<Rigidbody>().velocity;
                 }
                 int num9 = (int) ((vector10.magnitude * 10f) * this.scoreMulti);
                 num9 = Mathf.Max(10, num9);
@@ -320,14 +320,14 @@ public class TriggerColliderWeapon : MonoBehaviour
     private void showCriticalHitFX()
     {
         GameObject obj2;
-        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
+        this.currentCamera.startShake(0.2f, 0.3f, 0.95f);
         obj2 = PhotonNetwork.Instantiate("redCross", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
         obj2.transform.position = base.transform.position;
     }
 
     private void Start()
     {
-        this.currentCamera = GameObject.Find("MainCamera");
+        this.currentCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
         Equipment = base.transform.root.GetComponent<Equipment>();
     }
 }
