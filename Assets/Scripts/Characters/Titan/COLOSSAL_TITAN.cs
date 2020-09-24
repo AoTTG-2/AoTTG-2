@@ -41,8 +41,6 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
     public float tauntTime;
     private float waitTime = 2f;
 
-    private GamemodeBase Gamemode;
-
     private void attack_sweep(string type = "")
     {
         this.callTitanHAHA();
@@ -432,7 +430,6 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
 
     private void Start()
     {
-        Gamemode = FengGameManagerMKII.Gamemode;
         this.startMain();
         this.size = 20f;
         if (base.photonView.isMine)

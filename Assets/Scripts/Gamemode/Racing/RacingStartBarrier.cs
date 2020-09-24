@@ -14,17 +14,6 @@ namespace Assets.Scripts.Gamemode.Racing
                 Destroy(gameObject);
                 return;
             }
-
-            if (FengGameManagerMKII.instance.racingDoors == null)
-            {
-                FengGameManagerMKII.instance.racingDoors = new List<GameObject>();
-            }
-            FengGameManagerMKII.instance.racingDoors.Add(gameObject);
-        }
-
-        private void OnDestroy()
-        {
-            FengGameManagerMKII.instance.racingDoors?.Remove(gameObject);
         }
     }
 }

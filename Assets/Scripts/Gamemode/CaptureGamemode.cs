@@ -16,7 +16,7 @@ namespace Assets.Scripts.Gamemode
         private const string HumanStart = "CheckpointStartHuman";
         private const string TitanStart = "CheckpointStartTitan";
 
-        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+        public override string GetGamemodeStatusTop()
         {
             string str2 = "| ";
             for (int i = 0; i < PVPcheckPoint.chkPts.Count; i++)
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Gamemode
                 str2 = str2 + (PVPcheckPoint.chkPts[i] as PVPcheckPoint).getStateString() + " ";
             }
             str2 = str2 + "|";
-            var length = totalRoomTime - time;
+            var length = FengGameManagerMKII.instance.deltaRoomTime;
             return $"{CaptureSettings.PvpTitanScoreLimit - PvpTitanScore} {str2} {CaptureSettings.PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
         }
 
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Gamemode
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             base.OnLevelLoaded(level, isMasterClient);
-            if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
+            if (!this.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                 {

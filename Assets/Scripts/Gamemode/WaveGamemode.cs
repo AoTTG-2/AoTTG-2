@@ -18,7 +18,7 @@ namespace Assets.Scripts.Gamemode
         public sealed override GamemodeSettings Settings { get; set; }
         private WaveGamemodeSettings GamemodeSettings => Settings as WaveGamemodeSettings;
 
-        public override string GetGamemodeStatusTop(int totalRoomTime = 0, int timeLeft = 0)
+        public override string GetGamemodeStatusTop()
         {
             var content = "Titan Left: ";
             object[] objArray = new object[4];
@@ -30,15 +30,15 @@ namespace Assets.Scripts.Gamemode
             return string.Concat(objArray);
         }
 
-        public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
+        public override string GetGamemodeStatusTopRight()
         {
             if (PhotonNetwork.offlineMode)
             {
                 var content = "Time : ";
-                var length = totalRoomTime;
+                var length = FengGameManagerMKII.instance.time;
                 return content + length.ToString();
             }
-            return base.GetGamemodeStatusTopRight(time, totalRoomTime);
+            return base.GetGamemodeStatusTopRight();
         }
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)

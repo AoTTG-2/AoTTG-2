@@ -29,7 +29,7 @@ namespace Assets.Scripts.UI.InGame
         public void Spawn()
         {
             string selection = "23";
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
+            FengGameManagerMKII.Gamemode.needChooseSide = false;
             if (!PhotonNetwork.isMasterClient && (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().roundTime > 60f))
             {
                 if (!isPlayerAllDead2())
@@ -64,7 +64,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void SpawnPlayerTitan()
         {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
+            FengGameManagerMKII.Gamemode.needChooseSide = false;
             FengGameManagerMKII.instance.SpawnPlayerTitan();
             gameObject.SetActive(false);
         }

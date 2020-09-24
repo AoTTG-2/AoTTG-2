@@ -3,18 +3,25 @@ using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.UI.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using UnityEngine;
+using HUD = Assets.Scripts.UI.InGame.HUD;
 
 namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
+        public void Awake()
+        {
+            //setting the refresh time twice the wanted resolution 
+            this.HUDRefreshTime = .05f;
+        }
 
-        /// <summary>
-        /// issue #277 will have to be removed once the conversion from fenggamemanager to single manager will be done
-        /// </summary>
-        public const int IntRoundTimeStatusTopScale = 10;
-        
         public const int StartTimerCountdown = 20;
+
+        public bool startRacing;
+
+        public bool endRacing;
 
         public string localRacingResult = string.Empty;
         public List<RacingObjective> Objectives = new List<RacingObjective>();
@@ -29,16 +36,17 @@ namespace Assets.Scripts.Gamemode
             base.OnRestart();
         }
 
+        private float CalculateGameEndCD()
+        {
+            if (GamemodeSettings.RestartOnFinish)
+                return 20f;
+            return 9999f;
+        }
+
         public override void OnGameWon()
         {
-            FengGameManagerMKII.instance.gameEndCD = GamemodeSettings.RestartOnFinish
-                ? 20f
-                : 9999f;
-
-            var parameters = new object[] { 0 };
-            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-
-            //there was an if on (int) FengGameManagerMKII.settings[0xf4]) == 1 and just a comment inside
+            FengGameManagerMKII.instance.gameEndCD = CalculateGameEndCD();
+            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, 0);
         }
 
         private void OnLevelWasLoaded()
@@ -60,7 +68,7 @@ namespace Assets.Scripts.Gamemode
                 if (string.IsNullOrEmpty(localRacingResult))
                 {
                     //also subtract 1 delta time cos this will be called the first time the update next to the game win 
-                    totalServerTime -= (RacingGamemode.StartTimerCountdown-UnityEngine.Time.deltaTime);
+                    totalServerTime -= (RacingGamemode.StartTimerCountdown - UnityEngine.Time.deltaTime);
                     //the following one is to write the result in the hh:mm:ss,sss format  ((int) totalServerTime/3600).ToString("00") + ":"+((int)totalServerTime/60%60).ToString("00") + ":" +(totalServerTime%60).ToString("00.000");
                     localRacingResult = totalServerTime.ToString("f2");
                 }
@@ -76,22 +84,80 @@ namespace Assets.Scripts.Gamemode
         /// <param name="time">it require the roundtime in csec (0.1sec) so it require you to pass the time multiplied by RacingGamemode.startTimerCountdown so it will hold also info about the first dec</param>
         /// <param name="totalRoomTime"></param>
         /// <returns></returns>
-        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+        public override string GetGamemodeStatusTop()
         {
-            time -= RacingGamemode.IntRoundTimeStatusTopScale*RacingGamemode.StartTimerCountdown;
+            float time = FengGameManagerMKII.instance.timeTotalServer - RacingGamemode.StartTimerCountdown;
             if (time > 0)
-                //if the starting time has passed it return 
-                return (time / RacingGamemode.IntRoundTimeStatusTopScale).ToString("000.0");
+                return time.ToString("000.0");
             else
-                //if the game has not started yet it tell waiting and the countdown 
                 return "Time: WAITING ";
+        }
+
+        public override void OnPlayerKilled(int id)
+        {
+            base.OnPlayerKilled(id);
         }
 
         public override void OnNetGameWon(int score)
         {
-            FengGameManagerMKII.instance.gameEndCD = GamemodeSettings.RestartOnFinish
-                ? 20f
-                : 9999f;
+            FengGameManagerMKII.instance.gameEndCD = CalculateGameEndCD();
+        }
+
+        public override void CoreUpdate()
+        {
+            RefreshCountdown -= Time.deltaTime;
+            if (RefreshCountdown < 0)
+                RefreshCountdown = this.HUDRefreshTime;
+            else
+                return;
+
+            this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop());
+
+            if (FengGameManagerMKII.instance.roundTime < 20f)
+            {
+                this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, "RACE START IN " + ((int) (RacingGamemode.StartTimerCountdown - FengGameManagerMKII.instance.roundTime)) +
+                                       (!(this.localRacingResult == string.Empty)
+                                           ? ("\nLast Round\n" + this.localRacingResult)
+                                           : "\n\n"));
+            }
+            else if (!this.startRacing)
+            {
+                this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, string.Empty);
+                this.startRacing = true;
+                this.endRacing = false;
+                GameObject.Find("door")?.SetActive(false);
+                foreach (var racingDoor in GameObject.FindObjectsOfType<RacingStartBarrier>())
+                    racingDoor.gameObject.SetActive(false);
+            }
+
+            var myInGameCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
+
+
+            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop() + (Settings.TeamMode != Assets.Scripts.Gamemode.Options.TeamMode.Disabled ? $"\n<color=#00ffff>Cyan: {FengGameManagerMKII.instance.cyanKills}</color><color=#ff00ff>       Magenta: {FengGameManagerMKII.instance.magentaKills}</color>" : ""));
+            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopRight, GetGamemodeStatusTopRight());
+
+            if (this.needChooseSide)
+            {
+                InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, "\n\nPRESS 1 TO ENTER GAME", true);
+            }
+            else if (myInGameCamera.GameOver && !myInGameCamera.IsSpecmode)
+            {
+                FengGameManagerMKII.instance.myRespawnTime += Time.deltaTime;
+                if (FengGameManagerMKII.instance.myRespawnTime > 1.5f)
+                {
+                    FengGameManagerMKII.instance.myRespawnTime = 0f;
+                    myInGameCamera.GameOver = false;
+                    if (FengGameManagerMKII.instance.checkpoint != null)
+                    {
+                        FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn2(0.1f, FengGameManagerMKII.instance.checkpoint));
+                    }
+                    else
+                    {
+                        FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn1(0.1f, FengGameManagerMKII.instance.myLastRespawnTag));
+                    }
+                    InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, string.Empty);
+                }
+            }
         }
     }
 }

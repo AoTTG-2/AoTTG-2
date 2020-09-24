@@ -11,11 +11,18 @@ using System.Linq;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
+using HUD = Assets.Scripts.UI.InGame.HUD;
 
 namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : MonoBehaviour
     {
+        public HUD.HUD InGameHUD; 
+
+        protected float HUDRefreshTime = 1f;
+        public float RefreshCountdown = 0;
+        public bool needChooseSide;
+
         public abstract GamemodeSettings Settings { get; set; }
         private MindlessTitanType GetTitanType()
         {
@@ -205,26 +212,16 @@ namespace Assets.Scripts.Gamemode
         }
 
         //would be better to get float value for time and totalRoomTime instead as those are float value to begin with so this method won't have any loss of infos
-        public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+        public virtual string GetGamemodeStatusTop()
         {
-            var content = "Titan Left: ";
-            var length = GameObject.FindGameObjectsWithTag("titan").Length;
-            content = content + length + "  Time : ";
-            if (PhotonNetwork.offlineMode)
-            {
-                length = time;
-                content += length.ToString();
-            }
-            else
-            {
-                length = totalRoomTime - (time);
-                content += length.ToString();
-            }
-
-            return content;
+            var content = new System.Text.StringBuilder("Titan Left: ",100);
+            content.Append(GameObject.FindGameObjectsWithTag("titan").Length);
+            content.Append("  Time : ");
+            content.Append((PhotonNetwork.offlineMode ? FengGameManagerMKII.instance.timeTotalServer : FengGameManagerMKII.instance.deltaRoomTime).ToString("f0"));
+            return content.ToString();
         }
 
-        public virtual string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
+        public virtual string GetGamemodeStatusTopRight()
         {
             return string.Concat("Humanity ", Settings.HumanScore, " : Titan ", Settings.TitanScore, " ");
 
@@ -327,6 +324,37 @@ namespace Assets.Scripts.Gamemode
                 return $"Humanity Fail!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return "Humanity Fail!\nAgain!\nGame Restart in " + ((int) gameEndCd) + "s\n\n";
+        }
+    
+        public virtual void CoreUpdate()
+        {
+            RefreshCountdown -= Time.deltaTime;
+            if (RefreshCountdown < 0)
+                RefreshCountdown = this.HUDRefreshTime;
+            else
+                return;
+
+            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop() + (Settings.TeamMode != TeamMode.Disabled ? $"\n<color=#00ffff>Cyan: {FengGameManagerMKII.instance.cyanKills}</color><color=#ff00ff>       Magenta: {FengGameManagerMKII.instance.magentaKills}</color>" : ""));
+            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopRight, GetGamemodeStatusTopRight());
+            string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0)
+                ? ((IN_GAME_MAIN_CAMERA.difficulty != 0)
+                    ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard")
+                    : "Normal")
+                : "Trainning";
+            //this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
+            //not used yet though i think will be added later so i don't remove it
+            //if (!PhotonNetwork.offlineMode)
+            //{
+            //    string roomName = PhotonNetwork.room.Name.Substring(0, Math.Min(20, PhotonNetwork.room.Name.IndexOf('`')));
+            //}
+            //this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" +
+            //                                Convert.ToString(PhotonNetwork.room.playerCount) + "/" +
+            //                                Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
+
+            if (this.needChooseSide)
+            {
+                InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, "\n\nPRESS 1 TO ENTER GAME", true);
+            }
         }
     }
 }

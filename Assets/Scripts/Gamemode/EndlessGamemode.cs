@@ -21,9 +21,9 @@ namespace Assets.Scripts.Gamemode
             base.OnRestart();
         }
 
-        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+        public override string GetGamemodeStatusTop()
         {
-            return $"Titans Killed: {Score} Time : {time}";
+            return $"Titans Killed: {Score} Time : {FengGameManagerMKII.instance.timeTotalServer}";
         }
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)

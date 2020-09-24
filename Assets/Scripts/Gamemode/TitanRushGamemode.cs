@@ -43,11 +43,9 @@ namespace Assets.Scripts.Gamemode
             Spawns = spawns.ToArray();
         }
 
-        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+        public override string GetGamemodeStatusTop()
         {
-            var content = "Time : ";
-            var length = time - totalRoomTime;
-            return content + length.ToString() + "\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
+            return "Time : " + FengGameManagerMKII.instance.deltaRoomTime.ToString("f0") + "\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
         }
 
         private ArrayList GetRoute()

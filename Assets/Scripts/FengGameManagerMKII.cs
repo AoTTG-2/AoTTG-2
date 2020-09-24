@@ -56,8 +56,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public int cyanKills;
     [Obsolete("Avoid using this property as it is removed as per issue #160")]
     public int difficulty;
-    [Obsolete("Move this into RacingGamemode")]
-    private bool endRacing;
+    [Obsolete("Use RacingGamemode instead")]
+    private bool endRacing
+    {
+        get { return (Gamemode as RacingGamemode)?.endRacing ?? false; }
+        set { if (Gamemode is RacingGamemode) { ((RacingGamemode) Gamemode).endRacing = value; } }
+    }
+
     [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList eT;
     [Obsolete("Please use the TitanManager (#160) instead")]
@@ -108,11 +113,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
     private string myLastHero;
     [Obsolete("Value is always playerRespawn")]
-    private string myLastRespawnTag = "playerRespawn";
-    [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
+    public string myLastRespawnTag = "playerRespawn";
+    [Obsolete("Should be set in the gamemode manager and handled by the respawn service")]
     public float myRespawnTime;
-    [Obsolete("A gamemode should decide whether or not a player has to choose between humanity, AHSS or titanity")]
-    public bool needChooseSide;
+    [Obsolete("Use Gamemode.needChooseSide instead")]
+    public bool needChooseSide { get { return Gamemode.needChooseSide; } set { Gamemode.needChooseSide = value; } }
     [Obsolete("A bool used to prevent restarting when true, yet this is never true. Refactor this in the future so it does have a purpose")]
     public static bool noRestart;
     [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
@@ -132,8 +137,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public Dictionary<string, int[]> PreservedPlayerKDR;
     [Obsolete("A value is never assigned")]
     public static string PrivateServerAuthPass;
-    [Obsolete("A list which is used to determine when a 'Racing Start Barrier' class should delete itself. Instead, move this logic to the RacingStartBarrier class and work via an event from the racing gamemode.")]
-    public List<GameObject> racingDoors = new List<GameObject>();
     [Obsolete("Use RacingGamemode instead")]
     private ArrayList racingResult;
     [Obsolete("Use RacingGamemode instead")]
@@ -143,6 +146,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [Obsolete("This is only used for the obsolete MasterRC field")]
     public List<float> restartCount;
     public bool restartingMC;
+    [Obsolete("Use TimeService instead, dev in issue#160")]
     public float roundTime;
     [Obsolete("Hardcoded string. Avoid using this")]
     public static string[] s = "verified343,hair,character_eye,glass,character_face,character_head,character_hand,character_body,character_arm,character_leg,character_chest,character_cape,character_brand,character_3dmg,r,character_blade_l,character_3dmg_gas_r,character_blade_r,3dmg_smoke,HORSE,hair,body_001,Cube,Plane_031,mikasa_asset,character_cap_,character_gun".Split(new char[] { ',' });
@@ -156,11 +160,16 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     private int single_totalDamage;
     public static Material skyMaterial;
     [Obsolete("Use RacingGamemode instead")]
-    private bool startRacing;
+    private bool startRacing {
+        get { return (Gamemode as RacingGamemode)?.startRacing??false; }
+        set { if (Gamemode is RacingGamemode) { ((RacingGamemode) Gamemode).startRacing = value; } }
+    }
+    [Obsolete("Will be managed by the Time Service in ISSUE#160")]
     public int time = 600;
-    private float timeElapse;
-    //should be better to be able to retrive this info somehow in order to be used in other place
-    private float timeTotalServer;
+    [Obsolete("Will be managed by the Time Service in ISSUE#160")]
+    public float timeTotalServer;
+    [Obsolete("Will be managed by the Time Service in ISSUE#160")]
+    public float deltaRoomTime { get { return time - timeTotalServer; } }
     [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList titans;
     public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
@@ -469,16 +478,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             {
                 this.coreadd();
                 InGameUI.HUD.ShowHUDInfo(LabelPosition.TopLeft, this.playerList);
+
                 if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) &&
                      (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver && !this.needChooseSide)) &&
                     (((int) settings[0xf5]) == 0))
                 {
  
-                    if (((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH) ||
-                         (Gamemode.Settings.EndlessRevive > 0)) ||
-                        !(((Gamemode.Settings.PvPBomb) || (Gamemode.Settings.Pvp != PvpMode.Disabled))
-                            ? (Gamemode.Settings.PointMode <= 0)
-                            : true))
+                    if ((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH || Gamemode.Settings.EndlessRevive > 0) ||
+                       (!(!Gamemode.Settings.PvPBomb && Gamemode.Settings.Pvp == PvpMode.Disabled)&&(Gamemode.Settings.PointMode >0)))
                     {
                         this.myRespawnTime += Time.deltaTime;
                         int endlessMode = 5;
@@ -555,136 +562,51 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
             }
 
-            this.timeElapse += Time.deltaTime;
             this.roundTime += Time.deltaTime;
             this.timeTotalServer += Time.deltaTime;
-            if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
-            {
-                //getgamemodestatustop require a int value so i just pass the time*10 so that i have data of the time plus the first digit which is what we want to print anyway
-                InGameUI.HUD.ShowHUDInfo(LabelPosition.TopCenter, Gamemode.GetGamemodeStatusTop((int)(this.roundTime*RacingGamemode.IntRoundTimeStatusTopScale)));
 
-                if (this.roundTime < 20f)
-                {
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, "RACE START IN " + ((int) (RacingGamemode.StartTimerCountdown - this.roundTime)) +
-                                           (!(this.localRacingResult == string.Empty)
-                                               ? ("\nLast Round\n" + this.localRacingResult)
-                                               : "\n\n"));
-                }
-                else if (!this.startRacing)
-                {
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
-                    this.startRacing = true;
-                    this.endRacing = false;
-                    GameObject obj2 = GameObject.Find("door");
-                    if (obj2 != null)
-                    {
-                        obj2.SetActive(false);
-                    }
-
-                    if ((this.racingDoors != null))
-                    {
-                        foreach (GameObject obj3 in this.racingDoors)
-                        {
-                            obj3.SetActive(false);
-                        }
-
-                        this.racingDoors = null;
-                    }
-                }
-                else if ((this.racingDoors != null))
-                {
-                    foreach (GameObject obj3 in this.racingDoors)
-                    {
-                        obj3.SetActive(false);
-                    }
-
-                    this.racingDoors = null;
-                }
-
-                if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver && !this.needChooseSide) &&
-                    customLevelLoaded && !mainCamera.IsSpecmode)
-                {
-                    this.myRespawnTime += Time.deltaTime;
-                    if (this.myRespawnTime > 1.5f)
-                    {
-                        this.myRespawnTime = 0f;
-                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
-                        if (this.checkpoint != null)
-                        {
-                            base.StartCoroutine(this.WaitAndRespawn2(0.1f, this.checkpoint));
-                        }
-                        else
-                        {
-                            base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
-                        }
-                        InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
-                    }
-                }
-            }
-
-            if (this.timeElapse > 1f)
-            {
-                this.timeElapse--;
-                //All of this has to go as it's a double from also the previous if
-                if(Gamemode.Settings.GamemodeType != GamemodeType.Racing)
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.TopCenter,Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time) + (Gamemode.Settings.TeamMode != TeamMode.Disabled? $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>":""));
-                InGameUI.HUD.ShowHUDInfo(LabelPosition.TopRight, Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time));
-                string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0)
-                    ? ((IN_GAME_MAIN_CAMERA.difficulty != 0)
-                        ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard")
-                        : "Normal")
-                    : "Trainning";
-                //this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
-                char[] separator = new char[] { "`"[0] };
-                string str5 = PhotonNetwork.room.name.Split(separator)[0];
-                if (str5.Length > 20)
-                {
-                    str5 = str5.Remove(0x13) + "...";
-                }
-
-                //this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" +
-                //                                Convert.ToString(PhotonNetwork.room.playerCount) + "/" +
-                //                                Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
-                
-                if (this.needChooseSide)
-                {
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.TopCenter,"\n\nPRESS 1 TO ENTER GAME",true);
-                }
-            }
-
+            Gamemode.CoreUpdate();
+           
             if (this.killInfoGO.Count > 0 && this.killInfoGO[0] == null)
             {
                 this.killInfoGO.RemoveAt(0);
             }
 
-            if (PhotonNetwork.isMasterClient &&
-                (this.timeTotalServer > this.time))
+            if (PhotonNetwork.isMasterClient && (this.timeTotalServer > this.time))
             {
-                string str11;
-                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-                this.gameStart = false;
-                string str6 = string.Empty;
-                string str7 = string.Empty;
-                string str8 = string.Empty;
-                string str9 = string.Empty;
-                string str10 = string.Empty;
-                foreach (PhotonPlayer player in PhotonNetwork.playerList)
-                {
-                    if (player != null)
-                    {
-                        str6 = str6 + player.CustomProperties[PhotonPlayerProperty.name] + "\n";
-                        str7 = str7 + player.CustomProperties[PhotonPlayerProperty.kills] + "\n";
-                        str8 = str8 + player.CustomProperties[PhotonPlayerProperty.deaths] + "\n";
-                        str9 = str9 + player.CustomProperties[PhotonPlayerProperty.max_dmg] + "\n";
-                        str10 = str10 + player.CustomProperties[PhotonPlayerProperty.total_dmg] + "\n";
-                    }
-                }
-
-                str11 = Gamemode.GetRoundEndedMessage();
-                object[] parameters = new object[] {str6, str7, str8, str9, str10, str11};
-                base.photonView.RPC("showResult", PhotonTargets.AllBuffered, parameters);
+                this.compileShowResult();
             }
         }
+    }
+
+    [Obsolete("This has to be moved in TimeService dev in ISSUE#160")]
+    private void compileShowResult()
+    {
+        IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
+        var keys = new string[] { 
+            PhotonPlayerProperty.name,
+            PhotonPlayerProperty.kills,
+            PhotonPlayerProperty.deaths,
+            PhotonPlayerProperty.max_dmg,
+            PhotonPlayerProperty.total_dmg,
+        };
+        var nPlayer = PhotonNetwork.playerList.Length;
+        var playerData = new System.Text.StringBuilder[]
+        {
+            new System.Text.StringBuilder(nPlayer*200),
+            new System.Text.StringBuilder(nPlayer*6),
+            new System.Text.StringBuilder(nPlayer*6),
+            new System.Text.StringBuilder(nPlayer*6),
+            new System.Text.StringBuilder(nPlayer*9)
+        };
+        this.gameStart = false;
+
+        foreach (PhotonPlayer player in PhotonNetwork.playerList)
+            if (player != null)
+                for (int i = 0; i < keys.Length; i++)
+                    playerData[i].Append(player.customProperties[keys[i]] + "\n");
+
+        base.photonView.RPC("showResult", PhotonTargets.AllBuffered, playerData[0].ToString(), playerData[1].ToString(), playerData[2].ToString(), playerData[3].ToString(), playerData[4].ToString(), Gamemode.GetRoundEndedMessage());
     }
 
     private void coreadd()
@@ -2753,7 +2675,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.startRacing = false;
             this.endRacing = false;
             this.checkpoint = null;
-            this.timeElapse = 0f;
             this.roundTime = 0f;
             this.isWinning = false;
             this.isLosing = false;
@@ -2782,7 +2703,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.single_kills = 0;
         this.single_maxDamage = 0;
         this.single_totalDamage = 0;
-        this.timeElapse = 0f;
         this.roundTime = 0f;
         this.timeTotalServer = 0f;
         this.isWinning = false;

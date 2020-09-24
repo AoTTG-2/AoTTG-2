@@ -78,5 +78,11 @@ namespace Assets.Scripts.UI.InGame.HUD
             else
                 lblTarget.text = content;
         }
+
+        public void Start()
+        {
+            FengGameManagerMKII.Gamemode.InGameHUD = this;
+        }
+
     }
 }
