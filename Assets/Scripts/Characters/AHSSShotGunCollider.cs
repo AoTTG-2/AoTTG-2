@@ -7,7 +7,7 @@ public class AHSSShotGunCollider : MonoBehaviour
 {
     public bool active_me;
     private int count;
-    public GameObject currentCamera;
+    private IN_GAME_MAIN_CAMERA currentCamera;
     public ArrayList currentHits = new ArrayList();
     public int dmg = 1;
     private int myTeam = 1;
@@ -81,7 +81,7 @@ public class AHSSShotGunCollider : MonoBehaviour
 
                     if (item.transform.root.GetComponent<MindlessTitan>() != null)
                     {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                        Vector3 vector4 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
@@ -98,7 +98,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                     {
                         if (item.transform.root.GetComponent<FEMALE_TITAN>() != null)
                         {
-                            Vector3 vector5 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                            Vector3 vector5 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num4 = (int) ((vector5.magnitude * 10f) * this.scoreMulti);
                             num4 = Mathf.Max(10, num4);
                             if (!item.transform.root.GetComponent<FEMALE_TITAN>().hasDie)
@@ -109,7 +109,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else if ((item.transform.root.GetComponent<COLOSSAL_TITAN>() != null) && !item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                         {
-                            Vector3 vector6 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                            Vector3 vector6 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num5 = (int) ((vector6.magnitude * 10f) * this.scoreMulti);
                             num5 = Mathf.Max(10, num5);
                             object[] objArray4 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, num5 };
@@ -120,7 +120,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                     {
                         if (!item.transform.root.GetComponent<FEMALE_TITAN>().hasDie)
                         {
-                            Vector3 vector8 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                            Vector3 vector8 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                             int num7 = (int) ((vector8.magnitude * 10f) * this.scoreMulti);
                             num7 = Mathf.Max(10, num7);
                             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
@@ -132,7 +132,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                     }
                     else if ((item.transform.root.GetComponent<COLOSSAL_TITAN>() != null) && !item.transform.root.GetComponent<COLOSSAL_TITAN>().hasDie)
                     {
-                        Vector3 vector9 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                        Vector3 vector9 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                         int num8 = (int) ((vector9.magnitude * 10f) * this.scoreMulti);
                         num8 = Mathf.Max(10, num8);
                         if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
@@ -167,7 +167,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                     }
                     else if (gameObject.GetComponent<MindlessTitan>() != null)
                     {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
+                        Vector3 vector4 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
                         var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
                         damage = Mathf.Max(10, damage);
                         var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
@@ -187,7 +187,7 @@ public class AHSSShotGunCollider : MonoBehaviour
             {
                 this.currentHits.Add(other.gameObject);
                 GameObject obj3 = other.gameObject.transform.root.gameObject;
-                Vector3 vector10 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - obj3.GetComponent<Rigidbody>().velocity;
+                Vector3 vector10 = this.currentCamera.main_object.GetComponent<Rigidbody>().velocity - obj3.GetComponent<Rigidbody>().velocity;
                 int num9 = (int) ((vector10.magnitude * 10f) * this.scoreMulti);
                 num9 = Mathf.Max(10, num9);
                 if (obj3.GetComponent<MindlessTitan>() != null)
@@ -233,7 +233,7 @@ public class AHSSShotGunCollider : MonoBehaviour
 
     private void showCriticalHitFX(Vector3 position)
     {
-        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
+        this.currentCamera.startShake(0.2f, 0.3f, 0.95f);
         var redCrossEffect = PhotonNetwork.Instantiate("redCross1", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
         redCrossEffect.transform.position = position;
     }
@@ -253,7 +253,7 @@ public class AHSSShotGunCollider : MonoBehaviour
         }
         this.active_me = true;
         this.count = 0;
-        this.currentCamera = GameObject.Find("MainCamera");
+        this.currentCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
     }
 }
 
