@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.UI.InGame.HUD;
 using Xft;
 
 public class Hero : Human
@@ -750,7 +751,7 @@ public class Hero : Human
 
     public void ClearPopup()
     {
-        FengGameManagerMKII.instance.ShowHUDInfoCenter(string.Empty);
+        InGameUI.GetComponentInChildren<HUD>().ShowHUDInfo(LabelPosition.Center, string.Empty);
     }
 
     public void continueAnimation()
@@ -890,7 +891,7 @@ public class Hero : Human
                 */
             }
             this.breakApart2(v, isBite);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
             this.falseAttack();
             this.hasDied = true;
@@ -926,7 +927,7 @@ public class Hero : Human
             transform.GetComponent<AudioSource>().Play();
             this.meatDie.Play();
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
             this.falseAttack();
             this.hasDied = true;
@@ -3138,7 +3139,7 @@ public class Hero : Human
         if (base.photonView.isMine)
         {
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
         this.hasDied = true;
@@ -3257,7 +3258,7 @@ public class Hero : Human
         {
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
         this.falseAttack();
@@ -3358,7 +3359,7 @@ public class Hero : Human
         if (base.photonView.isMine)
         {
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
         this.hasDied = true;
@@ -4603,7 +4604,7 @@ public class Hero : Human
                 {
                     if (this.myCannonRegion != null)
                     {
-                        FengGameManagerMKII.instance.ShowHUDInfoCenter("Press 'Cannon Mount' key to use Cannon.");
+                        InGameUI.GetComponentInChildren<HUD>().ShowHUDInfo(LabelPosition.Center,"Press 'Cannon Mount' key to use Cannon.");
                         if (InputManager.KeyDown(InputCannon.Mount))
                         {
                             this.myCannonRegion.photonView.RPC("RequestControlRPC", PhotonTargets.MasterClient, new object[] { base.photonView.viewID });

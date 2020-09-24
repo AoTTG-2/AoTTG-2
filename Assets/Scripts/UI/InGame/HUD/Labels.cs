@@ -16,7 +16,7 @@ namespace Assets.Scripts.UI.InGame.HUD
                 = Top.text
                 = TopRight.text
                 = TopLeft.text
-                = "";
+                = string.Empty;
         }
     }
 }

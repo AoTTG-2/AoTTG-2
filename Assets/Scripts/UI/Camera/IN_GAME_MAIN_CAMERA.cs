@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
+    private InGameUi GameUI;
+
     private float closestDistance;
     private int currentPeekPlayerIndex;
     [Obsolete("Replace with a Time Service")]
@@ -22,7 +24,20 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float duration;
     private float flashDuration;
     private bool flip;
-    public bool gameOver;
+    private bool gameOver;
+    public bool GameOver
+    {
+        get { return gameOver; }
+        set
+        {
+            gameOver = value;
+            if(value)
+                this.GameUI.HUD.ShowHUDInfo(Assets.Scripts.UI.InGame.HUD.LabelPosition.Center,
+                    $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
+                    $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
+                    $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
+        }
+    }
     [Obsolete("Refactor so that this static field is no longer required")]
     public static GAMETYPE gametype = GAMETYPE.Stop;
     private bool hasSnapShot;
@@ -58,6 +73,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool triggerAutoLock;
     public static bool usingTitan;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
+
+    private void OnEnable()
+    {
+        this.GameUI = GameObject.FindObjectOfType<InGameUi>();
+    }
 
     public void CameraMovementLive(Hero hero)
     {
@@ -433,14 +453,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         if (gametype != GAMETYPE.Stop)
         {
             
-            if (this.gameOver)
+            if (this.GameOver)
             {
-                
                 this.setSpectorMode(true);
-                FengGameManagerMKII.instance.ShowHUDInfoCenter(
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
-                $"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
+
                 if (InputManager.KeyDown(InputHuman.Item1))
                 {
                     ToggleSpecMode();
@@ -560,7 +576,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         }
                     }
                 }
-                if (this.gameOver && (this.main_object != null))
+                if (this.GameOver && (this.main_object != null))
                 {
                     if (InputManager.KeyDown(InputUi.LiveCamera))
                     {

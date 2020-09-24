@@ -1,5 +1,5 @@
 using System;
-using Assets.Scripts.UI.Input;
+using HUD = Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
 [Obsolete("AoTTG Legacy Tutorial script")]
@@ -90,7 +90,7 @@ public class LevelTriggerHint : MonoBehaviour
     {
         if (this.on)
         {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().ShowHUDInfoCenter(this.content + "\n\n\n\n\n");
+            GameObject.FindObjectOfType<HUD.HUD>().ShowHUDInfo(HUD.LabelPosition.Center, this.content + "\n\n\n\n\n");
             this.on = false;
         }
     }

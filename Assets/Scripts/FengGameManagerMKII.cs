@@ -435,6 +435,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
+
              if (this.needChooseSide)
              {
                 InGameUI.SpawnMenu.gameObject.SetActive(true);
@@ -451,13 +452,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         //this.currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object
                         //    .GetComponent<Rigidbody>().velocity.magnitude;
                         this.maxSpeed = Mathf.Max(this.maxSpeed, this.currentSpeed);
-                        this.ShowHUDInfoTopLeft(string.Concat(new object[]
+                        InGameUI.HUD.ShowHUDInfo(LabelPosition.TopLeft, string.Concat(new object[]
                             {"Current Speed : ", (int) this.currentSpeed, "\nMax Speed:", this.maxSpeed}));
                     }
                 }
                 else
                 {
-                    this.ShowHUDInfoTopLeft(string.Concat(new object[]
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.TopLeft, string.Concat(new object[]
                     {
                         "Kills:", this.single_kills, "\nMax Damage:", this.single_maxDamage, "\nTotal Damage:",
                         this.single_totalDamage
@@ -467,9 +468,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             else
             {
                 this.coreadd();
-                this.ShowHUDInfoTopLeft(this.playerList);
+                InGameUI.HUD.ShowHUDInfo(LabelPosition.TopLeft, this.playerList);
                 if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) &&
-                     (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
+                     (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver && !this.needChooseSide)) &&
                     (((int) settings[0xf5]) == 0))
                 {
  
@@ -493,11 +494,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         }
 
                         length = endlessMode - ((int) this.myRespawnTime);
-                        this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
+                        InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, "Respawn in " + length.ToString() + "s.", true);
                         if (this.myRespawnTime > endlessMode)
                         {
                             this.myRespawnTime = 0f;
-                            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
+                            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
                             if (RCextensions.returnIntFromObject(
                                 PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                             {
@@ -508,8 +509,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                                 base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
                             }
 
-                            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                            this.ShowHUDInfoCenter(string.Empty);
+                            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
+                           InGameUI.HUD.ShowHUDInfo(LabelPosition.Center,string.Empty);
                         }
                     }
                 }
@@ -517,7 +518,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
             if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
             {
-                ShowHUDInfoCenter(Gamemode.GetDefeatMessage(gameEndCD));
+                InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetDefeatMessage(gameEndCD));
                 if (this.gameEndCD <= 0f)
                 {
                     this.gameEndCD = 0f;
@@ -526,7 +527,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.restartRC();
                     }
 
-                    this.ShowHUDInfoCenter(string.Empty);
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
                 }
                 else
                 {
@@ -536,7 +537,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
             if (this.isWinning)
             {
-                ShowHUDInfoCenter(Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
+                InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
                 if (this.gameEndCD <= 0f)
                 {
                     this.gameEndCD = 0f;
@@ -545,7 +546,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.restartRC();
                     }
 
-                    this.ShowHUDInfoCenter(string.Empty);
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
                 }
                 else
                 {
@@ -560,18 +561,18 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             if (Gamemode.Settings.GamemodeType == GamemodeType.Racing)
             {
                 //getgamemodestatustop require a int value so i just pass the time*10 so that i have data of the time plus the first digit which is what we want to print anyway
-                this.ShowHUDInfoTopCenter(Gamemode.GetGamemodeStatusTop((int)(this.roundTime*RacingGamemode.IntRoundTimeStatusTopScale)));
+                InGameUI.HUD.ShowHUDInfo(LabelPosition.TopCenter, Gamemode.GetGamemodeStatusTop((int)(this.roundTime*RacingGamemode.IntRoundTimeStatusTopScale)));
 
                 if (this.roundTime < 20f)
                 {
-                    this.ShowHUDInfoCenter("RACE START IN " + ((int) (RacingGamemode.StartTimerCountdown - this.roundTime)) +
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, "RACE START IN " + ((int) (RacingGamemode.StartTimerCountdown - this.roundTime)) +
                                            (!(this.localRacingResult == string.Empty)
                                                ? ("\nLast Round\n" + this.localRacingResult)
                                                : "\n\n"));
                 }
                 else if (!this.startRacing)
                 {
-                    this.ShowHUDInfoCenter(string.Empty);
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
                     this.startRacing = true;
                     this.endRacing = false;
                     GameObject obj2 = GameObject.Find("door");
@@ -600,14 +601,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     this.racingDoors = null;
                 }
 
-                if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
+                if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver && !this.needChooseSide) &&
                     customLevelLoaded && !mainCamera.IsSpecmode)
                 {
                     this.myRespawnTime += Time.deltaTime;
                     if (this.myRespawnTime > 1.5f)
                     {
                         this.myRespawnTime = 0f;
-                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
+                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
                         if (this.checkpoint != null)
                         {
                             base.StartCoroutine(this.WaitAndRespawn2(0.1f, this.checkpoint));
@@ -616,9 +617,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         {
                             base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
                         }
-
-                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                        this.ShowHUDInfoCenter(string.Empty);
+                        InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
                     }
                 }
             }
@@ -628,14 +627,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 this.timeElapse--;
                 //All of this has to go as it's a double from also the previous if
                 if(Gamemode.Settings.GamemodeType != GamemodeType.Racing)
-                    this.ShowHUDInfoTopCenter(Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time) + (Gamemode.Settings.TeamMode != TeamMode.Disabled? $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>":""));
-                this.ShowHUDInfoTopRight(Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time));
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.TopCenter,Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time) + (Gamemode.Settings.TeamMode != TeamMode.Disabled? $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>":""));
+                InGameUI.HUD.ShowHUDInfo(LabelPosition.TopRight, Gamemode.GetGamemodeStatusTopRight((int) timeTotalServer, time));
                 string str4 = (IN_GAME_MAIN_CAMERA.difficulty >= 0)
                     ? ((IN_GAME_MAIN_CAMERA.difficulty != 0)
                         ? ((IN_GAME_MAIN_CAMERA.difficulty != 1) ? "Abnormal" : "Hard")
                         : "Normal")
                     : "Trainning";
-                this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
+                //this.ShowHUDInfoTopRightMAPNAME("\n" + Level.Name + " : " + str4);
                 char[] separator = new char[] { "`"[0] };
                 string str5 = PhotonNetwork.room.name.Split(separator)[0];
                 if (str5.Length > 20)
@@ -643,12 +642,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     str5 = str5.Remove(0x13) + "...";
                 }
 
-                this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" +
-                                                Convert.ToString(PhotonNetwork.room.playerCount) + "/" +
-                                                Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
+                //this.ShowHUDInfoTopRightMAPNAME("\n" + str5 + " [FFC000](" +
+                //                                Convert.ToString(PhotonNetwork.room.playerCount) + "/" +
+                //                                Convert.ToString(PhotonNetwork.room.maxPlayers) + ")");
+                
                 if (this.needChooseSide)
                 {
-                    this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.TopCenter,"\n\nPRESS 1 TO ENTER GAME",true);
                 }
             }
 
@@ -753,7 +753,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             }
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
             base.StartCoroutine(this.reloadSky());
         }
         else
@@ -765,7 +765,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             instance.needChooseSide = true;
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
         }
     }
 
@@ -2075,11 +2075,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         hashtable.Add(PhotonPlayerProperty.isTitan, 1);
         propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        this.ShowHUDInfoCenter("the game has started for 60 seconds.\n please wait for next round.\n Click Right Mouse Key to Enter or Exit the Spectator Mode.");
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, "the game has started for 60 seconds.\n please wait for next round.\n Click Right Mouse Key to Enter or Exit the Spectator Mode.");
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
     }
 
     [Obsolete("Use RespawnService instead")]
@@ -2097,7 +2097,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
     }
 
     public void OnConnectedToMaster()
@@ -2287,7 +2287,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             this.isWinning = false;
             this.gameStart = true;
-            this.ShowHUDInfoCenter(string.Empty);
+            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
             GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
             UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
             obj3.name = "MainCamera";
@@ -2308,7 +2308,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<CameraShake>().enabled = false;
             if (this.needChooseSide)
             {
-                this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.TopCenter, "\n\nPRESS 1 TO ENTER GAME",true);
             }
             else if (((int) settings[0xf5]) == 0)
             {
@@ -2738,11 +2738,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void respawnHeroInNewRound()
     {
-        if (!this.needChooseSide && GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
+        if (!this.needChooseSide && GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().GameOver)
         {
             this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-            this.ShowHUDInfoCenter(string.Empty);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
         }
     }
     
@@ -2762,7 +2762,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.myRespawnTime = 0f;
             this.killInfoGO = new ArrayList();
             this.racingResult = new ArrayList();
-            this.ShowHUDInfoCenter(string.Empty);
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
             this.isRestarting = true;
             this.DestroyAllExistingCloths();
             PhotonNetwork.DestroyAll();
@@ -2790,7 +2790,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.isPlayer1Winning = false;
         this.isPlayer2Winning = false;
         this.myRespawnTime = 0f;
-        this.ShowHUDInfoCenter(string.Empty);
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
         this.DestroyAllExistingCloths();
         Application.LoadLevel(Application.loadedLevel);
     }
@@ -3068,48 +3068,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         photonView.RPC("SyncSettings", info.sender, json, Gamemode.Settings.GamemodeType);
     }
 
-    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
-    public void ShowHUDInfoCenter(string content)
-    {
-        InGameUI.HUD.Labels.Center.text = content;
-
-    }
-
-    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
-    public void ShowHUDInfoCenterADD(string content)
-    {
-    }
-
-    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
-    private void ShowHUDInfoTopCenter(string content)
-    {
-        InGameUI.HUD.Labels.Top.text = content;
-    }
-
-    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
-    private void ShowHUDInfoTopCenterADD(string content)
-    {
-
-    }
-
-    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
-    private void ShowHUDInfoTopLeft(string content)
-    {
-        InGameUI.HUD.Labels.TopLeft.text = content;
-    }
-
-    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
-    private void ShowHUDInfoTopRight(string content)
-    {
-        InGameUI.HUD.Labels.TopRight.text = content;
-    }
-
-    [Obsolete("FengGameManager should not contain UI knowledge. Instead create a dedicated UI class")]
-    private void ShowHUDInfoTopRightMAPNAME(string content)
-    {
-
-    }
-
     [PunRPC]
     private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
     {
@@ -3274,9 +3232,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
             GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
-            component.gameOver = false;
+            component.GameOver = false;
             this.isLosing = false;
-            this.ShowHUDInfoCenter(string.Empty);
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
         }
     }
 
@@ -3285,7 +3243,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [Obsolete("Migrate into a SpawnService")]
     public void spawnPlayerAtRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
     {
-        if (((info.sender.isMasterClient && logicLoaded) && (customLevelLoaded && !this.needChooseSide)) && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
+        if (((info.sender.isMasterClient && logicLoaded) && (customLevelLoaded && !this.needChooseSide)) && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver)
         {
             Vector3 position = new Vector3(posX, posY, posZ);
             IN_GAME_MAIN_CAMERA component = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
@@ -3356,9 +3314,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
             GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
-            component.gameOver = false;
+            component.GameOver = false;
             this.isLosing = false;
-            this.ShowHUDInfoCenter(string.Empty);
+                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
         }
     }
 
@@ -3426,7 +3384,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
         GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add("dead", false);
         ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
@@ -3435,7 +3393,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         hashtable.Add(PhotonPlayerProperty.isTitan, 2);
         propertiesToSet = hashtable;
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        this.ShowHUDInfoCenter(string.Empty);
+        InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
     }
 
     private void Start()

@@ -12,7 +12,7 @@ namespace Assets.Scripts.Gamemode
         public override void OnAllTitansDead()
         {
             FengGameManagerMKII.instance.gameWin2();
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
         }
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
