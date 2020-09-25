@@ -157,7 +157,7 @@ public static class RCextensions
         }
     }
 
-    public static T safeGet<T, T1>(this IDictionary<T1, T> h, T1 key) where T : new()
+    public static T SafeGet<T, T1>(this IDictionary<T1, T> h, T1 key) where T : new()
     {
         if (!h.ContainsKey(key))
             return new T();
