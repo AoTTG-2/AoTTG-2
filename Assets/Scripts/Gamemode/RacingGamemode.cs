@@ -140,6 +140,7 @@ namespace Assets.Scripts.Gamemode
             {
                 InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, "\n\nPRESS 1 TO ENTER GAME", true);
             }
+            //have to be moved in respawn service, not already done and need to create an event on my current hero death so that it will be triggered and not check every frame
             else if (myInGameCamera.GameOver && !myInGameCamera.IsSpecmode)
             {
                 FengGameManagerMKII.instance.myRespawnTime += Time.deltaTime;

@@ -434,6 +434,76 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
+    [Obsolete("have to be migrated partially to the gamemode classes, partially to the respawn class")]
+    private void CoreRespawnCheck()
+    {
+        var in_game_camera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
+
+        if (
+                Gamemode.Settings.GamemodeType != GamemodeType.Racing &&
+                in_game_camera.IsSpecmode && in_game_camera.GameOver && !this.needChooseSide &&
+                (
+                    Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH ||
+                    Gamemode.Settings.EndlessRevive > 0 ||
+                    (!(!Gamemode.Settings.PvPBomb && Gamemode.Settings.Pvp == PvpMode.Disabled) && (Gamemode.Settings.PointMode > 0))
+                )
+            )
+        {
+            this.myRespawnTime += Time.deltaTime;
+
+            int endlessMode = Gamemode.Settings.EndlessRevive;
+            if (endlessMode <= 0)
+            {
+                if (PhotonNetwork.player.CustomProperties.SafeCompare(PhotonPlayerProperty.isTitan,2))
+                    endlessMode = 10;
+                else
+                    endlessMode = 5;
+            }
+
+            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, "Respawn in " + (endlessMode - ((int) this.myRespawnTime)).ToString() + "s.", true);
+
+            if (this.myRespawnTime > endlessMode)
+            {
+                this.myRespawnTime = 0f;
+                in_game_camera.GameOver = false;
+                if (PhotonNetwork.player.CustomProperties.SafeCompare(PhotonPlayerProperty.isTitan,2))
+                {
+                    SpawnPlayerTitan();
+                }
+                else
+                {
+                    base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
+                }
+                InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
+            }
+        }
+    }
+    
+    [Obsolete("have to be migrated partially to the gamemode classes")]
+    private void CoreRestartCheck()
+    {
+        if (this.isWinning)
+            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
+        else if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
+            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetDefeatMessage(gameEndCD));
+        else
+            return;
+
+        if (this.gameEndCD <= 0f)
+        {
+            this.gameEndCD = 0f;
+            if (PhotonNetwork.isMasterClient)
+            {
+                this.restartRC();
+            }
+            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
+        }
+        else
+        {
+            this.gameEndCD -= Time.deltaTime;
+        }
+    }
+
     [Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
     private void core2()
     {
@@ -476,91 +546,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             else
             {
-                this.coreadd();
                 InGameUI.HUD.ShowHUDInfo(LabelPosition.TopLeft, this.playerList);
 
-                if ((((Camera.main != null) && (Gamemode.Settings.GamemodeType != GamemodeType.Racing)) &&
-                     (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver && !this.needChooseSide)) &&
-                    (((int) settings[0xf5]) == 0))
-                {
- 
-                    if ((Gamemode.Settings.RespawnMode == RespawnMode.DEATHMATCH || Gamemode.Settings.EndlessRevive > 0) ||
-                       (!(!Gamemode.Settings.PvPBomb && Gamemode.Settings.Pvp == PvpMode.Disabled)&&(Gamemode.Settings.PointMode >0)))
-                    {
-                        this.myRespawnTime += Time.deltaTime;
-                        int endlessMode = 5;
-                        if (RCextensions.returnIntFromObject(
-                            PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                        {
-                            endlessMode = 10;
-                        }
-
-                        if (Gamemode.Settings.EndlessRevive > 0)
-                        {
-                            endlessMode = Gamemode.Settings.EndlessRevive;
-                        }
-
-                        length = endlessMode - ((int) this.myRespawnTime);
-                        InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, "Respawn in " + length.ToString() + "s.", true);
-                        if (this.myRespawnTime > endlessMode)
-                        {
-                            this.myRespawnTime = 0f;
-                            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
-                            if (RCextensions.returnIntFromObject(
-                                PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                            {
-                                SpawnPlayerTitan();
-                            }
-                            else
-                            {
-                                base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
-                            }
-
-                            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = false;
-                           InGameUI.HUD.ShowHUDInfo(LabelPosition.Center,string.Empty);
-                        }
-                    }
-                }
+                this.coreadd();
+                this.CoreRespawnCheck();
             }
 
-            if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
-            {
-                InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetDefeatMessage(gameEndCD));
-                if (this.gameEndCD <= 0f)
-                {
-                    this.gameEndCD = 0f;
-                    if (PhotonNetwork.isMasterClient)
-                    {
-                        this.restartRC();
-                    }
-
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
-                }
-                else
-                {
-                    this.gameEndCD -= Time.deltaTime;
-                }
-            }
-
-            if (this.isWinning)
-            {
-                InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
-                if (this.gameEndCD <= 0f)
-                {
-                    this.gameEndCD = 0f;
-                    if (PhotonNetwork.isMasterClient)
-                    {
-                        this.restartRC();
-                    }
-
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
-                }
-                else
-                {
-                    this.gameEndCD -= Time.deltaTime;
-                }
-
-            }
+            this.CoreRestartCheck();
 
             this.roundTime += Time.deltaTime;
             this.timeTotalServer += Time.deltaTime;
@@ -1228,6 +1220,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         objArray[0xf2] = PlayerPrefs.GetString("hjump", "Q");
         objArray[0xf3] = PlayerPrefs.GetString("hmount", "LeftControl");
         objArray[0xf4] = PlayerPrefs.GetInt("chatfeed", 0);
+        //is spec mode
         objArray[0xf5] = 0;
         objArray[0xf6] = PlayerPrefs.GetFloat("bombR", 1f);
         objArray[0xf7] = PlayerPrefs.GetFloat("bombG", 1f);

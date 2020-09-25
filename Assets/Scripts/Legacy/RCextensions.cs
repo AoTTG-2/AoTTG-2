@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Obsolete]
@@ -156,6 +156,39 @@ public static class RCextensions
             source = localArray;
         }
     }
+
+    public static T safeGet<T, T1>(this IDictionary<T1, T> h, T1 key) where T : new()
+    {
+        if (!h.ContainsKey(key))
+            return new T();
+        object o = h[key];
+        return (o != null && o is T ? (T) o : new T());
+    }
+
+    public static T SafeGet<T, T1>(this IDictionary<T1, T> h, T1 key, T defaultValue)
+    {
+        if (!h.ContainsKey(key))
+            return defaultValue;
+        object o = h[key];
+        return (o != null && o is T ? (T) o : defaultValue);
+    }
+
+    public static T SafeGet<T, T1, T2>(this IDictionary<T1, T2> h, T1 key, T defaultValue)
+    {
+        if (!h.ContainsKey(key))
+            return defaultValue;
+        object o = h[key];
+        return (o != null && o is T ? (T) o : defaultValue);
+    }
+
+    public static bool SafeCompare<T, T1, T2>(this IDictionary<T1, T2> h, T1 key, T compared)
+    {
+        if (!h.ContainsKey(key))
+            return false;
+        object o = h[key];
+        return (o != null && o is T ? ((T) o).Equals(compared) : false);
+    }
+
 
     public static bool returnBoolFromObject(object obj)
     {

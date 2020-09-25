@@ -3051,6 +3051,16 @@ public class Hero : Human
             base.GetComponent<Animation>().CrossFade(aniName, time);
         }
     }
+    
+    private void SetDeath()
+    {
+
+    }
+
+    private void SetDeathOnline()
+    {
+
+    }
 
     [PunRPC]
     public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())

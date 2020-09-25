@@ -12,6 +12,8 @@ namespace Assets.Scripts
 
     public delegate void OnPlayerKilled(int id);
 
+    public delegate void OnMainObjectDeath();
+
     public delegate void OnRestart();
 
     public delegate void OnTitanKilled(string titanName);
@@ -30,6 +32,7 @@ namespace Assets.Scripts
         public static OnTitanKilled OnTitanKilled;
         public static OnTitanSpawned OnTitanSpawned;
         public static OnUpdate OnUpdate;
+        public static OnMainObjectDeath OnMainObjectDeath;
         private static FengGameManagerMKII _gameManager = FengGameManagerMKII.instance;
 
         private void EventManager_OnGameLost()
