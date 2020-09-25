@@ -2,6 +2,7 @@
 using Assets.Scripts.Gamemode.Settings;
 using Assets.Scripts.UI.Input;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System;
 using UnityEngine;
@@ -15,6 +16,16 @@ namespace Assets.Scripts.Gamemode
         {
             //setting the refresh time twice the wanted resolution 
             this.HUDRefreshTime = .05f;
+        }
+
+        public void OnEnable()
+        {
+            EventManager.OnMainObjectDeath += this.OnDeath;
+        }
+
+        public void OnDisable()
+        {
+            EventManager.OnMainObjectDeath -= this.OnDeath;
         }
 
         public const int StartTimerCountdown = 20;
@@ -93,9 +104,27 @@ namespace Assets.Scripts.Gamemode
                 return "Time: WAITING ";
         }
 
-        public override void OnPlayerKilled(int id)
+        private IEnumerator TimedRespawn()
         {
-            base.OnPlayerKilled(id);
+            yield return new WaitForSeconds(1.5f);
+            var myInGameCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
+
+            if (this.needChooseSide || !myInGameCamera.GameOver || myInGameCamera.IsSpecmode)
+                yield break;
+
+            myInGameCamera.GameOver = false;
+            if (FengGameManagerMKII.instance.checkpoint != null)
+                FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn2(0.1f, FengGameManagerMKII.instance.checkpoint));
+            else
+                FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn1(0.1f, FengGameManagerMKII.instance.myLastRespawnTag));
+            InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, string.Empty);
+        }
+
+        private void OnDeath()
+        {
+            var myInGameCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
+            if (!this.needChooseSide && myInGameCamera.GameOver && !myInGameCamera.IsSpecmode)
+                StartCoroutine(this.TimedRespawn());
         }
 
         public override void OnNetGameWon(int score)
@@ -139,25 +168,6 @@ namespace Assets.Scripts.Gamemode
             if (this.needChooseSide)
             {
                 InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, "\n\nPRESS 1 TO ENTER GAME", true);
-            }
-            //have to be moved in respawn service, not already done and need to create an event on my current hero death so that it will be triggered and not check every frame
-            else if (myInGameCamera.GameOver && !myInGameCamera.IsSpecmode)
-            {
-                FengGameManagerMKII.instance.myRespawnTime += Time.deltaTime;
-                if (FengGameManagerMKII.instance.myRespawnTime > 1.5f)
-                {
-                    FengGameManagerMKII.instance.myRespawnTime = 0f;
-                    myInGameCamera.GameOver = false;
-                    if (FengGameManagerMKII.instance.checkpoint != null)
-                    {
-                        FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn2(0.1f, FengGameManagerMKII.instance.checkpoint));
-                    }
-                    else
-                    {
-                        FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn1(0.1f, FengGameManagerMKII.instance.myLastRespawnTag));
-                    }
-                    InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, string.Empty);
-                }
             }
         }
     }

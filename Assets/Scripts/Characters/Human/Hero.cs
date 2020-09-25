@@ -879,6 +879,7 @@ public class Hero : Human
             }
             FengGameManagerMKII.instance.gameLose2();
             UnityEngine.Object.Destroy(base.gameObject);
+            Assets.Scripts.EventManager.OnMainObjectDeath.Invoke();
         }
     }
 
@@ -3040,6 +3041,7 @@ public class Hero : Human
 
         if (base.photonView.isMine)
         {
+
             this.myBomb?.destroyMe();
             if (this.myCannon != null)
             {
@@ -3063,6 +3065,8 @@ public class Hero : Human
                 { PhotonPlayerProperty.dead, true},
                 { PhotonPlayerProperty.deaths, PhotonNetwork.player.CustomProperties.SafeGet(PhotonPlayerProperty.deaths,0)}
             });
+
+            Assets.Scripts.EventManager.OnMainObjectDeath.Invoke();
 
             PhotonNetwork.Destroy(base.photonView);
         }
