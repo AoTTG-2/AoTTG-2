@@ -21,6 +21,9 @@ using Assets.Scripts.UI.Camera;
 //[Obsolete]
 public class FengGameManagerMKII : Photon.MonoBehaviour
 {
+    public static void RPC(string methodName, PhotonPlayer target, params object[] parameters) => PhotonNetwork.RPC(instance.photonView,methodName,target,false,parameters); 
+    public static void RPC(string methodName, PhotonTargets target, params object[] parameters) => PhotonNetwork.RPC(instance.photonView,methodName,target,false,parameters); 
+
     private readonly IRespawnService _respawnService = Service.Respawn;
 
     [SerializeField]
@@ -172,6 +175,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public float deltaRoomTime { get { return time - timeTotalServer; } }
     [Obsolete("Please use the TitanManager (#160) instead")]
     private ArrayList titans;
+
     public List<TitanSpawner> TitanSpawners { get; set; } = new List<TitanSpawner>();
 
     public InGameUi InGameUI;
