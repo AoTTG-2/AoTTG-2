@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class LevelTriggerRacingEnd : MonoBehaviour
+public class LevelTriggerRacingEnd : Assets.Scripts.Gamemode.Racing.RacingGameComponent
 {
     private bool disable;
 
@@ -11,7 +11,7 @@ public class LevelTriggerRacingEnd : MonoBehaviour
         {
             if (other.gameObject.GetComponent<Hero>().photonView.isMine)
             {
-                FengGameManagerMKII.instance.multiplayerRacingFinsih();
+                Gamemode.RacingFinsihEvent();
                 this.disable = true;
             }
         }

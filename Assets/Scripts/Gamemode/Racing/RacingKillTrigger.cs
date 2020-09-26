@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class RacingKillTrigger : MonoBehaviour
+public class RacingKillTrigger : Assets.Scripts.Gamemode.Racing.RacingGameComponent
 {
     private void OnTriggerEnter(Collider other)
     {

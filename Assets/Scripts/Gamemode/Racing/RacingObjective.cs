@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
 {
-    public class RacingObjective : MonoBehaviour
+    public class RacingObjective : RacingGameComponent
     {
-        private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
         private enum ObjectiveState { Taken, Current, Next, Queue }
 
         private ObjectiveState _state;
@@ -114,7 +113,7 @@ namespace Assets.Scripts.Gamemode.Racing
             if (!hero.photonView.isMine) return;
             State = ObjectiveState.Taken;
             Hero = hero;
-            FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
+            Gamemode.racingSpawnPoint = gameObject.transform.parent.position;
             hero.fillGas();
 
             if (NextObjective != null)
@@ -130,7 +129,7 @@ namespace Assets.Scripts.Gamemode.Racing
             }
             else
             {
-                FengGameManagerMKII.instance.multiplayerRacingFinsih();
+                Gamemode.RacingFinsihEvent();
             }
         }
     }

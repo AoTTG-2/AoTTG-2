@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using static ChatUtility;
 using static FengGameManagerMKII;
 
-public class InRoomChat : Photon.MonoBehaviour
+public class InRoomChat : MonoBehaviour
 {
     private const int MaxStoredMessages = 100;
     private const int MaxMessageLength = 1000;
@@ -72,7 +72,7 @@ public class InRoomChat : Photon.MonoBehaviour
             if (MarkupIsOk(message))
             {
                 var chatMessage = new object[] { message, GetPlayerName(PhotonNetwork.player) };
-                instance.photonView.RPC(ChatRPC, PhotonTargets.All, chatMessage);
+                RPC(ChatRPC, PhotonTargets.All, chatMessage);
             }
             else
             {

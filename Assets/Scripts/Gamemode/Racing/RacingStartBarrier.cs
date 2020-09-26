@@ -3,17 +3,14 @@ using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
 {
-    public class RacingStartBarrier : MonoBehaviour
+    public class RacingStartBarrier : RacingGameComponent
     {
         public bool IsRacingOnly;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (IsRacingOnly && FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.Racing)
-            {
-                Destroy(gameObject);
-                return;
-            }
+            if (IsRacingOnly)
+                base.Awake();
         }
     }
 }

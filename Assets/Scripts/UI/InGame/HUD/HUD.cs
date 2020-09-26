@@ -6,8 +6,8 @@ namespace Assets.Scripts.UI.InGame.HUD
 {
     public class HUD : MonoBehaviour
     {
-
         public GameObject Damage;
+        public InRoomChat Chat;
         public Labels Labels;
 
         public void SetDamage(int damage)

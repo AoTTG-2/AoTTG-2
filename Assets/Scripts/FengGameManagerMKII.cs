@@ -140,12 +140,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public Dictionary<string, int[]> PreservedPlayerKDR;
     [Obsolete("A value is never assigned")]
     public static string PrivateServerAuthPass;
-    [Obsolete("Use RacingGamemode instead")]
-    private ArrayList racingResult;
-    [Obsolete("Use RacingGamemode instead")]
-    public Vector3 racingSpawnPoint;
-    [Obsolete("Use RacingGamemode instead")]
-    public bool racingSpawnPointSet;
     [Obsolete("This is only used for the obsolete MasterRC field")]
     public List<float> restartCount;
     public bool restartingMC;
@@ -712,19 +706,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public ArrayList getPlayers()
     {
         return this.heroes;
-    }
-
-    [Obsolete("Move into RacingGamemode")]
-    [PunRPC]
-    private void getRacingResult(string player, float time)
-    {
-        RacingResult result = new RacingResult
-        {
-            name = player,
-            time = time
-        };
-        this.racingResult.Add(result);
-        this.refreshRacingResult2();
     }
 
     [Obsolete("Migrate to a TitanService")]
@@ -1310,8 +1291,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
             }
             logicLoaded = true;
-            this.racingSpawnPoint = new Vector3(0f, 0f, 0f);
-            this.racingSpawnPointSet = false;
             this.allowedToCannon = new Dictionary<int, CannonValues>();
             //if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
             //{
@@ -1919,22 +1898,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [Obsolete("Migrate to RacingGamemode")]
-    public void multiplayerRacingFinsih()
-    {
-        float time = this.roundTime - 20f;
-        if (PhotonNetwork.isMasterClient)
-        {
-            this.getRacingResult(LoginFengKAI.player.name, time);
-        }
-        else
-        {
-            object[] parameters = new object[] { LoginFengKAI.player.name, time };
-            base.photonView.RPC("getRacingResult", PhotonTargets.MasterClient, parameters);
-        }
-        this.gameWin2();
-    }
-
     [Obsolete("Migrate to GamemodeBase")]
     [PunRPC]
     private void netGameLose(int score, PhotonMessageInfo info)
@@ -1967,13 +1930,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             this.chatRoom.AddMessage("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
         }
-    }
-
-    [Obsolete("Migrate to RacingGamemode")]
-    [PunRPC]
-    private void netRefreshRacingResult(string tmp)
-    {
-        this.localRacingResult = tmp;
     }
 
     [PunRPC]
@@ -2038,7 +1994,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnCreatedRoom()
     {
-        this.racingResult = new ArrayList();
         UnityEngine.MonoBehaviour.print("OnCreatedRoom");
     }
 
@@ -2500,26 +2455,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [Obsolete("Migrate into RacingGamemode")]
-    private void refreshRacingResult2()
-    {
-        this.localRacingResult = "Result\n";
-        IComparer comparer = new IComparerRacingResult();
-        this.racingResult.Sort(comparer);
-        int num = Mathf.Min(this.racingResult.Count, 10);
-        for (int i = 0; i < num; i++)
-        {
-            string localRacingResult = this.localRacingResult;
-            object[] objArray2 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
-            this.localRacingResult = string.Concat(objArray2);
-            this.localRacingResult = this.localRacingResult + (this.racingResult[i] as RacingResult).name;
-            this.localRacingResult = this.localRacingResult + "   " + ((((int) ((this.racingResult[i] as RacingResult).time * 100f)) * 0.01f)).ToString() + "s";
-            this.localRacingResult = this.localRacingResult + "\n";
-        }
-        object[] parameters = new object[] { this.localRacingResult };
-        base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
-    }
-
+    //that's not a racing component!!!
     [Obsolete("Migrate into RacingGamemode")]
     [PunRPC]
     private void refreshStatus(float time1, float time2, bool startRacin, bool endRacin)
@@ -2679,7 +2615,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.isPlayer2Winning = false;
             this.myRespawnTime = 0f;
             this.killInfoGO = new ArrayList();
-            this.racingResult = new ArrayList();
                     InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
             this.isRestarting = true;
             this.DestroyAllExistingCloths();
@@ -3032,9 +2967,9 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             Vector3 position = pos.transform.position;
-            if (this.racingSpawnPointSet)
+            if (Gamemode is RacingGamemode && (Gamemode as RacingGamemode).racingSpawnPointSet)
             {
-                position = this.racingSpawnPoint;
+                position = (Gamemode as RacingGamemode).racingSpawnPoint;
             }
             else
             {

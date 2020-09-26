@@ -12,10 +12,30 @@ namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
+        public const int StartTimerCountdown = 20;
+
+        public bool startRacing;
+
+        public bool endRacing;
+
+        private List<RacingResult> racingResult;
+
+        public Vector3 racingSpawnPoint;
+
+        public bool racingSpawnPointSet;
+
+        public string localRacingResult = string.Empty;
+        public List<RacingObjective> Objectives = new List<RacingObjective>();
+
+        public sealed override GamemodeSettings Settings { get; set; }
+        private RacingSettings GamemodeSettings => Settings as RacingSettings;
+
         public void Awake()
         {
             //setting the refresh time twice the wanted resolution 
             this.HUDRefreshTime = .05f;
+
+            this.racingResult = new List<RacingResult>();
         }
 
         public void OnEnable()
@@ -27,18 +47,6 @@ namespace Assets.Scripts.Gamemode
         {
             EventManager.OnMainObjectDeath -= this.OnDeath;
         }
-
-        public const int StartTimerCountdown = 20;
-
-        public bool startRacing;
-
-        public bool endRacing;
-
-        public string localRacingResult = string.Empty;
-        public List<RacingObjective> Objectives = new List<RacingObjective>();
-
-        public sealed override GamemodeSettings Settings { get; set; }
-        private RacingSettings GamemodeSettings => Settings as RacingSettings;
 
         ///Issue #277 added just to init the localLastRacingTime each time the race start again
         public override void OnRestart()
@@ -57,7 +65,7 @@ namespace Assets.Scripts.Gamemode
         public override void OnGameWon()
         {
             FengGameManagerMKII.instance.gameEndCD = CalculateGameEndCD();
-            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, 0);
+            FengGameManagerMKII.RPC("netGameWin", PhotonTargets.Others, 0);
         }
 
         private void OnLevelWasLoaded()
@@ -70,6 +78,57 @@ namespace Assets.Scripts.Gamemode
                 Objectives[i].NextObjective = Objectives[i + 1];
             }
             Objectives[0].Current();
+        }
+
+        [PunRPC]
+        private void netRefreshRacingResult(string tmp)
+        {
+            this.localRacingResult = tmp;
+        }
+
+        private void RefreshRacingResult()
+        {
+            System.Text.StringBuilder tmpLocalRacingResult = new System.Text.StringBuilder("Result\n", 512);
+            var newRacingResult = new List<RacingResult>(racingResult.OrderBy(rr => rr.time));
+            this.racingResult = newRacingResult;
+            int counter = 1;
+            foreach(var rr in this.racingResult)
+            {
+                tmpLocalRacingResult.Append("Rank"+counter+" : ");
+                tmpLocalRacingResult.Append(rr.ToString());
+
+                if (counter++ == 10)
+                    break;
+            }
+            for(;counter<=10;counter++)
+                tmpLocalRacingResult.Append("Rank" + counter + " : \n");
+            this.localRacingResult = tmpLocalRacingResult.ToString();
+            base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, this.localRacingResult);
+        }
+
+        [PunRPC]
+        private void GetRacingResult(string player, float time, PhotonMessageInfo info)
+        {
+            RacingResult result = new RacingResult(info.sender.ID, player, time);
+            if (this.racingResult.Count(s => s.ID == result.ID) == 0)
+            {
+                this.racingResult.Add(result);
+                this.RefreshRacingResult();
+            }
+        }
+
+        private void GameWon()
+        {
+            EventManager.OnGameWon.Invoke();
+            //for compatibility
+            FengGameManagerMKII.instance.gameWin2();
+        }
+
+        public void RacingFinsihEvent()
+        {
+            float time = FengGameManagerMKII.instance.roundTime - RacingGamemode.StartTimerCountdown;
+            FengGameManagerMKII.RPC("GetRacingResult", PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
+            this.GameWon();
         }
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
@@ -88,13 +147,6 @@ namespace Assets.Scripts.Gamemode
             return $"{localRacingResult}\n\nGame Restart in {(int) timeUntilRestart}";
         }
 
-        /// <summary>
-        /// format the text that has to be printed on top of the screen for this specific gamemode
-        /// Is just temporary as things will have to be changed and handled locally without needing to go throught FGMKII core2
-        /// </summary>
-        /// <param name="time">it require the roundtime in csec (0.1sec) so it require you to pass the time multiplied by RacingGamemode.startTimerCountdown so it will hold also info about the first dec</param>
-        /// <param name="totalRoomTime"></param>
-        /// <returns></returns>
         public override string GetGamemodeStatusTop()
         {
             float time = FengGameManagerMKII.instance.timeTotalServer - RacingGamemode.StartTimerCountdown;
@@ -161,8 +213,8 @@ namespace Assets.Scripts.Gamemode
 
             var myInGameCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
 
-
-            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop() + (Settings.TeamMode != Assets.Scripts.Gamemode.Options.TeamMode.Disabled ? $"\n<color=#00ffff>Cyan: {FengGameManagerMKII.instance.cyanKills}</color><color=#ff00ff>       Magenta: {FengGameManagerMKII.instance.magentaKills}</color>" : ""));
+            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop() + 
+                (Settings.TeamMode != Options.TeamMode.Disabled ? $"\n<color=#00ffff>Cyan: {FengGameManagerMKII.instance.cyanKills}</color><color=#ff00ff>       Magenta: {FengGameManagerMKII.instance.magentaKills}</color>" : ""));
             InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopRight, GetGamemodeStatusTopRight());
 
             if (this.needChooseSide)
