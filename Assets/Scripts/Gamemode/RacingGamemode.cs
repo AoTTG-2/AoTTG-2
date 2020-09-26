@@ -126,6 +126,7 @@ namespace Assets.Scripts.Gamemode
 
         public void RacingFinsihEvent()
         {
+            localRacingResult = (FengGameManagerMKII.instance.timeTotalServer - RacingGamemode.StartTimerCountdown).ToString("f2");
             float time = FengGameManagerMKII.instance.roundTime - RacingGamemode.StartTimerCountdown;
             FengGameManagerMKII.RPC("GetRacingResult", PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
             this.GameWon();
@@ -135,13 +136,6 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.offlineMode)
             {
-                if (string.IsNullOrEmpty(localRacingResult))
-                {
-                    //also subtract 1 delta time cos this will be called the first time the update next to the game win 
-                    totalServerTime -= (RacingGamemode.StartTimerCountdown - UnityEngine.Time.deltaTime);
-                    //the following one is to write the result in the hh:mm:ss,sss format  ((int) totalServerTime/3600).ToString("00") + ":"+((int)totalServerTime/60%60).ToString("00") + ":" +(totalServerTime%60).ToString("00.000");
-                    localRacingResult = totalServerTime.ToString("f2");
-                }
                 return $"{localRacingResult}s !!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return $"{localRacingResult}\n\nGame Restart in {(int) timeUntilRestart}";
