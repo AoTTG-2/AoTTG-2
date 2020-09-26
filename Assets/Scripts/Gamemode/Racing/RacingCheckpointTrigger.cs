@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RacingCheckpointTrigger : Assets.Scripts.Gamemode.Racing.RacingGameComponent
+public sealed class RacingCheckpointTrigger : Assets.Scripts.Gamemode.Racing.RacingGameComponent
 {
     private void OnTriggerEnter(Collider other)
     {

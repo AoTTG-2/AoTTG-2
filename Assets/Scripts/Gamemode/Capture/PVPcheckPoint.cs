@@ -164,7 +164,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             gamemode.AddHumanScore(2);
             if (this.checkIfHumanWins())
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
+                FengGameManagerMKII.Gamemode.GameWin();
             }
         }
         else
@@ -272,7 +272,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             gamemode.AddTitanScore(2);
             if (this.checkIfTitanWins())
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
+                FengGameManagerMKII.Gamemode.GameLose();
             }
             if (this.hasAnnie)
             {

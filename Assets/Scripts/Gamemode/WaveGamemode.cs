@@ -129,7 +129,7 @@ namespace Assets.Scripts.Gamemode
             }
             if (!((GamemodeSettings.MaxWave != 0 || Wave <= GamemodeSettings.MaxWave) && (GamemodeSettings.MaxWave <= 0 || Wave <= GamemodeSettings.MaxWave)))
             {
-                FengGameManagerMKII.instance.gameWin2();
+                this.GameWin();
             }
             else
             {

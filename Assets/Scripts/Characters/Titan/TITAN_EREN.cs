@@ -381,9 +381,8 @@ public class TITAN_EREN : Photon.MonoBehaviour
             {
                 crossFade("die", 0.1f);
                 isHitWhileCarryingRock = true;
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
-                object[] parameters = new object[] { "set" };
-                photonView.RPC("rockPlayAnimation", PhotonTargets.All, parameters);
+                FengGameManagerMKII.Gamemode.GameLose();
+                photonView.RPC("rockPlayAnimation", PhotonTargets.All, "set");
             }
             else
             {
@@ -755,7 +754,7 @@ public class TITAN_EREN : Photon.MonoBehaviour
                     {
                         crossFade("die", 0.1f);
                         rockPhase++;
-                        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
+                        FengGameManagerMKII.Gamemode.GameWin();
                     }
                     if ((GetComponent<Animation>()["rock_fix_hole"].normalizedTime >= 0.62f) && !rockHitGround)
                     {

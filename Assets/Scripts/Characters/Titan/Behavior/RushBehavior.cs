@@ -36,7 +36,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                     checkPoints.RemoveAt(0);
                     if (checkPoints.Count == 1)
                     {
-                        FengGameManagerMKII.instance.gameLose2();
+                        FengGameManagerMKII.Gamemode.GameLose();
                     }
                     else
                     {

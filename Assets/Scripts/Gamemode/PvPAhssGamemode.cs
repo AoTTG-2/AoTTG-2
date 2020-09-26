@@ -38,18 +38,18 @@ namespace Assets.Scripts.Gamemode
             if (Settings.Pvp != PvpMode.Disabled || Settings.PvPBomb) return;
             if (IsAllPlayersDead())
             {
-                FengGameManagerMKII.instance.gameLose2();
+                FengGameManagerMKII.Gamemode.GameLose();
                 teamWinner = 0;
             }
             if (IsTeamAllDead(1))
             {
                 teamWinner = 2;
-                FengGameManagerMKII.instance.gameWin2();
+                FengGameManagerMKII.Gamemode.GameWin();
             }
             if (IsTeamAllDead(2))
             {
                 teamWinner = 1;
-                FengGameManagerMKII.instance.gameWin2();
+                FengGameManagerMKII.Gamemode.GameWin();
             }
         }
 
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Gamemode
             var num2 = 0;
             foreach (var player in PhotonNetwork.playerList)
             {
-                if (((player.CustomProperties[PhotonPlayerProperty.isTitan] != null) && (player.CustomProperties[PhotonPlayerProperty.team] != null)) && ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.team]) == team)))
+                if (player.CustomProperties.SafeCompare(PhotonPlayerProperty.isTitan,1) && player.CustomProperties.SafeCompare(PhotonPlayerProperty.team,team))
                 {
                     num++;
                     if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
@@ -85,7 +85,7 @@ namespace Assets.Scripts.Gamemode
             FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
             var parameters = new object[] { teamWinner };
             FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
+            if (Settings.ChatFeed)
             {
                 //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
             }

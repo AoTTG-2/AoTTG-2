@@ -20,8 +20,13 @@ namespace Assets.Scripts.Gamemode
         public HUD.HUD InGameHUD; 
 
         protected float HUDRefreshTime = 1f;
-        public float RefreshCountdown = 0;
+        protected float RefreshCountdown = 0;
         public bool needChooseSide;
+        public float gameEndCD;
+        public float gameEndTotalCDtime;
+
+        public bool isWinning;
+        public bool isLosing;
 
         public abstract GamemodeSettings Settings { get; set; }
         private MindlessTitanType GetTitanType()
@@ -105,9 +110,7 @@ namespace Assets.Scripts.Gamemode
         public virtual void OnPlayerKilled(int id)
         {
             if (IsAllPlayersDead())
-            {
-                FengGameManagerMKII.instance.gameLose2();
-            }
+                this.GameLose();
         }
 
         public virtual void OnRestart()
@@ -258,7 +261,7 @@ namespace Assets.Scripts.Gamemode
             FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
             var parameters = new object[] { Settings.HumanScore };
             FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
+            if (Settings.ChatFeed)
             {
                 //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
             }
@@ -354,6 +357,54 @@ namespace Assets.Scripts.Gamemode
             if (this.needChooseSide)
             {
                 InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, "\n\nPRESS 1 TO ENTER GAME", true);
+            }
+        }
+
+        private void NetGameEnd(PhotonPlayer sender)
+        {
+            this.gameEndCD = this.gameEndTotalCDtime;
+            if (Settings.ChatFeed)
+            {
+                this.InGameHUD.Chat.AddMessage("<color=#FFC000>(" + FengGameManagerMKII.instance.roundTime.ToString("F2") + ")</color> Round ended (game win).");
+            }
+            if (!(sender.IsMasterClient || sender.isLocal))
+            {
+                this.InGameHUD.Chat.AddMessage("<color=#FFC000>Round end sent from Player " + sender.ID + "</color>");
+            }
+        }
+
+        [PunRPC]
+        private void netGameWin(int score, PhotonMessageInfo info)
+        {
+            this.isWinning = true;
+            this.OnNetGameWon(score);
+            this.NetGameEnd(info.sender);
+        }
+
+        [PunRPC]
+        private void netGameLose(int score, PhotonMessageInfo info)
+        {
+            this.isLosing = true;
+            this.OnNetGameLost(score);
+            this.NetGameEnd(info.sender);
+        }
+
+        public void GameLose()
+        {
+            if (!(this.isWinning || this.isLosing))
+            {
+                EventManager.OnGameLost.Invoke();
+                this.isLosing = true;
+                this.gameEndCD = this.gameEndTotalCDtime;
+            }
+        }
+
+        public void GameWin()
+        {
+            if (!this.isLosing && !this.isWinning)
+            {
+                EventManager.OnGameWon.Invoke();
+                this.isWinning = true;
             }
         }
     }

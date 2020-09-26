@@ -82,12 +82,12 @@ namespace Assets.Scripts.Gamemode
             if (PvpTitanScore >= CaptureSettings.PvpTitanScoreLimit)
             {
                 PvpTitanScore = CaptureSettings.PvpTitanScoreLimit;
-                FengGameManagerMKII.instance.gameLose2();
+                this.GameLose();
             }
             else if (PvpHumanScore >= CaptureSettings.PvpHumanScoreLimit)
             {
                 PvpHumanScore = CaptureSettings.PvpHumanScoreLimit;
-                FengGameManagerMKII.instance.gameWin2();
+                this.GameWin();
             }
         }
 

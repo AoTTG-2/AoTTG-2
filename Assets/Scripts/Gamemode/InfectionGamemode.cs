@@ -81,7 +81,7 @@ namespace Assets.Scripts.Gamemode
             }
             if (num21 <= 0)
             {
-                FengGameManagerMKII.instance.gameWin2();
+                this.GameWin();
             }
         }
 

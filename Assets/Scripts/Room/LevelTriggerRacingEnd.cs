@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class LevelTriggerRacingEnd : Assets.Scripts.Gamemode.Racing.RacingGameComponent
+public sealed class LevelTriggerRacingEnd : Assets.Scripts.Gamemode.Racing.RacingGameComponent
 {
     private bool disable;
 

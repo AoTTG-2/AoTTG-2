@@ -20,6 +20,9 @@ namespace Assets.Scripts.Gamemode.Settings
 
         public string Description;
 
+        [UiElement("Chat Feed", "Show info of the game in chat")]
+        public bool ChatFeed { get; set; } = false;
+
         [UiElement("MOTD", "Message of the Day")]
         public string Motd { get; set; } = string.Empty;
 

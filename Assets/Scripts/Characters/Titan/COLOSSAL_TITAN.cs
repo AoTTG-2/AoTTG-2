@@ -740,7 +740,7 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                             {
                                 PhotonNetwork.Destroy(base.photonView);
                             }
-                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
+                            FengGameManagerMKII.Gamemode.GameWin();
                         }
                         this.findNearestHero();
                         this.idle();
@@ -751,113 +751,113 @@ public class COLOSSAL_TITAN : Photon.MonoBehaviour
                 {
                 }
             }
-            else if (this.attackPattern == -1)
-            {
-                this.slap("r1");
-                this.attackPattern++;
-            }
-            else if (this.attackPattern == 0)
-            {
-                this.attack_sweep(string.Empty);
-                this.attackPattern++;
-            }
-            else if (this.attackPattern == 1)
-            {
-                this.steam();
-                this.attackPattern++;
-            }
-            else if (this.attackPattern == 2)
-            {
-                this.kick();
-                this.attackPattern++;
-            }
-            else if (this.isSteamNeed || this.hasDie)
-            {
-                this.steam();
-                this.isSteamNeed = false;
-            }
-            else if (this.myHero == null)
-            {
-                this.findNearestHero();
-            }
             else
             {
-                Vector3 vector = this.myHero.transform.position - base.transform.position;
-                float current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
-                float f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
-                this.myDistance = Mathf.Sqrt(((this.myHero.transform.position.x - base.transform.position.x) * (this.myHero.transform.position.x - base.transform.position.x)) + ((this.myHero.transform.position.z - base.transform.position.z) * (this.myHero.transform.position.z - base.transform.position.z)));
-                float num4 = this.myHero.transform.position.y - base.transform.position.y;
-                if ((this.myDistance < 85f) && (UnityEngine.Random.Range(0, 100) < 5))
+                switch (this.attackPattern++)
                 {
-                    this.steam();
-                }
-                else
-                {
-                    if ((num4 > 310f) && (num4 < 350f))
-                    {
-                        if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APL1").position) < 40f)
+                    case -1:
+                        this.slap("r1");
+                        break;
+                    case 0:
+                        this.attack_sweep(string.Empty);
+                        break;
+                    case 1:
+                        this.steam();
+                        break;
+                    case 2:
+                        this.kick();
+                        break;
+                    default:
+                        if (this.isSteamNeed || this.hasDie)
                         {
-                            this.slap("l1");
-                            return;
+                            this.steam();
+                            this.isSteamNeed = false;
                         }
-                        if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APL2").position) < 40f)
+                        else if (this.myHero == null)
                         {
-                            this.slap("l2");
-                            return;
+                            this.findNearestHero();
                         }
-                        if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APR1").position) < 40f)
+                        else
                         {
-                            this.slap("r1");
-                            return;
-                        }
-                        if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APR2").position) < 40f)
-                        {
-                            this.slap("r2");
-                            return;
-                        }
-                        if ((this.myDistance < 150f) && (Mathf.Abs(f) < 80f))
-                        {
-                            this.attack_sweep(string.Empty);
-                            return;
-                        }
-                    }
-                    if (((num4 < 300f) && (Mathf.Abs(f) < 80f)) && (this.myDistance < 85f))
-                    {
-                        this.attack_sweep("_vertical");
-                    }
-                    else
-                    {
-                        switch (UnityEngine.Random.Range(0, 7))
-                        {
-                            case 0:
-                                this.slap("l1");
-                                break;
-
-                            case 1:
-                                this.slap("l2");
-                                break;
-
-                            case 2:
-                                this.slap("r1");
-                                break;
-
-                            case 3:
-                                this.slap("r2");
-                                break;
-
-                            case 4:
-                                this.attack_sweep(string.Empty);
-                                break;
-
-                            case 5:
-                                this.attack_sweep("_vertical");
-                                break;
-
-                            case 6:
+                            Vector3 vector = this.myHero.transform.position - base.transform.position;
+                            float current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                            float f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
+                            this.myDistance = Mathf.Sqrt(((this.myHero.transform.position.x - base.transform.position.x) * (this.myHero.transform.position.x - base.transform.position.x)) + ((this.myHero.transform.position.z - base.transform.position.z) * (this.myHero.transform.position.z - base.transform.position.z)));
+                            float num4 = this.myHero.transform.position.y - base.transform.position.y;
+                            if ((this.myDistance < 85f) && (UnityEngine.Random.Range(0, 100) < 5))
+                            {
                                 this.steam();
-                                break;
+                            }
+                            else
+                            {
+                                if ((num4 > 310f) && (num4 < 350f))
+                                {
+                                    if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APL1").position) < 40f)
+                                    {
+                                        this.slap("l1");
+                                        return;
+                                    }
+                                    if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APL2").position) < 40f)
+                                    {
+                                        this.slap("l2");
+                                        return;
+                                    }
+                                    if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APR1").position) < 40f)
+                                    {
+                                        this.slap("r1");
+                                        return;
+                                    }
+                                    if (Vector3.Distance(this.myHero.transform.position, base.transform.Find("APR2").position) < 40f)
+                                    {
+                                        this.slap("r2");
+                                        return;
+                                    }
+                                    if ((this.myDistance < 150f) && (Mathf.Abs(f) < 80f))
+                                    {
+                                        this.attack_sweep(string.Empty);
+                                        return;
+                                    }
+                                }
+                                if (((num4 < 300f) && (Mathf.Abs(f) < 80f)) && (this.myDistance < 85f))
+                                {
+                                    this.attack_sweep("_vertical");
+                                }
+                                else
+                                {
+                                    switch (UnityEngine.Random.Range(0, 7))
+                                    {
+                                        case 0:
+                                            this.slap("l1");
+                                            break;
+
+                                        case 1:
+                                            this.slap("l2");
+                                            break;
+
+                                        case 2:
+                                            this.slap("r1");
+                                            break;
+
+                                        case 3:
+                                            this.slap("r2");
+                                            break;
+
+                                        case 4:
+                                            this.attack_sweep(string.Empty);
+                                            break;
+
+                                        case 5:
+                                            this.attack_sweep("_vertical");
+                                            break;
+
+                                        case 6:
+                                            this.steam();
+                                            break;
+                                    }
+                                }
+                            }
                         }
-                    }
+                        break;
                 }
             }
         }

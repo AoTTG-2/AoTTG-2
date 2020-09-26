@@ -180,7 +180,17 @@ public static class RCextensions
         object o = h[key];
         return (o != null && o is T ? (T) o : defaultValue);
     }
-
+    
+    /// <summary>
+    /// return True if the element is the same type and equal to the compared
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="h"></param>
+    /// <param name="key">The dictionary key entry you want to compare</param>
+    /// <param name="compared">The compared element</param>
+    /// <returns></returns>
     public static bool SafeCompare<T, T1, T2>(this IDictionary<T1, T2> h, T1 key, T compared)
     {
         if (!h.ContainsKey(key))

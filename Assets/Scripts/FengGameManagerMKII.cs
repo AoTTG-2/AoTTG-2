@@ -251,7 +251,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             customLevelLoaded = false;
         }
 
-        if (((int) settings[0xf4]) == 1)
+        if (Gamemode.Settings.ChatFeed)
         {
             this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round Start.");
         }
@@ -678,27 +678,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().GameOver = true;
-        }
-    }
-
-    [Obsolete("Move into GamemodeBase")]
-    public void gameLose2()
-    {
-        if (!(this.isWinning || this.isLosing))
-        {
-            EventManager.OnGameLost.Invoke();
-            this.isLosing = true;
-            this.gameEndCD = this.gameEndTotalCDtime;
-        }
-    }
-
-    [Obsolete("Move into GamemodeBase")]
-    public void gameWin2()
-    {
-        if (!this.isLosing && !this.isWinning)
-        {
-            EventManager.OnGameWon.Invoke();
-            this.isWinning = true;
         }
     }
 
@@ -1898,40 +1877,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    [Obsolete("Migrate to GamemodeBase")]
-    [PunRPC]
-    private void netGameLose(int score, PhotonMessageInfo info)
-    {
-        this.isLosing = true;
-        Gamemode.OnNetGameLost(score);
-        this.gameEndCD = this.gameEndTotalCDtime;
-        if (((int) settings[0xf4]) == 1)
-        {
-            this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game lose).");
-        }
-        if (!((info.sender == PhotonNetwork.masterClient) || info.sender.isLocal) && PhotonNetwork.isMasterClient)
-        {
-            this.chatRoom.AddMessage("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
-        }
-    }
-
-    [Obsolete("Migrate to GamemodeBase")]
-    [PunRPC]
-    private void netGameWin(int score, PhotonMessageInfo info)
-    {
-        this.isWinning = true;
-        Gamemode.OnNetGameWon(score);
-        this.gameEndCD = this.gameEndTotalCDtime;
-        if (((int) settings[0xf4]) == 1)
-        {
-            this.chatRoom.AddMessage("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-        }
-        if (!((info.sender == PhotonNetwork.masterClient) || info.sender.isLocal))
-        {
-            this.chatRoom.AddMessage("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
-        }
-    }
-
     [PunRPC]
     public void netShowDamage(int damage)
     {
@@ -2048,21 +1993,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void SetGamemode(GamemodeSettings settings)
     {
-        if (Gamemode == null)
+        if (Gamemode != null)
         {
-            var gamemodeObject = new GameObject("Gamemode");
-            gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
-            gamemodeObject.transform.parent = gameObject.transform;
-            Gamemode = gamemodeObject.GetComponent<GamemodeBase>();
-            Gamemode.Settings = settings;
-        }
-        else
-        {
-            var gamemodeComponent = GetComponentInChildren<GamemodeBase>();
-            Destroy(gamemodeComponent.gameObject);
+            Destroy(Gamemode);
             Gamemode = null;
-            SetGamemode(settings);
         }
+        Gamemode = (GamemodeBase) gameObject.AddComponent(settings.GetGamemodeFromSettings());
+        Gamemode.Settings = settings;
     }
 
     public void OnJoinedRoom()
@@ -3862,13 +3799,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, parameters);
-                        this.gameWin2();
+                        Gamemode.GameWin();
                     }
                     else if (this.magentaKills >= Gamemode.Settings.PointMode)
                     {
                         objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, objArray2);
-                        this.gameWin2();
+                        Gamemode.GameWin();
                     }
                 }
                 else if (Gamemode.Settings.TeamMode == TeamMode.Disabled)
@@ -3880,7 +3817,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         {
                             object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
                             this.photonView.RPC("Chat", PhotonTargets.All, objArray4);
-                            this.gameWin2();
+                            Gamemode.GameWin();
                         }
                     }
                 }
@@ -3924,13 +3861,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 object[] objArray5 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                                 this.photonView.RPC("Chat", PhotonTargets.All, objArray5);
-                                this.gameWin2();
+                                Gamemode.GameWin();
                             }
                             else if (num25 == 0)
                             {
                                 object[] objArray6 = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                                 this.photonView.RPC("Chat", PhotonTargets.All, objArray6);
-                                this.gameWin2();
+                                Gamemode.GameWin();
                             }
                         }
                     }
@@ -3965,7 +3902,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             }
                             object[] objArray7 = new object[] { "<color=#FFCC00>" + text.hexColor() + " wins." + str4 + "</color>", string.Empty };
                             this.photonView.RPC("Chat", PhotonTargets.All, objArray7);
-                            this.gameWin2();
+                            Gamemode.GameWin();
                         }
                     }
                 }

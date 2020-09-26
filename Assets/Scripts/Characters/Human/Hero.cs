@@ -877,7 +877,7 @@ public class Hero : Human
             {
                my_in_game_camera.startSnapShot2(base.transform.position, 0, null, 0.02f);
             }
-            FengGameManagerMKII.instance.gameLose2();
+            FengGameManagerMKII.Gamemode.GameLose();
             UnityEngine.Object.Destroy(base.gameObject);
             Assets.Scripts.EventManager.OnMainObjectDeath.Invoke();
         }

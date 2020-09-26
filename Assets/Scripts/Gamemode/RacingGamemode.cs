@@ -100,8 +100,6 @@ namespace Assets.Scripts.Gamemode
                 if (counter++ == 10)
                     break;
             }
-            for(;counter<=10;counter++)
-                tmpLocalRacingResult.Append("Rank" + counter + " : \n");
             this.localRacingResult = tmpLocalRacingResult.ToString();
             base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, this.localRacingResult);
         }
@@ -120,15 +118,15 @@ namespace Assets.Scripts.Gamemode
         private void GameWon()
         {
             EventManager.OnGameWon.Invoke();
-            //for compatibility
-            FengGameManagerMKII.instance.gameWin2();
+            this.isWinning = true;
         }
 
         public void RacingFinsihEvent()
         {
             localRacingResult = (FengGameManagerMKII.instance.timeTotalServer - RacingGamemode.StartTimerCountdown).ToString("f2");
             float time = FengGameManagerMKII.instance.roundTime - RacingGamemode.StartTimerCountdown;
-            FengGameManagerMKII.RPC("GetRacingResult", PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
+            if(!PhotonNetwork.offlineMode)
+                FengGameManagerMKII.RPC("GetRacingResult", PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
             this.GameWon();
         }
 
