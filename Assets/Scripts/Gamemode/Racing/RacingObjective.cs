@@ -89,6 +89,12 @@ namespace Assets.Scripts.Gamemode.Racing
         private GameObject hint;
         private void Update()
         {
+#if DEBUG
+            if (this.State == ObjectiveState.Current && Input.GetKeyDown(KeyCode.Alpha1))
+                this.OnTriggerEnter(Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Collider>());
+
+#endif
+
             this.hintTimer += Time.deltaTime;
             if (this.hint != null)
             {

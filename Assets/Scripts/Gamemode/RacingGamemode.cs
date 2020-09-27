@@ -12,7 +12,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
-        public const int StartTimerCountdown = 20;
+        public int StartTimerCountdown = 20;
 
         public bool startRacing;
 
@@ -32,6 +32,10 @@ namespace Assets.Scripts.Gamemode
 
         public void Awake()
         {
+#if DEBUG
+            StartTimerCountdown = 3;
+#endif
+
             //setting the refresh time twice the wanted resolution 
             this.HUDRefreshTime = .05f;
 
@@ -48,10 +52,12 @@ namespace Assets.Scripts.Gamemode
             EventManager.OnMainObjectDeath -= this.OnDeath;
         }
 
-        ///Issue #277 added just to init the localLastRacingTime each time the race start again
         public override void OnRestart()
         {
-            localRacingResult = string.Empty;
+            this.startRacing = false;
+            this.endRacing = false;
+            this.racingSpawnPoint = Vector3.zero;
+            this.racingSpawnPointSet = false;
             base.OnRestart();
         }
 
@@ -64,7 +70,7 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnGameWon()
         {
-            FengGameManagerMKII.instance.gameEndCD = CalculateGameEndCD();
+            this.gameEndCD = CalculateGameEndCD();
             FengGameManagerMKII.RPC("netGameWin", PhotonTargets.Others, 0);
         }
 
@@ -115,19 +121,14 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        private void GameWon()
-        {
-            EventManager.OnGameWon.Invoke();
-            this.isWinning = true;
-        }
-
         public void RacingFinsihEvent()
         {
-            localRacingResult = (FengGameManagerMKII.instance.timeTotalServer - RacingGamemode.StartTimerCountdown).ToString("f2");
-            float time = FengGameManagerMKII.instance.roundTime - RacingGamemode.StartTimerCountdown;
+            localRacingResult = (FengGameManagerMKII.instance.timeTotalServer - this.StartTimerCountdown).ToString("f2");
+            float time = FengGameManagerMKII.instance.roundTime - this.StartTimerCountdown;
             if(!PhotonNetwork.offlineMode)
                 FengGameManagerMKII.RPC("GetRacingResult", PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
-            this.GameWon();
+            EventManager.OnGameWon.Invoke();
+            this.isWinning = true;
         }
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
@@ -141,7 +142,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetGamemodeStatusTop()
         {
-            float time = FengGameManagerMKII.instance.timeTotalServer - RacingGamemode.StartTimerCountdown;
+            float time = FengGameManagerMKII.instance.timeTotalServer - this.StartTimerCountdown;
             if (time > 0)
                 return time.ToString("000.0");
             else
@@ -171,6 +172,16 @@ namespace Assets.Scripts.Gamemode
                 StartCoroutine(this.TimedRespawn());
         }
 
+        [Obsolete]
+        public override void CoreRestartCheck()
+        {
+            if (this.isWinning)
+            {
+                InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, this.GetVictoryMessage(gameEndCD, FengGameManagerMKII.instance.timeTotalServer));
+                RestartGameCD();
+            }
+        }
+
         public override void OnNetGameWon(int score)
         {
             FengGameManagerMKII.instance.gameEndCD = CalculateGameEndCD();
@@ -188,7 +199,7 @@ namespace Assets.Scripts.Gamemode
 
             if (FengGameManagerMKII.instance.roundTime < 20f)
             {
-                this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, "RACE START IN " + ((int) (RacingGamemode.StartTimerCountdown - FengGameManagerMKII.instance.roundTime)) +
+                this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, "RACE START IN " + ((int) (this.StartTimerCountdown - FengGameManagerMKII.instance.roundTime)) +
                                        (!(this.localRacingResult == string.Empty)
                                            ? ("\nLast Round\n" + this.localRacingResult)
                                            : "\n\n"));

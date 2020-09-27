@@ -10,7 +10,7 @@ public class SpectatorMovement : MonoBehaviour
     {
         if (PhotonNetwork.offlineMode)
         {
-            FengGameManagerMKII.instance.restartGameSingle2();
+            FengGameManagerMKII.instance.RestartGame();
         }
     }
     private void Update()

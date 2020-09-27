@@ -273,7 +273,7 @@ public static class ChatCommandHandler
 
         var chatMessage = new object[] { FormatSystemMessage("MasterClient has restarted the game!"), string.Empty };
         instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-        instance.restartRC();
+        instance.RestartGame();
     }
 
     private static void SendPrivateMessage(string[] parameters)

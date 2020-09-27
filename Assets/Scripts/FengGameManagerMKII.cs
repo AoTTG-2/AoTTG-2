@@ -476,31 +476,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
     }
-    
-    [Obsolete("have to be migrated partially to the gamemode classes")]
-    private void CoreRestartCheck()
-    {
-        if (this.isWinning)
-            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetVictoryMessage(gameEndCD, timeTotalServer));
-        else if (this.isLosing && (Gamemode.Settings.GamemodeType != GamemodeType.Racing))
-            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, Gamemode.GetDefeatMessage(gameEndCD));
-        else
-            return;
-
-        if (this.gameEndCD <= 0f)
-        {
-            this.gameEndCD = 0f;
-            if (PhotonNetwork.isMasterClient)
-            {
-                this.restartRC();
-            }
-            InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
-        }
-        else
-        {
-            this.gameEndCD -= Time.deltaTime;
-        }
-    }
 
     [Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
     private void core2()
@@ -513,12 +488,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
 
-             if (this.needChooseSide)
+            if (this.needChooseSide)
              {
                 InGameUI.SpawnMenu.gameObject.SetActive(true);
              }
-
-            int length;
 
             if (PhotonNetwork.offlineMode)
             {
@@ -545,12 +518,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             else
             {
                 InGameUI.HUD.ShowHUDInfo(LabelPosition.TopLeft, this.playerList);
-
                 this.coreadd();
                 this.CoreRespawnCheck();
             }
 
-            this.CoreRestartCheck();
+            Gamemode.CoreRestartCheck();
 
             this.roundTime += Time.deltaTime;
             this.timeTotalServer += Time.deltaTime;
@@ -2162,7 +2134,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
             if (!(this.gameTimesUp || !PhotonNetwork.isMasterClient))
             {
-                this.restartGame2(true);
+                this.RestartGameCleanup();
+                this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + PhotonNetwork.player.CustomProperties.SafeGet(PhotonPlayerProperty.name, string.Empty).hexColor());
                 base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
             }
         }
@@ -2372,14 +2345,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
     {
-        ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-        propertiesToSet.Add(PhotonPlayerProperty.kills, ((int) player.CustomProperties[PhotonPlayerProperty.kills]) + 1);
-        player.SetCustomProperties(propertiesToSet);
-        propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-        propertiesToSet.Add(PhotonPlayerProperty.max_dmg, Mathf.Max(dmg, (int) player.CustomProperties[PhotonPlayerProperty.max_dmg]));
-        player.SetCustomProperties(propertiesToSet);
-        propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-        propertiesToSet.Add(PhotonPlayerProperty.total_dmg, ((int) player.CustomProperties[PhotonPlayerProperty.total_dmg]) + dmg);
+        var propertiesToSet = new ExitGames.Client.Photon.Hashtable() {
+            { PhotonPlayerProperty.kills, player.CustomProperties.SafeGet(PhotonPlayerProperty.kills,0) + 1},
+            { PhotonPlayerProperty.total_dmg, player.CustomProperties.SafeGet(PhotonPlayerProperty.total_dmg,0) + dmg},
+        };
+        if(dmg>player.CustomProperties.SafeGet(PhotonPlayerProperty.max_dmg, 0))
+            propertiesToSet.Add(PhotonPlayerProperty.max_dmg, dmg);
         player.SetCustomProperties(propertiesToSet);
     }
 
@@ -2447,8 +2418,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     public void RequireStatus()
     {
-        object[] parameters = new object[] { this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing };
-        base.photonView.RPC("refreshStatus", PhotonTargets.Others, parameters);
+        base.photonView.RPC("refreshStatus", PhotonTargets.Others, this.roundTime, this.timeTotalServer, this.startRacing, this.endRacing);
     }
 
     private void resetSettings(bool isLeave)
@@ -2538,81 +2508,67 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
     
-    public void restartGame2(bool masterclientSwitched = false)
-    {
-        if (!this.gameTimesUp)
-        {
-            this.startRacing = false;
-            this.endRacing = false;
-            this.checkpoint = null;
-            this.roundTime = 0f;
-            this.isWinning = false;
-            this.isLosing = false;
-            this.isPlayer1Winning = false;
-            this.isPlayer2Winning = false;
-            this.myRespawnTime = 0f;
-            this.killInfoGO = new ArrayList();
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
-            this.isRestarting = true;
-            this.DestroyAllExistingCloths();
-            PhotonNetwork.DestroyAll();
-            base.photonView.RPC("RPCLoadLevel", PhotonTargets.All, new object[0]);
-            if (masterclientSwitched)
-            {
-                this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + ((string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor());
-            }
-        }
-    }
-
-    public void restartGameSingle2()
+    private void RestartGameCommonCleanup()
     {
         this.startRacing = false;
         this.endRacing = false;
         this.checkpoint = null;
-        this.single_kills = 0;
-        this.single_maxDamage = 0;
-        this.single_totalDamage = 0;
         this.roundTime = 0f;
-        this.timeTotalServer = 0f;
         this.isWinning = false;
         this.isLosing = false;
         this.isPlayer1Winning = false;
         this.isPlayer2Winning = false;
         this.myRespawnTime = 0f;
-                    InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
+        InGameUI.HUD.ShowHUDInfo(LabelPosition.Center, string.Empty);
         this.DestroyAllExistingCloths();
-        Application.LoadLevel(Application.loadedLevel);
     }
 
-    public void restartRC()
+    private void RestartGameCleanup()
+    {
+        if (PhotonNetwork.offlineMode)
+        {
+            this.RestartGameCommonCleanup();
+            this.single_kills = 0;
+            this.single_maxDamage = 0;
+            this.single_totalDamage = 0;
+            this.timeTotalServer = 0f;
+            Application.LoadLevel(Application.loadedLevel);
+        }
+        else if (this.gameTimesUp)
+            return;
+        else
+        {
+            this.RestartGameCommonCleanup();
+            PhotonNetwork.DestroyAll();
+            base.photonView.RPC("RPCLoadLevel", PhotonTargets.All);
+        }
+    }
+
+    private void RestartRC_initializer()
+    {
+        SetGamemode(NewRoundGamemode);
+        var hash = new ExitGames.Client.Photon.Hashtable
+            {
+                {"level", Level.Name},
+                {"gamemode", Gamemode.Settings.GamemodeType.ToString()}
+            };
+        PhotonNetwork.room.SetCustomProperties(hash);
+        photonView.RPC("SyncSettings", PhotonTargets.Others, JsonConvert.SerializeObject(Gamemode.Settings), Gamemode.Settings.GamemodeType);
+    }
+
+    public void RestartGame()
     {
         if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
         {
             Level = NewRoundLevel;
-            SetGamemode(NewRoundGamemode);
-            var hash = new ExitGames.Client.Photon.Hashtable
-            {
-                {"level", Level.Name},
-                {"gamemode", Gamemode.Settings.GamemodeType.ToString()}
-            };
-            PhotonNetwork.room.SetCustomProperties(hash);
-            var json = JsonConvert.SerializeObject(Gamemode.Settings);
-            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
+            RestartRC_initializer();
             LevelHelper.Load(Level);
         }
         else if (NewRoundGamemode != null && Gamemode.Settings.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
         {
-            SetGamemode(NewRoundGamemode);
-            var hash = new ExitGames.Client.Photon.Hashtable
-            {
-                {"level", Level.Name},
-                {"gamemode", Gamemode.Settings.GamemodeType.ToString()}
-            };
-            PhotonNetwork.room.SetCustomProperties(hash);
-            var json = JsonConvert.SerializeObject(Gamemode.Settings);
-            photonView.RPC("SyncSettings", PhotonTargets.Others, json, Gamemode.Settings.GamemodeType);
+            RestartRC_initializer();
         }
-
+        this.RestartGameCleanup();
         EventManager.OnRestart.Invoke();
     }
 

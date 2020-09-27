@@ -36,7 +36,6 @@ namespace Assets.Scripts.Gamemode
                 length--;
             }
             FengGameManagerMKII.instance.gameEndCD = 0f;
-            FengGameManagerMKII.instance.restartGame2();
         }
 
         public override void OnUpdate(float interval)

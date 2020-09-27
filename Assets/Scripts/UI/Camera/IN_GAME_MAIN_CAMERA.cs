@@ -831,7 +831,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         if (PhotonNetwork.offlineMode)
         {
-            FengGameManagerMKII.instance.restartGameSingle2();
+            FengGameManagerMKII.instance.RestartGame();
         }
     }
 

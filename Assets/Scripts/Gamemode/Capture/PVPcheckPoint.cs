@@ -267,24 +267,16 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 PhotonNetwork.Destroy(this.supply);
             }
             this.state = CheckPointState.Titan;
-            object[] parameters = new object[] { 2 };
-            base.photonView.RPC("changeState", PhotonTargets.All, parameters);
+            base.photonView.RPC("changeState", PhotonTargets.All, 2);
             gamemode.AddTitanScore(2);
             if (this.checkIfTitanWins())
             {
                 FengGameManagerMKII.Gamemode.GameLose();
             }
-            if (this.hasAnnie)
+            if (this.hasAnnie && !this.annie)
             {
-                if (!this.annie)
-                {
-                    this.annie = true;
-                    PhotonNetwork.Instantiate("FEMALE_TITAN", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
-                }
-                else
-                {
-                    this.newTitan();
-                }
+                this.annie = true;
+                PhotonNetwork.Instantiate("FEMALE_TITAN", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
             }
             else
             {

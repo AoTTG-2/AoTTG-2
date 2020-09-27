@@ -117,19 +117,18 @@ namespace Assets.Scripts.Gamemode
         {
             if (Settings.PointMode > 0)
             {
-                for (int i = 0; i < PhotonNetwork.playerList.Length; i++)
-                {
-                    PhotonPlayer player = PhotonNetwork.playerList[i];
-                    ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                    propertiesToSet.Add(PhotonPlayerProperty.kills, 0);
-                    propertiesToSet.Add(PhotonPlayerProperty.deaths, 0);
-                    propertiesToSet.Add(PhotonPlayerProperty.max_dmg, 0);
-                    propertiesToSet.Add(PhotonPlayerProperty.total_dmg, 0);
+                var propertiesToSet = new ExitGames.Client.Photon.Hashtable() {
+                        { PhotonPlayerProperty.kills, 0},
+                        { PhotonPlayerProperty.deaths, 0},
+                        { PhotonPlayerProperty.max_dmg, 0},
+                        { PhotonPlayerProperty.total_dmg, 0}
+                    };
+                foreach (var player in PhotonNetwork.playerList)
                     player.SetCustomProperties(propertiesToSet);
-                }
             }
-            FengGameManagerMKII.instance.gameEndCD = 0f;
-            FengGameManagerMKII.instance.restartGame2();
+            this.gameEndCD = 0f;
+            this.isWinning = false;
+            this.isLosing = false;
         }
 
         public virtual void OnUpdate(float interval) { }
@@ -387,6 +386,36 @@ namespace Assets.Scripts.Gamemode
             this.isLosing = true;
             this.OnNetGameLost(score);
             this.NetGameEnd(info.sender);
+        }
+
+        protected void RestartGameCD()
+        {
+            if (this.gameEndCD <= 0f)
+            {
+                this.gameEndCD = 0f;
+                if (PhotonNetwork.isMasterClient)
+                {
+                    FengGameManagerMKII.instance.RestartGame();
+                }
+                InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, string.Empty);
+            }
+            else
+            {
+                this.gameEndCD -= Time.deltaTime;
+            }
+        }
+
+        [Obsolete("will have to be a restart class on its own, as it doesn't require to run check all the time but can be event triggered to run just once and than update the timer once active")]
+        public virtual void CoreRestartCheck()
+        {
+            if (this.isWinning)
+                InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, this.GetVictoryMessage(gameEndCD, FengGameManagerMKII.instance.timeTotalServer));
+            else if (this.isLosing)
+                InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, GetDefeatMessage(gameEndCD));
+            else
+                return;
+
+            RestartGameCD();
         }
 
         public void GameLose()
