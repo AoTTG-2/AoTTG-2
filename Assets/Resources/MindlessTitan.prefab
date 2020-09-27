@@ -1655,7 +1655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4958767366009580
 Transform:
   m_ObjectHideFlags: 0
@@ -2137,6 +2137,7 @@ GameObject:
   - component: {fileID: 114642288650367630}
   - component: {fileID: 114288680120854022}
   - component: {fileID: 114021182772690314}
+  - component: {fileID: 6694120659276232339}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2284,19 +2285,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ae4081d2a333646af7f39f4409e4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthLabel: {fileID: 1546164150367432}
+  NavMeshAgent: {fileID: 0}
   PreviousState: 0
   NextState: 0
   MindlessType: 0
-  Speed: 10
-  TargetDistance: 1
-  Size: 4
-  Stamina: 5000
-  StaminaRecovery: 1000
-  Health: 0
-  HealthRegeneration: 0
-  ViewDistance: 0
-  Focus: 10
-  Idle: 0.75
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:
@@ -2426,6 +2419,28 @@ MonoBehaviour:
   AttackBiteLeft: {fileID: 4174104206074642}
   AttackBite: {fileID: 4419495927181526}
   AttackAbnormalJump: {fileID: 4014965717870646}
+--- !u!195 &6694120659276232339
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 4
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 18
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,18 @@
 using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
+using Assets.Scripts.Characters.Titan.Attacks;
+using Assets.Scripts.Characters.Titan.Attacks.Eren;
+using Assets.Scripts.Characters.Titan.Body;
+using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
 {
     public class ErenTitan : TitanBase
     {
+        public new ErenTitanBody Body { get; protected set; }
+
         private string attackAnimation;
         private Transform attackBox;
         private bool attackChkOnce;
@@ -51,6 +57,57 @@ namespace Assets.Scripts.Characters.Titan
         private int stepSoundPhase = 2;
         private Vector3 targetCheckPt;
         private float waitCounter;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            Body = GetComponent<ErenTitanBody>();
+            Faction = FactionService.GetHumanity();
+            Attacks = new Attack<TitanBase>[] {new PunchAttack()};
+            foreach (var attack in Attacks)
+            {
+                attack.Initialize(this);
+            }
+        }
+        
+        public override void Initialize(TitanConfiguration configuration)
+        {
+            MaxHealth = Health = 10000;
+            AnimationWalk = "run";
+            AnimationDeath = "die";
+            Speed = 18f;
+
+            if (Health <= 0)
+                Destroy(HealthLabel);
+
+            if (Health < 0)
+            {
+                if (HealthLabel != null)
+                {
+                    Destroy(HealthLabel);
+                }
+            }
+            else
+            {
+                var color = "7FFF00";
+                var num2 = ((float) Health) / ((float) MaxHealth);
+                if ((num2 < 0.75f) && (num2 >= 0.5f))
+                {
+                    color = "f2b50f";
+                }
+                else if ((num2 < 0.5f) && (num2 >= 0.25f))
+                {
+                    color = "ff8100";
+                }
+                else if (num2 < 0.25f)
+                {
+                    color = "ff3333";
+                }
+                HealthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{Health}</color>";
+            }
+
+            AttackDistance = Vector3.Distance(base.transform.position, Body.AttackFrontGround.position) * 1.65f;
+        }
 
         public void born()
         {
@@ -106,8 +163,10 @@ namespace Assets.Scripts.Characters.Titan
             attackChkOnce = false;
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
+            return;
             if (!IN_GAME_MAIN_CAMERA.isPausing)
             {
                 if (rockLift)
@@ -374,10 +433,10 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public override void OnHit(Entity attacker, int damage)
-        {
-            hitByTitan();
-        }
+        //public override void OnHit(Entity attacker, int damage)
+        //{
+        //    hitByTitan();
+        //}
 
         public void hitByTitan()
         {
@@ -835,6 +894,8 @@ namespace Assets.Scripts.Characters.Titan
 
         protected override void Update()
         {
+            base.Update();
+            return;
             if ((!IN_GAME_MAIN_CAMERA.isPausing) && !rockLift)
             {
                 if (GetComponent<Animation>().IsPlaying("run"))

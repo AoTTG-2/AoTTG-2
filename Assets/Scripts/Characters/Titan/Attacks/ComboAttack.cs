@@ -8,13 +8,13 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         public ComboAttack(bool isPunk = false)
         {
             BodyParts = new[] { BodyPart.HandRight, BodyPart.HandLeft };
+            Damage = 100;
             this.isPunk = isPunk;
         }
 
         public override Type[] TargetTypes { get; } = { typeof(Human), typeof(TitanBase) };
 
         private readonly bool isPunk;
-        private string AttackAnimation { get; set; }
         private const string AnimationPunchRight = "attack_combo_1";
         private const string AnimationPunchLeft  = "attack_combo_2";
         private const string AnimationSlam = "attack_combo_3";
@@ -126,11 +126,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     {
                         foreach (var target in targets)
                         {
-                            var position = Titan.Body.Chest.position;
-                            if (!Titan.photonView.isMine || !(target is Hero hero) || hero.HasDied()) continue;
-                            hero.markDie();
-                            object[] objArray3 = { (Vector3) ((target.transform.position - position) * 15f * Titan.Size), false, Titan.photonView.viewID, Titan.name, true };
-                            hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray3);
+                            HitEntity(target);
                         }
                     }
                 }

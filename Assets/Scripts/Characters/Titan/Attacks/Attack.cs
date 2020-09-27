@@ -8,12 +8,15 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 {
     public abstract class Attack<T> where T : TitanBase
     {
+        public string AttackAnimation { get; set; }
+
         public bool IsFinished { get; set; }
         public float Cooldown { get; set; }
         public BodyPart[] BodyParts { get; set; }
         public float Stamina { get; set; } = 10f;
 
         public abstract Type[] TargetTypes { get; }
+        public int Damage { get; set; } = 100;
 
         protected T Titan { get; set; }
 
@@ -80,8 +83,16 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             return null;
         }
 
+        private string LastAttackAnimation { get; set; }
+        private HashSet<Entity> HitEntities { get; } = new HashSet<Entity>();
         protected bool IsEntityHit(Transform bodyPart, out HashSet<Entity> entities)
         {
+            if (LastAttackAnimation != AttackAnimation)
+            {
+                HitEntities.Clear();
+                LastAttackAnimation = AttackAnimation;
+            }
+
             var radius = Titan.Size * 2.2f + 1f;
             var mask = LayerMask.GetMask("PlayerHitBox", "EnemyAABB");
 
@@ -92,12 +103,30 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 if (collider.transform.root.tag != "Player" && collider.name != "AABB") continue;
 
                 var entity = collider.transform.root.gameObject.GetComponent<Entity>();
+                if (HitEntities.Contains(entity)) continue;
+
                 if (entity == Titan || Service.Faction.IsFriendly(Titan, entity)) continue;
 
                 entities.Add(entity);
-                entity.OnHit(Titan, 100);
+                HitEntities.Add(entity);
             }
             return entities.Any();
+        }
+
+        protected void HitEntity(Entity entity)
+        {
+            if (!Titan.photonView.isMine) return;
+            if (entity is Hero hero)
+            {
+                var position = Titan.Body.Chest.position;
+                hero.markDie();
+                object[] objArray3 = { (Vector3) ((entity.transform.position - position) * 15f * Titan.Size), false, Titan.photonView.viewID, Titan.name, true };
+                hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray3);
+            }
+            else
+            {
+                entity.OnHit(Titan, Damage);
+            }
         }
     }
 }

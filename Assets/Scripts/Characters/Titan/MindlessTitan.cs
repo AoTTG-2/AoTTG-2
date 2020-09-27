@@ -20,15 +20,6 @@ namespace Assets.Scripts.Characters.Titan
 
         private float DamageTimer { get; set; }
         public new MindlessTitanBody Body { get; protected set; }
-        protected string AnimationTurnLeft { get; set; } = "turnaround2";
-        protected string AnimationTurnRight { get; set; } = "turnaround1";
-        public string AnimationWalk { get; private set; } = "run_walk";
-        protected string AnimationRun { get; set; }
-        protected string AnimationRecovery { get; set; } = "tired";
-        protected string AnimationDeath { get; set; } = "die_back";
-        protected string AnimationIdle { get; set; } = "idle_2";
-        protected string AnimationCover { get; set; } = "idle_recovery";
-        protected string AnimationEyes { get; set; } = "hit_eye";
 
         private float turnDeg;
         private float desDeg;
@@ -36,20 +27,7 @@ namespace Assets.Scripts.Characters.Titan
         private float attackCooldown;
         private float staminaLimit;
 
-        public float AttackDistance { get; protected set; }
-        public float Speed = 10f;
-        private float RunSpeed { get; set; }
-        public float TargetDistance = 1f;
-        public float Stamina = 10f;
-        public float StaminaRecovery = 1f;
-        public int Health;
-        public int HealthRegeneration;
-        public float ViewDistance;
-        public float Focus = 10f;
-        public float Idle = 1.5f;
         private float FocusTimer { get; set; }
-        private int MaxHealth { get; set; }
-
         private bool isHooked;
         public bool IsHooked
         {
@@ -92,7 +70,6 @@ namespace Assets.Scripts.Characters.Titan
         public Attack<MindlessTitan>[] Attacks { get; private set; }
         public Attack<MindlessTitan> CurrentAttack { get; set; } = new BodySlamAttack();
         private Collider[] Colliders { get; set; }
-        private GameObject HealthLabel { get; set; }
         private FengGameManagerMKII GameManager { get; set; }
 
         private bool asClientLookTarget;
@@ -136,7 +113,7 @@ namespace Assets.Scripts.Characters.Titan
             Health = configuration.Health;
             MaxHealth = Health;
             Speed = configuration.Speed;
-            RunSpeed = configuration.RunSpeed;
+            SpeedRun = configuration.RunSpeed;
             Attacks = configuration.Attacks.ToArray();
             Size = configuration.Size;
             ViewDistance = configuration.ViewDistance;
@@ -179,22 +156,10 @@ namespace Assets.Scripts.Characters.Titan
 
             if (Health > 0)
             {
-                HealthLabel = (GameObject)Instantiate(Resources.Load("UI/LabelNameOverHead"));
-                HealthLabel.name = "HealthLabel";
-                HealthLabel.transform.parent = base.transform;
-                HealthLabel.transform.localPosition = new Vector3(0f, 20f + (1f / Size), 0f);
                 if (MindlessType == MindlessTitanType.Crawler)
                 {
                     HealthLabel.transform.localPosition = new Vector3(0f, 10f + (1f / Size), 0f);
                 }
-                float x = 1f;
-                if (Size < 1f)
-                {
-                    x = 1f / Size;
-                }
-
-                x *= 0.08f;
-                HealthLabel.transform.localScale = new Vector3(x, x, x);
             }
 
             if (photonView.isMine)
@@ -205,7 +170,7 @@ namespace Assets.Scripts.Characters.Titan
 
                 if (Health > 0)
                 {
-                    photonView.RPC("UpdateHealthLabelRpc", PhotonTargets.AllBuffered, Health, MaxHealth);
+                    photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
                 }
             }
         }
@@ -471,7 +436,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (MaxHealth > 0)
             {
-                photonView.RPC("UpdateHealthLabelRpc", PhotonTargets.AllBuffered, Health, MaxHealth);
+                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
             }
 
             if (Health <= 0)
@@ -640,29 +605,6 @@ namespace Assets.Scripts.Characters.Titan
                    && Animation[CurrentAnimation].normalizedTime > 2f;
         }
         
-        public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
-        {
-            if (string.IsNullOrWhiteSpace(newAnimation)) return;
-            if (Animation.IsPlaying(newAnimation)) return;
-            if (photonView.isMine)
-            {
-                CurrentAnimation = newAnimation;
-                Animation.CrossFade(newAnimation, fadeLength);
-                photonView.RPC("CrossFadeRpc", PhotonTargets.Others, newAnimation, fadeLength);
-            }
-        }
-
-        [PunRPC]
-        protected void CrossFadeRpc(string newAnimation, float fadeLength,
-            PhotonMessageInfo info = new PhotonMessageInfo())
-        {
-            if (info.sender.ID == photonView.owner.ID)
-            {
-                CurrentAnimation = newAnimation;
-                Animation.CrossFade(newAnimation, fadeLength);
-            }
-        }
-
         private void CheckColliders()
         {
             if (!IsHooked && !IsLooked && !IsColliding)
@@ -838,7 +780,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
 
-        protected void OnAttacking()
+        protected override void OnAttacking()
         {
             if (CurrentAttack.IsFinished)
             {
@@ -851,7 +793,7 @@ namespace Assets.Scripts.Characters.Titan
             CurrentAttack.Execute();
         }
 
-        protected void OnChasing()
+        protected override void OnChasing()
         {
             if (Target == null || ViewDistance < TargetDistance)
             {
@@ -976,7 +918,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        protected void OnWandering()
+        protected override void OnWandering()
         {
             CurrentAnimation = AnimationWalk;
             if (!Animation.IsPlaying(CurrentAnimation))
@@ -987,7 +929,7 @@ namespace Assets.Scripts.Characters.Titan
 
         #endregion
 
-        protected virtual void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (!photonView.isMine) return;
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
@@ -1035,7 +977,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (Target == null) return;
                 var speed = CanRun()
-                    ? RunSpeed
+                    ? SpeedRun
                     : Speed;
 
                 var vector12 = transform.forward * speed;

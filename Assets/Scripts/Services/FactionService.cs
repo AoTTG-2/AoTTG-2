@@ -90,7 +90,7 @@ namespace Assets.Scripts.Services
             return new HashSet<Entity>(factionMembers);
         }
 
-        private HashSet<Entity> GetAllHostile(Entity entity)
+        public HashSet<Entity> GetAllHostile(Entity entity)
         {
             if (entity?.Faction == null)
             {

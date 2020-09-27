@@ -50,25 +50,36 @@ namespace Assets.Scripts.Gamemode
                 var ftSpawn = GameObject.Find("titanRespawn").transform;
                 SpawnService.Spawn<FemaleTitan>(ftSpawn.position, ftSpawn.rotation, new TitanConfiguration());
             }
-            else if (GameSettings.Gamemode.Name.Contains("Test"))
+            else if (GameSettings.Gamemode.Name.Contains("Test") || true)
             {
-                var ftSpawn = GameObject.FindGameObjectsWithTag("titanRespawn");
-                var tit1 = SpawnService.Spawn<MindlessTitan>(ftSpawn[1].transform.position, ftSpawn[0].transform.rotation, new TitanConfiguration());
-                var tit2 = SpawnService.Spawn<MindlessTitan>(ftSpawn[0].transform.position, ftSpawn[1].transform.rotation, new TitanConfiguration());
+                var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
+                for (var i = 0; i < 1; i++)
+                {
+                    var randomSpawn = spawns[Random.Range(0, spawns.Length)].transform;
+                    var et = SpawnService.Spawn<ErenTitan>(randomSpawn.position, new Quaternion(),
+                        new TitanConfiguration());
+                    et.Faction = FactionService.GetHumanity();
+                }
 
-                tit1.Faction = FactionService.GetHumanity();
-                tit2.Faction = FactionService.GetTitanity();
+                //var et = SpawnService.Spawn<ErenTitan>(spawns[0].transform.position, new Quaternion(),
+                //    new TitanConfiguration());
+                //et.Faction = FactionService.GetHumanity();
+
+                for (var i = 0; i < 1; i++)
+                {
+                    var randomSpawn = spawns[Random.Range(0, spawns.Length)].transform;
+                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, new TitanConfiguration());
+                }
+
+                //var tit1 = SpawnService.Spawn<MindlessTitan>(spawns[4].transform.position, spawns[0].transform.rotation, new TitanConfiguration());
+                //var tit2 = SpawnService.Spawn<MindlessTitan>(spawns[0].transform.position, spawns[1].transform.rotation, new TitanConfiguration());
+                //tit1.Faction = FactionService.GetHumanity();
+                //tit2.Faction = FactionService.GetTitanity();
 
                 //for (int i = 0; i < 15; i++)
                 //{
                 //    var tit3 = SpawnService.Spawn<MindlessTitan>(ftSpawn[0].transform.position, ftSpawn[0].transform.rotation, new TitanConfiguration());
                 //    tit3.Faction = FactionService.GetHumanity();
-                //}
-
-                //for (int i = 0; i < 25; i++)
-                //{
-                //    var tit3 = SpawnService.Spawn<MindlessTitan>(ftSpawn[0].transform.position, ftSpawn[0].transform.rotation, new TitanConfiguration());
-                //    tit3.Faction = FactionService.GetTitanity();
                 //}
             }
             else
