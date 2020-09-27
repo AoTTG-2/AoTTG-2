@@ -197,7 +197,7 @@ namespace Assets.Scripts.Gamemode
 
             this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop());
 
-            if (FengGameManagerMKII.instance.roundTime < 20f)
+            if (FengGameManagerMKII.instance.roundTime < this.StartTimerCountdown)
             {
                 this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, "RACE START IN " + ((int) (this.StartTimerCountdown - FengGameManagerMKII.instance.roundTime)) +
                                        (!(this.localRacingResult == string.Empty)
