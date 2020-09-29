@@ -8,25 +8,23 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         {
             if (seconds % 2 != 0) return false;
 
-            GameObject obj2 = null;
+            Entity target = null;
             float positiveInfinity = float.PositiveInfinity;
             Vector3 position = Titan.transform.position;
-            foreach (Hero hero in EntityService.GetAll<Hero>())
+            foreach (var hostile in FactionService.GetAllHostile(Titan))
             {
-                GameObject gameObject = hero.gameObject;
-                float num2 = Vector3.Distance(gameObject.transform.position, position);
+                float num2 = Vector3.Distance(hostile.gameObject.transform.position, position);
                 if (num2 < positiveInfinity)
                 {
-                    obj2 = gameObject;
+                    target = hostile;
                     positiveInfinity = num2;
                 }
             }
 
-            //TODO: 160 wave behavior
-            //if (obj2 != null)
-            //{
-            //    Titan.OnTargetDetected(obj2);
-            //}
+            if (target != null)
+            {
+                Titan.OnTargetDetected(target);
+            }
 
             return false;
         }

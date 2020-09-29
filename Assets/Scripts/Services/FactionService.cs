@@ -38,6 +38,7 @@ namespace Assets.Scripts.Services
 
         private void EntityService_OnUnRegister(Entity entity)
         {
+            if (!PhotonNetwork.inRoom) return;
             if (GetAllMembers(entity).Count == 0)
                 OnFactionDefeated?.Invoke(entity.Faction);
         }

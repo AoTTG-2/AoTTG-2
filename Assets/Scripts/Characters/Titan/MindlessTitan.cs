@@ -161,6 +161,10 @@ namespace Assets.Scripts.Characters.Titan
                     HealthLabel.transform.localPosition = new Vector3(0f, 10f + (1f / Size), 0f);
                 }
             }
+            else
+            {
+                Destroy(HealthLabel);
+            }
 
             if (photonView.isMine)
             {

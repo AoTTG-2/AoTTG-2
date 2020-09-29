@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Services.Interface;
-using Photon;
+using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Services
 {

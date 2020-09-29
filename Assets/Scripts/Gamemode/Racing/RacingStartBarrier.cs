@@ -7,7 +7,7 @@ namespace Assets.Scripts.Gamemode.Racing
     {
         public bool IsRacingOnly;
 
-        private void Awake()
+        private void Start()
         {
             if (IsRacingOnly && GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)
             {
@@ -21,8 +21,10 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private void OnDestroy()
         {
-            var racingGamemode = (RacingGamemode) FengGameManagerMKII.Gamemode;
-            racingGamemode.StartBarriers.Remove(this);
+            if (FengGameManagerMKII.Gamemode is RacingGamemode racingGamemode)
+            {
+                racingGamemode.StartBarriers.Remove(this);
+            }
         }
     }
 }

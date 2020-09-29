@@ -42,7 +42,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
     public GameObject checkpoint;
-    
+
     [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
     public static string currentLevel;
     [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
@@ -131,7 +131,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public static Material skyMaterial;
     [Obsolete("Use RacingGamemode instead")]
     private bool startRacing;
-    
+
     public InGameUi InGameUI;
 
     [Obsolete("This is used to assign a name to the HERO, but it shouldn't be within FengGameManager")]
@@ -149,7 +149,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         this.mainCamera = c;
     }
-    
+
     private void cache()
     {
         ClothFactory.ClearClothCache();
@@ -174,7 +174,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             customLevelLoaded = false;
         }
-        
+
         this.RecompilePlayerList(0.5f);
     }
 
@@ -205,7 +205,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         chatRoom.ClearMessages();
     }
-    
+
     [PunRPC]
     private void clearlevel(string[] link, PhotonMessageInfo info)
     {
@@ -361,13 +361,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         else
         {
             if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
-             if (this.needChooseSide)
-             {
+            if (this.needChooseSide)
+            {
                 InGameUI.SpawnMenu.gameObject.SetActive(true);
-             }
+            }
 
             int length;
-            if(!PhotonNetwork.offlineMode)
+            if (!PhotonNetwork.offlineMode)
             {
                 this.coreadd();
                 Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
@@ -444,7 +444,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     }
                 }
             }
-            
+
             //TODO: Move into Gamemode
             //if (this.timeElapse > 1f)
             //{
@@ -533,7 +533,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
     }
-    
+
     public void EnterSpecMode(bool enter)
     {
         if (enter)
@@ -590,7 +590,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //    this.isWinning = true;
         //}
     }
-    
+
     [Obsolete("Move into RacingGamemode")]
     [PunRPC]
     private void getRacingResult(string player, float time)
@@ -603,7 +603,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.racingResult.Add(result);
         this.refreshRacingResult2();
     }
-    
+
     [PunRPC]
     private void ignorePlayer(int ID, PhotonMessageInfo info)
     {
@@ -657,7 +657,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         this.RecompilePlayerList(0.1f);
     }
-    
+
     [Obsolete("Highly inefficient and expensive method to create a player list. Refactor by using StringBuilder")]
     private void ReloadPlayerlist()
     {
@@ -775,7 +775,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
     }
-    
+
     [Obsolete("Refactor to use a JSON instead.")]
     private void loadconfig()
     {
@@ -1850,8 +1850,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
             this.gameStart = false;
             this.DestroyAllExistingCloths();
-            Destroy(GameObject.Find("MultiplayerManager"));
-            Destroy(GameObject.Find("Canvas"));
             Application.LoadLevel(0);
         }
     }
@@ -1885,13 +1883,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             Settings.ChangeSettings(settings);
             var gamemodeObject = GameObject.Find("Gamemode");
-            gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
-            Gamemode = gamemodeObject.GetComponent<GamemodeBase>();
+            Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
         }
         else
         {
-            var gamemodeComponent = GameObject.Find("Gamemode").GetComponent<GamemodeBase>();
-            Destroy(gamemodeComponent);
+            foreach (var comp in Gamemode.gameObject.GetComponents<Component>())
+            {
+                if (!(comp is Transform || comp is PhotonView))
+                {
+                    Destroy(comp);
+                }
+            }
             Gamemode = null;
             SetGamemode(settings);
         }
@@ -1900,7 +1902,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnJoinedRoom()
     {
         Level = PhotonNetwork.room.GetLevel();
-        SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
+        //SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
         this.maxPlayers = PhotonNetwork.room.MaxPlayers;
         this.playerList = string.Empty;
         char[] separator = new char[] { "`"[0] };
@@ -1966,6 +1968,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
         {
+            SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
             ChangeQuality.setCurrentQuality();
             foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
             {
@@ -2212,7 +2215,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         UnityEngine.MonoBehaviour.print("OnUpdatedFriendList");
     }
-    
+
     public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
     {
         ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
@@ -2254,14 +2257,14 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         object[] parameters = new object[] { this.localRacingResult };
         base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
     }
-    
+
     public IEnumerator reloadSky()
     {
         yield return new WaitForSeconds(0.5f);
         if ((skyMaterial != null) && (Camera.main.GetComponent<Skybox>().material != skyMaterial))
             Camera.main.GetComponent<Skybox>().material = skyMaterial;
     }
-    
+
     private void resetSettings(bool isLeave)
     {
         this.name = LoginFengKAI.player.name;
@@ -2349,7 +2352,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
         }
     }
-    
+
     public void restartGame2(bool masterclientSwitched = false)
     {
         if (!this.gameTimesUp)
@@ -2654,7 +2657,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         var json = JsonConvert.SerializeObject(Settings);
         photonView.RPC(nameof(SyncSettings), info.sender, json, GameSettings.Gamemode.GamemodeType);
     }
-    
+
     [PunRPC]
     private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
     {
@@ -2903,7 +2906,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             component.gameOver = false;
         }
     }
-    
+
     public void SetSettings(Difficulty difficulty)
     {
         Settings = new GameSettings();
@@ -2930,11 +2933,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         var gamemode = GameObject.Find("Gamemode");
         DontDestroyOnLoad(gamemode);
 
+        //TODO: 160 These GameSettings should be persisted
         Settings = new GameSettings();
         var difficulty = Difficulty.Normal;
         Settings.Initialize(
-            GamemodeSettings.GetAll(difficulty), 
-            new PvPSettings(difficulty), 
+            GamemodeSettings.GetAll(difficulty),
+            new PvPSettings(difficulty),
             new SettingsTitan(difficulty)
             {
                 Mindless = new MindlessTitanSettings(difficulty)
@@ -2945,11 +2949,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 Colossal = new TitanSettings(difficulty),
                 Eren = new TitanSettings(difficulty)
             },
-            new HorseSettings(difficulty), 
+            new HorseSettings(difficulty),
             new RespawnSettings(difficulty)
         );
 
-        var json = JsonConvert.SerializeObject((object) Settings, Formatting.Indented, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+        var json = JsonConvert.SerializeObject((object) Settings, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         Debug.Log(json);
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;
@@ -3013,7 +3017,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Resources.UnloadUnusedAssets();
         this.isUnloading = false;
     }
-    
+
     [PunRPC]
     private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
     {

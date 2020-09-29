@@ -6,7 +6,8 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 {
     public abstract class TitanBehavior
     {
-        protected readonly IEntityService EntityService = Service.Entity;
+        protected IEntityService EntityService => Service.Entity;
+        protected IFactionService FactionService => Service.Faction;
 
         public void Initialize(MindlessTitan titan)
         {

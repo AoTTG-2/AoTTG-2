@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public abstract class Attack<T> where T : TitanBase
+    public class Attack<T> where T : TitanBase
     {
         public string AttackAnimation { get; set; }
 
@@ -15,7 +15,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         public BodyPart[] BodyParts { get; set; }
         public float Stamina { get; set; } = 10f;
 
-        public abstract Type[] TargetTypes { get; }
+        public virtual Type[] TargetTypes { get; }
         public int Damage { get; set; } = 100;
 
         protected T Titan { get; set; }

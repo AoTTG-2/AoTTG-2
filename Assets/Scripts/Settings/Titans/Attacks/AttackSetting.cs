@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Settings.Titans.Attacks
 {
-    public abstract class AttackSetting
+    public class AttackSetting
     {
-
         public static List<AttackSetting> GetAll<T>(Difficulty difficulty) where T : TitanBase
         {
             if (typeof(T) == typeof(MindlessTitan))

@@ -1,15 +1,22 @@
 ﻿using Assets.Scripts.Services.Interface;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
+using Photon;
 using System;
 using UnityEngine.UI;
-using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Services
 {
-    public class UiService : MonoBehaviour, IUiService
+    public class UiService : PunBehaviour, IUiService
     {
-        public InGameUi Ui;
+        public UiHandler MainUi;
+        public InGameUi Ui { get; set; }
+
+        private void Awake()
+        {
+            Ui = MainUi.InGameUi.GetComponent<InGameUi>();
+        }
 
         private void OnLevelWasLoaded()
         {
@@ -52,6 +59,11 @@ namespace Assets.Scripts.Services
         public void SetMessage(LabelPosition label, string message)
         {
             GetLabel(label).text = message;
+        }
+
+        public override void OnDisconnectedFromPhoton()
+        {
+            MainUi.ShowMenu();
         }
     }
 }

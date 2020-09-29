@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
-    public abstract class GamemodeSettings
+    public class GamemodeSettings
     {
         private string name;
         public string Name
