@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -120,6 +121,7 @@ namespace Assets.Scripts.Characters.Titan
             AnimationWalk = configuration.AnimationWalk;
             AnimationRun = configuration.AnimationRun;
             AnimationDeath = configuration.AnimationDeath;
+            AnimationIdle = configuration.AnimationIdle;
             AnimationRecovery = configuration.AnimationRecovery;
             AnimationTurnLeft = configuration.AnimationTurnLeft;
             AnimationTurnRight = configuration.AnimationTurnRight;
@@ -436,7 +438,14 @@ namespace Assets.Scripts.Characters.Titan
             }
 
             DamageTimer = Time.time;
-            Health -= damage;
+            if (GameSettings.Titan.Mindless.HealthMode.Value == TitanHealthMode.Hit)
+            {
+                Health--;
+            }
+            else
+            {
+                Health -= damage;
+            }
 
             if (MaxHealth > 0)
             {

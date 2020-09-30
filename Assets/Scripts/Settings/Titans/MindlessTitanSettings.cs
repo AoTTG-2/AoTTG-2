@@ -18,6 +18,19 @@ namespace Assets.Scripts.Settings.Titans
             switch (difficulty)
             {
                 case Difficulty.Easy:
+                    TypeRatio = new Dictionary<MindlessTitanType, float>
+                    {
+                        {MindlessTitanType.Normal, 80f},
+                        {MindlessTitanType.Abberant, 20f},
+                        {MindlessTitanType.Jumper, 15f},
+                        {MindlessTitanType.Punk, 0f},
+                        {MindlessTitanType.Crawler, 0f},
+                        {MindlessTitanType.Burster, 0f},
+                        {MindlessTitanType.Stalker, 0f},
+                        { MindlessTitanType.Abnormal, 5f }
+                    };
+                    Disabled = new List<MindlessTitanType> { MindlessTitanType.Punk, MindlessTitanType.Crawler, MindlessTitanType.Burster, MindlessTitanType.Stalker };
+                    break;
                 case Difficulty.Normal:
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:

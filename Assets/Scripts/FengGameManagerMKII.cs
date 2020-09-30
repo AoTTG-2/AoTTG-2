@@ -2930,31 +2930,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
-        var gamemode = GameObject.Find("Gamemode");
-        DontDestroyOnLoad(gamemode);
-
-        //TODO: 160 These GameSettings should be persisted
-        Settings = new GameSettings();
-        var difficulty = Difficulty.Normal;
-        Settings.Initialize(
-            GamemodeSettings.GetAll(difficulty),
-            new PvPSettings(difficulty),
-            new SettingsTitan(difficulty)
-            {
-                Mindless = new MindlessTitanSettings(difficulty)
-                {
-                    AttackSettings = AttackSetting.GetAll<MindlessTitan>(difficulty)
-                },
-                Female = new FemaleTitanSettings(difficulty),
-                Colossal = new TitanSettings(difficulty),
-                Eren = new TitanSettings(difficulty)
-            },
-            new HorseSettings(difficulty),
-            new RespawnSettings(difficulty)
-        );
-
-        var json = JsonConvert.SerializeObject((object) Settings, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        Debug.Log(json);
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";

@@ -7,7 +7,6 @@ namespace Assets.Scripts.Settings
 {
     public class PvPSettings
     {
-
         [UiElement("PvP Cannons", "Can cannons kill humans?")]
         public bool? Cannons { get; set; }
 

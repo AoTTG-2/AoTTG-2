@@ -34,6 +34,7 @@ namespace Assets.Scripts.Gamemode
 
         private void Awake()
         {
+            SetStatusTopRight();
             FactionService.OnFactionDefeated += OnFactionDefeated;
             StartCoroutine(OnUpdateEverySecond());
             StartCoroutine(OnUpdateEveryTenthSecond());
@@ -108,6 +109,7 @@ namespace Assets.Scripts.Gamemode
             {
                 case TitanHealthMode.Fixed:
                     return GameSettings.Titan.Mindless.Health;
+                case TitanHealthMode.Hit:
                 case TitanHealthMode.Scaled:
                     return Mathf.Clamp(Mathf.RoundToInt(titanSize / 4f * GameSettings.Titan.Mindless.Health), GameSettings.Titan.Mindless.HealthMinimum.Value, GameSettings.Titan.Mindless.HealthMaximum.Value);
                 case TitanHealthMode.Disabled:
@@ -253,6 +255,12 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
+        protected virtual void SetStatusTopRight()
+        {
+            var context = string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
+            UiService.SetMessage(LabelPosition.TopRight, context);
+        }
+
         public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
             var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} |" +
@@ -264,7 +272,6 @@ namespace Assets.Scripts.Gamemode
         public virtual string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {
             return string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
-
         }
 
         public virtual string GetRoundEndedMessage()
@@ -298,13 +305,20 @@ namespace Assets.Scripts.Gamemode
             if (!info.sender.IsMasterClient) return;
             HumanScore = humanScore;
             TitanScore = titanScore;
-            UiService.SetMessage(LabelPosition.Center, raw);
-            //StartCoroutine(GameEndingCountdown());
+            StartCoroutine(GameEndingCountdown(raw));
         }
 
-        private IEnumerator GameEndingCountdown()
+        private IEnumerator GameEndingCountdown(string raw)
         {
-            yield return new WaitForSeconds(10f);
+            var totalTime = 10f;
+            UiService.SetMessage(LabelPosition.Center, string.Format(raw, totalTime));
+            while (totalTime >= 0)
+            {
+                yield return new WaitForSeconds(1f);
+                totalTime--;
+                UiService.SetMessage(LabelPosition.Center, string.Format(raw, totalTime));
+            }
+
             if (PhotonNetwork.isMasterClient)
             {
                 FengGameManagerMKII.instance.restartRC();

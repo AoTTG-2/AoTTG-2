@@ -17,14 +17,13 @@ namespace Assets.Scripts.Characters.Titan.Configuration
         public float Speed { get; set; } = 20f;
         public float RunSpeed { get; set; } = 25f;
         public float Size { get; set; } = 3f;
-        //public List<Attack> Attacks { get; set; } = new List<Attack> { new BiteAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack(), new GrabAttack()};
-        public List<Attack<MindlessTitan>> Attacks { get; set; } = new List<Attack<MindlessTitan>> { new ComboAttack() };
-
+        public List<Attack<MindlessTitan>> Attacks { get; set; } = new List<Attack<MindlessTitan>> { new BiteAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack(), new GrabAttack() };
         public float Stamina { get; set; } = 100f;
         public float StaminaRegeneration { get; set; } = 1f;
         public float Focus { get; set; } = 5f;
         public string AnimationWalk { get; set; } = "run_walk";
         public string AnimationRun { get; set; }
+        public string AnimationIdle { get; set; } = "idle_2";
         public string AnimationDeath { get; set; } = "die_back";
         public string AnimationRecovery { get; set; } = "tired";
         public string AnimationTurnLeft { get; set; } = "turnaround2";
@@ -92,6 +91,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                     AnimationDeath = "crawler_die";
                     AnimationTurnLeft = "crawler_turnaround_L";
                     AnimationTurnRight = "crawler_turnaround_R";
+                    AnimationIdle = "crawler_idle";
                     Attacks = new List<Attack<MindlessTitan>>
                     {
                         new JumpAttack(true)

@@ -4,6 +4,7 @@ using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
@@ -353,21 +354,30 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        [Obsolete("Blocking all damage for 0.2s isn't viable. Instead block this per view ID instead of all")]
+        private float DamageTimer { get; set; }
         [PunRPC]
         public virtual void OnNapeHitRpc2(int viewId, int damage, PhotonMessageInfo info)
         {
-            Debug.Log("Target hit with " + damage);
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
-            if (view == null || !IsAlive/* && Time.time - DamageTimer > 0.2f*/) return;
+            if (view == null || !IsAlive && Time.time - DamageTimer > 0.2f) return;
             if (damage < GameSettings.Titan.MinimumDamage.Value) return;
             if (damage > GameSettings.Titan.MaximumDamage.Value)
             {
                 damage = GameSettings.Titan.MaximumDamage.Value;
             }
 
-            //DamageTimer = Time.time;
-            Health -= damage;
+            if (GameSettings.Titan.Mindless.HealthMode.Value == TitanHealthMode.Hit)
+            {
+                Health--;
+            }
+            else
+            {
+                Health -= damage;
+            }
+
+            DamageTimer = Time.time;
 
             if (MaxHealth > 0)
             {

@@ -36,7 +36,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private bool titanOn;
     public float titanPt;
     public float titanPtMax = 40f;
-    private readonly CaptureGamemode gamemode = FengGameManagerMKII.Gamemode as CaptureGamemode; 
+    private CaptureGamemode gamemode { get; set; }
     private readonly FengGameManagerMKII gameManager = FengGameManagerMKII.instance;
 
     [PunRPC]
@@ -197,9 +197,13 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         gamemode.SpawnCheckpointTitan(this, base.transform.position - ((Vector3)(Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation);
     }
 
-    private void Awake()
+    private void Start()
     {
-        if (gamemode == null)
+        if (FengGameManagerMKII.Gamemode is CaptureGamemode capture)
+        {
+            gamemode = capture;
+        }
+        else
         {
             DestroyImmediate(gameObject);
             return;

@@ -54,21 +54,47 @@ namespace Assets.Scripts.Settings.Titans
 
         public TitanSettings(Difficulty difficulty)
         {
+            SizeMinimum = 0.7f;
+            SizeMaximum = 3.0f;
+            ChaseDistance = 100f;
+            HealthMode = TitanHealthMode.Scaled;
+            HealthMinimum = 200;
+            HealthMaximum = 500;
+            HealthRegeneration = 0;
+            ExplodeMode = 0;
+
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                case Difficulty.Normal:
-                case Difficulty.Hard:
-                case Difficulty.Abnormal:
-                case Difficulty.Realism:
-                    SizeMinimum = 0.7f;
-                    SizeMaximum = 3.0f;
-                    ChaseDistance = 100f;
                     HealthMode = TitanHealthMode.Disabled;
-                    HealthMinimum = 200;
+                    break;
+                case Difficulty.Normal:
+                    HealthMode = TitanHealthMode.Scaled;
+                    HealthMinimum = 100;
                     HealthMaximum = 500;
-                    HealthRegeneration = 0;
-                    ExplodeMode = 0;
+                    break;
+                case Difficulty.Hard:
+                    HealthMode = TitanHealthMode.Scaled;
+                    HealthMinimum = 250;
+                    HealthMaximum = 1000;
+                    HealthRegeneration = 10;
+                    SizeMinimum = 0.7f;
+                    SizeMaximum = 4.2f;
+                    break;
+                case Difficulty.Abnormal:
+                    HealthMode = TitanHealthMode.Scaled;
+                    HealthMinimum = 250;
+                    HealthMaximum = 1000;
+                    HealthRegeneration = 25;
+                    SizeMinimum = 0.7f;
+                    SizeMaximum = 4.2f;
+                    break;
+                case Difficulty.Realism:
+                    HealthMode = TitanHealthMode.Hit;
+                    HealthMinimum = 1;
+                    HealthMaximum = 3;
+                    SizeMinimum = 0.7f;
+                    SizeMaximum = 4.5f;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

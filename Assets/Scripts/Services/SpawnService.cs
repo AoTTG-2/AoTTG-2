@@ -1,14 +1,13 @@
 ﻿using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Gamemode;
 using Assets.Scripts.Room;
+using Assets.Scripts.Services.Events;
 using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Characters.Titan.Configuration;
-using Assets.Scripts.Gamemode;
-using Assets.Scripts.Services.Events;
-using Assets.Scripts.UI.Camera;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

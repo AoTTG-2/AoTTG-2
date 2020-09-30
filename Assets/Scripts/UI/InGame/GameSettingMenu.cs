@@ -17,12 +17,13 @@ namespace Assets.Scripts.UI.InGame
 
         private void OnEnable()
         {
-            var page = Instantiate(GameSettingPage, gameObject.transform);
-            page.Data = Gamemode = GameSettings.Gamemode;
-            page.Initialize();
-            Pages.Add(page);
-            Pages[0].gameObject.SetActive(true);
-            ServerSettingsPage.gameObject.SetActive(false);
+            //TODO: Rework this for the new GameSettings
+            //var page = Instantiate(GameSettingPage, gameObject.transform);
+            //page.Data = Gamemode = GameSettings.Gamemode;
+            //page.Initialize();
+            //Pages.Add(page);
+            //Pages[0].gameObject.SetActive(true);
+            ServerSettingsPage.gameObject.SetActive(true);
         }
 
         private void OnDisable()
@@ -42,7 +43,8 @@ namespace Assets.Scripts.UI.InGame
 
         public void ViewServerSettingsPage()
         {
-            Pages[0].gameObject.SetActive(false);
+            //TODO Rework this for the new GameSettings
+            //Pages[0].gameObject.SetActive(false);
             ServerSettingsPage.gameObject.SetActive(true);
         }
 
