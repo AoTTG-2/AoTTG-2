@@ -1902,7 +1902,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public void OnJoinedRoom()
     {
         Level = PhotonNetwork.room.GetLevel();
-        //SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
+        SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
         this.maxPlayers = PhotonNetwork.room.MaxPlayers;
         this.playerList = string.Empty;
         char[] separator = new char[] { "`"[0] };
@@ -1968,7 +1968,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
         {
-            SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
             ChangeQuality.setCurrentQuality();
             foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
             {
@@ -2373,17 +2372,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
     }
-
-    public void restartGameSingle2()
-    {
-        this.startRacing = false;
-        this.endRacing = false;
-        this.checkpoint = null;
-        this.myRespawnTime = 0f;
-        this.DestroyAllExistingCloths();
-        Application.LoadLevel(Application.loadedLevel);
-    }
-
+    
     public void restartRC()
     {
         Debug.Log("RestartRC");
@@ -2414,6 +2403,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             photonView.RPC(nameof(SyncSettings), PhotonTargets.Others, json, GameSettings.Gamemode.GamemodeType);
         }
 
+        Service.Entity.OnRestart();
         EventManager.OnRestart.Invoke();
     }
 

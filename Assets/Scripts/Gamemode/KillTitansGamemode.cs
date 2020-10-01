@@ -20,9 +20,6 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnFactionDefeated(Faction faction)
         {
-            if (IsRestarting) return;
-            IsRestarting = true;
-
             string winner;
             if (faction == FactionService.GetHumanity())
             {
@@ -41,7 +38,6 @@ namespace Assets.Scripts.Gamemode
 
         public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            IsRestarting = false;
             base.OnLevelLoaded(level, isMasterClient);
             if (!isMasterClient) return;
 

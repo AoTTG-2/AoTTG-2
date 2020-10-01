@@ -32,17 +32,26 @@ namespace Assets.Scripts.Gamemode
         public int HumanScore { get; set; }
         public int TitanScore { get; set; }
 
-        private void Awake()
+        protected List<Coroutine> Coroutines { get; set; } = new List<Coroutine>();
+
+        private void Start()
         {
-            SetStatusTopRight();
             FactionService.OnFactionDefeated += OnFactionDefeated;
             StartCoroutine(OnUpdateEverySecond());
             StartCoroutine(OnUpdateEveryTenthSecond());
         }
 
+        protected virtual void OnLevelWasLoaded()
+        {
+            UiService.ResetMessagesAll();
+            Coroutines.ForEach(StopCoroutine);
+
+            Service.Faction.OnRestartComplete();
+        }
+
         private void OnDestroy()
         {
-            FactionService.OnFactionDefeated -=OnFactionDefeated;
+            FactionService.OnFactionDefeated -= OnFactionDefeated;
         }
 
         protected virtual IEnumerator OnUpdateEverySecond()
@@ -52,6 +61,7 @@ namespace Assets.Scripts.Gamemode
                 yield return new WaitForSeconds(1f);
                 SetStatusTop();
                 SetStatusTopLeft();
+                SetStatusTopRight();
             }
         }
 
@@ -158,7 +168,6 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnRestart()
         {
-            UiService.ResetMessagesAll();
             if (Settings.PointMode > 0)
             {
                 for (int i = 0; i < PhotonNetwork.playerList.Length; i++)
@@ -218,7 +227,7 @@ namespace Assets.Scripts.Gamemode
             {
                 return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
-            return "Humanity Win!\nGame Restart in " + ((int)timeUntilRestart) + "s\n\n";
+            return "Humanity Win!\nGame Restart in " + ((int) timeUntilRestart) + "s\n\n";
         }
 
         public virtual void OnTitanKilled(string titanName)
@@ -232,7 +241,7 @@ namespace Assets.Scripts.Gamemode
         protected virtual void SetStatusTop()
         {
             var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} | " +
-                          $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)} | " + 
+                          $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)} | " +
                           $"Time: {(int) Mathf.Floor(TimeService.GetRoundTime())}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
@@ -305,11 +314,12 @@ namespace Assets.Scripts.Gamemode
             if (!info.sender.IsMasterClient) return;
             HumanScore = humanScore;
             TitanScore = titanScore;
-            StartCoroutine(GameEndingCountdown(raw));
+            Coroutines.Add(StartCoroutine(GameEndingCountdown(raw)));
         }
 
         private IEnumerator GameEndingCountdown(string raw)
         {
+            //TODO: Implement a room service to cancel the Coroutine if the game is restarting
             var totalTime = 10f;
             UiService.SetMessage(LabelPosition.Center, string.Format(raw, totalTime));
             while (totalTime >= 0)
@@ -341,7 +351,7 @@ namespace Assets.Scripts.Gamemode
             var parameters = new object[] { TitanScore };
             FengGameManagerMKII.instance.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
         }
-        
+
         public virtual void OnNetGameLost(int score)
         {
             TitanScore = score;

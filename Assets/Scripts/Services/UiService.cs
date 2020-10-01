@@ -11,16 +11,11 @@ namespace Assets.Scripts.Services
     public class UiService : PunBehaviour, IUiService
     {
         public UiHandler MainUi;
-        public InGameUi Ui { get; set; }
+        private InGameUi Ui { get; set; }
 
         private void Awake()
         {
             Ui = MainUi.InGameUi.GetComponent<InGameUi>();
-        }
-
-        private void OnLevelWasLoaded()
-        {
-            ResetMessagesAll();
         }
 
         private Text GetLabel(LabelPosition label)

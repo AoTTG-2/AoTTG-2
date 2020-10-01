@@ -19,8 +19,10 @@ namespace Assets.Scripts.Services
 
         public void UnRegister(Entity entity)
         {
-            entities.Remove(entity);
-            OnUnRegister?.Invoke(entity);
+            if (entities.Remove(entity))
+            {
+                OnUnRegister?.Invoke(entity);
+            }
         }
 
         public HashSet<Entity> GetAll()

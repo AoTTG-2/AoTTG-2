@@ -578,7 +578,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             }
             if (InputManager.KeyDown(InputUi.Restart))
             {
-                this.reset();
+                if (PhotonNetwork.offlineMode)
+                    FengGameManagerMKII.instance.restartRC();
             }
             if (this.main_object != null)
             {
@@ -830,15 +831,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         return InputManager.Settings.MouseSensitivity * Time.deltaTime * 62f;
     }
-
-    private void reset()
-    {
-        if (PhotonNetwork.offlineMode)
-        {
-            FengGameManagerMKII.instance.restartGameSingle2();
-        }
-    }
-
+    
     private Texture2D RTImage2(Camera cam)
     {
         RenderTexture active = RenderTexture.active;

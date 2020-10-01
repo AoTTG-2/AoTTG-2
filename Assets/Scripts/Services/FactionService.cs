@@ -12,7 +12,6 @@ namespace Assets.Scripts.Services
     {
         public event OnFactionDefeated OnFactionDefeated;
 
-        private IPlayerService PlayerService => Service.Player;
         private IEntityService EntityService => Service.Entity;
 
         private static readonly Faction Humanity = new Faction
@@ -119,9 +118,8 @@ namespace Assets.Scripts.Services
 
         public void OnRestart()
         {
-            
         }
-
+        
         public bool IsHostile(Entity self, Entity target)
         {
             return GetHostileFactions(self.Faction).Contains(target.Faction);
