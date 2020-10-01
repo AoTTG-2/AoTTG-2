@@ -2840,6 +2840,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             this.DestroyAllExistingCloths();
             LevelHelper.Load(Level);
+            Level = PhotonNetwork.room.GetLevel();
         }
         else if (PhotonNetwork.isMasterClient)
         {
