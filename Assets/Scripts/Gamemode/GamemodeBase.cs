@@ -45,8 +45,6 @@ namespace Assets.Scripts.Gamemode
         {
             UiService.ResetMessagesAll();
             Coroutines.ForEach(StopCoroutine);
-
-            Service.Faction.OnRestartComplete();
         }
 
         private void OnDestroy()
