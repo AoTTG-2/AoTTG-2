@@ -3,7 +3,6 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Room;
-using Assets.Scripts.Services.Events;
 using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace Assets.Scripts.Services
 {
     public class SpawnService : MonoBehaviour, ISpawnService
     {
-        public event OnSpawn<Entity> OnSpawned;
+        private IEntityService EntityService => Service.Entity;
 
         private readonly List<Spawner> spawners = new List<Spawner>();
         private static GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
@@ -112,6 +111,7 @@ namespace Assets.Scripts.Services
         {
             var titan = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<TitanBase>();
             titan.Initialize(configuration);
+            EntityService.Register(titan);
             return titan;
         }
 
@@ -137,7 +137,7 @@ namespace Assets.Scripts.Services
             hashtable.Add(PhotonPlayerProperty.isTitan, 2);
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            OnSpawned?.Invoke(playerTitan);
+            EntityService.Register(playerTitan);
             return playerTitan;
         }
 

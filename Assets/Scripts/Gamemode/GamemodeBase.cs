@@ -22,24 +22,21 @@ namespace Assets.Scripts.Gamemode
     public abstract class GamemodeBase : PunBehaviour
     {
         private GamemodeSettings Settings => GameSettings.Gamemode;
-        protected readonly IEntityService EntityService = Service.Entity;
-        protected readonly IFactionService FactionService = Service.Faction;
 
-        protected IUiService UiService => Service.Ui;
+        protected IEntityService EntityService => Service.Entity;
+        protected IFactionService FactionService => Service.Faction;
+        protected IPlayerService PlayerService => Service.Player;
         protected ISpawnService SpawnService => Service.Spawn;
         protected ITimeService TimeService => Service.Time;
+        protected IUiService UiService => Service.Ui;
 
         public int HumanScore { get; set; }
         public int TitanScore { get; set; }
 
+        /// <summary>
+        /// A list of Coroutines that will be cleared upon restarting
+        /// </summary>
         protected List<Coroutine> Coroutines { get; set; } = new List<Coroutine>();
-
-        private void Start()
-        {
-            FactionService.OnFactionDefeated += OnFactionDefeated;
-            StartCoroutine(OnUpdateEverySecond());
-            StartCoroutine(OnUpdateEveryTenthSecond());
-        }
 
         protected virtual void OnLevelWasLoaded()
         {
@@ -47,11 +44,23 @@ namespace Assets.Scripts.Gamemode
             Coroutines.ForEach(StopCoroutine);
         }
 
+        private void Start()
+        {
+            EntityService.OnRegister += OnEntityRegistered;
+            EntityService.OnUnRegister += OnEntityUnRegistered;
+            FactionService.OnFactionDefeated += OnFactionDefeated;
+            StartCoroutine(OnUpdateEverySecond());
+            StartCoroutine(OnUpdateEveryTenthSecond());
+        }
+
         private void OnDestroy()
         {
+            EntityService.OnRegister -= OnEntityRegistered;
+            EntityService.OnUnRegister -= OnEntityUnRegistered;            
             FactionService.OnFactionDefeated -= OnFactionDefeated;
         }
 
+        #region Events and Coroutines
         protected virtual IEnumerator OnUpdateEverySecond()
         {
             while (true)
@@ -72,6 +81,9 @@ namespace Assets.Scripts.Gamemode
         }
 
         protected virtual void OnFactionDefeated(Faction faction) { }
+        protected virtual void OnEntityRegistered(Entity entity) { }
+        protected virtual void OnEntityUnRegistered(Entity entity) { }
+        #endregion
 
         private MindlessTitanType GetTitanType()
         {
@@ -179,14 +191,9 @@ namespace Assets.Scripts.Gamemode
                     player.SetCustomProperties(propertiesToSet);
                 }
             }
-            FengGameManagerMKII.instance.gameEndCD = 0f;
             FengGameManagerMKII.instance.restartGame2();
         }
-
-        public virtual void OnPlayerSpawned(GameObject player)
-        {
-        }
-
+        
         protected void SpawnTitans(int amount)
         {
             SpawnTitans(amount, GetTitanConfiguration);
@@ -208,11 +215,7 @@ namespace Assets.Scripts.Gamemode
                 yield return new WaitForEndOfFrame();
             }
         }
-
-        public virtual void OnTitanSpawned(MindlessTitan titan)
-        {
-        }
-
+        
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             var objArray = GameObject.FindGameObjectsWithTag(tag);
@@ -227,20 +230,12 @@ namespace Assets.Scripts.Gamemode
             }
             return "Humanity Win!\nGame Restart in " + ((int) timeUntilRestart) + "s\n\n";
         }
-
-        public virtual void OnTitanKilled(string titanName)
-        {
-            if (GameSettings.Gamemode.RestartOnTitansKilled.Value && IsAllTitansDead())
-            {
-                OnAllTitansDead();
-            }
-        }
-
+        
         protected virtual void SetStatusTop()
         {
             var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} | " +
                           $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)} | " +
-                          $"Time: {(int) Mathf.Floor(TimeService.GetRoundTime())}";
+                          $"Time: {TimeService.GetRoundDisplayTime()}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
 
@@ -267,27 +262,7 @@ namespace Assets.Scripts.Gamemode
             var context = string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
             UiService.SetMessage(LabelPosition.TopRight, context);
         }
-
-        public virtual string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
-        {
-            var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} |" +
-                          $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)}";
-            content = content + "  Time: " + time;
-            return content;
-        }
-
-        public virtual string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
-        {
-            return string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
-        }
-
-        public virtual string GetRoundEndedMessage()
-        {
-            return $"Humanity {HumanScore} : Titan {TitanScore}";
-        }
-
-        public virtual void OnAllTitansDead() { }
-
+        
         public virtual void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
             if (!GameSettings.Gamemode.Supply.Value)
@@ -317,7 +292,6 @@ namespace Assets.Scripts.Gamemode
 
         private IEnumerator GameEndingCountdown(string raw)
         {
-            //TODO: Implement a room service to cancel the Coroutine if the game is restarting
             var totalTime = 10f;
             UiService.SetMessage(LabelPosition.Center, string.Format(raw, totalTime));
             while (totalTime >= 0)
@@ -332,34 +306,7 @@ namespace Assets.Scripts.Gamemode
                 FengGameManagerMKII.instance.restartRC();
             }
         }
-
-        [Obsolete]
-        public virtual void OnGameWon()
-        {
-            HumanScore++;
-            FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
-            var parameters = new object[] { HumanScore };
-            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-        }
-
-        [Obsolete]
-        public virtual void OnGameLost()
-        {
-            TitanScore++;
-            var parameters = new object[] { TitanScore };
-            FengGameManagerMKII.instance.photonView.RPC("netGameLose", PhotonTargets.Others, parameters);
-        }
-
-        public virtual void OnNetGameLost(int score)
-        {
-            TitanScore = score;
-        }
-
-        public virtual void OnNetGameWon(int score)
-        {
-            HumanScore = score;
-        }
-
+        
         protected bool IsAllPlayersDead()
         {
             var num = 0;
@@ -375,6 +322,7 @@ namespace Assets.Scripts.Gamemode
             }
             return (num == num2);
         }
+
 
         protected bool IsAllTitansDead()
         {

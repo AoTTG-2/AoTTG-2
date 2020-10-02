@@ -1,18 +1,17 @@
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.UI.Input;
-using System;
 using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
+using Assets.Scripts.UI.Camera;
+using Assets.Scripts.UI.Input;
+using System;
 using UnityEngine;
 using static FengGameManagerMKII;
-using Assets.Scripts.UI.Camera;
-using Assets.Scripts.UI.InGame;
 using Random = UnityEngine.Random;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
-    private ISpawnService SpawnService => Service.Spawn;
+    private IEntityService EntityService => Service.Entity;
 
     private float closestDistance;
     private int currentPeekPlayerIndex;
@@ -64,7 +63,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void Awake()
     {
-        SpawnService.OnSpawned += SpawnService_OnSpawned;
+        EntityService.OnRegister += EntityService_OnRegistered;
 
         isTyping = false;
         isPausing = false;
@@ -87,7 +86,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
     }
 
-    private void SpawnService_OnSpawned(Entity entity)
+    private void EntityService_OnRegistered(Entity entity)
     {
         if (entity is PlayerTitan pt)
         {
@@ -891,6 +890,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void OnDestroy()
     {
-        SpawnService.OnSpawned -= SpawnService_OnSpawned;
+        EntityService.OnRegister -= EntityService_OnRegistered;
     }
 }

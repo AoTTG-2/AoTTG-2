@@ -10,14 +10,6 @@ namespace Assets.Scripts.Gamemode
     {
         private KillTitansSettings Settings => GameSettings.Gamemode as KillTitansSettings;
 
-        private bool IsRestarting;
-
-        public override void OnAllTitansDead()
-        {
-            FengGameManagerMKII.instance.gameWin2();
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-        }
-
         protected override void OnFactionDefeated(Faction faction)
         {
             string winner;

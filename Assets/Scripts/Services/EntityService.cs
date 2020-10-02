@@ -10,11 +10,15 @@ namespace Assets.Scripts.Services
     {
         private readonly HashSet<Entity> entities = new HashSet<Entity>();
 
+        public event OnRegister<Entity> OnRegister; 
         public event OnUnRegister<Entity> OnUnRegister;
 
         public void Register(Entity entity)
         {
-            entities.Add(entity);
+            if (entities.Add(entity))
+            {
+                OnRegister?.Invoke(entity);
+            }
         }
 
         public void UnRegister(Entity entity)

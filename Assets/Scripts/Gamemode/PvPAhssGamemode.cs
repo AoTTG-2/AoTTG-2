@@ -11,27 +11,27 @@ namespace Assets.Scripts.Gamemode
         private int teamWinner;
         private readonly int[] teamScores = new int[2];
 
-        public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
-        {
-            var content = "";
-            //for (int j = 0; j < this.teamScores.Length; j++)
-            //{
-            //    string str3 = content;
-            //    content = string.Concat(new object[] { str3, (j == 0) ? string.Empty : " : ", "Team", j + 1, " ", this.teamScores[j], string.Empty });
-            //}
-            content += content + "\nTime : " + (totalRoomTime - time);
-            return content;
-        }
+        //public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
+        //{
+        //    var content = "";
+        //    //for (int j = 0; j < this.teamScores.Length; j++)
+        //    //{
+        //    //    string str3 = content;
+        //    //    content = string.Concat(new object[] { str3, (j == 0) ? string.Empty : " : ", "Team", j + 1, " ", this.teamScores[j], string.Empty });
+        //    //}
+        //    content += content + "\nTime : " + (totalRoomTime - time);
+        //    return content;
+        //}
 
-        public override string GetRoundEndedMessage()
-        {
-            var result = string.Empty;
-            for (int k = 0; k < this.teamScores.Length; k++)
-            {
-                result += ((k == 0) ? string.Concat(new object[] { "Team", k + 1, " ", this.teamScores[k], " " }) : " : ");
-            }
-            return result;
-        }
+        //public override string GetRoundEndedMessage()
+        //{
+        //    var result = string.Empty;
+        //    for (int k = 0; k < this.teamScores.Length; k++)
+        //    {
+        //        result += ((k == 0) ? string.Concat(new object[] { "Team", k + 1, " ", this.teamScores[k], " " }) : " : ");
+        //    }
+        //    return result;
+        //}
 
         public override void OnPlayerKilled(int id)
         {
@@ -80,23 +80,23 @@ namespace Assets.Scripts.Gamemode
             return (num == num2);
         }
 
-        public override void OnGameWon()
-        {
-            FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
-            var parameters = new object[] { teamWinner };
-            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
-            {
-                //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-            }
-            this.teamScores[this.teamWinner - 1]++;
-        }
+        //public override void OnGameWon()
+        //{
+        //    FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
+        //    var parameters = new object[] { teamWinner };
+        //    FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+        //    if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
+        //    {
+        //        //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
+        //    }
+        //    this.teamScores[this.teamWinner - 1]++;
+        //}
 
-        public override void OnNetGameWon(int score)
-        {
-            base.OnNetGameWon(score);
-            this.teamWinner = score;
-            this.teamScores[this.teamWinner - 1]++;
-        }
+        //public override void OnNetGameWon(int score)
+        //{
+        //    base.OnNetGameWon(score);
+        //    this.teamWinner = score;
+        //    this.teamScores[this.teamWinner - 1]++;
+        //}
     }
 }

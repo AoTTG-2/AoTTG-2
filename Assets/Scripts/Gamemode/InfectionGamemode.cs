@@ -36,7 +36,6 @@ namespace Assets.Scripts.Gamemode
                 }
                 length--;
             }
-            FengGameManagerMKII.instance.gameEndCD = 0f;
             FengGameManagerMKII.instance.restartGame2();
         }
 

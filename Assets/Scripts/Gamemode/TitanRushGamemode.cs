@@ -1,10 +1,11 @@
-﻿using Assets.Scripts.Characters.Titan.Behavior;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Elements;
+using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -43,11 +44,11 @@ namespace Assets.Scripts.Gamemode
             Spawns = spawns.ToArray();
         }
 
-        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
+        protected override void SetStatusTop()
         {
-            var content = "Time : ";
-            var length = time - totalRoomTime;
-            return content + length.ToString() + "\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
+            var content = $"Time : {TimeService.GetRoundDisplayTime()}" +
+                          $"\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
+            UiService.SetMessage(LabelPosition.Top, content);
         }
 
         private ArrayList GetRoute()

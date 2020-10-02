@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Characters;
 using Assets.Scripts.Room;
-using Assets.Scripts.Services.Events;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +7,6 @@ namespace Assets.Scripts.Services.Interface
 {
     public interface ISpawnService : IService
     {
-        event OnSpawn<Entity> OnSpawned; 
-
         void Add(Spawner spawner);
         void Remove(Spawner spawner);
         List<T> GetAll<T>() where T : Spawner;

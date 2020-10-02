@@ -251,6 +251,7 @@ public class Hero : Human
         this.upperarmR = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
         Equipment = gameObject.AddComponent<Equipment>();
         Faction = Service.Faction.GetHumanity();
+        Service.Entity.Register(this);
     }
 
     public void backToHuman()

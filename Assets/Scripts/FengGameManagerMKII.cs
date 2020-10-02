@@ -57,8 +57,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     public int cyanKills;
     [Obsolete("Move this into RacingGamemode")]
     private bool endRacing;
-    public float gameEndCD;
-    public float gameEndTotalCDtime = 9f;
     public bool gameStart;
     private bool gameTimesUp;
     [Obsolete("This list is only used to replace the CUBE_001 TEXTURE when CUSTOM MAP is loaded. For AoTTG2 we no longer require this method")]
@@ -1734,30 +1732,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         this.gameWin2();
     }
 
-    [Obsolete("Migrate to GamemodeBase")]
-    [PunRPC]
-    private void netGameLose(int score, PhotonMessageInfo info)
-    {
-        Gamemode.OnNetGameLost(score);
-        this.gameEndCD = this.gameEndTotalCDtime;
-        if (!((info.sender == PhotonNetwork.masterClient) || info.sender.isLocal) && PhotonNetwork.isMasterClient)
-        {
-            this.chatRoom.AddMessage("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
-        }
-    }
-
-    [Obsolete("Migrate to GamemodeBase")]
-    [PunRPC]
-    private void netGameWin(int score, PhotonMessageInfo info)
-    {
-        Gamemode.OnNetGameWon(score);
-        this.gameEndCD = this.gameEndTotalCDtime;
-        if (!((info.sender == PhotonNetwork.masterClient) || info.sender.isLocal))
-        {
-            this.chatRoom.AddMessage("<color=#FFC000>Round end sent from Player " + info.sender.ID.ToString() + "</color>");
-        }
-    }
-
     [Obsolete("Migrate to RacingGamemode")]
     [PunRPC]
     private void netRefreshRacingResult(string tmp)
@@ -1851,16 +1825,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.gameStart = false;
             this.DestroyAllExistingCloths();
             Application.LoadLevel(0);
-        }
-    }
-
-    [Obsolete("Migrate to a Titan Event Manager")]
-    [PunRPC]
-    public void oneTitanDown(string titanName)
-    {
-        if (PhotonNetwork.isMasterClient)
-        {
-            EventManager.OnTitanKilled.Invoke(titanName);
         }
     }
 
@@ -2119,7 +2083,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (!this.gameTimesUp)
         {
-            this.oneTitanDown(string.Empty);
             this.someOneIsDead(0);
         }
         if (ignoreList.Contains(player.ID))
@@ -2372,7 +2335,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             }
         }
     }
-    
+
     public void restartRC()
     {
         Debug.Log("RestartRC");
@@ -2807,7 +2770,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             }
 
-            Gamemode.OnPlayerSpawned(component.main_object);
             component.enabled = true;
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
@@ -2880,7 +2842,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     break;
             }
             CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
-            Gamemode.OnPlayerSpawned(component.main_object);
             ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
             hashtable.Add("dead", false);
             ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
@@ -2962,7 +2923,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         Damage = Mathf.Max(10, Damage);
         object[] parameters = new object[] { Damage };
         base.photonView.RPC("netShowDamage", player, parameters);
-        base.photonView.RPC("oneTitanDown", PhotonTargets.MasterClient, name);
         this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
         this.playerKillInfoUpdate(player, Damage);
     }

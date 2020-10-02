@@ -25,21 +25,7 @@ namespace Assets.Scripts.Gamemode
         private int TotalFrames { get; set; }
         private float AverageSpeed => TotalSpeed / TotalFrames;
 
-        public override void OnGameWon()
-        {
-            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish.Value
-                ? 20f
-                : 9999f;
-
-            var parameters = new object[] { 0 };
-            FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
-            if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
-            {
-                //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");
-            }
-        }
-
-        private void OnLevelWasLoaded()
+        protected override void OnLevelWasLoaded()
         {
             HasStarted = false;
 
@@ -54,6 +40,21 @@ namespace Assets.Scripts.Gamemode
                 Objectives[i].NextObjective = Objectives[i + 1];
             }
             Objectives[0].Current();
+        }
+
+        protected override void SetStatusTop()
+        {
+            // Ignored
+        }
+
+        protected override void SetStatusTopLeft()
+        {
+            // Ignore
+        }
+
+        protected override void SetStatusTopRight()
+        {
+            // Ignore
         }
 
         private void Update()
@@ -86,7 +87,6 @@ namespace Assets.Scripts.Gamemode
         private void RequestStatus(PhotonMessageInfo info)
         {
             if (!PhotonNetwork.isMasterClient) return;
-
             photonView.RPC(nameof(RacingStartRpc), info.sender);
         }
 
@@ -109,14 +109,7 @@ namespace Assets.Scripts.Gamemode
             }
             return $"{localRacingResult}\n\nGame Restart in {(int) timeUntilRestart}";
         }
-
-        public override void OnNetGameWon(int score)
-        {
-            FengGameManagerMKII.instance.gameEndCD = Settings.RestartOnFinish.Value
-                ? 20f
-                : 9999f;
-        }
-
+        
         protected override IEnumerator OnUpdateEverySecond()
         {
             yield break;
@@ -129,15 +122,6 @@ namespace Assets.Scripts.Gamemode
                 yield return new WaitForSeconds(0.1f);
                 SetStatusTopLeft();
             }
-        }
-
-        protected override void SetStatusTopLeft()
-        {
-            //    //this.currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object
-            //    //    .GetComponent<Rigidbody>().velocity.magnitude;
-            //    this.maxSpeed = Mathf.Max(this.maxSpeed, this.currentSpeed);
-            //    this.ShowHUDInfoTopLeft(string.Concat(new object[]
-            //        {"Current Speed : ", (int) this.currentSpeed, "\nMax Speed:", this.maxSpeed}));
         }
     }
 }

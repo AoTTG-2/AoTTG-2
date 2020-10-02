@@ -12,7 +12,6 @@ namespace Assets.Scripts.Characters
 
         protected virtual void Awake()
         {
-            EntityService.Register(this);
         }
 
         protected virtual void OnDestroy()

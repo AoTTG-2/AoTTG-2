@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Services.Interface;
 using Photon;
 using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
@@ -17,6 +18,11 @@ namespace Assets.Scripts.Services
         public float GetRoundTime()
         {
             return (float) DateTime.UtcNow.Subtract(RoundTime).TotalSeconds;
+        }
+
+        public int GetRoundDisplayTime()
+        {
+            return (int) Mathf.Floor(GetRoundTime());
         }
 
         public override void OnCreatedRoom()

@@ -21,7 +21,7 @@ namespace Assets.Scripts.Services
             Pause = gameObject.AddComponent<PauseService>();
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
-            Ui = gameObject.GetComponent<IUiService>();
+            Ui = gameObject.GetComponent<UiService>();
         }
     }
 }
