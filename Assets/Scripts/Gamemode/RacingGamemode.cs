@@ -27,7 +27,10 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnLevelWasLoaded()
         {
+            base.OnLevelWasLoaded();
             HasStarted = false;
+            TotalSpeed = 0;
+            TotalFrames = 0;
 
             if (!PhotonNetwork.isMasterClient)
                 photonView.RPC(nameof(RequestStatus), PhotonTargets.MasterClient);

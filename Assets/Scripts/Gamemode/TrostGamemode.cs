@@ -9,9 +9,9 @@ namespace Assets.Scripts.Gamemode
     {
         private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
 
-        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        protected override void OnLevelWasLoaded()
         {
-            base.OnLevelLoaded(level, isMasterClient);
+            base.OnLevelWasLoaded();
             GameObject.Find("playerRespawn").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawn"));
             GameObject.Find("rock").GetComponent<Animation>()["lift"].speed = 0f;
@@ -19,8 +19,7 @@ namespace Assets.Scripts.Gamemode
             GameObject.Find("door_broke").SetActive(true);
             Object.Destroy(GameObject.Find("ppl"));
 
-            if (!isMasterClient) return;
-            //if (IsAllPlayersDead()) return;
+            if (!PhotonNetwork.isMasterClient) return;
 
             var eren = SpawnService.Spawn<ErenTitan>(new Vector3(-200f, 0f, -194f), Quaternion.Euler(0f, 180f, 0f), null);
             eren.rockLift = true;

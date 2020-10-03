@@ -33,25 +33,25 @@ namespace Assets.Scripts.Gamemode
         //    return result;
         //}
 
-        public override void OnPlayerKilled(int id)
-        {
-            if (Settings.Pvp.Mode != PvpMode.Disabled || Settings.Pvp.Bomb.Value) return;
-            if (IsAllPlayersDead())
-            {
-                FengGameManagerMKII.instance.gameLose2();
-                teamWinner = 0;
-            }
-            if (IsTeamAllDead(1))
-            {
-                teamWinner = 2;
-                FengGameManagerMKII.instance.gameWin2();
-            }
-            if (IsTeamAllDead(2))
-            {
-                teamWinner = 1;
-                FengGameManagerMKII.instance.gameWin2();
-            }
-        }
+        //public override void OnPlayerKilled(int id)
+        //{
+        //    if (Settings.Pvp.Mode != PvpMode.Disabled || Settings.Pvp.Bomb.Value) return;
+        //    if (IsAllPlayersDead())
+        //    {
+        //        FengGameManagerMKII.instance.gameLose2();
+        //        teamWinner = 0;
+        //    }
+        //    if (IsTeamAllDead(1))
+        //    {
+        //        teamWinner = 2;
+        //        FengGameManagerMKII.instance.gameWin2();
+        //    }
+        //    if (IsTeamAllDead(2))
+        //    {
+        //        teamWinner = 1;
+        //        FengGameManagerMKII.instance.gameWin2();
+        //    }
+        //}
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {

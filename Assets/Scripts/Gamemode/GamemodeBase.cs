@@ -42,6 +42,21 @@ namespace Assets.Scripts.Gamemode
         {
             UiService.ResetMessagesAll();
             Coroutines.ForEach(StopCoroutine);
+
+            if (!GameSettings.Gamemode.Supply.Value)
+            {
+                Destroy(GameObject.Find("aot_supply"));
+            }
+
+            if (GameSettings.Gamemode.LavaMode.Value)
+            {
+                Instantiate(Resources.Load("levelBottom"), new Vector3(0f, -29.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                var lavaSupplyStation = GameObject.Find("aot_supply_lava_position");
+                var supplyStation = GameObject.Find("aot_supply");
+                if (lavaSupplyStation == null || supplyStation == null) return;
+                supplyStation.transform.position = lavaSupplyStation.transform.position;
+                supplyStation.transform.rotation = lavaSupplyStation.transform.rotation;
+            }
         }
 
         private void Start()
@@ -168,14 +183,6 @@ namespace Assets.Scripts.Gamemode
             return new TitanConfiguration(health, 10, 100, 150f, size, type);
         }
 
-        public virtual void OnPlayerKilled(int id)
-        {
-            if (IsAllPlayersDead())
-            {
-                FengGameManagerMKII.instance.gameLose2();
-            }
-        }
-
         public virtual void OnRestart()
         {
             if (Settings.PointMode > 0)
@@ -263,24 +270,6 @@ namespace Assets.Scripts.Gamemode
             UiService.SetMessage(LabelPosition.TopRight, context);
         }
         
-        public virtual void OnLevelLoaded(Level level, bool isMasterClient = false)
-        {
-            if (!GameSettings.Gamemode.Supply.Value)
-            {
-                UnityEngine.Object.Destroy(GameObject.Find("aot_supply"));
-            }
-
-            if (GameSettings.Gamemode.LavaMode.Value)
-            {
-                UnityEngine.Object.Instantiate(Resources.Load("levelBottom"), new Vector3(0f, -29.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
-                var lavaSupplyStation = GameObject.Find("aot_supply_lava_position");
-                var supplyStation = GameObject.Find("aot_supply");
-                if (lavaSupplyStation == null || supplyStation == null) return;
-                supplyStation.transform.position = lavaSupplyStation.transform.position;
-                supplyStation.transform.rotation = lavaSupplyStation.transform.rotation;
-            }
-        }
-
         [PunRPC]
         public virtual void OnGameEndRpc(string raw, int humanScore, int titanScore, PhotonMessageInfo info)
         {
@@ -305,48 +294,6 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.restartRC();
             }
-        }
-        
-        protected bool IsAllPlayersDead()
-        {
-            var num = 0;
-            var num2 = 0;
-            foreach (var player in PhotonNetwork.playerList)
-            {
-                if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 1) continue;
-                num++;
-                if (RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
-                {
-                    num2++;
-                }
-            }
-            return (num == num2);
-        }
-
-
-        protected bool IsAllTitansDead()
-        {
-            foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-            {
-                if ((obj2.GetComponent<MindlessTitan>() != null) && obj2.GetComponent<MindlessTitan>().State != TitanState.Dead)
-                {
-                    return false;
-                }
-                if (obj2.GetComponent<FemaleTitan>() != null)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public virtual string GetDefeatMessage(float gameEndCd)
-        {
-            if (PhotonNetwork.offlineMode)
-            {
-                return $"Humanity Fail!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
-            }
-            return "Humanity Fail!\nAgain!\nGame Restart in " + ((int) gameEndCd) + "s\n\n";
         }
     }
 }

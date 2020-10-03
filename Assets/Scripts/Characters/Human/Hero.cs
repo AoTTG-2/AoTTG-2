@@ -3165,8 +3165,6 @@ public class Hero : Human
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
             propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
-            FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
             if (viewID != -1)
             {
                 PhotonView view2 = PhotonView.Find(viewID);
@@ -3294,8 +3292,6 @@ public class Hero : Human
             {
                 FengGameManagerMKII.instance.sendKillInfo(true, $"<color=#ffc000>[{info.sender.ID}]</color> " + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
             }
-            object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
-            FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
         }
         if (base.photonView.isMine)
         {
@@ -3382,8 +3378,6 @@ public class Hero : Human
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
             propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            object[] parameters = new object[] { !(titanName == string.Empty) ? 1 : 0 };
-            FengGameManagerMKII.instance.photonView.RPC("someOneIsDead", PhotonTargets.MasterClient, parameters);
             if (viewID != -1)
             {
                 PhotonView view = PhotonView.Find(viewID);

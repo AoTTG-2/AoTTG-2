@@ -12,8 +12,8 @@ namespace Assets.Scripts.Gamemode
     {
         private CaptureGamemodeSettings Settings => GameSettings.Gamemode as CaptureGamemodeSettings;
 
-        public int PvpTitanScore;
-        public int PvpHumanScore;
+        public int PvpTitanScore { get; set; }
+        public int PvpHumanScore { get; set; }
 
         private const string HumanStart = "CheckpointStartHuman";
         private const string TitanStart = "CheckpointStartTitan";
@@ -85,17 +85,15 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, HumanScore, TitanScore);
+                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, HumanScore, TitanScore);
             }
 
             if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
             {
-                PvpTitanScore = Settings.PvpTitanScoreLimit.Value;
                 FengGameManagerMKII.instance.gameLose2();
             }
             else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
             {
-                PvpHumanScore = Settings.PvpHumanScoreLimit.Value;
                 FengGameManagerMKII.instance.gameWin2();
             }
         }
@@ -112,9 +110,9 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
-        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        protected override void OnLevelWasLoaded()
         {
-            base.OnLevelLoaded(level, isMasterClient);
+            base.OnLevelWasLoaded();
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
@@ -127,7 +125,7 @@ namespace Assets.Scripts.Gamemode
                 }
             }
 
-            if (isMasterClient && FengGameManagerMKII.Level.SceneName == "OutSide")
+            if (PhotonNetwork.isMasterClient && FengGameManagerMKII.Level.SceneName == "OutSide")
             {
                 GameObject[] respawns = GameObject.FindGameObjectsWithTag("titanRespawn");
                 if (respawns.Length <= 0)
@@ -177,7 +175,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, Settings.PvpHumanScoreLimit.Value, Settings.PvpTitanScoreLimit.Value);
+                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.All, 0, 0);
             }
         }
     }

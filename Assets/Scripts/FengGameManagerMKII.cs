@@ -1969,7 +1969,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
 
-            Gamemode.OnLevelLoaded(Level, PhotonNetwork.isMasterClient);
             if (((int) settings[0xf5]) == 1)
             {
                 this.EnterSpecMode(true);
@@ -2081,10 +2080,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     public void OnPhotonPlayerDisconnected(PhotonPlayer player)
     {
-        if (!this.gameTimesUp)
-        {
-            this.someOneIsDead(0);
-        }
         if (ignoreList.Contains(player.ID))
         {
             ignoreList.Remove(player.ID);
@@ -2288,17 +2283,12 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(seconds);
-
-            //TODO: So if we are playing, we can spawn the player
-            if (/*!this.isLosing && !this.isWinning*/true)
+            for (int j = 0; j < PhotonNetwork.playerList.Length; j++)
             {
-                for (int j = 0; j < PhotonNetwork.playerList.Length; j++)
+                PhotonPlayer targetPlayer = PhotonNetwork.playerList[j];
+                if (((targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam] == null) && RCextensions.returnBoolFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
                 {
-                    PhotonPlayer targetPlayer = PhotonNetwork.playerList[j];
-                    if (((targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam] == null) && RCextensions.returnBoolFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
-                    {
-                        this.photonView.RPC("respawnHeroInNewRound", targetPlayer, new object[0]);
-                    }
+                    this.photonView.RPC("respawnHeroInNewRound", targetPlayer, new object[0]);
                 }
             }
         }
@@ -2626,13 +2616,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.kickPlayerRC(t.sender, true, "false game end.");
         }
     }
-
-    [PunRPC]
-    public void someOneIsDead(int id = -1)
-    {
-        EventManager.OnPlayerKilled.Invoke(id);
-    }
-
+    
     //TODO: 184 - This gets called upon MapLoaded
     [Obsolete("Migrate into a SpawnService")]
     public void SpawnPlayer(string id, string tag = "playerRespawn")

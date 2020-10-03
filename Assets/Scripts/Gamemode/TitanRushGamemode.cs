@@ -2,7 +2,6 @@
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.UI.Elements;
 using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,17 +17,14 @@ namespace Assets.Scripts.Gamemode
         private GameObject[] Routes { get; set; }
         private GameObject[] Spawns { get; set; }
 
-        [UiElement("Titan frequency", "1 titan will spawn per Interval", SettingCategory.Advanced)]
-        public int TitanInterval { get; set; } = 7;
-
-        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        protected override void OnLevelWasLoaded()
         {
-            base.OnLevelLoaded(level, isMasterClient);
+            base.OnLevelWasLoaded();
             GameObject.Find("playerRespawnTrost").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawnTrost"));
             Object.Destroy(GameObject.Find("rock"));
-            if (!isMasterClient) return;
-            //if (IsAllPlayersDead()) return;
+            if (!PhotonNetwork.isMasterClient) return;
+            
             SpawnService.Spawn<ColossalTitan>(-Vector3.up * 10000f, Quaternion.Euler(0f, 180f, 0f), null);
             Routes = GameObject.FindGameObjectsWithTag("route");
             GameObject[] objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
@@ -75,7 +71,7 @@ namespace Assets.Scripts.Gamemode
             if (Time.time < nextUpdate) return;
             nextUpdate = Mathf.FloorToInt(Time.time) + 1;
 
-            if (nextUpdate % TitanInterval != 0) return;
+            if (nextUpdate % Settings.TitanInterval.Value != 0) return;
             SpawnTitan();
         }
 

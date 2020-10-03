@@ -28,11 +28,10 @@ namespace Assets.Scripts.Gamemode
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
-        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        protected override void OnLevelWasLoaded()
         {
-            base.OnLevelLoaded(level, isMasterClient);
-            if (!isMasterClient) return;
-
+            base.OnLevelWasLoaded();
+            if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
                 var ftSpawn = GameObject.Find("titanRespawn").transform;
