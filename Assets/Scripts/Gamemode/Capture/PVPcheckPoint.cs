@@ -162,9 +162,10 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             }
             
             gamemode.AddHumanScore(2);
-            if (this.checkIfHumanWins())
+            if (this.checkIfHumanWins() && PhotonNetwork.isMasterClient)
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
+                gamemode.HumanScore++;
+                photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Humanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
             }
         }
         else
@@ -274,9 +275,10 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             object[] parameters = new object[] { 2 };
             base.photonView.RPC("changeState", PhotonTargets.All, parameters);
             gamemode.AddTitanScore(2);
-            if (this.checkIfTitanWins())
+            if (this.checkIfTitanWins() && PhotonNetwork.isMasterClient)
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
+                gamemode.TitanScore++;
+                photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Titanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
             }
             if (this.hasAnnie)
             {

@@ -88,13 +88,21 @@ namespace Assets.Scripts.Gamemode
                 photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, HumanScore, TitanScore);
             }
 
+            string winner = null;
             if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
             {
-                FengGameManagerMKII.instance.gameLose2();
+                TitanScore++;
+                winner = "Titanity";
             }
             else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
             {
-                FengGameManagerMKII.instance.gameWin2();
+                HumanScore++;
+                winner = "Humanity";
+            }
+
+            if (winner != null && PhotonNetwork.isMasterClient)
+            {
+                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
             }
         }
 

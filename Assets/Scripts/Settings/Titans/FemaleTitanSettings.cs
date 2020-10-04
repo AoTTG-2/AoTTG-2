@@ -16,16 +16,24 @@ namespace Assets.Scripts.Settings.Titans
 
         public FemaleTitanSettings(Difficulty difficulty) : base(difficulty)
         {
+            SpawnTitansOnDefeat = true;
+            DespawnTimer = 20f;
             switch (difficulty)
             {
                 case Difficulty.Easy:
+                    HealthMinimum = HealthMaximum = 1000;
+                    break;
                 case Difficulty.Normal:
+                    HealthMinimum = HealthMaximum = 2500;
+                    break;
                 case Difficulty.Hard:
+                    HealthMinimum = HealthMaximum = 4000;
+                    break;
                 case Difficulty.Abnormal:
+                    HealthMinimum = HealthMaximum = 7500;
+                    break;
                 case Difficulty.Realism:
-                    HealthMinimum = HealthMaximum = 2000;
-                    SpawnTitansOnDefeat = true;
-                    DespawnTimer = 5f;
+                    HealthMinimum = HealthMaximum = 10000;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

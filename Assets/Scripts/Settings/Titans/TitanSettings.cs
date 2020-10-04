@@ -65,7 +65,6 @@ namespace Assets.Scripts.Settings.Titans
             SizeMinimum = 0.7f;
             SizeMaximum = 3.0f;
             ChaseDistance = 100f;
-            HealthMode = TitanHealthMode.Scaled;
             HealthMinimum = 200;
             HealthMaximum = 500;
             HealthRegeneration = 0;
@@ -95,17 +94,17 @@ namespace Assets.Scripts.Settings.Titans
                     break;
                 case Difficulty.Abnormal:
                     HealthMode = TitanHealthMode.Scaled;
-                    HealthMinimum = 250;
-                    HealthMaximum = 1000;
+                    HealthMinimum = 500;
+                    HealthMaximum = 2000;
                     HealthRegeneration = 25;
                     SizeMinimum = 0.7f;
                     SizeMaximum = 4.2f;
                     Idle = 0.5f;
                     break;
                 case Difficulty.Realism:
-                    HealthMode = TitanHealthMode.Hit;
-                    HealthMinimum = 1;
-                    HealthMaximum = 3;
+                    HealthMode = TitanHealthMode.Scaled;
+                    HealthMinimum = 500;
+                    HealthMaximum = 3000;
                     SizeMinimum = 0.7f;
                     SizeMaximum = 4.5f;
                     Idle = 0.3f;

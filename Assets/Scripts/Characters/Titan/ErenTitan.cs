@@ -446,7 +446,8 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     crossFade("die", 0.1f);
                     isHitWhileCarryingRock = true;
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
+                    //TODO: 160, game lose
+                    //this.gameWin2();
                     object[] parameters = new object[] { "set" };
                     photonView.RPC("rockPlayAnimation", PhotonTargets.All, parameters);
                 }
@@ -812,7 +813,8 @@ namespace Assets.Scripts.Characters.Titan
                         {
                             crossFade("die", 0.1f);
                             rockPhase++;
-                            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
+                            //TODO: 160, game won
+                            //this.gameWin2();
                         }
                         if ((GetComponent<Animation>()["rock_fix_hole"].normalizedTime >= 0.62f) && !rockHitGround)
                         {

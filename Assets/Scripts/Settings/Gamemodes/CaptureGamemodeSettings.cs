@@ -16,8 +16,8 @@ namespace Assets.Scripts.Settings.Gamemodes
             Titan.Limit = 25;
             Titan.Start = 0;
             PlayerShifters = false;
-            PvpTitanScoreLimit = 200;
-            PvpHumanScoreLimit = 200;
+            PvpTitanScoreLimit = 300;
+            PvpHumanScoreLimit = 300;
             SpawnSupplyStationOnHumanCapture = true;
         }
 

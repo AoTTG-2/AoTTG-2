@@ -40,7 +40,7 @@ namespace Assets.Scripts.Settings.Titans
                     MaximumDamage = int.MaxValue;
                     Mindless = new MindlessTitanSettings();
                     Female = new FemaleTitanSettings();
-                    Colossal = new TitanSettings();
+                    Colossal = new ColossalTitanSettings();
                     Eren = new TitanSettings();
                     break;
                 default:

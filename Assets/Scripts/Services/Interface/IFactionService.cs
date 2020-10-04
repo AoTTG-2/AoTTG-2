@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Characters;
-using Assets.Scripts.Services.Events;
+using Assets.Scripts.Events;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Interface

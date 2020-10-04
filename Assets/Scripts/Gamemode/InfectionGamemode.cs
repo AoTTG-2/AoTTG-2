@@ -79,9 +79,10 @@ namespace Assets.Scripts.Gamemode
                     }
                 }
             }
-            if (num21 <= 0)
+            if (num21 <= 0 && PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.gameWin2();
+                FengGameManagerMKII.Gamemode.HumanScore++;
+                FengGameManagerMKII.Gamemode.photonView.RPC(nameof(GamemodeBase.OnGameEndRpc), PhotonTargets.All, $"Humanity has won!\nRestarting in {{0}}s", FengGameManagerMKII.Gamemode.HumanScore, FengGameManagerMKII.Gamemode.TitanScore);
             }
         }
 

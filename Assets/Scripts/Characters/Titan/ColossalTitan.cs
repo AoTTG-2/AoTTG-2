@@ -72,7 +72,7 @@ namespace Assets.Scripts.Characters.Titan
             base.GetComponent<Rigidbody>().useGravity = false;
             base.GetComponent<Rigidbody>().isKinematic = true;
         }
-        
+
         public void beTauntedBy(GameObject target, float tauntTime)
         {
         }
@@ -351,7 +351,7 @@ namespace Assets.Scripts.Characters.Titan
             base.GetComponent<Animation>().Play(aniName);
             base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
         }
-        
+
         private void playAnimation(string aniName)
         {
             base.GetComponent<Animation>().Play(aniName);
@@ -439,7 +439,7 @@ namespace Assets.Scripts.Characters.Titan
                 this.maxHealth = this.NapeArmor;
                 if (GameSettings.Titan.Colossal.HealthMode != TitanHealthMode.Disabled)
                 {
-                    this.maxHealth = this.NapeArmor = GameSettings.Titan.Colossal.Health;
+                    maxHealth = NapeArmorTotal = NapeArmor = GameSettings.Titan.Colossal.Health;
                 }
                 if (this.NapeArmor > 0)
                 {
@@ -457,13 +457,6 @@ namespace Assets.Scripts.Characters.Titan
                 this.findNearestHero();
             }
             base.name = "ColossalTitan";
-            this.NapeArmor = 1000;
-            var flag = GameSettings.Respawn.Mode == RespawnMode.NEVER;
-            NapeArmor = !flag ? 5000 : 2000;
-            //if (Gamemode.Settings.Difficulty == Difficulty.Normal)
-            //{
-            //    this.NapeArmor = !flag ? 5000 : 2000;
-            //}
             //else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
             //{
             //    this.NapeArmor = !flag ? 8000 : 3500;
@@ -508,7 +501,6 @@ namespace Assets.Scripts.Characters.Titan
             //        }
             //    }
             //}
-            this.NapeArmorTotal = this.NapeArmor;
             this.state = "wait";
             Transform transform = base.transform;
             transform.position += (Vector3) (-Vector3.up * 10000f);
@@ -733,7 +725,6 @@ namespace Assets.Scripts.Characters.Titan
                                 {
                                     PhotonNetwork.Destroy(base.photonView);
                                 }
-                                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
                             }
                             this.findNearestHero();
                             this.idle();

@@ -116,30 +116,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     item.hitPosition = (Vector3) ((base.transform.position + item.transform.position) * 0.5f);
                     this.currentHits.Add(item);
                     this.meatDie.Play();
-                    if (item.transform.root.GetComponent<TitanBase>() != null)
-                    {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                        var damage = (int) ((vector4.magnitude * 10f) * this.scoreMulti);
-                        damage = Mathf.Max(10, damage);
-                        var titan = item.transform.root.GetComponent<TitanBase>();
-                        titan.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                    }
-                    else if (item.transform.root.GetComponent<MindlessTitan>() != null)
-                    {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
-                        damage = Mathf.Max(10, damage);
-                        var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
-                        if (PhotonNetwork.isMasterClient)
-                        {
-                            mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
-                        }
-                        else
-                        {
-                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                        }
-                    }
-                    else if (!PhotonNetwork.isMasterClient)
+                    if (!PhotonNetwork.isMasterClient)
                     {
                         if (item.transform.root.GetComponent<FemaleTitan>() != null)
                         {
@@ -203,6 +180,30 @@ public class TriggerColliderWeapon : MonoBehaviour
                     else if (item.transform.root.GetComponent<DummyTitan>())
                     {
                         DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
+                    }
+                    //TODO: 160 Assure that all titans use the same logic here
+                    else if (item.transform.root.GetComponent<TitanBase>() != null)
+                    {
+                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                        var damage = (int) ((vector4.magnitude * 10f) * this.scoreMulti);
+                        damage = Mathf.Max(10, damage);
+                        var titan = item.transform.root.GetComponent<TitanBase>();
+                        titan.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                    }
+                    else if (item.transform.root.GetComponent<MindlessTitan>() != null)
+                    {
+                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
+                        damage = Mathf.Max(10, damage);
+                        var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
+                        if (PhotonNetwork.isMasterClient)
+                        {
+                            mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
+                        }
+                        else
+                        {
+                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                        }
                     }
                     this.showCriticalHitFX();
                 }

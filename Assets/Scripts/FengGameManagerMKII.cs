@@ -18,7 +18,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -568,28 +567,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
     }
-
-    [Obsolete("Move into GamemodeBase")]
-    public void gameLose2()
-    {
-        //if (!(this.isWinning || this.isLosing))
-        //{
-        //    EventManager.OnGameLost.Invoke();
-        //    this.isLosing = true;
-        //    this.gameEndCD = this.gameEndTotalCDtime;
-        //}
-    }
-
-    [Obsolete("Move into GamemodeBase")]
-    public void gameWin2()
-    {
-        //if (!this.isLosing && !this.isWinning)
-        //{
-        //    EventManager.OnGameWon.Invoke();
-        //    this.isWinning = true;
-        //}
-    }
-
+    
     [Obsolete("Move into RacingGamemode")]
     [PunRPC]
     private void getRacingResult(string player, float time)
@@ -1730,7 +1708,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             object[] parameters = new object[] { LoginFengKAI.player.name, time };
             base.photonView.RPC("getRacingResult", PhotonTargets.MasterClient, parameters);
         }
-        this.gameWin2();
     }
 
     [Obsolete("Migrate to RacingGamemode")]
@@ -2856,7 +2833,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     AttackSettings = AttackSetting.GetAll<MindlessTitan>(difficulty)
                 },
                 Female = new FemaleTitanSettings(difficulty),
-                Colossal = new TitanSettings(difficulty),
+                Colossal = new ColossalTitanSettings(difficulty),
                 Eren = new TitanSettings(difficulty)
             },
             new HorseSettings(difficulty),
@@ -3375,13 +3352,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     {
                         object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, parameters);
-                        this.gameWin2();
+                        //TODO: 160, game won
+                        //this.gameWin2();
                     }
                     else if (this.magentaKills >= GameSettings.Gamemode.PointMode)
                     {
                         objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                         this.photonView.RPC("Chat", PhotonTargets.All, objArray2);
-                        this.gameWin2();
+                        //TODO: 160, game won
+                        //this.gameWin2();
                     }
                 }
                 else if (GameSettings.Gamemode.TeamMode == TeamMode.Disabled)
@@ -3393,7 +3372,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         {
                             object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
                             this.photonView.RPC("Chat", PhotonTargets.All, objArray4);
-                            this.gameWin2();
+                            //TODO: 160, game won
+                            //this.gameWin2();
                         }
                     }
                 }
@@ -3437,13 +3417,15 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             {
                                 object[] objArray5 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                                 this.photonView.RPC("Chat", PhotonTargets.All, objArray5);
-                                this.gameWin2();
+                                //TODO: 160, game won
+                                //this.gameWin2();
                             }
                             else if (num25 == 0)
                             {
                                 object[] objArray6 = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                                 this.photonView.RPC("Chat", PhotonTargets.All, objArray6);
-                                this.gameWin2();
+                                //TODO: 160, game won
+                                //this.gameWin2();
                             }
                         }
                     }
@@ -3478,7 +3460,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                             }
                             object[] objArray7 = new object[] { "<color=#FFCC00>" + text.hexColor() + " wins." + str4 + "</color>", string.Empty };
                             this.photonView.RPC("Chat", PhotonTargets.All, objArray7);
-                            this.gameWin2();
+                            //TODO: 160, game won
+                            //this.gameWin2();
                         }
                     }
                 }

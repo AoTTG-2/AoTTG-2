@@ -38,8 +38,11 @@ namespace Assets.Scripts.Gamemode
         /// </summary>
         protected List<Coroutine> Coroutines { get; set; } = new List<Coroutine>();
 
+        protected bool IsRoundOver { get; private set; }
+
         protected virtual void OnLevelWasLoaded()
         {
+            IsRoundOver = false;
             UiService.ResetMessagesAll();
             Coroutines.ForEach(StopCoroutine);
 
@@ -257,7 +260,8 @@ namespace Assets.Scripts.Gamemode
         [PunRPC]
         public virtual void OnGameEndRpc(string raw, int humanScore, int titanScore, PhotonMessageInfo info)
         {
-            if (!info.sender.IsMasterClient) return;
+            if (!info.sender.IsMasterClient || IsRoundOver) return;
+            IsRoundOver = true;
             HumanScore = humanScore;
             TitanScore = titanScore;
             Coroutines.Add(StartCoroutine(GameEndingCountdown(raw)));

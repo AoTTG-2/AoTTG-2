@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters.Titan;
+﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
@@ -13,13 +14,16 @@ namespace Assets.Scripts.Gamemode
     public class TitanRushGamemode : GamemodeBase
     {
         private RushSettings Settings => GameSettings.Gamemode as RushSettings;
-
         private GameObject[] Routes { get; set; }
         private GameObject[] Spawns { get; set; }
+        private List<RushBehavior> SubscribedEvents { get; } = new List<RushBehavior>();
 
         protected override void OnLevelWasLoaded()
         {
             base.OnLevelWasLoaded();
+            SubscribedEvents.ForEach(x => x.OnCheckpointArrived -= OnCheckpointArrived);
+            SubscribedEvents.Clear();
+
             GameObject.Find("playerRespawnTrost").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawnTrost"));
             Object.Destroy(GameObject.Find("rock"));
@@ -45,6 +49,16 @@ namespace Assets.Scripts.Gamemode
             var content = $"Time : {TimeService.GetRoundDisplayTime()}" +
                           $"\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
             UiService.SetMessage(LabelPosition.Top, content);
+        }
+
+        protected override void OnEntityUnRegistered(Entity entity)
+        {
+            if (IsRoundOver || !PhotonNetwork.isMasterClient) return;
+            if (entity is ColossalTitan)
+            {
+                HumanScore++;
+                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"The colossal titan has been defeated!\nRestarting in {{0}}s", HumanScore, TitanScore);
+            }
         }
 
         private ArrayList GetRoute()
@@ -80,9 +94,26 @@ namespace Assets.Scripts.Gamemode
             if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
             var configuration = GetTitanConfiguration();
             var route = GetRoute();
-            configuration.Behaviors.Add(new RushBehavior(route));
+            var behavior = new RushBehavior(route);
+            behavior.OnCheckpointArrived += OnCheckpointArrived;
+            SubscribedEvents.Add(behavior);
+            configuration.Behaviors.Add(behavior);
             var spawn = Spawns[Random.Range(0, Spawns.Length)].transform;
             SpawnService.Spawn<MindlessTitan>(spawn.position, spawn.rotation, configuration);
+        }
+
+        private void OnCheckpointArrived(Vector3 checkpoint, Entity arriver)
+        {
+            photonView.RPC(nameof(OnArrivedAtLastCheckpointRpc), PhotonTargets.MasterClient, checkpoint, arriver.photonView.viewID);
+        }
+
+        [PunRPC]
+        private void OnArrivedAtLastCheckpointRpc(Vector3 checkpoint, int viewId, PhotonMessageInfo info)
+        {
+            if (!PhotonNetwork.isMasterClient) return;
+            if (IsRoundOver) return;
+            TitanScore++;
+            photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"The civilians have died!\nRestarting in {{0}}s", HumanScore, TitanScore);
         }
 
     }

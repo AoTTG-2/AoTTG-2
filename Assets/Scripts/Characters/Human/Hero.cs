@@ -898,7 +898,6 @@ public class Hero : Human
             }
             this.breakApart2(v, isBite);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
             this.falseAttack();
             this.hasDied = true;
             Transform transform = base.transform.Find("audio_die");
@@ -934,7 +933,6 @@ public class Hero : Human
             this.meatDie.Play();
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
             this.falseAttack();
             this.hasDied = true;
             GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
