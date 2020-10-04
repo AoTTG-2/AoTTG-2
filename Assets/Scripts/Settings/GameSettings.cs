@@ -56,6 +56,12 @@ namespace Assets.Scripts.Settings
             Respawn = ConfigRespawn = respawn;
         }
 
+        public void Initialize(string json)
+        {
+            var gameSettings = JsonConvert.DeserializeObject<GameSettings>(json);
+            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn);
+        }
+
         public void ChangeSettings(GamemodeSettings levelGamemode)
         {
             var playerGamemodeSettings = ConfigGamemodes.Single(x => x.GamemodeType == levelGamemode.GamemodeType);

@@ -11,10 +11,63 @@ namespace Assets.Scripts.Settings.Titans
 
         public List<MindlessTitanType> Disabled { get; set; }
 
+        public Dictionary<MindlessTitanType, TitanSettings> TypeSettings { get; set; }
+
         public MindlessTitanSettings() { }
 
         public MindlessTitanSettings(Difficulty difficulty) : base(difficulty)
         {
+            // Example on how a single type can override base class settings
+            TypeSettings = new Dictionary<MindlessTitanType, TitanSettings>
+            {
+                {
+                    MindlessTitanType.Normal, new TitanSettings
+                    {
+                        Speed = 7f
+                    }
+                },
+                {
+                    MindlessTitanType.Abberant, new TitanSettings
+                    {
+                        Speed = 16f,
+                        RunSpeed = 20f
+                    }
+                },
+                {
+                    MindlessTitanType.Jumper, new TitanSettings
+                    {
+                        Speed = 16f,
+                        RunSpeed = 20f
+                    }
+                },
+                {
+                    MindlessTitanType.Punk, new TitanSettings
+                    {
+                        Speed = 9f,
+                        RunSpeed = 18f
+                    }
+                },
+                {
+                    MindlessTitanType.Crawler, new TitanSettings
+                    {
+                        Speed = 22f,
+                        RunSpeed = 37f
+                    }
+                },
+                {
+                    MindlessTitanType.Stalker, new TitanSettings
+                    {
+                        Speed = 18f
+                    }
+                },
+                {
+                    MindlessTitanType.Burster, new TitanSettings
+                    {
+                        Speed = 18f
+                    }
+                },
+            };
+
             switch (difficulty)
             {
                 case Difficulty.Easy:
@@ -27,7 +80,7 @@ namespace Assets.Scripts.Settings.Titans
                         {MindlessTitanType.Crawler, 0f},
                         {MindlessTitanType.Burster, 0f},
                         {MindlessTitanType.Stalker, 0f},
-                        { MindlessTitanType.Abnormal, 5f }
+                        {MindlessTitanType.Abnormal, 0f }
                     };
                     Disabled = new List<MindlessTitanType> { MindlessTitanType.Punk, MindlessTitanType.Crawler, MindlessTitanType.Burster, MindlessTitanType.Stalker };
                     break;

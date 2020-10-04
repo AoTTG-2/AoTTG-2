@@ -1,12 +1,15 @@
 ﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings.Converter;
 using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.UI.Elements;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
+    [JsonConverter(typeof(GamemodeConverter))]
     public class GamemodeSettings
     {
         private string name;

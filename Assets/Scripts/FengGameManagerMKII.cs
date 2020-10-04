@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -2861,6 +2862,18 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             new HorseSettings(difficulty),
             new RespawnSettings(difficulty)
         );
+
+        var json = JsonConvert.SerializeObject(Settings, new JsonSerializerSettings()
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        });
+        Debug.Log(json);
+    }
+
+    public void SetSettings(string json)
+    {
+        Settings = new GameSettings();
+        Settings.Initialize(json);
     }
 
     private void Start()

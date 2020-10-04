@@ -69,7 +69,7 @@ namespace Assets.Scripts.Characters.Titan
         public float RotationModifier { get; private set; }
 
         public Attack<MindlessTitan>[] Attacks { get; private set; }
-        public Attack<MindlessTitan> CurrentAttack { get; set; } = new BodySlamAttack();
+        public Attack<MindlessTitan> CurrentAttack { get; set; }
         private Collider[] Colliders { get; set; }
         private FengGameManagerMKII GameManager { get; set; }
 
@@ -130,6 +130,7 @@ namespace Assets.Scripts.Characters.Titan
             staminaLimit = Stamina;
             Focus = configuration.Focus;
             FocusTimer = 0f;
+            Idle = configuration.Idle;
             Behaviors = configuration.Behaviors.ToArray();
 
             foreach (var behavior in Behaviors)
@@ -566,7 +567,7 @@ namespace Assets.Scripts.Characters.Titan
                 NextState = state;
                 State = TitanState.Idle;
                 IdleTimer = Idle;
-                CrossFade("idle_2", 0.2f);
+                CrossFade(AnimationIdle, 0.2f);
                 return;
             }
 

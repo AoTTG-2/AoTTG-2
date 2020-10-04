@@ -1291,7 +1291,7 @@ public class FemaleTitan : TitanBase
         this.size = 4f;
         if (base.photonView.isMine)
         {
-            size = GameSettings.Titan.Female.Size;
+            //size = GameSettings.Titan.Female.Size.Value;
             base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;

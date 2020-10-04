@@ -34,6 +34,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         {
             if (IsDisabled()) return false;
             //TODO: 160 (Rather create a new Attack list upon target switch than every chase frame)
+            if (Titan is PlayerTitan pt && pt.Ai) return true;
             if (!TargetTypes.Any(x => Titan.Target.GetType().IsSubclassOf(x))) return false;
 
             return true;

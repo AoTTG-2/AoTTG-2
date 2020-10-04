@@ -3,7 +3,11 @@ using Assets.Scripts.Settings.Gamemodes;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Assets.Scripts.Settings;
+using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -18,6 +22,8 @@ namespace Assets.Scripts.UI.Menu
 
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
+        private Dictionary<string, string> CustomDifficulties;
+        private const string CustomDifficultyPrefix = "*-";
 
         private void Awake()
         {
@@ -30,6 +36,8 @@ namespace Assets.Scripts.UI.Menu
 
             PhotonNetwork.Disconnect();
             PhotonNetwork.offlineMode = true;
+
+            CustomDifficulties = new Dictionary<string, string>();
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -56,6 +64,15 @@ namespace Assets.Scripts.UI.Menu
                 DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
             }
             DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
+
+
+            var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
+            foreach (var file in files)
+            {
+                var fileName = file.Split(Path.DirectorySeparatorChar).Last().Replace(".json", string.Empty);
+                CustomDifficulties.Add(fileName, file);
+                DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
+            }
         }
 
         public override void Back()
@@ -66,8 +83,19 @@ namespace Assets.Scripts.UI.Menu
 
         public void Create()
         {
-            var difficulty = (Difficulty) DifficultyDropdown.value;
-            FengGameManagerMKII.instance.SetSettings(difficulty);
+            if (DifficultyDropdown.captionText.text.StartsWith(CustomDifficultyPrefix))
+            {
+                var customDifficulty = DifficultyDropdown.captionText.text.Replace(CustomDifficultyPrefix, string.Empty);
+                using (var reader = File.OpenText(CustomDifficulties[customDifficulty]))
+                {
+                    FengGameManagerMKII.instance.SetSettings(reader.ReadToEnd());
+                }
+            }
+            else
+            {
+                var difficulty = (Difficulty) DifficultyDropdown.value;
+                FengGameManagerMKII.instance.SetSettings(difficulty);
+            }
             var roomOptions = new RoomOptions
             {
                 IsVisible = true,

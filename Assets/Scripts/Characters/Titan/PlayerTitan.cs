@@ -44,17 +44,23 @@ namespace Assets.Scripts.Characters.Titan
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, targetDirection, 0f), (Speed * 0.15f) * Time.deltaTime);
 
         }
-
-        public override void Initialize(TitanConfiguration configuration)
-        {
-            base.Initialize(configuration);
-        }
-
+        
         private Attack<MindlessTitan> CanAttack()
         {
             if (InputManager.KeyDown(InputTitan.AttackBodySlam)) 
             {
                 return Attacks.FirstOrDefault(x => x is BodySlamAttack);
+            }
+
+            if (InputManager.KeyDown(InputTitan.AttackPunch))
+            {
+                var attack = Attacks.SingleOrDefault(x => x is ComboAttack);
+                if (attack == null) return null;
+                if (!attack.CanAttack(this)) return null;
+
+                var attackCombo = attack as ComboAttack;
+                attackCombo.AttackAnimation = "attack_combo_1";
+                return attackCombo;
             }
 
             if (InputManager.KeyDown(InputTitan.AttackSlap))
@@ -293,7 +299,7 @@ namespace Assets.Scripts.Characters.Titan
                 else
                 {
                     SpeedModifier = 1f;
-                    CrossFade(AnimationRun, 0.0f);
+                    CrossFade(AnimationRun ?? AnimationWalk, 0.0f);
                 }
             }
             else

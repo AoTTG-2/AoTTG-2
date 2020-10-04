@@ -20,10 +20,5 @@ namespace Assets.Scripts.Characters
         }
 
         public abstract void OnHit(Entity attacker, int damage);
-
-        protected static void Initialize<T>(T entityConfiguration) where T : EntityConfiguration
-        {
-
-        }
     }
 }

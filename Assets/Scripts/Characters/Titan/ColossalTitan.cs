@@ -432,7 +432,7 @@ namespace Assets.Scripts.Characters.Titan
             this.size = 20f;
             if (base.photonView.isMine)
             {
-                this.size = GameSettings.Titan.Colossal.Size;
+                //this.size = GameSettings.Titan.Colossal.Size.Value;
                 base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
                 this.lagMax = 150f + (this.size * 3f);
                 this.healthTime = 0f;

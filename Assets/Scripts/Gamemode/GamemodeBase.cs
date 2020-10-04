@@ -138,22 +138,6 @@ namespace Assets.Scripts.Gamemode
             return GetTitanTypeFromDictionary(GameSettings.Titan.Mindless.TypeRatio);
         }
 
-        private int GetTitanHealth(float titanSize)
-        {
-            switch (GameSettings.Titan.Mindless.HealthMode)
-            {
-                case TitanHealthMode.Fixed:
-                    return GameSettings.Titan.Mindless.Health;
-                case TitanHealthMode.Hit:
-                case TitanHealthMode.Scaled:
-                    return Mathf.Clamp(Mathf.RoundToInt(titanSize / 4f * GameSettings.Titan.Mindless.Health), GameSettings.Titan.Mindless.HealthMinimum.Value, GameSettings.Titan.Mindless.HealthMaximum.Value);
-                case TitanHealthMode.Disabled:
-                    return 0;
-                default:
-                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {GameSettings.Titan.Mindless.HealthMode}");
-            }
-        }
-
         public virtual TitanConfiguration GetPlayerTitanConfiguration()
         {
             var configuration = GetTitanConfiguration();
@@ -166,7 +150,8 @@ namespace Assets.Scripts.Gamemode
             configuration.Attacks = new List<Attack<MindlessTitan>>
             {
                 new KickAttack(), new SlapAttack(), new SlapFaceAttack(),
-                new BiteAttack(), new BodySlamAttack(), new GrabAttack()
+                new BiteAttack(), new BodySlamAttack(), new GrabAttack(),
+                new ComboAttack()
             };
             return configuration;
         }
@@ -178,9 +163,7 @@ namespace Assets.Scripts.Gamemode
 
         public virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)
         {
-            var size = GameSettings.Titan.Mindless.Size;
-            var health = GetTitanHealth(size);
-            return new TitanConfiguration(health, 10, 100, 150f, size, type);
+            return new TitanConfiguration(10, 100, 150f, type);
         }
 
         public virtual void OnRestart()
@@ -229,6 +212,7 @@ namespace Assets.Scripts.Gamemode
             return objArray[Random.Range(0, objArray.Length)];
         }
 
+        [Obsolete]
         public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
             if (PhotonNetwork.offlineMode)

@@ -1,5 +1,8 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Titans;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +12,9 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 {
     public class TitanConfiguration : EntityConfiguration
     {
+        private MindlessTitanSettings Settings => GameSettings.Titan.Mindless;
+        private TitanSettings TypeSettings { get; set; }
+
         public int Health { get; set; } = 5000;
         public int HealthRegeneration { get; set; } = 10;
         public float LimbHealth { get; set; } = 100f;
@@ -16,6 +22,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
         public float ViewDistance { get; set; } = 200f;
         public float Speed { get; set; } = 20f;
         public float RunSpeed { get; set; } = 25f;
+        public float Idle { get; set; } = 1f;
         public float Size { get; set; } = 3f;
         public List<Attack<MindlessTitan>> Attacks { get; set; } = new List<Attack<MindlessTitan>> { new BiteAttack(), new KickAttack(), new StompAttack(), new SmashAttack(), new SlapFaceAttack(), new GrabAttack() };
         public float Stamina { get; set; } = 100f;
@@ -33,14 +40,17 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 
         public TitanConfiguration() { }
 
-        public TitanConfiguration(int health, int healthRegeneration, int limbHealth, float viewDistance, float size, MindlessTitanType type)
+
+        public TitanConfiguration(int healthRegeneration, int limbHealth, float viewDistance, MindlessTitanType type)
         {
-            Health = health;
+            Type = type;
+            Settings.TypeSettings.TryGetValue(type, out var typeSettings);
+            TypeSettings = typeSettings;
+            Size = TypeSettings?.Size ?? Settings.Size.Value;
+            Health = SetHealth();
             HealthRegeneration = healthRegeneration;
             LimbHealth = limbHealth;
-            Size = size;
-            ViewDistance = viewDistance * size;
-            Type = type;
+            ViewDistance = viewDistance * Size;
             SetMindlessTitanType(type);
             Speed *= Mathf.Sqrt(Size);
             RunSpeed *= Mathf.Sqrt(Size);
@@ -48,29 +58,47 @@ namespace Assets.Scripts.Characters.Titan.Configuration
             StaminaRegeneration *= Mathf.Sqrt(Size);
         }
 
+        private int SetHealth()
+        {
+            var healthMode = TypeSettings?.HealthMode ?? Settings.HealthMode;
+            switch (healthMode)
+            {
+                case TitanHealthMode.Fixed:
+                    return GameSettings.Titan.Mindless.Health;
+                case TitanHealthMode.Hit:
+                case TitanHealthMode.Scaled:
+                    return Mathf.Clamp(Mathf.RoundToInt(Size / 4f * GameSettings.Titan.Mindless.Health), GameSettings.Titan.Mindless.HealthMinimum.Value, GameSettings.Titan.Mindless.HealthMaximum.Value);
+                case TitanHealthMode.Disabled:
+                    return 0;
+                default:
+                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {GameSettings.Titan.Mindless.HealthMode}");
+            }
+        }
+
         private void SetMindlessTitanType(MindlessTitanType type)
         {
+            Idle = TypeSettings?.Idle ?? Settings.Idle.Value;
+            Speed = TypeSettings?.Speed ?? Settings.Speed.Value;
+            RunSpeed = TypeSettings?.RunSpeed ?? Settings.RunSpeed ?? Speed;
+
             switch (type)
             {
+
+
                 case MindlessTitanType.Normal:
                     AnimationWalk = "run_walk";
                     Attacks.Add(new ComboAttack());
-                    Speed = 7f;
                     Focus = 10f;
                     break;
                 case MindlessTitanType.Abberant:
                     AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
-                    Speed = 16f;
-                    RunSpeed = 20f;
                     Focus = 8f;
                     Attacks.Add(new BodySlamAttack());
                     break;
                 case MindlessTitanType.Jumper:
                     AnimationWalk = "run_abnormal";
                     AnimationRun = "run_abnormal";
-                    Speed = 16f;
-                    RunSpeed = 20f;
                     Focus = 4f;
                     Attacks.Add(new BodySlamAttack());
                     Attacks.Add(new JumpAttack());
@@ -82,8 +110,6 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                     Attacks.Add(new RockThrowAttack());
                     Attacks.Add(new SlapAttack());
                     Attacks.Add(new BodySlamAttack());
-                    Speed = 8f;
-                    RunSpeed = 18f;
                     Focus = 1f;
                     break;
                 case MindlessTitanType.Crawler:
@@ -97,16 +123,12 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                         new JumpAttack(true)
                     };
                     Behaviors = new List<TitanBehavior> { new DeathOnFaceBehavior() };
-                    Speed = 22f;
-                    RunSpeed = 37f;
                     Focus = 2f;
                     break;
                 case MindlessTitanType.Stalker:
-                    Speed = 18f;
                     Focus = 200f;
                     break;
                 case MindlessTitanType.Burster:
-                    Speed = 18f;
                     break;
                 case MindlessTitanType.Abnormal:
                     SetAbnormal();

@@ -44,8 +44,16 @@ namespace Assets.Scripts.Settings.Titans
         [UiElement("Explode mode", "", SettingCategory.Titans)]
         public int? ExplodeMode { get; set; }
 
+        public float? Idle { get; set; }
+
+        public float? Speed { get; set; }
+
+        public float? RunSpeed { get; set; }
+
         [JsonIgnore]
-        public float Size => Random.Range(SizeMinimum.Value, SizeMaximum.Value);
+        public float? Size => SizeMinimum.HasValue && SizeMaximum.HasValue
+                    ? Random.Range(SizeMinimum.Value, SizeMaximum.Value)
+                    : (float?)null;
 
         [JsonIgnore]
         public int Health => Random.Range(HealthMinimum.Value, HealthMaximum.Value);
@@ -62,16 +70,19 @@ namespace Assets.Scripts.Settings.Titans
             HealthMaximum = 500;
             HealthRegeneration = 0;
             ExplodeMode = 0;
+            Speed = RunSpeed = 15f;
 
             switch (difficulty)
             {
                 case Difficulty.Easy:
                     HealthMode = TitanHealthMode.Disabled;
+                    Idle = 1.8f;
                     break;
                 case Difficulty.Normal:
                     HealthMode = TitanHealthMode.Scaled;
                     HealthMinimum = 100;
                     HealthMaximum = 500;
+                    Idle = 1.0f;
                     break;
                 case Difficulty.Hard:
                     HealthMode = TitanHealthMode.Scaled;
@@ -80,6 +91,7 @@ namespace Assets.Scripts.Settings.Titans
                     HealthRegeneration = 10;
                     SizeMinimum = 0.7f;
                     SizeMaximum = 4.2f;
+                    Idle = 0.8f;
                     break;
                 case Difficulty.Abnormal:
                     HealthMode = TitanHealthMode.Scaled;
@@ -88,6 +100,7 @@ namespace Assets.Scripts.Settings.Titans
                     HealthRegeneration = 25;
                     SizeMinimum = 0.7f;
                     SizeMaximum = 4.2f;
+                    Idle = 0.5f;
                     break;
                 case Difficulty.Realism:
                     HealthMode = TitanHealthMode.Hit;
@@ -95,6 +108,7 @@ namespace Assets.Scripts.Settings.Titans
                     HealthMaximum = 3;
                     SizeMinimum = 0.7f;
                     SizeMaximum = 4.5f;
+                    Idle = 0.3f;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
