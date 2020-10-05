@@ -7,23 +7,18 @@ namespace Assets.Scripts.UI.InGame
 {
     public class TimeSwitcher : MonoBehaviour
     {
-        public DayAndNightControl DayAndNightControl;
 
         public Text Label;
         public Slider Slider;
 
-        public void Awake()
-        {
-            var dayNightObject = GameObject.Find("DayNightSystem");
-            DayAndNightControl = dayNightObject.GetComponent<DayAndNightControl>();
-        }
-
         public void UpdateTime()
         {
+            GameObject dayNightObject = GameObject.Find("DayNightCycle");
+            DayAndNightControl dayNightScript = dayNightObject.GetComponent<DayAndNightControl>();
             int sValue = (int)Slider.value;
 
 
-            DayAndNightControl.timeMultiplier = sValue;
+            dayNightScript.timeMultiplier = sValue;
 
 
         }
