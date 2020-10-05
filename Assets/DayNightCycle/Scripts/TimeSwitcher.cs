@@ -13,7 +13,7 @@ namespace Assets.Scripts.UI.InGame
         public void UpdateTime()
         {
             int sValue = (int)Slider.value;
-            DayAndNightControl.timeMultiplier = sValue;
+           // DayAndNightControl.timeMultiplier = sValue;
 
         }
 

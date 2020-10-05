@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class DayColors
@@ -46,17 +47,54 @@ public class DayAndNightControl : MonoBehaviour {
 			currentTime = 0.3f; //start at morning
 			starMat.color = new Color(1f,1f,1f,0f);
 		}
-	}
+        //Duplication check
+        int numDayNightControllers = FindObjectsOfType<DayAndNightControl>().Length;
+        if (numDayNightControllers != 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        currentTime = 0.3f;
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
+        {
+            if (c.isActiveAndEnabled)
+            {
+                targetCam = c;
+            }
+            UpdateLight();
+            currentTime += (Time.deltaTime / SecondsInAFullDay) * timeMultiplier;
+            if (currentTime >= 1)
+            {
+                currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
+                currentDay++; //make the day counter go up
+            }
+        }
+    }
 	
-	// Update is called once per frame
-	void Update () {
-		UpdateLight();
-		currentTime += (Time.deltaTime / SecondsInAFullDay) * timeMultiplier;
-		if (currentTime >= 1) {
-			currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
-			currentDay++; //make the day counter go up
-		}
-	}
+	
 
     public float GetTime() => currentTime;
 
