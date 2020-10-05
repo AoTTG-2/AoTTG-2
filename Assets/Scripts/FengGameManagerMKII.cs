@@ -11,18 +11,22 @@ using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
 using Assets.Scripts.Settings.Titans.Attacks;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Newtonsoft.Json;
+using Photon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 //[Obsolete]
-public class FengGameManagerMKII : Photon.MonoBehaviour
+public class FengGameManagerMKII : PunBehaviour
 {
     protected ISpawnService SpawnService => Service.Spawn;
     protected IEntityService EntityService => Service.Entity;
@@ -167,12 +171,6 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         {
             base.StartCoroutine(this.WaitAndResetRestarts());
         }
-
-        if (Level.Name.StartsWith("Custom"))
-        {
-            customLevelLoaded = false;
-        }
-
         this.RecompilePlayerList(0.5f);
     }
 
@@ -1823,7 +1821,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (Gamemode == null)
         {
-            Settings.ChangeSettings(settings);
+            Settings?.ChangeSettings(settings);
             var gamemodeObject = GameObject.Find("Gamemode");
             Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
         }
@@ -1841,8 +1839,23 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
     }
 
-    public void OnJoinedRoom()
+    private bool OnJoined { get; set; }
+    public override void OnJoinedRoom()
     {
+        OnJoined = true;
+        if (PhotonNetwork.isMasterClient)
+        {
+            var hash = new Hashtable();
+            hash.Add("Settings", JsonConvert.SerializeObject(Settings, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+            PhotonNetwork.room.SetCustomProperties(hash);
+        }
+        else
+        {
+            var json = (string) PhotonNetwork.room.CustomProperties["Settings"];
+            Settings = new GameSettings();
+            Settings.Initialize(json);
+        }
+
         Level = PhotonNetwork.room.GetLevel();
         SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
         this.maxPlayers = PhotonNetwork.room.MaxPlayers;
@@ -1864,9 +1877,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         //{
         //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
         //}
-
-        GameCursor.CursorMode = CursorMode.Loading;
         LevelHelper.Load(Level);
+        GameCursor.CursorMode = CursorMode.Loading;
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add(PhotonPlayerProperty.name, LoginFengKAI.player.name);
         hashtable.Add(PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname);
@@ -1882,10 +1894,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
         this.needChooseSide = true;
         this.killInfoGO = new ArrayList();
-        if (!PhotonNetwork.isMasterClient)
-        {
-            base.photonView.RPC("RequestSettings", PhotonTargets.MasterClient);
-        }
+        base.photonView.RPC(nameof(RequestSettings), PhotonTargets.MasterClient);
         this.name = LoginFengKAI.player.name;
         ExitGames.Client.Photon.Hashtable hashtable3 = new ExitGames.Client.Photon.Hashtable();
         hashtable3.Add(PhotonPlayerProperty.name, this.name);
@@ -1906,10 +1915,17 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         UnityEngine.MonoBehaviour.print("OnLeftRoom");
     }
 
-    private void OnLevelWasLoaded(int level)
+    private async void OnLevelWasLoaded(int level)
     {
         if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
         {
+            while (Settings == null)
+            {
+                await Task.Delay(500);
+                continue;
+            }
+            var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
+            ui.ShowInGameUi();
             ChangeQuality.setCurrentQuality();
             foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
             {
@@ -2520,54 +2536,53 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void SyncSettings(string gameSettings, GamemodeType type, PhotonMessageInfo info)
     {
-        Settings = JsonConvert.DeserializeObject<GameSettings>(gameSettings);
-        if (info.sender.IsMasterClient)
+        if (!info.sender.IsMasterClient) return;
+        Settings = new GameSettings();
+        Settings.Initialize(gameSettings);
+        Settings.Initialize(type);
+        if (mainCamera?.main_object != null)
         {
-            Settings.Initialize(type);
-            if (mainCamera.main_object != null)
+            mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
+        }
+        if (GameSettings.Respawn.EndlessRevive.Value > 0)
+        {
+            StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+            StartCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+        }
+        else
+        {
+            StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+        }
+
+        if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+        {
+            if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
             {
-                mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
+                this.setTeam(3);
             }
-            if (GameSettings.Respawn.EndlessRevive.Value > 0)
+        }
+        else
+        {
+            this.setTeam(0);
+        }
+
+
+        if (GameSettings.Gamemode.GamemodeType == GamemodeType.Infection)
+        {
+            var gamemodeInfection = GameSettings.DerivedGamemode<InfectionGamemodeSettings>();
+            if (gamemodeInfection.Infected > 0)
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
-                StartCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+                var hashtable = new ExitGames.Client.Photon.Hashtable();
+                hashtable.Add(PhotonPlayerProperty.RCteam, 0);
+                PhotonNetwork.player.SetCustomProperties(hashtable);
+                this.chatRoom.AddMessage($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
             }
             else
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
-            }
-
-            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
-            {
-                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
-                {
-                    this.setTeam(3);
-                }
-            }
-            else
-            {
-                this.setTeam(0);
-            }
-
-
-            if (GameSettings.Gamemode.GamemodeType == GamemodeType.Infection)
-            {
-                var gamemodeInfection = GameSettings.DerivedGamemode<InfectionGamemodeSettings>();
-                if (gamemodeInfection.Infected > 0)
-                {
-                    var hashtable = new ExitGames.Client.Photon.Hashtable();
-                    hashtable.Add(PhotonPlayerProperty.RCteam, 0);
-                    PhotonNetwork.player.SetCustomProperties(hashtable);
-                    this.chatRoom.AddMessage($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
-                }
-                else
-                {
-                    var hashtable = new ExitGames.Client.Photon.Hashtable();
-                    hashtable.Add(PhotonPlayerProperty.isTitan, 1);
-                    PhotonNetwork.player.SetCustomProperties(hashtable);
-                    this.chatRoom.AddMessage("<color=#FFCC00>Infection Mode disabled.</color>");
-                }
+                var hashtable = new ExitGames.Client.Photon.Hashtable();
+                hashtable.Add(PhotonPlayerProperty.isTitan, 1);
+                PhotonNetwork.player.SetCustomProperties(hashtable);
+                this.chatRoom.AddMessage("<color=#FFCC00>Infection Mode disabled.</color>");
             }
         }
     }
@@ -2575,6 +2590,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     [PunRPC]
     private void RequestSettings(PhotonMessageInfo info)
     {
+        return;
+        if (!PhotonNetwork.isMasterClient) return;
         var json = JsonConvert.SerializeObject(Settings);
         photonView.RPC(nameof(SyncSettings), info.sender, json, GameSettings.Gamemode.GamemodeType);
     }
@@ -2855,13 +2872,13 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
     private void Start()
     {
+        PhotonNetwork.automaticallySyncScene = true;
         Debug.Log($"Version: {versionManager.Version}");
         instance = this;
         base.gameObject.name = "MultiplayerManager";
         CostumeHair.init();
         CharacterMaterials.init();
         HeroCostume.init2();
-        PhotonNetwork.automaticallySyncScene = true;
         UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
         this.name = string.Empty;
         banHash = new ExitGames.Client.Photon.Hashtable();

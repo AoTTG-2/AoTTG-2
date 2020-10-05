@@ -82,6 +82,7 @@ namespace Assets.Scripts.Gamemode
         private int nextUpdate = 1;
         public void Update()
         {
+            if (!PhotonNetwork.isMasterClient) return;
             if (Time.time < nextUpdate) return;
             nextUpdate = Mathf.FloorToInt(Time.time) + 1;
 

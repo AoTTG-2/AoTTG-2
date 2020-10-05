@@ -17,6 +17,7 @@ namespace Assets.Scripts.Characters.Titan
     public abstract class TitanBase : Entity
     {
         protected readonly IFactionService FactionService = Service.Faction;
+        protected readonly IEntityService EntityService = Service.Entity;
 
         public GameObject HealthLabel;
 
@@ -216,7 +217,7 @@ namespace Assets.Scripts.Characters.Titan
             Body = GetComponent<TitanBody>();
         }
 
-        public virtual void Initialize(TitanConfiguration configuration) { }
+        public abstract void Initialize(TitanConfiguration configuration);
 
         protected virtual void Update()
         {

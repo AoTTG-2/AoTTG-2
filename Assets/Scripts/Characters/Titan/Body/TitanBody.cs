@@ -124,14 +124,13 @@ namespace Assets.Scripts.Characters.Titan
             steamEffect.transform.parent = bodyPartEffect;
             steamEffect.transform.localPosition = new Vector3();
             SteamEffectDictionary.Add(body, steamEffect);
-            photonView.RPC("SyncBodyPartRpc", PhotonTargets.Others, bodyPart);
+            photonView.RPC(nameof(SyncBodyPartRpc), PhotonTargets.Others, bodyPart);
         }
 
         [PunRPC]
-        private void SyncBodyPartRpc(BodyPart[] parts, PhotonMessageInfo info = new PhotonMessageInfo())
+        protected void SyncBodyPartRpc(BodyPart[] parts, PhotonMessageInfo info)
         {
             if (info.sender.ID != photonView.owner.ID) return;
-
             foreach (var part in parts)
             {
                 AddBodyPart(part);

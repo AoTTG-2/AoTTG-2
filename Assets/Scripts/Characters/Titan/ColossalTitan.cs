@@ -2,6 +2,7 @@ using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
 using System.Collections;
+using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
@@ -44,6 +45,11 @@ namespace Assets.Scripts.Characters.Titan
         private float waitTime = 2f;
 
         private GamemodeBase Gamemode;
+
+        public override void Initialize(TitanConfiguration configuration)
+        {
+            EntityService.Register(this);
+        }
 
         private void attack_sweep(string type = "")
         {

@@ -107,6 +107,7 @@ namespace Assets.Scripts.Characters.Titan
             }
 
             AttackDistance = Vector3.Distance(base.transform.position, Body.AttackFrontGround.position) * 1.65f;
+            EntityService.Register(this);
         }
 
         public void born()

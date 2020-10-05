@@ -180,6 +180,8 @@ namespace Assets.Scripts.Characters.Titan
                     photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
                 }
             }
+
+            EntityService.Register(this);
         }
 
         private void SetAnimationSpeed()

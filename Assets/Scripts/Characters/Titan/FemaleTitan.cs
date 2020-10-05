@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
 
 public class FemaleTitan : TitanBase
@@ -85,6 +86,11 @@ public class FemaleTitan : TitanBase
     private string turnAnimation;
     private float turnDeg;
     private GameObject whoHasTauntMe;
+
+    public override void Initialize(TitanConfiguration configuration)
+    {
+        EntityService.Register(this);
+    }
 
     private void attack(string type)
     {

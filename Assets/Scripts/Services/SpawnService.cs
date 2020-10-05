@@ -111,7 +111,6 @@ namespace Assets.Scripts.Services
         {
             var titan = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<TitanBase>();
             titan.Initialize(configuration);
-            EntityService.Register(titan);
             return titan;
         }
 
@@ -137,7 +136,6 @@ namespace Assets.Scripts.Services
             hashtable.Add(PhotonPlayerProperty.isTitan, 2);
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            EntityService.Register(playerTitan);
             return playerTitan;
         }
 

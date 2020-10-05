@@ -4537,12 +4537,12 @@ public class Hero : Human
             this.loadskin();
             this.hasspawn = true;
             base.StartCoroutine(this.reloadSky());
-        }
-        this.bombImmune = false;
-        if (GameSettings.PvP.Bomb.Value)
-        {
-            this.bombImmune = true;
-            base.StartCoroutine(this.stopImmunity());
+            this.bombImmune = false;
+            if (GameSettings.PvP.Bomb.Value)
+            {
+                this.bombImmune = true;
+                base.StartCoroutine(this.stopImmunity());
+            }
         }
     }
 
