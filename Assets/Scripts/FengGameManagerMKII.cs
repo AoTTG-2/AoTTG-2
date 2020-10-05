@@ -728,7 +728,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     
     public void EnterSpecMode(bool enter)
     {
-        if (enter)
+        if (!enter)
         {
             foreach (Hero hero in instance.getPlayers())
             {
