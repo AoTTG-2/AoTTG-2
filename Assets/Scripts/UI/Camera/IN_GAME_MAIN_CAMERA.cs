@@ -52,12 +52,12 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float snapShotStartCountDownTime;
     private GameObject snapShotTarget;
     private Vector3 snapShotTargetPosition;
-    public bool spectatorMode;
+    public static bool spectatorMode;
     private bool startSnapShotFrameCount;
     public static STEREO_3D_TYPE stereoType;
     public static bool triggerAutoLock;
     public static bool usingTitan;
-    public bool IsSpecmode => (int) settings[0xf5] == 1;
+    public bool IsSpecmode => !spectatorMode;
 
     public void CameraMovementLive(Hero hero)
     {
@@ -250,9 +250,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void setSpectorMode(bool val)
     {
-        this.spectatorMode = val;
-        settings[0xf5] = this.spectatorMode == true ? 0 : 1;
-        string message = this.spectatorMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        spectatorMode = val;
+        string message = spectatorMode ? "You have entered spectator mode." : "You have exited spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
         GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
@@ -671,9 +670,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     }
     public static void ToggleSpecMode()
     {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
+        spectatorMode = spectatorMode ? true : false;
+        instance.EnterSpecMode(spectatorMode);
     }
 
     public static void ToggleSpawnMenu()
