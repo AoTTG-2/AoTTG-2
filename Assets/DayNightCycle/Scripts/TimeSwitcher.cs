@@ -10,15 +10,15 @@ namespace Assets.Scripts.UI.InGame
 
         public Text Label;
         public Slider Slider;
+        public DayAndNightControl CycleController;
 
         public void UpdateTime()
         {
-            GameObject dayNightObject = GameObject.Find("DayNightCycle");
-            DayAndNightControl dayNightScript = dayNightObject.GetComponent<DayAndNightControl>();
+            
             int sValue = (int)Slider.value;
 
 
-            dayNightScript.timeMultiplier = sValue;
+            CycleController.timeMultiplier = sValue;
 
 
         }
