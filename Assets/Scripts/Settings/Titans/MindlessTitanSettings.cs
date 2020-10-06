@@ -75,12 +75,7 @@ namespace Assets.Scripts.Settings.Titans
                     {
                         {MindlessTitanType.Normal, 80f},
                         {MindlessTitanType.Abberant, 20f},
-                        {MindlessTitanType.Jumper, 15f},
-                        {MindlessTitanType.Punk, 0f},
-                        {MindlessTitanType.Crawler, 0f},
-                        {MindlessTitanType.Burster, 0f},
-                        {MindlessTitanType.Stalker, 0f},
-                        {MindlessTitanType.Abnormal, 0f }
+                        {MindlessTitanType.Jumper, 15f}
                     };
                     Disabled = new List<MindlessTitanType> { MindlessTitanType.Punk, MindlessTitanType.Crawler, MindlessTitanType.Burster, MindlessTitanType.Stalker };
                     break;
@@ -95,8 +90,6 @@ namespace Assets.Scripts.Settings.Titans
                         {MindlessTitanType.Jumper, 25f},
                         {MindlessTitanType.Punk, 15f},
                         {MindlessTitanType.Crawler, 5f},
-                        {MindlessTitanType.Burster, 0f},
-                        {MindlessTitanType.Stalker, 0f},
                         { MindlessTitanType.Abnormal, 5f }
                     };
                     Disabled = new List<MindlessTitanType>();

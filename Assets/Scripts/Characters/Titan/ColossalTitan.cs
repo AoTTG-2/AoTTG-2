@@ -102,8 +102,11 @@ namespace Assets.Scripts.Characters.Titan
         [PunRPC]
         private void changeDoor()
         {
+            if (door_broken == null)
+            {
+                door_broken = GameObject.Find("door_broke");
+            }
             this.door_broken.SetActive(true);
-            this.door_closed.SetActive(false);
         }
 
         private RaycastHit[] checkHitCapsule(Vector3 start, Vector3 end, float r)
@@ -518,10 +521,16 @@ namespace Assets.Scripts.Characters.Titan
             //{
             //    base.GetComponent<NetworkView>().enabled = false;
             //}
-            this.door_broken = GameObject.Find("door_broke");
+
+            if (door_broken == null)
+            {
+                this.door_broken = GameObject.Find("door_broke");
+                this.door_broken.SetActive(false);
+            }
+
             this.door_closed = GameObject.Find("door_fine");
-            this.door_broken.SetActive(false);
-            this.door_closed.SetActive(true);
+            if (door_closed != null)
+                door_closed.SetActive(true);
         }
 
         [PunRPC]
@@ -667,7 +676,7 @@ namespace Assets.Scripts.Characters.Titan
                         {
                             this.attackChkOnce = true;
                             this.door_broken.SetActive(true);
-                            this.door_closed.SetActive(false);
+                            PhotonNetwork.Destroy(door_closed);
                             base.photonView.RPC(nameof(changeDoor), PhotonTargets.OthersBuffered, new object[0]);
                             PhotonNetwork.Instantiate("FX/boom1_CT_KICK", (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(270f, 0f, 0f), 0);
                             PhotonNetwork.Instantiate("rock", (Vector3) ((base.transform.position + (base.transform.forward * 120f)) + (base.transform.right * 30f)), Quaternion.Euler(0f, 0f, 0f), 0);

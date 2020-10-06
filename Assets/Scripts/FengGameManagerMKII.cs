@@ -1839,10 +1839,8 @@ public class FengGameManagerMKII : PunBehaviour
         }
     }
 
-    private bool OnJoined { get; set; }
     public override void OnJoinedRoom()
     {
-        OnJoined = true;
         if (PhotonNetwork.isMasterClient)
         {
             var hash = new Hashtable();
@@ -1894,7 +1892,6 @@ public class FengGameManagerMKII : PunBehaviour
         PhotonNetwork.player.SetCustomProperties(propertiesToSet);
         this.needChooseSide = true;
         this.killInfoGO = new ArrayList();
-        base.photonView.RPC(nameof(RequestSettings), PhotonTargets.MasterClient);
         this.name = LoginFengKAI.player.name;
         ExitGames.Client.Photon.Hashtable hashtable3 = new ExitGames.Client.Photon.Hashtable();
         hashtable3.Add(PhotonPlayerProperty.name, this.name);
@@ -2533,13 +2530,8 @@ public class FengGameManagerMKII : PunBehaviour
         }
     }
 
-    [PunRPC]
-    private void SyncSettings(string gameSettings, GamemodeType type, PhotonMessageInfo info)
+    public void OnRoomSettingsInitialized()
     {
-        if (!info.sender.IsMasterClient) return;
-        Settings = new GameSettings();
-        Settings.Initialize(gameSettings);
-        Settings.Initialize(type);
         if (mainCamera?.main_object != null)
         {
             mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
@@ -2588,14 +2580,14 @@ public class FengGameManagerMKII : PunBehaviour
     }
 
     [PunRPC]
-    private void RequestSettings(PhotonMessageInfo info)
+    private void SyncSettings(string gameSettings, GamemodeType type, PhotonMessageInfo info)
     {
-        return;
-        if (!PhotonNetwork.isMasterClient) return;
-        var json = JsonConvert.SerializeObject(Settings);
-        photonView.RPC(nameof(SyncSettings), info.sender, json, GameSettings.Gamemode.GamemodeType);
+        if (!info.sender.IsMasterClient) return;
+        Settings = new GameSettings();
+        Settings.Initialize(gameSettings);
+        Settings.Initialize(type);
     }
-
+    
     [PunRPC]
     private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
     {

@@ -21,7 +21,7 @@ namespace Assets.Scripts.Settings
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
                     Mode = RespawnMode.NEWROUND;
-                    EndlessRevive = 0;
+                    EndlessRevive = 5;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

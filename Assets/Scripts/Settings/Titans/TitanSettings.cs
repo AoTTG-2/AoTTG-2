@@ -89,7 +89,7 @@ namespace Assets.Scripts.Settings.Titans
                     HealthMaximum = 1000;
                     HealthRegeneration = 10;
                     SizeMinimum = 0.7f;
-                    SizeMaximum = 4.2f;
+                    SizeMaximum = 3.5f;
                     Idle = 0.8f;
                     break;
                 case Difficulty.Abnormal:
@@ -98,7 +98,7 @@ namespace Assets.Scripts.Settings.Titans
                     HealthMaximum = 2000;
                     HealthRegeneration = 25;
                     SizeMinimum = 0.7f;
-                    SizeMaximum = 4.2f;
+                    SizeMaximum = 3.5f;
                     Idle = 0.5f;
                     break;
                 case Difficulty.Realism:
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Settings.Titans
                     HealthMinimum = 500;
                     HealthMaximum = 3000;
                     SizeMinimum = 0.7f;
-                    SizeMaximum = 4.5f;
+                    SizeMaximum = 3.5f;
                     Idle = 0.3f;
                     break;
                 default:

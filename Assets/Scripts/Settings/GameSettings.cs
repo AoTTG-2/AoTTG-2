@@ -108,6 +108,7 @@ namespace Assets.Scripts.Settings
 
             Horse = CreateFromObjects(ConfigHorse, playerGamemodeSettings.Horse, levelGamemode.Horse);
             Respawn = CreateFromObjects(ConfigRespawn, playerGamemodeSettings.Respawn, levelGamemode.Respawn);
+            FengGameManagerMKII.instance.OnRoomSettingsInitialized();
         }
 
         public T CreateFromObjects<T>(params T[] sources)

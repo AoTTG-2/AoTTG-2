@@ -2,7 +2,6 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Configuration;
-using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;

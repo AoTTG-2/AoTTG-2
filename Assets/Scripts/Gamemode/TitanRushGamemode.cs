@@ -21,6 +21,7 @@ namespace Assets.Scripts.Gamemode
         protected override void OnLevelWasLoaded()
         {
             base.OnLevelWasLoaded();
+            nextUpdate = default;
             SubscribedEvents.ForEach(x => x.OnCheckpointArrived -= OnCheckpointArrived);
             SubscribedEvents.Clear();
 
@@ -86,8 +87,18 @@ namespace Assets.Scripts.Gamemode
             if (Time.time < nextUpdate) return;
             nextUpdate = Mathf.FloorToInt(Time.time) + 1;
 
-            if (nextUpdate % Settings.TitanInterval.Value != 0) return;
-            SpawnTitan();
+            if (nextUpdate % Settings.TitanInterval.Value == 0)
+            {
+                SpawnTitan();
+            }
+
+            if (Settings.TitanGroupInterval > 0 && Settings.TitanGroupSize > 0 && nextUpdate % Settings.TitanGroupInterval == 0)
+            {
+                for (var i = 0; i < Settings.TitanGroupSize; i++)
+                {
+                    SpawnTitan();
+                }
+            }
         }
 
         private void SpawnTitan()
