@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Xft;
 
 public class Hero : Human
 {
@@ -746,6 +745,15 @@ public class Hero : Human
             titan3.IsLooked = true;
         }
         this.myTitans = list2;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        var force = collision.impulse.magnitude / Time.fixedDeltaTime;
+        if (FengGameManagerMKII.Gamemode.Settings.ImpactForce > 0 && force >= FengGameManagerMKII.Gamemode.Settings.ImpactForce)
+        {
+            die(new Vector3(), false); 
+        }
     }
 
     public void ClearPopup()

@@ -116,6 +116,9 @@ namespace Assets.Scripts.Gamemode.Settings
         public bool IsPlayerTitanEnabled { get; set; }
         public RespawnMode RespawnMode { get; set; } = RespawnMode.DEATHMATCH;
 
+        [UiElement("ImpactForce","", SettingCategory.Advanced)]
+        public int ImpactForce { get; set; } = 0;
+
         public int HumanScore = 0;
         public int TitanScore = 0;
 
