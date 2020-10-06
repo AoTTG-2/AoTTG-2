@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Xft;
 
 public class Hero : Human
 {
@@ -750,8 +749,7 @@ public class Hero : Human
 
     private void OnCollisionEnter(Collision collision)
     {
-        
-        float force = collision.impulse.magnitude / Time.fixedDeltaTime;
+        var force = collision.impulse.magnitude / Time.fixedDeltaTime;
         if (FengGameManagerMKII.Gamemode.Settings.ImpactForce > 0 && force >= FengGameManagerMKII.Gamemode.Settings.ImpactForce)
         {
             die(new Vector3(), false); 
