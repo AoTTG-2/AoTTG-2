@@ -670,7 +670,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     }
     public void ToggleSpecMode()
     {
-        spectatorMode = spectatorMode ? false : true;
+        spectatorMode = !spectatorMode;
         instance.EnterSpecMode(spectatorMode);
     }
 
