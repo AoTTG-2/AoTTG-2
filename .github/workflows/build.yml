@@ -1,0 +1,91 @@
+#name: Acquire activation file
+#on: [push]
+#jobs:
+#  activation:
+#    name: Request manual activation file 🔑
+#    runs-on: ubuntu-latest
+#    steps:
+#      # Request manual activation file
+#      - name: Request manual activation file
+#        id: getManualLicenseFile
+#        uses: webbertakken/unity-request-manual-activation-file@v1.1
+#        with:
+#          unityVersion: 2020.1.4f1
+#      # Upload artifact (Unity_v20XX.X.XXXX.alf)
+#      - name: Expose as artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+#          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+
+name: CI
+on:
+  pull_request: {}
+  push: { branches: [development] }
+  
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:   
+  CI:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+
+      # Test
+      #- name: Run tests
+      #  uses: webbertakken/unity-test-runner@v1.3
+      #  with:
+      #    unityVersion: 2020.1.4f1
+
+      # Build
+      - name: Build project
+        uses: webbertakken/unity-builder@v0.10
+        with:
+          unityVersion: 2020.1.4f1
+          targetPlatform: StandaloneWindows64
+  
+      - name: SonarQube analysis
+        if: always()
+        uses: MirrorNG/unity-runner@3.0.0
+        with:
+          entrypoint: /sonar-scanner.sh
+          projectKey: AoTTG-2_AoTTG-2
+          projectName: AoTTG-2
+          sonarOrganisation: aottg-2
+          beginArguments: /d:sonar.verbose="true"
+        env:
+          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+#  Release:
+#    runs-on: ubuntu-latest
+#    needs: CI
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0
+  
+#      - name: Release
+#        uses: cycjimmy/semantic-release-action@v2
+#        with:
+#          extra_plugins: |
+#            @semantic-release/exec
+#            @semantic-release/changelog
+#            @semantic-release/git
+#          branch: development
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}

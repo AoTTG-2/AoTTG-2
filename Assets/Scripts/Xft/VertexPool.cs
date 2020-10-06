@@ -4,6 +4,7 @@ namespace Xft
     using System.Collections.Generic;
     using UnityEngine;
 
+    //TODO: Remove this for #223
     public class VertexPool
     {
         public const int BlockSize = 0x6c;

@@ -114,8 +114,10 @@ public class Hero : Human
     private Vector3 launchPointRight;
     private bool leanLeft;
     private bool leftArmAim;
+    /*
     public XWeaponTrail leftbladetrail;
     public XWeaponTrail leftbladetrail2;
+    */
     [Obsolete]
     public int leftBulletLeft = 7;
     public bool leftGunHasBullet = true;
@@ -140,8 +142,10 @@ public class Hero : Human
     private bool QHold;
     public string reloadAnimation = string.Empty;
     private bool rightArmAim;
+    /*
     public XWeaponTrail rightbladetrail;
     public XWeaponTrail rightbladetrail2;
+    */
     [Obsolete]
     public int rightBulletLeft = 7;
     public bool rightGunHasBullet = true;
@@ -888,10 +892,12 @@ public class Hero : Human
             this.meatDie.Play();
             if ((base.photonView.isMine) && !this.useGun)
             {
+                /*
                 this.leftbladetrail.Deactivate();
                 this.rightbladetrail.Deactivate();
                 this.leftbladetrail2.Deactivate();
                 this.rightbladetrail2.Deactivate();
+                */
             }
             this.breakApart2(v, isBite);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
@@ -2949,6 +2955,7 @@ public class Hero : Human
                 if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[12]))
                 {
                     iteratorVariable1 = true;
+                    /*
                     this.leftbladetrail.MyMaterial.mainTexture = iteratorVariable43;
                     this.rightbladetrail.MyMaterial.mainTexture = iteratorVariable43;
                     FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[12], this.leftbladetrail.MyMaterial);
@@ -2956,21 +2963,26 @@ public class Hero : Human
                     this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
                     this.leftbladetrail2.MyMaterial = this.leftbladetrail.MyMaterial;
                     this.rightbladetrail2.MyMaterial = this.leftbladetrail.MyMaterial;
+                    */
                 }
                 else
                 {
+                    /*
                     this.leftbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
                     this.rightbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
                     this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
                     this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
+                    */
                 }
             }
             else
             {
+                /*
                 this.leftbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
                 this.rightbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
                 this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
                 this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
+                */  
             }
         }
         if (iteratorVariable1)
@@ -3344,10 +3356,12 @@ public class Hero : Human
         this.meatDie.Play();
         if (!(this.useGun || (!base.photonView.isMine)))
         {
+            /*
             this.leftbladetrail.Deactivate();
             this.rightbladetrail.Deactivate();
             this.leftbladetrail2.Deactivate();
             this.rightbladetrail2.Deactivate();
+            */
         }
         this.falseAttack();
         this.breakApart2(v, isBite);
@@ -4525,10 +4539,12 @@ public class Hero : Human
             this.setup.setCharacterComponent();
             UnityEngine.Object.Destroy(this.checkBoxLeft);
             UnityEngine.Object.Destroy(this.checkBoxRight);
+            /*
             UnityEngine.Object.Destroy(this.leftbladetrail);
             UnityEngine.Object.Destroy(this.rightbladetrail);
             UnityEngine.Object.Destroy(this.leftbladetrail2);
             UnityEngine.Object.Destroy(this.rightbladetrail2);
+            */
             this.hasspawn = true;
         }
         else
@@ -4554,9 +4570,8 @@ public class Hero : Human
 
     private void suicide2()
     {
-        this.netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+        this.netDieLocal((Vector3)(base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
         FengGameManagerMKII.instance.needChooseSide = true;
-        FengGameManagerMKII.instance.justSuicide = true;
     }
 
     public void ungrabbed()
@@ -4744,7 +4759,10 @@ public class Hero : Human
                             }
                             if (InputManager.KeyDown(InputUi.Restart))
                             {
+                                if (!PhotonNetwork.offlineMode)
+                                { 
                                 this.suicide2();
+                                }
                             }
                             if (((this.myHorse != null) && this.isMounted) && InputManager.KeyDown(InputHorse.Mount))
                             {
@@ -5178,10 +5196,12 @@ public class Hero : Human
                                             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = true;
                                             if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
                                             {
+                                                /*
                                                 this.leftbladetrail2.Activate();
                                                 this.rightbladetrail2.Activate();
                                                 this.leftbladetrail.Activate();
                                                 this.rightbladetrail.Activate();
+                                                */
                                             }
                                             this.baseRigidBody.velocity = (Vector3)(-Vector3.up * 30f);
                                         }
@@ -5197,10 +5217,12 @@ public class Hero : Human
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
                                         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
+                                        /*
                                         this.leftbladetrail.StopSmoothly(0.1f);
                                         this.rightbladetrail.StopSmoothly(0.1f);
                                         this.leftbladetrail2.StopSmoothly(0.1f);
                                         this.rightbladetrail2.StopSmoothly(0.1f);
+                                        */
                                     }
                                 }
                                 else

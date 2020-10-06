@@ -205,9 +205,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1843893240112004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: a354205e1795d4c45af53b788bb3dacf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disable: 1
+  axes: 0
+  sensitivityX: 15
+  sensitivityY: 15
+  minimumX: -360
+  maximumX: 360
+  minimumY: -60
+  maximumY: 60
+  frameCounter: 20
 --- !u!114 &114838551787712436
 MonoBehaviour:
   m_ObjectHideFlags: 1

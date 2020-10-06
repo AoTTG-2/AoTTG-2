@@ -3,6 +3,7 @@ namespace Xft
     using System;
     using UnityEngine;
 
+    //TODO: Remove this for #223
     public class SplineControlPoint
     {
         public int ControlPointIndex = -1;
