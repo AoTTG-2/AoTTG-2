@@ -52,7 +52,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float snapShotStartCountDownTime;
     private GameObject snapShotTarget;
     private Vector3 snapShotTargetPosition;
-    public static bool spectatorMode;
+    private bool spectatorMode;
     private bool startSnapShotFrameCount;
     public static STEREO_3D_TYPE stereoType;
     public static bool triggerAutoLock;
@@ -668,7 +668,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             //base.GetComponent<TiltShift>().enabled = true;
         }
     }
-    public static void ToggleSpecMode()
+    public void ToggleSpecMode()
     {
         spectatorMode = spectatorMode ? false : true;
         instance.EnterSpecMode(spectatorMode);
