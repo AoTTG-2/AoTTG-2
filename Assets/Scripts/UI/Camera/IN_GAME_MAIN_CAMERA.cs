@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
@@ -6,7 +7,7 @@ using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.Input;
 using System;
 using UnityEngine;
-using static FengGameManagerMKII;
+using static Assets.Scripts.FengGameManagerMKII;
 using Random = UnityEngine.Random;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour

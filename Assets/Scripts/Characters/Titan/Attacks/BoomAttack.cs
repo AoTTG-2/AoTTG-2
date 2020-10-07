@@ -6,7 +6,6 @@ namespace Assets.Scripts.Characters.Titan.Attacks
     public abstract class BoomAttack : Attack<MindlessTitan>
     {
         protected bool HasExploded { get; set; }
-        protected virtual string AttackAnimation { get; set; }
         protected virtual float BoomTimer { get; set; }
         protected virtual string Effect { get; set; }
         protected virtual Transform TitanBodyPart { get; set; }

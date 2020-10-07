@@ -13,8 +13,6 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override Type[] TargetTypes { get; } = { typeof(Human) };
 
-        private string AttackAnimation { get; set; }
-
         private float AttackCheckTimeA { get; set; }
 
         private float AttackCheckTimeB { get; set; }

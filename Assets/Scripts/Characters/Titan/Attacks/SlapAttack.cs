@@ -12,12 +12,11 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override Type[] TargetTypes { get; } = { typeof(Human) };
 
-        private string AttackAnimation { get; set; }
         private BodyPart Hand { get; set; }
         public override bool CanAttack()
         {
             if (IsDisabled()) return false;
-            Vector3 line = (Vector3)((Titan.Target.GetComponent<Rigidbody>().velocity * Time.deltaTime) * 30f);
+            Vector3 line = (Titan.Target.GetComponent<Rigidbody>().velocity * Time.deltaTime) * 30f;
             if (line.sqrMagnitude <= 10f) return false;
             if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeLeft.position - Titan.Target.transform.position, 5f * Titan.Size))
             {

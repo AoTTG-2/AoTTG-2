@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;

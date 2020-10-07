@@ -1,7 +1,8 @@
+using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
-using System.Collections;
 using Assets.Scripts.Settings;
+using System.Collections;
 using UnityEngine;
 
 public class TriggerColliderWeapon : MonoBehaviour

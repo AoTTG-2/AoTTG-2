@@ -53,7 +53,7 @@ public class RockThrow : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    private void initRPC(int viewID, Vector3 scale, Vector3 pos, float level)
+    public void initRPC(int viewID, Vector3 scale, Vector3 pos, float level)
     {
         GameObject gameObject = PhotonView.Find(viewID).gameObject;
         Transform transform = gameObject.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R/hand_R_001");

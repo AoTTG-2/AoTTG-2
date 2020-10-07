@@ -7,10 +7,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         public SmashAttack()
         {
             BodyParts = new[] { BodyPart.ArmRight, BodyPart.ArmLeft };
+            AttackAnimation = "attack_front_ground";
         }
         protected override string Effect { get; set; } = "FX/boom1";
         protected override float BoomTimer { get; set; } = 0.45f;
-        protected override string AttackAnimation { get; set; } = "attack_front_ground";
 
         public override bool CanAttack()
         {

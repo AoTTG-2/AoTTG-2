@@ -7,8 +7,8 @@ using System;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using static ChatUtility;
-using static FengGameManagerMKII;
+using static Assets.Scripts.FengGameManagerMKII;
+using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
 
 /// <summary>

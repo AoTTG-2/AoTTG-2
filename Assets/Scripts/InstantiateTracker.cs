@@ -1,5 +1,4 @@
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Services;
+using Assets.Scripts;
 using Assets.Scripts.Settings;
 using UnityEngine;
 

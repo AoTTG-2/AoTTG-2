@@ -1,12 +1,9 @@
-using Photon;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using Assets.Scripts;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.HUD;
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class CannonPropRegion : Photon.MonoBehaviour

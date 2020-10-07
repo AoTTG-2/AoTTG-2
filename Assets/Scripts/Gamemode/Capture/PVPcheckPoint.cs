@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Settings;
@@ -278,7 +279,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             if (this.checkIfTitanWins() && PhotonNetwork.isMasterClient)
             {
                 gamemode.TitanScore++;
-                photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Titanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
+                gamemode.photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Titanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
             }
             if (this.hasAnnie)
             {

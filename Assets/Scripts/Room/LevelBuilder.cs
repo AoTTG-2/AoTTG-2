@@ -48,44 +48,11 @@ public class LevelBuilder : MonoBehaviour
     {
         _levels.Add(new Level
         {
-            Name = "Test Zone",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "Test Zone",
-            Gamemodes = new List<GamemodeSettings>
-            {
-                new KillTitansSettings
-                {
-                    Name = "Test",
-                    Description = "Classic map where you fight the Female Titan"
-                },
-                new KillTitansSettings
-                {
-                    Titan = new SettingsTitan()
-                    {
-                        Start = 20
-                    },
-                    IsPlayerTitanEnabled = true,
-                    Pvp = new PvPSettings
-                    {
-                        Cannons = true
-                    }
-                },
-                new WaveGamemodeSettings
-                {
-                    IsPlayerTitanEnabled = true
-                }
-
-            }
-        });
-        
-        _levels.Add(new Level
-        {
             Name = "The City - Classic",
             Description = "Classic City Map from AoTTG",
             SceneName = "The City I",
             Gamemodes = new List<GamemodeSettings>
             {
-                new RacingSettings(),
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,
@@ -96,6 +63,7 @@ public class LevelBuilder : MonoBehaviour
                 },
                 new WaveGamemodeSettings(),
                 new CaptureGamemodeSettings(),
+                new RacingSettings(),
                 new InfectionGamemodeSettings()
             }
         });
@@ -193,6 +161,38 @@ public class LevelBuilder : MonoBehaviour
             Gamemodes = new List<GamemodeSettings>
             {
                 new PvPAhssSettings()
+            }
+        });
+
+        _levels.Add(new Level
+        {
+            Name = "Test Zone",
+            Description = "Classic City Map from AoTTG",
+            SceneName = "Test Zone",
+            Gamemodes = new List<GamemodeSettings>
+            {
+                new KillTitansSettings
+                {
+                    Name = "Test",
+                    Description = "Classic map where you fight the Female Titan"
+                },
+                new KillTitansSettings
+                {
+                    Titan = new SettingsTitan()
+                    {
+                        Start = 20
+                    },
+                    IsPlayerTitanEnabled = true,
+                    Pvp = new PvPSettings
+                    {
+                        Cannons = true
+                    }
+                },
+                new WaveGamemodeSettings
+                {
+                    IsPlayerTitanEnabled = true
+                }
+
             }
         });
     }

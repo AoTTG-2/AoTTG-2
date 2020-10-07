@@ -7,10 +7,11 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         public KickAttack()
         {
             BodyParts = new[] {BodyPart.LegLeft};
+            AttackAnimation = "attack_kick";
         }
+
         protected override string Effect { get; set; } = "FX/boom5";
         protected override float BoomTimer { get; set; } = 0.43f;
-        protected override string AttackAnimation { get; set; } = "attack_kick";
 
         public override bool CanAttack()
         {

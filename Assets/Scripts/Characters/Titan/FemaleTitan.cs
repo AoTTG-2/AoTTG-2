@@ -1,4 +1,6 @@
+using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
@@ -6,7 +8,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
 
 public class FemaleTitan : TitanBase

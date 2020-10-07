@@ -32,8 +32,6 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         private string AnimationLand { get; set; } = "attack_jumper_2";
 
-        private string AttackAnimation { get; set; }
-
         private Vector3 JumpPosition { get; set; }
 
         public override bool CanAttack()
@@ -123,7 +121,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 if (Titan.photonView.isMine)
                 {
                     obj11 = PhotonNetwork.Instantiate("FX/boom2", fxPosition, Quaternion.Euler(270f, 0f, 0f), 0);
-                    obj11.transform.localScale = (Vector3) (Titan.transform.localScale * 1.6f);
+                    obj11.transform.localScale = Titan.transform.localScale * 1.6f;
 
                     //float num23 = 1f - (Vector3.Distance(this.currentCamera.transform.position, obj11.transform.position) * 0.05f);
                     //num23 = Mathf.Min(1f, num23);
@@ -148,15 +146,15 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         var num12 = Titan.Body.Neck.position.y;
                         var num13 = (num10 - Gravity) * 0.5f;
                         var num15 = Titan.Target.transform.position.y - num12;
-                        var num16 = Mathf.Abs((float) ((Mathf.Sqrt((yVel * yVel) - ((4f * num13) * num15)) - yVel) / (2f * num13)));
-                        var vector8 = (Vector3) ((Titan.Target.transform.position + (Titan.Target.GetComponent<Rigidbody>().velocity * num16)) + ((((Vector3.up * 0.5f) * num10) * num16) * num16));
+                        var num16 = Mathf.Abs((Mathf.Sqrt((yVel * yVel) - ((4f * num13) * num15)) - yVel) / (2f * num13));
+                        var vector8 = (Titan.Target.transform.position + (Titan.Target.GetComponent<Rigidbody>().velocity * num16)) + Vector3.up * 0.5f * num10 * num16 * num16;
                         var num17 = vector8.y;
                         if ((num15 < 0f) || ((num17 - num12) < 0f))
                         {
                             num18 = 60f;
                             var num19 = Titan.Speed * 2.5f;
                             num19 = Mathf.Min(num19, 100f);
-                            var vector9 = (Vector3) ((Titan.transform.forward * num19) + (Vector3.up * num18));
+                            var vector9 = Titan.transform.forward * num19 + Vector3.up * num18;
                             Titan.Rigidbody.velocity = vector9;
                             return;
                         }
@@ -164,12 +162,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         var num21 = Mathf.Sqrt((2f * num20) / Gravity);
                         num18 = Gravity * num21;
                         num18 = Mathf.Max(30f, num18);
-                        var vector10 = (Vector3) ((vector8 - Titan.transform.position) / num16);
+                        var vector10 = (vector8 - Titan.transform.position) / num16;
                         JumpPosition = new Vector3(vector10.x, 0f, vector10.z);
                         var velocity = Titan.Rigidbody.velocity;
                         var force = new Vector3(JumpPosition.x, velocity.y, JumpPosition.z) - velocity;
                         Titan.Rigidbody.AddForce(force, ForceMode.VelocityChange);
-                        Titan.Rigidbody.AddForce((Vector3) (Vector3.up * num18), ForceMode.VelocityChange);
+                        Titan.Rigidbody.AddForce(Vector3.up * num18, ForceMode.VelocityChange);
                         var num22 = Mathf.Atan2(Titan.Target.transform.position.x - Titan.transform.position.x, Titan.Target.transform.position.z - Titan.transform.position.z) * 57.29578f;
                         Titan.gameObject.transform.rotation = Quaternion.Euler(0f, num22, 0f);
                     }
