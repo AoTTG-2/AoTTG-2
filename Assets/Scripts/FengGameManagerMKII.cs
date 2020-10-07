@@ -371,7 +371,7 @@ public class FengGameManagerMKII : PunBehaviour
                      (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                     (((int) settings[0xf5]) == 0))
                 {
-                    if (((GameSettings.Respawn.Mode == RespawnMode.DEATHMATCH) ||
+                    if (((GameSettings.Respawn.Mode == RespawnMode.DeathMatch) ||
                          (GameSettings.Respawn.EndlessRevive.Value > 0)) ||
                         !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
                             ? (GameSettings.Gamemode.PointMode <= 0)
@@ -2287,7 +2287,7 @@ public class FengGameManagerMKII : PunBehaviour
 
     [Obsolete("Move into a RespawnService")]
     [PunRPC]
-    private void respawnHeroInNewRound()
+    public void respawnHeroInNewRound()
     {
         if (!this.needChooseSide && GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
         {

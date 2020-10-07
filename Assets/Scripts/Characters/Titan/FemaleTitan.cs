@@ -1350,7 +1350,7 @@ public class FemaleTitan : TitanBase
         this.AnkleRHP = 50;
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
-        var flag = GameSettings.Respawn.Mode == RespawnMode.NEVER;
+        var flag = GameSettings.Respawn.Mode == RespawnMode.Never;
         this.NapeArmor = 1000;
         this.AnkleLHP = this.AnkleLHPMAX = 50;
         this.AnkleRHP = this.AnkleRHPMAX = 50;

@@ -85,7 +85,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, HumanScore, TitanScore);
+                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, PvpHumanScore, PvpTitanScore);
             }
 
             string winner = null;

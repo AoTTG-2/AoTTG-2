@@ -14,12 +14,12 @@ namespace Assets.Scripts.Gamemode
     {
         private WaveGamemodeSettings Settings => GameSettings.Gamemode as WaveGamemodeSettings;
 
-        private int highestWave = 1;
-        public int Wave = 1;
+        private int HighestWave { get; set; } = 1;
+        public int Wave { get; set; } = 1;
 
         protected override void SetStatusTop()
         {
-            var content = $"Titan left: {FactionService.GetAllHostile(PlayerService.Self)} Wave : {Wave}";
+            var content = $"Titan left: {FactionService.CountHostile(PlayerService.Self)} Wave : {Wave}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
 
@@ -31,6 +31,7 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnFactionDefeated(Faction faction)
         {
+            if (!PhotonNetwork.isMasterClient) return;
             if (faction == FactionService.GetHumanity())
             {
                 photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"Survived {Wave} Waves!\nRestarting in {{0}}s", HumanScore, TitanScore);
@@ -43,21 +44,21 @@ namespace Assets.Scripts.Gamemode
         private void NextWave()
         {
             Wave++;
-            var level = FengGameManagerMKII.Level.Name;
-            if (!(GameSettings.Respawn.Mode != RespawnMode.NEWROUND && (!level.StartsWith("Custom"))))
+
+            if (Wave > HighestWave)
+                HighestWave = Wave;
+
+            if (GameSettings.Respawn.Mode == RespawnMode.NewRound)
             {
                 foreach (var player in PhotonNetwork.playerList)
                 {
                     if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2)
                     {
-                        FengGameManagerMKII.instance.photonView.RPC("respawnHeroInNewRound", player);
+                        FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.respawnHeroInNewRound), player);
                     }
                 }
             }
-            if (Wave > highestWave)
-            {
-                highestWave = Wave;
-            }
+
             if (!((Settings.MaxWave.Value != 0 || Wave <= Settings.MaxWave.Value) && (Settings.MaxWave.Value <= 0 || Wave <= Settings.MaxWave.Value)))
             {
                 photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"Survived All {Wave} Waves!\nRestarting in {{0}}s", HumanScore, TitanScore);
@@ -66,7 +67,7 @@ namespace Assets.Scripts.Gamemode
             {
                 if (Wave % Settings.BossWave.Value == 0)
                 {
-                    for (int i = 0; i < Wave / Settings.BossWave.Value; i++)
+                    for (var i = 0; i < Wave / Settings.BossWave.Value; i++)
                     {
                         SpawnService.Spawn<MindlessTitan>(GetWaveTitanConfiguration(Settings.BossType.Value));
                     }
@@ -80,6 +81,7 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnLevelWasLoaded()
         {
+            base.OnLevelWasLoaded();
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
@@ -113,11 +115,12 @@ namespace Assets.Scripts.Gamemode
             return configuration;
         }
         
-        IEnumerator SpawnTitan(int titans)
+        private IEnumerator SpawnTitan(int titans)
         {
             var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-            for (int i = 0; i < titans; i++)
+            for (var i = 0; i < titans; i++)
             {
+                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
                 var randomSpawn = spawns[Random.Range(0, spawns.Length)];
                 SpawnService.Spawn<MindlessTitan>(randomSpawn.transform.position, randomSpawn.transform.rotation,
                     GetWaveTitanConfiguration());

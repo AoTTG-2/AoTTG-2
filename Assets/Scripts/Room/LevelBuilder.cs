@@ -107,14 +107,7 @@ public class LevelBuilder : MonoBehaviour
             SceneName = "The Forest",
             Gamemodes = new List<GamemodeSettings>
             {
-                new WaveGamemodeSettings
-                {
-                    StartWave = 25,
-                    Titan = new SettingsTitan
-                    {
-                        Start = 25
-                    }
-                },
+                new WaveGamemodeSettings(),
                 new KillTitansSettings
                 {
                     GamemodeType = GamemodeType.Titans,

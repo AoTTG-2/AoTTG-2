@@ -20,7 +20,7 @@ namespace Assets.Scripts.Settings
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
-                    Mode = RespawnMode.NEWROUND;
+                    Mode = RespawnMode.NewRound;
                     EndlessRevive = 5;
                     break;
                 default:

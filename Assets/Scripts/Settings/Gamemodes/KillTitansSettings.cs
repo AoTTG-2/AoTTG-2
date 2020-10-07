@@ -20,7 +20,7 @@ namespace Assets.Scripts.Settings.Gamemodes
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
-                    Respawn.Mode = RespawnMode.NEWROUND;
+                    Respawn.Mode = RespawnMode.NewRound;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

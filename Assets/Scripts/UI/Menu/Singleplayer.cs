@@ -22,7 +22,7 @@ namespace Assets.Scripts.UI.Menu
 
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
-        private Dictionary<string, string> CustomDifficulties;
+        private Dictionary<string, string> CustomDifficulties { get; } = new Dictionary<string, string>();
         private const string CustomDifficultyPrefix = "*-";
 
         private void Awake()
@@ -37,7 +37,7 @@ namespace Assets.Scripts.UI.Menu
             PhotonNetwork.Disconnect();
             PhotonNetwork.offlineMode = true;
 
-            CustomDifficulties = new Dictionary<string, string>();
+            CustomDifficulties.Clear();
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -64,7 +64,6 @@ namespace Assets.Scripts.UI.Menu
                 DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
             }
             DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
-
 
             var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
             foreach (var file in files)

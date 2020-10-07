@@ -1893,19 +1893,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddc4e16c76256749be1eec92519a83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthLabel: {fileID: 2685166448900785019}
+  NavMeshAgent: {fileID: 0}
   PreviousState: 0
   NextState: 0
   MindlessType: 0
-  Speed: 10
-  TargetDistance: 1
-  Size: 3
-  Stamina: 10
-  StaminaRecovery: 1
-  Health: 0
-  HealthRegeneration: 0
-  ViewDistance: 0
-  Focus: 10
-  Idle: 1.5
   IdleTimer: 0
   currentCamera: {fileID: 0}
   currentDirection: 0
@@ -2573,7 +2565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2690693425026221407
 Transform:
   m_ObjectHideFlags: 0
