@@ -759,7 +759,16 @@ public class Hero : Human
         }
         this.myTitans = list2;
     }
-    
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        var force = collision.impulse.magnitude / Time.fixedDeltaTime;
+        if (GameSettings.Gamemode.ImpactForce > 0 && force >= GameSettings.Gamemode.ImpactForce)
+        {
+            die(new Vector3(), false); 
+        }
+    }
+
     public void continueAnimation()
     {
         IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();

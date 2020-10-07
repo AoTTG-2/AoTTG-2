@@ -2358,6 +2358,7 @@ public class FengGameManagerMKII : PunBehaviour
         {
             this.DestroyAllExistingCloths();
             LevelHelper.Load(Level);
+            Level = PhotonNetwork.room.GetLevel();
         }
         else if (PhotonNetwork.isMasterClient)
         {

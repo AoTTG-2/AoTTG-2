@@ -38,6 +38,9 @@ namespace Assets.Scripts.Settings.Gamemodes
         [UiElement("Point mode", "", SettingCategory.Advanced)]
         public int? PointMode { get; set; }
 
+        [UiElement("ImpactForce", "", SettingCategory.Advanced)]
+        public int? ImpactForce { get; set; }
+
         public bool? Supply { get; set; }
         public bool? IsPlayerTitanEnabled { get; set; }
         public bool? PlayerShifters { get; set; }
@@ -72,6 +75,7 @@ namespace Assets.Scripts.Settings.Gamemodes
                     TeamMode = TeamMode.Disabled;
                     SaveKDROnDisconnect = true;
                     PointMode = 0;
+                    ImpactForce = 0;
                     Supply = true;
                     IsPlayerTitanEnabled = true;
                     LavaMode = false;
