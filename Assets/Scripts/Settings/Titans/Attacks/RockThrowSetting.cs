@@ -11,6 +11,8 @@ namespace Assets.Scripts.Settings.Titans.Attacks
         public RockThrowSetting(Difficulty difficulty)
         {
             Enabled = true;
+            if (difficulty == Difficulty.Realism)
+                Enabled = false;
         }
     }
 }

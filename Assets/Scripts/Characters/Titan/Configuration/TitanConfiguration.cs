@@ -83,8 +83,6 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 
             switch (type)
             {
-
-
                 case MindlessTitanType.Normal:
                     AnimationWalk = "run_walk";
                     Attacks.Add(new ComboAttack());

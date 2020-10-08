@@ -202,7 +202,6 @@ namespace Assets.Scripts.Settings.Titans
                     };
                     break;
                 case Difficulty.Abnormal:
-                case Difficulty.Realism:
                     TypeSettings = new Dictionary<MindlessTitanType, TitanSettings>
                     {
                         {
@@ -267,6 +266,69 @@ namespace Assets.Scripts.Settings.Titans
                         {MindlessTitanType.Punk, 15f},
                         {MindlessTitanType.Crawler, 5f},
                         { MindlessTitanType.Abnormal, 5f }
+                    };
+                    Disabled = new List<MindlessTitanType>();
+                    break;
+                case Difficulty.Realism:
+                    TypeSettings = new Dictionary<MindlessTitanType, TitanSettings>
+                    {
+                        {
+                            MindlessTitanType.Normal, new TitanSettings
+                            {
+                                Speed = 10f
+                            }
+                        },
+                        {
+                            MindlessTitanType.Abberant, new TitanSettings
+                            {
+                                Speed = 20f,
+                                RunSpeed = 24f
+                            }
+                        },
+                        {
+                            MindlessTitanType.Jumper, new TitanSettings
+                            {
+                                Speed = 20f,
+                                RunSpeed = 24f
+                            }
+                        },
+                        {
+                            MindlessTitanType.Punk, new TitanSettings
+                            {
+                                Speed = 12f,
+                                RunSpeed = 25f
+                            }
+                        },
+                        {
+                            MindlessTitanType.Crawler, new TitanSettings
+                            {
+                                Speed = 30f,
+                                RunSpeed = 50f
+                            }
+                        },
+                        {
+                            MindlessTitanType.Stalker, new TitanSettings
+                            {
+                                Speed = 25f
+                            }
+                        },
+                        {
+                            MindlessTitanType.Burster, new TitanSettings
+                            {
+                                Speed = 25f
+                            }
+                        },
+                        {
+                            MindlessTitanType.Abnormal, new TitanSettings
+                            {
+                                Speed = 20f,
+                                RunSpeed = 25f
+                            }
+                        }
+                    };
+                    TypeRatio = new Dictionary<MindlessTitanType, float>
+                    {
+                        { MindlessTitanType.Abnormal, 100f }
                     };
                     Disabled = new List<MindlessTitanType>();
                     break;

@@ -55,34 +55,36 @@ namespace Assets.Scripts.Settings.Gamemodes
 
         public GamemodeSettings(Difficulty difficulty)
         {
+            Pvp = new PvPSettings();
+            Titan = new SettingsTitan
+            {
+                Colossal = new TitanSettings(),
+                Eren = new TitanSettings(),
+                Female = new FemaleTitanSettings(),
+                Mindless = new MindlessTitanSettings()
+            };
+            Horse = new HorseSettings();
+            Respawn = new RespawnSettings();
+            TeamMode = TeamMode.Disabled;
+            SaveKDROnDisconnect = true;
+            PointMode = 0;
+            ImpactForce = 0;
+            Supply = true;
+            IsPlayerTitanEnabled = true;
+            LavaMode = false;
+            RestartOnTitansKilled = true;
+            PlayerShifters = true;
+            PlayerShifters = true;
+            RestartOnTitansKilled = true;
             switch (difficulty)
             {
                 case Difficulty.Easy:
                 case Difficulty.Normal:
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
+                    break;
                 case Difficulty.Realism:
-                    Pvp = new PvPSettings();
-                    Titan = new SettingsTitan
-                    {
-                        Colossal = new TitanSettings(),
-                        Eren = new TitanSettings(),
-                        Female = new FemaleTitanSettings(),
-                        Mindless = new MindlessTitanSettings()
-                    };
-                    Horse = new HorseSettings();
-                    Respawn = new RespawnSettings();
-                    TeamMode = TeamMode.Disabled;
-                    SaveKDROnDisconnect = true;
-                    PointMode = 0;
-                    ImpactForce = 0;
-                    Supply = true;
-                    IsPlayerTitanEnabled = true;
-                    LavaMode = false;
-                    RestartOnTitansKilled = true;
-                    PlayerShifters = true;
-                    PlayerShifters = true;
-                    RestartOnTitansKilled = true;
+                    ImpactForce = 1500;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

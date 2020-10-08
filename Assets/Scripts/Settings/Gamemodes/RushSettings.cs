@@ -57,10 +57,18 @@ namespace Assets.Scripts.Settings.Gamemodes
                     };
                     break;
                 case Difficulty.Abnormal:
-                case Difficulty.Realism:
+                    TitanInterval = 5;
+                    TitanGroupInterval = 30;
+                    TitanGroupSize = 5;
                     Titan.Mindless.TypeRatio = new Dictionary<MindlessTitanType, float>
                     {
                         { MindlessTitanType.Abberant, 100f }
+                    };
+                    break;
+                case Difficulty.Realism:
+                    Titan.Mindless.TypeRatio = new Dictionary<MindlessTitanType, float>
+                    {
+                        { MindlessTitanType.Abnormal, 100f }
                     };
                     TitanInterval = 5;
                     TitanGroupInterval = 30;

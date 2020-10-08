@@ -763,6 +763,7 @@ public class Hero : Human
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.tag == "titan") return;
         var force = collision.impulse.magnitude / Time.fixedDeltaTime;
         if (GameSettings.Gamemode.ImpactForce > 0 && force >= GameSettings.Gamemode.ImpactForce)
         {

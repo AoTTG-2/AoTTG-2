@@ -52,7 +52,6 @@ namespace Assets.Scripts.Settings.Gamemodes
                     };
                     break;
                 case Difficulty.Abnormal:
-                case Difficulty.Realism:
                     Titan.Mindless.TypeRatio = new Dictionary<MindlessTitanType, float>
                     {
                         { MindlessTitanType.Normal, 20f },
@@ -61,6 +60,12 @@ namespace Assets.Scripts.Settings.Gamemodes
                         { MindlessTitanType.Punk, 20f },
                         { MindlessTitanType.Crawler, 5f },
                         { MindlessTitanType.Abnormal, 20f }
+                    };
+                    break;
+                case Difficulty.Realism:
+                    Titan.Mindless.TypeRatio = new Dictionary<MindlessTitanType, float>
+                    {
+                        { MindlessTitanType.Abnormal, 100f }
                     };
                     break;
                 default:

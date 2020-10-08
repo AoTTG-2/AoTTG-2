@@ -7,16 +7,16 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         private float nextUpdate = 0.1f;
         protected override bool OnWandering()
         {
-            if (Time.time >= nextUpdate)
-            {
-                nextUpdate = Mathf.FloorToInt(Time.time) + 0.1f;
-                if (Random.Range(0, 100f) > 98.5f)
-                {
-                    Titan.ChangeState(TitanState.Attacking);
-                    Titan.CurrentAttack = Titan.Attacks[Random.Range(0, Titan.Attacks.Length)];
-                    return true;
-                }
-            }
+            //if (Time.time >= nextUpdate)
+            //{
+            //    nextUpdate = Mathf.FloorToInt(Time.time) + 0.1f;
+            //    if (Random.Range(0, 100f) > 98.5f)
+            //    {
+            //        Titan.ChangeState(TitanState.Attacking);
+            //        Titan.CurrentAttack = Titan.Attacks[Random.Range(0, Titan.Attacks.Length)];
+            //        return true;
+            //    }
+            //}
 
             return false;
         }

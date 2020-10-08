@@ -104,7 +104,8 @@ namespace Assets.Scripts.Settings.Titans
                 case Difficulty.Realism:
                     HealthMode = TitanHealthMode.Scaled;
                     HealthMinimum = 500;
-                    HealthMaximum = 3000;
+                    HealthMaximum = 1500;
+                    HealthRegeneration = 50;
                     SizeMinimum = 0.7f;
                     SizeMaximum = 3.5f;
                     Idle = 0.3f;
