@@ -33,7 +33,7 @@ namespace Assets.Scripts.Language
 
                 foreach (var file_found in possible_translation_file)
                 {
-                    if (file_found.EndsWith(".po") || file_found.EndsWith(".pot"))
+                    if (file_found.EndsWith(".po"))
                         possibleTranslations.Add(file_found);
                 }
                 this.OnDone.Invoke();
@@ -51,5 +51,6 @@ namespace Assets.Scripts.Language
             else
                 translations = this.possibleTranslations;
         }
+
     }
 }

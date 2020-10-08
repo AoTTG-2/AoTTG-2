@@ -73,5 +73,14 @@ namespace Assets.Scripts.Language
 
         public Action Onfail;
 
+        public static void AddEntryToPot(string entry)
+        {
+            try
+            {
+                string newEntry = "\nmsgid \"" + entry + "\"\nmsgstr \"\"";
+                File.WriteAllText(Application.streamingAssetsPath + Folder_path_add + "\\template.pot", newEntry);
+            }
+            catch { }
+        }
     }
 }
