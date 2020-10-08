@@ -592,6 +592,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
                 if (InputManager.KeyDown(InputHuman.Focus))
                 {
+                    if (Service.Player.Self is TitanBase) return;
                     triggerAutoLock = !triggerAutoLock;
                     if (triggerAutoLock)
                     {

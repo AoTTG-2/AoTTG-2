@@ -36,7 +36,7 @@ namespace Assets.Scripts.UI.Menu
         {
             base.OnEnable();
 
-            CustomDifficulties.Clear();
+            Refresh();
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -71,6 +71,14 @@ namespace Assets.Scripts.UI.Menu
                 CustomDifficulties.Add(fileName, file);
                 DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
             }
+        }
+
+        private void Refresh()
+        {
+            CustomDifficulties.Clear();
+            LevelDropdown.value = 0;
+            GamemodeDropdown.value = 0;
+            DifficultyDropdown.value = 0;
         }
 
         public void Create()

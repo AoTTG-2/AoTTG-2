@@ -17,6 +17,7 @@ namespace Assets.Scripts.Settings.Titans
 
         public MindlessTitanSettings(Difficulty difficulty) : base(difficulty)
         {
+            Disabled = new List<MindlessTitanType>();
             switch (difficulty)
             {
                 case Difficulty.Easy:
@@ -74,6 +75,13 @@ namespace Assets.Scripts.Settings.Titans
                                 Speed = 15f
                             }
                         },
+                        {
+                            MindlessTitanType.Abnormal, new TitanSettings
+                            {
+                                Speed = 14f,
+                                RunSpeed = 18f
+                            }
+                        }
                     };
                     Disabled = new List<MindlessTitanType> { MindlessTitanType.Punk, MindlessTitanType.Crawler, MindlessTitanType.Burster, MindlessTitanType.Stalker };
                     break;
@@ -126,6 +134,13 @@ namespace Assets.Scripts.Settings.Titans
                                 Speed = 18f
                             }
                         },
+                        {
+                            MindlessTitanType.Abnormal, new TitanSettings
+                            {
+                                Speed = 16f,
+                                RunSpeed = 20f
+                            }
+                        }
                     };
                     break;
                 case Difficulty.Hard:
@@ -177,6 +192,13 @@ namespace Assets.Scripts.Settings.Titans
                                 Speed = 22f
                             }
                         },
+                        {
+                            MindlessTitanType.Abnormal, new TitanSettings
+                            {
+                                Speed = 18f,
+                                RunSpeed = 23f
+                            }
+                        }
                     };
                     break;
                 case Difficulty.Abnormal:
@@ -229,6 +251,13 @@ namespace Assets.Scripts.Settings.Titans
                                 Speed = 25f
                             }
                         },
+                        {
+                            MindlessTitanType.Abnormal, new TitanSettings
+                            {
+                                Speed = 20f,
+                                RunSpeed = 25f
+                            }
+                        }
                     };
                     TypeRatio = new Dictionary<MindlessTitanType, float>
                     {

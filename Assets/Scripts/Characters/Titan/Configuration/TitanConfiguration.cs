@@ -144,8 +144,6 @@ namespace Assets.Scripts.Characters.Titan.Configuration
             var runningAnimations = new[] { "run_abnormal", "run_abnormal_1" };
             AnimationWalk = walkingAnimations[Random.Range(0, walkingAnimations.Length)];
             AnimationRun = runningAnimations[Random.Range(0, runningAnimations.Length)];
-            Speed = Random.Range(7f, 25f);
-            RunSpeed = Random.Range(Speed, Speed + 10f);
             Focus = Random.Range(1f, 15f);
             Attacks = new List<Attack<MindlessTitan>>();
             Behaviors = new List<TitanBehavior> { new RandomAttackBehavior() };

@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assets.Scripts.Settings;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -37,7 +35,7 @@ namespace Assets.Scripts.UI.Menu
             PhotonNetwork.Disconnect();
             PhotonNetwork.offlineMode = true;
 
-            CustomDifficulties.Clear();
+            Refresh();
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -72,6 +70,14 @@ namespace Assets.Scripts.UI.Menu
                 CustomDifficulties.Add(fileName, file);
                 DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
             }
+        }
+
+        private void Refresh()
+        {
+            CustomDifficulties.Clear();
+            LevelDropdown.value = 0;
+            GamemodeDropdown.value = 0;
+            DifficultyDropdown.value = 0;
         }
 
         public override void Back()

@@ -44,7 +44,13 @@ namespace Assets.Scripts.Characters.Titan
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, targetDirection, 0f), (Speed * 0.15f) * Time.deltaTime);
 
         }
-        
+
+        public override void Initialize(TitanConfiguration configuration)
+        {
+            base.Initialize(configuration);
+            Speed = SpeedRun;
+        }
+
         private Attack<MindlessTitan> CanAttack()
         {
             if (InputManager.KeyDown(InputTitan.AttackBodySlam)) 

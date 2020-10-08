@@ -173,7 +173,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 configuration.Behaviors = new List<TitanBehavior>();
                 var config = JsonConvert.SerializeObject(configuration);
-                photonView.RPC("InitializeRpc", PhotonTargets.OthersBuffered, config);
+                photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
 
                 if (Health > 0)
                 {
