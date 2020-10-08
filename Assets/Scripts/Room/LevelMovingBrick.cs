@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class LevelMovingBrick : MonoBehaviour
 {
@@ -9,9 +10,13 @@ public class LevelMovingBrick : MonoBehaviour
     public GameObject pointGOB;
     public float speed = 10f;
     public bool towardsA = true;
+    private float initTime = 0;
+    private float startTime = 0;
+    
 
     private void Start()
     {
+        initTime = UnityEngine.Random.Range(0,10);
         this.pointA = this.pointGOA.transform.position;
         this.pointB = this.pointGOB.transform.position;
         UnityEngine.Object.Destroy(this.pointGOA);
@@ -20,6 +25,7 @@ public class LevelMovingBrick : MonoBehaviour
 
     private void Update()
     {
+     if(startTime > initTime){
         if (this.towardsA)
         {
             base.transform.position = Vector3.MoveTowards(base.transform.position, this.pointA, this.speed * Time.deltaTime);
@@ -36,6 +42,8 @@ public class LevelMovingBrick : MonoBehaviour
                 this.towardsA = true;
             }
         }
+    }
+     startTime += Time.deltaTime;
     }
 }
 
