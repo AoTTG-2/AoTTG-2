@@ -8,17 +8,30 @@ namespace Assets.Scripts.UI
     {
         string translationKey = string.Empty;
 
-        private void tryTranslate()
+        protected override void OnEnable()
         {
             if (!string.IsNullOrEmpty(translationKey))
-                base.text = translationKey.translated();
+                Internationalization.OnTranslationSet += () => text = translationKey;
+            base.OnEnable();
+        }
+
+        protected override void OnDisable()
+        {
+            Internationalization.OnTranslationSet -= () => text = translationKey;
+            base.OnDisable();
+        }
+
+        private void TryTranslate()
+        {
+            if (!string.IsNullOrEmpty(translationKey))
+                base.text = translationKey.Translated();
         }
 
         protected override void Start()
         {
             if (base.text != "Text")
-                translationKey = base.text;
-            this.tryTranslate();
+                text = base.text;
+            this.TryTranslate();
 
             base.Start();
         }
@@ -28,8 +41,11 @@ namespace Assets.Scripts.UI
             set
             {
                 if (translationKey != value)
+                {
                     translationKey = value;
-                this.tryTranslate();
+                    Internationalization.OnTranslationSet += () => text = translationKey;
+                }
+                this.TryTranslate();
             }
         }
     }

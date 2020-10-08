@@ -1,5 +1,6 @@
-﻿#define loadFromAssets
-
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -8,33 +9,40 @@ namespace Assets.Scripts.Language
 {
     class TranslationSeeker
     {
+        public const string Folder_path_add = "\\Language";
+
         List<string> possibleTranslations;
+
+        public Action OnDone;
+
+        public Action OnError;
 
         public TranslationSeeker()
         {
             possibleTranslations = new List<string>();
-
-#if UNITY_EDITOR
-            string[] translations = AssetDatabase.FindAssets("l:translation", new string[] { "Languages" });
-            foreach (var s in translations)
-                Debug.Log(s);
-
-            createTranslationListFile();
-#elif loadFromAssets
-            TextAsset[] availableTranslations = Resources.LoadAll<TextAsset>("Languages/");
-
-#else
-            //load from folder
-#endif
+            Task.Run(() => SeekTranslations());
         }
 
-#if UNITY_EDITOR
-        private void createTranslationListFile()
+        private void SeekTranslations()
         {
+            try
+            {
+                possibleTranslations.Clear();
 
+                var possible_translation_file = Directory.GetFiles(Application.streamingAssetsPath+Folder_path_add);
 
+                foreach (var file_found in possible_translation_file)
+                {
+                    if (file_found.EndsWith(".po") || file_found.EndsWith(".pot"))
+                        possibleTranslations.Add(file_found);
+                }
+                this.OnDone.Invoke();
+            }
+            catch
+            {
+                this.OnError.Invoke();
+            }
         }
-#endif
 
         public void LoadAvailableTranslations(out List<string> translations)
         {

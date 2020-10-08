@@ -1,6 +1,4 @@
-﻿#define loadFromAssets
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -21,17 +19,26 @@ namespace Assets.Scripts.Language
             }
             else
             {
-                Task.Run(()=>ReadFile(translationFile));
+                Task.Run(()=>ReadFile(translationFile.text));
             }
 #else
+            try
+            {
+                string translationFile = File.ReadAllText(Application.streamingAssetsPath + TranslationSeeker.Folder_path_add+"\\"+translation_path);
+                Task.Run(() => ReadFile(translationFile));
+            }
+            catch
+            {
+                this.Onfail.Invoke();
+            }
 #endif
         }
 
-        private void ReadFile(TextAsset translation_file)
+        private void ReadFile(string translation_file)
         {
             Dictionary<string, string> newTranslation = new Dictionary<string, string>();
 
-            StringReader reader = new StringReader(translation_file.text);
+            StringReader reader = new StringReader(translation_file);
 
             string key = null;
             string val = null;
