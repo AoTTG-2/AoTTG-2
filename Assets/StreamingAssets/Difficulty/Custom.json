@@ -1,14 +1,16 @@
 {
 	"Gamemodes": [
 		{
-			"PvpTitanScoreLimit": 200,
-			"PvpHumanScoreLimit": 200,
+			"PvpTitanScoreLimit": 300,
+			"PvpHumanScoreLimit": 300,
 			"SpawnSupplyStationOnHumanCapture": true,
 			"Name": "Capture",
+			"GamemodeType": 2,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": true,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": false,
@@ -25,15 +27,16 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 0
-			},
-			"GamemodeType": 2
+			}
 		},
 		{
 			"Name": "Endless",
+			"GamemodeType": 1,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": true,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": true,
@@ -48,23 +51,24 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 0
-			},
-			"GamemodeType": 1
+			}
 		},
 		{
 			"Infected": 1,
 			"Name": "Infection",
+			"GamemodeType": 8,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
-			"IsPlayerTitanEnabled": true,
-			"GamemodeType": 8
+			"IsPlayerTitanEnabled": true
 		},
 		{
 			"Name": "Titans",
+			"GamemodeType": 0,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": true,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": true,
@@ -79,15 +83,16 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 2
-			},
-			"GamemodeType": 0
+			}
 		},
 		{
 			"Name": "PvpAhss",
+			"GamemodeType": 7,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": true,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": false,
@@ -106,16 +111,17 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 0
-			},
-			"GamemodeType": 7
+			}
 		},
 		{
 			"RestartOnFinish": true,
 			"Name": "Racing",
+			"GamemodeType": 4,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": false,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": false,
@@ -133,16 +139,19 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 0
-			},
-			"GamemodeType": 4
+			}
 		},
 		{
-			"TitanInterval": 7,
+			"TitanInterval": 5,
+			"TitanGroupInterval": 30,
+			"TitanGroupSize": 5,
 			"Name": "TitanRush",
+			"GamemodeType": 6,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": true,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": true,
@@ -150,7 +159,11 @@
 			"Pvp": {},
 			"Titan": {
 				"Start": 2,
-				"Mindless": {},
+				"Mindless": {
+					"TypeRatio": {
+						"Abnormal": 100.0
+					}
+				},
 				"Female": {},
 				"Colossal": {},
 				"Eren": {}
@@ -158,15 +171,16 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 0
-			},
-			"GamemodeType": 6
+			}
 		},
 		{
 			"Name": "Trost",
+			"GamemodeType": 5,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": true,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": false,
@@ -186,8 +200,7 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 0
-			},
-			"GamemodeType": 5
+			}
 		},
 		{
 			"StartWave": 1,
@@ -196,10 +209,12 @@
 			"BossWave": 5,
 			"BossType": 3,
 			"Name": "Wave",
+			"GamemodeType": 3,
 			"LavaMode": false,
 			"TeamMode": 0,
 			"SaveKDROnDisconnect": true,
 			"PointMode": 0,
+			"ImpactForce": 1500,
 			"Supply": true,
 			"IsPlayerTitanEnabled": true,
 			"PlayerShifters": true,
@@ -207,7 +222,11 @@
 			"Pvp": {},
 			"Titan": {
 				"Start": 3,
-				"Mindless": {},
+				"Mindless": {
+					"TypeRatio": {
+						"Abnormal": 100.0
+					}
+				},
 				"Female": {},
 				"Colossal": {},
 				"Eren": {}
@@ -215,8 +234,7 @@
 			"Horse": {},
 			"Respawn": {
 				"Mode": 2
-			},
-			"GamemodeType": 3
+			}
 		}
 	],
 	"PvP": {
@@ -227,109 +245,101 @@
 		"AhssAirReload": true
 	},
 	"Titan": {
-		"Start": 25,
+		"Start": 10,
 		"Limit": 30,
 		"MinimumDamage": 0,
 		"MaximumDamage": 2147483647,
 		"Mindless": {
 			"TypeRatio": {
-				"Normal": 80.0,
-				"Abberant": 20.0,
-				"Jumper": 15.0,
-				"Punk": 0.0,
-				"Crawler": 0.0,
-				"Burster": 0.0,
-				"Stalker": 0.0,
-				"Abnormal": 0.0
+				"Abnormal": 100.0
 			},
-			"Disabled": [
-				3,
-				4,
-				6,
-				5
-			],
+			"Disabled": [],
 			"TypeSettings": {
 				"Normal": {
-					"Speed": 7.0
+					"Speed": 10.0
 				},
 				"Abberant": {
-					"Speed": 16.0,
-					"RunSpeed": 20.0
+					"Speed": 20.0,
+					"RunSpeed": 24.0
 				},
 				"Jumper": {
-					"Speed": 16.0,
-					"RunSpeed": 20.0
+					"Speed": 20.0,
+					"RunSpeed": 24.0
 				},
 				"Punk": {
-					"Speed": 9.0,
-					"RunSpeed": 18.0
+					"Speed": 12.0,
+					"RunSpeed": 25.0
 				},
 				"Crawler": {
-					"Speed": 22.0,
-					"RunSpeed": 37.0
+					"Speed": 30.0,
+					"RunSpeed": 50.0
 				},
 				"Stalker": {
-					"Speed": 18.0
+					"Speed": 25.0
 				},
 				"Burster": {
-					"Speed": 18.0
+					"Speed": 25.0
+				},
+				"Abnormal": {
+					"Speed": 20.0,
+					"RunSpeed": 25.0
 				}
 			},
 			"AttackSettings": [
 				{
-					"Enabled": true
+					"Enabled": false
 				}
 			],
 			"SizeMinimum": 0.7,
-			"SizeMaximum": 3.0,
+			"SizeMaximum": 3.5,
 			"ChaseDistance": 100.0,
 			"HealthMode": 2,
-			"HealthMinimum": 200,
-			"HealthMaximum": 500,
-			"HealthRegeneration": 0,
+			"HealthMinimum": 500,
+			"HealthMaximum": 1500,
+			"HealthRegeneration": 50,
 			"ExplodeMode": 0,
-			"Idle": 1.8,
+			"Idle": 0.3,
 			"Speed": 15.0,
 			"RunSpeed": 15.0
 		},
 		"Female": {
-			"DespawnTimer": 5.0,
+			"DespawnTimer": 20.0,
 			"SpawnTitansOnDefeat": true,
 			"SizeMinimum": 0.7,
-			"SizeMaximum": 3.0,
+			"SizeMaximum": 3.5,
 			"ChaseDistance": 100.0,
 			"HealthMode": 2,
-			"HealthMinimum": 50000,
-			"HealthMaximum": 50000,
-			"HealthRegeneration": 0,
+			"HealthMinimum": 10000,
+			"HealthMaximum": 10000,
+			"HealthRegeneration": 50,
 			"ExplodeMode": 0,
-			"Idle": 1.8,
+			"Idle": 0.3,
 			"Speed": 15.0,
 			"RunSpeed": 15.0
 		},
 		"Colossal": {
 			"SizeMinimum": 0.7,
-			"SizeMaximum": 3.0,
+			"SizeMaximum": 3.5,
 			"ChaseDistance": 100.0,
-			"HealthMode": 0,
-			"HealthMinimum": 200,
-			"HealthMaximum": 500,
-			"HealthRegeneration": 0,
+			"HealthMode": 2,
+			"HealthMinimum": 10000,
+			"HealthMaximum": 10000,
+			"HealthRegeneration": 50,
 			"ExplodeMode": 0,
-			"Idle": 1.8,
+			"Idle": 0.3,
 			"Speed": 15.0,
 			"RunSpeed": 15.0
 		},
 		"Eren": {
 			"SizeMinimum": 0.7,
-			"SizeMaximum": 3.0,
+			"SizeMaximum": 3.5,
 			"ChaseDistance": 100.0,
-			"HealthMode": 0,
-			"HealthMinimum": 200,
-			"HealthMaximum": 500,
-			"HealthRegeneration": 0,
+			"HealthMode": 2,
+			"HealthMinimum": 500,
+			"HealthMaximum": 1500,
+			"HealthRegeneration": 50,
 			"ExplodeMode": 0,
-			"Idle": 1.8,
+			"Idle": 0.3,
 			"Speed": 15.0,
 			"RunSpeed": 15.0
 		}
@@ -340,6 +350,6 @@
 	},
 	"Respawn": {
 		"Mode": 2,
-		"EndlessRevive": 0
+		"EndlessRevive": 5
 	}
 }

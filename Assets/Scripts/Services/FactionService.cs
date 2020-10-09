@@ -99,7 +99,7 @@ namespace Assets.Scripts.Services
 
             var hostileFactions = GetHostileFactions(entity.Faction);
             var hostileEntities = EntityService
-                .GetAllExcept(entity).ToList().Where(x => hostileFactions.Any(faction => faction == x.Faction) || x.Faction == null).ToList();
+                .GetAllExcept(entity).Where(x => hostileFactions.Any(faction => faction == x.Faction) || x.Faction == null).ToList();
             return new HashSet<Entity>(hostileEntities);
         }
 
@@ -112,7 +112,7 @@ namespace Assets.Scripts.Services
 
             var friendlyFactions = GetFriendlyFactions(entity.Faction);
             var friendlyEntities = EntityService
-                .GetAllExcept(entity).ToList().Where(x => friendlyFactions.Any(faction => faction == x.Faction) || x.Faction == null).ToList();
+                .GetAllExcept(entity).Where(x => friendlyFactions.Any(faction => faction == x.Faction) || x.Faction == null).ToList();
             return new HashSet<Entity>(friendlyEntities);
         }
 

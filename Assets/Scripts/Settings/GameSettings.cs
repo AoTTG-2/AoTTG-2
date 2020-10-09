@@ -3,7 +3,6 @@ using Assets.Scripts.Settings.Titans;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Debug = UnityEngine.Debug;
@@ -95,12 +94,11 @@ namespace Assets.Scripts.Settings
                     Gamemode = CreateFromObjects(playerGamemodeSettings as InfectionGamemodeSettings, levelGamemode as InfectionGamemodeSettings);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(levelGamemode.GetType().ToString());
             }
             PvP = CreateFromObjects(ConfigPvP, playerGamemodeSettings.Pvp, levelGamemode.Pvp);
             Titan = CreateFromObjects(ConfigTitan, playerGamemodeSettings.Titan, levelGamemode.Titan);
 
-            //TODO: Nested classes need to run CreateFromObjects
             Titan.Mindless = CreateFromObjects(ConfigTitan.Mindless, playerGamemodeSettings.Titan?.Mindless, levelGamemode.Titan?.Mindless);
             Titan.Colossal = CreateFromObjects(ConfigTitan.Colossal, playerGamemodeSettings.Titan?.Colossal, levelGamemode.Titan?.Colossal);
             Titan.Female = CreateFromObjects(ConfigTitan.Female, playerGamemodeSettings.Titan?.Female, levelGamemode.Titan?.Female);
@@ -126,16 +124,11 @@ namespace Assets.Scripts.Settings
             {
                 try
                 {
-                    if (p.GetValue(s).Equals(GetDefault(p.PropertyType)))
-                    {
-                        return false;
-                    }
-
-                    return true;
+                    return !p.GetValue(s).Equals(GetDefault(p.PropertyType));
                 }
-                catch (NullReferenceException e)
+                catch (NullReferenceException)
                 {
-                    Debug.LogWarning($"{p.Name} of {p.PropertyType} is unassigned in {s.ToString()}");
+                    Debug.LogWarning($"{p.Name} of {p.PropertyType} is unassigned in {s}");
                     return false;
                 }
             };
@@ -146,14 +139,6 @@ namespace Assets.Scripts.Settings
         {
             foreach (var propertyInfo in typeof(T).GetProperties().Where(prop => prop.CanRead && prop.CanWrite))
             {
-                //var nullableType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
-                //if (nullableType == null && !propertyInfo.PropertyType.IsPrimitive)
-                //{
-                //    var arr = sources.Select(x => propertyInfo.GetValue(x)).ToArray();
-                //    MergeObjects(propertyInfo.PropertyType, sources.Select(x => propertyInfo.GetValue(x)).ToArray());
-                //    continue;
-                //}
-
                 foreach (var source in sources)
                 {
                     if (source == null)
@@ -168,11 +153,7 @@ namespace Assets.Scripts.Settings
 
         private static object GetDefault(Type type)
         {
-            if (type.IsValueType)
-            {
-                return Activator.CreateInstance(type);
-            }
-            return null;
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
     }
 }

@@ -54,14 +54,8 @@ namespace Assets.Scripts
         public static string currentScript;
         [Obsolete("Legacy RC custom logic is no longer supported in AoTTG2")]
         public static string currentScriptLogic;
-        [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
-        private float currentSpeed;
-        [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
-        public static bool customLevelLoaded;
         [Obsolete("Migrate this to a dedicated TeamService")]
         public int cyanKills;
-        [Obsolete("Move this into RacingGamemode")]
-        private bool endRacing;
         public bool gameStart;
         private bool gameTimesUp;
         [Obsolete("This list is only used to replace the CUBE_001 TEXTURE when CUSTOM MAP is loaded. For AoTTG2 we no longer require this method")]
@@ -132,8 +126,6 @@ namespace Assets.Scripts
         [Obsolete("A god class array for settings. Move these settings to the classes where they belong")]
         public static object[] settings;
         public static Material skyMaterial;
-        [Obsolete("Use RacingGamemode instead")]
-        private bool startRacing;
 
         public InGameUi InGameUI;
 
@@ -162,7 +154,6 @@ namespace Assets.Scripts
             noRestart = false;
             skyMaterial = null;
             logicLoaded = false;
-            customLevelLoaded = true;
             this.isUnloading = false;
             this.isRecompiling = false;
             Time.timeScale = 1f;
@@ -391,9 +382,8 @@ namespace Assets.Scripts
                                 endlessMode = GameSettings.Respawn.EndlessRevive.Value;
                             }
 
-                            length = endlessMode - ((int) this.myRespawnTime);
-
                             //TODO
+                            //length = endlessMode - ((int) this.myRespawnTime);
                             //this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
                             if (this.myRespawnTime > endlessMode)
                             {
@@ -417,11 +407,8 @@ namespace Assets.Scripts
 
                 if (GameSettings.Gamemode.GamemodeType == GamemodeType.Racing)
                 {
-                    //this.ShowHUDInfoTopCenter("Time : " + ((this.roundTime >= 20f)
-                    //    ? (num3 = (((int) (this.roundTime * 10f)) * 0.1f) - 20f).ToString()
-                    //    : "WAITING"));
                     if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
-                        customLevelLoaded && !mainCamera.IsSpecmode)
+                        !mainCamera.IsSpecmode)
                     {
                         this.myRespawnTime += Time.deltaTime;
                         if (this.myRespawnTime > 1.5f)
@@ -1758,37 +1745,32 @@ namespace Assets.Scripts
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
-        public void OnConnectedToMaster()
+        public override void OnConnectedToMaster()
         {
-            UnityEngine.MonoBehaviour.print("OnConnectedToMaster");
+            Debug.Log("OnConnectedToMaster");
         }
 
-        public void OnConnectedToPhoton()
+        public override void OnConnectedToPhoton()
         {
-            UnityEngine.MonoBehaviour.print("OnConnectedToPhoton");
+            Debug.Log("OnConnectedToPhoton");
         }
 
-        public void OnConnectionFail(DisconnectCause cause)
+        public override void OnConnectionFail(DisconnectCause cause)
         {
-            UnityEngine.MonoBehaviour.print("OnConnectionFail : " + cause.ToString());
+            Debug.Log("OnConnectionFail : " + cause.ToString());
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
             this.gameStart = false;
         }
 
-        public void OnCreatedRoom()
+        public override void OnCreatedRoom()
         {
             this.racingResult = new ArrayList();
-            UnityEngine.MonoBehaviour.print("OnCreatedRoom");
+            Debug.Log("OnCreatedRoom");
         }
-
-        public void OnCustomAuthenticationFailed()
+        
+        public override void OnDisconnectedFromPhoton()
         {
-            UnityEngine.MonoBehaviour.print("OnCustomAuthenticationFailed");
-        }
-
-        public void OnDisconnectedFromPhoton()
-        {
-            UnityEngine.MonoBehaviour.print("OnDisconnectedFromPhoton");
+            Debug.Log("OnDisconnectedFromPhoton");
             if (Application.loadedLevel != 0)
             {
                 Time.timeScale = 1f;
@@ -1804,12 +1786,7 @@ namespace Assets.Scripts
                 Application.LoadLevel(0);
             }
         }
-
-        public void OnFailedToConnectToPhoton()
-        {
-            UnityEngine.MonoBehaviour.print("OnFailedToConnectToPhoton");
-        }
-
+        
         public void OnGUI()
         {
             if (GUILayout.Button("Photon Spawn Test!"))
@@ -1878,24 +1855,28 @@ namespace Assets.Scripts
             //}
             LevelHelper.Load(Level);
             GameCursor.CursorMode = CursorMode.Loading;
-            ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-            hashtable.Add(PhotonPlayerProperty.name, LoginFengKAI.player.name);
-            hashtable.Add(PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname);
-            hashtable.Add(PhotonPlayerProperty.kills, 0);
-            hashtable.Add(PhotonPlayerProperty.max_dmg, 0);
-            hashtable.Add(PhotonPlayerProperty.total_dmg, 0);
-            hashtable.Add(PhotonPlayerProperty.deaths, 0);
-            hashtable.Add(PhotonPlayerProperty.dead, true);
-            hashtable.Add(PhotonPlayerProperty.isTitan, 0);
-            hashtable.Add(PhotonPlayerProperty.RCteam, 0);
-            hashtable.Add(PhotonPlayerProperty.currentLevel, string.Empty);
-            ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
+            var hashtable = new Hashtable
+            {
+                {PhotonPlayerProperty.name, LoginFengKAI.player.name},
+                {PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname},
+                {PhotonPlayerProperty.kills, 0},
+                {PhotonPlayerProperty.max_dmg, 0},
+                {PhotonPlayerProperty.total_dmg, 0},
+                {PhotonPlayerProperty.deaths, 0},
+                {PhotonPlayerProperty.dead, true},
+                {PhotonPlayerProperty.isTitan, 0},
+                {PhotonPlayerProperty.RCteam, 0},
+                {PhotonPlayerProperty.currentLevel, string.Empty}
+            };
+            var propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.needChooseSide = true;
             this.killInfoGO = new ArrayList();
             this.name = LoginFengKAI.player.name;
-            ExitGames.Client.Photon.Hashtable hashtable3 = new ExitGames.Client.Photon.Hashtable();
-            hashtable3.Add(PhotonPlayerProperty.name, this.name);
+            var hashtable3 = new ExitGames.Client.Photon.Hashtable
+            {
+                {PhotonPlayerProperty.name, this.name}
+            };
             PhotonNetwork.player.SetCustomProperties(hashtable3);
             if (OnPrivateServer)
             {
@@ -1903,14 +1884,14 @@ namespace Assets.Scripts
             }
         }
 
-        public void OnLeftLobby()
+        public override void OnLeftLobby()
         {
-            UnityEngine.MonoBehaviour.print("OnLeftLobby");
+            Debug.Log("OnLeftLobby");
         }
 
-        public void OnLeftRoom()
+        public override void OnLeftRoom()
         {
-            UnityEngine.MonoBehaviour.print("OnLeftRoom");
+            Debug.Log("OnLeftRoom");
         }
 
         private async void OnLevelWasLoaded(int level)
@@ -1967,7 +1948,7 @@ namespace Assets.Scripts
             }
         }
 
-        public void OnMasterClientSwitched(PhotonPlayer newMasterClient)
+        public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
         {
             if (!noRestart)
             {
@@ -1990,12 +1971,7 @@ namespace Assets.Scripts
             }
             noRestart = false;
         }
-
-        public void OnPhotonCreateRoomFailed()
-        {
-            UnityEngine.MonoBehaviour.print("OnPhotonCreateRoomFailed");
-        }
-
+        
         public void OnPhotonCustomRoomPropertiesChanged()
         {
             if (PhotonNetwork.isMasterClient)
@@ -2019,22 +1995,12 @@ namespace Assets.Scripts
             }
         }
 
-        public void OnPhotonInstantiate()
+        public override void OnPhotonMaxCccuReached()
         {
-            UnityEngine.MonoBehaviour.print("OnPhotonInstantiate");
+            Debug.Log("OnPhotonMaxCccuReached");
         }
 
-        public void OnPhotonJoinRoomFailed()
-        {
-            UnityEngine.MonoBehaviour.print("OnPhotonJoinRoomFailed");
-        }
-
-        public void OnPhotonMaxCccuReached()
-        {
-            UnityEngine.MonoBehaviour.print("OnPhotonMaxCccuReached");
-        }
-
-        public void OnPhotonPlayerConnected(PhotonPlayer player)
+        public override void OnPhotonPlayerConnected(PhotonPlayer player)
         {
             if (PhotonNetwork.isMasterClient)
             {
@@ -2069,7 +2035,7 @@ namespace Assets.Scripts
             this.RecompilePlayerList(0.1f);
         }
 
-        public void OnPhotonPlayerDisconnected(PhotonPlayer player)
+        public override void OnPhotonPlayerDisconnected(PhotonPlayer player)
         {
             if (ignoreList.Contains(player.ID))
             {
@@ -2093,7 +2059,7 @@ namespace Assets.Scripts
             this.RecompilePlayerList(0.1f);
         }
 
-        public void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
+        public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
         {
             this.RecompilePlayerList(0.1f);
             if (((playerAndUpdatedProps != null) && (playerAndUpdatedProps.Length >= 2)) && (((PhotonPlayer) playerAndUpdatedProps[0]) == PhotonNetwork.player))
@@ -2144,24 +2110,9 @@ namespace Assets.Scripts
                 }
             }
         }
-
-        public void OnPhotonRandomJoinFailed()
+        
+        public override void OnReceivedRoomListUpdate()
         {
-            UnityEngine.MonoBehaviour.print("OnPhotonRandomJoinFailed");
-        }
-
-        public void OnPhotonSerializeView()
-        {
-            UnityEngine.MonoBehaviour.print("OnPhotonSerializeView");
-        }
-
-        public void OnReceivedRoomListUpdate()
-        {
-        }
-
-        public void OnUpdatedFriendList()
-        {
-            UnityEngine.MonoBehaviour.print("OnUpdatedFriendList");
         }
 
         public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
@@ -2300,8 +2251,6 @@ namespace Assets.Scripts
         {
             if (!this.gameTimesUp)
             {
-                this.startRacing = false;
-                this.endRacing = false;
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
                 this.killInfoGO = new ArrayList();
@@ -2756,7 +2705,7 @@ namespace Assets.Scripts
         [Obsolete("Migrate into a SpawnService")]
         public void spawnPlayerAtRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
         {
-            if (((info.sender.isMasterClient && logicLoaded) && (customLevelLoaded && !this.needChooseSide)) && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
+            if (info.sender.isMasterClient && logicLoaded && !this.needChooseSide && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
             {
                 Vector3 position = new Vector3(posX, posY, posZ);
                 IN_GAME_MAIN_CAMERA component = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
@@ -2893,7 +2842,6 @@ namespace Assets.Scripts
             masterRC = false;
             heroHash = new ExitGames.Client.Photon.Hashtable();
             logicLoaded = false;
-            customLevelLoaded = false;
             oldScriptLogic = string.Empty;
             currentScriptLogic = string.Empty;
             this.playerList = string.Empty;
