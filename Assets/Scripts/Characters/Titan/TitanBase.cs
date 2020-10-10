@@ -362,7 +362,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
-            if (view == null || !IsAlive && Time.time - DamageTimer > 0.2f) return;
+            if (view == null || !IsAlive || Time.time - DamageTimer < 0.2f) return;
             if (damage < GameSettings.Titan.MinimumDamage.Value) return;
             if (damage > GameSettings.Titan.MaximumDamage.Value)
             {
