@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class ComboAttack : Attack
+    public class ComboAttack : Attack<MindlessTitan>
     {
         public ComboAttack(bool isPunk = false)
         {
             BodyParts = new[] { BodyPart.HandRight, BodyPart.HandLeft };
+            Damage = 100;
             this.isPunk = isPunk;
         }
 
+        public override Type[] TargetTypes { get; } = { typeof(Human), typeof(TitanBase) };
+
         private readonly bool isPunk;
-        private string AttackAnimation { get; set; }
         private const string AnimationPunchRight = "attack_combo_1";
         private const string AnimationPunchLeft  = "attack_combo_2";
         private const string AnimationSlam = "attack_combo_3";
@@ -23,16 +26,17 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private BodyPart Hand { get; set; }
         private bool HasExploded { get; set; }
 
-        public override bool CanAttack(MindlessTitan titan)
+        public override bool CanAttack()
         {
-            if (titan.TargetDistance >= titan.AttackDistance * 2) return false;
-            if (IsDisabled(titan)) return false;
-            Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
+            if (!base.CanAttack()) return false;
+
+            if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
+            Vector3 vector18 = Titan.Target.transform.position - Titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
-            var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
+            var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
             if (Mathf.Abs(between) < 90f)
             {
-                if (titan.TargetDistance < titan.AttackDistance * 0.75f)
+                if (Titan.TargetDistance * 0.75f < Titan.AttackDistance * 0.75f)
                 {
                     IsFinished = false;
                     HasExploded = false;
@@ -61,24 +65,24 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
         }
 
-        private Transform GetHand(MindlessTitan titan)
+        private Transform GetHand()
         {
             return Hand == BodyPart.HandRight 
-                ? titan.TitanBody.HandRight 
-                : titan.TitanBody.HandLeft;
+                ? Titan.Body.HandRight 
+                : Titan.Body.HandLeft;
         }
 
-        public override void Execute(MindlessTitan titan)
+        public override void Execute()
         {
             if (IsFinished) return;
-            if (!titan.Animation.IsPlaying(AttackAnimation))
+            if (!Titan.Animation.IsPlaying(AttackAnimation))
             {
-                titan.CrossFade(AttackAnimation, 0.1f);
+                Titan.CrossFade(AttackAnimation, 0.1f);
                 return;
             }
 
 
-            if (titan.Animation[AttackAnimation].normalizedTime > 1f)
+            if (Titan.Animation[AttackAnimation].normalizedTime > 1f)
             {
                 if (AttackAnimation == AnimationPunchRight)
                 {
@@ -109,24 +113,20 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (AttackAnimation == AnimationPunchRight
                 || AttackAnimation == AnimationPunchLeft)
             {
-                Vector3 vector12 = titan.transform.forward * titan.Speed * 0.40f;
-                Vector3 vector14 = vector12 - titan.Rigidbody.velocity;
+                Vector3 vector12 = Titan.transform.forward * Titan.Speed * 0.40f;
+                Vector3 vector14 = vector12 - Titan.Rigidbody.velocity;
                 vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
                 vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
                 vector14.y = 0f;
-                titan.Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
-                if (titan.Animation[AttackAnimation].normalizedTime >= attackCheckTimeA &&
-                    titan.Animation[AttackAnimation].normalizedTime <= attackCheckTimeB)
+                //Titan.Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
+                if (Titan.Animation[AttackAnimation].normalizedTime >= attackCheckTimeA &&
+                    Titan.Animation[AttackAnimation].normalizedTime <= attackCheckTimeB)
                 {
-                    var target = checkIfHitHand(GetHand(titan), titan.Size);
-                    if (target != null)
+                    if (IsEntityHit(GetHand(), out var targets))
                     {
-                        Vector3 position = titan.TitanBody.Chest.position;
-                        if (titan.photonView.isMine || !target.GetComponent<Hero>().HasDied())
+                        foreach (var target in targets)
                         {
-                            target.GetComponent<Hero>().markDie();
-                            object[] objArray3 = { (Vector3)((target.transform.position - position) * 15f * titan.Size), false, titan.photonView.viewID, titan.name, true };
-                            target.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray3);
+                            HitEntity(target);
                         }
                     }
                 }
@@ -134,23 +134,23 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
             if (AttackAnimation == AnimationSlam)
             {
-                if (!HasExploded && titan.Animation[AttackAnimation].normalizedTime >= 0.21f)
+                if (!HasExploded && Titan.Animation[AttackAnimation].normalizedTime >= 0.21f)
                 {
                     HasExploded = true;
                     GameObject obj9;
                     var rotation = Quaternion.Euler(270f, 0f, 0f);
-                    if (titan.photonView.isMine)
+                    if (Titan.photonView.isMine)
                     {
-                        obj9 = PhotonNetwork.Instantiate(BoomEffect, titan.TitanBody.AttackFrontGround.position, rotation, 0);
+                        obj9 = PhotonNetwork.Instantiate(BoomEffect, Titan.Body.AttackFrontGround.position, rotation, 0);
                     }
                     else
                     {
                         return;
                     }
-                    obj9.transform.localScale = titan.transform.localScale;
+                    obj9.transform.localScale = Titan.transform.localScale;
                     if (obj9.GetComponent<EnemyfxIDcontainer>() != null)
                     {
-                        obj9.GetComponent<EnemyfxIDcontainer>().titanName = titan.name;
+                        obj9.GetComponent<EnemyfxIDcontainer>().titanName = Titan.name;
                     }
                 }
             }

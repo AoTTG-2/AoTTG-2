@@ -1,6 +1,5 @@
-﻿using Photon;
+﻿using Assets.Scripts.Characters;
 
-public abstract class Human : MonoBehaviour
+public abstract class Human : Entity
 {
 }
-

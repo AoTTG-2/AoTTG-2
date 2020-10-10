@@ -46,7 +46,6 @@ namespace Assets.Scripts.UI.Menu
                 return;
             }
             PhotonNetwork.JoinRoom(Room);
-            SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         }
 
         public void JoinPasswordRoom()
@@ -57,18 +56,11 @@ namespace Assets.Scripts.UI.Menu
             }
 
             PhotonNetwork.JoinRoom(Room, PasswordInputField.text);
-            SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         }
 
         public void CancelPasswordRoom()
         {
             PasswordPanel.gameObject.SetActive(false);
-        }
-
-
-        private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
-        {
-            Lobby.Canvas.ShowInGameUi();
         }
     }
 }
