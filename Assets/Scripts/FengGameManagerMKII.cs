@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Assets.Scripts.Security;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -1787,14 +1788,6 @@ namespace Assets.Scripts
             }
         }
         
-        public void OnGUI()
-        {
-            if (GUILayout.Button("Photon Spawn Test!"))
-            {
-                PhotonNetwork.Instantiate("DummyTitanPrefab", GameObject.FindGameObjectWithTag("Player").transform.position, Quaternion.identity, 0);
-            }
-        }
-
         private void SetGamemode(GamemodeSettings settings)
         {
             if (Gamemode == null)
@@ -2565,6 +2558,16 @@ namespace Assets.Scripts
             myLastRespawnTag = tag;
             var location = Gamemode.GetPlayerSpawnLocation(tag);
             SpawnPlayerAt2(id, location);
+        }
+
+        public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
+        {
+            Debug.LogError(data);
+        }
+
+        public override void OnCustomAuthenticationFailed(string debugMessage)
+        {
+            Debug.LogError(debugMessage);
         }
 
         [Obsolete("Migrate into a SpawnService")]

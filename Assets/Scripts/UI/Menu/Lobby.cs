@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Room;
 using System;
 using System.Linq;
+using Assets.Scripts.Security;
+using Assets.Scripts.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,7 +52,11 @@ namespace Assets.Scripts.UI.Menu
             base.OnEnable();
 
             // PhotonServer complains about no UserId being set, temp fix
-            PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+            //PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+
+            //TODO:
+            PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
+            PhotonNetwork.AuthValues.AddAuthParameter("token2", Service.Authentication.AccessToken);
             PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
