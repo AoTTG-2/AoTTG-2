@@ -1,15 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.Scripts.Gamemode;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class GrabAttack : Attack
+    public class GrabAttack : Attack<MindlessTitan>
     {
         public GrabAttack()
         {
             BodyParts = new[] { BodyPart.HandLeft, BodyPart.HandRight };
         }
 
-        private string AttackAnimation { get; set; }
+        public override Type[] TargetTypes { get; } = { typeof(Human) };
 
         private float AttackCheckTimeA { get; set; }
 
@@ -19,18 +21,20 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         private BodyPart Hand { get; set; }
 
-        public override bool CanAttack(MindlessTitan titan)
+        public override bool CanAttack()
         {
-            if (titan.TargetDistance >= titan.AttackDistance * 2) return false;
-            if (IsDisabled(titan)) return false;
-            var delta = titan.Target.transform.position - titan.transform.position;
-            var angle = -Mathf.Atan2(delta.z, delta.x) * 57.29578f;
-            var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
+            if (Titan.Target.GetType() != typeof(Human)) return false;
 
-            if (titan.Target.transform.position.y > titan.TitanBody.Neck.position.y - 3f * titan.Size
-                && titan.TargetDistance < titan.AttackDistance * 0.5f)
+            if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
+            if (IsDisabled()) return false;
+            var delta = Titan.Target.transform.position - Titan.transform.position;
+            var angle = -Mathf.Atan2(delta.z, delta.x) * 57.29578f;
+            var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
+
+            if (Titan.Target.transform.position.y > Titan.Body.Neck.position.y - 3f * Titan.Size
+                && Titan.TargetDistance < Titan.AttackDistance * 0.5f)
             {
-                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckOverhead.position) < (3.6f * titan.Size))
+                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckOverhead.position) < (3.6f * Titan.Size))
                 {
                     if (between > 0f)
                     {
@@ -43,7 +47,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         Hand = BodyPart.HandLeft;
                     }
 
-                    if (IsDisabled(titan, Hand)) return false;
+                    if (IsDisabled(Hand)) return false;
                     AttackCheckTimeA = 0.38f;
                     AttackCheckTimeB = 0.55f;
                     return true;
@@ -51,28 +55,40 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
                 if (between > 0f)
                 {
-                    if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackRight.position) < (2.8f * titan.Size))
+                    if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckBackRight.position) < (2.8f * Titan.Size))
                     {
                         AttackAnimation = "grab_head_back_r";
                         Hand = BodyPart.HandLeft;
-                        if (IsDisabled(titan, Hand)) return false;
+                        if (IsDisabled(Hand)) return false;
                         AttackCheckTimeA = 0.45f;
                         AttackCheckTimeB = 0.5f;
                         return true;
                     }
                 }
-                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckBackLeft.position) < (2.8f * titan.Size))
+                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckBackLeft.position) < (2.8f * Titan.Size))
                 {
                     AttackAnimation = "grab_head_back_l";
                     Hand = BodyPart.HandRight;
-                    if (IsDisabled(titan, Hand)) return false;
+                    if (IsDisabled(Hand)) return false;
                     AttackCheckTimeA = 0.45f;
                     AttackCheckTimeB = 0.5f;
                     return true;
                 }
             }
 
-            if (Mathf.Abs(between) < 90f && titan.TargetDistance < (titan.AttackDistance * 0.5f))
+            if (Titan.Difficulty > Difficulty.Normal)
+            {
+                var targetHeight = Titan.Target.transform.position.y;
+                var titanGrabHeight = Titan.Body.AttackFrontGround.position.y;
+                Debug.Log($"Target height: {Titan.Target.transform.position.y}, hand height: {Titan.Body.AttackFrontGround.position.y}");
+
+                if (targetHeight < titanGrabHeight - 2f || targetHeight > titanGrabHeight + 5f * Titan.Size)
+                {
+                    Debug.Log("Let's not grab");
+                    return false;
+                }
+            }
+            if (Mathf.Abs(between) < 90f && Titan.TargetDistance < (Titan.AttackDistance * 0.5f))
             {
                 AttackAnimation = between > 0f
                     ? "grab_ground_front_r"
@@ -80,13 +96,13 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 Hand = between > 0f
                     ? BodyPart.HandRight
                     : BodyPart.HandLeft;
-                if (IsDisabled(titan, Hand)) return false;
+                if (IsDisabled(Hand)) return false;
                 AttackCheckTimeA = 0.37f;
                 AttackCheckTimeB = 0.6f;
                 return true;
             }
 
-            if (titan.TargetDistance < (titan.AttackDistance * 0.5f))
+            if (Titan.TargetDistance < (Titan.AttackDistance * 0.5f))
             {
                 AttackAnimation = between > 0f
                     ? "grab_ground_back_r"
@@ -94,7 +110,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 Hand = between > 0f
                     ? BodyPart.HandRight
                     : BodyPart.HandLeft;
-                if (IsDisabled(titan, Hand)) return false;
+                if (IsDisabled(Hand)) return false;
                 AttackCheckTimeA = 0.34f;
                 AttackCheckTimeB = 0.49f;
                 return true;
@@ -107,7 +123,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.IsDisabled(Hand)) return false;
+            if (titan.Body.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "grab_ground_front_l"
                 : "grab_ground_front_r";
@@ -121,7 +137,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.IsDisabled(Hand)) return false;
+            if (titan.Body.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "grab_ground_back_l"
                 : "grab_ground_back_r";
@@ -135,7 +151,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.IsDisabled(Hand)) return false;
+            if (titan.Body.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "grab_head_back_l"
                 : "grab_head_back_r";
@@ -144,80 +160,62 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             return true;
         }
 
-        public override void Execute(MindlessTitan titan)
+        public override void Execute()
         {
             if (IsFinished) return;
-            if (!titan.Animation.IsPlaying(AttackAnimation))
+            if (!Titan.Animation.IsPlaying(AttackAnimation))
             {
-                titan.CrossFade(AttackAnimation, 0.1f);
+                Titan.CrossFade(AttackAnimation, 0.1f);
                 return;
             }
 
-            if (IsDisabled(titan, Hand))
+            if (IsDisabled(Hand))
             {
                 IsFinished = true;
                 return;
             }
 
-            if (titan.Animation[AttackAnimation].normalizedTime >= AttackCheckTimeA && titan.Animation[AttackAnimation].normalizedTime <= AttackCheckTimeB && GrabbedTarget == null)
+            if (Titan.Animation[AttackAnimation].normalizedTime >= AttackCheckTimeA && Titan.Animation[AttackAnimation].normalizedTime <= AttackCheckTimeB && GrabbedTarget == null)
             {
                 var hand = Hand == BodyPart.HandLeft
-                    ? titan.TitanBody.HandLeft
-                    : titan.TitanBody.HandRight;
+                    ? Titan.Body.HandLeft
+                    : Titan.Body.HandRight;
 
-                var grabTarget = checkIfHitHand(hand, titan.Size);
+                var grabTarget = checkIfHitHand(hand, Titan.Size);
                 if (grabTarget != null)
                 {
-                    if (Hand == BodyPart.HandLeft)
-                    {
-                        EatSetL(titan, grabTarget);
-                        GrabbedTarget = grabTarget;
-                    }
-                    else
-                    {
-                        EatSet(titan, grabTarget);
-                        GrabbedTarget = grabTarget;
-                    }
+                    EatSet(grabTarget);
+                    GrabbedTarget = grabTarget;
                 }
             }
-            if (titan.Animation[AttackAnimation].normalizedTime >= 1f)
+            if (Titan.Animation[AttackAnimation].normalizedTime >= 1f)
             {
                 if (GrabbedTarget != null)
                 {
-                    titan.OnTargetGrabbed(GrabbedTarget, Hand == BodyPart.HandLeft);
+                    Titan.OnTargetGrabbed(GrabbedTarget, Hand == BodyPart.HandLeft);
                 }
                 IsFinished = true;
             }
         }
 
-        private void EatSet(MindlessTitan titan, GameObject grabTarget)
+        private void EatSet(GameObject grabTarget)
         {
-            if (!titan.photonView.isMine || !grabTarget.GetComponent<Hero>().isGrabbed)
+            var isLeftHand = Hand == BodyPart.HandLeft;
+            if (!Titan.photonView.isMine || !grabTarget.GetComponent<Hero>().isGrabbed)
             {
-                titan.Grab(false);
-                if (titan.photonView.isMine)
+                Titan.Grab(isLeftHand);
+                if (Titan.photonView.isMine)
                 {
-                    titan.photonView.RPC(nameof(MindlessTitan.Grab), PhotonTargets.Others, false);
+                    Titan.photonView.RPC("Grab", PhotonTargets.Others, isLeftHand);
                     var parameters = new object[] { "grabbed" };
                     grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
-                    var objArray2 = new object[] { titan.photonView.viewID, false };
+                    var objArray2 = new object[] { Titan.photonView.viewID, isLeftHand };
                     grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, objArray2);
                 }
-            }
-        }
-
-        private void EatSetL(MindlessTitan titan, GameObject grabTarget)
-        {
-            if (!titan.photonView.isMine || !grabTarget.GetComponent<Hero>().isGrabbed)
-            {
-                titan.Grab(true);
-                if (titan.photonView.isMine)
+                else
                 {
-                    titan.photonView.RPC("Grab", PhotonTargets.Others, true);
-                    var parameters = new object[] { "grabbed" };
-                    grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
-                    var objArray2 = new object[] { titan.photonView.viewID, true };
-                    grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, objArray2);
+                    grabTarget.GetComponent<Hero>().grabbed(Titan.gameObject, isLeftHand);
+                    grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
                 }
             }
         }

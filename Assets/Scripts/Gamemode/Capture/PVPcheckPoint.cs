@@ -1,10 +1,11 @@
-using System;
+using Assets.Scripts;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -36,7 +37,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private bool titanOn;
     public float titanPt;
     public float titanPtMax = 40f;
-    private readonly CaptureGamemode gamemode = FengGameManagerMKII.Gamemode as CaptureGamemode; 
+    private CaptureGamemode gamemode { get; set; }
     private readonly FengGameManagerMKII gameManager = FengGameManagerMKII.instance;
 
     [PunRPC]
@@ -156,15 +157,16 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.state = CheckPointState.Human;
             object[] parameters = new object[] { 1 };
             base.photonView.RPC("changeState", PhotonTargets.All, parameters);
-            if (((CaptureGamemodeSettings)gamemode.Settings).SpawnSupplyStationOnHumanCapture)
+            if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().SpawnSupplyStationOnHumanCapture.Value)
             {
                 supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
             }
             
             gamemode.AddHumanScore(2);
-            if (this.checkIfHumanWins())
+            if (this.checkIfHumanWins() && PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.Gamemode.GameWin();
+                gamemode.HumanScore++;
+                photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Humanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
             }
         }
         else
@@ -197,9 +199,13 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         gamemode.SpawnCheckpointTitan(this, base.transform.position - ((Vector3)(Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation);
     }
 
-    private void Awake()
+    private void Start()
     {
-        if (gamemode == null)
+        if (FengGameManagerMKII.Gamemode is CaptureGamemode capture)
+        {
+            gamemode = capture;
+        }
+        else
         {
             DestroyImmediate(gameObject);
             return;
@@ -267,16 +273,25 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 PhotonNetwork.Destroy(this.supply);
             }
             this.state = CheckPointState.Titan;
-            base.photonView.RPC("changeState", PhotonTargets.All, 2);
+            object[] parameters = new object[] { 2 };
+            base.photonView.RPC("changeState", PhotonTargets.All, parameters);
             gamemode.AddTitanScore(2);
-            if (this.checkIfTitanWins())
+            if (this.checkIfTitanWins() && PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.Gamemode.GameLose();
+                gamemode.TitanScore++;
+                gamemode.photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Titanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
             }
-            if (this.hasAnnie && !this.annie)
+            if (this.hasAnnie)
             {
-                this.annie = true;
-                PhotonNetwork.Instantiate("FEMALE_TITAN", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
+                if (!this.annie)
+                {
+                    this.annie = true;
+                    PhotonNetwork.Instantiate("FemaleTitan", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
+                }
+                else
+                {
+                    this.newTitan();
+                }
             }
             else
             {
@@ -388,7 +403,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.spawnTitanTimer > this.titanInterval)
                 {
                     this.spawnTitanTimer = 0f;
-                    if (GameObject.FindGameObjectsWithTag("titan").Length < gamemode.Settings.TitanLimit)
+                    if (GameObject.FindGameObjectsWithTag("titan").Length < GameSettings.Titan.Limit)
                     {
                         this.newTitan();
                     }

@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
 
@@ -6,13 +7,6 @@ public class SpectatorMovement : MonoBehaviour
     public bool disable;
     private float speed = 100f;
 
-    private void Reset()
-    {
-        if (PhotonNetwork.offlineMode)
-        {
-            FengGameManagerMKII.instance.RestartGame();
-        }
-    }
     private void Update()
     {
         if (!this.disable)
@@ -63,7 +57,10 @@ public class SpectatorMovement : MonoBehaviour
             }
             if (InputManager.KeyDown(InputUi.Restart))
             {
-                Reset();
+                if (PhotonNetwork.offlineMode)
+                {
+                    FengGameManagerMKII.instance.restartRC();
+                }
             }
             if (num3 > 0f)
             {

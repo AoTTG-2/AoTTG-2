@@ -1,81 +1,40 @@
 ﻿using Assets.Scripts.Gamemode.Racing;
-using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 using UnityEngine;
-using HUD = Assets.Scripts.UI.InGame.HUD;
 
 namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
-        public int StartTimerCountdown = 20;
-
-        public bool startRacing;
-
-        public bool endRacing;
-
-        private List<RacingResult> racingResult;
-
-        public Vector3 racingSpawnPoint;
-
-        public bool racingSpawnPointSet;
-
         public string localRacingResult = string.Empty;
         public List<RacingObjective> Objectives = new List<RacingObjective>();
+        public List<RacingStartBarrier> StartBarriers = new List<RacingStartBarrier>();
 
-        public sealed override GamemodeSettings Settings { get; set; }
-        private RacingSettings GamemodeSettings => Settings as RacingSettings;
+        private RacingSettings Settings => GameSettings.Gamemode as RacingSettings;
+        private const float CountDownTimerLimit = 20f;
 
-        public void Awake()
+        private bool HasStarted { get; set; }
+
+        private float TotalSpeed { get; set; }
+        private int TotalFrames { get; set; }
+        private float AverageSpeed => TotalSpeed / TotalFrames;
+
+        protected override void OnLevelWasLoaded()
         {
-#if DEBUG
-            StartTimerCountdown = 3;
-#endif
+            base.OnLevelWasLoaded();
+            HasStarted = false;
+            TotalSpeed = 0;
+            TotalFrames = 0;
 
-            //setting the refresh time twice the wanted resolution 
-            this.HUDRefreshTime = .05f;
+            if (!PhotonNetwork.isMasterClient)
+                photonView.RPC(nameof(RequestStatus), PhotonTargets.MasterClient);
 
-            this.racingResult = new List<RacingResult>();
-        }
-
-        public void OnEnable()
-        {
-            EventManager.OnMainObjectDeath += this.OnDeath;
-        }
-
-        public void OnDisable()
-        {
-            EventManager.OnMainObjectDeath -= this.OnDeath;
-        }
-
-        public override void OnRestart()
-        {
-            this.startRacing = false;
-            this.endRacing = false;
-            this.racingSpawnPoint = Vector3.zero;
-            this.racingSpawnPointSet = false;
-            base.OnRestart();
-        }
-
-        private float CalculateGameEndCD()
-        {
-            if (GamemodeSettings.RestartOnFinish)
-                return 20f;
-            return 9999f;
-        }
-
-        public override void OnGameWon()
-        {
-            this.gameEndCD = CalculateGameEndCD();
-            FengGameManagerMKII.RPC("netGameWin", PhotonTargets.Others, 0);
-        }
-
-        private void OnLevelWasLoaded()
-        {
             if (Objectives.Count == 0) return;
             Objectives = Objectives.OrderBy(x => x.Order).ToList();
             for (int i = 0; i < Objectives.Count; i++)
@@ -86,143 +45,85 @@ namespace Assets.Scripts.Gamemode
             Objectives[0].Current();
         }
 
-        [PunRPC]
-        private void netRefreshRacingResult(string tmp)
+        protected override void SetStatusTop()
         {
-            this.localRacingResult = tmp;
+            // Ignored
         }
 
-        private void RefreshRacingResult()
+        protected override void SetStatusTopLeft()
         {
-            System.Text.StringBuilder tmpLocalRacingResult = new System.Text.StringBuilder("Result\n", 512);
-            var newRacingResult = new List<RacingResult>(racingResult.OrderBy(rr => rr.time));
-            this.racingResult = newRacingResult;
-            int counter = 1;
-            foreach(var rr in this.racingResult)
+            // Ignore
+        }
+
+        protected override void SetStatusTopRight()
+        {
+            // Ignore
+        }
+
+        private void Update()
+        {
+            if (HasStarted)
             {
-                tmpLocalRacingResult.Append("Rank"+counter+" : ");
-                tmpLocalRacingResult.Append(rr.ToString());
+                //TODO Refactor the average speed to be more performance friendly
+                var currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object?.GetComponent<Rigidbody>().velocity.magnitude ?? 0f;
+                TotalSpeed += currentSpeed;
+                TotalFrames++;
 
-                if (counter++ == 10)
-                    break;
+                UiService.SetMessage(LabelPosition.Top, $"Time: {TimeService.GetRoundTime() - CountDownTimerLimit:F1} | " +
+                                                        $"Average Speed: {AverageSpeed:F1}");
             }
-            this.localRacingResult = tmpLocalRacingResult.ToString();
-            base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, this.localRacingResult);
+            else
+            {
+                UiService.SetMessage(LabelPosition.Center, $"RACE START IN {CountDownTimerLimit - TimeService.GetRoundTime():F1}s");
+                if (CountDownTimerLimit - TimeService.GetRoundTime() <= 0f)
+                {
+                    HasStarted = true;
+                    if (PhotonNetwork.isMasterClient)
+                    {
+                        photonView.RPC(nameof(RacingStartRpc), PhotonTargets.All);
+                    }
+                }
+            }
         }
 
         [PunRPC]
-        private void GetRacingResult(string player, float time, PhotonMessageInfo info)
+        private void RequestStatus(PhotonMessageInfo info)
         {
-            RacingResult result = new RacingResult(info.sender.ID, player, time);
-            if (this.racingResult.Count(s => s.ID == result.ID) == 0)
-            {
-                this.racingResult.Add(result);
-                this.RefreshRacingResult();
-            }
+            if (!PhotonNetwork.isMasterClient) return;
+            photonView.RPC(nameof(RacingStartRpc), info.sender);
         }
 
-        public void RacingFinsihEvent()
+        [PunRPC]
+        private void RacingStartRpc(PhotonMessageInfo info)
         {
-            localRacingResult = (FengGameManagerMKII.instance.timeTotalServer - this.StartTimerCountdown).ToString("f2");
-            float time = FengGameManagerMKII.instance.roundTime - this.StartTimerCountdown;
-            if(!PhotonNetwork.offlineMode)
-                FengGameManagerMKII.RPC("GetRacingResult", PhotonTargets.MasterClient, LoginFengKAI.player.name, time);
-            EventManager.OnGameWon.Invoke();
-            this.isWinning = true;
+            if (!info.sender.IsMasterClient) return;
+
+            StartBarriers.ForEach(x => x.gameObject.SetActive(false));
+            UiService.ResetMessage(LabelPosition.Center);
         }
+
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
             if (PhotonNetwork.offlineMode)
             {
-                return $"{localRacingResult}s !!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
+                var num = (((int)(totalServerTime * 10f)) * 0.1f) - 5f;
+                return $"{num}s !!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
             return $"{localRacingResult}\n\nGame Restart in {(int) timeUntilRestart}";
         }
-
-        public override string GetGamemodeStatusTop()
+        
+        protected override IEnumerator OnUpdateEverySecond()
         {
-            float time = FengGameManagerMKII.instance.timeTotalServer - this.StartTimerCountdown;
-            if (time > 0)
-                return time.ToString("000.0");
-            else
-                return "Time: WAITING ";
+            yield break;
         }
 
-        private IEnumerator TimedRespawn()
+        protected override IEnumerator OnUpdateEveryTenthSecond()
         {
-            yield return new WaitForSeconds(1.5f);
-            var myInGameCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
-
-            if (this.needChooseSide || !myInGameCamera.GameOver || myInGameCamera.IsSpecmode)
-                yield break;
-
-            myInGameCamera.GameOver = false;
-            if (FengGameManagerMKII.instance.checkpoint != null)
-                FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn2(0.1f, FengGameManagerMKII.instance.checkpoint));
-            else
-                FengGameManagerMKII.instance.StartCoroutine(FengGameManagerMKII.instance.WaitAndRespawn1(0.1f, FengGameManagerMKII.instance.myLastRespawnTag));
-            InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, string.Empty);
-        }
-
-        private void OnDeath()
-        {
-            var myInGameCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
-            if (!this.needChooseSide && myInGameCamera.GameOver && !myInGameCamera.IsSpecmode)
-                StartCoroutine(this.TimedRespawn());
-        }
-
-        [Obsolete]
-        public override void CoreRestartCheck()
-        {
-            if (this.isWinning)
+            while (true)
             {
-                InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, this.GetVictoryMessage(gameEndCD, FengGameManagerMKII.instance.timeTotalServer));
-                RestartGameCD();
-            }
-        }
-
-        public override void OnNetGameWon(int score)
-        {
-            FengGameManagerMKII.instance.gameEndCD = CalculateGameEndCD();
-        }
-
-        public override void CoreUpdate()
-        {
-            RefreshCountdown -= Time.deltaTime;
-            if (RefreshCountdown < 0)
-                RefreshCountdown = this.HUDRefreshTime;
-            else
-                return;
-
-            this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop());
-
-            if (FengGameManagerMKII.instance.roundTime < this.StartTimerCountdown)
-            {
-                this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, "RACE START IN " + ((int) (this.StartTimerCountdown - FengGameManagerMKII.instance.roundTime)) +
-                                       (!(this.localRacingResult == string.Empty)
-                                           ? ("\nLast Round\n" + this.localRacingResult)
-                                           : "\n\n"));
-            }
-            else if (!this.startRacing)
-            {
-                this.InGameHUD.ShowHUDInfo(HUD.LabelPosition.Center, string.Empty);
-                this.startRacing = true;
-                this.endRacing = false;
-                GameObject.Find("door")?.SetActive(false);
-                foreach (var racingDoor in GameObject.FindObjectsOfType<RacingStartBarrier>())
-                    racingDoor.gameObject.SetActive(false);
-            }
-
-            var myInGameCamera = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
-
-            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, GetGamemodeStatusTop() + 
-                (Settings.TeamMode != Options.TeamMode.Disabled ? $"\n<color=#00ffff>Cyan: {FengGameManagerMKII.instance.cyanKills}</color><color=#ff00ff>       Magenta: {FengGameManagerMKII.instance.magentaKills}</color>" : ""));
-            InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopRight, GetGamemodeStatusTopRight());
-
-            if (this.needChooseSide)
-            {
-                InGameHUD.ShowHUDInfo(HUD.LabelPosition.TopCenter, "\n\nPRESS 1 TO ENTER GAME", true);
+                yield return new WaitForSeconds(0.1f);
+                SetStatusTopLeft();
             }
         }
     }

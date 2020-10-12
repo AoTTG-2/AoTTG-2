@@ -79,7 +79,7 @@ namespace Assets.Scripts.UI.Menu
         public void OnConnectedToPhoton()
         {
             CancelInvoke("RefreshLobby");
-            InvokeRepeating("RefreshLobby", 2f, 5f);
+            InvokeRepeating("RefreshLobby", 1f, 5f);
         }
 
         private void RefreshLobby()

@@ -10,7 +10,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public Text TopRight;
         public Text TopLeft;
 
-        public void OnEnable()
+        public void Awake()
         {
             Center.text
                 = Top.text

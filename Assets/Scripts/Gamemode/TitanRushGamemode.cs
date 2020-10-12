@@ -1,7 +1,9 @@
-﻿using Assets.Scripts.Characters.Titan.Behavior;
-using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Settings;
-using Assets.Scripts.UI.Elements;
+using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,24 +13,24 @@ namespace Assets.Scripts.Gamemode
     //This is the colossal gamemode, where titans "rush" towards a specified endpoint
     public class TitanRushGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private RushSettings GamemodeSettings => Settings as RushSettings;
-
+        private RushSettings Settings => GameSettings.Gamemode as RushSettings;
         private GameObject[] Routes { get; set; }
         private GameObject[] Spawns { get; set; }
+        private List<RushBehavior> SubscribedEvents { get; } = new List<RushBehavior>();
 
-        [UiElement("Titan frequency", "1 titan will spawn per Interval", SettingCategory.Advanced)]
-        public int TitanInterval { get; set; } = 7;
-
-        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        protected override void OnLevelWasLoaded()
         {
-            base.OnLevelLoaded(level, isMasterClient);
+            base.OnLevelWasLoaded();
+            nextUpdate = default;
+            SubscribedEvents.ForEach(x => x.OnCheckpointArrived -= OnCheckpointArrived);
+            SubscribedEvents.Clear();
+
             GameObject.Find("playerRespawnTrost").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawnTrost"));
             Object.Destroy(GameObject.Find("rock"));
-            if (!isMasterClient) return;
-            //if (IsAllPlayersDead()) return;
-            PhotonNetwork.Instantiate("COLOSSAL_TITAN", (Vector3)(-Vector3.up * 10000f), Quaternion.Euler(0f, 180f, 0f), 0);
+            if (!PhotonNetwork.isMasterClient) return;
+            
+            SpawnService.Spawn<ColossalTitan>(-Vector3.up * 10000f, Quaternion.Euler(0f, 180f, 0f), null);
             Routes = GameObject.FindGameObjectsWithTag("route");
             GameObject[] objArray = GameObject.FindGameObjectsWithTag("titanRespawn");
             var spawns = new List<GameObject>();
@@ -43,9 +45,21 @@ namespace Assets.Scripts.Gamemode
             Spawns = spawns.ToArray();
         }
 
-        public override string GetGamemodeStatusTop()
+        protected override void SetStatusTop()
         {
-            return "Time : " + FengGameManagerMKII.instance.deltaRoomTime.ToString("f0") + "\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
+            var content = $"Time : {TimeService.GetRoundDisplayTime()}" +
+                          $"\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
+            UiService.SetMessage(LabelPosition.Top, content);
+        }
+
+        protected override void OnEntityUnRegistered(Entity entity)
+        {
+            if (IsRoundOver || !PhotonNetwork.isMasterClient) return;
+            if (entity is ColossalTitan)
+            {
+                HumanScore++;
+                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"The colossal titan has been defeated!\nRestarting in {{0}}s", HumanScore, TitanScore);
+            }
         }
 
         private ArrayList GetRoute()
@@ -69,21 +83,49 @@ namespace Assets.Scripts.Gamemode
         private int nextUpdate = 1;
         public void Update()
         {
+            if (!PhotonNetwork.isMasterClient) return;
             if (Time.time < nextUpdate) return;
             nextUpdate = Mathf.FloorToInt(Time.time) + 1;
 
-            if (nextUpdate % TitanInterval != 0) return;
-            SpawnTitan();
+            if (nextUpdate % Settings.TitanInterval.Value == 0)
+            {
+                SpawnTitan();
+            }
+
+            if (Settings.TitanGroupInterval > 0 && Settings.TitanGroupSize > 0 && nextUpdate % Settings.TitanGroupInterval == 0)
+            {
+                for (var i = 0; i < Settings.TitanGroupSize; i++)
+                {
+                    SpawnTitan();
+                }
+            }
         }
 
         private void SpawnTitan()
         {
-            if (FengGameManagerMKII.instance.getTitans().Count >= Settings.TitanLimit) return;
+            if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
             var configuration = GetTitanConfiguration();
             var route = GetRoute();
-            configuration.Behaviors.Add(new RushBehavior(route));
-            var spawn = Spawns[Random.Range(0, Spawns.Length)];
-            FengGameManagerMKII.instance.SpawnTitan(spawn.transform.position, spawn.transform.rotation, configuration);
+            var behavior = new RushBehavior(route);
+            behavior.OnCheckpointArrived += OnCheckpointArrived;
+            SubscribedEvents.Add(behavior);
+            configuration.Behaviors.Add(behavior);
+            var spawn = Spawns[Random.Range(0, Spawns.Length)].transform;
+            SpawnService.Spawn<MindlessTitan>(spawn.position, spawn.rotation, configuration);
+        }
+
+        private void OnCheckpointArrived(Vector3 checkpoint, Entity arriver)
+        {
+            photonView.RPC(nameof(OnArrivedAtLastCheckpointRpc), PhotonTargets.MasterClient, checkpoint, arriver.photonView.viewID);
+        }
+
+        [PunRPC]
+        private void OnArrivedAtLastCheckpointRpc(Vector3 checkpoint, int viewId, PhotonMessageInfo info)
+        {
+            if (!PhotonNetwork.isMasterClient) return;
+            if (IsRoundOver) return;
+            TitanScore++;
+            photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"The civilians have died!\nRestarting in {{0}}s", HumanScore, TitanScore);
         }
 
     }

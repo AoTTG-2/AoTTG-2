@@ -2,9 +2,15 @@
 {
     public enum LabelPosition
     {
+<<<<<<< HEAD
         TopRight,
         TopCenter,
         TopLeft,
+=======
+        Top,
+        TopLeft,
+        TopRight,
+>>>>>>> development
         Center
     }
 }
