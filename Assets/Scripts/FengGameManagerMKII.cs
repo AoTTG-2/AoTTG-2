@@ -2564,12 +2564,7 @@ namespace Assets.Scripts
         {
             Debug.LogError(data);
         }
-
-        public override void OnCustomAuthenticationFailed(string debugMessage)
-        {
-            Debug.LogError(debugMessage);
-        }
-
+        
         [Obsolete("Migrate into a SpawnService")]
         public void SpawnPlayerAt2(string id, GameObject pos)
         {

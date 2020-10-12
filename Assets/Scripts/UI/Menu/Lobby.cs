@@ -1,8 +1,7 @@
 ﻿using Assets.Scripts.Room;
+using Assets.Scripts.Services;
 using System;
 using System.Linq;
-using Assets.Scripts.Security;
-using Assets.Scripts.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,7 +55,7 @@ namespace Assets.Scripts.UI.Menu
 
             //TODO:
             PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
-            PhotonNetwork.AuthValues.AddAuthParameter("token2", Service.Authentication.AccessToken);
+            PhotonNetwork.AuthValues.AddAuthParameter("token", Service.Authentication.AccessToken);
             PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
@@ -127,7 +126,8 @@ namespace Assets.Scripts.UI.Menu
                 roomRow.Room = roomInfo.Name;
                 roomRow.DisplayName = $"{roomInfo.GetName()} | {roomInfo.GetLevel()} | {roomInfo.GetGamemode()} | {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
                 roomRow.Lobby = this;
-                roomRow.IsSecure = roomInfo.GetSecure();
+                roomRow.IsPasswordRequired = roomInfo.IsPasswordRequired();
+                roomRow.IsAccountRequired = roomInfo.IsAccountRequired();
             }
         }
     }
