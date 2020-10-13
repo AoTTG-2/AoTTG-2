@@ -7,11 +7,16 @@ namespace Assets.Scripts.Security
     [CreateAssetMenu, ExecuteInEditMode]
     public class OAuth : ScriptableObject
     {
-        public string clientID;
-        public string clientSecret;
+        public string ClientId;
+        public string ClientSecret;
+        public string Endpoint;
         public string authorizationEndpoint;
         public string tokenEndpoint;
         public string userInfoEndpoint;
-        public string HealthCheckEndpoint;
+
+        public string GetHealthCheckEndpoint()
+        {
+            return Endpoint + "/health";
         }
+    }
 }

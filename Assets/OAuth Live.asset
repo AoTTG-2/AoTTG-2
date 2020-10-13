@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfce1894df065f94f97a12176a256b26, type: 3}
   m_Name: OAuth Live
   m_EditorClassIdentifier: 
-  clientID: AoTTG2
-  clientSecret: 49C1A7E1-0C79-4A89-A3D6-A37998FB86B0
+  ClientId: AoTTG2
+  ClientSecret: 49C1A7E1-0C79-4A89-A3D6-A37998FB86B0
+  Endpoint: https://aottg2-ids.azurewebsites.net
   authorizationEndpoint: https://aottg2-ids.azurewebsites.net/connect/authorize
   tokenEndpoint: https://aottg2-ids.azurewebsites.net/connect/token
   userInfoEndpoint: https://aottg2-ids.azurewebsites.net/connect/userinfo
+  HealthCheckEndpoint: 

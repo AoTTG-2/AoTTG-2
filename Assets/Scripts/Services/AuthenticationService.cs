@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,20 +20,36 @@ namespace Assets.Scripts.Services
         public string AccessToken { get; set; }
 
         private const string CodeChallengeMethod = "S256";
-
-        private async void Start()
+        
+        public async Task<bool> LoginAsync()
         {
             var authorizationResult = await GetAuthorizationCode();
             if (authorizationResult == null)
             {
                 Debug.LogError("Could not receive Authorization Code.");
+                return false;
             }
 
             var accessToken = await GetAccessToken(authorizationResult);
-            if (accessToken == null) return;
+            if (accessToken == null)
+            {
+                Debug.LogError("No Access Token found");
+                return false;
+            }
 
             AccessToken = accessToken;
-            Debug.Log(AccessToken);
+            return true;
+        }
+
+        public async Task<bool> LogoutAsync()
+        {
+            throw new NotImplementedException("Logout functionality is not implemented yet");
+        }
+
+        public async Task<HttpResponseMessage> GetHealthCheckResponse()
+        {
+            var client = new HttpClient();
+            return await client.GetAsync(OAuth.GetHealthCheckEndpoint());
         }
 
         private async Task<AuthorizationResult> GetAuthorizationCode()
@@ -51,7 +68,7 @@ namespace Assets.Scripts.Services
                 $"{OAuth.authorizationEndpoint}?response_type=code" +
                 $"&scope=openid%20profile" +
                 $"&redirect_uri={Uri.EscapeDataString(redirectUri)}" +
-                $"&client_id={OAuth.clientID}" +
+                $"&client_id={OAuth.ClientId}" +
                 $"&state={state}" +
                 $"&code_challenge={codeChallenge}" +
                 $"&code_challenge_method={CodeChallengeMethod}";
@@ -113,9 +130,9 @@ namespace Assets.Scripts.Services
             var tokenRequestBody =
                 $"code={authorizationResult.AuthorizationCode}" +
                 $"&redirect_uri={Uri.EscapeDataString(authorizationResult.RedirectUrl)}" +
-                $"&client_id={OAuth.clientID}" +
+                $"&client_id={OAuth.ClientId}" +
                 $"&code_verifier={authorizationResult.CodeVerifier}" +
-                $"&client_secret={OAuth.clientSecret}" +
+                $"&client_secret={OAuth.ClientSecret}" +
                 $"&scope=" +
                 $"&grant_type=authorization_code";
 
@@ -205,25 +222,23 @@ namespace Assets.Scripts.Services
             return sha256.ComputeHash(bytes);
         }
 
-        //async void userinfoCall(string access_token)
-        //{
-        //    output("Making API Call to Userinfo...");
+        private async Task userinfoCall(string access_token)
+        {
+            // sends the request
+            HttpWebRequest userinfoRequest = (HttpWebRequest) WebRequest.Create(OAuth.userInfoEndpoint);
+            userinfoRequest.Method = "GET";
+            userinfoRequest.Headers.Add(string.Format("Authorization: Bearer {0}", access_token));
+            userinfoRequest.ContentType = "application/x-www-form-urlencoded";
+            //userinfoRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
 
-        //    // sends the request
-        //    HttpWebRequest userinfoRequest = (HttpWebRequest) WebRequest.Create(userInfoEndpoint);
-        //    userinfoRequest.Method = "GET";
-        //    userinfoRequest.Headers.Add(string.Format("Authorization: Bearer {0}", access_token));
-        //    userinfoRequest.ContentType = "application/x-www-form-urlencoded";
-        //    //userinfoRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-
-        //    // gets the response
-        //    WebResponse userinfoResponse = await userinfoRequest.GetResponseAsync();
-        //    using (StreamReader userinfoResponseReader = new StreamReader(userinfoResponse.GetResponseStream()))
-        //    {
-        //        // reads response body
-        //        string userinfoResponseText = await userinfoResponseReader.ReadToEndAsync();
-        //        output(userinfoResponseText);
-        //    }
-        //}
+            // gets the response
+            WebResponse userinfoResponse = await userinfoRequest.GetResponseAsync();
+            using (StreamReader userinfoResponseReader = new StreamReader(userinfoResponse.GetResponseStream()))
+            {
+                // reads response body
+                string userinfoResponseText = await userinfoResponseReader.ReadToEndAsync();
+                Debug.Log(userinfoResponseText);
+            }
+        }
     }
 }
