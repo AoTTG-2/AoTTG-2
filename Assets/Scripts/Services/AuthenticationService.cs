@@ -18,9 +18,15 @@ namespace Assets.Scripts.Services
         public OAuth OAuth;
 
         public string AccessToken { get; set; }
+        private string IdToken { get; set; }
 
         private const string CodeChallengeMethod = "S256";
-        
+
+        private async void Start()
+        {
+            await OAuth.SetEndpointsViaDiscoveryDocumentAsync();
+        }
+
         public async Task<bool> LoginAsync()
         {
             var authorizationResult = await GetAuthorizationCode();
@@ -43,7 +49,10 @@ namespace Assets.Scripts.Services
 
         public async Task<bool> LogoutAsync()
         {
-            throw new NotImplementedException("Logout functionality is not implemented yet");
+            var requestUri = $"{OAuth.EndSessionEndpoint}" +
+                             $"?id_token_hint={IdToken}";
+            System.Diagnostics.Process.Start(requestUri);
+            return true;
         }
 
         public async Task<HttpResponseMessage> GetHealthCheckResponse()
@@ -65,7 +74,7 @@ namespace Assets.Scripts.Services
             http.Start();
 
             var authorizationRequest =
-                $"{OAuth.authorizationEndpoint}?response_type=code" +
+                $"{OAuth.AuthorizationEndpoint}?response_type=code" +
                 $"&scope=openid%20profile" +
                 $"&redirect_uri={Uri.EscapeDataString(redirectUri)}" +
                 $"&client_id={OAuth.ClientId}" +
@@ -137,7 +146,7 @@ namespace Assets.Scripts.Services
                 $"&grant_type=authorization_code";
 
             // sends the request
-            HttpWebRequest tokenRequest = (HttpWebRequest) WebRequest.Create(OAuth.tokenEndpoint);
+            HttpWebRequest tokenRequest = (HttpWebRequest) WebRequest.Create(OAuth.TokenEndpoint);
             tokenRequest.Method = "POST";
             tokenRequest.ContentType = "application/x-www-form-urlencoded";
             //tokenRequest.Accept = "Accept=application/json;charset=UTF-8";
@@ -158,6 +167,7 @@ namespace Assets.Scripts.Services
                     // converts to dictionary
                     Dictionary<string, string> tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
                     var accessToken = tokenEndpointDecoded["access_token"];
+                    IdToken = tokenEndpointDecoded["id_token"];
                     return accessToken;
                 }
             }
@@ -225,7 +235,7 @@ namespace Assets.Scripts.Services
         private async Task userinfoCall(string access_token)
         {
             // sends the request
-            HttpWebRequest userinfoRequest = (HttpWebRequest) WebRequest.Create(OAuth.userInfoEndpoint);
+            HttpWebRequest userinfoRequest = (HttpWebRequest) WebRequest.Create(OAuth.UserInfoEndpoint);
             userinfoRequest.Method = "GET";
             userinfoRequest.Headers.Add(string.Format("Authorization: Bearer {0}", access_token));
             userinfoRequest.ContentType = "application/x-www-form-urlencoded";

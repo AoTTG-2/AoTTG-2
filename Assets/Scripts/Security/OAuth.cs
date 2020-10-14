@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Security
 {
@@ -10,9 +14,26 @@ namespace Assets.Scripts.Security
         public string ClientId;
         public string ClientSecret;
         public string Endpoint;
-        public string authorizationEndpoint;
-        public string tokenEndpoint;
-        public string userInfoEndpoint;
+
+        public string AuthorizationEndpoint { get; private set; }
+        public string TokenEndpoint { get; private set; }
+        public string UserInfoEndpoint { get; private set; }
+        public string EndSessionEndpoint { get; private set; }
+
+        public async Task SetEndpointsViaDiscoveryDocumentAsync()
+        {
+            var client = new HttpClient();
+            var url = $"{Endpoint}/.well-known/openid-configuration";
+
+            var response = await client.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+
+            AuthorizationEndpoint = result["authorization_endpoint"] as string;
+            TokenEndpoint = result["token_endpoint"] as string;
+            UserInfoEndpoint = result["userinfo_endpoint"] as string;
+            EndSessionEndpoint = result["end_session_endpoint"] as string;
+        }
 
         public string GetHealthCheckEndpoint()
         {
