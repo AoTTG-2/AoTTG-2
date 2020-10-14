@@ -1,4 +1,4 @@
-using System;
+using Assets.Scripts;
 using UnityEngine;
 
 public class RacingCheckpointTrigger : MonoBehaviour
