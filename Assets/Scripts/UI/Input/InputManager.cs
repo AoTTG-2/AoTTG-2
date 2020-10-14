@@ -157,9 +157,9 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.Fullscreen] = KeyCode.Backspace,
                 [InputUi.Camera] = KeyCode.C,
                 [InputUi.Pause] = KeyCode.P,
-              //  [InputUi.Screenshot] = KeyCode.F12,
                 [InputUi.Restart] = KeyCode.T,
-                [InputUi.InteractionWheel] = KeyCode.Tab
+                [InputUi.InteractionWheel] = KeyCode.Tab,
+                [InputUi.Screenshot] = KeyCode.F12,
             };
 
             _uiKeys = uiKeys.Values.ToArray();

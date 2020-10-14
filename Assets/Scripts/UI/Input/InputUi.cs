@@ -9,8 +9,8 @@
         Fullscreen,
         Camera,
         Pause,
-       // Screenshot,
         Restart,
-        InteractionWheel
+        InteractionWheel,
+        Screenshot
     }
 }

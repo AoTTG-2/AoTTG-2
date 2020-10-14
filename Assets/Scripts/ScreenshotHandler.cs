@@ -29,8 +29,9 @@ public class ScreenshotHandler : MonoBehaviour
 
     void LateUpdate()
     {
-        
-        if (Input.GetKeyDown(KeyCode.F12))
+            //using this hardcoded keydown works, but when using the rebind, i get out of index exceptions
+            //Input.GetKeyDown(KeyCode.F12)
+        if (InputManager.KeyDown(InputUi.Screenshot))
         {
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
             GetComponent<Camera>().targetTexture = rt;
