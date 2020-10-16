@@ -17,8 +17,28 @@ namespace Assets.Scripts.Services
     {
         public OAuth OAuth;
 
-        public string AccessToken { get; set; }
+        private string accessToken;
+        public string AccessToken
+        {
+            get
+            {
+                var validTimer = AccessTokenExpiration - DateTime.UtcNow;
+                if (validTimer.Minutes < 5)
+                {
+                    Task.Run(RefreshAccessToken);
+                }
+
+                return accessToken;
+            }
+            set => accessToken = value;
+        }
         private string IdToken { get; set; }
+
+        /// <summary>
+        /// The Refresh Token. Valid for 30 days, can be used to request a new Access Token without requiring user authentication. Value of the RefreshToken changes per refresh
+        /// </summary>
+        private string RefreshToken { get; set; }
+        public DateTime AccessTokenExpiration { get; set; }
 
         private const string CodeChallengeMethod = "S256";
 
@@ -36,14 +56,13 @@ namespace Assets.Scripts.Services
                 return false;
             }
 
-            var accessToken = await GetAccessToken(authorizationResult);
-            if (accessToken == null)
+            var accessTokenResult = await SetAccessToken(authorizationResult);
+            if (!accessTokenResult)
             {
-                Debug.LogError("No Access Token found");
+                Debug.LogError("Could not set the access token");
                 return false;
             }
 
-            AccessToken = accessToken;
             return true;
         }
 
@@ -75,7 +94,7 @@ namespace Assets.Scripts.Services
 
             var authorizationRequest =
                 $"{OAuth.AuthorizationEndpoint}?response_type=code" +
-                $"&scope=openid%20profile" +
+                $"&scope=openid%20profile%20offline_access" +
                 $"&redirect_uri={Uri.EscapeDataString(redirectUri)}" +
                 $"&client_id={OAuth.ClientId}" +
                 $"&state={state}" +
@@ -123,8 +142,6 @@ namespace Assets.Scripts.Services
                 return null;
             }
 
-            Debug.Log("Authorization code : " + code);
-
             return new AuthorizationResult
             {
                 AuthorizationCode = code,
@@ -133,7 +150,35 @@ namespace Assets.Scripts.Services
             };
         }
 
-        public async Task<string> GetAccessToken(AuthorizationResult authorizationResult)
+        private async Task<bool> RefreshAccessToken()
+        {
+            var client = new HttpClient();
+            var requestBody = new Dictionary<string, string>
+            {
+                { "client_id", OAuth.ClientId },
+                { "client_secret", OAuth.ClientSecret },
+                { "grant_type", "refresh_token" },
+                { "refresh_token", RefreshToken }
+            };
+            var request = new HttpRequestMessage(HttpMethod.Post, OAuth.TokenEndpoint)
+            {
+                Content = new FormUrlEncodedContent(requestBody)
+            };
+
+            var result = await client.SendAsync(request);
+            if (!result.IsSuccessStatusCode) return false;
+
+            var content = await result.Content.ReadAsStringAsync();
+            var tokenResult = JsonConvert.DeserializeObject<TokenResult>(content);
+            AccessToken = tokenResult.AccessToken;
+            IdToken = tokenResult.IdToken;
+            RefreshToken = tokenResult.RefreshToken;
+            AccessTokenExpiration = DateTime.UtcNow.AddSeconds(tokenResult.ExpiresIn);
+
+            return true;
+        }
+
+        public async Task<bool> SetAccessToken(AuthorizationResult authorizationResult)
         {
             // builds the  request
             var tokenRequestBody =
@@ -142,7 +187,6 @@ namespace Assets.Scripts.Services
                 $"&client_id={OAuth.ClientId}" +
                 $"&code_verifier={authorizationResult.CodeVerifier}" +
                 $"&client_secret={OAuth.ClientSecret}" +
-                $"&scope=" +
                 $"&grant_type=authorization_code";
 
             // sends the request
@@ -162,19 +206,19 @@ namespace Assets.Scripts.Services
                 using (StreamReader reader = new StreamReader(tokenResponse.GetResponseStream()))
                 {
                     // reads response body
-                    string responseText = await reader.ReadToEndAsync();
-                    Console.WriteLine(responseText);
-                    // converts to dictionary
-                    Dictionary<string, string> tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
-                    var accessToken = tokenEndpointDecoded["access_token"];
-                    IdToken = tokenEndpointDecoded["id_token"];
-                    return accessToken;
+                    var responseText = await reader.ReadToEndAsync();
+                    var tokenResult = JsonConvert.DeserializeObject<TokenResult>(responseText);
+                    AccessToken = tokenResult.AccessToken;
+                    IdToken = tokenResult.IdToken;
+                    RefreshToken = tokenResult.RefreshToken;
+                    AccessTokenExpiration = DateTime.UtcNow.AddSeconds(tokenResult.ExpiresIn);
+                    return true;
                 }
             }
             catch (WebException ex)
             {
-                if (ex.Status != WebExceptionStatus.ProtocolError) return null;
-                if (!(ex.Response is HttpWebResponse response)) return null;
+                if (ex.Status != WebExceptionStatus.ProtocolError) return false;
+                if (!(ex.Response is HttpWebResponse response)) return false;
 
                 Debug.LogWarning("HTTP: " + response.StatusCode);
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
@@ -185,7 +229,7 @@ namespace Assets.Scripts.Services
                 }
             }
 
-            return null;
+            return false;
         }
 
 
