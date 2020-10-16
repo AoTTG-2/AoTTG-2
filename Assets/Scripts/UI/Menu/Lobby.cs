@@ -50,14 +50,19 @@ namespace Assets.Scripts.UI.Menu
         {
             base.OnEnable();
 
-            // PhotonServer complains about no UserId being set, temp fix
-            //PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
 
-            //TODO:
-            PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
-            PhotonNetwork.AuthValues.AddAuthParameter("token", Service.Authentication.AccessToken);
+            if (Service.Authentication.AccessToken != null)
+            {
+                PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
+                PhotonNetwork.AuthValues.AddAuthParameter("token", Service.Authentication.AccessToken);
+            }
+            else
+            {
+                // PhotonServer complains about no UserId being set, temp fix
+                PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+            }
+
             PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
-            //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
         public void OnRegionChanged(int region)

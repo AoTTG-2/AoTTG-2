@@ -22,10 +22,13 @@ namespace Assets.Scripts.Services
         {
             get
             {
-                var validTimer = AccessTokenExpiration - DateTime.UtcNow;
-                if (validTimer.Minutes < 5)
+                if (RefreshToken != null)
                 {
-                    Task.Run(RefreshAccessToken);
+                    var validTimer = AccessTokenExpiration - DateTime.UtcNow;
+                    if (validTimer.Minutes < 5)
+                    {
+                        Task.Run(RefreshAccessToken);
+                    }
                 }
 
                 return accessToken;
