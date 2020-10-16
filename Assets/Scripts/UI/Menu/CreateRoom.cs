@@ -20,6 +20,8 @@ namespace Assets.Scripts.UI.Menu
         public InputField RoomName;
         public InputField RoomPassword;
 
+        public Toggle Account;
+
         private List<Level> levels;
 
         private Level selectedLevel;
@@ -37,6 +39,7 @@ namespace Assets.Scripts.UI.Menu
             base.OnEnable();
 
             Refresh();
+
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -79,6 +82,7 @@ namespace Assets.Scripts.UI.Menu
             LevelDropdown.value = 0;
             GamemodeDropdown.value = 0;
             DifficultyDropdown.value = 0;
+            Account.isOn = false;
         }
 
         public void Create()
@@ -121,10 +125,18 @@ namespace Assets.Scripts.UI.Menu
             if (!string.IsNullOrEmpty(password))
             {
                 roomOptions.CustomRoomProperties.Add("password", password);
-                roomOptions.CustomRoomProperties.Add("secure", true);
+                roomOptions.CustomRoomProperties.Add("passworded", true);
 
                 var lobbyOptions = roomOptions.CustomRoomPropertiesForLobby.ToList();
-                lobbyOptions.Add("secure");
+                lobbyOptions.Add("passworded");
+                roomOptions.CustomRoomPropertiesForLobby = lobbyOptions.ToArray();
+            }
+
+            if (Account.isOn)
+            {
+                roomOptions.CustomRoomProperties.Add("account", true);
+                var lobbyOptions = roomOptions.CustomRoomPropertiesForLobby.ToList();
+                lobbyOptions.Add("account");
                 roomOptions.CustomRoomPropertiesForLobby = lobbyOptions.ToArray();
             }
 

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Room;
+using Assets.Scripts.Services;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -49,10 +50,19 @@ namespace Assets.Scripts.UI.Menu
         {
             base.OnEnable();
 
-            // PhotonServer complains about no UserId being set, temp fix
-            PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+
+            if (Service.Authentication.AccessToken != null)
+            {
+                PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
+                PhotonNetwork.AuthValues.AddAuthParameter("token", Service.Authentication.AccessToken);
+            }
+            else
+            {
+                // PhotonServer complains about no UserId being set, temp fix
+                PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+            }
+
             PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
-            //PhotonNetwork.ConnectToRegion((CloudRegionCode)Region, "2021");
         }
 
         public void OnRegionChanged(int region)
@@ -121,7 +131,8 @@ namespace Assets.Scripts.UI.Menu
                 roomRow.Room = roomInfo.Name;
                 roomRow.DisplayName = $"{roomInfo.GetName()} | {roomInfo.GetLevel()} | {roomInfo.GetGamemode()} | {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
                 roomRow.Lobby = this;
-                roomRow.IsSecure = roomInfo.GetSecure();
+                roomRow.IsPasswordRequired = roomInfo.IsPasswordRequired();
+                roomRow.IsAccountRequired = roomInfo.IsAccountRequired();
             }
         }
     }

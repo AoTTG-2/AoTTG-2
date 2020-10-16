@@ -1787,14 +1787,6 @@ namespace Assets.Scripts
             }
         }
         
-        public void OnGUI()
-        {
-            if (GUILayout.Button("Photon Spawn Test!"))
-            {
-                PhotonNetwork.Instantiate("DummyTitanPrefab", GameObject.FindGameObjectWithTag("Player").transform.position, Quaternion.identity, 0);
-            }
-        }
-
         private void SetGamemode(GamemodeSettings settings)
         {
             if (Gamemode == null)
@@ -2567,6 +2559,11 @@ namespace Assets.Scripts
             SpawnPlayerAt2(id, location);
         }
 
+        public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
+        {
+            Debug.LogError(data);
+        }
+        
         [Obsolete("Migrate into a SpawnService")]
         public void SpawnPlayerAt2(string id, GameObject pos)
         {
