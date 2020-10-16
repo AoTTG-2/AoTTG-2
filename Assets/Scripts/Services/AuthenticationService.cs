@@ -196,7 +196,7 @@ namespace Assets.Scripts.Services
             HttpWebRequest tokenRequest = (HttpWebRequest) WebRequest.Create(OAuth.TokenEndpoint);
             tokenRequest.Method = "POST";
             tokenRequest.ContentType = "application/x-www-form-urlencoded";
-            //tokenRequest.Accept = "Accept=application/json;charset=UTF-8";
+
             byte[] _byteVersion = Encoding.ASCII.GetBytes(tokenRequestBody);
             tokenRequest.ContentLength = _byteVersion.Length;
             Stream stream = tokenRequest.GetRequestStream();
@@ -286,7 +286,6 @@ namespace Assets.Scripts.Services
             userinfoRequest.Method = "GET";
             userinfoRequest.Headers.Add(string.Format("Authorization: Bearer {0}", access_token));
             userinfoRequest.ContentType = "application/x-www-form-urlencoded";
-            //userinfoRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
 
             // gets the response
             WebResponse userinfoResponse = await userinfoRequest.GetResponseAsync();

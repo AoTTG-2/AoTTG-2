@@ -21,7 +21,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Assets.Scripts.Security;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
