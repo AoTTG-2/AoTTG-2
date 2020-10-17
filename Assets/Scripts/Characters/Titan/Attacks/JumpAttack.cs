@@ -67,6 +67,15 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             return false;
         }
 
+        public override bool CanAttack(PlayerTitan titan)
+        {
+            if (IsDisabled()) return false;
+            AttackAnimation = AnimationJump;
+            AddJumpForce = false;
+            return true;
+
+        }
+
         public override void Execute()
         {
             if (IsFinished) return;
@@ -77,13 +86,28 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
 
             if (AttackAnimation == AnimationJump)
-                ExecuteJump();
+            {
+                if (Titan.GetType() == typeof(PlayerTitan))
+                {
+                    ExecutePlayerJump();
+                }
+                else
+                {
+                    ExecuteMindlessJump();
+                }
+            }
 
             if (AttackAnimation == AnimationFall)
+            {
+                Debug.Log("Falling");
                 ExecuteFall();
+            }
 
             if (AttackAnimation == AnimationLand)
+            {
+                Debug.Log("Landing");
                 ExecuteLand();
+            }
         }
 
         private static Hero GetPlayerHitHead(Transform head, float rad, float titanSize)
@@ -130,7 +154,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
         }
 
-        private void ExecuteJump()
+        private void ExecuteMindlessJump()
         {
             if (!AddJumpForce)
             {
@@ -194,6 +218,47 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     AttackAnimation = AnimationFall;
                     Titan.CrossFade(AttackAnimation, 0.0f);
                 }
+
+                if (Mathf.Abs(Titan.Rigidbody.velocity.y) < 0.5f || Titan.Rigidbody.velocity.y < 0f || IsGrounded(Titan))
+                {
+                    AttackAnimation = AnimationFall;
+                    Titan.CrossFade(AttackAnimation, 0.0f);
+                }
+            }
+        }
+
+        private void ExecutePlayerJump()
+        {
+            if (!AddJumpForce)
+            {
+                if (Titan.Animation[AttackAnimation].normalizedTime >= 0.68f)
+                {
+                    AddJumpForce = true;
+                    Titan.Rigidbody.AddForce(Vector3.up * 150f, ForceMode.VelocityChange);
+                    //titan.gameObject.transform.rotation = Quaternion.Euler(0f, num22, 0f);
+                }
+                else
+                {
+                    Titan.Rigidbody.velocity = Vector3.zero;
+                }
+            }
+
+            if (Titan.Animation[AttackAnimation].normalizedTime >= 1f)
+            {
+                //var hero = GetPlayerHitHead(titan.TitanBody.Head, 3f, titan.Size);
+                //if (hero != null)
+                //{
+                //    var vector13 = titan.TitanBody.Chest.position;
+                //    if (titan.photonView.isMine || !hero.HasDied())
+                //    {
+                //        hero.markDie();
+                //        object[] objArray8 = { (hero.transform.position - vector13) * 15f * titan.Size, true, titan.photonView.viewID, titan.name, true };
+                //        hero.photonView.RPC("netDie", PhotonTargets.All, objArray8);
+                //    }
+
+                //    AttackAnimation = AnimationFall;
+                //    titan.CrossFade(AttackAnimation, 0.0f);
+                //}
 
                 if (Mathf.Abs(Titan.Rigidbody.velocity.y) < 0.5f || Titan.Rigidbody.velocity.y < 0f || IsGrounded(Titan))
                 {

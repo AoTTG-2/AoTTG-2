@@ -153,7 +153,7 @@ namespace Assets.Scripts.Gamemode
             {
                 new KickAttack(), new SlapAttack(), new SlapFaceAttack(),
                 new BiteAttack(), new BodySlamAttack(), new GrabAttack(),
-                new ComboAttack()
+                new ComboAttack(), new JumpAttack()
             };
             return configuration;
         }

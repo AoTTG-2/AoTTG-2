@@ -115,6 +115,26 @@ namespace Assets.Scripts.Characters.Titan
                     : null;
             }
 
+            if (InputManager.KeyDown(InputTitan.Jump))
+            {
+                Debug.Log("Jump");
+                var attack = Attacks.SingleOrDefault(x => x is JumpAttack) as JumpAttack;
+                // The issue here is that JumpAttack isn't in Attacks
+
+                //Debug.Log("ATTACKS: " + Attacks.Length);
+                //foreach (var item in Attacks)
+                //{
+                //    Debug.Log("\n" + item.ToString());
+                //}
+                // Jump is now in Attacks (GameModeBase.cs)
+
+                if (attack == null) return null;
+                // Issue is that this CanAttack is Attack.CanAttack not JumpAttack.CanAttack
+                return attack.CanAttack(this)
+                    ? attack
+                    : null;
+            }
+
             return null;
         }
 
