@@ -130,7 +130,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             LayerMask mask = 1 << LayerMask.NameToLayer("Ground");
             LayerMask mask2 = 1 << LayerMask.NameToLayer("EnemyAABB");
             LayerMask mask3 = mask2 | mask;
-            return Physics.Raycast(Titan.gameObject.transform.position + Vector3.up * 0.1f, -Vector3.up, 0.3f, mask3.value);
+            // A titans neutral -y position changes depending on the scale. 0.05 is the approximate ratio
+            // of a titans -y transform position (while standing on the ground) to the titans scale.
+            var startHeight = Titan.transform.localScale.x * 0.05f + 0.005f;
+            return Physics.Raycast(Titan.gameObject.transform.position + Vector3.up * startHeight, -Vector3.up, 0.3f, mask3.value);
         }
 
         private void ExecuteFall()
