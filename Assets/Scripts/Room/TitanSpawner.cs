@@ -1,37 +1,35 @@
 ﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Settings;
 using System;
 using UnityEngine;
-using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Room
 {
-    public class TitanSpawner : MonoBehaviour
+    public class TitanSpawner : Spawner
     {
         public float Delay = 30f;
         public bool Endless;
         public TitanSpawnerType Type;
         private float Timer { get; set; }
 
+        private static IEntityService EntityService => Service.Entity;
+
         public TitanSpawner()
         {
             Timer = Delay;
         }
 
-        public void Awake()
+        protected override void Awake()
         {
             Timer = Delay;
-            FengGameManagerMKII.instance.TitanSpawners.Add(this);
             if (Type != TitanSpawnerType.None)
             {
                 tag = "Untagged";
             }
         }
-
-        private void OnDestroy()
-        {
-            FengGameManagerMKII.instance.TitanSpawners.Remove(this);
-        }
-
+        
         private void Update()
         {
             if (Type == TitanSpawnerType.None) return;
@@ -73,7 +71,7 @@ namespace Assets.Scripts.Room
                     SpawnMindlessTitan(MindlessTitanType.Crawler);
                     break;
                 case TitanSpawnerType.Annie:
-                    PhotonNetwork.Instantiate("FEMALE_TITAN", base.transform.position, base.transform.rotation, 0);
+                    SpawnService.Spawn<FemaleTitan>(transform.position, transform.rotation, null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(Type), Type, null);
@@ -82,8 +80,9 @@ namespace Assets.Scripts.Room
 
         private void SpawnMindlessTitan(MindlessTitanType type)
         {
-            if (FengGameManagerMKII.instance.getTitans().Count >= FengGameManagerMKII.Gamemode.Settings.TitanLimit) return;
-            FengGameManagerMKII.instance.SpawnTitan(transform.position, transform.rotation, FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
+            if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
+            SpawnService.Spawn<MindlessTitan>(transform.position, transform.rotation,
+                FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
         }
 
     }

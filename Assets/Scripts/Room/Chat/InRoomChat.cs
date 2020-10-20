@@ -1,13 +1,12 @@
+using Assets.Scripts.UI.Input;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Assets.Scripts.UI.Input;
-using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static ChatUtility;
-using static FengGameManagerMKII;
+using static Assets.Scripts.FengGameManagerMKII;
+using static Assets.Scripts.Room.Chat.ChatUtility;
 
 public class InRoomChat : Photon.MonoBehaviour
 {

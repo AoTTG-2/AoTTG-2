@@ -69,7 +69,7 @@ namespace Assets.Scripts.Gamemode.Racing
             State = ObjectiveState.Current;
         }
 
-        private void Awake()
+        private void Start()
         {
             if (Gamemode == null)
             {

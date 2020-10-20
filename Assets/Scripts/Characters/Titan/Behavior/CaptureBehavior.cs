@@ -94,17 +94,17 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
         private void Pathfinding()
         {
-            Vector3 forwardDirection = Titan.TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
+            Vector3 forwardDirection = Titan.Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
             RaycastHit objectHit;
             var mask = ~LayerMask.NameToLayer("Ground");
-            if (Physics.Raycast(Titan.TitanBody.Hip.transform.position, forwardDirection, out objectHit, 50, mask))
+            if (Physics.Raycast(Titan.Body.Hip.transform.position, forwardDirection, out objectHit, 50, mask))
             {
-                Vector3 leftDirection = Titan.TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, -1f, 1f));
-                Vector3 rightDirection = Titan.TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
+                Vector3 leftDirection = Titan.Body.Hip.transform.TransformDirection(new Vector3(-0.3f, -1f, 1f));
+                Vector3 rightDirection = Titan.Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
                 RaycastHit leftHit;
                 RaycastHit rightHit;
-                Physics.Raycast(Titan.TitanBody.Hip.transform.position, leftDirection, out leftHit, 250, mask);
-                Physics.Raycast(Titan.TitanBody.Hip.transform.position, rightDirection, out rightHit, 250, mask);
+                Physics.Raycast(Titan.Body.Hip.transform.position, leftDirection, out leftHit, 250, mask);
+                Physics.Raycast(Titan.Body.Hip.transform.position, rightDirection, out rightHit, 250, mask);
 
                 if (Vector3.Distance(leftHit.point, TargetLocation) > Vector3.Distance(rightHit.point, TargetLocation))
                 {
