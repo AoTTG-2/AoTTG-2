@@ -10,15 +10,20 @@ namespace Assets.Scripts.UI.InGame
 
         public Text Label;
         public Slider Slider;
-        public DayAndNightControl CycleController;
-
+      
+        DayAndNightControl DayNightCycle;
+       /* public void Start()
+        {
+            DayNightCycle = GameObject.Find("DayNightCycle").GetComponent<DayAndNightControl>();
+        }*/
         public void UpdateTime()
         {
-            
+            DayNightCycle = GameObject.Find("DayNightCycle").GetComponent<DayAndNightControl>();
+
             int sValue = (int)Slider.value;
+            Debug.Log(sValue);
 
-
-            CycleController.timeMultiplier = sValue;
+            DayNightCycle.timeMultiplier = sValue;
 
 
         }
@@ -30,6 +35,7 @@ namespace Assets.Scripts.UI.InGame
             public TimeData(TimeSwitcher toCopy)
             {
                 this.Slider = (int)toCopy.Slider.value;
+                //Debug.Log(this.Slider);
             }
         }
     }

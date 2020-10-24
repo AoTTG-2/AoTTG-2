@@ -11,10 +11,12 @@ namespace Assets.Scripts.UI.InGame
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
         private List<Level> levels;
-
+        
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
 
+        TimeSwitcher DayNightCycle;
+        
         private void Awake()
         {
             levels = LevelBuilder.GetAllLevels();
@@ -22,6 +24,8 @@ namespace Assets.Scripts.UI.InGame
 
         public void Start()
         {
+            DayNightCycle = GameObject.Find("DayNightCycle").GetComponent<TimeSwitcher>();
+            
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -62,6 +66,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void Sync()
         {
+            DayNightCycle.UpdateTime();
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
             FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
