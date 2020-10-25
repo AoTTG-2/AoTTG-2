@@ -20,11 +20,13 @@ public class DayAndNightControl : MonoBehaviour {
 	public DayColors dawnColors;
 	public DayColors dayColors;
 	public DayColors nightColors;
-	public int currentDay = 0; 
+    
+    public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
+    public int currentDay = 0; 
 	public Light directionalLight; 
 	public float SecondsInAFullDay = 120f; //in realtime, this is about two minutes by default. (every 1 minute/60 seconds is day in game)
 	[Range(0,1)]
-	public float currentTime = 0; //at default when you press play, it will be nightTime. (0 = night, 1 = day)
+	//currentTime = 0; //at default when you press play, it will be nightTime. (0 = night, 1 = day)
 	[HideInInspector]
 	public float timeMultiplier = 1f; //how fast the day goes by regardless of the secondsInAFullDay var. lower values will make the days go by longer, while higher values make it go faster. This may be useful if you're siumulating seasons where daylight and night times are altered.
 	public bool showUI;
@@ -94,6 +96,10 @@ public class DayAndNightControl : MonoBehaviour {
         }
     }
 	
+    public void ChangeTime(int dTime)
+    {
+        currentTime = dTime;
+    }
 	
 
     public float GetTime() => currentTime;

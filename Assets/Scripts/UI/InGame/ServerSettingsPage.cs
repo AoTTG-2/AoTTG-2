@@ -24,7 +24,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void Start()
         {
-            DayNightCycle = GameObject.Find("DayNightCycle").GetComponent<TimeSwitcher>();
+            //DayNightCycle = GameObject.Find("DayNightCycle").GetComponent<TimeSwitcher>();
             
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
@@ -66,7 +66,8 @@ namespace Assets.Scripts.UI.InGame
 
         public void Sync()
         {
-            DayNightCycle.UpdateTime();
+            //here put a call to a function in the TimeSwitcher Class
+           // DayNightCycle.UpdateTime();
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
             FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);

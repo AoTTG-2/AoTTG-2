@@ -9,34 +9,31 @@ namespace Assets.Scripts.UI.InGame
     {
 
         public Text Label;
-        public Slider Slider;
-      
+        public Slider TimeSlider;
+        public int sValue;
+        public GameObject TimeSliderGet;
+        
         DayAndNightControl DayNightCycle;
-       /* public void Start()
+       void Start()
         {
-            DayNightCycle = GameObject.Find("DayNightCycle").GetComponent<DayAndNightControl>();
+            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+        }
+
+        void Update()
+        {
+            Debug.Log(TimeSlider.value);
+            DayNightCycle.currentTime = TimeSlider.value;
+        }
+
+        //here put functions that u wanna call from the change button at ServerSettingsPage.cs, I left
+        //comments in ServerSettingsPage.cs that calls the below example function
+       /* public void UpdateTime()
+        {
+            Debug.Log(TimeSlider.value);
+            DayNightCycle.currentTime = TimeSlider.value;
+
+
         }*/
-        public void UpdateTime()
-        {
-            DayNightCycle = GameObject.Find("DayNightCycle").GetComponent<DayAndNightControl>();
-
-            int sValue = (int)Slider.value;
-            Debug.Log(sValue);
-
-            DayNightCycle.timeMultiplier = sValue;
-
-
-        }
-
-        public struct TimeData
-        {
-            public int Slider;
-
-            public TimeData(TimeSwitcher toCopy)
-            {
-                this.Slider = (int)toCopy.Slider.value;
-                //Debug.Log(this.Slider);
-            }
-        }
+        
     }
 }
