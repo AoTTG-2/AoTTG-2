@@ -584,11 +584,6 @@ public class Hero : Human
         }
     }
 
-    private float CalculateJumpVerticalSpeed()
-    {
-        return Mathf.Sqrt((2f * this.jumpHeight) * this.gravity);
-    }
-
     private void changeBlade()
     {
         if ((!this.useGun || this.grounded) || GameSettings.PvP.AhssAirReload.Value)
@@ -921,37 +916,7 @@ public class Hero : Human
             UnityEngine.Object.Destroy(base.gameObject);
         }
     }
-
-    public void die2(Transform tf)
-    {
-        if (this.invincible <= 0f)
-        {
-            if (this.titanForm && (this.eren_titan != null))
-            {
-                this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
-            }
-            if (this.bulletLeft != null)
-            {
-                this.bulletLeft.GetComponent<Bullet>().removeMe();
-            }
-            if (this.bulletRight != null)
-            {
-                this.bulletRight.GetComponent<Bullet>().removeMe();
-            }
-            Transform transform = base.transform.Find("audio_die");
-            transform.parent = null;
-            transform.GetComponent<AudioSource>().Play();
-            this.meatDie.Play();
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-            this.falseAttack();
-            this.hasDied = true;
-            GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
-            obj2.transform.position = base.transform.position;
-            UnityEngine.Object.Destroy(base.gameObject);
-        }
-    }
-
+    
     private void dodge2(bool offTheWall = false)
     {
         if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
@@ -1030,10 +995,6 @@ public class Hero : Human
             base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray2);
         }
         this.smoke_3dmg.enableEmission = false;
-    }
-
-    private void escapeFromGrab()
-    {
     }
 
     public void falseAttack()
@@ -1789,41 +1750,9 @@ public class Hero : Human
         }
     }
 
-    public string getDebugInfo()
-    {
-        string str = "\n";
-        str = "Left:" + this.isLeftHandHooked + " ";
-        if (this.isLeftHandHooked && (this.bulletLeft != null))
-        {
-            Vector3 vector = this.bulletLeft.transform.position - base.transform.position;
-            str = str + ((int)(Mathf.Atan2(vector.x, vector.z) * 57.29578f));
-        }
-        string str2 = str;
-        object[] objArray1 = new object[] { str2, "\nRight:", this.isRightHandHooked, " " };
-        str = string.Concat(objArray1);
-        if (this.isRightHandHooked && (this.bulletRight != null))
-        {
-            Vector3 vector2 = this.bulletRight.transform.position - base.transform.position;
-            str = str + ((int)(Mathf.Atan2(vector2.x, vector2.z) * 57.29578f));
-        }
-        str = (((str + "\nfacingDirection:" + ((int)this.facingDirection)) + "\nActual facingDirection:" + ((int)base.transform.rotation.eulerAngles.y)) + "\nState:" + this.state.ToString()) + "\n\n\n\n\n";
-        if (this.state == HERO_STATE.Attack)
-        {
-            this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
-        }
-        return str;
-    }
-
     private Vector3 getGlobaleFacingVector3(float resultAngle)
     {
         float num = -resultAngle + 90f;
-        float x = Mathf.Cos(num * 0.01745329f);
-        return new Vector3(x, 0f, Mathf.Sin(num * 0.01745329f));
-    }
-
-    private Vector3 getGlobaleFacingVector3(float horizontal, float vertical)
-    {
-        float num = -this.getGlobalFacingDirection(horizontal, vertical) + 90f;
         float x = Mathf.Cos(num * 0.01745329f);
         return new Vector3(x, 0f, Mathf.Sin(num * 0.01745329f));
     }
@@ -4190,27 +4119,7 @@ public class Hero : Human
                 crossR2.transform.localPosition += Vector3.up * 10000f;
         }
     }
-
-    private void showFlareCD()
-    {
-        if (GameObject.Find("UIflare1") != null)
-        {
-            //GameObject.Find("UIflare1").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare1CD) / this.flareTotalCD;
-            //GameObject.Find("UIflare2").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare2CD) / this.flareTotalCD;
-            //GameObject.Find("UIflare3").GetComponent<UISprite>().fillAmount = (this.flareTotalCD - this.flare3CD) / this.flareTotalCD;
-        }
-    }
-
-    private void showFlareCD2()
-    {
-        if (this.cachedSprites["UIflare1"] != null)
-        {
-            this.cachedSprites["UIflare1"].fillAmount = (this.flareTotalCD - this.flare1CD) / this.flareTotalCD;
-            this.cachedSprites["UIflare2"].fillAmount = (this.flareTotalCD - this.flare2CD) / this.flareTotalCD;
-            this.cachedSprites["UIflare3"].fillAmount = (this.flareTotalCD - this.flare3CD) / this.flareTotalCD;
-        }
-    }
-
+    
     private void showGas2()
     {
         float num = this.currentGas / this.totalGas;
