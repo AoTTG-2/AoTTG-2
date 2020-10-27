@@ -315,12 +315,12 @@ namespace Assets.Editor
                         }
                         else if (strArray[1] == "playerC")
                         {
-                            var playerRespawn = CreatePrefab("playerRespawn", position, rotation).GetComponent<PlayerSpawner>();
+                            var playerRespawn = CreatePrefab("playerRespawn", position, rotation).GetComponent<HumanSpawner>();
                             playerRespawn.Type = PlayerSpawnType.Cyan;
                         }
                         else if (strArray[1] == "playerM")
                         {
-                            var playerRespawn = CreatePrefab("playerRespawn", position, rotation).GetComponent<PlayerSpawner>();
+                            var playerRespawn = CreatePrefab("playerRespawn", position, rotation).GetComponent<HumanSpawner>();
                             playerRespawn.Type = PlayerSpawnType.Magenta;
                         }
                     }
@@ -376,7 +376,7 @@ namespace Assets.Editor
                 }
             }
 
-            if (GameObject.FindObjectOfType<PlayerSpawner>() == null)
+            if (GameObject.FindObjectOfType<HumanSpawner>() == null)
             {
                 PrefabUtility.InstantiatePrefab(RcLegacy.GetPrefab("playerRespawn"));
             }

@@ -1,13 +1,15 @@
-﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Options;
+﻿using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Settings;
 using ExitGames.Client.Photon;
 using System;
-using UnityEngine;
-using static PhotonNetwork;
-using static FengGameManagerMKII;
-using static ChatUtility;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+using static Assets.Scripts.FengGameManagerMKII;
+using static Assets.Scripts.Room.Chat.ChatUtility;
+using static PhotonNetwork;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -113,14 +115,14 @@ public static class ChatCommandHandler
     {
         var message = "Currently activated gamemodes:";
         instance.chatRoom.OutputSystemMessage(message);
-        if (FengGameManagerMKII.Gamemode.Settings.Horse)
+        if (GameSettings.Horse.Enabled.Value)
         {
             message = "Horses are enabled.";
             instance.chatRoom.OutputSystemMessage(message);
         }
-        if (FengGameManagerMKII.Gamemode.Settings.Motd != string.Empty)
+        if (GameSettings.Gamemode.Motd != string.Empty)
         {
-            message = $"MOTD: {FengGameManagerMKII.Gamemode.Settings.Motd}";
+            message = $"MOTD: {GameSettings.Gamemode.Motd}";
             instance.chatRoom.OutputSystemMessage(message);
         }
     }
@@ -228,13 +230,14 @@ public static class ChatCommandHandler
     private static void OutputCollisions()
     {
         int collisions = 0;
-        foreach (MindlessTitan titan in instance.getTitans())
-        {
-            if (titan.IsColliding)
-            {
-                collisions++;
-            }
-        }
+        //TODO: 160
+        //foreach (MindlessTitan titan in instance.getTitans())
+        //{
+        //    if (titan.IsColliding)
+        //    {
+        //        collisions++;
+        //    }
+        //}
         var message = collisions.ToString();
         instance.chatRoom.AddMessage(message);
     }
@@ -340,16 +343,6 @@ public static class ChatCommandHandler
                             instance.chatRoom.OutputErrorMessage($"{parameter} is not a number.");
                         }
                         break;
-                    case ChatCommand.Time:
-                        if (float.TryParse(parameter, out time))
-                        {
-                            AddPlayTime(time);
-                        }
-                        else
-                        {
-                            instance.chatRoom.OutputErrorMessage("Time to add must be a number.");
-                        }
-                        break;
                 }
             }
             else
@@ -363,13 +356,6 @@ public static class ChatCommandHandler
         instance.maxPlayers = maxPlayers;
         room.MaxPlayers = maxPlayers;
         var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {maxPlayers}!"), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-    }
-
-    private static void AddPlayTime(float time)
-    {
-        instance.addTime(time);
-        var chatMessage = new object[] { FormatSystemMessage($"{time} seconds added to the clock."), string.Empty };
         instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
     }
 
@@ -402,8 +388,8 @@ public static class ChatCommandHandler
             return;
         }
 
-        instance.photonView.RPC(nameof(FengGameManagerMKII.PauseRPC), PhotonTargets.All);
-        var chatMessage = instance.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
+        Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All);
+        var chatMessage = Service.Pause.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
         instance.photonView.RPC("Chat", PhotonTargets.All, new object[] { FormatSystemMessage(chatMessage), string.Empty });
     }
 
@@ -423,14 +409,14 @@ public static class ChatCommandHandler
             switch (command)
             {
                 case ChatCommand.Kdr:
-                    if (!Gamemode.Settings.SaveKDROnDisconnect)
+                    if (!GameSettings.Gamemode.SaveKDROnDisconnect.Value)
                     {
-                        Gamemode.Settings.SaveKDROnDisconnect = true;
+                        GameSettings.Gamemode.SaveKDROnDisconnect = true;
                         message = "KDRs will be preserved from disconnects.";
                     }
                     else
                     {
-                        Gamemode.Settings.SaveKDROnDisconnect = false;
+                        GameSettings.Gamemode.SaveKDROnDisconnect = false;
                         message = "KDRs will not be preserved from disconnects.";
                     }
 
@@ -466,7 +452,7 @@ public static class ChatCommandHandler
     {
         ChatCommand teamEnum;
         string message = string.Empty;
-        if (Gamemode.Settings.TeamMode == TeamMode.NoSort)
+        if (GameSettings.Gamemode.TeamMode == TeamMode.NoSort)
         {
             if (Enum.TryParse(team, true, out teamEnum))
             {
