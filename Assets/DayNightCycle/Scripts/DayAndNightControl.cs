@@ -23,8 +23,9 @@ public class DayAndNightControl : MonoBehaviour {
     
     public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
     public int currentDay = 0; 
-	public Light directionalLight; 
-	public float SecondsInAFullDay = 120f; //in realtime, this is about two minutes by default. (every 1 minute/60 seconds is day in game)
+	public Light directionalLight;
+    public float SecondsInAfullDay { get; set; }
+    public float SecondsInAFullDay = 120f; //in realtime, this is about two minutes by default. (every 1 minute/60 seconds is day in game)
 	[Range(0,1)]
 	//currentTime = 0; //at default when you press play, it will be nightTime. (0 = night, 1 = day)
 	[HideInInspector]
