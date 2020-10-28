@@ -23,12 +23,14 @@ namespace Assets.Scripts.UI.InGame
             var se = new InputField.SubmitEvent();
             se.AddListener(SubmitTime);
             input.onEndEdit = se;
+            TimeSlider.value = DayNightCycle.currentTime;
         }
 
         void Update()
         {
+            
             Debug.Log(DayNightCycle.SecondsInAFullDay);
-            //DayNightCycle.currentTime = TimeSlider.value;
+            DayNightCycle.currentTime = TimeSlider.value;
         }
 
         private void SubmitTime(string arg0)
@@ -36,6 +38,7 @@ namespace Assets.Scripts.UI.InGame
             Debug.Log(arg0);
             time = arg0;
             seconds = System.TimeSpan.Parse(time).TotalSeconds;
+            TimeSlider.value= (float) (seconds / 86400);
             DayNightCycle.currentTime = (float) (seconds/86400);
             Debug.Log((float) (seconds / 86400));
         }
