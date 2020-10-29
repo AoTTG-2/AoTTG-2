@@ -5,9 +5,15 @@ namespace Assets.Scripts.UI.InGame
 {
     public class InGameMenu : MonoBehaviour
     {
-        public GameSettingMenu GameSettingsMenu;
-        public GameObject GraphicsView;
-        public ControlsMenu ControlsMenu;
+        /// <summary>
+        /// This is the menu that's currently being shown to the player.
+        /// </summary>
+        public GameObject currentPage;
+
+        /// <summary>
+        /// This is the last menu shown to the player.
+        /// </summary>
+        public GameObject previousPage;
 
         // Used by Button.
         public void Quit()
@@ -15,22 +21,19 @@ namespace Assets.Scripts.UI.InGame
             PhotonNetwork.Disconnect();
         }
 
-        // Used by Button.
-        public void ShowGameSettingsMenu()
+        /// <summary>
+        /// Displays the selected <paramref name="gameObject"/> UI element.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        public void OpenMenu(GameObject gameObject)
         {
-            GameSettingsMenu.gameObject.SetActive(true);
-        }
+            if (previousPage != null)
+                previousPage.SetActive(false);
 
-        // Used by Button.
-        public void ShowGraphicSettingsMenu()
-        {
-            GraphicsView.gameObject.SetActive(true);
-        }
+            gameObject.SetActive(true);
 
-        // Used by Button.
-        public void ShowRebindsMenu()
-        {
-            ControlsMenu.gameObject.SetActive(true);
+            previousPage = currentPage;
+            currentPage = gameObject;
         }
 
         private void OnEnable()
@@ -43,9 +46,7 @@ namespace Assets.Scripts.UI.InGame
         private void OnDisable()
         {
             MenuManager.RegisterClosed();
-            GameSettingsMenu.gameObject.SetActive(false);
-            GraphicsView.gameObject.SetActive(false);
-            ControlsMenu.gameObject.SetActive(false);
+            currentPage.SetActive(false);
         }
     }
 }
