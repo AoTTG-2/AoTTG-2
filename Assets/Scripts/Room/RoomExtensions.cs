@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Settings.Gamemodes;
 using System.Linq;
 
 namespace Assets.Scripts.Room
@@ -26,10 +26,26 @@ namespace Assets.Scripts.Room
             return LevelBuilder.GetAllLevels().Single(x => x.Name == level);
         }
 
-        public static bool GetSecure(this RoomInfo room)
+        /// <summary>
+        /// Check if a password is required to join the room. Note: This property is only used for UX purposes. Photon Server contains the knowledge
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
+        public static bool IsPasswordRequired(this RoomInfo room)
         {
-            if (!room.CustomProperties.ContainsKey("secure")) return false;
-            return (bool)room.CustomProperties["secure"];
+            if (!room.CustomProperties.ContainsKey("passworded")) return false;
+            return (bool)room.CustomProperties["passworded"];
+        }
+
+        /// <summary>
+        /// Check if an account is required to join the room. Note: This property is only used for UX purposes. Photon Server contains the knowledge
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
+        public static bool IsAccountRequired(this RoomInfo room)
+        {
+            if (!room.CustomProperties.ContainsKey("account")) return false;
+            return (bool) room.CustomProperties["account"];
         }
 
 

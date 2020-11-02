@@ -2,9 +2,13 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!134 &13400000
 PhysicMaterial:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: player_body
-  dynamicFriction: 1
-  staticFriction: 1
-  bounciness: 0.9
-  frictionCombine: 3
-  bounceCombine: 2
+  dynamicFriction: 0.47
+  staticFriction: 0.35
+  bounciness: 0
+  frictionCombine: 0
+  bounceCombine: 0
