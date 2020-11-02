@@ -3669,7 +3669,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &231
 GameObject:
@@ -24623,7 +24623,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -24679,7 +24679,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -24875,7 +24875,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -25099,7 +25099,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -25393,7 +25393,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -25841,7 +25841,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 163}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -26261,7 +26261,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -27703,7 +27703,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -27955,7 +27955,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c3a9334c680afce46b8001ec38e57060, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -28263,23 +28263,23 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentRadius: 5
+    agentHeight: 15
+    agentSlope: 50
+    agentClimb: 5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.1666667
+    cellSize: 1.6666666
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    accuratePlacement: 1
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 9c9e08ad783bbe54982e0bf883c3e670, type: 2}
 --- !u!1001 &40259080
 PrefabInstance:
   m_ObjectHideFlags: 0

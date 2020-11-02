@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Settings.Gamemodes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -66,8 +66,10 @@ namespace Assets.Scripts.UI.InGame
 
         public void Sync()
         {
+
             //here put a call to a function in the TimeSwitcher Class
            // DayNightCycle.UpdateTime();
+            if (!PhotonNetwork.isMasterClient) return;
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
             FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
