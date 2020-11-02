@@ -1,41 +1,35 @@
-﻿using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
-using System;
+﻿using System;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
     public abstract class TitanBehavior
     {
-        protected IEntityService EntityService => Service.Entity;
-        protected IFactionService FactionService => Service.Faction;
-
         public void Initialize(MindlessTitan titan)
         {
             Titan = titan;
         }
         protected MindlessTitan Titan { get; set; }
-
         public bool OnUpdate()
         {
-            switch (Titan.State)
+            switch (Titan.TitanState)
             {
-                case TitanState.Idle:
+                case MindlessTitanState.Idle:
                     break;
-                case TitanState.Dead:
+                case MindlessTitanState.Dead:
                     break;
-                case TitanState.Wandering:
+                case MindlessTitanState.Wandering:
                     return OnWandering();
-                case TitanState.Turning:
+                case MindlessTitanState.Turning:
                     break;
-                case TitanState.Chase:
+                case MindlessTitanState.Chase:
                     return OnChase();
-                case TitanState.Attacking:
+                case MindlessTitanState.Attacking:
                     break;
-                case TitanState.Recovering:
+                case MindlessTitanState.Recovering:
                     break;
-                case TitanState.Eat:
+                case MindlessTitanState.Eat:
                     break;
-                case TitanState.Disabled:
+                case MindlessTitanState.Disabled:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -46,25 +40,25 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
         public bool OnFixedUpdate()
         {
-            switch (Titan.State)
+            switch (Titan.TitanState)
             {
-                case TitanState.Idle:
+                case MindlessTitanState.Idle:
                     break;
-                case TitanState.Dead:
+                case MindlessTitanState.Dead:
                     break;
-                case TitanState.Wandering:
+                case MindlessTitanState.Wandering:
                     return OnWanderingFixedUpdate();
-                case TitanState.Turning:
+                case MindlessTitanState.Turning:
                     break;
-                case TitanState.Chase:
+                case MindlessTitanState.Chase:
                     return OnFixedUpdateChase();
-                case TitanState.Attacking:
+                case MindlessTitanState.Attacking:
                     break;
-                case TitanState.Recovering:
+                case MindlessTitanState.Recovering:
                     break;
-                case TitanState.Eat:
+                case MindlessTitanState.Eat:
                     break;
-                case TitanState.Disabled:
+                case MindlessTitanState.Disabled:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -74,25 +68,25 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
         public bool OnUpdateEverySecond(int seconds)
         {
-            switch (Titan.State)
+            switch (Titan.TitanState)
             {
-                case TitanState.Idle:
+                case MindlessTitanState.Idle:
                     break;
-                case TitanState.Dead:
+                case MindlessTitanState.Dead:
                     break;
-                case TitanState.Wandering:
+                case MindlessTitanState.Wandering:
                     return OnWanderingUpdateEverySecond(seconds);
-                case TitanState.Turning:
+                case MindlessTitanState.Turning:
                     break;
-                case TitanState.Chase:
+                case MindlessTitanState.Chase:
                     break;
-                case TitanState.Attacking:
+                case MindlessTitanState.Attacking:
                     break;
-                case TitanState.Recovering:
+                case MindlessTitanState.Recovering:
                     break;
-                case TitanState.Eat:
+                case MindlessTitanState.Eat:
                     break;
-                case TitanState.Disabled:
+                case MindlessTitanState.Disabled:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

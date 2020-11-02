@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
-using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.UI.Input;
 using System.Linq;
 using UnityEngine;
@@ -21,8 +20,11 @@ namespace Assets.Scripts.Characters.Titan
         protected override void Awake()
         {
             base.Awake();
-            Faction = FactionService.GetHumanity();
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+            if (PhotonNetwork.offlineMode)
+            {
+                base.enabled = false;
+            }
         }
 
         protected override void FixedUpdate()
@@ -48,25 +50,13 @@ namespace Assets.Scripts.Characters.Titan
         public override void Initialize(TitanConfiguration configuration)
         {
             base.Initialize(configuration);
-            Speed = SpeedRun;
         }
 
-        private Attack<MindlessTitan> CanAttack()
+        private Attack CanAttack()
         {
             if (InputManager.KeyDown(InputTitan.AttackBodySlam)) 
             {
                 return Attacks.FirstOrDefault(x => x is BodySlamAttack);
-            }
-
-            if (InputManager.KeyDown(InputTitan.AttackPunch))
-            {
-                var attack = Attacks.SingleOrDefault(x => x is ComboAttack);
-                if (attack == null) return null;
-                if (!attack.CanAttack(this)) return null;
-
-                var attackCombo = attack as ComboAttack;
-                attackCombo.AttackAnimation = "attack_combo_1";
-                return attackCombo;
             }
 
             if (InputManager.KeyDown(InputTitan.AttackSlap))
@@ -133,7 +123,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (CurrentAttack != null)
             {
-                CurrentAttack.Execute();
+                CurrentAttack.Execute(this);
                 if (CurrentAttack.IsFinished)
                 {
                     CurrentAttack.IsFinished = false;
@@ -190,7 +180,7 @@ namespace Assets.Scripts.Characters.Titan
                 // PhotonNetwork.Destroy(base.photonView);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name], 0);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = true;
-                ChangeState(TitanState.Dead);
+                ChangeState(MindlessTitanState.Dead);
                 Dead();
             }
         }
@@ -226,9 +216,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (State == TitanState.Disabled)
+            if (TitanState == MindlessTitanState.Disabled)
             {
-                var disabledBodyParts = Body.GetDisabledBodyParts();
+                var disabledBodyParts = TitanBody.GetDisabledBodyParts();
                 if (disabledBodyParts.Any(x => x == BodyPart.LegLeft)
                     || disabledBodyParts.Any(x => x == BodyPart.LegRight))
                 {
@@ -236,7 +226,7 @@ namespace Assets.Scripts.Characters.Titan
                     CrossFade(CurrentAnimation, 0.1f);
                     return;
                 }
-                ChangeState(TitanState.Wandering);
+                ChangeState(MindlessTitanState.Wandering);
             }
 
             if (IsCovering && Animation.IsPlaying(AnimationCover) && Animation[AnimationCover].normalizedTime < 1f)
@@ -305,7 +295,7 @@ namespace Assets.Scripts.Characters.Titan
                 else
                 {
                     SpeedModifier = 1f;
-                    CrossFade(AnimationRun ?? AnimationWalk, 0.0f);
+                    CrossFade(AnimationRun, 0.0f);
                 }
             }
             else

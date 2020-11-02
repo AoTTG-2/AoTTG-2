@@ -1,49 +1,47 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    public class SlapAttack : Attack<MindlessTitan>
+    public class SlapAttack : Attack
     {
         public SlapAttack()
         {
             BodyParts = new[] { BodyPart.HandLeft, BodyPart.HandRight };
         }
 
-        public override Type[] TargetTypes { get; } = { typeof(Human) };
-
+        private string AttackAnimation { get; set; }
         private BodyPart Hand { get; set; }
-        public override bool CanAttack()
+        public override bool CanAttack(MindlessTitan titan)
         {
-            if (IsDisabled()) return false;
-            Vector3 line = (Titan.Target.GetComponent<Rigidbody>().velocity * Time.deltaTime) * 30f;
+            if (IsDisabled(titan)) return false;
+            Vector3 line = (Vector3)((titan.Target.GetComponent<Rigidbody>().velocity * Time.deltaTime) * 30f);
             if (line.sqrMagnitude <= 10f) return false;
-            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeLeft.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeLeft.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_l";
                 Hand = BodyPart.HandLeft;
-                if (IsDisabled(Hand)) return false;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
-            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeLLeft.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeLLeft.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_low_l";
                 Hand = BodyPart.HandLeft;
-                if (IsDisabled(Hand)) return false;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
-            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeRight.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeRight.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_r";
                 Hand = BodyPart.HandRight;
-                if (IsDisabled(Hand)) return false;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
-            if (this.simpleHitTestLineAndBall(line, Titan.Body.checkAeLRight.position - Titan.Target.transform.position, 5f * Titan.Size))
+            if (this.simpleHitTestLineAndBall(line, titan.TitanBody.checkAeLRight.position - titan.Target.transform.position, 5f * titan.Size))
             {
                 AttackAnimation = "attack_anti_AE_low_r";
                 Hand = BodyPart.HandRight;
-                if (IsDisabled(Hand)) return false;
+                if (IsDisabled(titan, Hand)) return false;
                 return true;
             }
             return false;
@@ -54,54 +52,54 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             Hand = isLeftHand
                 ? BodyPart.HandLeft
                 : BodyPart.HandRight;
-            if (titan.Body.IsDisabled(Hand)) return false;
+            if (titan.IsDisabled(Hand)) return false;
             AttackAnimation = isLeftHand
                 ? "attack_anti_AE_l"
                 : "attack_anti_AE_r";
             return true;
         }
 
-        private void HandleHit()
+        private void HandleHit(MindlessTitan titan)
         {
             var hand = Hand == BodyPart.HandLeft
-                ? Titan.Body.HandLeft
-                : Titan.Body.HandRight;
+                ? titan.TitanBody.HandLeft
+                : titan.TitanBody.HandRight;
 
-            GameObject obj7 = this.checkIfHitHand(hand, Titan.Size);
+            GameObject obj7 = this.checkIfHitHand(hand, titan.Size);
             if (obj7 != null)
             {
-                Vector3 vector4 = Titan.Body.Chest.position;
-                if (!((!Titan.photonView.isMine) || obj7.GetComponent<Hero>().HasDied()))
+                Vector3 vector4 = titan.TitanBody.Chest.position;
+                if (!((!titan.photonView.isMine) || obj7.GetComponent<Hero>().HasDied()))
                 {
                     obj7.GetComponent<Hero>().markDie();
-                    object[] objArray5 = new object[] { (Vector3)(((obj7.transform.position - vector4) * 15f) * Titan.Size), false, Titan.photonView.viewID, Titan.name, true };
+                    object[] objArray5 = new object[] { (Vector3)(((obj7.transform.position - vector4) * 15f) * titan.Size), false, titan.photonView.viewID, titan.name, true };
                     obj7.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray5);
                 }
             }
         }
 
-        public override void Execute()
+        public override void Execute(MindlessTitan titan)
         {
             if (IsFinished) return;
-            if (!Titan.Animation.IsPlaying(AttackAnimation))
+            if (!titan.Animation.IsPlaying(AttackAnimation))
             {
-                Titan.CrossFade(AttackAnimation, 0.1f);
+                titan.CrossFade(AttackAnimation, 0.1f);
                 return;
             }
 
-            if (IsDisabled(Hand))
+            if (IsDisabled(titan, Hand))
             {
                 IsFinished = true;
                 return;
             }
 
-            if (Titan.Animation[AttackAnimation].normalizedTime >= 0.31f &&
-                Titan.Animation[AttackAnimation].normalizedTime <= 0.4f)
+            if (titan.Animation[AttackAnimation].normalizedTime >= 0.31f &&
+                titan.Animation[AttackAnimation].normalizedTime <= 0.4f)
             {
-                HandleHit();
+                HandleHit(titan);
             }
 
-            if (Titan.Animation[AttackAnimation].normalizedTime >= 1f)
+            if (titan.Animation[AttackAnimation].normalizedTime >= 1f)
             {
                 IsFinished = true;
             }

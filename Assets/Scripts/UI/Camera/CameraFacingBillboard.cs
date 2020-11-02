@@ -1,10 +1,20 @@
+using System;
 using UnityEngine;
 
 public class CameraFacingBillboard : MonoBehaviour
 {
     public Axis axis;
+    private Camera referenceCamera;
     public bool reverseFace;
-    
+
+    private void Awake()
+    {
+        if (this.referenceCamera == null)
+        {
+            this.referenceCamera = Camera.main;
+        }
+    }
+
     public Vector3 GetAxis(Axis refAxis)
     {
         switch (refAxis)
@@ -29,10 +39,9 @@ public class CameraFacingBillboard : MonoBehaviour
 
     private void Update()
     {
-        if (Camera.main == null) return;
-        var worldPosition = base.transform.position + (Camera.main.transform.rotation * (!this.reverseFace ? Vector3.back : Vector3.forward));
-        var worldUp = Camera.main.transform.rotation * this.GetAxis(this.axis);
-        transform.LookAt(worldPosition, worldUp);
+        Vector3 worldPosition = base.transform.position + (this.referenceCamera.transform.rotation * (!this.reverseFace ? Vector3.back : Vector3.forward));
+        Vector3 worldUp = (Vector3) (this.referenceCamera.transform.rotation * this.GetAxis(this.axis));
+        base.transform.LookAt(worldPosition, worldUp);
     }
 
     public enum Axis

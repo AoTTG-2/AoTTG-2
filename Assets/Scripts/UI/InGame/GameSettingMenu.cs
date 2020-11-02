@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Gamemode;
 using Assets.Scripts.UI.Elements;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
@@ -17,13 +17,12 @@ namespace Assets.Scripts.UI.InGame
 
         private void OnEnable()
         {
-            //TODO: Rework this for the new GameSettings
-            //var page = Instantiate(GameSettingPage, gameObject.transform);
-            //page.Data = Gamemode = GameSettings.Gamemode;
-            //page.Initialize();
-            //Pages.Add(page);
-            //Pages[0].gameObject.SetActive(true);
-            ServerSettingsPage.gameObject.SetActive(true);
+            var page = Instantiate(GameSettingPage, gameObject.transform);
+            page.Data = Gamemode = FengGameManagerMKII.Gamemode.Settings;
+            page.Initialize();
+            Pages.Add(page);
+            Pages[0].gameObject.SetActive(true);
+            ServerSettingsPage.gameObject.SetActive(false);
         }
 
         private void OnDisable()
@@ -43,8 +42,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void ViewServerSettingsPage()
         {
-            //TODO Rework this for the new GameSettings
-            //Pages[0].gameObject.SetActive(false);
+            Pages[0].gameObject.SetActive(false);
             ServerSettingsPage.gameObject.SetActive(true);
         }
 

@@ -1,4 +1,3 @@
-using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using System.Collections;
 using UnityEngine;

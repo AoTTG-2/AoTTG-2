@@ -1,10 +1,7 @@
-﻿using Assets.Scripts.Characters;
-using Assets.Scripts.Characters.Titan;
+﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
-using Assets.Scripts.Characters.Titan.Configuration;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.Gamemode.Settings;
+using Assets.Scripts.UI.Input;
 using System.Collections;
 using UnityEngine;
 
@@ -12,90 +9,78 @@ namespace Assets.Scripts.Gamemode
 {
     public class WaveGamemode : GamemodeBase
     {
-        private WaveGamemodeSettings Settings => GameSettings.Gamemode as WaveGamemodeSettings;
+        private int highestWave = 1;
 
-        private int HighestWave { get; set; } = 1;
-        public int Wave { get; set; } = 1;
+        public bool PunkWave { get; set; } = true;
+        private readonly int _punkWave = 5;
+        public int Wave = 1;
 
-        protected override void SetStatusTop()
+        public sealed override GamemodeSettings Settings { get; set; }
+        private WaveGamemodeSettings GamemodeSettings => Settings as WaveGamemodeSettings;
+
+        public override string GetGamemodeStatusTop(int totalRoomTime = 0, int timeLeft = 0)
         {
-            var content = $"Titan left: {FactionService.CountHostile(PlayerService.Self)} Wave : {Wave}";
-            UiService.SetMessage(LabelPosition.Top, content);
+            var content = "Titan Left: ";
+            object[] objArray = new object[4];
+            objArray[0] = content;
+            var length = GameObject.FindGameObjectsWithTag("titan").Length;
+            objArray[1] = length.ToString();
+            objArray[2] = " Wave : ";
+            objArray[3] = Wave;
+            return string.Concat(objArray);
         }
 
-        protected override void SetStatusTopRight()
+        public override string GetGamemodeStatusTopRight(int time = 0, int totalRoomTime = 0)
         {
-            var content = $"Time : {TimeService.GetRoundDisplayTime()}";
-            UiService.SetMessage(LabelPosition.TopRight, content);
-        }
-
-        protected override void OnFactionDefeated(Faction faction)
-        {
-            if (!PhotonNetwork.isMasterClient) return;
-            if (faction == FactionService.GetHumanity())
+            if (PhotonNetwork.offlineMode)
             {
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"Survived {Wave} Waves!\nRestarting in {{0}}s", HumanScore, TitanScore);
-            } else if (faction == FactionService.GetTitanity())
-            {
-                NextWave();
+                var content = "Time : ";
+                var length = totalRoomTime;
+                return content + length.ToString();
             }
+            return base.GetGamemodeStatusTopRight(time, totalRoomTime);
         }
 
-        private void NextWave()
+        public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            Wave++;
-
-            if (Wave > HighestWave)
-                HighestWave = Wave;
-
-            if (GameSettings.Respawn.Mode == RespawnMode.NewRound)
+            if (PhotonNetwork.offlineMode)
             {
-                foreach (var player in PhotonNetwork.playerList)
-                {
-                    if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2)
-                    {
-                        FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.respawnHeroInNewRound), player);
-                    }
-                }
+                return $"Survive All Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
             }
+            return $"Survive All Waves!\nGame Restart in {(int) timeUntilRestart}s\n\n";
+        }
 
-            if (!((Settings.MaxWave.Value != 0 || Wave <= Settings.MaxWave.Value) && (Settings.MaxWave.Value <= 0 || Wave <= Settings.MaxWave.Value)))
+        public override string GetDefeatMessage(float gameEndCd)
+        {
+            if (PhotonNetwork.offlineMode)
             {
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"Survived All {Wave} Waves!\nRestarting in {{0}}s", HumanScore, TitanScore);
+                return $"Survive {Wave} Waves!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
+            }
+            return $"Survive {Wave} Waves!\nGame Restart in {(int) gameEndCd}s\n\n";
+        }
+
+        public override string GetRoundEndedMessage()
+        {
+            return $"Highest Wave : {highestWave}";
+        }
+
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
+        {
+            base.OnLevelLoaded(level, isMasterClient);
+            if (!isMasterClient) return;
+            if (GamemodeSettings.Name.Contains("Annie"))
+            {
+                PhotonNetwork.Instantiate("FEMALE_TITAN", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }
             else
             {
-                if (Wave % Settings.BossWave.Value == 0)
-                {
-                    for (var i = 0; i < Wave / Settings.BossWave.Value; i++)
-                    {
-                        SpawnService.Spawn<MindlessTitan>(GetWaveTitanConfiguration(Settings.BossType.Value));
-                    }
-                }
-                else
-                {
-                    StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value + Wave * Settings.WaveIncrement.Value));
-                }
+                StartCoroutine(SpawnTitan(GamemodeSettings.Titans));
             }
         }
 
-        protected override void OnLevelWasLoaded()
-        {
-            base.OnLevelWasLoaded();
-            if (!PhotonNetwork.isMasterClient) return;
-            if (GameSettings.Gamemode.Name.Contains("Annie"))
-            {
-                PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
-            }
-            else
-            {
-                StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value));
-            }
-        }
-        
         public override void OnRestart()
         {
-            Wave = Settings.StartWave.Value;
+            Wave = GamemodeSettings.StartWave;
             base.OnRestart();
         }
 
@@ -114,16 +99,61 @@ namespace Assets.Scripts.Gamemode
             configuration.ViewDistance = 999999f;
             return configuration;
         }
-        
-        private IEnumerator SpawnTitan(int titans)
+
+        public override void OnTitanKilled(string titanName)
+        {
+            if (!IsAllTitansDead()) return;
+            Wave++;
+            var level = FengGameManagerMKII.Level.Name;
+            if (!(GamemodeSettings.RespawnMode != RespawnMode.NEWROUND && (!level.StartsWith("Custom"))))
+            {
+                foreach (var player in PhotonNetwork.playerList)
+                {
+                    if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2)
+                    {
+                        FengGameManagerMKII.instance.photonView.RPC("respawnHeroInNewRound", player);
+                    }
+                }
+            }
+            //if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
+            //{
+            //    //this.sendChatContentInfo("<color=#A8FF24>Wave : " + this.wave + "</color>");
+            //}
+            if (Wave > highestWave)
+            {
+                highestWave = Wave;
+            }
+            if (PhotonNetwork.isMasterClient)
+            {
+                FengGameManagerMKII.instance.RequireStatus();
+            }
+            if (!((GamemodeSettings.MaxWave != 0 || Wave <= GamemodeSettings.MaxWave) && (GamemodeSettings.MaxWave <= 0 || Wave <= GamemodeSettings.MaxWave)))
+            {
+                FengGameManagerMKII.instance.gameWin2();
+            }
+            else
+            {
+                if (Wave % _punkWave == 0)
+                {
+                    for (int i = 0; i < Wave / _punkWave; i++)
+                    {
+                        FengGameManagerMKII.instance.SpawnTitan(GetWaveTitanConfiguration(MindlessTitanType.Punk));
+                    }
+                }
+                else
+                {
+                    StartCoroutine(SpawnTitan(GamemodeSettings.Titans + Wave * GamemodeSettings.WaveIncrement));
+                }
+            }
+        }
+
+        IEnumerator SpawnTitan(int titans)
         {
             var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-            for (var i = 0; i < titans; i++)
+            for (int i = 0; i < titans; i++)
             {
-                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
                 var randomSpawn = spawns[Random.Range(0, spawns.Length)];
-                SpawnService.Spawn<MindlessTitan>(randomSpawn.transform.position, randomSpawn.transform.rotation,
-                    GetWaveTitanConfiguration());
+                FengGameManagerMKII.instance.SpawnTitan(randomSpawn.transform.position, randomSpawn.transform.rotation, GetWaveTitanConfiguration());
                 yield return new WaitForEndOfFrame();
             }
         }

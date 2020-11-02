@@ -1,78 +1,69 @@
-﻿using Assets.Scripts.Characters;
-using Assets.Scripts.Characters.Titan;
+﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
     public class CaptureGamemode : GamemodeBase
     {
-        private CaptureGamemodeSettings Settings => GameSettings.Gamemode as CaptureGamemodeSettings;
+        public sealed override GamemodeSettings Settings { get; set; }
+        private CaptureGamemodeSettings CaptureSettings => Settings as CaptureGamemodeSettings;
 
-        public int PvpTitanScore { get; set; }
-        public int PvpHumanScore { get; set; }
+        public int PvpTitanScore;
+        public int PvpHumanScore;
 
         private const string HumanStart = "CheckpointStartHuman";
         private const string TitanStart = "CheckpointStartTitan";
 
-        protected override void SetStatusTop()
+        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
-            var content = "| ";
-            foreach (PVPcheckPoint checkpoint in PVPcheckPoint.chkPts)
+            string str2 = "| ";
+            for (int i = 0; i < PVPcheckPoint.chkPts.Count; i++)
             {
-                content = content + checkpoint.getStateString() + " ";
+                str2 = str2 + (PVPcheckPoint.chkPts[i] as PVPcheckPoint).getStateString() + " ";
             }
-            content = $"| {Settings.PvpTitanScoreLimit - PvpTitanScore} {content} {Settings.PvpHumanScoreLimit - PvpHumanScore} \n" +
-                      $"Time : {TimeService.GetRoundDisplayTime()}";
-
-            UiService.SetMessage(LabelPosition.Top, content);
+            str2 = str2 + "|";
+            var length = totalRoomTime - time;
+            return $"{CaptureSettings.PvpTitanScoreLimit - PvpTitanScore} {str2} {CaptureSettings.PvpHumanScoreLimit - PvpHumanScore} \nTime : {length}";
         }
-        
+
         public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
         {
             var configuration = GetTitanConfiguration();
             configuration.Behaviors.Add(new CaptureBehavior(target));
-            SpawnService.Spawn<MindlessTitan>(position, rotation, configuration);
+            FengGameManagerMKII.instance.SpawnTitan(position, rotation, configuration).GetComponent<MindlessTitan>();
         }
 
-        protected override void OnEntityUnRegistered(Entity entity)
+        public override void OnTitanKilled(string titanName)
         {
-            //TODO: Support factions!
-            if (entity is MindlessTitan titan)
+            if (titanName != string.Empty)
             {
-                PvpHumanScore += 2;
-                //switch (titanName)
-                //{
-                //    case "Titan":
-                //        PvpHumanScore++;
-                //        break;
-                //    case "Aberrant":
-                //        PvpHumanScore += 2;
-                //        break;
-                //    case "Jumper":
-                //        PvpHumanScore += 3;
-                //        break;
-                //    case "Crawler":
-                //        PvpHumanScore += 4;
-                //        break;
-                //    case "Female Titan":
-                //        PvpHumanScore += 10;
-                //        break;
-                //    default:
-                //        PvpHumanScore += 3;
-                //        break;
-                //}
-            } else if (entity is Human human)
-            {
-                PvpTitanScore += 2;
+                switch (titanName)
+                {
+                    case "Titan":
+                        PvpHumanScore++;
+                        break;
+                    case "Aberrant":
+                        PvpHumanScore += 2;
+                        break;
+                    case "Jumper":
+                        PvpHumanScore += 3;
+                        break;
+                    case "Crawler":
+                        PvpHumanScore += 4;
+                        break;
+                    case "Female Titan":
+                        PvpHumanScore += 10;
+                        break;
+                    default:
+                        PvpHumanScore += 3;
+                        break;
+                }
             }
-
             CheckWinConditions();
         }
-        
+
         [PunRPC]
         public void RefreshCaptureScore(int humanScore, int titanScore, PhotonMessageInfo info)
         {
@@ -85,24 +76,18 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, PvpHumanScore, PvpTitanScore);
+                photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, Settings.HumanScore, Settings.TitanScore);
             }
 
-            string winner = null;
-            if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
+            if (PvpTitanScore >= CaptureSettings.PvpTitanScoreLimit)
             {
-                TitanScore++;
-                winner = "Titanity";
+                PvpTitanScore = CaptureSettings.PvpTitanScoreLimit;
+                FengGameManagerMKII.instance.gameLose2();
             }
-            else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
+            else if (PvpHumanScore >= CaptureSettings.PvpHumanScoreLimit)
             {
-                HumanScore++;
-                winner = "Humanity";
-            }
-
-            if (winner != null && PhotonNetwork.isMasterClient)
-            {
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
+                PvpHumanScore = CaptureSettings.PvpHumanScoreLimit;
+                FengGameManagerMKII.instance.gameWin2();
             }
         }
 
@@ -118,9 +103,9 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
-        protected override void OnLevelWasLoaded()
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            base.OnLevelWasLoaded();
+            base.OnLevelLoaded(level, isMasterClient);
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
@@ -133,17 +118,17 @@ namespace Assets.Scripts.Gamemode
                 }
             }
 
-            if (PhotonNetwork.isMasterClient && FengGameManagerMKII.Level.SceneName == "OutSide")
+            if (isMasterClient && FengGameManagerMKII.Level.SceneName == "OutSide")
             {
-                GameObject[] respawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-                if (respawns.Length <= 0)
+                GameObject[] objArray3 = GameObject.FindGameObjectsWithTag("titanRespawn");
+                if (objArray3.Length <= 0)
                 {
                     return;
                 }
-                foreach (var respawn in respawns)
+                for (int i = 0; i < objArray3.Length; i++)
                 {
                     var configuration = GetTitanConfiguration(MindlessTitanType.Crawler);
-                    SpawnService.Spawn<MindlessTitan>(respawn.transform.position, respawn.transform.rotation, configuration);
+                    FengGameManagerMKII.instance.SpawnTitan(objArray3[i].transform.position, objArray3[i].transform.rotation, configuration);
                 }
             }
         }
@@ -165,14 +150,24 @@ namespace Assets.Scripts.Gamemode
             return FengGameManagerMKII.instance.checkpoint;
         }
 
-        protected override void OnEntityRegistered(Entity entity)
+        public override void OnPlayerSpawned(GameObject player)
         {
-            if (entity is Hero)
-            {
-                entity.transform.position += new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20));
-            }
+            var transform = player.transform;
+            transform.position += new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20));
         }
-        
+
+        public override void OnGameWon()
+        {
+            base.OnGameWon();
+            ResetScore();
+        }
+
+        public override void OnGameLost()
+        {
+            base.OnGameLost();
+            ResetScore();
+        }
+
         public override void OnRestart()
         {
             base.OnRestart();
@@ -183,8 +178,17 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
             {
-                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.All, 0, 0);
+                FengGameManagerMKII.instance.photonView.RPC("RefreshCaptureScore", PhotonTargets.Others, CaptureSettings.PvpHumanScoreLimit, CaptureSettings.PvpTitanScoreLimit);
             }
+        }
+
+        public override void OnPlayerKilled(int id)
+        {
+            if (id != 0)
+            {
+                PvpTitanScore += 2;
+            }
+            CheckWinConditions();
         }
     }
 }

@@ -1,21 +1,18 @@
-﻿using Assets.Scripts.Characters;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.UI.InGame.HUD;
+﻿using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
-        private EndlessSettings Settings => GameSettings.Gamemode as EndlessSettings;
+        public sealed override GamemodeSettings Settings { get; set; }
+        private EndlessSettings GamemodeSettings => Settings as EndlessSettings;
 
         private int Score { get; set; }
 
-        protected override void OnLevelWasLoaded()
+        public override void OnTitanKilled(string titanName)
         {
-            if (!PhotonNetwork.isMasterClient) return;
-            SpawnTitans(GameSettings.Titan.Start.Value);
+            Score++;
+            FengGameManagerMKII.instance.SpawnTitan(GetTitanConfiguration());
         }
 
         public override void OnRestart()
@@ -24,19 +21,15 @@ namespace Assets.Scripts.Gamemode
             base.OnRestart();
         }
 
-        protected override void OnEntityUnRegistered(Entity entity)
+        public override string GetGamemodeStatusTop(int time = 0, int totalRoomTime = 0)
         {
-            Score++;
-            if (entity is MindlessTitan)
-            {
-                SpawnService.Spawn<MindlessTitan>(GetTitanConfiguration());
-            }
+            return $"Titans Killed: {Score} Time : {time}";
         }
 
-        protected override void SetStatusTop()
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            var content = $"Titans Killed: {Score} Time : {TimeService.GetRoundTime()}";
-            UiService.SetMessage(LabelPosition.Top, content);
+            if (!isMasterClient) return;
+            SpawnTitans(Settings.Titans);
         }
     }
 }

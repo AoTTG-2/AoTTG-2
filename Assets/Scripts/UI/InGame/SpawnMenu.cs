@@ -1,10 +1,6 @@
-﻿using Assets.Scripts.Settings;
-using ExitGames.Client.Photon;
+﻿using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +8,6 @@ namespace Assets.Scripts.UI.InGame
 {
     public class SpawnMenu : MonoBehaviour
     {
-        private ISpawnService SpawnService => Service.Spawn;
-
         public Dropdown EquipmentDropdown;
         public GameObject PlayerTitanButton;
 
@@ -26,7 +20,7 @@ namespace Assets.Scripts.UI.InGame
             }
             EquipmentDropdown.captionText.text = EquipmentDropdown.options[0].text;
 
-            if (!GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
+            if (!FengGameManagerMKII.Gamemode.Settings.IsPlayerTitanEnabled)
             {
                 PlayerTitanButton.SetActive(false);
             }
@@ -36,18 +30,18 @@ namespace Assets.Scripts.UI.InGame
         {
             string selection = "23";
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
-            //if (!PhotonNetwork.isMasterClient && (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().roundTime > 60f))
-            //{
-            //    if (!isPlayerAllDead2())
-            //    {
-            //        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
-            //    }
-            //    else
-            //    {
-            //        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
-            //    }
-            //}
-            if (((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture)
+            if (!PhotonNetwork.isMasterClient && (GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().roundTime > 60f))
+            {
+                if (!isPlayerAllDead2())
+                {
+                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
+                }
+                else
+                {
+                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
+                }
+            }
+            else if (((FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.TitanRush) || (FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Trost)) || FengGameManagerMKII.Gamemode.Settings.GamemodeType == GamemodeType.Capture)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())
@@ -71,7 +65,7 @@ namespace Assets.Scripts.UI.InGame
         public void SpawnPlayerTitan()
         {
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
-            SpawnService.Spawn<PlayerTitan>();
+            FengGameManagerMKII.instance.SpawnPlayerTitan();
             gameObject.SetActive(false);
         }
 

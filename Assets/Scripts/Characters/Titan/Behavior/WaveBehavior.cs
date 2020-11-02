@@ -8,22 +8,23 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         {
             if (seconds % 2 != 0) return false;
 
-            Entity target = null;
+            GameObject obj2 = null;
             float positiveInfinity = float.PositiveInfinity;
             Vector3 position = Titan.transform.position;
-            foreach (var hostile in FactionService.GetAllHostile(Titan))
+            foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
             {
-                float num2 = Vector3.Distance(hostile.gameObject.transform.position, position);
+                GameObject gameObject = hero.gameObject;
+                float num2 = Vector3.Distance(gameObject.transform.position, position);
                 if (num2 < positiveInfinity)
                 {
-                    target = hostile;
+                    obj2 = gameObject;
                     positiveInfinity = num2;
                 }
             }
 
-            if (target != null)
+            if (obj2 != null)
             {
-                Titan.OnTargetDetected(target);
+                Titan.OnTargetDetected(obj2);
             }
 
             return false;
@@ -38,7 +39,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         {
             if (Titan.Target != null)
             {
-                Titan.ChangeState(TitanState.Chase);
+                Titan.ChangeState(MindlessTitanState.Chase);
                 return true;
             }
             return false;

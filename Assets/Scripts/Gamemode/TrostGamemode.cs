@@ -1,17 +1,16 @@
-﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
 {
     public class TrostGamemode : GamemodeBase
     {
-        private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
+        public sealed override GamemodeSettings Settings { get; set; }
+        private TrostSettings GamemodeSettings => Settings as TrostSettings;
 
-        protected override void OnLevelWasLoaded()
+        public override void OnLevelLoaded(Level level, bool isMasterClient = false)
         {
-            base.OnLevelWasLoaded();
+            base.OnLevelLoaded(level, isMasterClient);
             GameObject.Find("playerRespawn").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawn"));
             GameObject.Find("rock").GetComponent<Animation>()["lift"].speed = 0f;
@@ -19,19 +18,24 @@ namespace Assets.Scripts.Gamemode
             GameObject.Find("door_broke").SetActive(true);
             Object.Destroy(GameObject.Find("ppl"));
 
-            if (!PhotonNetwork.isMasterClient) return;
-
-            var eren = SpawnService.Spawn<ErenTitan>(new Vector3(-200f, 0f, -194f), Quaternion.Euler(0f, 180f, 0f), null);
-            eren.rockLift = true;
+            if (!isMasterClient) return;
+            //if (IsAllPlayersDead()) return;
+        
+            PhotonNetwork.Instantiate("TITAN_EREN_trost", new Vector3(-200f, 0f, -194f), Quaternion.Euler(0f, 180f, 0f), 0).GetComponent<TITAN_EREN>().rockLift = true;
             var obj4 = GameObject.Find("titanRespawnTrost");
             if (obj4 == null) return;
 
+            var rate = 90;
+            if (Settings.Difficulty == 1)
+            {
+                rate = 70;
+            }
             var objArray2 = GameObject.FindGameObjectsWithTag("titanRespawn");
             foreach (GameObject obj5 in objArray2)
             {
                 if (obj5.transform.parent.gameObject == obj4)
                 {
-                    SpawnService.Spawn<MindlessTitan>(obj5.transform.position, obj5.transform.rotation, GetTitanConfiguration());
+                    FengGameManagerMKII.instance.SpawnTitan(obj5.transform.position, obj5.transform.rotation);
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Gamemode.Settings;
 using System.Collections.Generic;
 
 public class Level

@@ -1,26 +1,25 @@
+using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Room
+public class LevelTriggerRacingEnd : MonoBehaviour
 {
-    public class LevelTriggerRacingEnd : MonoBehaviour
-    {
-        private bool disable;
+    private bool disable;
 
-        private void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other)
+    {
+        if (!this.disable && (other.gameObject.tag == "Player"))
         {
-            if (!this.disable && (other.gameObject.tag == "Player"))
+            if (other.gameObject.GetComponent<Hero>().photonView.isMine)
             {
-                if (other.gameObject.GetComponent<Hero>().photonView.isMine)
-                {
-                    FengGameManagerMKII.instance.multiplayerRacingFinsih();
-                    this.disable = true;
-                }
+                FengGameManagerMKII.instance.multiplayerRacingFinsih();
+                this.disable = true;
             }
         }
+    }
 
-        private void Start()
-        {
-            this.disable = false;
-        }
+    private void Start()
+    {
+        this.disable = false;
     }
 }
+

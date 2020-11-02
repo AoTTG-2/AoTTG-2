@@ -1,15 +1,14 @@
-using Assets.Scripts;
-using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
-using Assets.Scripts.Settings;
+using Photon;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 
 public class Bomb : Photon.MonoBehaviour
 {
-    protected readonly IEntityService EntityService = Service.Entity;
-
     private Vector3 correctPlayerPos = Vector3.zero;
     private Quaternion correctPlayerRot = Quaternion.identity;
     private Vector3 correctPlayerVelocity = Vector3.zero;
@@ -28,7 +27,7 @@ public class Bomb : Photon.MonoBehaviour
             this.correctPlayerPos = base.transform.position;
             this.correctPlayerRot = Quaternion.identity;
             PhotonPlayer owner = base.photonView.owner;
-            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+            if (FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled)
             {
                 int num = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                 if (num == 1)
@@ -75,13 +74,13 @@ public class Bomb : Photon.MonoBehaviour
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
         Vector3 position = base.transform.position;
         this.myExplosion = PhotonNetwork.Instantiate("RCAsset/BombExplodeMain", position, Quaternion.Euler(0f, 0f, 0f), 0);
-        foreach (Hero hero in EntityService.GetAll<Hero>())
+        foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
         {
             GameObject gameObject = hero.gameObject;
             if (((Vector3.Distance(gameObject.transform.position, position) < radius) && !gameObject.GetPhotonView().isMine) && !hero.bombImmune)
             {
                 PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                if (((GameSettings.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                if (((FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                 {
                     int num = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                     int num2 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);

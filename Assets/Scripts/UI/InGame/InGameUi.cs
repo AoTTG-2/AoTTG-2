@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
-using Assets.Scripts.UI.InGame.Controls;
+﻿using Assets.Scripts.UI.InGame.Controls;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
 
@@ -8,8 +6,6 @@ namespace Assets.Scripts.UI.InGame
 {
     public class InGameUi : MonoBehaviour
     {
-        private static IPauseService PauseService => Service.Pause;
-
         public HUD.HUD HUD;
         public InGameMenu Menu;
         public SpawnMenu SpawnMenu;
@@ -18,6 +14,21 @@ namespace Assets.Scripts.UI.InGame
         public PauseIndicator PauseIndicator;
 
         private static int _activeMenus;
+
+        /// <summary>
+        /// Toggles the Pause Indicator
+        /// </summary>
+        /// <param name="state">true to toggle it active</param>
+        public void ToggleIndicator(bool state)
+        {
+            if (state)
+            {
+                PauseIndicator.Pause();
+            }
+            else {
+                PauseIndicator.UnPause();
+            }
+        }
 
         public static bool IsMenuOpen()
         {
@@ -31,12 +42,7 @@ namespace Assets.Scripts.UI.InGame
             GraphicSettingMenu.gameObject.SetActive(true);
             Menu.gameObject.SetActive(false);
             ControlsMenu.gameObject.SetActive(false);
-
-            PauseService.OnPaused += PauseService_OnPaused;
-            PauseService.OnUnPaused += PauseService_OnUnPaused;
         }
-        private void PauseService_OnPaused(object sender, System.EventArgs e) => PauseIndicator.Pause();
-        private void PauseService_OnUnPaused(object sender, System.EventArgs e) => PauseIndicator.UnPause();
 
         private void Update()
         {
@@ -49,26 +55,19 @@ namespace Assets.Scripts.UI.InGame
                     Menu.gameObject.SetActive(false);
                     if (PhotonNetwork.offlineMode)
                     {
-                        PauseIndicator.ShowUi = true;
-                        PauseService.Pause(false, true);
+                        FengGameManagerMKII.instance.pauseWaitTime = 0.0f;
+                        Time.timeScale = 1f;
                     }
-                }
-                else if (!Menu.gameObject.activeSelf && !MenuManager.IsMenuOpen)
+                } else if (!Menu.gameObject.activeSelf && !MenuManager.IsMenuOpen)
                 {
                     Menu.gameObject.SetActive(true);
                     if (PhotonNetwork.offlineMode)
                     {
-                        PauseIndicator.ShowUi = false;
-                        PauseService.Pause(true);
+                        FengGameManagerMKII.instance.pauseWaitTime = 100000f;
+                        Time.timeScale = 1E-06f;
                     }
                 }
             }
-        }
-
-        private void OnDestroy()
-        {
-            PauseService.OnPaused -= PauseService_OnPaused;
-            PauseService.OnUnPaused -= PauseService_OnUnPaused;
         }
     }
 }

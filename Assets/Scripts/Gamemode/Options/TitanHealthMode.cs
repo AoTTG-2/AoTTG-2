@@ -4,7 +4,6 @@
     {
         Disabled,
         Fixed,
-        Scaled,
-        Hit
+        Scaled
     }
 }

@@ -1,8 +1,11 @@
 # AoTTG-2
 
-[![Discord](https://img.shields.io/discord/681641241125060652.svg)](https://discord.gg/GhbNbvU)  
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=alert_status)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=bugs)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=code_smells)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=ncloc)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=coverage)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
 
 ## The future of AoTTG

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
@@ -7,54 +6,54 @@ namespace Assets.Scripts.Characters.Titan.Attacks
     {
         protected override string Effect { get; set; } = "fx/bite";
 
-        public override bool CanAttack()
+        public override bool CanAttack(MindlessTitan titan)
         {
-            if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
-            if (Titan.Target.transform.position.y <= Titan.Body.Neck.position.y - 3f * Titan.Size
-                || Titan.TargetDistance >= Titan.AttackDistance * 0.5f) return false;
+            if (titan.TargetDistance >= titan.AttackDistance * 2) return false;
+            if (titan.Target.transform.position.y <= titan.TitanBody.Neck.position.y - 3f * titan.Size
+                || titan.TargetDistance >= titan.AttackDistance * 0.5f) return false;
 
-            Vector3 vector18 = Titan.Target.transform.position - Titan.transform.position;
+            Vector3 vector18 = titan.Target.transform.position - titan.transform.position;
             var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
-            var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
+            var between = -Mathf.DeltaAngle(angle, titan.gameObject.transform.rotation.eulerAngles.y - 90f);
 
             if (Mathf.Abs(between) >= 90f) return false;
             if (Mathf.Abs(between) < 30f)
             {
-                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckFront.position) < (2.5f * Titan.Size))
+                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckFront.position) < (2.5f * titan.Size))
                 {
                     AttackAnimation = "attack_bite";
                     BoomTimer = 0.6f;
-                    TitanBodyPart = Titan.Body.AttackBite;
+                    TitanBodyPart = titan.TitanBody.AttackBite;
                     return true;
                 }
             }
             else if (between > 0f)
             {
-                if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckFrontRight.position) < (2.5f * Titan.Size))
+                if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckFrontRight.position) < (2.5f * titan.Size))
                 {
                     AttackAnimation = "attack_bite_r";
                     BoomTimer = 0.4f;
-                    TitanBodyPart = Titan.Body.AttackBiteRight;
+                    TitanBodyPart = titan.TitanBody.AttackBiteRight;
                     return true;
                 }
             }
-            if (Vector3.Distance(Titan.Target.transform.position, Titan.Body.CheckFrontLeft.position) < (2.5f * Titan.Size))
+            if (Vector3.Distance(titan.Target.transform.position, titan.TitanBody.CheckFrontLeft.position) < (2.5f * titan.Size))
             {
                 AttackAnimation = "attack_bite_l";
                 BoomTimer = 0.4f;
-                TitanBodyPart = Titan.Body.AttackBiteLeft;
+                TitanBodyPart = titan.TitanBody.AttackBiteLeft;
                 return true;
             }
             return false;
         }
 
-        public bool CanAttack(PlayerTitan Titan, float rotation)
+        public bool CanAttack(PlayerTitan titan, float rotation)
         {
             if (rotation > 7.5f)
             {
                 AttackAnimation = "attack_bite_r";
                 BoomTimer = 0.4f;
-                TitanBodyPart = Titan.Body.AttackBiteRight;
+                TitanBodyPart = titan.TitanBody.AttackBiteRight;
                 return true;
             }
 
@@ -62,7 +61,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 AttackAnimation = "attack_bite_l";
                 BoomTimer = 0.4f;
-                TitanBodyPart = Titan.Body.AttackBiteLeft;
+                TitanBodyPart = titan.TitanBody.AttackBiteLeft;
                 return true;
             }
 
@@ -70,7 +69,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 AttackAnimation = "attack_bite";
                 BoomTimer = 0.6f;
-                TitanBodyPart = Titan.Body.AttackBite;
+                TitanBodyPart = titan.TitanBody.AttackBite;
                 return true;
             }
 

@@ -53,7 +53,7 @@ public class RockThrow : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void initRPC(int viewID, Vector3 scale, Vector3 pos, float level)
+    private void initRPC(int viewID, Vector3 scale, Vector3 pos, float level)
     {
         GameObject gameObject = PhotonView.Find(viewID).gameObject;
         Transform transform = gameObject.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R/hand_R_001");
@@ -131,11 +131,11 @@ public class RockThrow : Photon.MonoBehaviour
                     if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "Players")
                     {
                         GameObject hero = hit.collider.gameObject.transform.root.gameObject;
-                        if (hero.GetComponent<ErenTitan>() != null)
+                        if (hero.GetComponent<TITAN_EREN>() != null)
                         {
-                            if (!hero.GetComponent<ErenTitan>().isHit)
+                            if (!hero.GetComponent<TITAN_EREN>().isHit)
                             {
-                                hero.GetComponent<ErenTitan>().hitByTitan();
+                                hero.GetComponent<TITAN_EREN>().hitByTitan();
                             }
                         }
                         else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().isInvincible())

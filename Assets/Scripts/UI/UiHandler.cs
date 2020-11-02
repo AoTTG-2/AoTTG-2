@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Assets.Scripts.UI.Menu;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +13,7 @@ namespace Assets.Scripts.UI
         [HideInInspector]
         public UiNavigationElement[] Elements;
 
-        public MenuUi MenuUi;
+        public GameObject MenuUi;
         public GameObject InGameUi;
         public Text Version;
 
@@ -34,15 +33,14 @@ namespace Assets.Scripts.UI
 
         public void ShowMenu()
         {
-            MenuUi.gameObject.SetActive(true);
-            MenuUi.ShowMainMenu();
+            MenuUi.SetActive(true);
             InGameUi.SetActive(false);
         }
-        
+
         public void ShowInGameUi()
         {
             InGameUi.SetActive(true);
-            MenuUi.gameObject.SetActive(false);
+            MenuUi.SetActive(false);
         }
 
         public UiNavigationElement Find(Type t)

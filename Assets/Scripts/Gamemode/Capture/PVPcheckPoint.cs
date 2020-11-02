@@ -1,11 +1,10 @@
-using Assets.Scripts;
-using Assets.Scripts.Characters.Titan;
+using System;
 using Assets.Scripts.Gamemode;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -37,7 +36,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private bool titanOn;
     public float titanPt;
     public float titanPtMax = 40f;
-    private CaptureGamemode gamemode { get; set; }
+    private readonly CaptureGamemode gamemode = FengGameManagerMKII.Gamemode as CaptureGamemode; 
     private readonly FengGameManagerMKII gameManager = FengGameManagerMKII.instance;
 
     [PunRPC]
@@ -157,16 +156,15 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.state = CheckPointState.Human;
             object[] parameters = new object[] { 1 };
             base.photonView.RPC("changeState", PhotonTargets.All, parameters);
-            if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().SpawnSupplyStationOnHumanCapture.Value)
+            if (((CaptureGamemodeSettings)gamemode.Settings).SpawnSupplyStationOnHumanCapture)
             {
                 supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
             }
             
             gamemode.AddHumanScore(2);
-            if (this.checkIfHumanWins() && PhotonNetwork.isMasterClient)
+            if (this.checkIfHumanWins())
             {
-                gamemode.HumanScore++;
-                photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Humanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
+                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameWin2();
             }
         }
         else
@@ -199,13 +197,9 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         gamemode.SpawnCheckpointTitan(this, base.transform.position - ((Vector3)(Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation);
     }
 
-    private void Start()
+    private void Awake()
     {
-        if (FengGameManagerMKII.Gamemode is CaptureGamemode capture)
-        {
-            gamemode = capture;
-        }
-        else
+        if (gamemode == null)
         {
             DestroyImmediate(gameObject);
             return;
@@ -276,17 +270,16 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             object[] parameters = new object[] { 2 };
             base.photonView.RPC("changeState", PhotonTargets.All, parameters);
             gamemode.AddTitanScore(2);
-            if (this.checkIfTitanWins() && PhotonNetwork.isMasterClient)
+            if (this.checkIfTitanWins())
             {
-                gamemode.TitanScore++;
-                gamemode.photonView.RPC(nameof(gamemode.OnGameEndRpc), PhotonTargets.All, $"Titanity has won!\nRestarting in {{0}}s", gamemode.HumanScore, gamemode.TitanScore);
+                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().gameLose2();
             }
             if (this.hasAnnie)
             {
                 if (!this.annie)
                 {
                     this.annie = true;
-                    PhotonNetwork.Instantiate("FemaleTitan", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
+                    PhotonNetwork.Instantiate("FEMALE_TITAN", base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation, 0);
                 }
                 else
                 {
@@ -403,7 +396,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.spawnTitanTimer > this.titanInterval)
                 {
                     this.spawnTitanTimer = 0f;
-                    if (GameObject.FindGameObjectsWithTag("titan").Length < GameSettings.Titan.Limit)
+                    if (GameObject.FindGameObjectsWithTag("titan").Length < gamemode.Settings.TitanLimit)
                     {
                         this.newTitan();
                     }

@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Gamemode;
-using System.Collections;
-using Assets.Scripts.Events;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
@@ -11,8 +9,6 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         {
             checkPoints = route;
         }
-
-        public event OnCheckpointArrived OnCheckpointArrived;
         private float activeRad = 0f;
         private ArrayList checkPoints;
         private Vector3 TargetLocation { get; set; }
@@ -38,9 +34,9 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                         FengGameManagerMKII.instance.sendChatContentInfo("<color=#A8FF24>*WARNING!* An abnormal titan is approaching the north gate!</color>");
                     }
                     checkPoints.RemoveAt(0);
-                    if (checkPoints.Count == 1 && PhotonNetwork.isMasterClient)
+                    if (checkPoints.Count == 1)
                     {
-                        OnCheckpointArrived?.Invoke(TargetLocation, Titan);
+                        FengGameManagerMKII.instance.gameLose2();
                     }
                     else
                     {
@@ -53,7 +49,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
         protected override bool OnChase()
         {
-            Titan.ChangeState(TitanState.Wandering);
+            Titan.ChangeState(MindlessTitanState.Wandering);
             return true;
         }
 
