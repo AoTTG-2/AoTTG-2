@@ -73,8 +73,6 @@ MonoBehaviour:
   - netCrossFade
   - netDie
   - netDie2
-  - netGameLose
-  - netGameWin
   - netGrabbed
   - netlaughAttack
   - netLaunch
@@ -88,24 +86,25 @@ MonoBehaviour:
   - netUngrabbed
   - netUpdateLeviSpiral
   - netUpdatePhase1
+  - OnArrivedAtLastCheckpointRpc
   - OnBodyPartHitRpc
-  - oneTitanDown
   - OnEyeHitRpc
+  - OnGameEndRpc
   - OnNapeHitRpc
-  - PauseRPC
+  - OnNapeHitRpc2
+  - PauseRpc
   - PickupItemInit
   - playsoundRPC
   - PunPickup
   - PunPickupSimple
   - PunRespawn
+  - RacingStartRpc
   - RefreshCaptureScore
-  - refreshStatus
   - removeMe
   - RequestControlRPC
   - RequestForPickupItems
   - RequestForPickupTimes
-  - RequestSettings
-  - RequireStatus
+  - RequestStatus
   - respawnHeroInNewRound
   - RespawnRpc
   - ReturnFromCannon
@@ -127,7 +126,6 @@ MonoBehaviour:
   - setVelocityAndLeft
   - showHitDamage
   - showResult
-  - someOneIsDead
   - SpawnCannonRPC
   - spawnPlayerAtRPC
   - SpawnPlayerTitanRpc
@@ -142,14 +140,8 @@ MonoBehaviour:
   - titanGetHit
   - titanGetKill
   - UpdateHealthLabelRpc
+  - UpdateHealthLabelRpc2
   - updateKillInfo
   - verifyPlayerHasLeft
   - whoIsMyErenTitan
-  - PauseRpc
-  - OnNapeHitRpc2
-  - OnGameEndRpc
-  - RacingStartRpc
-  - RequestStatus
-  - UpdateHealthLabelRpc2
-  - OnArrivedAtLastCheckpointRpc
   DisableAutoOpenWizard: 1
