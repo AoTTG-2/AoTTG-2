@@ -1,5 +1,4 @@
-using Photon;
-using System;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class EnemyCheckCollider : Photon.MonoBehaviour
@@ -23,7 +22,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.MULTIPLAYER) || base.transform.root.gameObject.GetPhotonView().isMine) && this.active_me)
+        if ((base.transform.root.gameObject.GetPhotonView().isMine) && this.active_me)
         {
             if (other.gameObject.tag == "playerHitbox")
             {
@@ -49,19 +48,13 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         {
                             num3 = Mathf.Max((float) 5f, (float) (num2 - vector.magnitude));
                         }
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                        {
-                            component.transform.root.GetComponent<Hero>().blowAway((Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)));
-                        }
-                        else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                        {
-                            object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("blowAway", PhotonTargets.All, parameters);
-                        }
+
+                        object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
+                        component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.blowAway), PhotonTargets.All, parameters);
                     }
                     else if (!component.transform.root.GetComponent<Hero>().isInvincible())
                     {
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+                        if (PhotonNetwork.offlineMode)
                         {
                             if (!component.transform.root.GetComponent<Hero>().isGrabbed)
                             {
@@ -69,7 +62,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                                 component.transform.root.GetComponent<Hero>().die((Vector3) (((vector4.normalized * b) * 1000f) + (Vector3.up * 50f)), this.isThisBite);
                             }
                         }
-                        else if (((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && !component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
                         {
                             component.transform.root.GetComponent<Hero>().markDie();
                             int myOwnerViewID = -1;
@@ -91,9 +84,9 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                     }
                 }
             }
-            else if (((other.gameObject.tag == "erenHitbox") && (this.dmg > 0)) && !other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().isHit)
+            else if (((other.gameObject.tag == "erenHitbox") && (this.dmg > 0)) && !other.gameObject.transform.root.gameObject.GetComponent<ErenTitan>().isHit)
             {
-                other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByTitan();
+                other.gameObject.transform.root.gameObject.GetComponent<ErenTitan>().hitByTitan();
             }
         }
     }

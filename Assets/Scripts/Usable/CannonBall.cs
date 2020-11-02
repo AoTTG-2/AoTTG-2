@@ -1,4 +1,8 @@
+using Assets.Scripts;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +10,8 @@ using UnityEngine;
 
 public class CannonBall : Photon.MonoBehaviour
 {
+    protected readonly IEntityService EntityService = Service.Entity;
+    
     private Vector3 correctPos;
     private Vector3 correctVelocity;
     public bool disabled;
@@ -40,15 +46,15 @@ public class CannonBall : Photon.MonoBehaviour
             {
                 collider.dmg = 0;
             }
-            if (FengGameManagerMKII.Gamemode.Settings.PvpCannons)
+            if (GameSettings.PvP.Cannons.Value)
             {
-                foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+                foreach (Hero hero in EntityService.GetAll<Hero>())
                 {
                     if (((hero != null) && (Vector3.Distance(hero.transform.position, base.transform.position) <= 20f)) && !hero.photonView.isMine)
                     {
                         GameObject gameObject = hero.gameObject;
                         PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                        if (((FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                        if (((GameSettings.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                         {
                             int num2 = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                             int num3 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);

@@ -1,4 +1,10 @@
 # AoTTG-2
+
+[![Discord](https://img.shields.io/discord/681641241125060652.svg)](https://discord.gg/GhbNbvU)  
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=alert_status)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=code_smells)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AoTTG-2_AoTTG-2&metric=coverage)](https://sonarcloud.io/dashboard?id=AoTTG-2_AoTTG-2)
+
 ## The future of AoTTG
 
 Welcome to the official AoTTG 2 repository! From here, we are developing an open-source project known as AoTTG 2. AoTTG 2 is a community effort to continue the development of an indie game known as ["Attack on Titan Tribute Game"](http://www.fenglee.com/game/aog/) (AoTTG) developed by FengLee. AoTTG was released in 2013, yet development ceased ever since 2016. Whereas FengLee is not working himself on AoTTG 2, he has given us permission to work on AoTTG 2 ([Source](https://weibo.com/1664859317/J9bZrB0kh))
@@ -7,7 +13,7 @@ The community kept the game alive by creating various mods, but now it is time t
 
 ## How to contribute
 
-As this project is open-source, the development is completely community driven. To make AoTTG 2 become reality, we need you to make it happen! Whether you can create 2D or 3D art; music or animations; code or ideas; everything is welcome! Please join our discord server and apply for a contributor role: https://discord.gg/GhbNbvU
+As this project is open-source, the development is completely community driven. To make AoTTG 2 become reality, we need you to make it happen! Whether you can create 2D or 3D art; music or animations; code or ideas; everything is welcome! Please read our [contributors page](CONTRIBUTING.md) and join our Discord Server https://discord.gg/GhbNbvU
 
 ## Will the game be free?
 

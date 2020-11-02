@@ -2,6 +2,7 @@ using System;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
 
+[Obsolete("AoTTG Legacy Tutorial script")]
 public class LevelTriggerHint : MonoBehaviour
 {
     public string content;
@@ -89,7 +90,7 @@ public class LevelTriggerHint : MonoBehaviour
     {
         if (this.on)
         {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().ShowHUDInfoCenter(this.content + "\n\n\n\n\n");
+            //GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().ShowHUDInfoCenter(this.content + "\n\n\n\n\n");
             this.on = false;
         }
     }

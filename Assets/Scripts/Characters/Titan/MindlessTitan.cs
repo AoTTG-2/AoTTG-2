@@ -1,38 +1,26 @@
 ﻿using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Characters.Titan.Body;
+using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Settings;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
-using MonoBehaviour = Photon.MonoBehaviour;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan
 {
-    public class MindlessTitan : MonoBehaviour
+    public class MindlessTitan : TitanBase
     {
-        public MindlessTitanState TitanState = MindlessTitanState.Wandering;
-        public MindlessTitanState PreviousState;
-        public MindlessTitanType Type;
+        public TitanState PreviousState;
+        public TitanState NextState;
+        public MindlessTitanType MindlessType;
 
-        public bool IsAlive => TitanState != MindlessTitanState.Dead;
         private float DamageTimer { get; set; }
-        public TitanBody TitanBody { get; private set; }
-        public Animation Animation { get; private set; }
-        public Rigidbody Rigidbody { get; private set; }
-        private TitanBehavior[] Behaviors { get; set; }
-
-        protected string CurrentAnimation { get; set; } = "idle_2";
-        protected string AnimationTurnLeft { get; set; } = "turnaround2";
-        protected string AnimationTurnRight { get; set; } = "turnaround1";
-        public string AnimationWalk { get; private set; } = "run_walk";
-        protected string AnimationRun { get; set; }
-        protected string AnimationRecovery { get; set; } = "tired";
-        protected string AnimationDeath { get; set; } = "die_back";
-        protected string AnimationIdle { get; set; } = "idle_2";
-        protected string AnimationCover { get; set; } = "idle_recovery";
-        protected string AnimationEyes { get; set; } = "hit_eye";
+        public new MindlessTitanBody Body { get; protected set; }
 
         private float turnDeg;
         private float desDeg;
@@ -40,20 +28,7 @@ namespace Assets.Scripts.Characters.Titan
         private float attackCooldown;
         private float staminaLimit;
 
-        public float AttackDistance { get; protected set; }
-        public float Speed = 10f;
-        private float RunSpeed { get; set; }
-        public float TargetDistance = 1f;
-        public float Size = 3f;
-        public float Stamina = 10f;
-        public float StaminaRecovery = 1f;
-        public int Health;
-        public int HealthRegeneration;
-        public float ViewDistance;
-        public float Focus = 10f;
         private float FocusTimer { get; set; }
-        private int MaxHealth { get; set; }
-
         private bool isHooked;
         public bool IsHooked
         {
@@ -90,14 +65,12 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public Hero Target { get; set; }
         private Hero GrabTarget { get; set; }
         public float RotationModifier { get; private set; }
 
-        public Attack[] Attacks { get; private set; }
-        public Attack CurrentAttack { get; set; }
+        public Attack<MindlessTitan>[] Attacks { get; private set; }
+        public Attack<MindlessTitan> CurrentAttack { get; set; }
         private Collider[] Colliders { get; set; }
-        private GameObject HealthLabel { get; set; }
         private FengGameManagerMKII GameManager { get; set; }
 
         private bool asClientLookTarget;
@@ -105,16 +78,15 @@ namespace Assets.Scripts.Characters.Titan
         private Quaternion targetHeadRotation;
         private Vector3 headscale;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             GameManager = FengGameManagerMKII.instance;
-            GameManager.addTitan(this);
-            TitanBody = GetComponent<TitanBody>();
-            Animation = GetComponent<Animation>();
-            Rigidbody = GetComponent<Rigidbody>();
-            this.oldHeadRotation = TitanBody.Head.rotation;
+            Body = GetComponent<MindlessTitanBody>();
+            this.oldHeadRotation = Body.Head.rotation;
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
+            grabTF.transform.SetParent(transform);
             Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection")
                 .ToArray();
             CheckColliders();
@@ -124,31 +96,32 @@ namespace Assets.Scripts.Characters.Titan
                 name = "PlayerCollisionDetection"
             };
             CapsuleCollider collider2 = obj2.AddComponent<CapsuleCollider>();
-            CapsuleCollider component = TitanBody.AABB.GetComponent<CapsuleCollider>();
+            CapsuleCollider component = Body.AABB.GetComponent<CapsuleCollider>();
             collider2.center = component.center;
-            collider2.radius = Math.Abs(TitanBody.Head.position.y - transform.position.y);
+            collider2.radius = Math.Abs(Body.Head.position.y - transform.position.y);
             collider2.height = component.height * 1.2f;
             collider2.material = component.material;
             collider2.isTrigger = true;
             collider2.name = "PlayerCollisionDetection";
             obj2.AddComponent<TitanTrigger>();
             obj2.layer = 0x10;
-            obj2.transform.parent = TitanBody.AABB;
+            obj2.transform.parent = Body.AABB;
             obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
         }
         
-        public virtual void Initialize(TitanConfiguration configuration)
+        public override void Initialize(TitanConfiguration configuration)
         {
             Health = configuration.Health;
             MaxHealth = Health;
             Speed = configuration.Speed;
-            RunSpeed = configuration.RunSpeed;
+            SpeedRun = configuration.RunSpeed;
             Attacks = configuration.Attacks.ToArray();
             Size = configuration.Size;
             ViewDistance = configuration.ViewDistance;
             AnimationWalk = configuration.AnimationWalk;
             AnimationRun = configuration.AnimationRun;
             AnimationDeath = configuration.AnimationDeath;
+            AnimationIdle = configuration.AnimationIdle;
             AnimationRecovery = configuration.AnimationRecovery;
             AnimationTurnLeft = configuration.AnimationTurnLeft;
             AnimationTurnRight = configuration.AnimationTurnRight;
@@ -157,55 +130,65 @@ namespace Assets.Scripts.Characters.Titan
             staminaLimit = Stamina;
             Focus = configuration.Focus;
             FocusTimer = 0f;
+            Idle = configuration.Idle;
             Behaviors = configuration.Behaviors.ToArray();
+
             foreach (var behavior in Behaviors)
             {
                 behavior.Initialize(this);
             }
-            Type = configuration.Type;
-            name = Type.ToString();
 
-            TitanBody.Initialize(configuration.LimbHealth, configuration.LimbRegeneration);
+            foreach (var attack in Attacks)
+            {
+                attack.Initialize(this);
+            }
+
+            MindlessType = configuration.Type;
+            name = MindlessType.ToString();
+
+            Body.Initialize(configuration.LimbHealth, configuration.LimbRegeneration);
 
             transform.localScale = new Vector3(Size, Size, Size);
             var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
             headscale = new Vector3(scale, scale, scale);
-            TitanBody.Head.localScale = headscale;
+            Body.Head.localScale = headscale;
             LoadSkin();
+            SetAnimationSpeed();
 
-            AttackDistance = Vector3.Distance(base.transform.position, TitanBody.AttackFrontGround.position) * 1.65f;
+            AttackDistance = Vector3.Distance(base.transform.position, Body.AttackFrontGround.position) * 1.65f;
 
             if (Health > 0)
             {
-                HealthLabel = (GameObject)Instantiate(Resources.Load("UI/LabelNameOverHead"));
-                HealthLabel.name = "HealthLabel";
-                HealthLabel.transform.parent = base.transform;
-                HealthLabel.transform.localPosition = new Vector3(0f, 20f + (1f / Size), 0f);
-                if (Type == MindlessTitanType.Crawler)
+                if (MindlessType == MindlessTitanType.Crawler)
                 {
                     HealthLabel.transform.localPosition = new Vector3(0f, 10f + (1f / Size), 0f);
                 }
-                float x = 1f;
-                if (Size < 1f)
-                {
-                    x = 1f / Size;
-                }
-
-                x *= 0.08f;
-                HealthLabel.transform.localScale = new Vector3(x, x, x);
+            }
+            else
+            {
+                Destroy(HealthLabel);
             }
 
             if (photonView.isMine)
             {
                 configuration.Behaviors = new List<TitanBehavior>();
                 var config = JsonConvert.SerializeObject(configuration);
-                photonView.RPC("InitializeRpc", PhotonTargets.OthersBuffered, config);
+                photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
 
                 if (Health > 0)
                 {
-                    photonView.RPC("UpdateHealthLabelRpc", PhotonTargets.AllBuffered, Health, MaxHealth);
+                    photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
                 }
             }
+
+            EntityService.Register(this);
+        }
+
+        private void SetAnimationSpeed()
+        {
+            //Animation[AnimationWalk].speed = Mathf.Clamp(Speed / 8f, 0.5f, 1.5f);
+            //if (AnimationRun != null)
+            //    Animation[AnimationRun].speed = Mathf.Clamp(Speed / 16f, 0.5f, 1.5f);
         }
 
         [PunRPC]
@@ -217,16 +200,12 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public bool IsDisabled(params BodyPart[] bodyParts)
-        {
-            if (bodyParts == null) return false;
-            return bodyParts.All(bodyPart => TitanBody.GetDisabledBodyParts().Contains(bodyPart));
-        }
+
 
         private void LoadSkin()
         {
             var eye = false;
-            if (!(((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
+            if (!((base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
             {
                 int index = (int)UnityEngine.Random.Range((float)86f, (float)90f);
                 int num2 = index - 60;
@@ -257,7 +236,7 @@ namespace Assets.Scripts.Characters.Titan
         [PunRPC]
         public void Grab(bool isLeftHand)
         {
-            var hand = isLeftHand ? TitanBody.HandLeft : TitanBody.HandRight;
+            var hand = isLeftHand ? Body.HandLeft : Body.HandRight;
             this.grabTF.transform.parent = hand;
             this.grabTF.transform.position = hand.GetComponent<SphereCollider>().transform.position;
             this.grabTF.transform.rotation = hand.GetComponent<SphereCollider>().transform.rotation;
@@ -290,7 +269,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (grabTarget != null)
             {
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+                if (base.photonView.isMine)
                 {
                     if (!grabTarget.HasDied())
                     {
@@ -299,88 +278,93 @@ namespace Assets.Scripts.Characters.Titan
                         grabTarget.photonView.RPC("netDie2", PhotonTargets.All, objArray2);
                     }
                 }
-                else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-                {
-                    grabTarget.die2(null);
-                }
             }
         }
 
         private void HeadMovement()
         {
-            if (TitanState != MindlessTitanState.Dead)
+            if (State != TitanState.Dead)
             {
-
-                if (IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE)
+                if (base.photonView.isMine)
                 {
-                    if (base.photonView.isMine)
+                    targetHeadRotation = Body.Head.rotation;
+                    bool flag2 = false;
+                    if (State == TitanState.Chase && TargetDistance < 100f && Target != null)
                     {
-                        targetHeadRotation = TitanBody.Head.rotation;
-                        bool flag2 = false;
-                        if (TitanState == MindlessTitanState.Chase && TargetDistance < 100f && Target != null)
+                        var vector = Target.transform.position - transform.position;
+                        var angle = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                        float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
+                        num = Mathf.Clamp(num, -40f, 40f);
+                        float y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                        float num3 = Mathf.Atan2(y, TargetDistance) * 57.29578f;
+                        num3 = Mathf.Clamp(num3, -40f, 30f);
+                        targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num3,
+                            Body.Head.rotation.eulerAngles.y + num, Body.Head.rotation.eulerAngles.z);
+                        if (!this.asClientLookTarget)
                         {
-                            Vector3 vector = Target.transform.position - transform.position;
-                            var angle = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
-                            float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
-                            num = Mathf.Clamp(num, -40f, 40f);
-                            float y = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                            float num3 = Mathf.Atan2(y, TargetDistance) * 57.29578f;
-                            num3 = Mathf.Clamp(num3, -40f, 30f);
-                            targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num3, TitanBody.Head.rotation.eulerAngles.y + num, TitanBody.Head.rotation.eulerAngles.z);
-                            if (!this.asClientLookTarget)
-                            {
-                                this.asClientLookTarget = true;
-                                object[] parameters = new object[] { true };
-                                base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
-                            }
-                            flag2 = true;
+                            this.asClientLookTarget = true;
+                            object[] parameters = new object[] {true};
+                            base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
                         }
-                        if (!(flag2 || !this.asClientLookTarget))
-                        {
-                            this.asClientLookTarget = false;
-                            object[] objArray3 = new object[] { false };
-                            base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
-                        }
-                        if (TitanState == MindlessTitanState.Attacking)
-                        {
-                            oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 20f);
-                        }
-                        else
-                        {
-                            oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 10f);
-                        }
+
+                        flag2 = true;
+                    }
+
+                    if (!(flag2 || !this.asClientLookTarget))
+                    {
+                        this.asClientLookTarget = false;
+                        object[] objArray3 = new object[] {false};
+                        base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
+                    }
+
+                    if (State == TitanState.Attacking)
+                    {
+                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 20f);
                     }
                     else
                     {
-                        var hasTarget = Target != null;
-                        if (hasTarget)
-                        {
-                            TargetDistance = Mathf.Sqrt(((Target.transform.position.x - transform.position.x) * (Target.transform.position.x - transform.position.x)) + ((Target.transform.position.z - transform.position.z) * (Target.transform.position.z - transform.position.z)));
-                        }
-                        else
-                        {
-                            TargetDistance = float.MaxValue;
-                        }
-                        this.targetHeadRotation = TitanBody.Head.rotation;
-                        if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
-                        {
-                            Vector3 vector2 = Target.transform.position - transform.position;
-                            var angle = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
-                            float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
-                            num4 = Mathf.Clamp(num4, -40f, 40f);
-                            float num5 = (TitanBody.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                            float num6 = Mathf.Atan2(num5, TargetDistance) * 57.29578f;
-                            num6 = Mathf.Clamp(num6, -40f, 30f);
-                            this.targetHeadRotation = Quaternion.Euler(TitanBody.Head.rotation.eulerAngles.x + num6, TitanBody.Head.rotation.eulerAngles.y + num4, TitanBody.Head.rotation.eulerAngles.z);
-                        }
-                        this.oldHeadRotation = Quaternion.Slerp(this.oldHeadRotation, this.targetHeadRotation, Time.deltaTime * 10f);
+                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 10f);
                     }
                 }
-                TitanBody.Head.rotation = this.oldHeadRotation;
+                else
+                {
+                    var hasTarget = Target != null;
+                    if (hasTarget)
+                    {
+                        TargetDistance = Mathf.Sqrt(
+                            ((Target.transform.position.x - transform.position.x) *
+                             (Target.transform.position.x - transform.position.x)) +
+                            ((Target.transform.position.z - transform.position.z) *
+                             (Target.transform.position.z - transform.position.z)));
+                    }
+                    else
+                    {
+                        TargetDistance = float.MaxValue;
+                    }
+
+                    this.targetHeadRotation = Body.Head.rotation;
+                    if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
+                    {
+                        var vector2 = Target.transform.position - transform.position;
+                        var angle = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
+                        float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
+                        num4 = Mathf.Clamp(num4, -40f, 40f);
+                        float num5 = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                        float num6 = Mathf.Atan2(num5, TargetDistance) * 57.29578f;
+                        num6 = Mathf.Clamp(num6, -40f, 30f);
+                        this.targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num6,
+                            Body.Head.rotation.eulerAngles.y + num4, Body.Head.rotation.eulerAngles.z);
+                    }
+
+                    this.oldHeadRotation = Quaternion.Slerp(this.oldHeadRotation, this.targetHeadRotation,
+                        Time.deltaTime * 10f);
+                }
+
+                Body.Head.rotation = this.oldHeadRotation;
             }
             if (!base.GetComponent<Animation>().IsPlaying("die_headOff"))
             {
-                TitanBody.Head.localScale = this.headscale;
+                Body.Head.localScale = this.headscale;
             }
         }
 
@@ -423,24 +407,24 @@ namespace Assets.Scripts.Characters.Titan
             if (!photonView.isMine) return;
             if (Time.time - bodyPartDamageTimer < 0.4f) return;
             bodyPartDamageTimer = Time.time;
-            TitanBody.DamageBodyPart(bodyPart, damage);
-            if (TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.LegLeft)
-                && TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.LegRight))
+            Body.DamageBodyPart(bodyPart, damage);
+            if (Body.GetDisabledBodyParts().Any(x => x == BodyPart.LegLeft)
+                && Body.GetDisabledBodyParts().Any(x => x == BodyPart.LegRight))
             {
-                ChangeState(MindlessTitanState.Disabled);
+                ChangeState(TitanState.Disabled);
             }
         }
 
         [PunRPC]
         public void OnEyeHitRpc(int viewId, int damage)
         {
-            if (Type == MindlessTitanType.Crawler) return;
+            if (MindlessType == MindlessTitanType.Crawler) return;
             if (!photonView.isMine) return;
             if (!IsAlive) return;
-            TitanBody.AddBodyPart(BodyPart.Eyes, Animation[AnimationEyes].length * Animation[AnimationEyes].speed);
-            if (TitanBody.GetDisabledBodyParts().Any(x => x == BodyPart.Eyes))
+            Body.AddBodyPart(BodyPart.Eyes, Animation[AnimationEyes].length * Animation[AnimationEyes].speed);
+            if (Body.GetDisabledBodyParts().Any(x => x == BodyPart.Eyes))
             {
-                ChangeState(MindlessTitanState.Disabled);
+                ChangeState(TitanState.Disabled);
             }
         }
 
@@ -449,15 +433,25 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
-            if (view == null || !IsAlive && Time.time - DamageTimer > 0.2f) return;
-            if (damage < FengGameManagerMKII.Gamemode.Settings.DamageMode) return;
-
+            if (view == null || !IsAlive || Time.time - DamageTimer < 0.2f) return;
+            if (damage < GameSettings.Titan.MinimumDamage.Value) return;
+            if (damage > GameSettings.Titan.MaximumDamage.Value)
+            {
+                damage = GameSettings.Titan.MaximumDamage.Value;
+            }
             DamageTimer = Time.time;
-            Health -= damage;
+            if (GameSettings.Titan.Mindless.HealthMode.Value == TitanHealthMode.Hit)
+            {
+                Health--;
+            }
+            else
+            {
+                Health -= damage;
+            }
 
             if (MaxHealth > 0)
             {
-                photonView.RPC("UpdateHealthLabelRpc", PhotonTargets.AllBuffered, Health, MaxHealth);
+                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
             }
 
             if (Health <= 0)
@@ -470,13 +464,13 @@ namespace Assets.Scripts.Characters.Titan
             }
 
             OnTitanDeath();
-            ChangeState(MindlessTitanState.Dead);
+            ChangeState(TitanState.Dead);
             FengGameManagerMKII.instance.titanGetKill(view.owner, damage, name);
         }
 
         public void OnTargetGrabbed(GameObject target, bool isLeftHand)
         {
-            ChangeState(MindlessTitanState.Eat);
+            ChangeState(TitanState.Eat);
             GrabTarget = target.GetComponent<Hero>();
             if (isLeftHand)
             {
@@ -490,9 +484,10 @@ namespace Assets.Scripts.Characters.Titan
 
         protected virtual void OnTitanDeath()
         {
+            base.OnDeath();
             ReleaseGrabbedTarget();
-            if (FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode > 0)
-                Invoke("Explode", 1f);
+            if (GameSettings.Titan.Mindless.ExplodeMode.Value > 0)
+                Invoke(nameof(Explode), 1f);
         }
 
         private void ReleaseGrabbedTarget()
@@ -506,16 +501,16 @@ namespace Assets.Scripts.Characters.Titan
         private void Explode()
         {
             var height = Size * 10f;
-            if (Type == MindlessTitanType.Crawler)
+            if (MindlessType == MindlessTitanType.Crawler)
             {
                 height = 0f;
             }
             Vector3 position = transform.position + Vector3.up * height;
             PhotonNetwork.Instantiate("FX/Thunder", position, Quaternion.Euler(270f, 0f, 0f), 0);
             PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
-            foreach (Hero player in FengGameManagerMKII.instance.getPlayers())
+            foreach (Hero player in EntityService.GetAll<Hero>())
             {
-                if (Vector3.Distance(player.transform.position, position) < FengGameManagerMKII.Gamemode.Settings.TitanExplodeMode)
+                if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
                 {
                     player.markDie();
                     player.photonView.RPC("netDie2", PhotonTargets.All,  -1, "Server ");
@@ -534,13 +529,13 @@ namespace Assets.Scripts.Characters.Titan
             if (deathTime > 2f && !HasDieSteam && photonView.isMine)
             {
                 HasDieSteam = true;
-                PhotonNetwork.Instantiate("FX/FXtitanDie1", TitanBody.Hip.position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = transform.localScale;
+                PhotonNetwork.Instantiate("FX/FXtitanDie1", Body.Hip.position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = transform.localScale;
             }
             if (deathTime > 5f)
             {
                 if (base.photonView.isMine)
                 {
-                    PhotonNetwork.Instantiate("FX/FXtitanDie", TitanBody.Hip.position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = transform.localScale;
+                    PhotonNetwork.Instantiate("FX/FXtitanDie", Body.Hip.position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = transform.localScale;
                     PhotonNetwork.Destroy(gameObject);
                 }
             }
@@ -551,21 +546,38 @@ namespace Assets.Scripts.Characters.Titan
             return Target != null;
         }
 
-        public void OnTargetDetected(GameObject target)
+        public void OnTargetDetected(Entity target)
         {
-            Target = target.GetComponent<Hero>();
+            Target = target;
             TargetDistance = float.MaxValue;
-            ChangeState(MindlessTitanState.Chase);
+            ChangeState(TitanState.Chase);
             FocusTimer = 0f;
-            this.oldHeadRotation = TitanBody.Head.rotation;
+            this.oldHeadRotation = Body.Head.rotation;
         }
 
-        public void ChangeState(MindlessTitanState state)
+        public void ChangeState(TitanState state)
         {
             if (!IsAlive) return;
-            if (state == TitanState) return;
-            PreviousState = TitanState;
-            TitanState = state;
+            if (state == State) return;
+
+            if ((State == TitanState.Attacking)
+                && state != TitanState.Dead
+                && PreviousState != TitanState.Idle)
+            {
+                PreviousState = State;
+                NextState = state;
+                State = TitanState.Idle;
+                IdleTimer = Idle;
+                CrossFade(AnimationIdle, 0.2f);
+                return;
+            }
+
+            if (State == TitanState.Idle) {}
+
+            PreviousState = State == TitanState.Idle 
+                ? TitanState.Chase
+                : State;
+            State = state;
         }
 
         protected void RefreshStamina()
@@ -588,7 +600,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void Turn(float degrees)
         {
-            ChangeState(MindlessTitanState.Turning);
+            ChangeState(TitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
             CrossFade(CurrentAnimation, 0.0f);
             this.turnDeg = degrees;
@@ -608,28 +620,6 @@ namespace Assets.Scripts.Characters.Titan
                    && Animation[CurrentAnimation].normalizedTime > 2f;
         }
         
-        public void CrossFade(string newAnimation, float fadeLength, PhotonMessageInfo info = new PhotonMessageInfo())
-        {
-            if (Animation.IsPlaying(newAnimation)) return;
-            if (photonView.isMine)
-            {
-                CurrentAnimation = newAnimation;
-                Animation.CrossFade(newAnimation, fadeLength);
-                photonView.RPC("CrossFadeRpc", PhotonTargets.Others, newAnimation, fadeLength);
-            }
-        }
-
-        [PunRPC]
-        protected void CrossFadeRpc(string newAnimation, float fadeLength,
-            PhotonMessageInfo info = new PhotonMessageInfo())
-        {
-            if (info.sender.ID == photonView.owner.ID)
-            {
-                CurrentAnimation = newAnimation;
-                Animation.CrossFade(newAnimation, fadeLength);
-            }
-        }
-
         private void CheckColliders()
         {
             if (!IsHooked && !IsLooked && !IsColliding)
@@ -673,8 +663,9 @@ namespace Assets.Scripts.Characters.Titan
             FocusTimer = 0f;
             var targetDistance = float.PositiveInfinity;
             var position = transform.position;
-            foreach (Hero hero in FengGameManagerMKII.instance.getPlayers())
+            foreach (Entity hero in EntityService.GetAll<Entity>())
             {
+                if (FactionService.IsFriendly(this, hero)) continue;
                 var distance = Vector3.Distance(hero.gameObject.transform.position, position);
                 if (distance < targetDistance)
                 {
@@ -683,25 +674,20 @@ namespace Assets.Scripts.Characters.Titan
                 }
             }
         }
-
-        private void OnDestroy()
-        {
-            FengGameManagerMKII.instance.removeTitan(this);
-        }
         
         private void Pathfinding()
         {
-            Vector3 forwardDirection = TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
+            Vector3 forwardDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
             RaycastHit objectHit;
             var mask = ~LayerMask.NameToLayer("Ground");
-            if (Physics.Raycast(TitanBody.Hip.transform.position, forwardDirection, out objectHit, 50, mask))
+            if (Physics.Raycast(Body.Hip.transform.position, forwardDirection, out objectHit, 50, mask))
             {
-                Vector3 leftDirection = TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, -1f, 1f));
-                Vector3 rightDirection = TitanBody.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
+                Vector3 leftDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, -1f, 1f));
+                Vector3 rightDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
                 RaycastHit leftHit;
                 RaycastHit rightHit;
-                Physics.Raycast(TitanBody.Hip.transform.position, leftDirection, out leftHit, 250 , mask);
-                Physics.Raycast(TitanBody.Hip.transform.position, rightDirection, out rightHit, 250, mask);
+                Physics.Raycast(Body.Hip.transform.position, leftDirection, out leftHit, 250 , mask);
+                Physics.Raycast(Body.Hip.transform.position, rightDirection, out rightHit, 250, mask);
 
                 if (leftHit.distance < rightHit.distance)
                 {
@@ -718,11 +704,9 @@ namespace Assets.Scripts.Characters.Titan
             RotationModifier = 0f;
         }
 
-
-
         #region OnUpdate
 
-        protected virtual void Update()
+        protected override void Update()
         {
             if (!photonView.isMine) return;
 
@@ -741,9 +725,9 @@ namespace Assets.Scripts.Characters.Titan
                 UpdateEverySecond(nextUpdate);
             }
 
-            if (Stamina < 0 && TitanState != MindlessTitanState.Recovering && TitanState != MindlessTitanState.Disabled)
+            if (Stamina < 0 && State != TitanState.Recovering && State != TitanState.Disabled)
             {
-                ChangeState(MindlessTitanState.Recovering);
+                ChangeState(TitanState.Recovering);
             }
 
             if (Behaviors != null && Behaviors.Any(x => x.OnUpdate()))
@@ -752,31 +736,32 @@ namespace Assets.Scripts.Characters.Titan
             }
 
 
-            switch (TitanState)
+            switch (State)
             {
-                case MindlessTitanState.Disabled:
+                case TitanState.Disabled:
                     OnDisabled();
                     break;
-                case MindlessTitanState.Idle:
+                case TitanState.Idle:
+                    OnIdle();
                     break;
-                case MindlessTitanState.Dead:
+                case TitanState.Dead:
                     break;
-                case MindlessTitanState.Wandering:
+                case TitanState.Wandering:
                     OnWandering();
                     break;
-                case MindlessTitanState.Turning:
+                case TitanState.Turning:
                     OnTurning();
                     break;
-                case MindlessTitanState.Chase:
+                case TitanState.Chase:
                     OnChasing();
                     break;
-                case MindlessTitanState.Attacking:
+                case TitanState.Attacking:
                     OnAttacking();
                     break;
-                case MindlessTitanState.Recovering:
+                case TitanState.Recovering:
                     OnRecovering();
                     break;
-                case MindlessTitanState.Eat:
+                case TitanState.Eat:
                     OnGrabbing();
                     break;
             }
@@ -789,7 +774,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (TitanState == MindlessTitanState.Wandering || TitanState == MindlessTitanState.Chase && Type != MindlessTitanType.Crawler)
+            if (State == TitanState.Wandering || State == TitanState.Chase && MindlessType != MindlessTitanType.Crawler)
             {
                 Pathfinding();
             }
@@ -801,33 +786,33 @@ namespace Assets.Scripts.Characters.Titan
 
         private void LateUpdate()
         {
-            if (Target == null && TitanState == MindlessTitanState.Attacking)
+            if (Target == null && State == TitanState.Attacking)
             {
-                ChangeState(MindlessTitanState.Wandering);
+                ChangeState(TitanState.Wandering);
             }
 
             HeadMovement();
         }
 
 
-        protected void OnAttacking()
+        protected override void OnAttacking()
         {
             if (CurrentAttack.IsFinished)
             {
                 CurrentAttack.IsFinished = false;
                 Stamina -= CurrentAttack.Stamina;
                 attackCooldown = 0.25f;
-                ChangeState(MindlessTitanState.Chase);
+                ChangeState(TitanState.Chase);
                 return;
             }
-            CurrentAttack.Execute(this);
+            CurrentAttack.Execute();
         }
 
-        protected void OnChasing()
+        protected override void OnChasing()
         {
             if (Target == null || ViewDistance < TargetDistance)
             {
-                ChangeState(MindlessTitanState.Wandering);
+                ChangeState(TitanState.Wandering);
                 return;
             }
 
@@ -854,11 +839,11 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            var availableAttacks = Attacks.Where(x => x.CanAttack(this)).ToArray();
+            var availableAttacks = Attacks.Where(x => x.CanAttack()).ToArray();
             if (availableAttacks.Length > 0)
             {
                 CurrentAttack = availableAttacks[Random.Range(0, availableAttacks.Length)];
-                ChangeState(MindlessTitanState.Attacking);
+                ChangeState(TitanState.Attacking);
             }
             else
             {
@@ -874,7 +859,7 @@ namespace Assets.Scripts.Characters.Titan
 
         protected void OnDisabled()
         {
-            var disabledBodyParts = TitanBody.GetDisabledBodyParts();
+            var disabledBodyParts = Body.GetDisabledBodyParts();
             if (disabledBodyParts.Any(x => x == BodyPart.Eyes))
             {
                 CurrentAnimation = AnimationEyes;
@@ -890,7 +875,7 @@ namespace Assets.Scripts.Characters.Titan
             }
             else
             {
-                ChangeState(MindlessTitanState.Chase);
+                ChangeState(TitanState.Chase);
             }
         }
 
@@ -913,6 +898,16 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        public float IdleTimer;
+        protected void OnIdle()
+        {
+            IdleTimer -= Time.deltaTime;
+            if (IdleTimer <= 0)
+            {
+                ChangeState(NextState);
+            }
+        }
+
         protected void OnRecovering()
         {
             Stamina += Time.deltaTime * StaminaRecovery * 3f;
@@ -924,7 +919,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (Stamina > staminaLimit * 0.75f)
             {
-                ChangeState(MindlessTitanState.Chase);
+                ChangeState(TitanState.Chase);
             }
         }
 
@@ -938,7 +933,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        protected void OnWandering()
+        protected override void OnWandering()
         {
             CurrentAnimation = AnimationWalk;
             if (!Animation.IsPlaying(CurrentAnimation))
@@ -949,7 +944,7 @@ namespace Assets.Scripts.Characters.Titan
 
         #endregion
 
-        protected virtual void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (!photonView.isMine) return;
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
@@ -975,7 +970,7 @@ namespace Assets.Scripts.Characters.Titan
             //    Rigidbody.AddForce(vector11, ForceMode.VelocityChange);
             //}
 
-            if (TitanState == MindlessTitanState.Wandering)
+            if (State == TitanState.Wandering)
             {
                 if (IsStuck())
                 {
@@ -984,8 +979,8 @@ namespace Assets.Scripts.Characters.Titan
                 }
 
                 var runModifier = 1f;
-                Vector3 vector12 = transform.forward * Speed * runModifier;
-                Vector3 vector14 = vector12 - Rigidbody.velocity;
+                var vector12 = transform.forward * Speed * runModifier;
+                var vector14 = vector12 - Rigidbody.velocity;
                 vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
                 vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
                 vector14.y = 0f;
@@ -993,21 +988,21 @@ namespace Assets.Scripts.Characters.Titan
                 transform.Rotate(0, RotationModifier * Time.fixedDeltaTime, 0);
             }
 
-            if (TitanState == MindlessTitanState.Chase)
+            if (State == TitanState.Chase)
             {
                 if (Target == null) return;
                 var speed = CanRun()
-                    ? RunSpeed
+                    ? SpeedRun
                     : Speed;
 
-                Vector3 vector12 = transform.forward * speed;
-                Vector3 vector14 = vector12 - Rigidbody.velocity;
+                var vector12 = transform.forward * speed;
+                var vector14 = vector12 - Rigidbody.velocity;
                 vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
                 vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
                 vector14.y = 0f;
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
-                Vector3 vector17 = Target.transform.position - transform.position;
+                var vector17 = Target.transform.position - transform.position;
                 var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
                 float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4724107667121542}
   - component: {fileID: 33757851893278052}
   - component: {fileID: 23308663034396622}
-  - component: {fileID: 64465136494107808}
   m_Layer: 0
   m_Name: leaf0
   m_TagString: Untagged
@@ -83,17 +82,3 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1910526501027224}
   m_Mesh: {fileID: 4300000, guid: e28e39dfc193ba04c9c33e3600de8205, type: 2}
---- !u!64 &64465136494107808
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1910526501027224}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 9d45e462aea59794693c84bb5853668f, type: 3}

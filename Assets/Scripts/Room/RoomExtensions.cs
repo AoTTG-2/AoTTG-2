@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Settings.Gamemodes;
 using System.Linq;
-using Assets.Scripts.Gamemode.Settings;
 
 namespace Assets.Scripts.Room
 {
@@ -26,6 +25,29 @@ namespace Assets.Scripts.Room
             var level = room.CustomProperties["level"].ToString();
             return LevelBuilder.GetAllLevels().Single(x => x.Name == level);
         }
+
+        /// <summary>
+        /// Check if a password is required to join the room. Note: This property is only used for UX purposes. Photon Server contains the knowledge
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
+        public static bool IsPasswordRequired(this RoomInfo room)
+        {
+            if (!room.CustomProperties.ContainsKey("passworded")) return false;
+            return (bool)room.CustomProperties["passworded"];
+        }
+
+        /// <summary>
+        /// Check if an account is required to join the room. Note: This property is only used for UX purposes. Photon Server contains the knowledge
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
+        public static bool IsAccountRequired(this RoomInfo room)
+        {
+            if (!room.CustomProperties.ContainsKey("account")) return false;
+            return (bool) room.CustomProperties["account"];
+        }
+
 
         public static GamemodeSettings GetGamemodeSetting(this global::Room room, Level level)
         {

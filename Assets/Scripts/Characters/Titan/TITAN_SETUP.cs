@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using System.Collections;
 using UnityEngine;
@@ -100,7 +101,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
     {
         int num;
         object[] objArray2;
-        if ((((int) FengGameManagerMKII.settings[1]) == 1) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if ((((int) FengGameManagerMKII.settings[1]) == 1) && base.photonView.isMine)
         {
             Color color;
             num = UnityEngine.Random.Range(0, 9);
@@ -128,7 +129,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
             {
                 flag2 = true;
             }
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 if (flag2)
                 {
@@ -140,18 +141,6 @@ public class TITAN_SETUP : Photon.MonoBehaviour
                     color = HeroCostume.costume[UnityEngine.Random.Range(0, HeroCostume.costume.Length - 5)].hair_color;
                     objArray2 = new object[] { num, eye, color.r, color.g, color.b };
                     base.photonView.RPC("setHairPRC", PhotonTargets.AllBuffered, objArray2);
-                }
-            }
-            else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-            {
-                if (flag2)
-                {
-                    base.StartCoroutine(this.loadskinE(num, eye, hairlink));
-                }
-                else
-                {
-                    color = HeroCostume.costume[UnityEngine.Random.Range(0, HeroCostume.costume.Length - 5)].hair_color;
-                    this.setHairPRC(num, eye, color.r, color.g, color.b);
                 }
             }
         }
@@ -179,7 +168,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
             this.part_hair.GetComponent<Renderer>().material.color = HeroCostume.costume[UnityEngine.Random.Range(0, HeroCostume.costume.Length - 5)].hair_color;
             int id = UnityEngine.Random.Range(1, 8);
             this.setFacialTexture(this.eye, id);
-            if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 objArray2 = new object[] { this.hairType, id, this.part_hair.GetComponent<Renderer>().material.color.r, this.part_hair.GetComponent<Renderer>().material.color.g, this.part_hair.GetComponent<Renderer>().material.color.b };
                 base.photonView.RPC("setHairPRC", PhotonTargets.OthersBuffered, objArray2);

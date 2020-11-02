@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Obsolete("Investigate if this is ever used")]
 public class CatchDestroy : MonoBehaviour
 {
     public GameObject target;

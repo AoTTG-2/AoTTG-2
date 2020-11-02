@@ -31,16 +31,9 @@ public class RockScript : MonoBehaviour
             if ((Vector3.Distance(this.desPt, base.transform.position) < 20f) || (base.transform.position.y < 0f))
             {
                 base.transform.position = this.desPt;
-                if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && PhotonNetwork.isMasterClient)
+                if (PhotonNetwork.isMasterClient)
                 {
-                    if (FengGameManagerMKII.LAN)
-                    {
-                        Network.Instantiate(Resources.Load("FX/boom1_CT_KICK"), base.transform.position + ((Vector3) (Vector3.up * 30f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                    }
-                    else
-                    {
-                        PhotonNetwork.Instantiate("FX/boom1_CT_KICK", base.transform.position + ((Vector3) (Vector3.up * 30f)), Quaternion.Euler(270f, 0f, 0f), 0);
-                    }
+                    PhotonNetwork.Instantiate("FX/boom1_CT_KICK", base.transform.position + ((Vector3) (Vector3.up * 30f)), Quaternion.Euler(270f, 0f, 0f), 0);
                 }
                 else
                 {

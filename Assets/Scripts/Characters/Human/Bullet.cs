@@ -60,11 +60,8 @@ public class Bullet : Photon.MonoBehaviour
     {
         this.phase = 2;
         this.killTime = 0f;
-        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-        {
-            object[] parameters = new object[] { 2 };
-            base.photonView.RPC("setPhase", PhotonTargets.Others, parameters);
-        }
+        object[] parameters = { 2 };
+        base.photonView.RPC(nameof(setPhase), PhotonTargets.Others, parameters);
     }
 
     private void FixedUpdate()
@@ -79,7 +76,7 @@ public class Bullet : Photon.MonoBehaviour
                 return;
             }
         }
-        if (!((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || base.photonView.isMine))
+        if (!(base.photonView.isMine))
         {
             if (this.phase == 0)
             {
@@ -113,11 +110,8 @@ public class Bullet : Photon.MonoBehaviour
                 bool flag4 = true;
                 if (hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("EnemyBox"))
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                    {
-                        object[] parameters = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
-                        base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, parameters);
-                    }
+                    object[] parameters = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
+                    base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, parameters);
                     this.master.GetComponent<Hero>().lastHook = hit.collider.transform.root;
                     base.transform.parent = hit.collider.transform;
                 }
@@ -127,11 +121,8 @@ public class Bullet : Photon.MonoBehaviour
                 }
                 else if (((hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("NetworkObject")) && (hit.collider.transform.gameObject.tag == "Player")) && !this.leviMode)
                 {
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                    {
-                        object[] objArray3 = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
-                        base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, objArray3);
-                    }
+                    object[] objArray3 = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
+                    base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, objArray3);
                     this.master.GetComponent<Hero>().hookToHuman(hit.collider.transform.root.gameObject, base.transform.position);
                     base.transform.parent = hit.collider.transform;
                     this.master.GetComponent<Hero>().lastHook = null;
@@ -151,13 +142,10 @@ public class Bullet : Photon.MonoBehaviour
                     if (this.phase != 2)
                     {
                         this.phase = 1;
-                        if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                        {
-                            object[] objArray4 = new object[] { 1 };
-                            base.photonView.RPC("setPhase", PhotonTargets.Others, objArray4);
-                            object[] objArray5 = new object[] { base.transform.position };
-                            base.photonView.RPC("tieMeTo", PhotonTargets.Others, objArray5);
-                        }
+                        object[] objArray4 = new object[] { 1 };
+                        base.photonView.RPC("setPhase", PhotonTargets.Others, objArray4);
+                        object[] objArray5 = new object[] { base.transform.position };
+                        base.photonView.RPC("tieMeTo", PhotonTargets.Others, objArray5);
                         if (this.leviMode)
                         {
                             this.getSpiral(this.master.transform.position, this.master.transform.rotation.eulerAngles);
@@ -173,11 +161,8 @@ public class Bullet : Photon.MonoBehaviour
                 if (this.killTime2 > 0.8f)
                 {
                     this.phase = 4;
-                    if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)
-                    {
-                        object[] objArray6 = new object[] { 4 };
-                        base.photonView.RPC("setPhase", PhotonTargets.Others, objArray6);
-                    }
+                    object[] objArray6 = new object[] { 4 };
+                    base.photonView.RPC("setPhase", PhotonTargets.Others, objArray6);
                 }
             }
         }
@@ -263,7 +248,7 @@ public class Bullet : Photon.MonoBehaviour
             this.phase = 0;
             this.leviMode = leviMode;
             this.left = isLeft;
-            if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
+            if (base.photonView.isMine)
             {
                 object[] parameters = new object[] { hero.GetComponent<Hero>().photonView.viewID, launcher_ref };
                 base.photonView.RPC("myMasterIs", PhotonTargets.Others, parameters);
@@ -339,10 +324,6 @@ public class Bullet : Photon.MonoBehaviour
 
     private void OnDestroy()
     {
-        if (FengGameManagerMKII.instance != null)
-        {
-            FengGameManagerMKII.instance.removeHook(this);
-        }
         if (this.myTitan != null)
         {
             myTitan.IsHooked = false;
@@ -353,15 +334,10 @@ public class Bullet : Photon.MonoBehaviour
     public void removeMe()
     {
         this.isdestroying = true;
-        if ((IN_GAME_MAIN_CAMERA.gametype != GAMETYPE.SINGLE) && base.photonView.isMine)
+        if (base.photonView.isMine)
         {
             PhotonNetwork.Destroy(base.photonView);
             PhotonNetwork.RemoveRPCs(base.photonView);
-        }
-        else if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
-        {
-            UnityEngine.Object.Destroy(this.rope);
-            UnityEngine.Object.Destroy(base.gameObject);
         }
     }
 
@@ -406,7 +382,6 @@ public class Bullet : Photon.MonoBehaviour
     {
         this.rope = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("rope"));
         this.lineRenderer = this.rope.GetComponent<LineRenderer>();
-        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addHook(this);
     }
 
     [PunRPC]
@@ -421,7 +396,7 @@ public class Bullet : Photon.MonoBehaviour
         base.transform.parent = PhotonView.Find(id).gameObject.transform;
     }
 
-    public void update()
+    private void Update()
     {
         if (this.master == null)
         {

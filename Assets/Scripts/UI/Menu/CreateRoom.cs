@@ -1,8 +1,11 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Settings.Gamemodes;
+using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Assets.Scripts.Gamemode.Settings;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,13 +15,31 @@ namespace Assets.Scripts.UI.Menu
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
-        private List<Level> levels = LevelBuilder.GetAllLevels();
+        public Dropdown DifficultyDropdown;
+
+        public InputField RoomName;
+        public InputField RoomPassword;
+
+        public Toggle Account;
+
+        private List<Level> levels;
 
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
-        
-        public void Start()
+        private Dictionary<string, string> CustomDifficulties { get; } = new Dictionary<string, string>();
+        private const string CustomDifficultyPrefix = "*-";
+
+        private void Awake()
         {
+            levels = LevelBuilder.GetAllLevels();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            Refresh();
+
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -32,19 +53,55 @@ namespace Assets.Scripts.UI.Menu
             });
             GamemodeDropdown.onValueChanged.AddListener(delegate
             {
-                var gamemode = selectedLevel.Gamemodes.Single(x => x.Name == GamemodeDropdown.captionText.text 
+                var gamemode = selectedLevel.Gamemodes.Single(x => x.Name == GamemodeDropdown.captionText.text
                                                                    || x.GamemodeType.ToString() == GamemodeDropdown.captionText.text);
                 OnGamemodeSelected(gamemode);
             });
 
             OnLevelSelected(levels[0]);
+
+            DifficultyDropdown.options = new List<Dropdown.OptionData>();
+            foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
+            {
+                DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
+            }
+            DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
+
+            var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
+            foreach (var file in files)
+            {
+                var fileName = file.Split(Path.DirectorySeparatorChar).Last().Replace(".json", string.Empty);
+                CustomDifficulties.Add(fileName, file);
+                DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
+            }
+        }
+
+        private void Refresh()
+        {
+            CustomDifficulties.Clear();
+            LevelDropdown.value = 0;
+            GamemodeDropdown.value = 0;
+            DifficultyDropdown.value = 0;
+            Account.isOn = false;
         }
 
         public void Create()
         {
-            // TODO: This will fail when multiple input fields are present.
-            var input = GetComponentsInChildren<InputField>();
-            var roomNameInput = input[0].text.Trim();
+            if (DifficultyDropdown.captionText.text.StartsWith(CustomDifficultyPrefix))
+            {
+                var customDifficulty = DifficultyDropdown.captionText.text.Replace(CustomDifficultyPrefix, string.Empty);
+                using (var reader = File.OpenText(CustomDifficulties[customDifficulty]))
+                {
+                    FengGameManagerMKII.instance.SetSettings(reader.ReadToEnd());
+                }
+            }
+            else
+            {
+                var difficulty = (Difficulty) DifficultyDropdown.value;
+                FengGameManagerMKII.instance.SetSettings(difficulty);
+            }
+
+            var roomNameInput = RoomName.text.Trim();
             var roomName = string.IsNullOrEmpty(roomNameInput)
                 ? "FoodForTitans"
                 : roomNameInput;
@@ -61,8 +118,27 @@ namespace Assets.Scripts.UI.Menu
                     { "level", LevelDropdown.captionText.text },
                     { "gamemode", GamemodeDropdown.captionText.text }
                 },
-                CustomRoomPropertiesForLobby = new []{"name", "level", "gamemode"}
+                CustomRoomPropertiesForLobby = new[] { "name", "level", "gamemode" }
             };
+
+            var password = RoomPassword.text.Trim();
+            if (!string.IsNullOrEmpty(password))
+            {
+                roomOptions.CustomRoomProperties.Add("password", password);
+                roomOptions.CustomRoomProperties.Add("passworded", true);
+
+                var lobbyOptions = roomOptions.CustomRoomPropertiesForLobby.ToList();
+                lobbyOptions.Add("passworded");
+                roomOptions.CustomRoomPropertiesForLobby = lobbyOptions.ToArray();
+            }
+
+            if (Account.isOn)
+            {
+                roomOptions.CustomRoomProperties.Add("account", true);
+                var lobbyOptions = roomOptions.CustomRoomPropertiesForLobby.ToList();
+                lobbyOptions.Add("account");
+                roomOptions.CustomRoomPropertiesForLobby = lobbyOptions.ToArray();
+            }
 
             PhotonNetwork.PhotonServerSettings.JoinLobby = true;
             PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);

@@ -5,6 +5,7 @@
         Easy,
         Normal,
         Hard,
+        Abnormal,
         Realism
     }
 }

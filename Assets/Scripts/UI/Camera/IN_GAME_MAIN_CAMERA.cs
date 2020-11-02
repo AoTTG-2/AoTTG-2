@@ -1,14 +1,24 @@
+using Assets.Scripts;
+using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.Input;
+using System;
 using UnityEngine;
+using static Assets.Scripts.FengGameManagerMKII;
+using Random = UnityEngine.Random;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
+    private IEntityService EntityService => Service.Entity;
+
     private float closestDistance;
     private int currentPeekPlayerIndex;
+    [Obsolete("Replace with a Time Service")]
     public static DayLight dayLight = DayLight.Dawn;
     private float decay;
-    public static int difficulty;
     private float distance = 10f;
     private float distanceMulti;
     private float distanceOffsetMulti;
@@ -16,7 +26,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float flashDuration;
     private bool flip;
     public bool gameOver;
-    public static GAMETYPE gametype = GAMETYPE.STOP;
+    [Obsolete("Refactor so that this static field is no longer required")]
+    public static GAMETYPE gametype = GAMETYPE.Stop;
     private bool hasSnapShot;
     private Transform head;
     private float heightMulti;
@@ -29,7 +40,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public GameObject main_object;
     private bool needSetHUD;
     private float R;
-    public static string singleCharacter;
     public Material skyBoxDAWN;
     public Material skyBoxDAY;
     public Material skyBoxNIGHT;
@@ -50,26 +60,64 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static STEREO_3D_TYPE stereoType;
     public static bool triggerAutoLock;
     public static bool usingTitan;
+    public bool IsSpecmode => (int) settings[0xf5] == 1;
+
+    private void Awake()
+    {
+        EntityService.OnRegister += EntityService_OnRegistered;
+
+        isTyping = false;
+        isPausing = false;
+        base.name = "MainCamera";
+        if (PlayerPrefs.HasKey("GameQuality"))
+        {
+            //TODO TiltShift
+            if (PlayerPrefs.GetFloat("GameQuality") >= 0.9f)
+            {
+                //base.GetComponent<TiltShift>().enabled = true;
+            }
+            else
+            {
+                //base.GetComponent<TiltShift>().enabled = false;
+            }
+        }
+        else
+        {
+            //base.GetComponent<TiltShift>().enabled = true;
+        }
+    }
+
+    private void EntityService_OnRegistered(Entity entity)
+    {
+        if (entity is PlayerTitan pt)
+        {
+            setMainObjectASTITAN(pt.gameObject);
+            enabled = true;
+            GetComponent<SpectatorMovement>().disable = true;
+            GetComponent<MouseLook>().disable = true;
+            gameOver = false;
+        }
+    }
 
     public void CameraMovementLive(Hero hero)
     {
         float magnitude = hero.GetComponent<Rigidbody>().velocity.magnitude;
         if (magnitude > 10f)
         {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, Mathf.Min((float)100f, (float)(magnitude + 40f)), 0.1f);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, Mathf.Min((float) 100f, (float) (magnitude + 40f)), 0.1f);
         }
         else
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 50f, 0.1f);
         }
         float num2 = (hero.CameraMultiplier * (200f - Camera.main.fieldOfView)) / 150f;
-        base.transform.position = (Vector3)((this.head.transform.position + (Vector3.up * this.heightMulti)) - ((Vector3.up * (0.6f - InputManager.Settings.CameraDistance)) * 2f));
+        base.transform.position = (Vector3) ((this.head.transform.position + (Vector3.up * this.heightMulti)) - ((Vector3.up * (0.6f - InputManager.Settings.CameraDistance)) * 2f));
         Transform transform = base.transform;
-        transform.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * num2);
+        transform.position -= (Vector3) (((base.transform.forward * this.distance) * this.distanceMulti) * num2);
         if (hero.CameraMultiplier < 0.65f)
         {
             Transform transform2 = base.transform;
-            transform2.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - hero.CameraMultiplier) * 2f), (float)0.65f));
+            transform2.position += (Vector3) (base.transform.right * Mathf.Max((float) ((0.6f - hero.CameraMultiplier) * 2f), (float) 0.65f));
         }
         base.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, hero.GetComponent<SmoothSyncMovement>().correctCameraRot, Time.deltaTime * 5f);
     }
@@ -82,12 +130,12 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         if (QualitySettings.GetQualityLevel() > 3)
         {
-            this.snapshotRT = new RenderTexture((int)(Screen.width * 0.8f), (int)(Screen.height * 0.8f), 0x18);
+            this.snapshotRT = new RenderTexture((int) (Screen.width * 0.8f), (int) (Screen.height * 0.8f), 0x18);
             this.snapShotCamera.GetComponent<Camera>().targetTexture = this.snapshotRT;
         }
         else
         {
-            this.snapshotRT = new RenderTexture((int)(Screen.width * 0.4f), (int)(Screen.height * 0.4f), 0x18);
+            this.snapshotRT = new RenderTexture((int) (Screen.width * 0.4f), (int) (Screen.height * 0.4f), 0x18);
             this.snapShotCamera.GetComponent<Camera>().targetTexture = this.snapshotRT;
         }
     }
@@ -105,7 +153,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         dayLight = DayLight.Day;
         if (dayLight == DayLight.Night)
         {
-            GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
+            GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
             obj2.transform.parent = base.transform;
             obj2.transform.position = base.transform.position;
             obj2.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
@@ -133,17 +181,17 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public void setHUDposition()
     {
         return;
-        GameObject.Find("Flare").transform.localPosition = new Vector3((float)(((int)(-Screen.width * 0.5f)) + 14), (float)((int)(-Screen.height * 0.5f)), 0f);
+        GameObject.Find("Flare").transform.localPosition = new Vector3((float) (((int) (-Screen.width * 0.5f)) + 14), (float) ((int) (-Screen.height * 0.5f)), 0f);
         GameObject obj2 = GameObject.Find("LabelInfoBottomRight");
-        obj2.transform.localPosition = new Vector3((float)((int)(Screen.width * 0.5f)), (float)((int)(-Screen.height * 0.5f)), 0f);
+        obj2.transform.localPosition = new Vector3((float) ((int) (Screen.width * 0.5f)), (float) ((int) (-Screen.height * 0.5f)), 0f);
 
         //obj2.GetComponent<UILabel>().text = "Pause : " + GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().inputString[InputCode.pause] + " ";
-        GameObject.Find("LabelInfoTopCenter").transform.localPosition = new Vector3(0f, (float)((int)(Screen.height * 0.5f)), 0f);
-        GameObject.Find("LabelInfoTopRight").transform.localPosition = new Vector3((float)((int)(Screen.width * 0.5f)), (float)((int)(Screen.height * 0.5f)), 0f);
-        GameObject.Find("LabelNetworkStatus").transform.localPosition = new Vector3((float)((int)(-Screen.width * 0.5f)), (float)((int)(Screen.height * 0.5f)), 0f);
-        GameObject.Find("LabelInfoTopLeft").transform.localPosition = new Vector3((float)((int)(-Screen.width * 0.5f)), (float)((int)((Screen.height * 0.5f) - 20f)), 0f);
-        GameObject.Find("Chatroom").transform.localPosition = new Vector3((float)((int)(-Screen.width * 0.5f)), (float)((int)(-Screen.height * 0.5f)), 0f);
-        if (usingTitan && (gametype != GAMETYPE.SINGLE))
+        GameObject.Find("LabelInfoTopCenter").transform.localPosition = new Vector3(0f, (float) ((int) (Screen.height * 0.5f)), 0f);
+        GameObject.Find("LabelInfoTopRight").transform.localPosition = new Vector3((float) ((int) (Screen.width * 0.5f)), (float) ((int) (Screen.height * 0.5f)), 0f);
+        GameObject.Find("LabelNetworkStatus").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (Screen.height * 0.5f)), 0f);
+        GameObject.Find("LabelInfoTopLeft").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) ((Screen.height * 0.5f) - 20f)), 0f);
+        GameObject.Find("Chatroom").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (-Screen.height * 0.5f)), 0f);
+        if (usingTitan)
         {
             Vector3 vector = new Vector3(0f, 9999f, 0f);
             GameObject.Find("skill_cd_bottom").transform.localPosition = vector;
@@ -156,23 +204,19 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             GameObject.Find("skill_cd_petra").transform.localPosition = vector;
             GameObject.Find("skill_cd_sasha").transform.localPosition = vector;
             GameObject.Find("GasUI").transform.localPosition = vector;
-            GameObject.Find("stamina_titan").transform.localPosition = new Vector3(-160f, (float)((int)((-Screen.height * 0.5f) + 15f)), 0f);
-            GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(-160f, (float)((int)((-Screen.height * 0.5f) + 15f)), 0f);
+            GameObject.Find("stamina_titan").transform.localPosition = new Vector3(-160f, (float) ((int) ((-Screen.height * 0.5f) + 15f)), 0f);
+            GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(-160f, (float) ((int) ((-Screen.height * 0.5f) + 15f)), 0f);
         }
         else
         {
-            GameObject.Find("skill_cd_bottom").transform.localPosition = new Vector3(0f, (float)((int)((-Screen.height * 0.5f) + 5f)), 0f);
+            GameObject.Find("skill_cd_bottom").transform.localPosition = new Vector3(0f, (float) ((int) ((-Screen.height * 0.5f) + 5f)), 0f);
             GameObject.Find("GasUI").transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
             GameObject.Find("stamina_titan").transform.localPosition = new Vector3(0f, 9999f, 0f);
             GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(0f, 9999f, 0f);
         }
         if ((this.main_object != null) && (this.main_object.GetComponent<Hero>() != null))
         {
-            if (gametype == GAMETYPE.SINGLE)
-            {
-                this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-            }
-            else if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
+            if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
             {
                 this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
             }
@@ -248,56 +292,53 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         this.spectatorMode = val;
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
-
-        //TODO MouseLook
-        //GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
     }
-
     public void snapShot2(int index)
     {
         Vector3 vector;
         RaycastHit hit;
         this.snapShotCamera.transform.position = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
         Transform transform = this.snapShotCamera.transform;
-        transform.position += (Vector3)(Vector3.up * this.heightMulti);
+        transform.position += (Vector3) (Vector3.up * this.heightMulti);
         Transform transform2 = this.snapShotCamera.transform;
-        transform2.position -= (Vector3)(Vector3.up * 1.1f);
+        transform2.position -= (Vector3) (Vector3.up * 1.1f);
         Vector3 worldPosition = vector = this.snapShotCamera.transform.position;
-        Vector3 vector3 = (Vector3)((worldPosition + this.snapShotTargetPosition) * 0.5f);
+        Vector3 vector3 = (Vector3) ((worldPosition + this.snapShotTargetPosition) * 0.5f);
         this.snapShotCamera.transform.position = vector3;
         worldPosition = vector3;
         this.snapShotCamera.transform.LookAt(this.snapShotTargetPosition);
         float rotation = index == 3 ? Random.Range(-180f, 180f) : Random.Range(-20f, 20f);
         this.snapShotCamera.transform.RotateAround(base.transform.position, Vector3.up, rotation);
         this.snapShotCamera.transform.LookAt(worldPosition);
-        this.snapShotCamera.transform.RotateAround(worldPosition, base.transform.right, UnityEngine.Random.Range((float)-20f, (float)20f));
+        this.snapShotCamera.transform.RotateAround(worldPosition, base.transform.right, UnityEngine.Random.Range((float) -20f, (float) 20f));
         float num = Vector3.Distance(this.snapShotTargetPosition, vector);
         if ((this.snapShotTarget != null) && (this.snapShotTarget.GetComponent<MindlessTitan>() != null))
         {
             num += ((index - 1) * this.snapShotTarget.transform.localScale.x) * 10f;
         }
         Transform transform3 = this.snapShotCamera.transform;
-        transform3.position -= (Vector3)(this.snapShotCamera.transform.forward * UnityEngine.Random.Range((float)(num + 3f), (float)(num + 10f)));
+        transform3.position -= (Vector3) (this.snapShotCamera.transform.forward * UnityEngine.Random.Range((float) (num + 3f), (float) (num + 10f)));
         this.snapShotCamera.transform.LookAt(worldPosition);
-        this.snapShotCamera.transform.RotateAround(worldPosition, base.transform.forward, UnityEngine.Random.Range((float)-30f, (float)30f));
+        this.snapShotCamera.transform.RotateAround(worldPosition, base.transform.forward, UnityEngine.Random.Range((float) -30f, (float) 30f));
         Vector3 end = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
         Vector3 vector5 = ((this.head == null) ? this.main_object.transform.position : this.head.transform.position) - this.snapShotCamera.transform.position;
         end -= vector5;
-        LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask | mask2;
         if (this.head != null)
         {
-            if (Physics.Linecast(this.head.transform.position, end, out hit, (int)mask))
+            if (Physics.Linecast(this.head.transform.position, end, out hit, (int) mask))
             {
                 this.snapShotCamera.transform.position = hit.point;
             }
-            else if (Physics.Linecast(this.head.transform.position - ((Vector3)((vector5 * this.distanceMulti) * 3f)), end, out hit, (int)mask3))
+            else if (Physics.Linecast(this.head.transform.position - ((Vector3) ((vector5 * this.distanceMulti) * 3f)), end, out hit, (int) mask3))
             {
                 this.snapShotCamera.transform.position = hit.point;
             }
         }
-        else if (Physics.Linecast(this.main_object.transform.position + Vector3.up, end, out hit, (int)mask3))
+        else if (Physics.Linecast(this.main_object.transform.position + Vector3.up, end, out hit, (int) mask3))
         {
             this.snapShotCamera.transform.position = hit.point;
         }
@@ -392,7 +433,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public void startSnapShot2(Vector3 p, int dmg, GameObject target, float startTime)
     {
         int num;
-        if (int.TryParse((string)FengGameManagerMKII.settings[0x5f], out num))
+        if (int.TryParse((string) FengGameManagerMKII.settings[0x5f], out num))
         {
             if (dmg >= num)
             {
@@ -401,7 +442,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 this.snapShotTargetPosition = p;
                 this.snapShotTarget = target;
                 this.snapShotStartCountDownTime = startTime;
-                this.snapShotInterval = 0.05f + UnityEngine.Random.Range((float)0f, (float)0.03f);
+                this.snapShotInterval = 0.05f + UnityEngine.Random.Range((float) 0f, (float) 0.03f);
                 this.snapShotDmg = dmg;
             }
         }
@@ -412,13 +453,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             this.snapShotTargetPosition = p;
             this.snapShotTarget = target;
             this.snapShotStartCountDownTime = startTime;
-            this.snapShotInterval = 0.05f + UnityEngine.Random.Range((float)0f, (float)0.03f);
+            this.snapShotInterval = 0.05f + UnityEngine.Random.Range((float) 0f, (float) 0.03f);
             this.snapShotDmg = dmg;
         }
     }
 
-    public void update2()
+    public void Update()
     {
+        snapShotUpdate();
         if (this.flashDuration > 0f)
         {
             this.flashDuration -= Time.deltaTime;
@@ -429,58 +471,66 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
             //GameObject.Find("flash").GetComponent<UISprite>().alpha = this.flashDuration * 0.5f;
         }
-        if (gametype != GAMETYPE.STOP)
+        if (gametype != GAMETYPE.Stop)
         {
-            if ((gametype != GAMETYPE.SINGLE) && this.gameOver)
+
+            if (this.gameOver)
             {
-                if (InputManager.KeyDown(InputHuman.AttackSpecial))
-                {
-                    if (this.spectatorMode)
-                    {
-                        this.setSpectorMode(false);
-                    }
-                    else
-                    {
-                        this.setSpectorMode(true);
-                    }
-                }
+
+                this.setSpectorMode(true);
+                //TODO #160
+                //FengGameManagerMKII.instance.ShowHUDInfoCenter(
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
                 if (InputManager.KeyDown(InputHuman.Item1))
                 {
-                    this.currentPeekPlayerIndex++;
-                    int length = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= length)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (length > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
-                        this.lockAngle = false;
-                    }
-                }
-                if (InputManager.KeyDown(InputHuman.Item2))
-                {
-                    this.currentPeekPlayerIndex--;
-                    int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
-                    if (this.currentPeekPlayerIndex >= num2)
-                    {
-                        this.currentPeekPlayerIndex = 0;
-                    }
-                    if (this.currentPeekPlayerIndex < 0)
-                    {
-                        this.currentPeekPlayerIndex = num2;
-                    }
-                    if (num2 > 0)
-                    {
-                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
-                        this.setSpectorMode(false);
-                        this.lockAngle = false;
-                    }
+                    ToggleSpecMode();
+                    ToggleSpawnMenu();
                 }
                 if (this.spectatorMode)
                 {
-                    return;
+                    if (InputManager.KeyDown(InputHuman.Item2))
+                    {
+                        this.currentPeekPlayerIndex++;
+                        int length = GameObject.FindGameObjectsWithTag("Player").Length;
+                        if (this.currentPeekPlayerIndex >= length)
+                        {
+                            this.currentPeekPlayerIndex = 0;
+                        }
+                        if (length > 0)
+                        {
+                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                            this.setSpectorMode(false);
+                            this.lockAngle = false;
+                        }
+
+                    }
+
+                    if (InputManager.KeyDown(InputHuman.Item3))
+                    {
+                        this.currentPeekPlayerIndex--;
+                        int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
+                        if (this.currentPeekPlayerIndex >= num2)
+                        {
+                            this.currentPeekPlayerIndex = 0;
+                        }
+                        if (this.currentPeekPlayerIndex < 0)
+                        {
+                            this.currentPeekPlayerIndex = num2;
+                        }
+                        if (num2 > 0)
+                        {
+                            this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                            this.setSpectorMode(false);
+                            this.lockAngle = false;
+                        }
+                    }
+
+                    if (this.spectatorMode)
+                    {
+                        return;
+                    }
                 }
             }
             //TODO #204 - Pause Menu
@@ -528,7 +578,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             }
             if (InputManager.KeyDown(InputUi.Restart))
             {
-                this.reset();
+                if (PhotonNetwork.offlineMode)
+                    FengGameManagerMKII.instance.restartRC();
             }
             if (this.main_object != null)
             {
@@ -541,6 +592,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
                 if (InputManager.KeyDown(InputHuman.Focus))
                 {
+                    if (Service.Player.Self is TitanBase) return;
                     triggerAutoLock = !triggerAutoLock;
                     if (triggerAutoLock)
                     {
@@ -556,7 +608,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     if (InputManager.KeyDown(InputUi.LiveCamera))
                     {
-                        if (((int)FengGameManagerMKII.settings[0x107]) == 0)
+                        if (((int) FengGameManagerMKII.settings[0x107]) == 0)
                         {
                             FengGameManagerMKII.settings[0x107] = 1;
                         }
@@ -566,14 +618,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         }
                     }
                     Hero component = this.main_object.GetComponent<Hero>();
-                    if ((((component != null) && (((int)FengGameManagerMKII.settings[0x107]) == 1)) && component.GetComponent<SmoothSyncMovement>().enabled) && component.isPhotonCamera)
+                    if ((((component != null) && (((int) FengGameManagerMKII.settings[0x107]) == 1)) && component.GetComponent<SmoothSyncMovement>().enabled) && component.isPhotonCamera)
                     {
                         this.CameraMovementLive(component);
                     }
                     else if (this.lockAngle)
                     {
                         base.transform.rotation = Quaternion.Lerp(base.transform.rotation, this.main_object.transform.rotation, 0.2f);
-                        base.transform.position = Vector3.Lerp(base.transform.position, this.main_object.transform.position - ((Vector3)(this.main_object.transform.forward * 5f)), 0.2f);
+                        base.transform.position = Vector3.Lerp(base.transform.position, this.main_object.transform.position - ((Vector3) (this.main_object.transform.forward * 5f)), 0.2f);
                     }
                     else
                     {
@@ -591,19 +643,19 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     Vector3 vector2 = transform.position - ((this.head == null) ? this.main_object.transform.position : this.head.transform.position);
                     vector2.Normalize();
                     this.lockCameraPosition = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
-                    this.lockCameraPosition -= (Vector3)(((vector2 * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
-                    this.lockCameraPosition += (Vector3)(((Vector3.up * 3f) * this.heightMulti) * this.distanceOffsetMulti);
+                    this.lockCameraPosition -= (Vector3) (((vector2 * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+                    this.lockCameraPosition += (Vector3) (((Vector3.up * 3f) * this.heightMulti) * this.distanceOffsetMulti);
                     base.transform.position = Vector3.Lerp(base.transform.position, this.lockCameraPosition, Time.deltaTime * 4f);
                     if (this.head != null)
                     {
-                        base.transform.LookAt((Vector3)((this.head.transform.position * 0.8f) + (transform.position * 0.2f)));
+                        base.transform.LookAt((Vector3) ((this.head.transform.position * 0.8f) + (transform.position * 0.2f)));
                     }
                     else
                     {
-                        base.transform.LookAt((Vector3)((this.main_object.transform.position * 0.8f) + (transform.position * 0.2f)));
+                        base.transform.LookAt((Vector3) ((this.main_object.transform.position * 0.8f) + (transform.position * 0.2f)));
                     }
                     base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
-                    Vector2 vector3 = base.GetComponent<Camera>().WorldToScreenPoint(transform.position - ((Vector3)(transform.forward * this.lockTarget.transform.localScale.x)));
+                    Vector2 vector3 = base.GetComponent<Camera>().WorldToScreenPoint(transform.position - ((Vector3) (transform.forward * this.lockTarget.transform.localScale.x)));
                     // TODO: Plan reimplementation of lock-on feature.
                     //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((this.lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
@@ -619,23 +671,23 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 Vector3 end = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
                 Vector3 vector5 = ((this.head == null) ? this.main_object.transform.position : this.head.transform.position) - base.transform.position;
                 Vector3 normalized = vector5.normalized;
-                end -= (Vector3)((this.distance * normalized) * this.distanceMulti);
-                LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-                LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                end -= (Vector3) ((this.distance * normalized) * this.distanceMulti);
+                LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                 LayerMask mask3 = mask | mask2;
                 if (this.head != null)
                 {
-                    if (Physics.Linecast(this.head.transform.position, end, out hit, (int)mask))
+                    if (Physics.Linecast(this.head.transform.position, end, out hit, (int) mask))
                     {
                         base.transform.position = hit.point;
                     }
-                    else if (Physics.Linecast(this.head.transform.position - ((Vector3)((normalized * this.distanceMulti) * 3f)), end, out hit, (int)mask2))
+                    else if (Physics.Linecast(this.head.transform.position - ((Vector3) ((normalized * this.distanceMulti) * 3f)), end, out hit, (int) mask2))
                     {
                         base.transform.position = hit.point;
                     }
-                    Debug.DrawLine(this.head.transform.position - ((Vector3)((normalized * this.distanceMulti) * 3f)), end, Color.red);
+                    Debug.DrawLine(this.head.transform.position - ((Vector3) ((normalized * this.distanceMulti) * 3f)), end, Color.red);
                 }
-                else if (Physics.Linecast(this.main_object.transform.position + Vector3.up, end, out hit, (int)mask3))
+                else if (Physics.Linecast(this.main_object.transform.position + Vector3.up, end, out hit, (int) mask3))
                 {
                     base.transform.position = hit.point;
                 }
@@ -644,27 +696,19 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
     }
 
-    private void Awake()
+    public static void ToggleSpecMode()
     {
-        isTyping = false;
-        isPausing = false;
-        base.name = "MainCamera";
-        if (PlayerPrefs.HasKey("GameQuality"))
-        {
-            //TODO TiltShift
-            if (PlayerPrefs.GetFloat("GameQuality") >= 0.9f)
-            {
-                //base.GetComponent<TiltShift>().enabled = true;
-            }
-            else
-            {
-                //base.GetComponent<TiltShift>().enabled = false;
-            }
-        }
-        else
-        {
-            //base.GetComponent<TiltShift>().enabled = true;
-        }
+        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
+        bool specMode = (int) settings[0xf5] == 1;
+        instance.EnterSpecMode(specMode);
+        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        instance.chatRoom.OutputSystemMessage(message);
+    }
+
+    public static void ToggleSpawnMenu()
+    {
+        var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
+        spawnMenu.SetActive(!spawnMenu.activeSelf);
     }
 
     private void DoCameraMovement()
@@ -696,7 +740,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         if (InputManager.Settings.CameraDistance < 0.65f)
         {
             Transform transform6 = base.transform;
-            transform6.position += (Vector3)(base.transform.right * Mathf.Max((float)((0.6f - InputManager.Settings.CameraDistance) * 2f), (float)0.65f));
+            transform6.position += (Vector3) (base.transform.right * Mathf.Max((float) ((0.6f - InputManager.Settings.CameraDistance) * 2f), (float) 0.65f));
         }
     }
 
@@ -712,7 +756,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             base.transform.RotateAround(base.transform.position, base.transform.right, num6);
         }
         Transform transform5 = base.transform;
-        transform5.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+        transform5.position -= (Vector3) (((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
     }
 
     private void DoOriginalMovement()
@@ -720,18 +764,18 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         float num3 = 0f;
         if (Input.mousePosition.x < (Screen.width * 0.4f))
         {
-            num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / ((float)Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
+            num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / ((float) Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
             base.transform.RotateAround(base.transform.position, Vector3.up, num3);
         }
         else if (Input.mousePosition.x > (Screen.width * 0.6f))
         {
-            num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / ((float)Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
+            num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / ((float) Screen.width)) * 0.4f) * this.getSensitivityMultiWithDeltaTime()) * 150f;
             base.transform.RotateAround(base.transform.position, Vector3.up, num3);
         }
-        float x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / ((float)Screen.height)) * 0.5f;
+        float x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / ((float) Screen.height)) * 0.5f;
         base.transform.rotation = Quaternion.Euler(x, base.transform.rotation.eulerAngles.y, base.transform.rotation.eulerAngles.z);
         Transform transform4 = base.transform;
-        transform4.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+        transform4.position -= (Vector3) (((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
     }
 
     private void DoWOWMovement()
@@ -744,7 +788,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             base.transform.RotateAround(base.transform.position, base.transform.right, num2);
         }
         Transform transform3 = base.transform;
-        transform3.position -= (Vector3)(((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
+        transform3.position -= (Vector3) (((base.transform.forward * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
     }
 
     private GameObject findNearestTitan()
@@ -774,8 +818,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private int getReverse()
     {
-        return InputManager.Settings.MouseInvert 
-            ? -1 
+        return InputManager.Settings.MouseInvert
+            ? -1
             : 1;
     }
 
@@ -788,27 +832,19 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         return InputManager.Settings.MouseSensitivity * Time.deltaTime * 62f;
     }
-
-    private void reset()
-    {
-        if (gametype == GAMETYPE.SINGLE)
-        {
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().restartGameSingle2();
-        }
-    }
-
+    
     private Texture2D RTImage2(Camera cam)
     {
         RenderTexture active = RenderTexture.active;
         RenderTexture.active = cam.targetTexture;
         cam.Render();
         Texture2D textured = new Texture2D(cam.targetTexture.width, cam.targetTexture.height);
-        int num = (int)(cam.targetTexture.width * 0.04f);
-        int destX = (int)(cam.targetTexture.width * 0.02f);
+        int num = (int) (cam.targetTexture.width * 0.04f);
+        int destX = (int) (cam.targetTexture.width * 0.02f);
         try
         {
             textured.SetPixel(0, 0, Color.white);
-            textured.ReadPixels(new Rect((float)num, (float)num, (float)(cam.targetTexture.width - num), (float)(cam.targetTexture.height - num)), destX, destX);
+            textured.ReadPixels(new Rect((float) num, (float) num, (float) (cam.targetTexture.width - num), (float) (cam.targetTexture.height - num)), destX, destX);
             textured.Apply();
             RenderTexture.active = active;
         }
@@ -829,12 +865,12 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             if (this.flip)
             {
                 Transform transform = base.gameObject.transform;
-                transform.position += (Vector3)(Vector3.up * this.R);
+                transform.position += (Vector3) (Vector3.up * this.R);
             }
             else
             {
                 Transform transform2 = base.gameObject.transform;
-                transform2.position -= (Vector3)(Vector3.up * this.R);
+                transform2.position -= (Vector3) (Vector3.up * this.R);
             }
             this.flip = !this.flip;
             this.R *= this.decay;
@@ -847,10 +883,15 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
         this.setDayLight(dayLight);
-        
+
         // This doesn't exist in the scene and causes a NullReferenceException.
         // TODO: Fix titan locking
         this.locker = GameObject.Find("locker");
         this.createSnapShotRT2();
+    }
+
+    private void OnDestroy()
+    {
+        EntityService.OnRegister -= EntityService_OnRegistered;
     }
 }

@@ -1,25 +1,22 @@
-using System;
 using UnityEngine;
 
-public class LevelTriggerCheckPoint : MonoBehaviour
+namespace Assets.Scripts.Room
 {
-    private void OnTriggerStay(Collider other)
+    public class LevelTriggerCheckPoint : MonoBehaviour
     {
-        if (other.gameObject.tag == "Player")
+        private void OnTriggerStay(Collider other)
         {
-            if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE)
+            if (other.gameObject.tag == "Player")
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
-            }
-            else if (other.gameObject.GetComponent<Hero>().photonView.isMine)
-            {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().checkpoint = base.gameObject;
+                if (other.gameObject.GetComponent<Hero>().photonView.isMine)
+                {
+                    FengGameManagerMKII.instance.checkpoint = gameObject;
+                }
             }
         }
-    }
 
-    private void Start()
-    {
+        private void Start()
+        {
+        }
     }
 }
-
