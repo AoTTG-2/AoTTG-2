@@ -10,12 +10,15 @@ public class TriggerColliderWeapon : MonoBehaviour
     public Equipment Equipment { get; set; }
 
     public bool active_me;
-    public GameObject currentCamera;
+    public IN_GAME_MAIN_CAMERA currentCamera;
     public ArrayList currentHits = new ArrayList();
     public ArrayList currentHitsII = new ArrayList();
     public AudioSource meatDie;
+    public Hero hero;
+    private FengGameManagerMKII manager;
     public int myTeam = 1;
     public float scoreMulti = 1f;
+    public Rigidbody body;
 
     private bool checkIfBehind(GameObject titan)
     {
@@ -36,333 +39,196 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     public void DummyNapeHit(DummyTitan titan)
     {
-        Vector3 vector3 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity;
-        int num2 = (int)((vector3.magnitude * 10f) * this.scoreMulti);
-        num2 = Mathf.Max(10, num2);
+        Vector3 velocity = body.velocity;
+        int damage = (int) ((velocity.magnitude * 10f) * this.scoreMulti);
+        damage = Mathf.Max(10, damage);
 
-        titan.photonView.RPC("GetHit", PhotonTargets.All, new object[] { num2 });
-        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().netShowDamage(num2);
+        titan.photonView.RPC("GetHit", PhotonTargets.All, new object[] { damage });
+        manager.netShowDamage(damage);
     }
 
-    public void clearHits()
+    public void ClearHits()
     {
-        this.currentHitsII = new ArrayList();
-        this.currentHits = new ArrayList();
+        currentHitsII = new ArrayList();
+        currentHits = new ArrayList();
     }
 
-    private void napeMeat(Vector3 vkill, Transform titan)
+    private void HeroHit(Hero hero, HitBox hitbox, float distance)
     {
-        Transform transform = titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-        GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("titanNapeMeat"), transform.position, transform.rotation);
-        obj2.transform.localScale = titan.localScale;
-        obj2.GetComponent<Rigidbody>().AddForce((Vector3) (vkill.normalized * 15f), ForceMode.Impulse);
-        obj2.GetComponent<Rigidbody>().AddForce((Vector3) (-titan.forward * 10f), ForceMode.Impulse);
-        obj2.GetComponent<Rigidbody>().AddTorque(new Vector3((float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100), (float) UnityEngine.Random.Range(-100, 100)), ForceMode.Impulse);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (this.active_me)
+        if ((hero.myTeam != myTeam) && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
         {
-            if (!this.currentHitsII.Contains(other.gameObject))
+            float b = Mathf.Min(1f, 1f - (distance * 0.05f));
+
+            hero.markDie();
+            hero.photonView.RPC("netDie", PhotonTargets.All, new object[]
             {
-                this.currentHitsII.Add(other.gameObject);
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.1f, 0.1f, 0.95f);
-                if (other.gameObject.transform.root.gameObject.tag == "titan")
+                ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
+                false,
+                transform.root.gameObject.GetPhotonView().viewID,
+                PhotonView.Find(transform.root.gameObject.GetPhotonView().viewID).owner.CustomProperties[PhotonPlayerProperty.name],
+                false
+            });
+        }
+    }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        if (active_me)
+        {
+            if (!currentHitsII.Contains(collider.gameObject))
+            {
+                currentHitsII.Add(collider.gameObject);
+                currentCamera.startShake(0.1f, 0.1f, 0.95f);
+                if (collider.gameObject.transform.root.gameObject.tag == "titan")
                 {
-                    GameObject obj2;
-                    this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Hero>().slashHit.Play();
-                    obj2 = PhotonNetwork.Instantiate("hitMeat", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-                    obj2.transform.position = base.transform.position;
+                    GameObject meat;
+                    hero.slashHit.Play();
+                    meat = PhotonNetwork.Instantiate("hitMeat", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
+                    meat.transform.position = transform.position;
                     Equipment.Weapon.Use(0);
                 }
             }
-            if (other.gameObject.tag == "playerHitbox")
+
+            if (currentHits.Contains(collider.gameObject))
+                return;
+
+            switch (collider.gameObject.tag)
             {
-                if (GameSettings.PvP.Mode != PvpMode.Disabled)
-                {
-                    float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
-                    b = Mathf.Min(1f, b);
-                    HitBox component = other.gameObject.GetComponent<HitBox>();
-                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
+                case "playerHitbox":
+                    if (GameSettings.PvP.Mode != PvpMode.Disabled && collider.gameObject.TryGetComponent(out HitBox hitbox) && (hitbox.transform.root != null) && hitbox.transform.root.TryGetComponent(out Hero hero))
                     {
-                        if (PhotonNetwork.offlineMode)
-                        {
-                            if (!component.transform.root.GetComponent<Hero>().isGrabbed)
-                            {
-                                Vector3 vector = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<Hero>().die((Vector3) (((vector.normalized * b) * 1000f) + (Vector3.up * 50f)), false);
-                            }
-                        }
-                        else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
-                        {
-                            component.transform.root.GetComponent<Hero>().markDie();
-                            object[] parameters = new object[5];
-                            Vector3 vector2 = component.transform.root.position - base.transform.position;
-                            parameters[0] = (Vector3) (((vector2.normalized * b) * 1000f) + (Vector3.up * 50f));
-                            parameters[1] = false;
-                            parameters[2] = base.transform.root.gameObject.GetPhotonView().viewID;
-                            parameters[3] = PhotonView.Find(base.transform.root.gameObject.GetPhotonView().viewID).owner.CustomProperties[PhotonPlayerProperty.name];
-                            parameters[4] = false;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
-                        }
+                        HeroHit(hero, hitbox, Vector3.Distance(collider.gameObject.transform.position, transform.position));
                     }
-                }
-            }
-            else if (other.gameObject.tag == "titanneck")
-            {
-                HitBox item = other.gameObject.GetComponent<HitBox>();
-                if (((item != null) && this.checkIfBehind(item.transform.root.gameObject)) && !this.currentHits.Contains(item))
-                {
-                    item.hitPosition = (Vector3) ((base.transform.position + item.transform.position) * 0.5f);
-                    this.currentHits.Add(item);
-                    this.meatDie.Play();
-                    if (!PhotonNetwork.isMasterClient)
+                    break;
+                case "titanneck":
+                    if ((collider.gameObject.TryGetComponent(out HitBox item) && checkIfBehind(item.transform.root.gameObject)) && item.transform.root.TryGetComponent(out TitanBase tb))
                     {
-                        if (item.transform.root.GetComponent<FemaleTitan>() != null)
+                        Vector3 velocity = body.velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
+                        var damage = Mathf.Max(10, (int) ((velocity.magnitude * 10f) * scoreMulti));
+
+                        tb.photonView.RPC(nameof(tb.OnNapeHitRpc2), tb.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                    }
+                    break;
+                case "titaneye":
+                    {
+                        currentHits.Add(collider.gameObject);
+                        GameObject gameObject = collider.gameObject.transform.root.gameObject;
+                        if (gameObject.TryGetComponent(out FemaleTitan ft) && !ft.hasDie)
                         {
-                            Equipment.Weapon.Use(0x7fffffff);
-                            Vector3 vector5 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                            int num4 = (int) ((vector5.magnitude * 10f) * this.scoreMulti);
-                            num4 = Mathf.Max(10, num4);
-                            if (!item.transform.root.GetComponent<FemaleTitan>().hasDie)
+                            if (!PhotonNetwork.isMasterClient)
                             {
-                                object[] objArray3 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, num4 };
-                                item.transform.root.GetComponent<FemaleTitan>().photonView.RPC("titanGetHit", item.transform.root.GetComponent<FemaleTitan>().photonView.owner, objArray3);
-                            }
-                        }
-                        else if (item.transform.root.GetComponent<ColossalTitan>() != null)
-                        {
-                            Equipment.Weapon.Use(0x7fffffff);
-                            if (!item.transform.root.GetComponent<ColossalTitan>().hasDie)
-                            {
-                                Vector3 vector6 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                                int num5 = (int) ((vector6.magnitude * 10f) * this.scoreMulti);
-                                num5 = Mathf.Max(10, num5);
-                                object[] objArray4 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, num5 };
-                                item.transform.root.GetComponent<ColossalTitan>().photonView.RPC("titanGetHit", item.transform.root.GetComponent<ColossalTitan>().photonView.owner, objArray4);
-                            }
-                        }
-                        else if (item.transform.root.GetComponent<DummyTitan>())
-                        {
-                            DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
-                        }
-                        else if (item.transform.root.GetComponent<TitanBase>() != null)
-                        {
-                            Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                            var damage = (int) ((vector4.magnitude * 10f) * this.scoreMulti);
-                            damage = Mathf.Max(10, damage);
-                            var titan = item.transform.root.GetComponent<TitanBase>();
-                            titan.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                        }
-                        else if (item.transform.root.GetComponent<MindlessTitan>() != null)
-                        {
-                            Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                            var damage = (int) ((vector4.magnitude * 10f) * this.scoreMulti);
-                            damage = Mathf.Max(10, damage);
-                            var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
-                            if (PhotonNetwork.isMasterClient)
-                            {
-                                mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
+                                object[] objArray5 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID };
+                                ft.photonView.RPC("hitEyeRPC", PhotonTargets.MasterClient, objArray5);
                             }
                             else
                             {
-                                mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                                ft.hitEyeRPC(base.transform.root.gameObject.GetPhotonView().viewID);
                             }
                         }
-                    }
-                    else if (item.transform.root.GetComponent<FemaleTitan>() != null)
-                    {
-                        Equipment.Weapon.Use(0x7fffffff);
-                        if (!item.transform.root.GetComponent<FemaleTitan>().hasDie)
+                        else if (gameObject.TryGetComponent(out MindlessTitan mt))
                         {
-                            Vector3 vector8 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                            int num7 = (int) ((vector8.magnitude * 10f) * this.scoreMulti);
-                            num7 = Mathf.Max(10, num7);
-                            if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
+                            Vector3 vector4 = body.velocity - gameObject.GetComponent<Rigidbody>().velocity;
+                            var damage = Mathf.Max(10, (int) ((vector4.magnitude * 10f) * scoreMulti));
+                            if (PhotonNetwork.isMasterClient)
                             {
-                                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num7, null, 0.02f);
+                                mt.OnEyeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
                             }
-                            item.transform.root.GetComponent<FemaleTitan>().titanGetHit(base.transform.root.gameObject.GetPhotonView().viewID, num7);
-                        }
-                    }
-                    else if (item.transform.root.GetComponent<ColossalTitan>() != null)
-                    {
-                        Equipment.Weapon.Use(0x7fffffff);
-                        if (!item.transform.root.GetComponent<ColossalTitan>().hasDie)
-                        {
-                            Vector3 vector9 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                            int num8 = (int) ((vector9.magnitude * 10f) * this.scoreMulti);
-                            num8 = Mathf.Max(10, num8);
-                            if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
+                            else
                             {
-                                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num8, null, 0.02f);
+                                mt.photonView.RPC("OnEyeHitRpc", mt.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                             }
-                            item.transform.root.GetComponent<ColossalTitan>().titanGetHit(base.transform.root.gameObject.GetPhotonView().viewID, num8);
+                            ShowCriticalHitFX();
                         }
                     }
-                    else if (item.transform.root.GetComponent<DummyTitan>())
+                    break;
+                case "titanbodypart":
                     {
-                        DummyNapeHit(item.transform.root.GetComponent<DummyTitan>());
-                    }
-                    //TODO: 160 Assure that all titans use the same logic here
-                    else if (item.transform.root.GetComponent<TitanBase>() != null)
-                    {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                        var damage = (int) ((vector4.magnitude * 10f) * this.scoreMulti);
-                        damage = Mathf.Max(10, damage);
-                        var titan = item.transform.root.GetComponent<TitanBase>();
-                        titan.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                    }
-                    else if (item.transform.root.GetComponent<MindlessTitan>() != null)
-                    {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
-                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
-                        damage = Mathf.Max(10, damage);
-                        var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
-                        if (PhotonNetwork.isMasterClient)
+                        currentHits.Add(collider.gameObject);
+                        GameObject gameObject = collider.gameObject.transform.root.gameObject;
+                        if (gameObject.TryGetComponent(out MindlessTitan mt))
                         {
-                            mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
-                        }
-                        else
-                        {
-                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                        }
-                    }
-                    this.showCriticalHitFX();
-                }
-            }
-            else if (other.gameObject.tag == "titaneye")
-            {
-                if (!this.currentHits.Contains(other.gameObject))
-                {
-                    this.currentHits.Add(other.gameObject);
-                    GameObject gameObject = other.gameObject.transform.root.gameObject;
-                    if (gameObject.GetComponent<FemaleTitan>() != null)
-                    {
-                        if (!PhotonNetwork.isMasterClient)
-                        {
-                            if (!gameObject.GetComponent<FemaleTitan>().hasDie)
+                            Vector3 vector4 = this.body.velocity - gameObject.GetComponent<Rigidbody>().velocity;
+                            var damage = Mathf.Max(10, (int) ((vector4.magnitude * 10f) * scoreMulti));
+                            var body = mt.Body.GetBodyPart(collider.transform);
+                            if (PhotonNetwork.isMasterClient)
                             {
-                                object[] objArray5 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID };
-                                gameObject.GetComponent<FemaleTitan>().photonView.RPC("hitEyeRPC", PhotonTargets.MasterClient, objArray5);
+                                mt.OnBodyPartHitRpc(body, damage);
                             }
-                        }
-                        else if (!gameObject.GetComponent<FemaleTitan>().hasDie)
-                        {
-                            gameObject.GetComponent<FemaleTitan>().hitEyeRPC(base.transform.root.gameObject.GetPhotonView().viewID);
-                        }
-                    }
-                    else if (gameObject.GetComponent<MindlessTitan>() != null)
-                    {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
-                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
-                        damage = Mathf.Max(10, damage);
-                        var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
-                        if (PhotonNetwork.isMasterClient)
-                        {
-                            mindlessTitan.OnEyeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
-                        }
-                        else
-                        {
-                            mindlessTitan.photonView.RPC("OnEyeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                        }
-                        showCriticalHitFX();
-                    }
-                }
-            }
-            else if (other.gameObject.tag == "titanbodypart")
-            {
-                if (!this.currentHits.Contains(other.gameObject))
-                {
-                    this.currentHits.Add(other.gameObject);
-                    GameObject gameObject = other.gameObject.transform.root.gameObject;
-                    if (gameObject.GetComponent<MindlessTitan>() != null)
-                    {
-                        Vector3 vector4 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - gameObject.GetComponent<Rigidbody>().velocity;
-                        var damage = (int)((vector4.magnitude * 10f) * this.scoreMulti);
-                        damage = Mathf.Max(10, damage);
-                        var mindlessTitan = gameObject.GetComponent<MindlessTitan>();
-                        var body = mindlessTitan.Body.GetBodyPart(other.transform);
-                        if (PhotonNetwork.isMasterClient)
-                        {
-                            mindlessTitan.OnBodyPartHitRpc(body, damage);
-                        }
-                        else
-                        {
-                            mindlessTitan.photonView.RPC("OnBodyPartHitRpc", mindlessTitan.photonView.owner, body, damage);
-                        }
-                    }
-                }
-            }
-            else if ((other.gameObject.tag == "titanankle") && !this.currentHits.Contains(other.gameObject))
-            {
-                this.currentHits.Add(other.gameObject);
-                GameObject obj4 = other.gameObject.transform.root.gameObject;
-                Vector3 vector10 = Vector3.zero;
-                if (obj4.GetComponent<Rigidbody>())//patch for dummy titan
-                {
-                    vector10 = this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().main_object.GetComponent<Rigidbody>().velocity - obj4.GetComponent<Rigidbody>().velocity;
-                }
-                int num9 = (int) ((vector10.magnitude * 10f) * this.scoreMulti);
-                num9 = Mathf.Max(10, num9);
-                if (obj4.GetComponent<MindlessTitan>() != null)
-                {
-                    var mindlessTitan = obj4.GetComponent<MindlessTitan>();
-                    mindlessTitan.OnAnkleHit(transform.root.gameObject.GetPhotonView().viewID, num9);
-                    this.showCriticalHitFX();
-                }
-                else if (obj4.GetComponent<FemaleTitan>() != null)
-                {
-                    if (other.gameObject.name == "ankleR")
-                    {
-                        if (!PhotonNetwork.isMasterClient)
-                        {
-                            if (!obj4.GetComponent<FemaleTitan>().hasDie)
+                            else
                             {
-                                object[] objArray8 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, num9 };
-                                obj4.GetComponent<FemaleTitan>().photonView.RPC("hitAnkleRRPC", PhotonTargets.MasterClient, objArray8);
+                                mt.photonView.RPC("OnBodyPartHitRpc", mt.photonView.owner, body, damage);
                             }
                         }
-                        else if (!obj4.GetComponent<FemaleTitan>().hasDie)
+                    }
+                    break;
+                case "titanankle":
+                    {
+                        currentHits.Add(collider.gameObject);
+                        GameObject rootObj = collider.gameObject.transform.root.gameObject;
+                        Vector3 vel = Vector3.zero;
+                        if (rootObj.TryGetComponent(out Rigidbody rigidbody))//patch for dummy titan
                         {
-                            obj4.GetComponent<FemaleTitan>().hitAnkleRRPC(base.transform.root.gameObject.GetPhotonView().viewID, num9);
+                            vel = body.velocity - rigidbody.velocity;
+                        }
+
+                        int damage = Mathf.Max(10, (int) ((vel.magnitude * 10f) * this.scoreMulti));
+
+                        if (rootObj.TryGetComponent(out MindlessTitan mt))
+                        {
+                            mt.OnAnkleHit(transform.root.gameObject.GetPhotonView().viewID, damage);
+                            ShowCriticalHitFX();
+                        }
+                        else if (rootObj.TryGetComponent(out FemaleTitan ft) && !ft.hasDie)
+                        {
+                            if (collider.gameObject.name == "ankleR")
+                            {
+                                if (!PhotonNetwork.isMasterClient)
+                                {
+                                    object[] objArray8 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, damage };
+                                    ft.photonView.RPC("hitAnkleRRPC", PhotonTargets.MasterClient, objArray8);
+                                }
+                                else
+                                {
+                                    ft.hitAnkleRRPC(base.transform.root.gameObject.GetPhotonView().viewID, damage);
+                                }
+                            }
+                            else if (!PhotonNetwork.isMasterClient)
+                            {
+                                object[] objArray9 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, damage };
+                                ft.photonView.RPC("hitAnkleLRPC", PhotonTargets.MasterClient, objArray9);
+                            }
+                            else
+                            {
+                                ft.hitAnkleLRPC(base.transform.root.gameObject.GetPhotonView().viewID, damage);
+                            }
+                            ShowCriticalHitFX();
+                        }
+                        else if (rootObj.TryGetComponent(out DummyTitan dummyTitan))
+                        {
+                            ShowCriticalHitFX();
                         }
                     }
-                    else if (!PhotonNetwork.isMasterClient)
-                    {
-                        if (!obj4.GetComponent<FemaleTitan>().hasDie)
-                        {
-                            object[] objArray9 = new object[] { base.transform.root.gameObject.GetPhotonView().viewID, num9 };
-                            obj4.GetComponent<FemaleTitan>().photonView.RPC("hitAnkleLRPC", PhotonTargets.MasterClient, objArray9);
-                        }
-                    }
-                    else if (!obj4.GetComponent<FemaleTitan>().hasDie)
-                    {
-                        obj4.GetComponent<FemaleTitan>().hitAnkleLRPC(base.transform.root.gameObject.GetPhotonView().viewID, num9);
-                    }
-                    this.showCriticalHitFX();
-                }
-                else if(obj4.GetComponent<DummyTitan>())
-                {
-                    this.showCriticalHitFX();
-                }
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    private void showCriticalHitFX()
+    private void ShowCriticalHitFX()
     {
         GameObject obj2;
-        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
-        obj2 = PhotonNetwork.Instantiate("redCross", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-        obj2.transform.position = base.transform.position;
+        currentCamera.startShake(0.2f, 0.3f, 0.95f);
+        obj2 = PhotonNetwork.Instantiate("redCross", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
+        obj2.transform.position = transform.position;
     }
 
     private void Start()
     {
-        this.currentCamera = GameObject.Find("MainCamera");
+        currentCamera = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
+        body = currentCamera.main_object.GetComponent<Rigidbody>();
         Equipment = base.transform.root.GetComponent<Equipment>();
+        hero = currentCamera.main_object.GetComponent<Hero>();
+        manager = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>();
     }
 }
-

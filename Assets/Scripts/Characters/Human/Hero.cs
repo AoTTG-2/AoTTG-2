@@ -1053,8 +1053,8 @@ public class Hero : Human
             {
                 this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
-                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
+                this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
+                this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
                 //this.leftbladetrail.StopSmoothly(0.2f);
                 //this.rightbladetrail.StopSmoothly(0.2f);
                 //this.leftbladetrail2.StopSmoothly(0.2f);
@@ -5001,8 +5001,8 @@ public class Hero : Human
                                 }
                                 if (!flag3)
                                 {
-                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
-                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
+                                    this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
+                                    this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
                                     if (this.grounded)
                                     {
                                         this.baseRigidBody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
@@ -5210,8 +5210,8 @@ public class Hero : Human
                                     {
                                         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
-                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
+                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
+                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
                                         /*
                                         this.leftbladetrail.StopSmoothly(0.1f);
                                         this.rightbladetrail.StopSmoothly(0.1f);
@@ -5282,8 +5282,8 @@ public class Hero : Human
                                     {
                                         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
-                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().clearHits();
-                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().clearHits();
+                                        this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
+                                        this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
                                         //this.leftbladetrail2.StopSmoothly(0.1f);
                                         //this.rightbladetrail2.StopSmoothly(0.1f);
                                         //this.leftbladetrail.StopSmoothly(0.1f);
