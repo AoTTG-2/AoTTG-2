@@ -1827,6 +1827,7 @@ namespace Assets.Scripts
             Level = PhotonNetwork.room.GetLevel();
             SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
             this.maxPlayers = PhotonNetwork.room.MaxPlayers;
+            
             this.playerList = string.Empty;
             char[] separator = new char[] { "`"[0] };
             //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
@@ -1874,6 +1875,19 @@ namespace Assets.Scripts
             {
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
+            
+            Debug.Log($"MAX PLAYERS = {PhotonNetwork.room.MaxPlayers}");
+
+            foreach (var VARIABLE in PhotonNetwork.playerList)
+            {
+                Debug.Log($"PLAYER  = {VARIABLE}");
+            }
+            
+            Debug.Log($"CURRENT PLAYERCOUNT = {PhotonNetwork.room.PlayerCount}");
+            
+            Debug.Log($"Setting discord status in OnJoinedRoom on line #1877");
+            var temp = FindObjectOfType<DiscordRichPresence>();
+            temp.InMultiplayerGame(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()

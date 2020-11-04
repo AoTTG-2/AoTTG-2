@@ -2,27 +2,29 @@
 using Discord;
 using UnityEngine;
 
-public class DiscordRichPresence : MonoBehaviour {
+public class DiscordRichPresence : MonoBehaviour
+{
+    private Activity activityStruct;
 
     void Start()
     {
-        InMenu();
-    }
-
-	public void InMenu()
-    {
-        var activity = new Activity
+        activityStruct = new Activity
         {
-            State = "In Menu",
             Assets =
             {
                 LargeImage = "aottg_2_title",
                 LargeText = "AoTTG2",
             },
         };
-        DiscordSocket.GetActivityManager().UpdateActivity(activity, (result) =>
+        InMenu();
+    }
+
+    public void InMenu()
+    {
+        activityStruct.State = "In Menu";
+        DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
         {
-            if(result == Discord.Result.Ok)
+            if (result == Discord.Result.Ok)
             {
                 Debug.Log("Working!");
             }
@@ -33,7 +35,58 @@ public class DiscordRichPresence : MonoBehaviour {
         });
     }
 
-    public void InGame(RoomInfo room)
+    public void InMultiplayerGame(Room room)
+    {
+        Debug.Log($"ROOM playre count = {room.PlayerCount} ROOM max Count = {room.MaxPlayers}");
+        activityStruct.State = room.GetName() + " [" + PhotonNetwork.CloudRegion + "]";
+        activityStruct.Details = room.GetLevel() + " - " + room.GetGamemode();
+        activityStruct.Party = new ActivityParty
+        {
+            Size = new PartySize
+            {
+                CurrentSize = room.PlayerCount,
+                MaxSize = 100
+            }
+        };
+        
+        DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
+        {
+            if (result == Result.Ok)
+            {
+                Debug.Log($"Updated Party.");
+            }
+            else
+            {
+                Debug.Log($"Failed to Update Party stats.");
+            }
+        });
+
+       // SetupJoinButton();
+    }
+
+    private void SetupJoinButton()
+    {
+        activityStruct.Secrets = new ActivitySecrets
+        {
+            Spectate = "",
+            Join = "",
+            Match = ""
+        };
+        DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
+        {
+            if (result == Result.Ok)
+            {
+                Debug.Log($"Updated Join Button");
+            }
+            else
+            {
+                Debug.Log($"Failed to Update Join Button.");
+            }
+        });
+    }
+
+
+    public void InGame(Room room)
     {
         var activity = new Activity
         {
@@ -65,10 +118,11 @@ public class DiscordRichPresence : MonoBehaviour {
             }
         });
     }
-	
-	void Update () {
+
+    void Update()
+    {
         DiscordSocket.GetSocket().RunCallbacks();
-	}
+    }
 
     void OnApplicationQuit()
     {
