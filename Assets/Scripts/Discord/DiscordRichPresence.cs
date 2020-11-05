@@ -6,7 +6,7 @@ public class DiscordRichPresence : MonoBehaviour
 {
     private Activity activityStruct;
 
-    void Start()
+    private void Start()
     {
         activityStruct = new Activity
         {
@@ -37,51 +37,22 @@ public class DiscordRichPresence : MonoBehaviour
 
     public void InMultiplayerGame(Room room)
     {
-        Debug.Log($"ROOM playre count = {room.PlayerCount} ROOM max Count = {room.MaxPlayers}");
+        Debug.Log($"Current room player count = {room.PlayerCount} and max players = {room.MaxPlayers}");
         activityStruct.State = room.GetName() + " [" + PhotonNetwork.CloudRegion + "]";
         activityStruct.Details = room.GetLevel() + " - " + room.GetGamemode();
         activityStruct.Party = new ActivityParty
         {
-            Size = new PartySize
-            {
-                CurrentSize = room.PlayerCount,
-                MaxSize = 100
-            }
+            Size = new PartySize {CurrentSize = room.PlayerCount, MaxSize = 100}, 
+            Id = room.GetHashCode().ToString(),
         };
-        
-        DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
-        {
-            if (result == Result.Ok)
-            {
-                Debug.Log($"Updated Party.");
-            }
-            else
-            {
-                Debug.Log($"Failed to Update Party stats.");
-            }
-        });
-
-       // SetupJoinButton();
-    }
-
-    private void SetupJoinButton()
-    {
         activityStruct.Secrets = new ActivitySecrets
         {
-            Spectate = "",
-            Join = "",
-            Match = ""
+            Join = room.Name,
         };
+
         DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
         {
-            if (result == Result.Ok)
-            {
-                Debug.Log($"Updated Join Button");
-            }
-            else
-            {
-                Debug.Log($"Failed to Update Join Button.");
-            }
+            Debug.Log(result == Result.Ok ? $"Updated Party." : $"Failed to Update Party stats.");
         });
     }
 
@@ -119,12 +90,12 @@ public class DiscordRichPresence : MonoBehaviour
         });
     }
 
-    void Update()
+    private void Update()
     {
         DiscordSocket.GetSocket().RunCallbacks();
     }
 
-    void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         DiscordSocket.CloseSocket();
     }
