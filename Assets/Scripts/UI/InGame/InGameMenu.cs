@@ -22,18 +22,18 @@ namespace Assets.Scripts.UI.InGame
         }
 
         /// <summary>
-        /// Displays the selected <paramref name="gameObject"/> UI element.
+        /// Displays the selected <paramref name="menuObject"/> UI element.
         /// </summary>
-        /// <param name="gameObject"></param>
-        public void OpenMenu(GameObject gameObject)
+        /// <param name="menuObject"></param>
+        public void OpenMenu(GameObject menuObject)
         {
             if (previousPage != null)
                 previousPage.SetActive(false);
 
-            gameObject.SetActive(true);
+            menuObject.SetActive(true);
 
             previousPage = currentPage;
-            currentPage = gameObject;
+            currentPage = menuObject;
         }
 
         private void OnEnable()
