@@ -445,7 +445,7 @@ namespace Assets.Scripts.Characters.Titan
                 base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
                 this.lagMax = 150f + (this.size * 3f);
                 this.healthTime = 0f;
-                this.maxHealth = this.Health;
+                this.maxHealth = Health;
                 if (GameSettings.Titan.Colossal.HealthMode != TitanHealthMode.Disabled)
                 {
                     maxHealth = NapeArmorTotal = Health = GameSettings.Titan.Colossal.Health;

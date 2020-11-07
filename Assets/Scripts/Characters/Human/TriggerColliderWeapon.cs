@@ -21,23 +21,6 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     private FengGameManagerMKII manager;
 
-    private bool IsBehind(GameObject titan)
-    {
-        if (titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
-        {
-            Transform transform = titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
-            Vector3 to = transform.position - transform.transform.position;
-            return (Vector3.Angle(-transform.transform.forward, to) < 70f);
-        }
-        else if (titan.transform.Find("BodyPivot/HeadPos") != null)// dummy titan
-        {
-            Transform transform = titan.transform.Find("BodyPivot/HeadPos");
-            Vector3 to = transform.position - transform.transform.position;
-            return (Vector3.Angle(-transform.transform.forward, to) < 70f);
-        }
-        return false;
-    }
-
     public void DummyNapeHit(DummyTitan titan)
     {
         Vector3 velocity = body.velocity;
@@ -50,8 +33,8 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     public void ClearHits()
     {
-        currentHitsII = new ArrayList();
-        currentHits = new ArrayList();
+        currentHitsII.Clear();
+        currentHits.Clear();
     }
 
     private void HeroHit(Hero hero, HitBox hitbox, float distance)
@@ -109,8 +92,13 @@ public class TriggerColliderWeapon : MonoBehaviour
             case "titanneck":
                 if (collider.gameObject.TryGetComponent(out HitBox item) && item.transform.root.TryGetComponent(out TitanBase titanBase))
                 {
-                    if(!IsBehind(item.transform.root.gameObject)) 
-                        return;
+                    if (titanBase.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
+                    {
+                        Transform transform = titanBase.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
+
+                        if (Vector3.Angle(-transform.forward, transform.position - transform.position) >= 70f) 
+                            break;
+                    }
 
                     Vector3 velocity = body.velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                     int damage = Mathf.Max(10, (int) ((velocity.magnitude * 10f) * scoreMulti));
