@@ -16,15 +16,16 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject Glasses;
         [SerializeField] public GameObject Mouth;
         [SerializeField] public List<HairPrefab> Hair;
-        [SerializeField] public List<GameObject> MaleCasualOutfits;
-        [SerializeField] public List<GameObject> MaleUniformOutfits;
-        [SerializeField] public List<GameObject> FemaleCasualOutfits;
-        [SerializeField] public List<GameObject> FemaleUniformOutfits;
+        [SerializeField] public List<OutfitPrefab> Outfits;
         [SerializeField] public List<GameObject> OptionalClothingCasual;
         [SerializeField] public List<GameObject> OptionalClothingUniform;
         [SerializeField] public List<GameObject> Emblems;
-        [SerializeField] public List<GameObject> Equipment;
+        [SerializeField] public List<EquipmentPrefab> Equipment;
         [SerializeField] public List<SkinPrefab> Skin;
+
+        [SerializeField] public GameObject Legs;
+        [SerializeField] public GameObject Chest;
+        [SerializeField] public ArmPrefab Arms;
 
         public HeadPrefab GetHeadPrefab(HeadModel model)
         {
@@ -39,6 +40,16 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public SkinPrefab GetSkinPrefab(Skin skin)
         {
             return Skin.First(x => x.Skin == skin);
+        }
+
+        public OutfitPrefab GetOutfitPrefab(OutfitModel outfit)
+        {
+            return Outfits.First(x => x.Model == outfit);
+        }
+
+        public EquipmentPrefab GetEquipmentPrefab(EquipmentType equipment)
+        {
+            return Equipment.First(x => x.EquipmentType == equipment);
         }
     }
 
@@ -96,5 +107,47 @@ namespace Assets.Scripts.Characters.Humans.Customization
         }
 
 
+    }
+
+    [Serializable]
+    public struct OutfitPrefab
+    {
+        [SerializeField] public GameObject Prefab;
+        [SerializeField] public OutfitModel Model;
+        [SerializeField] public Gender Gender;
+        [SerializeField] public List<OutfitPrefabTexture> Textures;
+
+        public OutfitPrefabTexture GetTexture(OutfitTexture texture)
+        {
+            return Textures.FirstOrDefault(x => x.Texture == texture);
+        }
+
+        [Serializable]
+        public struct OutfitPrefabTexture
+        {
+            [SerializeField] public Texture2D File;
+            [SerializeField] public OutfitTexture Texture;
+        }
+    }
+
+    [Serializable]
+    public struct ArmPrefab
+    {
+        [SerializeField] public GameObject LeftCasual;
+        [SerializeField] public GameObject LeftAhss;
+        [SerializeField] public GameObject LeftUniform;
+        [SerializeField] public GameObject RightCasual;
+        [SerializeField] public GameObject RightAhss;
+        [SerializeField] public GameObject RightUniform;
+    }
+
+    [Serializable]
+    public struct EquipmentPrefab
+    {
+        public string Name;
+        public GameObject HandLeft;
+        public GameObject HandRight;
+        public GameObject Equipment;
+        public EquipmentType EquipmentType;
     }
 }

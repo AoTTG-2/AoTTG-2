@@ -28,6 +28,7 @@ namespace Assets.Scripts.Characters.Humans.Customization.Components
     public enum OutfitTexture
     {
         Custom,
+        Levi,
         CasualFemaleA,
         CasualFemaleB,
         CasualMaleA,
