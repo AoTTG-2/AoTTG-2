@@ -1,0 +1,17 @@
+﻿using Assets.Scripts.Characters.Humans.Customization.Components;
+using System;
+using UnityEngine;
+
+namespace Assets.Scripts.Characters.Humans.Customization
+{
+    [Serializable]
+    public struct CharacterOutfit
+    {
+        [SerializeField] public string Name;
+        [SerializeField] public HeadComponent Head;
+        [SerializeField] public SkinComponent Skin;
+        [SerializeField] public HairComponent Hair;
+        [SerializeField] public EyesComponent Eyes;
+        [SerializeField] public OutfitComponent Outfit;
+    }
+}

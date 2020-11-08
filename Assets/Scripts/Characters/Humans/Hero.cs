@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
@@ -238,6 +239,7 @@ public class Hero : Human
 
     protected override void Awake()
     {
+        return;
         base.Awake();
         InGameUI = GameObject.Find("InGameUi");
         this.cache();
@@ -758,6 +760,7 @@ public class Hero : Human
 
     private void OnCollisionEnter(Collision collision)
     {
+        return;
         if (collision.gameObject.tag == "titan") return;
         var force = collision.impulse.magnitude / Time.fixedDeltaTime;
         if (GameSettings.Gamemode.ImpactForce > 0 && force >= GameSettings.Gamemode.ImpactForce)
@@ -1063,6 +1066,7 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
+        return;
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
@@ -4335,6 +4339,7 @@ public class Hero : Human
 
     private void Start()
     {
+        return;
         gameObject.AddComponent<PlayerInteractable>();
         SetHorse();
         this.sparks = this.baseTransform.Find("slideSparks").GetComponent<ParticleSystem>();
@@ -4378,40 +4383,6 @@ public class Hero : Human
         else
         {
             bool flag2 = false;
-            //HACK
-            //if (base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
-            //{
-            //    switch (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam]))
-            //    {
-            //        case 1:
-            //            flag2 = true;
-            //            if (Minimap.instance != null)
-            //            {
-            //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.cyan, false, true, Minimap.IconStyle.CIRCLE);
-            //            }
-            //            break;
-
-            //        case 2:
-            //            flag2 = true;
-            //            if (Minimap.instance != null)
-            //            {
-            //                Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.magenta, false, true, Minimap.IconStyle.CIRCLE);
-            //            }
-            //            break;
-            //    }
-            //}
-            //if (RCextensions.returnIntFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.team]) == 2)
-            //{
-            //    this.myNetWorkName.GetComponent<UILabel>().text = "[FF0000]AHSS\n[FFFFFF]";
-            //    if (!flag2 && (Minimap.instance != null))
-            //    {
-            //        Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.red, false, true, Minimap.IconStyle.CIRCLE);
-            //    }
-            //}
-            //else if (!flag2 && (Minimap.instance != null))
-            //{
-            //    Minimap.instance.TrackGameObjectOnMinimap(base.gameObject, Color.blue, false, true, Minimap.IconStyle.CIRCLE);
-            //}
         }
 
         //string str = RCextensions.returnStringFromObject(base.photonView.owner.CustomProperties[PhotonPlayerProperty.guildName]);
@@ -4495,6 +4466,7 @@ public class Hero : Human
 
     public void Update()
     {
+        return;
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {
             if (this.invincible > 0f)

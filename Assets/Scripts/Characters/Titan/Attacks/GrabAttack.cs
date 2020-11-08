@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Gamemode;
 using UnityEngine;
 

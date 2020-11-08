@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Titans.Attacks;
 using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
