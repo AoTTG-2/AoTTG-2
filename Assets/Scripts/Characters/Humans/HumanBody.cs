@@ -1,39 +1,85 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans
 {
     public class HumanBody : MonoBehaviour
     {
-        public Transform Hip;
+
+        [SerializeField] public GameObject Armature;
+        public Transform ControllerBody;
+        public Transform hip;
 
         [Header("Chest")] 
-        public Transform Spine;
-        public Transform Chest;
+        public Transform spine;
+        public Transform chest;
 
         [Header("Head")]
-        public Transform Head;
-        public Transform Neck;
+        public Transform neck;
+        public Transform head;
 
         [Header("Left Arm")]
-        public Transform ShoulderLeft;
-        public Transform UpperArmLeft;
-        public Transform ForearmLeft;
-        public Transform HandLeft;
+        public Transform shoulder_L;
+        public Transform upper_arm_L;
+        public Transform forearm_L;
+        public Transform hand_L;
 
         [Header("Right Arm")]
-        public Transform ShoulderRight;
-        public Transform UpperArmRight;
-        public Transform ForearmRight;
-        public Transform HandRight;
+        public Transform shoulder_R;
+        public Transform upper_arm_R;
+        public Transform forearm_R;
+        public Transform hand_R;
 
         [Header("Left Leg")]
-        public Transform ThighLeft;
-        public Transform ShinLeft;
-        public Transform FootLeft;
+        public Transform thigh_L;
+        public Transform shin_L;
+        public Transform foot_L;
+        public Transform toe_L;
 
         [Header("Right Leg")]
-        public Transform ThighRight;
-        public Transform ShinRight;
-        public Transform FootRight;
+        public Transform thigh_R;
+        public Transform shin_R;
+        public Transform foot_R;
+        public Transform toe_R;
+
+        public Transform[] Bones { get; set; }
+
+        private void Start()
+        {
+            Bones = new Transform[]
+            {
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                ControllerBody,
+                hip,
+                spine,
+                chest,
+                neck,
+                head,
+                shoulder_L,
+                upper_arm_L,
+                forearm_L,
+                hand_L,
+                shoulder_R,
+                upper_arm_R,
+                forearm_R,
+                hand_R,
+                thigh_L,
+                shin_L,
+                foot_L,
+                toe_L,
+                thigh_R,
+                shin_R,
+                foot_R,
+                toe_R
+            };
+        }
     }
 }

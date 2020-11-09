@@ -14674,7 +14674,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c21930deaaf40244bbcc57738933ec18, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14764,25 +14763,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611357ab9ad71df44999f5c8008bba40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hip: {fileID: 1296203829504990239}
-  Spine: {fileID: 1296447952574419999}
-  Chest: {fileID: 1288783842259588313}
-  Head: {fileID: 1296220707688907256}
-  Neck: {fileID: 1296453617281790318}
-  ShoulderLeft: {fileID: 1296452522916634411}
-  UpperArmLeft: {fileID: 1288872389395461828}
-  ForearmLeft: {fileID: 1288820884409235723}
-  HandLeft: {fileID: 1296262546937579391}
-  ShoulderRight: {fileID: 1296206603064416669}
-  UpperArmRight: {fileID: 1295955638638419370}
-  ForearmRight: {fileID: 1295941474913775956}
-  HandRight: {fileID: 1296359551435291546}
-  ThighLeft: {fileID: 1296231166415901443}
-  ShinLeft: {fileID: 1296252975429326833}
-  FootLeft: {fileID: 1288667795486201272}
-  ThighRight: {fileID: 1296159349731660721}
-  ShinRight: {fileID: 1296258801224388773}
-  FootRight: {fileID: 1296422262788529048}
+  Armature: {fileID: 1293770547763735767}
+  ControllerBody: {fileID: 1295956830379920601}
+  hip: {fileID: 1296203829504990239}
+  spine: {fileID: 1296447952574419999}
+  chest: {fileID: 1288783842259588313}
+  neck: {fileID: 1296453617281790318}
+  head: {fileID: 1296220707688907256}
+  shoulder_L: {fileID: 1296452522916634411}
+  upper_arm_L: {fileID: 1288872389395461828}
+  forearm_L: {fileID: 1288820884409235723}
+  hand_L: {fileID: 1296262546937579391}
+  shoulder_R: {fileID: 1296206603064416669}
+  upper_arm_R: {fileID: 1295955638638419370}
+  forearm_R: {fileID: 1295941474913775956}
+  hand_R: {fileID: 1296359551435291546}
+  thigh_L: {fileID: 1296231166415901443}
+  shin_L: {fileID: 1296252975429326833}
+  foot_L: {fileID: 1288667795486201272}
+  toe_L: {fileID: 1296426853713220447}
+  thigh_R: {fileID: 1296159349731660721}
+  shin_R: {fileID: 1296258801224388773}
+  foot_R: {fileID: 1296422262788529048}
+  toe_R: {fileID: 1288786165119700955}
 --- !u!1 &1293779355933022732
 GameObject:
   m_ObjectHideFlags: 0
@@ -24300,7 +24303,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c21930deaaf40244bbcc57738933ec18, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

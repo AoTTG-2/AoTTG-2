@@ -17,105 +17,93 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public CharacterBuild CurrentBuild { get; set; }
 
         private CharacterPrefabs Prefabs;
-
+        private HumanBody Body;
+        
         public void Apply(Human human, CharacterPrefabs prefabs)
         {
             Prefabs = prefabs;
             CurrentOutfit = CharacterOutfit[0];
+            Body = human.Body;
 
             var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
 
-            CreateHead(human.Body, CurrentOutfit.Head, skin);
-            CreateHair(human.Body, CurrentOutfit.Hair);
-            CreateEyes(human.Body, CurrentOutfit.Eyes);
-            CreateOutfit(human.Body, CurrentOutfit.Outfit);
+            CreateHead(CurrentOutfit.Head, skin);
+            CreateHair(CurrentOutfit.Hair);
+            CreateEyes(CurrentOutfit.Eyes);
+            CreateOutfit(CurrentOutfit.Outfit);
 
-            CreateEquipment(human.Body);
+            CreateEquipment();
         }
 
-        private List<GameObject> HeadObjects { get; } = new List<GameObject>();
-        private void CreateHead(HumanBody body, HeadComponent head, SkinPrefab skin)
+        private void CreateComponent(GameObject prefab, Texture2D texture, Color color = default, Transform parent = null)
         {
-            HeadObjects.ForEach(Destroy);
-            HeadObjects.Clear();
+            var prefabObject = Instantiate(prefab);
+            if (prefabObject.TryGetComponent(out SkinnedMeshRenderer meshRenderer))
+            {
+                meshRenderer.material.mainTexture = texture;
+                if (color != default)
+                    meshRenderer.material.color = color;
 
-            var prefab = Prefabs.GetHeadPrefab(head.Model);
-            var headObject = Instantiate(prefab.Prefab);
-            var renderer = headObject.GetComponent<Renderer>();
+                meshRenderer.rootBone = Body.ControllerBody;
+                meshRenderer.bones = Body.Bones;
+                prefabObject.transform.parent = parent ?? Body.ControllerBody;
+            }
 
-            renderer.material.mainTexture = skin.File;
-            headObject.transform.parent = body.Head;
+            if (prefabObject.TryGetComponent(out Renderer renderer))
+            {
+                if (color != default)
+                    renderer.material.color = color;
 
-            HeadObjects.Add(headObject);
+                renderer.material.mainTexture = texture;
+                prefabObject.transform.parent = parent ?? Body.ControllerBody;
+            }
         }
 
-        private List<GameObject> HairObjects { get; } = new List<GameObject>();
-        private void CreateHair(HumanBody body, HairComponent hair)
+        private void CreateComponent(GameObject prefab, Texture2D texture, Transform parent)
         {
-            HairObjects.ForEach(Destroy);
-            HairObjects.Clear();
+            CreateComponent(prefab, texture, default, parent);
+        }
 
+        private void CreateHead(HeadComponent head, SkinPrefab skin)
+        {
+            CreateComponent(Prefabs.GetHeadPrefab(head.Model).Prefab, skin.File, Body.head);
+        }
+
+        private void CreateHair(HairComponent hair)
+        {
             var prefab = Prefabs.GetHairPrefab(hair.Model);
-            var hairObject = Instantiate(prefab.Prefab);
-            var renderer = hairObject.GetComponent<Renderer>();
-
-            if (hair.Color != default)
-                renderer.material.color = hair.Color;
-
-            renderer.material.mainTexture = prefab.GetTexture(hair.Texture).File;
-            hairObject.transform.parent = body.Head;
-
-            HairObjects.Add(hairObject);
+            var texture = prefab.GetTexture(hair.Texture);
+            CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
         }
 
-        private List<GameObject> EyeObjects { get; } = new List<GameObject>();
-        private void CreateEyes(HumanBody body, EyesComponent eyes)
+        private void CreateEyes(EyesComponent eyes)
         {
-            EyeObjects.ForEach(Destroy);
-            EyeObjects.Clear();
-
             var prefab = Prefabs.Eyes;
-            var hairObject = Instantiate(prefab.Prefab);
-            var renderer = hairObject.GetComponent<Renderer>();
-
-            if (eyes.Color != default)
-                renderer.material.color = eyes.Color;
-
-            renderer.material.mainTexture = prefab .GetTexture(eyes.Texture).File;
-            hairObject.transform.parent = body.Head;
-
-            EyeObjects.Add(hairObject);
+            var texture = prefab.GetTexture(eyes.Texture);
+            CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
         }
 
-        private void CreateOutfit(HumanBody body, OutfitComponent outfit)
+        private void CreateOutfit(OutfitComponent outfit)
         {
             var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
-            var hairObject = Instantiate(prefab.Prefab);
-            var renderer = hairObject.GetComponent<Renderer>();
-
-            if (outfit.Color != default)
-                renderer.material.color = outfit.Color;
-
-            renderer.material.mainTexture = prefab.GetTexture(outfit.Texture).File;
-            hairObject.transform.parent = body.Chest;
-
-            CreateLegs(body, outfit);
-            CreateArms(body, outfit);
+            var texture = prefab.GetTexture(outfit.Texture);
+            CreateComponent(prefab.Prefab, texture.File, outfit.Color);
+            
+            CreateLegs(outfit);
+            CreateArms(outfit);
         }
 
-        private void CreateLegs(HumanBody body, OutfitComponent outfit)
+        private void CreateLegs(OutfitComponent outfit)
         {
             var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
-            var legObject = Instantiate(Prefabs.Legs);
-            var renderer = legObject.GetComponent<Renderer>();
-
-            renderer.material.mainTexture = prefab.GetTexture(outfit.Texture).File;
-            legObject.transform.parent = body.Chest;
+            var texture = prefab.GetTexture(outfit.Texture);
+            CreateComponent(Prefabs.Legs, texture.File, outfit.Color);
         }
 
-        private void CreateArms(HumanBody body, OutfitComponent outfit)
+        private void CreateArms(OutfitComponent outfit)
         {
             var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
+            var texture = prefab.GetTexture(outfit.Texture);
 
             GameObject armLeft, armRight;
             if (outfit.Model == OutfitModel.CasualFemaleA || outfit.Model == OutfitModel.CasualMaleA)
@@ -133,19 +121,11 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 armRight = Prefabs.Arms.RightUniform;
             }
 
-            armLeft = Instantiate(armLeft);
-            armRight = Instantiate(armRight);
-
-            var outfitTexture = prefab.GetTexture(outfit.Texture).File;
-
-            armLeft.GetComponent<Renderer>().material.mainTexture = outfitTexture;
-            armRight.GetComponent<Renderer>().material.mainTexture = outfitTexture;
-
-            armLeft.transform.parent = body.ShoulderLeft;
-            armRight.transform.parent = body.ShoulderRight;
+            CreateComponent(armLeft, texture.File, outfit.Color);
+            CreateComponent(armRight, texture.File, outfit.Color);
         }
 
-        private void CreateEquipment(HumanBody body)
+        private void CreateEquipment()
         {
             var prefab = Prefabs.GetEquipmentPrefab(CurrentBuild.Equipment);
             var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
@@ -157,9 +137,9 @@ namespace Assets.Scripts.Characters.Humans.Customization
             handLeft.GetComponent<Renderer>().material.mainTexture = skin.File;
             handRight.GetComponent<Renderer>().material.mainTexture = skin.File;
 
-            handLeft.transform.parent = body.HandLeft;
-            handRight.transform.parent = body.HandRight;
-            odmg.transform.parent = body.Chest;
+            handLeft.transform.parent = Body.hand_L;
+            handRight.transform.parent = Body.hand_R;
+            odmg.transform.parent = Body.chest;
         }
     }
 }
