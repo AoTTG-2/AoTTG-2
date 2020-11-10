@@ -73,7 +73,6 @@ public class FemaleTitan : TitanBase
     public static GameObject minusDistanceEnemy;
     public float myDistance;
     public GameObject myHero;
-    public int Health = 0x3e8;
     private bool needFreshCorePosition;
     private string nextAttackAnimation;
     private Vector3 oldCorePosition;
