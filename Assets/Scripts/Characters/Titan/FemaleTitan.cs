@@ -562,7 +562,6 @@ public class FemaleTitan : TitanBase
 
     protected override void Awake()
     {
-        AnimationDeath = "ft_die_0";
         base.Awake();
         base.GetComponent<Rigidbody>().freezeRotation = true;
         base.GetComponent<Rigidbody>().useGravity = false;
@@ -1228,7 +1227,7 @@ public class FemaleTitan : TitanBase
         if (!this.hasDie)
         {
             this.hasDie = true;
-            this.crossFade("ft_die", 0.05f);
+            this.crossFade("ft_die_0", 0.05f);
         }
     }
 
@@ -1494,7 +1493,7 @@ public class FemaleTitan : TitanBase
             if (this.hasDie)
             {
                 this.dieTime += Time.deltaTime;
-                if (base.GetComponent<Animation>()["ft_die"].normalizedTime >= 1f)
+                if (base.GetComponent<Animation>()["ft_die_0"].normalizedTime >= 1f)
                 {
                     this.playAnimation("ft_die_cry");
                     if (GameSettings.Titan.Female.SpawnTitansOnDefeat.Value)
