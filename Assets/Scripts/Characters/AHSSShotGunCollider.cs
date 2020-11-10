@@ -128,7 +128,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             {
                                 GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num7, null, 0.02f);
                             }
-                            item.transform.root.GetComponent<FemaleTitan>().titanGetHit(base.transform.root.gameObject.GetPhotonView().viewID, num7);
+                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc2(base.transform.root.gameObject.GetPhotonView().viewID, num7, new PhotonMessageInfo());
                         }
                     }
                     else if ((item.transform.root.GetComponent<ColossalTitan>() != null) && !item.transform.root.GetComponent<ColossalTitan>().hasDie)

@@ -92,13 +92,9 @@ public class TriggerColliderWeapon : MonoBehaviour
             case "titanneck":
                 if (collider.gameObject.TryGetComponent(out HitBox item) && item.transform.root.TryGetComponent(out TitanBase titanBase))
                 {
-                    if (titanBase.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
-                    {
-                        Transform transform = titanBase.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
 
-                        if (Vector3.Angle(-transform.forward, transform.position - transform.position) >= 70f) 
-                            break;
-                    }
+                    if (Vector3.Angle(-titanBase.Body.Head.forward, titanBase.Body.Head.position - titanBase.Body.Head.position) >= 70f)
+                        break;
 
                     Vector3 velocity = body.velocity - item.transform.root.GetComponent<Rigidbody>().velocity;
                     int damage = Mathf.Max(10, (int) ((velocity.magnitude * 10f) * scoreMulti));
