@@ -23,6 +23,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             Prefabs = prefabs;
             CurrentOutfit = CharacterOutfit[0];
+            CurrentBuild = CharacterBuild[0];
             Body = human.Body;
 
             var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
@@ -132,14 +133,21 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             var handLeft = Instantiate(prefab.HandLeft);
             var handRight = Instantiate(prefab.HandRight);
-            var odmg = Instantiate(prefab.Equipment);
 
             handLeft.GetComponent<Renderer>().material.mainTexture = skin.File;
             handRight.GetComponent<Renderer>().material.mainTexture = skin.File;
 
             handLeft.transform.parent = Body.hand_L;
             handRight.transform.parent = Body.hand_R;
-            odmg.transform.parent = Body.chest;
+
+            CreateOdmg(CurrentBuild.EquipmentComponent);
+        }
+
+        private void CreateOdmg(EquipmentComponent equipment)
+        {
+            var prefab = Prefabs.GetEquipmentPrefab(CurrentBuild.Equipment);
+            var texture = prefab.GetTexture(equipment.Texture);
+            CreateComponent(prefab.Equipment, texture.File, equipment.Color, Body.chest);
         }
     }
 }

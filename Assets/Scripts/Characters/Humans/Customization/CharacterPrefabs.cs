@@ -149,5 +149,18 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public GameObject HandRight;
         public GameObject Equipment;
         public EquipmentType EquipmentType;
+        public List<EquipmentPrefabTexture> Textures;
+
+        public EquipmentPrefabTexture GetTexture(EquipmentTexture texture)
+        {
+            return Textures.FirstOrDefault(x => x.Texture == texture);
+        }
+
+        [Serializable]
+        public struct EquipmentPrefabTexture
+        {
+            [SerializeField] public Texture2D File;
+            [SerializeField] public EquipmentTexture Texture;
+        }
     }
 }
