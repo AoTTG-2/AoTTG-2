@@ -73,7 +73,6 @@ public class FemaleTitan : TitanBase
     public static GameObject minusDistanceEnemy;
     public float myDistance;
     public GameObject myHero;
-    public int NapeArmor = 0x3e8;
     private bool needFreshCorePosition;
     private string nextAttackAnimation;
     private Vector3 oldCorePosition;
@@ -924,10 +923,10 @@ public class FemaleTitan : TitanBase
 
     public void hit(int dmg)
     {
-        this.NapeArmor -= dmg;
-        if (this.NapeArmor <= 0)
+        Health -= dmg;
+        if (Health <= 0)
         {
-            this.NapeArmor = 0;
+            Health = 0;
         }
     }
 
@@ -1228,7 +1227,7 @@ public class FemaleTitan : TitanBase
         if (!this.hasDie)
         {
             this.hasDie = true;
-            this.crossFade("ft_die", 0.05f);
+            this.crossFade("ft_die_0", 0.05f);
         }
     }
 
@@ -1302,14 +1301,14 @@ public class FemaleTitan : TitanBase
             base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
-            this.maxHealth = this.NapeArmor;
+            this.maxHealth = this.Health;
             if (GameSettings.Titan.Female.HealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.NapeArmor = GameSettings.Titan.Female.Health;
+                this.maxHealth = this.Health = GameSettings.Titan.Female.Health;
             }
-            if (this.NapeArmor > 0)
+            if (this.Health > 0)
             {
-                base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.NapeArmor, this.maxHealth });
+                base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
             }
             this.loadskin();
         }
@@ -1346,13 +1345,13 @@ public class FemaleTitan : TitanBase
             }
         }
         base.GetComponent<Animation>()["ft_turn180"].speed = 0.5f;
-        this.NapeArmor = 0x3e8;
+        this.Health = 0x3e8;
         this.AnkleLHP = 50;
         this.AnkleRHP = 50;
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
         var flag = GameSettings.Respawn.Mode == RespawnMode.Never;
-        this.NapeArmor = 1000;
+        this.Health = 1000;
         this.AnkleLHP = this.AnkleLHPMAX = 50;
         this.AnkleRHP = this.AnkleRHPMAX = 50;
         //if (Gamemode.Settings.Difficulty == Difficulty.Normal)
@@ -1418,7 +1417,7 @@ public class FemaleTitan : TitanBase
     }
 
     [PunRPC]
-    public void titanGetHit(int viewID, int speed)
+    public override void OnNapeHitRpc2(int viewID, int speed, PhotonMessageInfo info)
     {
         Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
         PhotonView view = PhotonView.Find(viewID);
@@ -1429,15 +1428,15 @@ public class FemaleTitan : TitanBase
             {
                 if (speed >= GameSettings.Titan.MinimumDamage.Value)
                 {
-                    this.NapeArmor -= speed;
+                    this.Health -= speed;
                 }
                 if (this.maxHealth > 0f)
                 {
-                    base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.NapeArmor, this.maxHealth });
+                    base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
                 }
-                if (this.NapeArmor <= 0)
+                if (this.Health <= 0)
                 {
-                    this.NapeArmor = 0;
+                    this.Health = 0;
                     if (!this.hasDie)
                     {
                         base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
@@ -1494,7 +1493,7 @@ public class FemaleTitan : TitanBase
             if (this.hasDie)
             {
                 this.dieTime += Time.deltaTime;
-                if (base.GetComponent<Animation>()["ft_die"].normalizedTime >= 1f)
+                if (base.GetComponent<Animation>()["ft_die_0"].normalizedTime >= 1f)
                 {
                     this.playAnimation("ft_die_cry");
                     if (GameSettings.Titan.Female.SpawnTitansOnDefeat.Value)
