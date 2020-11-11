@@ -10,6 +10,7 @@ namespace Assets.Scripts.Characters.Humans.Customization.Components
         [SerializeField] public EquipmentTexture Texture;
         [SerializeField] [CanBeNull] public string CustomUrl;
         [SerializeField] public Color Color;
+        [SerializeField] public HandGripComponent HandGrid;
     }
     
     public enum EquipmentTexture

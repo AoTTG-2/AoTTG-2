@@ -149,11 +149,17 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public GameObject HandRight;
         public GameObject Equipment;
         public EquipmentType EquipmentType;
-        public List<EquipmentPrefabTexture> Textures;
+        public List<EquipmentPrefabTexture> EquipmentTextures;
+        public List<HandGripPrefabTexture> HandGripTextures;
 
         public EquipmentPrefabTexture GetTexture(EquipmentTexture texture)
         {
-            return Textures.FirstOrDefault(x => x.Texture == texture);
+            return EquipmentTextures.FirstOrDefault(x => x.Texture == texture);
+        }
+
+        public HandGripPrefabTexture GetTexture(HandGripTexture handGrip)
+        {
+            return HandGripTextures.FirstOrDefault(x => x.Texture == handGrip);
         }
 
         [Serializable]
@@ -161,6 +167,13 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             [SerializeField] public Texture2D File;
             [SerializeField] public EquipmentTexture Texture;
+        }
+
+        [Serializable]
+        public struct HandGripPrefabTexture
+        {
+            [SerializeField] public Texture2D File;
+            [SerializeField] public HandGripTexture Texture;
         }
     }
 }

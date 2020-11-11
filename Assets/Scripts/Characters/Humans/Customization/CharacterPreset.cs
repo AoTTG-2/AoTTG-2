@@ -129,7 +129,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
         private void CreateEquipment()
         {
             var prefab = Prefabs.GetEquipmentPrefab(CurrentBuild.Equipment);
-            var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
+            var skin = prefab.GetTexture(CurrentBuild.EquipmentComponent.HandGrid.Texture);
 
             var handLeft = Instantiate(prefab.HandLeft);
             var handRight = Instantiate(prefab.HandRight);

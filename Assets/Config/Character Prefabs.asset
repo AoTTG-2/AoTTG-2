@@ -35,7 +35,7 @@ MonoBehaviour:
     Model: 14
     Gender: 1
     Textures:
-    - File: {fileID: 2800000, guid: 34c738ebd5a251543808faf1e15d1073, type: 3}
+    - File: {fileID: 2800000, guid: ad6e9e81fd1e1974cb7dc2829d68f4c1, type: 3}
       Texture: 15
   Outfits:
   - Prefab: {fileID: 6140196266423352498, guid: b242c07ffa1115c4cb5849aa84b2bad0,
@@ -77,7 +77,7 @@ MonoBehaviour:
     Model: 7
     Gender: 1
     Textures:
-    - File: {fileID: 2800000, guid: 5cb6cd4e7c938d64b8e0f69305d23bb8, type: 3}
+    - File: {fileID: 2800000, guid: 0b7fa354434306b41b772b2c214a77e3, type: 3}
       Texture: 1
   OptionalClothingCasual: []
   OptionalClothingUniform: []
@@ -91,8 +91,11 @@ MonoBehaviour:
     Equipment: {fileID: 4968137052330538378, guid: 40b0c590b89e5d344ab3d7cfdacf1421,
       type: 3}
     EquipmentType: 0
-    Textures:
-    - File: {fileID: 2800000, guid: b819d1fdc9fa68145aca5bc29a0b1ea8, type: 3}
+    EquipmentTextures:
+    - File: {fileID: 2800000, guid: c6130ce188a29ca49924adbac94dc5ae, type: 3}
+      Texture: 1
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 6b958d25f7cb65b4c9f9fc50c6227e9c, type: 3}
       Texture: 1
   - Name: Odm (AHSS)
     HandLeft: {fileID: 5546613045034110971, guid: 8e5aecc917c7943499be36794b198d5c,
@@ -102,13 +105,16 @@ MonoBehaviour:
     Equipment: {fileID: 1968309134548013, guid: 8258c6c181901e44680b2d13eed255ff,
       type: 3}
     EquipmentType: 1
-    Textures:
+    EquipmentTextures:
     - File: {fileID: 2800000, guid: 0cf3c719a8efa8144b4695d1cb81c75a, type: 3}
       Texture: 2
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 6e54b1a1a98d77f4d9f4d0bab36fb727, type: 3}
+      Texture: 2
   Skin:
-  - File: {fileID: 2800000, guid: a158460b92155b64c8458adaf3668449, type: 3}
+  - File: {fileID: 2800000, guid: 514583a8848f66b429ef5e9f4b35cc35, type: 3}
     Skin: 0
-  - File: {fileID: 2800000, guid: 0d1574b6d44263149846fbb60631e4c9, type: 3}
+  - File: {fileID: 2800000, guid: 3f54f8f868c656944a75a1ff546ddff6, type: 3}
     Skin: 1
   Legs: {fileID: 869913499725645768, guid: 64209cafbb4033341b59c3750bcc4894, type: 3}
   Chest: {fileID: 0}
