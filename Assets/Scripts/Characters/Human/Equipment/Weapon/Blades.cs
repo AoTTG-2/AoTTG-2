@@ -112,8 +112,8 @@ public class Blades : Weapon
                     //this.rightbladetrail.Deactivate();
                     //this.leftbladetrail2.Deactivate();
                     //this.rightbladetrail2.Deactivate();
-                    Hero.checkBoxLeft.GetComponent<TriggerColliderWeapon>().active_me = false;
-                    Hero.checkBoxRight.GetComponent<TriggerColliderWeapon>().active_me = false;
+                    Hero.checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
+                    Hero.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
                 }
                 Hero.currentBladeSta = 0f;
                 this.ThrowBlades();

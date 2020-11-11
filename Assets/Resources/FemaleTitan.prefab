@@ -1563,6 +1563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c06dcbc4ae91bd47a1a394db0d63d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthLabel: {fileID: 0}
+  NavMeshAgent: {fileID: 0}
   AnkleLHP: 200
   AnkleRHP: 200
   attackDistance: 13
@@ -1596,10 +1598,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232ebfef819505a4cbecaa4228ff8fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AABB: {fileID: 0}
-  Core: {fileID: 0}
-  Head: {fileID: 0}
-  Neck: {fileID: 0}
+  AABB: {fileID: 4950468151478473}
+  Core: {fileID: 4941779533187309}
+  Head: {fileID: 4106601260014906}
+  Neck: {fileID: 4413998669876166}
   HandRight: {fileID: 0}
   HandLeft: {fileID: 0}
   Chest: {fileID: 0}
