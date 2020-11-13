@@ -26,7 +26,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject Legs;
         [SerializeField] public GameObject Chest;
         [SerializeField] public ArmPrefab Arms;
-
+        
         public HeadPrefab GetHeadPrefab(HeadModel model)
         {
             return Head.First(x => x.Model == model);
@@ -140,6 +140,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject RightAhss;
         [SerializeField] public GameObject RightUniform;
     }
+
+    //TODO: Equipment Extras (Gas Canisters for blades, Ammo rounds for AHSS)
 
     [Serializable]
     public struct EquipmentPrefab
