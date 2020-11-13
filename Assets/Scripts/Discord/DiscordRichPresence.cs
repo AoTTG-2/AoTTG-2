@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Room;
+﻿using System.Collections.Concurrent;
+using Assets.Scripts.Room;
 using Discord;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class DiscordRichPresence : MonoBehaviour
 
     private void Start()
     {
+        DiscordSocket.GetActivityManager().RegisterCommand(GetEXEPath());
         activityStruct = new Activity
         {
             Assets =
@@ -17,9 +19,25 @@ public class DiscordRichPresence : MonoBehaviour
             },
         };
         InMenu();
+        DiscordSocket.GetActivityManager().OnActivityJoin += JoinRoom;
     }
 
-    public void InMenu()
+    private string GetEXEPath()
+    {
+        string path = System.Environment.CurrentDirectory;
+        path+="\\";
+        path += "AoTTG 2.exe";
+        Debug.Log($"EXE PATH = {path}");
+
+        return path;
+    }
+
+    private void JoinRoom(string temp)
+    {
+        PhotonNetwork.JoinRoom(temp);
+    }
+
+    private void InMenu()
     {
         activityStruct.State = "In Menu";
         DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
@@ -35,9 +53,8 @@ public class DiscordRichPresence : MonoBehaviour
         });
     }
 
-    public void InMultiplayerGame(Room room)
+    public void UpdateActivity(Room room)
     {
-        Debug.Log($"Current room player count = {room.PlayerCount} and max players = {room.MaxPlayers}");
         activityStruct.State = room.GetName() + " [" + PhotonNetwork.CloudRegion + "]";
         activityStruct.Details = room.GetLevel() + " - " + room.GetGamemode();
         activityStruct.Party = new ActivityParty
@@ -53,40 +70,6 @@ public class DiscordRichPresence : MonoBehaviour
         DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
         {
             Debug.Log(result == Result.Ok ? $"Updated Party." : $"Failed to Update Party stats.");
-        });
-    }
-
-
-    public void InGame(Room room)
-    {
-        var activity = new Activity
-        {
-            State = room.GetName() + " [" + PhotonNetwork.CloudRegion + "]",
-            Details = room.GetLevel() + " - " + room.GetGamemode(),
-            Party =
-            {
-                Size =
-                {
-                    CurrentSize = room.PlayerCount,
-                    MaxSize = room.MaxPlayers,
-                },
-            },
-            Assets =
-            {
-                LargeImage = "aottg_2_title",
-                LargeText = "AoTTG2",
-            },
-        };
-        DiscordSocket.GetActivityManager().UpdateActivity(activity, (result) =>
-        {
-            if (result == Discord.Result.Ok)
-            {
-                Debug.Log("Working!");
-            }
-            else
-            {
-                Debug.LogError("Not Working!");
-            }
         });
     }
 

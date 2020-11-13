@@ -1876,18 +1876,8 @@ namespace Assets.Scripts
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
             
-            Debug.Log($"MAX PLAYERS = {PhotonNetwork.room.MaxPlayers}");
-
-            foreach (var VARIABLE in PhotonNetwork.playerList)
-            {
-                Debug.Log($"PLAYER  = {VARIABLE}");
-            }
-            
-            Debug.Log($"CURRENT PLAYERCOUNT = {PhotonNetwork.room.PlayerCount}");
-            
-            Debug.Log($"Setting discord status in OnJoinedRoom on line #1877");
             var temp = FindObjectOfType<DiscordRichPresence>();
-            temp.InMultiplayerGame(PhotonNetwork.room);
+            temp.UpdateActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()

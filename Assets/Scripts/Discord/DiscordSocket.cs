@@ -2,6 +2,7 @@
 using Photon;
 using System;
 using UnityEditor;
+using UnityEngine;
 
 public static class DiscordSocket {
     private static Discord.Discord discord;
