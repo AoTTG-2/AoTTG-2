@@ -1,5 +1,6 @@
 using System;
 
+[Obsolete]
 public class CostumeHair
 {
     public string hair = string.Empty;

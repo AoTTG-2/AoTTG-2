@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
+[Obsolete]
 public class CustomCharacterManager : MonoBehaviour
 {
     private int capeId;

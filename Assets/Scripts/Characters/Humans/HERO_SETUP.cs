@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xft;
 
+[Obsolete]
 public class HERO_SETUP : MonoBehaviour
 {
     public string aniname;

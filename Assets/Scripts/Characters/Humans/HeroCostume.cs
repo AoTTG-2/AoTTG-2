@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
+[Obsolete]
 public class HeroCostume
 {
     public string _3dmg_texture = string.Empty;

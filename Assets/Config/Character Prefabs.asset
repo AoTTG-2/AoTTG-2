@@ -81,15 +81,20 @@ MonoBehaviour:
       Texture: 1
   OptionalClothingCasual: []
   OptionalClothingUniform: []
-  Emblems: []
   Equipment:
   - Name: Odm
     HandLeft: {fileID: 956049245627132838, guid: 6da179af98527a34ea50fe8b39c9dbb1,
       type: 3}
     HandRight: {fileID: 5526407258255872838, guid: fdbf804ea5645b74db4883e30bc9706b,
       type: 3}
+    AmmoLeft: {fileID: 4221614221113340878, guid: 64ef8986faead654e9749ffedfa5acf6,
+      type: 3}
+    AmmoRight: {fileID: 6610819512428143971, guid: ba04c9cc947be9b4fa9570ea6d927d6c,
+      type: 3}
     Equipment: {fileID: 4968137052330538378, guid: 40b0c590b89e5d344ab3d7cfdacf1421,
       type: 3}
+    Extras:
+    - {fileID: 1956738631465821237, guid: 53c1946adfcb0004ab7c2ec62b7be3ab, type: 3}
     EquipmentType: 0
     EquipmentTextures:
     - File: {fileID: 2800000, guid: c6130ce188a29ca49924adbac94dc5ae, type: 3}
@@ -102,8 +107,13 @@ MonoBehaviour:
       type: 3}
     HandRight: {fileID: 7319715846295325891, guid: f8c6b5489a806f3488d9ae46c65c476f,
       type: 3}
+    AmmoLeft: {fileID: 597459554847515780, guid: 4a7a31bb411fb1d428226c0d37c1e463,
+      type: 3}
+    AmmoRight: {fileID: 741190811112656293, guid: 0847ca3eb9e4f9a4293242cf546d426f,
+      type: 3}
     Equipment: {fileID: 1968309134548013, guid: 8258c6c181901e44680b2d13eed255ff,
       type: 3}
+    Extras: []
     EquipmentType: 1
     EquipmentTextures:
     - File: {fileID: 2800000, guid: 0cf3c719a8efa8144b4695d1cb81c75a, type: 3}
@@ -116,7 +126,7 @@ MonoBehaviour:
     Skin: 0
   - File: {fileID: 2800000, guid: 3f54f8f868c656944a75a1ff546ddff6, type: 3}
     Skin: 1
-  Legs: {fileID: 869913499725645768, guid: 64209cafbb4033341b59c3750bcc4894, type: 3}
+  Legs: {fileID: 3305592698201889044, guid: 64209cafbb4033341b59c3750bcc4894, type: 3}
   Chest: {fileID: 0}
   Arms:
     LeftCasual: {fileID: 868851076093622071, guid: 798390a076c134647afaec0776c973de,
@@ -130,4 +140,22 @@ MonoBehaviour:
     RightAhss: {fileID: 1904925187269708889, guid: 1c7203fad2091ac4fbff80f33843c1a8,
       type: 3}
     RightUniform: {fileID: 5487613470261266201, guid: 585276b9f3241524bbc3c69817d80305,
+      type: 3}
+  Cape:
+    Prefab: {fileID: 980092367085639070, guid: 7343dab8a71a09140bf8a38c11f46ce8, type: 3}
+    Textures:
+    - File: {fileID: 2800000, guid: 367fb131fa577aa479421b9c6cd6fea8, type: 3}
+      Texture: 2
+  Emblem:
+    ArmLeft: {fileID: 4648260104365837487, guid: 0d879922fa1f9394799d877d71fbba53,
+      type: 3}
+    ArmRight: {fileID: 3119286009903484735, guid: 3bd398a8fbcf5e747a845c49c9aff038,
+      type: 3}
+    BackMale: {fileID: 4951063426726137778, guid: 9a86a5b13a51d8b46aefbfb5d0b7b646,
+      type: 3}
+    BackFemale: {fileID: 2942471716240817570, guid: 8e4f28afc76421a428b797fa719ef493,
+      type: 3}
+    ChestMale: {fileID: 5829737728309230095, guid: cbf03e35b9f7ac64d983da68c123bd4b,
+      type: 3}
+    ChestFemale: {fileID: 3186253259835440149, guid: 5a9c9bf5aa51a104daf62ac524616d7e,
       type: 3}

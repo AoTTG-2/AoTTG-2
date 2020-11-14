@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Obsolete]
 public class CharacterMaterials
 {
     private static bool inited = true;

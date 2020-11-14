@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Obsolete]
 public class HERO_ON_MENU : MonoBehaviour
 {
     private Vector3 cameraOffset;

@@ -1,5 +1,6 @@
 using System;
 
+[Obsolete]
 public enum CreatePart
 {
     Sex,

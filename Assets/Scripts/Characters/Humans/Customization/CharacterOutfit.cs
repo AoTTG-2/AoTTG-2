@@ -8,10 +8,12 @@ namespace Assets.Scripts.Characters.Humans.Customization
     public struct CharacterOutfit
     {
         [SerializeField] public string Name;
+        [SerializeField] public Gender Gender;
         [SerializeField] public HeadComponent Head;
         [SerializeField] public SkinComponent Skin;
         [SerializeField] public HairComponent Hair;
         [SerializeField] public EyesComponent Eyes;
         [SerializeField] public OutfitComponent Outfit;
+        [SerializeField] public CapeComponent Cape;
     }
 }

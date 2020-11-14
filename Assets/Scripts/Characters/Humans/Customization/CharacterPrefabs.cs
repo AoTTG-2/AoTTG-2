@@ -19,13 +19,14 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public List<OutfitPrefab> Outfits;
         [SerializeField] public List<GameObject> OptionalClothingCasual;
         [SerializeField] public List<GameObject> OptionalClothingUniform;
-        [SerializeField] public List<GameObject> Emblems;
         [SerializeField] public List<EquipmentPrefab> Equipment;
         [SerializeField] public List<SkinPrefab> Skin;
 
         [SerializeField] public GameObject Legs;
         [SerializeField] public GameObject Chest;
         [SerializeField] public ArmPrefab Arms;
+        [SerializeField] public CapePrefab Cape;
+        [SerializeField] public EmblemPrefab Emblem;
         
         public HeadPrefab GetHeadPrefab(HeadModel model)
         {
@@ -149,7 +150,10 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public string Name;
         public GameObject HandLeft;
         public GameObject HandRight;
+        public GameObject AmmoLeft;
+        public GameObject AmmoRight;
         public GameObject Equipment;
+        public List<GameObject> Extras;
         public EquipmentType EquipmentType;
         public List<EquipmentPrefabTexture> EquipmentTextures;
         public List<HandGripPrefabTexture> HandGripTextures;
@@ -176,6 +180,50 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             [SerializeField] public Texture2D File;
             [SerializeField] public HandGripTexture Texture;
+        }
+    }
+
+    [Serializable]
+    public struct CapePrefab
+    {
+        [SerializeField] public GameObject Prefab;
+        [SerializeField] public List<CapePrefabTexture> Textures;
+
+        public CapePrefabTexture GetTexture(CapeTexture texture)
+        {
+            return Textures.FirstOrDefault(x => x.Texture == texture);
+        }
+
+        [Serializable]
+        public struct CapePrefabTexture
+        {
+            [SerializeField] public Texture2D File;
+            [SerializeField] public CapeTexture Texture;
+        }
+    }
+
+    [Serializable]
+    public struct EmblemPrefab
+    {
+        [SerializeField] public GameObject ArmLeft;
+        [SerializeField] public GameObject ArmRight;
+        [SerializeField] public GameObject BackMale;
+        [SerializeField] public GameObject BackFemale;
+        [SerializeField] public GameObject ChestMale;
+        [SerializeField] public GameObject ChestFemale;
+
+        public GameObject GetBackPrefab(Gender gender)
+        {
+            return gender == Gender.Female
+                ? BackFemale
+                : BackMale;
+        }
+
+        public GameObject GetChestPrefab(Gender gender)
+        {
+            return gender == Gender.Female
+                ? ChestFemale
+                : ChestMale;
         }
     }
 }

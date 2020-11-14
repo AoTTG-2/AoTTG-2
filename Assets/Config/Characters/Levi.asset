@@ -16,6 +16,7 @@ MonoBehaviour:
   Description: 
   CharacterOutfit:
   - Name: Default
+    Gender: 0
     Head:
       Model: 0
     Skin:
@@ -35,6 +36,10 @@ MonoBehaviour:
     Outfit:
       Model: 7
       Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Cape:
+      Texture: 2
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
   CharacterBuild:

@@ -2,6 +2,7 @@ using ExitGames.Client.Photon;
 using System;
 using UnityEngine;
 
+[Obsolete]
 public class CostumeConeveter
 {
     private static int DivisionToInt(DIVISION id)

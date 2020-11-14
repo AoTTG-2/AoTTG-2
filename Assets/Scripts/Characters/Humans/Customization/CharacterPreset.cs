@@ -18,7 +18,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private CharacterPrefabs Prefabs;
         private HumanBody Body;
-        
+
         public void Apply(Human human, CharacterPrefabs prefabs)
         {
             Prefabs = prefabs;
@@ -32,11 +32,14 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CreateHair(CurrentOutfit.Hair);
             CreateEyes(CurrentOutfit.Eyes);
             CreateOutfit(CurrentOutfit.Outfit);
+            CreateCape(CurrentOutfit.Cape);
 
-            CreateEquipment();
+            CreateEmblems();
+
+            CreateEquipment(CurrentBuild.EquipmentComponent);
         }
 
-        private void CreateComponent(GameObject prefab, Texture2D texture, Color color = default, Transform parent = null)
+        private GameObject CreateComponent(GameObject prefab, Texture2D texture, Color color = default, Transform parent = null)
         {
             var prefabObject = Instantiate(prefab);
             if (prefabObject.TryGetComponent(out SkinnedMeshRenderer meshRenderer))
@@ -58,11 +61,13 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 renderer.material.mainTexture = texture;
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
             }
+
+            return prefabObject;
         }
 
-        private void CreateComponent(GameObject prefab, Texture2D texture, Transform parent)
+        private GameObject CreateComponent(GameObject prefab, Texture2D texture, Transform parent)
         {
-            CreateComponent(prefab, texture, default, parent);
+            return CreateComponent(prefab, texture, default, parent);
         }
 
         private void CreateHead(HeadComponent head, SkinPrefab skin)
@@ -126,21 +131,29 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CreateComponent(armRight, texture.File, outfit.Color);
         }
 
-        private void CreateEquipment()
+        private void CreateEquipment(EquipmentComponent equipment)
         {
             var prefab = Prefabs.GetEquipmentPrefab(CurrentBuild.Equipment);
-            var skin = prefab.GetTexture(CurrentBuild.EquipmentComponent.HandGrid.Texture);
+            var skin = prefab.GetTexture(equipment.HandGrid.Texture);
+            var ammo = prefab.GetTexture(equipment.Texture).File;
 
             var handLeft = Instantiate(prefab.HandLeft);
             var handRight = Instantiate(prefab.HandRight);
+            var ammoLeft = Instantiate(prefab.AmmoLeft);
+            var ammoRight = Instantiate(prefab.AmmoRight);
 
             handLeft.GetComponent<Renderer>().material.mainTexture = skin.File;
             handRight.GetComponent<Renderer>().material.mainTexture = skin.File;
+            ammoLeft.GetComponent<Renderer>().material.mainTexture = ammo;
+            ammoRight.GetComponent<Renderer>().material.mainTexture = ammo;
+
+            ammoLeft.transform.parent = Body.ControllerBody;
+            ammoRight.transform.parent = Body.ControllerBody;
 
             handLeft.transform.parent = Body.hand_L;
             handRight.transform.parent = Body.hand_R;
 
-            CreateOdmg(CurrentBuild.EquipmentComponent);
+            CreateOdmg(equipment);
         }
 
         private void CreateOdmg(EquipmentComponent equipment)
@@ -148,6 +161,30 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var prefab = Prefabs.GetEquipmentPrefab(CurrentBuild.Equipment);
             var texture = prefab.GetTexture(equipment.Texture);
             CreateComponent(prefab.Equipment, texture.File, equipment.Color, Body.chest);
+
+            prefab.Extras.ForEach(x => CreateComponent(x, texture.File, equipment.Color));
+        }
+
+        private void CreateCape(CapeComponent cape)
+        {
+            if (cape.Texture == CapeTexture.None) return;
+            var prefab = Prefabs.Cape;
+            var texture = prefab.GetTexture(cape.Texture);
+            var capeObject = CreateComponent(prefab.Prefab, texture.File, cape.Color);
+            //capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
+            capeObject.transform.localScale = Vector3.one;
+        }
+
+        private void CreateEmblems()
+        {
+            var texture = Prefabs.Cape.GetTexture(CurrentOutfit.Cape.Texture).File;
+            var prefab = Prefabs.Emblem;
+            var gender = CurrentOutfit.Gender;
+
+            var emblems = new List<GameObject>
+                {prefab.ArmLeft, prefab.ArmRight, prefab.GetBackPrefab(gender), prefab.GetChestPrefab(gender)};
+
+            emblems.ForEach(x => CreateComponent(x, texture));
         }
     }
 }

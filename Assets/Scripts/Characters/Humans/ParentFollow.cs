@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class ParentFollow : MonoBehaviour
 {
-    private Transform bTransform;
     public bool isActiveInScene;
-    private Transform parent;
+    public Transform parent;
 
     private void Awake()
     {
-        this.bTransform = base.transform;
         this.isActiveInScene = true;
     }
 
@@ -21,14 +19,13 @@ public class ParentFollow : MonoBehaviour
     public void SetParent(Transform transform)
     {
         this.parent = transform;
-        this.bTransform.rotation = transform.rotation;
     }
 
     private void Update()
     {
         if (this.isActiveInScene && (this.parent != null))
         {
-            this.bTransform.position = this.parent.position;
+            transform.position = this.parent.position;
         }
     }
 }
