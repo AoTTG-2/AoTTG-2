@@ -1,40 +1,36 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
 using Assets.Scripts.Room;
 using Discord;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DiscordRichPresence : MonoBehaviour
 {
     private Activity activityStruct;
 
+    private void Awake()
+    {
+        DiscordSocket.GetActivityManager().RegisterCommand(GetApplicationPath()); //Register application launch cmd
+        DiscordSocket.GetActivityManager().OnActivityJoin += JoinViaDiscordInvite; // ActivityJoin callback
+        SceneManager.activeSceneChanged += OnSceneChanged;
+    }
+
     private void Start()
     {
-        DiscordSocket.GetActivityManager().RegisterCommand(GetEXEPath());
         activityStruct = new Activity
         {
             Assets =
             {
                 LargeImage = "aottg_2_title",
-                LargeText = "AoTTG2",
-            },
+                LargeText = "AoTTG2"
+            }
         };
         InMenu();
-        DiscordSocket.GetActivityManager().OnActivityJoin += JoinRoom;
     }
 
-    private string GetEXEPath()
+    private void JoinViaDiscordInvite(string roomID)
     {
-        string path = System.Environment.CurrentDirectory;
-        path+="\\";
-        path += "AoTTG 2.exe";
-        Debug.Log($"EXE PATH = {path}");
-
-        return path;
-    }
-
-    private void JoinRoom(string temp)
-    {
-        PhotonNetwork.JoinRoom(temp);
+        PhotonNetwork.JoinRoom(roomID);
     }
 
     private void InMenu()
@@ -42,24 +38,39 @@ public class DiscordRichPresence : MonoBehaviour
         activityStruct.State = "In Menu";
         DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
         {
-            if (result == Discord.Result.Ok)
-            {
-                Debug.Log("Working!");
-            }
-            else
-            {
-                Debug.LogError("Not Working!");
-            }
+            Debug.Log(result == Result.Ok
+                ? $"Updated to Main Menu"
+                : $"Failed to Update to Main Menu");
         });
     }
 
-    public void UpdateActivity(Room room)
+    public void SinglePlayerActivity(Room room)
+    {
+        activityStruct.State = "SinglePlayer!";
+        activityStruct.Details = room.GetLevel() + " - " + room.GetGamemode();
+        activityStruct.Secrets = new ActivitySecrets(); //Reset Secrets and Party structs.
+        activityStruct.Party = new ActivityParty();
+
+        DiscordSocket.GetActivityManager().UpdateActivity(activityStruct,
+            (result) =>
+            {
+                Debug.Log(result == Result.Ok
+                    ? $"Updated Single player presence."
+                    : $"Failed to Update Single player presence.");
+            });
+    }
+
+    public void UpdateMultiplayerActivity(Room room)
     {
         activityStruct.State = room.GetName() + " [" + PhotonNetwork.CloudRegion + "]";
         activityStruct.Details = room.GetLevel() + " - " + room.GetGamemode();
         activityStruct.Party = new ActivityParty
         {
-            Size = new PartySize {CurrentSize = room.PlayerCount, MaxSize = 100}, 
+            Size = new PartySize
+            {
+                CurrentSize = room.PlayerCount,
+                MaxSize = room.MaxPlayers >= room.PlayerCount ? room.MaxPlayers : 10
+            },
             Id = room.GetHashCode().ToString(),
         };
         activityStruct.Secrets = new ActivitySecrets
@@ -67,10 +78,13 @@ public class DiscordRichPresence : MonoBehaviour
             Join = room.Name,
         };
 
-        DiscordSocket.GetActivityManager().UpdateActivity(activityStruct, (result) =>
-        {
-            Debug.Log(result == Result.Ok ? $"Updated Party." : $"Failed to Update Party stats.");
-        });
+        DiscordSocket.GetActivityManager().UpdateActivity(activityStruct,
+            (result) =>
+            {
+                Debug.Log(result == Result.Ok
+                    ? $"Updated Multi Player Party."
+                    : $"Failed to Update Multiplayer Party stats.");
+            });
     }
 
     private void Update()
@@ -81,5 +95,27 @@ public class DiscordRichPresence : MonoBehaviour
     private void OnApplicationQuit()
     {
         DiscordSocket.CloseSocket();
+    }
+
+    private void OnSceneChanged(Scene oldScene, Scene newScene)
+    {
+        if (newScene.buildIndex == 0)
+        {
+            InMenu();
+        }
+    }
+
+    private static string GetApplicationPath()
+    {
+        string path = System.Environment.CurrentDirectory;
+        path += "\\";
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+            path += "AoTTG 2.exe";
+        else if (Application.platform == RuntimePlatform.OSXPlayer)
+            path += "AoTTG 2.app";
+        else
+            throw new Exception("Unrecognized platform.");
+
+        return path;
     }
 }

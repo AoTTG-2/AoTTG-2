@@ -1877,7 +1877,7 @@ namespace Assets.Scripts
             }
             
             var temp = FindObjectOfType<DiscordRichPresence>();
-            temp.UpdateActivity(PhotonNetwork.room);
+            temp.UpdateMultiplayerActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()
