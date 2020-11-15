@@ -129,7 +129,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
         private void CreateOutfit(OutfitComponent outfit)
         {
             var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
-            var texture = prefab.GetTexture(outfit.Texture);
+            var texture = Prefabs.GetOutfitTexture(outfit.Texture);
             CreateComponent(prefab.Prefab, texture.File, outfit.Color);
 
             CreateLegs(outfit);
@@ -138,15 +138,13 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private void CreateLegs(OutfitComponent outfit)
         {
-            var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
-            var texture = prefab.GetTexture(outfit.Texture);
+            var texture = Prefabs.GetOutfitTexture(outfit.Texture);
             CreateComponent(Prefabs.Legs, texture.File, outfit.Color);
         }
 
         private void CreateArms(OutfitComponent outfit)
         {
-            var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
-            var texture = prefab.GetTexture(outfit.Texture);
+            var texture = Prefabs.GetOutfitTexture(outfit.Texture);
 
             GameObject armLeft, armRight;
             if (outfit.Model == OutfitModel.CasualFemaleA || outfit.Model == OutfitModel.CasualMaleA)
@@ -185,11 +183,15 @@ namespace Assets.Scripts.Characters.Humans.Customization
             ammoLeft.GetComponent<Renderer>().material.mainTexture = ammo;
             ammoRight.GetComponent<Renderer>().material.mainTexture = ammo;
 
-            ammoLeft.transform.parent = Body.ControllerBody;
+            ammoLeft.transform.parent = CurrentBuild.Equipment == EquipmentType.Ahss
+                ? Body.thigh_L
+                : Body.ControllerBody;
             ammoLeft.transform.position = HumanTransform.position;
             ammoLeft.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 
-            ammoRight.transform.parent = Body.ControllerBody;
+            ammoRight.transform.parent = CurrentBuild.Equipment == EquipmentType.Ahss
+                ? Body.thigh_R
+                : Body.ControllerBody;
             ammoRight.transform.position = HumanTransform.position;
             ammoRight.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 

@@ -28,14 +28,21 @@ namespace Assets.Scripts.Characters.Humans.Customization.Components
     public enum OutfitTexture
     {
         Custom,
-        Levi,
-        CasualFemaleA,
-        CasualFemaleB,
-        CasualMaleA,
-        CasualMaleB,
-        UniformFemaleA,
-        UniformFemaleB,
-        UniformMaleA,
-        UniformMaleB
+        CasualMA1,
+        CasualMAAhss,
+        CasualMB1,
+        CasualMB2,
+        CasualMBLevi,
+        UniformMA,
+        UniformMB1,
+        UniformMB2,
+        UniformMBLevi,
+        CasualFA1,
+        CasualFAAhss,
+        CasualFBAnnie,
+        CasualFBMikasa,
+        UniformFA1,
+        UniformFBAnnie,
+        UniformFBMikasa
     }
 }

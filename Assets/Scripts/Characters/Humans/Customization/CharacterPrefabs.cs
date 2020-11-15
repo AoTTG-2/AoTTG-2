@@ -10,16 +10,27 @@ namespace Assets.Scripts.Characters.Humans.Customization
     public class CharacterPrefabs : ScriptableObject
     {
         [SerializeField] public GameObject Base;
-        [Header("Face")] 
-        [SerializeField] public List<HeadPrefab> Head;
+        [Header("Face")]
+
+        [EnumNamedArray(typeof(HeadModel), typeof(HeadPrefab))]
+        [SerializeField]
+        public List<HeadPrefab> Head;
+
         [SerializeField] public EyePrefab Eyes;
         [SerializeField] public GameObject Glasses;
         [SerializeField] public GameObject Mouth;
-        [SerializeField] public List<HairPrefab> Hair;
-        [SerializeField] public List<OutfitPrefab> Outfits;
-        [SerializeField] public List<GameObject> OptionalClothingCasual;
-        [SerializeField] public List<GameObject> OptionalClothingUniform;
-        [SerializeField] public List<EquipmentPrefab> Equipment;
+
+        [EnumNamedArray(typeof(HairModel), typeof(HairPrefab))]
+        [SerializeField]
+        public List<HairPrefab> Hair;
+
+        [EnumNamedArray(typeof(OutfitModel), typeof(OutfitPrefab))]
+        [SerializeField]
+        public List<OutfitPrefab> Outfits;
+
+        [EnumNamedArray(typeof(EquipmentType), typeof(EquipmentPrefab))]
+        [SerializeField]
+        public List<EquipmentPrefab> Equipment;
         [SerializeField] public List<SkinPrefab> Skin;
 
         [SerializeField] public GameObject Legs;
@@ -27,15 +38,19 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public ArmPrefab Arms;
         [SerializeField] public CapePrefab Cape;
         [SerializeField] public EmblemPrefab Emblem;
-        
+
+        [Header("Textures")]
+        [EnumNamedArray(typeof(OutfitTexture), typeof(OutfitPrefabTexture))]
+        [SerializeField] public List<OutfitPrefabTexture> OutfitTextures;
+
         public HeadPrefab GetHeadPrefab(HeadModel model)
         {
-            return Head.First(x => x.Model == model);
+            return Head.First();
         }
 
         public HairPrefab GetHairPrefab(HairModel model)
         {
-            return Hair.First(x => x.Model == model);
+            return Hair[(int) model];
         }
 
         public SkinPrefab GetSkinPrefab(Skin skin)
@@ -45,12 +60,17 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         public OutfitPrefab GetOutfitPrefab(OutfitModel outfit)
         {
-            return Outfits.First(x => x.Model == outfit);
+            return Outfits[(int) outfit];
         }
 
         public EquipmentPrefab GetEquipmentPrefab(EquipmentType equipment)
         {
             return Equipment.First(x => x.EquipmentType == equipment);
+        }
+
+        public OutfitPrefabTexture GetOutfitTexture(OutfitTexture texture)
+        {
+            return OutfitTextures[(int) texture];
         }
     }
 
@@ -58,7 +78,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
     public struct HairPrefab
     {
         [SerializeField] public GameObject Prefab;
-        [SerializeField] public HairModel Model;
         [SerializeField] public Gender Gender;
         [SerializeField] public List<HairPrefabTexture> Textures;
 
@@ -114,21 +133,16 @@ namespace Assets.Scripts.Characters.Humans.Customization
     public struct OutfitPrefab
     {
         [SerializeField] public GameObject Prefab;
-        [SerializeField] public OutfitModel Model;
         [SerializeField] public Gender Gender;
-        [SerializeField] public List<OutfitPrefabTexture> Textures;
+        [SerializeField] public List<OutfitTexture> Textures;
 
-        public OutfitPrefabTexture GetTexture(OutfitTexture texture)
-        {
-            return Textures.FirstOrDefault(x => x.Texture == texture);
-        }
 
-        [Serializable]
-        public struct OutfitPrefabTexture
-        {
-            [SerializeField] public Texture2D File;
-            [SerializeField] public OutfitTexture Texture;
-        }
+    }
+
+    [Serializable]
+    public struct OutfitPrefabTexture
+    {
+        [SerializeField] public Texture2D File;
     }
 
     [Serializable]

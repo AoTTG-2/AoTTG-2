@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9017263000189034636}
   - component: {fileID: 7888342709484668162}
-  - component: {fileID: 767806985137443770}
+  - component: {fileID: -416601943358203721}
   m_Layer: 0
-  m_Name: character_arm_causal_l_ah
+  m_Name: arm_ahss_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,8 +40,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2298196860539082891}
   m_Mesh: {fileID: 4300000, guid: 178b5533295c02540b08577f65a742b2, type: 2}
---- !u!23 &767806985137443770
-MeshRenderer:
+--- !u!137 &-416601943358203721
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -54,12 +54,12 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 3
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d3c8edbc466a8f24ab025d08e60cefda, type: 2}
+  - {fileID: 2100000, guid: 85735abb5f26e194ea911284787dd9d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,4 +80,15 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 4300000, guid: 178b5533295c02540b08577f65a742b2, type: 2}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.02, y: 0.02, z: 0.02}
+  m_DirtyAABB: 0
