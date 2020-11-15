@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: 
   CharacterOutfit:
   - Name: Default
-    Gender: 0
+    Gender: 2
     Head:
       Model: 0
     Skin:
@@ -33,6 +33,14 @@ MonoBehaviour:
       Texture: 23
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
+    Glasses:
+      Texture: 9
+      CustomUrl: 
+      Color: {r: 0.7264151, g: 0.71092844, b: 0.33922213, a: 1}
+    Facial:
+      Texture: 8
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
     Outfit:
       Model: 5
       Texture: 16
@@ -42,6 +50,23 @@ MonoBehaviour:
       Texture: 2
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
+    Advanced:
+      EmblemChest:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemBack:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemRightArm:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemLeftArm:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
   CharacterBuild:
   - Equipment: 0
     EquipmentComponent:

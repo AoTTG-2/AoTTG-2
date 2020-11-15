@@ -13,7 +13,10 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public SkinComponent Skin;
         [SerializeField] public HairComponent Hair;
         [SerializeField] public EyesComponent Eyes;
+        [SerializeField] public GlassesComponent Glasses;
+        [SerializeField] public FacialComponent Facial;
         [SerializeField] public OutfitComponent Outfit;
         [SerializeField] public CapeComponent Cape;
+        [SerializeField] public AdvancedOptions Advanced;
     }
 }

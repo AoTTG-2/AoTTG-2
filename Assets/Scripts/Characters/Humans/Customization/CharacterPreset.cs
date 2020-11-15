@@ -34,6 +34,9 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             CreateHead(CurrentOutfit.Head, skin);
             CreateHair(CurrentOutfit.Hair);
+            CreateGlasses(CurrentOutfit.Glasses);
+            CreateFacial(CurrentOutfit.Facial);
+
             CreateOutfit(CurrentOutfit.Outfit);
             CreateCape(CurrentOutfit.Cape);
             CreateEmblems();
@@ -120,9 +123,38 @@ namespace Assets.Scripts.Characters.Humans.Customization
             else
             {
                 var texture = prefab.GetTexture(eyes.Texture);
-                var result = CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
-                result.transform.position = HumanTransform.position;
-                result.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
+                CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
+            }
+        }
+
+        private void CreateGlasses(GlassesComponent glasses)
+        {
+            if (glasses.Texture == GlassesTexture.None) return;
+            var prefab = Prefabs.Glasses;
+
+            if (!string.IsNullOrWhiteSpace(glasses.CustomUrl))
+            {
+                var result = CreateComponentAsync(prefab.Prefab, glasses.CustomUrl, glasses.Color, Body.head);
+            }
+            else
+            {
+                var texture = prefab.GetTexture(glasses.Texture);
+                CreateComponent(prefab.Prefab, texture.File, glasses.Color, Body.head);
+            }
+        }
+
+        private void CreateFacial(FacialComponent facial)
+        {
+            if (facial.Texture == FacialTexture.None) return;
+            var prefab = Prefabs.Facial;
+            if (!string.IsNullOrWhiteSpace(facial.CustomUrl))
+            {
+                var result = CreateComponentAsync(prefab.Prefab, facial.CustomUrl, facial.Color, Body.head);
+            }
+            else
+            {
+                var texture = prefab.GetTexture(facial.Texture);
+                CreateComponent(prefab.Prefab, texture.File, facial.Color, Body.head);
             }
         }
 

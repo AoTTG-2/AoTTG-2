@@ -17,8 +17,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public List<HeadPrefab> Head;
 
         [SerializeField] public EyePrefab Eyes;
-        [SerializeField] public GameObject Glasses;
-        [SerializeField] public GameObject Mouth;
+        [SerializeField] public GlassesPrefab Glasses;
+        [SerializeField] public FacialPrefab Facial;
 
         [EnumNamedArray(typeof(HairModel), typeof(HairPrefab))]
         [SerializeField]
@@ -129,8 +129,48 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             return Textures[(int) texture];
         }
+    }
 
+    [Serializable]
+    public struct GlassesPrefab
+    {
+        [Serializable]
+        public struct GlassesPrefabTexture
+        {
+            [SerializeField] public Texture2D File;
+        }
 
+        [SerializeField] public GameObject Prefab;
+
+        [EnumNamedArray(typeof(GlassesTexture), typeof(GlassesPrefabTexture))]
+        [SerializeField]
+        private List<GlassesPrefabTexture> Textures;
+
+        public GlassesPrefabTexture GetTexture(GlassesTexture texture)
+        {
+            return Textures[(int) texture];
+        }
+    }
+
+    [Serializable]
+    public struct FacialPrefab
+    {
+        [Serializable]
+        public struct FacialPrefabTexture
+        {
+            [SerializeField] public Texture2D File;
+        }
+
+        [SerializeField] public GameObject Prefab;
+
+        [EnumNamedArray(typeof(FacialTexture), typeof(FacialPrefabTexture))]
+        [SerializeField]
+        private List<FacialPrefabTexture> Textures;
+
+        public FacialPrefabTexture GetTexture(FacialTexture texture)
+        {
+            return Textures[(int) texture];
+        }
     }
 
     [Serializable]
