@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans.Customization.Components;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
         private HumanBody Body;
         private Transform HumanTransform { get; set; }
 
-        public async Task Apply(Human human, CharacterPrefabs prefabs)
+        public void Apply(Human human, CharacterPrefabs prefabs)
         {
             Prefabs = prefabs;
             CurrentOutfit = CharacterOutfit[0];
@@ -38,7 +39,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CreateEmblems();
             CreateEquipment(CurrentBuild.EquipmentComponent);
 
-            await CreateEyes(CurrentOutfit.Eyes);
+            CreateEyes(CurrentOutfit.Eyes);
         }
 
         private GameObject CreateComponent(GameObject prefab, Texture2D texture, Color color = default, Transform parent = null)
@@ -53,8 +54,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 meshRenderer.rootBone = Body.ControllerBody;
                 meshRenderer.bones = Body.Bones;
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
-                //prefabObject.transform.position = HumanTransform.position;
-                //prefabObject.transform.rotation = HumanTransform.rotation;
+                prefabObject.transform.position = HumanTransform.position;
+                prefabObject.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
             }
 
             if (prefabObject.TryGetComponent(out Renderer renderer))
@@ -64,11 +65,9 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
                 renderer.material.mainTexture = texture;
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
-                //prefabObject.transform.position = HumanTransform.position;
-                //prefabObject.transform.rotation = HumanTransform.rotation;
+                prefabObject.transform.position = HumanTransform.position;
+                prefabObject.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
             }
-
-            //prefabObject.transform.position = parent?.transform.position ?? Body.ControllerBody.position;
 
             return prefabObject;
         }
@@ -78,46 +77,45 @@ namespace Assets.Scripts.Characters.Humans.Customization
             return CreateComponent(prefab, texture, default, parent);
         }
 
-        private async Task<GameObject> CreateComponentAsync(GameObject prefab, string textureUrl, Color color = default,
+        private GameObject CreateComponentAsync(GameObject prefab, string textureUrl, Color color = default,
             Transform parent = null)
         {
-            var texture = await GetRemoteTexture(textureUrl);
-            return CreateComponent(prefab, texture, color, parent);
-        }
+            var result = CreateComponent(prefab, null, color, parent);
+            if (result.TryGetComponent(out Renderer renderer))
+            {
+                Body.StartCoroutine(DownloadImage(renderer, textureUrl));
+            }
 
+            return result;
+        }
+        
         private void CreateHead(HeadComponent head, SkinPrefab skin)
         {
             var result = CreateComponent(Prefabs.GetHeadPrefab(head.Model).Prefab, skin.File, Body.head);
-            result.transform.position = HumanTransform.position;
-            result.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
         }
 
-        private async Task CreateHair(HairComponent hair)
+        private void CreateHair(HairComponent hair)
         {
             var prefab = Prefabs.GetHairPrefab(hair.Model);
 
             if (!string.IsNullOrWhiteSpace(hair.CustomUrl))
             {
-                var result = await CreateComponentAsync(prefab.Prefab, hair.CustomUrl, hair.Color, Body.head);
-                result.transform.position = Body.head.position;
-                result.transform.rotation = Body.head.rotation;
+                CreateComponentAsync(prefab.Prefab, hair.CustomUrl, hair.Color, Body.head);
             }
             else
             {
                 var texture = prefab.GetTexture(hair.Texture);
-                var result = CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
-                result.transform.position = HumanTransform.position;
-                result.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
+                CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
             }
         }
 
-        private async Task CreateEyes(EyesComponent eyes)
+        private void CreateEyes(EyesComponent eyes)
         {
             var prefab = Prefabs.Eyes;
 
             if (!string.IsNullOrWhiteSpace(eyes.CustomUrl))
             {
-                var result = await CreateComponentAsync(prefab.Prefab, eyes.CustomUrl, eyes.Color, Body.ControllerBody);
+                var result = CreateComponentAsync(prefab.Prefab, eyes.CustomUrl, eyes.Color, Body.head);
             }
             else
             {
@@ -245,35 +243,18 @@ namespace Assets.Scripts.Characters.Humans.Customization
             emblems.ForEach(x => CreateComponent(x, texture));
         }
 
-        private static async Task<Texture2D> GetRemoteTexture(string url)
+        IEnumerator DownloadImage(Renderer renderer, string url)
         {
-            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+            yield return request.SendWebRequest();
+            if (request.isNetworkError || request.isHttpError)
             {
-                //begin requenst:
-                var asyncOp = www.SendWebRequest();
+                Debug.Log($"Could not downloaded skin. Error: {request.error}");
 
-                //await until it's done: 
-                while (asyncOp.isDone == false)
-                {
-                    await Task.Delay(1000 / 30);//30 hertz
-                }
-
-                //read results:
-                if (www.isNetworkError || www.isHttpError)
-                {
-                    //log error:
-#if DEBUG
-                    Debug.Log($"{ www.error }, URL:{ www.url }");
-#endif
-
-                    //nothing to return on error:
-                    return null;
-                }
-                else
-                {
-                    //return valid results:
-                    return DownloadHandlerTexture.GetContent(www);
-                }
+            }
+            else
+            {
+                renderer.material.mainTexture = ((DownloadHandlerTexture) request.downloadHandler).texture;
             }
         }
     }

@@ -8,11 +8,11 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public CharacterPrefabs Prefabs;
         public List<CharacterPreset> Presets;
 
-        public async void Start()
+        public void Start()
         {
             var human = GameObject.Find("Example").GetComponent<Human>();
             if (human == null) return;
-            await Presets[0].Apply(human, Prefabs);
+            Presets[0].Apply(human, Prefabs);
         }
     }
 }
