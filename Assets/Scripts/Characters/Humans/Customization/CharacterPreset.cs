@@ -104,7 +104,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             }
             else
             {
-                var texture = prefab.GetTexture(hair.Texture);
+                var texture = Prefabs.GetHairTexture(hair.Texture);
                 CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
             }
         }

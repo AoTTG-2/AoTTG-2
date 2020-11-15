@@ -43,6 +43,9 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [EnumNamedArray(typeof(OutfitTexture), typeof(OutfitPrefabTexture))]
         [SerializeField] public List<OutfitPrefabTexture> OutfitTextures;
 
+        [EnumNamedArray(typeof(HairTexture), typeof(HairPrefabTexture))]
+        [SerializeField] public List<HairPrefabTexture> HairTextures;
+
         public HeadPrefab GetHeadPrefab(HeadModel model)
         {
             return Head.First();
@@ -72,6 +75,11 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             return OutfitTextures[(int) texture];
         }
+
+        public HairPrefabTexture GetHairTexture(HairTexture texture)
+        {
+            return HairTextures[(int) texture];
+        }
     }
 
     [Serializable]
@@ -79,19 +87,13 @@ namespace Assets.Scripts.Characters.Humans.Customization
     {
         [SerializeField] public GameObject Prefab;
         [SerializeField] public Gender Gender;
-        [SerializeField] public List<HairPrefabTexture> Textures;
-
-        public HairPrefabTexture GetTexture(HairTexture texture)
-        {
-            return Textures.FirstOrDefault(x => x.Texture == texture);
-        }
+        [SerializeField] public List<HairTexture> Textures;
     }
 
     [Serializable]
     public struct HairPrefabTexture
     {
         [SerializeField] public Texture2D File;
-        [SerializeField] public HairTexture Texture;
     }
 
     [Serializable]
@@ -115,15 +117,17 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public struct EyePrefabTexture
         {
             [SerializeField] public Texture2D File;
-            [SerializeField] public EyesTexture Texture;
         }
 
         [SerializeField] public GameObject Prefab;
-        [SerializeField] private List<EyePrefabTexture> Textures;
+
+        [EnumNamedArray(typeof(EyesTexture), typeof(EyePrefabTexture))]
+        [SerializeField]
+        private List<EyePrefabTexture> Textures;
 
         public EyePrefabTexture GetTexture(EyesTexture texture)
         {
-            return Textures.First(x => x.Texture == texture);
+            return Textures[(int) texture];
         }
 
 
@@ -135,8 +139,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject Prefab;
         [SerializeField] public Gender Gender;
         [SerializeField] public List<OutfitTexture> Textures;
-
-
     }
 
     [Serializable]
