@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Assets.Scripts.Characters.Humans.Customization.Components;
+﻿using Assets.Scripts.Characters.Humans.Customization.Components;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Assets.Scripts.Characters.Humans.Customization
 {
@@ -18,25 +19,26 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private CharacterPrefabs Prefabs;
         private HumanBody Body;
+        private Transform HumanTransform { get; set; }
 
-        public void Apply(Human human, CharacterPrefabs prefabs)
+        public async Task Apply(Human human, CharacterPrefabs prefabs)
         {
             Prefabs = prefabs;
             CurrentOutfit = CharacterOutfit[0];
             CurrentBuild = CharacterBuild[0];
             Body = human.Body;
+            HumanTransform = human.transform;
 
             var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
 
             CreateHead(CurrentOutfit.Head, skin);
             CreateHair(CurrentOutfit.Hair);
-            CreateEyes(CurrentOutfit.Eyes);
             CreateOutfit(CurrentOutfit.Outfit);
             CreateCape(CurrentOutfit.Cape);
-
             CreateEmblems();
-
             CreateEquipment(CurrentBuild.EquipmentComponent);
+
+            await CreateEyes(CurrentOutfit.Eyes);
         }
 
         private GameObject CreateComponent(GameObject prefab, Texture2D texture, Color color = default, Transform parent = null)
@@ -51,6 +53,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 meshRenderer.rootBone = Body.ControllerBody;
                 meshRenderer.bones = Body.Bones;
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
+                //prefabObject.transform.position = HumanTransform.position;
+                //prefabObject.transform.rotation = HumanTransform.rotation;
             }
 
             if (prefabObject.TryGetComponent(out Renderer renderer))
@@ -60,7 +64,11 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
                 renderer.material.mainTexture = texture;
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
+                //prefabObject.transform.position = HumanTransform.position;
+                //prefabObject.transform.rotation = HumanTransform.rotation;
             }
+
+            //prefabObject.transform.position = parent?.transform.position ?? Body.ControllerBody.position;
 
             return prefabObject;
         }
@@ -70,23 +78,51 @@ namespace Assets.Scripts.Characters.Humans.Customization
             return CreateComponent(prefab, texture, default, parent);
         }
 
+        private async Task<GameObject> CreateComponentAsync(GameObject prefab, string textureUrl, Color color = default,
+            Transform parent = null)
+        {
+            var texture = await GetRemoteTexture(textureUrl);
+            return CreateComponent(prefab, texture, color, parent);
+        }
+
         private void CreateHead(HeadComponent head, SkinPrefab skin)
         {
-            CreateComponent(Prefabs.GetHeadPrefab(head.Model).Prefab, skin.File, Body.head);
+            var result = CreateComponent(Prefabs.GetHeadPrefab(head.Model).Prefab, skin.File, Body.head);
+            result.transform.position = HumanTransform.position;
         }
 
-        private void CreateHair(HairComponent hair)
+        private async Task CreateHair(HairComponent hair)
         {
             var prefab = Prefabs.GetHairPrefab(hair.Model);
-            var texture = prefab.GetTexture(hair.Texture);
-            CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
+
+            if (!string.IsNullOrWhiteSpace(hair.CustomUrl))
+            {
+                var result = await CreateComponentAsync(prefab.Prefab, hair.CustomUrl, hair.Color, Body.head);
+                result.transform.position = Body.head.position;
+                result.transform.rotation = Body.head.rotation;
+            }
+            else
+            {
+                var texture = prefab.GetTexture(hair.Texture);
+                var result = CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
+                result.transform.position = HumanTransform.position;
+            }
         }
 
-        private void CreateEyes(EyesComponent eyes)
+        private async Task CreateEyes(EyesComponent eyes)
         {
             var prefab = Prefabs.Eyes;
-            var texture = prefab.GetTexture(eyes.Texture);
-            CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
+
+            if (!string.IsNullOrWhiteSpace(eyes.CustomUrl))
+            {
+                var result = await CreateComponentAsync(prefab.Prefab, eyes.CustomUrl, eyes.Color, Body.ControllerBody);
+            }
+            else
+            {
+                var texture = prefab.GetTexture(eyes.Texture);
+                var result = CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
+                result.transform.position = HumanTransform.position;
+            }
         }
 
         private void CreateOutfit(OutfitComponent outfit)
@@ -94,7 +130,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
             var texture = prefab.GetTexture(outfit.Texture);
             CreateComponent(prefab.Prefab, texture.File, outfit.Color);
-            
+
             CreateLegs(outfit);
             CreateArms(outfit);
         }
@@ -116,7 +152,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             {
                 armLeft = Prefabs.Arms.LeftCasual;
                 armRight = Prefabs.Arms.RightCasual;
-            } else if (outfit.Model == OutfitModel.CasualFemaleB || outfit.Model == OutfitModel.CasualMaleB)
+            }
+            else if (outfit.Model == OutfitModel.CasualFemaleB || outfit.Model == OutfitModel.CasualMaleB)
             {
                 armLeft = Prefabs.Arms.LeftAhss;
                 armRight = Prefabs.Arms.RightAhss;
@@ -148,10 +185,16 @@ namespace Assets.Scripts.Characters.Humans.Customization
             ammoRight.GetComponent<Renderer>().material.mainTexture = ammo;
 
             ammoLeft.transform.parent = Body.ControllerBody;
+            ammoLeft.transform.position = HumanTransform.position;
+
             ammoRight.transform.parent = Body.ControllerBody;
+            ammoRight.transform.position = HumanTransform.position;
 
             handLeft.transform.parent = Body.hand_L;
+            handLeft.transform.position = HumanTransform.position;
+
             handRight.transform.parent = Body.hand_R;
+            handRight.transform.position = HumanTransform.position;
 
             CreateOdmg(equipment);
         }
@@ -160,9 +203,16 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             var prefab = Prefabs.GetEquipmentPrefab(CurrentBuild.Equipment);
             var texture = prefab.GetTexture(equipment.Texture);
-            CreateComponent(prefab.Equipment, texture.File, equipment.Color, Body.chest);
+            var result = CreateComponent(prefab.Equipment, texture.File, equipment.Color);
+            result.transform.parent = Body.chest;
+            result.transform.position = HumanTransform.position;
 
-            prefab.Extras.ForEach(x => CreateComponent(x, texture.File, equipment.Color));
+            foreach (var extra in prefab.Extras)
+            {
+                result = CreateComponent(extra, texture.File, equipment.Color, HumanTransform);
+                result.transform.parent = Body.ControllerBody;
+                result.transform.position = HumanTransform.position;
+            }
         }
 
         private void CreateCape(CapeComponent cape)
@@ -185,6 +235,38 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 {prefab.ArmLeft, prefab.ArmRight, prefab.GetBackPrefab(gender), prefab.GetChestPrefab(gender)};
 
             emblems.ForEach(x => CreateComponent(x, texture));
+        }
+
+        private static async Task<Texture2D> GetRemoteTexture(string url)
+        {
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+            {
+                //begin requenst:
+                var asyncOp = www.SendWebRequest();
+
+                //await until it's done: 
+                while (asyncOp.isDone == false)
+                {
+                    await Task.Delay(1000 / 30);//30 hertz
+                }
+
+                //read results:
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    //log error:
+#if DEBUG
+                    Debug.Log($"{ www.error }, URL:{ www.url }");
+#endif
+
+                    //nothing to return on error:
+                    return null;
+                }
+                else
+                {
+                    //return valid results:
+                    return DownloadHandlerTexture.GetContent(www);
+                }
+            }
         }
     }
 }

@@ -236,7 +236,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55013591}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7771a39e87be45449b8493d72a69b9f1, type: 3}
   m_Name: 
@@ -1131,6 +1131,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Example
       objectReference: {fileID: 0}
+    - target: {fileID: 2218108981276879168, guid: dff5219c49b4f6142b848d4aaa073a37,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2218208932464279672, guid: dff5219c49b4f6142b848d4aaa073a37,
         type: 3}
       propertyPath: m_IsActive
@@ -1179,7 +1184,7 @@ PrefabInstance:
     - target: {fileID: 2223895951292717763, guid: dff5219c49b4f6142b848d4aaa073a37,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.38
       objectReference: {fileID: 0}
     - target: {fileID: 2223895951292717763, guid: dff5219c49b4f6142b848d4aaa073a37,
         type: 3}
@@ -1249,12 +1254,12 @@ PrefabInstance:
     - target: {fileID: 8942901855644592361, guid: dff5219c49b4f6142b848d4aaa073a37,
         type: 3}
       propertyPath: viewIdField
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8942901855644592361, guid: dff5219c49b4f6142b848d4aaa073a37,
         type: 3}
       propertyPath: instantiationId
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dff5219c49b4f6142b848d4aaa073a37, type: 3}
