@@ -89,6 +89,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             var result = CreateComponent(Prefabs.GetHeadPrefab(head.Model).Prefab, skin.File, Body.head);
             result.transform.position = HumanTransform.position;
+            result.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
         }
 
         private async Task CreateHair(HairComponent hair)
@@ -106,6 +107,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 var texture = prefab.GetTexture(hair.Texture);
                 var result = CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
                 result.transform.position = HumanTransform.position;
+                result.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
             }
         }
 
@@ -122,6 +124,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 var texture = prefab.GetTexture(eyes.Texture);
                 var result = CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
                 result.transform.position = HumanTransform.position;
+                result.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
             }
         }
 
@@ -186,15 +189,19 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             ammoLeft.transform.parent = Body.ControllerBody;
             ammoLeft.transform.position = HumanTransform.position;
+            ammoLeft.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 
             ammoRight.transform.parent = Body.ControllerBody;
             ammoRight.transform.position = HumanTransform.position;
+            ammoRight.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 
             handLeft.transform.parent = Body.hand_L;
             handLeft.transform.position = HumanTransform.position;
+            handLeft.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 
             handRight.transform.parent = Body.hand_R;
             handRight.transform.position = HumanTransform.position;
+            handRight.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 
             CreateOdmg(equipment);
         }
@@ -206,6 +213,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var result = CreateComponent(prefab.Equipment, texture.File, equipment.Color);
             result.transform.parent = Body.chest;
             result.transform.position = HumanTransform.position;
+            result.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 
             foreach (var extra in prefab.Extras)
             {
