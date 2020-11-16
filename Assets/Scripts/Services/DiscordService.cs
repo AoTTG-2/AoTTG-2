@@ -53,7 +53,7 @@ namespace Assets.Scripts.Services
 
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            if (newScene.buildIndex == 0 && oldScene.buildIndex != 0)
+            if (newScene.buildIndex == 0 && oldScene.buildIndex > 0)
             {
                 InMenu();
             }
