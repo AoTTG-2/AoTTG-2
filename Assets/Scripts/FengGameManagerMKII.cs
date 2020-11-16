@@ -1875,9 +1875,8 @@ namespace Assets.Scripts
             {
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
-            
-            var temp = FindObjectOfType<DiscordRichPresence>();
-            temp.UpdateMultiplayerActivity(PhotonNetwork.room);
+
+            Service.Discord.UpdateSinglePlayerActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()

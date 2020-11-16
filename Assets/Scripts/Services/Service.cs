@@ -14,7 +14,8 @@ namespace Assets.Scripts.Services
         public static ISpawnService Spawn { get; private set; }
         public static ITimeService Time { get; private set; }
         public static IUiService Ui { get; private set; }
-        
+        public static IDiscordService Discord { get; private set; }
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -24,6 +25,7 @@ namespace Assets.Scripts.Services
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
+            Discord = gameObject.AddComponent<DiscordService>();
         }
     }
 }
