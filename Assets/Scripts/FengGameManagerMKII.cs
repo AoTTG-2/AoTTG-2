@@ -1876,7 +1876,7 @@ namespace Assets.Scripts
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
 
-            Service.Discord.UpdateSinglePlayerActivity(PhotonNetwork.room);
+            Service.Discord.UpdateMultiPlayerActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()
