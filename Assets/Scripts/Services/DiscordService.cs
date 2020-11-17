@@ -88,6 +88,7 @@ namespace Assets.Scripts.Services
 
         public void JoinViaDiscord(string roomID)
         {
+            Service.Photon.UpdateConnectionType(false);
             Service.Photon.Initialize();
             PhotonNetwork.JoinRoom(roomID);
         }
@@ -101,6 +102,8 @@ namespace Assets.Scripts.Services
             discord.Dispose();
         }
         #endregion
+        
+        //TODO: Find out why MaxPlayers and GetLevel is broken.
 
         private void UpdateSinglePlayerActivity(global::Room room)
         {

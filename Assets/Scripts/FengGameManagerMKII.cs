@@ -1876,7 +1876,6 @@ namespace Assets.Scripts
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
             
-            Debug.Log($"room level = {PhotonNetwork.room.GetLevel()}");
             Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
         }
 

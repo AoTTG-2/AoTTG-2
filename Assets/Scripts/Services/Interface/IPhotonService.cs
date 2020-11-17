@@ -3,5 +3,11 @@
     public interface IPhotonService
     {
         void Initialize();
+
+        void UpdateConnectionType(bool isLocal);
+
+        void OnDisconnectFromPhoton();
+
+        void ChangeRegionDisconnect();
     }
 }
