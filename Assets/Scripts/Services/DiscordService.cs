@@ -33,18 +33,14 @@ namespace Assets.Scripts.Services
                 LargeImage = LargeImageKey,
                 LargeText = LargeText
             };
-        }
-
-        private void Start()
-        {
+            
             activityManager.RegisterCommand(GetApplicationPath());
             activityStruct = new Activity
             {
                 Assets = assetsStruct
             };
-            InMenu();
         }
-
+        
         private void Update()
         {
             discord.RunCallbacks();
@@ -57,7 +53,7 @@ namespace Assets.Scripts.Services
 
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            if (newScene.buildIndex == 0 && oldScene.buildIndex > 0)
+            if (newScene.buildIndex == 0)
             {
                 InMenu();
             }
@@ -65,8 +61,11 @@ namespace Assets.Scripts.Services
 
         private void InMenu()
         {
-            activityStruct.State = "In Menu";
-            activityStruct.Details = "";
+            activityStruct = new Activity 
+                {
+                    Assets = assetsStruct, 
+                    State = "In Menu"
+                };
             activityManager.UpdateActivity(activityStruct, (result) =>
             {
                 Debug.Log(result == Result.Ok
