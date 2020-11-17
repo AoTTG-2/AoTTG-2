@@ -14,29 +14,33 @@ namespace Assets.Scripts.Services
         private ActivityManager activityManager;
 
         private Activity activityStruct;
+        private ActivityAssets assetsStruct;
 
         private const string LargeImageKey = "aottg_2_title";
         private const string LargeText = "AoTTG2";
         private const long AppID = 730150236185690172;
-        
+
+
         private void Awake()
         {
             discord = new Discord.Discord(AppID, (UInt64) Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
             activityManager.OnActivityJoin += JoinViaDiscord;
             SceneManager.activeSceneChanged += OnSceneChanged;
+
+            assetsStruct = new ActivityAssets
+            {
+                LargeImage = LargeImageKey,
+                LargeText = LargeText
+            };
         }
-        
+
         private void Start()
         {
             activityManager.RegisterCommand(GetApplicationPath());
             activityStruct = new Activity
             {
-                Assets =
-                {
-                    LargeImage = LargeImageKey,
-                    LargeText = LargeText
-                }
+                Assets = assetsStruct
             };
             InMenu();
         }
@@ -70,17 +74,27 @@ namespace Assets.Scripts.Services
                     : $"Failed to Update to Main Menu");
             });
         }
-        
+
 
         #region Service Methods
 
-        public void UpdateSinglePlayerActivity(global::Room room)
+        public void UpdateDiscordActivity(global::Room room)
         {
-            activityStruct.State = "SinglePlayer!";
-            activityStruct.Details = room.GetLevel() + " - " + room.GetGamemode();
-            activityStruct.Secrets = new ActivitySecrets(); //Reset Secrets and Party structs.
-            activityStruct.Party = new ActivityParty();
+            if (room.GetName().Equals("Singleplayer"))
+                UpdateSinglePlayerActivity(room);
+            else
+                UpdateMultiPlayerActivity(room);
+        }
 
+        private void UpdateSinglePlayerActivity(global::Room room)
+        {
+            Debug.Log($"Room name = {room.GetName()}, room level = {room.GetLevel()}");
+            activityStruct = new Activity
+            {
+                Assets = assetsStruct,
+                State = "SinglePlayer",
+                Details = room.GetLevel() + " - " + room.GetGamemode(),
+            };
             activityManager.UpdateActivity(activityStruct,
                 (result) =>
                 {
@@ -90,30 +104,34 @@ namespace Assets.Scripts.Services
                 });
         }
 
-        public void UpdateMultiPlayerActivity(global::Room room)
+        private void UpdateMultiPlayerActivity(global::Room room)
         {
-            activityStruct.State = room.GetName() + " [" + PhotonNetwork.CloudRegion + "]";
-            activityStruct.Details = room.GetLevel() + " - " + room.GetGamemode();
-            activityStruct.Party = new ActivityParty
+            activityStruct = new Activity
             {
-                Size = new PartySize
+                Assets = assetsStruct,
+                State = room.GetName() + "- [" + PhotonNetwork.CloudRegion.ToString().ToUpper() + "]",
+                Details = room.GetLevel() + " - " + room.GetGamemode(),
+                Party = new ActivityParty
                 {
-                    CurrentSize = room.PlayerCount,
-                    MaxSize = room.MaxPlayers >= room.PlayerCount ? room.MaxPlayers : 10
+                    Size = new PartySize
+                    {
+                        CurrentSize = room.PlayerCount,
+                        MaxSize = room.MaxPlayers >= room.PlayerCount ? room.MaxPlayers : 10
+                    },
+                    Id = room.GetHashCode().ToString(),
                 },
-                Id = room.GetHashCode().ToString(),
-            };
-            activityStruct.Secrets = new ActivitySecrets
-            {
-                Join = room.Name,
+                Secrets = new ActivitySecrets
+                {
+                    Join = room.Name,
+                }
             };
 
             activityManager.UpdateActivity(activityStruct,
                 (result) =>
                 {
                     Debug.Log(result == Result.Ok
-                        ? $"Updated Multi Player Party."
-                        : $"Failed to Update Multiplayer Party stats.");
+                        ? $"Updated Multi-player party."
+                        : $"Failed to Update Multi-player party.");
                 });
         }
 

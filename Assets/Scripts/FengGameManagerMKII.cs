@@ -1875,8 +1875,9 @@ namespace Assets.Scripts
             {
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
-
-            Service.Discord.UpdateMultiPlayerActivity(PhotonNetwork.room);
+            
+            Debug.Log($"room level = {PhotonNetwork.room.GetLevel()}");
+            Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()
