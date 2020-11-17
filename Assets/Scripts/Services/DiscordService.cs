@@ -86,6 +86,22 @@ namespace Assets.Scripts.Services
                 UpdateMultiPlayerActivity(room);
         }
 
+        public void JoinViaDiscord(string roomID)
+        {
+            Service.Photon.Initialize();
+            PhotonNetwork.JoinRoom(roomID);
+        }
+        public Discord.Discord GetSocket()
+        {
+            return discord;
+        }
+        
+        public void CloseSocket()
+        {
+            discord.Dispose();
+        }
+        #endregion
+
         private void UpdateSinglePlayerActivity(global::Room room)
         {
             Debug.Log($"Room name = {room.GetName()}, room level = {room.GetLevel()}");
@@ -135,22 +151,7 @@ namespace Assets.Scripts.Services
                 });
         }
 
-        public Discord.Discord GetSocket()
-        {
-            return discord;
-        }
 
-        public void CloseSocket()
-        {
-            discord.Dispose();
-        }
-
-        public void JoinViaDiscord(string roomID)
-        {
-            PhotonNetwork.JoinRoom(roomID);
-        }
-
-        #endregion
 
         #region Helper Methods
 
