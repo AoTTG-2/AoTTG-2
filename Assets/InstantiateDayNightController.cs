@@ -7,15 +7,16 @@ using UnityEngine.UI;
 public class InstantiateDayNightController : MonoBehaviour
 {
     public GameObject DayNightControllerPrefab = null;
-    public Button ActivateDayNightButton;
+    public Toggle ToggleDayNight;
+    public GameObject DayNightCycle;
     // Start is called before the first frame update
     void Start()
     {
-        // Instantiate(DayNightControllerPrefab, transform.position, Quaternion.identity);
-        Button btn = ActivateDayNightButton.GetComponent<Button>();
-        btn.onClick.AddListener(InstantiateDayAndNightController);
+        ToggleDayNight.isOn = false;
+
+
     }
-    void InstantiateDayAndNightController()
+    void ToggleDayAndNightController()
     {
         Instantiate(DayNightControllerPrefab, transform.position, Quaternion.identity);
         Debug.Log("You have clicked the button!");
@@ -23,6 +24,11 @@ public class InstantiateDayNightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (ToggleDayNight.isOn)
+            ToggleDayAndNightController();
+        else
+            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)");
+            Destroy(DayNightCycle);
+        var input = gameObject.GetComponent<InputField>();
     }
 }

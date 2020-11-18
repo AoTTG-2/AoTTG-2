@@ -13,7 +13,7 @@ public class DayColors
 }
 
 public class DayAndNightControl : MonoBehaviour {
-	public bool StartDay; //start game as day time
+	
 	public GameObject StarDome;
 	public GameObject moonState;
 	public GameObject moon;
@@ -46,10 +46,10 @@ public class DayAndNightControl : MonoBehaviour {
 		}
 		lightIntensity = directionalLight.intensity; //what's the current intensity of the light
 		starMat = StarDome.GetComponentInChildren<MeshRenderer> ().material;
-		if (StartDay) {
-			currentTime = 0.3f; //start at morning
+		
 			starMat.color = new Color(1f,1f,1f,0f);
-		}
+		
+
         //Duplication check
         int numDayNightControllers = FindObjectsOfType<DayAndNightControl>().Length;
         if (numDayNightControllers != 1)
@@ -64,20 +64,7 @@ public class DayAndNightControl : MonoBehaviour {
 
     }
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        currentTime = 0.3f;
-    }
+  
     // Update is called once per frame
     void Update()
     {
