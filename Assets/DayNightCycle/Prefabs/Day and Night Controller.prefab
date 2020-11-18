@@ -74,7 +74,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 9d5a15568fcdff542831d80ba0310166, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -155,7 +155,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a558ce5fda91b8e48aaa13f126ecb13f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -316,28 +316,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c27ea66d96f4c45bd49ec08a6dc519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartDay: 1
   StarDome: {fileID: 153028}
   moonState: {fileID: 154664}
   moon: {fileID: 148458}
   dawnColors:
-    skyColor: {r: 0, g: 0, b: 0, a: 0}
-    equatorColor: {r: 0, g: 0, b: 0, a: 0}
-    horizonColor: {r: 0, g: 0, b: 0, a: 0}
+    skyColor: {r: 0.5955882, g: 0.5955882, b: 0.5955882, a: 0}
+    equatorColor: {r: 0.27892518, g: 0.29279244, b: 0.5661765, a: 0}
+    horizonColor: {r: 0.22794116, g: 0.22794116, b: 0.22794116, a: 0}
   dayColors:
-    skyColor: {r: 0, g: 0, b: 0, a: 0}
-    equatorColor: {r: 0, g: 0, b: 0, a: 0}
-    horizonColor: {r: 0, g: 0, b: 0, a: 0}
+    skyColor: {r: 0.9338235, g: 0.9338235, b: 0.9338235, a: 0}
+    equatorColor: {r: 0.19404197, g: 0.34800962, b: 0.71323526, a: 0}
+    horizonColor: {r: 0.3602941, g: 0.2281619, b: 0.060932085, a: 0}
   nightColors:
-    skyColor: {r: 0, g: 0, b: 0, a: 0}
-    equatorColor: {r: 0, g: 0, b: 0, a: 0}
+    skyColor: {r: 0.032331314, g: 0.033426788, b: 0.19117647, a: 0}
+    equatorColor: {r: 0.15003245, g: 0.20263465, b: 0.5514706, a: 0}
     horizonColor: {r: 0, g: 0, b: 0, a: 0}
-  currentDay: 1
+  currentDay: 0
   directionalLight: {fileID: 10851780}
-  SecondsInAFullDay: 120
-  currentTime: 0
+  SecondsInAFullDay: 60
   timeMultiplier: 1
-  showUI: 0
+  showUI: 1
 --- !u!1 &190586
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +412,7 @@ Light:
     m_UseCullingMatrixOverride: 0
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
-  m_Flare: {fileID: 0}
+  m_Flare: {fileID: 12100000, guid: 54fbbf098d116effa00081aba8ad6659, type: 2}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
