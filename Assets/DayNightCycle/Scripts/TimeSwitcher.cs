@@ -13,33 +13,26 @@ namespace Assets.Scripts.UI.InGame
         public InputField TimeInput;
         private string time ;
         private double seconds ;
-
-        
         DayAndNightControl DayNightCycle;
        void Start()
         {
             DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-            var input = gameObject.GetComponent<InputField>();
-            var se = new InputField.SubmitEvent();
-            se.AddListener(SubmitTime);
-            input.onEndEdit = se;
             TimeSlider.value = DayNightCycle.currentTime;
         }
 
         void Update()
         {
-            var input = gameObject.GetComponent<InputField>();
+            
             var se = new InputField.SubmitEvent();
             se.AddListener(SubmitTime);
-            input.onEndEdit = se;
+            TimeInput.onEndEdit = se;
             DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-            Debug.Log(DayNightCycle.SecondsInAFullDay);
             DayNightCycle.currentTime = TimeSlider.value;
+            TimeSlider.value= DayNightCycle.currentTime;
         }
 
         private void SubmitTime(string arg0)
         {
-            Debug.Log(arg0);
             time = arg0;
             seconds = System.TimeSpan.Parse(time).TotalSeconds;
             TimeSlider.value= (float) (seconds / 86400);

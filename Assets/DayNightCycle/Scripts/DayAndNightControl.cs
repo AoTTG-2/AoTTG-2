@@ -19,15 +19,22 @@ public class DayAndNightControl : MonoBehaviour {
 	public GameObject moon;
 	public DayColors dawnColors;
 	public DayColors dayColors;
-	public DayColors nightColors;
-    
+    public DayColors nightColors;
+    public DayColors darknightColors;
+
     public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
     public int currentDay = 0; 
 	public Light directionalLight;
-    public float SecondsInAfullDay { get; set; }
-    public float SecondsInAFullDay = 120f; //in realtime, this is about two minutes by default. (every 1 minute/60 seconds is day in game)
-	[Range(0,1)]
-	//currentTime = 0; //at default when you press play, it will be nightTime. (0 = night, 1 = day)
+    
+    private float SecondsInAFullDay = 120f;//default value is 120 seconds in one day
+
+    public float DayLength
+    {
+        get { return SecondsInAFullDay; }
+
+        set { SecondsInAFullDay=value; }
+    }
+
 	[HideInInspector]
 	public float timeMultiplier = 1f; //how fast the day goes by regardless of the secondsInAFullDay var. lower values will make the days go by longer, while higher values make it go faster. This may be useful if you're siumulating seasons where daylight and night times are altered.
 	public bool showUI;
@@ -46,9 +53,9 @@ public class DayAndNightControl : MonoBehaviour {
 		}
 		lightIntensity = directionalLight.intensity; //what's the current intensity of the light
 		starMat = StarDome.GetComponentInChildren<MeshRenderer> ().material;
-		
-			starMat.color = new Color(1f,1f,1f,0f);
-		
+        
+            starMat.color = new Color(1f, 1f, 1f, 0f);
+        
 
         //Duplication check
         int numDayNightControllers = FindObjectsOfType<DayAndNightControl>().Length;
@@ -84,11 +91,6 @@ public class DayAndNightControl : MonoBehaviour {
         }
     }
 	
-    public void ChangeTime(int dTime)
-    {
-        currentTime = dTime;
-    }
-	
 
     public float GetTime() => currentTime;
 
@@ -112,36 +114,36 @@ public class DayAndNightControl : MonoBehaviour {
 		}
 		else if (currentTime <= 0.25f) 
 		{
-			intensityMultiplier = Mathf.Clamp01((currentTime - 0.23f) * (1 / 0.02f));
+			intensityMultiplier = Mathf.Clamp01((currentTime - 0.25f) * (1 / 0.02f));
 			starMat.color = new Color(1,1,1,Mathf.Lerp(0,1,Time.deltaTime));
 		}
-		else if (currentTime <= 0.73f) 
+		else if (currentTime <= 0.75f) 
 		{
-			intensityMultiplier = Mathf.Clamp01(1 - ((currentTime - 0.73f) * (1 / 0.02f)));
+			intensityMultiplier = Mathf.Clamp01(1 - ((currentTime - 0.75f) * (1 / 0.02f)));
 		}
 
 
 		//change env colors to add mood
 
-		if (currentTime <= 0.2f) {
-			RenderSettings.ambientSkyColor = nightColors.skyColor;
-			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
-			RenderSettings.ambientGroundColor = nightColors.horizonColor;
+		if (currentTime <= 0.25f) {
+			RenderSettings.ambientSkyColor = darknightColors.skyColor;
+			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
+			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
 		}
-		if (currentTime > 0.2f && currentTime < 0.4f) {
+		if (currentTime > 0.25f && currentTime < 0.5f) {
 			RenderSettings.ambientSkyColor = dawnColors.skyColor;
 			RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
 			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
 		}
-		if (currentTime > 0.4f && currentTime < 0.75f) {
+		if (currentTime > 0.25f && currentTime < 0.75f) {
 			RenderSettings.ambientSkyColor = dayColors.skyColor;
 			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
 			RenderSettings.ambientGroundColor = dayColors.horizonColor;
 		}
 		if (currentTime > 0.75f) {
-			RenderSettings.ambientSkyColor = dayColors.skyColor;
-			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
-			RenderSettings.ambientGroundColor = dayColors.horizonColor;
+			RenderSettings.ambientSkyColor = nightColors.skyColor;
+			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
+			RenderSettings.ambientGroundColor = nightColors.horizonColor;
 		}
 
 		directionalLight.intensity = lightIntensity * intensityMultiplier;

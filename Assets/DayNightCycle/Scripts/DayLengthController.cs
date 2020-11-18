@@ -18,29 +18,25 @@ namespace Assets.Scripts.UI.InGame
         DayAndNightControl DayNightCycle;
         void Start()
         {
-            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-            var input = gameObject.GetComponent<InputField>();
-            var se = new InputField.SubmitEvent();
-            se.AddListener(SubmitTime);
-            input.onEndEdit = se;
+            
             
         }
 
         void Update()
         {
+            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+            DayLengthInput = gameObject.GetComponent<InputField>();
+            var se = new InputField.SubmitEvent();
+            se.AddListener(SubmitDayLength);
+            DayLengthInput.onEndEdit = se;
 
-            Debug.Log(DayNightCycle.SecondsInAFullDay);
-           // DayNightCycle.currentTime = TimeSlider.value;
         }
 
-        private void SubmitTime(string arg0)
+        private void SubmitDayLength(string arg0)
         {
-           // Debug.Log(arg0);
-            
             dayLength=float.Parse(arg0);
-            
-            DayNightCycle.SecondsInAfullDay = (float) dayLength;
-            Debug.Log(dayLength);
+            DayNightCycle.DayLength = (float) dayLength;
+            Debug.Log(DayNightCycle.DayLength);
         }
 
         //here put functions that u wanna call from the change button at ServerSettingsPage.cs, I left

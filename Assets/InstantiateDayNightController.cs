@@ -9,15 +9,17 @@ public class InstantiateDayNightController : MonoBehaviour
     public GameObject DayNightControllerPrefab = null;
     public Toggle ToggleDayNight;
     public GameObject DayNightCycle;
+   // DayAndNightControl DayNightCycle;
     // Start is called before the first frame update
     void Start()
     {
         ToggleDayNight.isOn = false;
-
+        //DayAndNightControl DayNightCycle;
 
     }
     void ToggleDayAndNightController()
     {
+        
         Instantiate(DayNightControllerPrefab, transform.position, Quaternion.identity);
         Debug.Log("You have clicked the button!");
     }
