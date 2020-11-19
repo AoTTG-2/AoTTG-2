@@ -2617,67 +2617,66 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0),
+                    component.setMainObject(PhotonNetwork.Instantiate("Hero", position, pos.transform.rotation, 0),
                         true, false);
                     id = id.ToUpper();
-                    if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
-                    {
-                        HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
-                        costume2.checkstat();
-                        CostumeConeveter.HeroCostumeToLocalData(costume2, id);
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                        if (costume2 != null)
-                        {
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                costume2.stat;
-                        }
-                        else
-                        {
-                            costume2 = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                HeroStat.getInfo(costume2.name.ToUpper());
-                        }
+                    //if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
+                    //{
+                    //    HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
+                    //    costume2.checkstat();
+                    //    CostumeConeveter.HeroCostumeToLocalData(costume2, id);
+                    //    //component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                    //    //if (costume2 != null)
+                    //    //{
+                    //    //    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                    //    //    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                    //    //        costume2.stat;
+                    //    //}
+                    //    //else
+                    //    //{
+                    //    //    costume2 = HeroCostume.costumeOption[3];
+                    //    //    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                    //    //    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                    //    //        HeroStat.getInfo(costume2.name.ToUpper());
+                    //    //}
 
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                    }
-                    else
-                    {
-                        for (int j = 0; j < HeroCostume.costume.Length; j++)
-                        {
-                            if (HeroCostume.costume[j].name.ToUpper() == id.ToUpper())
-                            {
-                                int num4 = HeroCostume.costume[j].id;
-                                if (id.ToUpper() != "AHSS")
-                                {
-                                    num4 += CheckBoxCostume.costumeSet - 1;
-                                }
+                    //    //component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                    //    //component.main_object.GetComponent<Hero>().setStat2();
+                    //    //component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                    //}
+                    //else
+                    //{
+                    //    for (int j = 0; j < HeroCostume.costume.Length; j++)
+                    //    {
+                    //        if (HeroCostume.costume[j].name.ToUpper() == id.ToUpper())
+                    //        {
+                    //            int num4 = HeroCostume.costume[j].id;
+                    //            if (id.ToUpper() != "AHSS")
+                    //            {
+                    //                num4 += CheckBoxCostume.costumeSet - 1;
+                    //            }
 
-                                if (HeroCostume.costume[num4].name != HeroCostume.costume[j].name)
-                                {
-                                    num4 = HeroCostume.costume[j].id + 1;
-                                }
+                    //            if (HeroCostume.costume[num4].name != HeroCostume.costume[j].name)
+                    //            {
+                    //                num4 = HeroCostume.costume[j].id + 1;
+                    //            }
 
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume =
-                                    HeroCostume.costume[num4];
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                    HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>()
-                                    .setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                                break;
-                            }
-                        }
-                    }
-
-                    CostumeConeveter.HeroCostumeToPhotonData2(
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume,
-                        PhotonNetwork.player);
+                    //            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                    //            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume =
+                    //                HeroCostume.costume[num4];
+                    //            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                    //                HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
+                    //            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>()
+                    //                .setCharacterComponent();
+                    //            component.main_object.GetComponent<Hero>().setStat2();
+                    //            component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                    //            break;
+                    //        }
+                    //    }
+                    //}
+                    //CostumeConeveter.HeroCostumeToPhotonData2(
+                    //    component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume,
+                    //    PhotonNetwork.player);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
                     ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;

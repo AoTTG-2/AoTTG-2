@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xft;
 
-[Obsolete]
+[Obsolete("Use Character Preset instead", true)]
 public class HERO_SETUP : MonoBehaviour
 {
     public string aniname;

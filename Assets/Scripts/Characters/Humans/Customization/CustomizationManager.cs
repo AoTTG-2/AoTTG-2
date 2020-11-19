@@ -10,7 +10,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         public void Start()
         {
-            var human = GameObject.Find("Example").GetComponent<Human>();
+            var human = GameObject.Find("Example")?.GetComponent<Human>();
             if (human == null) return;
             Presets[0].Apply(human, Prefabs);
         }

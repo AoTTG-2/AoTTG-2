@@ -45,7 +45,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public Transform[] Bones { get; set; }
 
-        private void Start()
+        private void Awake()
         {
             Bones = new Transform[]
             {

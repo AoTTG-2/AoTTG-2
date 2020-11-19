@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
@@ -155,7 +156,7 @@ public class Hero : Human
     public bool rightGunHasBullet = true;
     public AudioSource rope;
     private float rTapTime = -1f;
-    public HERO_SETUP setup;
+    //public HERO_SETUP setup { get; set; }
     private GameObject skillCD;
     public float skillCDDuration;
     public float skillCDLast;
@@ -239,11 +240,9 @@ public class Hero : Human
 
     protected override void Awake()
     {
-        return;
         base.Awake();
         InGameUI = GameObject.Find("InGameUi");
         this.cache();
-        this.setup = base.gameObject.GetComponent<HERO_SETUP>();
         this.baseRigidBody.freezeRotation = true;
         this.baseRigidBody.useGravity = false;
         this.handL = this.baseTransform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L");
@@ -416,70 +415,71 @@ public class Hero : Human
 
     private void breakApart2(Vector3 v, bool isBite)
     {
-        GameObject obj6;
-        GameObject obj7;
-        GameObject obj8;
-        GameObject obj9;
-        GameObject obj10;
-        GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
-        obj2.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
-        obj2.GetComponent<HERO_SETUP>().isDeadBody = true;
-        obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
-        if (!isBite)
-        {
-            GameObject gO = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
-            GameObject obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
-            GameObject obj5 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
-            gO.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
-            obj4.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
-            obj5.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
-            gO.GetComponent<HERO_SETUP>().isDeadBody = true;
-            obj4.GetComponent<HERO_SETUP>().isDeadBody = true;
-            obj5.GetComponent<HERO_SETUP>().isDeadBody = true;
-            gO.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.UPPER);
-            obj4.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.LOWER);
-            obj5.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_L);
-            this.applyForceToBody(gO, v);
-            this.applyForceToBody(obj4, v);
-            this.applyForceToBody(obj5, v);
-            if (base.photonView.isMine)
-            {
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gO, false, false);
-            }
-        }
-        else if (base.photonView.isMine)
-        {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
-        }
-        this.applyForceToBody(obj2, v);
-        Transform transform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
-        Transform transform2 = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
-        if (this.useGun)
-        {
-            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
-            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform2.position, transform2.rotation);
-            obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_2"), base.transform.position, base.transform.rotation);
-            obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_l"), base.transform.position, base.transform.rotation);
-            obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_r"), base.transform.position, base.transform.rotation);
-        }
-        else
-        {
-            obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-            obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
-            obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg"), base.transform.position, base.transform.rotation);
-            obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_l"), base.transform.position, base.transform.rotation);
-            obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_r"), base.transform.position, base.transform.rotation);
-        }
-        obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-        obj7.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-        obj8.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-        obj9.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-        obj10.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
-        this.applyForceToBody(obj6, v);
-        this.applyForceToBody(obj7, v);
-        this.applyForceToBody(obj8, v);
-        this.applyForceToBody(obj9, v);
-        this.applyForceToBody(obj10, v);
+        throw new NotImplementedException("Character death is not implemented yet");
+        //GameObject obj6;
+        //GameObject obj7;
+        //GameObject obj8;
+        //GameObject obj9;
+        //GameObject obj10;
+        //GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+        //obj2.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
+        //obj2.GetComponent<HERO_SETUP>().isDeadBody = true;
+        //obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
+        //if (!isBite)
+        //{
+        //    GameObject gO = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+        //    GameObject obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+        //    GameObject obj5 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
+        //    gO.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
+        //    obj4.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
+        //    obj5.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
+        //    gO.GetComponent<HERO_SETUP>().isDeadBody = true;
+        //    obj4.GetComponent<HERO_SETUP>().isDeadBody = true;
+        //    obj5.GetComponent<HERO_SETUP>().isDeadBody = true;
+        //    gO.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.UPPER);
+        //    obj4.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.LOWER);
+        //    obj5.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_L);
+        //    this.applyForceToBody(gO, v);
+        //    this.applyForceToBody(obj4, v);
+        //    this.applyForceToBody(obj5, v);
+        //    if (base.photonView.isMine)
+        //    {
+        //        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gO, false, false);
+        //    }
+        //}
+        //else if (base.photonView.isMine)
+        //{
+        //    this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
+        //}
+        //this.applyForceToBody(obj2, v);
+        //Transform transform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
+        //Transform transform2 = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
+        //if (this.useGun)
+        //{
+        //    obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
+        //    obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform2.position, transform2.rotation);
+        //    obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_2"), base.transform.position, base.transform.rotation);
+        //    obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_l"), base.transform.position, base.transform.rotation);
+        //    obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_r"), base.transform.position, base.transform.rotation);
+        //}
+        //else
+        //{
+        //    obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
+        //    obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
+        //    obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg"), base.transform.position, base.transform.rotation);
+        //    obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_l"), base.transform.position, base.transform.rotation);
+        //    obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_r"), base.transform.position, base.transform.rotation);
+        //}
+        //obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+        //obj7.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+        //obj8.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+        //obj9.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+        //obj10.GetComponent<Renderer>().material = CharacterMaterials.materials[this.setup.myCostume._3dmg_texture];
+        //this.applyForceToBody(obj6, v);
+        //this.applyForceToBody(obj7, v);
+        //this.applyForceToBody(obj8, v);
+        //this.applyForceToBody(obj9, v);
+        //this.applyForceToBody(obj10, v);
     }
 
     private void bufferUpdate()
@@ -1066,7 +1066,6 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
-        return;
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
         {
             this.currentSpeed = this.baseRigidBody.velocity.magnitude;
@@ -1552,7 +1551,8 @@ public class Hero : Human
                             Vector3 vector12 = this.getGlobaleFacingVector3(num12);
                             float num13 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
                             vector12 = (Vector3)(vector12 * num13);
-                            vector12 = (Vector3)(vector12 * ((((float)this.setup.myCostume.stat.ACL) / 10f) * 2f));
+                            //TODO: ACL
+                            vector12 = (Vector3)(vector12 * ((/*(float)this.setup.myCostume.stat.ACL) */ 125f / 10f) * 2f));
                             if ((x == 0f) && (z == 0f))
                             {
                                 if (this.state == HERO_STATE.Attack)
@@ -2345,598 +2345,11 @@ public class Hero : Human
         }
     }
 
-    public IEnumerator loadskinE(int horse, string url)
-    {
-        while (!this.hasspawn)
-        {
-            yield return null;
-        }
-        bool mipmap = true;
-        bool iteratorVariable1 = false;
-        if (((int)FengGameManagerMKII.settings[0x3f]) == 1)
-        {
-            mipmap = false;
-        }
-        string[] iteratorVariable2 = url.Split(new char[] { ',' });
-        bool iteratorVariable3 = false;
-        if (((int)FengGameManagerMKII.settings[15]) == 0)
-        {
-            iteratorVariable3 = true;
-        }
-        bool iteratorVariable4 = false;
-        if (GameSettings.Horse.Enabled.Value)
-        {
-            iteratorVariable4 = true;
-        }
-        bool iteratorVariable5 = false;
-        if (this.photonView.isMine)
-        {
-            iteratorVariable5 = true;
-        }
-        if (this.setup.part_hair_1 != null)
-        {
-            Renderer renderer = this.setup.part_hair_1.GetComponent<Renderer>();
-            if ((iteratorVariable2[1].EndsWith(".jpg") || iteratorVariable2[1].EndsWith(".png")) || iteratorVariable2[1].EndsWith(".jpeg"))
-            {
-                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
-                {
-                    WWW link = new WWW(iteratorVariable2[1]);
-                    yield return link;
-                    Texture2D iteratorVariable8 = RCextensions.loadimage(link, mipmap, 0x30d40);
-                    link.Dispose();
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
-                    {
-                        iteratorVariable1 = true;
-                        if (this.setup.myCostume.hairInfo.id >= 0)
-                        {
-                            renderer.material = CharacterMaterials.materials[this.setup.myCostume.hairInfo.texture];
-                        }
-                        renderer.material.mainTexture = iteratorVariable8;
-                        FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[1], renderer.material);
-                        renderer.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                    }
-                    else
-                    {
-                        renderer.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                    }
-                }
-                else
-                {
-                    renderer.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                }
-            }
-            else if (iteratorVariable2[1].ToLower() == "transparent")
-            {
-                renderer.enabled = false;
-            }
-        }
-        if (this.setup.part_cape != null)
-        {
-            Renderer iteratorVariable9 = this.setup.part_cape.GetComponent<Renderer>();
-            if ((iteratorVariable2[7].EndsWith(".jpg") || iteratorVariable2[7].EndsWith(".png")) || iteratorVariable2[7].EndsWith(".jpeg"))
-            {
-                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
-                {
-                    WWW iteratorVariable10 = new WWW(iteratorVariable2[7]);
-                    yield return iteratorVariable10;
-                    Texture2D iteratorVariable11 = RCextensions.loadimage(iteratorVariable10, mipmap, 0x30d40);
-                    iteratorVariable10.Dispose();
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
-                    {
-                        iteratorVariable1 = true;
-                        iteratorVariable9.material.mainTexture = iteratorVariable11;
-                        FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[7], iteratorVariable9.material);
-                        iteratorVariable9.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                    }
-                    else
-                    {
-                        iteratorVariable9.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                    }
-                }
-                else
-                {
-                    iteratorVariable9.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                }
-            }
-            else if (iteratorVariable2[7].ToLower() == "transparent")
-            {
-                iteratorVariable9.enabled = false;
-            }
-        }
-        if (this.setup.part_chest_3 != null)
-        {
-            Renderer iteratorVariable12 = this.setup.part_chest_3.GetComponent<Renderer>();
-            if ((iteratorVariable2[6].EndsWith(".jpg") || iteratorVariable2[6].EndsWith(".png")) || iteratorVariable2[6].EndsWith(".jpeg"))
-            {
-                if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
-                {
-                    WWW iteratorVariable13 = new WWW(iteratorVariable2[6]);
-                    yield return iteratorVariable13;
-                    Texture2D iteratorVariable14 = RCextensions.loadimage(iteratorVariable13, mipmap, 0x7a120);
-                    iteratorVariable13.Dispose();
-                    if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
-                    {
-                        iteratorVariable1 = true;
-                        iteratorVariable12.material.mainTexture = iteratorVariable14;
-                        FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[6], iteratorVariable12.material);
-                        iteratorVariable12.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                    }
-                    else
-                    {
-                        iteratorVariable12.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                    }
-                }
-                else
-                {
-                    iteratorVariable12.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                }
-            }
-            else if (iteratorVariable2[6].ToLower() == "transparent")
-            {
-                iteratorVariable12.enabled = false;
-            }
-        }
-        foreach (Renderer iteratorVariable15 in this.GetComponentsInChildren<Renderer>())
-        {
-            if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[1]))
-            {
-                if ((iteratorVariable2[1].EndsWith(".jpg") || iteratorVariable2[1].EndsWith(".png")) || iteratorVariable2[1].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
-                    {
-                        WWW iteratorVariable16 = new WWW(iteratorVariable2[1]);
-                        yield return iteratorVariable16;
-                        Texture2D iteratorVariable17 = RCextensions.loadimage(iteratorVariable16, mipmap, 0x30d40);
-                        iteratorVariable16.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[1]))
-                        {
-                            iteratorVariable1 = true;
-                            if (this.setup.myCostume.hairInfo.id >= 0)
-                            {
-                                iteratorVariable15.material = CharacterMaterials.materials[this.setup.myCostume.hairInfo.texture];
-                            }
-                            iteratorVariable15.material.mainTexture = iteratorVariable17;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[1], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[1]];
-                    }
-                }
-                else if (iteratorVariable2[1].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[2]))
-            {
-                if ((iteratorVariable2[2].EndsWith(".jpg") || iteratorVariable2[2].EndsWith(".png")) || iteratorVariable2[2].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[2]))
-                    {
-                        WWW iteratorVariable18 = new WWW(iteratorVariable2[2]);
-                        yield return iteratorVariable18;
-                        Texture2D iteratorVariable19 = RCextensions.loadimage(iteratorVariable18, mipmap, 0x30d40);
-                        iteratorVariable18.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[2]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
-                            iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
-                            iteratorVariable15.material.mainTexture = iteratorVariable19;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[2], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[2]];
-                    }
-                }
-                else if (iteratorVariable2[2].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[3]))
-            {
-                if ((iteratorVariable2[3].EndsWith(".jpg") || iteratorVariable2[3].EndsWith(".png")) || iteratorVariable2[3].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[3]))
-                    {
-                        WWW iteratorVariable20 = new WWW(iteratorVariable2[3]);
-                        yield return iteratorVariable20;
-                        Texture2D iteratorVariable21 = RCextensions.loadimage(iteratorVariable20, mipmap, 0x30d40);
-                        iteratorVariable20.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[3]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
-                            iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
-                            iteratorVariable15.material.mainTexture = iteratorVariable21;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[3], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
-                    }
-                }
-                else if (iteratorVariable2[3].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[4]))
-            {
-                if ((iteratorVariable2[4].EndsWith(".jpg") || iteratorVariable2[4].EndsWith(".png")) || iteratorVariable2[4].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[4]))
-                    {
-                        WWW iteratorVariable22 = new WWW(iteratorVariable2[4]);
-                        yield return iteratorVariable22;
-                        Texture2D iteratorVariable23 = RCextensions.loadimage(iteratorVariable22, mipmap, 0x30d40);
-                        iteratorVariable22.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[4]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
-                            iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
-                            iteratorVariable15.material.mainTexture = iteratorVariable23;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[4], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[4]];
-                    }
-                }
-                else if (iteratorVariable2[4].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[5]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[6])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[10]))
-            {
-                if ((iteratorVariable2[5].EndsWith(".jpg") || iteratorVariable2[5].EndsWith(".png")) || iteratorVariable2[5].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[5]))
-                    {
-                        WWW iteratorVariable24 = new WWW(iteratorVariable2[5]);
-                        yield return iteratorVariable24;
-                        Texture2D iteratorVariable25 = RCextensions.loadimage(iteratorVariable24, mipmap, 0x30d40);
-                        iteratorVariable24.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[5]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable25;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[5], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[5]];
-                    }
-                }
-                else if (iteratorVariable2[5].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (((iteratorVariable15.name.Contains(FengGameManagerMKII.s[7]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[8])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[9])) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x18]))
-            {
-                if ((iteratorVariable2[6].EndsWith(".jpg") || iteratorVariable2[6].EndsWith(".png")) || iteratorVariable2[6].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
-                    {
-                        WWW iteratorVariable26 = new WWW(iteratorVariable2[6]);
-                        yield return iteratorVariable26;
-                        Texture2D iteratorVariable27 = RCextensions.loadimage(iteratorVariable26, mipmap, 0x7a120);
-                        iteratorVariable26.Dispose();
-                        if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[6]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable27;
-                            FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[6], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[6]];
-                    }
-                }
-                else if (iteratorVariable2[6].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[11]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[12]))
-            {
-                if ((iteratorVariable2[7].EndsWith(".jpg") || iteratorVariable2[7].EndsWith(".png")) || iteratorVariable2[7].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
-                    {
-                        WWW iteratorVariable28 = new WWW(iteratorVariable2[7]);
-                        yield return iteratorVariable28;
-                        Texture2D iteratorVariable29 = RCextensions.loadimage(iteratorVariable28, mipmap, 0x30d40);
-                        iteratorVariable28.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[7]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable29;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[7], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[7]];
-                    }
-                }
-                else if (iteratorVariable2[7].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[15]) || ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[13]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x1a])) && !iteratorVariable15.name.Contains("_r")))
-            {
-                if ((iteratorVariable2[8].EndsWith(".jpg") || iteratorVariable2[8].EndsWith(".png")) || iteratorVariable2[8].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[8]))
-                    {
-                        WWW iteratorVariable30 = new WWW(iteratorVariable2[8]);
-                        yield return iteratorVariable30;
-                        Texture2D iteratorVariable31 = RCextensions.loadimage(iteratorVariable30, mipmap, 0x7a120);
-                        iteratorVariable30.Dispose();
-                        if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[8]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable31;
-                            FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[8], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[8]];
-                    }
-                }
-                else if (iteratorVariable2[8].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if ((iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x11]) || iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x10])) || (iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x1a]) && iteratorVariable15.name.Contains("_r")))
-            {
-                if ((iteratorVariable2[9].EndsWith(".jpg") || iteratorVariable2[9].EndsWith(".png")) || iteratorVariable2[9].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[9]))
-                    {
-                        WWW iteratorVariable32 = new WWW(iteratorVariable2[9]);
-                        yield return iteratorVariable32;
-                        Texture2D iteratorVariable33 = RCextensions.loadimage(iteratorVariable32, mipmap, 0x7a120);
-                        iteratorVariable32.Dispose();
-                        if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[9]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable33;
-                            FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[9], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[9]];
-                    }
-                }
-                else if (iteratorVariable2[9].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if ((iteratorVariable15.name == FengGameManagerMKII.s[0x12]) && iteratorVariable3)
-            {
-                if ((iteratorVariable2[10].EndsWith(".jpg") || iteratorVariable2[10].EndsWith(".png")) || iteratorVariable2[10].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[10]))
-                    {
-                        WWW iteratorVariable34 = new WWW(iteratorVariable2[10]);
-                        yield return iteratorVariable34;
-                        Texture2D iteratorVariable35 = RCextensions.loadimage(iteratorVariable34, mipmap, 0x30d40);
-                        iteratorVariable34.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[10]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable35;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[10], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[10]];
-                    }
-                }
-                else if (iteratorVariable2[10].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-            else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[0x19]))
-            {
-                if ((iteratorVariable2[11].EndsWith(".jpg") || iteratorVariable2[11].EndsWith(".png")) || iteratorVariable2[11].EndsWith(".jpeg"))
-                {
-                    if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[11]))
-                    {
-                        WWW iteratorVariable36 = new WWW(iteratorVariable2[11]);
-                        yield return iteratorVariable36;
-                        Texture2D iteratorVariable37 = RCextensions.loadimage(iteratorVariable36, mipmap, 0x30d40);
-                        iteratorVariable36.Dispose();
-                        if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[11]))
-                        {
-                            iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTexture = iteratorVariable37;
-                            FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[11], iteratorVariable15.material);
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
-                        }
-                        else
-                        {
-                            iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
-                        }
-                    }
-                    else
-                    {
-                        iteratorVariable15.material = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[11]];
-                    }
-                }
-                else if (iteratorVariable2[11].ToLower() == "transparent")
-                {
-                    iteratorVariable15.enabled = false;
-                }
-            }
-        }
-        if (iteratorVariable4 && (horse >= 0))
-        {
-            GameObject gameObject = PhotonView.Find(horse).gameObject;
-            if (gameObject != null)
-            {
-                foreach (Renderer iteratorVariable39 in gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    if (iteratorVariable39.name.Contains(FengGameManagerMKII.s[0x13]))
-                    {
-                        if ((iteratorVariable2[0].EndsWith(".jpg") || iteratorVariable2[0].EndsWith(".png")) || iteratorVariable2[0].EndsWith(".jpeg"))
-                        {
-                            if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[0]))
-                            {
-                                WWW iteratorVariable40 = new WWW(iteratorVariable2[0]);
-                                yield return iteratorVariable40;
-                                Texture2D iteratorVariable41 = RCextensions.loadimage(iteratorVariable40, mipmap, 0x7a120);
-                                iteratorVariable40.Dispose();
-                                if (!FengGameManagerMKII.linkHash[1].ContainsKey(iteratorVariable2[0]))
-                                {
-                                    iteratorVariable1 = true;
-                                    iteratorVariable39.material.mainTexture = iteratorVariable41;
-                                    FengGameManagerMKII.linkHash[1].Add(iteratorVariable2[0], iteratorVariable39.material);
-                                    iteratorVariable39.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[0]];
-                                }
-                                else
-                                {
-                                    iteratorVariable39.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[0]];
-                                }
-                            }
-                            else
-                            {
-                                iteratorVariable39.material = (Material)FengGameManagerMKII.linkHash[1][iteratorVariable2[0]];
-                            }
-                        }
-                        else if (iteratorVariable2[0].ToLower() == "transparent")
-                        {
-                            iteratorVariable39.enabled = false;
-                        }
-                    }
-                }
-            }
-        }
-        if (iteratorVariable5 && ((iteratorVariable2[12].EndsWith(".jpg") || iteratorVariable2[12].EndsWith(".png")) || iteratorVariable2[12].EndsWith(".jpeg")))
-        {
-            if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[12]))
-            {
-                WWW iteratorVariable42 = new WWW(iteratorVariable2[12]);
-                yield return iteratorVariable42;
-                Texture2D iteratorVariable43 = RCextensions.loadimage(iteratorVariable42, mipmap, 0x30d40);
-                iteratorVariable42.Dispose();
-                if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[12]))
-                {
-                    iteratorVariable1 = true;
-                    /*
-                    this.leftbladetrail.MyMaterial.mainTexture = iteratorVariable43;
-                    this.rightbladetrail.MyMaterial.mainTexture = iteratorVariable43;
-                    FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[12], this.leftbladetrail.MyMaterial);
-                    this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.leftbladetrail2.MyMaterial = this.leftbladetrail.MyMaterial;
-                    this.rightbladetrail2.MyMaterial = this.leftbladetrail.MyMaterial;
-                    */
-                }
-                else
-                {
-                    /*
-                    this.leftbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.rightbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                    */
-                }
-            }
-            else
-            {
-                /*
-                this.leftbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                this.rightbladetrail2.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                this.leftbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                this.rightbladetrail.MyMaterial = (Material)FengGameManagerMKII.linkHash[0][iteratorVariable2[12]];
-                */  
-            }
-        }
-        if (iteratorVariable1)
-        {
-            FengGameManagerMKII.instance.unloadAssets();
-        }
-    }
 
     [PunRPC]
     public void loadskinRPC(int horse, string url)
     {
-        if (((int)FengGameManagerMKII.settings[0]) == 1)
-        {
-            base.StartCoroutine(this.loadskinE(horse, url));
-        }
+        throw new NotImplementedException("Custom Skin RPC not implemented");
     }
 
     public void markDie()
@@ -3463,18 +2876,19 @@ public class Hero : Human
         //    this.crossR2.transform.localPosition = vector;
         //    this.LabelDistance.transform.localPosition = vector;
         //}
-        if (this.setup.part_cape != null)
-        {
-            ClothFactory.DisposeObject(this.setup.part_cape);
-        }
-        if (this.setup.part_hair_1 != null)
-        {
-            ClothFactory.DisposeObject(this.setup.part_hair_1);
-        }
-        if (this.setup.part_hair_2 != null)
-        {
-            ClothFactory.DisposeObject(this.setup.part_hair_2);
-        }
+        //TODO: Destroy cloth
+        //if (this.setup.part_cape != null)
+        //{
+        //    ClothFactory.DisposeObject(this.setup.part_cape);
+        //}
+        //if (this.setup.part_hair_1 != null)
+        //{
+        //    ClothFactory.DisposeObject(this.setup.part_hair_1);
+        //}
+        //if (this.setup.part_hair_2 != null)
+        //{
+        //    ClothFactory.DisposeObject(this.setup.part_hair_2);
+        //}
     }
 
     public void pauseAnimation()
@@ -3814,7 +3228,8 @@ public class Hero : Human
     public void setStat2()
     {
         this.skillCDLast = 1.5f;
-        this.skillId = this.setup.myCostume.stat.skillId;
+        //this.skillId = this.setup.myCostume.stat.skillId;
+        skillId = "levi";
         if (this.skillId == "levi")
         {
             this.skillCDLast = 3.5f;
@@ -3869,10 +3284,14 @@ public class Hero : Human
             this.skillCDLast = 3.5f;
         }
         this.bombInit();
-        this.speed = ((float)this.setup.myCostume.stat.SPD) / 10f;
-        this.totalGas = this.currentGas = this.setup.myCostume.stat.GAS;
-        this.totalBladeSta = this.currentBladeSta = this.setup.myCostume.stat.BLA;
-        this.baseRigidBody.mass = 0.5f - ((this.setup.myCostume.stat.ACL - 100) * 0.001f);
+        //this.speed = ((float)this.setup.myCostume.stat.SPD) / 10f;
+        //this.totalGas = this.currentGas = this.setup.myCostume.stat.GAS;
+        //this.totalBladeSta = this.currentBladeSta = this.setup.myCostume.stat.BLA;
+        //this.baseRigidBody.mass = 0.5f - ((this.setup.myCostume.stat.ACL - 100) * 0.001f);
+        speed = 100 / 10f;
+        totalGas = currentGas = 125;
+        totalBladeSta = currentBladeSta = 100;
+        baseRigidBody.mass = 0.5f - (125 - 100 * 0.001f);
         //GameObject.Find("skill_cd_bottom").transform.localPosition = new Vector3(0f, (-Screen.height * 0.5f) + 5f, 0f);
         //this.skillCD = GameObject.Find("skill_cd_" + this.skillIDHUD);
         //this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
@@ -3941,7 +3360,7 @@ public class Hero : Human
                 //}
             }
         }
-        else if (this.setup.myCostume.sex == SEX.FEMALE)
+        else if (/*this.setup.myCostume.sex == SEX.FEMALE*/false)
         {
             this.standAnimation = "stand";
             this.setTeam2(1);
@@ -4339,7 +3758,8 @@ public class Hero : Human
 
     private void Start()
     {
-        return;
+        var manager = GetComponent<CustomizationManager>();
+        manager.Presets[0].Apply(this, manager.Prefabs);
         gameObject.AddComponent<PlayerInteractable>();
         SetHorse();
         this.sparks = this.baseTransform.Find("slideSparks").GetComponent<ParticleSystem>();
@@ -4407,11 +3827,12 @@ public class Hero : Human
                 obj3.transform.parent = this.baseTransform;
                 obj3.transform.position = this.baseTransform.position + Vector3.up;
                 obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
-            }   
-            this.setup.init();
-            this.setup.myCostume = new HeroCostume();
-            this.setup.myCostume = CostumeConeveter.PhotonDataToHeroCostume2(base.photonView.owner);
-            this.setup.setCharacterComponent();
+            }
+            //TODO For non owner, apply the skin
+            //this.setup.init();
+            //this.setup.myCostume = new HeroCostume();
+            //this.setup.myCostume = CostumeConeveter.PhotonDataToHeroCostume2(base.photonView.owner);
+            //this.setup.setCharacterComponent();
             UnityEngine.Object.Destroy(this.checkBoxLeft);
             UnityEngine.Object.Destroy(this.checkBoxRight);
             /*
@@ -4425,7 +3846,7 @@ public class Hero : Human
         else
         {
             this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            this.loadskin();
+            //this.loadskin();
             this.hasspawn = true;
             base.StartCoroutine(this.reloadSky());
             this.bombImmune = false;
@@ -4466,7 +3887,6 @@ public class Hero : Human
 
     public void Update()
     {
-        return;
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {
             if (this.invincible > 0f)
@@ -5330,29 +4750,31 @@ public class Hero : Human
                         }
                         else if (this.state == HERO_STATE.FillGas)
                         {
-                            if (this.baseAnimation.IsPlaying("supply") && (this.baseAnimation["supply"].normalizedTime >= 1f))
-                            {
-                                this.currentBladeSta = this.totalBladeSta;
-                                this.currentBladeNum = this.totalBladeNum;
-                                Equipment.Weapon.AmountLeft = Equipment.Weapon.AmountRight = totalBladeNum;
-                                this.currentGas = this.totalGas;
-                                if (!this.useGun)
-                                {
-                                    this.setup.part_blade_l.SetActive(true);
-                                    this.setup.part_blade_r.SetActive(true);
-                                }
-                                else
-                                {
-                                    this.leftBulletLeft = this.rightBulletLeft = this.bulletMAX;
-                                    this.rightGunHasBullet = true;
-                                    this.leftGunHasBullet = true;
-                                    this.setup.part_blade_l.SetActive(true);
-                                    this.setup.part_blade_r.SetActive(true);
-                                    this.updateRightMagUI();
-                                    this.updateLeftMagUI();
-                                }
-                                this.idle();
-                            }
+                            //TODO: Fill Gas
+                            //if (this.baseAnimation.IsPlaying("supply") && (this.baseAnimation["supply"].normalizedTime >= 1f))
+                            //{
+                            //    this.currentBladeSta = this.totalBladeSta;
+                            //    this.currentBladeNum = this.totalBladeNum;
+                            //    Equipment.Weapon.AmountLeft = Equipment.Weapon.AmountRight = totalBladeNum;
+                            //    this.currentGas = this.totalGas;
+                            //    if (!this.useGun)
+                            //    {
+                            //        this.setup.part_blade_l.SetActive(true);
+                            //        this.setup.part_blade_r.SetActive(true);
+                            //    }
+                            //    else
+                            //    {
+                            //        this.leftBulletLeft = this.rightBulletLeft = this.bulletMAX;
+                            //        this.rightGunHasBullet = true;
+                            //        this.leftGunHasBullet = true;
+                            //        this.setup.part_blade_l.SetActive(true);
+                            //        this.setup.part_blade_r.SetActive(true);
+                            //        this.updateRightMagUI();
+                            //        this.updateLeftMagUI();
+                            //    }
+                            //    this.idle();
+                            //}
+                            idle();
                         }
                         else if (this.state == HERO_STATE.Slide)
                         {
