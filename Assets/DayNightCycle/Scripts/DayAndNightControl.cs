@@ -125,7 +125,7 @@ public class DayAndNightControl : MonoBehaviour {
 
 		//change env colors to add mood
 
-		if (currentTime <= 0.25f) {
+		if (currentTime > 0.95f && currentTime < 0.1f) {
 			RenderSettings.ambientSkyColor = darknightColors.skyColor;
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
@@ -135,7 +135,7 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
 			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
 		}
-		if (currentTime > 0.25f && currentTime < 0.75f) {
+		if (currentTime > 0.5f && currentTime < 0.75f) {
 			RenderSettings.ambientSkyColor = dayColors.skyColor;
 			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
 			RenderSettings.ambientGroundColor = dayColors.horizonColor;
