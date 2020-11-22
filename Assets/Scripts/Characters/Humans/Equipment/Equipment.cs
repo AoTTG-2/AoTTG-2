@@ -1,31 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Characters.Humans.Equipment.Weapon;
 using UnityEngine;
 
-public class Equipment : MonoBehaviour
+namespace Assets.Scripts.Characters.Humans.Equipment
 {
-    private Hero Hero;
-
-    public Weapon Weapon { get; set; }
-
-    private void Awake()
+    public class Equipment : MonoBehaviour
     {
-        Hero = gameObject.GetComponent<Hero>();
-        switch (Hero.EquipmentType)
+        private Hero Hero;
+
+        public Weapon.Weapon Weapon { get; set; }
+
+        private void Awake()
         {
-            case EquipmentType.Blades:
-                Weapon = new Blades();
-                break;
-            case EquipmentType.Ahss:
-                Weapon = new Ahss();
-                break;
-            default:
-                Weapon = new Blades();
-                break;
+            Hero = gameObject.GetComponent<Hero>();
+            switch (Hero.EquipmentType)
+            {
+                case EquipmentType.Blades:
+                    Weapon = new Blades();
+                    break;
+                case EquipmentType.Ahss:
+                    Weapon = new Ahss();
+                    break;
+                default:
+                    Weapon = new Blades();
+                    break;
+            }
+
+            Weapon.Hero = Hero;
         }
 
-        Weapon.Hero = Hero;
+
     }
-
-
 }
