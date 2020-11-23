@@ -23,11 +23,12 @@ public class DayAndNightControl : MonoBehaviour {
     public DayColors darknightColors;
 
     public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
+    
     public int currentDay = 0; 
 	public Light directionalLight;
     
     private float SecondsInAFullDay = 120f;//default value is 120 seconds in one day
-
+    public bool pause { get; set; }
     public float DayLength
     {
         get { return SecondsInAFullDay; }
@@ -55,7 +56,12 @@ public class DayAndNightControl : MonoBehaviour {
 		starMat = StarDome.GetComponentInChildren<MeshRenderer> ().material;
         
             starMat.color = new Color(1f, 1f, 1f, 0f);
-        
+
+        //Check if default light prefab exists, and if so, delete it
+        if (GameObject.Find("LightSet(Clone)"))
+        {
+            Destroy(GameObject.Find("LightSet(Clone)"));
+        }
 
         //Duplication check
         int numDayNightControllers = FindObjectsOfType<DayAndNightControl>().Length;
@@ -71,10 +77,13 @@ public class DayAndNightControl : MonoBehaviour {
 
     }
 
-  
+
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(pause);
+        if (pause == false)
+        { 
         foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
         {
             if (c.isActiveAndEnabled)
@@ -88,6 +97,7 @@ public class DayAndNightControl : MonoBehaviour {
                 currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
                 currentDay++; //make the day counter go up
             }
+        }
         }
     }
 	
