@@ -263,6 +263,8 @@ namespace Assets.Scripts.Characters.Titan
         public void GrabEscapeRpc()
         {
             GrabTarget = null;
+            if (CurrentAttack.GetType() == typeof(GrabAttack))
+                CurrentAttack.IsFinished = true;
         }
 
         private void KillGrabbedTarget(Hero grabTarget)
@@ -902,6 +904,12 @@ namespace Assets.Scripts.Characters.Titan
         protected void OnIdle()
         {
             IdleTimer -= Time.deltaTime;
+
+            if (NextState == TitanState.Eat)
+            {
+                IdleTimer = 0;
+            }
+
             if (IdleTimer <= 0)
             {
                 ChangeState(NextState);

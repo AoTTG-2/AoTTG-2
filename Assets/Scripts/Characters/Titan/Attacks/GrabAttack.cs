@@ -24,10 +24,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack()
         {
-            if (Titan.Target.GetType() != typeof(Human)) return false;
+            if (Titan.Target.GetType().IsAssignableFrom(typeof(Human))) return false;
 
             if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
             if (IsDisabled()) return false;
+
+            GrabbedTarget = null;
             var delta = Titan.Target.transform.position - Titan.transform.position;
             var angle = -Mathf.Atan2(delta.z, delta.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);

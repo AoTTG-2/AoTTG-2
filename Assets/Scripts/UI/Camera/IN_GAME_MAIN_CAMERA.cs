@@ -31,6 +31,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private bool hasSnapShot;
     private Transform head;
     private float heightMulti;
+    [Obsolete("This is always false")]
     public static bool isPausing;
     public static bool isTyping;
     private bool lockAngle;
