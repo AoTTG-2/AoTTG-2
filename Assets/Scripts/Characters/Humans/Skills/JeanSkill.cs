@@ -46,16 +46,19 @@ namespace Assets.Scripts.Characters.Humans.Skills
         //        }
         //    }
 
-        public override void Use()
+        public override bool Use()
         {
-            if ((Hero.State != HumanState.Grabbed && Hero._state != HERO_STATE.Grab) || IsActive) return;
+            if ((Hero.State != HumanState.Grabbed && Hero._state != HERO_STATE.Grab) || IsActive) return false;
 
             if (TimesUsed < TimesAllowed && !Hero.Animation.IsPlaying("grabbed_jean"))
             {
                 Hero.playAnimation("grabbed_jean");
                 TimesUsed++;
                 IsActive = true;
+                return true;
             }
+
+            return false;
         }
 
         public override void OnUpdate()

@@ -47,8 +47,8 @@ public class Hero : Human
     }
 
     private bool almostSingleHook { get; set; }
-    private string attackAnimation { get; set; }
-    private int attackLoop { get; set; }
+    public string attackAnimation { get; set; }
+    public int attackLoop { get; set; }
     private bool attackMove { get; set; }
     private bool attackReleased { get; set; }
     public AudioSource audio_ally;
@@ -87,7 +87,7 @@ public class Hero : Human
     public float currentSpeed;
     public Vector3 currentV;
     private bool dashD { get; set; }
-    private Vector3 dashDirection { get; set; }
+    public Vector3 dashDirection { get; set; }
     private bool dashL { get; set; }
     private bool dashR { get; set; }
     private float dashTime { get; set; }
@@ -98,7 +98,7 @@ public class Hero : Human
     private bool EHold { get; set; }
     private GameObject eren_titan { get; set; }
     private int escapeTimes { get; set; } = 1;
-    private float facingDirection { get; set; }
+    public float facingDirection { get; set; }
     private float flare1CD { get; set; } // Should be moved into individual classes
     private float flare2CD { get; set; } // ^
     private float flare3CD { get; set; } // ^
@@ -136,7 +136,7 @@ public class Hero : Human
     private float launchElapsedTimeR { get; set; }
     private Vector3 launchForce { get; set; }
     private Vector3 launchPointLeft { get; set; }
-    private Vector3 launchPointRight { get; set; }
+    public Vector3 launchPointRight { get; set; }
     private bool leanLeft { get; set; }
     private bool leftArmAim { get; set; }
     /*
@@ -194,7 +194,7 @@ public class Hero : Human
     public bool spinning;
     private string standAnimation { get; set; } = "stand";
     private Quaternion targetHeadRotation { get; set; }
-    private Quaternion targetRotation { get; set; }
+    public Quaternion targetRotation { get; set; }
     public Vector3 targetV;
     public bool throwedBlades;
     public bool titanForm;
@@ -224,7 +224,7 @@ public class Hero : Human
         Animation = GetComponent<Animation>();
         Rigidbody = GetComponent<Rigidbody>();
 
-        Skill = new JeanSkill(this);
+        Skill = new LeviSkill(this);
 
         InGameUI = GameObject.Find("InGameUi");
         this.cache();
@@ -240,7 +240,16 @@ public class Hero : Human
         Faction = Service.Faction.GetHumanity();
         Service.Entity.Register(this);
 
-
+        Animation["attack5"].speed = 1.85f;
+        Animation["changeBlade"].speed = 1.2f;
+        Animation["air_release"].speed = 0.6f;
+        Animation["changeBlade_air"].speed = 0.8f;
+        Animation["AHSS_gun_reload_both"].speed = 0.38f;
+        Animation["AHSS_gun_reload_both_air"].speed = 0.5f;
+        Animation["AHSS_gun_reload_l"].speed = 0.4f;
+        Animation["AHSS_gun_reload_l_air"].speed = 0.5f;
+        Animation["AHSS_gun_reload_r"].speed = 0.4f;
+        Animation["AHSS_gun_reload_r_air"].speed = 0.5f;
     }
 
     private void Start()
@@ -356,7 +365,7 @@ public class Hero : Human
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
         GO.GetComponent<Rigidbody>().AddForce(v);
-        GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f), UnityEngine.Random.Range((float)-10f, (float)10f));
+        GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f));
     }
 
     public void attackAccordingToMouse()
@@ -389,7 +398,7 @@ public class Hero : Human
             this.attackAnimation = "attack2";
         }
     }
-    
+
     public void backToHuman()
     {
         base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
@@ -490,10 +499,10 @@ public class Hero : Human
         this.skillCDDuration = this.skillCDLast;
         if (GameSettings.PvP.Bomb == true)
         {
-            int num = (int)FengGameManagerMKII.settings[250];
-            int num2 = (int)FengGameManagerMKII.settings[0xfb];
-            int num3 = (int)FengGameManagerMKII.settings[0xfc];
-            int num4 = (int)FengGameManagerMKII.settings[0xfd];
+            int num = (int) FengGameManagerMKII.settings[250];
+            int num2 = (int) FengGameManagerMKII.settings[0xfb];
+            int num3 = (int) FengGameManagerMKII.settings[0xfc];
+            int num4 = (int) FengGameManagerMKII.settings[0xfd];
             if ((num < 0) || (num > 10))
             {
                 num = 5;
@@ -530,10 +539,10 @@ public class Hero : Human
             this.bombCD = (num4 * -0.4f) + 5f;
             this.bombSpeed = (num3 * 60f) + 200f;
             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float)FengGameManagerMKII.settings[0xf6]);
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float)FengGameManagerMKII.settings[0xf7]);
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float)FengGameManagerMKII.settings[0xf8]);
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float)FengGameManagerMKII.settings[0xf9]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float) FengGameManagerMKII.settings[0xf6]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float) FengGameManagerMKII.settings[0xf7]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float) FengGameManagerMKII.settings[0xf8]);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float) FengGameManagerMKII.settings[0xf9]);
             propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, this.bombRadius);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.skillId = "bomb";
@@ -834,9 +843,9 @@ public class Hero : Human
     {
         int count;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        LayerMask mask = ((int)1) << LayerMask.NameToLayer("PlayerAttackBox");
-        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask3 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("PlayerAttackBox");
+        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask3 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask4 = (mask | mask2) | mask3;
         RaycastHit[] hitArray = Physics.RaycastAll(ray, 180f, mask4.value);
         List<RaycastHit> list = new List<RaycastHit>();
@@ -896,7 +905,7 @@ public class Hero : Human
         var force = collision.impulse.magnitude / Time.fixedDeltaTime;
         if (GameSettings.Gamemode.ImpactForce > 0 && force >= GameSettings.Gamemode.ImpactForce)
         {
-            die(new Vector3(), false); 
+            die(new Vector3(), false);
         }
     }
 
@@ -907,7 +916,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState)enumerator.Current;
+                AnimationState current = (AnimationState) enumerator.Current;
                 if (current != null && current.speed == 1f)
                 {
                     return;
@@ -957,7 +966,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState)enumerator.Current;
+                AnimationState current = (AnimationState) enumerator.Current;
                 if (current != null && base.GetComponent<Animation>().IsPlaying(current.name))
                 {
                     return current.name;
@@ -988,7 +997,6 @@ public class Hero : Human
         base.GetComponent<Animation>()["AHSS_gun_reload_r"].speed = 0.4f;
         base.GetComponent<Animation>()["AHSS_gun_reload_r_air"].speed = 0.5f;
     }
-
     private void dash(float horizontal, float vertical)
     {
         if (((this.dashTime <= 0f) && (this.currentGas > 0f)) && !this.isMounted)
@@ -1006,7 +1014,7 @@ public class Hero : Human
             base.GetComponent<Animation>()["dash"].time = 0.1f;
             this.state = HERO_STATE.AirDodge;
             this.falseAttack();
-            base.GetComponent<Rigidbody>().AddForce((Vector3)(this.dashV * 40f), ForceMode.VelocityChange);
+            base.GetComponent<Rigidbody>().AddForce((Vector3) (this.dashV * 40f), ForceMode.VelocityChange);
         }
     }
 
@@ -1050,7 +1058,7 @@ public class Hero : Human
             UnityEngine.Object.Destroy(base.gameObject);
         }
     }
-    
+
     private void dodge2(bool offTheWall = false)
     {
         if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
@@ -1197,690 +1205,694 @@ public class Hero : Human
 
     private void FixedUpdate()
     {
+        if (!photonView.isMine) return;
         if ((!this.titanForm && !this.isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
         {
             this.currentSpeed = this.Rigidbody.velocity.magnitude;
-            if (base.photonView.isMine)
+            if (!((this.Animation.IsPlaying("attack3_2") || this.Animation.IsPlaying("attack5")) || this.Animation.IsPlaying("special_petra")))
             {
-                if (!((this.Animation.IsPlaying("attack3_2") || this.Animation.IsPlaying("attack5")) || this.Animation.IsPlaying("special_petra")))
+                this.Rigidbody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, this.targetRotation, Time.deltaTime * 6f);
+            }
+            if (this.state == HERO_STATE.Grab)
+            {
+                this.Rigidbody.AddForce(-this.Rigidbody.velocity, ForceMode.VelocityChange);
+            }
+            else
+            {
+                if (this.IsGrounded())
                 {
-                    this.Rigidbody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, this.targetRotation, Time.deltaTime * 6f);
-                }
-                if (this.state == HERO_STATE.Grab)
-                {
-                    this.Rigidbody.AddForce(-this.Rigidbody.velocity, ForceMode.VelocityChange);
+                    if (!this.grounded)
+                    {
+                        this.justGrounded = true;
+                    }
+                    this.grounded = true;
                 }
                 else
                 {
-                    if (this.IsGrounded())
-                    {
-                        if (!this.grounded)
-                        {
-                            this.justGrounded = true;
-                        }
-                        this.grounded = true;
-                    }
-                    else
-                    {
-                        this.grounded = false;
-                    }
-                    if (this.hookSomeOne)
-                    {
-                        if (this.hookTarget != null)
-                        {
-                            Vector3 vector2 = this.hookTarget.transform.position - this.transform.position;
-                            float magnitude = vector2.magnitude;
-                            if (magnitude > 2f)
-                            {
-                                this.Rigidbody.AddForce((Vector3)(((vector2.normalized * Mathf.Pow(magnitude, 0.15f)) * 30f) - (this.Rigidbody.velocity * 0.95f)), ForceMode.VelocityChange);
-                            }
-                        }
-                        else
-                        {
-                            this.hookSomeOne = false;
-                        }
-                    }
-                    else if (this.hookBySomeOne && (this.badGuy != null))
-                    {
-                        if (this.badGuy != null)
-                        {
-                            Vector3 vector3 = this.badGuy.transform.position - this.transform.position;
-                            float f = vector3.magnitude;
-                            if (f > 5f)
-                            {
-                                this.Rigidbody.AddForce((Vector3)((vector3.normalized * Mathf.Pow(f, 0.15f)) * 0.2f), ForceMode.Impulse);
-                            }
-                        }
-                        else
-                        {
-                            this.hookBySomeOne = false;
-                        }
-                    }
-                    float x = 0f;
-                    float z = 0f;
-                    if (!IN_GAME_MAIN_CAMERA.isTyping)
-                    {
-                        if (InputManager.Key(InputHuman.Forward))
-                        {
-                            z = 1f;
-                        }
-                        else if (InputManager.Key(InputHuman.Backward))
-                        {
-                            z = -1f;
-                        }
-                        else
-                        {
-                            z = 0f;
-                        }
-                        if (InputManager.Key(InputHuman.Left))
-                        {
-                            x = -1f;
-                        }
-                        else if (InputManager.Key(InputHuman.Right))
-                        {
-                            x = 1f;
-                        }
-                        else
-                        {
-                            x = 0f;
-                        }
-                    }
-                    bool flag2 = false;
-                    bool flag3 = false;
-                    bool flag4 = false;
-                    this.isLeftHandHooked = false;
-                    this.isRightHandHooked = false;
-                    if (this.isLaunchLeft)
-                    {
-                        if ((this.bulletLeft != null) && this.bulletLeft.GetComponent<Bullet>().isHooked())
-                        {
-                            this.isLeftHandHooked = true;
-                            Vector3 to = this.bulletLeft.transform.position - this.transform.position;
-                            to.Normalize();
-                            to = (Vector3)(to * 10f);
-                            if (!this.isLaunchRight)
-                            {
-                                to = (Vector3)(to * 2f);
-                            }
-                            if ((Vector3.Angle(this.Rigidbody.velocity, to) > 90f) && InputManager.Key(InputHuman.Jump))
-                            {
-                                flag3 = true;
-                                flag2 = true;
-                            }
-                            if (!flag3)
-                            {
-                                this.Rigidbody.AddForce(to);
-                                if (Vector3.Angle(this.Rigidbody.velocity, to) > 90f)
-                                {
-                                    this.Rigidbody.AddForce((Vector3)(-this.Rigidbody.velocity * 2f), ForceMode.Acceleration);
-                                }
-                            }
-                        }
-                        this.launchElapsedTimeL += Time.deltaTime;
-                        if (this.QHold && (this.currentGas > 0f))
-                        {
-                            this.useGas(this.useGasSpeed * Time.deltaTime);
-                        }
-                        else if (this.launchElapsedTimeL > 0.3f)
-                        {
-                            this.isLaunchLeft = false;
-                            if (this.bulletLeft != null)
-                            {
-                                this.bulletLeft.GetComponent<Bullet>().disable();
-                                this.releaseIfIHookSb();
-                                this.bulletLeft = null;
-                                flag3 = false;
-                            }
-                        }
-                    }
-                    if (this.isLaunchRight)
-                    {
-                        if ((this.bulletRight != null) && this.bulletRight.GetComponent<Bullet>().isHooked())
-                        {
-                            this.isRightHandHooked = true;
-                            Vector3 vector5 = this.bulletRight.transform.position - this.transform.position;
-                            vector5.Normalize();
-                            vector5 = (Vector3)(vector5 * 10f);
-                            if (!this.isLaunchLeft)
-                            {
-                                vector5 = (Vector3)(vector5 * 2f);
-                            }
-                            if ((Vector3.Angle(this.Rigidbody.velocity, vector5) > 90f) && InputManager.Key(InputHuman.Jump))
-                            {
-                                flag4 = true;
-                                flag2 = true;
-                            }
-                            if (!flag4)
-                            {
-                                this.Rigidbody.AddForce(vector5);
-                                if (Vector3.Angle(this.Rigidbody.velocity, vector5) > 90f)
-                                {
-                                    this.Rigidbody.AddForce((Vector3)(-this.Rigidbody.velocity * 2f), ForceMode.Acceleration);
-                                }
-                            }
-                        }
-                        this.launchElapsedTimeR += Time.deltaTime;
-                        if (this.EHold && (this.currentGas > 0f))
-                        {
-                            this.useGas(this.useGasSpeed * Time.deltaTime);
-                        }
-                        else if (this.launchElapsedTimeR > 0.3f)
-                        {
-                            this.isLaunchRight = false;
-                            if (this.bulletRight != null)
-                            {
-                                this.bulletRight.GetComponent<Bullet>().disable();
-                                this.releaseIfIHookSb();
-                                this.bulletRight = null;
-                                flag4 = false;
-                            }
-                        }
-                    }
-                    if (this.grounded)
-                    {
-                        Vector3 vector7;
-                        Vector3 zero = Vector3.zero;
-                        if (this.state == HERO_STATE.Attack)
-                        {
-                            if (this.attackAnimation == "attack5")
-                            {
-                                if ((this.Animation[this.attackAnimation].normalizedTime > 0.4f) && (this.Animation[this.attackAnimation].normalizedTime < 0.61f))
-                                {
-                                    this.Rigidbody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
-                                }
-                            }
-                            else if (this.attackAnimation == "special_petra")
-                            {
-                                if ((this.Animation[this.attackAnimation].normalizedTime > 0.35f) && (this.Animation[this.attackAnimation].normalizedTime < 0.48f))
-                                {
-                                    this.Rigidbody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
-                                }
-                            }
-                            else if (this.Animation.IsPlaying("attack3_2"))
-                            {
-                                zero = Vector3.zero;
-                            }
-                            else if (this.Animation.IsPlaying("attack1") || this.Animation.IsPlaying("attack2"))
-                            {
-                                this.Rigidbody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
-                            }
-                            if (this.Animation.IsPlaying("attack3_2"))
-                            {
-                                zero = Vector3.zero;
-                            }
-                        }
-                        if (this.justGrounded)
-                        {
-                            if ((this.state != HERO_STATE.Attack) || (((this.attackAnimation != "attack3_1") && (this.attackAnimation != "attack5")) && (this.attackAnimation != "special_petra")))
-                            {
-                                if ((((this.state != HERO_STATE.Attack) && (x == 0f)) && ((z == 0f) && (this.bulletLeft == null))) && ((this.bulletRight == null) && (this.state != HERO_STATE.FillGas)))
-                                {
-                                    this.state = HERO_STATE.Land;
-                                    this.crossFade("dash_land", 0.01f);
-                                }
-                                else
-                                {
-                                    this.buttonAttackRelease = true;
-                                    if (((this.state != HERO_STATE.Attack) && (((this.Rigidbody.velocity.x * this.Rigidbody.velocity.x) + (this.Rigidbody.velocity.z * this.Rigidbody.velocity.z)) > ((this.speed * this.speed) * 1.5f))) && (this.state != HERO_STATE.FillGas))
-                                    {
-                                        this.state = HERO_STATE.Slide;
-                                        this.crossFade("slide", 0.05f);
-                                        this.facingDirection = Mathf.Atan2(this.Rigidbody.velocity.x, this.Rigidbody.velocity.z) * 57.29578f;
-                                        this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
-                                        this.sparks.enableEmission = true;
-                                    }
-                                }
-                            }
-                            this.justGrounded = false;
-                            zero = this.Rigidbody.velocity;
-                        }
-                        if (((this.state == HERO_STATE.Attack) && (this.attackAnimation == "attack3_1")) && (this.Animation[this.attackAnimation].normalizedTime >= 1f))
-                        {
-                            this.playAnimation("attack3_2");
-                            this.resetAnimationSpeed();
-                            vector7 = Vector3.zero;
-                            this.Rigidbody.velocity = vector7;
-                            zero = vector7;
-                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
-                        }
-                        if (this.state == HERO_STATE.GroundDodge)
-                        {
-                            if ((this.Animation["dodge"].normalizedTime >= 0.2f) && (this.Animation["dodge"].normalizedTime < 0.8f))
-                            {
-                                zero = (Vector3)((-this.transform.forward * 2.4f) * this.speed);
-                            }
-                            if (this.Animation["dodge"].normalizedTime > 0.8f)
-                            {
-                                zero = (Vector3)(this.Rigidbody.velocity * 0.9f);
-                            }
-                        }
-                        else if (this.state == HERO_STATE.Idle)
-                        {
-                            Vector3 vector8 = new Vector3(x, 0f, z);
-                            float resultAngle = this.getGlobalFacingDirection(x, z);
-                            zero = this.getGlobaleFacingVector3(resultAngle);
-                            float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
-                            zero = (Vector3)(zero * num6);
-                            zero = (Vector3)(zero * this.speed);
-                            if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
-                            {
-                                zero = (Vector3)(zero * 4f);
-                            }
-                            if ((x != 0f) || (z != 0f))
-                            {
-                                if (((!this.Animation.IsPlaying("run_1") && !this.Animation.IsPlaying("jump")) && !this.Animation.IsPlaying("run_sasha")) && (!this.Animation.IsPlaying("horse_geton") || (this.Animation["horse_geton"].normalizedTime >= 0.5f)))
-                                {
-                                    if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
-                                    {
-                                        this.crossFade("run_sasha", 0.1f);
-                                    }
-                                    else
-                                    {
-                                        this.crossFade("run_1", 0.1f);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (!(((this.Animation.IsPlaying(this.standAnimation) || (this.state == HERO_STATE.Land)) || (this.Animation.IsPlaying("jump") || this.Animation.IsPlaying("horse_geton"))) || this.Animation.IsPlaying("grabbed")))
-                                {
-                                    this.crossFade(this.standAnimation, 0.1f);
-                                    zero = (Vector3)(zero * 0f);
-                                }
-                                resultAngle = -874f;
-                            }
-                            if (resultAngle != -874f)
-                            {
-                                this.facingDirection = resultAngle;
-                                this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
-                            }
-                        }
-                        else if (this.state == HERO_STATE.Land)
-                        {
-                            zero = (Vector3)(this.Rigidbody.velocity * 0.96f);
-                        }
-                        else if (this.state == HERO_STATE.Slide)
-                        {
-                            zero = (Vector3)(this.Rigidbody.velocity * 0.99f);
-                            if (this.currentSpeed < (this.speed * 1.2f))
-                            {
-                                this.idle();
-                                this.sparks.enableEmission = false;
-                            }
-                        }
-                        Vector3 velocity = this.Rigidbody.velocity;
-                        Vector3 force = zero - velocity;
-                        force.x = Mathf.Clamp(force.x, -this.maxVelocityChange, this.maxVelocityChange);
-                        force.z = Mathf.Clamp(force.z, -this.maxVelocityChange, this.maxVelocityChange);
-                        force.y = 0f;
-                        if (this.Animation.IsPlaying("jump") && (this.Animation["jump"].normalizedTime > 0.18f))
-                        {
-                            force.y += 8f;
-                        }
-                        if ((this.Animation.IsPlaying("horse_geton") && (this.Animation["horse_geton"].normalizedTime > 0.18f)) && (this.Animation["horse_geton"].normalizedTime < 1f))
-                        {
-                            float num7 = 6f;
-                            force = -this.Rigidbody.velocity;
-                            force.y = num7;
-                            float num8 = Vector3.Distance(myHorse.transform.position, transform.position);
-                            float num9 = ((0.6f * this.gravity) * num8) / 12f;
-                            vector7 = myHorse.transform.position - transform.position;
-                            force += (Vector3)(num9 * vector7.normalized);
-                        }
-                        if (!((this.state == HERO_STATE.Attack) && this.useGun))
-                        {
-                            this.Rigidbody.AddForce(force, ForceMode.VelocityChange);
-                            this.Rigidbody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
-                        }
-                    }
-                    else
-                    {
-                        if (this.sparks.enableEmission)
-                        {
-                            this.sparks.enableEmission = false;
-                        }
-                        if ((myHorse && (Animation.IsPlaying("horse_geton") || Animation.IsPlaying("air_fall"))) && ((Rigidbody.velocity.y < 0f) && (Vector3.Distance(myHorse.transform.position + Vector3.up * 1.65f, transform.position) < 0.5f)))
-                        {
-                            transform.position = myHorse.transform.position + Vector3.up * 1.65f;
-                            transform.rotation = myHorse.transform.rotation;
-                            isMounted = true;
-                            crossFade("horse_idle", 0.1f);
-                            myHorse.Mount();
-                        }
-                        if (!((((((this.state != HERO_STATE.Idle) || this.Animation.IsPlaying("dash")) || (this.Animation.IsPlaying("wallrun") || this.Animation.IsPlaying("toRoof"))) || ((this.Animation.IsPlaying("horse_geton") || this.Animation.IsPlaying("horse_getoff")) || (this.Animation.IsPlaying("air_release") || this.isMounted))) || ((this.Animation.IsPlaying("air_hook_l_just") && (this.Animation["air_hook_l_just"].normalizedTime < 1f)) || (this.Animation.IsPlaying("air_hook_r_just") && (this.Animation["air_hook_r_just"].normalizedTime < 1f)))) ? (this.Animation["dash"].normalizedTime < 0.99f) : false))
-                        {
-                            if (((!this.isLeftHandHooked && !this.isRightHandHooked) && ((this.Animation.IsPlaying("air_hook_l") || this.Animation.IsPlaying("air_hook_r")) || this.Animation.IsPlaying("air_hook"))) && (this.Rigidbody.velocity.y > 20f))
-                            {
-                                this.Animation.CrossFade("air_release");
-                            }
-                            else
-                            {
-                                bool flag5 = (Mathf.Abs(this.Rigidbody.velocity.x) + Mathf.Abs(this.Rigidbody.velocity.z)) > 25f;
-                                bool flag6 = this.Rigidbody.velocity.y < 0f;
-                                if (!flag5)
-                                {
-                                    if (flag6)
-                                    {
-                                        if (!this.Animation.IsPlaying("air_fall"))
-                                        {
-                                            this.crossFade("air_fall", 0.2f);
-                                        }
-                                    }
-                                    else if (!this.Animation.IsPlaying("air_rise"))
-                                    {
-                                        this.crossFade("air_rise", 0.2f);
-                                    }
-                                }
-                                else if (!this.isLeftHandHooked && !this.isRightHandHooked)
-                                {
-                                    float current = -Mathf.Atan2(this.Rigidbody.velocity.z, this.Rigidbody.velocity.x) * 57.29578f;
-                                    float num11 = -Mathf.DeltaAngle(current, this.transform.rotation.eulerAngles.y - 90f);
-                                    if (Mathf.Abs(num11) < 45f)
-                                    {
-                                        if (!this.Animation.IsPlaying("air2"))
-                                        {
-                                            this.crossFade("air2", 0.2f);
-                                        }
-                                    }
-                                    else if ((num11 < 135f) && (num11 > 0f))
-                                    {
-                                        if (!this.Animation.IsPlaying("air2_right"))
-                                        {
-                                            this.crossFade("air2_right", 0.2f);
-                                        }
-                                    }
-                                    else if ((num11 > -135f) && (num11 < 0f))
-                                    {
-                                        if (!this.Animation.IsPlaying("air2_left"))
-                                        {
-                                            this.crossFade("air2_left", 0.2f);
-                                        }
-                                    }
-                                    else if (!this.Animation.IsPlaying("air2_backward"))
-                                    {
-                                        this.crossFade("air2_backward", 0.2f);
-                                    }
-                                }
+                    this.grounded = false;
+                }
 
-                                else if (!this.isRightHandHooked)
-                                {
-                                    TryCrossFade(Equipment.Weapon.HookForwardLeft, 0.1f);
-                                }
-                                else if (!this.isLeftHandHooked)
-                                {
-                                    TryCrossFade(Equipment.Weapon.HookForwardRight, 0.1f);
-                                }
-                                else if (!this.Animation.IsPlaying(Equipment.Weapon.HookForward))
-                                {
-                                    TryCrossFade(Equipment.Weapon.HookForward, 0.1f);
-                                }
-                            }
-                        }
-                        if (((this.state == HERO_STATE.Idle) && this.Animation.IsPlaying("air_release")) && (this.Animation["air_release"].normalizedTime >= 1f))
-                        {
-                            this.crossFade("air_rise", 0.2f);
-                        }
-                        if (this.Animation.IsPlaying("horse_getoff") && (this.Animation["horse_getoff"].normalizedTime >= 1f))
-                        {
-                            this.crossFade("air_rise", 0.2f);
-                        }
-                        if (this.Animation.IsPlaying("toRoof"))
-                        {
-                            if (this.Animation["toRoof"].normalizedTime < 0.22f)
-                            {
-                                this.Rigidbody.velocity = Vector3.zero;
-                                this.Rigidbody.AddForce(new Vector3(0f, this.gravity * this.Rigidbody.mass, 0f));
-                            }
-                            else
-                            {
-                                if (!this.wallJump)
-                                {
-                                    this.wallJump = true;
-                                    this.Rigidbody.AddForce((Vector3)(Vector3.up * 8f), ForceMode.Impulse);
-                                }
-                                this.Rigidbody.AddForce((Vector3)(this.transform.forward * 0.05f), ForceMode.Impulse);
-                            }
-                            if (this.Animation["toRoof"].normalizedTime >= 1f)
-                            {
-                                this.playAnimation("air_rise");
-                            }
-                        }
-                        else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) ||
-                                     (InputManager.Key(InputHuman.Jump) ||
-                                      InputManager.Key(InputHuman.HookLeft))) ||
-                                    ((InputManager.Key(InputHuman.HookRight) ||
-                                      InputManager.Key(InputHuman.HookBoth)) ||
-                                     (!this.IsFrontGrounded() || this.Animation.IsPlaying("wallrun")))) ||
-                                   this.Animation.IsPlaying("dodge")))
-                        {
-                            this.crossFade("wallrun", 0.1f);
-                            this.wallRunTime = 0f;
-                        }
-                        else if (this.Animation.IsPlaying("wallrun"))
-                        {
-                            this.Rigidbody.AddForce(((Vector3)(Vector3.up * this.speed)) - this.Rigidbody.velocity, ForceMode.VelocityChange);
-                            this.wallRunTime += Time.deltaTime;
-                            if ((this.wallRunTime > 1f) || ((z == 0f) && (x == 0f)))
-                            {
-                                this.Rigidbody.AddForce((Vector3)((-this.transform.forward * this.speed) * 0.75f), ForceMode.Impulse);
-                                this.dodge2(true);
-                            }
-                            else if (!this.IsUpFrontGrounded())
-                            {
-                                this.wallJump = false;
-                                this.crossFade("toRoof", 0.1f);
-                            }
-                            else if (!this.IsFrontGrounded())
-                            {
-                                this.crossFade("air_fall", 0.1f);
-                            }
-                        }
-                        else if ((!this.Animation.IsPlaying("attack5") && !this.Animation.IsPlaying("special_petra")) && (!this.Animation.IsPlaying("dash") && !this.Animation.IsPlaying("jump")))
-                        {
-                            Vector3 vector11 = new Vector3(x, 0f, z);
-                            float num12 = this.getGlobalFacingDirection(x, z);
-                            Vector3 vector12 = this.getGlobaleFacingVector3(num12);
-                            float num13 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
-                            vector12 = (Vector3)(vector12 * num13);
-                            //TODO: ACL
-                            vector12 = (Vector3)(vector12 * ((/*(float)this.setup.myCostume.stat.ACL) */ 125f / 10f) * 2f));
-                            if ((x == 0f) && (z == 0f))
-                            {
-                                if (this.state == HERO_STATE.Attack)
-                                {
-                                    vector12 = (Vector3)(vector12 * 0f);
-                                }
-                                num12 = -874f;
-                            }
-                            if (num12 != -874f)
-                            {
-                                this.facingDirection = num12;
-                                this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
-                            }
-                            if (((!flag3 && !flag4) && (!this.isMounted && InputManager.Key(InputHuman.Jump))) && (this.currentGas > 0f))
-                            {
-                                if ((x != 0f) || (z != 0f))
-                                {
-                                    this.Rigidbody.AddForce(vector12, ForceMode.Acceleration);
-                                }
-                                else
-                                {
-                                    this.Rigidbody.AddForce((Vector3)(this.transform.forward * vector12.magnitude), ForceMode.Acceleration);
-                                }
-                                flag2 = true;
-                            }
-                        }
-                        if ((this.Animation.IsPlaying("air_fall") && (this.currentSpeed < 0.2f)) && this.IsFrontGrounded())
-                        {
-                            this.crossFade("onWall", 0.3f);
-                        }
-                    }
-                    this.spinning = false;
-                    if (flag3 && flag4)
+                if (Skill.IsActive)
+                {
+                    Skill.OnFixedUpdate();
+                }
+
+                if (this.hookSomeOne)
+                {
+                    if (this.hookTarget != null)
                     {
-                        float num14 = this.currentSpeed + 0.1f;
-                        AddRightForce();
-                        Vector3 vector13 = ((Vector3)((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.transform.position;
-                        float num15 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
+                        Vector3 vector2 = this.hookTarget.transform.position - this.transform.position;
+                        float magnitude = vector2.magnitude;
+                        if (magnitude > 2f)
                         {
-                            num15 = -1f;
+                            this.Rigidbody.AddForce((Vector3) (((vector2.normalized * Mathf.Pow(magnitude, 0.15f)) * 30f) - (this.Rigidbody.velocity * 0.95f)), ForceMode.VelocityChange);
                         }
-                        else if (InputManager.Key(InputHuman.ReelOut))
-                        {
-                            num15 = 1f;
-                        }
-                        else
-                        {
-                            num15 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
-                        }
-                        num15 = Mathf.Clamp(num15, -0.8f, 0.8f);
-                        float num16 = 1f + num15;
-                        Vector3 vector14 = Vector3.RotateTowards(vector13, this.Rigidbody.velocity, 1.53938f * num16, 1.53938f * num16);
-                        vector14.Normalize();
-                        this.spinning = true;
-                        this.Rigidbody.velocity = (Vector3)(vector14 * num14);
-                    }
-                    else if (flag3)
-                    {
-                        float num17 = this.currentSpeed + 0.1f;
-                        AddRightForce();
-                        Vector3 vector15 = this.bulletLeft.transform.position - this.transform.position;
-                        float num18 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
-                        {
-                            num18 = -1f;
-                        }
-                        else if (InputManager.Key(InputHuman.ReelOut))
-                        {
-                            num18 = 1f;
-                        }
-                        else
-                        {
-                            num18 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
-                        }
-                        num18 = Mathf.Clamp(num18, -0.8f, 0.8f);
-                        float num19 = 1f + num18;
-                        Vector3 vector16 = Vector3.RotateTowards(vector15, this.Rigidbody.velocity, 1.53938f * num19, 1.53938f * num19);
-                        vector16.Normalize();
-                        this.spinning = true;
-                        this.Rigidbody.velocity = (Vector3)(vector16 * num17);
-                    }
-                    else if (flag4)
-                    {
-                        float num20 = this.currentSpeed + 0.1f;
-                        AddRightForce();
-                        Vector3 vector17 = this.bulletRight.transform.position - this.transform.position;
-                        float num21 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
-                        {
-                            num21 = -1f;
-                        }
-                        else if (InputManager.Key(InputHuman.ReelOut))
-                        {
-                            num21 = 1f;
-                        }
-                        else
-                        {
-                            num21 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
-                        }
-                        num21 = Mathf.Clamp(num21, -0.8f, 0.8f);
-                        float num22 = 1f + num21;
-                        Vector3 vector18 = Vector3.RotateTowards(vector17, this.Rigidbody.velocity, 1.53938f * num22, 1.53938f * num22);
-                        vector18.Normalize();
-                        this.spinning = true;
-                        this.Rigidbody.velocity = (Vector3)(vector18 * num20);
-                    }
-                    if (((this.state == HERO_STATE.Attack) && ((this.attackAnimation == "attack5") || (this.attackAnimation == "special_petra"))) && ((this.Animation[this.attackAnimation].normalizedTime > 0.4f) && !this.attackMove))
-                    {
-                        this.attackMove = true;
-                        if (this.launchPointRight.magnitude > 0f)
-                        {
-                            Vector3 vector19 = this.launchPointRight - this.transform.position;
-                            vector19.Normalize();
-                            vector19 = (Vector3)(vector19 * 13f);
-                            this.Rigidbody.AddForce(vector19, ForceMode.Impulse);
-                        }
-                        if ((this.attackAnimation == "special_petra") && (this.launchPointLeft.magnitude > 0f))
-                        {
-                            Vector3 vector20 = this.launchPointLeft - this.transform.position;
-                            vector20.Normalize();
-                            vector20 = (Vector3)(vector20 * 13f);
-                            this.Rigidbody.AddForce(vector20, ForceMode.Impulse);
-                            if (this.bulletRight != null)
-                            {
-                                this.bulletRight.GetComponent<Bullet>().disable();
-                                this.releaseIfIHookSb();
-                            }
-                            if (this.bulletLeft != null)
-                            {
-                                this.bulletLeft.GetComponent<Bullet>().disable();
-                                this.releaseIfIHookSb();
-                            }
-                        }
-                        this.Rigidbody.AddForce((Vector3)(Vector3.up * 2f), ForceMode.Impulse);
-                    }
-                    bool flag7 = false;
-                    if ((this.bulletLeft != null) || (this.bulletRight != null))
-                    {
-                        if (((this.bulletLeft != null) && (this.bulletLeft.transform.position.y > base.gameObject.transform.position.y)) && (this.isLaunchLeft && this.bulletLeft.GetComponent<Bullet>().isHooked()))
-                        {
-                            flag7 = true;
-                        }
-                        if (((this.bulletRight != null) && (this.bulletRight.transform.position.y > base.gameObject.transform.position.y)) && (this.isLaunchRight && this.bulletRight.GetComponent<Bullet>().isHooked()))
-                        {
-                            flag7 = true;
-                        }
-                    }
-                    if (flag7)
-                    {
-                        this.Rigidbody.AddForce(new Vector3(0f, -10f * this.Rigidbody.mass, 0f));
                     }
                     else
                     {
-                        this.Rigidbody.AddForce(new Vector3(0f, -this.gravity * this.Rigidbody.mass, 0f));
+                        this.hookSomeOne = false;
                     }
-                    if (this.currentSpeed > 10f)
+                }
+                else if (this.hookBySomeOne && (this.badGuy != null))
+                {
+                    if (this.badGuy != null)
                     {
-                        this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float)100f, (float)(this.currentSpeed + 40f)), 0.1f);
+                        Vector3 vector3 = this.badGuy.transform.position - this.transform.position;
+                        float f = vector3.magnitude;
+                        if (f > 5f)
+                        {
+                            this.Rigidbody.AddForce((Vector3) ((vector3.normalized * Mathf.Pow(f, 0.15f)) * 0.2f), ForceMode.Impulse);
+                        }
                     }
                     else
                     {
-                        this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, 50f, 0.1f);
+                        this.hookBySomeOne = false;
                     }
-                    if (flag2)
+                }
+                float x = 0f;
+                float z = 0f;
+                if (!IN_GAME_MAIN_CAMERA.isTyping)
+                {
+                    if (InputManager.Key(InputHuman.Forward))
+                    {
+                        z = 1f;
+                    }
+                    else if (InputManager.Key(InputHuman.Backward))
+                    {
+                        z = -1f;
+                    }
+                    else
+                    {
+                        z = 0f;
+                    }
+                    if (InputManager.Key(InputHuman.Left))
+                    {
+                        x = -1f;
+                    }
+                    else if (InputManager.Key(InputHuman.Right))
+                    {
+                        x = 1f;
+                    }
+                    else
+                    {
+                        x = 0f;
+                    }
+                }
+                bool flag2 = false;
+                bool flag3 = false;
+                bool flag4 = false;
+                this.isLeftHandHooked = false;
+                this.isRightHandHooked = false;
+                if (this.isLaunchLeft)
+                {
+                    if ((this.bulletLeft != null) && this.bulletLeft.GetComponent<Bullet>().isHooked())
+                    {
+                        this.isLeftHandHooked = true;
+                        Vector3 to = this.bulletLeft.transform.position - this.transform.position;
+                        to.Normalize();
+                        to = (Vector3) (to * 10f);
+                        if (!this.isLaunchRight)
+                        {
+                            to = (Vector3) (to * 2f);
+                        }
+                        if ((Vector3.Angle(this.Rigidbody.velocity, to) > 90f) && InputManager.Key(InputHuman.Jump))
+                        {
+                            flag3 = true;
+                            flag2 = true;
+                        }
+                        if (!flag3)
+                        {
+                            this.Rigidbody.AddForce(to);
+                            if (Vector3.Angle(this.Rigidbody.velocity, to) > 90f)
+                            {
+                                this.Rigidbody.AddForce((Vector3) (-this.Rigidbody.velocity * 2f), ForceMode.Acceleration);
+                            }
+                        }
+                    }
+                    this.launchElapsedTimeL += Time.deltaTime;
+                    if (this.QHold && (this.currentGas > 0f))
                     {
                         this.useGas(this.useGasSpeed * Time.deltaTime);
-                        if (!this.smoke_3dmg.enableEmission && base.photonView.isMine)
+                    }
+                    else if (this.launchElapsedTimeL > 0.3f)
+                    {
+                        this.isLaunchLeft = false;
+                        if (this.bulletLeft != null)
                         {
-                            object[] parameters = new object[] { true };
-                            base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
+                            this.bulletLeft.GetComponent<Bullet>().disable();
+                            this.releaseIfIHookSb();
+                            this.bulletLeft = null;
+                            flag3 = false;
                         }
-                        this.smoke_3dmg.enableEmission = true;
+                    }
+                }
+                if (this.isLaunchRight)
+                {
+                    if ((this.bulletRight != null) && this.bulletRight.GetComponent<Bullet>().isHooked())
+                    {
+                        this.isRightHandHooked = true;
+                        Vector3 vector5 = this.bulletRight.transform.position - this.transform.position;
+                        vector5.Normalize();
+                        vector5 = (Vector3) (vector5 * 10f);
+                        if (!this.isLaunchLeft)
+                        {
+                            vector5 = (Vector3) (vector5 * 2f);
+                        }
+                        if ((Vector3.Angle(this.Rigidbody.velocity, vector5) > 90f) && InputManager.Key(InputHuman.Jump))
+                        {
+                            flag4 = true;
+                            flag2 = true;
+                        }
+                        if (!flag4)
+                        {
+                            this.Rigidbody.AddForce(vector5);
+                            if (Vector3.Angle(this.Rigidbody.velocity, vector5) > 90f)
+                            {
+                                this.Rigidbody.AddForce((Vector3) (-this.Rigidbody.velocity * 2f), ForceMode.Acceleration);
+                            }
+                        }
+                    }
+                    this.launchElapsedTimeR += Time.deltaTime;
+                    if (this.EHold && (this.currentGas > 0f))
+                    {
+                        this.useGas(this.useGasSpeed * Time.deltaTime);
+                    }
+                    else if (this.launchElapsedTimeR > 0.3f)
+                    {
+                        this.isLaunchRight = false;
+                        if (this.bulletRight != null)
+                        {
+                            this.bulletRight.GetComponent<Bullet>().disable();
+                            this.releaseIfIHookSb();
+                            this.bulletRight = null;
+                            flag4 = false;
+                        }
+                    }
+                }
+                if (this.grounded)
+                {
+                    Vector3 vector7;
+                    Vector3 zero = Vector3.zero;
+                    if (this.state == HERO_STATE.Attack)
+                    {
+                        if (this.attackAnimation == "attack5")
+                        {
+                            if ((this.Animation[this.attackAnimation].normalizedTime > 0.4f) && (this.Animation[this.attackAnimation].normalizedTime < 0.61f))
+                            {
+                                this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                            }
+                        }
+                        else if (this.attackAnimation == "special_petra")
+                        {
+                            if ((this.Animation[this.attackAnimation].normalizedTime > 0.35f) && (this.Animation[this.attackAnimation].normalizedTime < 0.48f))
+                            {
+                                this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                            }
+                        }
+                        else if (this.Animation.IsPlaying("attack3_2"))
+                        {
+                            zero = Vector3.zero;
+                        }
+                        else if (this.Animation.IsPlaying("attack1") || this.Animation.IsPlaying("attack2"))
+                        {
+                            this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                        }
+                        if (this.Animation.IsPlaying("attack3_2"))
+                        {
+                            zero = Vector3.zero;
+                        }
+                    }
+                    if (this.justGrounded)
+                    {
+                        if ((this.state != HERO_STATE.Attack) || (((this.attackAnimation != "attack3_1") && (this.attackAnimation != "attack5")) && (this.attackAnimation != "special_petra")))
+                        {
+                            if ((((this.state != HERO_STATE.Attack) && (x == 0f)) && ((z == 0f) && (this.bulletLeft == null))) && ((this.bulletRight == null) && (this.state != HERO_STATE.FillGas)))
+                            {
+                                this.state = HERO_STATE.Land;
+                                this.crossFade("dash_land", 0.01f);
+                            }
+                            else
+                            {
+                                this.buttonAttackRelease = true;
+                                if (((this.state != HERO_STATE.Attack) && (((this.Rigidbody.velocity.x * this.Rigidbody.velocity.x) + (this.Rigidbody.velocity.z * this.Rigidbody.velocity.z)) > ((this.speed * this.speed) * 1.5f))) && (this.state != HERO_STATE.FillGas))
+                                {
+                                    this.state = HERO_STATE.Slide;
+                                    this.crossFade("slide", 0.05f);
+                                    this.facingDirection = Mathf.Atan2(this.Rigidbody.velocity.x, this.Rigidbody.velocity.z) * 57.29578f;
+                                    this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
+                                    this.sparks.enableEmission = true;
+                                }
+                            }
+                        }
+                        this.justGrounded = false;
+                        zero = this.Rigidbody.velocity;
+                    }
+                    //if (((this.state == HERO_STATE.Attack) && (this.attackAnimation == "attack3_1")) && (this.Animation[this.attackAnimation].normalizedTime >= 1f))
+                    //{
+                    //    this.playAnimation("attack3_2");
+                    //    this.resetAnimationSpeed();
+                    //    vector7 = Vector3.zero;
+                    //    this.Rigidbody.velocity = vector7;
+                    //    zero = vector7;
+                    //    this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
+                    //}
+                    if (this.state == HERO_STATE.GroundDodge)
+                    {
+                        if ((this.Animation["dodge"].normalizedTime >= 0.2f) && (this.Animation["dodge"].normalizedTime < 0.8f))
+                        {
+                            zero = (Vector3) ((-this.transform.forward * 2.4f) * this.speed);
+                        }
+                        if (this.Animation["dodge"].normalizedTime > 0.8f)
+                        {
+                            zero = (Vector3) (this.Rigidbody.velocity * 0.9f);
+                        }
+                    }
+                    else if (this.state == HERO_STATE.Idle)
+                    {
+                        Vector3 vector8 = new Vector3(x, 0f, z);
+                        float resultAngle = this.getGlobalFacingDirection(x, z);
+                        zero = this.getGlobaleFacingVector3(resultAngle);
+                        float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
+                        zero = (Vector3) (zero * num6);
+                        zero = (Vector3) (zero * this.speed);
+                        if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
+                        {
+                            zero = (Vector3) (zero * 4f);
+                        }
+                        if ((x != 0f) || (z != 0f))
+                        {
+                            if (((!this.Animation.IsPlaying("run_1") && !this.Animation.IsPlaying("jump")) && !this.Animation.IsPlaying("run_sasha")) && (!this.Animation.IsPlaying("horse_geton") || (this.Animation["horse_geton"].normalizedTime >= 0.5f)))
+                            {
+                                if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
+                                {
+                                    this.crossFade("run_sasha", 0.1f);
+                                }
+                                else
+                                {
+                                    this.crossFade("run_1", 0.1f);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!(((this.Animation.IsPlaying(this.standAnimation) || (this.state == HERO_STATE.Land)) || (this.Animation.IsPlaying("jump") || this.Animation.IsPlaying("horse_geton"))) || this.Animation.IsPlaying("grabbed")))
+                            {
+                                this.crossFade(this.standAnimation, 0.1f);
+                                zero = (Vector3) (zero * 0f);
+                            }
+                            resultAngle = -874f;
+                        }
+                        if (resultAngle != -874f)
+                        {
+                            this.facingDirection = resultAngle;
+                            this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
+                        }
+                    }
+                    else if (this.state == HERO_STATE.Land)
+                    {
+                        zero = (Vector3) (this.Rigidbody.velocity * 0.96f);
+                    }
+                    else if (this.state == HERO_STATE.Slide)
+                    {
+                        zero = (Vector3) (this.Rigidbody.velocity * 0.99f);
+                        if (this.currentSpeed < (this.speed * 1.2f))
+                        {
+                            this.idle();
+                            this.sparks.enableEmission = false;
+                        }
+                    }
+                    Vector3 velocity = this.Rigidbody.velocity;
+                    Vector3 force = zero - velocity;
+                    force.x = Mathf.Clamp(force.x, -this.maxVelocityChange, this.maxVelocityChange);
+                    force.z = Mathf.Clamp(force.z, -this.maxVelocityChange, this.maxVelocityChange);
+                    force.y = 0f;
+                    if (this.Animation.IsPlaying("jump") && (this.Animation["jump"].normalizedTime > 0.18f))
+                    {
+                        force.y += 8f;
+                    }
+                    if ((this.Animation.IsPlaying("horse_geton") && (this.Animation["horse_geton"].normalizedTime > 0.18f)) && (this.Animation["horse_geton"].normalizedTime < 1f))
+                    {
+                        float num7 = 6f;
+                        force = -this.Rigidbody.velocity;
+                        force.y = num7;
+                        float num8 = Vector3.Distance(myHorse.transform.position, transform.position);
+                        float num9 = ((0.6f * this.gravity) * num8) / 12f;
+                        vector7 = myHorse.transform.position - transform.position;
+                        force += (Vector3) (num9 * vector7.normalized);
+                    }
+                    if (!(this.state == HERO_STATE.Attack && this.useGun))
+                    {
+                        this.Rigidbody.AddForce(force, ForceMode.VelocityChange);
+                        this.Rigidbody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
+                    }
+                }
+                else
+                {
+                    if (this.sparks.enableEmission)
+                    {
+                        this.sparks.enableEmission = false;
+                    }
+                    if ((myHorse && (Animation.IsPlaying("horse_geton") || Animation.IsPlaying("air_fall"))) && ((Rigidbody.velocity.y < 0f) && (Vector3.Distance(myHorse.transform.position + Vector3.up * 1.65f, transform.position) < 0.5f)))
+                    {
+                        transform.position = myHorse.transform.position + Vector3.up * 1.65f;
+                        transform.rotation = myHorse.transform.rotation;
+                        isMounted = true;
+                        crossFade("horse_idle", 0.1f);
+                        myHorse.Mount();
+                    }
+                    if (!((((((this.state != HERO_STATE.Idle) || this.Animation.IsPlaying("dash")) || (this.Animation.IsPlaying("wallrun") || this.Animation.IsPlaying("toRoof"))) || ((this.Animation.IsPlaying("horse_geton") || this.Animation.IsPlaying("horse_getoff")) || (this.Animation.IsPlaying("air_release") || this.isMounted))) || ((this.Animation.IsPlaying("air_hook_l_just") && (this.Animation["air_hook_l_just"].normalizedTime < 1f)) || (this.Animation.IsPlaying("air_hook_r_just") && (this.Animation["air_hook_r_just"].normalizedTime < 1f)))) ? (this.Animation["dash"].normalizedTime < 0.99f) : false))
+                    {
+                        if (((!this.isLeftHandHooked && !this.isRightHandHooked) && ((this.Animation.IsPlaying("air_hook_l") || this.Animation.IsPlaying("air_hook_r")) || this.Animation.IsPlaying("air_hook"))) && (this.Rigidbody.velocity.y > 20f))
+                        {
+                            this.Animation.CrossFade("air_release");
+                        }
+                        else
+                        {
+                            bool flag5 = (Mathf.Abs(this.Rigidbody.velocity.x) + Mathf.Abs(this.Rigidbody.velocity.z)) > 25f;
+                            bool flag6 = this.Rigidbody.velocity.y < 0f;
+                            if (!flag5)
+                            {
+                                if (flag6)
+                                {
+                                    if (!this.Animation.IsPlaying("air_fall"))
+                                    {
+                                        this.crossFade("air_fall", 0.2f);
+                                    }
+                                }
+                                else if (!this.Animation.IsPlaying("air_rise"))
+                                {
+                                    this.crossFade("air_rise", 0.2f);
+                                }
+                            }
+                            else if (!this.isLeftHandHooked && !this.isRightHandHooked)
+                            {
+                                float current = -Mathf.Atan2(this.Rigidbody.velocity.z, this.Rigidbody.velocity.x) * 57.29578f;
+                                float num11 = -Mathf.DeltaAngle(current, this.transform.rotation.eulerAngles.y - 90f);
+                                if (Mathf.Abs(num11) < 45f)
+                                {
+                                    if (!this.Animation.IsPlaying("air2"))
+                                    {
+                                        this.crossFade("air2", 0.2f);
+                                    }
+                                }
+                                else if ((num11 < 135f) && (num11 > 0f))
+                                {
+                                    if (!this.Animation.IsPlaying("air2_right"))
+                                    {
+                                        this.crossFade("air2_right", 0.2f);
+                                    }
+                                }
+                                else if ((num11 > -135f) && (num11 < 0f))
+                                {
+                                    if (!this.Animation.IsPlaying("air2_left"))
+                                    {
+                                        this.crossFade("air2_left", 0.2f);
+                                    }
+                                }
+                                else if (!this.Animation.IsPlaying("air2_backward"))
+                                {
+                                    this.crossFade("air2_backward", 0.2f);
+                                }
+                            }
+
+                            else if (!this.isRightHandHooked)
+                            {
+                                TryCrossFade(Equipment.Weapon.HookForwardLeft, 0.1f);
+                            }
+                            else if (!this.isLeftHandHooked)
+                            {
+                                TryCrossFade(Equipment.Weapon.HookForwardRight, 0.1f);
+                            }
+                            else if (!this.Animation.IsPlaying(Equipment.Weapon.HookForward))
+                            {
+                                TryCrossFade(Equipment.Weapon.HookForward, 0.1f);
+                            }
+                        }
+                    }
+                    if (((this.state == HERO_STATE.Idle) && this.Animation.IsPlaying("air_release")) && (this.Animation["air_release"].normalizedTime >= 1f))
+                    {
+                        this.crossFade("air_rise", 0.2f);
+                    }
+                    if (this.Animation.IsPlaying("horse_getoff") && (this.Animation["horse_getoff"].normalizedTime >= 1f))
+                    {
+                        this.crossFade("air_rise", 0.2f);
+                    }
+                    if (this.Animation.IsPlaying("toRoof"))
+                    {
+                        if (this.Animation["toRoof"].normalizedTime < 0.22f)
+                        {
+                            this.Rigidbody.velocity = Vector3.zero;
+                            this.Rigidbody.AddForce(new Vector3(0f, this.gravity * this.Rigidbody.mass, 0f));
+                        }
+                        else
+                        {
+                            if (!this.wallJump)
+                            {
+                                this.wallJump = true;
+                                this.Rigidbody.AddForce((Vector3) (Vector3.up * 8f), ForceMode.Impulse);
+                            }
+                            this.Rigidbody.AddForce((Vector3) (this.transform.forward * 0.05f), ForceMode.Impulse);
+                        }
+                        if (this.Animation["toRoof"].normalizedTime >= 1f)
+                        {
+                            this.playAnimation("air_rise");
+                        }
+                    }
+                    else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) ||
+                                 (InputManager.Key(InputHuman.Jump) ||
+                                  InputManager.Key(InputHuman.HookLeft))) ||
+                                ((InputManager.Key(InputHuman.HookRight) ||
+                                  InputManager.Key(InputHuman.HookBoth)) ||
+                                 (!this.IsFrontGrounded() || this.Animation.IsPlaying("wallrun")))) ||
+                               this.Animation.IsPlaying("dodge")))
+                    {
+                        this.crossFade("wallrun", 0.1f);
+                        this.wallRunTime = 0f;
+                    }
+                    else if (this.Animation.IsPlaying("wallrun"))
+                    {
+                        this.Rigidbody.AddForce(((Vector3) (Vector3.up * this.speed)) - this.Rigidbody.velocity, ForceMode.VelocityChange);
+                        this.wallRunTime += Time.deltaTime;
+                        if ((this.wallRunTime > 1f) || ((z == 0f) && (x == 0f)))
+                        {
+                            this.Rigidbody.AddForce((Vector3) ((-this.transform.forward * this.speed) * 0.75f), ForceMode.Impulse);
+                            this.dodge2(true);
+                        }
+                        else if (!this.IsUpFrontGrounded())
+                        {
+                            this.wallJump = false;
+                            this.crossFade("toRoof", 0.1f);
+                        }
+                        else if (!this.IsFrontGrounded())
+                        {
+                            this.crossFade("air_fall", 0.1f);
+                        }
+                    }
+                    else if ((!this.Animation.IsPlaying("attack5") && !this.Animation.IsPlaying("special_petra")) && (!this.Animation.IsPlaying("dash") && !this.Animation.IsPlaying("jump")))
+                    {
+                        Vector3 vector11 = new Vector3(x, 0f, z);
+                        float num12 = this.getGlobalFacingDirection(x, z);
+                        Vector3 vector12 = this.getGlobaleFacingVector3(num12);
+                        float num13 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
+                        vector12 = (Vector3) (vector12 * num13);
+                        //TODO: ACL
+                        vector12 = (Vector3) (vector12 * ((/*(float)this.setup.myCostume.stat.ACL) */ 125f / 10f) * 2f));
+                        if ((x == 0f) && (z == 0f))
+                        {
+                            if (this.state == HERO_STATE.Attack)
+                            {
+                                vector12 = (Vector3) (vector12 * 0f);
+                            }
+                            num12 = -874f;
+                        }
+                        if (num12 != -874f)
+                        {
+                            this.facingDirection = num12;
+                            this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
+                        }
+                        if (((!flag3 && !flag4) && (!this.isMounted && InputManager.Key(InputHuman.Jump))) && (this.currentGas > 0f))
+                        {
+                            if ((x != 0f) || (z != 0f))
+                            {
+                                this.Rigidbody.AddForce(vector12, ForceMode.Acceleration);
+                            }
+                            else
+                            {
+                                this.Rigidbody.AddForce((Vector3) (this.transform.forward * vector12.magnitude), ForceMode.Acceleration);
+                            }
+                            flag2 = true;
+                        }
+                    }
+                    if ((this.Animation.IsPlaying("air_fall") && (this.currentSpeed < 0.2f)) && this.IsFrontGrounded())
+                    {
+                        this.crossFade("onWall", 0.3f);
+                    }
+                }
+                this.spinning = false;
+                if (flag3 && flag4)
+                {
+                    float num14 = this.currentSpeed + 0.1f;
+                    AddRightForce();
+                    Vector3 vector13 = ((Vector3) ((this.bulletRight.transform.position + this.bulletLeft.transform.position) * 0.5f)) - this.transform.position;
+                    float num15 = 0f;
+                    if (InputManager.Key(InputHuman.ReelIn))
+                    {
+                        num15 = -1f;
+                    }
+                    else if (InputManager.Key(InputHuman.ReelOut))
+                    {
+                        num15 = 1f;
                     }
                     else
                     {
-                        if (this.smoke_3dmg.enableEmission && base.photonView.isMine)
-                        {
-                            object[] objArray3 = new object[] { false };
-                            base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray3);
-                        }
-                        this.smoke_3dmg.enableEmission = false;
+                        num15 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
                     }
-                    if (this.currentSpeed > 80f)
-                    {
-                        //if (!this.speedFXPS.enableEmission)
-                        //{
-                        //    this.speedFXPS.enableEmission = true;
-                        //}
-                        //this.speedFXPS.startSpeed = this.currentSpeed;
-                        //this.speedFX.transform.LookAt(this.baseTransform.position + this.baseRigidBody.velocity);
-                    }
-                    //else if (this.speedFXPS.enableEmission)
-                    //{
-                    //    this.speedFXPS.enableEmission = false;
-                    //}
+                    num15 = Mathf.Clamp(num15, -0.8f, 0.8f);
+                    float num16 = 1f + num15;
+                    Vector3 vector14 = Vector3.RotateTowards(vector13, this.Rigidbody.velocity, 1.53938f * num16, 1.53938f * num16);
+                    vector14.Normalize();
+                    this.spinning = true;
+                    this.Rigidbody.velocity = (Vector3) (vector14 * num14);
                 }
+                else if (flag3)
+                {
+                    float num17 = this.currentSpeed + 0.1f;
+                    AddRightForce();
+                    Vector3 vector15 = this.bulletLeft.transform.position - this.transform.position;
+                    float num18 = 0f;
+                    if (InputManager.Key(InputHuman.ReelIn))
+                    {
+                        num18 = -1f;
+                    }
+                    else if (InputManager.Key(InputHuman.ReelOut))
+                    {
+                        num18 = 1f;
+                    }
+                    else
+                    {
+                        num18 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
+                    }
+                    num18 = Mathf.Clamp(num18, -0.8f, 0.8f);
+                    float num19 = 1f + num18;
+                    Vector3 vector16 = Vector3.RotateTowards(vector15, this.Rigidbody.velocity, 1.53938f * num19, 1.53938f * num19);
+                    vector16.Normalize();
+                    this.spinning = true;
+                    this.Rigidbody.velocity = (Vector3) (vector16 * num17);
+                }
+                else if (flag4)
+                {
+                    float num20 = this.currentSpeed + 0.1f;
+                    AddRightForce();
+                    Vector3 vector17 = this.bulletRight.transform.position - this.transform.position;
+                    float num21 = 0f;
+                    if (InputManager.Key(InputHuman.ReelIn))
+                    {
+                        num21 = -1f;
+                    }
+                    else if (InputManager.Key(InputHuman.ReelOut))
+                    {
+                        num21 = 1f;
+                    }
+                    else
+                    {
+                        num21 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
+                    }
+                    num21 = Mathf.Clamp(num21, -0.8f, 0.8f);
+                    float num22 = 1f + num21;
+                    Vector3 vector18 = Vector3.RotateTowards(vector17, this.Rigidbody.velocity, 1.53938f * num22, 1.53938f * num22);
+                    vector18.Normalize();
+                    this.spinning = true;
+                    this.Rigidbody.velocity = (Vector3) (vector18 * num20);
+                }
+                if (((this.state == HERO_STATE.Attack) && (this.attackAnimation == "special_petra")) && ((this.Animation[this.attackAnimation].normalizedTime > 0.4f) && !this.attackMove))
+                {
+                    this.attackMove = true;
+                    if (this.launchPointRight.magnitude > 0f)
+                    {
+                        Vector3 vector19 = this.launchPointRight - this.transform.position;
+                        vector19.Normalize();
+                        vector19 = (Vector3) (vector19 * 13f);
+                        this.Rigidbody.AddForce(vector19, ForceMode.Impulse);
+                    }
+                    if ((this.attackAnimation == "special_petra") && (this.launchPointLeft.magnitude > 0f))
+                    {
+                        Vector3 vector20 = this.launchPointLeft - this.transform.position;
+                        vector20.Normalize();
+                        vector20 = (Vector3) (vector20 * 13f);
+                        this.Rigidbody.AddForce(vector20, ForceMode.Impulse);
+                        if (this.bulletRight != null)
+                        {
+                            this.bulletRight.GetComponent<Bullet>().disable();
+                            this.releaseIfIHookSb();
+                        }
+                        if (this.bulletLeft != null)
+                        {
+                            this.bulletLeft.GetComponent<Bullet>().disable();
+                            this.releaseIfIHookSb();
+                        }
+                    }
+                    this.Rigidbody.AddForce((Vector3) (Vector3.up * 2f), ForceMode.Impulse);
+                }
+                bool flag7 = false;
+                if ((this.bulletLeft != null) || (this.bulletRight != null))
+                {
+                    if (((this.bulletLeft != null) && (this.bulletLeft.transform.position.y > base.gameObject.transform.position.y)) && (this.isLaunchLeft && this.bulletLeft.GetComponent<Bullet>().isHooked()))
+                    {
+                        flag7 = true;
+                    }
+                    if (((this.bulletRight != null) && (this.bulletRight.transform.position.y > base.gameObject.transform.position.y)) && (this.isLaunchRight && this.bulletRight.GetComponent<Bullet>().isHooked()))
+                    {
+                        flag7 = true;
+                    }
+                }
+                if (flag7)
+                {
+                    this.Rigidbody.AddForce(new Vector3(0f, -10f * this.Rigidbody.mass, 0f));
+                }
+                else
+                {
+                    this.Rigidbody.AddForce(new Vector3(0f, -this.gravity * this.Rigidbody.mass, 0f));
+                }
+                if (this.currentSpeed > 10f)
+                {
+                    this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float) 100f, (float) (this.currentSpeed + 40f)), 0.1f);
+                }
+                else
+                {
+                    this.currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(this.currentCamera.GetComponent<Camera>().fieldOfView, 50f, 0.1f);
+                }
+                if (flag2)
+                {
+                    this.useGas(this.useGasSpeed * Time.deltaTime);
+                    if (!this.smoke_3dmg.enableEmission && base.photonView.isMine)
+                    {
+                        object[] parameters = new object[] { true };
+                        base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
+                    }
+                    this.smoke_3dmg.enableEmission = true;
+                }
+                else
+                {
+                    if (this.smoke_3dmg.enableEmission && base.photonView.isMine)
+                    {
+                        object[] objArray3 = new object[] { false };
+                        base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray3);
+                    }
+                    this.smoke_3dmg.enableEmission = false;
+                }
+                if (this.currentSpeed > 80f)
+                {
+                    //if (!this.speedFXPS.enableEmission)
+                    //{
+                    //    this.speedFXPS.enableEmission = true;
+                    //}
+                    //this.speedFXPS.startSpeed = this.currentSpeed;
+                    //this.speedFX.transform.LookAt(this.baseTransform.position + this.baseRigidBody.velocity);
+                }
+                //else if (this.speedFXPS.enableEmission)
+                //{
+                //    this.speedFXPS.enableEmission = false;
+                //}
             }
         }
     }
@@ -1919,7 +1931,7 @@ public class Hero : Human
         float current = Mathf.Atan2(vector3.x, vector3.z) * 57.29578f;
         float target = Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.x, base.GetComponent<Rigidbody>().velocity.z) * 57.29578f;
         float num6 = Mathf.DeltaAngle(current, target);
-        a += Mathf.Abs((float)(num6 * 0.5f));
+        a += Mathf.Abs((float) (num6 * 0.5f));
         if (this.state != HERO_STATE.Attack)
         {
             a = Mathf.Min(a, 80f);
@@ -1934,7 +1946,7 @@ public class Hero : Human
         }
         if (this.useGun)
         {
-            return (a * ((num6 >= 0f) ? ((float)1) : ((float)(-1))));
+            return (a * ((num6 >= 0f) ? ((float) 1) : ((float) (-1))));
         }
         float num7 = 0f;
         if ((left && (num6 < 0f)) || (!left && (num6 > 0f)))
@@ -1951,7 +1963,7 @@ public class Hero : Human
     private void getOffHorse()
     {
         this.playAnimation("horse_getoff");
-        base.GetComponent<Rigidbody>().AddForce((Vector3)(((Vector3.up * 10f) - (base.transform.forward * 2f)) - (base.transform.right * 1f)), ForceMode.VelocityChange);
+        base.GetComponent<Rigidbody>().AddForce((Vector3) (((Vector3.up * 10f) - (base.transform.forward * 2f)) - (base.transform.right * 1f)), ForceMode.VelocityChange);
         this.unmounted();
     }
 
@@ -2045,9 +2057,9 @@ public class Hero : Human
         float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
         if (this.grounded)
         {
-            base.GetComponent<Rigidbody>().AddForce((Vector3)(Vector3.up * Mathf.Min((float)(this.launchForce.magnitude * 0.2f), (float)10f)), ForceMode.Impulse);
+            base.GetComponent<Rigidbody>().AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
         }
-        base.GetComponent<Rigidbody>().AddForce((Vector3)((this.launchForce * num) * 0.1f), ForceMode.Impulse);
+        base.GetComponent<Rigidbody>().AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
     }
 
     private void idle()
@@ -2062,18 +2074,18 @@ public class Hero : Human
 
     private bool IsFrontGrounded()
     {
-        LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask2 | mask;
-        return Physics.Raycast(base.gameObject.transform.position + ((Vector3)(base.gameObject.transform.up * 1f)), base.gameObject.transform.forward, (float)1f, mask3.value);
+        return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (base.gameObject.transform.up * 1f)), base.gameObject.transform.forward, (float) 1f, mask3.value);
     }
 
     public bool IsGrounded()
     {
-        LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask2 | mask;
-        return Physics.Raycast(base.gameObject.transform.position + ((Vector3)(Vector3.up * 0.1f)), -Vector3.up, (float)0.3f, mask3.value);
+        return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask3.value);
     }
 
     public bool isInvincible()
@@ -2092,10 +2104,10 @@ public class Hero : Human
 
     private bool IsUpFrontGrounded()
     {
-        LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-        LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+        LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+        LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask2 | mask;
-        return Physics.Raycast(base.gameObject.transform.position + ((Vector3)(base.gameObject.transform.up * 3f)), base.gameObject.transform.forward, (float)1.2f, mask3.value);
+        return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (base.gameObject.transform.up * 3f)), base.gameObject.transform.forward, (float) 1.2f, mask3.value);
     }
 
     [PunRPC]
@@ -2110,21 +2122,21 @@ public class Hero : Human
         {
             if (this.titanForm && (this.eren_titan != null))
             {
-                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
+                this.myNetWorkName.transform.localPosition = (Vector3) ((Vector3.up * Screen.height) * 2f);
             }
             Vector3 start = new Vector3(this.transform.position.x, this.transform.position.y + 2f, this.transform.position.z);
             GameObject maincamera = this.maincamera;
-            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
-            if ((Vector3.Angle(maincamera.transform.forward, start - maincamera.transform.position) > 90f) || Physics.Linecast(start, maincamera.transform.position, (int)mask3))
+            if ((Vector3.Angle(maincamera.transform.forward, start - maincamera.transform.position) > 90f) || Physics.Linecast(start, maincamera.transform.position, (int) mask3))
             {
-                this.myNetWorkName.transform.localPosition = (Vector3)((Vector3.up * Screen.height) * 2f);
+                this.myNetWorkName.transform.localPosition = (Vector3) ((Vector3.up * Screen.height) * 2f);
             }
             else
             {
                 Vector2 vector2 = this.maincamera.GetComponent<Camera>().WorldToScreenPoint(start);
-                this.myNetWorkName.transform.localPosition = new Vector3((float)((int)(vector2.x - (Screen.width * 0.5f))), (float)((int)(vector2.y - (Screen.height * 0.5f))), 0f);
+                this.myNetWorkName.transform.localPosition = new Vector3((float) ((int) (vector2.x - (Screen.width * 0.5f))), (float) ((int) (vector2.y - (Screen.height * 0.5f))), 0f);
             }
         }
         if (!this.titanForm && !this.isCannon)
@@ -2153,7 +2165,7 @@ public class Hero : Human
                 }
                 else if ((zero.magnitude != 0f) && (position.magnitude != 0f))
                 {
-                    vector5 = (Vector3)((zero + position) * 0.5f);
+                    vector5 = (Vector3) ((zero + position) * 0.5f);
                 }
                 Vector3 from = Vector3.Project(vector5 - this.transform.position, this.maincamera.transform.up);
                 Vector3 vector7 = Vector3.Project(vector5 - this.transform.position, this.maincamera.transform.right);
@@ -2239,10 +2251,10 @@ public class Hero : Human
             this.launchPointRight = des;
         }
         vector.Normalize();
-        vector = (Vector3)(vector * 20f);
+        vector = (Vector3) (vector * 20f);
         if (((this.bulletLeft != null) && (this.bulletRight != null)) && (this.bulletLeft.GetComponent<Bullet>().isHooked() && this.bulletRight.GetComponent<Bullet>().isHooked()))
         {
-            vector = (Vector3)(vector * 0.8f);
+            vector = (Vector3) (vector * 0.8f);
         }
         if (!base.GetComponent<Animation>().IsPlaying("attack5") && !base.GetComponent<Animation>().IsPlaying("special_petra"))
         {
@@ -2287,11 +2299,11 @@ public class Hero : Human
         {
             if (vector.y < 30f)
             {
-                this.launchForce += (Vector3)(Vector3.up * (30f - vector.y));
+                this.launchForce += (Vector3) (Vector3.up * (30f - vector.y));
             }
             if (des.y >= base.transform.position.y)
             {
-                this.launchForce += (Vector3)((Vector3.up * (des.y - base.transform.position.y)) * 10f);
+                this.launchForce += (Vector3) ((Vector3.up * (des.y - base.transform.position.y)) * 10f);
             }
             base.GetComponent<Rigidbody>().AddForce(this.launchForce);
         }
@@ -2355,7 +2367,7 @@ public class Hero : Human
         }
     }
 
-    private void LaunchRightRope(float distance, Vector3 point, bool single, int mode = 0)
+    public void LaunchRightRope(float distance, Vector3 point, bool single, int mode = 0)
     {
         if (this.currentGas != 0f)
         {
@@ -2366,15 +2378,15 @@ public class Hero : Human
             this.bulletRight.transform.position = obj2.transform.position;
             Bullet component = this.bulletRight.GetComponent<Bullet>();
             float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
-            Vector3 vector = (point + ((Vector3)(base.transform.right * num))) - this.bulletRight.transform.position;
+            Vector3 vector = (point + ((Vector3) (base.transform.right * num))) - this.bulletRight.transform.position;
             vector.Normalize();
             if (mode == 1)
             {
-                component.launch((Vector3)(vector * 5f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, true);
+                component.launch((Vector3) (vector * 5f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, true);
             }
             else
             {
-                component.launch((Vector3)(vector * 3f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, false);
+                component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, false);
             }
             this.launchPointRight = Vector3.zero;
         }
@@ -2395,7 +2407,7 @@ public class Hero : Human
     {
         if (base.photonView.isMine)
         {
-            if (((int)FengGameManagerMKII.settings[0x5d]) == 1)
+            if (((int) FengGameManagerMKII.settings[0x5d]) == 1)
             {
                 foreach (Renderer renderer in base.GetComponentsInChildren<Renderer>())
                 {
@@ -2405,7 +2417,7 @@ public class Hero : Human
                     }
                 }
             }
-            if (((int)FengGameManagerMKII.settings[0]) == 1)
+            if (((int) FengGameManagerMKII.settings[0]) == 1)
             {
                 int index = 14;
                 int num3 = 4;
@@ -2420,7 +2432,7 @@ public class Hero : Human
                 int num12 = 13;
                 int num13 = 3;
                 int num14 = 0x5e;
-                if (((int)FengGameManagerMKII.settings[0x85]) == 1)
+                if (((int) FengGameManagerMKII.settings[0x85]) == 1)
                 {
                     num13 = 0x86;
                     num3 = 0x87;
@@ -2436,7 +2448,7 @@ public class Hero : Human
                     index = 0x91;
                     num14 = 0x92;
                 }
-                else if (((int)FengGameManagerMKII.settings[0x85]) == 2)
+                else if (((int) FengGameManagerMKII.settings[0x85]) == 2)
                 {
                     num13 = 0x93;
                     num3 = 0x94;
@@ -2452,19 +2464,19 @@ public class Hero : Human
                     index = 0x9e;
                     num14 = 0x9f;
                 }
-                string str = (string)FengGameManagerMKII.settings[index];
-                string str2 = (string)FengGameManagerMKII.settings[num3];
-                string str3 = (string)FengGameManagerMKII.settings[num4];
-                string str4 = (string)FengGameManagerMKII.settings[num5];
-                string str5 = (string)FengGameManagerMKII.settings[num6];
-                string str6 = (string)FengGameManagerMKII.settings[num7];
-                string str7 = (string)FengGameManagerMKII.settings[num8];
-                string str8 = (string)FengGameManagerMKII.settings[num9];
-                string str9 = (string)FengGameManagerMKII.settings[num10];
-                string str10 = (string)FengGameManagerMKII.settings[num11];
-                string str11 = (string)FengGameManagerMKII.settings[num12];
-                string str12 = (string)FengGameManagerMKII.settings[num13];
-                string str13 = (string)FengGameManagerMKII.settings[num14];
+                string str = (string) FengGameManagerMKII.settings[index];
+                string str2 = (string) FengGameManagerMKII.settings[num3];
+                string str3 = (string) FengGameManagerMKII.settings[num4];
+                string str4 = (string) FengGameManagerMKII.settings[num5];
+                string str5 = (string) FengGameManagerMKII.settings[num6];
+                string str6 = (string) FengGameManagerMKII.settings[num7];
+                string str7 = (string) FengGameManagerMKII.settings[num8];
+                string str8 = (string) FengGameManagerMKII.settings[num9];
+                string str9 = (string) FengGameManagerMKII.settings[num10];
+                string str10 = (string) FengGameManagerMKII.settings[num11];
+                string str11 = (string) FengGameManagerMKII.settings[num12];
+                string str12 = (string) FengGameManagerMKII.settings[num13];
+                string str13 = (string) FengGameManagerMKII.settings[num14];
                 string url = str12 + "," + str2 + "," + str3 + "," + str4 + "," + str5 + "," + str6 + "," + str7 + "," + str8 + "," + str9 + "," + str10 + "," + str11 + "," + str + "," + str13;
                 int viewID = -1;
                 if (myHorse)
@@ -2515,7 +2527,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState)enumerator.Current;
+                AnimationState current = (AnimationState) enumerator.Current;
                 if (current != null && current.speed == 1f)
                 {
                     return;
@@ -2591,7 +2603,7 @@ public class Hero : Human
         }
         if (base.photonView.isMine)
         {
-            Vector3 vector = (Vector3)(Vector3.up * 5000f);
+            Vector3 vector = (Vector3) (Vector3.up * 5000f);
             if (this.myBomb != null)
             {
                 this.myBomb.destroyMe();
@@ -2713,7 +2725,7 @@ public class Hero : Human
         }
         if (base.photonView.isMine)
         {
-            Vector3 vector = (Vector3)(Vector3.up * 5000f);
+            Vector3 vector = (Vector3) (Vector3.up * 5000f);
             if (this.myBomb != null)
             {
                 this.myBomb.destroyMe();
@@ -2761,7 +2773,7 @@ public class Hero : Human
             propertiesToSet.Add(PhotonPlayerProperty.dead, true);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int)PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             if (viewID != -1)
             {
@@ -2785,7 +2797,7 @@ public class Hero : Human
         }
         else
         {
-            obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
+            obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
         }
         obj2.transform.position = base.transform.position;
         if (base.photonView.isMine)
@@ -2806,7 +2818,7 @@ public class Hero : Human
     {
         if (base.photonView.isMine)
         {
-            Vector3 vector = (Vector3)(Vector3.up * 5000f);
+            Vector3 vector = (Vector3) (Vector3.up * 5000f);
             if (this.titanForm && (this.eren_titan != null))
             {
                 this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
@@ -2914,6 +2926,7 @@ public class Hero : Human
         //}
     }
 
+    [Obsolete("We don't need to call this for every animation, only the intended animation")]
     [PunRPC]
     private void netPauseAnimation()
     {
@@ -2922,7 +2935,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState)enumerator.Current;
+                AnimationState current = (AnimationState) enumerator.Current;
                 current.speed = 0f;
             }
         }
@@ -2983,7 +2996,7 @@ public class Hero : Human
         this.netPlayAnimation(this.standAnimation);
         this.falseAttack();
     }
-    
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
@@ -3018,14 +3031,18 @@ public class Hero : Human
         //}
     }
 
+    [Obsolete("We only need to pause the intended animation, not everything")]
     public void pauseAnimation()
     {
         IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
         try
         {
+            //var i = 0;
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState)enumerator.Current;
+                //i++;
+                AnimationState current = (AnimationState) enumerator.Current;
+                //Debug.Log(current?.name + $"- {i}");
                 if (current != null)
                     current.speed = 0f;
             }
@@ -3067,7 +3084,7 @@ public class Hero : Human
         }
     }
 
-    private void releaseIfIHookSb()
+    public void releaseIfIHookSb()
     {
         if (this.hookSomeOne && (this.hookTarget != null))
         {
@@ -3093,7 +3110,7 @@ public class Hero : Human
         {
             while (enumerator.MoveNext())
             {
-                AnimationState current = (AnimationState)enumerator.Current;
+                AnimationState current = (AnimationState) enumerator.Current;
                 if (current != null)
                     current.speed = 1f;
             }
@@ -3138,13 +3155,13 @@ public class Hero : Human
         if (Vector3.Distance(hookPosition, base.transform.position) < 15f)
         {
             this.launchForce = PhotonView.Find(hooker).gameObject.transform.position - base.transform.position;
-            base.GetComponent<Rigidbody>().AddForce((Vector3)(-base.GetComponent<Rigidbody>().velocity * 0.9f), ForceMode.VelocityChange);
+            base.GetComponent<Rigidbody>().AddForce((Vector3) (-base.GetComponent<Rigidbody>().velocity * 0.9f), ForceMode.VelocityChange);
             float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
             if (this.grounded)
             {
-                base.GetComponent<Rigidbody>().AddForce((Vector3)(Vector3.up * Mathf.Min((float)(this.launchForce.magnitude * 0.2f), (float)10f)), ForceMode.Impulse);
+                base.GetComponent<Rigidbody>().AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
             }
-            base.GetComponent<Rigidbody>().AddForce((Vector3)((this.launchForce * num) * 0.1f), ForceMode.Impulse);
+            base.GetComponent<Rigidbody>().AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
             if (this.state != HERO_STATE.Grab)
             {
                 this.dashTime = 1f;
@@ -3183,7 +3200,7 @@ public class Hero : Human
                 Vector3 normal = this.bulletLeft.transform.position - this.bulletRight.transform.position;
                 if (normal.sqrMagnitude < 4f)
                 {
-                    Vector3 vector2 = ((Vector3)((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f)) - base.transform.position;
+                    Vector3 vector2 = ((Vector3) ((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f)) - base.transform.position;
                     this.facingDirection = Mathf.Atan2(vector2.x, vector2.z) * 57.29578f;
                     if (this.useGun && (this.state != HERO_STATE.Attack))
                     {
@@ -3198,7 +3215,7 @@ public class Hero : Human
                 {
                     Vector3 to = base.transform.position - this.bulletLeft.transform.position;
                     Vector3 vector6 = base.transform.position - this.bulletRight.transform.position;
-                    Vector3 vector7 = (Vector3)((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f);
+                    Vector3 vector7 = (Vector3) ((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f);
                     Vector3 from = base.transform.position - vector7;
                     if ((Vector3.Angle(from, to) < 30f) && (Vector3.Angle(from, vector6) < 30f))
                     {
@@ -3334,7 +3351,7 @@ public class Hero : Human
         }
         if (this.useGun)
         {
-            this.skillCD.transform.localPosition = (Vector3)(Vector3.up * 5000f);
+            this.skillCD.transform.localPosition = (Vector3) (Vector3.up * 5000f);
         }
     }
 
@@ -3564,7 +3581,7 @@ public class Hero : Human
             GameObject crossR1 = this.crossR1;
             GameObject crossR2 = this.crossR2;
             var labelDistance = this.LabelDistance;
-            vector = (Vector3)(Vector3.up * 10000f);
+            vector = (Vector3) (Vector3.up * 10000f);
             crossR2.transform.localPosition = vector;
             crossR1.transform.localPosition = vector;
             crossL2.transform.localPosition = vector;
@@ -3577,8 +3594,8 @@ public class Hero : Human
         {
             this.checkTitan();
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
             var distance = "???";
             var magnitude = HookRaycastDistance;
@@ -3669,7 +3686,7 @@ public class Hero : Human
                 crossR2.transform.localPosition += Vector3.up * 10000f;
         }
     }
-    
+
     private void showGas2()
     {
         float num = this.currentGas / this.totalGas;
@@ -3688,110 +3705,6 @@ public class Hero : Human
             cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
         }
         Equipment.Weapon.UpdateSupplyUi(InGameUI);
-        //if (!this.useGun)
-        //{
-        //    this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-        //    this.cachedSprites["bladeCR"].fillAmount = this.currentBladeSta / this.totalBladeSta;
-        //    if (num <= 0f)
-        //    {
-        //        this.cachedSprites["gasL"].color = Color.red;
-        //        this.cachedSprites["gasR"].color = Color.red;
-        //    }
-        //    else if (num < 0.3f)
-        //    {
-        //        this.cachedSprites["gasL"].color = Color.yellow;
-        //        this.cachedSprites["gasR"].color = Color.yellow;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["gasL"].color = Color.white;
-        //        this.cachedSprites["gasR"].color = Color.white;
-        //    }
-        //    if (num2 <= 0f)
-        //    {
-        //        this.cachedSprites["bladel1"].color = Color.red;
-        //        this.cachedSprites["blader1"].color = Color.red;
-        //    }
-        //    else if (num2 < 0.3f)
-        //    {
-        //        this.cachedSprites["bladel1"].color = Color.yellow;
-        //        this.cachedSprites["blader1"].color = Color.yellow;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel1"].color = Color.white;
-        //        this.cachedSprites["blader1"].color = Color.white;
-        //    }
-        //    if (this.currentBladeNum <= 4)
-        //    {
-        //        this.cachedSprites["bladel5"].enabled = false;
-        //        this.cachedSprites["blader5"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel5"].enabled = true;
-        //        this.cachedSprites["blader5"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 3)
-        //    {
-        //        this.cachedSprites["bladel4"].enabled = false;
-        //        this.cachedSprites["blader4"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel4"].enabled = true;
-        //        this.cachedSprites["blader4"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 2)
-        //    {
-        //        this.cachedSprites["bladel3"].enabled = false;
-        //        this.cachedSprites["blader3"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel3"].enabled = true;
-        //        this.cachedSprites["blader3"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 1)
-        //    {
-        //        this.cachedSprites["bladel2"].enabled = false;
-        //        this.cachedSprites["blader2"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel2"].enabled = true;
-        //        this.cachedSprites["blader2"].enabled = true;
-        //    }
-        //    if (this.currentBladeNum <= 0)
-        //    {
-        //        this.cachedSprites["bladel1"].enabled = false;
-        //        this.cachedSprites["blader1"].enabled = false;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bladel1"].enabled = true;
-        //        this.cachedSprites["blader1"].enabled = true;
-        //    }
-        //}
-        //else
-        //{
-        //    if (this.leftGunHasBullet)
-        //    {
-        //        this.cachedSprites["bulletL"].enabled = true;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bulletL"].enabled = false;
-        //    }
-        //    if (this.rightGunHasBullet)
-        //    {
-        //        this.cachedSprites["bulletR"].enabled = true;
-        //    }
-        //    else
-        //    {
-        //        this.cachedSprites["bulletR"].enabled = false;
-        //    }
-        //}
     }
 
     [PunRPC]
@@ -3803,7 +3716,7 @@ public class Hero : Human
             this.speed = Mathf.Max(10f, this.speed);
             //target.GetComponent<UILabel>().text = this.speed.ToString();
             target.transform.localScale = Vector3.zero;
-            this.speed = (int)(this.speed * 0.1f);
+            this.speed = (int) (this.speed * 0.1f);
             this.speed = Mathf.Clamp(this.speed, 40f, 150f);
             iTween.Stop(target);
             object[] args = new object[] { "x", this.speed, "y", this.speed, "z", this.speed, "easetype", iTween.EaseType.easeOutElastic, "time", 1f };
@@ -3830,7 +3743,7 @@ public class Hero : Human
                 getOffHorse();
 
             idle();
-            
+
             if (bulletLeft)
                 bulletLeft.GetComponent<Bullet>().removeMe();
 
@@ -3891,7 +3804,7 @@ public class Hero : Human
 
     private void suicide2()
     {
-        this.netDieLocal((Vector3)(base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+        this.netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
         FengGameManagerMKII.instance.needChooseSide = true;
     }
 
@@ -3957,40 +3870,31 @@ public class Hero : Human
             }
             else if (InputManager.KeyDown(InputHuman.AttackSpecial))
             {
-                Skill.Use();
-            }
-        }
-        
-        if ((this.state == HERO_STATE.Grab) && !this.useGun)
-        {
-            //TODO: Hero Skill Jean
-            if (this.skillId == "jean")
-            {
-                if (((this.state != HERO_STATE.Attack) &&
-                     (InputManager.KeyDown(InputHuman.Attack) ||
-                      InputManager.KeyDown(InputHuman.AttackSpecial))) &&
-                    ((this.escapeTimes > 0) && !this.Animation.IsPlaying("grabbed_jean")))
+                if (!Skill.Use() && _state == HERO_STATE.Idle)
                 {
-                    this.playAnimation("grabbed_jean");
-                    this.Animation["grabbed_jean"].time = 0f;
-                    this.escapeTimes--;
-                }
-                if ((this.Animation.IsPlaying("grabbed_jean") && (this.Animation["grabbed_jean"].normalizedTime > 0.64f)) && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
-                {
-                    this.ungrabbed();
-                    this.Rigidbody.velocity = (Vector3)(Vector3.up * 30f);
-                    base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
-                    if (PhotonNetwork.isMasterClient)
+                    if (this.needLean)
                     {
-                        this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
+                        if (this.leanLeft)
+                        {
+                            this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_l1" : "attack1_hook_l2";
+                        }
+                        else
+                        {
+                            this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
+                        }
                     }
                     else
                     {
-                        PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
+                        this.attackAnimation = "attack1";
                     }
+                    this.playAnimation(this.attackAnimation);
                 }
             }
-            else if (this.skillId == "eren")
+        }
+
+        if ((this.state == HERO_STATE.Grab) && !this.useGun)
+        {
+            if (this.skillId == "eren")
             {
                 this.showSkillCD();
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
@@ -4103,7 +4007,7 @@ public class Hero : Human
                 if (InputManager.KeyDown(InputUi.Restart))
                 {
                     if (!PhotonNetwork.offlineMode)
-                    { 
+                    {
                         this.suicide2();
                     }
                 }
@@ -4179,46 +4083,15 @@ public class Hero : Human
                                     this.skillCDDuration = 0f;
                                 }
                             }
-                            else if (this.skillId == "mikasa")
-                            {
-                                this.attackAnimation = "attack3_1";
-                                this.playAnimation("attack3_1");
-                                this.Rigidbody.velocity = (Vector3)(Vector3.up * 10f);
-                            }
-                            else if (this.skillId == "levi")
-                            {
-                                RaycastHit hit;
-                                this.attackAnimation = "attack5";
-                                this.playAnimation("attack5");
-                                this.Rigidbody.velocity += (Vector3)(Vector3.up * 5f);
-                                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-                                LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
-                                LayerMask mask3 = mask2 | mask;
-                                if (Physics.Raycast(ray, out hit, 1E+07f, mask3.value))
-                                {
-                                    if (this.bulletRight != null)
-                                    {
-                                        this.bulletRight.GetComponent<Bullet>().disable();
-                                        this.releaseIfIHookSb();
-                                    }
-                                    this.dashDirection = hit.point - this.transform.position;
-                                    LaunchRightRope(hit.distance, hit.point, true);
-                                    this.rope.Play();
-                                }
-                                this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * 57.29578f;
-                                this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
-                                this.attackLoop = 3;
-                            }
                             else if (this.skillId == "petra")
                             {
                                 RaycastHit hit2;
                                 this.attackAnimation = "special_petra";
                                 this.playAnimation("special_petra");
-                                this.Rigidbody.velocity += (Vector3)(Vector3.up * 5f);
+                                this.Rigidbody.velocity += (Vector3) (Vector3.up * 5f);
                                 Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                LayerMask mask4 = ((int)1) << LayerMask.NameToLayer("Ground");
-                                LayerMask mask5 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                                LayerMask mask4 = ((int) 1) << LayerMask.NameToLayer("Ground");
+                                LayerMask mask5 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                                 LayerMask mask6 = mask5 | mask4;
                                 if (Physics.Raycast(ray2, out hit2, 1E+07f, mask6.value))
                                 {
@@ -4240,25 +4113,6 @@ public class Hero : Human
                                 this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * 57.29578f;
                                 this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                 this.attackLoop = 3;
-                            }
-                            else
-                            {
-                                if (this.needLean)
-                                {
-                                    if (this.leanLeft)
-                                    {
-                                        this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_l1" : "attack1_hook_l2";
-                                    }
-                                    else
-                                    {
-                                        this.attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? "attack1_hook_r1" : "attack1_hook_r2";
-                                    }
-                                }
-                                else
-                                {
-                                    this.attackAnimation = "attack1";
-                                }
-                                this.playAnimation(this.attackAnimation);
                             }
                         }
                     }
@@ -4353,7 +4207,7 @@ public class Hero : Human
                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
                         if (this.grounded)
                         {
-                            this.Rigidbody.AddForce((Vector3)(base.gameObject.transform.forward * 200f));
+                            this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
                         }
                         this.playAnimation(this.attackAnimation);
                         this.Animation[this.attackAnimation].time = 0f;
@@ -4407,8 +4261,8 @@ public class Hero : Human
                     {
                         RaycastHit hit3;
                         Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        LayerMask mask7 = ((int)1) << LayerMask.NameToLayer("Ground");
-                        LayerMask mask8 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                        LayerMask mask7 = ((int) 1) << LayerMask.NameToLayer("Ground");
+                        LayerMask mask8 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                         LayerMask mask9 = mask8 | mask7;
                         if (Physics.Raycast(ray3, out hit3, 1E+07f, mask9.value))
                         {
@@ -4521,6 +4375,7 @@ public class Hero : Human
                     }
                     if (!this.attackReleased)
                     {
+                        //TODO: Pause the Animation if the player is holding a button
                         if (this.buttonAttackRelease)
                         {
                             this.continueAnimation();
@@ -4528,6 +4383,8 @@ public class Hero : Human
                         }
                         else if (this.Animation[this.attackAnimation].normalizedTime >= 0.32f)
                         {
+                            //TODO: Refactor to assure this method is only called ONCE
+                            Debug.Log("We want to pause: " + attackAnimation);
                             this.pauseAnimation();
                         }
                     }
@@ -4538,7 +4395,7 @@ public class Hero : Human
                             if (!this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
                             {
                                 this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
-                                if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
+                                if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                 {
                                     /*
                                                 this.leftbladetrail2.Activate();
@@ -4547,7 +4404,7 @@ public class Hero : Human
                                                 this.rightbladetrail.Activate();
                                                 */
                                 }
-                                this.Rigidbody.velocity = (Vector3)(-Vector3.up * 30f);
+                                this.Rigidbody.velocity = (Vector3) (-Vector3.up * 30f);
                             }
                             if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive)
                             {
@@ -4614,7 +4471,7 @@ public class Hero : Human
                             {
                                 this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
                                 this.slash.Play();
-                                if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
+                                if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                 {
                                     //this.leftbladetrail2.Activate();
                                     //this.rightbladetrail2.Activate();
@@ -4675,7 +4532,7 @@ public class Hero : Human
                         }
                         else if (this.attackAnimation == "attack3_1")
                         {
-                            this.Rigidbody.velocity -= (Vector3)((Vector3.up * Time.deltaTime) * 30f);
+                            this.Rigidbody.velocity -= (Vector3) ((Vector3.up * Time.deltaTime) * 30f);
                         }
                         else
                         {
@@ -4709,7 +4566,7 @@ public class Hero : Human
                             flag7 = true;
                             this.leftGunHasBullet = false;
                             this.rightGunHasBullet = false;
-                            this.Rigidbody.AddForce((Vector3)(-this.transform.forward * 1000f), ForceMode.Acceleration);
+                            this.Rigidbody.AddForce((Vector3) (-this.transform.forward * 1000f), ForceMode.Acceleration);
                         }
                         else
                         {
@@ -4723,9 +4580,9 @@ public class Hero : Human
                                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
                                 this.rightGunHasBullet = false;
                             }
-                            this.Rigidbody.AddForce((Vector3)(-this.transform.forward * 600f), ForceMode.Acceleration);
+                            this.Rigidbody.AddForce((Vector3) (-this.transform.forward * 600f), ForceMode.Acceleration);
                         }
-                        this.Rigidbody.AddForce((Vector3)(Vector3.up * 200f), ForceMode.Acceleration);
+                        this.Rigidbody.AddForce((Vector3) (Vector3.up * 200f), ForceMode.Acceleration);
                         string prefabName = "FX/shotGun";
                         if (flag7)
                         {
@@ -4733,7 +4590,7 @@ public class Hero : Human
                         }
                         if (base.photonView.isMine)
                         {
-                            obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3)((this.transform.position + (this.transform.up * 0.8f)) - (this.transform.right * 0.1f)), this.transform.rotation, 0);
+                            obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3) ((this.transform.position + (this.transform.up * 0.8f)) - (this.transform.right * 0.1f)), this.transform.rotation, 0);
                             if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
                             {
                                 obj4.GetComponent<EnemyfxIDcontainer>().myOwnerViewID = base.photonView.viewID;
@@ -4741,7 +4598,7 @@ public class Hero : Human
                         }
                         else
                         {
-                            obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load(prefabName), (Vector3)((this.transform.position + (this.transform.up * 0.8f)) - (this.transform.right * 0.1f)), this.transform.rotation);
+                            obj4 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load(prefabName), (Vector3) ((this.transform.position + (this.transform.up * 0.8f)) - (this.transform.right * 0.1f)), this.transform.rotation);
                         }
                     }
                     if (this.Animation[this.attackAnimation].normalizedTime >= 1f)
@@ -4838,7 +4695,7 @@ public class Hero : Human
                     this.dashTime -= Time.deltaTime;
                     if (this.currentSpeed > this.originVM)
                     {
-                        this.Rigidbody.AddForce((Vector3)((-this.Rigidbody.velocity * Time.deltaTime) * 1.7f), ForceMode.VelocityChange);
+                        this.Rigidbody.AddForce((Vector3) ((-this.Rigidbody.velocity * Time.deltaTime) * 1.7f), ForceMode.VelocityChange);
                     }
                 }
                 else
@@ -4868,9 +4725,9 @@ public class Hero : Human
             // 
 
             if (!(isLeftHookPressed ? (((this.Animation.IsPlaying("attack3_1") || this.Animation.IsPlaying("attack5")) || (this.Animation.IsPlaying("special_petra") || (this.state == HERO_STATE.Grab))) ? (this.state != HERO_STATE.Idle) : false) : true))
-                //if (isLeftHookPressed ||
-                //(!Animation.IsPlaying("attack3_1") || !Animation.IsPlaying("attack5") || !Animation.IsPlaying("special_petra") || state != HERO_STATE.Grab) 
-                //&& state == HERO_STATE.Idle)
+            //if (isLeftHookPressed ||
+            //(!Animation.IsPlaying("attack3_1") || !Animation.IsPlaying("attack5") || !Animation.IsPlaying("special_petra") || state != HERO_STATE.Grab) 
+            //&& state == HERO_STATE.Idle)
             {
                 if (this.bulletLeft != null)
                 {
@@ -4880,8 +4737,8 @@ public class Hero : Human
                 {
                     RaycastHit hit4;
                     Ray ray4 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    LayerMask mask10 = ((int)1) << LayerMask.NameToLayer("Ground");
-                    LayerMask mask11 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                    LayerMask mask10 = ((int) 1) << LayerMask.NameToLayer("Ground");
+                    LayerMask mask11 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                     LayerMask mask12 = mask11 | mask10;
                     if (Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask12.value))
                     {
@@ -4916,8 +4773,8 @@ public class Hero : Human
                 {
                     RaycastHit hit5;
                     Ray ray5 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    LayerMask mask13 = ((int)1) << LayerMask.NameToLayer("Ground");
-                    LayerMask mask14 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                    LayerMask mask13 = ((int) 1) << LayerMask.NameToLayer("Ground");
+                    LayerMask mask14 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                     LayerMask mask15 = mask14 | mask13;
                     if (Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask15.value))
                     {
@@ -4950,8 +4807,8 @@ public class Hero : Human
                 {
                     RaycastHit hit6;
                     Ray ray6 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    LayerMask mask16 = ((int)1) << LayerMask.NameToLayer("Ground");
-                    LayerMask mask17 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                    LayerMask mask16 = ((int) 1) << LayerMask.NameToLayer("Ground");
+                    LayerMask mask17 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                     LayerMask mask18 = mask17 | mask16;
                     if (Physics.Raycast(ray6, out hit6, HookRaycastDistance, mask18.value))
                     {
@@ -5030,18 +4887,18 @@ public class Hero : Human
                 this.skillCDDuration = this.bombCD;
                 RaycastHit hitInfo = new RaycastHit();
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                LayerMask mask = ((int)1) << LayerMask.NameToLayer("Ground");
-                LayerMask mask2 = ((int)1) << LayerMask.NameToLayer("EnemyBox");
+                LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
+                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                 LayerMask mask3 = mask2 | mask;
                 this.currentV = this.transform.position;
-                this.targetV = this.currentV + ((Vector3)(Vector3.forward * 200f));
+                this.targetV = this.currentV + ((Vector3) (Vector3.forward * 200f));
                 if (Physics.Raycast(ray, out hitInfo, 1000000f, mask3.value))
                 {
                     this.targetV = hitInfo.point;
                 }
                 Vector3 vector = Vector3.Normalize(this.targetV - this.currentV);
-                GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", this.currentV + ((Vector3)(vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
-                obj2.GetComponent<Rigidbody>().velocity = (Vector3)(vector * this.bombSpeed);
+                GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", this.currentV + ((Vector3) (vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
+                obj2.GetComponent<Rigidbody>().velocity = (Vector3) (vector * this.bombSpeed);
                 this.myBomb = obj2.GetComponent<Bomb>();
                 this.bombTime = 0f;
             }
@@ -5096,7 +4953,7 @@ public class Hero : Human
             //GameObject.Find("bulletR" + j).GetComponent<UISprite>().enabled = true;
         }
     }
-    
+
     private void useGas(float amount = 0)
     {
         if (amount == 0f)

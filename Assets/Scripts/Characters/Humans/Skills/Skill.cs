@@ -15,9 +15,11 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public float Cooldown { get; set; }
 
-        public bool IsActive { get; set; }
-        public abstract void Use();
+        public bool IsActive { get; protected set; }
+        public abstract bool Use();
         public abstract void OnUpdate();
+
+        public virtual void OnFixedUpdate() { }
 
         // Skills seem to check on Hero State:
         // Grabbed: Jean & Eren
