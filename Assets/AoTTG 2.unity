@@ -448,7 +448,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 1bf6c8fe230c98346a4b4e48126c36cf,
+    type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: b8f4a17de3637984f88693191adfdf64,
     type: 2}
 --- !u!196 &2417
@@ -2066,7 +2067,12 @@ MonoBehaviour:
   ResetDayNightButton: {fileID: 1645243948}
   DayNightController: {fileID: 0}
   MainLight: {fileID: 0}
+  Label: {fileID: 0}
   TimeSlider: {fileID: 0}
+  TimeInput: {fileID: 0}
+  skyBoxDAWN: {fileID: 2100000, guid: 9991b6265f7f87d43b7e3c676739f203, type: 2}
+  skyBoxDAY: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
+  skyBoxNIGHT: {fileID: 2100000, guid: 493bfb50af5d9424da505ba945c86600, type: 2}
 --- !u!114 &1494141736
 MonoBehaviour:
   m_ObjectHideFlags: 0

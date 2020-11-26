@@ -301,6 +301,7 @@ Transform:
   - {fileID: 488416}
   - {fileID: 465148}
   - {fileID: 418238}
+  - {fileID: 1431419883660137967}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -316,6 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c27ea66d96f4c45bd49ec08a6dc519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Camera: {fileID: 0}
   StarDome: {fileID: 153028}
   moonState: {fileID: 154664}
   moon: {fileID: 148458}
@@ -331,9 +333,15 @@ MonoBehaviour:
     skyColor: {r: 0.032331314, g: 0.033426788, b: 0.19117647, a: 0}
     equatorColor: {r: 0.15003245, g: 0.20263465, b: 0.5514706, a: 0}
     horizonColor: {r: 0, g: 0, b: 0, a: 0}
+  darknightColors:
+    skyColor: {r: 0, g: 0, b: 0, a: 0}
+    equatorColor: {r: 0, g: 0, b: 0, a: 0}
+    horizonColor: {r: 0, g: 0, b: 0, a: 0}
+  skyBoxDAWN: {fileID: 2100000, guid: 9991b6265f7f87d43b7e3c676739f203, type: 2}
+  skyBoxDAY: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
+  skyBoxNIGHT: {fileID: 2100000, guid: f531e09e2ad2fb440b4eed7605863143, type: 2}
   currentDay: 0
   directionalLight: {fileID: 10851780}
-  SecondsInAFullDay: 60
   timeMultiplier: 1
   showUI: 1
 --- !u!1 &190586
@@ -428,3 +436,33 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &4829916555143108007
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1431419883660137967}
+  m_Layer: 0
+  m_Name: SkyBoxes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1431419883660137967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4829916555143108007}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 456198}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -12,8 +12,12 @@ public class ToggleDayNightController : MonoBehaviour
     public Button ResetDayNightButton;
     public GameObject DayNightController;
     public GameObject MainLight;
-    public Slider TimeSlider;
+    public Text Label;
+    
+    private string time;
+    private double seconds;
     DayAndNightControl DayNightCycle;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +29,12 @@ public class ToggleDayNightController : MonoBehaviour
             Instantiate(MainLightPrefab, transform.position, Quaternion.identity);
             
         }
-       // TimeSlider.value = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>().currentTime;
+        //TimeSlider.value = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>().currentTime;
         Button btn = ResetDayNightButton.GetComponent<Button>();
         btn.onClick.AddListener(PauseDayNightSystem);
+        DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+        
+        
     }
     
     public void PauseDayNightSystem()
@@ -50,6 +57,7 @@ public class ToggleDayNightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DynamicGI.UpdateEnvironment();
         if (ToggleDayNight.isOn)
         {
             Instantiate(DayNightControllerPrefab, transform.position, Quaternion.identity);
@@ -69,5 +77,8 @@ public class ToggleDayNightController : MonoBehaviour
 
 
         }
+        
     }
+    
+    
 }

@@ -13,7 +13,8 @@ public class DayColors
 }
 
 public class DayAndNightControl : MonoBehaviour {
-	
+
+    public GameObject Camera;
 	public GameObject StarDome;
 	public GameObject moonState;
 	public GameObject moon;
@@ -21,7 +22,9 @@ public class DayAndNightControl : MonoBehaviour {
 	public DayColors dayColors;
     public DayColors nightColors;
     public DayColors darknightColors;
-
+    public Material skyBoxDAWN;
+    public Material skyBoxDAY;
+    public Material skyBoxNIGHT;
     public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
     
     public int currentDay = 0; 
@@ -135,7 +138,7 @@ public class DayAndNightControl : MonoBehaviour {
 
 		//change env colors to add mood
 
-		if (currentTime > 0.95f && currentTime < 0.1f) {
+		if (currentTime > 0.1f && currentTime < 0.25f) {
 			RenderSettings.ambientSkyColor = darknightColors.skyColor;
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
@@ -144,17 +147,32 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientSkyColor = dawnColors.skyColor;
 			RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
 			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
-		}
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAWN;
+            
+            DynamicGI.UpdateEnvironment();
+            
+            Debug.Log("dawn running");
+        }
 		if (currentTime > 0.5f && currentTime < 0.75f) {
 			RenderSettings.ambientSkyColor = dayColors.skyColor;
 			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
 			RenderSettings.ambientGroundColor = dayColors.horizonColor;
-		}
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
+
+
+            DynamicGI.UpdateEnvironment();
+
+            Debug.Log("day runniing");
+        }
 		if (currentTime > 0.75f) {
 			RenderSettings.ambientSkyColor = nightColors.skyColor;
 			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
 			RenderSettings.ambientGroundColor = nightColors.horizonColor;
-		}
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
+            
+            DynamicGI.UpdateEnvironment();
+            Debug.Log("night runniing");
+        }
 
 		directionalLight.intensity = lightIntensity * intensityMultiplier;
 	}
