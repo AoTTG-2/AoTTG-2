@@ -23,8 +23,6 @@ public class Hero : Human
 
     public Skill Skill { get; set; }
 
-    public List<HeroSkill> Skills;
-
     public HumanState State { get; protected set; } = HumanState.Idle;
 
     private const float HookRaycastDistance = 1000f;

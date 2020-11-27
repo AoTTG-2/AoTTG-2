@@ -59,7 +59,7 @@ public class HeroCostume
     public SEX sex;
     public int skin_color = 1;
     public string skin_texture = string.Empty;
-    public HeroStat stat;
+    public HeroStat stat { get; set; }
     public UNIFORM_TYPE uniform_type = UNIFORM_TYPE.CasualA;
     public string weapon_l_mesh = string.Empty;
     public string weapon_r_mesh = string.Empty;

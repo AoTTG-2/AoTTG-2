@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Characters.Humans.Customization.Components;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -261,7 +260,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var prefab = Prefabs.Cape;
             var texture = prefab.GetTexture(cape.Texture);
             var capeObject = CreateComponent(prefab.Prefab, texture.File, cape.Color);
-            //capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
+            capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
             capeObject.transform.localScale = Vector3.one;
         }
 
