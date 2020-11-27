@@ -13,6 +13,8 @@ using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -219,8 +221,6 @@ public class Hero : Human
         Animation = GetComponent<Animation>();
         Rigidbody = GetComponent<Rigidbody>();
 
-        Skill = new PetraSkill(this);
-
         InGameUI = GameObject.Find("InGameUi");
         this.cache();
         this.Rigidbody.freezeRotation = true;
@@ -249,8 +249,6 @@ public class Hero : Human
 
     private void Start()
     {
-        var manager = GetComponent<CustomizationManager>();
-        manager.Presets[0].Apply(this, manager.Prefabs);
         gameObject.AddComponent<PlayerInteractable>();
         SetHorse();
         this.sparks = this.transform.Find("slideSparks").GetComponent<ParticleSystem>();
@@ -349,6 +347,36 @@ public class Hero : Human
         }
     }
 
+    public void Initialize(CharacterPreset preset)
+    {
+        //TODO: Remove hack
+        var manager = GetComponent<CustomizationManager>();
+        if (preset == null)
+        {
+            preset = manager.Presets.First();
+        }
+        
+        preset.Apply(this, manager.Prefabs);
+        Skill = Skill.Create(preset.CurrentBuild.Skill, this);
+
+        //if (photonView.isMine)
+        //{
+        //    //TODO: If this is a default preset, find a more efficient way
+        //    var config = JsonConvert.SerializeObject(preset);
+        //    photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
+        //}
+
+        EntityService.Register(this);
+    }
+
+    [PunRPC]
+    public void InitializeRpc(string characterPreset, PhotonMessageInfo info)
+    {
+        if (info.sender.ID == photonView.ownerId)
+        {
+            Initialize(JsonConvert.DeserializeObject<CharacterPreset>(characterPreset));
+        }
+    }
 
     public override void OnHit(Entity attacker, int damage)
     {

@@ -49,8 +49,6 @@ namespace Assets.Scripts.Characters.Humans.Skills
             IsActive = false;
         }
 
-
-
         public override void OnFixedUpdate()
         {
             if (!UsePhysics) return;

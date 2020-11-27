@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
@@ -30,5 +31,34 @@ namespace Assets.Scripts.Characters.Humans.Skills
         // Some skills check whether or not the player is on the ground
         // None of the skills currently are working for AHSS
         // AHSS skill would be dual shot
+
+        public static Skill Create(HeroSkill skill, Hero hero)
+        {
+            switch (skill)
+            {
+                case HeroSkill.Armin:
+                    break;
+                case HeroSkill.Marco:
+                    break;
+                case HeroSkill.Jean:
+                    return new JeanSkill(hero);
+                case HeroSkill.Levi:
+                    return new LeviSkill(hero);
+                case HeroSkill.Petra:
+                    return new PetraSkill(hero);
+                case HeroSkill.Eren:
+                    break;
+                case HeroSkill.Annie:
+                    break;
+                case HeroSkill.Reiner:
+                    break;
+                case HeroSkill.Bertholdt:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(skill), skill, null);
+            }
+
+            return null;
+        }
     }
 }

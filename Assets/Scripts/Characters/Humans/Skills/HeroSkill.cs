@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Characters.Humans.Skills
 {
-    public enum HeroSkills
+    public enum HeroSkill
     {
         Armin,
         Marco,
