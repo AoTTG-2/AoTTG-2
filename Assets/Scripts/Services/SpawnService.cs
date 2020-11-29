@@ -7,6 +7,8 @@ using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Customization;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -99,6 +101,24 @@ namespace Assets.Scripts.Services
                 return SpawnTitan("ErenTitan", position, rotation, null) as T;
 
             throw new ArgumentException($"{type} is not implemented");
+        }
+
+        public T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human
+        {
+            var type = typeof(T);
+            if (type == typeof(Hero))
+            {
+                return SpawnHero("Hero", position, rotation, preset) as T;
+            }
+
+            throw new ArgumentException($"{type} is not implemented");
+        }
+
+        private Hero SpawnHero(string prefab, Vector3 position, Quaternion rotation, CharacterPreset preset)
+        {
+            var human = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<Hero>();
+            human.Initialize(preset);
+            return human;
         }
 
         private TitanBase SpawnTitan(string prefab, TitanConfiguration configuration)

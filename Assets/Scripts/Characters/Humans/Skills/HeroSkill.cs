@@ -7,6 +7,7 @@
         Jean,
         Levi,
         Petra,
+        Mikasa,
         Eren,
         Annie,
         Reiner,

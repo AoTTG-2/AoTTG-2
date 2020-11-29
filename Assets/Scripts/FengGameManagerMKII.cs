@@ -1,4 +1,5 @@
 using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
@@ -2548,7 +2549,7 @@ namespace Assets.Scripts
     
         //TODO: 184 - This gets called upon MapLoaded
         [Obsolete("Migrate into a SpawnService")]
-        public void SpawnPlayer(string id, string tag = "playerRespawn")
+        public void SpawnPlayer(string id, string tag = "playerRespawn", CharacterPreset preset = null)
         {
             if (id == null)
             {
@@ -2556,7 +2557,7 @@ namespace Assets.Scripts
             }
             myLastRespawnTag = tag;
             var location = Gamemode.GetPlayerSpawnLocation(tag);
-            SpawnPlayerAt2(id, location);
+            SpawnPlayerAt2(id, location, preset);
         }
 
         public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
@@ -2565,7 +2566,7 @@ namespace Assets.Scripts
         }
         
         [Obsolete("Migrate into a SpawnService")]
-        public void SpawnPlayerAt2(string id, GameObject pos)
+        public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)
         {
             // HACK
             if (false)
@@ -2617,10 +2618,8 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    component.setMainObject(PhotonNetwork.Instantiate("Hero", position, pos.transform.rotation, 0),
-                        true, false);
-                    id = id.ToUpper();
-                    component.main_object.GetComponent<Hero>().Initialize(null);
+                    var hero = SpawnService.Spawn<Hero>(position, pos.transform.rotation, preset);
+                    component.setMainObject(hero.transform.gameObject, true, false);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
                     ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;

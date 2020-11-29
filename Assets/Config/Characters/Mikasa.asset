@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
-  m_Name: Levi
+  m_Name: Mikasa
   m_EditorClassIdentifier: 
-  Name: Levi
+  Name: Mikasa
   Description: 
   CharacterOutfit:
-  - Name: Default
-    Gender: 1
+  - Name: Mikasa S1
+    Gender: 2
     Head:
       Model: 0
     Skin:
@@ -24,26 +24,26 @@ MonoBehaviour:
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Hair:
-      Model: 14
-      Texture: 15
+      Model: 16
+      Texture: 17
       CustomUrl: 
-      Color: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+      Color: {r: 0.24528301, g: 0.24181202, b: 0.24181202, a: 1}
     Eyes:
       Model: 0
-      Texture: 21
+      Texture: 23
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Glasses:
       Texture: 1
       CustomUrl: 
-      Color: {r: 0.7264151, g: 0.71092844, b: 0.33922213, a: 1}
+      Color: {r: 0, g: 0, b: 0, a: 0}
     Facial:
       Texture: 1
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Outfit:
-      Model: 7
-      Texture: 9
+      Model: 5
+      Texture: 16
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Cape:
@@ -60,11 +60,11 @@ MonoBehaviour:
         CustomUrl: 
         Color: {r: 0, g: 0, b: 0, a: 0}
       EmblemRightArm:
-        Texture: 1
+        Texture: 2
         CustomUrl: 
         Color: {r: 0, g: 0, b: 0, a: 0}
       EmblemLeftArm:
-        Texture: 1
+        Texture: 2
         CustomUrl: 
         Color: {r: 0, g: 0, b: 0, a: 0}
   CharacterBuild:
@@ -83,4 +83,4 @@ MonoBehaviour:
       Speed: 0
       Gas: 0
       Equipment: 0
-    Skill: 3
+    Skill: 5

@@ -44,6 +44,29 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CreateEyes(CurrentOutfit.Eyes);
         }
 
+        public void Apply(GameObject humanBase, CharacterPrefabs prefabs)
+        {
+            Prefabs = prefabs;
+            CurrentOutfit = CharacterOutfit[0];
+            CurrentBuild = CharacterBuild[0];
+            Body = humanBase.GetComponentInChildren<HumanBody>();
+            HumanTransform = humanBase.transform;
+
+            var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
+
+            CreateHead(CurrentOutfit.Head, skin);
+            CreateHair(CurrentOutfit.Hair);
+            CreateGlasses(CurrentOutfit.Glasses);
+            CreateFacial(CurrentOutfit.Facial);
+
+            CreateOutfit(CurrentOutfit.Outfit);
+            CreateCape(CurrentOutfit.Cape);
+            CreateEmblems();
+            CreateEquipment(CurrentBuild.EquipmentComponent);
+
+            CreateEyes(CurrentOutfit.Eyes);
+        }
+
         private GameObject CreateComponent(GameObject prefab, Texture2D texture, Color color = default, Transform parent = null)
         {
             var prefabObject = Instantiate(prefab);

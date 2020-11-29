@@ -8,6 +8,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
     [Serializable]
     public struct CharacterBuild
     {
+        [SerializeField] public string Name;
         [SerializeField] public EquipmentType Equipment;
         [SerializeField] public EquipmentComponent EquipmentComponent;
         [SerializeField] public HeroStats Stats;

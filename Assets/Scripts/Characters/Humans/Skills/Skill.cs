@@ -46,6 +46,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
                     return new LeviSkill(hero);
                 case HeroSkill.Petra:
                     return new PetraSkill(hero);
+                case HeroSkill.Mikasa:
+                    return new MikasaSkill(hero);
                 case HeroSkill.Eren:
                     break;
                 case HeroSkill.Annie:
