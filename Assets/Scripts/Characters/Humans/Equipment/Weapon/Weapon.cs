@@ -5,6 +5,11 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
     public abstract class Weapon
     {
         public Hero Hero { get; set; }
+
+        public GameObject WeaponLeftPrefab;
+        public GameObject WeaponRightPrefab;
+        public GameObject WeaponLeft;
+        public GameObject WeaponRight;
         public int AmountLeft;
         public int AmountRight;
 

@@ -20,6 +20,7 @@ using UnityEngine.UI;
 
 public class Hero : Human
 {
+    public CharacterPrefabs Prefabs;
     public Equipment Equipment { get; set; }
     public EquipmentType EquipmentType;
 
@@ -355,9 +356,22 @@ public class Hero : Human
         {
             preset = manager.Presets.First();
         }
-        
+
         preset.Apply(this, manager.Prefabs);
         Skill = Skill.Create(preset.CurrentBuild.Skill, this);
+
+        EquipmentType = preset.CurrentBuild.Equipment;
+        Equipment.Initialize();
+
+        if (EquipmentType == EquipmentType.Ahss)
+        {
+            this.standAnimation = "AHSS_stand_gun";
+            this.useGun = true;
+            this.gunDummy = new GameObject();
+            this.gunDummy.name = "gunDummy";
+            this.gunDummy.transform.position = this.transform.position;
+            this.gunDummy.transform.rotation = this.transform.rotation;
+        }
 
         //if (photonView.isMine)
         //{

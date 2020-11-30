@@ -59,6 +59,9 @@ namespace Assets.Scripts.UI.InGame
         {
             string selection = "23";
             var selectedPreset = Characters[CharacterDropdown.value];
+            selectedPreset.CurrentOutfit = selectedPreset.CharacterOutfit[OutfitDropdown.value];
+            selectedPreset.CurrentBuild = selectedPreset.CharacterBuild[BuildDropdown.value];
+            
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
             if (((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture)
             {

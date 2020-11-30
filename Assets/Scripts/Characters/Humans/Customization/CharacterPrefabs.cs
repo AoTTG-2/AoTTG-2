@@ -208,6 +208,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public GameObject HandRight;
         public GameObject AmmoLeft;
         public GameObject AmmoRight;
+        public GameObject WeaponLeft;
+        public GameObject WeaponRight;
         public GameObject Equipment;
         public List<GameObject> Extras;
         public EquipmentType EquipmentType;

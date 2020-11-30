@@ -24,8 +24,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public void Apply(Human human, CharacterPrefabs prefabs)
         {
             Prefabs = prefabs;
-            CurrentOutfit = CharacterOutfit[0];
-            CurrentBuild = CharacterBuild[0];
             Body = human.Body;
             HumanTransform = human.transform;
 
@@ -231,11 +229,15 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var handRight = Instantiate(prefab.HandRight);
             var ammoLeft = Instantiate(prefab.AmmoLeft);
             var ammoRight = Instantiate(prefab.AmmoRight);
+            var weaponLeft = Instantiate(prefab.WeaponLeft);
+            var weaponRight = Instantiate(prefab.WeaponRight);
 
             handLeft.GetComponent<Renderer>().material.mainTexture = skin.File;
             handRight.GetComponent<Renderer>().material.mainTexture = skin.File;
             ammoLeft.GetComponent<Renderer>().material.mainTexture = ammo;
             ammoRight.GetComponent<Renderer>().material.mainTexture = ammo;
+            weaponLeft.GetComponent<Renderer>().material.mainTexture = ammo;
+            weaponRight.GetComponent<Renderer>().material.mainTexture = ammo;
 
             ammoLeft.transform.parent = CurrentBuild.Equipment == EquipmentType.Ahss
                 ? Body.thigh_L
@@ -256,6 +258,14 @@ namespace Assets.Scripts.Characters.Humans.Customization
             handRight.transform.parent = Body.hand_R;
             handRight.transform.position = HumanTransform.position;
             handRight.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
+
+            weaponLeft.transform.parent = Body.hand_L;
+            weaponLeft.transform.position = HumanTransform.position;
+            weaponLeft.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
+
+            weaponRight.transform.parent = Body.hand_R;
+            weaponRight.transform.position = HumanTransform.position;
+            weaponRight.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
 
             CreateOdmg(equipment);
         }
