@@ -2059,6 +2059,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bb014beb7fec64083a0c82345feaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefaultSkyColor: {r: 0, g: 0, b: 0, a: 0}
+  DefaultEquatorColor: {r: 0, g: 0, b: 0, a: 0}
+  DefaultHorizonColor: {r: 0, g: 0, b: 0, a: 0}
   DayNightControllerPrefab: {fileID: 174068, guid: 1dce2846dc915b44ea1a12401fe517e1,
     type: 3}
   MainLightPrefab: {fileID: 2048235199938408507, guid: 75195303acde28e468c81f12ad8f8195,
@@ -2068,11 +2071,8 @@ MonoBehaviour:
   DayNightController: {fileID: 0}
   MainLight: {fileID: 0}
   Label: {fileID: 0}
-  TimeSlider: {fileID: 0}
-  TimeInput: {fileID: 0}
-  skyBoxDAWN: {fileID: 2100000, guid: 9991b6265f7f87d43b7e3c676739f203, type: 2}
-  skyBoxDAY: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
-  skyBoxNIGHT: {fileID: 2100000, guid: 493bfb50af5d9424da505ba945c86600, type: 2}
+  skyBoxReset: {fileID: 0}
+  Light: {fileID: 0}
 --- !u!114 &1494141736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2119,7 +2119,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1537865627
 GameObject:
   m_ObjectHideFlags: 0

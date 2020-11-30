@@ -15,7 +15,6 @@ public class DayColors
 public class DayAndNightControl : MonoBehaviour {
 
     public GameObject Camera;
-	public GameObject StarDome;
 	public GameObject moonState;
 	public GameObject moon;
 	public DayColors dawnColors;
@@ -43,7 +42,7 @@ public class DayAndNightControl : MonoBehaviour {
 	public float timeMultiplier = 1f; //how fast the day goes by regardless of the secondsInAFullDay var. lower values will make the days go by longer, while higher values make it go faster. This may be useful if you're siumulating seasons where daylight and night times are altered.
 	public bool showUI;
 	float lightIntensity; //static variable to see what the current light's insensity is in the inspector
-	Material starMat;
+	
 
 	Camera targetCam;
 
@@ -56,9 +55,7 @@ public class DayAndNightControl : MonoBehaviour {
 			}
 		}
 		lightIntensity = directionalLight.intensity; //what's the current intensity of the light
-		starMat = StarDome.GetComponentInChildren<MeshRenderer> ().material;
-        
-            starMat.color = new Color(1f, 1f, 1f, 0f);
+		
 
         //Check if default light prefab exists, and if so, delete it
         if (GameObject.Find("LightSet(Clone)"))
@@ -66,17 +63,7 @@ public class DayAndNightControl : MonoBehaviour {
             Destroy(GameObject.Find("LightSet(Clone)"));
         }
 
-        //Duplication check
-        int numDayNightControllers = FindObjectsOfType<DayAndNightControl>().Length;
-        if (numDayNightControllers != 1)
-        {
-            Destroy(this.gameObject);
-        }
-
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
+        
 
     }
 
@@ -109,7 +96,7 @@ public class DayAndNightControl : MonoBehaviour {
 
 	void UpdateLight()
 	{
-		StarDome.transform.Rotate (new Vector3 (0, 2f * Time.deltaTime, 0));
+		
 		moon.transform.LookAt (targetCam.transform);
 		directionalLight.transform.localRotation = Quaternion.Euler ((currentTime * 360f) - 90, 170, 0);
 		moonState.transform.localRotation = Quaternion.Euler ((currentTime * 360f) - 100, 170, 0);
@@ -123,12 +110,12 @@ public class DayAndNightControl : MonoBehaviour {
 		if (currentTime <= 0.23f || currentTime >= 0.75f) 
 		{
 			intensityMultiplier = 0; //when the sun is below the horizon, or setting, the intensity needs to be 0 or else it'll look weird
-			starMat.color = new Color(1,1,1,Mathf.Lerp(1,0,Time.deltaTime));
+			
 		}
 		else if (currentTime <= 0.25f) 
 		{
 			intensityMultiplier = Mathf.Clamp01((currentTime - 0.25f) * (1 / 0.02f));
-			starMat.color = new Color(1,1,1,Mathf.Lerp(0,1,Time.deltaTime));
+			
 		}
 		else if (currentTime <= 0.75f) 
 		{
