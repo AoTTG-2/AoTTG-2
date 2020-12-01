@@ -5,6 +5,7 @@
         None,
         Eyes,
         Head,
+        Nape,
         ArmRight,
         HandRight,
         ArmLeft,
