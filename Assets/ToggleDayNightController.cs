@@ -20,11 +20,11 @@ public class ToggleDayNightController : MonoBehaviour
     private string time;
     private double seconds;
     DayAndNightControl DayNightCycle;
-    public GameObject Light;
+    public GameObject DefaultLightSet;
     // Start is called before the first frame update
     void Start()
     {
-        Light = GameObject.Find("LightSet");
+        DefaultLightSet = GameObject.Find("LightSet");
 
         //These defaults are stored so that when the system is toggled off, all colour settings are set back to the scene defaults
         DefaultSkyColor = RenderSettings.ambientSkyColor;
@@ -51,10 +51,14 @@ public class ToggleDayNightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //when changing scene, this becomes null, so here we refnd and reassign it
+        if(DefaultLightSet==null)
+        {
+            DefaultLightSet = GameObject.Find("LightSet");
+        }
         if (ToggleDayNight.isOn)
         {
-            Light.SetActive(false);
+            DefaultLightSet.SetActive(false);
             if (!GameObject.Find("Day and Night Controller(Clone)"))
             {
                 
@@ -71,11 +75,11 @@ public class ToggleDayNightController : MonoBehaviour
             RenderSettings.ambientSkyColor = DefaultSkyColor;
             RenderSettings.ambientEquatorColor = DefaultEquatorColor;
             RenderSettings.ambientGroundColor = DefaultHorizonColor;
-            Light.SetActive(true);
+            DefaultLightSet.SetActive(true);
 
         }
         
     }
     
-    
+
 }

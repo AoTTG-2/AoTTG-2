@@ -125,12 +125,14 @@ public class DayAndNightControl : MonoBehaviour {
 
 		//change env colors to add mood
 
-		if (currentTime > 0.1f && currentTime < 0.25f) {
+		if (currentTime > 0f && currentTime < 0.25f) {
 			RenderSettings.ambientSkyColor = darknightColors.skyColor;
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
-		}
-		if (currentTime > 0.25f && currentTime < 0.5f) {
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
+            DynamicGI.UpdateEnvironment();
+        }
+		if (currentTime > 0.25f && currentTime < 0.40f) {
 			RenderSettings.ambientSkyColor = dawnColors.skyColor;
 			RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
 			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
@@ -140,7 +142,7 @@ public class DayAndNightControl : MonoBehaviour {
             
             Debug.Log("dawn running");
         }
-		if (currentTime > 0.5f && currentTime < 0.75f) {
+		if (currentTime > 0.40f && currentTime < 0.75f) {
 			RenderSettings.ambientSkyColor = dayColors.skyColor;
 			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
 			RenderSettings.ambientGroundColor = dayColors.horizonColor;
@@ -151,7 +153,7 @@ public class DayAndNightControl : MonoBehaviour {
 
             Debug.Log("day runniing");
         }
-		if (currentTime > 0.75f) {
+		if (currentTime > 0.75f && currentTime < 0.99f) {
 			RenderSettings.ambientSkyColor = nightColors.skyColor;
 			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
 			RenderSettings.ambientGroundColor = nightColors.horizonColor;
