@@ -19,25 +19,24 @@ public class ToggleDayNightController : MonoBehaviour
     public Material skyBoxReset;
     private string time;
     private double seconds;
+    private float dynamicScale;
     DayAndNightControl DayNightCycle;
     public GameObject DefaultLightSet;
-    public GameObject sceneTerrain;
     // Start is called before the first frame update
     void Start()
     {
         DefaultLightSet = GameObject.Find("LightSet");
-
+        dynamicScale = (GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.x + 
+                        GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.z)/3500; 
+        //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
+        //of the scene's terrain
+        
         //These defaults are stored so that when the system is toggled off, all colour settings are set back to the scene defaults
         DefaultSkyColor = RenderSettings.ambientSkyColor;
         DefaultEquatorColor = RenderSettings.ambientEquatorColor;
         DefaultHorizonColor = RenderSettings.ambientGroundColor;
         skyBoxReset = GameObject.Find("MainCamera").GetComponent<Skybox>().material;
         ToggleDayNight.isOn = false;
-        sceneTerrain = GameObject.Find("Terrain");
-;
-
-
-
         Button btn = ResetDayNightButton.GetComponent<Button>();
         btn.onClick.AddListener(PauseDayNightSystem);
         DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
@@ -54,7 +53,7 @@ public class ToggleDayNightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(GameObject.Find("Terrain").GetComponent<Collider>().bounds.size);
+        
         //when changing scene, this becomes null, so here we refnd and reassign it
         if(DefaultLightSet==null)
         {
@@ -65,9 +64,13 @@ public class ToggleDayNightController : MonoBehaviour
             DefaultLightSet.SetActive(false);
             if (!GameObject.Find("Day and Night Controller(Clone)"))
             {
-                
-                Instantiate(DayNightControllerPrefab, GameObject.Find("Terrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
-                //GameObject.Find("MainCamera").GetComponent<Camera>().material = skyBoxNIGHT;
+                dynamicScale = (GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.x +
+                        GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.z) / 3500;
+                //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
+                //of the scene's terrain
+
+                DayNightController = Instantiate(DayNightControllerPrefab, GameObject.Find("Terrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
+                DayNightController.transform.localScale= new Vector3(dynamicScale, dynamicScale, dynamicScale);//scales the object to fit the scene
             }
 
         }
