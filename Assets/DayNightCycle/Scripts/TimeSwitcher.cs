@@ -18,8 +18,7 @@ namespace Assets.Scripts.UI.InGame
         {
             
             DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-            Debug.Log("preslider" + DayNightCycle.currentTime);
-            TimeSlider.value = DayNightCycle.currentTime;
+            
             
         }
 
@@ -29,13 +28,12 @@ namespace Assets.Scripts.UI.InGame
             var se = new InputField.SubmitEvent();
             se.AddListener(SubmitTime);
             TimeInput.onEndEdit = se;
-            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-            //Debug.Log("preslider" + DayNightCycle.currentTime);
             
+            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
             DayNightCycle.currentTime = TimeSlider.value;
             
         }
-
+        
         private void SubmitTime(string arg0)
         {
             time = arg0;
@@ -46,15 +44,7 @@ namespace Assets.Scripts.UI.InGame
         }
         
     }
-    //here put functions that u wanna call from the change button at ServerSettingsPage.cs, I left
-    //comments in ServerSettingsPage.cs that calls the below example function
-    /* public void UpdateTime()
-     {
-         Debug.Log(TimeSlider.value);
-         DayNightCycle.currentTime = TimeSlider.value;
-
-
-     }*/
+   
 
 }
 

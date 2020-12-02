@@ -26,8 +26,8 @@ public class ToggleDayNightController : MonoBehaviour
     void Start()
     {
         DefaultLightSet = GameObject.Find("LightSet");
-        dynamicScale = (GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.x + 
-                        GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.z)/3500; 
+        dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x + 
+                        GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z)/3500; 
         //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
         //of the scene's terrain
         
@@ -48,7 +48,6 @@ public class ToggleDayNightController : MonoBehaviour
     {
         DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
         DayNightCycle.pause = !DayNightCycle.pause;
-        Debug.Log(DayNightCycle.pause);
     }
     // Update is called once per frame
     void Update()
@@ -64,12 +63,12 @@ public class ToggleDayNightController : MonoBehaviour
             DefaultLightSet.SetActive(false);
             if (!GameObject.Find("Day and Night Controller(Clone)"))
             {
-                dynamicScale = (GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.x +
-                        GameObject.Find("Terrain").GetComponent<Collider>().bounds.size.z) / 3500;
+                dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
+                        GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z) / 3500;
                 //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
                 //of the scene's terrain
 
-                DayNightController = Instantiate(DayNightControllerPrefab, GameObject.Find("Terrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
+                DayNightController = Instantiate(DayNightControllerPrefab, GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
                 DayNightController.transform.localScale= new Vector3(dynamicScale, dynamicScale, dynamicScale);//scales the object to fit the scene
             }
 

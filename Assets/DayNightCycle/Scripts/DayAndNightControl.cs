@@ -25,7 +25,7 @@ public class DayAndNightControl : MonoBehaviour {
     public Material skyBoxDAY;
     public Material skyBoxNIGHT;
     public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
-    
+
     public int currentDay = 0; 
 	public Light directionalLight;
     
@@ -130,15 +130,13 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
 			RenderSettings.ambientGroundColor = nightColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
-            DynamicGI.UpdateEnvironment();
+            
         }
 		if (currentTime > 0.25f && currentTime < 0.40f) {
 			RenderSettings.ambientSkyColor = dawnColors.skyColor;
 			RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
 			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAWN;
-            
-            DynamicGI.UpdateEnvironment();
             
             Debug.Log("dawn running");
         }
@@ -147,10 +145,6 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
 			RenderSettings.ambientGroundColor = dayColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
-
-
-            DynamicGI.UpdateEnvironment();
-
             Debug.Log("day runniing");
         }
 		if (currentTime > 0.75f && currentTime < 0.99f) {
@@ -158,8 +152,6 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
-            
-            DynamicGI.UpdateEnvironment();
             Debug.Log("night runniing");
         }
 

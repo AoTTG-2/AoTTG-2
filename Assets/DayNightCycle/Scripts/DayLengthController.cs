@@ -18,6 +18,7 @@ namespace Assets.Scripts.UI.InGame
         DayAndNightControl DayNightCycle;
         void Start()
         {
+
             
             
         }
@@ -39,15 +40,7 @@ namespace Assets.Scripts.UI.InGame
             Debug.Log(DayNightCycle.DayLength);
         }
 
-        //here put functions that u wanna call from the change button at ServerSettingsPage.cs, I left
-        //comments in ServerSettingsPage.cs that calls the below example function
-        /* public void UpdateTime()
-         {
-             Debug.Log(TimeSlider.value);
-             DayNightCycle.currentTime = TimeSlider.value;
-
-
-         }*/
+        
 
     }
 }
