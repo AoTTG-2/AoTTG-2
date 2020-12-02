@@ -21,6 +21,7 @@ public class ToggleDayNightController : MonoBehaviour
     private double seconds;
     DayAndNightControl DayNightCycle;
     public GameObject DefaultLightSet;
+    public GameObject sceneTerrain;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +33,11 @@ public class ToggleDayNightController : MonoBehaviour
         DefaultHorizonColor = RenderSettings.ambientGroundColor;
         skyBoxReset = GameObject.Find("MainCamera").GetComponent<Skybox>().material;
         ToggleDayNight.isOn = false;
-       
-       
-        
+        sceneTerrain = GameObject.Find("Terrain");
+;
+
+
+
         Button btn = ResetDayNightButton.GetComponent<Button>();
         btn.onClick.AddListener(PauseDayNightSystem);
         DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
@@ -51,6 +54,7 @@ public class ToggleDayNightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(GameObject.Find("Terrain").GetComponent<Collider>().bounds.size);
         //when changing scene, this becomes null, so here we refnd and reassign it
         if(DefaultLightSet==null)
         {
@@ -62,7 +66,8 @@ public class ToggleDayNightController : MonoBehaviour
             if (!GameObject.Find("Day and Night Controller(Clone)"))
             {
                 
-                Instantiate(DayNightControllerPrefab, transform.position, Quaternion.identity);
+                Instantiate(DayNightControllerPrefab, GameObject.Find("Terrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
+                //GameObject.Find("MainCamera").GetComponent<Camera>().material = skyBoxNIGHT;
             }
 
         }
