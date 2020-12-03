@@ -16,8 +16,10 @@ namespace Assets.Scripts.UI.InGame
         DayAndNightControl DayNightCycle;
        void Start()
         {
+            
             DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-
+            
+            
         }
 
         void Update()
@@ -26,6 +28,7 @@ namespace Assets.Scripts.UI.InGame
             var se = new InputField.SubmitEvent();
             se.AddListener(SubmitTime);
             TimeInput.onEndEdit = se;
+            
             DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
             DayNightCycle.currentTime = TimeSlider.value;
             

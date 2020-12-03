@@ -9,12 +9,18 @@ namespace Assets.Scripts.UI.InGame
     {
 
         public Text Label;
+
         public InputField DayLengthInput;
         private string time;
         private double dayLength;
+
+
         DayAndNightControl DayNightCycle;
         void Start()
         {
+
+            
+            
         }
 
         void Update()
