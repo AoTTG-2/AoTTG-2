@@ -24,12 +24,12 @@ public class DayAndNightControl : MonoBehaviour {
     public Material skyBoxDAWN;
     public Material skyBoxDAY;
     public Material skyBoxNIGHT;
-    public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
+    public float currentTime { get; set; } //
 
     public int currentDay = 0; 
 	public Light directionalLight;
     
-    private float SecondsInAFullDay = 120f;//default value is 120 seconds in one day
+    private float SecondsInAFullDay = 300f;//default value is 300 seconds in one day
     public bool pause { get; set; }
     public float DayLength
     {
@@ -71,7 +71,10 @@ public class DayAndNightControl : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pause);
+        if (GameObject.Find("LightSet") != null)
+        {
+            GameObject.Find("LightSet").SetActive(false);
+        }
         if (pause == false)
         { 
         foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
@@ -138,14 +141,14 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAWN;
             
-            Debug.Log("dawn running");
+            
         }
 		if (currentTime > 0.40f && currentTime < 0.75f) {
 			RenderSettings.ambientSkyColor = dayColors.skyColor;
 			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
 			RenderSettings.ambientGroundColor = dayColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
-            Debug.Log("day runniing");
+            
         }
         if (currentTime > 0.75f && currentTime < 0.80f)
         {
@@ -160,7 +163,7 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
-            Debug.Log("night runniing");
+            
         }
 
 		directionalLight.intensity = lightIntensity * intensityMultiplier;
