@@ -147,7 +147,15 @@ public class DayAndNightControl : MonoBehaviour {
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
             Debug.Log("day runniing");
         }
-		if (currentTime > 0.75f && currentTime < 0.99f) {
+        if (currentTime > 0.75f && currentTime < 0.80f)
+        {
+            RenderSettings.ambientSkyColor = nightColors.skyColor;
+            RenderSettings.ambientEquatorColor = nightColors.equatorColor;
+            RenderSettings.ambientGroundColor = nightColors.horizonColor;
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
+
+        }
+        if (currentTime > 0.80f && currentTime < 0.99f) {
 			RenderSettings.ambientSkyColor = darknightColors.skyColor;
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
