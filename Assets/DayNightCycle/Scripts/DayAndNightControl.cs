@@ -1,8 +1,8 @@
 ﻿//2016 Spyblood Games
 
 using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
+
+
 
 [System.Serializable]
 public class DayColors
@@ -72,7 +72,7 @@ public class DayAndNightControl : MonoBehaviour {
     void Update()
     {
         Debug.Log(pause);
-        if (pause == false)
+        if (!pause)
         { 
         foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
         {
@@ -137,15 +137,14 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
 			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAWN;
-            
-            Debug.Log("dawn running");
+
         }
 		if (currentTime > 0.40f && currentTime < 0.75f) {
 			RenderSettings.ambientSkyColor = dayColors.skyColor;
 			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
 			RenderSettings.ambientGroundColor = dayColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
-            Debug.Log("day runniing");
+            
         }
         if (currentTime > 0.75f && currentTime < 0.80f)
         {
@@ -160,7 +159,7 @@ public class DayAndNightControl : MonoBehaviour {
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
-            Debug.Log("night runniing");
+            
         }
 
 		directionalLight.intensity = lightIntensity * intensityMultiplier;

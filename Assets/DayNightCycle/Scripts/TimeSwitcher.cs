@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +10,6 @@ namespace Assets.Scripts.UI.InGame
         public Text Label;
         public Slider TimeSlider;
         public InputField TimeInput;
-        private string time ;
-        private double seconds ;
         DayAndNightControl DayNightCycle;
        void Start()
         {
@@ -36,8 +33,9 @@ namespace Assets.Scripts.UI.InGame
         
         private void SubmitTime(string arg0)
         {
-            time = arg0;
-            seconds = System.TimeSpan.Parse(time).TotalSeconds;
+
+            string time = arg0;
+            double seconds = System.TimeSpan.Parse(time).TotalSeconds;
             TimeSlider.value= (float) (seconds / 86400);
             DayNightCycle.currentTime = (float) (seconds/86400);
             Debug.Log((float) (seconds / 86400));
