@@ -3,11 +3,11 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
-using ExitGames.Client.Photon;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.UI.InGame
@@ -40,13 +40,13 @@ namespace Assets.Scripts.UI.InGame
 
             CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(Characters[x], 0));
         }
-
+        
         public void OnEnable()
         {
             OnCharacterChanged(Characters.First(), 0);
             MenuManager.RegisterOpened();
         }
-
+        
         public void OnDisable()
         {
             if (Character != null)
@@ -111,10 +111,9 @@ namespace Assets.Scripts.UI.InGame
         
         private void OnCharacterChanged(CharacterPreset preset, int outfit)
         {
-            Debug.Log("Current: " + CharacterDropdown.value);
-
             SetDropdownOptions(preset);
 
+            return;
             if (Character != null)
                 Destroy(Character);
 
