@@ -273,7 +273,7 @@ MonoBehaviour:
     equatorColor: {r: 0.27892518, g: 0.29279244, b: 0.5661765, a: 0}
     horizonColor: {r: 0.22794116, g: 0.22794116, b: 0.22794116, a: 0}
   dayColors:
-    skyColor: {r: 0.9338235, g: 0.9338235, b: 0.9338235, a: 0}
+    skyColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0}
     equatorColor: {r: 0.19404197, g: 0.34800962, b: 0.71323526, a: 0}
     horizonColor: {r: 0.3602941, g: 0.2281619, b: 0.060932085, a: 0}
   nightColors:
@@ -281,8 +281,8 @@ MonoBehaviour:
     equatorColor: {r: 0.15003245, g: 0.20263465, b: 0.5514706, a: 0}
     horizonColor: {r: 0, g: 0, b: 0, a: 0}
   darknightColors:
-    skyColor: {r: 0, g: 0, b: 0, a: 0}
-    equatorColor: {r: 0, g: 0, b: 0, a: 0}
+    skyColor: {r: 0.023529412, g: 0.023529412, b: 0.023529412, a: 0}
+    equatorColor: {r: 0.023529412, g: 0.023529412, b: 0.023529412, a: 0}
     horizonColor: {r: 0, g: 0, b: 0, a: 0}
   skyBoxDAWN: {fileID: 2100000, guid: 9991b6265f7f87d43b7e3c676739f203, type: 2}
   skyBoxDAY: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
@@ -333,7 +333,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.28676468, g: 0.28676468, b: 0.28676468, a: 1}
+  m_Color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
   m_Intensity: 0.65
   m_Range: 10
   m_SpotAngle: 30

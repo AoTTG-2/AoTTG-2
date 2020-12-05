@@ -48,7 +48,7 @@ using UnityEngine.UI;
         // Update is called once per frame
         void Update()
         {
-
+        
             //when changing scene, this becomes null, so here we refnd and reassign it
             if (DefaultLightSet == null)
             {
@@ -61,12 +61,13 @@ using UnityEngine.UI;
                 {
                             float dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
                             GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z) / 3500;
-                    //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
-                    //of the scene's terrain
-
-                    DayNightController = Instantiate(DayNightControllerPrefab, GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
+                //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
+                //of the scene's terrain
+                
+                DayNightController = Instantiate(DayNightControllerPrefab, GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
                     DayNightController.transform.localScale = new Vector3(dynamicScale, dynamicScale, dynamicScale);//scales the object to fit the scene
-                }
+                Debug.Log(DayNightCycle.currentTime);
+            }
 
             }
             else

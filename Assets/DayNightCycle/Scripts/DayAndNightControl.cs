@@ -28,7 +28,6 @@ public class DayAndNightControl : MonoBehaviour {
 
     public int currentDay = 0; 
 	public Light directionalLight;
-    
     private float SecondsInAFullDay = 120f;//default value is 120 seconds in one day
     public bool pause { get; set; }
     public float DayLength
@@ -123,41 +122,83 @@ public class DayAndNightControl : MonoBehaviour {
 		}
 
 
-		//change env colors to add mood
+        //change env colors to add mood
 
-		if (currentTime > 0.2f && currentTime < 0.25f) {
-			RenderSettings.ambientSkyColor = nightColors.skyColor;
-			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
-			RenderSettings.ambientGroundColor = nightColors.horizonColor;
+        if (currentTime < 0.2f)
+        {
+            RenderSettings.ambientSkyColor = darknightColors.skyColor;
+            RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
+            RenderSettings.ambientGroundColor = darknightColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
+        }
+        if (currentTime > 0.2f && currentTime < 0.25f) {
+           
+            RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, nightColors.skyColor, 0.001f / (SecondsInAFullDay / 40));
+            RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, nightColors.equatorColor, 0.001f / (SecondsInAFullDay / 40));
+            RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, nightColors.horizonColor, 0.001f / (SecondsInAFullDay / 40));
             
+            /*RenderSettings.ambientSkyColor = nightColors.skyColor;
+			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
+			RenderSettings.ambientGroundColor = nightColors.horizonColor;*/
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
+           
         }
 		if (currentTime > 0.25f && currentTime < 0.40f) {
-			RenderSettings.ambientSkyColor = dawnColors.skyColor;
-			RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
-			RenderSettings.ambientGroundColor = dawnColors.horizonColor;
+            RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, dawnColors.skyColor, 0.001f / (SecondsInAFullDay / 600));
+
+            //RenderSettings.ambientSkyColor = dawnColors.skyColor;
+            RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, dawnColors.equatorColor, 0.001f/(SecondsInAFullDay/600));
+            //RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
+            RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, dawnColors.horizonColor, 0.001f/(SecondsInAFullDay/600));
+            //RenderSettings.ambientGroundColor = dawnColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAWN;
+
+            if (currentTime > 0.35f)
+            {
+                RenderSettings.ambientSkyColor = dawnColors.skyColor;
+                RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
+                RenderSettings.ambientGroundColor = dawnColors.horizonColor;
+                GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAWN;
+            }
 
         }
 		if (currentTime > 0.40f && currentTime < 0.75f) {
-			RenderSettings.ambientSkyColor = dayColors.skyColor;
-			RenderSettings.ambientEquatorColor = dayColors.equatorColor;
-			RenderSettings.ambientGroundColor = dayColors.horizonColor;
+            RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, dayColors.skyColor, 0.001f / (SecondsInAFullDay / 300));
+            RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, dayColors.equatorColor, 0.001f / (SecondsInAFullDay / 300));
+            RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, dayColors.horizonColor, 0.001f / (SecondsInAFullDay / 300));
+            if (currentTime > 0.50f)
+            {
+                RenderSettings.ambientSkyColor = dayColors.skyColor;
+                RenderSettings.ambientEquatorColor = dayColors.equatorColor;
+                RenderSettings.ambientGroundColor = dayColors.horizonColor;
+                GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
+            }
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
-            
         }
-        if (currentTime > 0.75f && currentTime < 0.80f)
+        /* if (currentTime > 0.75f && currentTime < 0.80f)
         {
-            RenderSettings.ambientSkyColor = nightColors.skyColor;
+            RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, nightColors.skyColor, 0.001f / (SecondsInAFullDay / 40));
+            RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, nightColors.equatorColor, 0.001f / (SecondsInAFullDay / 40));
+            RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, nightColors.horizonColor, 0.001f / (SecondsInAFullDay / 40));
+            /*RenderSettings.ambientSkyColor = nightColors.skyColor;
             RenderSettings.ambientEquatorColor = nightColors.equatorColor;
             RenderSettings.ambientGroundColor = nightColors.horizonColor;
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
 
-        }
-        if (currentTime > 0.80f && currentTime < 0.99f) {
-			RenderSettings.ambientSkyColor = darknightColors.skyColor;
+        } */
+
+        if (currentTime > 0.75f && currentTime < 0.99f)
+        {
+              RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, darknightColors.skyColor, 0.001f / (SecondsInAFullDay / 1000));//making the 1000 bigger makes lerp faster
+                RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, darknightColors.equatorColor, 0.001f / (SecondsInAFullDay / 1000));
+                RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, darknightColors.horizonColor, 0.001f / (SecondsInAFullDay / 1000));
+
+            if(currentTime >  0.875f ) { 
+            RenderSettings.ambientSkyColor = darknightColors.skyColor;
 			RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
 			RenderSettings.ambientGroundColor = darknightColors.horizonColor;
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
+            }
             GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
             
         }
