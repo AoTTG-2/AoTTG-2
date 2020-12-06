@@ -161,12 +161,12 @@ public class HERO_SETUP : MonoBehaviour
             this.part_blade_l.transform.parent = this.mount_weapon_l.transform.parent;
             this.part_blade_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
 
-            if (this.part_blade_l.transform.Find("WP1") != null)
+            if (this.part_blade_l.transform.Find("WeapontrailLeft") != null)
             {
-                this.part_blade_l.transform.Find("WP1").GetComponent<MeleeWeaponTrail>();
+                this.part_blade_l.transform.Find("WeapontrailLeft").GetComponent<MeleeWeaponTrail>();
                 if (base.gameObject.GetComponent<Hero>() != null)
                 {
-                    base.gameObject.GetComponent<Hero>().leftbladetrail = this.part_blade_l.transform.Find("WP1").GetComponent<MeleeWeaponTrail>();
+                    base.gameObject.GetComponent<Hero>().leftbladetrail = this.part_blade_l.transform.Find("WeapontrailLeft").GetComponent<MeleeWeaponTrail>();
                 }
             }
      
@@ -191,19 +191,19 @@ public class HERO_SETUP : MonoBehaviour
             //}
           
         }
-        if (this.part_blade_r.transform.Find("WP2") != null)
+        if (this.part_blade_r.transform.Find("WeapontrailRight") != null)
         {
-            this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+            this.part_blade_r.transform.Find("WeapontrailRight").GetComponent<MeleeWeaponTrail>();
             if (base.gameObject.GetComponent<Hero>() != null)
             {
-                base.gameObject.GetComponent<Hero>().rightbladetrail = this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+                base.gameObject.GetComponent<Hero>().rightbladetrail = this.part_blade_r.transform.Find("WeapontrailRight").GetComponent<MeleeWeaponTrail>();
             }
-        }  if (this.part_blade_r.transform.Find("WP2") != null)
+        }  if (this.part_blade_r.transform.Find("WeapontrailRight") != null)
         {
-            this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+            this.part_blade_r.transform.Find("WeapontrailRight").GetComponent<MeleeWeaponTrail>();
             if (base.gameObject.GetComponent<Hero>() != null)
             {
-                base.gameObject.GetComponent<Hero>().rightbladetrail = this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+                base.gameObject.GetComponent<Hero>().rightbladetrail = this.part_blade_r.transform.Find("WeapontrailRight").GetComponent<MeleeWeaponTrail>();
             }
         }
     }

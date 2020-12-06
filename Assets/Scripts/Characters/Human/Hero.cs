@@ -903,12 +903,8 @@ public class Hero : Human
             this.meatDie.Play();
             if ((base.photonView.isMine) && !this.useGun)
             {
-                /*
-                this.leftbladetrail.Deactivate();
-                this.rightbladetrail.Deactivate();
-                this.leftbladetrail2.Deactivate();
-                this.rightbladetrail2.Deactivate();
-                */
+                rightbladetrail.Emit = false;
+                leftbladetrail.Emit = false;
             }
             this.breakApart2(v, isBite);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
@@ -1058,10 +1054,8 @@ public class Hero : Human
                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
                 this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
                 this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
-                //this.leftbladetrail.StopSmoothly(0.2f);
-                //this.rightbladetrail.StopSmoothly(0.2f);
-                //this.leftbladetrail2.StopSmoothly(0.2f);
-                //this.rightbladetrail2.StopSmoothly(0.2f);
+                rightbladetrail.Emit = false;
+                leftbladetrail.Emit = false;
             }
             this.attackLoop = 0;
             if (!this.attackReleased)
@@ -1926,10 +1920,8 @@ public class Hero : Human
         }
         if (!this.useGun && photonView.isMine)
         {
-            //this.leftbladetrail.Deactivate();
-            //this.rightbladetrail.Deactivate();
-            //this.leftbladetrail2.Deactivate();
-            //this.rightbladetrail2.Deactivate();
+            rightbladetrail.Emit = false;
+            leftbladetrail.Emit = false;
         }
         this.smoke_3dmg.enableEmission = false;
         this.sparks.enableEmission = false;
@@ -3146,11 +3138,8 @@ public class Hero : Human
         this.meatDie.Play();
         if (!(this.useGun || (!base.photonView.isMine)))
         {
-            //TODO: Re-enable these again
-            //this.leftbladetrail.Deactivate();
-            //this.rightbladetrail.Deactivate();
-            //this.leftbladetrail2.Deactivate();
-            //this.rightbladetrail2.Deactivate();
+            rightbladetrail.Emit = false;
+            leftbladetrail.Emit = false;
         }
         this.falseAttack();
         this.breakApart2(v, isBite);
@@ -3361,12 +3350,8 @@ public class Hero : Human
         this.meatDie.Play();
         if (!(this.useGun || (!base.photonView.isMine)))
         {
-            /*
-            this.leftbladetrail.Deactivate();
-            this.rightbladetrail.Deactivate();
-            this.leftbladetrail2.Deactivate();
-            this.rightbladetrail2.Deactivate();
-            */
+            rightbladetrail.Emit = false;
+            leftbladetrail.Emit = false;
         }
         this.falseAttack();
         this.breakApart2(v, isBite);
@@ -4536,12 +4521,8 @@ public class Hero : Human
             this.setup.setCharacterComponent();
             UnityEngine.Object.Destroy(this.checkBoxLeft);
             UnityEngine.Object.Destroy(this.checkBoxRight);
-            /*
-            UnityEngine.Object.Destroy(this.leftbladetrail);
-            UnityEngine.Object.Destroy(this.rightbladetrail);
-            UnityEngine.Object.Destroy(this.leftbladetrail2);
-            UnityEngine.Object.Destroy(this.rightbladetrail2);
-            */
+            rightbladetrail.Emit = false;
+            leftbladetrail.Emit = false;
             this.hasspawn = true;
         }
         else
@@ -4588,21 +4569,6 @@ public class Hero : Human
 
     public void Update()
     {
-        if (leftbladetrail != null && rightbladetrail != null)
-        {
-            if (this.state != HERO_STATE.Attack)
-            {               
-
-                leftbladetrail.Emit = false;
-                rightbladetrail.Emit = false;
-            }
-            else 
-            {
-                Instantiate(rightbladetrail);
-                rightbladetrail.Emit = true;
-                leftbladetrail.Emit = true;
-            }
-        }  
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {
             if (this.invincible > 0f)
@@ -5211,12 +5177,8 @@ public class Hero : Human
                                             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
                                             if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
                                             {
-                                                /*
-                                                this.leftbladetrail2.Activate();
-                                                this.rightbladetrail2.Activate();
-                                                this.leftbladetrail.Activate();
-                                                this.rightbladetrail.Activate();
-                                                */
+                                                rightbladetrail.Emit = false;
+                                                leftbladetrail.Emit = false;
                                             }
                                             this.baseRigidBody.velocity = (Vector3)(-Vector3.up * 30f);
                                         }
@@ -5232,12 +5194,8 @@ public class Hero : Human
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
                                         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
-                                        /*
-                                        this.leftbladetrail.StopSmoothly(0.1f);
-                                        this.rightbladetrail.StopSmoothly(0.1f);
-                                        this.leftbladetrail2.StopSmoothly(0.1f);
-                                        this.rightbladetrail2.StopSmoothly(0.1f);
-                                        */
+                                        rightbladetrail.Emit = false;
+                                        leftbladetrail.Emit = false;
                                     }
                                 }
                                 else
@@ -5287,10 +5245,8 @@ public class Hero : Human
                                             this.slash.Play();
                                             if (((int)FengGameManagerMKII.settings[0x5c]) == 0)
                                             {
-                                                //this.leftbladetrail2.Activate();
-                                                //this.rightbladetrail2.Activate();
-                                                //this.leftbladetrail.Activate();
-                                                //this.rightbladetrail.Activate();
+                                                rightbladetrail.Emit = true;
+                                                leftbladetrail.Emit = true;
                                             }
                                         }
                                         if (!this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive)
@@ -5304,10 +5260,8 @@ public class Hero : Human
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
                                         this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
                                         this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
-                                        //this.leftbladetrail2.StopSmoothly(0.1f);
-                                        //this.rightbladetrail2.StopSmoothly(0.1f);
-                                        //this.leftbladetrail.StopSmoothly(0.1f);
-                                        //this.rightbladetrail.StopSmoothly(0.1f);
+                                        rightbladetrail.Emit = false;
+                                        leftbladetrail.Emit = false;
                                     }
                                     if ((this.attackLoop > 0) && (this.baseAnimation[this.attackAnimation].normalizedTime > num))
                                     {
