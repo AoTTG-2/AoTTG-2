@@ -56,10 +56,13 @@ using UnityEngine.UI;
             }
             if (ToggleDayNight.isOn)
             {
-                DefaultLightSet.SetActive(false);
+            
+            DefaultLightSet.SetActive(false);
                 if (!GameObject.Find("Day and Night Controller(Clone)"))
                 {
-                            float dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
+                
+
+                float dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
                             GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z) / 3500;
                 //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
                 //of the scene's terrain

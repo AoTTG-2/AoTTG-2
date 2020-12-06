@@ -70,7 +70,9 @@ public class DayAndNightControl : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pause);
+        //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
+        //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
+        GameObject.Find("MoonCamera").GetComponent<Camera>().fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
         if (!pause)
         { 
         foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
@@ -89,14 +91,13 @@ public class DayAndNightControl : MonoBehaviour {
         }
         }
     }
-	
 
-    public float GetTime() => currentTime;
 
 	void UpdateLight()
 	{
-		
-		moon.transform.LookAt (targetCam.transform);
+        
+
+        moon.transform.LookAt (targetCam.transform);
 		directionalLight.transform.localRotation = Quaternion.Euler ((currentTime * 360f) - 90, 170, 0);
 		moonState.transform.localRotation = Quaternion.Euler ((currentTime * 360f) - 100, 170, 0);
 		//^^ we rotate the sun 360 degrees around the x axis, or one full rotation times the current time variable. we subtract 90 from this to make it go up
@@ -136,11 +137,12 @@ public class DayAndNightControl : MonoBehaviour {
             RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, nightColors.skyColor, 0.001f / (SecondsInAFullDay / 40));
             RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, nightColors.equatorColor, 0.001f / (SecondsInAFullDay / 40));
             RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, nightColors.horizonColor, 0.001f / (SecondsInAFullDay / 40));
-            
+            //RenderSettings.skybox.Lerp(skyBoxNIGHT, skyBoxDAWN, 0.01f);
+            //DynamicGI.UpdateEnvironment();
             /*RenderSettings.ambientSkyColor = nightColors.skyColor;
 			RenderSettings.ambientEquatorColor = nightColors.equatorColor;
 			RenderSettings.ambientGroundColor = nightColors.horizonColor;*/
-            GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
+            GameObject.Find("MainCamera").GetComponent<Skybox>().material=skyBoxDAWN;
            
         }
 		if (currentTime > 0.25f && currentTime < 0.40f) {
