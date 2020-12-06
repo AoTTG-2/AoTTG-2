@@ -22,6 +22,8 @@ public class Hero : Human
     private const float HookRaycastDistance = 1000f;
 
     public HERO_STATE _state;
+    public MeleeWeaponTrail rightbladetrail;
+    public  MeleeWeaponTrail leftbladetrail;
     private bool almostSingleHook;
     private string attackAnimation;
     private int attackLoop;
@@ -4586,6 +4588,21 @@ public class Hero : Human
 
     public void Update()
     {
+        if (leftbladetrail != null && rightbladetrail != null)
+        {
+            if (this.state != HERO_STATE.Attack)
+            {               
+
+                leftbladetrail.Emit = false;
+                rightbladetrail.Emit = false;
+            }
+            else 
+            {
+                Instantiate(rightbladetrail);
+                rightbladetrail.Emit = true;
+                leftbladetrail.Emit = true;
+            }
+        }  
         if (!IN_GAME_MAIN_CAMERA.isPausing)
         {
             if (this.invincible > 0f)

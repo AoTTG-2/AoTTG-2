@@ -105,6 +105,7 @@ public class HERO_SETUP : MonoBehaviour
         UnityEngine.Object.Destroy(this.part_3dmg_gas_r);
         UnityEngine.Object.Destroy(this.part_blade_l);
         UnityEngine.Object.Destroy(this.part_blade_r);
+
         if (this.myCostume.mesh_3dmg.Length > 0)
         {
             this.part_3dmg = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.mesh_3dmg));
@@ -159,17 +160,18 @@ public class HERO_SETUP : MonoBehaviour
             this.part_blade_l.transform.rotation = this.mount_weapon_l.transform.rotation;
             this.part_blade_l.transform.parent = this.mount_weapon_l.transform.parent;
             this.part_blade_l.GetComponent<Renderer>().material = CharacterMaterials.materials[this.myCostume._3dmg_texture];
-            //if (this.part_blade_l.transform.Find("X-WeaponTrailA") != null)
-            //{
-            //    this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>().Deactivate();
-            //    this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>().Deactivate();
-            //    if (base.gameObject.GetComponent<Hero>() != null)
-            //    {
-            //        base.gameObject.GetComponent<Hero>().leftbladetrail = this.part_blade_l.transform.Find("X-WeaponTrailA").GetComponent<XWeaponTrail>();
-            //        base.gameObject.GetComponent<Hero>().leftbladetrail2 = this.part_blade_l.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
-            //    }
-            //}
+
+            if (this.part_blade_l.transform.Find("WP1") != null)
+            {
+                this.part_blade_l.transform.Find("WP1").GetComponent<MeleeWeaponTrail>();
+                if (base.gameObject.GetComponent<Hero>() != null)
+                {
+                    base.gameObject.GetComponent<Hero>().leftbladetrail = this.part_blade_l.transform.Find("WP1").GetComponent<MeleeWeaponTrail>();
+                }
+            }
+     
         }
+      
         if (this.myCostume.weapon_r_mesh.Length > 0)
         {
             this.part_blade_r = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("Character/" + this.myCostume.weapon_r_mesh));
@@ -187,6 +189,22 @@ public class HERO_SETUP : MonoBehaviour
             //        base.gameObject.GetComponent<Hero>().rightbladetrail2 = this.part_blade_r.transform.Find("X-WeaponTrailB").GetComponent<XWeaponTrail>();
             //    }
             //}
+          
+        }
+        if (this.part_blade_r.transform.Find("WP2") != null)
+        {
+            this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+            if (base.gameObject.GetComponent<Hero>() != null)
+            {
+                base.gameObject.GetComponent<Hero>().rightbladetrail = this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+            }
+        }  if (this.part_blade_r.transform.Find("WP2") != null)
+        {
+            this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+            if (base.gameObject.GetComponent<Hero>() != null)
+            {
+                base.gameObject.GetComponent<Hero>().rightbladetrail = this.part_blade_r.transform.Find("WP2").GetComponent<MeleeWeaponTrail>();
+            }
         }
     }
 
