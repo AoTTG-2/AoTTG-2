@@ -58,10 +58,10 @@ public class DayAndNightControl : MonoBehaviour {
 		lightIntensity = directionalLight.intensity; //what's the current intensity of the light
 		
 
-        //Check if default light prefab exists, and if so, delete it
+        //Check if default light prefab exists, and if so, disable it
         if (GameObject.Find("LightSet"))
         {
-            Destroy(GameObject.Find("LightSet"));
+            GameObject.Find("LightSet").SetActive(false);
         }
 
         
