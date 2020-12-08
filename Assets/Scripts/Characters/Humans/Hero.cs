@@ -10,11 +10,11 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -76,8 +76,6 @@ public class Hero : Human
     public GameObject crossR1;
     public GameObject crossR2;
     public string currentAnimation;
-    [Obsolete]
-    public int currentBladeNum = 5;
     public float currentBladeSta = 100f;
     private BUFF currentBuff { get; set; }
     public Camera currentCamera;
@@ -1969,7 +1967,10 @@ public class Hero : Human
 
     public void getSupply()
     {
-        if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || base.GetComponent<Animation>().IsPlaying("run_1")) || base.GetComponent<Animation>().IsPlaying("run_sasha")) && (((this.currentBladeSta != this.totalBladeSta) || (this.currentBladeNum != this.totalBladeNum)) || (((this.currentGas != this.totalGas) || (this.leftBulletLeft != this.bulletMAX)) || (this.rightBulletLeft != this.bulletMAX))))
+        if ((Animation.IsPlaying(this.standAnimation) 
+             || Animation.IsPlaying("run_1") 
+             || Animation.IsPlaying("run_sasha")) 
+                && (this.currentBladeSta != this.totalBladeSta || this.currentGas != this.totalGas || Equipment.Weapon.CanReload))
         {
             this.state = HERO_STATE.FillGas;
             this.crossFade("supply", 0.1f);
@@ -4617,31 +4618,19 @@ public class Hero : Human
             }
             else if (this.state == HERO_STATE.FillGas)
             {
-                //TODO: Fill Gas
-                //if (this.baseAnimation.IsPlaying("supply") && (this.baseAnimation["supply"].normalizedTime >= 1f))
-                //{
-                //    this.currentBladeSta = this.totalBladeSta;
-                //    this.currentBladeNum = this.totalBladeNum;
-                //    Equipment.Weapon.AmountLeft = Equipment.Weapon.AmountRight = totalBladeNum;
-                //    this.currentGas = this.totalGas;
-                //    if (!this.useGun)
-                //    {
-                //        this.setup.part_blade_l.SetActive(true);
-                //        this.setup.part_blade_r.SetActive(true);
-                //    }
-                //    else
-                //    {
-                //        this.leftBulletLeft = this.rightBulletLeft = this.bulletMAX;
-                //        this.rightGunHasBullet = true;
-                //        this.leftGunHasBullet = true;
-                //        this.setup.part_blade_l.SetActive(true);
-                //        this.setup.part_blade_r.SetActive(true);
-                //        this.updateRightMagUI();
-                //        this.updateLeftMagUI();
-                //    }
-                //    this.idle();
-                //}
-                idle();
+                if (Animation.IsPlaying("supply") && Animation["supply"].normalizedTime >= 1f)
+                {
+                    Equipment.Weapon.Resupply();
+                    this.currentBladeSta = this.totalBladeSta;
+                    this.currentGas = this.totalGas;
+                    if(useGun)
+                    {
+                        this.leftBulletLeft = this.rightBulletLeft = this.bulletMAX;
+                        this.rightGunHasBullet = true;
+                        this.leftGunHasBullet = true;
+                    }
+                    this.idle();
+                }
             }
             else if (this.state == HERO_STATE.Slide)
             {
@@ -4889,33 +4878,7 @@ public class Hero : Human
             }
         }
     }
-
-    private void updateLeftMagUI()
-    {
-        return;
-        for (int i = 1; i <= this.bulletMAX; i++)
-        {
-            //GameObject.Find("bulletL" + i).GetComponent<UISprite>().enabled = false;
-        }
-        for (int j = 1; j <= this.leftBulletLeft; j++)
-        {
-            //GameObject.Find("bulletL" + j).GetComponent<UISprite>().enabled = true;
-        }
-    }
-
-    private void updateRightMagUI()
-    {
-        return;
-        for (int i = 1; i <= this.bulletMAX; i++)
-        {
-            //GameObject.Find("bulletR" + i).GetComponent<UISprite>().enabled = false;
-        }
-        for (int j = 1; j <= this.rightBulletLeft; j++)
-        {
-            //GameObject.Find("bulletR" + j).GetComponent<UISprite>().enabled = true;
-        }
-    }
-
+    
     private void useGas(float amount = 0)
     {
         if (amount == 0f)

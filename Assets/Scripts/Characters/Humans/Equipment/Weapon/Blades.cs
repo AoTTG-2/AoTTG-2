@@ -6,12 +6,15 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
     {
         public override bool CanReload => AmountLeft < 5 || AmountRight < 5;
 
+        public int TotalBlades => AmountLeft;
+        private const int MaxAmmo = 5;
+
         public Blades()
         {
             HookForwardLeft = "air_hook_l";
             HookForwardRight = "air_hook_r";
             HookForward = "air_hook";
-            AmountLeft = AmountRight = 5;
+            AmountLeft = AmountRight = MaxAmmo;
         }
 
         public override void PlayReloadAnimation()
@@ -27,7 +30,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
             //TODO: Weapon Reloading
             if (!Hero.grounded)
             {
-                if (!((Hero.GetComponent<Animation>()[Hero.reloadAnimation].normalizedTime < 0.2f) || Hero.throwedBlades))
+                if (!(Hero.Animation[Hero.reloadAnimation].normalizedTime < 0.2f || Hero.throwedBlades))
                 {
                     Hero.throwedBlades = true;
                     if (WeaponLeft.activeSelf)
@@ -35,7 +38,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                         ThrowBlades();
                     }
                 }
-                if ((Hero.GetComponent<Animation>()[Hero.reloadAnimation].normalizedTime >= 0.56f) && (Hero.currentBladeNum > 0))
+                if (Hero.Animation[Hero.reloadAnimation].normalizedTime >= 0.56f && TotalBlades > 0)
                 {
                     WeaponLeft.SetActive(true);
                     WeaponRight.SetActive(true);
@@ -44,7 +47,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
             }
             else
             {
-                if (!((Hero.Animation[Hero.reloadAnimation].normalizedTime < 0.13f) || Hero.throwedBlades))
+                if (!(Hero.Animation[Hero.reloadAnimation].normalizedTime < 0.13f || Hero.throwedBlades))
                 {
                     Hero.throwedBlades = true;
                     if (WeaponLeft.activeSelf)
@@ -52,13 +55,20 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                         ThrowBlades();
                     }
                 }
-                if ((Hero.Animation[Hero.reloadAnimation].normalizedTime >= 0.37f) && (Hero.currentBladeNum > 0))
+                if (Hero.Animation[Hero.reloadAnimation].normalizedTime >= 0.37f && TotalBlades > 0)
                 {
                     WeaponLeft.SetActive(true);
                     WeaponRight.SetActive(true);
                     Hero.currentBladeSta = Hero.totalBladeSta;
                 }
             }
+        }
+
+        public override void Resupply()
+        {
+            AmountLeft = AmountRight = MaxAmmo;
+            WeaponLeft.SetActive(true);
+            WeaponRight.SetActive(true);
         }
 
         public override void UpdateSupplyUi(GameObject inGameUi)
@@ -73,6 +83,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
             var transform2 = WeaponRight.transform;
             var obj2 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
             var obj3 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
+
             //obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
             //obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
             Vector3 force = (Hero.transform.forward + ((Vector3) (Hero.transform.up * 2f))) - Hero.transform.right;
@@ -90,11 +101,9 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
             AmountLeft--;
             AmountRight--;
-            Hero.currentBladeNum--;
-            if (Hero.currentBladeNum == 0)
-            {
+
+            if (TotalBlades == 0)
                 Hero.currentBladeSta = 0f;
-            }
         }
 
         public override void Use(int amount = 0)

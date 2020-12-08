@@ -21,7 +21,14 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         public abstract bool CanReload { get; }
 
         public abstract void PlayReloadAnimation();
+        /// <summary>
+        /// Reload the weapon
+        /// </summary>
         public abstract void Reload();
+        /// <summary>
+        /// Resupply the weapon to retrieve the max amount of ammunition
+        /// </summary>
+        public abstract void Resupply();
         public abstract void UpdateSupplyUi(GameObject inGameUi);
         public abstract void Use(int amount = 0);
     }

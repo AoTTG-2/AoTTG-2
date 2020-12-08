@@ -4,12 +4,14 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 {
     public class Ahss : Weapon 
     {
+        private const int MaxAmmo = 7;
+
         public Ahss()
         {
             HookForwardLeft = "AHSS_hook_forward_l";
             HookForwardRight = "AHSS_hook_forward_r";
             HookForward = "AHSS_hook_forward_both";
-            AmountLeft = AmountRight = 7;
+            AmountLeft = AmountRight = MaxAmmo;
         }
 
         public override bool CanReload => AmountLeft < 7 || AmountRight < 7;
@@ -110,6 +112,13 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                     Hero.rightGunHasBullet = true;
                 }
             }
+        }
+
+        public override void Resupply()
+        {
+            AmountLeft = AmountRight = MaxAmmo;
+            WeaponLeft.SetActive(true); 
+            WeaponRight.SetActive(true);
         }
 
         public override void UpdateSupplyUi(GameObject inGameUi)

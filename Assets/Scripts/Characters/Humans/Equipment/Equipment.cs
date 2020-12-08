@@ -35,8 +35,6 @@ namespace Assets.Scripts.Characters.Humans.Equipment
                     break;
             }
 
-
-
             Weapon.Hero = Hero;
         }
 
