@@ -24,8 +24,10 @@ public class DayAndNightControl : MonoBehaviour {
     public Material skyBoxDAWN;
     public Material skyBoxDAY;
     public Material skyBoxNIGHT;
-    public float currentTime { get; set; } //for TBG: make any variable you want to change into the same format as here
+    public float currentTime { get; set; } 
+    //RPC variables: currentTime, DayLength, pause, 
 
+   
     public int currentDay = 0; 
 	public Light directionalLight;
     private float SecondsInAFullDay = 120f;//default value is 120 seconds in one day
@@ -57,9 +59,9 @@ public class DayAndNightControl : MonoBehaviour {
 		
 
         //Check if default light prefab exists, and if so, delete it
-        if (GameObject.Find("LightSet(Clone)"))
+        if (GameObject.Find("LightSet"))
         {
-            Destroy(GameObject.Find("LightSet(Clone)"));
+            Destroy(GameObject.Find("LightSet"));
         }
 
         

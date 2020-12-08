@@ -2793,7 +2793,8 @@ namespace Assets.Scripts
                     Eren = new TitanSettings(difficulty)
                 },
                 new HorseSettings(difficulty),
-                new RespawnSettings(difficulty)
+                new RespawnSettings(difficulty),
+                new TimeSettings()
             );
 
             var json = JsonConvert.SerializeObject(Settings, new JsonSerializerSettings()

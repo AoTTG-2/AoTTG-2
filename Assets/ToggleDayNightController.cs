@@ -60,17 +60,17 @@ using UnityEngine.UI;
             DefaultLightSet.SetActive(false);
                 if (!GameObject.Find("Day and Night Controller(Clone)"))
                 {
-                
 
                 float dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
                             GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z) / 3500;
                 //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
                 //of the scene's terrain
-                
-                DayNightController = Instantiate(DayNightControllerPrefab, GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center, Quaternion.identity);
+                //Resources.Load("Day and Night Controller.prefab");
+                DayNightController = PhotonNetwork.Instantiate("Day and Night Controller", GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center, Quaternion.identity,0);
                     DayNightController.transform.localScale = new Vector3(dynamicScale, dynamicScale, dynamicScale);//scales the object to fit the scene
-                Debug.Log(DayNightCycle.currentTime);
-            }
+                
+
+                }
 
             }
             else

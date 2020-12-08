@@ -21,6 +21,7 @@ namespace Assets.Scripts.Settings
         public static SettingsTitan Titan { get; private set; }
         public static HorseSettings Horse { get; private set; }
         public static RespawnSettings Respawn { get; private set; }
+        public static TimeSettings Time { get; private set; }
 
         [JsonProperty("Gamemodes")]
         private List<GamemodeSettings> ConfigGamemodes { get; set; }
@@ -37,6 +38,9 @@ namespace Assets.Scripts.Settings
         [JsonProperty("Respawn")]
         private RespawnSettings ConfigRespawn { get; set; }
 
+        [JsonProperty("Time")]
+        private TimeSettings ConfigTime { get; set; }
+
         public void Initialize(GamemodeType type)
         {
             PvP = ConfigPvP;
@@ -44,21 +48,23 @@ namespace Assets.Scripts.Settings
             Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == type);
             Horse = ConfigHorse;
             Respawn = ConfigRespawn;
+            Time = ConfigTime;
         }
 
-        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn)
+        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn, TimeSettings time)
         {
             PvP = ConfigPvP = pvp;
             Titan = ConfigTitan = titan;
             ConfigGamemodes = gamemodes;
             Horse = ConfigHorse = horse;
             Respawn = ConfigRespawn = respawn;
+            Time = ConfigTime = time;
         }
 
         public void Initialize(string json)
         {
             var gameSettings = JsonConvert.DeserializeObject<GameSettings>(json);
-            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn);
+            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn, gameSettings.ConfigTime);
         }
 
         public void ChangeSettings(GamemodeSettings levelGamemode)
