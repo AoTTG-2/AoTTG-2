@@ -23,7 +23,7 @@ namespace Assets.Scripts.Gamemode.Racing
             }
         }
         private Hero Hero { get; set; }
-        private AudioSource audioSource;
+        [SerializeField] private AudioSource audioSource;
 
         private void OnStateChanged(ObjectiveState state)
         {
@@ -79,7 +79,6 @@ namespace Assets.Scripts.Gamemode.Racing
             }
             Gamemode.Objectives.Add(this);
             State = ObjectiveState.Queue;
-            audioSource = GetComponent<AudioSource>();
         }
 
         private void OnDestroy()
