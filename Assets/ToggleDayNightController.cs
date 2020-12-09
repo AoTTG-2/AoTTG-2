@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 

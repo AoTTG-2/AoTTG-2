@@ -230,7 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 456198}
   - component: {fileID: 11431738}
-  - component: {fileID: -3398963364853213097}
+  - component: {fileID: 3180873141467643437}
   m_Layer: 0
   m_Name: Day and Night Controller
   m_TagString: Untagged
@@ -292,7 +292,7 @@ MonoBehaviour:
   directionalLight: {fileID: 10851780}
   timeMultiplier: 1
   showUI: 1
---- !u!114 &-3398963364853213097
+--- !u!114 &3180873141467643437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,12 +308,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
+  synchronization: 1
+  onSerializeTransformOption: 4
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 456198}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

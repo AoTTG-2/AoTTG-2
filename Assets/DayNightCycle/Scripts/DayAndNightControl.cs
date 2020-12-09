@@ -1,5 +1,6 @@
 ﻿//2016 Spyblood Games
 
+using Assets.Scripts.Settings;
 using UnityEngine;
 
 
@@ -46,10 +47,11 @@ public class DayAndNightControl : MonoBehaviour {
 	
 
 	Camera targetCam;
-
-	// Use this for initialization
-	void Start () {
-		foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
+    
+    // Use this for initialization
+    void Start () {
+        
+        foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
 		{
 			if (c.isActiveAndEnabled) {
 				targetCam = c;
