@@ -139,6 +139,14 @@ namespace Assets.Scripts
 
         private GameSettings Settings { get; set; }
 
+        /// <summary>
+        /// We store this in a variable to make sure the Coroutine is killed if the game 
+        /// is restarted, making it so player can't be duplicated.
+        /// 
+        /// <para>This should be moved if respawn is moved to Spawn/Player Service.</para>
+        /// </summary>
+        private Coroutine respawnCoroutine;
+
         [Obsolete("FengGameManager doesn't require the usage of IN_GAME_MAIN_CAMERA.")]
         public void addCamera(IN_GAME_MAIN_CAMERA c)
         {
@@ -339,8 +347,6 @@ namespace Assets.Scripts
             }
         }
 
-        Coroutine c;
-
         //[Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
         private void LateUpdate()
         {
@@ -397,7 +403,7 @@ namespace Assets.Scripts
                                 }
                                 else
                                 {
-                                    c = StartCoroutine(WaitAndRespawn1(0.1f, myLastRespawnTag));
+                                    respawnCoroutine = StartCoroutine(WaitAndRespawn1(0.1f, myLastRespawnTag));
                                 }
                                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
                             }
@@ -2260,7 +2266,7 @@ namespace Assets.Scripts
 
         public void restartRC()
         {
-            if (c != null) StopCoroutine(c);
+            if (respawnCoroutine != null) StopCoroutine(respawnCoroutine);
             Debug.Log("RestartRC");
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
