@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class MeleeWeaponTrail : MonoBehaviour
 {
 	[SerializeField]
-	public static bool _emit = false;
+	private  bool _emit = false;
 	public  bool Emit { set { _emit = value; } }
 
 	bool _use = true;
@@ -94,8 +94,27 @@ public class MeleeWeaponTrail : MonoBehaviour
 	{
 		Destroy(_trailObject);
 	}
+    void OnEnable()
+    {
+        _lastPosition = transform.position;
+        _trailObject = new GameObject("Trail");
+        _trailObject.transform.parent = null;
+        _trailObject.transform.position = Vector3.zero;
+        _trailObject.transform.rotation = Quaternion.identity;
+        _trailObject.transform.localScale = Vector3.one;
+        _trailObject.AddComponent(typeof(MeshFilter));
+        _trailObject.AddComponent(typeof(MeshRenderer));
+        _trailObject.GetComponent<MeshRenderer>().material = _material;
 
-	void Update()
+
+        _trailMesh = new Mesh();
+        _trailMesh.name = name + "TrailMesh";
+        _trailObject.GetComponent<MeshFilter>().mesh = _trailMesh;
+
+        _minVertexDistanceSqr = _minVertexDistance * _minVertexDistance;
+        _maxVertexDistanceSqr = _maxVertexDistance * _maxVertexDistance;
+    }
+    void Update()
 	{
 		if (!_use)
 		{
