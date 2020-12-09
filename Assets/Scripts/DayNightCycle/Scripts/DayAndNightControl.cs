@@ -65,8 +65,8 @@ public class DayAndNightControl : MonoBehaviour {
         {
             GameObject.Find("LightSet").SetActive(false);
         }
-
         
+
 
     }
 
@@ -74,6 +74,7 @@ public class DayAndNightControl : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+
         //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
         //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
         GameObject.Find("MoonCamera").GetComponent<Camera>().fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
@@ -93,6 +94,11 @@ public class DayAndNightControl : MonoBehaviour {
                 currentDay++; //make the day counter go up
             }
         }
+        }
+        if (PhotonNetwork.isMasterClient)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
         }
     }
 
@@ -238,6 +244,12 @@ public class DayAndNightControl : MonoBehaviour {
 		}
 		return dayState;
 	}
-
-
+    [PunRPC]
+    void SyncTimeRPC(float time, float dayLength, bool paused)
+    {
+        DayLength = (float) dayLength;
+        currentTime = (float) time;
+        pause = (bool)paused;
+    }
+    
 }

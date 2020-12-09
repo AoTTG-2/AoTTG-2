@@ -22,7 +22,7 @@ MonoBehaviour:
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 0
+  JoinLobby: 1
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
@@ -72,7 +72,7 @@ MonoBehaviour:
   - netContinueAnimation
   - netCrossFade
   - netDie
-  - netDie2  
+  - netDie2
   - netGameLose
   - netGameWin
   - netGrabbed
@@ -152,4 +152,7 @@ MonoBehaviour:
   - RequestStatus
   - UpdateHealthLabelRpc2
   - OnArrivedAtLastCheckpointRpc
+  - SyncDayLengthRPC
+  - SyncTimePauseRPC
+  - SyncTimeRPC
   DisableAutoOpenWizard: 1

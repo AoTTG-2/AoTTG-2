@@ -1,5 +1,4 @@
 ﻿
-using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +8,6 @@ using UnityEngine.UI;
         public Color DefaultSkyColor;
         public Color DefaultEquatorColor;
         public Color DefaultHorizonColor;
-
         public GameObject DayNightControllerPrefab = null;
         public Toggle ToggleDayNight;
         public Button ResetDayNightButton;
@@ -41,7 +39,12 @@ using UnityEngine.UI;
 
         }
 
-        public void PauseDayNightSystem()
+        [PunRPC]
+        void SyncTimePauseRPC(bool pause)
+        {
+
+        }
+    public void PauseDayNightSystem()
         {
             DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
             DayNightCycle.pause = !DayNightCycle.pause;
@@ -50,7 +53,7 @@ using UnityEngine.UI;
         void Update()
         {
         
-            //when changing scene, this becomes null, so here we refnd and reassign it
+            //when changing scene, this becomes null, so here we refind and reassign it
             if (DefaultLightSet == null)
             {
                 DefaultLightSet = GameObject.Find("LightSet");
@@ -77,9 +80,9 @@ using UnityEngine.UI;
             else
             {
 
-                DayNightController = GameObject.Find("Day and Night Controller(Clone)");
+                //DayNightController = GameObject.Find("Day and Night Controller(Clone)");
                 Destroy(DayNightController);
-                GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxReset;
+                GameObject.Find("MainCamera").GetComponent<Skybox>().material = RenderSettings.skybox;
                 RenderSettings.ambientSkyColor = DefaultSkyColor;
                 RenderSettings.ambientEquatorColor = DefaultEquatorColor;
                 RenderSettings.ambientGroundColor = DefaultHorizonColor;

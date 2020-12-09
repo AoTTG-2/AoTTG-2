@@ -19,17 +19,23 @@ namespace Assets.Scripts.UI.InGame
             
 
         }
-        
+        [PunRPC]
+        void SyncTimeRPC(float currentTime)
+        {
+
+        }
         void Update()
         {
             
             var se = new InputField.SubmitEvent();
             se.AddListener(SubmitTime);
             TimeInput.onEndEdit = se;
-            
-            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+            if (DayNightCycle == null)
+            {
+                DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+            }
             DayNightCycle.currentTime = TimeSlider.value;
-            
+            SyncTimeRPC(TimeSlider.value);
         }
         
         private void SubmitTime(string arg0)
