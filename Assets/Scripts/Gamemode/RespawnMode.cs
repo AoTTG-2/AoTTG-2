@@ -7,7 +7,6 @@ public enum RespawnMode
 
     /// <summary>
     /// Players will continue to respawn forever.
-    /// <para>Note: Disables "Loose" screen for players.</para>
     /// </summary>
     Endless,
     

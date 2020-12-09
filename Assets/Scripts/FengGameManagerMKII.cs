@@ -2266,8 +2266,11 @@ namespace Assets.Scripts
 
         public void restartRC()
         {
-            if (respawnCoroutine != null) StopCoroutine(respawnCoroutine);
             Debug.Log("RestartRC");
+
+            if (respawnCoroutine != null) 
+                StopCoroutine(respawnCoroutine);
+            
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
                 Level = NewRoundLevel;

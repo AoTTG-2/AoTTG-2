@@ -12,7 +12,7 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnFactionDefeated(Faction faction)
         {
-            if (IsRoundOver || !PhotonNetwork.isMasterClient || Settings.Respawn.Mode == RespawnMode.Endless) return;
+            if (IsRoundOver || !PhotonNetwork.isMasterClient) return;
             string winner;
             if (faction == FactionService.GetHumanity())
             {
