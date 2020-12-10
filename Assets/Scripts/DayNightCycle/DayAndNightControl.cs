@@ -80,7 +80,7 @@ namespace Assets.Scripts.DayNightCycle
         void Update()
         {
             //updates timeslider when out of menu
-            if (!GameObject.Find("Menu"))
+            if (!GameObject.Find("Game Settings"))
             {
                 TimeSlider.value = currentTime;
                    
@@ -109,6 +109,8 @@ namespace Assets.Scripts.DayNightCycle
             //MC loads settings
             if (PhotonNetwork.isMasterClient)
             {
+                PhotonView photonView = PhotonView.Get(this);
+                photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
                 GameSettings.Time.currentTime = currentTime;
                 GameSettings.Time.dayLength = DayLength;
                 GameSettings.Time.pause = pause;
