@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.InGame
+namespace Assets.Scripts.DayNightCycle
 {
     public class DayLengthController : MonoBehaviour
     {
@@ -33,14 +33,9 @@ namespace Assets.Scripts.UI.InGame
         {
             float dayLength =float.Parse(arg0);
             DayNightCycle.DayLength = (float) dayLength;
-            SyncDayLengthRPC(dayLength);
             Debug.Log(DayNightCycle.DayLength);
         }
-        [PunRPC]
-        void SyncDayLengthRPC(float dayLength)
-        {
-            DayNightCycle.DayLength = (float) dayLength;
-        }
+      
 
 
     }

@@ -15,7 +15,7 @@ namespace Assets.Scripts.UI.InGame
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
 
-        TimeSwitcher DayNightCycle;
+        
         
         private void Awake()
         {

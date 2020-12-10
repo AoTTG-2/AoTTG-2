@@ -12,8 +12,6 @@ namespace Assets.Scripts.Settings
         public float? currentTime { get; set; }
         public float? dayLength { get; set; }
         public bool? pause { get; set; }
-        public float? dynamicScale { get; set; } //I added this because when a player joins, i noticed that 
-                                                 //the 'scale' or size of the gameobject isnt set to the MC's,
-                                                 //this scale determines the orbiting arc of the moon.
+        
     }
 }
