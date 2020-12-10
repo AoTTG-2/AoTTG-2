@@ -9,23 +9,28 @@ namespace Assets.Scripts.DayNightCycle
 
         public Text Label;
         public InputField DayLengthInput;
+        public Toggle ToggleDayNight;
         DayAndNightControl DayNightCycle;
        
 
         void Start()
         {
-            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-            DayLengthInput = gameObject.GetComponent<InputField>();
+            ToggleDayNight = GameObject.Find("ToggleDayNight").GetComponent<Toggle>();
+            
         }
         void Update()
         {
-            if (DayNightCycle == null)
+            if (ToggleDayNight.isOn)
             {
-                DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+                if (DayNightCycle == null)
+                {
+                    DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+                }
+
+                var se = new InputField.SubmitEvent();
+                se.AddListener(SubmitDayLength);
+                DayLengthInput.onEndEdit = se;
             }
-            var se = new InputField.SubmitEvent();
-            se.AddListener(SubmitDayLength);
-            DayLengthInput.onEndEdit = se;
 
         }
 
@@ -33,7 +38,8 @@ namespace Assets.Scripts.DayNightCycle
         {
             float dayLength =float.Parse(arg0);
             DayNightCycle.DayLength = (float) dayLength;
-            Debug.Log(DayNightCycle.DayLength);
+           
+           
         }
       
 

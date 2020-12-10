@@ -1,5 +1,4 @@
-﻿//2016 Spyblood Games
-
+﻿
 using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,8 +53,8 @@ namespace Assets.Scripts.DayNightCycle
         // Use this for initialization
         void Start()
         {
+
             TimeSlider = GameObject.Find("TimeSlider").GetComponent<Slider>();
-            
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
             {
                 if (c.isActiveAndEnabled)
@@ -80,14 +79,13 @@ namespace Assets.Scripts.DayNightCycle
         // Update is called once per frame
         void Update()
         {
-            GameSettings.Time.currentTime = currentTime;
-            GameSettings.Time.dayLength = DayLength;
-            GameSettings.Time.pause = pause;
+            //updates timeslider when out of menu
             if (!GameObject.Find("Menu"))
             {
                 TimeSlider.value = currentTime;
-                
+                   
             }
+            
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
             //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
             GameObject.Find("MoonCamera").GetComponent<Camera>().fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
@@ -108,11 +106,16 @@ namespace Assets.Scripts.DayNightCycle
                     }
                 }
             }
+            //MC loads settings
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonView photonView = PhotonView.Get(this);
-                photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
+                GameSettings.Time.currentTime = currentTime;
+                GameSettings.Time.dayLength = DayLength;
+                GameSettings.Time.pause = pause;
             }
+            //TODO: add method to change local script variables when OnSettingsChanged is added
+           
+            
         }
 
 
@@ -161,23 +164,15 @@ namespace Assets.Scripts.DayNightCycle
                 RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, nightColors.skyColor, 0.001f / (SecondsInAFullDay / 300));
                 RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, nightColors.equatorColor, 0.001f / (SecondsInAFullDay / 300));
                 RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, nightColors.horizonColor, 0.001f / (SecondsInAFullDay / 300));
-                //RenderSettings.skybox.Lerp(skyBoxNIGHT, skyBoxDAWN, 0.01f);
-                //DynamicGI.UpdateEnvironment();
-                /*RenderSettings.ambientSkyColor = nightColors.skyColor;
-                RenderSettings.ambientEquatorColor = nightColors.equatorColor;
-                RenderSettings.ambientGroundColor = nightColors.horizonColor;*/
+                
                 
 
             }
             if (currentTime > 0.25f && currentTime < 0.40f)
             {
                 RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, dawnColors.skyColor, 0.001f / (SecondsInAFullDay / 600));
-
-                //RenderSettings.ambientSkyColor = dawnColors.skyColor;
                 RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, dawnColors.equatorColor, 0.001f / (SecondsInAFullDay / 600));
-                //RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
                 RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, dawnColors.horizonColor, 0.001f / (SecondsInAFullDay / 600));
-                //RenderSettings.ambientGroundColor = dawnColors.horizonColor;
                 GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAWN;
 
                 if (currentTime > 0.35f)
@@ -203,17 +198,7 @@ namespace Assets.Scripts.DayNightCycle
                 }
                 GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxDAY;
             }
-            /* if (currentTime > 0.75f && currentTime < 0.80f)
-            {
-                RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, nightColors.skyColor, 0.001f / (SecondsInAFullDay / 40));
-                RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, nightColors.equatorColor, 0.001f / (SecondsInAFullDay / 40));
-                RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, nightColors.horizonColor, 0.001f / (SecondsInAFullDay / 40));
-                /*RenderSettings.ambientSkyColor = nightColors.skyColor;
-                RenderSettings.ambientEquatorColor = nightColors.equatorColor;
-                RenderSettings.ambientGroundColor = nightColors.horizonColor;
-                GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
-
-            } */
+           
 
             if (currentTime > 0.75f && currentTime < 0.99f)
             {
@@ -265,9 +250,9 @@ namespace Assets.Scripts.DayNightCycle
         [PunRPC]
         void SyncTimeRPC(float time, float dayLength, bool paused)
         {
-            DayLength = (float) dayLength;
-            currentTime = (float) time;
-            pause = (bool) paused;
+            DayLength =  dayLength;
+            currentTime =  time;
+            pause =  paused;
         }
 
     }

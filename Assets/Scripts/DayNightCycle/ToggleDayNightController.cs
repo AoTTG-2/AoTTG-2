@@ -26,8 +26,6 @@ namespace Assets.Scripts.DayNightCycle
         void Start()
         {
             DefaultLightSet = GameObject.Find("LightSet");
-
-
             //These defaults are stored so that when the system is toggled off, all colour settings are set back to the scene defaults
             DefaultSkyColor = RenderSettings.ambientSkyColor;
             DefaultEquatorColor = RenderSettings.ambientEquatorColor;
@@ -36,7 +34,7 @@ namespace Assets.Scripts.DayNightCycle
             ToggleDayNight.isOn = false;
             Button btn = ResetDayNightButton.GetComponent<Button>();
             btn.onClick.AddListener(PauseDayNightSystem);
-            DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+            
 
 
         }
@@ -62,30 +60,23 @@ namespace Assets.Scripts.DayNightCycle
                 DefaultLightSet.SetActive(false);
                 if (!GameObject.Find("Day and Night Controller(Clone)"))
                 {
-
                     float dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
                                 GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z) / 3500;
                     //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
                     //of the scene's terrain
-                    //Resources.Load("Day and Night Controller.prefab");
                     DayNightController = PhotonNetwork.Instantiate("Day and Night Controller", GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center, Quaternion.identity, 0);
                     DayNightController.transform.localScale = new Vector3(dynamicScale, dynamicScale, dynamicScale);//scales the object to fit the scene
-
-
                 }
 
             }
             else
             {
-
-                //DayNightController = GameObject.Find("Day and Night Controller(Clone)");
                 Destroy(DayNightController);
                 GameObject.Find("MainCamera").GetComponent<Skybox>().material = RenderSettings.skybox;
                 RenderSettings.ambientSkyColor = DefaultSkyColor;
                 RenderSettings.ambientEquatorColor = DefaultEquatorColor;
                 RenderSettings.ambientGroundColor = DefaultHorizonColor;
                 DefaultLightSet.SetActive(true);
-
             }
 
         }
