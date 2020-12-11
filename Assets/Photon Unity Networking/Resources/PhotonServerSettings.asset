@@ -55,12 +55,12 @@ MonoBehaviour:
   - hitByTitanRPC
   - hitEyeRPC
   - hookFail
-  - ignorePlayer
-  - ignorePlayerArray
   - InitializeRpc
   - InitializeRPC
-  - initRPC
   - InstantiateRpc
+  - ignorePlayer
+  - ignorePlayerArray
+  - initRPC
   - killObject
   - labelRPC
   - launchRPC
@@ -73,8 +73,6 @@ MonoBehaviour:
   - netCrossFade
   - netDie
   - netDie2
-  - netGameLose
-  - netGameWin
   - netGrabbed
   - netlaughAttack
   - netLaunch
@@ -88,24 +86,25 @@ MonoBehaviour:
   - netUngrabbed
   - netUpdateLeviSpiral
   - netUpdatePhase1
+  - OnArrivedAtLastCheckpointRpc
   - OnBodyPartHitRpc
-  - oneTitanDown
   - OnEyeHitRpc
+  - OnGameEndRpc
   - OnNapeHitRpc
-  - PauseRPC
+  - OnNapeHitRpc2
+  - PauseRpc
   - PickupItemInit
   - playsoundRPC
   - PunPickup
   - PunPickupSimple
   - PunRespawn
+  - RacingStartRpc
   - RefreshCaptureScore
-  - refreshStatus
   - removeMe
   - RequestControlRPC
   - RequestForPickupItems
   - RequestForPickupTimes
-  - RequestSettings
-  - RequireStatus
+  - RequestStatus
   - respawnHeroInNewRound
   - RespawnRpc
   - ReturnFromCannon
@@ -124,12 +123,9 @@ MonoBehaviour:
   - setSize
   - SetSize
   - setTeamRPC
-  - settingRPC
   - setVelocityAndLeft
-  - showChatContent
   - showHitDamage
   - showResult
-  - someOneIsDead
   - SpawnCannonRPC
   - spawnPlayerAtRPC
   - SpawnPlayerTitanRpc
@@ -138,21 +134,13 @@ MonoBehaviour:
   - startSweepSmoke
   - stopSweepSmoke
   - SyncBodyPartRpc
-  - SyncSettings
+  - SyncSettingsRpc
   - tieMeTo
   - tieMeToOBJ
-  - titanGetHit
   - titanGetKill
   - UpdateHealthLabelRpc
+  - UpdateHealthLabelRpc2
   - updateKillInfo
   - verifyPlayerHasLeft
   - whoIsMyErenTitan
-  - PauseRpc
-  - OnNapeHitRpc2
-  - OnGameEndRpc
-  - RacingStartRpc
-  - RequestStatus
-  - UpdateHealthLabelRpc2
-  - OnArrivedAtLastCheckpointRpc
-  - SyncSettingsRpc
   DisableAutoOpenWizard: 1

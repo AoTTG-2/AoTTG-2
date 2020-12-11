@@ -7,7 +7,10 @@ namespace Assets.Scripts.Settings
     {
         public RespawnMode Mode { get; set; }
 
-        public int? EndlessRevive { get; set; }
+        /// <summary>
+        /// Time it takes for players to revive.
+        /// </summary>
+        public int? ReviveTime { get; set; }
 
         public RespawnSettings() { }
 
@@ -21,7 +24,7 @@ namespace Assets.Scripts.Settings
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
                     Mode = RespawnMode.NewRound;
-                    EndlessRevive = 5;
+                    ReviveTime = 5;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);

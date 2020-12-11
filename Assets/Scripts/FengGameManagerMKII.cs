@@ -137,6 +137,14 @@ namespace Assets.Scripts
         public static Level NewRoundLevel { get; set; }
         public static GamemodeSettings NewRoundGamemode { get; set; }
 
+        /// <summary>
+        /// We store this in a variable to make sure the Coroutine is killed if the game 
+        /// is restarted, making it so player can't be duplicated.
+        /// 
+        /// <para>This should be moved if respawn is moved to Spawn/Player Service.</para>
+        /// </summary>
+        private Coroutine respawnCoroutine;
+
         [Obsolete("FengGameManager doesn't require the usage of IN_GAME_MAIN_CAMERA.")]
         public void addCamera(IN_GAME_MAIN_CAMERA c)
         {
@@ -369,8 +377,7 @@ namespace Assets.Scripts
                          (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                         (((int) settings[0xf5]) == 0))
                     {
-                        if (((GameSettings.Respawn.Mode == RespawnMode.DeathMatch) ||
-                             (GameSettings.Respawn.EndlessRevive.Value > 0)) ||
+                        if (GameSettings.Respawn.Mode == RespawnMode.Endless ||
                             !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
                                 ? (GameSettings.Gamemode.PointMode <= 0)
                                 : true))
@@ -383,9 +390,9 @@ namespace Assets.Scripts
                                 endlessMode = 10;
                             }
 
-                            if (GameSettings.Respawn.EndlessRevive.Value > 0)
+                            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
                             {
-                                endlessMode = GameSettings.Respawn.EndlessRevive.Value;
+                                endlessMode = GameSettings.Respawn.ReviveTime.Value;
                             }
 
                             //TODO
@@ -402,9 +409,8 @@ namespace Assets.Scripts
                                 }
                                 else
                                 {
-                                    base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
+                                    respawnCoroutine = StartCoroutine(WaitAndRespawn1(0.1f, myLastRespawnTag));
                                 }
-
                                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
                             }
                         }
@@ -2257,6 +2263,10 @@ namespace Assets.Scripts
         public void restartRC()
         {
             Debug.Log("RestartRC");
+
+            if (respawnCoroutine != null) 
+                StopCoroutine(respawnCoroutine);
+            
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
                 Level = NewRoundLevel;
@@ -2470,14 +2480,14 @@ namespace Assets.Scripts
             {
                 mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
             }
-            if (GameSettings.Respawn.EndlessRevive.Value > 0)
+            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
-                StartCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
+                StartCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
             }
             else
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
             }
 
             if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
