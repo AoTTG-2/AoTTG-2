@@ -6,6 +6,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class PvPAhssGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.PvpAhss;
         private PvPAhssSettings Settings => GameSettings.Gamemode as PvPAhssSettings;
 
         private int teamWinner;

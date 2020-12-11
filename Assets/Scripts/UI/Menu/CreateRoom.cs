@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings.Gamemodes;
 using ExitGames.Client.Photon;
 using System;
@@ -92,13 +93,13 @@ namespace Assets.Scripts.UI.Menu
                 var customDifficulty = DifficultyDropdown.captionText.text.Replace(CustomDifficultyPrefix, string.Empty);
                 using (var reader = File.OpenText(CustomDifficulties[customDifficulty]))
                 {
-                    FengGameManagerMKII.instance.SetSettings(reader.ReadToEnd());
+                    Service.Settings.SyncSettings(reader.ReadToEnd());
                 }
             }
             else
             {
                 var difficulty = (Difficulty) DifficultyDropdown.value;
-                FengGameManagerMKII.instance.SetSettings(difficulty);
+                Service.Settings.SyncSettings(difficulty);
             }
 
             var roomNameInput = RoomName.text.Trim();

@@ -8,6 +8,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class KillTitansGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Titans;
         private KillTitansSettings Settings => GameSettings.Gamemode as KillTitansSettings;
 
         protected override void OnFactionDefeated(Faction faction)

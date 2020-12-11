@@ -10,6 +10,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class CaptureGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Capture;
         private CaptureGamemodeSettings Settings => GameSettings.Gamemode as CaptureGamemodeSettings;
 
         public int PvpTitanScore { get; set; }

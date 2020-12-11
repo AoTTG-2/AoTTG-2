@@ -20,6 +20,8 @@ namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : PunBehaviour
     {
+        public abstract GamemodeType GamemodeType { get; }
+
         private GamemodeSettings Settings => GameSettings.Gamemode;
 
         protected IEntityService EntityService => Service.Entity;
