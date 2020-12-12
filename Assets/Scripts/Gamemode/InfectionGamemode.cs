@@ -6,6 +6,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class InfectionGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Infection;
         private InfectionGamemodeSettings Settings => GameSettings.Gamemode as InfectionGamemodeSettings;
 
         public override void OnRestart()
