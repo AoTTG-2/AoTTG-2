@@ -1,54 +1,62 @@
-﻿using Assets.Scripts.UI.Input;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using Assets.Scripts.UI.Input;
 using System.IO;
 using UnityEngine;
 
 public class ScreenshotHandler : MonoBehaviour
 {
-    public int resWidth = 2550;
-    public int resHeight = 3300;
+    private const string ScreenDirectory = "Screenshots";
 
-    private bool takeHiResShot = false;
-
-    public static string ScreenShotName(int width, int height)
+    private void Awake()
     {
-        
-        string date = System.DateTime.Now.ToString("dd-MM-yyyy");
-        string time = System.DateTime.Now.ToString("HHmmss");
-        Directory.CreateDirectory(Application.dataPath + "/Screenshots/" + date);
-        return string.Format("{0}/Screenshots/{1}/{2}_{3}.png",
-                             Application.dataPath,
-                             date, System.DateTime.Now.ToString("ddMMyyyy"), time);
+        var temp = $"{Application.dataPath}/{ScreenDirectory}";
+        if (!Directory.Exists(temp))
+            Directory.CreateDirectory(temp);
     }
 
-    public void TakeHiResShot()
+    private void LateUpdate()
     {
-        takeHiResShot = true;
-    }
-
-    void LateUpdate()
-    {
-            //using this hardcoded keydown works, but when using the rebind, i get out of index exceptions
-            //Input.GetKeyDown(KeyCode.F12)
         if (InputManager.KeyDown(InputUi.Screenshot))
         {
-            RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
-            GetComponent<Camera>().targetTexture = rt;
-            Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
-            GetComponent<Camera>().Render();
-            RenderTexture.active = rt;
-            screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
-            GetComponent<Camera>().targetTexture = null;
-            RenderTexture.active = null; // JC: added to avoid errors
-            Destroy(rt);
-            byte[] bytes = screenShot.EncodeToPNG();
-            string filename = ScreenShotName(resWidth, resHeight);
-            
-            System.IO.File.WriteAllBytes(filename, bytes);
-            Debug.Log(string.Format("Took screenshot to: {0}", filename));
-            takeHiResShot = false;
+            var filename = $"{GetImagePath()}/{DateTime.Now:HHmmss}.png";
+            ScreenCapture.CaptureScreenshot(filename);
         }
     }
-}
 
+    private static string GetImagePath()
+    {
+        string current = DateTime.Now.ToShortDateString();
+        var cultured = current.Replace("/", "-");
+        var final = $"{Application.dataPath}/{ScreenDirectory}/{cultured}";
+        if (!Directory.Exists(final))
+            Directory.CreateDirectory(final);
+
+        return final;
+    }
+
+    #region Works, but discarded due to being expensive
+
+    // public int resWidth = 2550;
+    // public int resHeight = 3300;
+    // private Camera cam;
+    // private void GenerateScreenShot()
+    // {
+    //     RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+    //     cam.targetTexture = rt;
+    //     Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+    //     cam.Render();
+    //     RenderTexture.active = rt;
+    //     screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+    //     cam.targetTexture = null;
+    //     RenderTexture.active = null; // JC: added to avoid errors
+    //     Destroy(rt);
+    //     byte[] bytes = screenShot.EncodeToPNG();
+    //     string filename = GetImagePath();
+    //
+    //     File.WriteAllBytes(filename, bytes);
+    //     
+    //     Debug.Log($"Took screenshot to: {filename}");
+    // }
+
+    #endregion
+}
