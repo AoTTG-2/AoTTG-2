@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Settings;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
@@ -7,12 +8,13 @@ namespace Assets.Scripts.Gamemode.Racing
     {
         public bool IsRacingOnly;
 
-        private void Start()
+        private IEnumerator Start()
         {
+            yield return new WaitUntil(() => GameSettings.Gamemode != null);
             if (IsRacingOnly && GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)
             {
                 Destroy(gameObject);
-                return;
+                yield break;
             }
 
             var racingGamemode = (RacingGamemode) FengGameManagerMKII.Gamemode;
