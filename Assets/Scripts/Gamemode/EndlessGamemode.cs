@@ -8,6 +8,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class EndlessGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Endless;
         private EndlessSettings Settings => GameSettings.Gamemode as EndlessSettings;
 
         private int Score { get; set; }

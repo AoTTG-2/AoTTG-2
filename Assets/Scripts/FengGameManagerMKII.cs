@@ -9,13 +9,10 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.Settings.Titans;
-using Assets.Scripts.Settings.Titans.Attacks;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
-using Newtonsoft.Json;
 using Photon;
 using System;
 using System.Collections;
@@ -132,18 +129,32 @@ namespace Assets.Scripts
 
         [Obsolete("This is used to assign a name to the HERO, but it shouldn't be within FengGameManager")]
         public new string name { get; set; }
-        public static GamemodeBase Gamemode { get; private set; }
+        public static GamemodeBase Gamemode { get; set; }
         public static Level Level { get; set; }
 
         public static Level NewRoundLevel { get; set; }
         public static GamemodeSettings NewRoundGamemode { get; set; }
 
-        private GameSettings Settings { get; set; }
+        /// <summary>
+        /// We store this in a variable to make sure the Coroutine is killed if the game 
+        /// is restarted, making it so player can't be duplicated.
+        /// 
+        /// <para>This should be moved if respawn is moved to Spawn/Player Service.</para>
+        /// </summary>
+        private Coroutine respawnCoroutine;
 
         [Obsolete("FengGameManager doesn't require the usage of IN_GAME_MAIN_CAMERA.")]
         public void addCamera(IN_GAME_MAIN_CAMERA c)
         {
             this.mainCamera = c;
+        }
+
+        public void SetLevelAndGamemode()
+        {
+            Level = PhotonNetwork.room.GetLevel();
+            var gamemodeSettings = PhotonNetwork.room.GetGamemodeSetting(Level);
+            SetGamemode(gamemodeSettings);
+            Service.Settings.SetGamemodeType(gamemodeSettings.GamemodeType);
         }
 
         private void cache()
@@ -364,8 +375,7 @@ namespace Assets.Scripts
                          (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                         (((int) settings[0xf5]) == 0))
                     {
-                        if (((GameSettings.Respawn.Mode == RespawnMode.DeathMatch) ||
-                             (GameSettings.Respawn.EndlessRevive.Value > 0)) ||
+                        if (GameSettings.Respawn.Mode == RespawnMode.Endless ||
                             !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
                                 ? (GameSettings.Gamemode.PointMode <= 0)
                                 : true))
@@ -378,9 +388,9 @@ namespace Assets.Scripts
                                 endlessMode = 10;
                             }
 
-                            if (GameSettings.Respawn.EndlessRevive.Value > 0)
+                            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
                             {
-                                endlessMode = GameSettings.Respawn.EndlessRevive.Value;
+                                endlessMode = GameSettings.Respawn.ReviveTime.Value;
                             }
 
                             //TODO
@@ -397,9 +407,8 @@ namespace Assets.Scripts
                                 }
                                 else
                                 {
-                                    base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
+                                    respawnCoroutine = StartCoroutine(WaitAndRespawn1(0.1f, myLastRespawnTag));
                                 }
-
                                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
                             }
                         }
@@ -1792,7 +1801,7 @@ namespace Assets.Scripts
         {
             if (Gamemode == null)
             {
-                Settings?.ChangeSettings(settings);
+                Service.Settings.Get().ChangeSettings(settings);
                 var gamemodeObject = GameObject.Find("Gamemode");
                 Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
             }
@@ -1812,21 +1821,8 @@ namespace Assets.Scripts
 
         public override void OnJoinedRoom()
         {
-            if (PhotonNetwork.isMasterClient)
-            {
-                var hash = new Hashtable();
-                hash.Add("Settings", JsonConvert.SerializeObject(Settings, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
-                PhotonNetwork.room.SetCustomProperties(hash);
-            }
-            else
-            {
-                var json = (string) PhotonNetwork.room.CustomProperties["Settings"];
-                Settings = new GameSettings();
-                Settings.Initialize(json);
-            }
-
-            Level = PhotonNetwork.room.GetLevel();
-            SetGamemode(PhotonNetwork.room.GetGamemodeSetting(Level));
+            Service.Settings.SetRoomPropertySettings();
+            SetLevelAndGamemode();
             this.maxPlayers = PhotonNetwork.room.MaxPlayers;
             this.playerList = string.Empty;
             char[] separator = new char[] { "`"[0] };
@@ -1891,10 +1887,13 @@ namespace Assets.Scripts
         {
             if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
             {
-                while (Settings == null)
+                while (Service.Settings.Get() == null)
                 {
                     await Task.Delay(500);
                 }
+
+                SetLevelAndGamemode();
+
                 var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
                 ui.ShowInGameUi();
                 ChangeQuality.setCurrentQuality();
@@ -2251,7 +2250,7 @@ namespace Assets.Scripts
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
                 PhotonNetwork.DestroyAll();
-                base.photonView.RPC("RPCLoadLevel", PhotonTargets.All, new object[0]);
+                base.photonView.RPC(nameof(RPCLoadLevel), PhotonTargets.All, new object[0]);
                 if (masterclientSwitched)
                 {
                     this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + ((string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor());
@@ -2262,6 +2261,10 @@ namespace Assets.Scripts
         public void restartRC()
         {
             Debug.Log("RestartRC");
+
+            if (respawnCoroutine != null) 
+                StopCoroutine(respawnCoroutine);
+            
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
                 Level = NewRoundLevel;
@@ -2272,8 +2275,6 @@ namespace Assets.Scripts
                     {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
                 };
                 PhotonNetwork.room.SetCustomProperties(hash);
-                var json = JsonConvert.SerializeObject(Settings);
-                photonView.RPC(nameof(SyncSettings), PhotonTargets.Others, json, GameSettings.Gamemode.GamemodeType);
                 LevelHelper.Load(Level);
             }
             else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
@@ -2285,8 +2286,6 @@ namespace Assets.Scripts
                     {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
                 };
                 PhotonNetwork.room.SetCustomProperties(hash);
-                var json = JsonConvert.SerializeObject(Settings);
-                photonView.RPC(nameof(SyncSettings), PhotonTargets.Others, json, GameSettings.Gamemode.GamemodeType);
             }
 
             Service.Entity.OnRestart();
@@ -2479,14 +2478,14 @@ namespace Assets.Scripts
             {
                 mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
             }
-            if (GameSettings.Respawn.EndlessRevive.Value > 0)
+            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
-                StartCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
+                StartCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
             }
             else
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.EndlessRevive.Value));
+                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
             }
 
             if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
@@ -2521,16 +2520,7 @@ namespace Assets.Scripts
                 }
             }
         }
-
-        [PunRPC]
-        private void SyncSettings(string gameSettings, GamemodeType type, PhotonMessageInfo info)
-        {
-            if (!info.sender.IsMasterClient) return;
-            Settings = new GameSettings();
-            Settings.Initialize(gameSettings);
-            Settings.Initialize(type);
-        }
-    
+        
         [PunRPC]
         private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
         {
@@ -2637,39 +2627,6 @@ namespace Assets.Scripts
                 component.gameOver = false;
                 Service.Player.Self = component.main_object.GetComponent<Entity>();
             }
-        }
-        
-        public void SetSettings(Difficulty difficulty)
-        {
-            Settings = new GameSettings();
-            Settings.Initialize(
-                GamemodeSettings.GetAll(difficulty),
-                new PvPSettings(difficulty),
-                new SettingsTitan(difficulty)
-                {
-                    Mindless = new MindlessTitanSettings(difficulty)
-                    {
-                        AttackSettings = AttackSetting.GetAll<MindlessTitan>(difficulty)
-                    },
-                    Female = new FemaleTitanSettings(difficulty),
-                    Colossal = new ColossalTitanSettings(difficulty),
-                    Eren = new TitanSettings(difficulty)
-                },
-                new HorseSettings(difficulty),
-                new RespawnSettings(difficulty)
-            );
-
-            var json = JsonConvert.SerializeObject(Settings, new JsonSerializerSettings()
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-            Debug.Log(json);
-        }
-
-        public void SetSettings(string json)
-        {
-            Settings = new GameSettings();
-            Settings.Initialize(json);
         }
 
         private void Start()

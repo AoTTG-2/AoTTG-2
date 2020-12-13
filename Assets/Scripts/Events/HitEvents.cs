@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Characters;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Events.Args;
+﻿using Assets.Scripts.Events.Args;
 
 namespace Assets.Scripts.Events
 {

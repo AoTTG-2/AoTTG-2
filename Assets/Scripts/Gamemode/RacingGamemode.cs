@@ -12,6 +12,8 @@ namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Racing;
+
         public string localRacingResult = string.Empty;
         public List<RacingObjective> Objectives = new List<RacingObjective>();
         public List<RacingStartBarrier> StartBarriers = new List<RacingStartBarrier>();

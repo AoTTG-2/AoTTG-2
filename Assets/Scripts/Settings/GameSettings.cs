@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +13,8 @@ namespace Assets.Scripts.Settings
 {
     public class GameSettings
     {
+        protected ISettingsService SettingsService => Service.Settings;
+
         public static PvPSettings PvP { get; private set; }
         public static GamemodeSettings Gamemode { get; private set; }
 
@@ -37,22 +41,84 @@ namespace Assets.Scripts.Settings
         [JsonProperty("Respawn")]
         private RespawnSettings ConfigRespawn { get; set; }
 
-        public void Initialize(GamemodeType type)
+        /// <summary>
+        /// Update the GameSettings based on the static definitions
+        /// </summary>
+        public void Update()
         {
-            PvP = ConfigPvP;
-            Titan = ConfigTitan;
-            Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == type);
-            Horse = ConfigHorse;
-            Respawn = ConfigRespawn;
+            var gamemodes = ConfigGamemodes.ToList();
+            var gamemode = gamemodes.Single(x => x.GamemodeType == Gamemode.GamemodeType);
+            gamemodes.Remove(gamemode);
+            gamemodes.Add(Gamemode);
+            ConfigGamemodes = gamemodes;
+            ConfigPvP = PvP;
+            ConfigTitan = Titan;
+            ConfigHorse = Horse;
+            ConfigRespawn = Respawn;
         }
 
-        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn)
+        /// <summary>
+        /// Update the GamemodeSettings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(GamemodeSettings settings)
         {
-            PvP = ConfigPvP = pvp;
-            Titan = ConfigTitan = titan;
+            var gamemodes = ConfigGamemodes.ToList();
+            var gamemode = gamemodes.Single(x => x.GamemodeType == settings.GamemodeType);
+            gamemodes.Remove(gamemode);
+            gamemodes.Add(settings);
             ConfigGamemodes = gamemodes;
-            Horse = ConfigHorse = horse;
-            Respawn = ConfigRespawn = respawn;
+
+            if (Gamemode.GamemodeType == settings.GamemodeType)
+            {
+                Gamemode = settings;
+            }
+            SettingsService.SyncSettings();
+        }
+
+        /// <summary>
+        /// Update the PvPSettings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(PvPSettings settings)
+        {
+            PvP = ConfigPvP = settings;
+            SettingsService.SyncSettings();
+        }
+
+        /// <summary>
+        /// Update the Titan Settings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(SettingsTitan settings)
+        {
+            Titan = ConfigTitan = settings;
+            SettingsService.SyncSettings();
+        }
+
+        /// <summary>
+        /// Update the Horse Settings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(HorseSettings settings)
+        {
+            Horse = ConfigHorse = settings;
+            SettingsService.SyncSettings();
+        }
+
+        /// <summary>
+        /// Update the Respawn Settings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(RespawnSettings settings)
+        {
+            Respawn = ConfigRespawn = settings;
+            SettingsService.SyncSettings();
+        }
+
+        public void Initialize(GamemodeType type)
+        {
+            Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == type);
         }
 
         public void Initialize(string json)
@@ -61,6 +127,17 @@ namespace Assets.Scripts.Settings
             Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn);
         }
 
+        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn)
+        {
+            PvP = ConfigPvP = pvp;
+            Titan = ConfigTitan = titan;
+            ConfigGamemodes = gamemodes;
+            if (FengGameManagerMKII.Gamemode != null)
+                Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == FengGameManagerMKII.Gamemode.GamemodeType);
+            Horse = ConfigHorse = horse;
+            Respawn = ConfigRespawn = respawn;
+        }
+        
         public void ChangeSettings(GamemodeSettings levelGamemode)
         {
             var playerGamemodeSettings = ConfigGamemodes.Single(x => x.GamemodeType == levelGamemode.GamemodeType);
