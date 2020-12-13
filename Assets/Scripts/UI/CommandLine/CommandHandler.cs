@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.UI.CommandLine;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CommandHandler : MonoBehaviour

@@ -1,4 +1,5 @@
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Settings;
 using UnityEngine;
 
 public class BombExplode : Photon.MonoBehaviour
@@ -14,7 +15,7 @@ public class BombExplode : Photon.MonoBehaviour
             float num4;
             float num5;
             PhotonPlayer owner = base.photonView.owner;
-            if (FengGameManagerMKII.Gamemode.Settings.TeamMode != TeamMode.Disabled)
+            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
             {
                 int num = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                 if (num == 1)

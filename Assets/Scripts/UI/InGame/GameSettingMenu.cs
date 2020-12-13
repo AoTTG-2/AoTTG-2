@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Elements;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Gamemode.Settings;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
@@ -17,12 +17,13 @@ namespace Assets.Scripts.UI.InGame
 
         private void OnEnable()
         {
-            var page = Instantiate(GameSettingPage, gameObject.transform);
-            page.Data = Gamemode = FengGameManagerMKII.Gamemode.Settings;
-            page.Initialize();
-            Pages.Add(page);
-            Pages[0].gameObject.SetActive(true);
-            ServerSettingsPage.gameObject.SetActive(false);
+            //TODO: Rework this for the new GameSettings
+            //var page = Instantiate(GameSettingPage, gameObject.transform);
+            //page.Data = Gamemode = GameSettings.Gamemode;
+            //page.Initialize();
+            //Pages.Add(page);
+            //Pages[0].gameObject.SetActive(true);
+            ServerSettingsPage.gameObject.SetActive(true);
         }
 
         private void OnDisable()
@@ -42,7 +43,8 @@ namespace Assets.Scripts.UI.InGame
 
         public void ViewServerSettingsPage()
         {
-            Pages[0].gameObject.SetActive(false);
+            //TODO Rework this for the new GameSettings
+            //Pages[0].gameObject.SetActive(false);
             ServerSettingsPage.gameObject.SetActive(true);
         }
 
@@ -119,9 +121,7 @@ namespace Assets.Scripts.UI.InGame
         public void SyncSettings()
         {
             if (!PhotonNetwork.isMasterClient) return;
-            var gamemode = GetGamemodeFromSettings();
-            var json = JsonConvert.SerializeObject(gamemode);
-            FengGameManagerMKII.instance.photonView.RPC("SyncSettings", PhotonTargets.All, json, gamemode.GamemodeType);
+            Service.Settings.SyncSettings();
         }
     }
 }

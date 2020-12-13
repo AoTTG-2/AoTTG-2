@@ -1,5 +1,4 @@
-using Photon;
-using System;
+using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
 public class EnemyCheckCollider : Photon.MonoBehaviour
@@ -85,9 +84,9 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                     }
                 }
             }
-            else if (((other.gameObject.tag == "erenHitbox") && (this.dmg > 0)) && !other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().isHit)
+            else if (((other.gameObject.tag == "erenHitbox") && (this.dmg > 0)) && !other.gameObject.transform.root.gameObject.GetComponent<ErenTitan>().isHit)
             {
-                other.gameObject.transform.root.gameObject.GetComponent<TITAN_EREN>().hitByTitan();
+                other.gameObject.transform.root.gameObject.GetComponent<ErenTitan>().hitByTitan();
             }
         }
     }

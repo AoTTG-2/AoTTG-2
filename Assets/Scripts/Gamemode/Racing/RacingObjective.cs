@@ -23,6 +23,7 @@ namespace Assets.Scripts.Gamemode.Racing
             }
         }
         private Hero Hero { get; set; }
+        [SerializeField] private AudioSource audioSource;
 
         private void OnStateChanged(ObjectiveState state)
         {
@@ -69,7 +70,7 @@ namespace Assets.Scripts.Gamemode.Racing
             State = ObjectiveState.Current;
         }
 
-        private void Awake()
+        private void Start()
         {
             if (Gamemode == null)
             {
@@ -114,6 +115,9 @@ namespace Assets.Scripts.Gamemode.Racing
             if (!hero.photonView.isMine) return;
             State = ObjectiveState.Taken;
             Hero = hero;
+            audioSource.Play();
+            
+
             FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
             hero.fillGas();
 

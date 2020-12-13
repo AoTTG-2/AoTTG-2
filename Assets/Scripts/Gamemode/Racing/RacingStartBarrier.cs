@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Settings;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Racing
@@ -7,24 +8,25 @@ namespace Assets.Scripts.Gamemode.Racing
     {
         public bool IsRacingOnly;
 
-        private void Awake()
+        private IEnumerator Start()
         {
-            if (IsRacingOnly && FengGameManagerMKII.Gamemode.Settings.GamemodeType != GamemodeType.Racing)
+            yield return new WaitUntil(() => GameSettings.Gamemode != null);
+            if (IsRacingOnly && GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)
             {
                 Destroy(gameObject);
-                return;
+                yield break;
             }
 
-            if (FengGameManagerMKII.instance.racingDoors == null)
-            {
-                FengGameManagerMKII.instance.racingDoors = new List<GameObject>();
-            }
-            FengGameManagerMKII.instance.racingDoors.Add(gameObject);
+            var racingGamemode = (RacingGamemode) FengGameManagerMKII.Gamemode;
+            racingGamemode.StartBarriers.Add(this);
         }
 
         private void OnDestroy()
         {
-            FengGameManagerMKII.instance.racingDoors?.Remove(gameObject);
+            if (FengGameManagerMKII.Gamemode is RacingGamemode racingGamemode)
+            {
+                racingGamemode.StartBarriers.Remove(this);
+            }
         }
     }
 }

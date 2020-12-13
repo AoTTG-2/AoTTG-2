@@ -1,11 +1,13 @@
-﻿using Assets.Scripts.Gamemode.Settings;
+﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
 {
     public class InfectionGamemode : GamemodeBase
     {
-        public sealed override GamemodeSettings Settings { get; set; }
-        private InfectionGamemodeSettings GamemodeSettings => Settings as InfectionGamemodeSettings;
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Infection;
+        private InfectionGamemodeSettings Settings => GameSettings.Gamemode as InfectionGamemodeSettings;
 
         public override void OnRestart()
         {
@@ -21,7 +23,7 @@ namespace Assets.Scripts.Gamemode
                 player.SetCustomProperties(propertiesToSet);
             }
             var length = PhotonNetwork.playerList.Length;
-            var infectionMode = GamemodeSettings.Infected;
+            var infectionMode = Settings.Infected.Value;
             for (num = 0; num < PhotonNetwork.playerList.Length; num++)
             {
                 PhotonPlayer player2 = PhotonNetwork.playerList[num];
@@ -35,11 +37,11 @@ namespace Assets.Scripts.Gamemode
                 }
                 length--;
             }
-            FengGameManagerMKII.instance.gameEndCD = 0f;
             FengGameManagerMKII.instance.restartGame2();
         }
 
-        public override void OnUpdate(float interval)
+        //TODO: In AoTTG this ran every 0.1s instead of per frame. Investigate
+        private void Update()
         {
             int num21 = 0;
             for (var num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
@@ -62,9 +64,8 @@ namespace Assets.Scripts.Gamemode
                         }
                         else if (FengGameManagerMKII.imatitan.ContainsKey(targetPlayer.ID))
                         {
-                            for (int k = 0; k < FengGameManagerMKII.instance.getPlayers().Count; k++)
+                            foreach (var hero in EntityService.GetAll<Hero>())
                             {
-                                Hero hero = (Hero)FengGameManagerMKII.instance.getPlayers()[k];
                                 if (hero.photonView.owner == targetPlayer)
                                 {
                                     hero.markDie();
@@ -79,9 +80,10 @@ namespace Assets.Scripts.Gamemode
                     }
                 }
             }
-            if (num21 <= 0)
+            if (num21 <= 0 && PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.gameWin2();
+                FengGameManagerMKII.Gamemode.HumanScore++;
+                FengGameManagerMKII.Gamemode.photonView.RPC(nameof(GamemodeBase.OnGameEndRpc), PhotonTargets.All, $"Humanity has won!\nRestarting in {{0}}s", FengGameManagerMKII.Gamemode.HumanScore, FengGameManagerMKII.Gamemode.TitanScore);
             }
         }
 
@@ -91,7 +93,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (info.sender.IsMasterClient)
             {
-                FengGameManagerMKII.instance.SpawnPlayerTitan();
+                SpawnService.Spawn<PlayerTitan>();
             }
         }
     }
