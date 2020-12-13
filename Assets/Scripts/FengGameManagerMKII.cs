@@ -563,7 +563,7 @@ namespace Assets.Scripts
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
-    
+
         [Obsolete("Move into RacingGamemode")]
         [PunRPC]
         private void getRacingResult(string player, float time)
@@ -1777,7 +1777,7 @@ namespace Assets.Scripts
             this.racingResult = new ArrayList();
             Debug.Log("OnCreatedRoom");
         }
-        
+
         public override void OnDisconnectedFromPhoton()
         {
             Debug.Log("OnDisconnectedFromPhoton");
@@ -1796,7 +1796,7 @@ namespace Assets.Scripts
                 Application.LoadLevel(0);
             }
         }
-        
+
         private void SetGamemode(GamemodeSettings settings)
         {
             if (Gamemode == null)
@@ -1963,7 +1963,7 @@ namespace Assets.Scripts
             }
             noRestart = false;
         }
-        
+
         public void OnPhotonCustomRoomPropertiesChanged()
         {
             if (PhotonNetwork.isMasterClient)
@@ -2102,7 +2102,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         public override void OnReceivedRoomListUpdate()
         {
         }
@@ -2262,9 +2262,9 @@ namespace Assets.Scripts
         {
             Debug.Log("RestartRC");
 
-            if (respawnCoroutine != null) 
+            if (respawnCoroutine != null)
                 StopCoroutine(respawnCoroutine);
-            
+
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
                 Level = NewRoundLevel;
@@ -2520,7 +2520,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         [PunRPC]
         private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
         {
@@ -2536,7 +2536,7 @@ namespace Assets.Scripts
                 this.kickPlayerRC(t.sender, true, "false game end.");
             }
         }
-    
+
         //TODO: 184 - This gets called upon MapLoaded
         [Obsolete("Migrate into a SpawnService")]
         public void SpawnPlayer(string id, string tag = "playerRespawn", CharacterPreset preset = null)
@@ -2554,13 +2554,13 @@ namespace Assets.Scripts
         {
             Debug.LogError(data);
         }
-        
+
         [Obsolete("Migrate into a SpawnService")]
         public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)
         {
             // HACK
             if (false)
-                //if (!logicLoaded || !customLevelLoaded)
+            //if (!logicLoaded || !customLevelLoaded)
             {
                 this.NOTSpawnPlayerRC(id);
             }
@@ -2637,7 +2637,6 @@ namespace Assets.Scripts
             base.gameObject.name = "MultiplayerManager";
             CostumeHair.init();
             CharacterMaterials.init();
-            HeroCostume.init2();
             UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
             this.name = string.Empty;
             banHash = new ExitGames.Client.Photon.Hashtable();
