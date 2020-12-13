@@ -130,7 +130,7 @@ namespace Assets.Scripts.DayNightCycle
         void UpdateLight()
         {
 
-
+            //moon issue code below, either this or the moon camera
             moon.transform.LookAt(targetCam.transform);
             directionalLight.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 90, 170, 0);
             moonState.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 100, 170, 0);
@@ -172,10 +172,9 @@ namespace Assets.Scripts.DayNightCycle
                 RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, nightColors.skyColor, 0.001f / (SecondsInAFullDay / 300));
                 RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, nightColors.equatorColor, 0.001f / (SecondsInAFullDay / 300));
                 RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, nightColors.horizonColor, 0.001f / (SecondsInAFullDay / 300));
-                
-                
 
             }
+            //sunset colour missing 
             if (currentTime > 0.25f && currentTime < 0.40f)
             {
                 RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, dawnColors.skyColor, 0.001f / (SecondsInAFullDay / 600));
