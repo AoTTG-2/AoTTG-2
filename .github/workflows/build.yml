@@ -10,7 +10,7 @@
 #        id: getManualLicenseFile
 #        uses: webbertakken/unity-request-manual-activation-file@v1.1
 #        with:
-#          unityVersion: 2020.1.4f1
+#          unityVersion: 2020.1.13f1
 #      # Upload artifact (Unity_v20XX.X.XXXX.alf)
 #      - name: Expose as artifact
 #        uses: actions/upload-artifact@v1
@@ -47,13 +47,13 @@ jobs:
       #- name: Run tests
       #  uses: webbertakken/unity-test-runner@v1.3
       #  with:
-      #    unityVersion: 2020.1.4f1
+      #    unityVersion: 2020.1.13f1
 
       # Build
       - name: Build project
         uses: webbertakken/unity-builder@v0.10
         with:
-          unityVersion: 2020.1.4f1
+          unityVersion: 2020.1.13f1
           targetPlatform: StandaloneWindows64
   
       - name: SonarQube analysis
