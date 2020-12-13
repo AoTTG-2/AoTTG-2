@@ -355,7 +355,6 @@ public static class ChatCommandHandler
     }
     private static void ChangeRoomMaxPlayers(int maxPlayers)
     {
-        instance.maxPlayers = maxPlayers;
         room.MaxPlayers = maxPlayers;
         var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {maxPlayers}!"), string.Empty };
         instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);

@@ -102,16 +102,13 @@ namespace Assets.Scripts.Services
         }
         #endregion
         
-        //TODO: Find out why MaxPlayers and GetLevel is broken.
-
         private void UpdateSinglePlayerActivity(global::Room room)
         {
-            Debug.Log($"Room name = {room.GetName()}, room level = {room.GetLevel()}");
             activityStruct = new Activity
             {
                 Assets = assetsStruct,
                 State = "SinglePlayer",
-                Details = room.GetLevel() + " - " + room.GetGamemode(),
+                Details = room.GetLevel().Name + " - " + room.GetGamemode(),
             };
             activityManager.UpdateActivity(activityStruct,
                 (result) =>
@@ -128,13 +125,13 @@ namespace Assets.Scripts.Services
             {
                 Assets = assetsStruct,
                 State = room.GetName() + "- [" + PhotonNetwork.CloudRegion.ToString().ToUpper() + "]",
-                Details = room.GetLevel() + " - " + room.GetGamemode(),
+                Details = room.GetLevel().Name + " - " + room.GetGamemode(),
                 Party = new ActivityParty
                 {
                     Size = new PartySize
                     {
                         CurrentSize = room.PlayerCount,
-                        MaxSize = room.MaxPlayers >= room.PlayerCount ? room.MaxPlayers : 10
+                        MaxSize = room.MaxPlayers 
                     },
                     Id = room.GetHashCode().ToString(),
                 },
@@ -161,12 +158,18 @@ namespace Assets.Scripts.Services
         {
             string path = System.Environment.CurrentDirectory;
             path += "\\";
-            if (Application.platform == RuntimePlatform.WindowsPlayer)
-                path += "AoTTG 2.exe";
-            else if (Application.platform == RuntimePlatform.OSXPlayer)
-                path += "AoTTG 2.app";
-            else
-                Debug.Log($"Unrecognized Platform");
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                    path += "AoTTG 2.exe";
+                    break;
+                case RuntimePlatform.OSXPlayer:
+                    path += "AoTTG 2.app";
+                    break;
+                default:
+                    Debug.Log($"Unrecognized Platform");
+                    break;
+            }
 
             return path;
         }
