@@ -6,6 +6,13 @@ public class SpectatorMovement : MonoBehaviour
 {
     public bool disable;
     private float speed = 100f;
+    private bool isRestarting = true;
+    private float startingTime;
+
+    private void Awake()
+    {
+        startingTime = Time.time;
+    }
 
     private void Update()
     {
@@ -55,12 +62,13 @@ public class SpectatorMovement : MonoBehaviour
             {
                 transform.position -= (Vector3) ((base.transform.forward * speed) * Time.deltaTime);
             }
+            if ((isRestarting) && ((Time.time - startingTime) >= 0.5f) && (!InputManager.Key(InputUi.Restart)))
+                isRestarting = false;
+
             if (InputManager.KeyDown(InputUi.Restart))
             {
-                if (PhotonNetwork.offlineMode)
-                {
+                if ((PhotonNetwork.offlineMode) && !(isRestarting))
                     FengGameManagerMKII.instance.restartRC();
-                }
             }
             if (num3 > 0f)
             {
