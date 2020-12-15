@@ -583,10 +583,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             if ((isRestarting) && ((Time.time - startingTime) >= 0.5f) && (!InputManager.Key(InputUi.Restart)))
                 isRestarting = false;
 
-            if (InputManager.KeyDown(InputUi.Restart))
+            if (InputManager.KeyDown(InputUi.Restart) && (PhotonNetwork.offlineMode) && !(isRestarting))
             {
-                if ((PhotonNetwork.offlineMode) && !(isRestarting))
-                    FengGameManagerMKII.instance.restartRC();
+                FengGameManagerMKII.instance.restartRC();
             }
             if (this.main_object != null)
             {
