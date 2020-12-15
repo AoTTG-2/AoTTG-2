@@ -81,7 +81,6 @@ namespace Assets.Scripts.Services
                 NullValueHandling = NullValueHandling.Ignore
             });
             photonView.RPC(nameof(SyncSettingsRpc), PhotonTargets.Others, json);
-            Debug.LogError($"Syncing settings for Gamemode: {GameSettings.Gamemode.GamemodeType}");
         }
         
         public void SyncSettings(Difficulty difficulty)

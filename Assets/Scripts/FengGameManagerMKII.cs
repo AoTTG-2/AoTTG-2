@@ -1890,9 +1890,7 @@ namespace Assets.Scripts
                 {
                     await Task.Delay(500);
                 }
-
-                SetLevelAndGamemode();
-
+                
                 var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
                 ui.ShowInGameUi();
                 ChangeQuality.setCurrentQuality();
@@ -2259,8 +2257,6 @@ namespace Assets.Scripts
 
         public void restartRC()
         {
-            Debug.Log("RestartRC");
-
             if (respawnCoroutine != null) 
                 StopCoroutine(respawnCoroutine);
             
@@ -2274,7 +2270,6 @@ namespace Assets.Scripts
                     {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
                 };
                 PhotonNetwork.room.SetCustomProperties(hash);
-                LevelHelper.Load(Level);
             }
             else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
             {
@@ -2297,8 +2292,8 @@ namespace Assets.Scripts
             if (info.sender.isMasterClient)
             {
                 this.DestroyAllExistingCloths();
+                SetLevelAndGamemode();
                 LevelHelper.Load(Level);
-                Level = PhotonNetwork.room.GetLevel();
             }
             else if (PhotonNetwork.isMasterClient)
             {
