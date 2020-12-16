@@ -3,9 +3,9 @@ using Assets.Scripts.UI.Input;
 using System.IO;
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace Assets.Scripts.Services
 {
-    public class ScreenshotHandler : MonoBehaviour
+    public class ScreenshotService : MonoBehaviour
     {
         private const string ScreenDirectory = "Screenshots";
 
@@ -22,6 +22,7 @@ namespace Assets.Scripts.UI
             {
                 var filename = $"{GetImagePath()}/{DateTime.Now:HHmmss}.png";
                 ScreenCapture.CaptureScreenshot(filename);
+                FengGameManagerMKII.instance.chatRoom.OutputSystemMessage("Screenshot Captured.");    //Refactor, when ChatService implemented.
             }
         }
 

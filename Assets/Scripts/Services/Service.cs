@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Services.Interface;
+using Assets.Scripts.UI;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Services
@@ -26,6 +27,8 @@ namespace Assets.Scripts.Services
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
+
+            gameObject.AddComponent<ScreenshotService>();
         }
     }
 }

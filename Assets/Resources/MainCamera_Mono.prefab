@@ -101,7 +101,6 @@ GameObject:
   - component: {fileID: 114903885872353628}
   - component: {fileID: 114083221314651414}
   - component: {fileID: 114263758633935216}
-  - component: {fileID: 8829620874644781699}
   m_Layer: 0
   m_Name: MainCamera_Mono
   m_TagString: MainCamera
@@ -252,15 +251,3 @@ MonoBehaviour:
   disable: 1
   speed: 3
   maximum_y: 30
---- !u!114 &8829620874644781699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1843893240112004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ab55d0f223122141b40c997d38c1e00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
