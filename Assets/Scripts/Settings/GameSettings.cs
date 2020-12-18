@@ -47,9 +47,14 @@ namespace Assets.Scripts.Settings
         public void Update()
         {
             var gamemodes = ConfigGamemodes.ToList();
-            var gamemode = gamemodes.Single(x => x.GamemodeType == Gamemode.GamemodeType);
-            gamemodes.Remove(gamemode);
-            gamemodes.Add(Gamemode);
+            if (Gamemode != null)
+            {
+                
+                var gamemode = gamemodes.Single(x => x.GamemodeType == Gamemode.GamemodeType);
+                gamemodes.Remove(gamemode);
+                gamemodes.Add(Gamemode);
+            }
+            
             ConfigGamemodes = gamemodes;
             ConfigPvP = PvP;
             ConfigTitan = Titan;
