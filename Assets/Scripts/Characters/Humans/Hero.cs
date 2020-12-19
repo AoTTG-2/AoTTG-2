@@ -15,6 +15,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -371,12 +372,12 @@ public class Hero : Human
             this.gunDummy.transform.rotation = this.transform.rotation;
         }
 
-        //if (photonView.isMine)
-        //{
-        //    //TODO: If this is a default preset, find a more efficient way
-        //    var config = JsonConvert.SerializeObject(preset);
-        //    photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
-        //}
+        if (photonView.isMine)
+        {
+            //TODO: If this is a default preset, find a more efficient way
+            var config = JsonConvert.SerializeObject(preset, Formatting.Indented, new ColorJsonConverter());
+            photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
+        }
 
         EntityService.Register(this);
     }
@@ -384,9 +385,15 @@ public class Hero : Human
     [PunRPC]
     public void InitializeRpc(string characterPreset, PhotonMessageInfo info)
     {
+        if (photonView.isMine)
+        {
+            //TODO: Handle Abusive RPC
+            return;
+        }
+
         if (info.sender.ID == photonView.ownerId)
         {
-            Initialize(JsonConvert.DeserializeObject<CharacterPreset>(characterPreset));
+            Initialize(JsonConvert.DeserializeObject<CharacterPreset>(characterPreset, new ColorJsonConverter()));
         }
     }
 
