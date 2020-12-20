@@ -1,5 +1,5 @@
-﻿using System;
-using Assets.Scripts.UI.Input;
+﻿using Assets.Scripts.UI.Input;
+using System;
 using System.IO;
 using UnityEngine;
 

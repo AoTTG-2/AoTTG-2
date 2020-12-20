@@ -177,7 +177,7 @@ namespace Assets.Scripts.UI.Input
                     SetDefaultCannonKeyBindings();
 
                 _cannonKeys = JsonConvert.DeserializeObject<KeyCode[]>(cannonRebinds);
-                if(_cannonKeys.Length != Enum.GetNames(inputType).Length)
+                if (_cannonKeys.Length != Enum.GetNames(inputType).Length)
                 {
                     SetDefaultCannonKeyBindings();
                     LoadRebinds(inputType);
@@ -190,7 +190,7 @@ namespace Assets.Scripts.UI.Input
                     SetDefaultHorseKeyBindings();
 
                 _horseKeys = JsonConvert.DeserializeObject<KeyCode[]>(horseRebinds);
-                if(_horseKeys.Length != Enum.GetNames(inputType).Length)
+                if (_horseKeys.Length != Enum.GetNames(inputType).Length)
                 {
                     SetDefaultHorseKeyBindings();
                     LoadRebinds(inputType);
@@ -203,7 +203,7 @@ namespace Assets.Scripts.UI.Input
                     SetDefaultHumanKeyBindings();
 
                 _humanKeys = JsonConvert.DeserializeObject<KeyCode[]>(humanRebinds);
-                if(_humanKeys.Length != Enum.GetNames(inputType).Length)
+                if (_humanKeys.Length != Enum.GetNames(inputType).Length)
                 {
                     SetDefaultHumanKeyBindings();
                     LoadRebinds(inputType);
@@ -216,7 +216,7 @@ namespace Assets.Scripts.UI.Input
                     SetDefaultTitanKeyBindings();
 
                 _titanKeys = JsonConvert.DeserializeObject<KeyCode[]>(titanRebinds);
-                if(_titanKeys.Length != Enum.GetNames(inputType).Length)
+                if (_titanKeys.Length != Enum.GetNames(inputType).Length)
                 {
                     SetDefaultTitanKeyBindings();
                     LoadRebinds(inputType);
@@ -229,7 +229,7 @@ namespace Assets.Scripts.UI.Input
                     SetDefaultUiKeyBindings();
 
                 _uiKeys = JsonConvert.DeserializeObject<KeyCode[]>(uiRebinds);
-                if(_uiKeys.Length != Enum.GetNames(inputType).Length)
+                if (_uiKeys.Length != Enum.GetNames(inputType).Length)
                 {
                     SetDefaultUiKeyBindings();
                     LoadRebinds(inputType);
@@ -378,7 +378,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputUi input)
         {
-            if (input != InputUi.Chat && MenuManager.IsMenuOpen) return false;
+            if (input != InputUi.Chat && input != InputUi.Screenshot && MenuManager.IsMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])
