@@ -198,8 +198,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject RightUniform;
     }
 
-    //TODO: Equipment Extras (Gas Canisters for blades, Ammo rounds for AHSS)
-
     [Serializable]
     public struct EquipmentPrefab
     {

@@ -27,7 +27,6 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
         public override void Reload()
         {
-            //TODO: Weapon Reloading
             if (!Hero.grounded)
             {
                 if (!(Hero.Animation[Hero.reloadAnimation].normalizedTime < 0.2f || Hero.throwedBlades))

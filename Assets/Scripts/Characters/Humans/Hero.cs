@@ -67,7 +67,6 @@ public class Hero : Human
     private bool buttonAttackRelease { get; set; }
     public Dictionary<string, Image> cachedSprites;
     public float CameraMultiplier;
-    public bool canJump = true;
     public GameObject checkBoxLeft;
     public GameObject checkBoxRight;
     public GameObject cross1;
@@ -94,7 +93,6 @@ public class Hero : Human
     private float dTapTime { get; set; } = -1f;
     private bool EHold { get; set; }
     private GameObject eren_titan { get; set; }
-    private int escapeTimes { get; set; } = 1;
     public float facingDirection { get; set; }
     private float flare1CD { get; set; } // Should be moved into individual classes
     private float flare2CD { get; set; } // ^
@@ -173,7 +171,6 @@ public class Hero : Human
     public bool rightGunHasBullet = true;
     public AudioSource rope;
     private float rTapTime { get; set; } = -1f;
-    //public HERO_SETUP setup { get; set; }
     private GameObject skillCD { get; set; }
     public float skillCDDuration;
     public float skillCDLast;
@@ -275,14 +272,6 @@ public class Hero : Human
         }
 
         PlayerName.GetComponent<TextMesh>().text = FengGameManagerMKII.instance.name;
-        ////HACK
-        ////GameObject obj2 = GameObject.Find("UI_IN_GAME");
-        //this.myNetWorkName = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/LabelNameOverHead"));
-        //this.myNetWorkName.name = "LabelNameOverHead";
-        ////HACK
-        ////this.myNetWorkName.transform.parent = obj2.GetComponent<UIReferArray>().panels[0].transform;
-        //this.myNetWorkName.transform.localScale = new Vector3(14f, 14f, 14f);
-        //this.myNetWorkName.GetComponent<UILabel>().text = string.Empty;
         if (base.photonView.isMine)
         {
             base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
@@ -313,17 +302,12 @@ public class Hero : Human
             if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
             {
                 GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
-                obj3.transform.parent = this.transform;
-                obj3.transform.position = this.transform.position + Vector3.up;
+                obj3.transform.parent = transform;
+                obj3.transform.position = transform.position + Vector3.up;
                 obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
             }
-            //TODO For non owner, apply the skin
-            //this.setup.init();
-            //this.setup.myCostume = new HeroCostume();
-            //this.setup.myCostume = CostumeConeveter.PhotonDataToHeroCostume2(base.photonView.owner);
-            //this.setup.setCharacterComponent();
-            UnityEngine.Object.Destroy(this.checkBoxLeft);
-            UnityEngine.Object.Destroy(this.checkBoxRight);
+            Destroy(checkBoxLeft);
+            Destroy(checkBoxRight);
             /*
             UnityEngine.Object.Destroy(this.leftbladetrail);
             UnityEngine.Object.Destroy(this.rightbladetrail);
@@ -2403,114 +2387,13 @@ public class Hero : Human
         this.forearmL.localRotation = Quaternion.Euler(-90f, 0f, 0f);
         this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * 57.29578f), -Mathf.Atan2(num2, num4) * 57.29578f);
     }
-
-    public void loadskin()
-    {
-        if (base.photonView.isMine)
-        {
-            if (((int) FengGameManagerMKII.settings[0x5d]) == 1)
-            {
-                foreach (Renderer renderer in base.GetComponentsInChildren<Renderer>())
-                {
-                    if (renderer.name.Contains("speed"))
-                    {
-                        renderer.enabled = false;
-                    }
-                }
-            }
-            if (((int) FengGameManagerMKII.settings[0]) == 1)
-            {
-                int index = 14;
-                int num3 = 4;
-                int num4 = 5;
-                int num5 = 6;
-                int num6 = 7;
-                int num7 = 8;
-                int num8 = 9;
-                int num9 = 10;
-                int num10 = 11;
-                int num11 = 12;
-                int num12 = 13;
-                int num13 = 3;
-                int num14 = 0x5e;
-                if (((int) FengGameManagerMKII.settings[0x85]) == 1)
-                {
-                    num13 = 0x86;
-                    num3 = 0x87;
-                    num4 = 0x88;
-                    num5 = 0x89;
-                    num6 = 0x8a;
-                    num7 = 0x8b;
-                    num8 = 140;
-                    num9 = 0x8d;
-                    num10 = 0x8e;
-                    num11 = 0x8f;
-                    num12 = 0x90;
-                    index = 0x91;
-                    num14 = 0x92;
-                }
-                else if (((int) FengGameManagerMKII.settings[0x85]) == 2)
-                {
-                    num13 = 0x93;
-                    num3 = 0x94;
-                    num4 = 0x95;
-                    num5 = 150;
-                    num6 = 0x97;
-                    num7 = 0x98;
-                    num8 = 0x99;
-                    num9 = 0x9a;
-                    num10 = 0x9b;
-                    num11 = 0x9c;
-                    num12 = 0x9d;
-                    index = 0x9e;
-                    num14 = 0x9f;
-                }
-                string str = (string) FengGameManagerMKII.settings[index];
-                string str2 = (string) FengGameManagerMKII.settings[num3];
-                string str3 = (string) FengGameManagerMKII.settings[num4];
-                string str4 = (string) FengGameManagerMKII.settings[num5];
-                string str5 = (string) FengGameManagerMKII.settings[num6];
-                string str6 = (string) FengGameManagerMKII.settings[num7];
-                string str7 = (string) FengGameManagerMKII.settings[num8];
-                string str8 = (string) FengGameManagerMKII.settings[num9];
-                string str9 = (string) FengGameManagerMKII.settings[num10];
-                string str10 = (string) FengGameManagerMKII.settings[num11];
-                string str11 = (string) FengGameManagerMKII.settings[num12];
-                string str12 = (string) FengGameManagerMKII.settings[num13];
-                string str13 = (string) FengGameManagerMKII.settings[num14];
-                string url = str12 + "," + str2 + "," + str3 + "," + str4 + "," + str5 + "," + str6 + "," + str7 + "," + str8 + "," + str9 + "," + str10 + "," + str11 + "," + str + "," + str13;
-                int viewID = -1;
-                if (myHorse)
-                {
-                    viewID = myHorse.photonView.viewID;
-                }
-                base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { viewID, url });
-            }
-        }
-    }
-
-
-    [PunRPC]
-    public void loadskinRPC(int horse, string url)
-    {
-        throw new NotImplementedException("Custom Skin RPC not implemented");
-    }
-
+    
     public void markDie()
     {
         this.hasDied = true;
         this.state = HERO_STATE.Die;
     }
-
-    [PunRPC]
-    public void moveToRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
-    {
-        if (info.sender.isMasterClient)
-        {
-            base.transform.position = new Vector3(posX, posY, posZ);
-        }
-    }
-
+    
     [PunRPC]
     private void net3DMGSMOKE(bool ifON)
     {
@@ -3342,20 +3225,7 @@ public class Hero : Human
             }
         }
     }
-
-    public void setSkillHUDPosition()
-    {
-        this.skillCD = GameObject.Find("skill_cd_" + this.skillId);
-        if (this.skillCD != null)
-        {
-            this.skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
-        }
-        if (this.useGun)
-        {
-            this.skillCD.transform.localPosition = (Vector3) (Vector3.up * 5000f);
-        }
-    }
-
+    
     public void setSkillHUDPosition2()
     {
         return;
@@ -3516,20 +3386,7 @@ public class Hero : Human
             this.setTeam2(1);
         }
     }
-
-    public void setTeam(int team)
-    {
-        this.setMyTeam(team);
-        if (base.photonView.isMine)
-        {
-            object[] parameters = new object[] { team };
-            base.photonView.RPC("setMyTeam", PhotonTargets.OthersBuffered, parameters);
-            ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.team, team);
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        }
-    }
-
+    
     public void setTeam2(int team)
     {
         if (base.photonView.isMine)
