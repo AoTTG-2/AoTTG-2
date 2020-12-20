@@ -580,10 +580,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
                 this.needSetHUD = true;
             }
-            if ((isRestarting) && ((Time.time - startingTime) >= 0.5f) && (!InputManager.Key(InputUi.Restart)))
+            if (isRestarting && Time.time - startingTime >= 0.5f && !InputManager.Key(InputUi.Restart))
                 isRestarting = false;
 
-            if (InputManager.KeyDown(InputUi.Restart) && (PhotonNetwork.offlineMode) && !(isRestarting))
+            if (InputManager.KeyDown(InputUi.Restart) && PhotonNetwork.offlineMode && !isRestarting)
             {
                 FengGameManagerMKII.instance.restartRC();
             }
