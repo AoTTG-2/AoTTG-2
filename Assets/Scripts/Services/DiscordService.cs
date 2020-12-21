@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services.Interface;
 using Discord;
@@ -15,19 +16,23 @@ namespace Assets.Scripts.Services
 
         private Activity activityStruct;
         private ActivityAssets assetsStruct;
-        private string joiningRoomID = "";
+        private Coroutine joiningRoutine;
+        private bool isJoinedLobby;
 
+        private const int Timeout = 3;
         private const string LargeImageKey = "aottg_2_title";
         private const string LargeText = "AoTTG2";
         private const long AppID = 730150236185690172;
 
-
+        
         private void Awake()
         {
             discord = new Discord.Discord(AppID, (UInt64) Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
+            
             activityManager.OnActivityJoin += JoinViaDiscord;
             SceneManager.activeSceneChanged += OnSceneChanged;
+            
 
             assetsStruct = new ActivityAssets
             {
@@ -49,7 +54,7 @@ namespace Assets.Scripts.Services
 
         private void OnApplicationQuit()
         {
-            CloseSocket();
+            discord.Dispose();
         }
 
         private void OnSceneChanged(Scene oldScene, Scene newScene)
@@ -59,9 +64,45 @@ namespace Assets.Scripts.Services
                 InMenu();
             }
         }
+        
+        public void JoinViaDiscord(string roomID)
+        {
+            Service.Photon.UpdateConnectionType(false);
+            Service.Photon.Initialize();
+            StopCoroutine(joiningRoutine);
+            joiningRoutine = StartCoroutine(JoinRoutine(roomID));
+        }
+        
+        private IEnumerator JoinRoutine(string roomID)
+        {
+            float startTime = Time.time;
+            Service.Photon.UpdateConnectionType(false);
+            Service.Photon.Initialize();
 
-        #region Service Methods
+            while (!isJoinedLobby)
+            {
+                yield return new WaitForSeconds(0.2f);
+                if (Time.time - startTime > Timeout)
+                {
+                    break;
+                }
+            }
+            if(isJoinedLobby)
+                PhotonNetwork.JoinRoom(roomID);
+        }
 
+        public override void OnJoinedLobby()
+        {
+            base.OnJoinedLobby();
+            isJoinedLobby = true;
+        }
+
+        public override void OnDisconnectedFromPhoton()
+        {
+            base.OnDisconnectedFromPhoton();
+            isJoinedLobby = false;
+        }
+        
         public void UpdateDiscordActivity(global::Room room)
         {
             if (room.GetName().Equals("Singleplayer"))
@@ -69,26 +110,7 @@ namespace Assets.Scripts.Services
             else
                 UpdateMultiPlayerActivity(room);
         }
-
-        public void JoinViaDiscord(string roomID)
-        {
-            Service.Photon.UpdateConnectionType(false);
-            Service.Photon.Initialize();
-            joiningRoomID = roomID;
-        }
-
-        public Discord.Discord GetSocket()
-        {
-            return discord;
-        }
-
-        public void CloseSocket()
-        {
-            discord.Dispose();
-        }
-
-        #endregion
-
+        
         private void InMenu()
         {
             activityStruct = new Activity
@@ -150,15 +172,6 @@ namespace Assets.Scripts.Services
                         ? $"Updated Multi-player party."
                         : $"Failed to Update Multi-player party.");
                 });
-        }
-
-        public override void OnConnectedToMaster()
-        {
-            if (joiningRoomID.Length != 0)
-            {
-                PhotonNetwork.JoinRoom(joiningRoomID);
-                joiningRoomID = string.Empty;
-            }
         }
 
         #region Helper Methods
