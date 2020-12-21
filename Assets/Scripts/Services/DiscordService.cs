@@ -15,6 +15,7 @@ namespace Assets.Scripts.Services
 
         private Activity activityStruct;
         private ActivityAssets assetsStruct;
+        private string joiningRoomID = "";
 
         private const string LargeImageKey = "aottg_2_title";
         private const string LargeText = "AoTTG2";
@@ -33,14 +34,14 @@ namespace Assets.Scripts.Services
                 LargeImage = LargeImageKey,
                 LargeText = LargeText
             };
-            
+
             activityManager.RegisterCommand(GetApplicationPath());
             activityStruct = new Activity
             {
                 Assets = assetsStruct
             };
         }
-        
+
         private void Update()
         {
             discord.RunCallbacks();
@@ -59,22 +60,6 @@ namespace Assets.Scripts.Services
             }
         }
 
-        private void InMenu()
-        {
-            activityStruct = new Activity 
-                {
-                    Assets = assetsStruct, 
-                    State = "In Menu"
-                };
-            activityManager.UpdateActivity(activityStruct, (result) =>
-            {
-                Debug.Log(result == Result.Ok
-                    ? $"Updated to Main Menu"
-                    : $"Failed to Update to Main Menu");
-            });
-        }
-
-
         #region Service Methods
 
         public void UpdateDiscordActivity(global::Room room)
@@ -89,19 +74,36 @@ namespace Assets.Scripts.Services
         {
             Service.Photon.UpdateConnectionType(false);
             Service.Photon.Initialize();
-            PhotonNetwork.JoinRoom(roomID);
+            joiningRoomID = roomID;
         }
+
         public Discord.Discord GetSocket()
         {
             return discord;
         }
-        
+
         public void CloseSocket()
         {
             discord.Dispose();
         }
+
         #endregion
-        
+
+        private void InMenu()
+        {
+            activityStruct = new Activity
+            {
+                Assets = assetsStruct,
+                State = "In Menu"
+            };
+            activityManager.UpdateActivity(activityStruct, (result) =>
+            {
+                Debug.Log(result == Result.Ok
+                    ? $"Updated to Main Menu"
+                    : $"Failed to Update to Main Menu");
+            });
+        }
+
         private void UpdateSinglePlayerActivity(global::Room room)
         {
             activityStruct = new Activity
@@ -131,7 +133,7 @@ namespace Assets.Scripts.Services
                     Size = new PartySize
                     {
                         CurrentSize = room.PlayerCount,
-                        MaxSize = room.MaxPlayers 
+                        MaxSize = room.MaxPlayers
                     },
                     Id = room.GetHashCode().ToString(),
                 },
@@ -150,7 +152,14 @@ namespace Assets.Scripts.Services
                 });
         }
 
-
+        public override void OnConnectedToMaster()
+        {
+            if (joiningRoomID.Length != 0)
+            {
+                PhotonNetwork.JoinRoom(joiningRoomID);
+                joiningRoomID = string.Empty;
+            }
+        }
 
         #region Helper Methods
 
