@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Services.Interface;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
@@ -36,6 +36,8 @@ namespace Assets.Scripts.Services
             Photon = gameObject.AddComponent<PhotonService>();
             
             PhotonService.versionManager = versionManager;
+
+            gameObject.AddComponent<ScreenshotService>();
         }
     }
 }
