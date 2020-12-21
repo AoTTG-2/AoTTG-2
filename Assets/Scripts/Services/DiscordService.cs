@@ -14,7 +14,6 @@ namespace Assets.Scripts.Services
         private Discord.Discord discord;
         private ActivityManager activityManager;
 
-        private Activity activityStruct;
         private ActivityAssets assetsStruct;
         private Coroutine joiningRoutine;
         private bool isJoinedLobby;
@@ -41,10 +40,6 @@ namespace Assets.Scripts.Services
             };
 
             activityManager.RegisterCommand(GetApplicationPath());
-            activityStruct = new Activity
-            {
-                Assets = assetsStruct
-            };
         }
 
         private void Update()
@@ -113,7 +108,7 @@ namespace Assets.Scripts.Services
         
         private void InMenu()
         {
-            activityStruct = new Activity
+            var activityStruct = new Activity
             {
                 Assets = assetsStruct,
                 State = "In Menu"
@@ -128,7 +123,7 @@ namespace Assets.Scripts.Services
 
         private void UpdateSinglePlayerActivity(global::Room room)
         {
-            activityStruct = new Activity
+            var activityStruct = new Activity
             {
                 Assets = assetsStruct,
                 State = "SinglePlayer",
@@ -145,7 +140,7 @@ namespace Assets.Scripts.Services
 
         private void UpdateMultiPlayerActivity(global::Room room)
         {
-            activityStruct = new Activity
+            var activityStruct = new Activity
             {
                 Assets = assetsStruct,
                 State = room.GetName() + "- [" + PhotonNetwork.CloudRegion.ToString().ToUpper() + "]",

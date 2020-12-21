@@ -1,13 +1,12 @@
 ﻿using System;
 using Assets.Scripts.Services.Interface;
 using Photon;
-using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
     public class PhotonService : PunBehaviour, IPhotonService
     {
-        internal static VersionManager versionManager;
+        public static VersionManager VersionManager;
         private static string IpAddress { get; set; }
 
         public void UpdateConnectionType(bool isLocal)
@@ -19,7 +18,7 @@ namespace Assets.Scripts.Services
         {
             // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", VersionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
         }
 
@@ -41,7 +40,7 @@ namespace Assets.Scripts.Services
                 PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
             }
 
-            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", VersionManager.Version);
         }
     }
 }

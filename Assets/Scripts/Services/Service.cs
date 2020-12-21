@@ -35,7 +35,7 @@ namespace Assets.Scripts.Services
             Discord = gameObject.AddComponent<DiscordService>();
             Photon = gameObject.AddComponent<PhotonService>();
             
-            PhotonService.versionManager = versionManager;
+            PhotonService.VersionManager = versionManager;
 
             gameObject.AddComponent<ScreenshotService>();
         }
