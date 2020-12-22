@@ -2827,31 +2827,30 @@ namespace Assets.Scripts
         [PunRPC]
         private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
         {
-            GameObject obj4;
-            GameObject obj2 = GameObject.Find("KillFeed");
-            GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
-            for (int i = 0; i < this.killInfoGO.Count; i++)
+            GameObject killFeed = GameObject.Find("KillFeed");
+            GameObject newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
+            foreach (GameObject killInfo in killInfoGO)
             {
-                obj4 = (GameObject) this.killInfoGO[i];
-                if (obj4 != null)
+                if (killInfo != null)
                 {
-                    obj4.GetComponent<KillInfo>().MoveOn();
+                    killInfo.GetComponent<KillInfo>().MoveOn();
                 }
-            }
-            if (this.killInfoGO.Count > 4)
-            {
-                obj4 = (GameObject) this.killInfoGO[0];
-                if (obj4 != null)
-                {
-                    obj4.GetComponent<KillInfo>().Destroy();
-                }
-                this.killInfoGO.RemoveAt(0);
             }
 
-            obj3.transform.parent = obj2.transform;
-            obj3.transform.position = new Vector3();
-            obj3.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
-            this.killInfoGO.Add(obj3);
+            if (killInfoGO.Count > 4)
+            {
+                var lastKillInfo = (GameObject) killInfoGO[0];
+                if (lastKillInfo != null)
+                {
+                    lastKillInfo.GetComponent<KillInfo>().Destroy();
+                }
+                killInfoGO.RemoveAt(0);
+            }
+
+            newKillInfo.transform.parent = killFeed.transform;
+            newKillInfo.transform.position = new Vector3();
+            newKillInfo.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
+            killInfoGO.Add(newKillInfo);
         }
 
         [PunRPC]
