@@ -68,7 +68,7 @@ namespace Assets.Scripts
         [Obsolete("Only used for Cannons. Remove in Issue #75")]
         public bool isRestarting;
         public bool isUnloading;
-        private ArrayList killInfoGO = new ArrayList();
+        private readonly List<GameObject> killInfoGO = new List<GameObject>();
         [Obsolete("Legacy method of keeping track of custom level scripts, which we no longer support")]
         public List<string[]> levelCache;
         public static ExitGames.Client.Photon.Hashtable[] linkHash;
@@ -1859,7 +1859,7 @@ namespace Assets.Scripts
             var propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.needChooseSide = true;
-            this.killInfoGO = new ArrayList();
+            this.ClearKillInfo();
             this.name = LoginFengKAI.player.name;
             var hashtable3 = new ExitGames.Client.Photon.Hashtable
             {
@@ -2242,7 +2242,7 @@ namespace Assets.Scripts
             {
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
-                this.killInfoGO = new ArrayList();
+                this.ClearKillInfo();
                 this.racingResult = new ArrayList();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
@@ -2827,31 +2827,39 @@ namespace Assets.Scripts
         [PunRPC]
         private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
         {
-            GameObject obj4;
-            GameObject obj2 = GameObject.Find("KillFeed");
-            GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
-            for (int i = 0; i < this.killInfoGO.Count; i++)
+            var killFeed = GameObject.Find("KillFeed");
+            var newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
+            foreach (var killInfo in killInfoGO)
             {
-                obj4 = (GameObject) this.killInfoGO[i];
-                if (obj4 != null)
+                if (killInfo != null)
                 {
-                    obj4.GetComponent<KillInfo>().MoveOn();
+                    killInfo.GetComponent<KillInfo>().MoveOn();
                 }
-            }
-            if (this.killInfoGO.Count > 4)
-            {
-                obj4 = (GameObject) this.killInfoGO[0];
-                if (obj4 != null)
-                {
-                    obj4.GetComponent<KillInfo>().Destroy();
-                }
-                this.killInfoGO.RemoveAt(0);
             }
 
-            obj3.transform.parent = obj2.transform;
-            obj3.transform.position = new Vector3();
-            obj3.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
-            this.killInfoGO.Add(obj3);
+            if (killInfoGO.Count > 4)
+            {
+                var lastKillInfo = killInfoGO[0];
+                if (lastKillInfo != null)
+                {
+                    lastKillInfo.GetComponent<KillInfo>().Destroy();
+                }
+                killInfoGO.RemoveAt(0);
+            }
+
+            newKillInfo.transform.parent = killFeed.transform;
+            newKillInfo.transform.position = new Vector3();
+            newKillInfo.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
+            killInfoGO.Add(newKillInfo);
+        }
+
+        private void ClearKillInfo()
+        {
+            foreach (var killInfo in killInfoGO)
+            {
+                Destroy(killInfo);
+            }
+            killInfoGO.Clear();
         }
 
         [PunRPC]
