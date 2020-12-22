@@ -68,7 +68,7 @@ namespace Assets.Scripts
         [Obsolete("Only used for Cannons. Remove in Issue #75")]
         public bool isRestarting;
         public bool isUnloading;
-        private ArrayList killInfoGO = new ArrayList();
+        private List<GameObject> killInfoGO = new List<GameObject>();
         [Obsolete("Legacy method of keeping track of custom level scripts, which we no longer support")]
         public List<string[]> levelCache;
         public static ExitGames.Client.Photon.Hashtable[] linkHash;
@@ -1859,7 +1859,7 @@ namespace Assets.Scripts
             var propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.needChooseSide = true;
-            this.killInfoGO = new ArrayList();
+            this.killInfoGO = new List<GameObject>();
             this.name = LoginFengKAI.player.name;
             var hashtable3 = new ExitGames.Client.Photon.Hashtable
             {
@@ -2242,7 +2242,7 @@ namespace Assets.Scripts
             {
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
-                this.killInfoGO = new ArrayList();
+                this.killInfoGO = new List<GameObject>()
                 this.racingResult = new ArrayList();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
