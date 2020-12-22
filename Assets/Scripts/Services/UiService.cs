@@ -49,6 +49,8 @@ namespace Assets.Scripts.Services
                 = labels.TopRight.text
                 = labels.Center.text
                     = string.Empty;
+
+            Ui.HUD.ClearDamage();
         }
 
         public void SetMessage(LabelPosition label, string message)
