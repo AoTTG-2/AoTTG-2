@@ -2827,9 +2827,9 @@ namespace Assets.Scripts
         [PunRPC]
         private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
         {
-            GameObject killFeed = GameObject.Find("KillFeed");
-            GameObject newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
-            foreach (GameObject killInfo in killInfoGO)
+            var killFeed = GameObject.Find("KillFeed");
+            var newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
+            foreach (var killInfo in killInfoGO)
             {
                 if (killInfo != null)
                 {
@@ -2839,7 +2839,7 @@ namespace Assets.Scripts
 
             if (killInfoGO.Count > 4)
             {
-                var lastKillInfo = (GameObject) killInfoGO[0];
+                var lastKillInfo = killInfoGO[0];
                 if (lastKillInfo != null)
                 {
                     lastKillInfo.GetComponent<KillInfo>().Destroy();
