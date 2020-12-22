@@ -32,7 +32,7 @@ namespace Assets.Scripts.Services
             }
         }
 
-        private void OnLevelWasLoaded(int level)
+        private void OnLevelWasLoaded()
         {
             if (this.IsPaused())
             {
