@@ -68,7 +68,7 @@ namespace Assets.Scripts
         [Obsolete("Only used for Cannons. Remove in Issue #75")]
         public bool isRestarting;
         public bool isUnloading;
-        private List<GameObject> killInfoGO = new List<GameObject>();
+        private readonly List<GameObject> killInfoGO = new List<GameObject>();
         [Obsolete("Legacy method of keeping track of custom level scripts, which we no longer support")]
         public List<string[]> levelCache;
         public static ExitGames.Client.Photon.Hashtable[] linkHash;
