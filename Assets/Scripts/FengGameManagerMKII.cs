@@ -1859,7 +1859,7 @@ namespace Assets.Scripts
             var propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.needChooseSide = true;
-            this.killInfoGO = new List<GameObject>();
+            this.ClearKillInfo();
             this.name = LoginFengKAI.player.name;
             var hashtable3 = new ExitGames.Client.Photon.Hashtable
             {
@@ -2242,7 +2242,7 @@ namespace Assets.Scripts
             {
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
-                this.killInfoGO = new List<GameObject>()
+                this.ClearKillInfo();
                 this.racingResult = new ArrayList();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
@@ -2851,6 +2851,15 @@ namespace Assets.Scripts
             newKillInfo.transform.position = new Vector3();
             newKillInfo.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
             killInfoGO.Add(newKillInfo);
+        }
+
+        private void ClearKillInfo()
+        {
+            foreach (var killInfo in killInfoGO)
+            {
+                Destroy(killInfo);
+            }
+            killInfoGO.Clear();
         }
 
         [PunRPC]
