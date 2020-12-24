@@ -60,6 +60,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static STEREO_3D_TYPE stereoType;
     public static bool triggerAutoLock;
     public static bool usingTitan;
+    private bool isRestarting = true;
+    private float startingTime;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
 
     private void Awake()
@@ -85,6 +87,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             //base.GetComponent<TiltShift>().enabled = true;
         }
+
+        startingTime = Time.time;
     }
 
     private void EntityService_OnRegistered(Entity entity)
@@ -576,10 +580,12 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
                 this.needSetHUD = true;
             }
-            if (InputManager.KeyDown(InputUi.Restart))
+            if (isRestarting && Time.time - startingTime >= 0.5f && !InputManager.Key(InputUi.Restart))
+                isRestarting = false;
+
+            if (InputManager.KeyDown(InputUi.Restart) && PhotonNetwork.offlineMode && !isRestarting)
             {
-                if (PhotonNetwork.offlineMode)
-                    FengGameManagerMKII.instance.restartRC();
+                FengGameManagerMKII.instance.restartRC();
             }
             if (this.main_object != null)
             {

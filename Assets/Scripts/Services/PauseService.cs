@@ -31,6 +31,14 @@ namespace Assets.Scripts.Services
                 OnUnPaused?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        private void OnLevelWasLoaded()
+        {
+            if (this.IsPaused())
+            {
+                this.Pause(false, true);
+            }
+        }
         
         private void LateUpdate()
         {

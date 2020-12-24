@@ -21,10 +21,20 @@ namespace Assets.Scripts.UI.InGame.HUD
             ShowDamage();
         }
 
+        public void ClearDamage()
+        {
+            var damageLabels = Damage.GetComponentsInChildren<Text>();
+            foreach (var label in damageLabels)
+            {
+                label.text = string.Empty;
+            }
+        }
+
         private void ShowDamage()
         {
             Damage.GetComponent<Animator>().SetTrigger("ShowDamage");
         }
+
         private int ScaleDamageText(int damage)
         {
             var baseFontSize = 150;

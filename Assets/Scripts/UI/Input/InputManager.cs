@@ -36,7 +36,7 @@ namespace Assets.Scripts.UI.Input
         }
 
 
-    public static ControlSettings Settings;
+        public static ControlSettings Settings;
 
         private void Awake()
         {
@@ -158,7 +158,8 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.Camera] = KeyCode.C,
                 [InputUi.Pause] = KeyCode.P,
                 [InputUi.Restart] = KeyCode.T,
-                [InputUi.InteractionWheel] = KeyCode.Tab
+                [InputUi.InteractionWheel] = KeyCode.Tab,
+                [InputUi.Screenshot] = KeyCode.F12,
             };
 
             _uiKeys = uiKeys.Values.ToArray();
@@ -173,41 +174,80 @@ namespace Assets.Scripts.UI.Input
             {
                 var cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
                 if (string.IsNullOrEmpty(cannonRebinds))
+                {
                     SetDefaultCannonKeyBindings();
-
+                    cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
+                }
+                
                 _cannonKeys = JsonConvert.DeserializeObject<KeyCode[]>(cannonRebinds);
+                if (_cannonKeys.Length != Enum.GetNames(inputType).Length)
+                {
+                    SetDefaultCannonKeyBindings();
+                    LoadRebinds(inputType);
+                }
             }
             else if (inputType == typeof(InputHorse))
             {
                 var horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
                 if (string.IsNullOrEmpty(horseRebinds))
+                {
                     SetDefaultHorseKeyBindings();
+                    horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
+                }
 
                 _horseKeys = JsonConvert.DeserializeObject<KeyCode[]>(horseRebinds);
+                if (_horseKeys.Length != Enum.GetNames(inputType).Length)
+                {
+                    SetDefaultHorseKeyBindings();
+                    LoadRebinds(inputType);
+                }
             }
-            else if(inputType == typeof(InputHuman))
+            else if (inputType == typeof(InputHuman))
             {
                 var humanRebinds = PlayerPrefs.GetString(HumanPlayerPrefs);
                 if (string.IsNullOrEmpty(humanRebinds))
+                {
                     SetDefaultHumanKeyBindings();
+                    humanRebinds = PlayerPrefs.GetString(HumanPlayerPrefs);
+                }
 
                 _humanKeys = JsonConvert.DeserializeObject<KeyCode[]>(humanRebinds);
+                if (_humanKeys.Length != Enum.GetNames(inputType).Length)
+                {
+                    SetDefaultHumanKeyBindings();
+                    LoadRebinds(inputType);
+                }
             }
-            else if(inputType == typeof(InputTitan))
+            else if (inputType == typeof(InputTitan))
             {
                 var titanRebinds = PlayerPrefs.GetString(TitanPlayerPrefs);
                 if (string.IsNullOrEmpty(titanRebinds))
+                {
                     SetDefaultTitanKeyBindings();
+                    titanRebinds = PlayerPrefs.GetString(TitanPlayerPrefs);
+                }
 
                 _titanKeys = JsonConvert.DeserializeObject<KeyCode[]>(titanRebinds);
+                if (_titanKeys.Length != Enum.GetNames(inputType).Length)
+                {
+                    SetDefaultTitanKeyBindings();
+                    LoadRebinds(inputType);
+                }
             }
-            else if(inputType == typeof(InputUi))
+            else if (inputType == typeof(InputUi))
             {
                 var uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
                 if (string.IsNullOrEmpty(uiRebinds))
+                {
                     SetDefaultUiKeyBindings();
-
+                    uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
+                }
                 _uiKeys = JsonConvert.DeserializeObject<KeyCode[]>(uiRebinds);
+                if (_uiKeys.Length != Enum.GetNames(inputType).Length)
+                {
+                    SetDefaultUiKeyBindings();
+                    LoadRebinds(inputType);
+                }
             }
             else
             {
@@ -258,18 +298,22 @@ namespace Assets.Scripts.UI.Input
             {
                 return _cannonKeys[index];
             }
+
             if (type is InputHorse)
             {
                 return _horseKeys[index];
             }
+
             if (type is InputHuman)
             {
                 return _humanKeys[index];
             }
+
             if (type is InputTitan)
             {
                 return _titanKeys[index];
             }
+
             if (type is InputUi)
             {
                 return _uiKeys[index];
@@ -284,22 +328,27 @@ namespace Assets.Scripts.UI.Input
             {
                 return CannonPlayerPrefs;
             }
+
             if (typeof(T) == typeof(InputHorse))
             {
                 return HorsePlayerPrefs;
             }
+
             if (typeof(T) == typeof(InputHuman))
             {
                 return HumanPlayerPrefs;
             }
+
             if (typeof(T) == typeof(InputTitan))
             {
                 return TitanPlayerPrefs;
             }
+
             if (typeof(T) == typeof(InputUi))
             {
                 return UiPlayerPrefs;
             }
+
             throw new ArgumentException($"{typeof(T)} is not implemented in InputManager.GetPlayerPrefs");
         }
 
@@ -343,7 +392,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputUi input)
         {
-            if (input != InputUi.Chat && MenuManager.IsMenuOpen) return false;
+            if (input != InputUi.Chat && input != InputUi.Screenshot && MenuManager.IsMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])

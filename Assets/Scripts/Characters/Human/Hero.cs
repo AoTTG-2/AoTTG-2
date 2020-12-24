@@ -4740,17 +4740,20 @@ public class Hero : Human
                         }
                         if (this.state == HERO_STATE.Idle)
                         {
-                            if (InputManager.KeyDown(InputHuman.Item1))
+                            if (!MenuManager.IsMenuOpen)
                             {
-                                this.shootFlare(1);
-                            }
-                            if (InputManager.KeyDown(InputHuman.Item2))
-                            {
-                                this.shootFlare(2);
-                            }
-                            if (InputManager.KeyDown(InputHuman.Item3))
-                            {
-                                this.shootFlare(3);
+                                if (InputManager.KeyDown(InputHuman.Item1))
+                                {
+                                    this.shootFlare(1);
+                                }
+                                if (InputManager.KeyDown(InputHuman.Item2))
+                                {
+                                    this.shootFlare(2);
+                                }
+                                if (InputManager.KeyDown(InputHuman.Item3))
+                                {
+                                    this.shootFlare(3);
+                                }
                             }
                             if (InputManager.KeyDown(InputUi.Restart))
                             {
