@@ -153,7 +153,6 @@ namespace Assets.Scripts
             Level = PhotonNetwork.room.GetLevel();
             var gamemodeSettings = PhotonNetwork.room.GetGamemodeSetting(Level);
             SetGamemode(gamemodeSettings);
-            Service.Settings.SetGamemodeType(gamemodeSettings.GamemodeType);
         }
 
         private void cache()
