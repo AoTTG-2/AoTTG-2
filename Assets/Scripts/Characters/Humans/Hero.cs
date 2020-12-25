@@ -6,6 +6,7 @@ using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Humans.Skills;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Serialization;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.InGame.HUD;
@@ -15,7 +16,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -3405,10 +3405,12 @@ public class Hero : Human
 
     public void shootFlare(int type)
     {
+        var color = new Color(75f / 255f, 0f, 130f / 255f);
         bool flag = false;
         if ((type == 1) && (this.flare1CD == 0f))
         {
             this.flare1CD = this.flareTotalCD;
+            color = Color.green;
             flag = true;
         }
         if ((type == 2) && (this.flare2CD == 0f))
@@ -3421,10 +3423,18 @@ public class Hero : Human
             this.flare3CD = this.flareTotalCD;
             flag = true;
         }
-        if (flag)
-        {
-            PhotonNetwork.Instantiate("FX/flareBullet" + type, base.transform.position, base.transform.rotation, 0).GetComponent<FlareMovement>().dontShowHint();
-        }
+
+        var flare = Service.Inventory.GetItems<Assets.Scripts.Items.Flare>()[type - 1];
+        flare.Use(this);
+
+        //if (flag)
+        //{
+        //    var flare = PhotonNetwork.Instantiate("FX/flare", base.transform.position,
+        //            Quaternion.LookRotation(Camera.main.transform.forward), 0).GetComponent<FlareMovement>();
+        //    flare.dontShowHint();
+        //    var json = JsonConvert.SerializeObject(color, Formatting.Indented, new ColorJsonConverter());
+        //    flare.photonView.RPC(nameof(FlareMovement.SetColorRpc), PhotonTargets.All, json);
+        //}
     }
 
     private void showAimUI2()
