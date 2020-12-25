@@ -94,10 +94,6 @@ public class Hero : Human
     private bool EHold { get; set; }
     private GameObject eren_titan { get; set; }
     public float facingDirection { get; set; }
-    private float flare1CD { get; set; } // Should be moved into individual classes
-    private float flare2CD { get; set; } // ^
-    private float flare3CD { get; set; } // ^
-    private float flareTotalCD { get; set; } = 30f; // a const, should be made a setting for flares.
     private Transform forearmL { get; set; }
     private Transform forearmR { get; set; }
     private float gravity { get; set; } = 20f;
@@ -708,34 +704,6 @@ public class Hero : Human
                 {
                     cachedSprites.Add(image.gameObject.name, image);
                 }
-            }
-        }
-    }
-
-    private void calcFlareCD()
-    {
-        if (this.flare1CD > 0f)
-        {
-            this.flare1CD -= Time.deltaTime;
-            if (this.flare1CD < 0f)
-            {
-                this.flare1CD = 0f;
-            }
-        }
-        if (this.flare2CD > 0f)
-        {
-            this.flare2CD -= Time.deltaTime;
-            if (this.flare2CD < 0f)
-            {
-                this.flare2CD = 0f;
-            }
-        }
-        if (this.flare3CD > 0f)
-        {
-            this.flare3CD -= Time.deltaTime;
-            if (this.flare3CD < 0f)
-            {
-                this.flare3CD = 0f;
             }
         }
     }
@@ -1958,9 +1926,9 @@ public class Hero : Human
 
     public void getSupply()
     {
-        if ((Animation.IsPlaying(this.standAnimation) 
-             || Animation.IsPlaying("run_1") 
-             || Animation.IsPlaying("run_sasha")) 
+        if ((Animation.IsPlaying(this.standAnimation)
+             || Animation.IsPlaying("run_1")
+             || Animation.IsPlaying("run_sasha"))
                 && (this.currentBladeSta != this.totalBladeSta || this.currentGas != this.totalGas || Equipment.Weapon.CanReload))
         {
             this.state = HERO_STATE.FillGas;
@@ -2387,13 +2355,13 @@ public class Hero : Human
         this.forearmL.localRotation = Quaternion.Euler(-90f, 0f, 0f);
         this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * 57.29578f), -Mathf.Atan2(num2, num4) * 57.29578f);
     }
-    
+
     public void markDie()
     {
         this.hasDied = true;
         this.state = HERO_STATE.Die;
     }
-    
+
     [PunRPC]
     private void net3DMGSMOKE(bool ifON)
     {
@@ -3225,7 +3193,7 @@ public class Hero : Human
             }
         }
     }
-    
+
     public void setSkillHUDPosition2()
     {
         return;
@@ -3386,7 +3354,7 @@ public class Hero : Human
             this.setTeam2(1);
         }
     }
-    
+
     public void setTeam2(int team)
     {
         if (base.photonView.isMine)
@@ -3405,36 +3373,8 @@ public class Hero : Human
 
     public void shootFlare(int type)
     {
-        var color = new Color(75f / 255f, 0f, 130f / 255f);
-        bool flag = false;
-        if ((type == 1) && (this.flare1CD == 0f))
-        {
-            this.flare1CD = this.flareTotalCD;
-            color = Color.green;
-            flag = true;
-        }
-        if ((type == 2) && (this.flare2CD == 0f))
-        {
-            this.flare2CD = this.flareTotalCD;
-            flag = true;
-        }
-        if ((type == 3) && (this.flare3CD == 0f))
-        {
-            this.flare3CD = this.flareTotalCD;
-            flag = true;
-        }
-
         var flare = Service.Inventory.GetItems<Assets.Scripts.Items.Flare>()[type - 1];
         flare.Use(this);
-
-        //if (flag)
-        //{
-        //    var flare = PhotonNetwork.Instantiate("FX/flare", base.transform.position,
-        //            Quaternion.LookRotation(Camera.main.transform.forward), 0).GetComponent<FlareMovement>();
-        //    flare.dontShowHint();
-        //    var json = JsonConvert.SerializeObject(color, Formatting.Indented, new ColorJsonConverter());
-        //    flare.photonView.RPC(nameof(FlareMovement.SetColorRpc), PhotonTargets.All, json);
-        //}
     }
 
     private void showAimUI2()
@@ -3768,7 +3708,6 @@ public class Hero : Human
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
                 {
                     this.calcSkillCD();
-                    this.calcFlareCD();
                 }
                 if (InputManager.KeyDown(InputHuman.AttackSpecial))
                 {
@@ -4497,7 +4436,7 @@ public class Hero : Human
                     Equipment.Weapon.Resupply();
                     this.currentBladeSta = this.totalBladeSta;
                     this.currentGas = this.totalGas;
-                    if(useGun)
+                    if (useGun)
                     {
                         this.leftBulletLeft = this.rightBulletLeft = this.bulletMAX;
                         this.rightGunHasBullet = true;
@@ -4651,7 +4590,6 @@ public class Hero : Human
             if (!IN_GAME_MAIN_CAMERA.isPausing)
             {
                 this.calcSkillCD();
-                this.calcFlareCD();
             }
             //if (!this.useGun)
             //{
@@ -4752,7 +4690,7 @@ public class Hero : Human
             }
         }
     }
-    
+
     private void useGas(float amount = 0)
     {
         if (amount == 0f)
