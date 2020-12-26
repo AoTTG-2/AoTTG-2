@@ -133,7 +133,7 @@ namespace Assets.Scripts.Settings
         public void Initialize(string json)
         {
             var gameSettings = JsonConvert.DeserializeObject<GameSettings>(json);
-            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn);
+            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn, gameSettings.ConfigTime);
         }
 
         public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn, TimeSettings time)

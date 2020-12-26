@@ -100,7 +100,8 @@ namespace Assets.Scripts.Services
                     Eren = new TitanSettings(difficulty)
                 },
                 new HorseSettings(difficulty),
-                new RespawnSettings(difficulty)
+                new RespawnSettings(difficulty),
+                new TimeSettings()
             );
 
             if (!PhotonNetwork.isMasterClient) return;
