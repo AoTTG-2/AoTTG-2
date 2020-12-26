@@ -6,7 +6,7 @@ namespace Assets.Scripts.Services
 {
     public class PhotonService : PunBehaviour, IPhotonService
     {
-        public static VersionManager VersionManager;
+        public VersionManager versionManager;
         private static string IpAddress { get; set; }
 
         public void UpdateConnectionType(bool isLocal)
@@ -16,10 +16,8 @@ namespace Assets.Scripts.Services
 
         public void OnDisconnectFromPhoton()
         {
-            // PhotonServer complains about no UserId being set, temp fix
             PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", VersionManager.Version);
-            //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
         }
 
         public void ChangeRegionDisconnect()
@@ -40,7 +38,7 @@ namespace Assets.Scripts.Services
                 PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
             }
 
-            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", VersionManager.Version);
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
         }
     }
 }

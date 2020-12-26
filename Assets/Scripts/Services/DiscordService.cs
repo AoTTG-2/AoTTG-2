@@ -23,15 +23,15 @@ namespace Assets.Scripts.Services
         private const string LargeText = "AoTTG2";
         private const long AppID = 730150236185690172;
 
-        
+
         private void Awake()
         {
             discord = new Discord.Discord(AppID, (UInt64) Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
-            
+
             activityManager.OnActivityJoin += JoinViaDiscord;
             SceneManager.activeSceneChanged += OnSceneChanged;
-            
+
 
             assetsStruct = new ActivityAssets
             {
@@ -59,15 +59,17 @@ namespace Assets.Scripts.Services
                 InMenu();
             }
         }
-        
+
         public void JoinViaDiscord(string roomID)
         {
             Service.Photon.UpdateConnectionType(false);
             Service.Photon.Initialize();
-            StopCoroutine(joiningRoutine);
+            if (joiningRoutine != null)
+                StopCoroutine(joiningRoutine);
+
             joiningRoutine = StartCoroutine(JoinRoutine(roomID));
         }
-        
+
         private IEnumerator JoinRoutine(string roomID)
         {
             float startTime = Time.time;
@@ -82,7 +84,8 @@ namespace Assets.Scripts.Services
                     break;
                 }
             }
-            if(isJoinedLobby)
+
+            if (isJoinedLobby)
                 PhotonNetwork.JoinRoom(roomID);
         }
 
@@ -97,7 +100,7 @@ namespace Assets.Scripts.Services
             base.OnDisconnectedFromPhoton();
             isJoinedLobby = false;
         }
-        
+
         public void UpdateDiscordActivity(global::Room room)
         {
             if (room.GetName().Equals("Singleplayer"))
@@ -105,7 +108,7 @@ namespace Assets.Scripts.Services
             else
                 UpdateMultiPlayerActivity(room);
         }
-        
+
         private void InMenu()
         {
             var activityStruct = new Activity
