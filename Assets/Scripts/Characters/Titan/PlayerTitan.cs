@@ -32,7 +32,7 @@ namespace Assets.Scripts.Characters.Titan
                 base.FixedUpdate();
                 return;
             }
-            if (!photonView.isMine) return;
+            if (!photonView.isMine || !IsAlive) return;
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
             if (targetDirection == -874f || CurrentAttack != null) return;
             Vector3 vector12 = transform.forward * Speed * SpeedModifier;
