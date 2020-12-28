@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Serialization;
+﻿using Assets.Scripts.Items.Data;
+using Assets.Scripts.Serialization;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Assets.Scripts.Items
         private float Cooldown { get; set; } = -FlareCooldown;
         private readonly Color _color;
 
-        public Flare(Color color)
+        public Flare(Color color, FlareData data) : base(data)
         {
             _color = color;
         }

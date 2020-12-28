@@ -15,8 +15,13 @@ namespace Assets.Scripts.Services
 
         private List<Item> Inventory { get; } = new List<Item>();
 
-        public IList<T> GetScriptableObjectItems<T>() where T : Item
+        public IList<T> GetScriptableObjectItems<T>() where T : ItemData
         {
+            var type = typeof(T);
+            if (type == typeof(FlareData))
+            {
+                return flares.Cast<T>().ToList();
+            }
             throw new NotImplementedException();
         }
 
@@ -24,9 +29,7 @@ namespace Assets.Scripts.Services
         {
             if (Inventory.Count == 0)
             {
-                Inventory.Add(flares[0].ToItem());
-                Inventory.Add(flares[1].ToItem());
-                Inventory.Add(flares[2].ToItem());
+                flares.ForEach(x => Inventory.Add(x.ToItem()));
             }
 
             var type = typeof(T);

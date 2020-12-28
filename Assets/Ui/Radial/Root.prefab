@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &412799271501163736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412799271501163743}
+  - component: {fileID: 7601428238892908685}
+  m_Layer: 0
+  m_Name: Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &412799271501163743
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412799271501163736}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7601428238892908685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412799271501163736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6cd06ad6ece5f547be1e6c0e7cba861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlareMenu: {fileID: 7601428238892908685}
+  RadialElementPrefab: {fileID: 8254745153312676833, guid: 63a9d7c8e3a5f6f41955f337861fde0c,
+    type: 3}
+  GapWidthDegree: 1
+  Distance: 200
+  Label: {fileID: 0}
+  Selected: {fileID: 0}
+  flares:
+  - {fileID: 11400000, guid: 2b1cac2cd17f2d94e90ef3052fd79713, type: 2}
+  - {fileID: 11400000, guid: 28d17b2f0e875c246953a53d7e634e4d, type: 2}
+  - {fileID: 11400000, guid: 586df2dbce068814bafed60e835d8baa, type: 2}
+  - {fileID: 11400000, guid: 3996373347d5caf4e936dc8297ce7f49, type: 2}
+  - {fileID: 11400000, guid: 60d310188e6795c4a8f7d52d5ce35210, type: 2}
+  - {fileID: 11400000, guid: 6f42279bfda11fa4b9761e7a6e6642d1, type: 2}

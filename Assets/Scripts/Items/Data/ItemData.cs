@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Items.Data
 {
     public abstract class ItemData : ScriptableObject
     {
         public string Name;
-        public Sprite Icon;
+        public UnityEngine.Sprite Icon;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Items.Data
 {
@@ -9,7 +10,7 @@ namespace Assets.Scripts.Items.Data
 
         public Item ToItem()
         {
-            return new Flare(color);
+            return new Flare(color, this);
         }
     }
 }
