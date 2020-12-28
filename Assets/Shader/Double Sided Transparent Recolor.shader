@@ -1,12 +1,25 @@
-﻿Shader "Custom/Recolor Bumpout" {
+﻿Shader "Custom/Recolor Double Sided Transparent" {
     Properties {
-        _Color ("Diffuse Color", Color) = (1,1,1,1)
+        _Color ("Main Color", Color) = (1,1,1,1)
         _Color1in ("Color 1 In", Color) = (1,1,1,1)
         _Color1out ("Color 1 Out", Color) = (1,1,1,1)
-        _Color1Threshold("Color Replace Threshold", float) = 0.02
+        _Color1Threshold("Color Replace Threshold", float) = 0.0
+
+        _Color2in ("Color 2 In", Color) = (1,1,1,1)
+        _Color2out ("Color 2 Out", Color) = (1,1,1,1)
+        _Color2Threshold("Color Replace Threshold", float) = 0.0
+
+        _Color3in ("Color 3 In", Color) = (1,1,1,1)
+        _Color3out ("Color 3 Out", Color) = (1,1,1,1)
+        _Color3Threshold("Color Replace Threshold", float) = 0.0
+
+        _Color4in ("Color 4 In", Color) = (1,1,1,1)
+        _Color4out ("Color 4 Out", Color) = (1,1,1,1)
+        _Color4Threshold("Color Replace Threshold", float) = 0.0
+
         _MainTex ("Diffuse map (Cutout A)", 2D) = "white" {}
         _NormalIntensity ("Normal Intensity", Range(0, 2)) = 1
-        [HideInInspector]_Cutoff ("Alpha cutoff", Range(0,1)) = 0.5
+        [HideInInspector]_Cutoff ("Alpha cutoff", Range(0,1)) = 0.0
     }
     SubShader {
         Tags {
@@ -44,6 +57,18 @@
             uniform float4 _Color1in;
             uniform float4 _Color1out;
             uniform float _Color1Threshold;
+
+            uniform float4 _Color2in;
+            uniform float4 _Color2out;
+            uniform float _Color2Threshold;
+
+            uniform float4 _Color3in;
+            uniform float4 _Color3out;
+            uniform float _Color3Threshold;
+
+            uniform float4 _Color4in;
+            uniform float4 _Color4out;
+            uniform float _Color4Threshold;
 
             uniform sampler2D _BumpMap; uniform float4 _BumpMap_ST;
             uniform float _NormalIntensity;
@@ -91,6 +116,30 @@
                 float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
                 float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
                 return c.z * lerp(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+            }
+
+            float3 recolor(float3 color, float4 colorIn, float4 colorOut, float threshold) 
+            {
+                if( //the threshold is needed because exact values cant be used
+                        (abs(color.x - colorIn.r) < threshold) &&
+                        (abs(color.y - colorIn.g) < threshold) &&
+                        (abs(color.z - colorIn.b) < threshold))
+                { //replace RGB and alpha with colorout RGB and alpha
+                    float3 currentColorHsv = rgb2hsv(color);
+                    float3 selectedHsv = rgb2hsv(colorIn.rgb);
+                    float3 colorOutHsv = rgb2hsv(colorOut.rgb);
+
+                    float diffS = clamp(currentColorHsv.y / selectedHsv.y, 0.00, 1);
+                    float diffV = currentColorHsv.z / selectedHsv.z;
+                    
+                    colorOutHsv.y = colorOutHsv.y * diffS;
+                    colorOutHsv.z = colorOutHsv.z * diffV;
+                    float3 colorOutRGB = hsv2rgb(colorOutHsv);
+
+                    return colorOutRGB;                    
+                }
+
+                return color;
             }
 
             VertexOutput vert (VertexInput v) {
@@ -190,26 +239,12 @@
                 float3 diffuseColor = (_MainTex_var.rgb*_Color.rgb); // Need this for specular when using metallic
 
 ////// RECOLOR LOGIC:
-                if( //the threshold is needed because exact values cant be used
-                        (abs(diffuseColor.x - _Color1in.r) < _Color1Threshold) &&
-                        (abs(diffuseColor.y - _Color1in.g) < _Color1Threshold) &&
-                        (abs(diffuseColor.z - _Color1in.b) < _Color1Threshold))
-                { //replace RGB and alpha with colorout RGB and alpha
-                    float3 currentColorHsv = rgb2hsv(diffuseColor);
-                    float3 selectedHsv = rgb2hsv(_Color1in.rgb);
-                    float3 colorOutHsv = rgb2hsv(_Color1out.rgb);
+                diffuseColor = recolor(diffuseColor, _Color1in, _Color1out, _Color1Threshold);
+                diffuseColor = recolor(diffuseColor, _Color2in, _Color2out, _Color2Threshold);
+                diffuseColor = recolor(diffuseColor, _Color3in, _Color3out, _Color3Threshold);
+                diffuseColor = recolor(diffuseColor, _Color4in, _Color4out, _Color4Threshold);
 
-                    float diffS = currentColorHsv.y / selectedHsv.y;
-                    float diffV = currentColorHsv.z / selectedHsv.z;
-                    
-                    colorOutHsv.y = colorOutHsv.y * diffS;
-                    colorOutHsv.z = colorOutHsv.z * diffV;
-                    float3 colorOutRGB = hsv2rgb(colorOutHsv);
-
-                    diffuseColor = float4(colorOutRGB.x, colorOutRGB.y, colorOutRGB.z, _Color1out.a);
-                    
-                }
-
+///// END OF RECOLOR LOGIC:
                 diffuseColor = EnergyConservationBetweenDiffuseAndSpecular(diffuseColor, specularColor, specularMonochrome);
                 specularMonochrome = 1.0-specularMonochrome;
                 float NdotV = abs(dot( normalDirection, viewDirection ));
