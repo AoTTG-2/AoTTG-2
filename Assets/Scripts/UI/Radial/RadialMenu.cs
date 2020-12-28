@@ -1,6 +1,6 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Radial
 {
@@ -14,8 +14,8 @@ namespace Assets.Scripts.UI.Radial
         protected RadialElement[] Pieces;
 
         public int Distance = 200;
-        public Text Label;
-        public Interactable Selected;
+        public TMP_Text Label;
+        public GameObject Direction;
 
         protected RadialMenu Parent;
 
@@ -23,12 +23,18 @@ namespace Assets.Scripts.UI.Radial
 
         private void OnEnable()
         {
-            GameCursor.ApplyCursorMode();
+            MenuManager.RegisterOpened();
+            Cursor.visible = false;
         }
 
         protected virtual void OnDisable()
         {
-            GameCursor.ApplyCameraMode();
+            MenuManager.RegisterClosed();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            MenuManager.RegisterClosed();
         }
 
         protected virtual void Start()
@@ -40,7 +46,7 @@ namespace Assets.Scripts.UI.Radial
             {
                 flares
             };
-            
+
             StartCoroutine(SpawnButtons());
         }
 
@@ -48,7 +54,7 @@ namespace Assets.Scripts.UI.Radial
         {
             var stepLength = 360f / Pieces.Length;
             var iconDist = Vector3.Distance(RadialElementPrefab.Icon.transform.position, RadialElementPrefab.CakePiece.transform.position);
-            
+
             for (int i = 0; i < Pieces.Length; i++)
             {
                 //Pieces[i] = Instantiate(RadialElementPrefab, transform);
@@ -60,10 +66,17 @@ namespace Assets.Scripts.UI.Radial
                 Pieces[i].CakePiece.fillAmount = 1f / Pieces.Length - GapWidthDegree / 360f;
                 Pieces[i].CakePiece.transform.localPosition = Vector3.zero;
                 Pieces[i].CakePiece.transform.localRotation = Quaternion.Euler(0, 0, -stepLength / 2f + GapWidthDegree / 2f + i * stepLength);
+
+
+
                 Pieces[i].CakePiece.color = new Color(1f, 1f, 1f, 0.5f);
 
                 //set icon
                 Pieces[i].Icon.transform.localPosition = Pieces[i].CakePiece.transform.localPosition + Quaternion.AngleAxis(i * stepLength, Vector3.forward) * Vector3.up * iconDist;
+
+                Pieces[i].Number.transform.localPosition = Pieces[i].CakePiece.transform.localPosition + Quaternion.AngleAxis(i * stepLength, Vector3.forward) * Vector3.up * iconDist / 1.7f;
+                Pieces[i].Number.text = $"{i + 1}";
+
                 //Pieces[i].Icon.sprite = Data.Elements[i].Icon;
 
                 Pieces[i].Animate();
@@ -82,14 +95,18 @@ namespace Assets.Scripts.UI.Radial
         private void Update()
         {
             if (!IsReady) return;
+
             var stepLength = 360f / Pieces.Length;
             var mouseAngle = NormalizeAngle(Vector3.SignedAngle(Vector3.up, UnityEngine.Input.mousePosition - transform.position, Vector3.forward) + stepLength / 2f);
             var activeElement = (int) (mouseAngle / stepLength);
+
+            Direction.transform.rotation = Quaternion.Euler(0, 0, mouseAngle - 45f);/* .Rotate(new Vector3(0, 0, mouseAngle));*/
+
             for (int i = 0; i < Pieces.Length; i++)
             {
                 if (Pieces[i].CakePiece == null) continue;
                 if (i == activeElement)
-                    Pieces[i].CakePiece.color = new Color(1f, 1f, 1f, 0.75f);
+                    Pieces[i].CakePiece.color = new Color(1f, 1f, 1f, 0.95f);
                 else
                     Pieces[i].CakePiece.color = new Color(1f, 1f, 1f, 0.5f);
             }
@@ -101,7 +118,12 @@ namespace Assets.Scripts.UI.Radial
                     var newSubRing = Instantiate(Pieces[activeElement].NextMenu, transform.parent).GetComponent<RadialMenu>();
                     newSubRing.Parent = this;
                     for (var j = 0; j < newSubRing.transform.childCount; j++)
+                    {
+                        var childObject = newSubRing.transform.GetChild(j).gameObject;
+                        if (childObject == newSubRing.Label.transform.gameObject || childObject == newSubRing.Direction) continue;
                         Destroy(newSubRing.transform.GetChild(j).gameObject);
+                    }
+                        
                 }
                 else
                 {

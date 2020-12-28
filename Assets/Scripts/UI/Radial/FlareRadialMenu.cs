@@ -23,9 +23,11 @@ namespace Assets.Scripts.UI.Radial
             {
                 var element = Instantiate(RadialElementPrefab, transform);
                 element.Icon.sprite = flare.Data.Icon;
+                element.IconText.text = flare.Data.Name;
                 pieces.Add(element);
             }
 
+            Label.text = "Flares";
 
             Pieces = pieces.ToArray();
 
@@ -40,9 +42,8 @@ namespace Assets.Scripts.UI.Radial
             Destroy(gameObject);
         }
 
-        protected override void OnDisable()
+        protected virtual void OnDisable()
         {
-            base.OnDisable();
             Destroy(gameObject);
         }
     }

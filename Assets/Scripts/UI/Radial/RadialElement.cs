@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,9 @@ namespace Assets.Scripts.UI.Radial
     {
         public Image Icon;
         public Image CakePiece;
+        public TMP_Text IconText;
+        public TMP_Text Number;
+
         public RadialMenu NextMenu;
 
         private const float Speed = 8f;
