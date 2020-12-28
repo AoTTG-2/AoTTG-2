@@ -37,6 +37,10 @@ namespace Assets.Scripts.DayNightCycle
         private void SubmitDayLength(string arg0)
         {
             float dayLength =float.Parse(arg0);
+            if (dayLength<60)
+            {
+                dayLength = 60;
+            }
             DayNightCycle.DayLength = (float) dayLength;
            
            

@@ -21,15 +21,15 @@ namespace Assets.Scripts.DayNightCycle
         public GameObject moon;
         public DayColors dawnColors;
         public DayColors dayColors;
-        public DayColors nightColors;
-        public DayColors darknightColors;
+        public DayColors TwilightColors;
+        public DayColors NightColors;
         public Material skyBoxDAWN;
         public Material skyBoxDAY;
         public Material skyBoxSUNSET;
         public Material skyBoxNIGHT;
         public float currentTime { get; set; }
         public Slider TimeSlider;
-
+        public Camera MoonCamera;
 
         public int currentDay = 0;
         public Light directionalLight;
@@ -53,7 +53,7 @@ namespace Assets.Scripts.DayNightCycle
         // Use this for initialization
         void Start()
         {
-
+            MoonCamera = GameObject.Find("MoonCamera").GetComponent<Camera>();
             TimeSlider = GameObject.Find("TimeSlider").GetComponent<Slider>();
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
             {
@@ -94,7 +94,7 @@ namespace Assets.Scripts.DayNightCycle
             }
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
             //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
-            GameObject.Find("MoonCamera").GetComponent<Camera>().fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
+            MoonCamera.fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
             if (!pause)
             {
                 foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
@@ -130,7 +130,6 @@ namespace Assets.Scripts.DayNightCycle
         void UpdateLight()
         {
 
-            //moon issue code below, either this or the moon camera
             moon.transform.LookAt(targetCam.transform);
             directionalLight.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 90, 170, 0);
             moonState.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 100, 170, 0);
@@ -161,17 +160,17 @@ namespace Assets.Scripts.DayNightCycle
 
             if (currentTime < 0.2f)
             {
-                RenderSettings.ambientSkyColor = darknightColors.skyColor;
-                RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
-                RenderSettings.ambientGroundColor = darknightColors.horizonColor;
+                RenderSettings.ambientSkyColor = NightColors.skyColor;
+                RenderSettings.ambientEquatorColor = NightColors.equatorColor;
+                RenderSettings.ambientGroundColor = NightColors.horizonColor;
                 GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
             }
             if (currentTime > 0.2f && currentTime < 0.25f)
             {
 
-                RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, nightColors.skyColor, 0.001f / (SecondsInAFullDay / 300));
-                RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, nightColors.equatorColor, 0.001f / (SecondsInAFullDay / 300));
-                RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, nightColors.horizonColor, 0.001f / (SecondsInAFullDay / 300));
+                RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, TwilightColors.skyColor, 0.001f / (SecondsInAFullDay / 300));
+                RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, TwilightColors.equatorColor, 0.001f / (SecondsInAFullDay / 300));
+                RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, TwilightColors.horizonColor, 0.001f / (SecondsInAFullDay / 300));
 
             }
             //sunset colour missing 
@@ -209,15 +208,15 @@ namespace Assets.Scripts.DayNightCycle
 
             if (currentTime > 0.75f && currentTime < 0.99f)
             {
-                RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, darknightColors.skyColor, 0.001f / (SecondsInAFullDay / 1000));//making the 1000 bigger makes lerp faster
-                RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, darknightColors.equatorColor, 0.001f / (SecondsInAFullDay / 1000));
-                RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, darknightColors.horizonColor, 0.001f / (SecondsInAFullDay / 1000));
+                RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, NightColors.skyColor, 0.001f / (SecondsInAFullDay / 1000));//making the 1000 bigger makes lerp faster
+                RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, NightColors.equatorColor, 0.001f / (SecondsInAFullDay / 1000));
+                RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, NightColors.horizonColor, 0.001f / (SecondsInAFullDay / 1000));
                 GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxSUNSET;
                 if (currentTime > 0.875f)
                 {
-                    RenderSettings.ambientSkyColor = darknightColors.skyColor;
-                    RenderSettings.ambientEquatorColor = darknightColors.equatorColor;
-                    RenderSettings.ambientGroundColor = darknightColors.horizonColor;
+                    RenderSettings.ambientSkyColor = NightColors.skyColor;
+                    RenderSettings.ambientEquatorColor = NightColors.equatorColor;
+                    RenderSettings.ambientGroundColor = NightColors.horizonColor;
                     GameObject.Find("MainCamera").GetComponent<Skybox>().material = skyBoxNIGHT;
                 }
 
