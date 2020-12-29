@@ -31,6 +31,7 @@ public class Hero : Human
 
     private const float HookRaycastDistance = 1000f;
 
+    #region Properties
     public HERO_STATE _state { get; set; }
     private HERO_STATE state
     {
@@ -75,7 +76,7 @@ public class Hero : Human
     public GameObject crossL2;
     public GameObject crossR1;
     public GameObject crossR2;
-    public string currentAnimation;
+    public string CurrentAnimation;
     public float currentBladeSta = 100f;
     private BUFF currentBuff { get; set; }
     public Camera currentCamera;
@@ -200,6 +201,8 @@ public class Hero : Human
     private float uTapTime { get; set; } = -1f;
     private bool wallJump { get; set; }
     private float wallRunTime { get; set; }
+    #endregion
+
 
     public GameObject InGameUI;
     public TextMesh PlayerName;
@@ -383,6 +386,136 @@ public class Hero : Human
         //if (!isInvincible() && _state != HERO_STATE.Grab)
         //    markDie();
     }
+
+    #region Animation
+
+    private void SetAnimationSpeed(string animationName, float animationSpeed = 1f)
+    {
+        Debug.Log($"Calling SetSpeed: {animationName}");
+        Animation[animationName].speed = animationSpeed;
+        if (!photonView.isMine) return;
+
+        photonView.RPC(nameof(SetAnimationSpeedRpc), PhotonTargets.Others, animationName, animationSpeed);
+    }
+
+    [PunRPC]
+    private void SetAnimationSpeedRpc(string animationName, float animationSpeed, PhotonMessageInfo info)
+    {
+        if (info.sender.ID == photonView.owner.ID)
+        {
+            Animation[animationName].speed = animationSpeed;
+        }
+    }
+
+    public void CrossFade(string newAnimation, float fadeLength = 0.1f)
+    {
+        if (string.IsNullOrWhiteSpace(newAnimation)) return;
+        if (Animation.IsPlaying(newAnimation)) return;
+        if (!photonView.isMine) return;
+
+        CurrentAnimation = newAnimation;
+        Animation.CrossFade(newAnimation, fadeLength);
+        photonView.RPC(nameof(CrossFadeRpc), PhotonTargets.Others, newAnimation, fadeLength);
+    }
+
+    [PunRPC]
+    protected void CrossFadeRpc(string newAnimation, float fadeLength, PhotonMessageInfo info)
+    {
+        if (info.sender.ID == photonView.owner.ID)
+        {
+            CurrentAnimation = newAnimation;
+            Animation.CrossFade(newAnimation, fadeLength);
+        }
+    }
+
+    public void crossFade(string aniName, float time)
+    {
+        this.CurrentAnimation = aniName;
+        base.GetComponent<Animation>().CrossFade(aniName, time);
+        if (PhotonNetwork.connected && base.photonView.isMine)
+        {
+            object[] parameters = new object[] { aniName, time };
+            base.photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, parameters);
+        }
+    }
+
+    public void TryCrossFade(string animationName, float time)
+    {
+        if (!this.Animation.IsPlaying(animationName))
+        {
+            this.crossFade(animationName, time);
+        }
+    }
+    
+    private void customAnimationSpeed()
+    {
+        base.GetComponent<Animation>()["attack5"].speed = 1.85f;
+        base.GetComponent<Animation>()["changeBlade"].speed = 1.2f;
+        base.GetComponent<Animation>()["air_release"].speed = 0.6f;
+        base.GetComponent<Animation>()["changeBlade_air"].speed = 0.8f;
+        base.GetComponent<Animation>()["AHSS_gun_reload_both"].speed = 0.38f;
+        base.GetComponent<Animation>()["AHSS_gun_reload_both_air"].speed = 0.5f;
+        base.GetComponent<Animation>()["AHSS_gun_reload_l"].speed = 0.4f;
+        base.GetComponent<Animation>()["AHSS_gun_reload_l_air"].speed = 0.5f;
+        base.GetComponent<Animation>()["AHSS_gun_reload_r"].speed = 0.4f;
+        base.GetComponent<Animation>()["AHSS_gun_reload_r_air"].speed = 0.5f;
+    }
+    
+    [PunRPC]
+    private void netCrossFade(string aniName, float time)
+    {
+        this.CurrentAnimation = aniName;
+        if (base.GetComponent<Animation>() != null)
+        {
+            base.GetComponent<Animation>().CrossFade(aniName, time);
+        }
+    }
+    
+    [PunRPC]
+    private void netPlayAnimation(string aniName)
+    {
+        this.CurrentAnimation = aniName;
+        if (base.GetComponent<Animation>() != null)
+        {
+            base.GetComponent<Animation>().Play(aniName);
+        }
+    }
+
+    [PunRPC]
+    private void netPlayAnimationAt(string aniName, float normalizedTime)
+    {
+        this.CurrentAnimation = aniName;
+        if (base.GetComponent<Animation>() != null)
+        {
+            base.GetComponent<Animation>().Play(aniName);
+            base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
+        }
+    }
+    
+    public void playAnimation(string aniName)
+    {
+        this.CurrentAnimation = aniName;
+        base.GetComponent<Animation>().Play(aniName);
+        if (PhotonNetwork.connected && base.photonView.isMine)
+        {
+            object[] parameters = new object[] { aniName };
+            base.photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, parameters);
+        }
+    }
+
+    private void playAnimationAt(string aniName, float normalizedTime)
+    {
+        this.CurrentAnimation = aniName;
+        base.GetComponent<Animation>().Play(aniName);
+        base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
+        if (PhotonNetwork.connected && base.photonView.isMine)
+        {
+            object[] parameters = new object[] { aniName, normalizedTime };
+            base.photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, parameters);
+        }
+    }
+
+    #endregion
 
     private void applyForceToBody(GameObject GO, Vector3 v)
     {
@@ -903,94 +1036,7 @@ public class Hero : Human
         }
     }
 
-    public void continueAnimation()
-    {
-        IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
-        try
-        {
-            while (enumerator.MoveNext())
-            {
-                AnimationState current = (AnimationState) enumerator.Current;
-                if (current != null && current.speed == 1f)
-                {
-                    return;
-                }
-                current.speed = 1f;
-            }
-        }
-        finally
-        {
-            IDisposable disposable = enumerator as IDisposable;
-            if (disposable != null)
-            {
-                disposable.Dispose();
-            }
-        }
-        this.customAnimationSpeed();
-        this.playAnimation(this.currentPlayingClipName());
-        if (base.photonView.isMine)
-        {
-            base.photonView.RPC(nameof(netContinueAnimation), PhotonTargets.Others, new object[0]);
-        }
-    }
 
-    public void crossFade(string aniName, float time)
-    {
-        this.currentAnimation = aniName;
-        base.GetComponent<Animation>().CrossFade(aniName, time);
-        if (PhotonNetwork.connected && base.photonView.isMine)
-        {
-            object[] parameters = new object[] { aniName, time };
-            base.photonView.RPC("netCrossFade", PhotonTargets.Others, parameters);
-        }
-    }
-
-    public void TryCrossFade(string animationName, float time)
-    {
-        if (!this.Animation.IsPlaying(animationName))
-        {
-            this.crossFade(animationName, time);
-        }
-    }
-
-    public string currentPlayingClipName()
-    {
-        IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
-        try
-        {
-            while (enumerator.MoveNext())
-            {
-                AnimationState current = (AnimationState) enumerator.Current;
-                if (current != null && base.GetComponent<Animation>().IsPlaying(current.name))
-                {
-                    return current.name;
-                }
-            }
-        }
-        finally
-        {
-            IDisposable disposable = enumerator as IDisposable;
-            if (disposable != null)
-            {
-                disposable.Dispose();
-            }
-        }
-        return string.Empty;
-    }
-
-    private void customAnimationSpeed()
-    {
-        base.GetComponent<Animation>()["attack5"].speed = 1.85f;
-        base.GetComponent<Animation>()["changeBlade"].speed = 1.2f;
-        base.GetComponent<Animation>()["air_release"].speed = 0.6f;
-        base.GetComponent<Animation>()["changeBlade_air"].speed = 0.8f;
-        base.GetComponent<Animation>()["AHSS_gun_reload_both"].speed = 0.38f;
-        base.GetComponent<Animation>()["AHSS_gun_reload_both_air"].speed = 0.5f;
-        base.GetComponent<Animation>()["AHSS_gun_reload_l"].speed = 0.4f;
-        base.GetComponent<Animation>()["AHSS_gun_reload_l_air"].speed = 0.5f;
-        base.GetComponent<Animation>()["AHSS_gun_reload_r"].speed = 0.4f;
-        base.GetComponent<Animation>()["AHSS_gun_reload_r_air"].speed = 0.5f;
-    }
     private void dash(float horizontal, float vertical)
     {
         if (((this.dashTime <= 0f) && (this.currentGas > 0f)) && !this.isMounted)
@@ -1139,7 +1185,7 @@ public class Hero : Human
         {
             if (!this.attackReleased)
             {
-                this.continueAnimation();
+                SetAnimationSpeed(CurrentAnimation);
                 this.attackReleased = true;
             }
         }
@@ -1159,7 +1205,7 @@ public class Hero : Human
             this.attackLoop = 0;
             if (!this.attackReleased)
             {
-                this.continueAnimation();
+                SetAnimationSpeed(CurrentAnimation);
                 this.attackReleased = true;
             }
         }
@@ -2370,44 +2416,7 @@ public class Hero : Human
             this.smoke_3dmg.enableEmission = ifON;
         }
     }
-
-    [PunRPC]
-    private void netContinueAnimation()
-    {
-        IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
-        try
-        {
-            while (enumerator.MoveNext())
-            {
-                AnimationState current = (AnimationState) enumerator.Current;
-                if (current != null && current.speed == 1f)
-                {
-                    return;
-                }
-                current.speed = 1f;
-            }
-        }
-        finally
-        {
-            IDisposable disposable = enumerator as IDisposable;
-            if (disposable != null)
-            {
-                disposable.Dispose();
-            }
-        }
-        this.playAnimation(this.currentPlayingClipName());
-    }
-
-    [PunRPC]
-    private void netCrossFade(string aniName, float time)
-    {
-        this.currentAnimation = aniName;
-        if (base.GetComponent<Animation>() != null)
-        {
-            base.GetComponent<Animation>().CrossFade(aniName, time);
-        }
-    }
-
+    
     [PunRPC]
     public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
     {
@@ -2777,51 +2786,7 @@ public class Hero : Human
         //    }
         //}
     }
-
-    [Obsolete("We don't need to call this for every animation, only the intended animation")]
-    [PunRPC]
-    private void netPauseAnimation()
-    {
-        IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
-        try
-        {
-            while (enumerator.MoveNext())
-            {
-                AnimationState current = (AnimationState) enumerator.Current;
-                current.speed = 0f;
-            }
-        }
-        finally
-        {
-            IDisposable disposable = enumerator as IDisposable;
-            if (disposable != null)
-            {
-                disposable.Dispose();
-            }
-        }
-    }
-
-    [PunRPC]
-    private void netPlayAnimation(string aniName)
-    {
-        this.currentAnimation = aniName;
-        if (base.GetComponent<Animation>() != null)
-        {
-            base.GetComponent<Animation>().Play(aniName);
-        }
-    }
-
-    [PunRPC]
-    private void netPlayAnimationAt(string aniName, float normalizedTime)
-    {
-        this.currentAnimation = aniName;
-        if (base.GetComponent<Animation>() != null)
-        {
-            base.GetComponent<Animation>().Play(aniName);
-            base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
-        }
-    }
-
+    
     [PunRPC]
     private void netSetIsGrabbedFalse()
     {
@@ -2882,60 +2847,7 @@ public class Hero : Human
         //    ClothFactory.DisposeObject(this.setup.part_hair_2);
         //}
     }
-
-    [Obsolete("We only need to pause the intended animation, not everything")]
-    public void pauseAnimation()
-    {
-        IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
-        try
-        {
-            //var i = 0;
-            while (enumerator.MoveNext())
-            {
-                //i++;
-                AnimationState current = (AnimationState) enumerator.Current;
-                //Debug.Log(current?.name + $"- {i}");
-                if (current != null)
-                    current.speed = 0f;
-            }
-        }
-        finally
-        {
-            IDisposable disposable = enumerator as IDisposable;
-            if (disposable != null)
-            {
-                disposable.Dispose();
-            }
-        }
-        if (base.photonView.isMine)
-        {
-            base.photonView.RPC("netPauseAnimation", PhotonTargets.Others, new object[0]);
-        }
-    }
-
-    public void playAnimation(string aniName)
-    {
-        this.currentAnimation = aniName;
-        base.GetComponent<Animation>().Play(aniName);
-        if (PhotonNetwork.connected && base.photonView.isMine)
-        {
-            object[] parameters = new object[] { aniName };
-            base.photonView.RPC("netPlayAnimation", PhotonTargets.Others, parameters);
-        }
-    }
-
-    private void playAnimationAt(string aniName, float normalizedTime)
-    {
-        this.currentAnimation = aniName;
-        base.GetComponent<Animation>().Play(aniName);
-        base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
-        if (PhotonNetwork.connected && base.photonView.isMine)
-        {
-            object[] parameters = new object[] { aniName, normalizedTime };
-            base.photonView.RPC("netPlayAnimationAt", PhotonTargets.Others, parameters);
-        }
-    }
-
+    
     public void releaseIfIHookSb()
     {
         if (this.hookSomeOne && (this.hookTarget != null))
@@ -4154,14 +4066,13 @@ public class Hero : Human
                         //TODO: Pause the Animation if the player is holding a button
                         if (this.buttonAttackRelease)
                         {
-                            this.continueAnimation();
+                            SetAnimationSpeed(CurrentAnimation);
                             this.attackReleased = true;
                         }
-                        else if (this.Animation[this.attackAnimation].normalizedTime >= 0.32f)
+                        else if (this.Animation[this.attackAnimation].normalizedTime >= 0.32f && Animation[attackAnimation].speed > 0f)
                         {
-                            //TODO: Refactor to assure this method is only called ONCE
-                            Debug.Log("We want to pause: " + attackAnimation);
-                            this.pauseAnimation();
+                            Debug.Log("Trying to freeze");
+                            SetAnimationSpeed(attackAnimation, 0f);
                         }
                     }
                     if ((this.attackAnimation == "attack3_1") && (this.currentBladeSta > 0f))
