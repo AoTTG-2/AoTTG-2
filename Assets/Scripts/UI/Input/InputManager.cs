@@ -174,8 +174,11 @@ namespace Assets.Scripts.UI.Input
             {
                 var cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
                 if (string.IsNullOrEmpty(cannonRebinds))
+                {
                     SetDefaultCannonKeyBindings();
-
+                    cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
+                }
+                
                 _cannonKeys = JsonConvert.DeserializeObject<KeyCode[]>(cannonRebinds);
                 if (_cannonKeys.Length != Enum.GetNames(inputType).Length)
                 {
@@ -187,7 +190,10 @@ namespace Assets.Scripts.UI.Input
             {
                 var horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
                 if (string.IsNullOrEmpty(horseRebinds))
+                {
                     SetDefaultHorseKeyBindings();
+                    horseRebinds = PlayerPrefs.GetString(HorsePlayerPrefs);
+                }
 
                 _horseKeys = JsonConvert.DeserializeObject<KeyCode[]>(horseRebinds);
                 if (_horseKeys.Length != Enum.GetNames(inputType).Length)
@@ -200,7 +206,10 @@ namespace Assets.Scripts.UI.Input
             {
                 var humanRebinds = PlayerPrefs.GetString(HumanPlayerPrefs);
                 if (string.IsNullOrEmpty(humanRebinds))
+                {
                     SetDefaultHumanKeyBindings();
+                    humanRebinds = PlayerPrefs.GetString(HumanPlayerPrefs);
+                }
 
                 _humanKeys = JsonConvert.DeserializeObject<KeyCode[]>(humanRebinds);
                 if (_humanKeys.Length != Enum.GetNames(inputType).Length)
@@ -213,7 +222,10 @@ namespace Assets.Scripts.UI.Input
             {
                 var titanRebinds = PlayerPrefs.GetString(TitanPlayerPrefs);
                 if (string.IsNullOrEmpty(titanRebinds))
+                {
                     SetDefaultTitanKeyBindings();
+                    titanRebinds = PlayerPrefs.GetString(TitanPlayerPrefs);
+                }
 
                 _titanKeys = JsonConvert.DeserializeObject<KeyCode[]>(titanRebinds);
                 if (_titanKeys.Length != Enum.GetNames(inputType).Length)
@@ -226,8 +238,10 @@ namespace Assets.Scripts.UI.Input
             {
                 var uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
                 if (string.IsNullOrEmpty(uiRebinds))
+                {
                     SetDefaultUiKeyBindings();
-
+                    uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
+                }
                 _uiKeys = JsonConvert.DeserializeObject<KeyCode[]>(uiRebinds);
                 if (_uiKeys.Length != Enum.GetNames(inputType).Length)
                 {
