@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services.Interface;
 using Discord;
@@ -31,6 +32,11 @@ namespace Assets.Scripts.Services
 
             activityManager.OnActivityJoin += JoinViaDiscord;
             SceneManager.activeSceneChanged += OnSceneChanged;
+            
+            activityManager.OnActivityJoinRequest += (ref Discord.User user) =>
+            {
+                FengGameManagerMKII.instance.chatRoom.OutputSystemMessage($"{user.Username}#{user.Discriminator} has requested to join the game");    //Refactor, when ChatService implemented.
+            };
 
 
             assetsStruct = new ActivityAssets
@@ -60,7 +66,7 @@ namespace Assets.Scripts.Services
             }
         }
 
-        public void JoinViaDiscord(string roomID)
+        private void JoinViaDiscord(string roomID)
         {
             Service.Photon.UpdateConnectionType(false);
             Service.Photon.Initialize();
@@ -176,22 +182,7 @@ namespace Assets.Scripts.Services
 
         private static string GetApplicationPath()
         {
-            string path = System.Environment.CurrentDirectory;
-            path += "\\";
-            switch (Application.platform)
-            {
-                case RuntimePlatform.WindowsPlayer:
-                    path += "AoTTG 2.exe";
-                    break;
-                case RuntimePlatform.OSXPlayer:
-                    path += "AoTTG 2.app";
-                    break;
-                default:
-                    Debug.Log($"Unrecognized Platform");
-                    break;
-            }
-
-            return path;
+            return $"{Environment.CurrentDirectory}{Path.DirectorySeparatorChar}{Application.companyName}";
         }
 
         #endregion
