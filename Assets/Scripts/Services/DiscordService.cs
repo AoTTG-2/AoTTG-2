@@ -19,9 +19,9 @@ namespace Assets.Scripts.Services
         private bool isJoinedLobby;
 
         private const int Timeout = 3;
-        private const string LargeImageKey = "aottg_2_title";
+        private const string LargeImageKey = "logo";
         private const string LargeText = "AoTTG2";
-        private const long AppID = 730150236185690172;
+        private const long AppID = 764974724907270194;
 
 
         private void Awake()
