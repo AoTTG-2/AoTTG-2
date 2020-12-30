@@ -4,6 +4,7 @@ using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.HUD;
 using System;
 using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class CannonPropRegion : Photon.MonoBehaviour

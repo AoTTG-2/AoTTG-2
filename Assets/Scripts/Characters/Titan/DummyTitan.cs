@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Services;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using UnityEngine;
 

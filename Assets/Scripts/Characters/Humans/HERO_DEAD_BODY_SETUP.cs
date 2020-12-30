@@ -1,3 +1,4 @@
+using Assets.Scripts.Characters.Humans;
 using System;
 using UnityEngine;
 

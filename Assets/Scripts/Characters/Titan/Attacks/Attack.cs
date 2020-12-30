@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Services;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks

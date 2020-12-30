@@ -1,31 +1,33 @@
-using System;
 using UnityEngine;
 
-public class ParentFollow : MonoBehaviour
+namespace Assets.Scripts.Characters.Humans
 {
-    public bool isActiveInScene;
-    public Transform parent;
-
-    private void Awake()
+    public class ParentFollow : MonoBehaviour
     {
-        this.isActiveInScene = true;
-    }
+        public bool isActiveInScene;
+        public Transform parent;
 
-    public void RemoveParent()
-    {
-        this.parent = null;
-    }
-
-    public void SetParent(Transform transform)
-    {
-        this.parent = transform;
-    }
-
-    private void Update()
-    {
-        if (this.isActiveInScene && (this.parent != null))
+        private void Awake()
         {
-            transform.position = this.parent.position;
+            this.isActiveInScene = true;
+        }
+
+        public void RemoveParent()
+        {
+            this.parent = null;
+        }
+
+        public void SetParent(Transform transform)
+        {
+            this.parent = transform;
+        }
+
+        private void Update()
+        {
+            if (this.isActiveInScene && (this.parent != null))
+            {
+                transform.position = this.parent.position;
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿using Assets.Scripts.Items.Data;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Items;
+using Assets.Scripts.Items.Data;
 using Assets.Scripts.Services;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.UI.Radial
 {

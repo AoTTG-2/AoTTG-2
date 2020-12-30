@@ -1,10 +1,11 @@
-using Assets.Scripts.UI.Input;
-using System;
-using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Attacks.Eren;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.UI.Input;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan

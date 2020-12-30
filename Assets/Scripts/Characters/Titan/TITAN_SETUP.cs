@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class TITAN_SETUP : Photon.MonoBehaviour

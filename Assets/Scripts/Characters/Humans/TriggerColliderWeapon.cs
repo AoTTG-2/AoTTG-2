@@ -1,109 +1,109 @@
-using Assets.Scripts;
-using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Events.Args;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Events.Args;
 using System.Collections;
 using UnityEngine;
 
-public class TriggerColliderWeapon : MonoBehaviour
+namespace Assets.Scripts.Characters.Humans
 {
-    public Equipment Equipment { get; set; }
-
-    public bool IsActive;
-    public bool RightHand;
-    public IN_GAME_MAIN_CAMERA currentCamera;
-
-    //Move this to Hero.cs after rewrite is made so events don't trigger per weapon.
-    public ArrayList currentHits = new ArrayList();
-    public ArrayList currentHitsII = new ArrayList();
-
-    public AudioSource meatDie;
-    public Hero hero;
-    public int myTeam = 1;
-    public float scoreMulti = 1f;
-    public Rigidbody body;
-
-    private FengGameManagerMKII manager;
-
-    public void ClearHits()
+    public class TriggerColliderWeapon : MonoBehaviour
     {
-        currentHitsII.Clear();
-        currentHits.Clear();
-    }
+        public Equipment.Equipment Equipment { get; set; }
 
-    private void HeroHit(Hero hero, HitBox hitbox, float distance)
-    {
-        if (hero.myTeam != myTeam && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
+        public bool IsActive;
+        public bool RightHand;
+        public IN_GAME_MAIN_CAMERA currentCamera;
+
+        //Move this to Hero.cs after rewrite is made so events don't trigger per weapon.
+        public ArrayList currentHits = new ArrayList();
+        public ArrayList currentHitsII = new ArrayList();
+
+        public AudioSource meatDie;
+        public Hero hero;
+        public int myTeam = 1;
+        public float scoreMulti = 1f;
+        public Rigidbody body;
+
+        private FengGameManagerMKII manager;
+
+        public void ClearHits()
         {
-            // I honestly don't have a clue as to what this does
-            float b = Mathf.Min(1f, 1f - (distance * 0.05f));
-
-            hero.markDie();
-            hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
-            {
-                ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
-                false,
-                transform.root.gameObject.GetPhotonView().viewID,
-                PhotonView.Find(transform.root.gameObject.GetPhotonView().viewID).owner.CustomProperties[PhotonPlayerProperty.name],
-                false
-            });
+            currentHitsII.Clear();
+            currentHits.Clear();
         }
-    }
 
-    private void OnTriggerStay(Collider collider)
-    {
-        if (!IsActive) return;
-
-        if (!currentHitsII.Contains(collider.gameObject))
+        private void HeroHit(Hero hero, HitBox hitbox, float distance)
         {
-            currentHitsII.Add(collider.gameObject);
-            currentCamera.startShake(0.1f, 0.1f, 0.95f);
-            if (collider.gameObject.transform.root.gameObject.CompareTag("titan"))
+            if (hero.myTeam != myTeam && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
             {
-                GameObject meat;
-                hero.slashHit.Play();
-                meat = PhotonNetwork.Instantiate("hitMeat", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-                meat.transform.position = transform.position;
-                Equipment.Weapon.Use(0);
+                // I honestly don't have a clue as to what this does
+                float b = Mathf.Min(1f, 1f - (distance * 0.05f));
+
+                hero.markDie();
+                hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
+                {
+                    ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
+                    false,
+                    transform.root.gameObject.GetPhotonView().viewID,
+                    PhotonView.Find(transform.root.gameObject.GetPhotonView().viewID).owner.CustomProperties[PhotonPlayerProperty.name],
+                    false
+                });
             }
         }
 
-        if (currentHits.Contains(collider.gameObject))
-            return;
-
-        switch (collider.gameObject.tag)
+        private void OnTriggerStay(Collider collider)
         {
-            case "playerHitbox":
-                if (GameSettings.PvP.Mode != PvpMode.Disabled && collider.gameObject.TryGetComponent(out HitBox hitbox))
+            if (!IsActive) return;
+
+            if (!currentHitsII.Contains(collider.gameObject))
+            {
+                currentHitsII.Add(collider.gameObject);
+                currentCamera.startShake(0.1f, 0.1f, 0.95f);
+                if (collider.gameObject.transform.root.gameObject.CompareTag("titan"))
                 {
-                    if (hitbox.transform.root != null && hitbox.transform.root.TryGetComponent(out Hero attackedHero))
+                    GameObject meat;
+                    hero.slashHit.Play();
+                    meat = PhotonNetwork.Instantiate("hitMeat", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
+                    meat.transform.position = transform.position;
+                    Equipment.Weapon.Use(0);
+                }
+            }
+
+            if (currentHits.Contains(collider.gameObject))
+                return;
+
+            switch (collider.gameObject.tag)
+            {
+                case "playerHitbox":
+                    if (GameSettings.PvP.Mode != PvpMode.Disabled && collider.gameObject.TryGetComponent(out HitBox hitbox))
                     {
-                        Service.Player.HeroHit(new HeroKillEvent(attackedHero, hero));
+                        if (hitbox.transform.root != null && hitbox.transform.root.TryGetComponent(out Hero attackedHero))
+                        {
+                            Service.Player.HeroHit(new HeroKillEvent(attackedHero, hero));
 
-                        HeroHit(attackedHero, hitbox, Vector3.Distance(collider.gameObject.transform.position, transform.position));
+                            HeroHit(attackedHero, hitbox, Vector3.Distance(collider.gameObject.transform.position, transform.position));
+                        }
                     }
-                }
-                break;
-            case "titanneck":
-                if (collider.gameObject.TryGetComponent(out HitBox hitBox) && hitBox.transform.root.TryGetComponent(out TitanBase titanBase))
-                {
+                    break;
+                case "titanneck":
+                    if (collider.gameObject.TryGetComponent(out HitBox hitBox) && hitBox.transform.root.TryGetComponent(out TitanBase titanBase))
+                    {
 
-                    if (Vector3.Angle(-titanBase.Body.Head.forward, titanBase.Body.Head.position - titanBase.Body.Head.position) >= 70f)
-                        break;
+                        if (Vector3.Angle(-titanBase.Body.Head.forward, titanBase.Body.Head.position - titanBase.Body.Head.position) >= 70f)
+                            break;
 
-                    Vector3 velocity = body.velocity - hitBox.transform.root.GetComponent<Rigidbody>().velocity;
-                    int damage = Mathf.Max(10, (int) ((velocity.magnitude * 10f) * scoreMulti));
+                        Vector3 velocity = body.velocity - hitBox.transform.root.GetComponent<Rigidbody>().velocity;
+                        int damage = Mathf.Max(10, (int) ((velocity.magnitude * 10f) * scoreMulti));
 
-                    Service.Player.TitanDamaged(new TitanDamagedEvent(titanBase, hero, damage));
-                    Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, hero, RightHand));
+                        Service.Player.TitanDamaged(new TitanDamagedEvent(titanBase, hero, damage));
+                        Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, hero, RightHand));
 
-                    titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                }
-                break;
-            case "titaneye":
+                        titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                    }
+                    break;
+                case "titaneye":
                 {
                     currentHits.Add(collider.gameObject);
                     GameObject rootObject = collider.gameObject.transform.root.gameObject;
@@ -147,8 +147,8 @@ public class TriggerColliderWeapon : MonoBehaviour
                         }
                     }
                 }
-                break;
-            case "titanbodypart":
+                    break;
+                case "titanbodypart":
                 {
                     currentHits.Add(collider.gameObject);
                     GameObject rootObject = collider.gameObject.transform.root.gameObject;
@@ -170,8 +170,8 @@ public class TriggerColliderWeapon : MonoBehaviour
                         }
                     }
                 }
-                break;
-            case "titanankle":
+                    break;
+                case "titanankle":
                 {
                     currentHits.Add(collider.gameObject);
                     GameObject rootObj = collider.gameObject.transform.root.gameObject;
@@ -230,25 +230,26 @@ public class TriggerColliderWeapon : MonoBehaviour
                         ShowCriticalHitFX();
                     }
                 }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
-    }
 
-    private void ShowCriticalHitFX()
-    {
-        GameObject obj2 = PhotonNetwork.Instantiate("redCross", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-        currentCamera.startShake(0.2f, 0.3f, 0.95f);
-        obj2.transform.position = transform.position;
-    }
+        private void ShowCriticalHitFX()
+        {
+            GameObject obj2 = PhotonNetwork.Instantiate("redCross", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
+            currentCamera.startShake(0.2f, 0.3f, 0.95f);
+            obj2.transform.position = transform.position;
+        }
 
-    private void Start()
-    {
-        currentCamera = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
-        body = currentCamera.main_object.GetComponent<Rigidbody>();
-        Equipment = transform.root.GetComponent<Equipment>();
-        hero = currentCamera.main_object.GetComponent<Hero>();
-        manager = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>();
+        private void Start()
+        {
+            currentCamera = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
+            body = currentCamera.main_object.GetComponent<Rigidbody>();
+            Equipment = transform.root.GetComponent<Equipment.Equipment>();
+            hero = currentCamera.main_object.GetComponent<Hero>();
+            manager = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>();
+        }
     }
 }

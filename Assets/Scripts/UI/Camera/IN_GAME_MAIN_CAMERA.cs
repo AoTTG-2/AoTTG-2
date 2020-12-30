@@ -6,6 +6,7 @@ using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.Input;
 using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 using static Assets.Scripts.FengGameManagerMKII;
 using Random = UnityEngine.Random;

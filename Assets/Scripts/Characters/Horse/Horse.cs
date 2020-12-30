@@ -1,3 +1,4 @@
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public sealed class Horse : PhotonView

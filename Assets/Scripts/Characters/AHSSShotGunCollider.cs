@@ -1,7 +1,8 @@
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
-using System.Collections;
 using Assets.Scripts.Settings;
+using System.Collections;
 using UnityEngine;
 
 public class AHSSShotGunCollider : MonoBehaviour

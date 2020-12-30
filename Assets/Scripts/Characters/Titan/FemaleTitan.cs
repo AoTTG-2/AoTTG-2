@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class FemaleTitan : TitanBase

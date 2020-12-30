@@ -1,11 +1,14 @@
 using System;
 
-[Obsolete]
-public enum BODY_PARTS
+namespace Assets.Scripts.Characters.Humans
 {
-    UPPER,
-    ARM_L,
-    ARM_R,
-    LOWER
+    [Obsolete]
+    public enum BODY_PARTS
+    {
+        UPPER,
+        ARM_L,
+        ARM_R,
+        LOWER
+    }
 }
 

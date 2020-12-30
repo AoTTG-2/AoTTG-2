@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Assets.Scripts.UI.Input;
 using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class Cannon : Photon.MonoBehaviour

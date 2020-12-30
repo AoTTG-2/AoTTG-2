@@ -1,9 +1,12 @@
 using System;
 
-[Obsolete]
-public enum BUFF
+namespace Assets.Scripts.Characters.Humans
 {
-    NoBuff,
-    SpeedUp
+    [Obsolete]
+    public enum BUFF
+    {
+        NoBuff,
+        SpeedUp
+    }
 }
 
