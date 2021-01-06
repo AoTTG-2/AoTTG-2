@@ -163,19 +163,19 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             obj2.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
             RenderSettings.ambientLight = FengColor.nightAmbientLight;
             GameObject.Find("mainLight").GetComponent<Light>().color = FengColor.nightLight;
-            base.gameObject.GetComponent<Skybox>().material = this.skyBoxNIGHT;
+            RenderSettings.skybox = this.skyBoxNIGHT;
         }
         if (dayLight == DayLight.Day)
         {
             RenderSettings.ambientLight = FengColor.dayAmbientLight;
             GameObject.Find("mainLight").GetComponent<Light>().color = FengColor.dayLight;
-            base.gameObject.GetComponent<Skybox>().material = this.skyBoxDAY;
+            RenderSettings.skybox = this.skyBoxDAY;
         }
         if (dayLight == DayLight.Dawn)
         {
             RenderSettings.ambientLight = FengColor.dawnAmbientLight;
             GameObject.Find("mainLight").GetComponent<Light>().color = FengColor.dawnAmbientLight;
-            base.gameObject.GetComponent<Skybox>().material = this.skyBoxDAWN;
+            RenderSettings.skybox = this.skyBoxDAWN;
         }
 
         //HACK Fix this

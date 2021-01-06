@@ -133,7 +133,7 @@ Camera:
   m_GameObject: {fileID: 1843893240112004}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.1921569, g: 0.3019608, b: 0.4705882, a: 0.01960784}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -152,7 +152,7 @@ Camera:
   field of view: 50.00002
   orthographic: 0
   orthographic size: 100
-  m_Depth: -1
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4519703
@@ -190,7 +190,7 @@ Skybox:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843893240112004}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CustomSkybox: {fileID: 2100000, guid: 6a23a9e4018917b4e9f0e8aebcf27acc, type: 2}
 --- !u!114 &114838551787712436
 MonoBehaviour:
@@ -262,7 +262,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3164451179395599052}
   - component: {fileID: 8893110024228544402}
-  - component: {fileID: 9085354835038808498}
   m_Layer: 24
   m_Name: MoonCamera
   m_TagString: Untagged
@@ -293,7 +292,7 @@ Camera:
   m_GameObject: {fileID: 7809218471229476924}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -327,11 +326,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &9085354835038808498
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7809218471229476924}
-  m_Enabled: 1
