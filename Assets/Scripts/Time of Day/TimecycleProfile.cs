@@ -16,7 +16,11 @@ public class TimecycleProfile : ScriptableObject
     
     [Header("Environment lighting settings")]
     public bool overrideEnvironmentLighting = false;
+    
+    [HideInInspector]
     public TimeOfDay.LightingOverrideType lightingOverrideType = TimeOfDay.LightingOverrideType.Gradient;
+
+    public Assets.Scripts.DayNightCycle.AmbientLightingOverrideMode lightingOverrideMode = Assets.Scripts.DayNightCycle.AmbientLightingOverrideMode.Gradient;
     [Space]
     public Gradient lightingColor;
     [Space]

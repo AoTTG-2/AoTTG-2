@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.DayNightCycle
 {
-    [System.Serializable]
-    public class DayColors
+    public enum AmbientLightingOverrideMode
     {
-        public Color skyColor;
-        public Color equatorColor;
-        public Color horizonColor;
+        Gradient,
+        Color
     }
 
     public class DayAndNightControl : MonoBehaviour
@@ -19,15 +17,15 @@ namespace Assets.Scripts.DayNightCycle
         public GameObject Camera;
         public GameObject moonState;
         public GameObject moon;
-        public DayColors dawnColors;
-        public DayColors dayColors;
-        public DayColors TwilightColors;
-        public DayColors NightColors;
+        public float sunTilt = -15f;
+        [SerializeField] private TimecycleProfile timecycle;
+        [SerializeField] private float sunRotationOffset;
         public Material skyBoxDAWN;
         public Material skyBoxDAY;
         public Material skyBoxSUNSET;
         public Material skyBoxNIGHT;
         public float currentTime { get; set; }
+        public float CurrentTime01 { get { return currentTime / 24; } set { currentTime = value * 24; } }
         public Slider TimeSlider;
         public Camera MoonCamera;
 
@@ -63,6 +61,8 @@ namespace Assets.Scripts.DayNightCycle
                 }
             }
             lightIntensity = directionalLight.intensity; //what's the current intensity of the light
+            // AFAIK procedural skybox needs this to work
+            RenderSettings.sun = directionalLight;
 
 
             //Check if default light prefab exists, and if so, disable it
@@ -71,8 +71,25 @@ namespace Assets.Scripts.DayNightCycle
                 GameObject.Find("LightSet").SetActive(false);
             }
 
-
-
+            if (timecycle)
+            {
+                if (timecycle.overrideEnvironmentLighting == true)
+                {
+                    switch (timecycle.lightingOverrideMode)
+                    {
+                        case AmbientLightingOverrideMode.Gradient:
+                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+                            break;
+                        case AmbientLightingOverrideMode.Color:
+                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+                            break;
+                    }
+                }
+                else
+                {
+                    RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+                }
+            }
         }
 
 
@@ -88,8 +105,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 if (!GameObject.Find("Game Settings"))
                 {
-                    TimeSlider.value = currentTime;
-
+                    TimeSlider.value = CurrentTime01;
                 }
             }
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
@@ -104,8 +120,8 @@ namespace Assets.Scripts.DayNightCycle
                         targetCam = c;
                     }
                     UpdateLight();
-                    currentTime += (Time.deltaTime / SecondsInAFullDay) * timeMultiplier;
-                    if (currentTime >= 1)
+                    currentTime += (Time.deltaTime / SecondsInAFullDay) * 24;
+                    if (CurrentTime01 >= 1)
                     {
                         currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
                         currentDay++; //make the day counter go up
@@ -122,137 +138,107 @@ namespace Assets.Scripts.DayNightCycle
                 GameSettings.Time.pause = pause;
             }
             //TODO: add method to change local script variables when OnSettingsChanged is added
-           
-            
         }
 
 
         void UpdateLight()
         {
+            Quaternion tilt = Quaternion.AngleAxis(sunTilt, Vector3.forward);
+            Quaternion rot = Quaternion.AngleAxis((CurrentTime01 * 360) - 90, Vector3.right);
 
-            moon.transform.LookAt(targetCam.transform);
-            directionalLight.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 90, 170, 0);
-            moonState.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 100, 170, 0);
-            //^^ we rotate the sun 360 degrees around the x axis, or one full rotation times the current time variable. we subtract 90 from this to make it go up
-            //in increments of 0.25.
+            directionalLight.transform.rotation = tilt * rot; // Yes axial tilt
+            directionalLight.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
 
-            //the 170 is where the sun will sit on the horizon line. if it were at 180, or completely flat, it would be hard to see. Tweak this value to what you find comfortable.
+            // -moonState.transform.forward = -RenderSettings.sun.transform.forward;
+            moonState.transform.forward = directionalLight.transform.forward;
 
-            float intensityMultiplier = 1;
-
-            if (currentTime <= 0.23f || currentTime >= 0.75f)
+            if (timecycle)
             {
-                intensityMultiplier = 0; //when the sun is below the horizon, or setting, the intensity needs to be 0 or else it'll look weird
+                // Sun & moon's color and brightness
+                if (timecycle.overrideSunlight)
+                {
+                    directionalLight.color = timecycle.sunlightColor.Evaluate(CurrentTime01);
+                    directionalLight.intensity = timecycle.sunlightColor.Evaluate(CurrentTime01).a * timecycle.maxSunlightIntensity;
+                }
+                if (timecycle.overrideMoonlight)
+                {
+                    Light moonLight = moonState.GetComponentInChildren<Light>();
+                    moonLight.color = timecycle.moonlightColor.Evaluate(CurrentTime01);
+                    moonLight.intensity = timecycle.moonlightColor.Evaluate(CurrentTime01).a * timecycle.maxMoonlightIntensity;
+                }
 
+                // Environment lighting
+                if (timecycle.overrideEnvironmentLighting == true)
+                {
+                    switch (timecycle.lightingOverrideMode)
+                    {
+                        case AmbientLightingOverrideMode.Gradient:
+                            RenderSettings.ambientSkyColor = timecycle.skyColor.Evaluate(CurrentTime01);
+                            RenderSettings.ambientEquatorColor = timecycle.equatorColor.Evaluate(CurrentTime01);
+                            RenderSettings.ambientGroundColor = timecycle.groundColor.Evaluate(CurrentTime01);
+                            break;
+                        case AmbientLightingOverrideMode.Color:
+                            RenderSettings.ambientLight = timecycle.lightingColor.Evaluate(CurrentTime01);
+                            break;
+                    }
+                }
+
+                // Fog
+                if (timecycle.overrideFog)
+                {
+                    RenderSettings.fogColor = timecycle.fogColor.Evaluate(CurrentTime01);
+                    RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTime01).a * timecycle.maxFogDensity;
+                }
             }
-            else if (currentTime <= 0.25f)
+
+            //change skybox to add mood
+            if (CurrentTime01 < 0.2f)
             {
-                intensityMultiplier = Mathf.Clamp01((currentTime - 0.25f) * (1 / 0.02f));
-
-            }
-            else if (currentTime <= 0.75f)
-            {
-                intensityMultiplier = Mathf.Clamp01(1 - ((currentTime - 0.75f) * (1 / 0.02f)));
-            }
-
-
-            //change env colors to add mood
-
-            if (currentTime < 0.2f)
-            {
-                RenderSettings.ambientSkyColor = NightColors.skyColor;
-                RenderSettings.ambientEquatorColor = NightColors.equatorColor;
-                RenderSettings.ambientGroundColor = NightColors.horizonColor;
                 RenderSettings.skybox = skyBoxNIGHT;
             }
-            if (currentTime > 0.2f && currentTime < 0.25f)
+            if (CurrentTime01 > 0.25f && CurrentTime01 < 0.40f)
             {
-
-                RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, TwilightColors.skyColor, 0.001f / (SecondsInAFullDay / 300));
-                RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, TwilightColors.equatorColor, 0.001f / (SecondsInAFullDay / 300));
-                RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, TwilightColors.horizonColor, 0.001f / (SecondsInAFullDay / 300));
-
-            }
-            //sunset colour missing 
-            if (currentTime > 0.25f && currentTime < 0.40f)
-            {
-                if (currentTime > 0.35f)
-                {
-                    RenderSettings.ambientSkyColor = dawnColors.skyColor;
-                    RenderSettings.ambientEquatorColor = dawnColors.equatorColor;
-                    RenderSettings.ambientGroundColor = dawnColors.horizonColor;
-                    // RenderSettings.skybox = skyBoxDAWN;
-                }
-                else
-                {
-                    RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, dawnColors.skyColor, 0.001f / (SecondsInAFullDay / 600));
-                    RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, dawnColors.equatorColor, 0.001f / (SecondsInAFullDay / 600));
-                    RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, dawnColors.horizonColor, 0.001f / (SecondsInAFullDay / 600));
-                }
                 RenderSettings.skybox = skyBoxDAWN;
             }
-            if (currentTime > 0.40f && currentTime < 0.75f)
+            if (CurrentTime01 > 0.40f && CurrentTime01 < 0.75f )
             {
-                if (currentTime > 0.50f)
-                {
-                    RenderSettings.ambientSkyColor = dayColors.skyColor;
-                    RenderSettings.ambientEquatorColor = dayColors.equatorColor;
-                    RenderSettings.ambientGroundColor = dayColors.horizonColor;
-                    // RenderSettings.skybox = skyBoxDAY;
-                }
-                else
-                {
-                    RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, dayColors.skyColor, 0.001f / (SecondsInAFullDay / 300));
-                    RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, dayColors.equatorColor, 0.001f / (SecondsInAFullDay / 300));
-                    RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, dayColors.horizonColor, 0.001f / (SecondsInAFullDay / 300));
-                }
                 RenderSettings.skybox = skyBoxDAY;
             }
-           
 
-            if (currentTime > 0.75f && currentTime < 0.99f)
+            if (CurrentTime01 > 0.75f  && CurrentTime01 < 0.99f )
             {
-                if (currentTime > 0.875f)
+                if (CurrentTime01 > 0.875f )
                 {
-                    RenderSettings.ambientSkyColor = NightColors.skyColor;
-                    RenderSettings.ambientEquatorColor = NightColors.equatorColor;
-                    RenderSettings.ambientGroundColor = NightColors.horizonColor;
                     RenderSettings.skybox = skyBoxNIGHT;
                 }
                 else
                 {
-                    RenderSettings.ambientSkyColor = Color.Lerp(RenderSettings.ambientSkyColor, NightColors.skyColor, 0.001f / (SecondsInAFullDay / 1000));//making the 1000 bigger makes lerp faster
-                    RenderSettings.ambientEquatorColor = Color.Lerp(RenderSettings.ambientEquatorColor, NightColors.equatorColor, 0.001f / (SecondsInAFullDay / 1000));
-                    RenderSettings.ambientGroundColor = Color.Lerp(RenderSettings.ambientGroundColor, NightColors.horizonColor, 0.001f / (SecondsInAFullDay / 1000));
                     RenderSettings.skybox = skyBoxSUNSET;
                 }
             }
-
-            directionalLight.intensity = lightIntensity * intensityMultiplier;
         }
 
         public string TimeOfDay()
         {
+            // TODO: Consider using switch-case
             string dayState = "";
-            if (currentTime > 0f && currentTime < 0.1f)
+            if (CurrentTime01 > 0f  && CurrentTime01 < 0.1f )
             {
                 dayState = "Midnight";
             }
-            if (currentTime < 0.5f && currentTime > 0.1f)
+            if (CurrentTime01 < 0.5f  && CurrentTime01 > 0.1f )
             {
                 dayState = "Morning";
-
             }
-            if (currentTime > 0.5f && currentTime < 0.6f)
+            if (CurrentTime01 > 0.5f  && CurrentTime01 < 0.6f)
             {
                 dayState = "Mid Noon";
             }
-            if (currentTime > 0.6f && currentTime < 0.8f)
+            if (CurrentTime01 > 0.6f && CurrentTime01 < 0.8f)
             {
                 dayState = "Evening";
-
             }
-            if (currentTime > 0.8f && currentTime < 1f)
+            if (CurrentTime01 > 0.8f && CurrentTime01 < 1f)
             {
                 dayState = "Night";
             }

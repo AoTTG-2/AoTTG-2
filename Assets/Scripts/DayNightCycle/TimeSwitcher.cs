@@ -30,7 +30,7 @@ namespace Assets.Scripts.DayNightCycle
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitTime);
                 TimeInput.onEndEdit = se;
-                DayNightCycle.currentTime = TimeSlider.value;
+                DayNightCycle.currentTime = TimeSlider.value * 24;
             }
             
         }

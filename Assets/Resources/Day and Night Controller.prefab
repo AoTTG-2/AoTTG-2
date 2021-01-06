@@ -187,7 +187,6 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &154664
@@ -270,6 +269,9 @@ MonoBehaviour:
   Camera: {fileID: 0}
   moonState: {fileID: 154664}
   moon: {fileID: 148458}
+  sunTilt: -15
+  timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
+  sunRotationOffset: 0
   dawnColors:
     skyColor: {r: 0.5955882, g: 0.5955882, b: 0.5955882, a: 0}
     equatorColor: {r: 0.27892518, g: 0.29279244, b: 0.5661765, a: 0}
@@ -413,6 +415,5 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
