@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,6 +52,8 @@ namespace Assets.Scripts.DayNightCycle
         // Use this for initialization
         void Start()
         {
+            
+            Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GameObject.Find("MoonCamera").GetComponent<Camera>();
             TimeSlider = GameObject.Find("TimeSlider").GetComponent<Slider>();
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
@@ -92,7 +95,18 @@ namespace Assets.Scripts.DayNightCycle
             }
         }
 
+        private void Settings_OnTimeSettingsChanged(TimeSettings settings)
+        {
+            currentTime = (float) GameSettings.Time.currentTime;
+            DayLength = (float) GameSettings.Time.dayLength;
+            pause = (bool) GameSettings.Time.pause;
+            
+        }
 
+        private void OnDestroy()
+        {
+            Service.Settings.OnTimeSettingsChanged -= Settings_OnTimeSettingsChanged;
+        }
         // Update is called once per frame
         void Update()
         {
@@ -106,6 +120,10 @@ namespace Assets.Scripts.DayNightCycle
                 if (!GameObject.Find("Game Settings"))
                 {
                     TimeSlider.value = CurrentTime01;
+                }
+                else
+                {
+                    //SyncTimeRPC(currentTime, DayLength,pause);
                 }
             }
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
@@ -132,12 +150,20 @@ namespace Assets.Scripts.DayNightCycle
             if (PhotonNetwork.isMasterClient)
             {
                 PhotonView photonView = PhotonView.Get(this);
-                photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
+                
+                //photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
                 GameSettings.Time.currentTime = currentTime;
                 GameSettings.Time.dayLength = DayLength;
                 GameSettings.Time.pause = pause;
+                Debug.Log("mc");
+                Debug.Log(GameSettings.Time.currentTime);
             }
-            //TODO: add method to change local script variables when OnSettingsChanged is added
+
+            //TODO : add a OnJoinedRoom method so that on join, the MC's current time is loaded
+            //TODO : resynch time once mc leaves the game settings, because by default while they are
+            //in time settings the system is paused(but not for non-mc) , alternatively make it so
+            //that the system is not paused while MC is on timesettings menu
+
         }
 
 
@@ -244,13 +270,6 @@ namespace Assets.Scripts.DayNightCycle
             }
             return dayState;
         }
-        [PunRPC]
-        void SyncTimeRPC(float time, float dayLength, bool paused)
-        {
-            DayLength =  dayLength;
-            currentTime =  time;
-            pause =  paused;
-        }
-
+        
     }
 }

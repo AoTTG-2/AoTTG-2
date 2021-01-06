@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Settings.Gamemodes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -63,10 +64,11 @@ namespace Assets.Scripts.UI.InGame
         {
             selectedGamemode = gamemode;
         }
-
+      
         public void Sync()
         {
             if (!PhotonNetwork.isMasterClient) return;
+            Service.Settings.SyncSettings();
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
             FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);

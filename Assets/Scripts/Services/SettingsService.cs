@@ -23,7 +23,7 @@ namespace Assets.Scripts.Services
         public event OnHorseSettingsChanged OnHorseSettingsChanged;
         public event OnRespawnSettingsChanged OnRespawnSettingsChanged;
         public event OnTitanSettingsChanged OnTitanSettingsChanged;
-
+        public event OnTimeSettingsChanged OnTimeSettingsChanged;
         public GameSettings Get()
         {
             return Settings;
@@ -136,6 +136,7 @@ namespace Assets.Scripts.Services
             OnHorseSettingsChanged?.Invoke(GameSettings.Horse);
             OnRespawnSettingsChanged?.Invoke(GameSettings.Respawn);
             OnTitanSettingsChanged?.Invoke(GameSettings.Titan);
+            OnTimeSettingsChanged?.Invoke(GameSettings.Time);
         }
     }
 }

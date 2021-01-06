@@ -11,7 +11,7 @@ public class TimecycleProfile : ScriptableObject
     public Gradient sunlightColor;
     [Space]
     public bool overrideMoonlight = false;
-    public float maxMoonlightIntensity = 1f;
+    public float maxMoonlightIntensity = 0.3f;
     public Gradient moonlightColor;
     
     [Header("Environment lighting settings")]

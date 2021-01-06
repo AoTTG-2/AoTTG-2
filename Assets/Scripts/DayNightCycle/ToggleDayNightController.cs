@@ -12,7 +12,7 @@ namespace Assets.Scripts.DayNightCycle
         public Color DefaultHorizonColor;
         public GameObject DayNightControllerPrefab = null;
         public Toggle ToggleDayNight;
-        public Button ResetDayNightButton;
+        public Button PauseDayNightButton;
         public GameObject DayNightController;
         public GameObject MainLight;
         public Text Label;
@@ -32,7 +32,7 @@ namespace Assets.Scripts.DayNightCycle
             DefaultHorizonColor = RenderSettings.ambientGroundColor;
             skyBoxReset = GameObject.Find("MainCamera").GetComponent<Skybox>().material;
             ToggleDayNight.isOn = false;
-            Button btn = ResetDayNightButton.GetComponent<Button>();
+            Button btn = PauseDayNightButton.GetComponent<Button>();
             btn.onClick.AddListener(PauseDayNightSystem);
             
 

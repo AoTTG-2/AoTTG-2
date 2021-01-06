@@ -61,6 +61,7 @@ namespace Assets.Scripts.Settings
             ConfigTitan = Titan;
             ConfigHorse = Horse;
             ConfigRespawn = Respawn;
+            ConfigTime = Time;
         }
 
         /// <summary>

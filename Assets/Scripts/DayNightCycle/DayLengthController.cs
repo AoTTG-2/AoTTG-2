@@ -10,7 +10,7 @@ namespace Assets.Scripts.DayNightCycle
         public Text Label;
         public InputField DayLengthInput;
         public Toggle ToggleDayNight;
-        DayAndNightControl DayNightCycle;
+        DayAndNightControl DayNightCycle = null;
        
 
         void Start()
