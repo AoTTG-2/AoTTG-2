@@ -1,5 +1,4 @@
-﻿
-using Assets.Scripts.Services;
+﻿using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +14,8 @@ namespace Assets.Scripts.DayNightCycle
         public float sunTilt = -15f;
         [SerializeField] private TimecycleProfile timecycle = null;
         [SerializeField] private float sunRotationOffset = 0f;
+        [Tooltip("The amount of frames to wait before doing the next lighting update")]
+        [SerializeField] public int lightingUpdateInterval = 10;
         public Material skyBoxDAWN;
         public Material skyBoxDAY;
         public Material skyBoxSUNSET;
@@ -42,6 +43,7 @@ namespace Assets.Scripts.DayNightCycle
 
 
         Camera targetCam;
+        private int frames;
 
         // Use this for initialization
         void Start()
@@ -139,7 +141,17 @@ namespace Assets.Scripts.DayNightCycle
                         currentDay++; //make the day counter go up
                     }
                 }
+                if (frames == lightingUpdateInterval) { frames = 0; }
             }
+            else
+            {
+                if (frames == lightingUpdateInterval)
+                {
+                    frames = 0;
+                    UpdateLight();
+                }
+            }
+            frames++;
             //MC loads settings
             if (PhotonNetwork.isMasterClient)
             {

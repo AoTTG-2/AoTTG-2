@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.DayNightCycle
 {
-    
     class SyncTimeButtonHandler : MonoBehaviour
     {
         public Button syncTimeButton = null;
