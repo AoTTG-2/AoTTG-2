@@ -10,7 +10,7 @@ namespace Assets.Scripts.DayNightCycle
         public Text Label;
         public InputField DayLengthInput;
         public Toggle ToggleDayNight;
-        DayAndNightControl DayNightCycle = null;
+        DayAndNightControl dayNightCycle = null;
        
 
         void Start()
@@ -22,9 +22,9 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (ToggleDayNight.isOn)
             {
-                if (DayNightCycle == null)
+                if (dayNightCycle == null)
                 {
-                    DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+                    dayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
                 }
 
                 var se = new InputField.SubmitEvent();
@@ -41,7 +41,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 dayLength = 60;
             }
-            DayNightCycle.DayLength = (float) dayLength;
+            dayNightCycle.DayLength = (float) dayLength;
            
            
         }

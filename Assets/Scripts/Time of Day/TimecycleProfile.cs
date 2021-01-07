@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Timecycle Profile", menuName = "Timecycle Profile")]
 public class TimecycleProfile : ScriptableObject
@@ -16,11 +14,7 @@ public class TimecycleProfile : ScriptableObject
     
     [Header("Environment lighting settings")]
     public bool overrideEnvironmentLighting = false;
-    
-    [HideInInspector]
-    public TimeOfDay.LightingOverrideType lightingOverrideType = TimeOfDay.LightingOverrideType.Gradient;
-
-    public Assets.Scripts.DayNightCycle.AmbientLightingOverrideMode lightingOverrideMode = Assets.Scripts.DayNightCycle.AmbientLightingOverrideMode.Gradient;
+    public AmbientLightingOverrideMode lightingOverrideMode = AmbientLightingOverrideMode.Gradient;
     [Space]
     public Gradient lightingColor;
     [Space]
@@ -32,4 +26,10 @@ public class TimecycleProfile : ScriptableObject
     public bool overrideFog = false;
     public float maxFogDensity = 0.01f;
     public Gradient fogColor;
+
+    public enum AmbientLightingOverrideMode
+    {
+        Gradient,
+        Color
+    }
 }

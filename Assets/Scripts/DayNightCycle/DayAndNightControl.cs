@@ -6,12 +6,6 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.DayNightCycle
 {
-    public enum AmbientLightingOverrideMode
-    {
-        Gradient,
-        Color
-    }
-
     public class DayAndNightControl : MonoBehaviour
     {
 
@@ -19,8 +13,8 @@ namespace Assets.Scripts.DayNightCycle
         public GameObject moonState;
         public GameObject moon;
         public float sunTilt = -15f;
-        [SerializeField] private TimecycleProfile timecycle;
-        [SerializeField] private float sunRotationOffset;
+        [SerializeField] private TimecycleProfile timecycle = null;
+        [SerializeField] private float sunRotationOffset = 0f;
         public Material skyBoxDAWN;
         public Material skyBoxDAY;
         public Material skyBoxSUNSET;
@@ -76,14 +70,14 @@ namespace Assets.Scripts.DayNightCycle
 
             if (timecycle)
             {
-                if (timecycle.overrideEnvironmentLighting == true)
+                if (timecycle.overrideEnvironmentLighting)
                 {
                     switch (timecycle.lightingOverrideMode)
                     {
-                        case AmbientLightingOverrideMode.Gradient:
+                        case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
                             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
                             break;
-                        case AmbientLightingOverrideMode.Color:
+                        case TimecycleProfile.AmbientLightingOverrideMode.Color:
                             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
                             break;
                     }
@@ -175,7 +169,6 @@ namespace Assets.Scripts.DayNightCycle
             directionalLight.transform.rotation = tilt * rot; // Yes axial tilt
             directionalLight.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
 
-            // -moonState.transform.forward = -RenderSettings.sun.transform.forward;
             moonState.transform.forward = directionalLight.transform.forward;
 
             if (timecycle)
@@ -194,16 +187,16 @@ namespace Assets.Scripts.DayNightCycle
                 }
 
                 // Environment lighting
-                if (timecycle.overrideEnvironmentLighting == true)
+                if (timecycle.overrideEnvironmentLighting)
                 {
                     switch (timecycle.lightingOverrideMode)
                     {
-                        case AmbientLightingOverrideMode.Gradient:
+                        case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
                             RenderSettings.ambientSkyColor = timecycle.skyColor.Evaluate(CurrentTime01);
                             RenderSettings.ambientEquatorColor = timecycle.equatorColor.Evaluate(CurrentTime01);
                             RenderSettings.ambientGroundColor = timecycle.groundColor.Evaluate(CurrentTime01);
                             break;
-                        case AmbientLightingOverrideMode.Color:
+                        case TimecycleProfile.AmbientLightingOverrideMode.Color:
                             RenderSettings.ambientLight = timecycle.lightingColor.Evaluate(CurrentTime01);
                             break;
                     }
@@ -246,7 +239,7 @@ namespace Assets.Scripts.DayNightCycle
 
         public string TimeOfDay()
         {
-            // TODO: Consider using switch-case
+            // Consider using switch-case here. It will probably improve the performance.
             string dayState = "";
             if (CurrentTime01 > 0f  && CurrentTime01 < 0.1f )
             {
