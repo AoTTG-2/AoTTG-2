@@ -24,10 +24,10 @@ namespace Assets.Scripts.DayNightCycle
         public float CurrentTime01 { get { return currentTime / 24; } set { currentTime = value * 24; } }
         public Slider TimeSlider;
         public Camera MoonCamera;
-
+        public GameObject DayNightController;
         public int currentDay = 0;
         public Light directionalLight;
-        private float SecondsInAFullDay = 120f;//default value is 120 seconds in one day
+        private float SecondsInAFullDay = 500f;//default value is 500 seconds in one day(this seems to not correlate correctly to 1f to 1second, TODO fix
         public bool pause { get; set; }
         public float DayLength
         {
@@ -35,20 +35,32 @@ namespace Assets.Scripts.DayNightCycle
 
             set { SecondsInAFullDay = value; }
         }
-
+        
         [HideInInspector]
         public float timeMultiplier = 1f; //how fast the day goes by regardless of the secondsInAFullDay var. lower values will make the days go by longer, while higher values make it go faster. This may be useful if you're siumulating seasons where daylight and night times are altered.
-        public bool showUI;
         float lightIntensity; //static variable to see what the current light's insensity is in the inspector
-
+        public GameObject  SettingsUI = null;
 
         Camera targetCam;
         private int frames;
 
+       
         // Use this for initialization
         void Start()
         {
             
+            currentTime=12;
+            SettingsUI = GameObject.Find("Game Settings");
+            //Code that scales the cycle to the appropriate size
+             //float dynamicPosition =
+             float dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
+                                GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z) / 3500;
+            //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
+            //of the scene's terrain
+            DayNightController = GameObject.Find("Day and Night Controller");
+            DayNightController.transform.position = new Vector3(GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center.x,
+                GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center.y,GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center.z);
+            DayNightController.transform.localScale = new Vector3(dynamicScale, dynamicScale, dynamicScale);//scales the object to fit the scene
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GameObject.Find("MoonCamera").GetComponent<Camera>();
             TimeSlider = GameObject.Find("TimeSlider").GetComponent<Slider>();
@@ -89,6 +101,8 @@ namespace Assets.Scripts.DayNightCycle
                     RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
                 }
             }
+            SettingsUI.SetActive(false);
+            pause=true;
         }
 
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
@@ -102,6 +116,7 @@ namespace Assets.Scripts.DayNightCycle
         private void OnDestroy()
         {
             Service.Settings.OnTimeSettingsChanged -= Settings_OnTimeSettingsChanged;
+            SettingsUI.SetActive(true);
         }
         // Update is called once per frame
         void Update()

@@ -15,7 +15,8 @@ namespace Assets.Scripts.DayNightCycle
        void Start()
         {
             
-            ToggleDayNight = GameObject.Find("ToggleDayNight").GetComponent<Toggle>();
+            ToggleDayNight = GameObject.Find("ToggleDayNightCycle").GetComponent<Toggle>();
+            DayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
         }
 
  
@@ -23,10 +24,6 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (ToggleDayNight.isOn)
             {
-                if (DayNightCycle == null)
-                {
-                    DayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-                }
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitTime);
                 TimeInput.onEndEdit = se;
