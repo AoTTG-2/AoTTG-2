@@ -7,6 +7,22 @@
       "dependencies": {},
       "hash": "8eb4638e0413fbf869cf0156c0aaf14c6b659530"
     },
+    "com.toorah-games.variableobjects": {
+      "version": "https://github.com/Toorah/com.toorah-games.variableobjects.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d98d8ebca349fe38e2482d10f7eafac95dea12f3"
+    },
+    "com.toorah-games.variableui": {
+      "version": "https://github.com/Toorah/com.toorah-games.variableui.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.3"
+      },
+      "hash": "997c39bbb67d5fd0bb039c5387b6eaf7edae3da5"
+    },
     "com.unity.collab-proxy": {
       "version": "1.3.9",
       "depth": 0,
@@ -63,8 +79,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.1",
-      "depth": 0,
+      "version": "3.0.3",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
