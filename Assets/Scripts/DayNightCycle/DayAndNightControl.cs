@@ -15,7 +15,7 @@ namespace Assets.Scripts.DayNightCycle
         [SerializeField] private TimecycleProfile timecycle = null;
         [SerializeField] private float sunRotationOffset = 0f;
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
-        [SerializeField] public int lightingUpdateInterval = 10;
+        [SerializeField] private int lightingUpdateInterval = 10;
         public Material skyBoxPROCEDURAL;
         
         public float currentTime { get; set; }
@@ -175,8 +175,7 @@ namespace Assets.Scripts.DayNightCycle
                 GameSettings.Time.currentTime = currentTime;
                 GameSettings.Time.dayLength = DayLength;
                 GameSettings.Time.pause = pause;
-                Debug.Log("mc");
-                Debug.Log(GameSettings.Time.currentTime);
+                Debug.Log("Current Master Client time: " + GameSettings.Time.currentTime);
             }
 
             //TODO : add a OnJoinedRoom method so that on join, the MC's current time is loaded
@@ -238,8 +237,8 @@ namespace Assets.Scripts.DayNightCycle
 
             //change skybox to add mood
 
-            RenderSettings.skybox.SetColor("_SkyTint",timecycle.skyColor.Evaluate(CurrentTime01));
-            RenderSettings.skybox.SetColor("_GroundColor",timecycle.groundColor.Evaluate(CurrentTime01));
+            // RenderSettings.skybox.SetColor("_SkyTint",timecycle.skyColor.Evaluate(CurrentTime01));
+            // RenderSettings.skybox.SetColor("_GroundColor",timecycle.groundColor.Evaluate(CurrentTime01));
         }
 
         public string TimeOfDay()
