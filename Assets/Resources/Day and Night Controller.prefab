@@ -274,17 +274,14 @@ MonoBehaviour:
   timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
   sunRotationOffset: 0
   lightingUpdateInterval: 10
-  updateSkybox: 1
-  skyBoxDAWN: {fileID: 2100000, guid: 9991b6265f7f87d43b7e3c676739f203, type: 2}
-  skyBoxDAY: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
-  skyBoxSUNSET: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
-  skyBoxNIGHT: {fileID: 2100000, guid: 82b660520bdecce4daf45d270ec93fe4, type: 2}
+  skyBoxPROCEDURAL: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b, type: 2}
   TimeSlider: {fileID: 0}
   MoonCamera: {fileID: 0}
+  DayNightController: {fileID: 0}
   currentDay: 0
   directionalLight: {fileID: 10851780}
   timeMultiplier: 1
-  showUI: 1
+  SettingsUI: {fileID: 0}
 --- !u!114 &3180873141467643437
 MonoBehaviour:
   m_ObjectHideFlags: 0

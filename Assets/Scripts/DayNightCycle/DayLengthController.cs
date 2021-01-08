@@ -15,23 +15,18 @@ namespace Assets.Scripts.DayNightCycle
 
         void Start()
         {
-            ToggleDayNight = GameObject.Find("ToggleDayNight").GetComponent<Toggle>();
-            
+            ToggleDayNight = GameObject.Find("ToggleDayNightCycle").GetComponent<Toggle>();
+            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
         }
         void Update()
         {
             if (ToggleDayNight.isOn)
             {
-                if (dayNightCycle == null)
-                {
-                    dayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
-                }
-
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitDayLength);
                 DayLengthInput.onEndEdit = se;
+                dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             }
-
         }
 
         private void SubmitDayLength(string arg0)
