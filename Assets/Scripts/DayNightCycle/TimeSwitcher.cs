@@ -24,6 +24,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (ToggleDayNight.isOn)
             {
+                DayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitTime);
                 TimeInput.onEndEdit = se;

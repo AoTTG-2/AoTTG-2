@@ -20,9 +20,13 @@ namespace Assets.Scripts.DayNightCycle
         }
         void Update()
         {
+            if (ToggleDayNight.isOn)
+            {
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitDayLength);
                 DayLengthInput.onEndEdit = se;
+                dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+            }
         }
 
         private void SubmitDayLength(string arg0)

@@ -45,13 +45,14 @@ namespace Assets.Scripts.DayNightCycle
 
             if (ToggleDayNight.isOn)
             {
-                DayNightCycle.pause = !DayNightCycle.pause;
-               
-
+                DayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+                DayNightCycle.pause = false;
+              
             }
             else
             {
-                DayNightCycle.pause = !DayNightCycle.pause;
+                DayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+                DayNightCycle.pause = true;
             }
 
         }

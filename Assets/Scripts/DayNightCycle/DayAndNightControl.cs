@@ -16,10 +16,8 @@ namespace Assets.Scripts.DayNightCycle
         [SerializeField] private float sunRotationOffset = 0f;
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
         [SerializeField] public int lightingUpdateInterval = 10;
-        public Material skyBoxDAWN;
-        public Material skyBoxDAY;
-        public Material skyBoxSUNSET;
-        public Material skyBoxNIGHT;
+        public Material skyBoxPROCEDURAL;
+        
         public float currentTime { get; set; }
         public float CurrentTime01 { get { return currentTime / 24; } set { currentTime = value * 24; } }
         public Slider TimeSlider;
@@ -48,7 +46,8 @@ namespace Assets.Scripts.DayNightCycle
         // Use this for initialization
         void Start()
         {
-            
+            pause=true;
+            RenderSettings.skybox = skyBoxPROCEDURAL;
             currentTime=12;
             SettingsUI = GameObject.Find("Game Settings");
             //Code that scales the cycle to the appropriate size
@@ -102,7 +101,7 @@ namespace Assets.Scripts.DayNightCycle
                 }
             }
             SettingsUI.SetActive(false);
-            pause=true;
+            
         }
 
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
@@ -195,7 +194,7 @@ namespace Assets.Scripts.DayNightCycle
 
             directionalLight.transform.rotation = tilt * rot; // Yes axial tilt
             directionalLight.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
-
+            moon.transform.LookAt(targetCam.transform);
             moonState.transform.forward = directionalLight.transform.forward;
 
             if (timecycle)
@@ -238,30 +237,9 @@ namespace Assets.Scripts.DayNightCycle
             }
 
             //change skybox to add mood
-            if (CurrentTime01 < 0.2f)
-            {
-                RenderSettings.skybox = skyBoxNIGHT;
-            }
-            if (CurrentTime01 > 0.25f && CurrentTime01 < 0.40f)
-            {
-                RenderSettings.skybox = skyBoxDAWN;
-            }
-            if (CurrentTime01 > 0.40f && CurrentTime01 < 0.75f )
-            {
-                RenderSettings.skybox = skyBoxDAY;
-            }
 
-            if (CurrentTime01 > 0.75f  && CurrentTime01 < 0.99f )
-            {
-                if (CurrentTime01 > 0.875f )
-                {
-                    RenderSettings.skybox = skyBoxNIGHT;
-                }
-                else
-                {
-                    RenderSettings.skybox = skyBoxSUNSET;
-                }
-            }
+            RenderSettings.skybox.SetColor("_SkyTint",timecycle.skyColor.Evaluate(CurrentTime01));
+            RenderSettings.skybox.SetColor("_GroundColor",timecycle.groundColor.Evaluate(CurrentTime01));
         }
 
         public string TimeOfDay()
