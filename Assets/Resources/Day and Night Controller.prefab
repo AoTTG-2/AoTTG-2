@@ -187,6 +187,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &154664
@@ -272,22 +273,8 @@ MonoBehaviour:
   sunTilt: -15
   timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
   sunRotationOffset: 0
-  dawnColors:
-    skyColor: {r: 0.5955882, g: 0.5955882, b: 0.5955882, a: 0}
-    equatorColor: {r: 0.27892518, g: 0.29279244, b: 0.5661765, a: 0}
-    horizonColor: {r: 0.22794116, g: 0.22794116, b: 0.22794116, a: 0}
-  dayColors:
-    skyColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0}
-    equatorColor: {r: 0.19404197, g: 0.34800962, b: 0.71323526, a: 0}
-    horizonColor: {r: 0.3602941, g: 0.2281619, b: 0.060932085, a: 0}
-  TwilightColors:
-    skyColor: {r: 0.03137255, g: 0.03529412, b: 0.19215687, a: 0}
-    equatorColor: {r: 0.14901961, g: 0.20392157, b: 0.5529412, a: 0}
-    horizonColor: {r: 0, g: 0, b: 0, a: 0}
-  NightColors:
-    skyColor: {r: 0.011764706, g: 0.011764706, b: 0.011764706, a: 0}
-    equatorColor: {r: 0, g: 0, b: 0, a: 0}
-    horizonColor: {r: 0, g: 0, b: 0, a: 0}
+  lightingUpdateInterval: 10
+  updateSkybox: 1
   skyBoxDAWN: {fileID: 2100000, guid: 9991b6265f7f87d43b7e3c676739f203, type: 2}
   skyBoxDAY: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
   skyBoxSUNSET: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
@@ -415,5 +402,6 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0

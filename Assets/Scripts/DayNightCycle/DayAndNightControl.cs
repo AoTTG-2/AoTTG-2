@@ -15,7 +15,8 @@ namespace Assets.Scripts.DayNightCycle
         [SerializeField] private TimecycleProfile timecycle = null;
         [SerializeField] private float sunRotationOffset = 0f;
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
-        [SerializeField] public int lightingUpdateInterval = 10;
+        [SerializeField] private int lightingUpdateInterval = 10;
+        [SerializeField] private bool updateSkybox = true;
         public Material skyBoxDAWN;
         public Material skyBoxDAY;
         public Material skyBoxSUNSET;
@@ -222,29 +223,32 @@ namespace Assets.Scripts.DayNightCycle
                 }
             }
 
-            //change skybox to add mood
-            if (CurrentTime01 < 0.2f)
+            if (updateSkybox)
             {
-                RenderSettings.skybox = skyBoxNIGHT;
-            }
-            if (CurrentTime01 > 0.25f && CurrentTime01 < 0.40f)
-            {
-                RenderSettings.skybox = skyBoxDAWN;
-            }
-            if (CurrentTime01 > 0.40f && CurrentTime01 < 0.75f )
-            {
-                RenderSettings.skybox = skyBoxDAY;
-            }
-
-            if (CurrentTime01 > 0.75f  && CurrentTime01 < 0.99f )
-            {
-                if (CurrentTime01 > 0.875f )
+                //change skybox to add mood
+                if (CurrentTime01 < 0.2f)
                 {
                     RenderSettings.skybox = skyBoxNIGHT;
                 }
-                else
+                if (CurrentTime01 > 0.25f && CurrentTime01 < 0.40f)
                 {
-                    RenderSettings.skybox = skyBoxSUNSET;
+                    RenderSettings.skybox = skyBoxDAWN;
+                }
+                if (CurrentTime01 > 0.40f && CurrentTime01 < 0.75f)
+                {
+                    RenderSettings.skybox = skyBoxDAY;
+                }
+
+                if (CurrentTime01 > 0.75f && CurrentTime01 < 0.99f)
+                {
+                    if (CurrentTime01 > 0.875f)
+                    {
+                        RenderSettings.skybox = skyBoxNIGHT;
+                    }
+                    else
+                    {
+                        RenderSettings.skybox = skyBoxSUNSET;
+                    }
                 }
             }
         }
