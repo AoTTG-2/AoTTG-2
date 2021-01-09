@@ -9,7 +9,6 @@ namespace Assets.Scripts.DayNightCycle
     {
 
         public GameObject Camera;
-        public GameObject moonState;
         public GameObject moon;
         public float sunTilt = -15f;
         [SerializeField] private TimecycleProfile timecycle = null;
@@ -43,18 +42,8 @@ namespace Assets.Scripts.DayNightCycle
             pause=true;
             RenderSettings.skybox = skyBoxPROCEDURAL;
             SettingsUI = GameObject.Find("Game Settings");
-            //Code that scales the cycle to the appropriate size
-             //float dynamicPosition =
-             float dynamicScale = (GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.x +
-                                GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.size.z) / 3500;
-            //^^^^3500 is an experimentally determined value that allows the daynight cycle to fully set and rise just beyond the borders
-            //of the scene's terrain
-            DayNightController = GameObject.Find("Day and Night Controller");
-            DayNightController.transform.position = new Vector3(GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center.x,
-                GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center.y,GameObject.Find("GroundTerrain").GetComponent<Collider>().bounds.center.z);
-            DayNightController.transform.localScale = new Vector3(dynamicScale, dynamicScale, dynamicScale);//scales the object to fit the scene
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
-            MoonCamera = GameObject.Find("MoonCamera").GetComponent<Camera>();
+            MoonCamera = GetComponentInChildren<Camera>();
             TimeSlider = GameObject.Find("TimeSlider").GetComponent<Slider>();
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
             {
@@ -133,6 +122,7 @@ namespace Assets.Scripts.DayNightCycle
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
             //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
             MoonCamera.fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
+            MoonCamera.transform.rotation = GameObject.Find("MainCamera").transform.rotation;
             if (!pause)
             {
                 UpdateLight();
@@ -180,8 +170,7 @@ namespace Assets.Scripts.DayNightCycle
 
             directionalLight.transform.rotation = tilt * rot; // Yes axial tilt
             directionalLight.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
-            moon.transform.LookAt(targetCam.transform);
-            moonState.transform.forward = directionalLight.transform.forward;
+            moon.transform.forward = -directionalLight.transform.forward;
 
             if (timecycle)
             {
@@ -193,7 +182,7 @@ namespace Assets.Scripts.DayNightCycle
                 }
                 if (timecycle.overrideMoonlight)
                 {
-                    Light moonLight = moonState.GetComponentInChildren<Light>();
+                    Light moonLight = moon.GetComponent<Light>();
                     moonLight.color = timecycle.moonlightColor.Evaluate(CurrentTime01);
                     moonLight.intensity = timecycle.moonlightColor.Evaluate(CurrentTime01).a * timecycle.maxMoonlightIntensity;
                 }
