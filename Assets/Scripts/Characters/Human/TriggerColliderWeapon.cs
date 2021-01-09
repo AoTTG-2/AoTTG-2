@@ -33,15 +33,17 @@ public class TriggerColliderWeapon : MonoBehaviour
         currentHits.Clear();
     }
 
-    private void HeroHit(Hero hero, HitBox hitbox, float distance)
+    private void HeroHit(Hero hitHero, HitBox hitbox, float distance)
     {
-        if (hero.myTeam != myTeam && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
+        Service.Player.HeroHit(new HeroHitEvent(hitHero, hero));
+        if (hitHero.myTeam != myTeam && !hitHero.isInvincible() && hitHero.HasDied() && !hitHero.isGrabbed)
         {
             // I honestly don't have a clue as to what this does
             float b = Mathf.Min(1f, 1f - (distance * 0.05f));
 
-            hero.markDie();
-            hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
+            Service.Player.HeroKill(new HeroKillEvent(hitHero, hero));
+            hitHero.markDie();
+            hitHero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
             {
                 ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
                 false,
@@ -80,8 +82,6 @@ public class TriggerColliderWeapon : MonoBehaviour
                 {
                     if (hitbox.transform.root != null && hitbox.transform.root.TryGetComponent(out Hero attackedHero))
                     {
-                        Service.Player.HeroHit(new HeroKillEvent(attackedHero, hero));
-
                         HeroHit(attackedHero, hitbox, Vector3.Distance(collider.gameObject.transform.position, transform.position));
                     }
                 }
