@@ -36,7 +36,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 dayLength = 60;
             }
-            dayNightCycle.DayLength = (float) dayLength;
+            dayNightCycle.SecondsInAFullDay = (float) dayLength;
            
            
         }

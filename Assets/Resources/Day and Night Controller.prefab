@@ -275,11 +275,13 @@ MonoBehaviour:
   sunRotationOffset: 0
   lightingUpdateInterval: 10
   skyBoxPROCEDURAL: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b, type: 2}
+  currentTime: 12
   TimeSlider: {fileID: 0}
   MoonCamera: {fileID: 0}
   DayNightController: {fileID: 0}
   currentDay: 0
   directionalLight: {fileID: 10851780}
+  SecondsInAFullDay: 500
   timeMultiplier: 1
   SettingsUI: {fileID: 0}
 --- !u!114 &3180873141467643437

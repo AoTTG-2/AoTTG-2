@@ -17,22 +17,16 @@ namespace Assets.Scripts.DayNightCycle
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
         [SerializeField] private int lightingUpdateInterval = 10;
         public Material skyBoxPROCEDURAL;
-        
-        public float currentTime { get; set; }
+
+        [Range(0f, 24f)] public float currentTime;
         public float CurrentTime01 { get { return currentTime / 24; } set { currentTime = value * 24; } }
         public Slider TimeSlider;
         public Camera MoonCamera;
         public GameObject DayNightController;
         public int currentDay = 0;
         public Light directionalLight;
-        private float SecondsInAFullDay = 500f;//default value is 500 seconds in one day(this seems to not correlate correctly to 1f to 1second, TODO fix
+        public float SecondsInAFullDay = 500f;//default value is 500 seconds in one day(this seems to not correlate correctly to 1f to 1second, TODO fix
         public bool pause { get; set; }
-        public float DayLength
-        {
-            get { return SecondsInAFullDay; }
-
-            set { SecondsInAFullDay = value; }
-        }
         
         [HideInInspector]
         public float timeMultiplier = 1f; //how fast the day goes by regardless of the secondsInAFullDay var. lower values will make the days go by longer, while higher values make it go faster. This may be useful if you're siumulating seasons where daylight and night times are altered.
@@ -48,7 +42,6 @@ namespace Assets.Scripts.DayNightCycle
         {
             pause=true;
             RenderSettings.skybox = skyBoxPROCEDURAL;
-            currentTime=12;
             SettingsUI = GameObject.Find("Game Settings");
             //Code that scales the cycle to the appropriate size
              //float dynamicPosition =
@@ -101,13 +94,14 @@ namespace Assets.Scripts.DayNightCycle
                 }
             }
             SettingsUI.SetActive(false);
-            
+
+            targetCam = GameObject.Find("MainCamera").GetComponent<Camera>();
         }
 
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
             currentTime = (float) GameSettings.Time.currentTime;
-            DayLength = (float) GameSettings.Time.dayLength;
+            SecondsInAFullDay = (float) GameSettings.Time.dayLength;
             pause = (bool) GameSettings.Time.pause;
             
         }
@@ -141,19 +135,12 @@ namespace Assets.Scripts.DayNightCycle
             MoonCamera.fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
             if (!pause)
             {
-                foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
+                UpdateLight();
+                currentTime += (Time.deltaTime / SecondsInAFullDay) * 24;
+                if (CurrentTime01 >= 1)
                 {
-                    if (c.isActiveAndEnabled)
-                    {
-                        targetCam = c;
-                    }
-                    UpdateLight();
-                    currentTime += (Time.deltaTime / SecondsInAFullDay) * 24;
-                    if (CurrentTime01 >= 1)
-                    {
-                        currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
-                        currentDay++; //make the day counter go up
-                    }
+                    currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
+                    currentDay++; //make the day counter go up
                 }
                 if (frames == lightingUpdateInterval) { frames = 0; }
             }
@@ -173,7 +160,7 @@ namespace Assets.Scripts.DayNightCycle
                 
                 //photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
                 GameSettings.Time.currentTime = currentTime;
-                GameSettings.Time.dayLength = DayLength;
+                GameSettings.Time.dayLength = SecondsInAFullDay;
                 GameSettings.Time.pause = pause;
                 Debug.Log("Current Master Client time: " + GameSettings.Time.currentTime);
             }
