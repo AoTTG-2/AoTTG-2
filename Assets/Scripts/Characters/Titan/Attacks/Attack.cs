@@ -131,7 +131,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     object[] netDieParameters = new object[5];
                     netDieParameters[0] = knockbackVector;
                     netDieParameters[1] = (this is BiteAttack);
-                    netDieParameters[2] = Titan.photonView.viewID;
+                    netDieParameters[2] = Titan is PlayerTitan ? Titan.photonView.viewID : -1;
                     netDieParameters[3] = Titan.name;
                     netDieParameters[4] = true;
 
