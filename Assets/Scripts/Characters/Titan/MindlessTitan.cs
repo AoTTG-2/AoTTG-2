@@ -367,36 +367,6 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        [PunRPC]
-        protected void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
-        {
-            if (currentHealth < 0)
-            {
-                if (HealthLabel != null)
-                {
-                    Destroy(HealthLabel);
-                }
-            }
-            else
-            {
-                var color = "7FFF00";
-                var num2 = ((float)currentHealth) / ((float)maxHealth);
-                if ((num2 < 0.75f) && (num2 >= 0.5f))
-                {
-                    color = "f2b50f";
-                }
-                else if ((num2 < 0.5f) && (num2 >= 0.25f))
-                {
-                    color = "ff8100";
-                }
-                else if (num2 < 0.25f)
-                {
-                    color = "ff3333";
-                }
-                HealthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{currentHealth}</color>";
-            }
-        }
-
         public void OnAnkleHit(int viewId, int damage) { }
 
         private float bodyPartDamageTimer;

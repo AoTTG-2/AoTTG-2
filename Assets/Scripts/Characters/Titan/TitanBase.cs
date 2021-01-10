@@ -383,7 +383,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (MaxHealth > 0)
             {
-                photonView.RPC(nameof(UpdateHealthLabelRpc2), PhotonTargets.All, Health, MaxHealth);
+                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
             }
 
             if (Health <= 0)
@@ -401,7 +401,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
-        protected void UpdateHealthLabelRpc2(int currentHealth, int maxHealth)
+        protected void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
         {
             if (currentHealth < 0)
             {
