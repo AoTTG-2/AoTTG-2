@@ -119,10 +119,24 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (!Titan.photonView.isMine) return;
             if (entity is Hero hero)
             {
-                var position = Titan.Body.Chest.position;
                 hero.markDie();
-                object[] objArray3 = { (Vector3) ((entity.transform.position - position) * 15f * Titan.Size), false, Titan.photonView.viewID, Titan.name, true };
-                hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray3);
+                var knockbackVector = ((hero.transform.position - Titan.Body.Chest.position) * 15f * Titan.Size);
+
+                if (PhotonNetwork.offlineMode)
+                {
+                    hero.die(knockbackVector, (this is BiteAttack));
+                }
+                else
+                {
+                    object[] netDieParameters = new object[5];
+                    netDieParameters[0] = knockbackVector;
+                    netDieParameters[1] = (this is BiteAttack);
+                    netDieParameters[2] = Titan.photonView.viewID;
+                    netDieParameters[3] = Titan.name;
+                    netDieParameters[4] = true;
+
+                    hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, netDieParameters);
+                }
             }
             else
             {
