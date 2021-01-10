@@ -2804,7 +2804,10 @@ namespace Assets.Scripts
             Damage = Mathf.Max(10, Damage);
             object[] parameters = new object[] { Damage };
             base.photonView.RPC("netShowDamage", player, parameters);
-            this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+            if (!PhotonNetwork.offlineMode)
+            {
+                this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+            }
             this.playerKillInfoUpdate(player, Damage);
         }
 
@@ -2825,7 +2828,7 @@ namespace Assets.Scripts
         }
 
         [PunRPC]
-        private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
+        private void updateKillInfo(bool killerIsTitan, string killer, bool victimIsTitan, string victim, int dmg)
         {
             var killFeed = GameObject.Find("KillFeed");
             var newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
@@ -2849,7 +2852,7 @@ namespace Assets.Scripts
 
             newKillInfo.transform.parent = killFeed.transform;
             newKillInfo.transform.position = new Vector3();
-            newKillInfo.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
+            newKillInfo.GetComponent<KillInfo>().Show(killerIsTitan, killer, victimIsTitan, victim, dmg);
             killInfoGO.Add(newKillInfo);
         }
 
