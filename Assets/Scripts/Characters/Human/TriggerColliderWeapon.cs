@@ -99,7 +99,7 @@ public class TriggerColliderWeapon : MonoBehaviour
                     Service.Player.TitanDamaged(new TitanDamagedEvent(titanBase, hero, damage));
                     Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, hero, RightHand));
 
-                    titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                    titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                 }
                 break;
             case "titaneye":

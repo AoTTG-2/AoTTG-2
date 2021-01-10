@@ -159,9 +159,9 @@ namespace Assets.Scripts.Characters.Titan
             return false;
         }
 
-        protected override void OnTitanDeath()
+        protected override void OnDeath()
         {
-            base.OnTitanDeath();
+            base.OnDeath();
             if (!photonView.isMine) return;
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
@@ -190,7 +190,7 @@ namespace Assets.Scripts.Characters.Titan
                 // PhotonNetwork.Destroy(base.photonView);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name], 0);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = true;
-                ChangeState(TitanState.Dead);
+                SetState(TitanState.Dead);
                 Dead();
             }
         }
@@ -236,7 +236,7 @@ namespace Assets.Scripts.Characters.Titan
                     CrossFade(CurrentAnimation, 0.1f);
                     return;
                 }
-                ChangeState(TitanState.Wandering);
+                SetState(TitanState.Wandering);
             }
 
             if (IsCovering && Animation.IsPlaying(AnimationCover) && Animation[AnimationCover].normalizedTime < 1f)

@@ -12,7 +12,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             //    nextUpdate = Mathf.FloorToInt(Time.time) + 0.1f;
             //    if (Random.Range(0, 100f) > 98.5f)
             //    {
-            //        Titan.ChangeState(TitanState.Attacking);
+            //        Titan.SetState(TitanState.Attacking);
             //        Titan.CurrentAttack = Titan.Attacks[Random.Range(0, Titan.Attacks.Length)];
             //        return true;
             //    }

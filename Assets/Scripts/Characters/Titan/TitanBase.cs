@@ -347,18 +347,19 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody.AddForce(direction * 50f, ForceMode.VelocityChange);
             if (this is MindlessTitan t)
             {
-                t.OnNapeHitRpc(attacker.photonView.viewID, damage);
+                t.photonView.RPC(nameof(OnNapeHitRpc), PhotonTargets.All, attacker.photonView.viewID, damage);
             }
             else
             {
-                photonView.RPC(nameof(OnNapeHitRpc2), PhotonTargets.All, attacker.photonView.viewID, damage);
+                photonView.RPC(nameof(OnNapeHitRpc), PhotonTargets.All, attacker.photonView.viewID, damage);
             }
         }
 
         [Obsolete("Blocking all damage for 0.2s isn't viable. Instead block this per view ID instead of all")]
         private float DamageTimer { get; set; }
+
         [PunRPC]
-        public virtual void OnNapeHitRpc2(int viewId, int damage, PhotonMessageInfo info)
+        public virtual void OnNapeHitRpc(int viewId, int damage, PhotonMessageInfo info)
         {
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
@@ -431,7 +432,7 @@ namespace Assets.Scripts.Characters.Titan
 
         #region Titan State Logic
 
-        protected virtual void SetState(TitanState state)
+        public virtual void SetState(TitanState state)
         {
             if (!IsAlive) return;
             if (state == State) return;

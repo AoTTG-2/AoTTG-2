@@ -88,7 +88,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         var mindlessTitan = item.transform.root.GetComponent<MindlessTitan>();
                         if (PhotonNetwork.isMasterClient)
                         {
-                            mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage, new PhotonMessageInfo());
                         }
                         else
                         {
@@ -128,7 +128,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             {
                                 GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num7, null, 0.02f);
                             }
-                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc2(base.transform.root.gameObject.GetPhotonView().viewID, num7, new PhotonMessageInfo());
+                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc(base.transform.root.gameObject.GetPhotonView().viewID, num7, new PhotonMessageInfo());
                         }
                     }
                     else if ((item.transform.root.GetComponent<ColossalTitan>() != null) && !item.transform.root.GetComponent<ColossalTitan>().hasDie)
@@ -140,7 +140,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         {
                             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num8, null, 0.02f);
                         }
-                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc2(transform.root.gameObject.GetPhotonView().viewID, num8, new PhotonMessageInfo());
+                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, num8, new PhotonMessageInfo());
                     }
                     this.showCriticalHitFX(other.gameObject.transform.position);
                 }
