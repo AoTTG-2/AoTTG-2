@@ -20,7 +20,7 @@ namespace Assets.Scripts.DayNightCycle
         private string time;
         private double seconds;
 
-        DayAndNightControl DayNightCycle;
+        DayAndNightControl dayNightCycle;
         public GameObject DefaultLightSet;
         // Start is called before the first frame update
         void Start()
@@ -33,7 +33,7 @@ namespace Assets.Scripts.DayNightCycle
             skyBoxReset = GameObject.Find("MainCamera").GetComponent<Skybox>().material;
             ToggleDayNight.isOn = false;
 
-            DayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+            
 
 
         }
@@ -41,22 +41,29 @@ namespace Assets.Scripts.DayNightCycle
         // Update is called once per frame
         void Update()
         {
-            
+            if (PhotonNetwork.isMasterClient)
+            {
 
-            if (ToggleDayNight.isOn)
-            {
-                DayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-                DayNightCycle.pause = false;
+                if (ToggleDayNight.isOn)
+                {
+                
+                    dayNightCycle.pause = false;
               
-            }
-            else
-            {
-                DayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-                DayNightCycle.pause = true;
+                }
+                else
+                {
+                
+                    dayNightCycle.pause = true;
+                }
             }
 
         }
+        void OnEnable()
+        {
+            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+        }
 
+        
 
     }
 }

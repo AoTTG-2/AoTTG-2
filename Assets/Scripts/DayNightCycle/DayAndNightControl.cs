@@ -24,7 +24,7 @@ namespace Assets.Scripts.DayNightCycle
         public GameObject DayNightController;
         public int currentDay = 0;
         public Light directionalLight;
-        public float SecondsInAFullDay = 500f;//default value is 500 seconds in one day(this seems to not correlate correctly to 1f to 1second, TODO fix
+        public float SecondsInAFullDay = 300f;//default value is 500 seconds in one day(this seems to not correlate correctly to 1f to 1second, TODO fix
         public bool pause { get; set; }
         
         [HideInInspector]
