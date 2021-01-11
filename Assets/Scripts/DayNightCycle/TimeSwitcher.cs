@@ -34,9 +34,20 @@ namespace Assets.Scripts.DayNightCycle
         private void SubmitTime(string arg0)
         {
             string time = arg0;
-            double seconds = System.TimeSpan.Parse(time).TotalSeconds;
-            TimeSlider.value= (float) (seconds / 86400);
-            dayNightCycle.currentTime = (float) (seconds/86400);
+            if (time.Contains(":"))
+                {
+                 try 
+                    {
+                    double seconds = System.TimeSpan.Parse(time).TotalSeconds;
+                    TimeSlider.value= (float) (seconds / 86400);
+                    dayNightCycle.currentTime = (float) (seconds/86400);
+                    }
+                 catch 
+                    {
+                     
+                    }
+                }
+            
               
         }
 
