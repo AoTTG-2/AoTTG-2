@@ -1026,11 +1026,6 @@ namespace Assets.Scripts
             {
                 objArray[0xea] = "None";
             }
-            Application.targetFrameRate = -1;
-            if (int.TryParse((string) objArray[0xb8], out num2) && (num2 > 0))
-            {
-                Application.targetFrameRate = num2;
-            }
             AudioListener.volume = PlayerPrefs.GetFloat("vol", 1f);
             linkHash = new ExitGames.Client.Photon.Hashtable[] { new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable() };
             settings = objArray;
@@ -2762,6 +2757,9 @@ namespace Assets.Scripts
         
         private void Start()
         {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log($"Version: {versionManager.Version}");
             instance = this;
@@ -2796,7 +2794,7 @@ namespace Assets.Scripts
             this.loadconfig();
             ChangeQuality.setCurrentQuality();
         }
-
+        
         [PunRPC]
         public void titanGetKill(PhotonPlayer player, int Damage, string name)
         {
