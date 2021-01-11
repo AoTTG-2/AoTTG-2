@@ -944,6 +944,17 @@ namespace Assets.Scripts.Characters.Titan
 
         #endregion
 
+        #region Animation Events
+
+        public void Footstep()
+        {
+            Transform transform = base.transform.Find("snd_titan_foot");
+            transform.GetComponent<AudioSource>().Stop();
+            transform.GetComponent<AudioSource>().Play();
+        }
+
+        #endregion
+
         protected override void FixedUpdate()
         {
             if (!photonView.isMine) return;
