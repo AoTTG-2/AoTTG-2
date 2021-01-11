@@ -513,6 +513,7 @@ public class Hero : Human
             this.crossR2 = GameObject.Find("crossR2");
             this.LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
             this.cachedSprites = new Dictionary<string, Image>();
+
             //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
             //{
             //    if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
@@ -4106,8 +4107,8 @@ public class Hero : Human
             var hitDistance = HookRaycastDistance;
             var hitPoint = ray.GetPoint(hitDistance);
 
-            cross1.transform.localPosition = Input.mousePosition;
-            cross1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+            var mousePos = Input.mousePosition;
+            cross1.transform.position = mousePos;
             cross2.transform.localPosition = cross1.transform.localPosition;
 
             RaycastHit hit;
@@ -4161,9 +4162,9 @@ public class Hero : Human
                 hitDistance = hit2.distance;
             }
 
-            crossL1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
-            crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-            crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossL1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f) + 180f);
+            crossL1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+            //crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+            crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.position.y - mousePos.y, crossL1.transform.position.x - mousePos.x) * 57.29578f) + 180f);
             crossL2.transform.localPosition = crossL1.transform.localPosition;
             crossL2.transform.localRotation = crossL1.transform.localRotation;
             if (hitDistance > 120f)
@@ -4179,9 +4180,9 @@ public class Hero : Human
                 hitDistance = hit2.distance;
             }
 
-            crossR1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
-            crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-            crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossR1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f);
+            crossR1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+            //crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+            crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.position.y - mousePos.y, crossR1.transform.position.x - mousePos.x) * 57.29578f);
             crossR2.transform.localPosition = crossR1.transform.localPosition;
             crossR2.transform.localRotation = crossR1.transform.localRotation;
             if (hitDistance > 120f)
