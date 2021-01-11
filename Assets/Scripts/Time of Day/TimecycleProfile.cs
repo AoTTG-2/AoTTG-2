@@ -8,26 +8,26 @@ namespace Assets.Scripts.DayNightCycle
         [Header("Sun and moon settings")]
         public bool overrideSunlight = false;
         public float maxSunlightIntensity = 1.5f;
-        public Gradient sunlightColor;
+        public Gradient sunlightColor = new Gradient();
         [Space]
         public bool overrideMoonlight = false;
         public float maxMoonlightIntensity = 0.3f;
-        public Gradient moonlightColor;
+        public Gradient moonlightColor = new Gradient();
 
         [Header("Environment lighting settings")]
         public bool overrideEnvironmentLighting = false;
         public AmbientLightingOverrideMode lightingOverrideMode = AmbientLightingOverrideMode.Gradient;
         [Space]
-        public Gradient lightingColor;
+        public Gradient lightingColor = new Gradient();
         [Space]
-        public Gradient skyColor;
-        public Gradient equatorColor;
-        public Gradient groundColor;
+        public Gradient skyColor = new Gradient();
+        public Gradient equatorColor = new Gradient();
+        public Gradient groundColor = new Gradient();
 
         [Header("Fog settings")]
         public bool overrideFog = false;
         public float maxFogDensity = 0.01f;
-        public Gradient fogColor;
+        public Gradient fogColor = new Gradient();
 
         public enum AmbientLightingOverrideMode
         {

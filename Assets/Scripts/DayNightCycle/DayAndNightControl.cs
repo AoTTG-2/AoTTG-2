@@ -7,7 +7,6 @@ namespace Assets.Scripts.DayNightCycle
 {
     public class DayAndNightControl : MonoBehaviour
     {
-
         public GameObject Camera;
         public GameObject moon;
         public float sunTilt = -15f;
@@ -24,7 +23,7 @@ namespace Assets.Scripts.DayNightCycle
         public GameObject DayNightController;
         public int currentDay = 0;
         public Light directionalLight;
-        public float SecondsInAFullDay = 300f;//default value is 500 seconds in one day(this seems to not correlate correctly to 1f to 1second, TODO fix
+        public float DayLength = 300f; //default value is 300 seconds in one day
         public bool pause { get; set; }
         
         [HideInInspector]
@@ -34,7 +33,6 @@ namespace Assets.Scripts.DayNightCycle
 
         Camera targetCam;
         private int frames;
-
        
         // Use this for initialization
         void Start()
@@ -91,7 +89,7 @@ namespace Assets.Scripts.DayNightCycle
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
             currentTime = (float) GameSettings.Time.currentTime;
-            SecondsInAFullDay = (float) GameSettings.Time.dayLength;
+            DayLength = (float) GameSettings.Time.dayLength;
             pause = (bool) GameSettings.Time.pause;
             
         }
@@ -101,6 +99,7 @@ namespace Assets.Scripts.DayNightCycle
             Service.Settings.OnTimeSettingsChanged -= Settings_OnTimeSettingsChanged;
             SettingsUI.SetActive(true);
         }
+
         // Update is called once per frame
         void Update()
         {
@@ -127,7 +126,7 @@ namespace Assets.Scripts.DayNightCycle
             if (!pause)
             {
                 UpdateLight();
-                currentTime += (Time.deltaTime / SecondsInAFullDay) * 24;
+                currentTime += (Time.deltaTime / DayLength) * 24;
                 if (CurrentTime01 >= 1)
                 {
                     currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
@@ -151,7 +150,7 @@ namespace Assets.Scripts.DayNightCycle
                 
                 //photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
                 GameSettings.Time.currentTime = currentTime;
-                GameSettings.Time.dayLength = SecondsInAFullDay;
+                GameSettings.Time.dayLength = DayLength;
                 GameSettings.Time.pause = pause;
                 Debug.Log("Current Master Client time: " + GameSettings.Time.currentTime);
             }

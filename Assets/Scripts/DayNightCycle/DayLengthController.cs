@@ -1,23 +1,21 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.DayNightCycle
 {
     public class DayLengthController : MonoBehaviour
     {
-
         public Text Label;
         public InputField DayLengthInput;
         public Toggle ToggleDayNight;
         DayAndNightControl dayNightCycle = null;
-       
 
         void Start()
         {
             ToggleDayNight = GameObject.Find("ToggleDayNightCycle").GetComponent<Toggle>();
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
         }
+
         void Update()
         {
             if (PhotonNetwork.isMasterClient)
@@ -35,19 +33,15 @@ namespace Assets.Scripts.DayNightCycle
             {
                 dayLength = 60;
             }
-            dayNightCycle.SecondsInAFullDay = (float) dayLength;
+            dayNightCycle.DayLength = dayLength;
            
            
         }
-      
 
         //grabbing the local scene's DayAndNightControl script
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
         }
-
-       
-
     }
 }
