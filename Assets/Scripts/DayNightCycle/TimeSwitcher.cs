@@ -44,6 +44,7 @@ namespace Assets.Scripts.DayNightCycle
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+            TimeSlider.value = dayNightCycle.CurrentTime01;
         }
 
   

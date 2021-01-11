@@ -18,9 +18,9 @@ namespace Assets.Scripts.DayNightCycle
 
         [Range(0f, 24f)] public float currentTime;
         public float CurrentTime01 { get { return currentTime / 24; } set { currentTime = value * 24; } }
-        public Slider TimeSlider;
-        public Camera MoonCamera;
-        public GameObject DayNightController;
+        public Slider TimeSlider  = null;
+        public Camera MoonCamera = null;
+        public GameObject DayNightController = null;
         public int currentDay = 0;
         public Light directionalLight;
         public float DayLength = 300f; //default value is 300 seconds in one day
@@ -39,10 +39,8 @@ namespace Assets.Scripts.DayNightCycle
         {
             pause=true;
             RenderSettings.skybox = skyBoxPROCEDURAL;
-            SettingsUI = GameObject.Find("Game Settings");
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GetComponentInChildren<Camera>();
-            TimeSlider = GameObject.Find("TimeSlider").GetComponent<Slider>();
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
             {
                 if (c.isActiveAndEnabled)
@@ -80,7 +78,7 @@ namespace Assets.Scripts.DayNightCycle
                     RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
                 }
             }
-            SettingsUI.SetActive(false);
+           
 
             targetCam = GameObject.Find("MainCamera").GetComponent<Camera>();
             UpdateLight(); // Initial lighting update. Without this, the lighting will look as if it's lagging when the scene just loaded
@@ -97,7 +95,7 @@ namespace Assets.Scripts.DayNightCycle
         private void OnDestroy()
         {
             Service.Settings.OnTimeSettingsChanged -= Settings_OnTimeSettingsChanged;
-            SettingsUI.SetActive(true);
+            
         }
 
         // Update is called once per frame
@@ -112,7 +110,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 if (!GameObject.Find("Game Settings"))
                 {
-                    TimeSlider.value = CurrentTime01;
+                    
                 }
                 else
                 {
@@ -161,8 +159,7 @@ namespace Assets.Scripts.DayNightCycle
             //that the system is not paused while MC is on timesettings menu
 
         }
-
-
+        
         void UpdateLight()
         {
             Quaternion tilt = Quaternion.AngleAxis(sunTilt, Vector3.forward);
