@@ -916,7 +916,7 @@ public class Hero : Human
             transform.GetComponent<AudioSource>().Play();
 
             var propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, (int)PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths] + 1);
             photonView.owner.SetCustomProperties(propertiesToSet);
 
             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
