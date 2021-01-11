@@ -85,6 +85,7 @@ namespace Assets.Scripts.DayNightCycle
             SettingsUI.SetActive(false);
 
             targetCam = GameObject.Find("MainCamera").GetComponent<Camera>();
+            UpdateLight(); // Initial lighting update. Without this, the lighting will look as if it's lagging when the scene just loaded
         }
 
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
@@ -210,39 +211,41 @@ namespace Assets.Scripts.DayNightCycle
                     RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTime01).a * timecycle.maxFogDensity;
                 }
             }
-
-            //change skybox to add mood
-
-            // RenderSettings.skybox.SetColor("_SkyTint",timecycle.skyColor.Evaluate(CurrentTime01));
-            // RenderSettings.skybox.SetColor("_GroundColor",timecycle.groundColor.Evaluate(CurrentTime01));
         }
 
-        public string TimeOfDay()
+        public TimeOfDay GetTimeOfDay()
         {
-            // Consider using switch-case here. It will probably improve the performance.
-            string dayState = "";
             if (CurrentTime01 > 0f  && CurrentTime01 < 0.1f )
             {
-                dayState = "Midnight";
+                return TimeOfDay.Midnight;
             }
-            if (CurrentTime01 < 0.5f  && CurrentTime01 > 0.1f )
+            else if (CurrentTime01 < 0.5f  && CurrentTime01 > 0.1f )
             {
-                dayState = "Morning";
+                return TimeOfDay.Morning;
             }
-            if (CurrentTime01 > 0.5f  && CurrentTime01 < 0.6f)
+            else if (CurrentTime01 > 0.5f  && CurrentTime01 < 0.6f)
             {
-                dayState = "Mid Noon";
+                return TimeOfDay.Noon;
             }
-            if (CurrentTime01 > 0.6f && CurrentTime01 < 0.8f)
+            else if (CurrentTime01 > 0.6f && CurrentTime01 < 0.8f)
             {
-                dayState = "Evening";
+                return TimeOfDay.Evening;
             }
-            if (CurrentTime01 > 0.8f && CurrentTime01 < 1f)
+            else if (CurrentTime01 > 0.8f && CurrentTime01 < 1f)
             {
-                dayState = "Night";
+                return TimeOfDay.Night;
             }
-            return dayState;
+            return TimeOfDay.UNKNOWN; // If this return is reached, something probably went wrong
         }
         
+        public enum TimeOfDay
+        {
+            Midnight,
+            Morning,
+            Noon,
+            Evening,
+            Night,
+            UNKNOWN
+        }
     }
 }
