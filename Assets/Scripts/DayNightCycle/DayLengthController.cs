@@ -20,12 +20,11 @@ namespace Assets.Scripts.DayNightCycle
         }
         void Update()
         {
-            if (ToggleDayNight.isOn)
+            if (PhotonNetwork.isMasterClient)
             {
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitDayLength);
                 DayLengthInput.onEndEdit = se;
-                dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             }
         }
 
@@ -42,6 +41,13 @@ namespace Assets.Scripts.DayNightCycle
         }
       
 
+        //grabbing the local scene's DayAndNightControl script
+        void OnEnable()
+        {
+            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+        }
+
+       
 
     }
 }

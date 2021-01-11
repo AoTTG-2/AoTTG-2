@@ -16,11 +16,29 @@ namespace Assets.Scripts.DayNightCycle
 
         void Synch()
         {
-            dayNightCycle = GameObject.Find("Day and Night Controller(Clone)").GetComponent<DayAndNightControl>();
+            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             Service.Settings.SyncSettings();
-                
             Debug.Log("System Synched");
         }
-    
+
+        //grabbing the local scene's DayAndNightControl script
+        
+            void OnEnable()
+            {
+            if (PhotonNetwork.isMasterClient)
+                 {
+                dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+                Synch();
+                }
+            }
+
+            void OnDisable()
+            {
+            if (PhotonNetwork.isMasterClient)
+                {
+                Synch();
+                }
+            }
+        
     }
 }
