@@ -4163,7 +4163,6 @@ public class Hero : Human
             }
 
             crossL1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
-            //crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
             crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.position.y - mousePos.y, crossL1.transform.position.x - mousePos.x) * 57.29578f) + 180f);
             crossL2.transform.localPosition = crossL1.transform.localPosition;
             crossL2.transform.localRotation = crossL1.transform.localRotation;
@@ -4181,7 +4180,6 @@ public class Hero : Human
             }
 
             crossR1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
-            //crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
             crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.position.y - mousePos.y, crossR1.transform.position.x - mousePos.x) * 57.29578f);
             crossR2.transform.localPosition = crossR1.transform.localPosition;
             crossR2.transform.localRotation = crossR1.transform.localRotation;
