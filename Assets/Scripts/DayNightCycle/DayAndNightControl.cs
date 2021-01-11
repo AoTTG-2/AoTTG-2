@@ -106,17 +106,7 @@ namespace Assets.Scripts.DayNightCycle
                 GameObject.Find("LightSet").SetActive(false);
             }
             //updates timeslider when out of menu
-            if (PhotonNetwork.isMasterClient)
-            {
-                if (!GameObject.Find("Game Settings"))
-                {
-                    
-                }
-                else
-                {
-                    //SyncTimeRPC(currentTime, DayLength,pause);
-                }
-            }
+            
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
             //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
             MoonCamera.fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
