@@ -895,6 +895,17 @@ namespace Assets.Scripts.Characters.Titan
             isROCKMOVE = true;
         }
 
+        #region Animation Events
+
+        public void Footstep()
+        {
+            Transform transform = base.transform.Find("snd_eren_foot");
+            var audioSource = transform.GetComponent<AudioSource>();
+            audioSource.PlayOneShot(audioSource.clip);
+        }
+
+        #endregion
+
         protected override void Update()
         {
             base.Update();

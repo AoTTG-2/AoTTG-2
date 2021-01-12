@@ -949,8 +949,8 @@ namespace Assets.Scripts.Characters.Titan
         public void Footstep()
         {
             Transform transform = base.transform.Find("snd_titan_foot");
-            transform.GetComponent<AudioSource>().Stop();
-            transform.GetComponent<AudioSource>().Play();
+            var audioSource = transform.GetComponent<AudioSource>();
+            audioSource.PlayOneShot(audioSource.clip);
         }
 
         #endregion
