@@ -1,7 +1,8 @@
-﻿
+﻿using Assets.Scripts.Services;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Assets.Scripts.Settings;
+using System.Collections;
 namespace Assets.Scripts.DayNightCycle
 {
     public class TimeSwitcher : MonoBehaviour
@@ -11,15 +12,25 @@ namespace Assets.Scripts.DayNightCycle
         public Slider TimeSlider;
         public InputField TimeInput;
         public Toggle ToggleDayNight;
+        private int x = 0;
         DayAndNightControl dayNightCycle;
        void Start()
         {
             
             ToggleDayNight = GameObject.Find("ToggleDayNightCycle").GetComponent<Toggle>();
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+            TimeSlider.onValueChanged.AddListener (delegate {ValueChangeCheck ();});
         }
 
- 
+        public void ValueChangeCheck()
+	    {
+            if (PhotonNetwork.isMasterClient)
+            {
+                 dayNightCycle.currentTime = TimeSlider.value * 24;
+                 GameSettings.Time.currentTime = dayNightCycle.currentTime;
+		         Service.Settings.SyncSettings();
+            }
+	    }
         void Update()
         {   
             if (PhotonNetwork.isMasterClient)
@@ -27,7 +38,6 @@ namespace Assets.Scripts.DayNightCycle
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitTime);
                 TimeInput.onEndEdit = se;
-                dayNightCycle.currentTime = TimeSlider.value * 24;
             }
         }
         
@@ -41,6 +51,9 @@ namespace Assets.Scripts.DayNightCycle
                     double seconds = System.TimeSpan.Parse(time).TotalSeconds;
                     TimeSlider.value= (float) (seconds / 86400);
                     dayNightCycle.currentTime = (float) (seconds/86400);
+                    GameSettings.Time.currentTime = dayNightCycle.currentTime;
+                    Service.Settings.SyncSettings();
+
                     }
                  catch 
                     {
@@ -56,6 +69,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             TimeSlider.value = dayNightCycle.CurrentTime01;
+            x=0;
         }
 
   

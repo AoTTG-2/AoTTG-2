@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
 namespace Assets.Scripts.DayNightCycle
 {
     public class DayLengthController : MonoBehaviour
@@ -36,7 +37,11 @@ namespace Assets.Scripts.DayNightCycle
                         dayLength = 60;
                     }
                     dayNightCycle.DayLength = dayLength;
-                }
+               
+                    GameSettings.Time.dayLength = dayLength;
+               
+                    Service.Settings.SyncSettings();
+            }
             catch 
                 {
                   

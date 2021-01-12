@@ -1,1 +1,0 @@
-to add skyboxes to your scene, just drag the skybox materials in Materials folder to your scene by using Render settings (or Lighting Tab in Unity 5). A Source file is included also in the package. It's using a popular app called blender, so the extension would be .blend

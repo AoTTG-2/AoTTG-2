@@ -1,4 +1,5 @@
-﻿
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,12 +49,17 @@ namespace Assets.Scripts.DayNightCycle
                 {
                 
                     dayNightCycle.pause = false;
+                 
+                    GameSettings.Time.pause = false;
+                    Service.Settings.SyncSettings();
               
                 }
                 else
                 {
                 
                     dayNightCycle.pause = true;
+                    GameSettings.Time.pause = true;
+                    Service.Settings.SyncSettings();
                 }
             }
 
