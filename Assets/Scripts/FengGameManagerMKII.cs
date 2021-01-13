@@ -2287,27 +2287,11 @@ namespace Assets.Scripts
             {
                 this.DestroyAllExistingCloths();
                 SetLevelAndGamemode();
-                LevelHelper.Load(Level);
+                if (PhotonNetwork.isMasterClient) LevelHelper.Load(Level);
             }
             else if (PhotonNetwork.isMasterClient)
             {
                 this.kickPlayerRC(info.sender, true, "false restart.");
-            }
-            else if (!masterRC)
-            {
-                this.restartCount.Add(Time.time);
-                foreach (float num in this.restartCount)
-                {
-                    if ((Time.time - num) > 60f)
-                    {
-                        this.restartCount.Remove(num);
-                    }
-                }
-                if (this.restartCount.Count < 6)
-                {
-                    this.DestroyAllExistingCloths();
-                    LevelHelper.Load(Level);
-                }
             }
         }
 
