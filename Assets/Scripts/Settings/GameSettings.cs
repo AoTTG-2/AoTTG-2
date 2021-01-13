@@ -42,6 +42,9 @@ namespace Assets.Scripts.Settings
         [JsonProperty("Respawn")]
         private RespawnSettings ConfigRespawn { get; set; }
 
+        [JsonProperty("Time")]
+        private TimeSettings ConfigTime { get; set; }
+
         /// <summary>
         /// Update the GameSettings based on the static definitions
         /// </summary>
@@ -123,8 +126,12 @@ namespace Assets.Scripts.Settings
             SettingsService.SyncSettings();
         }
 
-        [JsonProperty("Time")]
-        private TimeSettings ConfigTime { get; set; }
+        public void Update(TimeSettings settings)
+        {
+            Time = ConfigTime = settings;
+            SettingsService.SyncSettings();
+        }
+
 
         public void Initialize(GamemodeType type)
         {
@@ -194,6 +201,7 @@ namespace Assets.Scripts.Settings
 
             Horse = CreateFromObjects(ConfigHorse, playerGamemodeSettings.Horse, levelGamemode.Horse);
             Respawn = CreateFromObjects(ConfigRespawn, playerGamemodeSettings.Respawn, levelGamemode.Respawn);
+            Time = CreateFromObjects(ConfigTime, playerGamemodeSettings.Time, levelGamemode.Time);
             FengGameManagerMKII.instance.OnRoomSettingsInitialized();
         }
 

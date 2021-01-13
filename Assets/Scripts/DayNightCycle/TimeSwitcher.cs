@@ -22,7 +22,6 @@ namespace Assets.Scripts.DayNightCycle
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
              if (PhotonNetwork.isMasterClient)
              {
-                TimeSlider.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitTime);
                 TimeInput.onEndEdit = se;
@@ -31,17 +30,17 @@ namespace Assets.Scripts.DayNightCycle
         }
 
 
-        public void ValueChangeCheck()
-        {
-            
-        }
+
 
         public void OnDrag(PointerEventData eventData)
         {
-            dayNightCycle.currentTime = TimeSlider.value * 24;
-            GameSettings.Time.currentTime = dayNightCycle.currentTime;
-            Service.Settings.SyncSettings();
-            Debug.Log("System Synching via slider");
+            if (PhotonNetwork.isMasterClient)
+            {
+                dayNightCycle.currentTime = TimeSlider.value * 24;
+                GameSettings.Time.currentTime = dayNightCycle.currentTime;
+                Service.Settings.SyncSettings();
+                Debug.Log("System Synching via slider");
+            }
         }
 
         void Update()
