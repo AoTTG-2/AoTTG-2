@@ -885,7 +885,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void Start()
     {
-        QualitySettings.vSyncCount = 0;
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
         this.setDayLight(dayLight);
