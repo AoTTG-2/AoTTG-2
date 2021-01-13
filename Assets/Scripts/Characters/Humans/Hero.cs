@@ -68,12 +68,12 @@ namespace Assets.Scripts.Characters.Humans
         public float CameraMultiplier;
         public GameObject checkBoxLeft;
         public GameObject checkBoxRight;
-        public GameObject cross1;
-        public GameObject cross2;
-        public GameObject crossL1;
-        public GameObject crossL2;
-        public GameObject crossR1;
-        public GameObject crossR2;
+        public GameObject cross;
+        public Image crossImage;
+        public GameObject crossL;
+        public Image crossLImage;
+        public GameObject crossR;
+        public Image crossRImage;
         public string CurrentAnimation;
         public float currentBladeSta = 100f;
         private BUFF currentBuff { get; set; }
@@ -800,12 +800,12 @@ namespace Assets.Scripts.Characters.Humans
             this.maincamera = GameObject.Find("MainCamera");
             if (base.photonView.isMine)
             {
-                this.cross1 = GameObject.Find("cross1");
-                this.cross2 = GameObject.Find("cross2");
-                this.crossL1 = GameObject.Find("crossL1");
-                this.crossL2 = GameObject.Find("crossL2");
-                this.crossR1 = GameObject.Find("crossR1");
-                this.crossR2 = GameObject.Find("crossR2");
+                this.cross = GameObject.Find("cross1");
+                crossImage = cross.GetComponentInChildren<Image>();
+                this.crossL = GameObject.Find("crossL1");
+                crossLImage = crossL.GetComponentInChildren<Image>();
+                this.crossR = GameObject.Find("crossR1");
+                crossRImage = crossR.GetComponentInChildren<Image>();
                 this.LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
                 this.cachedSprites = new Dictionary<string, Image>();
                 //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
@@ -3292,20 +3292,20 @@ namespace Assets.Scripts.Characters.Humans
             Vector3 vector;
             if (MenuManager.IsMenuOpen)
             {
-                GameObject cross1 = this.cross1;
-                GameObject cross2 = this.cross2;
-                GameObject crossL1 = this.crossL1;
-                GameObject crossL2 = this.crossL2;
-                GameObject crossR1 = this.crossR1;
-                GameObject crossR2 = this.crossR2;
+                var cross1 = this.cross;
+                //GameObject cross2 = this.cross2;
+                var crossL1 = this.crossL;
+                //GameObject crossL2 = this.crossL2;
+                var crossR1 = this.crossR;
+                //GameObject crossR2 = this.crossR2;
                 var labelDistance = this.LabelDistance;
                 vector = (Vector3) (Vector3.up * 10000f);
-                crossR2.transform.localPosition = vector;
+                //crossR2.transform.localPosition = vector;
                 crossR1.transform.localPosition = vector;
-                crossL2.transform.localPosition = vector;
+                //crossL2.transform.localPosition = vector;
                 crossL1.transform.localPosition = vector;
                 labelDistance.gameObject.transform.localPosition = vector;
-                cross2.transform.localPosition = vector;
+                //cross2.transform.localPosition = vector;
                 cross1.transform.localPosition = vector;
             }
             else
@@ -3321,8 +3321,7 @@ namespace Assets.Scripts.Characters.Humans
                 var hitPoint = ray.GetPoint(hitDistance);
 
                 var mousePos = Input.mousePosition;
-                cross1.transform.position = mousePos;
-                cross2.transform.localPosition = cross1.transform.localPosition;
+                cross.transform.position = mousePos;
 
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 1000f, mask3.value))
@@ -3335,15 +3334,13 @@ namespace Assets.Scripts.Characters.Humans
 
                 if (magnitude > 120f)
                 {
-                    cross1.transform.localPosition += (Vector3) (Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = cross2.transform.localPosition;
+                    crossImage.color = Color.red;
                 }
                 else
                 {
-                    cross2.transform.localPosition += (Vector3) (Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = cross1.transform.localPosition;
+                    crossImage.color = Color.white;
                 }
-                LabelDistance.gameObject.transform.localPosition -= new Vector3(0f, 15f, 0f);
+                LabelDistance.gameObject.transform.localPosition = cross.transform.localPosition;
 
                 if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
                 {
@@ -3375,14 +3372,16 @@ namespace Assets.Scripts.Characters.Humans
                     hitDistance = hit2.distance;
                 }
 
-                crossL1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
-                crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.position.y - mousePos.y, crossL1.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
-                crossL2.transform.localPosition = crossL1.transform.localPosition;
-                crossL2.transform.localRotation = crossL1.transform.localRotation;
+                crossL.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+                crossL.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL.transform.position.y - mousePos.y, crossL.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
                 if (hitDistance > 120f)
-                    crossL1.transform.localPosition += (Vector3) (Vector3.up * 10000f);
+                {
+                    crossLImage.color = Color.red;
+                }
                 else
-                    crossL2.transform.localPosition += (Vector3) (Vector3.up * 10000f);
+                {
+                    crossLImage.color = Color.white;
+                }
 
                 hitPoint = (this.transform.position + vector3) + vector5;
                 hitDistance = HookRaycastDistance;
@@ -3392,14 +3391,16 @@ namespace Assets.Scripts.Characters.Humans
                     hitDistance = hit2.distance;
                 }
 
-                crossR1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
-                crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.position.y - mousePos.y, crossR1.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
-                crossR2.transform.localPosition = crossR1.transform.localPosition;
-                crossR2.transform.localRotation = crossR1.transform.localRotation;
+                crossR.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+                crossR.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR.transform.position.y - mousePos.y, crossR.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
                 if (hitDistance > 120f)
-                    crossR1.transform.localPosition += Vector3.up * 10000f;
+                {
+                    crossRImage.color = Color.red;
+                }
                 else
-                    crossR2.transform.localPosition += Vector3.up * 10000f;
+                {
+                    crossRImage.color = Color.white;
+                }
             }
         }
 
