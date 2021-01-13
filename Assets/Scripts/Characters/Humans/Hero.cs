@@ -656,14 +656,14 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (photonView.isMine)
             {
-                float z = 0f;
+                float leanAngle = 0f;
                 needLean = false;
                 if ((!useGun && (state == HERO_STATE.Attack)) && ((attackAnimation != "attack3_1") && (attackAnimation != "attack3_2")))
                 {
                     float y = Rigidbody.velocity.y;
                     float x = Rigidbody.velocity.x;
-                    float num4 = Rigidbody.velocity.z;
-                    float num5 = Mathf.Sqrt((x * x) + (num4 * num4));
+                    float z = Rigidbody.velocity.z;
+                    float num5 = Mathf.Sqrt((x * x) + (z * z));
                     float num6 = Mathf.Atan2(y, num5) * Mathf.Rad2Deg;
                     targetRotation = Quaternion.Euler(-num6 * (1f - (Vector3.Angle(Rigidbody.velocity, transform.forward) / 90f)), facingDirection, 0f);
                     if ((isLeftHandHooked && (bulletLeft != null)) || (isRightHandHooked && (bulletRight != null)))
@@ -678,18 +678,18 @@ namespace Assets.Scripts.Characters.Humans
                         if (almostSingleHook)
                         {
                             needLean = true;
-                            z = getLeanAngle(bulletRight.transform.position, true);
+                            leanAngle = getLeanAngle(bulletRight.transform.position, true);
                         }
                     }
                     else if (isLeftHandHooked && (bulletLeft != null))
                     {
                         needLean = true;
-                        z = getLeanAngle(bulletLeft.transform.position, true);
+                        leanAngle = getLeanAngle(bulletLeft.transform.position, true);
                     }
                     else if (isRightHandHooked && (bulletRight != null))
                     {
                         needLean = true;
-                        z = getLeanAngle(bulletRight.transform.position, false);
+                        leanAngle = getLeanAngle(bulletRight.transform.position, false);
                     }
                     if (needLean)
                     {
@@ -699,7 +699,7 @@ namespace Assets.Scripts.Characters.Humans
                             a = currentSpeed * 0.1f;
                             a = Mathf.Min(a, 20f);
                         }
-                        targetRotation = Quaternion.Euler(-a, facingDirection, z);
+                        targetRotation = Quaternion.Euler(-a, facingDirection, leanAngle);
                     }
                     else if (state != HERO_STATE.Attack)
                     {
