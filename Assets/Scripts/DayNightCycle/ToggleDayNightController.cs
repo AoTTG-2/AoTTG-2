@@ -31,37 +31,39 @@ namespace Assets.Scripts.DayNightCycle
             DefaultSkyColor = RenderSettings.ambientSkyColor;
             DefaultEquatorColor = RenderSettings.ambientEquatorColor;
             DefaultHorizonColor = RenderSettings.ambientGroundColor;
-            skyBoxReset = GameObject.Find("MainCamera").GetComponent<Skybox>().material;
             ToggleDayNight.isOn = false;
-
-            
-
+            ToggleDayNight.onValueChanged.AddListener(delegate {
+                ToggleValueChanged(ToggleDayNight);
+            });
 
         }
 
-        // Update is called once per frame
-        void Update()
+        void ToggleValueChanged(Toggle change)
         {
             if (PhotonNetwork.isMasterClient)
             {
 
                 if (ToggleDayNight.isOn)
                 {
-                
+
                     dayNightCycle.pause = false;
-                 
                     GameSettings.Time.pause = false;
                     Service.Settings.SyncSettings();
-              
+                    Debug.Log("toggle synching");
                 }
                 else
                 {
-                
                     dayNightCycle.pause = true;
                     GameSettings.Time.pause = true;
                     Service.Settings.SyncSettings();
+                    Debug.Log("toggle synching");
                 }
             }
+        }
+            // Update is called once per frame
+            void Update()
+        {
+            
 
         }
         void OnEnable()

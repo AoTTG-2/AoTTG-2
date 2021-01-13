@@ -20,6 +20,7 @@ namespace Assets.Scripts.DayNightCycle
         public float CurrentTime01 { get { return currentTime / 24; } set { currentTime = value * 24; } }
         public Slider TimeSlider  = null;
         public Camera MoonCamera = null;
+        public Camera MainCamera = null;
         public GameObject DayNightController = null;
         public int currentDay = 0;
         public Light directionalLight;
@@ -41,6 +42,7 @@ namespace Assets.Scripts.DayNightCycle
             RenderSettings.skybox = skyBoxPROCEDURAL;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GetComponentInChildren<Camera>();
+            MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
             {
                 if (c.isActiveAndEnabled)
@@ -109,7 +111,7 @@ namespace Assets.Scripts.DayNightCycle
             
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
             //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
-            MoonCamera.fieldOfView = GameObject.Find("MainCamera").GetComponent<Camera>().fieldOfView;
+            MoonCamera.fieldOfView = MainCamera.fieldOfView;
             MoonCamera.transform.rotation = GameObject.Find("MainCamera").transform.rotation;
             if (!pause)
             {
@@ -134,19 +136,11 @@ namespace Assets.Scripts.DayNightCycle
             //MC loads settings
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonView photonView = PhotonView.Get(this);
-                
-                //photonView.RPC("SyncTimeRPC", PhotonTargets.All, currentTime, DayLength, pause);
                 GameSettings.Time.currentTime = currentTime;
                 GameSettings.Time.dayLength = DayLength;
                 GameSettings.Time.pause = pause;
                 Debug.Log("Current Master Client time: " + GameSettings.Time.currentTime);
             }
-
-            //TODO : add a OnJoinedRoom method so that on join, the MC's current time is loaded
-            //TODO : resynch time once mc leaves the game settings, because by default while they are
-            //in time settings the system is paused(but not for non-mc) , alternatively make it so
-            //that the system is not paused while MC is on timesettings menu
 
         }
         
@@ -205,15 +199,15 @@ namespace Assets.Scripts.DayNightCycle
             {
                 return TimeOfDay.Midnight;
             }
-            else if (CurrentTime01 < 0.5f  && CurrentTime01 > 0.1f )
+            else if (CurrentTime01 < 0.5f  && CurrentTime01 > 0.2f )
             {
                 return TimeOfDay.Morning;
             }
-            else if (CurrentTime01 > 0.5f  && CurrentTime01 < 0.6f)
+            else if (CurrentTime01 > 0.5f  && CurrentTime01 < 0.75f)
             {
-                return TimeOfDay.Noon;
+                return TimeOfDay.Afternoon;
             }
-            else if (CurrentTime01 > 0.6f && CurrentTime01 < 0.8f)
+            else if (CurrentTime01 > 0.75f && CurrentTime01 < 0.8f)
             {
                 return TimeOfDay.Evening;
             }
@@ -228,7 +222,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             Midnight,
             Morning,
-            Noon,
+            Afternoon,
             Evening,
             Night,
             UNKNOWN

@@ -16,7 +16,6 @@ namespace Assets.Scripts.DayNightCycle
 
         void Synch()
         {
-            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             Service.Settings.SyncSettings();
             Debug.Log("System Synched");
         }
