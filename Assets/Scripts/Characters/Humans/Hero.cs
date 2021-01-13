@@ -68,12 +68,9 @@ namespace Assets.Scripts.Characters.Humans
         public float CameraMultiplier;
         public GameObject checkBoxLeft;
         public GameObject checkBoxRight;
-        public GameObject cross;
-        public Image crossImage;
-        public GameObject crossL;
-        public Image crossLImage;
-        public GameObject crossR;
-        public Image crossRImage;
+
+        private HookUI hookUI = new HookUI();
+
         public string CurrentAnimation;
         public float currentBladeSta = 100f;
         private BUFF currentBuff { get; set; }
@@ -120,7 +117,6 @@ namespace Assets.Scripts.Characters.Humans
         private bool isRightHandHooked { get; set; }
         public float jumpHeight = 2f;
         private bool justGrounded { get; set; }
-        public Text LabelDistance;
         public Transform lastHook;
         private float launchElapsedTimeL { get; set; }
         private float launchElapsedTimeR { get; set; }
@@ -208,6 +204,70 @@ namespace Assets.Scripts.Characters.Humans
         // Hero 2.0
         public Animation Animation { get; protected set; }
         public Rigidbody Rigidbody { get; protected set; }
+
+
+        class HookUI
+        {
+            internal Transform cross;
+            internal Transform crossL;
+            internal Transform crossR;
+
+            internal Image crossImage;
+            internal Image crossImageL;
+            internal Image crossImageR;
+
+            internal Text distanceLabel;
+
+            internal bool enabled = false;
+
+            internal void Find()
+            {
+                cross = GameObject.Find("cross1").transform;
+                crossImage = cross.GetComponentInChildren<Image>();
+                crossL = GameObject.Find("crossL1").transform;
+                crossImageL = crossL.GetComponentInChildren<Image>();
+                crossR = GameObject.Find("crossR1").transform;
+                crossImageR = crossR.GetComponentInChildren<Image>();
+
+                distanceLabel = GameObject.Find("Distance").GetComponent<Text>();
+
+                Enable();
+            }
+
+            internal void Disable()
+            {
+                if (enabled)
+                {
+                    cross.gameObject.SetActive(false);
+                    crossImage.gameObject.SetActive(false);
+                    crossL.gameObject.SetActive(false);
+                    crossImageL.gameObject.SetActive(false);
+                    crossR.gameObject.SetActive(false);
+                    crossImageR.gameObject.SetActive(false);
+
+                    distanceLabel.gameObject.SetActive(false);
+
+                    enabled = false;
+                }
+            }
+            internal void Enable()
+            {
+                if (!enabled)
+                {
+                    cross.gameObject.SetActive(true);
+                    crossImage.gameObject.SetActive(true);
+                    crossL.gameObject.SetActive(true);
+                    crossImageL.gameObject.SetActive(true);
+                    crossR.gameObject.SetActive(true);
+                    crossImageR.gameObject.SetActive(true);
+
+                    distanceLabel.gameObject.SetActive(true);
+
+                    enabled = true;
+                }
+            }
+        }
+
 
         protected override void Awake()
         {
@@ -800,13 +860,9 @@ namespace Assets.Scripts.Characters.Humans
             this.maincamera = GameObject.Find("MainCamera");
             if (base.photonView.isMine)
             {
-                this.cross = GameObject.Find("cross1");
-                crossImage = cross.GetComponentInChildren<Image>();
-                this.crossL = GameObject.Find("crossL1");
-                crossLImage = crossL.GetComponentInChildren<Image>();
-                this.crossR = GameObject.Find("crossR1");
-                crossRImage = crossR.GetComponentInChildren<Image>();
-                this.LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
+                hookUI.Find();
+
+                
                 this.cachedSprites = new Dictionary<string, Image>();
                 //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
                 //{
@@ -828,7 +884,7 @@ namespace Assets.Scripts.Characters.Humans
                 //        cachedSprites.Add(obj.name, image);
                 //    }
                 //}
-                foreach (Image image in InGameUI.GetComponentsInChildren(typeof(Image), true))
+                foreach (Image image in InGameUI.GetComponentsInChildren<Image>(true))
                 {
                     if (image == null) continue;
                     if (image.gameObject.name.Contains("Gas"))
@@ -947,7 +1003,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (InputManager.Key(InputHuman.Forward))
                 {
-                    this.dashU = true;
+                    dashU = true;
                 }
                 else if (InputManager.Key(InputHuman.Backward))
                 {
@@ -985,17 +1041,17 @@ namespace Assets.Scripts.Characters.Humans
             for (count = 0; count < list.Count; count++)
             {
                 RaycastHit hit2 = list[count];
-                GameObject gameObject = hit2.collider.gameObject;
-                if (gameObject.layer == 0x10)
+                GameObject colliderGO = hit2.collider.gameObject;
+                if (colliderGO.layer == 0x10)
                 {
-                    if (gameObject.name.Contains("PlayerCollisionDetection") && ((hit2 = list[count]).distance < num2))
+                    if (colliderGO.name.Contains("PlayerCollisionDetection") && ((hit2 = list[count]).distance < num2))
                     {
                         num2 -= 60f;
                         if (num2 <= 60f)
                         {
                             count = list.Count;
                         }
-                        MindlessTitan component = gameObject.transform.root.gameObject.GetComponent<MindlessTitan>();
+                        MindlessTitan component = colliderGO.transform.root.gameObject.GetComponent<MindlessTitan>();
                         if (component != null)
                         {
                             list2.Add(component);
@@ -1248,7 +1304,7 @@ namespace Assets.Scripts.Characters.Humans
                 this.currentSpeed = this.Rigidbody.velocity.magnitude;
                 if (!((this.Animation.IsPlaying("attack3_2") || this.Animation.IsPlaying("attack5")) || this.Animation.IsPlaying("special_petra")))
                 {
-                    this.Rigidbody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, this.targetRotation, Time.deltaTime * 6f);
+                    this.Rigidbody.rotation = Quaternion.Lerp(base.transform.rotation, this.targetRotation, Time.deltaTime * 6f);
                 }
                 if (this.state == HERO_STATE.Grab)
                 {
@@ -1436,7 +1492,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 if ((this.Animation[this.attackAnimation].normalizedTime > 0.4f) && (this.Animation[this.attackAnimation].normalizedTime < 0.61f))
                                 {
-                                    this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                                    this.Rigidbody.AddForce((Vector3) (base.transform.forward * 200f));
                                 }
                             }
                             else if (this.Animation.IsPlaying("attack3_2"))
@@ -1445,7 +1501,7 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else if (this.Animation.IsPlaying("attack1") || this.Animation.IsPlaying("attack2"))
                             {
-                                this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                                this.Rigidbody.AddForce((Vector3) (base.transform.forward * 200f));
                             }
                             if (this.Animation.IsPlaying("attack3_2"))
                             {
@@ -1565,7 +1621,7 @@ namespace Assets.Scripts.Characters.Humans
                         if (!(this.state == HERO_STATE.Attack && this.useGun))
                         {
                             this.Rigidbody.AddForce(force, ForceMode.VelocityChange);
-                            this.Rigidbody.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
+                            this.Rigidbody.rotation = Quaternion.Lerp(base.transform.rotation, Quaternion.Euler(0f, this.facingDirection, 0f), Time.deltaTime * 10f);
                         }
                     }
                     else
@@ -1830,11 +1886,11 @@ namespace Assets.Scripts.Characters.Humans
                     bool flag7 = false;
                     if ((this.bulletLeft != null) || (this.bulletRight != null))
                     {
-                        if (((this.bulletLeft != null) && (this.bulletLeft.transform.position.y > base.gameObject.transform.position.y)) && (this.isLaunchLeft && this.bulletLeft.GetComponent<Bullet>().isHooked()))
+                        if (((this.bulletLeft != null) && (this.bulletLeft.transform.position.y > base.transform.position.y)) && (this.isLaunchLeft && this.bulletLeft.GetComponent<Bullet>().isHooked()))
                         {
                             flag7 = true;
                         }
-                        if (((this.bulletRight != null) && (this.bulletRight.transform.position.y > base.gameObject.transform.position.y)) && (this.isLaunchRight && this.bulletRight.GetComponent<Bullet>().isHooked()))
+                        if (((this.bulletRight != null) && (this.bulletRight.transform.position.y > base.transform.position.y)) && (this.isLaunchRight && this.bulletRight.GetComponent<Bullet>().isHooked()))
                         {
                             flag7 = true;
                         }
@@ -2074,7 +2130,7 @@ namespace Assets.Scripts.Characters.Humans
             LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
             LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
-            return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (base.gameObject.transform.up * 1f)), base.gameObject.transform.forward, (float) 1f, mask3.value);
+            return Physics.Raycast(base.transform.position + ((Vector3) (base.transform.up * 1f)), base.transform.forward, (float) 1f, mask3.value);
         }
 
         public bool IsGrounded()
@@ -2082,7 +2138,7 @@ namespace Assets.Scripts.Characters.Humans
             LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
             LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
-            return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask3.value);
+            return Physics.Raycast(base.transform.position + ((Vector3) (Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask3.value);
         }
 
         public bool isInvincible()
@@ -2104,7 +2160,7 @@ namespace Assets.Scripts.Characters.Humans
             LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
             LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
-            return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (base.gameObject.transform.up * 3f)), base.gameObject.transform.forward, (float) 1.2f, mask3.value);
+            return Physics.Raycast(base.transform.position + ((Vector3) (base.transform.up * 3f)), base.transform.forward, (float) 1.2f, mask3.value);
         }
 
         [PunRPC]
@@ -2306,7 +2362,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
             Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
-            base.gameObject.transform.rotation = quaternion;
+            base.transform.rotation = quaternion;
             base.GetComponent<Rigidbody>().rotation = quaternion;
             this.targetRotation = quaternion;
             if (left)
@@ -2916,7 +2972,7 @@ namespace Assets.Scripts.Characters.Humans
             this.badGuy = PhotonView.Find(hooker).gameObject;
             if (Vector3.Distance(hookPosition, base.transform.position) < 15f)
             {
-                this.launchForce = PhotonView.Find(hooker).gameObject.transform.position - base.transform.position;
+                this.launchForce = PhotonView.Find(hooker).transform.position - base.transform.position;
                 base.GetComponent<Rigidbody>().AddForce((Vector3) (-base.GetComponent<Rigidbody>().velocity * 0.9f), ForceMode.VelocityChange);
                 float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
                 if (this.grounded)
@@ -2933,7 +2989,7 @@ namespace Assets.Scripts.Characters.Humans
                     this.falseAttack();
                     this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
                     Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
-                    base.gameObject.transform.rotation = quaternion;
+                    base.transform.rotation = quaternion;
                     base.GetComponent<Rigidbody>().rotation = quaternion;
                     this.targetRotation = quaternion;
                 }
@@ -3292,24 +3348,27 @@ namespace Assets.Scripts.Characters.Humans
             Vector3 vector;
             if (MenuManager.IsMenuOpen)
             {
-                var cross1 = this.cross;
-                //GameObject cross2 = this.cross2;
-                var crossL1 = this.crossL;
-                //GameObject crossL2 = this.crossL2;
-                var crossR1 = this.crossR;
-                //GameObject crossR2 = this.crossR2;
-                var labelDistance = this.LabelDistance;
-                vector = (Vector3) (Vector3.up * 10000f);
-                //crossR2.transform.localPosition = vector;
-                crossR1.transform.localPosition = vector;
-                //crossL2.transform.localPosition = vector;
-                crossL1.transform.localPosition = vector;
-                labelDistance.gameObject.transform.localPosition = vector;
-                //cross2.transform.localPosition = vector;
-                cross1.transform.localPosition = vector;
+                hookUI.Disable();
+                //var cross1 = hookUI.cross;
+                ////GameObject cross2 = this.cross2;
+                //var crossL1 = hookUI.crossL;
+                ////GameObject crossL2 = this.crossL2;
+                //var crossR1 = hookUI.crossR;
+                ////GameObject crossR2 = this.crossR2;
+                //var labelDistance = this.LabelDistance;
+                //vector = (Vector3) (Vector3.up * 10000f);
+                ////crossR2.transform.localPosition = vector;
+                //crossR1.transform.localPosition = vector;
+                ////crossL2.transform.localPosition = vector;
+                //crossL1.transform.localPosition = vector;
+                //labelDistance.gameObject.transform.localPosition = vector;
+                ////cross2.transform.localPosition = vector;
+                //cross1.transform.localPosition = vector;
             }
             else
             {
+                hookUI.Enable();
+
                 this.checkTitan();
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
@@ -3321,7 +3380,7 @@ namespace Assets.Scripts.Characters.Humans
                 var hitPoint = ray.GetPoint(hitDistance);
 
                 var mousePos = Input.mousePosition;
-                cross.transform.position = mousePos;
+                hookUI.cross.position = mousePos;
 
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 1000f, mask3.value))
@@ -3332,15 +3391,8 @@ namespace Assets.Scripts.Characters.Humans
                     hitPoint = hit.point;
                 }
 
-                if (magnitude > 120f)
-                {
-                    crossImage.color = Color.red;
-                }
-                else
-                {
-                    crossImage.color = Color.white;
-                }
-                LabelDistance.gameObject.transform.localPosition = cross.transform.localPosition;
+                hookUI.crossImage.color = magnitude > 120f ? Color.red : Color.white;
+                hookUI.distanceLabel.transform.localPosition = hookUI.cross.localPosition;
 
                 if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
                 {
@@ -3350,7 +3402,7 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     distance += "\n" + ((this.currentSpeed / 100f)).ToString("F1") + "K";
                 }
-                LabelDistance.text = distance;
+                hookUI.distanceLabel.text = distance;
 
                 Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
                 vector2 -= (Vector3) (this.transform.right * 0.3f);
@@ -3372,16 +3424,10 @@ namespace Assets.Scripts.Characters.Humans
                     hitDistance = hit2.distance;
                 }
 
-                crossL.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
-                crossL.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL.transform.position.y - mousePos.y, crossL.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
-                if (hitDistance > 120f)
-                {
-                    crossLImage.color = Color.red;
-                }
-                else
-                {
-                    crossLImage.color = Color.white;
-                }
+                hookUI.crossL.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+                hookUI.crossL.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(hookUI.crossL.transform.position.y - mousePos.y, hookUI.crossL.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
+                hookUI.crossImageL.color = hitDistance > 120f ? Color.red : Color.white;
+
 
                 hitPoint = (this.transform.position + vector3) + vector5;
                 hitDistance = HookRaycastDistance;
@@ -3391,16 +3437,10 @@ namespace Assets.Scripts.Characters.Humans
                     hitDistance = hit2.distance;
                 }
 
-                crossR.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
-                crossR.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR.transform.position.y - mousePos.y, crossR.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
-                if (hitDistance > 120f)
-                {
-                    crossRImage.color = Color.red;
-                }
-                else
-                {
-                    crossRImage.color = Color.white;
-                }
+                hookUI.crossR.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+                hookUI.crossR.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(hookUI.crossR.transform.position.y - mousePos.y, hookUI.crossR.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
+                hookUI.crossImageR.color = hitDistance > 120f ? Color.red : Color.white;
+
             }
         }
 
@@ -3892,7 +3932,7 @@ namespace Assets.Scripts.Characters.Humans
                             this.checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
                             if (this.grounded)
                             {
-                                this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
+                                this.Rigidbody.AddForce((Vector3) (base.transform.forward * 200f));
                             }
                             this.playAnimation(this.attackAnimation);
                             this.Animation[this.attackAnimation].time = 0f;
