@@ -85,46 +85,57 @@ namespace Assets.Scripts.Characters.Titan
 
         public void AddBodyPart(BodyPart body, float regenerationTime)
         {
-            BodyPart[] bodyPart = { BodyPart.None };
+            var bodyParts = new List<BodyPart>();
             Transform bodyPartEffect = null;
-            if (body == BodyPart.ArmRight)
+
+            switch (body)
             {
-                bodyPart = new[] { BodyPart.ArmRight, BodyPart.HandRight };
-                bodyPartEffect = ArmRight;
-            }
-            else if (body == BodyPart.ArmLeft)
-            {
-                bodyPart = new[] { BodyPart.ArmLeft, BodyPart.HandLeft };
-                bodyPartEffect = ArmLeft;
-            }
-            else if (body == BodyPart.LegLeft)
-            {
-                bodyPart = new[] { BodyPart.LegLeft };
-                bodyPartEffect = LegLeft;
-            }
-            else if (body == BodyPart.LegRight)
-            {
-                bodyPart = new[] { BodyPart.LegRight };
-                bodyPartEffect = LegRight;
-            } else if (body == BodyPart.Eyes)
-            {
-                bodyPart = new[] {BodyPart.Eyes};
+                case BodyPart.ArmRight:
+                    bodyParts.Add(BodyPart.ArmRight);
+                    bodyParts.Add(BodyPart.HandRight);
+                    bodyPartEffect = ArmRight;
+                    break;
+                case BodyPart.ArmLeft:
+                    bodyParts.Add(BodyPart.ArmLeft);
+                    bodyParts.Add(BodyPart.HandLeft);
+                    bodyPartEffect = ArmLeft;
+                    break;
+                case BodyPart.LegLeft:
+                    bodyParts.Add(BodyPart.LegLeft);
+                    bodyPartEffect = LegLeft;
+                    break;
+                case BodyPart.LegRight:
+                    bodyParts.Add(BodyPart.LegRight);
+                    bodyPartEffect = LegRight;
+                    break;
+                case BodyPart.Eyes:
+                    bodyParts.Add(BodyPart.Eyes);
+                    break;
+                case BodyPart.Ankle:
+                    bodyParts.Add(BodyPart.Ankle);
+                    break;
+                default:
+                    return;
             }
 
-            if (bodyPart[0] == BodyPart.None || CooldownDictionary.ContainsKey(bodyPart[0])) return;
+            foreach (var part in bodyParts)
+            {
+                if (CooldownDictionary.ContainsKey(part)) return;
+            }
 
-            foreach (var part in bodyPart)
+            foreach (var part in bodyParts)
             {
                 CooldownDictionary.Add(part, regenerationTime);
             }
 
             if (bodyPartEffect == null || !photonView.isMine) return;
+
             var steamEffect = PhotonNetwork.Instantiate("fx/bodypart_steam", new Vector3(), new Quaternion(), 0);
             steamEffect.GetComponent<SelfDestroy>().CountDown = regenerationTime;
             steamEffect.transform.parent = bodyPartEffect;
             steamEffect.transform.localPosition = new Vector3();
             SteamEffectDictionary.Add(body, steamEffect);
-            photonView.RPC(nameof(SyncBodyPartRpc), PhotonTargets.Others, bodyPart);
+            photonView.RPC(nameof(SyncBodyPartRpc), PhotonTargets.Others, bodyParts);
         }
 
         [PunRPC]
