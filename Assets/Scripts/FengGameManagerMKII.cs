@@ -155,7 +155,6 @@ namespace Assets.Scripts
             Level = PhotonNetwork.room.GetLevel();
             var gamemodeSettings = PhotonNetwork.room.GetGamemodeSetting(Level);
             SetGamemode(gamemodeSettings);
-            Service.Settings.SetGamemodeType(gamemodeSettings.GamemodeType);
         }
 
         private void cache()
@@ -1028,11 +1027,6 @@ namespace Assets.Scripts
             if (!Enum.IsDefined(typeof(KeyCode), (string) objArray[0xea]))
             {
                 objArray[0xea] = "None";
-            }
-            Application.targetFrameRate = -1;
-            if (int.TryParse((string) objArray[0xb8], out num2) && (num2 > 0))
-            {
-                Application.targetFrameRate = num2;
             }
             AudioListener.volume = PlayerPrefs.GetFloat("vol", 1f);
             linkHash = new ExitGames.Client.Photon.Hashtable[] { new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable() };
@@ -2295,27 +2289,11 @@ namespace Assets.Scripts
             {
                 this.DestroyAllExistingCloths();
                 SetLevelAndGamemode();
-                LevelHelper.Load(Level);
+                if (PhotonNetwork.isMasterClient) LevelHelper.Load(Level);
             }
             else if (PhotonNetwork.isMasterClient)
             {
                 this.kickPlayerRC(info.sender, true, "false restart.");
-            }
-            else if (!masterRC)
-            {
-                this.restartCount.Add(Time.time);
-                foreach (float num in this.restartCount)
-                {
-                    if ((Time.time - num) > 60f)
-                    {
-                        this.restartCount.Remove(num);
-                    }
-                }
-                if (this.restartCount.Count < 6)
-                {
-                    this.DestroyAllExistingCloths();
-                    LevelHelper.Load(Level);
-                }
             }
         }
 
@@ -2627,6 +2605,9 @@ namespace Assets.Scripts
 
         private void Start()
         {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log($"Version: {versionManager.Version}");
             instance = this;
@@ -2660,7 +2641,7 @@ namespace Assets.Scripts
             this.loadconfig();
             ChangeQuality.setCurrentQuality();
         }
-
+        
         [PunRPC]
         public void titanGetKill(PhotonPlayer player, int Damage, string name)
         {

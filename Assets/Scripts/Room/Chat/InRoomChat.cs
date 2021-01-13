@@ -40,15 +40,13 @@ public class InRoomChat : Photon.MonoBehaviour
     public void AddMessage(string message)
     {
         TrimMessage(message);
-        if (message.Count() <= MaxMessageLength)
-        {
-            RemoveMessageIfMoreThanMax();
-            messages.Add(message);
-        }
-        else
+        if (message.Count() > MaxMessageLength)
         {
             OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
+            return;
         }
+        RemoveMessageIfMoreThanMax();
+        messages.Add(message);
     }
 
     private void TrimMessage(string message)
@@ -66,21 +64,19 @@ public class InRoomChat : Photon.MonoBehaviour
 
     private void ChatAll(string message)
     {
-        if (message.Count() <= 1000)
+        if (message.Count() > MaxMessageLength)
         {
-            if (MarkupIsOk(message))
-            {
-                var chatMessage = new object[] { message, GetPlayerName(PhotonNetwork.player) };
-                instance.photonView.RPC(ChatRPC, PhotonTargets.All, chatMessage);
-            }
-            else
-            {
-                OutputErrorMessage("Bad markup.");
-            }
+            OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
+            return;
+        }
+        if (MarkupIsOk(message))
+        {
+            var chatMessage = new object[] { message, GetPlayerName(PhotonNetwork.player) };
+            instance.photonView.RPC(ChatRPC, PhotonTargets.All, chatMessage);
         }
         else
         {
-            OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
+            OutputErrorMessage("Bad markup. Make sure your tags are balanced.");
         }
     }
 

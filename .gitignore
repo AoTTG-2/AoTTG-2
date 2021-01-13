@@ -182,6 +182,11 @@ PublishScripts/
 
 # NuGet Packages
 *.nupkg
+
+
+**/[Pp]ackages/*
+!**/[Pp]ackages/manifest.json
+!**/[Pp]ackages/packages-lock.json
 # except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
 # Uncomment if necessary however generally it will be regenerated when needed

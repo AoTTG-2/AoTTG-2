@@ -536,7 +536,7 @@ namespace Assets.Scripts.Characters.Humans
         public void attackAccordingToTarget(Transform a)
         {
             Vector3 vector = a.position - base.transform.position;
-            float current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+            float current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
             float f = -Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f);
             if (((Mathf.Abs(f) < 90f) && (vector.magnitude < 6f)) && ((a.position.y <= (base.transform.position.y + 2f)) && (a.position.y >= (base.transform.position.y - 5f))))
             {
@@ -601,7 +601,7 @@ namespace Assets.Scripts.Characters.Humans
                     float x = base.GetComponent<Rigidbody>().velocity.x;
                     float num4 = base.GetComponent<Rigidbody>().velocity.z;
                     float num5 = Mathf.Sqrt((x * x) + (num4 * num4));
-                    float num6 = Mathf.Atan2(y, num5) * 57.29578f;
+                    float num6 = Mathf.Atan2(y, num5) * Mathf.Rad2Deg;
                     this.targetRotation = Quaternion.Euler(-num6 * (1f - (Vector3.Angle(base.GetComponent<Rigidbody>().velocity, base.transform.forward) / 90f)), this.facingDirection, 0f);
                     if ((this.isLeftHandHooked && (this.bulletLeft != null)) || (this.isRightHandHooked && (this.bulletRight != null)))
                     {
@@ -1469,7 +1469,7 @@ namespace Assets.Scripts.Characters.Humans
                                     {
                                         this.state = HERO_STATE.Slide;
                                         this.crossFade("slide", 0.05f);
-                                        this.facingDirection = Mathf.Atan2(this.Rigidbody.velocity.x, this.Rigidbody.velocity.z) * 57.29578f;
+                                        this.facingDirection = Mathf.Atan2(this.Rigidbody.velocity.x, this.Rigidbody.velocity.z) * Mathf.Rad2Deg;
                                         this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                         this.sparks.enableEmission = true;
                                     }
@@ -1608,7 +1608,7 @@ namespace Assets.Scripts.Characters.Humans
                                 }
                                 else if (!this.isLeftHandHooked && !this.isRightHandHooked)
                                 {
-                                    float current = -Mathf.Atan2(this.Rigidbody.velocity.z, this.Rigidbody.velocity.x) * 57.29578f;
+                                    float current = -Mathf.Atan2(this.Rigidbody.velocity.z, this.Rigidbody.velocity.x) * Mathf.Rad2Deg;
                                     float num11 = -Mathf.DeltaAngle(current, this.transform.rotation.eulerAngles.y - 90f);
                                     if (Mathf.Abs(num11) < 45f)
                                     {
@@ -1905,7 +1905,7 @@ namespace Assets.Scripts.Characters.Humans
                 return base.transform.rotation.eulerAngles.y;
             }
             float y = this.currentCamera.transform.rotation.eulerAngles.y;
-            float num2 = Mathf.Atan2(vertical, horizontal) * 57.29578f;
+            float num2 = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg;
             num2 = -num2 + 90f;
             return (y + num2);
         }
@@ -1918,12 +1918,12 @@ namespace Assets.Scripts.Characters.Humans
             }
             float num = p.y - base.transform.position.y;
             float num2 = Vector3.Distance(p, base.transform.position);
-            float a = Mathf.Acos(num / num2) * 57.29578f;
+            float a = Mathf.Acos(num / num2) * Mathf.Rad2Deg;
             a *= 0.1f;
             a *= 1f + Mathf.Pow(base.GetComponent<Rigidbody>().velocity.magnitude, 0.2f);
             Vector3 vector3 = p - base.transform.position;
-            float current = Mathf.Atan2(vector3.x, vector3.z) * 57.29578f;
-            float target = Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.x, base.GetComponent<Rigidbody>().velocity.z) * 57.29578f;
+            float current = Mathf.Atan2(vector3.x, vector3.z) * Mathf.Rad2Deg;
+            float target = Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.x, base.GetComponent<Rigidbody>().velocity.z) * Mathf.Rad2Deg;
             float num6 = Mathf.DeltaAngle(current, target);
             a += Mathf.Abs((float) (num6 * 0.5f));
             if (this.state != HERO_STATE.Attack)
@@ -2017,11 +2017,11 @@ namespace Assets.Scripts.Characters.Humans
             float x = Mathf.Sqrt(((this.gunTarget.x - base.transform.position.x) * (this.gunTarget.x - base.transform.position.x)) + ((this.gunTarget.z - base.transform.position.z) * (this.gunTarget.z - base.transform.position.z)));
             this.targetHeadRotation = transform.rotation;
             Vector3 vector5 = this.gunTarget - base.transform.position;
-            float current = -Mathf.Atan2(vector5.z, vector5.x) * 57.29578f;
+            float current = -Mathf.Atan2(vector5.z, vector5.x) * Mathf.Rad2Deg;
             float num3 = -Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f);
             num3 = Mathf.Clamp(num3, -40f, 40f);
             float y = transform2.position.y - this.gunTarget.y;
-            float num5 = Mathf.Atan2(y, x) * 57.29578f;
+            float num5 = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
             num5 = Mathf.Clamp(num5, -40f, 30f);
             this.targetHeadRotation = Quaternion.Euler(transform.rotation.eulerAngles.x + num5, transform.rotation.eulerAngles.y + num3, transform.rotation.eulerAngles.z);
             this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, Time.deltaTime * 60f);
@@ -2197,7 +2197,7 @@ namespace Assets.Scripts.Characters.Humans
                     if (this.leftArmAim || this.rightArmAim)
                     {
                         Vector3 vector10 = this.gunTarget - this.transform.position;
-                        float current = -Mathf.Atan2(vector10.z, vector10.x) * 57.29578f;
+                        float current = -Mathf.Atan2(vector10.z, vector10.x) * Mathf.Rad2Deg;
                         float num3 = -Mathf.DeltaAngle(current, this.transform.rotation.eulerAngles.y - 90f);
                         this.headMovement();
                         if ((!this.isLeftHandHooked && this.leftArmAim) && ((num3 < 40f) && (num3 > -90f)))
@@ -2304,7 +2304,7 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 base.GetComponent<Rigidbody>().AddForce(this.launchForce);
             }
-            this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * 57.29578f;
+            this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
             Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
             base.gameObject.transform.rotation = quaternion;
             base.GetComponent<Rigidbody>().rotation = quaternion;
@@ -2397,7 +2397,7 @@ namespace Assets.Scripts.Characters.Humans
             float num4 = Mathf.Sqrt((y * y) + (x * x));
             this.handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
             this.forearmL.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-            this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * 57.29578f), -Mathf.Atan2(num2, num4) * 57.29578f);
+            this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), -Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
         }
 
         public void markDie()
@@ -2906,7 +2906,7 @@ namespace Assets.Scripts.Characters.Humans
             float num4 = Mathf.Sqrt((y * y) + (x * x));
             this.handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
             this.forearmR.localRotation = Quaternion.Euler(90f, 0f, 0f);
-            this.upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * 57.29578f), Mathf.Atan2(num2, num4) * 57.29578f);
+            this.upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
         }
 
         [PunRPC]
@@ -2931,7 +2931,7 @@ namespace Assets.Scripts.Characters.Humans
                     base.GetComponent<Animation>()["dash"].time = 0.1f;
                     this.state = HERO_STATE.AirDodge;
                     this.falseAttack();
-                    this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * 57.29578f;
+                    this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
                     Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
                     base.gameObject.transform.rotation = quaternion;
                     base.GetComponent<Rigidbody>().rotation = quaternion;
@@ -2963,11 +2963,11 @@ namespace Assets.Scripts.Characters.Humans
                     if (normal.sqrMagnitude < 4f)
                     {
                         Vector3 vector2 = ((Vector3) ((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f)) - base.transform.position;
-                        this.facingDirection = Mathf.Atan2(vector2.x, vector2.z) * 57.29578f;
+                        this.facingDirection = Mathf.Atan2(vector2.x, vector2.z) * Mathf.Rad2Deg;
                         if (this.useGun && (this.state != HERO_STATE.Attack))
                         {
-                            float current = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * 57.29578f;
-                            float target = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
+                            float current = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * Mathf.Rad2Deg;
+                            float target = -Mathf.Atan2(vector2.z, vector2.x) * Mathf.Rad2Deg;
                             float num3 = -Mathf.DeltaAngle(current, target);
                             this.facingDirection += num3;
                         }
@@ -2983,15 +2983,15 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             this.almostSingleHook = true;
                             Vector3 vector9 = vector7 - base.transform.position;
-                            this.facingDirection = Mathf.Atan2(vector9.x, vector9.z) * 57.29578f;
+                            this.facingDirection = Mathf.Atan2(vector9.x, vector9.z) * Mathf.Rad2Deg;
                         }
                         else
                         {
                             this.almostSingleHook = false;
                             Vector3 forward = base.transform.forward;
                             Vector3.OrthoNormalize(ref normal, ref forward);
-                            this.facingDirection = Mathf.Atan2(forward.x, forward.z) * 57.29578f;
-                            float num4 = Mathf.Atan2(to.x, to.z) * 57.29578f;
+                            this.facingDirection = Mathf.Atan2(forward.x, forward.z) * Mathf.Rad2Deg;
+                            float num4 = Mathf.Atan2(to.x, to.z) * Mathf.Rad2Deg;
                             if (Mathf.DeltaAngle(num4, this.facingDirection) > 0f)
                             {
                                 this.facingDirection += 180f;
@@ -3016,11 +3016,11 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     zero = this.bulletLeft.transform.position - base.transform.position;
                 }
-                this.facingDirection = Mathf.Atan2(zero.x, zero.z) * 57.29578f;
+                this.facingDirection = Mathf.Atan2(zero.x, zero.z) * Mathf.Rad2Deg;
                 if (this.state != HERO_STATE.Attack)
                 {
-                    float num6 = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * 57.29578f;
-                    float num7 = -Mathf.Atan2(zero.z, zero.x) * 57.29578f;
+                    float num6 = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * Mathf.Rad2Deg;
+                    float num7 = -Mathf.Atan2(zero.z, zero.x) * Mathf.Rad2Deg;
                     float num8 = -Mathf.DeltaAngle(num6, num7);
                     if (this.useGun)
                     {
@@ -3320,8 +3320,8 @@ namespace Assets.Scripts.Characters.Humans
                 var hitDistance = HookRaycastDistance;
                 var hitPoint = ray.GetPoint(hitDistance);
 
-                cross1.transform.localPosition = Input.mousePosition;
-                cross1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+                var mousePos = Input.mousePosition;
+                cross1.transform.position = mousePos;
                 cross2.transform.localPosition = cross1.transform.localPosition;
 
                 RaycastHit hit;
@@ -3375,9 +3375,8 @@ namespace Assets.Scripts.Characters.Humans
                     hitDistance = hit2.distance;
                 }
 
-                crossL1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
-                crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossL1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f) + 180f);
+                crossL1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+                crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.position.y - mousePos.y, crossL1.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
                 crossL2.transform.localPosition = crossL1.transform.localPosition;
                 crossL2.transform.localRotation = crossL1.transform.localRotation;
                 if (hitDistance > 120f)
@@ -3393,9 +3392,8 @@ namespace Assets.Scripts.Characters.Humans
                     hitDistance = hit2.distance;
                 }
 
-                crossR1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
-                crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-                crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossR1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f);
+                crossR1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+                crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.position.y - mousePos.y, crossR1.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
                 crossR2.transform.localPosition = crossR1.transform.localPosition;
                 crossR2.transform.localRotation = crossR1.transform.localRotation;
                 if (hitDistance > 120f)
