@@ -204,7 +204,7 @@ namespace Assets.Scripts.Characters.Humans
         // Hero 2.0
         public Animation Animation { get; protected set; }
         public Rigidbody Rigidbody { get; protected set; }
-
+        public SmoothSyncMovement SmoothSyncMovement { get; protected set; }
 
         class HookUI
         {
@@ -274,6 +274,7 @@ namespace Assets.Scripts.Characters.Humans
             base.Awake();
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
+            SmoothSyncMovement = GetComponent<SmoothSyncMovement>();
 
             InGameUI = GameObject.Find("InGameUi");
             this.cache();
@@ -331,7 +332,7 @@ namespace Assets.Scripts.Characters.Humans
             PlayerName.GetComponent<TextMesh>().text = FengGameManagerMKII.instance.name;
             if (base.photonView.isMine)
             {
-                base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
+                SmoothSyncMovement.PhotonCamera = true;
                 base.photonView.RPC("SetMyPhotonCamera", PhotonTargets.OthersBuffered,
                     new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });
             }
@@ -499,7 +500,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void TryCrossFade(string animationName, float time)
         {
-            if (!this.Animation.IsPlaying(animationName))
+            if (!Animation.IsPlaying(animationName))
             {
                 this.crossFade(animationName, time);
             }
@@ -507,18 +508,16 @@ namespace Assets.Scripts.Characters.Humans
     
         private void customAnimationSpeed()
         {
-            var animation = GetComponent<Animation>();
-
-            animation["attack5"].speed = 1.85f;
-            animation["changeBlade"].speed = 1.2f;
-            animation["air_release"].speed = 0.6f;
-            animation["changeBlade_air"].speed = 0.8f;
-            animation["AHSS_gun_reload_both"].speed = 0.38f;
-            animation["AHSS_gun_reload_both_air"].speed = 0.5f;
-            animation["AHSS_gun_reload_l"].speed = 0.4f;
-            animation["AHSS_gun_reload_l_air"].speed = 0.5f;
-            animation["AHSS_gun_reload_r"].speed = 0.4f;
-            animation["AHSS_gun_reload_r_air"].speed = 0.5f;
+            Animation["attack5"].speed = 1.85f;
+            Animation["changeBlade"].speed = 1.2f;
+            Animation["air_release"].speed = 0.6f;
+            Animation["changeBlade_air"].speed = 0.8f;
+            Animation["AHSS_gun_reload_both"].speed = 0.38f;
+            Animation["AHSS_gun_reload_both_air"].speed = 0.5f;
+            Animation["AHSS_gun_reload_l"].speed = 0.4f;
+            Animation["AHSS_gun_reload_l_air"].speed = 0.5f;
+            Animation["AHSS_gun_reload_r"].speed = 0.4f;
+            Animation["AHSS_gun_reload_r_air"].speed = 0.5f;
         }
     
         [PunRPC]
@@ -618,7 +617,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void backToHuman()
         {
-            base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
+            SmoothSyncMovement.disabled = false;
             Rigidbody.velocity = Vector3.zero;
             this.titanForm = false;
             this.ungrabbed();
@@ -633,7 +632,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             this.titanForm = false;
             this.eren_titan = null;
-            base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
+            SmoothSyncMovement.disabled = false;
         }
 
         [PunRPC]
@@ -2572,7 +2571,7 @@ namespace Assets.Scripts.Characters.Humans
                 transform.parent = null;
                 transform.GetComponent<AudioSource>().Play();
             }
-            base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+            SmoothSyncMovement.disabled = true;
             if (base.photonView.isMine)
             {
                 PhotonNetwork.RemoveRPCs(base.photonView);
@@ -2684,7 +2683,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             this.falseAttack();
             this.hasDied = true;
-            base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+            SmoothSyncMovement.disabled = true;
             if (base.photonView.isMine)
             {
                 PhotonNetwork.RemoveRPCs(base.photonView);
@@ -2785,7 +2784,7 @@ namespace Assets.Scripts.Characters.Humans
             Transform transform = base.transform.Find("audio_die");
             transform.parent = null;
             transform.GetComponent<AudioSource>().Play();
-            base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+            SmoothSyncMovement.disabled = true;
             if (base.photonView.isMine)
             {
                 PhotonNetwork.RemoveRPCs(base.photonView);
@@ -2954,7 +2953,7 @@ namespace Assets.Scripts.Characters.Humans
             if (info.sender == base.photonView.owner)
             {
                 this.isCannon = false;
-                base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
+                SmoothSyncMovement.disabled = false;
             }
         }
 
@@ -3128,7 +3127,7 @@ namespace Assets.Scripts.Characters.Humans
             if (base.photonView.owner == info.sender)
             {
                 this.CameraMultiplier = offset;
-                base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
+                SmoothSyncMovement.PhotonCamera = true;
                 this.isPhotonCamera = true;
             }
         }
@@ -3605,12 +3604,12 @@ namespace Assets.Scripts.Characters.Humans
             if (this.titanForm && (this.eren_titan != null))
             {
                 this.transform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
-                base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+                SmoothSyncMovement.disabled = true;
             }
             else if (this.isCannon && (this.myCannon != null))
             {
                 this.updateCannon();
-                base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
+                SmoothSyncMovement.disabled = true;
             }
 
             if (!base.photonView.isMine) return;
