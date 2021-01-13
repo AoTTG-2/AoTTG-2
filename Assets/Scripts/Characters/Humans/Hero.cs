@@ -489,7 +489,7 @@ namespace Assets.Scripts.Characters.Humans
         public void crossFade(string aniName, float time)
         {
             this.CurrentAnimation = aniName;
-            base.GetComponent<Animation>().CrossFade(aniName, time);
+            Animation.CrossFade(aniName, time);
             if (PhotonNetwork.connected && base.photonView.isMine)
             {
                 object[] parameters = new object[] { aniName, time };
@@ -507,25 +507,28 @@ namespace Assets.Scripts.Characters.Humans
     
         private void customAnimationSpeed()
         {
-            base.GetComponent<Animation>()["attack5"].speed = 1.85f;
-            base.GetComponent<Animation>()["changeBlade"].speed = 1.2f;
-            base.GetComponent<Animation>()["air_release"].speed = 0.6f;
-            base.GetComponent<Animation>()["changeBlade_air"].speed = 0.8f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_both"].speed = 0.38f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_both_air"].speed = 0.5f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_l"].speed = 0.4f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_l_air"].speed = 0.5f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_r"].speed = 0.4f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_r_air"].speed = 0.5f;
+            var animation = GetComponent<Animation>();
+
+            animation["attack5"].speed = 1.85f;
+            animation["changeBlade"].speed = 1.2f;
+            animation["air_release"].speed = 0.6f;
+            animation["changeBlade_air"].speed = 0.8f;
+            animation["AHSS_gun_reload_both"].speed = 0.38f;
+            animation["AHSS_gun_reload_both_air"].speed = 0.5f;
+            animation["AHSS_gun_reload_l"].speed = 0.4f;
+            animation["AHSS_gun_reload_l_air"].speed = 0.5f;
+            animation["AHSS_gun_reload_r"].speed = 0.4f;
+            animation["AHSS_gun_reload_r_air"].speed = 0.5f;
         }
     
         [PunRPC]
         private void netCrossFade(string aniName, float time)
         {
             this.CurrentAnimation = aniName;
-            if (base.GetComponent<Animation>() != null)
+            
+            if (Animation != null)
             {
-                base.GetComponent<Animation>().CrossFade(aniName, time);
+                Animation.CrossFade(aniName, time);
             }
         }
     
@@ -533,9 +536,10 @@ namespace Assets.Scripts.Characters.Humans
         private void netPlayAnimation(string aniName)
         {
             this.CurrentAnimation = aniName;
-            if (base.GetComponent<Animation>() != null)
+
+            if (Animation != null)
             {
-                base.GetComponent<Animation>().Play(aniName);
+                Animation.Play(aniName);
             }
         }
 
@@ -543,17 +547,17 @@ namespace Assets.Scripts.Characters.Humans
         private void netPlayAnimationAt(string aniName, float normalizedTime)
         {
             this.CurrentAnimation = aniName;
-            if (base.GetComponent<Animation>() != null)
+            if (Animation != null)
             {
-                base.GetComponent<Animation>().Play(aniName);
-                base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
+                Animation.Play(aniName);
+                Animation[aniName].normalizedTime = normalizedTime;
             }
         }
     
         public void playAnimation(string aniName)
         {
             this.CurrentAnimation = aniName;
-            base.GetComponent<Animation>().Play(aniName);
+            Animation.Play(aniName);
             if (PhotonNetwork.connected && base.photonView.isMine)
             {
                 object[] parameters = new object[] { aniName };
@@ -564,8 +568,8 @@ namespace Assets.Scripts.Characters.Humans
         private void playAnimationAt(string aniName, float normalizedTime)
         {
             this.CurrentAnimation = aniName;
-            base.GetComponent<Animation>().Play(aniName);
-            base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
+            Animation.Play(aniName);
+            Animation[aniName].normalizedTime = normalizedTime;
             if (PhotonNetwork.connected && base.photonView.isMine)
             {
                 object[] parameters = new object[] { aniName, normalizedTime };
@@ -615,7 +619,7 @@ namespace Assets.Scripts.Characters.Humans
         public void backToHuman()
         {
             base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
-            base.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            Rigidbody.velocity = Vector3.zero;
             this.titanForm = false;
             this.ungrabbed();
             this.falseAttack();
@@ -644,7 +648,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (base.photonView.isMine)
             {
-                base.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+                Rigidbody.AddForce(force, ForceMode.Impulse);
                 base.transform.LookAt(base.transform.position);
             }
         }
@@ -657,12 +661,12 @@ namespace Assets.Scripts.Characters.Humans
                 this.needLean = false;
                 if ((!this.useGun && (this.state == HERO_STATE.Attack)) && ((this.attackAnimation != "attack3_1") && (this.attackAnimation != "attack3_2")))
                 {
-                    float y = base.GetComponent<Rigidbody>().velocity.y;
-                    float x = base.GetComponent<Rigidbody>().velocity.x;
-                    float num4 = base.GetComponent<Rigidbody>().velocity.z;
+                    float y = Rigidbody.velocity.y;
+                    float x = Rigidbody.velocity.x;
+                    float num4 = Rigidbody.velocity.z;
                     float num5 = Mathf.Sqrt((x * x) + (num4 * num4));
                     float num6 = Mathf.Atan2(y, num5) * Mathf.Rad2Deg;
-                    this.targetRotation = Quaternion.Euler(-num6 * (1f - (Vector3.Angle(base.GetComponent<Rigidbody>().velocity, base.transform.forward) / 90f)), this.facingDirection, 0f);
+                    this.targetRotation = Quaternion.Euler(-num6 * (1f - (Vector3.Angle(Rigidbody.velocity, base.transform.forward) / 90f)), this.facingDirection, 0f);
                     if ((this.isLeftHandHooked && (this.bulletLeft != null)) || (this.isRightHandHooked && (this.bulletRight != null)))
                     {
                         base.transform.rotation = this.targetRotation;
@@ -846,7 +850,7 @@ namespace Assets.Scripts.Characters.Humans
                 if (this.buffTime <= 0f)
                 {
                     this.buffTime = 0f;
-                    if ((this.currentBuff == BUFF.SpeedUp) && base.GetComponent<Animation>().IsPlaying("run_sasha"))
+                    if ((this.currentBuff == BUFF.SpeedUp) && Animation.IsPlaying("run_sasha"))
                     {
                         this.crossFade("run_1", 0.1f);
                     }
@@ -1100,15 +1104,15 @@ namespace Assets.Scripts.Characters.Humans
                 this.dashV = this.getGlobaleFacingVector3(this.facingDirection);
                 this.originVM = this.currentSpeed;
                 Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
-                base.GetComponent<Rigidbody>().rotation = quaternion;
+                Rigidbody.rotation = quaternion;
                 this.targetRotation = quaternion;
                 PhotonNetwork.Instantiate("FX/boost_smoke", base.transform.position, base.transform.rotation, 0);
                 this.dashTime = 0.5f;
                 this.crossFade("dash", 0.1f);
-                base.GetComponent<Animation>()["dash"].time = 0.1f;
+                Animation["dash"].time = 0.1f;
                 this.state = HERO_STATE.AirDodge;
                 this.falseAttack();
-                base.GetComponent<Rigidbody>().AddForce((Vector3) (this.dashV * 40f), ForceMode.VelocityChange);
+                Rigidbody.AddForce((Vector3) (this.dashV * 40f), ForceMode.VelocityChange);
             }
         }
 
@@ -1219,8 +1223,8 @@ namespace Assets.Scripts.Characters.Humans
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.eren_titan, true, false);
             this.eren_titan.GetComponent<ErenTitan>().born();
-            this.eren_titan.GetComponent<Rigidbody>().velocity = base.GetComponent<Rigidbody>().velocity;
-            base.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            this.eren_titan.GetComponent<Rigidbody>().velocity = Rigidbody.velocity;
+            Rigidbody.velocity = Vector3.zero;
             base.transform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
             this.titanForm = true;
             object[] parameters = new object[] { this.eren_titan.GetPhotonView().viewID };
@@ -1976,10 +1980,10 @@ namespace Assets.Scripts.Characters.Humans
             float num2 = Vector3.Distance(p, base.transform.position);
             float a = Mathf.Acos(num / num2) * Mathf.Rad2Deg;
             a *= 0.1f;
-            a *= 1f + Mathf.Pow(base.GetComponent<Rigidbody>().velocity.magnitude, 0.2f);
+            a *= 1f + Mathf.Pow(Rigidbody.velocity.magnitude, 0.2f);
             Vector3 vector3 = p - base.transform.position;
             float current = Mathf.Atan2(vector3.x, vector3.z) * Mathf.Rad2Deg;
-            float target = Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.x, base.GetComponent<Rigidbody>().velocity.z) * Mathf.Rad2Deg;
+            float target = Mathf.Atan2(Rigidbody.velocity.x, Rigidbody.velocity.z) * Mathf.Rad2Deg;
             float num6 = Mathf.DeltaAngle(current, target);
             a += Mathf.Abs((float) (num6 * 0.5f));
             if (this.state != HERO_STATE.Attack)
@@ -2013,7 +2017,7 @@ namespace Assets.Scripts.Characters.Humans
         private void getOffHorse()
         {
             this.playAnimation("horse_getoff");
-            base.GetComponent<Rigidbody>().AddForce((Vector3) (((Vector3.up * 10f) - (base.transform.forward * 2f)) - (base.transform.right * 1f)), ForceMode.VelocityChange);
+            Rigidbody.AddForce((Vector3) (((Vector3.up * 10f) - (base.transform.forward * 2f)) - (base.transform.right * 1f)), ForceMode.VelocityChange);
             this.unmounted();
         }
 
@@ -2110,9 +2114,9 @@ namespace Assets.Scripts.Characters.Humans
             float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
             if (this.grounded)
             {
-                base.GetComponent<Rigidbody>().AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
+                Rigidbody.AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
             }
-            base.GetComponent<Rigidbody>().AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
+            Rigidbody.AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
         }
 
         private void idle()
@@ -2309,7 +2313,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 vector = (Vector3) (vector * 0.8f);
             }
-            if (!base.GetComponent<Animation>().IsPlaying("attack5") && !base.GetComponent<Animation>().IsPlaying("special_petra"))
+            if (!Animation.IsPlaying("attack5") && !Animation.IsPlaying("special_petra"))
             {
                 leviMode = false;
             }
@@ -2336,7 +2340,7 @@ namespace Assets.Scripts.Characters.Humans
                 else
                 {
                     this.crossFade("dash", 0.1f);
-                    base.GetComponent<Animation>()["dash"].time = 0f;
+                    Animation["dash"].time = 0f;
                 }
             }
             if (left)
@@ -2358,12 +2362,12 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     this.launchForce += (Vector3) ((Vector3.up * (des.y - base.transform.position.y)) * 10f);
                 }
-                base.GetComponent<Rigidbody>().AddForce(this.launchForce);
+                Rigidbody.AddForce(this.launchForce);
             }
             this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
             Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
             base.transform.rotation = quaternion;
-            base.GetComponent<Rigidbody>().rotation = quaternion;
+            Rigidbody.rotation = quaternion;
             this.targetRotation = quaternion;
             if (left)
             {
@@ -2377,7 +2381,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 this.launchElapsedTimeR = -100f;
             }
-            if (base.GetComponent<Animation>().IsPlaying("special_petra"))
+            if (Animation.IsPlaying("special_petra"))
             {
                 this.launchElapsedTimeR = -100f;
                 this.launchElapsedTimeL = -100f;
@@ -2410,11 +2414,11 @@ namespace Assets.Scripts.Characters.Humans
                 vector.Normalize();
                 if (mode == 1)
                 {
-                    component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, true);
+                    component.launch((Vector3) (vector * 3f), Rigidbody.velocity, str, true, base.gameObject, true);
                 }
                 else
                 {
-                    component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, true, base.gameObject, false);
+                    component.launch((Vector3) (vector * 3f), Rigidbody.velocity, str, true, base.gameObject, false);
                 }
                 this.launchPointLeft = Vector3.zero;
             }
@@ -2435,11 +2439,11 @@ namespace Assets.Scripts.Characters.Humans
                 vector.Normalize();
                 if (mode == 1)
                 {
-                    component.launch((Vector3) (vector * 5f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, true);
+                    component.launch((Vector3) (vector * 5f), Rigidbody.velocity, str, false, base.gameObject, true);
                 }
                 else
                 {
-                    component.launch((Vector3) (vector * 3f), base.GetComponent<Rigidbody>().velocity, str, false, base.gameObject, false);
+                    component.launch((Vector3) (vector * 3f), Rigidbody.velocity, str, false, base.gameObject, false);
                 }
                 this.launchPointRight = Vector3.zero;
             }
@@ -2923,7 +2927,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void resetAnimationSpeed()
         {
-            IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
+            IEnumerator enumerator = Animation.GetEnumerator();
             try
             {
                 while (enumerator.MoveNext())
@@ -2973,24 +2977,24 @@ namespace Assets.Scripts.Characters.Humans
             if (Vector3.Distance(hookPosition, base.transform.position) < 15f)
             {
                 this.launchForce = PhotonView.Find(hooker).transform.position - base.transform.position;
-                base.GetComponent<Rigidbody>().AddForce((Vector3) (-base.GetComponent<Rigidbody>().velocity * 0.9f), ForceMode.VelocityChange);
+                Rigidbody.AddForce((Vector3) (-Rigidbody.velocity * 0.9f), ForceMode.VelocityChange);
                 float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
                 if (this.grounded)
                 {
-                    base.GetComponent<Rigidbody>().AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
+                    Rigidbody.AddForce((Vector3) (Vector3.up * Mathf.Min((float) (this.launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
                 }
-                base.GetComponent<Rigidbody>().AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
+                Rigidbody.AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
                 if (this.state != HERO_STATE.Grab)
                 {
                     this.dashTime = 1f;
                     this.crossFade("dash", 0.05f);
-                    base.GetComponent<Animation>()["dash"].time = 0.1f;
+                    Animation["dash"].time = 0.1f;
                     this.state = HERO_STATE.AirDodge;
                     this.falseAttack();
                     this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
                     Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
                     base.transform.rotation = quaternion;
-                    base.GetComponent<Rigidbody>().rotation = quaternion;
+                    Rigidbody.rotation = quaternion;
                     this.targetRotation = quaternion;
                 }
             }
@@ -3022,7 +3026,7 @@ namespace Assets.Scripts.Characters.Humans
                         this.facingDirection = Mathf.Atan2(vector2.x, vector2.z) * Mathf.Rad2Deg;
                         if (this.useGun && (this.state != HERO_STATE.Attack))
                         {
-                            float current = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * Mathf.Rad2Deg;
+                            float current = -Mathf.Atan2(Rigidbody.velocity.z, Rigidbody.velocity.x) * Mathf.Rad2Deg;
                             float target = -Mathf.Atan2(vector2.z, vector2.x) * Mathf.Rad2Deg;
                             float num3 = -Mathf.DeltaAngle(current, target);
                             this.facingDirection += num3;
@@ -3075,7 +3079,7 @@ namespace Assets.Scripts.Characters.Humans
                 this.facingDirection = Mathf.Atan2(zero.x, zero.z) * Mathf.Rad2Deg;
                 if (this.state != HERO_STATE.Attack)
                 {
-                    float num6 = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * Mathf.Rad2Deg;
+                    float num6 = -Mathf.Atan2(Rigidbody.velocity.z, Rigidbody.velocity.x) * Mathf.Rad2Deg;
                     float num7 = -Mathf.Atan2(zero.z, zero.x) * Mathf.Rad2Deg;
                     float num8 = -Mathf.DeltaAngle(num6, num7);
                     if (this.useGun)
@@ -3513,7 +3517,7 @@ namespace Assets.Scripts.Characters.Humans
                     base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
                 }
                 this.smoke_3dmg.enableEmission = false;
-                base.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                Rigidbody.velocity = Vector3.zero;
                 string[] strArray = settings.Split(new char[] { ',' });
                 if (strArray.Length > 15)
                 {
@@ -3561,7 +3565,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void suicide2()
         {
-            this.netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+            this.netDieLocal((Vector3) (Rigidbody.velocity * 50f), false, -1, string.Empty, true);
             FengGameManagerMKII.instance.needChooseSide = true;
         }
 
@@ -3771,7 +3775,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         this.getOffHorse();
                     }
-                    if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (GameSettings.PvP.AhssAirReload.Value)) || this.grounded))
+                    if (((Animation.IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (GameSettings.PvP.AhssAirReload.Value)) || this.grounded))
                     {
                         this.changeBlade();
                         return;
