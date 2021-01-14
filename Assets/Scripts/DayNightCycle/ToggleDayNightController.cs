@@ -60,12 +60,7 @@ namespace Assets.Scripts.DayNightCycle
                 }
             }
         }
-            // Update is called once per frame
-            void Update()
-        {
-            
-
-        }
+          
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();

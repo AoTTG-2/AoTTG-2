@@ -86,6 +86,12 @@ namespace Assets.Scripts.DayNightCycle
             UpdateLight(); // Initial lighting update. Without this, the lighting will look as if it's lagging when the scene just loaded
         }
 
+
+        public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+        {
+            Service.Settings.SyncSettings();
+        }
+
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
             currentTime = (float) GameSettings.Time.currentTime;

@@ -126,6 +126,10 @@ namespace Assets.Scripts.Settings
             SettingsService.SyncSettings();
         }
 
+        /// <summary>
+        /// Update the Time Settings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
         public void Update(TimeSettings settings)
         {
             Time = ConfigTime = settings;
