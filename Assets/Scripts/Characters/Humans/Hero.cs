@@ -1217,10 +1217,12 @@ namespace Assets.Scripts.Characters.Humans
                 bulletRight.GetComponent<Bullet>().removeMe();
             }
             eren_titan = PhotonNetwork.Instantiate("ErenTitan", transform.position, transform.rotation, 0);
-            eren_titan.GetComponent<ErenTitan>().realBody = gameObject;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(eren_titan, true, false);
-            eren_titan.GetComponent<ErenTitan>().born();
+            var erenTitanFrom = eren_titan.GetComponent<ErenTitan>();
+            erenTitanFrom.realBody = gameObject;
+            var inGameCamera = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
+            inGameCamera.flashBlind();
+            inGameCamera.setMainObject(eren_titan, true, false);
+            erenTitanFrom.born();
             eren_titan.GetComponent<Rigidbody>().velocity = Rigidbody.velocity;
             Rigidbody.velocity = Vector3.zero;
             transform.position = eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
