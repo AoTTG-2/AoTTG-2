@@ -2104,9 +2104,10 @@ namespace Assets.Scripts.Characters.Humans
             ReleaseIfIHookSb();
             hookTarget = target;
             hookSomeOne = true;
-            if (target.GetComponent<Hero>() != null)
+            Hero hero = target.GetComponent<Hero>();
+            if (hero != null)
             {
-                target.GetComponent<Hero>().HookedByHuman(photonView.viewID, hookPosition);
+                hero.HookedByHuman(photonView.viewID, hookPosition);
             }
             launchForce = hookPosition - transform.position;
             float num = Mathf.Pow(launchForce.magnitude, 0.1f);
@@ -2239,15 +2240,17 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 if ((state == HERO_STATE.Grab) && (titanWhoGrabMe != null))
                 {
-                    if (titanWhoGrabMe.GetComponent<MindlessTitan>() != null)
+                    var titan = titanWhoGrabMe.GetComponent<MindlessTitan>();
+                    var femaleTitan = titanWhoGrabMe.GetComponent<FemaleTitan>();
+                    if (titan != null)
                     {
-                        transform.position = titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.position;
-                        transform.rotation = titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.rotation;
+                        transform.position = titan.grabTF.transform.position;
+                        transform.rotation = titan.grabTF.transform.rotation;
                     }
-                    else if (titanWhoGrabMe.GetComponent<FemaleTitan>() != null)
+                    else if (femaleTitan != null)
                     {
-                        transform.position = titanWhoGrabMe.GetComponent<FemaleTitan>().grabTF.transform.position;
-                        transform.rotation = titanWhoGrabMe.GetComponent<FemaleTitan>().grabTF.transform.rotation;
+                        transform.position = femaleTitan.grabTF.transform.position;
+                        transform.rotation = femaleTitan.grabTF.transform.rotation;
                     }
                 }
                 if (useGun)
@@ -2307,7 +2310,11 @@ namespace Assets.Scripts.Characters.Humans
             }
             vector.Normalize();
             vector = (Vector3) (vector * 20f);
-            if (((bulletLeft != null) && (bulletRight != null)) && (bulletLeft.GetComponent<Bullet>().isHooked() && bulletRight.GetComponent<Bullet>().isHooked()))
+
+            var bulletL = bulletLeft.GetComponent<Bullet>();
+            var bulletR = bulletRight.GetComponent<Bullet>();
+
+            if (((bulletLeft != null) && (bulletRight != null)) && (bulletL.isHooked() && bulletR.isHooked()))
             {
                 vector = (Vector3) (vector * 0.8f);
             }
@@ -2383,14 +2390,14 @@ namespace Assets.Scripts.Characters.Humans
             {
                 launchElapsedTimeR = -100f;
                 launchElapsedTimeL = -100f;
-                if (bulletRight != null)
+                if (bulletR != null)
                 {
-                    bulletRight.GetComponent<Bullet>().disable();
+                    bulletR.disable();
                     ReleaseIfIHookSb();
                 }
-                if (bulletLeft != null)
+                if (bulletL != null)
                 {
-                    bulletLeft.GetComponent<Bullet>().disable();
+                    bulletL.disable();
                     ReleaseIfIHookSb();
                 }
             }
@@ -2559,8 +2566,9 @@ namespace Assets.Scripts.Characters.Humans
             BreakApart2(v, isBite);
             if (photonView.isMine)
             {
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                var inGameCam = currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>();
+                inGameCam.setSpectorMode(false);
+                inGameCam.gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
@@ -2675,9 +2683,10 @@ namespace Assets.Scripts.Characters.Humans
             audioTransform.GetComponent<AudioSource>().Play();
             if (photonView.isMine)
             {
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                var inGameCam = currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>();
+                inGameCam.setMainObject(null, true, false);
+                inGameCam.setSpectorMode(true);
+                inGameCam.gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             FalseAttack();
@@ -2775,8 +2784,9 @@ namespace Assets.Scripts.Characters.Humans
             BreakApart2(v, isBite);
             if (photonView.isMine)
             {
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                var inGameCam = currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>();
+                inGameCam.setSpectorMode(false);
+                inGameCam.gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
@@ -3654,13 +3664,14 @@ namespace Assets.Scripts.Characters.Humans
                         else
                         {
                             skillCDDuration = skillCDLast;
-                            if ((skillId == "eren") && (titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
+                            var titan = titanWhoGrabMe.GetComponent<MindlessTitan>();
+                            if ((skillId == "eren") && (titan != null))
                             {
                                 Ungrabbed();
                                 photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
                                 if (PhotonNetwork.isMasterClient)
                                 {
-                                    titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
+                                    titan.GrabEscapeRpc();
                                 }
                                 else
                                 {
@@ -4079,6 +4090,8 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         break;
                     case HERO_STATE.Attack:
+                        var checkLeftCollider = checkBoxLeft.GetComponent<TriggerColliderWeapon>();
+                        var checkRightCollider = checkBoxRight.GetComponent<TriggerColliderWeapon>();
                         if (!useGun)
                         {
                             if (!InputManager.Key(InputHuman.Attack))
@@ -4103,9 +4116,9 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 if (Animation[attackAnimation].normalizedTime >= 0.8f)
                                 {
-                                    if (!checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                                    if (!checkLeftCollider.IsActive)
                                     {
-                                        checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                        checkLeftCollider.IsActive = true;
                                         if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                         {
                                             /*
@@ -4117,18 +4130,18 @@ namespace Assets.Scripts.Characters.Humans
                                         }
                                         Rigidbody.velocity = (Vector3) (-Vector3.up * 30f);
                                     }
-                                    if (!checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive)
+                                    if (!checkRightCollider.IsActive)
                                     {
-                                        checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                        checkRightCollider.IsActive = true;
                                         slash.Play();
                                     }
                                 }
-                                else if (checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                                else if (checkLeftCollider.IsActive)
                                 {
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
+                                    checkLeftCollider.IsActive = false;
+                                    checkRightCollider.IsActive = false;
+                                    checkLeftCollider.ClearHits();
+                                    checkRightCollider.ClearHits();
                                     /*
                                             leftbladetrail.StopSmoothly(0.1f);
                                             rightbladetrail.StopSmoothly(0.1f);
@@ -4146,41 +4159,41 @@ namespace Assets.Scripts.Characters.Humans
                                     num = -1f;
                                     num2 = -1f;
                                 }
-                                else if (attackAnimation == "attack5")
-                                {
-                                    num2 = 0.35f;
-                                    num = 0.5f;
-                                }
-                                else if (attackAnimation == "special_petra")
-                                {
-                                    num2 = 0.35f;
-                                    num = 0.48f;
-                                }
-                                else if (attackAnimation == "special_armin")
-                                {
-                                    num2 = 0.25f;
-                                    num = 0.35f;
-                                }
-                                else if (attackAnimation == "attack4")
-                                {
-                                    num2 = 0.6f;
-                                    num = 0.9f;
-                                }
-                                else if (attackAnimation == "special_sasha")
-                                {
-                                    num = -1f;
-                                    num2 = -1f;
-                                }
                                 else
                                 {
-                                    num2 = 0.5f;
-                                    num = 0.85f;
+                                    switch (attackAnimation)
+                                    {
+                                        case "attack5":
+                                            num2 = 0.35f;
+                                            num = 0.5f;
+                                            break;
+                                        case "special_petra":
+                                            num2 = 0.35f;
+                                            num = 0.48f;
+                                            break;
+                                        case "special_armin":
+                                            num2 = 0.25f;
+                                            num = 0.35f;
+                                            break;
+                                        case "attack4":
+                                            num2 = 0.6f;
+                                            num = 0.9f;
+                                            break;
+                                        case "special_sasha":
+                                            num = -1f;
+                                            num2 = -1f;
+                                            break;
+                                        default:
+                                            num2 = 0.5f;
+                                            num = 0.85f;
+                                            break;
+                                    }
                                 }
                                 if ((Animation[attackAnimation].normalizedTime > num2) && (Animation[attackAnimation].normalizedTime < num))
                                 {
-                                    if (!checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                                    if (!checkLeftCollider.IsActive)
                                     {
-                                        checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                        checkLeftCollider.IsActive = true;
                                         slash.Play();
                                         if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                         {
@@ -4190,17 +4203,17 @@ namespace Assets.Scripts.Characters.Humans
                                             //rightbladetrail.Activate();
                                         }
                                     }
-                                    if (!checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive)
+                                    if (!checkRightCollider.IsActive)
                                     {
-                                        checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                        checkRightCollider.IsActive = true;
                                     }
                                 }
-                                else if (checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                                else if (checkLeftCollider.IsActive)
                                 {
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
+                                    checkLeftCollider.IsActive = false;
+                                    checkRightCollider.IsActive = false;
+                                    checkLeftCollider.ClearHits();
+                                    checkRightCollider.ClearHits();
                                     //leftbladetrail2.StopSmoothly(0.1f);
                                     //rightbladetrail2.StopSmoothly(0.1f);
                                     //leftbladetrail.StopSmoothly(0.1f);
@@ -4214,42 +4227,43 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             if (Animation[attackAnimation].normalizedTime >= 1f)
                             {
-                                if ((attackAnimation == "special_marco_0") || (attackAnimation == "special_marco_1"))
+                                switch (attackAnimation)
                                 {
-                                    if (!PhotonNetwork.isMasterClient)
-                                    {
-                                        object[] parameters = new object[] { 5f, 100f };
-                                        photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
-                                    }
-                                    else
-                                    {
-                                        NetTauntAttack(5f, 100f);
-                                    }
-                                    FalseAttack();
-                                    Idle();
+                                    case "special_marco_0":
+                                    case "special_marco_1":
+                                        if (!PhotonNetwork.isMasterClient)
+                                        {
+                                            object[] parameters = new object[] { 5f, 100f };
+                                            photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
+                                        }
+                                        else
+                                        {
+                                            NetTauntAttack(5f, 100f);
+                                        }
+                                        FalseAttack();
+                                        Idle();
+                                        break;
+                                    case "special_armin":
+                                        if (!PhotonNetwork.isMasterClient)
+                                        {
+                                            photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
+                                        }
+                                        else
+                                        {
+                                            NetlaughAttack();
+                                        }
+                                        FalseAttack();
+                                        Idle();
+                                        break;
+                                    case "attack3_1":
+                                        Rigidbody.velocity -= (Vector3) ((Vector3.up * Time.deltaTime) * 30f);
+                                        break;
+                                    default:
+                                        FalseAttack();
+                                        Idle();
+                                        break;
                                 }
-                                else if (attackAnimation == "special_armin")
-                                {
-                                    if (!PhotonNetwork.isMasterClient)
-                                    {
-                                        photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
-                                    }
-                                    else
-                                    {
-                                        NetlaughAttack();
-                                    }
-                                    FalseAttack();
-                                    Idle();
-                                }
-                                else if (attackAnimation == "attack3_1")
-                                {
-                                    Rigidbody.velocity -= (Vector3) ((Vector3.up * Time.deltaTime) * 30f);
-                                }
-                                else
-                                {
-                                    FalseAttack();
-                                    Idle();
-                                }
+
                             }
                             if (Animation.IsPlaying("attack3_2") && (Animation["attack3_2"].normalizedTime >= 1f))
                             {
@@ -4259,8 +4273,8 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         else
                         {
-                            checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                            checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
+                            checkLeftCollider.IsActive = false;
+                            checkRightCollider.IsActive = false;
                             transform.rotation = Quaternion.Lerp(transform.rotation, gunDummy.transform.rotation, Time.deltaTime * 30f);
                             if (!attackReleased && (Animation[attackAnimation].normalizedTime > 0.167f))
                             {
@@ -4272,8 +4286,8 @@ namespace Assets.Scripts.Characters.Humans
                                     //Should use AHSSShotgunCollider instead of TriggerColliderWeapon.  
                                     //Apply that change when abstracting weapons from this class.
                                     //Note, when doing the abstraction, the relationship between the weapon collider and the abstracted weapon class should be carefully considered.
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                    checkLeftCollider.IsActive = true;
+                                    checkRightCollider.IsActive = true;
                                     flag7 = true;
                                     leftGunHasBullet = false;
                                     rightGunHasBullet = false;
@@ -4283,12 +4297,12 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     if ((attackAnimation == "AHSS_shoot_l") || (attackAnimation == "AHSS_shoot_l_air"))
                                     {
-                                        checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                        checkLeftCollider.IsActive = true;
                                         leftGunHasBullet = false;
                                     }
                                     else
                                     {
-                                        checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                        checkRightCollider.IsActive = true;
                                         rightGunHasBullet = false;
                                     }
                                     Rigidbody.AddForce((Vector3) (-transform.forward * 600f), ForceMode.Acceleration);
@@ -4316,15 +4330,15 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 FalseAttack();
                                 Idle();
-                                checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
+                                checkLeftCollider.IsActive = false;
+                                checkRightCollider.IsActive = false;
                             }
                             if (!Animation.IsPlaying(attackAnimation))
                             {
                                 FalseAttack();
                                 Idle();
-                                checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
+                                checkLeftCollider.IsActive = false;
+                                checkRightCollider.IsActive = false;
                             }
                         }
                         break;
