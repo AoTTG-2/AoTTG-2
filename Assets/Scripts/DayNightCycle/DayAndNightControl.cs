@@ -2,7 +2,8 @@
 using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
+using System.Collections;
 namespace Assets.Scripts.DayNightCycle
 {
     public class DayAndNightControl : MonoBehaviour
@@ -38,11 +39,12 @@ namespace Assets.Scripts.DayNightCycle
         // Use this for initialization
         void Start()
         {
+
             pause=true;
             RenderSettings.skybox = skyBoxPROCEDURAL;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GetComponentInChildren<Camera>();
-            MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+            //MainCamera =
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
             {
                 if (c.isActiveAndEnabled)
@@ -82,7 +84,7 @@ namespace Assets.Scripts.DayNightCycle
             }
            
 
-            targetCam = GameObject.Find("MainCamera").GetComponent<Camera>();
+            //targetCam = GameObject.Find("MainCamera").GetComponent<Camera>();
             UpdateLight(); // Initial lighting update. Without this, the lighting will look as if it's lagging when the scene just loaded
         }
 
@@ -90,8 +92,15 @@ namespace Assets.Scripts.DayNightCycle
         public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
         {
             Service.Settings.SyncSettings();
+            //syncs settings after waiting a few seconds(
+            StartCoroutine(ExecuteAfterTime(5));
         }
+        IEnumerator ExecuteAfterTime(float time)
+        {
+            yield return new WaitForSeconds(time);
 
+            Service.Settings.SyncSettings();
+        }
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
             currentTime = (float) GameSettings.Time.currentTime;
@@ -109,16 +118,27 @@ namespace Assets.Scripts.DayNightCycle
         // Update is called once per frame
         void Update()
         {
-            if (GameObject.Find("LightSet"))
+           
+
+            if (MainCamera == null)
             {
-                GameObject.Find("LightSet").SetActive(false);
+                try
+                {
+                    MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+                }
+                catch (NullReferenceException e)
+                {
+                    //notsurewhycamera doesnt get found after first find}
+                }
             }
-            //updates timeslider when out of menu
-            
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
             //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
-            MoonCamera.fieldOfView = MainCamera.fieldOfView;
-            MoonCamera.transform.rotation = GameObject.Find("MainCamera").transform.rotation;
+            if (MainCamera != null)
+            {
+                MoonCamera.fieldOfView = MainCamera.fieldOfView;
+                MoonCamera.transform.rotation = MainCamera.transform.rotation;
+            }
+            
             if (!pause)
             {
                 UpdateLight();

@@ -39,7 +39,6 @@ namespace Assets.Scripts.DayNightCycle
                 dayNightCycle.currentTime = TimeSlider.value * 24;
                 GameSettings.Time.currentTime = dayNightCycle.currentTime;
                 Service.Settings.SyncSettings();
-                Debug.Log("System Synching via slider");
             }
         }
 

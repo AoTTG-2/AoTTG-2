@@ -42,25 +42,12 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (PhotonNetwork.isMasterClient)
             {
-
-                if (ToggleDayNight.isOn)
-                {
-
-                    dayNightCycle.pause = false;
-                    GameSettings.Time.pause = false;
-                    Service.Settings.SyncSettings();
-                    Debug.Log("toggle synching");
-                }
-                else
-                {
-                    dayNightCycle.pause = true;
-                    GameSettings.Time.pause = true;
-                    Service.Settings.SyncSettings();
-                    Debug.Log("toggle synching");
-                }
+                dayNightCycle.pause = !change.isOn;
+                GameSettings.Time.pause = !change.isOn;
+                Service.Settings.SyncSettings();
             }
+
         }
-          
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
