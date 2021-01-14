@@ -185,18 +185,18 @@ namespace Assets.Scripts.Characters.Humans
         public Vector3 targetV;
         public bool throwedBlades;
         public bool titanForm;
-        private GameObject titanWhoGrabMe { get; set; }
-        private int titanWhoGrabMeID { get; set; }
-        private int totalBladeNum { get; set; } = 5;
+        private GameObject TitanWhoGrabMe { get; set; }
+        private int TitanWhoGrabMeID { get; set; }
+        private int TotalBladeNum { get; set; } = 5;
         public float totalBladeSta = 100f;
         public float totalGas = 100f;
-        private Transform upperarmL { get; set; }
-        private Transform upperarmR { get; set; }
-        private float useGasSpeed { get; set; } = 0.2f;
+        private Transform UpperarmL { get; set; }
+        private Transform UpperarmR { get; set; }
+        private float UseGasSpeed { get; set; } = 0.2f;
         public bool useGun;
-        private float uTapTime { get; set; } = -1f;
-        private bool wallJump { get; set; }
-        private float wallRunTime { get; set; }
+        private float UTapTime { get; set; } = -1f;
+        private bool WallJump { get; set; }
+        private float WallRunTime { get; set; }
         #endregion
 
 
@@ -286,8 +286,8 @@ namespace Assets.Scripts.Characters.Humans
             handR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R");
             forearmL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L");
             forearmR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R");
-            upperarmL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
-            upperarmR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
+            UpperarmL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
+            UpperarmR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
             Equipment = gameObject.AddComponent<Equipment.Equipment>();
             Faction = Service.Faction.GetHumanity();
             Service.Entity.Register(this);
@@ -338,12 +338,9 @@ namespace Assets.Scripts.Characters.Humans
             {
                 SmoothSyncMovement.PhotonCamera = true;
                 photonView.RPC(nameof(SetMyPhotonCamera), PhotonTargets.OthersBuffered,
-                    new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });;
+                    new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });
             }
-            else
-            {
-                bool flag2 = false;
-            }
+            
 
             //string str = RCextensions.returnStringFromObject(photonView.owner.CustomProperties[PhotonPlayerProperty.guildName]);
             //if (str != string.Empty)
@@ -363,7 +360,7 @@ namespace Assets.Scripts.Characters.Humans
                 gameObject.layer = LayerMask.NameToLayer("NetworkObject");
                 if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
                 {
-                    GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
+                    GameObject obj3 = (GameObject) Instantiate(Resources.Load("flashlight"));
                     obj3.transform.parent = transform;
                     obj3.transform.position = transform.position + Vector3.up;
                     obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
@@ -921,12 +918,12 @@ namespace Assets.Scripts.Characters.Humans
 
         private void CheckDashDoubleTap()
         {
-            if (uTapTime >= 0f)
+            if (UTapTime >= 0f)
             {
-                uTapTime += Time.deltaTime;
-                if (uTapTime > 0.2f)
+                UTapTime += Time.deltaTime;
+                if (UTapTime > 0.2f)
                 {
-                    uTapTime = -1f;
+                    UTapTime = -1f;
                 }
             }
             if (dTapTime >= 0f)
@@ -955,11 +952,11 @@ namespace Assets.Scripts.Characters.Humans
             }
             if (InputManager.KeyDown(InputHuman.Forward))
             {
-                if (uTapTime == -1f)
+                if (UTapTime == -1f)
                 {
-                    uTapTime = 0f;
+                    UTapTime = 0f;
                 }
-                if (uTapTime != 0f)
+                if (UTapTime != 0f)
                 {
                     dashU = true;
                 }
@@ -1251,10 +1248,12 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (photonView.isMine)
                 {
-                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
-                    checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
+                    var clc = checkBoxLeft.GetComponent<TriggerColliderWeapon>();
+                    var crc = checkBoxRight.GetComponent<TriggerColliderWeapon>();
+                    clc.IsActive = false;
+                    crc.IsActive = false;
+                    clc.ClearHits();
+                    crc.ClearHits();
                     //leftbladetrail.StopSmoothly(0.2f);
                     //rightbladetrail.StopSmoothly(0.2f);
                     //leftbladetrail2.StopSmoothly(0.2f);
@@ -1429,7 +1428,7 @@ namespace Assets.Scripts.Characters.Humans
                         launchElapsedTimeL += Time.deltaTime;
                         if (QHold && (currentGas > 0f))
                         {
-                            UseGas(useGasSpeed * Time.deltaTime);
+                            UseGas(UseGasSpeed * Time.deltaTime);
                         }
                         else if (launchElapsedTimeL > 0.3f)
                         {
@@ -1472,7 +1471,7 @@ namespace Assets.Scripts.Characters.Humans
                         launchElapsedTimeR += Time.deltaTime;
                         if (EHold && (currentGas > 0f))
                         {
-                            UseGas(useGasSpeed * Time.deltaTime);
+                            UseGas(UseGasSpeed * Time.deltaTime);
                         }
                         else if (launchElapsedTimeR > 0.3f)
                         {
@@ -1728,9 +1727,9 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else
                             {
-                                if (!wallJump)
+                                if (!WallJump)
                                 {
-                                    wallJump = true;
+                                    WallJump = true;
                                     Rigidbody.AddForce((Vector3) (Vector3.up * 8f), ForceMode.Impulse);
                                 }
                                 Rigidbody.AddForce((Vector3) (transform.forward * 0.05f), ForceMode.Impulse);
@@ -1749,20 +1748,20 @@ namespace Assets.Scripts.Characters.Humans
                                    Animation.IsPlaying("dodge")))
                         {
                             CrossFade("wallrun", 0.1f);
-                            wallRunTime = 0f;
+                            WallRunTime = 0f;
                         }
                         else if (Animation.IsPlaying("wallrun"))
                         {
                             Rigidbody.AddForce(((Vector3) (Vector3.up * speed)) - Rigidbody.velocity, ForceMode.VelocityChange);
-                            wallRunTime += Time.deltaTime;
-                            if ((wallRunTime > 1f) || ((z == 0f) && (x == 0f)))
+                            WallRunTime += Time.deltaTime;
+                            if ((WallRunTime > 1f) || ((z == 0f) && (x == 0f)))
                             {
                                 Rigidbody.AddForce((Vector3) ((-transform.forward * speed) * 0.75f), ForceMode.Impulse);
                                 Dodge2(true);
                             }
                             else if (!IsUpFrontGrounded())
                             {
-                                wallJump = false;
+                                WallJump = false;
                                 CrossFade("toRoof", 0.1f);
                             }
                             else if (!IsFrontGrounded())
@@ -1917,7 +1916,7 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     if (flag2)
                     {
-                        UseGas(useGasSpeed * Time.deltaTime);
+                        UseGas(UseGasSpeed * Time.deltaTime);
                         if (!smoke_3dmgEmission.enabled && photonView.isMine)
                         {
                             object[] parameters = new object[] { true };
@@ -2049,7 +2048,7 @@ namespace Assets.Scripts.Characters.Humans
             state = HERO_STATE.Grab;
             GetComponent<CapsuleCollider>().isTrigger = true;
             FalseAttack();
-            titanWhoGrabMe = titan;
+            TitanWhoGrabMe = titan;
             if (titanForm && (eren_titan != null))
             {
                 eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
@@ -2240,10 +2239,10 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     maincamera.transform.rotation = Quaternion.Lerp(maincamera.transform.rotation, quaternion2, Time.deltaTime * 2f);
                 }
-                if ((state == HERO_STATE.Grab) && (titanWhoGrabMe != null))
+                if ((state == HERO_STATE.Grab) && (TitanWhoGrabMe != null))
                 {
-                    var titan = titanWhoGrabMe.GetComponent<MindlessTitan>();
-                    var femaleTitan = titanWhoGrabMe.GetComponent<FemaleTitan>();
+                    var titan = TitanWhoGrabMe.GetComponent<MindlessTitan>();
+                    var femaleTitan = TitanWhoGrabMe.GetComponent<FemaleTitan>();
                     if (titan != null)
                     {
                         transform.position = titan.grabTF.transform.position;
@@ -2458,13 +2457,13 @@ namespace Assets.Scripts.Characters.Humans
 
         private void LeftArmAimTo(Vector3 target)
         {
-            float y = target.x - upperarmL.transform.position.x;
-            float num2 = target.y - upperarmL.transform.position.y;
-            float x = target.z - upperarmL.transform.position.z;
+            float y = target.x - UpperarmL.transform.position.x;
+            float num2 = target.y - UpperarmL.transform.position.y;
+            float x = target.z - UpperarmL.transform.position.z;
             float num4 = Mathf.Sqrt((y * y) + (x * x));
             handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
             forearmL.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-            upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), -Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
+            UpperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), -Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
         }
 
         public void MarkDie()
@@ -2838,7 +2837,7 @@ namespace Assets.Scripts.Characters.Humans
         [PunRPC]
         private void NetGrabbed(int id, bool leftHand)
         {
-            titanWhoGrabMeID = id;
+            TitanWhoGrabMeID = id;
             Grabbed(PhotonView.Find(id).gameObject, leftHand);
         }
 
@@ -2970,13 +2969,13 @@ namespace Assets.Scripts.Characters.Humans
 
         private void RightArmAimTo(Vector3 target)
         {
-            float y = target.x - upperarmR.transform.position.x;
-            float num2 = target.y - upperarmR.transform.position.y;
-            float x = target.z - upperarmR.transform.position.z;
+            float y = target.x - UpperarmR.transform.position.x;
+            float num2 = target.y - UpperarmR.transform.position.y;
+            float x = target.z - UpperarmR.transform.position.z;
             float num4 = Mathf.Sqrt((y * y) + (x * x));
             handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
             forearmR.localRotation = Quaternion.Euler(90f, 0f, 0f);
-            upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
+            UpperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
         }
 
         [PunRPC]
@@ -3573,11 +3572,11 @@ namespace Assets.Scripts.Characters.Humans
             photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
             if (PhotonNetwork.isMasterClient)
             {
-                titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
+                TitanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
             }
             else
             {
-                PhotonView.Find(titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
+                PhotonView.Find(TitanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
             }
         }
 
@@ -3666,7 +3665,7 @@ namespace Assets.Scripts.Characters.Humans
                         else
                         {
                             skillCDDuration = skillCDLast;
-                            var titan = titanWhoGrabMe.GetComponent<MindlessTitan>();
+                            var titan = TitanWhoGrabMe.GetComponent<MindlessTitan>();
                             if ((skillId == "eren") && (titan != null))
                             {
                                 Ungrabbed();
@@ -3677,7 +3676,7 @@ namespace Assets.Scripts.Characters.Humans
                                 }
                                 else
                                 {
-                                    PhotonView.Find(titanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
+                                    PhotonView.Find(TitanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
                                 }
                                 ErenTransform();
                             }
@@ -4411,7 +4410,7 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         break;
                 }
-                
+
                 isLeftHookPressed = InputManager.Key(InputHuman.HookLeft);
 
                 //TODO: Properly refactor these if statements
@@ -4486,7 +4485,7 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     EHold = false;
                 }
-                
+
                 isBothHooksPressed = InputManager.Key(InputHuman.HookBoth);
                 if (!(isBothHooksPressed ? (((Animation.IsPlaying("attack3_1") || Animation.IsPlaying("attack5")) || (Animation.IsPlaying("special_petra") || (state == HERO_STATE.Grab))) ? (state != HERO_STATE.Idle) : false) : true))
                 {
@@ -4620,7 +4619,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (amount == 0f)
             {
-                amount = useGasSpeed;
+                amount = UseGasSpeed;
             }
             if (currentGas > 0f)
             {
