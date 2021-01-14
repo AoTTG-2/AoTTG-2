@@ -1668,22 +1668,22 @@ namespace Assets.Scripts.Characters.Humans
                                 else if (!isLeftHandHooked && !isRightHandHooked)
                                 {
                                     float current = -Mathf.Atan2(Rigidbody.velocity.z, Rigidbody.velocity.x) * Mathf.Rad2Deg;
-                                    float num11 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
-                                    if (Mathf.Abs(num11) < 45f)
+                                    float deltaAngle = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
+                                    if (Mathf.Abs(deltaAngle) < 45f)
                                     {
                                         if (!Animation.IsPlaying("air2"))
                                         {
                                             CrossFade("air2", 0.2f);
                                         }
                                     }
-                                    else if ((num11 < 135f) && (num11 > 0f))
+                                    else if ((deltaAngle < 135f) && (deltaAngle > 0f))
                                     {
                                         if (!Animation.IsPlaying("air2_right"))
                                         {
                                             CrossFade("air2_right", 0.2f);
                                         }
                                     }
-                                    else if ((num11 > -135f) && (num11 < 0f))
+                                    else if ((deltaAngle > -135f) && (deltaAngle < 0f))
                                     {
                                         if (!Animation.IsPlaying("air2_left"))
                                         {
@@ -1906,13 +1906,14 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         Rigidbody.AddForce(new Vector3(0f, -gravity * Rigidbody.mass, 0f));
                     }
+                    
                     if (currentSpeed > 10f)
                     {
-                        currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float) 100f, (float) (currentSpeed + 40f)), 0.1f);
+                        currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, Mathf.Min((float) 100f, (float) (currentSpeed + 40f)), 0.1f);
                     }
                     else
                     {
-                        currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(currentCamera.GetComponent<Camera>().fieldOfView, 50f, 0.1f);
+                        currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, 50f, 0.1f);
                     }
                     if (flag2)
                     {
@@ -3011,7 +3012,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 hookBySomeOne = false;
                 badGuy = null;
-                PhotonView.Find(hooker).RPC("hookFail", PhotonView.Find(hooker).owner, new object[0]);
+                PhotonView.Find(hooker).RPC(nameof(HookFail), PhotonView.Find(hooker).owner, new object[0]);
             }
         }
 
@@ -4315,14 +4316,15 @@ namespace Assets.Scripts.Characters.Humans
                                 if (photonView.isMine)
                                 {
                                     obj4 = PhotonNetwork.Instantiate(prefabName, (Vector3) ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation, 0);
-                                    if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
+                                    var enemyFX = obj4.GetComponent<EnemyfxIDcontainer>();
+                                    if (enemyFX != null)
                                     {
-                                        obj4.GetComponent<EnemyfxIDcontainer>().myOwnerViewID = photonView.viewID;
+                                        enemyFX.myOwnerViewID = photonView.viewID;
                                     }
                                 }
                                 else
                                 {
-                                    obj4 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load(prefabName), (Vector3) ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
+                                    obj4 = (GameObject) Instantiate(Resources.Load(prefabName), (Vector3) ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
                                 }
                             }
                             if (Animation[attackAnimation].normalizedTime >= 1f)
