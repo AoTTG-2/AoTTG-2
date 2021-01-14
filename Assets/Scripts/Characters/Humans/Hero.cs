@@ -337,8 +337,8 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 SmoothSyncMovement.PhotonCamera = true;
-                photonView.RPC("SetMyPhotonCamera", PhotonTargets.OthersBuffered,
-                    new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });
+                photonView.RPC(nameof(SetMyPhotonCamera), PhotonTargets.OthersBuffered,
+                    new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });;
             }
             else
             {
@@ -1230,7 +1230,7 @@ namespace Assets.Scripts.Characters.Humans
             if ((smoke_3dmgEmission.enabled && photonView.isMine))
             {
                 object[] objArray2 = new object[] { false };
-                photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray2);
+                photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, objArray2);
             }
             smoke_3dmgEmission.enabled = false;
         }
@@ -1919,7 +1919,7 @@ namespace Assets.Scripts.Characters.Humans
                         if (!smoke_3dmgEmission.enabled && photonView.isMine)
                         {
                             object[] parameters = new object[] { true };
-                            photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
+                            photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, parameters);
                         }
                         smoke_3dmgEmission.enabled = true;
                     }
@@ -1928,7 +1928,7 @@ namespace Assets.Scripts.Characters.Humans
                         if (smoke_3dmgEmission.enabled && photonView.isMine)
                         {
                             object[] objArray3 = new object[] { false };
-                            photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray3);
+                            photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, objArray3);
                         }
                         smoke_3dmgEmission.enabled = false;
                     }
@@ -2089,7 +2089,7 @@ namespace Assets.Scripts.Characters.Humans
         public void HookedByHuman(int hooker, Vector3 hookPosition)
         {
             object[] parameters = new object[] { hooker, hookPosition };
-            photonView.RPC("RPCHookedByHuman", photonView.owner, parameters);
+            photonView.RPC(nameof(RPCHookedByHuman), photonView.owner, parameters);
         }
 
         [PunRPC]
@@ -2487,7 +2487,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
                 {
-                    photonView.RPC("backToHumanRPC", PhotonTargets.Others, new object[0]);
+                    photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
                     return;
                 }
                 if (!info.sender.isLocal && !info.sender.isMasterClient)
@@ -2618,7 +2618,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
                 {
-                    photonView.RPC("backToHumanRPC", PhotonTargets.Others, new object[0]);
+                    photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
                     return;
                 }
                 if (!info.sender.isLocal && !info.sender.isMasterClient)
@@ -3161,13 +3161,13 @@ namespace Assets.Scripts.Characters.Humans
                     if (val != num)
                     {
                         objArray = new object[] { num };
-                        photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
+                        photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, objArray);
                     }
                 }
                 else if (GameSettings.PvP.Mode == PvpMode.FreeForAll && (val != photonView.owner.ID))
                 {
                     objArray = new object[] { photonView.owner.ID };
-                    photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
+                    photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, objArray);
                 }
             }
         }
@@ -3338,7 +3338,7 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 object[] parameters = new object[] { team };
-                photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, parameters);
+                photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, parameters);
                 ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.team, team);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
@@ -3506,7 +3506,7 @@ namespace Assets.Scripts.Characters.Humans
                 if ((smoke_3dmgEmission.enabled) && photonView.isMine)
                 {
                     object[] parameters = new object[] { false };
-                    photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
+                    photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, parameters);
                 }
                 smoke_3dmgEmission.enabled = false;
                 Rigidbody.velocity = Vector3.zero;
@@ -3526,7 +3526,7 @@ namespace Assets.Scripts.Characters.Humans
                 myCannonRegion = null;
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
                 Camera.main.fieldOfView = 55f;
-                photonView.RPC("SetMyCannon", PhotonTargets.OthersBuffered, new object[] { myCannon.GetPhotonView().viewID });
+                photonView.RPC(nameof(SetMyCannon), PhotonTargets.OthersBuffered, new object[] { myCannon.GetPhotonView().viewID });
                 skillCDLastCannon = skillCDLast;
                 skillCDLast = 3.5f;
                 skillCDDuration = 3.5f;
@@ -3568,7 +3568,7 @@ namespace Assets.Scripts.Characters.Humans
             transform.parent = null;
             GetComponent<CapsuleCollider>().isTrigger = false;
             state = HERO_STATE.Idle;
-            photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
+            photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
             if (PhotonNetwork.isMasterClient)
             {
                 titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
@@ -3668,7 +3668,7 @@ namespace Assets.Scripts.Characters.Humans
                             if ((skillId == "eren") && (titan != null))
                             {
                                 Ungrabbed();
-                                photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
+                                photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
                                 if (PhotonNetwork.isMasterClient)
                                 {
                                     titan.GrabEscapeRpc();
@@ -3686,8 +3686,8 @@ namespace Assets.Scripts.Characters.Humans
             else if (!titanForm && !isCannon)
             {
                 bool isBothHooksPressed;
-                System.Boolean isRightHookPressed;
-                System.Boolean isLeftHookPressed;
+                bool isRightHookPressed;
+                bool isLeftHookPressed;
                 BufferUpdate();
                 UpdateExt();
                 if (!grounded && (state != HERO_STATE.AirDodge))
@@ -3792,51 +3792,49 @@ namespace Assets.Scripts.Characters.Humans
                                 else
                                 {
                                     skillCDDuration = skillCDLast;
-                                    if (skillId == "eren")
+                                    switch (skillId)
                                     {
-                                        ErenTransform();
-                                        return;
-                                    }
-                                    if (skillId == "marco")
-                                    {
-                                        if (IsGrounded())
-                                        {
-                                            attackAnimation = (UnityEngine.Random.Range(0, 2) != 0) ? "special_marco_1" : "special_marco_0";
-                                            PlayAnimation(attackAnimation);
-                                        }
-                                        else
-                                        {
-                                            flag3 = true;
-                                            skillCDDuration = 0f;
-                                        }
-                                    }
-                                    else if (skillId == "armin")
-                                    {
-                                        if (IsGrounded())
-                                        {
-                                            attackAnimation = "special_armin";
-                                            PlayAnimation("special_armin");
-                                        }
-                                        else
-                                        {
-                                            flag3 = true;
-                                            skillCDDuration = 0f;
-                                        }
-                                    }
-                                    else if (skillId == "sasha")
-                                    {
-                                        if (IsGrounded())
-                                        {
-                                            attackAnimation = "special_sasha";
-                                            PlayAnimation("special_sasha");
-                                            currentBuff = BUFF.SpeedUp;
-                                            buffTime = 10f;
-                                        }
-                                        else
-                                        {
-                                            flag3 = true;
-                                            skillCDDuration = 0f;
-                                        }
+                                        case "eren":
+                                            ErenTransform();
+                                            return;
+                                        case "marco":
+                                            if (IsGrounded())
+                                            {
+                                                attackAnimation = (UnityEngine.Random.Range(0, 2) != 0) ? "special_marco_1" : "special_marco_0";
+                                                PlayAnimation(attackAnimation);
+                                            }
+                                            else
+                                            {
+                                                flag3 = true;
+                                                skillCDDuration = 0f;
+                                            }
+                                            break;
+                                        case "armin":
+                                            if (IsGrounded())
+                                            {
+                                                attackAnimation = "special_armin";
+                                                PlayAnimation("special_armin");
+                                            }
+                                            else
+                                            {
+                                                flag3 = true;
+                                                skillCDDuration = 0f;
+                                            }
+                                            break;
+                                        case "sasha":
+                                            if (IsGrounded())
+                                            {
+                                                attackAnimation = "special_sasha";
+                                                PlayAnimation("special_sasha");
+                                                currentBuff = BUFF.SpeedUp;
+                                                buffTime = 10f;
+                                            }
+                                            else
+                                            {
+                                                flag3 = true;
+                                                skillCDDuration = 0f;
+                                            }
+                                            break;
                                     }
                                 }
                             }
@@ -4234,7 +4232,7 @@ namespace Assets.Scripts.Characters.Humans
                                         if (!PhotonNetwork.isMasterClient)
                                         {
                                             object[] parameters = new object[] { 5f, 100f };
-                                            photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
+                                            photonView.RPC(nameof(NetTauntAttack), PhotonTargets.MasterClient, parameters);
                                         }
                                         else
                                         {
@@ -4246,7 +4244,7 @@ namespace Assets.Scripts.Characters.Humans
                                     case "special_armin":
                                         if (!PhotonNetwork.isMasterClient)
                                         {
-                                            photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
+                                            photonView.RPC(nameof(NetlaughAttack), PhotonTargets.MasterClient, new object[0]);
                                         }
                                         else
                                         {
