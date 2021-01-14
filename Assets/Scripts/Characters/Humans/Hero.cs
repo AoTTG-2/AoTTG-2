@@ -61,8 +61,10 @@ namespace Assets.Scripts.Characters.Humans
         public float bombTimeMax;
         private float buffTime { get; set; }
         public GameObject bulletLeft;
+        Bullet bulletL;
         private int bulletMAX { get; set; } = 7;
         public GameObject bulletRight;
+        private Bullet bulletR;
         private bool buttonAttackRelease { get; set; }
         public Dictionary<string, Image> cachedSprites;
         public float CameraMultiplier;
@@ -2313,8 +2315,10 @@ namespace Assets.Scripts.Characters.Humans
             vector.Normalize();
             vector = (Vector3) (vector * 20f);
 
-            var bulletL = bulletLeft.GetComponent<Bullet>();
-            var bulletR = bulletRight.GetComponent<Bullet>();
+            if(bulletLeft)
+                bulletL = bulletLeft.GetComponent<Bullet>();
+            if(bulletRight)
+                bulletR = bulletRight.GetComponent<Bullet>();
 
             if (((bulletLeft != null) && (bulletRight != null)) && (bulletL.isHooked() && bulletR.isHooked()))
             {
