@@ -1537,71 +1537,71 @@ namespace Assets.Scripts.Characters.Humans
                             justGrounded = false;
                             zero = Rigidbody.velocity;
                         }
-                        if (state == HERO_STATE.GroundDodge)
+                        switch (state)
                         {
-                            if ((Animation["dodge"].normalizedTime >= 0.2f) && (Animation["dodge"].normalizedTime < 0.8f))
-                            {
-                                zero = (Vector3) ((-transform.forward * 2.4f) * speed);
-                            }
-                            if (Animation["dodge"].normalizedTime > 0.8f)
-                            {
-                                zero = (Vector3) (Rigidbody.velocity * 0.9f);
-                            }
-                        }
-                        else if (state == HERO_STATE.Idle)
-                        {
-                            Vector3 vector8 = new Vector3(x, 0f, z);
-                            float resultAngle = GetGlobalFacingDirection(x, z);
-                            zero = GetGlobaleFacingVector3(resultAngle);
-                            float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
-                            zero = (Vector3) (zero * num6);
-                            zero = (Vector3) (zero * speed);
-                            if ((buffTime > 0f) && (currentBuff == BUFF.SpeedUp))
-                            {
-                                zero = (Vector3) (zero * 4f);
-                            }
-                            if ((x != 0f) || (z != 0f))
-                            {
-                                if (((!Animation.IsPlaying("run_1") && !Animation.IsPlaying("jump")) && !Animation.IsPlaying("run_sasha")) && (!Animation.IsPlaying("horse_geton") || (Animation["horse_geton"].normalizedTime >= 0.5f)))
+                            case HERO_STATE.GroundDodge:
+                                if ((Animation["dodge"].normalizedTime >= 0.2f) && (Animation["dodge"].normalizedTime < 0.8f))
                                 {
-                                    if ((buffTime > 0f) && (currentBuff == BUFF.SpeedUp))
+                                    zero = (Vector3) ((-transform.forward * 2.4f) * speed);
+                                }
+                                if (Animation["dodge"].normalizedTime > 0.8f)
+                                {
+                                    zero = (Vector3) (Rigidbody.velocity * 0.9f);
+                                }
+                                break;
+                            case HERO_STATE.Idle:
+                                Vector3 vector8 = new Vector3(x, 0f, z);
+                                float resultAngle = GetGlobalFacingDirection(x, z);
+                                zero = GetGlobaleFacingVector3(resultAngle);
+                                float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
+                                zero = (Vector3) (zero * num6);
+                                zero = (Vector3) (zero * speed);
+                                if ((buffTime > 0f) && (currentBuff == BUFF.SpeedUp))
+                                {
+                                    zero = (Vector3) (zero * 4f);
+                                }
+                                if ((x != 0f) || (z != 0f))
+                                {
+                                    if (((!Animation.IsPlaying("run_1") && !Animation.IsPlaying("jump")) && !Animation.IsPlaying("run_sasha")) && (!Animation.IsPlaying("horse_geton") || (Animation["horse_geton"].normalizedTime >= 0.5f)))
                                     {
-                                        CrossFade("run_sasha", 0.1f);
-                                    }
-                                    else
-                                    {
-                                        CrossFade("run_1", 0.1f);
+                                        if ((buffTime > 0f) && (currentBuff == BUFF.SpeedUp))
+                                        {
+                                            CrossFade("run_sasha", 0.1f);
+                                        }
+                                        else
+                                        {
+                                            CrossFade("run_1", 0.1f);
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                if (!(((Animation.IsPlaying(standAnimation) || (state == HERO_STATE.Land)) || (Animation.IsPlaying("jump") || Animation.IsPlaying("horse_geton"))) || Animation.IsPlaying("grabbed")))
+                                else
                                 {
-                                    CrossFade(standAnimation, 0.1f);
-                                    zero = (Vector3) (zero * 0f);
+                                    if (!(((Animation.IsPlaying(standAnimation) || (state == HERO_STATE.Land)) || (Animation.IsPlaying("jump") || Animation.IsPlaying("horse_geton"))) || Animation.IsPlaying("grabbed")))
+                                    {
+                                        CrossFade(standAnimation, 0.1f);
+                                        zero = (Vector3) (zero * 0f);
+                                    }
+                                    resultAngle = -874f;
                                 }
-                                resultAngle = -874f;
-                            }
-                            if (resultAngle != -874f)
-                            {
-                                facingDirection = resultAngle;
-                                targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
-                            }
+                                if (resultAngle != -874f)
+                                {
+                                    facingDirection = resultAngle;
+                                    targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
+                                }
+                                break;
+                            case HERO_STATE.Land:
+                                zero = (Vector3) (Rigidbody.velocity * 0.96f);
+                                break;
+                            case HERO_STATE.Slide:
+                                zero = (Vector3) (Rigidbody.velocity * 0.99f);
+                                if (currentSpeed < (speed * 1.2f))
+                                {
+                                    Idle();
+                                    sparksEmission.enabled = false;
+                                }
+                                break;
                         }
-                        else if (state == HERO_STATE.Land)
-                        {
-                            zero = (Vector3) (Rigidbody.velocity * 0.96f);
-                        }
-                        else if (state == HERO_STATE.Slide)
-                        {
-                            zero = (Vector3) (Rigidbody.velocity * 0.99f);
-                            if (currentSpeed < (speed * 1.2f))
-                            {
-                                Idle();
-                                sparksEmission.enabled = false;
-                            }
-                        }
+                        
                         Vector3 velocity = Rigidbody.velocity;
                         Vector3 force = zero - velocity;
                         force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
