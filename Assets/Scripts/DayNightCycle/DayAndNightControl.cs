@@ -84,7 +84,7 @@ namespace Assets.Scripts.DayNightCycle
             }
            
 
-            //targetCam = GameObject.Find("MainCamera").GetComponent<Camera>();
+            
             UpdateLight(); // Initial lighting update. Without this, the lighting will look as if it's lagging when the scene just loaded
         }
 
@@ -126,9 +126,9 @@ namespace Assets.Scripts.DayNightCycle
                 {
                     MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
                 }
-                catch (NullReferenceException e)
+                catch (NullReferenceException)
                 {
-                    //notsurewhycamera doesnt get found after first find}
+                    //not sure why camera doesnt get found after first find
                 }
             }
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
