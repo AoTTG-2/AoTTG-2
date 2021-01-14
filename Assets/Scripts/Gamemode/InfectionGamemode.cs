@@ -69,7 +69,7 @@ namespace Assets.Scripts.Gamemode
                             {
                                 if (hero.photonView.owner == targetPlayer)
                                 {
-                                    hero.markDie();
+                                    hero.MarkDie();
                                     hero.photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "noswitchingfagt" });
                                 }
                             }

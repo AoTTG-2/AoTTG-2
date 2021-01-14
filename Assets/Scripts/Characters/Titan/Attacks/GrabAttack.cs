@@ -204,7 +204,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private void EatSet(GameObject grabTarget)
         {
             var isLeftHand = Hand == BodyPart.HandLeft;
-            if (!Titan.photonView.isMine || !grabTarget.GetComponent<Hero>().isGrabbed)
+            if (!Titan.photonView.isMine || !grabTarget.GetComponent<Hero>().IsGrabbed)
             {
                 Titan.Grab(isLeftHand);
                 if (Titan.photonView.isMine)
@@ -217,7 +217,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 }
                 else
                 {
-                    grabTarget.GetComponent<Hero>().grabbed(Titan.gameObject, isLeftHand);
+                    grabTarget.GetComponent<Hero>().Grabbed(Titan.gameObject, isLeftHand);
                     grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
                 }
             }

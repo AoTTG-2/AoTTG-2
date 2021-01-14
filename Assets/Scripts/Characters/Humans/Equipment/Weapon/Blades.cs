@@ -22,7 +22,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
             Hero.reloadAnimation = Hero.grounded
                 ? "changeBlade"
                 : "changeBlade_air";
-            Hero.crossFade(Hero.reloadAnimation, 0.1f);
+            Hero.CrossFade(Hero.reloadAnimation, 0.1f);
         }
 
         public override void Reload()

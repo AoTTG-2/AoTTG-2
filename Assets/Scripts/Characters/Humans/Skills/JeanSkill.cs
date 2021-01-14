@@ -52,7 +52,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
             if (TimesUsed < TimesAllowed && !Hero.Animation.IsPlaying("grabbed_jean"))
             {
-                Hero.playAnimation("grabbed_jean");
+                Hero.PlayAnimation("grabbed_jean");
                 TimesUsed++;
                 IsActive = true;
                 return true;
@@ -65,7 +65,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (Hero.Animation.IsPlaying("grabbed_jean") && Hero.Animation["grabbed_jean"].normalizedTime > 0.64f)
             {
-                Hero.ungrabbed();
+                Hero.Ungrabbed();
                 Hero.Rigidbody.velocity = Vector3.up * 30f;
                 IsActive = false;
             }

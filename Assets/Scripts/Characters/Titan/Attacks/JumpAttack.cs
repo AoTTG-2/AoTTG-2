@@ -92,7 +92,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var num = rad * titanSize;
             foreach (Hero hero in Service.Entity.GetAll<Hero>())
             {
-                if (hero.isInvincible()) continue;
+                if (hero.IsInvincible()) continue;
                 var num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(hero.transform.position + Vector3.up * num3, head.position + Vector3.up * 1.5f * titanSize) < (num + num3))
                 {
@@ -187,7 +187,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     var vector13 = Titan.Body.Chest.position;
                     if (Titan.photonView.isMine || !hero.HasDied())
                     {
-                        hero.markDie();
+                        hero.MarkDie();
                         object[] objArray8 = { (hero.transform.position - vector13) * 15f * Titan.Size, true, Titan.photonView.viewID, Titan.name, true };
                         hero.photonView.RPC("netDie", PhotonTargets.All, objArray8);
                     }

@@ -18,7 +18,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
             RaycastHit hit;
             Hero.attackAnimation = "attack5";
-            Hero.playAnimation("attack5");
+            Hero.PlayAnimation("attack5");
             Hero.Rigidbody.velocity += (Vector3) (Vector3.up * 5f);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 if (Hero.bulletRight != null)
                 {
                     Hero.bulletRight.GetComponent<Bullet>().disable();
-                    Hero.releaseIfIHookSb();
+                    Hero.ReleaseIfIHookSb();
                 }
                 Hero.dashDirection = hit.point - Hero.transform.position;
                 Hero.LaunchRightRope(hit.distance, hit.point, true, 1);

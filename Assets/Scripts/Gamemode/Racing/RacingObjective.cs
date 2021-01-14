@@ -120,7 +120,7 @@ namespace Assets.Scripts.Gamemode.Racing
             
 
             FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
-            hero.fillGas();
+            hero.FillGas();
 
             if (NextObjective != null)
             {

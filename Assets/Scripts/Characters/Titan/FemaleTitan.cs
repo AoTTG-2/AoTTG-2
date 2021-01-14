@@ -600,7 +600,7 @@ public class FemaleTitan : TitanBase
                     }
                     return gameObject;
                 }
-                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible())
                 {
                     return gameObject;
                 }
@@ -614,7 +614,7 @@ public class FemaleTitan : TitanBase
         float num = rad * 4f;
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if ((obj2.GetComponent<ErenTitan>() == null) && !obj2.GetComponent<Hero>().isInvincible())
+            if ((obj2.GetComponent<ErenTitan>() == null) && !obj2.GetComponent<Hero>().IsInvincible())
             {
                 float num3 = obj2.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(obj2.transform.position + ((Vector3) (Vector3.up * num3)), head.transform.position + ((Vector3) ((Vector3.up * 1.5f) * 4f))) < (num + num3))
@@ -638,7 +638,7 @@ public class FemaleTitan : TitanBase
 
     private void eatSet(GameObject grabTarget)
     {
-        if (!grabTarget.GetComponent<Hero>().isGrabbed)
+        if (!grabTarget.GetComponent<Hero>().IsGrabbed)
         {
             this.grabToRight();
             if (PhotonNetwork.isMasterClient)
@@ -651,7 +651,7 @@ public class FemaleTitan : TitanBase
             }
             else
             {
-                grabTarget.GetComponent<Hero>().grabbed(base.gameObject, false);
+                grabTarget.GetComponent<Hero>().Grabbed(base.gameObject, false);
                 grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
             }
         }
@@ -659,7 +659,7 @@ public class FemaleTitan : TitanBase
 
     private void eatSetL(GameObject grabTarget)
     {
-        if (!grabTarget.GetComponent<Hero>().isGrabbed)
+        if (!grabTarget.GetComponent<Hero>().IsGrabbed)
         {
             this.grabToLeft();
             if (PhotonNetwork.isMasterClient)
@@ -672,7 +672,7 @@ public class FemaleTitan : TitanBase
             }
             else
             {
-                grabTarget.GetComponent<Hero>().grabbed(base.gameObject, true);
+                grabTarget.GetComponent<Hero>().Grabbed(base.gameObject, true);
                 grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
             }
         }
@@ -1060,7 +1060,7 @@ public class FemaleTitan : TitanBase
         {
             if (!target.GetComponent<Hero>().HasDied())
             {
-                target.GetComponent<Hero>().markDie();
+                target.GetComponent<Hero>().MarkDie();
                 object[] parameters = new object[] { -1, "Female Titan" };
                 target.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, parameters);
             }
@@ -1079,7 +1079,7 @@ public class FemaleTitan : TitanBase
             Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
             if ((PhotonNetwork.isMasterClient) && !hitHero.GetComponent<Hero>().HasDied())
             {
-                hitHero.GetComponent<Hero>().markDie();
+                hitHero.GetComponent<Hero>().MarkDie();
                 object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Female Titan", true };
                 hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
             }

@@ -36,13 +36,13 @@ namespace Assets.Scripts.Characters.Humans
 
         private void HeroHit(Hero hero, HitBox hitbox, float distance)
         {
-            if (hero.myTeam != myTeam && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
+            if (hero.myTeam != myTeam && !hero.IsInvincible() && hero.HasDied() && !hero.IsGrabbed)
             {
                 // I honestly don't have a clue as to what this does
                 float b = Mathf.Min(1f, 1f - (distance * 0.05f));
 
-                hero.markDie();
-                hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
+                hero.MarkDie();
+                hero.photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, new object[]
                 {
                     ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
                     false,

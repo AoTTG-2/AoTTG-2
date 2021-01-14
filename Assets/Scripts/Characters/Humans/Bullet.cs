@@ -124,7 +124,7 @@ public class Bullet : Photon.MonoBehaviour
                 {
                     object[] objArray3 = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
                     base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, objArray3);
-                    this.master.GetComponent<Hero>().hookToHuman(hit.collider.transform.root.gameObject, base.transform.position);
+                    this.master.GetComponent<Hero>().HookToHuman(hit.collider.transform.root.gameObject, base.transform.position);
                     base.transform.parent = hit.collider.transform;
                     this.master.GetComponent<Hero>().lastHook = null;
                 }
@@ -138,7 +138,7 @@ public class Bullet : Photon.MonoBehaviour
                 }
                 if (flag4)
                 {
-                    this.master.GetComponent<Hero>().launch(hit.point, this.left, this.leviMode);
+                    this.master.GetComponent<Hero>().Launch(hit.point, this.left, this.leviMode);
                     base.transform.position = hit.point;
                     if (this.phase != 2)
                     {

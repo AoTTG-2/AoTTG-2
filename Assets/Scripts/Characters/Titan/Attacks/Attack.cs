@@ -76,7 +76,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     }
                 }
                 else if ((gameObject.GetComponent<Hero>() != null) 
-                         && !gameObject.GetComponent<Hero>().isInvincible()
+                         && !gameObject.GetComponent<Hero>().IsInvincible()
                          && gameObject.GetComponent<Hero>()._state != HERO_STATE.Grab)
                 {
                     return gameObject;
@@ -121,9 +121,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (entity is Hero hero)
             {
                 var position = Titan.Body.Chest.position;
-                hero.markDie();
+                hero.MarkDie();
                 object[] objArray3 = { (Vector3) ((entity.transform.position - position) * 15f * Titan.Size), false, Titan.photonView.viewID, Titan.name, true };
-                hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray3);
+                hero.photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, objArray3);
             }
             else
             {

@@ -224,7 +224,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
             {
-                this.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                this.main_object.GetComponent<Hero>().SetSkillHUDPosition2();
             }
         }
         if (stereoType == STEREO_3D_TYPE.SIDE_BY_SIDE)

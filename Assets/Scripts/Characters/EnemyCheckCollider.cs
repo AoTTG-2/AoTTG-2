@@ -51,21 +51,21 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         }
 
                         object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
-                        component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.blowAway), PhotonTargets.All, parameters);
+                        component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.BlowAway), PhotonTargets.All, parameters);
                     }
-                    else if (!component.transform.root.GetComponent<Hero>().isInvincible())
+                    else if (!component.transform.root.GetComponent<Hero>().IsInvincible())
                     {
                         if (PhotonNetwork.offlineMode)
                         {
-                            if (!component.transform.root.GetComponent<Hero>().isGrabbed)
+                            if (!component.transform.root.GetComponent<Hero>().IsGrabbed)
                             {
                                 Vector3 vector4 = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<Hero>().die((Vector3) (((vector4.normalized * b) * 1000f) + (Vector3.up * 50f)), this.isThisBite);
+                                component.transform.root.GetComponent<Hero>().Die((Vector3) (((vector4.normalized * b) * 1000f) + (Vector3.up * 50f)), this.isThisBite);
                             }
                         }
-                        else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().IsGrabbed)
                         {
-                            component.transform.root.GetComponent<Hero>().markDie();
+                            component.transform.root.GetComponent<Hero>().MarkDie();
                             int myOwnerViewID = -1;
                             string titanName = string.Empty;
                             if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
