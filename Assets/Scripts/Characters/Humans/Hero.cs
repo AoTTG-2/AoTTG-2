@@ -54,12 +54,7 @@ namespace Assets.Scripts.Characters.Humans
         private bool attackReleased { get; set; }
         private GameObject badGuy { get; set; }
         public bool bigLean;
-        public float bombCD;
-        public bool bombImmune;
-        public float bombRadius;
-        public float bombSpeed;
-        public float bombTime;
-        public float bombTimeMax;
+        public BombData bomb;
         private float buffTime { get; set; }
         public GameObject bulletLeft;
         Bullet bulletL;
@@ -202,6 +197,7 @@ namespace Assets.Scripts.Characters.Humans
         public HeroAudio audioSystem;
         #endregion
 
+        
 
         public GameObject InGameUI;
         public TextMesh PlayerName;
@@ -322,10 +318,10 @@ namespace Assets.Scripts.Characters.Humans
                 //loadskin();
                 hasspawn = true;
                 StartCoroutine(ReloadSky());
-                bombImmune = false;
+                bomb.immune = false;
                 if (GameSettings.PvP.Bomb.Value)
                 {
-                    bombImmune = true;
+                    bomb.immune = true;
                     StartCoroutine(StopImmunity());
                 }
             }
@@ -687,20 +683,20 @@ namespace Assets.Scripts.Characters.Humans
                     FengGameManagerMKII.settings[0xfc] = 5;
                     FengGameManagerMKII.settings[0xfd] = 5;
                 }
-                bombTimeMax = ((num2 * 60f) + 200f) / ((num3 * 60f) + 200f);
-                bombRadius = (num * 4f) + 20f;
-                bombCD = (num4 * -0.4f) + 5f;
-                bombSpeed = (num3 * 60f) + 200f;
+                bomb.timeMax = ((num2 * 60f) + 200f) / ((num3 * 60f) + 200f);
+                bomb.radius = (num * 4f) + 20f;
+                bomb.coolDown = (num4 * -0.4f) + 5f;
+                bomb.speed = (num3 * 60f) + 200f;
                 ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float) FengGameManagerMKII.settings[0xf6]);
                 propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float) FengGameManagerMKII.settings[0xf7]);
                 propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float) FengGameManagerMKII.settings[0xf8]);
                 propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float) FengGameManagerMKII.settings[0xf9]);
-                propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, bombRadius);
+                propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, bomb.radius);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 skillId = "bomb";
                 skillIDHUD = "armin";
-                skillCDLast = bombCD;
+                skillCDLast = bomb.coolDown;
                 skillCDDuration = 10f;
                 if (Service.Time.GetRoundTime() > 10f)
                 {
@@ -3490,7 +3486,7 @@ namespace Assets.Scripts.Characters.Humans
         public IEnumerator StopImmunity()
         {
             yield return new WaitForSeconds(5f);
-            bombImmune = false;
+            bomb.immune = false;
         }
 
         private void Suicide2()
@@ -4506,10 +4502,10 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     if (!((myBomb == null) || myBomb.disabled))
                     {
-                        myBomb.Explode(bombRadius);
+                        myBomb.Explode(bomb.radius);
                     }
                     detonate = false;
-                    skillCDDuration = bombCD;
+                    skillCDDuration = bomb.coolDown;
                     RaycastHit hitInfo = new RaycastHit();
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
@@ -4523,13 +4519,13 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     Vector3 vector = Vector3.Normalize(targetV - currentV);
                     GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", currentV + ((Vector3) (vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
-                    obj2.GetComponent<Rigidbody>().velocity = (Vector3) (vector * bombSpeed);
+                    obj2.GetComponent<Rigidbody>().velocity = (Vector3) (vector * bomb.speed);
                     myBomb = obj2.GetComponent<Bomb>();
-                    bombTime = 0f;
+                    bomb.time = 0f;
                 }
                 else if ((myBomb != null) && !myBomb.disabled)
                 {
-                    bombTime += Time.deltaTime;
+                    bomb.time += Time.deltaTime;
                     bool flag2 = false;
                     if (InputManager.KeyUp(InputHuman.AttackSpecial))
                     {
@@ -4540,13 +4536,13 @@ namespace Assets.Scripts.Characters.Humans
                         detonate = false;
                         flag2 = true;
                     }
-                    if (bombTime >= bombTimeMax)
+                    if (bomb.time >= bomb.timeMax)
                     {
                         flag2 = true;
                     }
                     if (flag2)
                     {
-                        myBomb.Explode(bombRadius);
+                        myBomb.Explode(bomb.radius);
                         detonate = false;
                     }
                 }
