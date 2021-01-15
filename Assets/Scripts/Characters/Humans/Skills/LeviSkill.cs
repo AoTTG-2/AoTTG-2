@@ -14,7 +14,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if (Hero._state != HERO_STATE.Idle) return false;
+            if (Hero.HeroState != HERO_STATE.Idle) return false;
 
             RaycastHit hit;
             Hero.attackAnimation = "attack5";
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (!UsePhysics) return;
 
-            if (Hero._state != HERO_STATE.Attack || Hero.attackAnimation != "attack5" ||
+            if (Hero.HeroState != HERO_STATE.Attack || Hero.attackAnimation != "attack5" ||
                 Hero.Animation["attack5"].normalizedTime <= 0.4f) return;
 
             if (Hero.launchPointRight.magnitude > 0f)

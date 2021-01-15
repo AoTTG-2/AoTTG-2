@@ -11,7 +11,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if (Hero._state != HERO_STATE.Idle) return false;
+            if (Hero.HeroState != HERO_STATE.Idle) return false;
 
             Hero.attackAnimation = "attack3_1";
             Hero.PlayAnimation("attack3_1");
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (!Hero.grounded) return;
 
-            if (Hero._state == HERO_STATE.Attack && Hero.attackAnimation == "attack3_1" &&
+            if (Hero.HeroState == HERO_STATE.Attack && Hero.attackAnimation == "attack3_1" &&
                 Hero.Animation[Hero.attackAnimation].normalizedTime >= 1f)
             {
                 Hero.PlayAnimation("attack3_2");

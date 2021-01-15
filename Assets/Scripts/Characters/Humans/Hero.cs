@@ -1,3 +1,4 @@
+using Assets.Scripts.Audio.Hero;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Humans.Skills;
 using Assets.Scripts.Characters.Titan;
@@ -25,25 +26,25 @@ namespace Assets.Scripts.Characters.Humans
 
         public Skill Skill { get; set; }
 
-        public HumanState State { get; protected set; } = HumanState.Idle;
+        public HumanState HumanState { get; protected set; } = HumanState.Idle;
 
         private const float HookRaycastDistance = 1000f;
 
         #region Properties
-        public HERO_STATE _state { get; set; }
+        public HERO_STATE HeroState { get; set; }
         private HERO_STATE state
         {
             get
             {
-                return _state;
+                return HeroState;
             }
             set
             {
-                if ((_state == HERO_STATE.AirDodge) || (_state == HERO_STATE.GroundDodge))
+                if ((HeroState == HERO_STATE.AirDodge) || (HeroState == HERO_STATE.GroundDodge))
                 {
                     dashTime = 0f;
                 }
-                _state = value;
+                HeroState = value;
             }
         }
 
@@ -198,7 +199,7 @@ namespace Assets.Scripts.Characters.Humans
         private bool WallJump { get; set; }
         private float WallRunTime { get; set; }
 
-        public AudioSystem audioSystem;
+        public HeroAudio audioSystem;
         #endregion
 
 
@@ -209,77 +210,6 @@ namespace Assets.Scripts.Characters.Humans
         public Animation Animation { get; protected set; }
         public Rigidbody Rigidbody { get; protected set; }
         public SmoothSyncMovement SmoothSyncMovement { get; protected set; }
-
-        internal class HookUI
-        {
-            internal Transform cross;
-            internal Transform crossL;
-            internal Transform crossR;
-
-            internal Image crossImage;
-            internal Image crossImageL;
-            internal Image crossImageR;
-
-            internal Text distanceLabel;
-
-            internal bool enabled = false;
-
-            internal void Find()
-            {
-                cross = GameObject.Find("cross1").transform;
-                crossImage = cross.GetComponentInChildren<Image>();
-                crossL = GameObject.Find("crossL1").transform;
-                crossImageL = crossL.GetComponentInChildren<Image>();
-                crossR = GameObject.Find("crossR1").transform;
-                crossImageR = crossR.GetComponentInChildren<Image>();
-
-                distanceLabel = GameObject.Find("Distance").GetComponent<Text>();
-
-                Enable();
-            }
-
-            internal void Disable()
-            {
-                if (enabled)
-                {
-                    cross.gameObject.SetActive(false);
-                    crossImage.gameObject.SetActive(false);
-                    crossL.gameObject.SetActive(false);
-                    crossImageL.gameObject.SetActive(false);
-                    crossR.gameObject.SetActive(false);
-                    crossImageR.gameObject.SetActive(false);
-
-                    distanceLabel.gameObject.SetActive(false);
-
-                    enabled = false;
-                }
-            }
-            internal void Enable()
-            {
-                if (!enabled)
-                {
-                    cross.gameObject.SetActive(true);
-                    crossImage.gameObject.SetActive(true);
-                    crossL.gameObject.SetActive(true);
-                    crossImageL.gameObject.SetActive(true);
-                    crossR.gameObject.SetActive(true);
-                    crossImageR.gameObject.SetActive(true);
-
-                    distanceLabel.gameObject.SetActive(true);
-
-                    enabled = true;
-                }
-            }
-        }
-
-        [System.Serializable]
-        public class AudioSystem
-        {
-            [SerializeField] internal AudioSource audioDie;
-            [SerializeField] internal AudioSource rope;
-            [SerializeField] internal AudioSource slash;
-            [SerializeField] internal AudioSource slashHit;
-        }
 
         protected override void Awake()
         {
@@ -3631,7 +3561,7 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 else if (InputManager.KeyDown(InputHuman.AttackSpecial))
                 {
-                    if (!Skill.Use() && _state == HERO_STATE.Idle)
+                    if (!Skill.Use() && HeroState == HERO_STATE.Idle)
                     {
                         if (needLean)
                         {

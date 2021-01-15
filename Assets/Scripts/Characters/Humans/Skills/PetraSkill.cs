@@ -15,7 +15,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if (Hero._state != HERO_STATE.Idle) return false;
+            if (Hero.HeroState != HERO_STATE.Idle) return false;
 
             RaycastHit hit;
             Hero.attackAnimation = "special_petra";
@@ -65,7 +65,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 AddUseForce();
             }
 
-            if (Hero.grounded && Hero._state == HERO_STATE.Attack)
+            if (Hero.grounded && Hero.HeroState == HERO_STATE.Attack)
             {
                 if (Hero.Animation[SkillAnimation].normalizedTime > 0.35f &&
                     Hero.Animation[SkillAnimation].normalizedSpeed < 0.48f)
@@ -77,7 +77,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         private void AddUseForce()
         {
-            if (Hero._state != HERO_STATE.Attack || Hero.attackAnimation != "special_petra" ||
+            if (Hero.HeroState != HERO_STATE.Attack || Hero.attackAnimation != "special_petra" ||
                 Hero.Animation["special_petra"].normalizedTime <= 0.4f) return;
 
             if (Hero.launchPointRight.magnitude > 0f)
