@@ -137,7 +137,6 @@ namespace Assets.Scripts.Characters.Humans
         private float lTapTime { get; set; } = -1f;
         public GameObject maincamera;
         public float maxVelocityChange = 10f;
-        public AudioSource meatDie;
         public Bomb myBomb;
         public GameObject myCannon;
         public Transform myCannonBase;
@@ -162,7 +161,7 @@ namespace Assets.Scripts.Characters.Humans
         [Obsolete]
         public int rightBulletLeft = 7;
         public bool rightGunHasBullet = true;
-        public AudioSource rope;
+
         private float rTapTime { get; set; } = -1f;
         private GameObject skillCD { get; set; }
         public float skillCDDuration;
@@ -170,8 +169,7 @@ namespace Assets.Scripts.Characters.Humans
         public float skillCDLastCannon;
         private string skillId { get; set; }
         public string skillIDHUD;
-        public AudioSource slash;
-        public AudioSource slashHit;
+
         private ParticleSystem smoke_3dmg;
         private ParticleSystem.EmissionModule smoke_3dmgEmission;
         private ParticleSystem sparks;
@@ -199,6 +197,8 @@ namespace Assets.Scripts.Characters.Humans
         private float UTapTime { get; set; } = -1f;
         private bool WallJump { get; set; }
         private float WallRunTime { get; set; }
+
+        public AudioSystem audioSystem;
         #endregion
 
 
@@ -272,6 +272,14 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
+        [System.Serializable]
+        public class AudioSystem
+        {
+            [SerializeField] internal AudioSource audioDie;
+            [SerializeField] internal AudioSource rope;
+            [SerializeField] internal AudioSource slash;
+            [SerializeField] internal AudioSource slashHit;
+        }
 
         protected override void Awake()
         {
@@ -284,12 +292,13 @@ namespace Assets.Scripts.Characters.Humans
             Cache();
             Rigidbody.freezeRotation = true;
             Rigidbody.useGravity = false;
-            handL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L");
-            handR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R");
-            forearmL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L");
-            forearmR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R");
-            UpperarmL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
-            UpperarmR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
+            
+            handL = Body.hand_L;
+            handR = Body.hand_R;
+            forearmL = Body.forearm_L;
+            forearmR = Body.forearm_R;
+            UpperarmL = Body.upper_arm_L;
+            UpperarmR = Body.upper_arm_R;
             Equipment = gameObject.AddComponent<Equipment.Equipment>();
             Faction = Service.Faction.GetHumanity();
             Service.Entity.Register(this);
@@ -1129,7 +1138,6 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     bulletRight.GetComponent<Bullet>().removeMe();
                 }
-                meatDie.Play();
                 if ((photonView.isMine) && !useGun)
                 {
                     /*
@@ -1143,12 +1151,11 @@ namespace Assets.Scripts.Characters.Humans
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 FalseAttack();
                 hasDied = true;
-                Transform audioTransform = transform.Find("audio_die");
-                audioTransform.parent = null;
-                audioTransform.GetComponent<AudioSource>().Play();
+                audioSystem.audioDie.transform.parent = null;
+                audioSystem.audioDie.Play();
                 if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
                 {
-                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(audioTransform.position, 0, null, 0.02f);
+                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(audioSystem.audioDie.transform.position, 0, null, 0.02f);
                 }
                 UnityEngine.Object.Destroy(gameObject);
             }
@@ -2074,8 +2081,8 @@ namespace Assets.Scripts.Characters.Humans
 
         private void HeadMovement()
         {
-            Transform headTransform = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
-            Transform neckTransform = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
+            Transform headTransform = Body.head;
+            Transform neckTransform = Body.neck;
             float x = Mathf.Sqrt(((gunTarget.x - transform.position.x) * (gunTarget.x - transform.position.x)) + ((gunTarget.z - transform.position.z) * (gunTarget.z - transform.position.z)));
             targetHeadRotation = headTransform.rotation;
             Vector3 vector5 = gunTarget - transform.position;
@@ -2559,7 +2566,6 @@ namespace Assets.Scripts.Characters.Humans
             {
                 bulletRight.GetComponent<Bullet>().removeMe();
             }
-            meatDie.Play();
             if (!(useGun || (!photonView.isMine)))
             {
                 //TODO: Re-enable these again
@@ -2578,11 +2584,11 @@ namespace Assets.Scripts.Characters.Humans
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
-            Transform audioTransform = transform.Find("audio_die");
-            if (audioTransform != null)
+            
+            if (audioSystem.audioDie != null)
             {
-                audioTransform.parent = null;
-                audioTransform.GetComponent<AudioSource>().Play();
+                audioSystem.audioDie.transform.parent = null;
+                audioSystem.audioDie.Play();
             }
             SmoothSyncMovement.disabled = true;
             if (photonView.isMine)
@@ -2675,7 +2681,6 @@ namespace Assets.Scripts.Characters.Humans
                     skillCD.transform.localPosition = vector;
                 }
             }
-            meatDie.Play();
             if (bulletLeft != null)
             {
                 bulletLeft.GetComponent<Bullet>().removeMe();
@@ -2684,9 +2689,8 @@ namespace Assets.Scripts.Characters.Humans
             {
                 bulletRight.GetComponent<Bullet>().removeMe();
             }
-            Transform audioTransform = transform.Find("audio_die");
-            audioTransform.parent = null;
-            audioTransform.GetComponent<AudioSource>().Play();
+            audioSystem.audioDie.transform.parent = null;
+            audioSystem.audioDie.Play();
             if (photonView.isMine)
             {
                 var inGameCam = currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>();
@@ -2776,7 +2780,6 @@ namespace Assets.Scripts.Characters.Humans
             {
                 bulletRight.GetComponent<Bullet>().removeMe();
             }
-            meatDie.Play();
             if (!(useGun || (!photonView.isMine)))
             {
                 /*
@@ -2796,9 +2799,8 @@ namespace Assets.Scripts.Characters.Humans
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
-            Transform audioTransform = transform.Find("audio_die");
-            audioTransform.parent = null;
-            audioTransform.GetComponent<AudioSource>().Play();
+            audioSystem.audioDie.transform.parent = null;
+            audioSystem.audioDie.Play();
             SmoothSyncMovement.disabled = true;
             if (photonView.isMine)
             {
@@ -4137,7 +4139,7 @@ namespace Assets.Scripts.Characters.Humans
                                     if (!checkRightCollider.IsActive)
                                     {
                                         checkRightCollider.IsActive = true;
-                                        slash.Play();
+                                        audioSystem.slash.Play();
                                     }
                                 }
                                 else if (checkLeftCollider.IsActive)
@@ -4198,7 +4200,7 @@ namespace Assets.Scripts.Characters.Humans
                                     if (!checkLeftCollider.IsActive)
                                     {
                                         checkLeftCollider.IsActive = true;
-                                        slash.Play();
+                                        audioSystem.slash.Play();
                                         if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                         {
                                             //leftbladetrail2.Activate();
@@ -4454,7 +4456,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        audioSystem.rope.Play();
                     }
                 }
                 else
@@ -4484,7 +4486,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        audioSystem.rope.Play();
                     }
                 }
                 else
@@ -4514,7 +4516,7 @@ namespace Assets.Scripts.Characters.Humans
                             LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                             LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                         }
-                        rope.Play();
+                        audioSystem.rope.Play();
                     }
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
