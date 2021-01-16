@@ -3,7 +3,7 @@
 namespace Assets.Scripts.DayNightCycle
 {
     [CreateAssetMenu(fileName = "New Timecycle Profile", menuName = "Timecycle Profile")]
-    class TimecycleProfile : ScriptableObject
+    public class TimecycleProfile : ScriptableObject
     {
         [Header("Sun and moon settings")]
         public bool overrideSunlight = false;
