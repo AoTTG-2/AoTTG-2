@@ -43,6 +43,7 @@ namespace Assets.Scripts.Services
                 var json = (string) PhotonNetwork.room.CustomProperties["Settings"];
                 Settings = new GameSettings();
                 Settings.Initialize(json);
+                OnSettingsChanged();
             }
         }
 

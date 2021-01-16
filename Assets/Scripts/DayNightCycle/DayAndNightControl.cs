@@ -103,10 +103,20 @@ namespace Assets.Scripts.DayNightCycle
         }
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
-            currentTime = (float) GameSettings.Time.currentTime;
-            DayLength = (float) GameSettings.Time.dayLength;
-            pause = (bool) GameSettings.Time.pause;
-            
+            currentTime = (float) GameSettings.Time.currentTime; // 9
+            DayLength = (float) GameSettings.Time.dayLength; // 300
+            pause = (bool) GameSettings.Time.pause; // true
+
+
+            if (!pause)
+            {
+                // 300s since MC updated this
+                var diff = (float) (DateTime.UtcNow - settings.LastModified).TotalSeconds;
+
+                // 5 += ( 300 / 300) * 24 => 29 % 24 => 5
+                currentTime += (diff / DayLength) * 24;
+            }
+
         }
 
         private void OnDestroy()

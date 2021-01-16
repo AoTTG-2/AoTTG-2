@@ -64,6 +64,7 @@ namespace Assets.Scripts.Settings
             ConfigTitan = Titan;
             ConfigHorse = Horse;
             ConfigRespawn = Respawn;
+            Time.LastModified = DateTime.UtcNow;
             ConfigTime = Time;
         }
 
