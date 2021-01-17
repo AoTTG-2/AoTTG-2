@@ -236,14 +236,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         float num;
         this.main_object = obj;
-        if (obj == null)
-        {
-            this.head = null;
-            num = 1f;
-            this.heightMulti = 1f;
-            this.distanceMulti = num;
-        }
-        else if (this.main_object.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
+
+        if (this.main_object.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
         {
             this.head = this.main_object.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
             this.distanceMulti = (this.head != null) ? (Vector3.Distance(this.head.transform.position, this.main_object.transform.position) * 0.2f) : 1f;
@@ -298,6 +292,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
         GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
     }
+
     public void snapShot2(int index)
     {
         Vector3 vector;
