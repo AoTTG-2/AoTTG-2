@@ -3,7 +3,22 @@ guid: 22d8a27479e26d14fa87735d5e636454
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dark Wood roof
+    second: {fileID: 2100000, guid: 0609709fac249aa4dadfc8e2a35a0880, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light Wood main building material
+    second: {fileID: 2100000, guid: 311c0886625f2f44790733800da3076a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: ec3add26f65b88c4ebc910c14917e6aa, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
