@@ -3,22 +3,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.Settings;
 using UnityEngine.EventSystems;
-
+using System;
 namespace Assets.Scripts.DayNightCycle
 {
-    public class TimeSwitcher : MonoBehaviour, IDragHandler
+    public class TimeSwitcher : MonoBehaviour, IEndDragHandler, IDragHandler
     {
-
         public Text Label;
         public Slider TimeSlider;
         public InputField TimeInput;
-        public Toggle ToggleDayNight;
         DayAndNightControl dayNightCycle;
 
        void Start()
        {
             
-            ToggleDayNight = GameObject.Find("ToggleDayNightCycle").GetComponent<Toggle>();
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
              if (PhotonNetwork.isMasterClient)
              {
@@ -30,11 +27,18 @@ namespace Assets.Scripts.DayNightCycle
         }
 
 
-
-
         public void OnDrag(PointerEventData eventData)
         {
             if (PhotonNetwork.isMasterClient)
+            {
+                dayNightCycle.currentTime = TimeSlider.value * 24;
+                GameSettings.Time.currentTime = dayNightCycle.currentTime;
+            }
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (PhotonNetwork.isMasterClient && PhotonNetwork.connected)
             {
                 dayNightCycle.currentTime = TimeSlider.value * 24;
                 GameSettings.Time.currentTime = dayNightCycle.currentTime;
@@ -44,36 +48,29 @@ namespace Assets.Scripts.DayNightCycle
 
         void Update()
         {
-            TimeSlider.value = dayNightCycle.CurrentTime01;
+            TimeSlider.value = dayNightCycle.currentTime01;
         }
-        
-        private void SubmitTime(string arg0)
+
+        private void SubmitTime(string time)
         {
-            string time = arg0;
-            if (time.Contains(":"))
-                {
-                 try 
-                    {
-                    double seconds = System.TimeSpan.Parse(time).TotalSeconds;
-                    TimeSlider.value= (float) (seconds / 86400);
-                    dayNightCycle.currentTime = (float)(24*seconds/86400);
-                    GameSettings.Time.currentTime = dayNightCycle.currentTime;
-                    Service.Settings.SyncSettings();
-                    }
-                catch 
-                    {
-                      //add ui stuff once UI reworked 
-                    }
-                }
-            
-              
+            if (TimeSpan.TryParse(time, out var timeSpan) && time.Contains(":"))
+            {
+                double seconds = timeSpan.TotalSeconds;
+                TimeSlider.value = (float)(seconds / 86400);
+                dayNightCycle.currentTime = (float)(24 * seconds / 86400);
+                GameSettings.Time.currentTime = dayNightCycle.currentTime;
+                Service.Settings.SyncSettings();
+            }
         }
+
+
+    
 
         //grabbing the local scene's DayAndNightControl script
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-            TimeSlider.value = dayNightCycle.CurrentTime01;
+            TimeSlider.value = dayNightCycle.currentTime01;
         }
 
   
