@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FPSLimiter : MonoBehaviour
 {
 
-
-    [SerializeField] public InputField fpsLimiter;
+    public InputField fpsLimiter;
 
     public InputField FPSLimit
     {
@@ -38,10 +37,8 @@ public class FPSLimiter : MonoBehaviour
             Application.targetFrameRate = i;
 
         }
-
     }
 
-    [Serializable]
     public struct FPSData
     {
         public string field;
@@ -51,6 +48,5 @@ public class FPSLimiter : MonoBehaviour
             this.field = toCopy.FPSLimit.text;
         }
     }
-
 
 }
