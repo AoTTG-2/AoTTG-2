@@ -4345,6 +4345,9 @@ namespace Assets.Scripts.Characters.Humans
                         break;
                 }
 
+                bool easyMode = GameSettings.Gamemode.EasyModeEnabled != null ? (bool)GameSettings.Gamemode.EasyModeEnabled : false;
+                float easyModeSensitivity = GameSettings.Gamemode.EasyModeSensitivity != null ? (float) GameSettings.Gamemode.EasyModeSensitivity : 0;
+               
                 isLeftHookPressed = InputManager.Key(InputHuman.HookLeft);
 
                 //TODO: Properly refactor these if statements
@@ -4374,7 +4377,8 @@ namespace Assets.Scripts.Characters.Humans
                         LayerMask mask10 = ((int) 1) << LayerMask.NameToLayer("Ground");
                         LayerMask mask11 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                         LayerMask mask12 = mask11 | mask10;
-                        if (Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask12.value))
+                        if ( (easyMode && Physics.SphereCast(ray4, easyModeSensitivity, out hit4, HookRaycastDistance, mask12.value)) || 
+                            Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask12.value))
                         {
                             LaunchLeftRope(hit4.distance, hit4.point, true);
                         }
@@ -4404,7 +4408,8 @@ namespace Assets.Scripts.Characters.Humans
                         LayerMask mask13 = ((int) 1) << LayerMask.NameToLayer("Ground");
                         LayerMask mask14 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                         LayerMask mask15 = mask14 | mask13;
-                        if (Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask15.value))
+                        if ((easyMode && Physics.SphereCast(ray5, easyModeSensitivity, out hit5, HookRaycastDistance, mask15.value)) || 
+                            Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask15.value))
                         {
                             LaunchRightRope(hit5.distance, hit5.point, true);
                         }

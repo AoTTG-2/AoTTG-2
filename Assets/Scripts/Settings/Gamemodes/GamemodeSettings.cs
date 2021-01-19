@@ -45,6 +45,9 @@ namespace Assets.Scripts.Settings.Gamemodes
         public bool? IsPlayerTitanEnabled { get; set; }
         public bool? PlayerShifters { get; set; }
 
+        public bool? EasyModeEnabled { get; set; }
+        public float? EasyModeSensitivity { get; set; }
+
         public bool? RestartOnTitansKilled { get; set; }
         public PvPSettings Pvp { get; set; }
         public SettingsTitan Titan { get; set; }
@@ -79,6 +82,9 @@ namespace Assets.Scripts.Settings.Gamemodes
             switch (difficulty)
             {
                 case Difficulty.Easy:
+                    EasyModeEnabled = true;
+                    EasyModeSensitivity = 1.5f;
+                    break;
                 case Difficulty.Normal:
                 case Difficulty.Hard:
                 case Difficulty.Abnormal:
