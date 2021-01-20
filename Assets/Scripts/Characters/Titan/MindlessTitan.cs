@@ -15,6 +15,8 @@ namespace Assets.Scripts.Characters.Titan
 {
     public class MindlessTitan : TitanBase
     {
+        public AudioSource AudioSourceFoot;
+
         public TitanState PreviousState;
         public TitanState NextState;
         public MindlessTitanType MindlessType;
@@ -948,9 +950,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void Footstep()
         {
-            Transform transform = base.transform.Find("snd_titan_foot");
-            var audioSource = transform.GetComponent<AudioSource>();
-            audioSource.PlayOneShot(audioSource.clip);
+            AudioSourceFoot.PlayOneShot(AudioSourceFoot.clip);
         }
 
         #endregion
