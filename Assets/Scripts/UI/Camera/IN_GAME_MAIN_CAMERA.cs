@@ -645,23 +645,15 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 if (triggerAutoLock && (this.lockTarget != null))
                 {
                     float z = base.transform.eulerAngles.z;
-                    Transform transform = this.lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                    Vector3 vector2 = transform.position - ((this.head == null) ? this.main_object.transform.position : this.head.transform.position);
+                    Transform neckTransform = this.lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
+                    Vector3 vector2 = neckTransform.position - ((this.head == null) ? this.main_object.transform.position : this.head.transform.position);
                     vector2.Normalize();
                     this.lockCameraPosition = (this.head == null) ? this.main_object.transform.position : this.head.transform.position;
                     this.lockCameraPosition -= (Vector3) (((vector2 * this.distance) * this.distanceMulti) * this.distanceOffsetMulti);
                     this.lockCameraPosition += (Vector3) (((Vector3.up * 3f) * this.heightMulti) * this.distanceOffsetMulti);
                     base.transform.position = Vector3.Lerp(base.transform.position, this.lockCameraPosition, Time.deltaTime * 4f);
-                    if (this.head != null)
-                    {
-                        base.transform.LookAt((Vector3) ((this.head.transform.position * 0.8f) + (transform.position * 0.2f)));
-                    }
-                    else
-                    {
-                        base.transform.LookAt((Vector3) ((this.main_object.transform.position * 0.8f) + (transform.position * 0.2f)));
-                    }
+                    transform.LookAt(neckTransform.position);
                     base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
-                    Vector2 vector3 = base.GetComponent<Camera>().WorldToScreenPoint(transform.position - ((Vector3) (transform.forward * this.lockTarget.transform.localScale.x)));
                     // TODO: Plan reimplementation of lock-on feature.
                     //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((this.lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
