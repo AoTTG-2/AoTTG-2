@@ -92,7 +92,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(mindlessTitan.OnNapeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                     }
                     else if (!PhotonNetwork.isMasterClient)
@@ -178,7 +178,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnEyeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(mindlessTitan.OnEyeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                         this.showCriticalHitFX(other.gameObject.transform.position);
                     }
