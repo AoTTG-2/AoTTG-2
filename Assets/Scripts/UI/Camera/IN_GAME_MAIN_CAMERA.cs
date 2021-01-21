@@ -350,17 +350,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             case 1:
                 snapshot1 = RTImage2(snapShotCamera.GetComponent<Camera>());
-                //SnapShotSaves.addIMG(snapshot1, snapShotDmg);
                 break;
 
             case 2:
                 snapshot2 = RTImage2(snapShotCamera.GetComponent<Camera>());
-                //SnapShotSaves.addIMG(snapshot2, snapShotDmg);
                 break;
 
             case 3:
                 snapshot3 = RTImage2(snapShotCamera.GetComponent<Camera>());
-                //SnapShotSaves.addIMG(snapshot3, snapShotDmg);
                 break;
         }
         snapShotCount = index;
@@ -660,7 +657,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                         base.transform.LookAt(((main_object.transform.position * 0.8f) + (transform.position * 0.2f)));
                     }
                     base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
-                    //Vector2 lockVector = GetComponent<Camera>().WorldToScreenPoint(transform.position - (transform.forward * lockTarget.transform.localScale.x));
                     // TODO: Plan reimplementation of lock-on feature.
                     //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
@@ -927,7 +923,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
-        //SetDayLight(dayLight);
 
         // This doesn't exist in the scene and causes a NullReferenceException.
         // TODO: Fix titan locking
