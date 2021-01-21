@@ -302,7 +302,7 @@ namespace Assets.Scripts.Characters.Titan
                         {
                             this.asClientLookTarget = true;
                             object[] parameters = new object[] {true};
-                            base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
+                            base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, parameters);
                         }
 
                         flag2 = true;
@@ -312,7 +312,7 @@ namespace Assets.Scripts.Characters.Titan
                     {
                         this.asClientLookTarget = false;
                         object[] objArray3 = new object[] {false};
-                        base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
+                        base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, objArray3);
                     }
 
                     if (State == TitanState.Attacking)

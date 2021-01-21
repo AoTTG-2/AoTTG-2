@@ -79,7 +79,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                             netDieParameters[2] = myOwnerViewID;
                             netDieParameters[3] = titanName;
                             netDieParameters[4] = true;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, netDieParameters);
+                            component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, netDieParameters);
                         }
                     }
                 }
