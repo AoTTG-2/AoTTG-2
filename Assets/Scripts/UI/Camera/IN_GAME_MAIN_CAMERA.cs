@@ -238,7 +238,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         main_object = obj;
         if (obj == null)
         {
-            print(0);
             head = null;
             num = 1f;
             heightMulti = 1f;
@@ -246,7 +245,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         else if (main_object.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
         {
-            print(1);
             head = main_object.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
             distanceMulti = (head != null) ? (Vector3.Distance(head.transform.position, main_object.transform.position) * 0.2f) : 1f;
             heightMulti = (head != null) ? (Vector3.Distance(head.transform.position, main_object.transform.position) * 0.33f) : 1f;
@@ -257,7 +255,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         else if (main_object.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head") != null)
         {
-            print(2);
             head = main_object.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
             num = 0.64f;
             heightMulti = 0.64f;
@@ -269,7 +266,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
         else
         {
-            print(3);
             head = null;
             num = 1f;
             heightMulti = 1f;
@@ -288,7 +284,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         main_object = obj;
         if (main_object.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head") != null)
         {
-            print(5);
             head = main_object.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck/head");
             distanceMulti = (head != null) ? (Vector3.Distance(head.transform.position, main_object.transform.position) * 0.4f) : 1f;
             heightMulti = (head != null) ? (Vector3.Distance(head.transform.position, main_object.transform.position) * 0.45f) : 1f;
@@ -307,7 +302,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         Vector3 vector;
         RaycastHit hit;
-        snapShotCamera.transform.position = (main_object == null) ? main_object.transform.position : main_object.transform.position;
+        snapShotCamera.transform.position = (head == null) ? main_object.transform.position : head.transform.position;
         Transform transform = snapShotCamera.transform;
         transform.position += (Vector3.up * heightMulti);
         Transform transform2 = snapShotCamera.transform;
@@ -320,29 +315,29 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         float rotation = index == 3 ? Random.Range(-180f, 180f) : Random.Range(-20f, 20f);
         snapShotCamera.transform.RotateAround(base.transform.position, Vector3.up, rotation);
         snapShotCamera.transform.LookAt(worldPosition);
-        snapShotCamera.transform.RotateAround(worldPosition, base.transform.right, Random.Range((float) -20f, (float) 20f));
+        snapShotCamera.transform.RotateAround(worldPosition, base.transform.right, Random.Range(-20f, 20f));
         float num = Vector3.Distance(snapShotTargetPosition, vector);
         if ((snapShotTarget != null) && (snapShotTarget.GetComponent<MindlessTitan>() != null))
         {
             num += ((index - 1) * snapShotTarget.transform.localScale.x) * 10f;
         }
         Transform transform3 = snapShotCamera.transform;
-        transform3.position -= (snapShotCamera.transform.forward * Random.Range((float) (num + 3f), (float) (num + 10f)));
+        transform3.position -= snapShotCamera.transform.forward * Random.Range(num + 3f, num + 10f);
         snapShotCamera.transform.LookAt(worldPosition);
-        snapShotCamera.transform.RotateAround(worldPosition, base.transform.forward, Random.Range((float) -30f, (float) 30f));
-        Vector3 end = (main_object == null) ? main_object.transform.position : main_object.transform.position;
-        Vector3 vector5 = ((main_object == null) ? main_object.transform.position : main_object.transform.position) - snapShotCamera.transform.position;
+        snapShotCamera.transform.RotateAround(worldPosition, base.transform.forward, Random.Range(-30f, 30f));
+        Vector3 end = (head == null) ? main_object.transform.position : head.transform.position;
+        Vector3 vector5 = ((head == null) ? main_object.transform.position : head.transform.position) - snapShotCamera.transform.position;
         end -= vector5;
         LayerMask mask = 1 << LayerMask.NameToLayer("Ground");
         LayerMask mask2 = 1 << LayerMask.NameToLayer("EnemyBox");
         LayerMask mask3 = mask | mask2;
-        if (main_object != null)
+        if (head != null)
         {
-            if (Physics.Linecast(main_object.transform.position, end, out hit, mask))
+            if (Physics.Linecast(head.transform.position, end, out hit, mask))
             {
                 snapShotCamera.transform.position = hit.point;
             }
-            else if (Physics.Linecast(main_object.transform.position - ((vector5 * distanceMulti) * 3f), end, out hit, mask3))
+            else if (Physics.Linecast(head.transform.position - ((vector5 * distanceMulti) * 3f), end, out hit, mask3))
             {
                 snapShotCamera.transform.position = hit.point;
             }
@@ -355,17 +350,17 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             case 1:
                 snapshot1 = RTImage2(snapShotCamera.GetComponent<Camera>());
-                SnapShotSaves.addIMG(snapshot1, snapShotDmg);
+                //SnapShotSaves.addIMG(snapshot1, snapShotDmg);
                 break;
 
             case 2:
                 snapshot2 = RTImage2(snapShotCamera.GetComponent<Camera>());
-                SnapShotSaves.addIMG(snapshot2, snapShotDmg);
+                //SnapShotSaves.addIMG(snapshot2, snapShotDmg);
                 break;
 
             case 3:
                 snapshot3 = RTImage2(snapShotCamera.GetComponent<Camera>());
-                SnapShotSaves.addIMG(snapshot3, snapShotDmg);
+                //SnapShotSaves.addIMG(snapshot3, snapShotDmg);
                 break;
         }
         snapShotCount = index;
@@ -451,7 +446,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 snapShotTargetPosition = p;
                 snapShotTarget = target;
                 snapShotStartCountDownTime = startTime;
-                snapShotInterval = 0.05f + Random.Range((float) 0f, (float) 0.03f);
+                snapShotInterval = 0.05f + Random.Range(0f, 0.03f);
                 snapShotDmg = dmg;
             }
         }
@@ -462,7 +457,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             snapShotTargetPosition = p;
             snapShotTarget = target;
             snapShotStartCountDownTime = startTime;
-            snapShotInterval = 0.05f + Random.Range((float) 0f, (float) 0.03f);
+            snapShotInterval = 0.05f + Random.Range(0f, 0.03f);
             snapShotDmg = dmg;
         }
     }
@@ -650,22 +645,22 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     float z = base.transform.eulerAngles.z;
                     Transform transform = lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                    Vector3 vector2 = transform.position - ((main_object == null) ? main_object.transform.position : main_object.transform.position);
+                    Vector3 vector2 = transform.position - ((head == null) ? main_object.transform.position : head.transform.position);
                     vector2.Normalize();
-                    lockCameraPosition = main_object == null ? main_object.transform.position : main_object.transform.position;
+                    lockCameraPosition = head == null ? main_object.transform.position : head.transform.position;
                     lockCameraPosition -= ((vector2 * distance) * distanceMulti) * distanceOffsetMulti;
                     lockCameraPosition += ((Vector3.up * 3f) * heightMulti) * distanceOffsetMulti;
                     base.transform.position = Vector3.Lerp(base.transform.position, lockCameraPosition, Time.deltaTime * 4f);
-                    if (main_object != null)
+                    if (head != null)
                     {
-                        base.transform.LookAt((main_object.transform.position * 0.8f) + (transform.position * 0.2f));
+                        base.transform.LookAt((head.transform.position * 0.8f) + (transform.position * 0.2f));
                     }
                     else
                     {
                         base.transform.LookAt(((main_object.transform.position * 0.8f) + (transform.position * 0.2f)));
                     }
                     base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
-                    Vector2 vector3 = GetComponent<Camera>().WorldToScreenPoint(transform.position - (transform.forward * lockTarget.transform.localScale.x));
+                    //Vector2 lockVector = GetComponent<Camera>().WorldToScreenPoint(transform.position - (transform.forward * lockTarget.transform.localScale.x));
                     // TODO: Plan reimplementation of lock-on feature.
                     //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
@@ -686,7 +681,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 LayerMask mask2 = 1 << LayerMask.NameToLayer("EnemyBox");
                 LayerMask mask3 = mask | mask2;
 
-                //Debug.Log(heightMulti);
                 Vector3 start = new Vector3(main_object.transform.position.x, head.position.y, main_object.transform.position.z);
                 RaycastHit hit;
                 float vShift = heightMulti * 2f;
@@ -698,10 +692,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
 #if UNITY_EDITOR
                 Debug.DrawLine(start, end, Color.red);
-                print(distanceMulti);
 #endif
                 start = end;
-                //(main_object == null) ? main_object.transform.position : main_object.transform.position;
                 Vector3 direction = Vector3.Normalize(start - (transform.position + Vector3.up * vShift));
                 if (main_object != null)
                 {
@@ -768,7 +760,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private void DoCameraMovement()
     {
         distanceOffsetMulti = InputManager.Settings.CameraDistance * (200f - GetComponent<Camera>().fieldOfView) / 150f;
-        transform.position = (main_object == null) ? main_object.transform.position : main_object.transform.position;
+        transform.position = (head == null) ? main_object.transform.position : head.transform.position;
         transform.position += Vector3.up * heightMulti;
         transform.position -= Vector3.up * (0.6f - InputManager.Settings.CameraDistance) * 2f;
 
@@ -794,7 +786,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         if (InputManager.Settings.CameraDistance < 0.65f)
         {
             Transform transform6 = transform;
-            transform6.position += transform.right * Mathf.Max((float) ((0.6f - InputManager.Settings.CameraDistance) * 2f), (float) 0.65f);
+            transform6.position += transform.right * Mathf.Max((0.6f - InputManager.Settings.CameraDistance) * 2f, 0.65f);
         }
     }
 
@@ -935,7 +927,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
-        SetDayLight(dayLight);
+        //SetDayLight(dayLight);
 
         // This doesn't exist in the scene and causes a NullReferenceException.
         // TODO: Fix titan locking
