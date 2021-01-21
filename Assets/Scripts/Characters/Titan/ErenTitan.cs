@@ -1210,7 +1210,7 @@ namespace Assets.Scripts.Characters.Titan
                                 }
                                 if ((GetComponent<Animation>()["born"].normalizedTime >= 0.5f) && (GetComponent<Animation>()["born"].normalizedTime <= 0.7f))
                                 {
-                                    currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.5f, 1f, 0.95f);
+                                    currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.5f, 1f, 0.95f);
                                 }
                                 if (GetComponent<Animation>()["born"].normalizedTime >= 1f)
                                 {
