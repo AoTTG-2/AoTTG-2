@@ -359,7 +359,7 @@ namespace Assets.Scripts.Characters.Titan
         private float DamageTimer { get; set; }
 
         [PunRPC]
-        public virtual void OnNapeHitRpc(int viewId, int damage, PhotonMessageInfo info)
+        public virtual void OnNapeHitRpc(int viewId, int damage, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);

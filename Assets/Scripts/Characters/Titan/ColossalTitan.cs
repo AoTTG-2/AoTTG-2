@@ -565,7 +565,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
-        public override void OnNapeHitRpc(int viewID, int damage, PhotonMessageInfo info)
+        public override void OnNapeHitRpc(int viewID, int damage, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
             PhotonView view = PhotonView.Find(viewID);
