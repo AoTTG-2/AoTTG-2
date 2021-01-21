@@ -1623,7 +1623,7 @@ public class FemaleTitan : TitanBase
                         obj7.transform.localScale = base.transform.localScale;
                         float b = 1f - (Vector3.Distance(this.currentCamera.transform.position, obj7.transform.position) * 0.05f);
                         b = Mathf.Min(1f, b);
-                        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(b, b, 0.95f);
+                        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(b, b, 0.95f);
                     }
                     if ((this.attackCheckTimeA != 0f) && (((base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA) && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime <= this.attackCheckTimeB)) || (!this.attackChkOnce && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA))))
                     {

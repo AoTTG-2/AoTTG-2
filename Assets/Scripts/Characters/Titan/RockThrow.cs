@@ -27,7 +27,7 @@ public class RockThrow : Photon.MonoBehaviour
         obj2.transform.localScale = base.transform.localScale;
         float b = 1f - (Vector3.Distance(GameObject.Find("MainCamera").transform.position, obj2.transform.position) * 0.05f);
         b = Mathf.Min(1f, b);
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startShake(b, b, 0.95f);
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(b, b, 0.95f);
         PhotonNetwork.Destroy(base.photonView);
     }
 
