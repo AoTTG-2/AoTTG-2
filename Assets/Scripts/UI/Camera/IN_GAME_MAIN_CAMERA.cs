@@ -683,7 +683,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
                 Vector3 start = new Vector3(main_object.transform.position.x, head.position.y, main_object.transform.position.z);
                 RaycastHit hit;
-                float vShift = heightMulti * 2f;
+                float vShift = heightMulti;
                 Vector3 end = start + (Vector3.up * vShift);
                 if (Physics.Raycast(start, Vector3.up * vShift, out hit, vShift, mask3))
                 {
@@ -694,7 +694,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 Debug.DrawLine(start, end, Color.red);
 #endif
                 start = end;
-                Vector3 direction = Vector3.Normalize(start - (transform.position + Vector3.up * vShift));
+                Vector3 direction = Vector3.Normalize(start - transform.position);
                 if (main_object != null)
                 {
                     if (Physics.SphereCast(start + (direction * radius), radius, -direction, out hit, distance * distanceMulti, mask))
