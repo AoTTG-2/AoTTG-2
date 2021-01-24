@@ -124,7 +124,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         if (hero.CameraMultiplier < 0.65f)
         {
             Transform transform2 = base.transform;
-            transform2.position += base.transform.right * Mathf.Max((float) ((0.6f - hero.CameraMultiplier) * 2f), (float) 0.65f);
+            transform2.position += base.transform.right * Mathf.Max((0.6f - hero.CameraMultiplier) * 2f, 0.65f);
         }
         base.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, hero.GetComponent<SmoothSyncMovement>().correctCameraRot, Time.deltaTime * 5f);
     }
@@ -151,38 +151,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         //GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
         //this.flashDuration = 2f;
-    }
-
-    public void SetDayLight(DayLight value)
-    {
-        return;
-        dayLight = value;
-        dayLight = DayLight.Day;
-        if (dayLight == DayLight.Night)
-        {
-            GameObject obj2 = (GameObject) Instantiate(Resources.Load("flashlight"));
-            obj2.transform.parent = transform;
-            obj2.transform.position = transform.position;
-            obj2.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
-            RenderSettings.ambientLight = FengColor.nightAmbientLight;
-            GameObject.Find("mainLight").GetComponent<Light>().color = FengColor.nightLight;
-            gameObject.GetComponent<Skybox>().material = skyBoxNIGHT;
-        }
-        if (dayLight == DayLight.Day)
-        {
-            RenderSettings.ambientLight = FengColor.dayAmbientLight;
-            GameObject.Find("mainLight").GetComponent<Light>().color = FengColor.dayLight;
-            gameObject.GetComponent<Skybox>().material = skyBoxDAY;
-        }
-        if (dayLight == DayLight.Dawn)
-        {
-            RenderSettings.ambientLight = FengColor.dawnAmbientLight;
-            GameObject.Find("mainLight").GetComponent<Light>().color = FengColor.dawnAmbientLight;
-            gameObject.GetComponent<Skybox>().material = skyBoxDAWN;
-        }
-
-        //HACK Fix this
-        //this.snapShotCamera.gameObject.GetComponent<Skybox>().material = base.gameObject.GetComponent<Skybox>().material;
     }
 
     public void SetHUDposition()
@@ -221,16 +189,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             GameObject.Find("stamina_titan").transform.localPosition = new Vector3(0f, 9999f, 0f);
             GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(0f, 9999f, 0f);
         }
-        if ((main_object != null) && (main_object.GetComponent<Hero>() != null))
+        if ((main_object != null) && (main_object.GetComponent<Hero>() != null)
+            && (main_object.GetPhotonView() != null) && main_object.GetPhotonView().isMine)
         {
-            if ((main_object.GetPhotonView() != null) && main_object.GetPhotonView().isMine)
-            {
-                main_object.GetComponent<Hero>().setSkillHUDPosition2();
-            }
+            main_object.GetComponent<Hero>().setSkillHUDPosition2();
         }
         if (stereoType == STEREO_3D_TYPE.SIDE_BY_SIDE)
         {
-            gameObject.GetComponent<Camera>().aspect = Screen.width / Screen.height;
+            gameObject.GetComponent<Camera>().aspect = (float) Screen.width / Screen.height;
         }
         CreateSnapShotRT2();
     }

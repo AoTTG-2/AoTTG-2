@@ -1902,7 +1902,6 @@ namespace Assets.Scripts
                 this.cache();
                 this.loadskin();
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetHUDposition();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetDayLight(IN_GAME_MAIN_CAMERA.dayLight);
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
                 PVPcheckPoint.chkPts = new ArrayList();
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
