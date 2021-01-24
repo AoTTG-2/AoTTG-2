@@ -1901,7 +1901,6 @@ namespace Assets.Scripts
                 obj3.name = "MainCamera";
                 this.cache();
                 this.loadskin();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetHUDposition();
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
                 PVPcheckPoint.chkPts = new ArrayList();
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
@@ -2651,7 +2650,6 @@ namespace Assets.Scripts
                 }
 
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetHUDposition();
                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
@@ -2731,7 +2729,6 @@ namespace Assets.Scripts
                 propertiesToSet = hashtable;
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetHUDposition();
                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
