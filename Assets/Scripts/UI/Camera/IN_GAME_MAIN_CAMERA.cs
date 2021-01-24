@@ -20,7 +20,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static DayLight dayLight = DayLight.Dawn;
     private float decay;
     private float distance = 10f;
+    [SerializeField]
     private float distanceMulti;
+    [SerializeField]
     private float distanceOffsetMulti;
     private float duration;
     private float flashDuration;
@@ -30,6 +32,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static GAMETYPE gametype = GAMETYPE.Stop;
     private bool hasSnapShot;
     private Transform head;
+    [SerializeField]
     private float heightMulti;
     public static bool isPausing;
     public static bool isTyping;
@@ -677,23 +680,23 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 LayerMask mask2 = 1 << LayerMask.NameToLayer("EnemyBox");
                 LayerMask mask3 = mask | mask2;
 
-                Vector3 start = new Vector3(main_object.transform.position.x, head.position.y, main_object.transform.position.z);
+                Vector3 start = main_object.transform.position;
+                Vector3 end = start + (Vector3.up * 1.7f);
                 RaycastHit hit;
-                float vShift = heightMulti;
-                Vector3 end = start + (Vector3.up * vShift);
-                if (Physics.Raycast(start, Vector3.up * vShift, out hit, vShift, mask3))
+                if (Physics.Linecast(start, end, out hit, mask3))
                 {
-                    vShift = hit.distance - radius - 0.01f;
-                    end = start + (Vector3.up * vShift);
+                    start = hit.point;
                 }
-#if UNITY_EDITOR
-                Debug.DrawLine(start, end, Color.red);
-#endif
-                start = end;
+                else
+                {
+                    start = end;
+                }
+                start -= Vector3.up * (radius + 0.5f);
+
                 Vector3 direction = Vector3.Normalize(start - transform.position);
                 if (main_object != null)
                 {
-                    if (Physics.SphereCast(start + (direction * radius), radius, -direction, out hit, distance * distanceMulti, mask))
+                    if (Physics.SphereCast(start + (direction * radius), radius, -direction, out hit, distance * distanceMulti * distanceOffsetMulti, mask))
                     {
                         transform.position = start - (direction * (hit.distance - radius));
 #if UNITY_EDITOR
@@ -708,9 +711,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                     }
                     else
                     {
-                        transform.position = start - (direction * (distance * distanceMulti - radius));
+                        transform.position = start - (direction * (distance * distanceMulti * distanceOffsetMulti - radius));
 #if UNITY_EDITOR
-                        gizSpherePos2 = start - (direction * (distance - radius));
+                        gizSpherePos2 = start - (direction * (distance * distanceMulti * distanceOffsetMulti - radius));
                         Debug.DrawLine(start + (direction * radius), start - (direction * distance * distanceMulti), Color.red);
 #endif
                     }
@@ -730,9 +733,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     Vector3 gizSpherePos2;
     private void OnDrawGizmos()
     {
+        // Green
         Gizmos.color = new Color(0.3f, 1f, 0.3f);
         Gizmos.DrawWireSphere(gizSpherePos1, gizRadius);
-
+        // Blue
         Gizmos.color = new Color(0.3f, 0.9f, 0.9f);
         Gizmos.DrawWireSphere(gizSpherePos2, gizRadius);
     }
