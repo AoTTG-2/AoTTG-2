@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.UI.Menu
+﻿using Assets.Scripts.Services;
+
+namespace Assets.Scripts.UI.Menu
 {
     public class MainMenu : UiNavigationElement
     {
@@ -9,13 +11,13 @@
 
         public void Multiplayer()
         {
-            Lobby.SetPhotonServerIp(false);
+            Service.Photon.UpdateConnectionType(false);
             Navigate(typeof(Lobby));
         }
 
         public void LAN()
         {
-            Lobby.SetPhotonServerIp(true);
+            Service.Photon.UpdateConnectionType(true);
             Navigate(typeof(Lobby));
         }
 
