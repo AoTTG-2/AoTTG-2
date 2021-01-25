@@ -52,8 +52,8 @@ namespace Assets.Scripts.Services
         {
             discord.RunCallbacks();
         }
-
-        private void OnApplicationQuit()
+        
+        private void OnDestroy()
         {
             discord.Dispose();
         }

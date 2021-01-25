@@ -17,7 +17,7 @@ namespace Assets.Scripts.Characters
         protected virtual void OnDestroy()
         {
             EntityService.UnRegister(this);
-            if (photonView.isMine)
+            if (photonView.isMine && PhotonNetwork.connected)
                 PhotonNetwork.RemoveRPCs(photonView);
         }
 
