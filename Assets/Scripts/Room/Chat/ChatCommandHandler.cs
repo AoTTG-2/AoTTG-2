@@ -215,8 +215,8 @@ public static class ChatCommandHandler
             {
                 if (gameObject.GetPhotonView().owner.ID == playerId)
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gameObject, true, false);
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(gameObject, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 }
             }
         }
