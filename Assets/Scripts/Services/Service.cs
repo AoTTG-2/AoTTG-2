@@ -1,10 +1,13 @@
-﻿using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Services.Interface;
+using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Services
 {
     public class Service : MonoBehaviour
     {
+        public VersionManager versionManager;
+        
         public static readonly IEntityService Entity = new EntityService();
         public static readonly IPlayerService Player = new PlayerService();
 
@@ -16,6 +19,9 @@ namespace Assets.Scripts.Services
         public static ITimeService Time { get; private set; }
         public static IUiService Ui { get; private set; }
         
+        public static IPhotonService Photon { get; private set; }
+        public static IDiscordService Discord { get; private set; }
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -26,6 +32,12 @@ namespace Assets.Scripts.Services
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
+            Discord = gameObject.AddComponent<DiscordService>();
+
+            var photonService = gameObject.AddComponent<PhotonService>();
+            photonService.versionManager = versionManager;
+            Photon = photonService;
+            
 
             gameObject.AddComponent<ScreenshotService>();
         }

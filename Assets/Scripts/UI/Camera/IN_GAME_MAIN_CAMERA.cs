@@ -558,25 +558,18 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     DoCameraMovement();
                 }
-                if (triggerAutoLock && (lockTarget != null))
+                if (triggerAutoLock && lockTarget != null)
                 {
-                    float z = base.transform.eulerAngles.z;
-                    Transform transform = lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                    Vector3 vector2 = transform.position - ((head == null) ? main_object.transform.position : head.transform.position);
+                    float z = transform.eulerAngles.z;
+                    Transform neckTransform = lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
+                    Vector3 vector2 = neckTransform.position - (head == null ? main_object.transform.position : head.transform.position);
                     vector2.Normalize();
                     lockCameraPosition = head == null ? main_object.transform.position : head.transform.position;
-                    lockCameraPosition -= ((vector2 * distance) * distanceMulti) * distanceOffsetMulti;
-                    lockCameraPosition += ((Vector3.up * 3f) * heightMulti) * distanceOffsetMulti;
-                    base.transform.position = Vector3.Lerp(base.transform.position, lockCameraPosition, Time.deltaTime * 4f);
-                    if (head != null)
-                    {
-                        base.transform.LookAt((head.transform.position * 0.8f) + (transform.position * 0.2f));
-                    }
-                    else
-                    {
-                        base.transform.LookAt(((main_object.transform.position * 0.8f) + (transform.position * 0.2f)));
-                    }
-                    base.transform.localEulerAngles = new Vector3(base.transform.eulerAngles.x, base.transform.eulerAngles.y, z);
+                    lockCameraPosition -= vector2 * distance * distanceMulti * distanceOffsetMulti;
+                    lockCameraPosition += Vector3.up * 3f * heightMulti * distanceOffsetMulti;
+                    transform.position = Vector3.Lerp(transform.position, lockCameraPosition, Time.deltaTime * 4f);
+                    transform.LookAt(neckTransform.position);
+                    transform.localEulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, z);
                     // TODO: Plan reimplementation of lock-on feature.
                     //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)

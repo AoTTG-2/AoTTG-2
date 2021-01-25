@@ -9,9 +9,6 @@ namespace Assets.Scripts.UI.Menu
 {
     public class Lobby : UiNavigationElement
     {
-        [SerializeField]
-        private VersionManager versionManager;
-
         public GameObject ScrollViewContent;
         public GameObject Row;
 
@@ -19,24 +16,12 @@ namespace Assets.Scripts.UI.Menu
 
         public RoomRow SelectedRoom
         {
-            get
-            {
-                return selectedRoom;
-            }
+            get { return selectedRoom; }
             set
             {
                 selectedRoom?.PasswordPanel.SetActive(false);
                 selectedRoom = value;
             }
-        }
-
-        private static string IpAddress { get; set; }
-
-        public static void SetPhotonServerIp(bool isLocal)
-        {
-            IpAddress = isLocal 
-                    ? "127.0.0.1"
-                    : "51.210.5.100";
         }
 
         private int Region { get; set; }
@@ -49,34 +34,22 @@ namespace Assets.Scripts.UI.Menu
         protected override void OnEnable()
         {
             base.OnEnable();
-
-
-            if (Service.Authentication.AccessToken != null)
-            {
-                PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
-                PhotonNetwork.AuthValues.AddAuthParameter("token", Service.Authentication.AccessToken);
-            }
-            else
-            {
-                // PhotonServer complains about no UserId being set, temp fix
-                PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            }
-
-            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
+            Service.Photon.Initialize();
         }
 
         public void OnRegionChanged(int region)
         {
             Region = region;
-            PhotonNetwork.Disconnect();
+            Service.Photon.ChangeRegionDisconnect();
         }
 
         public void OnDisconnectedFromPhoton()
         {
+            //Check if this is required to be in the service.
             // PhotonServer complains about no UserId being set, temp fix
-            PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
             //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
+
+            Service.Photon.OnDisconnectFromPhoton();
         }
 
         public void OnPhotonJoinRoomFailed(object[] codeAndMsg)
@@ -88,8 +61,8 @@ namespace Assets.Scripts.UI.Menu
 
         public void OnConnectedToPhoton()
         {
-            CancelInvoke("RefreshLobby");
-            InvokeRepeating("RefreshLobby", 1f, 5f);
+            CancelInvoke(nameof(RefreshLobby));
+            InvokeRepeating(nameof(RefreshLobby), 1f, 5f);
         }
 
         private void RefreshLobby()
@@ -129,7 +102,8 @@ namespace Assets.Scripts.UI.Menu
                 var row = Instantiate(Row, ScrollViewContent.transform);
                 var roomRow = row.GetComponent<RoomRow>();
                 roomRow.Room = roomInfo.Name;
-                roomRow.DisplayName = $"{roomInfo.GetName()} | {roomInfo.GetLevel()} | {roomInfo.GetGamemode()} | {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
+                roomRow.DisplayName =
+                    $"{roomInfo.GetName()} | {roomInfo.GetLevel()} | {roomInfo.GetGamemode()} | {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
                 roomRow.Lobby = this;
                 roomRow.IsPasswordRequired = roomInfo.IsPasswordRequired();
                 roomRow.IsAccountRequired = roomInfo.IsAccountRequired();
