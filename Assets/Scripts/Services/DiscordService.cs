@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.IO;
-using Assets.Scripts.Room;
+﻿using Assets.Scripts.Room;
 using Assets.Scripts.Services.Interface;
 using Discord;
 using Photon;
+using System;
+using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -182,7 +182,23 @@ namespace Assets.Scripts.Services
 
         private static string GetApplicationPath()
         {
-            return $"{Environment.CurrentDirectory}{Path.DirectorySeparatorChar}{Application.companyName}";
+            var path = Application.dataPath;
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                    path = path.Replace("_Data", string.Empty);
+                    path += ".exe";
+                    break;
+                case RuntimePlatform.OSXPlayer:
+                    path = Directory.GetParent(path).ToString();
+                    path += ".app";
+                    break;
+                default:
+                    Debug.Log($"DiscordRPC: {Application.platform} is not supported");
+                    break;
+            }
+
+            return path;
         }
 
         #endregion
