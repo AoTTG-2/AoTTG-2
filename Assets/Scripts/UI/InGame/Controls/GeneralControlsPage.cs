@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame.Controls
 {
-    public class GeneralControlsPage : MonoBehaviour
+    public class GeneralControlsPage : UiContainer
     {
         public UiInput CameraDistance;
         public UiInput MouseSensitivity;
@@ -15,6 +15,11 @@ namespace Assets.Scripts.UI.InGame.Controls
 
         private void Awake()
         {
+            AddChild(CameraDistance);
+            AddChild(MouseSensitivity);
+            AddChild(CameraTilt);
+            AddChild(MouseInvert);
+            AddChild(GasBurstDoubleTap);
             LoadSettings();
         }
 

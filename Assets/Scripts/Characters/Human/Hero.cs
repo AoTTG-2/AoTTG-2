@@ -4077,7 +4077,7 @@ public class Hero : Human
     private void showAimUI2()
     {
         Vector3 vector;
-        if (MenuManager.IsMenuOpen)
+        if (MenuManager.IsAnyMenuOpen)
         {
             GameObject cross1 = this.cross1;
             GameObject cross2 = this.cross2;
@@ -4740,7 +4740,7 @@ public class Hero : Human
                         }
                         if (this.state == HERO_STATE.Idle)
                         {
-                            if (!MenuManager.IsMenuOpen)
+                            if (!MenuManager.IsAnyMenuOpen)
                             {
                                 if (InputManager.KeyDown(InputHuman.Item1))
                                 {

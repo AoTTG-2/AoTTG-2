@@ -2,8 +2,9 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using Assets.Scripts.UI;
 
-public class WheelButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class WheelButton : UiContainer, IPointerEnterHandler, IPointerExitHandler
 {
 	public Image Circle;
 	public Image Icon;

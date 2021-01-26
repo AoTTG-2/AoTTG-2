@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.UI.Input;
 using UnityEngine;
 
-public class UIInputHandler : MonoBehaviour
+public class UiInputHandler : MonoBehaviour
 {
     private GameObject interactionWheel;
 

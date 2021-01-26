@@ -4,8 +4,9 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.UI;
 
-public class InteractionWheel : MonoBehaviour
+public class InteractionWheel : UiContainer
 {
 	public Text Label;
 	public WheelButton ButtonPrefab;
@@ -27,6 +28,11 @@ public class InteractionWheel : MonoBehaviour
 			base.StartCoroutine(SpawnButtons());
 		}
 	}
+
+    private void Awake()
+    {
+        AddChild(ButtonPrefab);
+    }
 
 	private IEnumerator SpawnButtons()
 	{

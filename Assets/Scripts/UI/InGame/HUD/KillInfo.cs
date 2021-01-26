@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
-    public class KillInfo : MonoBehaviour
+    public class KillInfo : UiElement
     {
         private float alpha = 1f;
         private int col;

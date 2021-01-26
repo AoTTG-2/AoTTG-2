@@ -1,4 +1,5 @@
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.UI.Menu;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,28 +9,30 @@ using UnityEngine.UI;
 using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 
-public class InRoomChat : Photon.MonoBehaviour
+public class InRoomChat : Photon.MonoBehaviour, IUiElement
 {
     private const int MaxStoredMessages = 100;
     private const int MaxMessageLength = 1000;
     public static readonly string ChatRPC = "Chat";
     private string inputLine = string.Empty;
-    public bool IsVisible = true;
     private readonly List<string> messages = new List<string>();
     public InputField ChatInputField;
     public Text ChatText;
     private bool IsChatOpen { get; set; }
 
-    private void Update()
+    public bool IsVisible()
     {
-        if (!IsVisible || (PhotonNetwork.connectionState != ConnectionState.Connected))
-        {
-            return;
-        }
-        
-        HandleChatInput(this);
+        return gameObject.activeSelf;
+    }
 
-        UpdateChat(this);
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 
     public void ClearMessages()
@@ -47,6 +50,51 @@ public class InRoomChat : Photon.MonoBehaviour
         }
         RemoveMessageIfMoreThanMax();
         messages.Add(message);
+    }
+    public void OutputSystemMessage(string input)
+    {
+        var message = $"<color=#FFCC00>{input}</color>"; ;
+        instance.chatRoom.AddMessage(message);
+    }
+
+    /// <summary>
+    /// Formats text as <color=#FF0000>Error: {input}</color> and outputs to chat
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public void OutputErrorMessage(string input)
+    {
+        var message = $"<color=#FF0000>Error: {input}</color>";
+        instance.chatRoom.AddMessage(message);
+    }
+
+    /// <summary>
+    /// Outputs Not Master Client Error to chat
+    /// </summary>
+    public void OutputErrorNotMasterClient()
+    {
+        OutputErrorMessage("Not Master Client");
+    }
+
+    /// <summary>
+    /// Outputs Flayer Not Found Error to chat
+    /// </summary>
+    /// <param name="playerId"></param>
+    public void OutputErrorPlayerNotFound(string playerId)
+    {
+        OutputErrorMessage($"No player with ID #{playerId} could be found.");
+    }
+
+    private void Update()
+    {
+        if (!IsVisible() || (PhotonNetwork.connectionState != ConnectionState.Connected))
+        {
+            return;
+        }
+        
+        HandleChatInput(this);
+
+        UpdateChat(this);
     }
 
     private void TrimMessage(string message)
@@ -84,7 +132,7 @@ public class InRoomChat : Photon.MonoBehaviour
     {
         if (InputManager.KeyDown(InputUi.Chat))
         {
-            if (MenuManager.IsMenuOpen && IsChatOpen)
+            if (MenuManager.IsAnyMenuOpen && IsChatOpen)
             {
                 if (!string.IsNullOrEmpty(inputLine))
                 {
@@ -101,12 +149,12 @@ public class InRoomChat : Photon.MonoBehaviour
                 chat.ChatInputField.text = string.Empty;
                 EventSystem.current.SetSelectedGameObject(null);
                 IsChatOpen = false;
-                MenuManager.RegisterClosed();
+                MenuManager.RegisterClosed(this);
             }
-            else if (!MenuManager.IsMenuOpen)
+            else if (!MenuManager.IsAnyMenuOpen)
             {
                 chat.ChatInputField?.Select();
-                MenuManager.RegisterOpened();
+                MenuManager.RegisterOpened(this);
                 IsChatOpen = true;
             }
         }
@@ -141,37 +189,4 @@ public class InRoomChat : Photon.MonoBehaviour
         return countOpeningTags == countClosingTags;
     }
 
-    public void OutputSystemMessage(string input)
-    {
-        var message = $"<color=#FFCC00>{input}</color>"; ;
-        instance.chatRoom.AddMessage(message);
-    }
-
-    /// <summary>
-    /// Formats text as <color=#FF0000>Error: {input}</color> and outputs to chat
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public void OutputErrorMessage(string input)
-    {
-        var message = $"<color=#FF0000>Error: {input}</color>";
-        instance.chatRoom.AddMessage(message);
-    }
-
-    /// <summary>
-    /// Outputs Not Master Client Error to chat
-    /// </summary>
-    public void OutputErrorNotMasterClient()
-    {
-        OutputErrorMessage("Not Master Client");
-    }
-
-    /// <summary>
-    /// Outputs Flayer Not Found Error to chat
-    /// </summary>
-    /// <param name="playerId"></param>
-    public void OutputErrorPlayerNotFound(string playerId)
-    {
-        OutputErrorMessage($"No player with ID #{playerId} could be found.");
-    }
 }

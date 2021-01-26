@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Assets.Scripts.UI.Elements;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
-    public class HUD : MonoBehaviour
+    public class HUD : UiElement
     {
         public GameObject Damage;
         public Labels Labels;
