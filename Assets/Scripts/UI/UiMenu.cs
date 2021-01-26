@@ -9,13 +9,11 @@ namespace Assets.Scripts.UI.InGame
     {
         protected virtual void OnEnable()
         {
-            Debug.Log($"{this.name} enabled.");
             MenuManager.RegisterOpened(this);
         }
 
         protected virtual void OnDisable()
         {
-            Debug.Log($"{this.name} disabled.");
             MenuManager.RegisterClosed(this);
         }
     }
