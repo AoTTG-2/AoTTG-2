@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class FPSLimiter : MonoBehaviour
 {
     public InputField fpsLimiter;
+    public int limit; 
 
     public InputField FPSLimit
     {
@@ -14,6 +15,7 @@ public class FPSLimiter : MonoBehaviour
 
     private void Start()
     {
+        /*Will first check to see if a limit has been set in the past and use that*/
         if (FPSLimit.text == "")
         {
             DefaultFPS();
@@ -29,7 +31,7 @@ public class FPSLimiter : MonoBehaviour
     {
         FPSLimit.interactable = true;
         var text = FPSLimit.text;
-        int limit;
+        text = text.Replace("-", string.Empty); //prevents negative values from doing funky stuff
         Int32.TryParse(text.ToString(), out limit);
         Application.targetFrameRate = limit;
         /*if the field is empty it will set it back to the default. This prevents the FPS going nuts upon clearing the limit*/
