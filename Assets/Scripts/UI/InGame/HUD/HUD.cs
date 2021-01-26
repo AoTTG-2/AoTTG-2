@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.UI.Elements;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 

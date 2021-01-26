@@ -96,7 +96,6 @@ namespace Assets.Scripts.UI.InGame
             var childCount = Content.transform.childCount;
             var categoryUi = Instantiate(Category);
             categoryUi.GetComponentInChildren<Text>().text = category.ToString();
-            // TODO: Add category child here???
 
             if (childCount == 0)
             {

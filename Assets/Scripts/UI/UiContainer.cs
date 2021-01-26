@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.UI.Menu;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Assets.Scripts.UI
 {

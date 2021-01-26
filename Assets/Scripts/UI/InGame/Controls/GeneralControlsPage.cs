@@ -1,7 +1,6 @@
 ﻿using System;
 using Assets.Scripts.UI.Elements;
 using Assets.Scripts.UI.Input;
-using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame.Controls
 {

@@ -1,13 +1,9 @@
 ﻿using Assets.Scripts.Services;
-using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.Elements;
-using Assets.Scripts.UI.Menu;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -15,7 +11,7 @@ namespace Assets.Scripts.UI.InGame
     {
         public GameSettingPage GameSettingPage;
         public ServerSettingsPage ServerSettingsPage;
-        private List<GameSettingPage> pages = new List<GameSettingPage>();
+        private readonly List<GameSettingPage> pages = new List<GameSettingPage>();
         private GamemodeSettings gamemode;
 
         public void ViewGameSettingPage()

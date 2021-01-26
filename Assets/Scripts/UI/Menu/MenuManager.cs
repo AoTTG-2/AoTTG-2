@@ -1,8 +1,6 @@
-﻿using Assets.Scripts.UI.InGame;
-using Assets.Scripts.UI.Menu;
+﻿using Assets.Scripts.UI.Menu;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class MenuManager
 {

@@ -1,8 +1,4 @@
-﻿using Assets.Scripts.UI.Menu;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
