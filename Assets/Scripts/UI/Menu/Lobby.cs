@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Room;
 using Assets.Scripts.Services;
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +10,7 @@ namespace Assets.Scripts.UI.Menu
     {
         public GameObject ScrollViewContent;
         public GameObject Row;
+        public Dropdown ServerDropdown;
 
         private RoomRow selectedRoom;
 
@@ -24,34 +24,49 @@ namespace Assets.Scripts.UI.Menu
             }
         }
 
-        private int Region { get; set; }
-
         public void CreateRoom()
         {
             Navigate(typeof(CreateRoom));
         }
 
+        private void Awake()
+        {
+            ServerDropdown.onValueChanged.AddListener(delegate
+            {
+                OnServerChanged(ServerDropdown);
+            });
+        }
+
+        private void OnDestroy()
+        {
+            ServerDropdown.onValueChanged.RemoveAllListeners();
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
-            Service.Photon.Initialize();
+            Service.Photon.Connect();
+            ServerDropdown.options.Clear();
+
+            var servers = Service.Photon.GetAllServers();
+            foreach (var server in servers)
+            {
+                ServerDropdown.options.Add(new Dropdown.OptionData(server.Name));
+            }
         }
 
-        public void OnRegionChanged(int region)
+        public override void Back()
         {
-            Region = region;
-            Service.Photon.ChangeRegionDisconnect();
+            base.Back();
+            PhotonNetwork.Disconnect();
         }
 
-        public void OnDisconnectedFromPhoton()
+        public void OnServerChanged(Dropdown change)
         {
-            //Check if this is required to be in the service.
-            // PhotonServer complains about no UserId being set, temp fix
-            //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
-
-            Service.Photon.OnDisconnectFromPhoton();
+            var photonConfig = Service.Photon.GetConfigByName(change.options[change.value]?.text);
+            Service.Photon.ChangePhotonServer(photonConfig);
         }
-
+        
         public void OnPhotonJoinRoomFailed(object[] codeAndMsg)
         {
             if (SelectedRoom == null) return;

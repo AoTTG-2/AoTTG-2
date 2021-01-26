@@ -6,8 +6,6 @@ namespace Assets.Scripts.Services
 {
     public class Service : MonoBehaviour
     {
-        public VersionManager versionManager;
-        
         public static readonly IEntityService Entity = new EntityService();
         public static readonly IPlayerService Player = new PlayerService();
 
@@ -33,12 +31,7 @@ namespace Assets.Scripts.Services
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
             Discord = gameObject.AddComponent<DiscordService>();
-
-            var photonService = gameObject.AddComponent<PhotonService>();
-            photonService.versionManager = versionManager;
-            Photon = photonService;
-            
-
+            Photon = gameObject.GetComponent<IPhotonService>();
             gameObject.AddComponent<ScreenshotService>();
         }
     }

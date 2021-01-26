@@ -69,7 +69,7 @@ namespace Assets.Scripts.Services
         private void JoinViaDiscord(string roomID)
         {
             Service.Photon.UpdateConnectionType(false);
-            Service.Photon.Initialize();
+            Service.Photon.Connect();
             if (joiningRoutine != null)
                 StopCoroutine(joiningRoutine);
 
@@ -80,7 +80,7 @@ namespace Assets.Scripts.Services
         {
             float startTime = Time.time;
             Service.Photon.UpdateConnectionType(false);
-            Service.Photon.Initialize();
+            Service.Photon.Connect();
 
             while (!isJoinedLobby)
             {

@@ -12,13 +12,15 @@ GameObject:
   - component: {fileID: 1650797095130246454}
   - component: {fileID: 1650797095130246448}
   - component: {fileID: 1650797095130246449}
+  - component: {fileID: 1974933086}
+  - component: {fileID: 1974933087}
   m_Layer: 0
   m_Name: ServiceManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1650797095130246455
 Transform:
   m_ObjectHideFlags: 0
@@ -84,4 +86,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c019554b240854e9a6e747cba6e4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ui: {fileID: 0}
+  MainUi: {fileID: 0}
+--- !u!114 &1974933086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650797095130246453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7771a39e87be45449b8493d72a69b9f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OAuth: {fileID: 11400000, guid: db114314cdf094b4ea15356f15dae7bf, type: 2}
+--- !u!114 &1974933087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650797095130246453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85141578e904378b2f57b64bc50127c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VersionManager: {fileID: 11400000, guid: 1d8def093920aaf46a5901f43ddf104a, type: 2}
+  photonServerConfiguration:
+  - {fileID: 11400000, guid: 4ac3a7df7a6a82b4f855fc9a477196c7, type: 2}
+  - {fileID: 11400000, guid: 805974e8dcdc7ea478220a6d46e27889, type: 2}

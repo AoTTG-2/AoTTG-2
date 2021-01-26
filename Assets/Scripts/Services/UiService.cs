@@ -60,6 +60,7 @@ namespace Assets.Scripts.Services
 
         public override void OnDisconnectedFromPhoton()
         {
+            if (Service.Photon.IsChangingRegion()) return;
             MainUi.ShowMenu();
         }
     }
