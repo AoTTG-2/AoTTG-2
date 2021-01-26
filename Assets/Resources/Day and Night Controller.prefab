@@ -482,6 +482,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1018664272722485354, guid: dd52328a2b02f244e86660eb86eac215,
         type: 3}
+      propertyPath: m_Layer
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: -1018664272722485354, guid: dd52328a2b02f244e86660eb86eac215,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -490,11 +495,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stardome
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dd52328a2b02f244e86660eb86eac215,
+        type: 3}
+      propertyPath: m_Layer
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 5606202398312851709, guid: dd52328a2b02f244e86660eb86eac215,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: eca580a8c4bd99746b0681036ee995f2, type: 2}
+    - target: {fileID: 5889661462925004608, guid: dd52328a2b02f244e86660eb86eac215,
+        type: 3}
+      propertyPath: m_Layer
+      value: 24
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd52328a2b02f244e86660eb86eac215, type: 3}
 --- !u!4 &5828673541016107248 stripped
