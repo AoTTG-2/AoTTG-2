@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI.InGame
                 Menu.Show();
                 if (PhotonNetwork.offlineMode)
                 {
-                    PauseService.Pause(true);
+                    PauseService.Pause(true, true);
                 }
             }
         }

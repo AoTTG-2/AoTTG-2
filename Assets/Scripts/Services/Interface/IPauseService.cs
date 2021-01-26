@@ -8,7 +8,7 @@ namespace Assets.Scripts.Services.Interface
         float PauseTimer { get; }
 
         bool IsPaused();
-        void Pause(bool shouldPause, bool immediate = true);
+        void Pause(bool shouldPause, bool immediate = false);
         void PauseRpc(bool shouldPause, bool immediate, PhotonMessageInfo info);
 
         event EventHandler OnPaused;
