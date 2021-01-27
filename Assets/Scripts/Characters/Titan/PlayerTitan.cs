@@ -163,8 +163,8 @@ namespace Assets.Scripts.Characters.Titan
         {
             base.OnTitanDeath();
             if (!photonView.isMine) return;
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
             propertiesToSet.Add(PhotonPlayerProperty.dead, true);
@@ -178,8 +178,8 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!PhotonNetwork.offlineMode)
             { 
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.dead, true);

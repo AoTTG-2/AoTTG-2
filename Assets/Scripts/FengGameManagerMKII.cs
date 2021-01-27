@@ -82,8 +82,6 @@ namespace Assets.Scripts
         private IN_GAME_MAIN_CAMERA mainCamera;
         [Obsolete("Legacy method which appears to have been used to determine if a client is 'master' RC or not. This would have given special permissions, but the feature is only used within 2 locations and is obviously prone to cheating.")]
         public static bool masterRC;
-        [Obsolete("PhotonNetwork.room.MaxPlayers returns the max players. This was used to prevent clients from modifying the MaxRoom players, but may create an endless loop resulting into the MC crashing. Our PhotonServer should block any RoomProperty modifications and automatically server ban anyone who attempts to modify this without being MC")]
-        public int maxPlayers;
         [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
         private float maxSpeed;
         [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
@@ -541,13 +539,13 @@ namespace Assets.Scripts
                 GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
                 if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj4, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj4, true, false);
                 }
                 else
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
                 }
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 base.StartCoroutine(this.reloadSky());
             }
@@ -558,8 +556,8 @@ namespace Assets.Scripts
                     GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
                 }
                 instance.needChooseSide = true;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
@@ -1727,8 +1725,8 @@ namespace Assets.Scripts
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
@@ -1745,8 +1743,8 @@ namespace Assets.Scripts
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
@@ -1818,7 +1816,7 @@ namespace Assets.Scripts
         {
             Service.Settings.SetRoomPropertySettings();
             SetLevelAndGamemode();
-            this.maxPlayers = PhotonNetwork.room.MaxPlayers;
+            
             this.playerList = string.Empty;
             char[] separator = new char[] { "`"[0] };
             //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
@@ -1866,6 +1864,8 @@ namespace Assets.Scripts
             {
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
+            
+            Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()
@@ -1903,8 +1903,6 @@ namespace Assets.Scripts
                 obj3.name = "MainCamera";
                 this.cache();
                 this.loadskin();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
                 PVPcheckPoint.chkPts = new ArrayList();
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
@@ -1969,14 +1967,6 @@ namespace Assets.Scripts
                 {
                     PhotonNetwork.room.IsVisible = true;
                 }
-                if (PhotonNetwork.room.MaxPlayers != this.maxPlayers)
-                {
-                    PhotonNetwork.room.MaxPlayers = this.maxPlayers;
-                }
-            }
-            else
-            {
-                this.maxPlayers = PhotonNetwork.room.MaxPlayers;
             }
         }
 
@@ -2577,13 +2567,72 @@ namespace Assets.Scripts
                 this.myLastHero = id.ToUpper();
                 if (myLastHero == "ErenTitan")
                 {
-                    component.setMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
+                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
                         true, false);
                 }
                 else
                 {
-                    var hero = SpawnService.Spawn<Hero>(position, pos.transform.rotation, preset);
-                    component.setMainObject(hero.transform.gameObject, true, false);
+                    component.SetMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0),
+                        true, false);
+                    id = id.ToUpper();
+                    if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
+                    {
+                        HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
+                        costume2.checkstat();
+                        CostumeConeveter.HeroCostumeToLocalData(costume2, id);
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                        if (costume2 != null)
+                        {
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                                costume2.stat;
+                        }
+                        else
+                        {
+                            costume2 = HeroCostume.costumeOption[3];
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                                HeroStat.getInfo(costume2.name.ToUpper());
+                        }
+
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                        component.main_object.GetComponent<Hero>().setStat2();
+                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                    }
+                    else
+                    {
+                        for (int j = 0; j < HeroCostume.costume.Length; j++)
+                        {
+                            if (HeroCostume.costume[j].name.ToUpper() == id.ToUpper())
+                            {
+                                int num4 = HeroCostume.costume[j].id;
+                                if (id.ToUpper() != "AHSS")
+                                {
+                                    num4 += CheckBoxCostume.costumeSet - 1;
+                                }
+
+                                if (HeroCostume.costume[num4].name != HeroCostume.costume[j].name)
+                                {
+                                    num4 = HeroCostume.costume[j].id + 1;
+                                }
+
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume =
+                                    HeroCostume.costume[num4];
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
+                                    HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>()
+                                    .setCharacterComponent();
+                                component.main_object.GetComponent<Hero>().setStat2();
+                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                                break;
+                            }
+                        }
+                    }
+
+                    CostumeConeveter.HeroCostumeToPhotonData2(
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume,
+                        PhotonNetwork.player);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
                     ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
@@ -2595,7 +2644,6 @@ namespace Assets.Scripts
                 }
 
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
@@ -2603,6 +2651,84 @@ namespace Assets.Scripts
             }
         }
 
+
+        [PunRPC]
+        [Obsolete("Migrate into a SpawnService")]
+        public void spawnPlayerAtRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
+        {
+            if (info.sender.isMasterClient && logicLoaded && !this.needChooseSide && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
+            {
+                Vector3 position = new Vector3(posX, posY, posZ);
+                IN_GAME_MAIN_CAMERA component = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
+                component.SetMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, new Quaternion(0f, 0f, 0f, 1f), 0), true, false);
+                string slot = this.myLastHero.ToUpper();
+                switch (slot)
+                {
+                    case "SET 1":
+                    case "SET 2":
+                    case "SET 3":
+                    {
+                        HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(slot);
+                        costume.checkstat();
+                        CostumeConeveter.HeroCostumeToLocalData(costume, slot);
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                        if (costume != null)
+                        {
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
+                        }
+                        else
+                        {
+                            costume = HeroCostume.costumeOption[3];
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
+                        }
+                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                        component.main_object.GetComponent<Hero>().setStat2();
+                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                        break;
+                    }
+                    default:
+                        for (int i = 0; i < HeroCostume.costume.Length; i++)
+                        {
+                            if (HeroCostume.costume[i].name.ToUpper() == slot.ToUpper())
+                            {
+                                int id = HeroCostume.costume[i].id;
+                                if (slot.ToUpper() != "AHSS")
+                                {
+                                    id += CheckBoxCostume.costumeSet - 1;
+                                }
+                                if (HeroCostume.costume[id].name != HeroCostume.costume[i].name)
+                                {
+                                    id = HeroCostume.costume[i].id + 1;
+                                }
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[id];
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[id].name.ToUpper());
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                                component.main_object.GetComponent<Hero>().setStat2();
+                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                                break;
+                            }
+                        }
+                        break;
+                }
+                CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
+                ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+                hashtable.Add("dead", false);
+                ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
+                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+                hashtable = new ExitGames.Client.Photon.Hashtable();
+                hashtable.Add(PhotonPlayerProperty.isTitan, 1);
+                propertiesToSet = hashtable;
+                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+                component.enabled = true;
+                GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
+                GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+                component.gameOver = false;
+            }
+        }
+        
         private void Start()
         {
             QualitySettings.vSyncCount = 1;

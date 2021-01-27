@@ -36,7 +36,9 @@ namespace Assets.Scripts.Characters.Humans
 
         private void HeroHit(Hero hero, HitBox hitbox, float distance)
         {
-            if (hero.myTeam != myTeam && !hero.IsInvincible() && hero.HasDied() && !hero.IsGrabbed)
+            currentHitsII.Add(collider.gameObject);
+            currentCamera.StartShake(0.1f, 0.1f, 0.95f);
+            if (collider.gameObject.transform.root.gameObject.CompareTag("titan"))
             {
                 // I honestly don't have a clue as to what this does
                 float b = Mathf.Min(1f, 1f - (distance * 0.05f));
@@ -236,12 +238,12 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void ShowCriticalHitFX()
-        {
-            GameObject obj2 = PhotonNetwork.Instantiate("redCross", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-            currentCamera.startShake(0.2f, 0.3f, 0.95f);
-            obj2.transform.position = transform.position;
-        }
+    private void ShowCriticalHitFX()
+    {
+        GameObject obj2 = PhotonNetwork.Instantiate("redCross", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
+        currentCamera.StartShake(0.2f, 0.3f, 0.95f);
+        obj2.transform.position = transform.position;
+    }
 
         private void Start()
         {
