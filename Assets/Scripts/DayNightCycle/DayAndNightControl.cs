@@ -18,7 +18,7 @@ namespace Assets.Scripts.DayNightCycle
         public Material skyBoxPROCEDURAL;
 
         [Range(0f, 24f)] public float currentTime;
-        public float currentTime01 => currentTime / 24;
+        public float CurrentTime01 => currentTime / 24;
         public Slider TimeSlider  = null;
         public Camera MoonCamera = null;
         public Camera MainCamera = null;
@@ -41,6 +41,7 @@ namespace Assets.Scripts.DayNightCycle
             RenderSettings.skybox = skyBoxPROCEDURAL;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GetComponentInChildren<Camera>();
+
             foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
             {
                 if (c.isActiveAndEnabled)
@@ -122,25 +123,25 @@ namespace Assets.Scripts.DayNightCycle
             {
                 DayLength = 60;
             }
-            try
+            if (MainCamera == null)
             {
+                MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+            }
+            //try
+            //{
 
-                if (MainCamera == null)
-                {
-                    MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-                }
                 
                
-            }
-            catch (NullReferenceException)
-            {
-                //put here because non-mcs need a few frames before the camera is available, not using a try catch results in 
-                //nullrefs
-            }
+            //}
+            //catch (NullReferenceException)
+            //{
+            //    //put here because non-mcs need a few frames before the camera is available, not using a try catch results in 
+            //    //nullrefs
+            //}
 
             //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
             //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
-            if (MainCamera != null)
+            else
             {
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
                 MoonCamera.transform.rotation = MainCamera.transform.rotation;
@@ -150,8 +151,10 @@ namespace Assets.Scripts.DayNightCycle
             {
 
                 UpdateLight();
+                UpdateMaterial();
+
                 currentTime += (Time.deltaTime / DayLength) * 24;
-                if (currentTime01 >= 1)
+                if (CurrentTime01 >= 1)
                 {
                     currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
                     currentDay++; //make the day counter go up
@@ -164,6 +167,7 @@ namespace Assets.Scripts.DayNightCycle
                 {
                     frames = 0;
                     UpdateLight();
+                    UpdateMaterial();
                 }
             }
             frames++;
@@ -176,11 +180,17 @@ namespace Assets.Scripts.DayNightCycle
             }
 
         }
+
+        void UpdateMaterial()
+        {
+            skyBoxPROCEDURAL.SetVector("_Axis", directionalLight.transform.right);
+            skyBoxPROCEDURAL.SetFloat("_Angle", -CurrentTime01 * 360f);
+        }
         
         void UpdateLight()
         {
             Quaternion tilt = Quaternion.AngleAxis(sunTilt, Vector3.forward);
-            Quaternion rot = Quaternion.AngleAxis((currentTime01 * 360) - 90, Vector3.right);
+            Quaternion rot = Quaternion.AngleAxis((CurrentTime01 * 360) - 90, Vector3.right);
 
             directionalLight.transform.rotation = tilt * rot; // Yes axial tilt
             directionalLight.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
@@ -191,14 +201,14 @@ namespace Assets.Scripts.DayNightCycle
                 // Sun & moon's color and brightness
                 if (timecycle.overrideSunlight)
                 {
-                    directionalLight.color = timecycle.sunlightColor.Evaluate(currentTime01);
-                    directionalLight.intensity = timecycle.sunlightColor.Evaluate(currentTime01).a * timecycle.maxSunlightIntensity;
+                    directionalLight.color = timecycle.sunlightColor.Evaluate(CurrentTime01);
+                    directionalLight.intensity = timecycle.sunlightColor.Evaluate(CurrentTime01).a * timecycle.maxSunlightIntensity;
                 }
                 if (timecycle.overrideMoonlight)
                 {
                     Light moonLight = moon.GetComponent<Light>();
-                    moonLight.color = timecycle.moonlightColor.Evaluate(currentTime01);
-                    moonLight.intensity = timecycle.moonlightColor.Evaluate(currentTime01).a * timecycle.maxMoonlightIntensity;
+                    moonLight.color = timecycle.moonlightColor.Evaluate(CurrentTime01);
+                    moonLight.intensity = timecycle.moonlightColor.Evaluate(CurrentTime01).a * timecycle.maxMoonlightIntensity;
                 }
 
                 // Environment lighting
@@ -207,12 +217,12 @@ namespace Assets.Scripts.DayNightCycle
                     switch (timecycle.lightingOverrideMode)
                     {
                         case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
-                            RenderSettings.ambientSkyColor = timecycle.skyColor.Evaluate(currentTime01);
-                            RenderSettings.ambientEquatorColor = timecycle.equatorColor.Evaluate(currentTime01);
-                            RenderSettings.ambientGroundColor = timecycle.groundColor.Evaluate(currentTime01);
+                            RenderSettings.ambientSkyColor = timecycle.skyColor.Evaluate(CurrentTime01);
+                            RenderSettings.ambientEquatorColor = timecycle.equatorColor.Evaluate(CurrentTime01);
+                            RenderSettings.ambientGroundColor = timecycle.groundColor.Evaluate(CurrentTime01);
                             break;
                         case TimecycleProfile.AmbientLightingOverrideMode.Color:
-                            RenderSettings.ambientLight = timecycle.lightingColor.Evaluate(currentTime01);
+                            RenderSettings.ambientLight = timecycle.lightingColor.Evaluate(CurrentTime01);
                             break;
                     }
                 }
@@ -220,8 +230,8 @@ namespace Assets.Scripts.DayNightCycle
                 // Fog
                 if (timecycle.overrideFog)
                 {
-                    RenderSettings.fogColor = timecycle.fogColor.Evaluate(currentTime01);
-                    RenderSettings.fogDensity = timecycle.fogColor.Evaluate(currentTime01).a * timecycle.maxFogDensity;
+                    RenderSettings.fogColor = timecycle.fogColor.Evaluate(CurrentTime01);
+                    RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTime01).a * timecycle.maxFogDensity;
                 }
             }
         }
@@ -229,19 +239,19 @@ namespace Assets.Scripts.DayNightCycle
 
         public TimeOfDay GetTimeOfDay()
         {
-            if (currentTime01 >= 0f && currentTime01 <= 0.2f)
+            if (CurrentTime01 >= 0f && CurrentTime01 <= 0.2f)
             {
                 return TimeOfDay.Midnight;
             }
-            else if (currentTime01 <= 0.5f && currentTime01 > 0.2f)
+            else if (CurrentTime01 <= 0.5f && CurrentTime01 > 0.2f)
             {
                 return TimeOfDay.Morning;
             }
-            else if (currentTime01 >= 0.5f && currentTime01 < 0.75f)
+            else if (CurrentTime01 >= 0.5f && CurrentTime01 < 0.75f)
             {
                 return TimeOfDay.Afternoon;
             }
-            else if (currentTime01 >= 0.75f && currentTime01 <= 1f)
+            else if (CurrentTime01 >= 0.75f && CurrentTime01 <= 1f)
             {
                 return TimeOfDay.Night;
             }
