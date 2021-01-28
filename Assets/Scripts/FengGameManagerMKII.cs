@@ -80,8 +80,6 @@ namespace Assets.Scripts
         private IN_GAME_MAIN_CAMERA mainCamera;
         [Obsolete("Legacy method which appears to have been used to determine if a client is 'master' RC or not. This would have given special permissions, but the feature is only used within 2 locations and is obviously prone to cheating.")]
         public static bool masterRC;
-        [Obsolete("PhotonNetwork.room.MaxPlayers returns the max players. This was used to prevent clients from modifying the MaxRoom players, but may create an endless loop resulting into the MC crashing. Our PhotonServer should block any RoomProperty modifications and automatically server ban anyone who attempts to modify this without being MC")]
-        public int maxPlayers;
         [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
         private float maxSpeed;
         [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
@@ -539,13 +537,13 @@ namespace Assets.Scripts
                 GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
                 if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj4, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj4, true, false);
                 }
                 else
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
                 }
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 base.StartCoroutine(this.reloadSky());
             }
@@ -556,8 +554,8 @@ namespace Assets.Scripts
                     GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
                 }
                 instance.needChooseSide = true;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
@@ -1725,8 +1723,8 @@ namespace Assets.Scripts
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
@@ -1743,8 +1741,8 @@ namespace Assets.Scripts
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
@@ -1816,7 +1814,7 @@ namespace Assets.Scripts
         {
             Service.Settings.SetRoomPropertySettings();
             SetLevelAndGamemode();
-            this.maxPlayers = PhotonNetwork.room.MaxPlayers;
+            
             this.playerList = string.Empty;
             char[] separator = new char[] { "`"[0] };
             //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
@@ -1864,6 +1862,8 @@ namespace Assets.Scripts
             {
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
+            
+            Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()
@@ -1901,8 +1901,6 @@ namespace Assets.Scripts
                 obj3.name = "MainCamera";
                 this.cache();
                 this.loadskin();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
                 PVPcheckPoint.chkPts = new ArrayList();
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
@@ -1967,14 +1965,6 @@ namespace Assets.Scripts
                 {
                     PhotonNetwork.room.IsVisible = true;
                 }
-                if (PhotonNetwork.room.MaxPlayers != this.maxPlayers)
-                {
-                    PhotonNetwork.room.MaxPlayers = this.maxPlayers;
-                }
-            }
-            else
-            {
-                this.maxPlayers = PhotonNetwork.room.MaxPlayers;
             }
         }
 
@@ -2575,12 +2565,12 @@ namespace Assets.Scripts
                 this.myLastHero = id.ToUpper();
                 if (myLastHero == "ErenTitan")
                 {
-                    component.setMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
+                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
                         true, false);
                 }
                 else
                 {
-                    component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0),
+                    component.SetMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0),
                         true, false);
                     id = id.ToUpper();
                     if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
@@ -2652,7 +2642,6 @@ namespace Assets.Scripts
                 }
 
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
@@ -2669,7 +2658,7 @@ namespace Assets.Scripts
             {
                 Vector3 position = new Vector3(posX, posY, posZ);
                 IN_GAME_MAIN_CAMERA component = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
-                component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, new Quaternion(0f, 0f, 0f, 1f), 0), true, false);
+                component.SetMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, new Quaternion(0f, 0f, 0f, 1f), 0), true, false);
                 string slot = this.myLastHero.ToUpper();
                 switch (slot)
                 {
@@ -2732,7 +2721,6 @@ namespace Assets.Scripts
                 propertiesToSet = hashtable;
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
