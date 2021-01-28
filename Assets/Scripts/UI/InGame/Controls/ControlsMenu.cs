@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.Controls
 {
-    // TODO
     public class ControlsMenu : UiMenu
     {
         public GameObject TabViewContent;
