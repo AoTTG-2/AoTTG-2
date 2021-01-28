@@ -1,28 +1,31 @@
 ﻿using Assets.Scripts.UI.Input;
 using UnityEngine;
 
-public class UiInputHandler : MonoBehaviour
+namespace Assets.Scripts.UI
 {
-    private GameObject interactionWheel;
-
-    private void Start()
+    public class UiInputHandler : MonoBehaviour
     {
-        interactionWheel = gameObject.GetComponentInChildren<InteractionWheel>(true).gameObject;
-    }
+        private GameObject interactionWheel;
 
-    private void Update()
-    {
-        if (InputManager.KeyDown(InputUi.InteractionWheel))
+        private void Start()
         {
-            if (!interactionWheel.activeSelf)
-                interactionWheel.SetActive(true);
+            interactionWheel = gameObject.GetComponentInChildren<InteractionWheel>(true).gameObject;
         }
 
-        if (InputManager.KeyUp(InputUi.InteractionWheel))
+        private void Update()
         {
-            if (interactionWheel.activeSelf)
-                interactionWheel.SetActive(false);
-        }
+            if (InputManager.KeyDown(InputUi.InteractionWheel))
+            {
+                if (!interactionWheel.activeSelf)
+                    interactionWheel.SetActive(true);
+            }
 
+            if (InputManager.KeyUp(InputUi.InteractionWheel))
+            {
+                if (interactionWheel.activeSelf)
+                    interactionWheel.SetActive(false);
+            }
+
+        }
     }
 }
