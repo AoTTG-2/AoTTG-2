@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Assets.Scripts.UI.InGame
+﻿namespace Assets.Scripts.UI.InGame
 {
     /// <summary>
     /// A UI Menu will be registered by the Menu Manager.
