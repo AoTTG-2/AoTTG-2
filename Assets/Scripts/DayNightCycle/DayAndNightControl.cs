@@ -118,9 +118,13 @@ namespace Assets.Scripts.DayNightCycle
                 DayLength = 60;
             }
             // This is to prevent null reference errors because non-MCs needs a few frames before the camera will be available.
-            if (Camera.main != null)
+            if (MainCamera == null)
             {
-                MoonCamera.fieldOfView = Camera.main.fieldOfView;
+                MainCamera = Camera.main;
+            }
+            else
+            {
+                MoonCamera.fieldOfView = MainCamera.fieldOfView;
             }
 
             if (!pause)
