@@ -91,27 +91,27 @@ namespace Assets.Scripts.Characters.Titan
         public void AddDamagedBodyPart(BodyPart bodyPart, float regenerationTime)
         {
             var damagedBodyParts = new List<BodyPart>();
-            Transform bodyPartEffect = null;
+            Transform steamDamageEffectSource = null;
 
             switch (bodyPart)
             {
                 case BodyPart.ArmRight:
                     damagedBodyParts.Add(BodyPart.ArmRight);
                     damagedBodyParts.Add(BodyPart.HandRight);
-                    bodyPartEffect = ArmRight;
+                    steamDamageEffectSource = ArmRight;
                     break;
                 case BodyPart.ArmLeft:
                     damagedBodyParts.Add(BodyPart.ArmLeft);
                     damagedBodyParts.Add(BodyPart.HandLeft);
-                    bodyPartEffect = ArmLeft;
+                    steamDamageEffectSource = ArmLeft;
                     break;
                 case BodyPart.LegLeft:
                     damagedBodyParts.Add(BodyPart.LegLeft);
-                    bodyPartEffect = LegLeft;
+                    steamDamageEffectSource = LegLeft;
                     break;
                 case BodyPart.LegRight:
                     damagedBodyParts.Add(BodyPart.LegRight);
-                    bodyPartEffect = LegRight;
+                    steamDamageEffectSource = LegRight;
                     break;
                 case BodyPart.Eyes:
                     damagedBodyParts.Add(BodyPart.Eyes);
@@ -133,11 +133,11 @@ namespace Assets.Scripts.Characters.Titan
                 CooldownDictionary.Add(part, regenerationTime);
             }
 
-            if (bodyPartEffect != null && photonView.isMine)
+            if (steamDamageEffectSource != null && photonView.isMine)
             {
                 var steamEffect = PhotonNetwork.Instantiate("fx/bodypart_steam", new Vector3(), new Quaternion(), 0);
                 steamEffect.GetComponent<SelfDestroy>().CountDown = regenerationTime;
-                steamEffect.transform.parent = bodyPartEffect;
+                steamEffect.transform.parent = steamDamageEffectSource;
                 steamEffect.transform.localPosition = new Vector3();
                 SteamEffectDictionary.Add(bodyPart, steamEffect);
                 photonView.RPC(nameof(SyncDamagedBodyPartRpc), PhotonTargets.Others, damagedBodyParts);
