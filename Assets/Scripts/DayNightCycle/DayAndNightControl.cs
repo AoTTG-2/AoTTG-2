@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using UnityEngine.Animations;
+
 namespace Assets.Scripts.DayNightCycle
 {
     public class DayAndNightControl : MonoBehaviour
     {
-        public GameObject Camera;
+        // public GameObject Camera;
         public GameObject moon;
         public float sunTilt = -15f;
         [SerializeField] private TimecycleProfile timecycle = null;
@@ -74,8 +76,21 @@ namespace Assets.Scripts.DayNightCycle
             }
            
 
-            
             UpdateLight(); // Initial lighting update. Without this, the lighting will look as if it's lagging when the scene just loaded
+            // Set up rotation constraint for the moon camera.
+            RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
+            if (constraint == null)
+            {
+                constraint = MoonCamera.gameObject.AddComponent<RotationConstraint>();
+            }
+
+            ConstraintSource sauce = new ConstraintSource();
+            sauce.sourceTransform = Camera.main.transform;
+            sauce.weight = 1f;
+            constraint.AddSource(sauce);
+
+            // constraint.rotationAtRest = constraint.rotationOffset = Vector3.zero; // Reset rotationAtRest and rotationOffset
+            constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
         }
 
 
@@ -143,7 +158,7 @@ namespace Assets.Scripts.DayNightCycle
             if (MainCamera != null)
             {
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
-                MoonCamera.transform.rotation = MainCamera.transform.rotation;
+                // MoonCamera.transform.rotation = MainCamera.transform.rotation;
             }
 
             if (!pause)
