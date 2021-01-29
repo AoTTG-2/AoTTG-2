@@ -68,67 +68,67 @@ namespace Assets.Scripts.Characters.Titan
             return BodyPart.None;
         }
 
-        public void DamageBodyPart(BodyPart body, int damage)
+        public void DamageBodyPart(BodyPart bodyPart, int damage)
         {
-            DamageBodyPart(body, damage, LimbRegeneration);
+            DamageBodyPart(bodyPart, damage, LimbRegeneration);
         }
 
-        public void DamageBodyPart(BodyPart body, int damage, float regenerationTime)
+        public void DamageBodyPart(BodyPart bodyPart, int damage, float regenerationTime)
         {
-            HealthDictionary[body] -= damage;
-            if (HealthDictionary[body] <= 0)
+            HealthDictionary[bodyPart] -= damage;
+            if (HealthDictionary[bodyPart] <= 0)
             {
-                AddBodyPart(body, regenerationTime);
-                HealthDictionary[body] = DefaultLimbHealth;
+                AddDamagedBodyPart(bodyPart, regenerationTime);
+                HealthDictionary[bodyPart] = DefaultLimbHealth;
             }
         }
 
-        public void AddBodyPart(BodyPart body)
+        public void AddDamagedBodyPart(BodyPart bodyPart)
         {
-            AddBodyPart(body, LimbRegeneration);
+            AddDamagedBodyPart(bodyPart, LimbRegeneration);
         }
 
-        public void AddBodyPart(BodyPart body, float regenerationTime)
+        public void AddDamagedBodyPart(BodyPart bodyPart, float regenerationTime)
         {
-            var bodyParts = new List<BodyPart>();
+            var damagedBodyParts = new List<BodyPart>();
             Transform bodyPartEffect = null;
 
-            switch (body)
+            switch (bodyPart)
             {
                 case BodyPart.ArmRight:
-                    bodyParts.Add(BodyPart.ArmRight);
-                    bodyParts.Add(BodyPart.HandRight);
+                    damagedBodyParts.Add(BodyPart.ArmRight);
+                    damagedBodyParts.Add(BodyPart.HandRight);
                     bodyPartEffect = ArmRight;
                     break;
                 case BodyPart.ArmLeft:
-                    bodyParts.Add(BodyPart.ArmLeft);
-                    bodyParts.Add(BodyPart.HandLeft);
+                    damagedBodyParts.Add(BodyPart.ArmLeft);
+                    damagedBodyParts.Add(BodyPart.HandLeft);
                     bodyPartEffect = ArmLeft;
                     break;
                 case BodyPart.LegLeft:
-                    bodyParts.Add(BodyPart.LegLeft);
+                    damagedBodyParts.Add(BodyPart.LegLeft);
                     bodyPartEffect = LegLeft;
                     break;
                 case BodyPart.LegRight:
-                    bodyParts.Add(BodyPart.LegRight);
+                    damagedBodyParts.Add(BodyPart.LegRight);
                     bodyPartEffect = LegRight;
                     break;
                 case BodyPart.Eyes:
-                    bodyParts.Add(BodyPart.Eyes);
+                    damagedBodyParts.Add(BodyPart.Eyes);
                     break;
                 case BodyPart.Ankle:
-                    bodyParts.Add(BodyPart.Ankle);
+                    damagedBodyParts.Add(BodyPart.Ankle);
                     break;
                 default:
                     return;
             }
 
-            foreach (var part in bodyParts)
+            foreach (var part in damagedBodyParts)
             {
                 if (CooldownDictionary.ContainsKey(part)) return;
             }
 
-            foreach (var part in bodyParts)
+            foreach (var part in damagedBodyParts)
             {
                 CooldownDictionary.Add(part, regenerationTime);
             }
@@ -139,18 +139,18 @@ namespace Assets.Scripts.Characters.Titan
                 steamEffect.GetComponent<SelfDestroy>().CountDown = regenerationTime;
                 steamEffect.transform.parent = bodyPartEffect;
                 steamEffect.transform.localPosition = new Vector3();
-                SteamEffectDictionary.Add(body, steamEffect);
-                photonView.RPC(nameof(SyncBodyPartRpc), PhotonTargets.Others, bodyParts);
+                SteamEffectDictionary.Add(bodyPart, steamEffect);
+                photonView.RPC(nameof(SyncDamagedBodyPartRpc), PhotonTargets.Others, damagedBodyParts);
             }
         }
 
         [PunRPC]
-        protected void SyncBodyPartRpc(BodyPart[] parts, PhotonMessageInfo info)
+        protected void SyncDamagedBodyPartRpc(BodyPart[] parts, PhotonMessageInfo info)
         {
             if (info.sender.ID != photonView.owner.ID) return;
             foreach (var part in parts)
             {
-                AddBodyPart(part);
+                AddDamagedBodyPart(part);
             }
         }
 
@@ -165,7 +165,7 @@ namespace Assets.Scripts.Characters.Titan
             return bodyParts.All(bodyPart => GetDisabledBodyParts().Contains(bodyPart));
         }
 
-        private void SetDamagedBodyPart(BodyPart bodyPart)
+        private void SetDamagedBodyPartSize(BodyPart bodyPart)
         {
             switch (bodyPart)
             {
@@ -191,7 +191,7 @@ namespace Assets.Scripts.Characters.Titan
                 CooldownDictionary[bodyPart] -= Time.deltaTime;
                 if (CooldownDictionary[bodyPart] > 0)
                 {
-                    SetDamagedBodyPart(bodyPart);
+                    SetDamagedBodyPartSize(bodyPart);
                 }
                 else
                 {
