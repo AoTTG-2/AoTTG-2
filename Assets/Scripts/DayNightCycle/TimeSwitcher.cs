@@ -48,7 +48,7 @@ namespace Assets.Scripts.DayNightCycle
 
         void Update()
         {
-            TimeSlider.value = dayNightCycle.currentTime01;
+            TimeSlider.value = dayNightCycle.CurrentTime01;
         }
 
         private void SubmitTime(string time)
@@ -70,7 +70,7 @@ namespace Assets.Scripts.DayNightCycle
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-            TimeSlider.value = dayNightCycle.currentTime01;
+            TimeSlider.value = dayNightCycle.CurrentTime01;
         }
 
   
