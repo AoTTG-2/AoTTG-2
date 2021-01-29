@@ -25,6 +25,7 @@ namespace Assets.Scripts.Services
             if (shouldPause && !isPaused)
             {
                 isPaused = true;
+                isUnpausing = false;
                 PauseTimer = float.MaxValue;
                 Time.timeScale = 1E-06f;
                 OnPaused?.Invoke(this, EventArgs.Empty);
