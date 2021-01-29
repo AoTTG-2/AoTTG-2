@@ -398,7 +398,7 @@ public static class ChatCommandHandler
         else
         {
             Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All, !Service.Pause.IsPaused(), false);
-            var chatMessage = Service.Pause.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
+            var chatMessage = Service.Pause.IsPaused() && !Service.Pause.IsUnpausing() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
             instance.photonView.RPC("Chat", PhotonTargets.All, new object[] { FormatSystemMessage(chatMessage), string.Empty });
         }
     }

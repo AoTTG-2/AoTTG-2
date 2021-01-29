@@ -9,9 +9,12 @@ namespace Assets.Scripts.Services
     {
         private const float DefaultPauseTime = 3f;
 
+        private bool isUnpausing;
+        public bool IsUnpausing() => isUnpausing;
+
         private bool isPaused;
         public bool IsPaused() => isPaused;
-        
+
         public float PauseTimer { get; private set; }
 
         public event EventHandler OnPaused;
@@ -21,13 +24,14 @@ namespace Assets.Scripts.Services
         {
             if (shouldPause && !isPaused)
             {
+                isPaused = true;
                 PauseTimer = float.MaxValue;
                 Time.timeScale = 1E-06f;
-                isPaused = true;
                 OnPaused?.Invoke(this, EventArgs.Empty);
             }
             else if (!shouldPause && isPaused)
             {
+                isUnpausing = true;
                 PauseTimer = immediate ? 0f : DefaultPauseTime;
                 OnUnPaused?.Invoke(this, EventArgs.Empty);
             }
@@ -69,6 +73,7 @@ namespace Assets.Scripts.Services
                 if (PauseTimer <= 0f)
                 {
                     Time.timeScale = 1f;
+                    isUnpausing = false;
                     isPaused = false;
                 }
             }
