@@ -38,7 +38,6 @@ namespace Assets.Scripts.DayNightCycle
         // Use this for initialization
         void Start()
         {
-
             pause=true;
             RenderSettings.skybox = skyBoxPROCEDURAL;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
@@ -51,8 +50,8 @@ namespace Assets.Scripts.DayNightCycle
                     targetCam = c;
                 }
             }
-            lightIntensity = directionalLight.intensity; //what's the current intensity of the light
-            // AFAIK procedural skybox needs this to work
+            lightIntensity = directionalLight.intensity; // What's the current intensity of the sunlight
+            // Procedural skybox needs this to work
             RenderSettings.sun = directionalLight;
 
 
@@ -75,22 +74,17 @@ namespace Assets.Scripts.DayNightCycle
                     RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
                 }
             }
-           
+            
+            UpdateLight(); // Initial lighting update.
 
-            UpdateLight(); // Initial lighting update. Without this, the lighting will look as if it's lagging when the scene just loaded
             // Set up rotation constraint for the moon camera.
             RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
-            if (constraint == null)
-            {
-                constraint = MoonCamera.gameObject.AddComponent<RotationConstraint>();
-            }
 
             ConstraintSource sauce = new ConstraintSource();
             sauce.sourceTransform = Camera.main.transform;
             sauce.weight = 1f;
             constraint.AddSource(sauce);
 
-            // constraint.rotationAtRest = constraint.rotationOffset = Vector3.zero; // Reset rotationAtRest and rotationOffset
             constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
         }
 
@@ -138,52 +132,27 @@ namespace Assets.Scripts.DayNightCycle
             {
                 DayLength = 60;
             }
-            if (MainCamera == null)
+            // This is to prevent null reference errors because non-MCs needs a few frames before the camera will be available.
+            if (Camera.main != null)
             {
-                MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            }
-            //try
-            //{
-
-                
-               
-            //}
-            //catch (NullReferenceException)
-            //{
-            //    //put here because non-mcs need a few frames before the camera is available, not using a try catch results in 
-            //    //nullrefs
-            //}
-
-            //The below syncs the field of view of the moon camera and the main camera, and removes unwanted issues with moon rendering
-            //(main camera's field of view changes alot, and if the moon camera's doesnt, it distorts the moon's rendering)
-            else
-            {
-                MoonCamera.fieldOfView = MainCamera.fieldOfView;
-                // MoonCamera.transform.rotation = MainCamera.transform.rotation;
+                MoonCamera.fieldOfView = Camera.main.fieldOfView;
             }
 
             if (!pause)
             {
+                currentTime += (Time.deltaTime / DayLength) * 24;
+                if (CurrentTime01 >= 1) // If the time is midnight or past midnight
+                {
+                    currentTime = 0; // Reset time to midnight
+                    currentDay++; // Increment the day counter
+                }
+            }
 
+            if (frames == lightingUpdateInterval)
+            {
+                frames = 0;
                 UpdateLight();
                 UpdateMaterial();
-
-                currentTime += (Time.deltaTime / DayLength) * 24;
-                if (CurrentTime01 >= 1)
-                {
-                    currentTime = 0;//once we hit "midnight"; any time after that sunrise will begin.
-                    currentDay++; //make the day counter go up
-                }
-                if (frames == lightingUpdateInterval) { frames = 0; }
-            }
-            else
-            {
-                if (frames == lightingUpdateInterval)
-                {
-                    frames = 0;
-                    UpdateLight();
-                    UpdateMaterial();
-                }
             }
             frames++;
             //MC loads settings
@@ -193,7 +162,6 @@ namespace Assets.Scripts.DayNightCycle
                 GameSettings.Time.dayLength = DayLength;
                 GameSettings.Time.pause = pause;
             }
-
         }
 
         void UpdateMaterial()
@@ -251,7 +219,6 @@ namespace Assets.Scripts.DayNightCycle
             }
         }
 
-
         public TimeOfDay GetTimeOfDay()
         {
             if (CurrentTime01 >= 0f && CurrentTime01 <= 0.2f)
@@ -280,8 +247,6 @@ namespace Assets.Scripts.DayNightCycle
             Afternoon,
             Night,
             UNKNOWN,
-
         }
-
     }
 }
