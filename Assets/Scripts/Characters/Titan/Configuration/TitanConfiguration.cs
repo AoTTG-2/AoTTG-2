@@ -17,7 +17,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 
         public int Health { get; set; } = 5000;
         public int HealthRegeneration { get; set; } = 10;
-        public float LimbHealth { get; set; } = 100f;
+        public float DefaultLimbHealth { get; set; } = 100f;
         public float LimbRegeneration { get; set; } = 10f;
         public float ViewDistance { get; set; } = 200f;
         public float Speed { get; set; } = 20f;
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
         public TitanConfiguration() { }
 
 
-        public TitanConfiguration(int healthRegeneration, int limbHealth, float viewDistance, MindlessTitanType type)
+        public TitanConfiguration(int healthRegeneration, int defaultLimbHealth, float viewDistance, MindlessTitanType type)
         {
             Type = type;
             Settings.TypeSettings.TryGetValue(type, out var typeSettings);
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
             Size = TypeSettings?.Size ?? Settings.Size.Value;
             Health = SetHealth();
             HealthRegeneration = healthRegeneration;
-            LimbHealth = limbHealth;
+            DefaultLimbHealth = defaultLimbHealth;
             ViewDistance = viewDistance * Size;
             SetMindlessTitanType(type);
             Speed *= Mathf.Sqrt(Size);

@@ -146,7 +146,7 @@ namespace Assets.Scripts.Characters.Titan
             MindlessType = configuration.Type;
             name = MindlessType.ToString();
 
-            Body.Initialize(configuration.LimbHealth, configuration.LimbRegeneration);
+            Body.Initialize(configuration.DefaultLimbHealth, configuration.LimbRegeneration);
 
             transform.localScale = new Vector3(Size, Size, Size);
             var scale = Mathf.Min(Mathf.Pow(2f / Size, 0.35f), 1.25f);
