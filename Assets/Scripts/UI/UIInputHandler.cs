@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class UiInputHandler : MonoBehaviour
+    public class UIInputHandler : MonoBehaviour
     {
         private GameObject interactionWheel;
 
