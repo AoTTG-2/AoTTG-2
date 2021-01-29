@@ -86,6 +86,11 @@ namespace Assets.Scripts.DayNightCycle
             constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
         }
 
+        public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+        {
+            Service.Settings.SyncSettings();
+        }
+     
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
             currentTime = (float) GameSettings.Time.currentTime; // 9
