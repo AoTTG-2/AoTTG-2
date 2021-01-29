@@ -3,14 +3,12 @@ using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using System.Collections;
 using UnityEngine.Animations;
 
 namespace Assets.Scripts.DayNightCycle
 {
     public class DayAndNightControl : MonoBehaviour
     {
-        // public GameObject Camera;
         public GameObject moon;
         public float sunTilt = -15f;
         [SerializeField] private TimecycleProfile timecycle = null;
@@ -87,19 +85,6 @@ namespace Assets.Scripts.DayNightCycle
 
             constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
         }
-
-
-       /* public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
-        {
-            
-            //syncs settings after waiting a few seconds( initial lag on player join desynchs their time, hence waiting 5 seconds)
-            StartCoroutine(ExecuteAfterTime(5));
-        }
-        IEnumerator ExecuteAfterTime(float time)
-        {
-            yield return new WaitForSeconds(time);
-            Service.Settings.SyncSettings();
-        }*/
 
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
