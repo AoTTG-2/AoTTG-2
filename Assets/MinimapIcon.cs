@@ -2,16 +2,22 @@
 
 public class MinimapIcon : MonoBehaviour
 {
-    [SerializeField] private Transform parent;
+    private Rigidbody rb;
 
     private void Start()
     {
-        parent = GetComponentInParent<Transform>();
+        rb = GetComponentInParent<Rigidbody>();
     }
 
     private void Update()
     {
-        transform.position = new Vector3(transform.parent.position.x, 245f, transform.parent.position.z);
-        transform.rotation = Quaternion.Euler(new Vector3(90f, transform.parent.rotation.eulerAngles.y, 0f));
+        if (transform != null)
+            transform.position = new Vector3(transform.parent.position.x, 245f, transform.parent.position.z);
+
+        if (rb != null && rb.velocity != Vector3.zero)
+        {
+            var y = Quaternion.LookRotation(rb.velocity).eulerAngles.y;
+            transform.rotation = Quaternion.Euler(new Vector3(90f, y, 0f));
+        }
     }
 }
