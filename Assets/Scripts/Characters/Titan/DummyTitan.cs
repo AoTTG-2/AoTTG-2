@@ -13,6 +13,7 @@ public class DummyTitan : Photon.MonoBehaviour
     public bool canRotate = true;
     public TextMesh healthLabel;
     public TextMesh healthLabel2;
+    public AOT.UI.MinimapIcon minimapIcon;
 
     public float speed = 3.0f;
 

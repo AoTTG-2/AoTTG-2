@@ -22,6 +22,8 @@ namespace Assets.Scripts.Characters.Titan
         private float DamageTimer { get; set; }
         public new MindlessTitanBody Body { get; protected set; }
 
+        public AOT.UI.MinimapIcon minimapIcon;
+
         private float turnDeg;
         private float desDeg;
         private int nextUpdate = 1;
