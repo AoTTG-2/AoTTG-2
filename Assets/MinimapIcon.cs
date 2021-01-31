@@ -5,14 +5,16 @@ namespace AOT.UI
     public class MinimapIcon : MonoBehaviour
     {
         private Rigidbody rb;
-        private Vector3 lastVelocity;
+        private float targetY = 0f;
+        private float currentY = 0f;
+        private float speed = 1000f;
 
         private void Start()
         {
             rb = GetComponentInParent<Rigidbody>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             if (transform != null)
                 transform.position = new Vector3(transform.parent.position.x, 245f, transform.parent.position.z);
@@ -20,14 +22,13 @@ namespace AOT.UI
             if (rb != null)
             {
                 if (rb.velocity.magnitude <= 1f)
-                {
-                    transform.rotation = Quaternion.Euler(new Vector3(90f, transform.parent.rotation.eulerAngles.y, 0f));
-                }
+                    targetY = transform.parent.rotation.eulerAngles.y;
                 else
-                {
-                    transform.rotation = Quaternion.Euler(new Vector3(90f, Quaternion.LookRotation(rb.velocity).eulerAngles.y, 0f));
-                }
+                    targetY = Quaternion.LookRotation(rb.velocity).eulerAngles.y;
             }
+
+            currentY = Mathf.MoveTowardsAngle(currentY, targetY, speed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(new Vector3(90f, currentY, 0f));
         }
     }
 }
