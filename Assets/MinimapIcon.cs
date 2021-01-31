@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class MinimapIcon : MonoBehaviour
+namespace AOT.UI
 {
-    private Rigidbody rb;
-
-    private void Start()
+    public class MinimapIcon : MonoBehaviour
     {
-        rb = GetComponentInParent<Rigidbody>();
-    }
+        private Rigidbody rb;
 
-    private void Update()
-    {
-        if (transform != null)
-            transform.position = new Vector3(transform.parent.position.x, 245f, transform.parent.position.z);
-
-        if (rb != null && rb.velocity != Vector3.zero)
+        private void Start()
         {
-            var y = Quaternion.LookRotation(rb.velocity).eulerAngles.y;
-            transform.rotation = Quaternion.Euler(new Vector3(90f, y, 0f));
+            rb = GetComponentInParent<Rigidbody>();
+        }
+
+        private void Update()
+        {
+            if (transform != null)
+                transform.position = new Vector3(transform.parent.position.x, 245f, transform.parent.position.z);
+
+            if (rb != null && rb.velocity != Vector3.zero)
+            {
+                var y = Quaternion.LookRotation(rb.velocity).eulerAngles.y;
+                transform.rotation = Quaternion.Euler(new Vector3(90f, y, 0f));
+            }
         }
     }
 }

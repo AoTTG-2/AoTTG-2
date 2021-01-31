@@ -28,8 +28,6 @@ namespace Assets.Scripts.Characters.Titan
         private float attackCooldown;
         private float staminaLimit;
 
-        [SerializeField] private MinimapIcon minimapIcon;
-
         private float FocusTimer { get; set; }
         private bool isHooked;
         public bool IsHooked
