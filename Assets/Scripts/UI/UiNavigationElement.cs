@@ -1,9 +1,10 @@
 ﻿using System;
+using Photon;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class UiNavigationElement : MonoBehaviour
+    public class UiNavigationElement : PunBehaviour
     {
         public UiHandler Canvas { get; set; }
 
