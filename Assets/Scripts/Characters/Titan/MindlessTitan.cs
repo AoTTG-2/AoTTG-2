@@ -28,6 +28,8 @@ namespace Assets.Scripts.Characters.Titan
         private float attackCooldown;
         private float staminaLimit;
 
+        [SerializeField] private MinimapIcon minimapIcon;
+
         private float FocusTimer { get; set; }
         private bool isHooked;
         public bool IsHooked
@@ -108,7 +110,7 @@ namespace Assets.Scripts.Characters.Titan
             obj2.transform.parent = Body.AABB;
             obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
         }
-        
+
         public override void Initialize(TitanConfiguration configuration)
         {
             Health = configuration.Health;
@@ -205,16 +207,16 @@ namespace Assets.Scripts.Characters.Titan
         private void LoadSkin()
         {
             var eye = false;
-            if (!((base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
+            if (!((base.photonView.isMine) ? (((int) FengGameManagerMKII.settings[1]) != 1) : true))
             {
-                int index = (int)UnityEngine.Random.Range((float)86f, (float)90f);
+                int index = (int) UnityEngine.Random.Range((float) 86f, (float) 90f);
                 int num2 = index - 60;
-                if (((int)FengGameManagerMKII.settings[0x20]) == 1)
+                if (((int) FengGameManagerMKII.settings[0x20]) == 1)
                 {
                     num2 = UnityEngine.Random.Range(0x1a, 30);
                 }
-                string body = (string)FengGameManagerMKII.settings[index];
-                string eyes = (string)FengGameManagerMKII.settings[num2];
+                string body = (string) FengGameManagerMKII.settings[index];
+                string eyes = (string) FengGameManagerMKII.settings[num2];
                 var skin = index;
                 if ((eyes.EndsWith(".jpg") || eyes.EndsWith(".png")) || eyes.EndsWith(".jpeg"))
                 {
@@ -303,7 +305,7 @@ namespace Assets.Scripts.Characters.Titan
                         if (!this.asClientLookTarget)
                         {
                             this.asClientLookTarget = true;
-                            object[] parameters = new object[] {true};
+                            object[] parameters = new object[] { true };
                             base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
                         }
 
@@ -313,7 +315,7 @@ namespace Assets.Scripts.Characters.Titan
                     if (!(flag2 || !this.asClientLookTarget))
                     {
                         this.asClientLookTarget = false;
-                        object[] objArray3 = new object[] {false};
+                        object[] objArray3 = new object[] { false };
                         base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
                     }
 
@@ -381,7 +383,7 @@ namespace Assets.Scripts.Characters.Titan
             else
             {
                 var color = "7FFF00";
-                var num2 = ((float)currentHealth) / ((float)maxHealth);
+                var num2 = ((float) currentHealth) / ((float) maxHealth);
                 if ((num2 < 0.75f) && (num2 >= 0.5f))
                 {
                     color = "f2b50f";
@@ -513,7 +515,7 @@ namespace Assets.Scripts.Characters.Titan
                 if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
                 {
                     player.markDie();
-                    player.photonView.RPC("netDie2", PhotonTargets.All,  -1, "Server ");
+                    player.photonView.RPC("netDie2", PhotonTargets.All, -1, "Server ");
                 }
             }
         }
@@ -521,6 +523,9 @@ namespace Assets.Scripts.Characters.Titan
         private bool HasDieSteam { get; set; }
         protected void Dead()
         {
+            if (minimapIcon != null)
+                Destroy(minimapIcon.gameObject);
+
             if (!Animation.IsPlaying(AnimationDeath))
             {
                 CrossFade(AnimationDeath, 0.05f);
@@ -572,9 +577,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (State == TitanState.Idle) {}
+            if (State == TitanState.Idle) { }
 
-            PreviousState = State == TitanState.Idle 
+            PreviousState = State == TitanState.Idle
                 ? TitanState.Chase
                 : State;
             State = state;
@@ -615,11 +620,11 @@ namespace Assets.Scripts.Characters.Titan
         public bool IsStuck()
         {
             var velocity = Rigidbody.velocity;
-            return Between(velocity.z, -Speed / 4, Speed / 4) 
-                   && Between(velocity.x, -Speed / 4, Speed / 4) 
+            return Between(velocity.z, -Speed / 4, Speed / 4)
+                   && Between(velocity.x, -Speed / 4, Speed / 4)
                    && Animation[CurrentAnimation].normalizedTime > 2f;
         }
-        
+
         private void CheckColliders()
         {
             if (!IsHooked && !IsLooked && !IsColliding)
@@ -674,7 +679,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
             }
         }
-        
+
         private void Pathfinding()
         {
             Vector3 forwardDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
@@ -686,7 +691,7 @@ namespace Assets.Scripts.Characters.Titan
                 Vector3 rightDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
                 RaycastHit leftHit;
                 RaycastHit rightHit;
-                Physics.Raycast(Body.Hip.transform.position, leftDirection, out leftHit, 250 , mask);
+                Physics.Raycast(Body.Hip.transform.position, leftDirection, out leftHit, 250, mask);
                 Physics.Raycast(Body.Hip.transform.position, rightDirection, out rightHit, 250, mask);
 
                 if (leftHit.distance < rightHit.distance)

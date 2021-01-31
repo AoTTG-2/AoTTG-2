@@ -13,6 +13,7 @@ public class DummyTitan : Photon.MonoBehaviour
     public bool canRotate = true;
     public TextMesh healthLabel;
     public TextMesh healthLabel2;
+    [SerializeField] private MinimapIcon minimapIcon;
 
     public float speed = 3.0f;
 
@@ -76,6 +77,8 @@ public class DummyTitan : Photon.MonoBehaviour
     {
         if (!dead)
         {
+            Destroy(minimapIcon.gameObject);
+
             Transform body = pivot.transform.Find("Body");
             body.transform.parent = null;
             Rigidbody rb = body.gameObject.AddComponent<Rigidbody>();

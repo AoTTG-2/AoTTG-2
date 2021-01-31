@@ -6,28 +6,43 @@ namespace Assets.Scripts.Room.Minimap
     {
         public int Height = 500;
         public bool Rotate = true;
-        private GameObject mainCamera;
-        private Camera minimapCamera;
+        [SerializeField] private IN_GAME_MAIN_CAMERA mainCamera;
+        [SerializeField] private GameObject playerTransform;
+        [SerializeField] private Camera minimapCamera;
 
-        void OnEnable()
+        private void OnEnable()
         {
-            mainCamera = GameObject.Find("MainCamera");
-            minimapCamera = gameObject.GetComponent<Camera>();
+            mainCamera = FindObjectOfType<IN_GAME_MAIN_CAMERA>();
+            if (mainCamera != null)
+                playerTransform = mainCamera.main_object;
+            minimapCamera = GetComponent<Camera>();
         }
-        
-        public void FixedUpdate()
+
+        private void FixedUpdate()
         {
             if (mainCamera == null)
             {
-                OnEnable();
+                mainCamera = FindObjectOfType<IN_GAME_MAIN_CAMERA>();
+                return;
             }
-            var mainCameraVector = mainCamera.transform.position;
-            var mainCameraRotation = mainCamera.transform.rotation;
+            else if (playerTransform == null)
+            {
+                playerTransform = mainCamera.main_object;
+                return;
+            }
+            else if (minimapCamera == null)
+            {
+                minimapCamera = GetComponent<Camera>();
+                return;
+            }
+
+            var pos = playerTransform.transform.position;
+            var rot = mainCamera.transform.rotation;
             minimapCamera.orthographicSize = Height;
-            transform.position = new Vector3(mainCameraVector.x, mainCameraVector.y + Height, mainCameraVector.z);
+            transform.position = new Vector3(pos.x, 250, pos.z);
             transform.eulerAngles = Rotate
-                ? new Vector3(90, mainCameraRotation.eulerAngles.y)
-                : new Vector3(90, 0); 
+                ? new Vector3(90, rot.eulerAngles.y)
+                : new Vector3(90, 0);
             //transform.rotation = Rotate
             //    ? new Quaternion(90f, mainCameraRotation.y, transform.rotation.z, transform.rotation.w)
             //    : new Quaternion(90f, 0f, transform.rotation.z, transform.rotation.w);
