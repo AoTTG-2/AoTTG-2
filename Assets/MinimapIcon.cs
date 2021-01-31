@@ -7,7 +7,7 @@ namespace AOT.UI
         private Rigidbody rb;
         private float targetY = 0f;
         private float currentY = 0f;
-        private float speed = 1000f;
+        private readonly float speed = 1000f;
 
         private void Start()
         {
