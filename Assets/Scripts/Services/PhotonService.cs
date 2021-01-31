@@ -21,6 +21,7 @@ namespace Assets.Scripts.Services
         private void Awake()
         {
             currentServerConfig = photonServerConfiguration.FirstOrDefault();
+            photonServerConfiguration ??= new List<PhotonServerConfig>();
         }
         #endregion
 

@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Settings;
-using Photon;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Interface
@@ -30,7 +29,7 @@ namespace Assets.Scripts.Services.Interface
 
         /// <summary>
         /// Returns a boolean, indicating if the <see cref="IPhotonService"/> is changing a region.
-        /// Classes which implement <see cref="PunBehaviour.OnDisconnectedFromPhoton"/> should use this.
+        /// Classes which implement <see cref="Photon.PunBehaviour.OnDisconnectedFromPhoton"/> should use this.
         /// </summary>
         /// <returns></returns>
         bool IsChangingRegion();
