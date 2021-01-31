@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Assets.Scripts.Services.Interface;
+﻿using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Photon;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Services
@@ -21,7 +21,8 @@ namespace Assets.Scripts.Services
         private void Awake()
         {
             currentServerConfig = photonServerConfiguration.FirstOrDefault();
-            photonServerConfiguration ??= new List<PhotonServerConfig>();
+            if (photonServerConfiguration == null)
+                photonServerConfiguration = new List<PhotonServerConfig>();
         }
         #endregion
 
