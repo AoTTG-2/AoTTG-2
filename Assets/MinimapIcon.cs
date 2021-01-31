@@ -14,7 +14,7 @@ namespace AOT.UI
             rb = GetComponentInParent<Rigidbody>();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (transform != null)
                 transform.position = new Vector3(transform.parent.position.x, 245f, transform.parent.position.z);
