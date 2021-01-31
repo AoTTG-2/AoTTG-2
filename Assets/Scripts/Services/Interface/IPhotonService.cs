@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Settings;
 using Photon;
 using System.Collections.Generic;
 
@@ -40,8 +39,5 @@ namespace Assets.Scripts.Services.Interface
         /// Connects to the Photon Server based on the current PhotonServerConfiguration <see cref="GetCurrentConfig"/>
         /// </summary>
         void Connect();
-        
-        [Obsolete("This can be replaced with ChangePhotonServer by adding LAN to the server list")]
-        void UpdateConnectionType(bool isLocal);
     }
 }

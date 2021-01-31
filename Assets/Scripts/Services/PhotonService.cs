@@ -84,10 +84,5 @@ namespace Assets.Scripts.Services
                 Connect();
             }
         }
-
-        public void UpdateConnectionType(bool isLocal)
-        {
-            IpAddress = isLocal ? "127.0.0.1" : currentServerConfig.IpAddress;
-        }
     }
 }

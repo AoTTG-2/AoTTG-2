@@ -24,11 +24,20 @@ namespace Assets.Scripts.UI.Menu
             }
         }
 
+        #region UI Action
         public void CreateRoom()
         {
             Navigate(typeof(CreateRoom));
         }
 
+        public override void Back()
+        {
+            base.Back();
+            PhotonNetwork.Disconnect();
+        }
+        #endregion
+
+        #region MonoBehavior
         private void Awake()
         {
             ServerDropdown.onValueChanged.AddListener(delegate
@@ -54,39 +63,58 @@ namespace Assets.Scripts.UI.Menu
                 ServerDropdown.options.Add(new Dropdown.OptionData(server.Name));
             }
         }
+        #endregion
 
-        public override void Back()
+        #region PunBehavior
+        public override void OnConnectedToPhoton()
         {
-            base.Back();
-            PhotonNetwork.Disconnect();
+            CancelInvoke(nameof(RefreshLobby));
+            CancelInvoke(nameof(TryJoin));
+            InvokeRepeating(nameof(RefreshLobby), 1f, 5f);
         }
 
-        public void OnServerChanged(Dropdown change)
+        public override void OnFailedToConnectToPhoton(DisconnectCause cause)
         {
-            var photonConfig = Service.Photon.GetConfigByName(change.options[change.value]?.text);
-            Service.Photon.ChangePhotonServer(photonConfig);
+            ClearLobby();
+            CancelInvoke(nameof(RefreshLobby));
+            CancelInvoke(nameof(TryJoin));
+            var row = Instantiate(Row, ScrollViewContent.transform);
+            var noRoom = row.GetComponent<RoomRow>();
+            noRoom.DisplayName = $"An Error Occured: {cause}";
+            noRoom.IsJoinable = false;
+            Destroy(SelectedRoom?.gameObject);
+            SelectedRoom = null;
+
+            Invoke(nameof(TryJoin), 5f);
         }
-        
-        public void OnPhotonJoinRoomFailed(object[] codeAndMsg)
+
+        public override void OnPhotonJoinRoomFailed(object[] codeAndMsg)
         {
             if (SelectedRoom == null) return;
             SelectedRoom.PasswordInputField.text = string.Empty;
             SelectedRoom.PasswordInputField.placeholder.GetComponent<Text>().text = codeAndMsg[1]?.ToString();
         }
+        #endregion
 
-        public void OnConnectedToPhoton()
+        private void OnServerChanged(Dropdown change)
         {
-            CancelInvoke(nameof(RefreshLobby));
-            InvokeRepeating(nameof(RefreshLobby), 1f, 5f);
+            var photonConfig = Service.Photon.GetConfigByName(change.options[change.value]?.text);
+            Service.Photon.ChangePhotonServer(photonConfig);
+            RefreshLobby();
         }
 
-        private void RefreshLobby()
+        private void ClearLobby()
         {
             foreach (Transform child in ScrollViewContent.transform)
             {
                 if (child == SelectedRoom?.transform) continue;
                 Destroy(child.gameObject);
             }
+        }
+
+        private void RefreshLobby()
+        {
+            ClearLobby();
 
             var rooms = PhotonNetwork.GetRoomList().ToList();
 
@@ -123,6 +151,11 @@ namespace Assets.Scripts.UI.Menu
                 roomRow.IsPasswordRequired = roomInfo.IsPasswordRequired();
                 roomRow.IsAccountRequired = roomInfo.IsAccountRequired();
             }
+        }
+
+        private void TryJoin()
+        {
+            Service.Photon.Connect();
         }
     }
 }
