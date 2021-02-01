@@ -33,11 +33,11 @@ public class RockThrow : Photon.MonoBehaviour
 
     private void hitPlayer(GameObject hero)
     {
-        if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isInvincible())
+        if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().IsInvincible())
         {
-            if ((!hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isGrabbed)
+            if ((!hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().IsGrabbed)
             {
-                hero.GetComponent<Hero>().markDie();
+                hero.GetComponent<Hero>().MarkDie();
                 int myOwnerViewID = -1;
                 string titanName = string.Empty;
                 if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
@@ -138,7 +138,7 @@ public class RockThrow : Photon.MonoBehaviour
                                 hero.GetComponent<ErenTitan>().hitByTitan();
                             }
                         }
-                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().isInvincible())
+                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().IsInvincible())
                         {
                             this.hitPlayer(hero);
                         }

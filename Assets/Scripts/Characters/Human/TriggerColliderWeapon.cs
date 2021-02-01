@@ -35,13 +35,13 @@ public class TriggerColliderWeapon : MonoBehaviour
 
     private void HeroHit(Hero hero, HitBox hitbox, float distance)
     {
-        if (hero.myTeam != myTeam && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
+        if (hero.myTeam != myTeam && !hero.IsInvincible() && hero.HasDied() && !hero.IsGrabbed)
         {
             // I honestly don't have a clue as to what this does
             float b = Mathf.Min(1f, 1f - (distance * 0.05f));
 
-            hero.markDie();
-            hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
+            hero.MarkDie();
+            hero.photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, new object[]
             {
                 ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
                 false,
@@ -63,7 +63,7 @@ public class TriggerColliderWeapon : MonoBehaviour
             if (collider.gameObject.transform.root.gameObject.CompareTag("titan"))
             {
                 GameObject meat;
-                hero.slashHit.Play();
+                hero.audioSystem.PlayOneShot(hero.audioSystem.clipHit);
                 meat = PhotonNetwork.Instantiate("hitMeat", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
                 meat.transform.position = transform.position;
                 Equipment.Weapon.Use(0);

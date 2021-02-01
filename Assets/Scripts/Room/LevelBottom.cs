@@ -16,7 +16,7 @@ public class LevelBottom : MonoBehaviour
                 {
                     if (other.gameObject.GetPhotonView().isMine)
                     {
-                        other.gameObject.GetComponent<Hero>().netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+                        other.gameObject.GetComponent<Hero>().NetDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
                     }
                 }
             }

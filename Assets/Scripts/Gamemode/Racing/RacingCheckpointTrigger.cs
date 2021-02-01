@@ -12,7 +12,7 @@ public class RacingCheckpointTrigger : MonoBehaviour
             if (gameObject.GetPhotonView() != null && gameObject.GetPhotonView().isMine && gameObject.GetComponent<Hero>() != null)
             {
                 FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#00ff00>Checkpoint set.</color>");
-                gameObject.GetComponent<Hero>().fillGas();
+                gameObject.GetComponent<Hero>().FillGas();
                 FengGameManagerMKII.instance.racingSpawnPoint = base.gameObject.transform.position;
                 FengGameManagerMKII.instance.racingSpawnPointSet = true;
             }

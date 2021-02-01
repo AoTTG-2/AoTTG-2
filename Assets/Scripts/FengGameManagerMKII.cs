@@ -2594,8 +2594,8 @@ namespace Assets.Scripts
                         }
 
                         component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                        component.main_object.GetComponent<Hero>().SetStat2();
+                        component.main_object.GetComponent<Hero>().SetSkillHUDPosition2();
                     }
                     else
                     {
@@ -2621,8 +2621,8 @@ namespace Assets.Scripts
                                     HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
                                 component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>()
                                     .setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                                component.main_object.GetComponent<Hero>().SetStat2();
+                                component.main_object.GetComponent<Hero>().SetSkillHUDPosition2();
                                 break;
                             }
                         }
@@ -2682,8 +2682,8 @@ namespace Assets.Scripts
                             component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
                         }
                         component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                        component.main_object.GetComponent<Hero>().SetStat2();
+                        component.main_object.GetComponent<Hero>().SetSkillHUDPosition2();
                         break;
                     }
                     default:
@@ -2704,8 +2704,8 @@ namespace Assets.Scripts
                                 component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[id];
                                 component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[id].name.ToUpper());
                                 component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                                component.main_object.GetComponent<Hero>().SetStat2();
+                                component.main_object.GetComponent<Hero>().SetSkillHUDPosition2();
                                 break;
                             }
                         }
