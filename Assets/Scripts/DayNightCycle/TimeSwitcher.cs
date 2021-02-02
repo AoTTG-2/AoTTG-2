@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Assets.Scripts.Settings;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.SceneManagement;
 namespace Assets.Scripts.DayNightCycle
 {
     public class TimeSwitcher : MonoBehaviour, IEndDragHandler, IDragHandler
@@ -14,16 +15,14 @@ namespace Assets.Scripts.DayNightCycle
         DayAndNightControl dayNightCycle;
 
        void Start()
-       {
-            
+       { 
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-             if (PhotonNetwork.isMasterClient)
-             {
+            if (PhotonNetwork.isMasterClient)
+            {
                 var se = new InputField.SubmitEvent();
                 se.AddListener(SubmitTime);
                 TimeInput.onEndEdit = se;
-             }
-            
+            }
         }
 
 
@@ -64,17 +63,22 @@ namespace Assets.Scripts.DayNightCycle
         }
 
 
-    
 
-        //grabbing the local scene's DayAndNightControl script
+
+        //grabbing the local scene's DayAndNightControl script, and adding a scene changed listener
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             TimeSlider.value = dayNightCycle.CurrentTime01;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        //When Scene changes, erase input field
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            TimeInput.text = "";
         }
 
-  
-    }
+}
    
 
 }
