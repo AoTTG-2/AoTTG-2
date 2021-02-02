@@ -1775,10 +1775,6 @@ namespace Assets.Scripts
             if (Application.loadedLevel != 0)
             {
                 Time.timeScale = 1f;
-                if (PhotonNetwork.connected)
-                {
-                    PhotonNetwork.Disconnect();
-                }
                 this.resetSettings(true);
                 this.loadconfig();
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;

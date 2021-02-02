@@ -58,9 +58,12 @@ namespace Assets.Scripts.Services
             GetLabel(label).text = message;
         }
 
-        public override void OnDisconnectedFromPhoton()
+        private void OnLevelWasLoaded(int level)
         {
-            MainUi.ShowMenu();
+            if (level == 0)
+            {
+                MainUi.ShowMenu();
+            }
         }
     }
 }
