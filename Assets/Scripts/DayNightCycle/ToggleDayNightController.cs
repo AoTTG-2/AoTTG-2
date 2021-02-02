@@ -2,7 +2,7 @@
 using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.DayNightCycle
 {
@@ -37,9 +37,18 @@ namespace Assets.Scripts.DayNightCycle
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        void OnDisable()
+        {
+            
         }
 
-        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            ToggleDayNight.isOn = false;
+        }
+
 
     }
 }

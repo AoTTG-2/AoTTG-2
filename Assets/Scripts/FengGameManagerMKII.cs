@@ -1833,7 +1833,8 @@ namespace Assets.Scripts
             //{
             //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
             //}
-            LevelHelper.Load(Level);
+            if (PhotonNetwork.isMasterClient)
+                LevelHelper.Load(Level);
             GameCursor.CursorMode = CursorMode.Loading;
             var hashtable = new Hashtable
             {

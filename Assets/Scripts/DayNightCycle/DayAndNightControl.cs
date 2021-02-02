@@ -79,6 +79,7 @@ namespace Assets.Scripts.DayNightCycle
             RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
 
             ConstraintSource sauce = new ConstraintSource();
+
             sauce.sourceTransform = Camera.main.transform;
             sauce.weight = 1f;
             constraint.AddSource(sauce);

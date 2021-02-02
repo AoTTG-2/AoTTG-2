@@ -1611,7 +1611,6 @@ MonoBehaviour:
   Label: {fileID: 1568497677}
   TimeSlider: {fileID: 802599212}
   TimeInput: {fileID: 1256177371}
-  ToggleDayNight: {fileID: 1494141736}
 --- !u!224 &802599214
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1735,7 +1734,6 @@ MonoBehaviour:
   Label: {fileID: 1568497677}
   TimeSlider: {fileID: 802599212}
   TimeInput: {fileID: 1256177371}
-  ToggleDayNight: {fileID: 0}
 --- !u!114 &1256177371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2079,18 +2077,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bb014beb7fec64083a0c82345feaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultSkyColor: {r: 0, g: 0, b: 0, a: 0}
-  DefaultEquatorColor: {r: 0, g: 0, b: 0, a: 0}
-  DefaultHorizonColor: {r: 0, g: 0, b: 0, a: 0}
-  DayNightControllerPrefab: {fileID: 174068, guid: 1dce2846dc915b44ea1a12401fe517e1,
-    type: 3}
   ToggleDayNight: {fileID: 1494141736}
-  PauseDayNightButton: {fileID: 0}
   DayNightController: {fileID: 0}
   MainLight: {fileID: 0}
   Label: {fileID: 0}
-  skyBoxReset: {fileID: 0}
-  DefaultLightSet: {fileID: 0}
 --- !u!114 &1494141736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2629,7 +2619,7 @@ PrefabInstance:
     - target: {fileID: 323642729287420834, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 323642729287420838, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
@@ -2935,7 +2925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3259,7 +3249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Label: {fileID: 1568497677}
   DayLengthInput: {fileID: 1891871668}
-  ToggleDayNight: {fileID: 1494141736}
 --- !u!114 &1891871668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3303,13 +3292,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1891871669}
   m_TextComponent: {fileID: 378731570}
   m_Placeholder: {fileID: 413748992}
-  m_ContentType: 0
+  m_ContentType: 3
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:

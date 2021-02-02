@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
+using UnityEngine.SceneManagement;
 namespace Assets.Scripts.DayNightCycle
 {
     public class DayLengthController : MonoBehaviour
@@ -39,10 +40,17 @@ namespace Assets.Scripts.DayNightCycle
                     }      
         }
 
-        //grabbing the local scene's DayAndNightControl script
+        //grabbing the local scene's DayAndNightControl script, and adding a scene changed listener
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
+        //When Scene changes, erase input field
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            DayLengthInput.text = "";
+        }
+
     }
 }
