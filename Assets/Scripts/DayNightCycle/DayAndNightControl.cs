@@ -108,7 +108,7 @@ namespace Assets.Scripts.DayNightCycle
                 currentTime += (diff / DayLength) * 24;
                 //If time passed will put the currentTime over 24, do maths to correct for this and give an accurate
                 //time according to a 24h time range
-                if (currentTime > 24);
+                if (currentTime > 24)
                 {
                     currentTime = currentTime - (24 * (int)Math.Floor(currentTime/24));
                 }
