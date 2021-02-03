@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Assets.Scripts.FengGameManagerMKII;
@@ -135,10 +136,44 @@ public class InRoomChat : Photon.MonoBehaviour
 
     private bool MarkupIsOk(string message)
     {
-        var countOpeningTags = Regex.Matches(message, @"<\w+.{0,2}\w+>").Count;
-        var countClosingTags =  Regex.Matches(message, @"<\W{1}\w+>").Count;
+        var openingTags = Regex.Matches(message, @"<([a-z]*)(?:=.+?)?>");
+        var closingTags =  Regex.Matches(message, @"</([a-z]*)>");
+        Dictionary<string, int> openCount = new Dictionary<string, int>();
+        Dictionary<string, int> closeCount = new Dictionary<string, int>();
 
-        return countOpeningTags == countClosingTags;
+        for(int i = 0; i < openingTags.Count; i++)
+        {
+            var match = openingTags[i];
+            var m = match.Groups[1].Value;
+
+            if (openCount.ContainsKey(m))
+                openCount[m] += 1;
+            else
+                openCount.Add(m, 1);
+        }
+        for (int i = 0; i < closingTags.Count; i++)
+        {
+            var match = closingTags[i];
+            var m = match.Groups[1].Value;
+
+            if (closeCount.ContainsKey(m))
+                closeCount[m] += 1;
+            else
+                closeCount.Add(m, 1);
+        }
+
+        if (openCount.Keys.Count != closeCount.Keys.Count)
+            return false;
+
+        foreach(var key in openCount.Keys)
+        {
+            if (openCount[key] == closeCount[key])
+                continue;
+
+            return false;
+        }
+
+        return true;
     }
 
     public void OutputSystemMessage(string input)
