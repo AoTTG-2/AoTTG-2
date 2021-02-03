@@ -27,9 +27,7 @@ namespace Assets.Scripts.DayNightCycle
         public Light directionalLight;
         public float DayLength = 300f; //default value is 300 seconds in one day
         public bool pause { get; set; }
-
-        [HideInInspector]
-        float lightIntensity; //static variable to see what the current light's insensity is in the inspector
+        public float lightIntensity; //static variable to see what the current light's insensity is in the inspector
 
         Camera targetCam;
         private int frames;
@@ -95,10 +93,6 @@ namespace Assets.Scripts.DayNightCycle
             StartCoroutine(SetupCameraConstraint());
         }
 
-        public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
-        {
-            Service.Settings.SyncSettings();
-        }
      
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {

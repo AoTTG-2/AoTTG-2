@@ -39,10 +39,6 @@ namespace Assets.Scripts.DayNightCycle
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
-        void OnDisable()
-        {
-            
-        }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
