@@ -6,30 +6,32 @@ using Assets.Scripts.Settings.Titans;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelBuilder : MonoBehaviour
+namespace Assets.Scripts.Room //added namespace and imported the file into "ServerSettingsPage.cs", "CreateRoom.cs" and "Singleplayer.cs" because the console was unhappy without it
 {
-    private static List<Level> _levels;
-    public static List<Level> GetAllLevels()
+    public class LevelBuilder : MonoBehaviour
     {
-        if (_levels != null) return _levels;
-        _levels = new List<Level>();
-        AddCustomMaps();
-        AddClassicMaps();
-        AddAoTTG2Maps();
-        return _levels;
-    }
-
-    private static void AddCustomMaps()
-    {
-        foreach (var level in LevelHelper.GetAll())
+        private static List<Level> _levels;
+        public static List<Level> GetAllLevels()
         {
-            _levels.Add(new Level
+            if (_levels != null) return _levels;
+            _levels = new List<Level>();
+            AddCustomMaps();
+            AddClassicMaps();
+            AddAoTTG2Maps();
+            return _levels;
+        }
+
+        private static void AddCustomMaps()
+        {
+            foreach (var level in LevelHelper.GetAll())
             {
-                Name = level.Split('_')[0],
-                SceneName = null,
-                AssetBundle = level,
-                IsCustom = true,
-                Gamemodes = new List<GamemodeSettings>
+                _levels.Add(new Level
+                {
+                    Name = level.Split('_')[0],
+                    SceneName = null,
+                    AssetBundle = level,
+                    IsCustom = true,
+                    Gamemodes = new List<GamemodeSettings>
                 {
                     new RacingSettings(),
                     new KillTitansSettings(),
@@ -40,18 +42,18 @@ public class LevelBuilder : MonoBehaviour
                     new EndlessSettings(),
                     new PvPAhssSettings()
                 }
-            });
+                });
+            }
         }
-    }
 
-    private static void AddClassicMaps()
-    {
-        _levels.Add(new Level
+        private static void AddClassicMaps()
         {
-            Name = "The City - Classic",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "The City I",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
+            {
+                Name = "The City - Classic",
+                Description = "Classic City Map from AoTTG",
+                SceneName = "The City I",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new KillTitansSettings
                 {
@@ -66,14 +68,14 @@ public class LevelBuilder : MonoBehaviour
                 new RacingSettings(),
                 new InfectionGamemodeSettings()
             }
-        });
+            });
 
-        _levels.Add(new Level
-        {
-            Name = "The Forest - Classic",
-            Description = "Classic forest map",
-            SceneName = "The Forest",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
+            {
+                Name = "The Forest - Classic",
+                Description = "Classic forest map",
+                SceneName = "The Forest",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new WaveGamemodeSettings(),
                 new KillTitansSettings
@@ -90,14 +92,14 @@ public class LevelBuilder : MonoBehaviour
                     }
                 }
             }
-        });
+            });
 
-        _levels.Add(new Level
-        {
-            Name = "Trost - Classic",
-            Description = "Classic trost map",
-            SceneName = "Colossal Titan",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
+            {
+                Name = "Trost - Classic",
+                Description = "Classic trost map",
+                SceneName = "Colossal Titan",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new RushSettings
                 {
@@ -110,25 +112,28 @@ public class LevelBuilder : MonoBehaviour
                     Description = "Escort Titan Eren"
                 }
             }
-        });
+            });
 
-        _levels.Add(new Level
-        {
-            Name = "Akina",
-            Description = "Most famous racing map",
-            SceneName = "track - akina",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
+            {
+                Name = "Akina",
+                Description = "Most famous racing map",
+                SceneName = "track - akina",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new RacingSettings()
+                    {
+                        IsPlayerTitanEnabled = false, //Now you are unable to choose the player titan option in Akina
+                    }
             },
-        });
+            });
 
-        _levels.Add(new Level
-        {
-            Name = "Outside the Walls",
-            Description = "Classic Outside the Walls map",
-            SceneName = "OutSide",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
+            {
+                Name = "Outside the Walls",
+                Description = "Classic Outside the Walls map",
+                SceneName = "OutSide",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new CaptureGamemodeSettings
                 {
@@ -140,36 +145,42 @@ public class LevelBuilder : MonoBehaviour
                     SpawnSupplyStationOnHumanCapture = true
                 }
             }
-        });
+            });
 
-        _levels.Add(new Level
-        {
-            Name = "Cave Fight",
-            Description = "***Spoiler Alarm!***",
-            SceneName = "CaveFight",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
+            {
+                Name = "Cave Fight",
+                Description = "***Spoiler Alarm!***",
+                SceneName = "CaveFight",
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new PvPAhssSettings()
+                    {
+                        IsPlayerTitanEnabled = false, //Now you are unable to choose the player titan option in Cave Fight
+                    }
+                }
+            });
+
+            _levels.Add(new Level
+            {
+                Name = "House Fight",
+                Description = "***Spoiler Alarm!***",
+                SceneName = "HouseFight",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new PvPAhssSettings()
+                    {
+                        IsPlayerTitanEnabled = false, //Now you are unable to choose the player titan option in House Fight
+                    }
             }
-        });
+            });
 
-        _levels.Add(new Level
-        {
-            Name = "House Fight",
-            Description = "***Spoiler Alarm!***",
-            SceneName = "HouseFight",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
             {
-                new PvPAhssSettings()
-            }
-        });
-
-        _levels.Add(new Level
-        {
-            Name = "Test Zone",
-            Description = "Classic City Map from AoTTG",
-            SceneName = "Test Zone",
-            Gamemodes = new List<GamemodeSettings>
+                Name = "Test Zone",
+                Description = "Classic City Map from AoTTG",
+                SceneName = "Test Zone",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new KillTitansSettings
                 {
@@ -194,17 +205,17 @@ public class LevelBuilder : MonoBehaviour
                 }
 
             }
-        });
-    }
+            });
+        }
 
-    private static void AddAoTTG2Maps()
-    {
-        _levels.Add(new Level
+        private static void AddAoTTG2Maps()
         {
-            Name = "Utgard Castle",
-            Description = "",
-            SceneName = "Utgard",
-            Gamemodes = new List<GamemodeSettings>
+            _levels.Add(new Level
+            {
+                Name = "Utgard Castle",
+                Description = "",
+                SceneName = "Utgard",
+                Gamemodes = new List<GamemodeSettings>
             {
                 new KillTitansSettings
                 {
@@ -220,6 +231,7 @@ public class LevelBuilder : MonoBehaviour
                 },
                 new WaveGamemodeSettings()
             }
-        });
+            });
+        }
     }
 }
