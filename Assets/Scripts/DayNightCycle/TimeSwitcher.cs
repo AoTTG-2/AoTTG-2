@@ -52,7 +52,8 @@ namespace Assets.Scripts.DayNightCycle
 
         private void SubmitTime(string time)
         {
-            if (TimeSpan.TryParse(time, out var timeSpan) && time.Contains(":"))
+            //only inputs with ":" and no negatives allowed, "-12:00" is an easter egg
+            if (TimeSpan.TryParse(time, out var timeSpan) && time.Contains(":") &&!time.Contains("-") || time.Contains("-12:00"))
             {
                 double seconds = timeSpan.TotalSeconds;
                 TimeSlider.value = (float)(seconds / 86400);
