@@ -3,6 +3,7 @@ using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 using UnityEngine.Animations;
 
 namespace Assets.Scripts.DayNightCycle
@@ -74,15 +75,24 @@ namespace Assets.Scripts.DayNightCycle
             
             UpdateLight(); // Initial lighting update.
 
-            // Set up rotation constraint for the moon camera.
-            RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
+            IEnumerator SetupCameraConstraint()
+            {
+                // Set up rotation constraint for the moon camera.
+                RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
 
-            ConstraintSource source = new ConstraintSource();
-            source.sourceTransform = Camera.main.transform;
-            source.weight = 1f;
+                ConstraintSource source = new ConstraintSource();
+                Debug.Log("Waiting for Main Camera...");
+                yield return new WaitUntil(() => MainCamera != null);
+                Debug.Log("The main camera has arriveth");
+                source.sourceTransform = Camera.main.transform;
+                source.weight = 1f;
+                constraint.AddSource(source);
 
-            constraint.AddSource(source);
-            constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
+                constraint.rotationOffset = Vector3.zero; // Resets the offset, just to be safe
+                constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
+            }
+
+            StartCoroutine(SetupCameraConstraint());
         }
 
         public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
