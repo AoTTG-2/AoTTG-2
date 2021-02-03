@@ -104,9 +104,14 @@ namespace Assets.Scripts.DayNightCycle
             {
                 // 300s since MC updated this
                 var diff = (float) (DateTime.UtcNow - settings.LastModified).TotalSeconds;
-
                 // 5 += ( 300 / 300) * 24 => 29 % 24 => 5
                 currentTime += (diff / DayLength) * 24;
+                //If time passed will put the currentTime over 24, do maths to correct for this and give an accurate
+                //time according to a 24h time range
+                if (currentTime > 24);
+                {
+                    currentTime = currentTime - (24 * (int)Math.Floor(currentTime/24));
+                }
             }
         }
 
@@ -227,34 +232,6 @@ namespace Assets.Scripts.DayNightCycle
             UpdateLight();
         }
 
-        public TimeOfDay GetTimeOfDay()
-        {
-            if (CurrentTime01 >= 0f && CurrentTime01 <= 0.2f)
-            {
-                return TimeOfDay.Midnight;
-            }
-            else if (CurrentTime01 <= 0.5f && CurrentTime01 > 0.2f)
-            {
-                return TimeOfDay.Morning;
-            }
-            else if (CurrentTime01 >= 0.5f && CurrentTime01 < 0.75f)
-            {
-                return TimeOfDay.Afternoon;
-            }
-            else if (CurrentTime01 >= 0.75f && CurrentTime01 <= 1f)
-            {
-                return TimeOfDay.Night;
-            }
-            return TimeOfDay.UNKNOWN; // If this return is reached, something probably went wrong
-        }
-
-        public enum TimeOfDay
-        {
-            Midnight,
-            Morning,
-            Afternoon,
-            Night,
-            UNKNOWN,
-        }
+        
     }
 }
