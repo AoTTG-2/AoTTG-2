@@ -26,7 +26,7 @@ namespace Assets.Scripts.DayNightCycle
         public Light directionalLight;
         public float DayLength = 300f; //default value is 300 seconds in one day
         public bool pause { get; set; }
-        
+
         [HideInInspector]
         float lightIntensity; //static variable to see what the current light's insensity is in the inspector
 
@@ -51,7 +51,6 @@ namespace Assets.Scripts.DayNightCycle
             lightIntensity = directionalLight.intensity; // What's the current intensity of the sunlight
             // Procedural skybox needs this to work
             RenderSettings.sun = directionalLight;
-
 
             if (timecycle)
             {
@@ -78,12 +77,11 @@ namespace Assets.Scripts.DayNightCycle
             // Set up rotation constraint for the moon camera.
             RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
 
-            ConstraintSource sauce = new ConstraintSource();
+            ConstraintSource source = new ConstraintSource();
+            source.sourceTransform = Camera.main.transform;
+            source.weight = 1f;
 
-            sauce.sourceTransform = Camera.main.transform;
-            sauce.weight = 1f;
-            constraint.AddSource(sauce);
-
+            constraint.AddSource(source);
             constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
         }
 
@@ -98,7 +96,6 @@ namespace Assets.Scripts.DayNightCycle
             DayLength = (float) GameSettings.Time.dayLength; // 300
             pause = (bool) GameSettings.Time.pause; // true
 
-
             if (!pause)
             {
                 // 300s since MC updated this
@@ -107,7 +104,6 @@ namespace Assets.Scripts.DayNightCycle
                 // 5 += ( 300 / 300) * 24 => 29 % 24 => 5
                 currentTime += (diff / DayLength) * 24;
             }
-
         }
 
         private void OnDestroy()
@@ -136,9 +132,9 @@ namespace Assets.Scripts.DayNightCycle
             if (!pause)
             {
                 currentTime += (Time.deltaTime / DayLength) * 24;
-                if (CurrentTime01 >= 1) // If the time is midnight or past midnight
+                if (CurrentTime01 >= 1) // If CurrentTime >= 24 hours
                 {
-                    currentTime = 0; // Reset time to midnight
+                    currentTime = 0; // Reset time back to midnight
                     currentDay++; // Increment the day counter
                 }
             }
@@ -212,6 +208,15 @@ namespace Assets.Scripts.DayNightCycle
                     RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTime01).a * timecycle.maxFogDensity;
                 }
             }
+        }
+
+        void OnValidate()
+        {
+            if (RenderSettings.skybox != skyBoxPROCEDURAL)
+            {
+                RenderSettings.skybox = skyBoxPROCEDURAL;
+            }
+            UpdateLight();
         }
 
         public TimeOfDay GetTimeOfDay()
