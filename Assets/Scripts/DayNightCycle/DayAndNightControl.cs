@@ -216,6 +216,10 @@ namespace Assets.Scripts.DayNightCycle
             {
                 RenderSettings.skybox = skyBoxPROCEDURAL;
             }
+            if (RenderSettings.sun != directionalLight)
+            {
+                RenderSettings.sun = directionalLight;
+            }
             UpdateLight();
         }
 
