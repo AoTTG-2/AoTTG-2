@@ -1,16 +1,18 @@
-﻿using Assets.Scripts.Services;
-using Assets.Scripts.Settings;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Collections;
 using UnityEngine.Animations;
+using UnityEditor;
+using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
 
 namespace Assets.Scripts.DayNightCycle
 {
     public class DayAndNightControl : MonoBehaviour
     {
         public GameObject moon;
+        public ReflectionProbe reflectionProbe;
         public float sunTilt = -15f;
         [SerializeField] private TimecycleProfile timecycle = null;
         [SerializeField] private float sunRotationOffset = 0f;
@@ -36,7 +38,6 @@ namespace Assets.Scripts.DayNightCycle
         void Start()
         {
             pause=true;
-            RenderSettings.skybox = skyBoxPROCEDURAL;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GetComponentInChildren<Camera>();
 
@@ -48,32 +49,11 @@ namespace Assets.Scripts.DayNightCycle
                 }
             }
             lightIntensity = directionalLight.intensity; // What's the current intensity of the sunlight
-            // Procedural skybox needs this to work
-            RenderSettings.sun = directionalLight;
 
-            if (timecycle)
-            {
-                if (timecycle.overrideEnvironmentLighting)
-                {
-                    switch (timecycle.lightingOverrideMode)
-                    {
-                        case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
-                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
-                            break;
-                        case TimecycleProfile.AmbientLightingOverrideMode.Color:
-                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-                            break;
-                    }
-                }
-                else
-                {
-                    RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
-                }
-            }
-            
+            UpdateLightingSettings();
             UpdateLight(); // Initial lighting update.
 
-            IEnumerator SetupCameraConstraint()
+            IEnumerator SetupCameraConstraintAndReflectionProbe()
             {
                 // Set up rotation constraint for the moon camera.
                 RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
@@ -88,17 +68,25 @@ namespace Assets.Scripts.DayNightCycle
 
                 constraint.rotationOffset = Vector3.zero; // Resets the offset, just to be safe
                 constraint.constraintActive = constraint.locked = true; // Enable the constraint and lock it
+
+                reflectionProbe.transform.SetParent(Camera.main.transform);
+                reflectionProbe.transform.localPosition = Vector3.zero;
             }
 
-            StartCoroutine(SetupCameraConstraint());
+            StartCoroutine(SetupCameraConstraintAndReflectionProbe());
         }
 
      
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
-            currentTime = (float) GameSettings.Time.currentTime; // 9
-            DayLength = (float) GameSettings.Time.dayLength; // 300
-            pause = (bool) GameSettings.Time.pause; // true
+            currentTime = (float) GameSettings.Time.currentTime; 
+            //additional check to ensure MC cant set non-MC daylengths to less than 60
+            if ((float)GameSettings.Time.dayLength < 60)
+            {
+                DayLength = (float)GameSettings.Time.dayLength;
+            }
+            else { DayLength = 60; }
+            pause = (bool) GameSettings.Time.pause;
 
             if (!pause)
             {
@@ -123,11 +111,7 @@ namespace Assets.Scripts.DayNightCycle
         // Update is called once per frame
         void Update()
         {
-            //additional check to ensure MC cant set non-MC daylengths to less than 60
-            if (DayLength < 60)
-            {
-                DayLength = 60;
-            }
+            
             // This is to prevent null reference errors because non-MCs needs a few frames before the camera will be available.
             if (MainCamera == null)
             {
@@ -168,6 +152,33 @@ namespace Assets.Scripts.DayNightCycle
         {
             skyBoxPROCEDURAL.SetVector("_Axis", directionalLight.transform.right);
             skyBoxPROCEDURAL.SetFloat("_Angle", -CurrentTime01 * 360f);
+        }
+
+        void UpdateLightingSettings()
+        {
+            RenderSettings.skybox = skyBoxPROCEDURAL;
+            RenderSettings.sun = directionalLight; // Procedural skybox needs this to work
+            RenderSettings.fog = true;
+
+            if (timecycle)
+            {
+                if (timecycle.overrideEnvironmentLighting)
+                {
+                    switch (timecycle.lightingOverrideMode)
+                    {
+                        case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
+                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+                            break;
+                        case TimecycleProfile.AmbientLightingOverrideMode.Color:
+                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+                            break;
+                    }
+                }
+                else
+                {
+                    RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+                }
+            }
         }
         
         void UpdateLight()
@@ -221,17 +232,15 @@ namespace Assets.Scripts.DayNightCycle
 
         void OnValidate()
         {
-            if (RenderSettings.skybox != skyBoxPROCEDURAL)
-            {
-                RenderSettings.skybox = skyBoxPROCEDURAL;
-            }
-            if (RenderSettings.sun != directionalLight)
-            {
-                RenderSettings.sun = directionalLight;
-            }
+            UpdateLightingSettings();
             UpdateLight();
+            reflectionProbe.RenderProbe();
+#if UNITY_EDITOR
+            // Reflection Probes have limited range so we'll want it to follow the scene view's camera when previewing changes
+            Vector3 sceneViewPosition = SceneView.lastActiveSceneView.camera.transform.position;
+            // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
+            reflectionProbe.transform.position = new Vector3(sceneViewPosition.x, sceneViewPosition.y - 5f, sceneViewPosition.z);
+#endif
         }
-
-        
     }
 }
