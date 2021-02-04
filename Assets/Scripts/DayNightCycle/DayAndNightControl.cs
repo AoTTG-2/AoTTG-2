@@ -79,9 +79,14 @@ namespace Assets.Scripts.DayNightCycle
      
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
-            currentTime = (float) GameSettings.Time.currentTime; // 9
-            DayLength = (float) GameSettings.Time.dayLength; // 300
-            pause = (bool) GameSettings.Time.pause; // true
+            currentTime = (float) GameSettings.Time.currentTime; 
+            //additional check to ensure MC cant set non-MC daylengths to less than 60
+            if ((float)GameSettings.Time.dayLength < 60)
+            {
+                DayLength = (float)GameSettings.Time.dayLength;
+            }
+            else { DayLength = 60; }
+            pause = (bool) GameSettings.Time.pause;
 
             if (!pause)
             {
@@ -106,11 +111,7 @@ namespace Assets.Scripts.DayNightCycle
         // Update is called once per frame
         void Update()
         {
-            //additional check to ensure MC cant set non-MC daylengths to less than 60
-            if (DayLength < 60)
-            {
-                DayLength = 60;
-            }
+            
             // This is to prevent null reference errors because non-MCs needs a few frames before the camera will be available.
             if (MainCamera == null)
             {
