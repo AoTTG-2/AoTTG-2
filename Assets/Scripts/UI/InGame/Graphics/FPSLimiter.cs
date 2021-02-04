@@ -15,7 +15,7 @@ public class FPSLimiter : MonoBehaviour
 
     private void Start()
     {
-        /*Will first check to see if a limit has been set in the past and use that*/
+        /* Will first check to see if a limit has been set in the past and use that */
         if (FPSLimit.text == "")
         {
             DefaultFPS();
@@ -26,7 +26,7 @@ public class FPSLimiter : MonoBehaviour
         }
     }
 
-    /*function to change the FPS limit*/
+    /* function to change the FPS limit */
     public void SetFPSLimit()
     {
         FPSLimit.interactable = true;
@@ -34,17 +34,17 @@ public class FPSLimiter : MonoBehaviour
         text = text.Replace("-", string.Empty); //prevents negative values from doing funky stuff
         Int32.TryParse(text.ToString(), out limit);
         Application.targetFrameRate = limit;
-        /*if the field is empty it will set it back to the default. This prevents the FPS going nuts upon clearing the limit*/
+        /* if the field is empty it will set it back to the default. This prevents the FPS going nuts upon clearing the limit */
         if (FPSLimit.text == "")
         {
             DefaultFPS();
         }
     }
 
-    /*function for setting the FPS to the refresh rate*/
+    /* function for setting the FPS to the refresh rate */
     public void DefaultFPS()
     {
-        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+        Application.targetFrameRate = Screen.currentResolution.refreshRate; //VSync
     }
 
     public struct FPSData
