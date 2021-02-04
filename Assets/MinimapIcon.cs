@@ -17,7 +17,7 @@ namespace AOT.UI
         private void LateUpdate()
         {
             if (transform != null)
-                transform.position = new Vector3(transform.parent.position.x, 245f, transform.parent.position.z);
+                transform.position = new Vector3(transform.parent.position.x, 605f, transform.parent.position.z);
 
             if (rb != null)
             {

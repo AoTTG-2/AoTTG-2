@@ -18,7 +18,7 @@ namespace Assets.Scripts.Room.Minimap
             minimapCamera = GetComponent<Camera>();
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
             if (mainCamera == null)
             {
@@ -39,7 +39,7 @@ namespace Assets.Scripts.Room.Minimap
             var pos = playerTransform.transform.position;
             var rot = mainCamera.transform.rotation;
             minimapCamera.orthographicSize = Height;
-            transform.position = new Vector3(pos.x, 250, pos.z);
+            transform.position = new Vector3(pos.x, transform.position.y, pos.z);
             transform.eulerAngles = Rotate
                 ? new Vector3(90, rot.eulerAngles.y)
                 : new Vector3(90, 0);
