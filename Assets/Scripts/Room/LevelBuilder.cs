@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
