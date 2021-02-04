@@ -43,6 +43,11 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, targetDirection, 0f), (Speed * 0.15f) * Time.deltaTime);
 
+            if(State == TitanState.Dead){
+                Rigidbody.velocity = Vector3.zero;
+                Rigidbody.angularVelocity = Vector3.zero;
+
+            }
         }
 
         public override void Initialize(TitanConfiguration configuration)
