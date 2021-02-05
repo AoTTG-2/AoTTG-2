@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -21,9 +20,11 @@ namespace Assets.Editor.Prefabs
         {
             prefab = (GameObject)EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), false);
             GUILayout.Label("Selected Objects:");
+#if UNITY_EDITOR
             GUILayout.Label(Selection.gameObjects != null ? Selection.count.ToString() : 0.ToString());
+#endif
 
-            if(GUILayout.Button("Replace All"))
+            if (GUILayout.Button("Replace All"))
             {
                 var objs = Selection.gameObjects;
                 for(int i = 0; i < objs.Length; i++)
@@ -40,4 +41,3 @@ namespace Assets.Editor.Prefabs
         }
     }
 }
-#endif
