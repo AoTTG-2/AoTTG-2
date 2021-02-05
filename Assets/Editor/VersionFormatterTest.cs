@@ -1,50 +1,54 @@
-﻿using NUnit.Framework;
+﻿using Assets.Scripts;
+using NUnit.Framework;
 using System.Collections.Generic;
 
-public class VersionFormatterTest
+namespace Assets.Editor
 {
-    private readonly Dictionary<string, string> expectedByInput = new Dictionary<string, string>()
+    public class VersionFormatterTest
     {
-        ["#157-gitignore-csproj"] = "Alpha-Issue157",
-        ["#164-cursor-overhaul"] = "Alpha-Issue164",
-        ["#176-editorconfig"] = "Alpha-Issue176",
-        ["#75-cannons"] = "Alpha-Issue75",
-        ["development"] = "development",
-        ["master"] = "master",
-        ["titan-fix"] = "titan-fix",
-        ["version-manager"] = "version-manager"
-    };
-
-    /// <summary>
-    /// This relies on the defaults of <see cref="VersionFormatter"/>,
-    /// so it may break when that changes.
-    /// </summary>
-    [Test]
-    public void DefaultFormatterHandlesDictionary()
-    {
-        var formatter = new VersionFormatter();
-        RunDictionaryTest(formatter);
-    }
-
-    /// <summary>
-    /// Dictionary was designed to handle this.
-    /// It shouldn't break, unless the dictionary is modified.
-    /// </summary>
-    [Test]
-    public void DictionaryTestBenchmark()
-    {
-        RunDictionaryTest(new VersionFormatter("#(?<issue>\\d+)", "Alpha-Issue<issue>"));
-    }
-
-    private void RunDictionaryTest(VersionFormatter formatter)
-    {
-        foreach (var pair in expectedByInput)
+        private readonly Dictionary<string, string> expectedByInput = new Dictionary<string, string>()
         {
-            var branchName = pair.Key;
-            var expected = pair.Value;
-            var actual = formatter.FormatBranchName(branchName);
+            ["#157-gitignore-csproj"] = "Alpha-Issue157",
+            ["#164-cursor-overhaul"] = "Alpha-Issue164",
+            ["#176-editorconfig"] = "Alpha-Issue176",
+            ["#75-cannons"] = "Alpha-Issue75",
+            ["development"] = "development",
+            ["master"] = "master",
+            ["titan-fix"] = "titan-fix",
+            ["version-manager"] = "version-manager"
+        };
 
-            Assert.AreEqual(expected, actual);
+        /// <summary>
+        /// This relies on the defaults of <see cref="VersionFormatter"/>,
+        /// so it may break when that changes.
+        /// </summary>
+        [Test]
+        public void DefaultFormatterHandlesDictionary()
+        {
+            var formatter = new VersionFormatter();
+            RunDictionaryTest(formatter);
+        }
+
+        /// <summary>
+        /// Dictionary was designed to handle this.
+        /// It shouldn't break, unless the dictionary is modified.
+        /// </summary>
+        [Test]
+        public void DictionaryTestBenchmark()
+        {
+            RunDictionaryTest(new VersionFormatter("#(?<issue>\\d+)", "Alpha-Issue<issue>"));
+        }
+
+        private void RunDictionaryTest(VersionFormatter formatter)
+        {
+            foreach (var pair in expectedByInput)
+            {
+                var branchName = pair.Key;
+                var expected = pair.Value;
+                var actual = formatter.FormatBranchName(branchName);
+
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }
