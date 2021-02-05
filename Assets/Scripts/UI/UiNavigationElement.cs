@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.UI.InGame;
-using System;
-using Photon;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
