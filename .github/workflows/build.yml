@@ -51,7 +51,7 @@ jobs:
 
       # Build
       - name: Build project
-        uses: game-ci/unity-builder@v2.0-alpha-6
+        uses: webbertakken/unity-builder@v0.10
         with:
           unityVersion: 2020.2.1f1
           targetPlatform: StandaloneWindows64
