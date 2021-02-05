@@ -38,7 +38,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         {
             if (Titan.Target != null)
             {
-                Titan.ChangeState(TitanState.Chase);
+                Titan.SetState(TitanState.Chase);
                 return true;
             }
             return false;

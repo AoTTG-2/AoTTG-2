@@ -53,7 +53,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
         protected override bool OnChase()
         {
-            Titan.ChangeState(TitanState.Wandering);
+            Titan.SetState(TitanState.Wandering);
             return true;
         }
 

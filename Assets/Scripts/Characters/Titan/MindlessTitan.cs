@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,7 +18,6 @@ namespace Assets.Scripts.Characters.Titan
         public TitanState NextState;
         public MindlessTitanType MindlessType;
 
-        private float DamageTimer { get; set; }
         public new MindlessTitanBody Body { get; protected set; }
 
         private float turnDeg;
@@ -304,7 +302,7 @@ namespace Assets.Scripts.Characters.Titan
                         {
                             this.asClientLookTarget = true;
                             object[] parameters = new object[] {true};
-                            base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, parameters);
+                            base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, parameters);
                         }
 
                         flag2 = true;
@@ -314,7 +312,7 @@ namespace Assets.Scripts.Characters.Titan
                     {
                         this.asClientLookTarget = false;
                         object[] objArray3 = new object[] {false};
-                        base.photonView.RPC("setIfLookTarget", PhotonTargets.Others, objArray3);
+                        base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, objArray3);
                     }
 
                     if (State == TitanState.Attacking)
@@ -368,36 +366,6 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        [PunRPC]
-        protected void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
-        {
-            if (currentHealth < 0)
-            {
-                if (HealthLabel != null)
-                {
-                    Destroy(HealthLabel);
-                }
-            }
-            else
-            {
-                var color = "7FFF00";
-                var num2 = ((float)currentHealth) / ((float)maxHealth);
-                if ((num2 < 0.75f) && (num2 >= 0.5f))
-                {
-                    color = "f2b50f";
-                }
-                else if ((num2 < 0.5f) && (num2 >= 0.25f))
-                {
-                    color = "ff8100";
-                }
-                else if (num2 < 0.25f)
-                {
-                    color = "ff3333";
-                }
-                HealthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{currentHealth}</color>";
-            }
-        }
-
         public void OnAnkleHit(int viewId, int damage) { }
 
         private float bodyPartDamageTimer;
@@ -411,7 +379,7 @@ namespace Assets.Scripts.Characters.Titan
             if (Body.GetDisabledBodyParts().Any(x => x == BodyPart.LegLeft)
                 && Body.GetDisabledBodyParts().Any(x => x == BodyPart.LegRight))
             {
-                ChangeState(TitanState.Disabled);
+                SetState(TitanState.Disabled);
             }
         }
 
@@ -424,53 +392,13 @@ namespace Assets.Scripts.Characters.Titan
             Body.AddBodyPart(BodyPart.Eyes, Animation[AnimationEyes].length * Animation[AnimationEyes].speed);
             if (Body.GetDisabledBodyParts().Any(x => x == BodyPart.Eyes))
             {
-                ChangeState(TitanState.Disabled);
+                SetState(TitanState.Disabled);
             }
-        }
-
-        [PunRPC]
-        public void OnNapeHitRpc(int viewId, int damage)
-        {
-            if (!IsAlive) return;
-            var view = PhotonView.Find(viewId);
-            if (view == null || !IsAlive || Time.time - DamageTimer < 0.2f) return;
-            if (damage < GameSettings.Titan.MinimumDamage.Value) return;
-            if (damage > GameSettings.Titan.MaximumDamage.Value)
-            {
-                damage = GameSettings.Titan.MaximumDamage.Value;
-            }
-            DamageTimer = Time.time;
-            if (GameSettings.Titan.Mindless.HealthMode.Value == TitanHealthMode.Hit)
-            {
-                Health--;
-            }
-            else
-            {
-                Health -= damage;
-            }
-
-            if (MaxHealth > 0)
-            {
-                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
-            }
-
-            if (Health <= 0)
-            {
-                Health = 0;
-            }
-            else
-            {
-                return;
-            }
-
-            OnTitanDeath();
-            ChangeState(TitanState.Dead);
-            FengGameManagerMKII.instance.titanGetKill(view.owner, damage, name);
         }
 
         public void OnTargetGrabbed(GameObject target, bool isLeftHand)
         {
-            ChangeState(TitanState.Eat);
+            SetState(TitanState.Eat);
             GrabTarget = target.GetComponent<Hero>();
             if (isLeftHand)
             {
@@ -482,7 +410,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        protected virtual void OnTitanDeath()
+        protected override void OnDeath()
         {
             base.OnDeath();
             ReleaseGrabbedTarget();
@@ -550,12 +478,12 @@ namespace Assets.Scripts.Characters.Titan
         {
             Target = target;
             TargetDistance = float.MaxValue;
-            ChangeState(TitanState.Chase);
+            SetState(TitanState.Chase);
             FocusTimer = 0f;
             this.oldHeadRotation = Body.Head.rotation;
         }
 
-        public void ChangeState(TitanState state)
+        public override void SetState(TitanState state)
         {
             if (!IsAlive) return;
             if (state == State) return;
@@ -600,7 +528,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void Turn(float degrees)
         {
-            ChangeState(TitanState.Turning);
+            SetState(TitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
             CrossFade(CurrentAnimation, 0.0f);
             this.turnDeg = degrees;
@@ -727,7 +655,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (Stamina < 0 && State != TitanState.Recovering && State != TitanState.Disabled)
             {
-                ChangeState(TitanState.Recovering);
+                SetState(TitanState.Recovering);
             }
 
             if (Behaviors != null && Behaviors.Any(x => x.OnUpdate()))
@@ -788,7 +716,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (Target == null && State == TitanState.Attacking)
             {
-                ChangeState(TitanState.Wandering);
+                SetState(TitanState.Wandering);
             }
 
             HeadMovement();
@@ -802,7 +730,7 @@ namespace Assets.Scripts.Characters.Titan
                 CurrentAttack.IsFinished = false;
                 Stamina -= CurrentAttack.Stamina;
                 attackCooldown = 0.25f;
-                ChangeState(TitanState.Chase);
+                SetState(TitanState.Chase);
                 return;
             }
             CurrentAttack.Execute();
@@ -812,7 +740,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (Target == null || ViewDistance < TargetDistance)
             {
-                ChangeState(TitanState.Wandering);
+                SetState(TitanState.Wandering);
                 return;
             }
 
@@ -843,7 +771,7 @@ namespace Assets.Scripts.Characters.Titan
             if (availableAttacks.Length > 0)
             {
                 CurrentAttack = availableAttacks[Random.Range(0, availableAttacks.Length)];
-                ChangeState(TitanState.Attacking);
+                SetState(TitanState.Attacking);
             }
             else
             {
@@ -875,7 +803,7 @@ namespace Assets.Scripts.Characters.Titan
             }
             else
             {
-                ChangeState(TitanState.Chase);
+                SetState(TitanState.Chase);
             }
         }
 
@@ -894,7 +822,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (Animation[CurrentAnimation].normalizedTime > 1f)
             {
-                ChangeState(PreviousState);
+                SetState(PreviousState);
             }
         }
 
@@ -904,7 +832,7 @@ namespace Assets.Scripts.Characters.Titan
             IdleTimer -= Time.deltaTime;
             if (IdleTimer <= 0)
             {
-                ChangeState(NextState);
+                SetState(NextState);
             }
         }
 
@@ -919,7 +847,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (Stamina > staminaLimit * 0.75f)
             {
-                ChangeState(TitanState.Chase);
+                SetState(TitanState.Chase);
             }
         }
 
@@ -929,7 +857,7 @@ namespace Assets.Scripts.Characters.Titan
             gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, this.desDeg, 0f), (Time.deltaTime * Mathf.Abs(this.turnDeg)) * 0.015f);
             if (Animation[CurrentAnimation].normalizedTime > 1f)
             {
-                ChangeState(PreviousState);
+                SetState(PreviousState);
             }
         }
 
