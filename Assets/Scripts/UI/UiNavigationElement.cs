@@ -1,10 +1,9 @@
 ﻿using System;
-using Photon;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class UiNavigationElement : PunBehaviour
+    public class UiNavigationElement : UiMenuPUN
     {
         public UiHandler Canvas { get; set; }
 
@@ -12,7 +11,7 @@ namespace Assets.Scripts.UI
 
         public virtual void Back()
         {
-            gameObject.SetActive(false);
+            Hide();
             PreviousPage.SetActive(true);
         }
 
@@ -25,19 +24,9 @@ namespace Assets.Scripts.UI
                 return;
             }
 
-            target.gameObject.SetActive(true);
+            target.Show();
             target.PreviousPage = gameObject;
-            gameObject.SetActive(false);
-        }
-
-        protected virtual void OnDisable()
-        {
-            MenuManager.RegisterClosed();
-        }
-
-        protected virtual void OnEnable()
-        {
-            MenuManager.RegisterOpened();
+            Hide();
         }
     }
 }

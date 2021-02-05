@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class SpawnMenu : MonoBehaviour
+    public class SpawnMenu : UiMenu
     {
         private ISpawnService SpawnService => Service.Spawn;
 
@@ -90,16 +90,6 @@ namespace Assets.Scripts.UI.InGame
                 }
             }
             return (num == num2);
-        }
-
-        private void OnEnable()
-        {
-            MenuManager.RegisterOpened();
-        }
-
-        private void OnDisable()
-        {
-            MenuManager.RegisterClosed();
         }
     }
 }

@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\Controls\ControlSettings.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PhotonPing.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IPhotonService.cs" />
     <Compile Include="Assets\Scripts\Characters\BloodSplatterScript.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Views\PhotonTransformViewPositionControl.cs" />
     <Compile Include="Assets\Scripts\Room\Spawner.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PingCloudRegions.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\InputToEvent.cs" />
     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
+    <Compile Include="Assets\Scripts\UI\UiMenu.cs" />
     <Compile Include="Assets\Scripts\Characters\BodyPushBox.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingCheckpointTrigger.cs" />
     <Compile Include="Assets\Scripts\VersionFormatter.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="Assets\Scripts\Settings\Gamemodes\TrostSettings.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PhotonStreamQueue.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
+    <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleMessage.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatDisconnectCause.cs" />
     <Compile Include="Assets\Scripts\UI\Interaction Wheel\InteractionWheel.cs" />
@@ -186,6 +189,7 @@
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\CullArea.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPlayerService.cs" />
     <Compile Include="Assets\Scripts\Xft\XWeaponTrail.cs" />
+    <Compile Include="Assets\Scripts\UI\UiElement.cs" />
     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\PunPlayerScores.cs" />
     <Compile Include="Assets\Scripts\Security\OAuth.cs" />
@@ -241,6 +245,7 @@
     <Compile Include="Assets\Scripts\Services\PlayerService.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\OnClickInstantiate.cs" />
     <Compile Include="Assets\Scripts\Room\HintType.cs" />
+    <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TITAN_SETUP.cs" />
     <Compile Include="Assets\Scripts\Settings\GameSettingService.cs" />
     <Compile Include="Assets\Scripts\Effects\STYPE.cs" />
@@ -249,8 +254,10 @@
     <Compile Include="Assets\Scripts\SelfDestroy.cs" />
     <Compile Include="Assets\Scripts\Effects\BillboardScript.cs" />
     <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Services\DiscordService.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\Bullet.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Views\PhotonRigidbodyView.cs" />
+    <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\MaxCamera.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonValues.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindElement.cs" />
@@ -264,16 +271,19 @@
     <Compile Include="Assets\Scripts\AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputCannon.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
+    <Compile Include="Assets\Scripts\UI\UiContainer.cs" />
     <Compile Include="Assets\Scripts\Legacy\RCRegion.cs" />
     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
     <Compile Include="Assets\Scripts\Services\PauseService.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\OnClickDestroy.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IDiscordService.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\RushBehavior.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\FriendInfo.cs" />
     <Compile Include="Assets\Scripts\Room\ChangeQuality.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Attack.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanTrigger.cs" />
     <Compile Include="Assets\Scripts\Gamemode\InfectionGamemode.cs" />
+    <Compile Include="Assets\Scripts\UI\IUiElement.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatEventCode.cs" />
     <Compile Include="Assets\PhotonChatApi\ChannelCreationOptions.cs" />
     <Compile Include="Assets\Scripts\Startup.cs" />
@@ -350,6 +360,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\CaptureBehavior.cs" />
     <Compile Include="Assets\Scripts\Gamemode\WaveGamemode.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\CharacterMaterials.cs" />
+    <Compile Include="Assets\Scripts\UI\UiMenuPUN.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
     <Compile Include="Assets\Scripts\Effects\LinearForceAffector.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\OnJoinedInstantiate.cs" />
@@ -404,7 +415,6 @@
     <Compile Include="Assets\Scripts\UI\Elements\UiSlider.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleCommands.cs" />
     <Compile Include="Assets\Scripts\Room\TitanSpawner.cs" />
-    <Compile Include="Assets\Scripts\UI\Elements\UiElement.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\GrabAttack.cs" />
     <Compile Include="Assets\Scripts\InstantiateTracker.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\ManualPhotonViewAllocator.cs" />
@@ -450,6 +460,7 @@
     <Compile Include="Assets\Scripts\Gamemode\Difficulty.cs" />
     <Compile Include="Assets\Scripts\iTween.cs" />
     <Compile Include="Assets\Scripts\Settings\HorseSettings.cs" />
+    <Compile Include="Assets\Scripts\Services\ScreenshotService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingResult.cs" />
     <Compile Include="Assets\Scripts\Services\SpawnService.cs" />
@@ -480,13 +491,7 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-    <Compile Include="Assets\Scripts\Services\ScreenshotService.cs" />
     <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
-    <Compile Include="Assets\Scripts\Services\Interface\IPhotonService.cs" />
-    <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
-    <Compile Include="Assets\Scripts\Services\DiscordService.cs" />
-    <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
-    <Compile Include="Assets\Scripts\Services\Interface\IDiscordService.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
@@ -1113,6 +1118,9 @@
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
+    <Reference Include="Toorah.GitUpdater.Editor">
+      <HintPath>Library\ScriptAssemblies\Toorah.GitUpdater.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
@@ -1124,9 +1132,6 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Toorah.GitUpdater.Editor">
-      <HintPath>Library\ScriptAssemblies\Toorah.GitUpdater.Editor.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.quicksearch">
       <HintPath>Library\ScriptAssemblies\com.unity.quicksearch.dll</HintPath>

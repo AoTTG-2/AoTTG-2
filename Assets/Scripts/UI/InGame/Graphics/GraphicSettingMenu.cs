@@ -2,12 +2,19 @@
 
 namespace Assets.Scripts.UI.InGame
 {
-	public class GraphicSettingMenu : MonoBehaviour {
+	public class GraphicSettingMenu : UiMenu {
 
 		public GraphicsController GraphicController;
 		public InGameMenu Menu;
 
-		private void OnDisable() {
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            GraphicController.gameObject.SetActive(true);
+        }
+
+        protected override void OnDisable() {
+            base.OnDisable();
 			GraphicController.label.text = "";
 		}
 	}
