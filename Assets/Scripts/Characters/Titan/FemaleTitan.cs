@@ -13,6 +13,7 @@ using UnityEngine;
 public class FemaleTitan : TitanBase
 {
     private GamemodeBase Gamemode { get; set; }
+    private FengGameManagerMKII GameManager { get; set; }
 
     [CompilerGenerated]
     public static Dictionary<string, int> f__switchSmap1;
@@ -565,6 +566,7 @@ public class FemaleTitan : TitanBase
         base.Awake();
         base.GetComponent<Rigidbody>().freezeRotation = true;
         base.GetComponent<Rigidbody>().useGravity = false;
+        GameManager = FengGameManagerMKII.instance;
     }
 
     public void beTauntedBy(GameObject target, float tauntTime)
@@ -631,48 +633,48 @@ public class FemaleTitan : TitanBase
         if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { aniName, time };
-            base.photonView.RPC("netCrossFade", PhotonTargets.Others, parameters);
+            base.photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, parameters);
         }
     }
 
-    private void eatSet(GameObject grabTarget)
+    private void EatSet(Hero grabTarget)
     {
-        if (!grabTarget.GetComponent<Hero>().isGrabbed)
+        if (!grabTarget.isGrabbed)
         {
             this.grabToRight();
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { base.photonView.viewID, false };
-                grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, parameters);
+                grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
-                grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, objArray2);
-                base.photonView.RPC("grabToRight", PhotonTargets.Others, new object[0]);
+                grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
+                base.photonView.RPC(nameof(grabToRight), PhotonTargets.Others, new object[0]);
             }
             else
             {
-                grabTarget.GetComponent<Hero>().grabbed(base.gameObject, false);
-                grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
+                grabTarget.grabbed(base.gameObject, false);
+                grabTarget.GetComponent<Animation>().Play("grabbed");
             }
         }
     }
 
-    private void eatSetL(GameObject grabTarget)
+    private void EatSetL(Hero grabTarget)
     {
-        if (!grabTarget.GetComponent<Hero>().isGrabbed)
+        if (!grabTarget.isGrabbed)
         {
             this.grabToLeft();
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { base.photonView.viewID, true };
-                grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, parameters);
+                grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
-                grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, objArray2);
-                base.photonView.RPC("grabToLeft", PhotonTargets.Others, new object[0]);
+                grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
+                base.photonView.RPC(nameof(grabToLeft), PhotonTargets.Others, new object[0]);
             }
             else
             {
-                grabTarget.GetComponent<Hero>().grabbed(base.gameObject, true);
-                grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
+                grabTarget.grabbed(base.gameObject, true);
+                grabTarget.GetComponent<Animation>().Play("grabbed");
             }
         }
     }
@@ -962,9 +964,9 @@ public class FemaleTitan : TitanBase
                     {
                         this.getDown();
                     }
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
+                    GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
                     object[] parameters = new object[] { dmg };
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
                 }
             }
         }
@@ -1002,9 +1004,9 @@ public class FemaleTitan : TitanBase
                     {
                         this.getDown();
                     }
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
+                    GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
                     object[] parameters = new object[] { dmg };
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
                 }
             }
         }
@@ -1080,7 +1082,7 @@ public class FemaleTitan : TitanBase
             {
                 hitHero.GetComponent<Hero>().markDie();
                 object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Female Titan", true };
-                hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
             }
         }
     }
@@ -1159,7 +1161,7 @@ public class FemaleTitan : TitanBase
     {
         if (((int) FengGameManagerMKII.settings[1]) == 1)
         {
-            base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x42] });
+            base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x42] });
         }
     }
 
@@ -1250,7 +1252,7 @@ public class FemaleTitan : TitanBase
         if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { aniName };
-            base.photonView.RPC("netPlayAnimation", PhotonTargets.Others, parameters);
+            base.photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, parameters);
         }
     }
 
@@ -1261,7 +1263,7 @@ public class FemaleTitan : TitanBase
         if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { aniName, normalizedTime };
-            base.photonView.RPC("netPlayAnimationAt", PhotonTargets.Others, parameters);
+            base.photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, parameters);
         }
     }
 
@@ -1269,7 +1271,7 @@ public class FemaleTitan : TitanBase
     {
         this.playsoundRPC(sndname);
         object[] parameters = new object[] { sndname };
-        base.photonView.RPC("playsoundRPC", PhotonTargets.Others, parameters);
+        base.photonView.RPC(nameof(playsoundRPC), PhotonTargets.Others, parameters);
     }
 
     [PunRPC]
@@ -1298,7 +1300,7 @@ public class FemaleTitan : TitanBase
         if (base.photonView.isMine)
         {
             //size = GameSettings.Titan.Female.Size.Value;
-            base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
+            base.photonView.RPC(nameof(setSize), PhotonTargets.AllBuffered, new object[] { this.size });
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.Health;
@@ -1308,7 +1310,7 @@ public class FemaleTitan : TitanBase
             }
             if (this.Health > 0)
             {
-                base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
+                base.photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
             }
             this.loadskin();
         }
@@ -1417,7 +1419,7 @@ public class FemaleTitan : TitanBase
     }
 
     [PunRPC]
-    public override void OnNapeHitRpc2(int viewID, int speed, PhotonMessageInfo info)
+    public override void OnNapeHitRpc(int viewID, int speed, PhotonMessageInfo info = new PhotonMessageInfo())
     {
         Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
         PhotonView view = PhotonView.Find(viewID);
@@ -1432,14 +1434,14 @@ public class FemaleTitan : TitanBase
                 }
                 if (this.maxHealth > 0f)
                 {
-                    base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
+                    base.photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
                 }
                 if (this.Health <= 0)
                 {
                     this.Health = 0;
                     if (!this.hasDie)
                     {
-                        base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
+                        base.photonView.RPC(nameof(netDie), PhotonTargets.OthersBuffered, new object[0]);
                         if (this.grabbedTarget != null)
                         {
                             this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
@@ -1450,9 +1452,9 @@ public class FemaleTitan : TitanBase
                 }
                 else
                 {
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's neck", speed);
+                    GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's neck", speed);
                     object[] parameters = new object[] { speed };
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
                 }
                 this.healthTime = 0.2f;
             }
@@ -1623,7 +1625,7 @@ public class FemaleTitan : TitanBase
                         obj7.transform.localScale = base.transform.localScale;
                         float b = 1f - (Vector3.Distance(this.currentCamera.transform.position, obj7.transform.position) * 0.05f);
                         b = Mathf.Min(1f, b);
-                        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(b, b, 0.95f);
+                        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(b, b, 0.95f);
                     }
                     if ((this.attackCheckTimeA != 0f) && (((base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA) && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime <= this.attackCheckTimeB)) || (!this.attackChkOnce && (base.GetComponent<Animation>()["ft_attack_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA))))
                     {
@@ -1738,16 +1740,17 @@ public class FemaleTitan : TitanBase
                     if (((base.GetComponent<Animation>()["ft_attack_grab_" + this.attackAnimation].normalizedTime >= this.attackCheckTimeA) && (base.GetComponent<Animation>()["ft_attack_grab_" + this.attackAnimation].normalizedTime <= this.attackCheckTimeB)) && (this.grabbedTarget == null))
                     {
                         GameObject grabTarget = this.checkIfHitHand(this.currentGrabHand);
-                        if (grabTarget != null)
+                        if (grabTarget != null && grabTarget.GetComponent<Hero>() != null)
                         {
+                            var hero = grabTarget.GetComponent<Hero>();
                             if (this.isGrabHandLeft)
                             {
-                                this.eatSetL(grabTarget);
+                                this.EatSetL(hero);
                                 this.grabbedTarget = grabTarget;
                             }
                             else
                             {
-                                this.eatSet(grabTarget);
+                                this.EatSet(hero);
                                 this.grabbedTarget = grabTarget;
                             }
                         }

@@ -92,7 +92,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnNapeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                     }
                     else if (!PhotonNetwork.isMasterClient)
@@ -126,9 +126,9 @@ public class AHSSShotGunCollider : MonoBehaviour
                             num7 = Mathf.Max(10, num7);
                             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
                             {
-                                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num7, null, 0.02f);
+                                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(item.transform.position, num7, null, 0.02f);
                             }
-                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc2(base.transform.root.gameObject.GetPhotonView().viewID, num7, new PhotonMessageInfo());
+                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc(base.transform.root.gameObject.GetPhotonView().viewID, num7);
                         }
                     }
                     else if ((item.transform.root.GetComponent<ColossalTitan>() != null) && !item.transform.root.GetComponent<ColossalTitan>().hasDie)
@@ -138,9 +138,9 @@ public class AHSSShotGunCollider : MonoBehaviour
                         num8 = Mathf.Max(10, num8);
                         if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
                         {
-                            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(item.transform.position, num8, null, 0.02f);
+                            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(item.transform.position, num8, null, 0.02f);
                         }
-                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc2(transform.root.gameObject.GetPhotonView().viewID, num8, new PhotonMessageInfo());
+                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, num8);
                     }
                     this.showCriticalHitFX(other.gameObject.transform.position);
                 }
@@ -178,7 +178,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnEyeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnEyeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                         this.showCriticalHitFX(other.gameObject.transform.position);
                     }
@@ -234,7 +234,7 @@ public class AHSSShotGunCollider : MonoBehaviour
 
     private void showCriticalHitFX(Vector3 position)
     {
-        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
+        this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.2f, 0.3f, 0.95f);
         var redCrossEffect = PhotonNetwork.Instantiate("redCross1", base.transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
         redCrossEffect.transform.position = position;
     }
