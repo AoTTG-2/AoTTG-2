@@ -51,9 +51,9 @@ jobs:
 
       # Build
       - name: Build project
-        uses: webbertakken/unity-builder@v0.10
+        uses: game-ci/unity-builder@v2.0-alpha-6
         with:
-          unityVersion: 2020.1.4f1
+          unityVersion: 2020.2.1f1
           targetPlatform: StandaloneWindows64
   
       - name: SonarQube analysis

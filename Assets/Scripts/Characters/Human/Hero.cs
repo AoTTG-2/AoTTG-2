@@ -220,7 +220,7 @@ public class Hero : Human
     public void attackAccordingToTarget(Transform a)
     {
         Vector3 vector = a.position - base.transform.position;
-        float current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+        float current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
         float f = -Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f);
         if (((Mathf.Abs(f) < 90f) && (vector.magnitude < 6f)) && ((a.position.y <= (base.transform.position.y + 2f)) && (a.position.y >= (base.transform.position.y - 5f))))
         {
@@ -263,7 +263,7 @@ public class Hero : Human
         this.ungrabbed();
         this.falseAttack();
         this.skillCDDuration = this.skillCDLast;
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(base.gameObject, true, false);
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(base.gameObject, true, false);
         base.photonView.RPC(nameof(backToHumanRPC), PhotonTargets.Others, new object[0]);
     }
 
@@ -304,7 +304,7 @@ public class Hero : Human
                 float x = base.GetComponent<Rigidbody>().velocity.x;
                 float num4 = base.GetComponent<Rigidbody>().velocity.z;
                 float num5 = Mathf.Sqrt((x * x) + (num4 * num4));
-                float num6 = Mathf.Atan2(y, num5) * 57.29578f;
+                float num6 = Mathf.Atan2(y, num5) * Mathf.Rad2Deg;
                 this.targetRotation = Quaternion.Euler(-num6 * (1f - (Vector3.Angle(base.GetComponent<Rigidbody>().velocity, base.transform.forward) / 90f)), this.facingDirection, 0f);
                 if ((this.isLeftHandHooked && (this.bulletLeft != null)) || (this.isRightHandHooked && (this.bulletRight != null)))
                 {
@@ -442,12 +442,12 @@ public class Hero : Human
             this.applyForceToBody(obj5, v);
             if (base.photonView.isMine)
             {
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gO, false, false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(gO, false, false);
             }
         }
         else if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj2, false, false);
         }
         this.applyForceToBody(obj2, v);
         Transform transform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
@@ -513,6 +513,7 @@ public class Hero : Human
             this.crossR2 = GameObject.Find("crossR2");
             this.LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
             this.cachedSprites = new Dictionary<string, Image>();
+
             //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
             //{
             //    if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
@@ -916,7 +917,7 @@ public class Hero : Human
             transform.GetComponent<AudioSource>().Play();
             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
             {
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(base.transform.position, 0, null, 0.02f);
+                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(base.transform.position, 0, null, 0.02f);
             }
             UnityEngine.Object.Destroy(base.gameObject);
         }
@@ -942,7 +943,7 @@ public class Hero : Human
             transform.parent = null;
             transform.GetComponent<AudioSource>().Play();
             this.meatDie.Play();
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             this.falseAttack();
             this.hasDied = true;
@@ -1015,8 +1016,8 @@ public class Hero : Human
         }
         this.eren_titan = PhotonNetwork.Instantiate("ErenTitan", base.transform.position, base.transform.rotation, 0);
         this.eren_titan.GetComponent<ErenTitan>().realBody = base.gameObject;
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.eren_titan, true, false);
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().FlashBlind();
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.eren_titan, true, false);
         this.eren_titan.GetComponent<ErenTitan>().born();
         this.eren_titan.GetComponent<Rigidbody>().velocity = base.GetComponent<Rigidbody>().velocity;
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -1330,7 +1331,7 @@ public class Hero : Human
                                     {
                                         this.state = HERO_STATE.Slide;
                                         this.crossFade("slide", 0.05f);
-                                        this.facingDirection = Mathf.Atan2(this.baseRigidBody.velocity.x, this.baseRigidBody.velocity.z) * 57.29578f;
+                                        this.facingDirection = Mathf.Atan2(this.baseRigidBody.velocity.x, this.baseRigidBody.velocity.z) * Mathf.Rad2Deg;
                                         this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                         this.sparks.enableEmission = true;
                                     }
@@ -1346,7 +1347,7 @@ public class Hero : Human
                             vector7 = Vector3.zero;
                             this.baseRigidBody.velocity = vector7;
                             zero = vector7;
-                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
+                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.2f, 0.3f, 0.95f);
                         }
                         if (this.state == HERO_STATE.GroundDodge)
                         {
@@ -1478,7 +1479,7 @@ public class Hero : Human
                                 }
                                 else if (!this.isLeftHandHooked && !this.isRightHandHooked)
                                 {
-                                    float current = -Mathf.Atan2(this.baseRigidBody.velocity.z, this.baseRigidBody.velocity.x) * 57.29578f;
+                                    float current = -Mathf.Atan2(this.baseRigidBody.velocity.z, this.baseRigidBody.velocity.x) * Mathf.Rad2Deg;
                                     float num11 = -Mathf.DeltaAngle(current, this.baseTransform.rotation.eulerAngles.y - 90f);
                                     if (Mathf.Abs(num11) < 45f)
                                     {
@@ -1796,7 +1797,7 @@ public class Hero : Human
         if (this.isLeftHandHooked && (this.bulletLeft != null))
         {
             Vector3 vector = this.bulletLeft.transform.position - base.transform.position;
-            str = str + ((int)(Mathf.Atan2(vector.x, vector.z) * 57.29578f));
+            str = str + ((int)(Mathf.Atan2(vector.x, vector.z) * Mathf.Rad2Deg));
         }
         string str2 = str;
         object[] objArray1 = new object[] { str2, "\nRight:", this.isRightHandHooked, " " };
@@ -1804,7 +1805,7 @@ public class Hero : Human
         if (this.isRightHandHooked && (this.bulletRight != null))
         {
             Vector3 vector2 = this.bulletRight.transform.position - base.transform.position;
-            str = str + ((int)(Mathf.Atan2(vector2.x, vector2.z) * 57.29578f));
+            str = str + ((int)(Mathf.Atan2(vector2.x, vector2.z) * Mathf.Rad2Deg));
         }
         str = (((str + "\nfacingDirection:" + ((int)this.facingDirection)) + "\nActual facingDirection:" + ((int)base.transform.rotation.eulerAngles.y)) + "\nState:" + this.state.ToString()) + "\n\n\n\n\n";
         if (this.state == HERO_STATE.Attack)
@@ -1835,7 +1836,7 @@ public class Hero : Human
             return base.transform.rotation.eulerAngles.y;
         }
         float y = this.currentCamera.transform.rotation.eulerAngles.y;
-        float num2 = Mathf.Atan2(vertical, horizontal) * 57.29578f;
+        float num2 = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg;
         num2 = -num2 + 90f;
         return (y + num2);
     }
@@ -1848,12 +1849,12 @@ public class Hero : Human
         }
         float num = p.y - base.transform.position.y;
         float num2 = Vector3.Distance(p, base.transform.position);
-        float a = Mathf.Acos(num / num2) * 57.29578f;
+        float a = Mathf.Acos(num / num2) * Mathf.Rad2Deg;
         a *= 0.1f;
         a *= 1f + Mathf.Pow(base.GetComponent<Rigidbody>().velocity.magnitude, 0.2f);
         Vector3 vector3 = p - base.transform.position;
-        float current = Mathf.Atan2(vector3.x, vector3.z) * 57.29578f;
-        float target = Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.x, base.GetComponent<Rigidbody>().velocity.z) * 57.29578f;
+        float current = Mathf.Atan2(vector3.x, vector3.z) * Mathf.Rad2Deg;
+        float target = Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.x, base.GetComponent<Rigidbody>().velocity.z) * Mathf.Rad2Deg;
         float num6 = Mathf.DeltaAngle(current, target);
         a += Mathf.Abs((float)(num6 * 0.5f));
         if (this.state != HERO_STATE.Attack)
@@ -1944,11 +1945,11 @@ public class Hero : Human
         float x = Mathf.Sqrt(((this.gunTarget.x - base.transform.position.x) * (this.gunTarget.x - base.transform.position.x)) + ((this.gunTarget.z - base.transform.position.z) * (this.gunTarget.z - base.transform.position.z)));
         this.targetHeadRotation = transform.rotation;
         Vector3 vector5 = this.gunTarget - base.transform.position;
-        float current = -Mathf.Atan2(vector5.z, vector5.x) * 57.29578f;
+        float current = -Mathf.Atan2(vector5.z, vector5.x) * Mathf.Rad2Deg;
         float num3 = -Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f);
         num3 = Mathf.Clamp(num3, -40f, 40f);
         float y = transform2.position.y - this.gunTarget.y;
-        float num5 = Mathf.Atan2(y, x) * 57.29578f;
+        float num5 = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
         num5 = Mathf.Clamp(num5, -40f, 30f);
         this.targetHeadRotation = Quaternion.Euler(transform.rotation.eulerAngles.x + num5, transform.rotation.eulerAngles.y + num3, transform.rotation.eulerAngles.z);
         this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, Time.deltaTime * 60f);
@@ -2124,7 +2125,7 @@ public class Hero : Human
                 if (this.leftArmAim || this.rightArmAim)
                 {
                     Vector3 vector10 = this.gunTarget - this.baseTransform.position;
-                    float current = -Mathf.Atan2(vector10.z, vector10.x) * 57.29578f;
+                    float current = -Mathf.Atan2(vector10.z, vector10.x) * Mathf.Rad2Deg;
                     float num3 = -Mathf.DeltaAngle(current, this.baseTransform.rotation.eulerAngles.y - 90f);
                     this.headMovement();
                     if ((!this.isLeftHandHooked && this.leftArmAim) && ((num3 < 40f) && (num3 > -90f)))
@@ -2231,7 +2232,7 @@ public class Hero : Human
             }
             base.GetComponent<Rigidbody>().AddForce(this.launchForce);
         }
-        this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * 57.29578f;
+        this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
         Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
         base.gameObject.transform.rotation = quaternion;
         base.GetComponent<Rigidbody>().rotation = quaternion;
@@ -2324,7 +2325,7 @@ public class Hero : Human
         float num4 = Mathf.Sqrt((y * y) + (x * x));
         this.handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
         this.forearmL.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-        this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * 57.29578f), -Mathf.Atan2(num2, num4) * 57.29578f);
+        this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), -Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
     }
 
     public void loadskin()
@@ -3153,7 +3154,7 @@ public class Hero : Human
         this.breakApart2(v, isBite);
         if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
@@ -3269,8 +3270,8 @@ public class Hero : Human
         transform.GetComponent<AudioSource>().Play();
         if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
@@ -3369,7 +3370,7 @@ public class Hero : Human
         this.breakApart2(v, isBite);
         if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
@@ -3653,7 +3654,7 @@ public class Hero : Human
         float num4 = Mathf.Sqrt((y * y) + (x * x));
         this.handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
         this.forearmR.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        this.upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * 57.29578f), Mathf.Atan2(num2, num4) * 57.29578f);
+        this.upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
     }
 
     [PunRPC]
@@ -3678,7 +3679,7 @@ public class Hero : Human
                 base.GetComponent<Animation>()["dash"].time = 0.1f;
                 this.state = HERO_STATE.AirDodge;
                 this.falseAttack();
-                this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * 57.29578f;
+                this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
                 Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
                 base.gameObject.transform.rotation = quaternion;
                 base.GetComponent<Rigidbody>().rotation = quaternion;
@@ -3710,11 +3711,11 @@ public class Hero : Human
                 if (normal.sqrMagnitude < 4f)
                 {
                     Vector3 vector2 = ((Vector3)((this.bulletLeft.transform.position + this.bulletRight.transform.position) * 0.5f)) - base.transform.position;
-                    this.facingDirection = Mathf.Atan2(vector2.x, vector2.z) * 57.29578f;
+                    this.facingDirection = Mathf.Atan2(vector2.x, vector2.z) * Mathf.Rad2Deg;
                     if (this.useGun && (this.state != HERO_STATE.Attack))
                     {
-                        float current = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * 57.29578f;
-                        float target = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
+                        float current = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * Mathf.Rad2Deg;
+                        float target = -Mathf.Atan2(vector2.z, vector2.x) * Mathf.Rad2Deg;
                         float num3 = -Mathf.DeltaAngle(current, target);
                         this.facingDirection += num3;
                     }
@@ -3730,15 +3731,15 @@ public class Hero : Human
                     {
                         this.almostSingleHook = true;
                         Vector3 vector9 = vector7 - base.transform.position;
-                        this.facingDirection = Mathf.Atan2(vector9.x, vector9.z) * 57.29578f;
+                        this.facingDirection = Mathf.Atan2(vector9.x, vector9.z) * Mathf.Rad2Deg;
                     }
                     else
                     {
                         this.almostSingleHook = false;
                         Vector3 forward = base.transform.forward;
                         Vector3.OrthoNormalize(ref normal, ref forward);
-                        this.facingDirection = Mathf.Atan2(forward.x, forward.z) * 57.29578f;
-                        float num4 = Mathf.Atan2(to.x, to.z) * 57.29578f;
+                        this.facingDirection = Mathf.Atan2(forward.x, forward.z) * Mathf.Rad2Deg;
+                        float num4 = Mathf.Atan2(to.x, to.z) * Mathf.Rad2Deg;
                         if (Mathf.DeltaAngle(num4, this.facingDirection) > 0f)
                         {
                             this.facingDirection += 180f;
@@ -3763,11 +3764,11 @@ public class Hero : Human
                 }
                 zero = this.bulletLeft.transform.position - base.transform.position;
             }
-            this.facingDirection = Mathf.Atan2(zero.x, zero.z) * 57.29578f;
+            this.facingDirection = Mathf.Atan2(zero.x, zero.z) * Mathf.Rad2Deg;
             if (this.state != HERO_STATE.Attack)
             {
-                float num6 = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * 57.29578f;
-                float num7 = -Mathf.Atan2(zero.z, zero.x) * 57.29578f;
+                float num6 = -Mathf.Atan2(base.GetComponent<Rigidbody>().velocity.z, base.GetComponent<Rigidbody>().velocity.x) * Mathf.Rad2Deg;
+                float num7 = -Mathf.Atan2(zero.z, zero.x) * Mathf.Rad2Deg;
                 float num8 = -Mathf.DeltaAngle(num6, num7);
                 if (this.useGun)
                 {
@@ -4106,8 +4107,8 @@ public class Hero : Human
             var hitDistance = HookRaycastDistance;
             var hitPoint = ray.GetPoint(hitDistance);
 
-            cross1.transform.localPosition = Input.mousePosition;
-            cross1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+            var mousePos = Input.mousePosition;
+            cross1.transform.position = mousePos;
             cross2.transform.localPosition = cross1.transform.localPosition;
 
             RaycastHit hit;
@@ -4161,9 +4162,9 @@ public class Hero : Human
                 hitDistance = hit2.distance;
             }
 
-            crossL1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
-            crossL1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-            crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossL1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f) + 180f);
+            crossL1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+
+            crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.position.y - mousePos.y, crossL1.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
             crossL2.transform.localPosition = crossL1.transform.localPosition;
             crossL2.transform.localRotation = crossL1.transform.localRotation;
             if (hitDistance > 120f)
@@ -4179,9 +4180,8 @@ public class Hero : Human
                 hitDistance = hit2.distance;
             }
 
-            crossR1.transform.localPosition = this.currentCamera.WorldToScreenPoint(hitPoint);
-            crossR1.transform.localPosition -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-            crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.localPosition.y - (Input.mousePosition.y - (Screen.height * 0.5f)), crossR1.transform.localPosition.x - (Input.mousePosition.x - (Screen.width * 0.5f))) * 57.29578f);
+            crossR1.transform.position = this.currentCamera.WorldToScreenPoint(hitPoint);
+            crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.position.y - mousePos.y, crossR1.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
             crossR2.transform.localPosition = crossR1.transform.localPosition;
             crossR2.transform.localRotation = crossR1.transform.localRotation;
             if (hitDistance > 120f)
@@ -4399,7 +4399,7 @@ public class Hero : Human
             this.isCannon = true;
             this.myCannon.GetComponent<Cannon>().myHero = this;
             this.myCannonRegion = null;
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
             Camera.main.fieldOfView = 55f;
             base.photonView.RPC("SetMyCannon", PhotonTargets.OthersBuffered, new object[] { this.myCannon.GetPhotonView().viewID });
             this.skillCDLastCannon = this.skillCDLast;
@@ -4861,7 +4861,7 @@ public class Hero : Human
                                                 LaunchRightRope(hit.distance, hit.point, true);
                                                 this.rope.Play();
                                             }
-                                            this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * 57.29578f;
+                                            this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * Mathf.Rad2Deg;
                                             this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                             this.attackLoop = 3;
                                         }
@@ -4892,7 +4892,7 @@ public class Hero : Human
                                                 LaunchRightRope(hit2.distance, hit2.point, true);
                                                 this.rope.Play();
                                             }
-                                            this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * 57.29578f;
+                                            this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * Mathf.Rad2Deg;
                                             this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                             this.attackLoop = 3;
                                         }

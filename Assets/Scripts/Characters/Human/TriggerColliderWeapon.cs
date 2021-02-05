@@ -59,7 +59,7 @@ public class TriggerColliderWeapon : MonoBehaviour
         if (!currentHitsII.Contains(collider.gameObject))
         {
             currentHitsII.Add(collider.gameObject);
-            currentCamera.startShake(0.1f, 0.1f, 0.95f);
+            currentCamera.StartShake(0.1f, 0.1f, 0.95f);
             if (collider.gameObject.transform.root.gameObject.CompareTag("titan"))
             {
                 GameObject meat;
@@ -238,7 +238,7 @@ public class TriggerColliderWeapon : MonoBehaviour
     private void ShowCriticalHitFX()
     {
         GameObject obj2 = PhotonNetwork.Instantiate("redCross", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-        currentCamera.startShake(0.2f, 0.3f, 0.95f);
+        currentCamera.StartShake(0.2f, 0.3f, 0.95f);
         obj2.transform.position = transform.position;
     }
 
