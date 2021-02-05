@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.UI
 {
-    public class UiMenu_PUN : PunBehaviour, IUiContainer
+    public class UiMenuPUN : PunBehaviour, IUiContainer
     {
         public virtual bool IsVisible() => gameObject.activeSelf;
 

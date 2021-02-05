@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class UiNavigationElement : UiMenu_PUN
+    public class UiNavigationElement : UiMenuPUN
     {
         public UiHandler Canvas { get; set; }
 
