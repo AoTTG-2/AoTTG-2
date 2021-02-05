@@ -32,8 +32,8 @@ namespace Assets.Scripts.Characters.Titan
                 base.FixedUpdate();
                 return;
             }
-            if (!photonView.isMine || !IsAlive) return;
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
+            if (!photonView.isMine || !IsAlive) return;
             if (targetDirection == -874f || CurrentAttack != null) return;
             Vector3 vector12 = transform.forward * Speed * SpeedModifier;
             Vector3 vector14 = vector12 - Rigidbody.velocity;
@@ -206,6 +206,7 @@ namespace Assets.Scripts.Characters.Titan
             if (InputManager.KeyDown(InputUi.Restart)) 
             {
                 Die();
+                return;
             }
             if (InputManager.KeyDown(InputTitan.Blend))
             {

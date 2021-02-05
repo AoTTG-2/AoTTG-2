@@ -521,7 +521,6 @@ namespace Assets.Scripts.Characters.Titan
         private bool HasDieSteam { get; set; }
         protected void Dead()
         {
-            Rigidbody.velocity = new Vector3(0, Rigidbody.velocity.y, 0);
             if (!Animation.IsPlaying(AnimationDeath))
             {
                 CrossFade(AnimationDeath, 0.05f);
