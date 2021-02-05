@@ -12,6 +12,7 @@ namespace Assets.Scripts.Characters.Titan
     public class ErenTitan : TitanBase
     {
         public new ErenTitanBody Body { get; protected set; }
+        public AudioSource AudioSourceFoot;
 
         private string attackAnimation;
         private Transform attackBox;
@@ -894,6 +895,15 @@ namespace Assets.Scripts.Characters.Titan
         {
             isROCKMOVE = true;
         }
+
+        #region Animation Events
+
+        public void Footstep()
+        {
+            AudioSourceFoot.PlayOneShot(AudioSourceFoot.clip);
+        }
+
+        #endregion
 
         protected override void Update()
         {

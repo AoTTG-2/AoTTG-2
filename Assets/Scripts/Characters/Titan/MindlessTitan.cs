@@ -14,11 +14,13 @@ namespace Assets.Scripts.Characters.Titan
 {
     public class MindlessTitan : TitanBase
     {
+        public AudioSource AudioSourceFoot;
+        public new MindlessTitanBody Body;
+        public TITAN_SETUP SetupScript;
+
         public TitanState PreviousState;
         public TitanState NextState;
         public MindlessTitanType MindlessType;
-
-        public new MindlessTitanBody Body { get; protected set; }
 
         private float turnDeg;
         private float desDeg;
@@ -80,7 +82,6 @@ namespace Assets.Scripts.Characters.Titan
         {
             base.Awake();
             GameManager = FengGameManagerMKII.instance;
-            Body = GetComponent<MindlessTitanBody>();
             this.oldHeadRotation = Body.Head.rotation;
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
@@ -218,9 +219,9 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     eye = true;
                 }
-                base.GetComponent<TITAN_SETUP>().setVar(skin, eye);
+                SetupScript.setVar(skin, eye);
             }
-            GetComponent<TITAN_SETUP>().setHair2();
+            SetupScript.setHair2();
         }
 
         [PunRPC]
@@ -868,6 +869,15 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CrossFade(CurrentAnimation, 0.5f);
             }
+        }
+
+        #endregion
+
+        #region Animation Events
+
+        public void Footstep()
+        {
+            AudioSourceFoot.PlayOneShot(AudioSourceFoot.clip);
         }
 
         #endregion

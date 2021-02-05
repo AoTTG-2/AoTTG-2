@@ -86,7 +86,6 @@
     <Compile Include="Assets\Scripts\UI\InGame\Controls\ControlSettings.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PhotonPing.cs" />
-    <Compile Include="Assets\Scripts\Services\Interface\IPhotonService.cs" />
     <Compile Include="Assets\Scripts\Characters\BloodSplatterScript.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Views\PhotonTransformViewPositionControl.cs" />
     <Compile Include="Assets\Scripts\Room\Spawner.cs" />
@@ -250,10 +249,8 @@
     <Compile Include="Assets\Scripts\SelfDestroy.cs" />
     <Compile Include="Assets\Scripts\Effects\BillboardScript.cs" />
     <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
-    <Compile Include="Assets\Scripts\Services\DiscordService.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\Bullet.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Views\PhotonRigidbodyView.cs" />
-    <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\MaxCamera.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonValues.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindElement.cs" />
@@ -271,7 +268,6 @@
     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
     <Compile Include="Assets\Scripts\Services\PauseService.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\OnClickDestroy.cs" />
-    <Compile Include="Assets\Scripts\Services\Interface\IDiscordService.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\RushBehavior.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\FriendInfo.cs" />
     <Compile Include="Assets\Scripts\Room\ChangeQuality.cs" />
@@ -454,7 +450,6 @@
     <Compile Include="Assets\Scripts\Gamemode\Difficulty.cs" />
     <Compile Include="Assets\Scripts\iTween.cs" />
     <Compile Include="Assets\Scripts\Settings\HorseSettings.cs" />
-    <Compile Include="Assets\Scripts\Services\ScreenshotService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingResult.cs" />
     <Compile Include="Assets\Scripts\Services\SpawnService.cs" />
@@ -485,7 +480,13 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
+    <Compile Include="Assets\Scripts\Services\ScreenshotService.cs" />
+    <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IPhotonService.cs" />
     <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
+    <Compile Include="Assets\Scripts\Services\DiscordService.cs" />
+    <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IDiscordService.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
@@ -1112,9 +1113,6 @@
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
-    <Reference Include="Toorah.GitUpdater.Editor">
-      <HintPath>Library\ScriptAssemblies\Toorah.GitUpdater.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
@@ -1126,6 +1124,9 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Toorah.GitUpdater.Editor">
+      <HintPath>Library\ScriptAssemblies\Toorah.GitUpdater.Editor.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.quicksearch">
       <HintPath>Library\ScriptAssemblies\com.unity.quicksearch.dll</HintPath>
