@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{52D2F37C-0CD0-14C2-FFEB-9C57B7B31CA0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -78,12 +77,6 @@
     <Compile Include="Assets\Scripts\Effects\STransform.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\CharacterStatComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\FemaleTitanSettings.cs" />
-    <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
-    <Compile Include="Assets\Scripts\UI\IUiElement.cs" />
-    <Compile Include="Assets\Scripts\UI\UiContainer.cs" />
-    <Compile Include="Assets\Scripts\UI\UiElement.cs" />
-    <Compile Include="Assets\Scripts\UI\UiMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\UiMenu_PUN.cs" />
     <Compile Include="Assets\Scripts\VersionManager.cs" />
     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
     <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
@@ -136,6 +129,7 @@
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PingCloudRegions.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\InputToEvent.cs" />
     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
+    <Compile Include="Assets\Scripts\UI\UiMenu.cs" />
     <Compile Include="Assets\Scripts\Characters\BodyPushBox.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingCheckpointTrigger.cs" />
     <Compile Include="Assets\Scripts\VersionFormatter.cs" />
@@ -180,6 +174,7 @@
     <Compile Include="Assets\Scripts\Settings\Gamemodes\TrostSettings.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PhotonStreamQueue.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
+    <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleMessage.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatDisconnectCause.cs" />
     <Compile Include="Assets\Scripts\UI\Interaction Wheel\InteractionWheel.cs" />
@@ -194,6 +189,7 @@
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\CullArea.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPlayerService.cs" />
     <Compile Include="Assets\Scripts\Xft\XWeaponTrail.cs" />
+    <Compile Include="Assets\Scripts\UI\UiElement.cs" />
     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\PunPlayerScores.cs" />
     <Compile Include="Assets\Scripts\Security\OAuth.cs" />
@@ -249,6 +245,7 @@
     <Compile Include="Assets\Scripts\Services\PlayerService.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\OnClickInstantiate.cs" />
     <Compile Include="Assets\Scripts\Room\HintType.cs" />
+    <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TITAN_SETUP.cs" />
     <Compile Include="Assets\Scripts\Settings\GameSettingService.cs" />
     <Compile Include="Assets\Scripts\Effects\STYPE.cs" />
@@ -274,6 +271,7 @@
     <Compile Include="Assets\Scripts\AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputCannon.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
+    <Compile Include="Assets\Scripts\UI\UiContainer.cs" />
     <Compile Include="Assets\Scripts\Legacy\RCRegion.cs" />
     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
     <Compile Include="Assets\Scripts\Services\PauseService.cs" />
@@ -285,6 +283,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Attack.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanTrigger.cs" />
     <Compile Include="Assets\Scripts\Gamemode\InfectionGamemode.cs" />
+    <Compile Include="Assets\Scripts\UI\IUiElement.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatEventCode.cs" />
     <Compile Include="Assets\PhotonChatApi\ChannelCreationOptions.cs" />
     <Compile Include="Assets\Scripts\Startup.cs" />
@@ -361,6 +360,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\CaptureBehavior.cs" />
     <Compile Include="Assets\Scripts\Gamemode\WaveGamemode.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\CharacterMaterials.cs" />
+    <Compile Include="Assets\Scripts\UI\UiMenu_PUN.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
     <Compile Include="Assets\Scripts\Effects\LinearForceAffector.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\OnJoinedInstantiate.cs" />
@@ -415,7 +415,6 @@
     <Compile Include="Assets\Scripts\UI\Elements\UiSlider.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleCommands.cs" />
     <Compile Include="Assets\Scripts\Room\TitanSpawner.cs" />
-    <Compile Include="Assets\Scripts\UI\Elements\UiElement.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\GrabAttack.cs" />
     <Compile Include="Assets\Scripts\InstantiateTracker.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\ManualPhotonViewAllocator.cs" />
@@ -492,69 +491,68 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-    <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\Photon Unity Networking\changelog.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
-    <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (AlphaClip).shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Masked Colored.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (AlphaClip).shader" />
-    <None Include="Assets\Shader\Particle Alpha Blend Scale.shader" />
-    <None Include="Assets\Resources\shaders\GUI - Text Shader (SoftClip).shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\Shader\Double Sided Transparent Diffuse Bump Cutout.shader" />
-    <None Include="Assets\contributors.txt" />
-    <None Include="Assets\Shader\3d text.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
-    <None Include="Assets\Shader\Projector Multiply.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
-    <None Include="Assets\Shader\xft_displacement_screen.shader" />
-    <None Include="Assets\Resources\shaders\Double Sided.shader" />
-    <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\Ui\Icons\FontAwesome\LICENSE.txt" />
-    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored Overlay.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
-    <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\Photon Unity Networking\readme.txt" />
-    <None Include="Assets\Shader\TiltShift.shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
-    <None Include="Assets\custom_map.txt" />
-    <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (AlphaClip).shader" />
-    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (SoftClip).shader" />
-    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont).shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\Photon Unity Networking\link.xml" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
-    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
-    <None Include="Assets\Ui\Fonts\SIL Open Font License.txt" />
-    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed).shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\Photon Unity Networking\changelog.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
+     <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (AlphaClip).shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Masked Colored.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (AlphaClip).shader" />
+     <None Include="Assets\Shader\Particle Alpha Blend Scale.shader" />
+     <None Include="Assets\Resources\shaders\GUI - Text Shader (SoftClip).shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\Shader\Double Sided Transparent Diffuse Bump Cutout.shader" />
+     <None Include="Assets\contributors.txt" />
+     <None Include="Assets\Shader\3d text.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
+     <None Include="Assets\Shader\Projector Multiply.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
+     <None Include="Assets\Shader\xft_displacement_screen.shader" />
+     <None Include="Assets\Resources\shaders\Double Sided.shader" />
+     <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\Ui\Icons\FontAwesome\LICENSE.txt" />
+     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored Overlay.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
+     <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\Photon Unity Networking\readme.txt" />
+     <None Include="Assets\Shader\TiltShift.shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
+     <None Include="Assets\custom_map.txt" />
+     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (AlphaClip).shader" />
+     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (SoftClip).shader" />
+     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont).shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\Photon Unity Networking\link.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
+     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
+     <None Include="Assets\Ui\Fonts\SIL Open Font License.txt" />
+     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed).shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
