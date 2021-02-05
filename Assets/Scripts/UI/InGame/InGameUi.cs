@@ -2,6 +2,7 @@
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.Controls;
 using Assets.Scripts.UI.Input;
+using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -47,7 +48,7 @@ namespace Assets.Scripts.UI.InGame
 
         private int GetNumVisibleChildMenus()
         {
-            return GetChildren().FindAll(e => e.IsVisible() && e != HUD && e != PauseIndicator).Count;
+            return GetChildren().FindAll(e => e.IsVisible() && e is UiMenu).Count;
         }
 
         private void OnEnable()
