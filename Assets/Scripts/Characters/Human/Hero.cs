@@ -263,7 +263,7 @@ public class Hero : Human
         this.ungrabbed();
         this.falseAttack();
         this.skillCDDuration = this.skillCDLast;
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(base.gameObject, true, false);
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(base.gameObject, true, false);
         base.photonView.RPC(nameof(backToHumanRPC), PhotonTargets.Others, new object[0]);
     }
 
@@ -442,12 +442,12 @@ public class Hero : Human
             this.applyForceToBody(obj5, v);
             if (base.photonView.isMine)
             {
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gO, false, false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(gO, false, false);
             }
         }
         else if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj2, false, false);
         }
         this.applyForceToBody(obj2, v);
         Transform transform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
@@ -917,7 +917,7 @@ public class Hero : Human
             transform.GetComponent<AudioSource>().Play();
             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
             {
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(base.transform.position, 0, null, 0.02f);
+                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(base.transform.position, 0, null, 0.02f);
             }
             UnityEngine.Object.Destroy(base.gameObject);
         }
@@ -943,7 +943,7 @@ public class Hero : Human
             transform.parent = null;
             transform.GetComponent<AudioSource>().Play();
             this.meatDie.Play();
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             this.falseAttack();
             this.hasDied = true;
@@ -1016,8 +1016,8 @@ public class Hero : Human
         }
         this.eren_titan = PhotonNetwork.Instantiate("ErenTitan", base.transform.position, base.transform.rotation, 0);
         this.eren_titan.GetComponent<ErenTitan>().realBody = base.gameObject;
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.eren_titan, true, false);
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().FlashBlind();
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.eren_titan, true, false);
         this.eren_titan.GetComponent<ErenTitan>().born();
         this.eren_titan.GetComponent<Rigidbody>().velocity = base.GetComponent<Rigidbody>().velocity;
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -1347,7 +1347,7 @@ public class Hero : Human
                             vector7 = Vector3.zero;
                             this.baseRigidBody.velocity = vector7;
                             zero = vector7;
-                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
+                            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.2f, 0.3f, 0.95f);
                         }
                         if (this.state == HERO_STATE.GroundDodge)
                         {
@@ -3154,7 +3154,7 @@ public class Hero : Human
         this.breakApart2(v, isBite);
         if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
@@ -3270,8 +3270,8 @@ public class Hero : Human
         transform.GetComponent<AudioSource>().Play();
         if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
@@ -3370,7 +3370,7 @@ public class Hero : Human
         this.breakApart2(v, isBite);
         if (base.photonView.isMine)
         {
-            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+            this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
@@ -4399,7 +4399,7 @@ public class Hero : Human
             this.isCannon = true;
             this.myCannon.GetComponent<Cannon>().myHero = this;
             this.myCannonRegion = null;
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
             Camera.main.fieldOfView = 55f;
             base.photonView.RPC("SetMyCannon", PhotonTargets.OthersBuffered, new object[] { this.myCannon.GetPhotonView().viewID });
             this.skillCDLastCannon = this.skillCDLast;

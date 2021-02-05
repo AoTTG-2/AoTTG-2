@@ -1,10 +1,11 @@
 ﻿using Assets.Scripts.UI.InGame;
 using System;
+using Photon;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class UiNavigationElement : UiMenu
+    public class UiNavigationElement : UiMenu_PUN
     {
         public UiHandler Canvas { get; set; }
 

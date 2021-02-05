@@ -215,8 +215,8 @@ public static class ChatCommandHandler
             {
                 if (gameObject.GetPhotonView().owner.ID == playerId)
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gameObject, true, false);
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(gameObject, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 }
             }
         }
@@ -355,7 +355,6 @@ public static class ChatCommandHandler
     }
     private static void ChangeRoomMaxPlayers(int maxPlayers)
     {
-        instance.maxPlayers = maxPlayers;
         room.MaxPlayers = maxPlayers;
         var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {maxPlayers}!"), string.Empty };
         instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
