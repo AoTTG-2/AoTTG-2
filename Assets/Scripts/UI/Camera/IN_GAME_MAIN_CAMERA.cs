@@ -66,7 +66,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private bool isRestarting = true;
     private float startingTime;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
-
+    public GameObject HUD;
     private void Awake()
     {
         EntityService.OnRegister += EntityService_OnRegistered;
@@ -382,6 +382,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void Update()
     {
+
+         if (InputManager.KeyDown(InputUi.HideHUD))
+         {
+            ToggleHUD();
+         }
         SnapShotUpdate();
         if (flashDuration > 0f)
         {
@@ -661,6 +666,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         instance.chatRoom.OutputSystemMessage(message);
     }
 
+    public void ToggleHUD()
+    {
+       HUD.SetActive(!HUD.activeInHierarchy);
+    }
+
     public static void ToggleSpawnMenu()
     {
         var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
@@ -837,7 +847,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
-
+        HUD =GameObject.Find("HUD");
         // This doesn't exist in the scene and causes a NullReferenceException.
         // TODO: Fix titan locking
         locker = GameObject.Find("locker");

@@ -159,7 +159,8 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.Pause] = KeyCode.P,
                 [InputUi.Restart] = KeyCode.T,
                 [InputUi.InteractionWheel] = KeyCode.Tab,
-                [InputUi.Screenshot] = KeyCode.F12,
+                [InputUi.Screenshot] = KeyCode.F2,
+                [InputUi.HideHUD] = KeyCode.F1,
             };
 
             _uiKeys = uiKeys.Values.ToArray();

@@ -11,6 +11,7 @@
         Pause,
         Restart,
         InteractionWheel,
-        Screenshot
+        Screenshot,
+        HideHUD
     }
 }
