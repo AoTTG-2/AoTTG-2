@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+//using UnityEngine.UI;
+using TMPro;
 using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 
@@ -18,8 +19,8 @@ namespace Assets.Scripts.Room.Chat
         public static readonly string ChatRPC = "Chat";
         private string inputLine = string.Empty;
         private readonly List<string> messages = new List<string>();
-        public InputField ChatInputField;
-        public Text ChatText;
+        public TMP_InputField ChatInputField;
+        public TMP_Text ChatText;
         private bool IsChatOpen { get; set; }
 
         public bool IsVisible()

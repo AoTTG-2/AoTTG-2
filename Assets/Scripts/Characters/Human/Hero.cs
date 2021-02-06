@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Hero : Human
 {
@@ -109,7 +110,7 @@ public class Hero : Human
     private bool isRightHandHooked;
     public float jumpHeight = 2f;
     private bool justGrounded;
-    public Text LabelDistance;
+    public TMP_Text LabelDistance;
     public Transform lastHook;
     private float launchElapsedTimeL;
     private float launchElapsedTimeR;
@@ -511,7 +512,7 @@ public class Hero : Human
             this.crossL2 = GameObject.Find("crossL2");
             this.crossR1 = GameObject.Find("crossR1");
             this.crossR2 = GameObject.Find("crossR2");
-            this.LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
+            this.LabelDistance = GameObject.Find("Distance").GetComponent<TMP_Text>();
             this.cachedSprites = new Dictionary<string, Image>();
 
             //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
