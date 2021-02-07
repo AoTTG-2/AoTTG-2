@@ -19,12 +19,15 @@ namespace Assets.Scripts.UI.InGame.HUD
         private int offset = 24;
         private bool start;
         private float timeElapsed;
+        private float startPosition;
+        private float startPositionRatio = 0.85f; // this is the proportion of the total screen that is below the kill feed.
 
         public void Destroy()
         {
             this.timeElapsed = this.lifeTime;
         }
 
+        // Increments the column counter so that kills don't overlap. 
         public void MoveOn()
         {
             this.col++;
@@ -74,7 +77,8 @@ namespace Assets.Scripts.UI.InGame.HUD
         {
             this.start = true;
             base.transform.localScale = new Vector3(0.85f, 0.85f, 0.85f);
-            base.transform.localPosition = new Vector3(0f, -100f + (Screen.height * 0.5f), 0f);
+            startPosition = (Screen.height * startPositionRatio);
+            base.transform.position = new Vector3(Screen.width * 0.5f, startPosition, 0f);
         }
 
         private void Update()
@@ -98,8 +102,9 @@ namespace Assets.Scripts.UI.InGame.HUD
                 }
                 else
                 {
-                    float num = ((int)(100f - (Screen.height * 0.5f))) + (this.col * this.offset);
-                    base.transform.localPosition = Vector3.Lerp(base.transform.localPosition, new Vector3(0f, -num, 0f), Time.deltaTime * 10f);
+                    float num = ((int)(-startPosition)) + (this.col * this.offset);
+                    Debug.Log(col);
+                    base.transform.position = Vector3.Lerp(base.transform.position, new Vector3(Screen.width * 0.5f, -num, 0f), Time.deltaTime * 10f);
                 }
                 if (this.timeElapsed > (this.lifeTime + 0.5f))
                 {
