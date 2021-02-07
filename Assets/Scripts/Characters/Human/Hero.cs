@@ -4228,7 +4228,7 @@ public class Hero : Human
         }
         else if (num < 0.5f)
         {
-            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.yellow;
+            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.green;
         }
         else
         {
