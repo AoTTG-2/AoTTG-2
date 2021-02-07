@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-//using TMPro;
+using TMPro;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
@@ -8,12 +8,12 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         private float alpha = 1f;
         private int col;
-        public Text KillerLabel;
-        public Text DamageLabel;
-        public Text VictimLabel;
-        //public TMP_Text KillerLabel;
-        //public TMP_Text DamageLabel;
-        //public TMP_Text VictimLabel;
+        //public Text KillerLabel;
+        //public Text DamageLabel;
+        //public Text VictimLabel;
+        public TMP_Text KillerLabel;
+        public TMP_Text DamageLabel;
+        public TMP_Text VictimLabel;
         private float lifeTime = 8f;
         private float maxScale = 1.5f;
         private int offset = 24;
