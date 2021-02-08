@@ -238,19 +238,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c27ea66d96f4c45bd49ec08a6dc519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moon: {fileID: 148458}
-  reflectionProbe: {fileID: 3271152382635331567}
-  sunTilt: -15
+  Moon: {fileID: 148458}
+  ReflectionProbe: {fileID: 3271152382635331567}
+  SunTilt: -15
   timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
   sunRotationOffset: 0
   lightingUpdateInterval: 1
-  skyboxMaterial: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b, type: 2}
-  currentTime: 12
+  SkyboxMaterial: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b, type: 2}
+  CurrentTime: 12
   TimeSlider: {fileID: 0}
-  MoonCamera: {fileID: 0}
+  MoonCamera: {fileID: 259637730578209515}
   MainCamera: {fileID: 0}
-  currentDay: 0
-  directionalLight: {fileID: 10851780}
+  CurrentDay: 0
+  DirectionalLight: {fileID: 10851780}
   DayLength: 300
   lightIntensity: 0
 --- !u!1 &190586
@@ -371,7 +371,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5156324855798302335}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -101.49234, y: 31.152027, z: 957.72125}
+  m_LocalPosition: {x: 19.840614, y: -0.4441762, z: 13.175522}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 456198}
