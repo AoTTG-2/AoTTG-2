@@ -88,7 +88,7 @@ namespace Assets.Scripts.DayNightCycle
                 //time according to a 24h time range
                 if (currentTime > 24)
                 {
-                    currentTime = currentTime - (24 * (int)Math.Floor(currentTime/24));
+                    currentTime -= (24 * (int)Math.Floor(currentTime/24));
                 }
             }
         }
