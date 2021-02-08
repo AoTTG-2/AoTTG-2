@@ -4,8 +4,7 @@ using UnityEngine;
 
 public partial class Hero
 {
-    const string HOOK_STRING = "hook";
-
+    
     enum Side
     {
         Left,
@@ -37,7 +36,7 @@ public partial class Hero
         {
             vector = (vector * 0.8f);
         }
-        if (!animation.IsPlaying("attack5") && !animation.IsPlaying("special_petra"))
+        if (!animation.IsPlaying(ANIM_ATTACK_5) && !animation.IsPlaying(ANIM_SPECIAL_PETRA))
         {
             leviMode = false;
         }
@@ -51,20 +50,20 @@ public partial class Hero
             Idle();
             if (useGun)
             {
-                CrossFade("AHSS_hook_forward_both", 0.1f);
+                CrossFade(AHSS_HOOK_FWD_BOTH, 0.1f);
             }
             else if (left && !isRightHandHooked)
             {
-                CrossFade("air_hook_l_just", 0.1f);
+                CrossFade(ANIM_AIR_HOOK_L_JUST, 0.1f);
             }
             else if (!left && !isLeftHandHooked)
             {
-                CrossFade("air_hook_r_just", 0.1f);
+                CrossFade(ANIM_AIR_HOOK_R_JUST, 0.1f);
             }
             else
             {
-                CrossFade("dash", 0.1f);
-                animation["dash"].time = 0f;
+                CrossFade(ANIM_DASH, 0.1f);
+                animation[ANIM_DASH].time = 0f;
             }
         }
         if (left)
@@ -105,7 +104,7 @@ public partial class Hero
         {
             launchElapsedTimeR = -100f;
         }
-        if (animation.IsPlaying("special_petra"))
+        if (animation.IsPlaying(ANIM_SPECIAL_PETRA))
         {
             launchElapsedTimeR = -100f;
             launchElapsedTimeL = -100f;
@@ -192,10 +191,11 @@ public partial class Hero
 
     public void GetSupply()
     {
-        if (((animation.IsPlaying(standAnimation) || animation.IsPlaying("run_1")) || animation.IsPlaying("run_sasha")) && (((currentBladeSta != totalBladeSta) || (currentBladeNum != totalBladeNum)) || (((currentGas != totalGas) || (leftBulletLeft != bulletMAX)) || (rightBulletLeft != bulletMAX))))
+        if (((animation.IsPlaying(standAnimation) || animation.IsPlaying(ANIM_RUN_1)) || animation.IsPlaying(ANIM_RUN_SASHA)) && 
+            (((currentBladeSta != totalBladeSta) || (currentBladeNum != totalBladeNum)) || (((currentGas != totalGas) || (leftBulletLeft != bulletMAX)) || (rightBulletLeft != bulletMAX))))
         {
             State = HERO_STATE.FillGas;
-            CrossFade("supply", 0.1f);
+            CrossFade(SUPPLY_STRING, 0.1f);
         }
     }
 
