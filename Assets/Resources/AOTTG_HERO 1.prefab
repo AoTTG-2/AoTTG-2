@@ -530,9 +530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EquipmentType: 0
   _state: 0
-  baseAnimation: {fileID: 0}
-  baseRigidBody: {fileID: 0}
-  baseTransform: {fileID: 0}
+  animation: {fileID: 0}
+  rigidBody: {fileID: 0}
   bigLean: 0
   bombCD: 0
   bombImmune: 0
@@ -544,8 +543,8 @@ MonoBehaviour:
   bulletRight: {fileID: 0}
   CameraMultiplier: 0
   canJump: 1
-  checkBoxLeft: {fileID: 1315045163539384}
-  checkBoxRight: {fileID: 1447805055229568}
+  checkLeftTrigger: {fileID: 114287797590336356}
+  checkRightTrigger: {fileID: 114523411347096616}
   currentAnimation: 
   currentBladeNum: 5
   currentBladeSta: 100
@@ -565,7 +564,6 @@ MonoBehaviour:
   lastHook: {fileID: 0}
   leftBulletLeft: 7
   leftGunHasBullet: 1
-  maincamera: {fileID: 0}
   maxVelocityChange: 10
   myBomb: {fileID: 0}
   myCannon: {fileID: 0}
@@ -602,6 +600,7 @@ MonoBehaviour:
     clipHit: {fileID: 8300000, guid: e9196a90272fd8241a754f32f5cd51c8, type: 3}
     clipRope: {fileID: 8300000, guid: 401c5ee6735f2f0418d3cc1f26b7d523, type: 3}
     clipSlash: {fileID: 8300000, guid: f97e82ec658a953408bf2688c4d3050a, type: 3}
+  body: {fileID: 2170403054930816401}
 --- !u!54 &54612475557216614
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1361,7 +1360,7 @@ GameObject:
   - component: {fileID: 114287797590336356}
   - component: {fileID: 54703817492150332}
   m_Layer: 16
-  m_Name: checkBox
+  m_Name: checkBoxLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1548,6 +1547,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4514705782866810}
+  - component: {fileID: 2170403054930816401}
   m_Layer: 0
   m_Name: Amarture
   m_TagString: Untagged
@@ -1570,6 +1570,36 @@ Transform:
   m_Father: {fileID: 4733713986576818}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
+--- !u!114 &2170403054930816401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362186585052756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1336b735c7a9a4ab8fef2273e9cddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Head: {fileID: 4441860862766412}
+  Neck: {fileID: 4554925963483576}
+  Chest: {fileID: 4312685744701326}
+  Hip: {fileID: 4448260298120124}
+  ShoulderLeft: {fileID: 4321281686097630}
+  UpperArmLeft: {fileID: 4374836607684518}
+  ArmLeft: {fileID: 4212478277173404}
+  HandLeft: {fileID: 4063729587741556}
+  ShoulderRight: {fileID: 4998198938706742}
+  UpperArmRight: {fileID: 4114000927712324}
+  ArmRight: {fileID: 4203851837561024}
+  HandRight: {fileID: 4119245420384268}
+  LegLeft: {fileID: 4786097009192138}
+  ShinLeft: {fileID: 4293295079547318}
+  FootLeft: {fileID: 4864637534926194}
+  LegRight: {fileID: 4693652205949302}
+  ShinRight: {fileID: 4143825751915666}
+  FootRight: {fileID: 4143825751915666}
 --- !u!1 &1378210642509370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,7 +1881,7 @@ GameObject:
   - component: {fileID: 114523411347096616}
   - component: {fileID: 54686914766125102}
   m_Layer: 16
-  m_Name: checkBox
+  m_Name: checkBoxRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16847,7 +16877,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: aa08ce5122700554f92867f07a0ddc6e, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

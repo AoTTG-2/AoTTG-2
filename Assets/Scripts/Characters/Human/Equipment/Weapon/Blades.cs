@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Extensions;
+using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
@@ -66,22 +67,28 @@ public class Blades : Weapon
 
 	private void ThrowBlades()
     {
-        var transform = Hero.setup.part_blade_l.transform;
-        var transform2 = Hero.setup.part_blade_r.transform;
-        var obj2 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-        var obj3 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
-        obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
-        obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
-        Vector3 force = (Hero.transform.forward + ((Vector3)(Hero.transform.up * 2f))) - Hero.transform.right;
-        obj2.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-        Vector3 vector2 = (Hero.transform.forward + ((Vector3)(Hero.transform.up * 2f))) + Hero.transform.right;
-        obj3.GetComponent<Rigidbody>().AddForce(vector2, ForceMode.Impulse);
+        var bladeLTransform = Hero.setup.part_blade_l.transform;
+        var bladeRTransform = Hero.setup.part_blade_r.transform;
+        var bladeL = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), bladeLTransform.position, bladeLTransform.rotation);
+        var bladeR = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), bladeRTransform.position, bladeRTransform.rotation);
+
+        bladeL.GetComponent<Renderer>(out var rendererL).GetComponent<Rigidbody>(out var rigidL);
+        bladeR.GetComponent<Renderer>(out var rendererR).GetComponent<Rigidbody>(out var rigidR);
+
+        var mat = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
+        rendererL.material = mat;
+        rendererR.material = mat;
+
+        var fwd = (Hero.transform.forward + ((Vector3) (Hero.transform.up * 2f)));
+
+        Vector3 force = fwd - Hero.transform.right;
+        rigidL.AddForce(force, ForceMode.Impulse);
+        force = fwd + Hero.transform.right;
+        rigidR.AddForce(force, ForceMode.Impulse);
         Vector3 torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
-        torque.Normalize();
-        obj2.GetComponent<Rigidbody>().AddTorque(torque);
+        rigidL.AddTorque(torque.normalized);
         torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
-        torque.Normalize();
-        obj3.GetComponent<Rigidbody>().AddTorque(torque);
+        rigidR.AddTorque(torque.normalized);
         Hero.setup.part_blade_l.SetActive(false);
         Hero.setup.part_blade_r.SetActive(false);
 
@@ -115,7 +122,7 @@ public class Blades : Weapon
                     Hero.ActivateWeaponCollider(false, false);
                 }
                 Hero.currentBladeSta = 0f;
-                this.ThrowBlades();
+                ThrowBlades();
             }
         }
     }

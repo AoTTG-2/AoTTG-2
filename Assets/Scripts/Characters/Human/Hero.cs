@@ -1,5 +1,7 @@
 using Assets.Scripts;
+using Assets.Scripts.Audio;
 using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Base;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
@@ -43,11 +45,12 @@ public class Hero : Human
     public float bombTime;
     public float bombTimeMax;
     private float buffTime;
-    public GameObject bulletLeft;
-    Bullet bulletL;
+
+    [Header("Bullet / Hook")]
+    public Bullet bulletLeft;
+    public Bullet bulletRight;
     private int bulletMAX = 7;
-    public GameObject bulletRight;
-    Bullet bulletR;
+
     private bool buttonAttackRelease;
     public Dictionary<string, Image> cachedSprites;
     public float CameraMultiplier;
@@ -197,6 +200,8 @@ public class Hero : Human
     private HookUI hookUI = new HookUI();
     private SmoothSyncMovement smoothSyncMovement;
 
+    [Space]
+    [SerializeField] Body body;
 
     private LayerMask maskGround;
     private LayerMask maskEnemy;
@@ -206,155 +211,13 @@ public class Hero : Human
 
     #endregion
 
-    #region Externalize Systems/Classes
-    /// <summary>
-    /// Class to manage all <see cref="Hero"/> related Audio
-    /// </summary>
-    [Serializable]
-    public class HeroAudio
-    {
-        /// <summary>
-        /// Reference to the <see cref="AudioSource"/>
-        /// </summary>
-        public AudioSource source;
-
-        public AudioClip clipDie;
-        public AudioClip clipHit;
-        public AudioClip clipRope;
-        public AudioClip clipSlash;
-
-        /// <summary>
-        /// World Position of <see cref="source"/>
-        /// </summary>
-        public Vector3 Position => source.transform.position;
-
-        /// <summary>
-        /// Play an <see cref="AudioClip"/> once. Internally calls <see cref="AudioSource.PlayOneShot(AudioClip)"/>
-        /// </summary>
-        /// <param name="clip"><see cref="AudioClip"/> to play</param>
-        /// <returns><see cref="HeroAudio"/> to allow chaining of Methods: <code>heroAudio.PlayOneShot(clip).PlayOneShot(clip2);</code></returns>
-        public HeroAudio PlayOneShot(AudioClip clip)
-        {
-            source.PlayOneShot(clip);
-            return this;
-        }
-        /// <summary>
-        /// Play an <see cref="AudioClip"/> once. Internally calls <see cref="AudioSource.PlayOneShot(AudioClip, float)"/>
-        /// </summary>
-        /// <param name="clip"><see cref="AudioClip"/> to play</param>
-        /// <param name="volume">Volume to play the <see cref="AudioClip"/> at</param>
-        /// <returns><see cref="HeroAudio"/> to allow chaining of Methods: <code>heroAudio.PlayOneShot(clip).PlayOneShot(clip2);</code></returns>
-        public HeroAudio PlayOneShot(AudioClip clip, float volume)
-        {
-            source.PlayOneShot(clip, volume);
-            return this;
-        }
-
-        /// <summary>
-        /// Set the <see cref="Transform.parent"/> to NULL, then Destroy the GameObject after <paramref name="destroyTime"/>
-        /// </summary>
-        /// <param name="destroyTime">Time to destroy <see cref="source"/> in seconds</param>
-        public void Disconnect(float destroyTime)
-        {
-            source.transform.SetParent(null, true);
-            Destroy(source, destroyTime);
-        }
-        /// <summary>
-        /// Set the <see cref="Transform.parent"/> to NULL, then Destroy the GameObject after the duration of <paramref name="clip"/>
-        /// </summary>
-        /// <param name="clip">Destroy <see cref="source"/> after <see cref="AudioClip.length"/>+1 seconds. Internally calls <see cref="Disconnect(float)"/></param>
-        public void Disconnect(AudioClip clip)
-        {
-            Disconnect(clip.length + 1);
-        }
-    }
-
-    /// <summary>
-    /// Class to Contain, Manage and Disable/Enable all Hook UI GameObjects
-    /// </summary>
-    [Serializable]
-    public class HookUI
-    {
-        public Transform cross;
-        public Transform crossL;
-        public Transform crossR;
-
-        public Image crossImage;
-        public Image crossImageL;
-        public Image crossImageR;
-
-        public Text distanceLabel;
-
-        public bool enabled = false;
-
-        /// <summary>
-        /// Find and Enable all Hook UI Elements required
-        /// </summary>
-        public void Find()
-        {
-            // Todo: Implement system that does not use GameObject.Find()
-
-            cross = GameObject.Find("cross1").transform;
-            crossImage = cross.GetComponentInChildren<Image>();
-            crossL = GameObject.Find("crossL1").transform;
-            crossImageL = crossL.GetComponentInChildren<Image>();
-            crossR = GameObject.Find("crossR1").transform;
-            crossImageR = crossR.GetComponentInChildren<Image>();
-
-            distanceLabel = GameObject.Find("Distance").GetComponent<Text>();
-
-            Enable();
-        }
-
-        /// <summary>
-        /// Disable all Hook UI GameObjects
-        /// </summary>
-        public void Disable()
-        {
-            if (enabled)
-            {
-                cross.gameObject.SetActive(false);
-                crossImage.gameObject.SetActive(false);
-                crossL.gameObject.SetActive(false);
-                crossImageL.gameObject.SetActive(false);
-                crossR.gameObject.SetActive(false);
-                crossImageR.gameObject.SetActive(false);
-
-                distanceLabel.gameObject.SetActive(false);
-
-                enabled = false;
-            }
-        }
-
-        /// <summary>
-        /// Enable all Hook UI GameObjects
-        /// </summary>
-        public void Enable()
-        {
-            if (!enabled)
-            {
-                cross.gameObject.SetActive(true);
-                crossImage.gameObject.SetActive(true);
-                crossL.gameObject.SetActive(true);
-                crossImageL.gameObject.SetActive(true);
-                crossR.gameObject.SetActive(true);
-                crossImageR.gameObject.SetActive(true);
-
-                distanceLabel.gameObject.SetActive(true);
-
-                enabled = true;
-            }
-        }
-    }
-    #endregion
-
     #region Unity Methods
     protected override void Awake()
     {
         base.Awake();
         InGameUI = GameObject.Find("InGameUi");
         Cache();
-        setup = gameObject.GetComponent<HERO_SETUP>();
+        setup = GetComponent<HERO_SETUP>();
         rigidBody.freezeRotation = true;
         rigidBody.useGravity = false;
         smoothSyncMovement = GetComponent<SmoothSyncMovement>();
@@ -364,14 +227,6 @@ public class Hero : Human
         maskPlayerAttackBox     = 1 << LayerMask.NameToLayer("PlayerAttackBox");
         maskGroundEnemy         = maskGround | maskEnemy;
         maskGroundEnemyPlayer   = maskGroundEnemy | maskPlayerAttackBox;
-
-        handL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L");
-        handR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R");
-        forearmL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L");
-        forearmR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R");
-        upperarmL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L");
-        upperarmR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R");
-
 
         Equipment = gameObject.AddComponent<Equipment>();
         Faction = Service.Faction.GetHumanity();
@@ -909,7 +764,7 @@ public class Hero : Human
                         isRightHandHooked = false;
                         if (isLaunchLeft)
                         {
-                            if ((bulletLeft != null) && bulletLeft.GetComponent<Bullet>().isHooked())
+                            if ((bulletLeft != null) && bulletLeft.isHooked())
                             {
                                 isLeftHandHooked = true;
                                 Vector3 to = bulletLeft.transform.position - transform.position;
@@ -943,7 +798,7 @@ public class Hero : Human
                                 isLaunchLeft = false;
                                 if (bulletLeft != null)
                                 {
-                                    bulletLeft.GetComponent<Bullet>().disable();
+                                    bulletLeft.disable();
                                     ReleaseIfIHookSb();
                                     bulletLeft = null;
                                     flag3 = false;
@@ -952,7 +807,7 @@ public class Hero : Human
                         }
                         if (isLaunchRight)
                         {
-                            if ((bulletRight != null) && bulletRight.GetComponent<Bullet>().isHooked())
+                            if ((bulletRight != null) && bulletRight.isHooked())
                             {
                                 isRightHandHooked = true;
                                 Vector3 vector5 = bulletRight.transform.position - transform.position;
@@ -986,7 +841,7 @@ public class Hero : Human
                                 isLaunchRight = false;
                                 if (bulletRight != null)
                                 {
-                                    bulletRight.GetComponent<Bullet>().disable();
+                                    bulletRight.disable();
                                     ReleaseIfIHookSb();
                                     bulletRight = null;
                                     flag4 = false;
@@ -1425,12 +1280,12 @@ public class Hero : Human
                                 rigidBody.AddForce(vector20, ForceMode.Impulse);
                                 if (bulletRight != null)
                                 {
-                                    bulletRight.GetComponent<Bullet>().disable();
+                                    bulletRight.disable();
                                     ReleaseIfIHookSb();
                                 }
                                 if (bulletLeft != null)
                                 {
-                                    bulletLeft.GetComponent<Bullet>().disable();
+                                    bulletLeft.disable();
                                     ReleaseIfIHookSb();
                                 }
                             }
@@ -1439,11 +1294,11 @@ public class Hero : Human
                         bool flag7 = false;
                         if ((bulletLeft != null) || (bulletRight != null))
                         {
-                            if (((bulletLeft != null) && (bulletLeft.transform.position.y > transform.position.y)) && (isLaunchLeft && bulletLeft.GetComponent<Bullet>().isHooked()))
+                            if (((bulletLeft != null) && (bulletLeft.transform.position.y > transform.position.y)) && (isLaunchLeft && bulletLeft.isHooked()))
                             {
                                 flag7 = true;
                             }
-                            if (((bulletRight != null) && (bulletRight.transform.position.y > transform.position.y)) && (isLaunchRight && bulletRight.GetComponent<Bullet>().isHooked()))
+                            if (((bulletRight != null) && (bulletRight.transform.position.y > transform.position.y)) && (isLaunchRight && bulletRight.isHooked()))
                             {
                                 flag7 = true;
                             }
@@ -1458,11 +1313,11 @@ public class Hero : Human
                         }
                         if (currentSpeed > 10f)
                         {
-                            currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float) 100f, (float) (currentSpeed + 40f)), 0.1f);
+                            currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, Mathf.Min((float) 100f, (float) (currentSpeed + 40f)), 0.1f);
                         }
                         else
                         {
-                            currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(currentCamera.GetComponent<Camera>().fieldOfView, 50f, 0.1f);
+                            currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, 50f, 0.1f);
                         }
                         if (flag2)
                         {
@@ -1725,11 +1580,11 @@ public class Hero : Human
         }
         if (bulletLeft != null)
         {
-            bulletLeft.GetComponent<Bullet>().removeMe();
+            bulletLeft.removeMe();
         }
         if (bulletRight != null)
         {
-            bulletRight.GetComponent<Bullet>().removeMe();
+            bulletRight.removeMe();
         }
 
         if (!(useGun || (!photonView.isMine)))
@@ -1847,11 +1702,11 @@ public class Hero : Human
 
         if (bulletLeft != null)
         {
-            bulletLeft.GetComponent<Bullet>().removeMe();
+            bulletLeft.removeMe();
         }
         if (bulletRight != null)
         {
-            bulletRight.GetComponent<Bullet>().removeMe();
+            bulletRight.removeMe();
         }
         audioSystem
             .PlayOneShot(audioSystem.clipDie)
@@ -2143,10 +1998,10 @@ public class Hero : Human
             Idle();
 
             if (bulletLeft)
-                bulletLeft.GetComponent<Bullet>().removeMe();
+                bulletLeft.removeMe();
 
             if (bulletRight)
-                bulletRight.GetComponent<Bullet>().removeMe();
+                bulletRight.removeMe();
 
             if ((smoke_3dmgEmission.enabled) && photonView.isMine)
             {
@@ -2401,7 +2256,7 @@ public class Hero : Human
                                 {
                                     if (bulletRight != null)
                                     {
-                                        bulletRight.GetComponent<Bullet>().disable();
+                                        bulletRight.disable();
                                         ReleaseIfIHookSb();
                                     }
                                     dashDirection = hit.point - transform.position;
@@ -2424,12 +2279,12 @@ public class Hero : Human
                                 {
                                     if (bulletRight != null)
                                     {
-                                        bulletRight.GetComponent<Bullet>().disable();
+                                        bulletRight.disable();
                                         ReleaseIfIHookSb();
                                     }
                                     if (bulletLeft != null)
                                     {
-                                        bulletLeft.GetComponent<Bullet>().disable();
+                                        bulletLeft.disable();
                                         ReleaseIfIHookSb();
                                     }
                                     dashDirection = hit.point - transform.position;
@@ -3271,8 +3126,9 @@ public class Hero : Human
         GameObject obj9;
         GameObject obj10;
         var obj2 = (GameObject) Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-        obj2.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-        obj2.GetComponent<HERO_SETUP>().isDeadBody = true;
+        var objHeroSetup = obj2.GetComponent<HERO_SETUP>();
+        objHeroSetup.myCostume = setup.myCostume;
+        objHeroSetup.isDeadBody = true;
         obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, animation[currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
         if (!isBite)
         {
@@ -3301,8 +3157,8 @@ public class Hero : Human
             currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj2, false, false);
         }
         ApplyForceToBody(obj2, v);
-        var handL = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L");
-        var handR = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R");
+        var handL = body.HandLeft; //transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L");
+        var handR = body.HandRight; //transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R");
         if (useGun)
         {
             obj6 = (GameObject) Instantiate(Resources.Load("Character_parts/character_gun_l"), handL.position, handL.rotation);
@@ -3724,11 +3580,11 @@ public class Hero : Human
             }
             if (bulletLeft != null)
             {
-                bulletLeft.GetComponent<Bullet>().removeMe();
+                bulletLeft.removeMe();
             }
             if (bulletRight != null)
             {
-                bulletRight.GetComponent<Bullet>().removeMe();
+                bulletRight.removeMe();
             }
 
             if ((photonView.isMine) && !useGun)
@@ -3769,11 +3625,11 @@ public class Hero : Human
             }
             if (bulletLeft != null)
             {
-                bulletLeft.GetComponent<Bullet>().removeMe();
+                bulletLeft.removeMe();
             }
             if (bulletRight != null)
             {
-                bulletRight.GetComponent<Bullet>().removeMe();
+                bulletRight.removeMe();
             }
             audioSystem
                 .PlayOneShot(audioSystem.clipDie)
@@ -3844,11 +3700,11 @@ public class Hero : Human
         skillCDDuration = skillCDLast;
         if (bulletLeft != null)
         {
-            bulletLeft.GetComponent<Bullet>().removeMe();
+            bulletLeft.removeMe();
         }
         if (bulletRight != null)
         {
-            bulletRight.GetComponent<Bullet>().removeMe();
+            bulletRight.removeMe();
         }
         eren_titan = PhotonNetwork.Instantiate("ErenTitan", transform.position, transform.rotation, 0);
         eren_titan.GetComponent<ErenTitan>().realBody = gameObject;
@@ -4082,8 +3938,8 @@ public class Hero : Human
 
     private void HeadMovement()
     {
-        var head = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
-        var neck = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
+        var head = body.Head; // transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
+        var neck = body.Neck; // transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
         float x = Mathf.Sqrt(((gunTarget.x - head.position.x) * (gunTarget.x - head.position.x)) + ((gunTarget.z - head.position.z) * (gunTarget.z - head.position.z)));
         targetHeadRotation = head.rotation;
         Vector3 vector5 = gunTarget - head.position;
@@ -4157,7 +4013,7 @@ public class Hero : Human
         }
         vector.Normalize();
         vector = (vector * 20f);
-        if (((bulletLeft != null) && (bulletRight != null)) && (bulletLeft.GetComponent<Bullet>().isHooked() && bulletRight.GetComponent<Bullet>().isHooked()))
+        if (((bulletLeft != null) && (bulletRight != null)) && (bulletLeft.isHooked() && bulletRight.isHooked()))
         {
             vector = (vector * 0.8f);
         }
@@ -4235,12 +4091,12 @@ public class Hero : Human
             launchElapsedTimeL = -100f;
             if (bulletRight != null)
             {
-                bulletRight.GetComponent<Bullet>().disable();
+                bulletRight.disable();
                 ReleaseIfIHookSb();
             }
             if (bulletLeft != null)
             {
-                bulletLeft.GetComponent<Bullet>().disable();
+                bulletLeft.disable();
                 ReleaseIfIHookSb();
             }
         }
@@ -4252,21 +4108,21 @@ public class Hero : Human
         if (currentGas != 0f)
         {
             UseGas(0f);
-            bulletLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0);
+            bulletLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
             GameObject obj2 = !useGun ? hookRefL1 : hookRefL2;
             string str = !useGun ? "hookRefL1" : "hookRefL2";
             bulletLeft.transform.position = obj2.transform.position;
-            Bullet component = bulletLeft.GetComponent<Bullet>();
+
             float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
             var vector = (point - ((transform.right * num))) - bulletLeft.transform.position;
             vector.Normalize();
             if (mode == 1)
             {
-                component.launch((vector * 3f), rigidBody.velocity, str, true, gameObject, true);
+                bulletLeft.launch((vector * 3f), rigidBody.velocity, str, true, gameObject, true);
             }
             else
             {
-                component.launch((vector * 3f), rigidBody.velocity, str, true, gameObject, false);
+                bulletLeft.launch((vector * 3f), rigidBody.velocity, str, true, gameObject, false);
             }
             launchPointLeft = Vector3.zero;
         }
@@ -4277,21 +4133,21 @@ public class Hero : Human
         if (currentGas != 0f)
         {
             UseGas(0f);
-            bulletRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0);
+            bulletRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
             GameObject obj2 = !useGun ? hookRefR1 : hookRefR2;
             string str = !useGun ? "hookRefR1" : "hookRefR2";
             bulletRight.transform.position = obj2.transform.position;
-            Bullet component = bulletRight.GetComponent<Bullet>();
+
             float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
             var vector = (point + ((transform.right * num))) - bulletRight.transform.position;
             vector.Normalize();
             if (mode == 1)
             {
-                component.launch((vector * 5f), rigidBody.velocity, str, false, gameObject, true);
+                bulletRight.launch((vector * 5f), rigidBody.velocity, str, false, gameObject, true);
             }
             else
             {
-                component.launch((vector * 3f), rigidBody.velocity, str, false, gameObject, false);
+                bulletRight.launch((vector * 3f), rigidBody.velocity, str, false, gameObject, false);
             }
             launchPointRight = Vector3.zero;
         }
@@ -5010,11 +4866,11 @@ public class Hero : Human
         }
         if (bulletLeft != null)
         {
-            bulletLeft.GetComponent<Bullet>().removeMe();
+            bulletLeft.removeMe();
         }
         if (bulletRight != null)
         {
-            bulletRight.GetComponent<Bullet>().removeMe();
+            bulletRight.removeMe();
         }
 
         if (!(useGun || (!photonView.isMine)))
