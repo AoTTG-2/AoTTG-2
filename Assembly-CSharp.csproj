@@ -200,7 +200,7 @@
     <Compile Include="Assets\Scripts\UI\Elements\UiInput.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GeneralGraphics.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\CreatePart.cs" />
-    <Compile Include="Assets\Scripts\Characters\Human\Hero.cs" />
+    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatPeer.cs" />
     <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
@@ -497,6 +497,8 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
     <Compile Include="Assets\Scripts\Extensions\GameObjectExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDebugable.cs" />
+    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero_IDebugable.cs" />
+    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero_RPCs.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
