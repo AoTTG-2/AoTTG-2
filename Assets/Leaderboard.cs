@@ -10,23 +10,37 @@ namespace Assets.Scripts.UI
     {
 
         public GameObject playerInfoPrefab;
-        public GameObject playerList;
+        public GameObject playerListParent;
 
+        public static int SortByKills (PhotonPlayer a, PhotonPlayer b){
+                return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.kills]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.kills]));
+            }
+
+        public static int SortByTotalDamage (PhotonPlayer a, PhotonPlayer b){
+            return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.total_dmg]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.total_dmg]));
+        }
         public void OnEnable()
         {
+            List<PhotonPlayer> playerList = PhotonNetwork.playerList.ToList();
+
+            playerList.Sort(SortByKills);
+            //playerList.Sort(SortByTotalDamage);
+
             
-            foreach (PhotonPlayer player in PhotonNetwork.playerList){
+            foreach (PhotonPlayer player in playerList){
+
                 var name = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
                 var kills = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]);
                 var deaths = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.deaths]);
                 var maxDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]);
                 var totalDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]);
+                
                 Debug.Log("name: "+name);
                 Debug.Log("kills: "+kills);
                 Debug.Log("deaths: "+deaths);
                 Debug.Log("maxDamage: "+maxDamage);
                 Debug.Log("totalDamage: "+totalDamage);
-                GameObject playerInfo = Instantiate(playerInfoPrefab, transform.position, transform.rotation, playerList.transform);
+                GameObject playerInfo = Instantiate(playerInfoPrefab, transform.position, transform.rotation, playerListParent.transform);
 
                 PlayerInfo playerLabel = playerInfo.GetComponent<PlayerInfo>();
                 //SET DETAILS
@@ -40,7 +54,7 @@ namespace Assets.Scripts.UI
 
         public void OnDisable()
         {
-            foreach (Transform child in playerList.transform)
+            foreach (Transform child in playerListParent.transform)
             {
                 GameObject.Destroy(child.gameObject); //REMOVE ALL CHILD (player infos) to prevent dupes
             }
