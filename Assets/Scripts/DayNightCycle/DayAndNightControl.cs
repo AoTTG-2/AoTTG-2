@@ -31,7 +31,6 @@ namespace Assets.Scripts.DayNightCycle
         public bool pause { get; set; }
         public float lightIntensity; //static variable to see what the current light's insensity is in the inspector
 
-        Camera targetCam;
         private int frames;
        
         // Use this for initialization
@@ -40,14 +39,6 @@ namespace Assets.Scripts.DayNightCycle
             pause=true;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GetComponentInChildren<Camera>();
-
-            foreach (Camera c in GameObject.FindObjectsOfType<Camera>())
-            {
-                if (c.isActiveAndEnabled)
-                {
-                    targetCam = c;
-                }
-            }
             lightIntensity = directionalLight.intensity; // What's the current intensity of the sunlight
 
             UpdateLightingSettings();
