@@ -4864,7 +4864,7 @@ public class Hero : Human
                                                 }
                                                 this.dashDirection = hit.point - this.baseTransform.position;
                                                 LaunchRightRope(hit.distance, hit.point, true);
-                                                this.rope.Play();
+                                                PlayRopeSound();
                                             }
                                             this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * Mathf.Rad2Deg;
                                             this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
@@ -4895,7 +4895,7 @@ public class Hero : Human
                                                 this.dashDirection = hit2.point - this.baseTransform.position;
                                                 LaunchLeftRope(hit2.distance, hit2.point, true);
                                                 LaunchRightRope(hit2.distance, hit2.point, true);
-                                                this.rope.Play();
+                                                PlayRopeSound();
                                             }
                                             this.facingDirection = Mathf.Atan2(this.dashDirection.x, this.dashDirection.z) * Mathf.Rad2Deg;
                                             this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
@@ -5533,7 +5533,7 @@ public class Hero : Human
                                 {
                                     LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
                                 }
-                                rope.Play();
+                                PlayRopeSound();
                             }
                         }
                         else
@@ -5569,7 +5569,7 @@ public class Hero : Human
                                 {
                                     LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
                                 }
-                                this.rope.Play();
+                                PlayRopeSound();
                             }
                         }
                         else
@@ -5605,7 +5605,7 @@ public class Hero : Human
                                     LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                                     LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                                 }
-                                rope.Play();
+                                PlayRopeSound();
                             }
                         }
                         if (!IN_GAME_MAIN_CAMERA.isPausing)
@@ -5790,5 +5790,13 @@ public class Hero : Human
             }
             this._state = value;
         }
+    }
+}
+
+void PlayRopeSound(){
+    if(this.currentGas > 0){
+        this.rope.Play();
+    }else{
+        // TODO: Sound for an empty tank.
     }
 }
