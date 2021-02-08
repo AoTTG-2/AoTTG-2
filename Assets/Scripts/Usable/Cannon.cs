@@ -21,30 +21,30 @@ public class Cannon : Photon.MonoBehaviour
 
     public void Awake()
     {
-        if (base.photonView != null)
+        if (photonView != null)
         {
-            base.photonView.observed = this;
-            this.barrel = base.transform.Find("Barrel");
-            this.correctPlayerPos = base.transform.position;
-            this.correctPlayerRot = base.transform.rotation;
-            this.correctBarrelRot = this.barrel.rotation;
-            if (base.photonView.isMine)
+            photonView.observed = this;
+            barrel = transform.Find("Barrel");
+            correctPlayerPos = transform.position;
+            correctPlayerRot = transform.rotation;
+            correctBarrelRot = barrel.rotation;
+            if (photonView.isMine)
             {
-                this.firingPoint = this.barrel.Find("FiringPoint");
-                this.ballPoint = this.barrel.Find("BallPoint");
-                this.myCannonLine = this.ballPoint.GetComponent<LineRenderer>();
-                if (base.gameObject.name.Contains("CannonGround"))
+                firingPoint = barrel.Find("FiringPoint");
+                ballPoint = barrel.Find("BallPoint");
+                myCannonLine = ballPoint.GetComponent<LineRenderer>();
+                if (gameObject.name.Contains("CannonGround"))
                 {
-                    this.isCannonGround = true;
+                    isCannonGround = true;
                 }
             }
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonPlayer owner = base.photonView.owner;
+                PhotonPlayer owner = photonView.owner;
                 if (FengGameManagerMKII.instance.allowedToCannon.ContainsKey(owner.ID))
                 {
-                    this.settings = FengGameManagerMKII.instance.allowedToCannon[owner.ID].settings;
-                    base.photonView.RPC("SetSize", PhotonTargets.All, new object[] { this.settings });
+                    settings = FengGameManagerMKII.instance.allowedToCannon[owner.ID].settings;
+                    photonView.RPC(nameof(SetSize), PhotonTargets.All, new object[] { settings });
                     int viewID = FengGameManagerMKII.instance.allowedToCannon[owner.ID].viewID;
                     FengGameManagerMKII.instance.allowedToCannon.Remove(owner.ID);
                     CannonPropRegion component = PhotonView.Find(viewID).gameObject.GetComponent<CannonPropRegion>();
@@ -65,16 +65,16 @@ public class Cannon : Photon.MonoBehaviour
 
     public void Fire()
     {
-        if (this.myHero.skillCDDuration <= 0f)
+        if (myHero.skillCDDuration <= 0f)
         {
-            foreach (EnemyCheckCollider collider in PhotonNetwork.Instantiate("FX/boom2", this.firingPoint.position, this.firingPoint.rotation, 0).GetComponentsInChildren<EnemyCheckCollider>())
+            foreach (EnemyCheckCollider collider in PhotonNetwork.Instantiate("FX/boom2", firingPoint.position, firingPoint.rotation, 0).GetComponentsInChildren<EnemyCheckCollider>())
             {
                 collider.dmg = 0;
             }
-            this.myCannonBall = PhotonNetwork.Instantiate("RCAsset/CannonBallObject", this.ballPoint.position, this.firingPoint.rotation, 0);
-            this.myCannonBall.GetComponent<Rigidbody>().velocity = (Vector3) (this.firingPoint.forward * 300f);
-            this.myCannonBall.GetComponent<CannonBall>().myHero = this.myHero;
-            this.myHero.skillCDDuration = 3.5f;
+            myCannonBall = PhotonNetwork.Instantiate("RCAsset/CannonBallObject", ballPoint.position, firingPoint.rotation, 0);
+            myCannonBall.GetComponent<Rigidbody>().velocity = (Vector3) (firingPoint.forward * 300f);
+            myCannonBall.GetComponent<CannonBall>().myHero = myHero;
+            myHero.skillCDDuration = 3.5f;
         }
     }
 
@@ -82,18 +82,18 @@ public class Cannon : Photon.MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient && !FengGameManagerMKII.instance.isRestarting)
         {
-            string[] strArray = this.settings.Split(new char[] { ',' });
+            string[] strArray = settings.Split(new char[] { ',' });
             if (strArray[0] == "photon")
             {
                 if (strArray.Length > 15)
                 {
                     GameObject go = PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
-                    go.GetComponent<CannonPropRegion>().settings = this.settings;
-                    go.GetPhotonView().RPC("SetSize", PhotonTargets.AllBuffered, new object[] { this.settings });
+                    go.GetComponent<CannonPropRegion>().settings = settings;
+                    go.GetPhotonView().RPC(nameof(SetSize), PhotonTargets.AllBuffered, new object[] { settings });
                 }
                 else
                 {
-                    PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<CannonPropRegion>().settings = this.settings;
+                    PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[2]), Convert.ToSingle(strArray[3]), Convert.ToSingle(strArray[4])), new Quaternion(Convert.ToSingle(strArray[5]), Convert.ToSingle(strArray[6]), Convert.ToSingle(strArray[7]), Convert.ToSingle(strArray[8])), 0).GetComponent<CannonPropRegion>().settings = settings;
                 }
             }
         }
@@ -103,15 +103,15 @@ public class Cannon : Photon.MonoBehaviour
     {
         if (stream.isWriting)
         {
-            stream.SendNext(base.transform.position);
-            stream.SendNext(base.transform.rotation);
-            stream.SendNext(this.barrel.rotation);
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(barrel.rotation);
         }
         else
         {
-            this.correctPlayerPos = (Vector3) stream.ReceiveNext();
-            this.correctPlayerRot = (Quaternion) stream.ReceiveNext();
-            this.correctBarrelRot = (Quaternion) stream.ReceiveNext();
+            correctPlayerPos = (Vector3) stream.ReceiveNext();
+            correctPlayerRot = (Quaternion) stream.ReceiveNext();
+            correctBarrelRot = (Quaternion) stream.ReceiveNext();
         }
     }
 
@@ -125,7 +125,7 @@ public class Cannon : Photon.MonoBehaviour
             {
                 float a = 1f;
                 GameObject gameObject = null;
-                gameObject = base.gameObject;
+                gameObject = gameObject;
                 if (strArray[2] != "default")
                 {
                     if (strArray[2].StartsWith("transparent"))
@@ -184,23 +184,23 @@ public class Cannon : Photon.MonoBehaviour
 
     public void Update()
     {
-        if (!base.photonView.isMine)
+        if (!photonView.isMine)
         {
-            base.transform.position = Vector3.Lerp(base.transform.position, this.correctPlayerPos, Time.deltaTime * this.SmoothingDelay);
-            base.transform.rotation = Quaternion.Lerp(base.transform.rotation, this.correctPlayerRot, Time.deltaTime * this.SmoothingDelay);
-            this.barrel.rotation = Quaternion.Lerp(this.barrel.rotation, this.correctBarrelRot, Time.deltaTime * this.SmoothingDelay);
+            transform.position = Vector3.Lerp(transform.position, correctPlayerPos, Time.deltaTime * SmoothingDelay);
+            transform.rotation = Quaternion.Lerp(transform.rotation, correctPlayerRot, Time.deltaTime * SmoothingDelay);
+            barrel.rotation = Quaternion.Lerp(barrel.rotation, correctBarrelRot, Time.deltaTime * SmoothingDelay);
         }
         else
         {
             Vector3 vector = new Vector3(0f, -30f, 0f);
-            Vector3 position = this.ballPoint.position;
-            Vector3 vector3 = (Vector3) (this.ballPoint.forward * 300f);
+            Vector3 position = ballPoint.position;
+            Vector3 vector3 = (Vector3) (ballPoint.forward * 300f);
             float num = 40f / vector3.magnitude;
-            this.myCannonLine.SetWidth(0.5f, 40f);
-            this.myCannonLine.SetVertexCount(100);
+            myCannonLine.SetWidth(0.5f, 40f);
+            myCannonLine.SetVertexCount(100);
             for (int i = 0; i < 100; i++)
             {
-                this.myCannonLine.SetPosition(i, position);
+                myCannonLine.SetPosition(i, position);
                 position += (Vector3) ((vector3 * num) + (((0.5f * vector) * num) * num));
                 vector3 += (Vector3) (vector * num);
             }
@@ -209,71 +209,71 @@ public class Cannon : Photon.MonoBehaviour
             {
                 num3 = 5f;
             }
-            if (this.isCannonGround)
+            if (isCannonGround)
             {
                 if (InputManager.Key(InputCannon.Up))
                 {
-                    if (this.currentRot <= 32f)
+                    if (currentRot <= 32f)
                     {
-                        this.currentRot += Time.deltaTime * num3;
-                        this.barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * num3));
+                        currentRot += Time.deltaTime * num3;
+                        barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * num3));
                     }
                 }
-                else if (InputManager.Key(InputCannon.Down) && (this.currentRot >= -18f))
+                else if (InputManager.Key(InputCannon.Down) && (currentRot >= -18f))
                 {
-                    this.currentRot += Time.deltaTime * -num3;
-                    this.barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * -num3));
+                    currentRot += Time.deltaTime * -num3;
+                    barrel.Rotate(new Vector3(0f, 0f, Time.deltaTime * -num3));
                 }
                 if (InputManager.Key(InputCannon.Left))
                 {
-                    base.transform.Rotate(new Vector3(0f, Time.deltaTime * -num3, 0f));
+                    transform.Rotate(new Vector3(0f, Time.deltaTime * -num3, 0f));
                 }
                 else if (InputManager.Key(InputCannon.Right))
                 {
-                    base.transform.Rotate(new Vector3(0f, Time.deltaTime * num3, 0f));
+                    transform.Rotate(new Vector3(0f, Time.deltaTime * num3, 0f));
                 }
             }
             else
             {
                 if (InputManager.Key(InputCannon.Up))
                 {
-                    if (this.currentRot >= -50f)
+                    if (currentRot >= -50f)
                     {
-                        this.currentRot += Time.deltaTime * -num3;
-                        this.barrel.Rotate(new Vector3(Time.deltaTime * -num3, 0f, 0f));
+                        currentRot += Time.deltaTime * -num3;
+                        barrel.Rotate(new Vector3(Time.deltaTime * -num3, 0f, 0f));
                     }
                 }
-                else if (InputManager.Key(InputCannon.Down) && (this.currentRot <= 40f))
+                else if (InputManager.Key(InputCannon.Down) && (currentRot <= 40f))
                 {
-                    this.currentRot += Time.deltaTime * num3;
-                    this.barrel.Rotate(new Vector3(Time.deltaTime * num3, 0f, 0f));
+                    currentRot += Time.deltaTime * num3;
+                    barrel.Rotate(new Vector3(Time.deltaTime * num3, 0f, 0f));
                 }
                 if (InputManager.Key(InputCannon.Left))
                 {
-                    base.transform.Rotate(new Vector3(0f, Time.deltaTime * -num3, 0f));
+                    transform.Rotate(new Vector3(0f, Time.deltaTime * -num3, 0f));
                 }
                 else if (InputManager.Key(InputCannon.Right))
                 {
-                    base.transform.Rotate(new Vector3(0f, Time.deltaTime * num3, 0f));
+                    transform.Rotate(new Vector3(0f, Time.deltaTime * num3, 0f));
                 }
             }
             if (InputManager.Key(InputCannon.Shoot))
             {
-                this.Fire();
+                Fire();
             }
             else if (InputManager.KeyDown(InputCannon.Mount))
             {
-                if (this.myHero != null)
+                if (myHero != null)
                 {
-                    this.myHero.isCannon = false;
-                    this.myHero.myCannonRegion = null;
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.myHero.gameObject, true, false);
-                    this.myHero.rigidBody.velocity = Vector3.zero;
-                    this.myHero.photonView.RPC(nameof(Hero.ReturnFromCannon), PhotonTargets.Others, new object[0]);
-                    this.myHero.skillCDLast = this.myHero.skillCDLastCannon;
-                    this.myHero.skillCDDuration = this.myHero.skillCDLast;
+                    myHero.isCannon = false;
+                    myHero.myCannonRegion = null;
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(myHero.gameObject, true, false);
+                    myHero.rigidBody.velocity = Vector3.zero;
+                    myHero.photonView.RPC(nameof(Hero.ReturnFromCannon), PhotonTargets.Others, new object[0]);
+                    myHero.skillCDLast = myHero.skillCDLastCannon;
+                    myHero.skillCDDuration = myHero.skillCDLast;
                 }
-                PhotonNetwork.Destroy(base.gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
     }

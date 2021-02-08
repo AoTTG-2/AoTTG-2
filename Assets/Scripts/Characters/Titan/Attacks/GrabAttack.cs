@@ -207,9 +207,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 Titan.Grab(isLeftHand);
                 if (Titan.photonView.isMine)
                 {
-                    Titan.photonView.RPC("Grab", PhotonTargets.Others, isLeftHand);
+                    Titan.photonView.RPC(nameof(MindlessTitan.Grab), PhotonTargets.Others, isLeftHand);
                     var parameters = new object[] { "grabbed" };
-                    grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, parameters);
+                    grabTarget.photonView.RPC(nameof(Hero.NetPlayAnimation), PhotonTargets.All, parameters);
                     var objArray2 = new object[] { Titan.photonView.viewID, isLeftHand };
                     grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, objArray2);
                 }

@@ -647,7 +647,7 @@ public class FemaleTitan : TitanBase
                 object[] parameters = new object[] { base.photonView.viewID, false };
                 grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
-                grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
+                grabTarget.photonView.RPC(nameof(Hero.NetPlayAnimation), PhotonTargets.All, objArray2);
                 base.photonView.RPC(nameof(grabToRight), PhotonTargets.Others, new object[0]);
             }
             else
@@ -668,7 +668,7 @@ public class FemaleTitan : TitanBase
                 object[] parameters = new object[] { base.photonView.viewID, true };
                 grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
-                grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
+                grabTarget.photonView.RPC(nameof(Hero.NetPlayAnimation), PhotonTargets.All, objArray2);
                 base.photonView.RPC(nameof(grabToLeft), PhotonTargets.Others, new object[0]);
             }
             else
@@ -966,7 +966,7 @@ public class FemaleTitan : TitanBase
                     }
                     GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
                     object[] parameters = new object[] { dmg };
-                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                 }
             }
         }
@@ -1006,7 +1006,7 @@ public class FemaleTitan : TitanBase
                     }
                     GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
                     object[] parameters = new object[] { dmg };
-                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                 }
             }
         }
@@ -1454,7 +1454,7 @@ public class FemaleTitan : TitanBase
                 {
                     GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's neck", speed);
                     object[] parameters = new object[] { speed };
-                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                 }
                 this.healthTime = 0.2f;
             }

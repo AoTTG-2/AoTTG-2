@@ -1798,7 +1798,7 @@ public class Hero : Human
     }
     
     [PunRPC]
-    private void NetPlayAnimation(string aniName)
+    public void NetPlayAnimation(string aniName)
     {
         currentAnimation = aniName;
         if (animation != null)
