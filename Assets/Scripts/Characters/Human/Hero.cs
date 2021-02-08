@@ -2884,20 +2884,22 @@ public class Hero : Human, IDebugable
     #region Implement IDebugable
     public string GetDebugString(StringBuilder sb)
     {
-        sb.Append("Position: ")
-            .Append(transform.position.x).Append("x, ")
-            .Append(transform.position.y).Append("y, ")
-            .Append(transform.position.z).Append("z").AppendLine();
-        sb.Append("Rotation: ")
-            .Append(transform.eulerAngles.x).Append("x, ")
-            .Append(transform.eulerAngles.y).Append("y, ")
-            .Append(transform.eulerAngles.z).Append("z").AppendLine();
-        sb.Append("State: ").Append(State).AppendLine();
-        sb.Append("Team: ").Append(myTeam).AppendLine();
+        sb.Append("Position:")
+            .Append("\t\tx: ").Append(transform.position.x).AppendLine()
+            .Append("\t\t\ty: ").Append(transform.position.y).AppendLine()
+            .Append("\t\t\tz: ").Append(transform.position.z).AppendLine();
+        sb.AppendLine();
+        sb.Append("Rotation:")
+            .Append("\t\tx: ").Append(transform.eulerAngles.x).AppendLine()
+            .Append("\t\t\ty: ").Append(transform.eulerAngles.y).AppendLine()
+            .Append("\t\t\tz: ").Append(transform.eulerAngles.z).AppendLine();
+        sb.AppendLine();
+        sb.Append("State:\t\t\t").Append(State).AppendLine();
+        sb.Append("Team:\t\t\t").Append(myTeam).AppendLine();
 
 
         sb.AppendLine();
-        sb.Append("Left:").Append(isLeftHandHooked).Append(" ");
+        sb.Append("Left:\t\t\t").Append(isLeftHandHooked).Append(" ");
 
         if (isLeftHandHooked && (bulletLeft != null))
         {
@@ -2907,7 +2909,7 @@ public class Hero : Human, IDebugable
         }
 
         sb.AppendLine();
-        sb.Append("Right:").Append(isRightHandHooked).Append(" ");
+        sb.Append("Right:\t\t\t").Append(isRightHandHooked).Append(" ");
 
         if (isRightHandHooked && (bulletRight != null))
         {
@@ -2916,9 +2918,10 @@ public class Hero : Human, IDebugable
             sb.Append(num);
         }
         sb.AppendLine();
+        sb.AppendLine();
 
-        sb.Append("Facing Direction:").Append((int) facingDirection).AppendLine();
-        sb.Append("Actual Facing Direction:").Append((int) transform.rotation.eulerAngles.y).AppendLine();
+        sb.Append("Facing Direction:\t").Append((int) facingDirection).AppendLine();
+        sb.Append("Real Facing Direction:\t").Append((int) transform.rotation.eulerAngles.y).AppendLine();
         sb.AppendLine().AppendLine().AppendLine().AppendLine();
 
         if (State == HERO_STATE.Attack)
