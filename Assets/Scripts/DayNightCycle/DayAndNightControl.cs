@@ -44,6 +44,7 @@ namespace Assets.Scripts.DayNightCycle
             UpdateLightingSettings();
             UpdateLight(); // Initial lighting update.
 
+            StartCoroutine(SetupCameraConstraintAndReflectionProbe());
             IEnumerator SetupCameraConstraintAndReflectionProbe()
             {
                 // Set up rotation constraint for the moon camera.
@@ -63,8 +64,6 @@ namespace Assets.Scripts.DayNightCycle
                 reflectionProbe.transform.SetParent(Camera.main.transform);
                 reflectionProbe.transform.localPosition = Vector3.zero;
             }
-
-            StartCoroutine(SetupCameraConstraintAndReflectionProbe());
         }
 
      
