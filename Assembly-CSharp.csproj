@@ -497,8 +497,11 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
     <Compile Include="Assets\Scripts\Extensions\GameObjectExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDebugable.cs" />
-    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero_IDebugable.cs" />
-    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero_RPCs.cs" />
+    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero.IDebugable.cs" />
+    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero.RPCs.cs" />
+    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero.Skin.cs" />
+    <Compile Include="Assets\Scripts\Extensions\GenericExtensions.cs" />
+    <Compile Include="Assets\Scripts\Characters\Human\Hero\Hero.Equipment.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />

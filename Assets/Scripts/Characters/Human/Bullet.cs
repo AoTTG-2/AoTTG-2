@@ -212,7 +212,7 @@ public class Bullet : Photon.MonoBehaviour
         UnityEngine.Object.Destroy(base.gameObject);
     }
 
-    public void launch(Vector3 v, Vector3 v2, string launcher_ref, bool isLeft, GameObject hero, bool leviMode = false)
+    public void launch(Vector3 v, Vector3 v2, GameObject launcher_ref, bool isLeft, GameObject hero, bool leviMode = false)
     {
         if (this.phase != 2)
         {
@@ -227,22 +227,8 @@ public class Bullet : Photon.MonoBehaviour
             {
                 this.velocity2 = Vector3.Project(v2, v);
             }
-            if (launcher_ref == "hookRefL1")
-            {
-                this.myRef = hero.GetComponent<Hero>().hookRefL1;
-            }
-            if (launcher_ref == "hookRefL2")
-            {
-                this.myRef = hero.GetComponent<Hero>().hookRefL2;
-            }
-            if (launcher_ref == "hookRefR1")
-            {
-                this.myRef = hero.GetComponent<Hero>().hookRefR1;
-            }
-            if (launcher_ref == "hookRefR2")
-            {
-                this.myRef = hero.GetComponent<Hero>().hookRefR2;
-            }
+            this.myRef = launcher_ref;
+            
             this.nodes = new ArrayList();
             this.nodes.Add(this.myRef.transform.position);
             this.phase = 0;
