@@ -18,7 +18,7 @@ namespace Assets.Scripts.DayNightCycle
         [SerializeField] private float sunRotationOffset = 0f;
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
         [SerializeField] private int lightingUpdateInterval = 10;
-        public Material skyBoxPROCEDURAL;
+        public Material skyboxMaterial;
 
         [Range(0f, 24f)] public float currentTime;
         public float CurrentTime01 => currentTime / 24;
@@ -150,13 +150,13 @@ namespace Assets.Scripts.DayNightCycle
 
         void UpdateMaterial()
         {
-            skyBoxPROCEDURAL.SetVector("_Axis", directionalLight.transform.right);
-            skyBoxPROCEDURAL.SetFloat("_Angle", -CurrentTime01 * 360f);
+            skyboxMaterial.SetVector("_Axis", directionalLight.transform.right);
+            skyboxMaterial.SetFloat("_Angle", -CurrentTime01 * 360f);
         }
 
         void UpdateLightingSettings()
         {
-            RenderSettings.skybox = skyBoxPROCEDURAL;
+            RenderSettings.skybox = skyboxMaterial;
             RenderSettings.sun = directionalLight; // Procedural skybox needs this to work
             RenderSettings.fog = true;
 
