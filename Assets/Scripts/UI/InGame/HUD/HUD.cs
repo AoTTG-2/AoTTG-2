@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
@@ -11,7 +12,7 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public void SetDamage(int damage)
         {
-            var damageLabels = Damage.GetComponentsInChildren<Text>();
+            var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();
             foreach (var label in damageLabels)
             {
                 label.fontSize = ScaleDamageText(damage);
@@ -23,7 +24,7 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public void ClearDamage()
         {
-            var damageLabels = Damage.GetComponentsInChildren<Text>();
+            var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();
             foreach (var label in damageLabels)
             {
                 label.text = string.Empty;
