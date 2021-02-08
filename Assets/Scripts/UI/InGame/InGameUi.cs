@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.InGame
     {
         public HUD.HUD HUD;
         public InGameMenu Menu;
-        public LeaderboardManager Leaderboard;
+        public Leaderboard Leaderboard;
         public SpawnMenu SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
@@ -38,20 +38,19 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
-        // TODO: Find a better way to do this. If there isn't a better way, then... idk
-        public void ToggleLeaderboard(){
-            if (Leaderboard.IsVisible())
-            {
-                Leaderboard.Hide();
-            }
-            else if (!Leaderboard.IsVisible())
-            {
-                if (!PhotonNetwork.offlineMode)
-                {
-                    Leaderboard.Show();
-                }
-            }
-        }
+        // public void ToggleLeaderboard(){
+        //     if (Leaderboard.IsVisible())
+        //     {
+        //         Leaderboard.Hide();
+        //     }
+        //     else if (!Leaderboard.IsVisible())
+        //     {
+        //         if (!PhotonNetwork.offlineMode)
+        //         {
+        //             Leaderboard.Show();
+        //         }
+        //     }
+        // }
 
         private void Awake()
         {
@@ -76,6 +75,7 @@ namespace Assets.Scripts.UI.InGame
             Menu.Hide();
             PauseIndicator.Hide();
             ControlsMenu.Hide();
+            Leaderboard.Hide();
 
             PauseService.OnPaused += PauseService_OnPaused;
             PauseService.OnUnPaused += PauseService_OnUnPaused;
@@ -96,9 +96,12 @@ namespace Assets.Scripts.UI.InGame
                 TogglePauseMenu();
             }
             // TODO: I hardcoded in KeyCode.L, but figure out how to implement the enumeration found in InputManager.
-            if (UnityEngine.Input.GetKeyDown(KeyCode.L) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
+            if (InputManager.KeyDown(InputUi.Leaderboard) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
             {
-                ToggleLeaderboard();
+                Leaderboard.Show();
+            } else if (InputManager.KeyUp(InputUi.Leaderboard))
+            {
+                Leaderboard.Hide();
             }
         }
 

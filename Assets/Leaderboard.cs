@@ -1,22 +1,20 @@
-﻿using Assets.Scripts.UI.InGame.Controls;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.InGame
+namespace Assets.Scripts.UI
 {
-    public class LeaderboardManager : UiMenu
+    public class Leaderboard : UiContainer
     {
-        
-        protected override void OnEnable()
+
+        public GameObject playerInfoPrefab;
+        public GameObject playerList;
+
+        public void OnEnable()
         {
-            base.OnEnable();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-
-            // TODO: This only works in multiplayer and will probably definitely cause issues in singleplayer.
-            // Do a check to see if it's multiplayer before allowing a use to open the leaderboard menu. <- somehow, idk how.
-
-            // This is based off of InGameMenu.cs
-            // InGameUi.cs is important.
+            
             foreach (PhotonPlayer player in PhotonNetwork.playerList){
                 var name = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
                 var kills = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]);
@@ -28,14 +26,18 @@ namespace Assets.Scripts.UI.InGame
                 Debug.Log("deaths: "+deaths);
                 Debug.Log("maxDamage: "+maxDamage);
                 Debug.Log("totalDamage: "+totalDamage);
+                GameObject playerInfo = Instantiate(playerInfoPrefab, transform.position, transform.rotation, playerList.transform);
+
+                PlayerInfo playerLabel = playerInfo.GetComponent<PlayerInfo>();
+                //SET DETAILS
+                playerLabel.playerName.text = name.ToString();
+                playerLabel.playerKills.text = kills.ToString();
+                playerLabel.playerDeaths.text = deaths.ToString();
+                playerLabel.playerHighest.text = maxDamage.ToString();
+                playerLabel.playerTotal.text = totalDamage.ToString();
             }
         }
 
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-        }
+
     }
 }
-
-
