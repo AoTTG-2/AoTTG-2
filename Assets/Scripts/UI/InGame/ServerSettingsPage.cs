@@ -1,12 +1,11 @@
 ﻿using Assets.Scripts.Settings.Gamemodes;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class ServerSettingsPage : MonoBehaviour
+    public class ServerSettingsPage : UiContainer
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
