@@ -47,7 +47,7 @@ public class RockThrow : Photon.MonoBehaviour
                 }
                 Debug.Log("rock hit player " + titanName);
                 object[] parameters = new object[] { (Vector3) ((this.v.normalized * 1000f) + (Vector3.up * 50f)), false, myOwnerViewID, titanName, true };
-                hero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
+                hero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
             }
         }
     }

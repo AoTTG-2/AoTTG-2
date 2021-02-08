@@ -1082,7 +1082,7 @@ public class FemaleTitan : TitanBase
             {
                 hitHero.GetComponent<Hero>().MarkDie();
                 object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Female Titan", true };
-                hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
+                hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
             }
         }
     }

@@ -202,7 +202,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private void EatSet(Hero grabTarget)
         {
             var isLeftHand = Hand == BodyPart.HandLeft;
-            if (!Titan.photonView.isMine || grabTarget.isGrabbed)
+            if (!Titan.photonView.isMine || grabTarget.IsGrabbed)
             {
                 Titan.Grab(isLeftHand);
                 if (Titan.photonView.isMine)
