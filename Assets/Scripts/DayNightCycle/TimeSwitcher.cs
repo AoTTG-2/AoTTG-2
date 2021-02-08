@@ -73,6 +73,12 @@ namespace Assets.Scripts.DayNightCycle
             TimeSlider.value = dayNightCycle.CurrentTime01;
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
+
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
         //When Scene changes, erase input field
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {

@@ -46,6 +46,12 @@ namespace Assets.Scripts.DayNightCycle
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
+
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
         //When Scene changes, erase input field
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
