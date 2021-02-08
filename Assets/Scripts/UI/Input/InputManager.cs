@@ -158,10 +158,10 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.Camera] = KeyCode.C,
                 [InputUi.Pause] = KeyCode.P,
                 [InputUi.Restart] = KeyCode.T,
-                [InputUi.InteractionWheel] = KeyCode.Tab,
+                [InputUi.InteractionWheel] = KeyCode.I, //was Tab
                 [InputUi.Screenshot] = KeyCode.F2,
                 [InputUi.HideHUD] = KeyCode.F1,
-                [InputUi.Leaderboard] = KeyCode.L
+                [InputUi.Leaderboard] = KeyCode.Tab
             };
 
             _uiKeys = uiKeys.Values.ToArray();

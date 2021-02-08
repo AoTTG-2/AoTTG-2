@@ -38,6 +38,14 @@ namespace Assets.Scripts.UI
             }
         }
 
+        public void OnDisable()
+        {
+            foreach (Transform child in playerList.transform)
+            {
+                GameObject.Destroy(child.gameObject); //REMOVE ALL CHILD (player infos) to prevent dupes
+            }
+        }
+
 
     }
 }
