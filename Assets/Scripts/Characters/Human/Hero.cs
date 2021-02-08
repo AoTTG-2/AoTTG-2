@@ -2900,12 +2900,12 @@ public class Hero : Human
         if (left.HasValue)
             checkLeftTrigger.IsActive = left.Value;
         if (right.HasValue)
-            checkRightTrigger.IsActive = left.Value;
+            checkRightTrigger.IsActive = right.Value;
     }
     public void ActivateWeaponCollider(bool left, bool right)
     {
             checkLeftTrigger.IsActive = left;
-            checkRightTrigger.IsActive = left;
+            checkRightTrigger.IsActive = right;
     }
 
 
