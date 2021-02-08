@@ -12,6 +12,7 @@
         Restart,
         InteractionWheel,
         Screenshot,
-        HideHUD
+        HideHUD,
+        Leaderboard
     }
 }
