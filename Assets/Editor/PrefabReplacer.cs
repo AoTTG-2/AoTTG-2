@@ -20,8 +20,8 @@ namespace Assets.Editor.Prefabs
         {
             prefab = (GameObject)EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), false);
             GUILayout.Label("Selected Objects:");
-            GUILayout.Label(Selection.gameObjects != null ? Selection.count.ToString() : 0.ToString());
-
+            GUILayout.Label(Selection.gameObjects != null ? Selection.gameObjects.Length.ToString() : 0.ToString());
+            GUI.enabled = Selection.gameObjects == null || Selection.gameObjects.Length == 0;
             if(GUILayout.Button("Replace All"))
             {
                 var objs = Selection.gameObjects;
@@ -36,6 +36,7 @@ namespace Assets.Editor.Prefabs
                     cur.SetActive(false);
                 }
             }
+            GUI.enabled = true;
         }
     }
 
