@@ -211,7 +211,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     var parameters = new object[] { "grabbed" };
                     grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, parameters);
                     var objArray2 = new object[] { Titan.photonView.viewID, isLeftHand };
-                    grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, objArray2);
+                    grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, objArray2);
                 }
                 else
                 {

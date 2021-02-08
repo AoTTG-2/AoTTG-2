@@ -1444,26 +1444,11 @@ public class Hero : Human
     }
     
     [PunRPC]
-    private void KillObject()
-    {
-        Destroy(gameObject);
-    }
-    
-    [PunRPC]
     public void LoadSkinRPC(int horse, string url)
     {
         if (((int) FengGameManagerMKII.settings[0]) == 1)
         {
             StartCoroutine(LoadSkinE(horse, url));
-        }
-    }
-    
-    [PunRPC]
-    public void MoveToRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
-    {
-        if (info.sender.isMasterClient)
-        {
-            transform.position = new Vector3(posX, posY, posZ);
         }
     }
     
@@ -1641,7 +1626,7 @@ public class Hero : Human
     }
     
     [PunRPC]
-    private void NetDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
+    public void NetDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
     {
         GameObject obj2;
         if ((photonView.isMine) && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
@@ -1771,7 +1756,7 @@ public class Hero : Human
     }
     
     [PunRPC]
-    private void NetGrabbed(int id, bool leftHand)
+    public void NetGrabbed(int id, bool leftHand)
     {
         titanWhoGrabMeID = id;
         Grabbed(PhotonView.Find(id).gameObject, leftHand);
@@ -1853,7 +1838,7 @@ public class Hero : Human
     }
     
     [PunRPC]
-    private void NetUngrabbed()
+    public void NetUngrabbed()
     {
         Ungrabbed();
         NetPlayAnimation(standAnimation);
@@ -1968,24 +1953,6 @@ public class Hero : Human
         }
     }
     
-    [PunRPC]
-    private void ShowHitDamage()
-    {
-        GameObject target = GameObject.Find("LabelScore");
-        if (target != null)
-        {
-            speed = Mathf.Max(10f, speed);
-            //target.GetComponent<UILabel>().text = speed.ToString();
-            target.transform.localScale = Vector3.zero;
-            speed = (int) (speed * 0.1f);
-            speed = Mathf.Clamp(speed, 40f, 150f);
-            iTween.Stop(target);
-            object[] args = new object[] { "x", speed, "y", speed, "z", speed, "easetype", iTween.EaseType.easeOutElastic, "time", 1f };
-            iTween.ScaleTo(target, iTween.Hash(args));
-            object[] objArray2 = new object[] { "x", 0, "y", 0, "z", 0, "easetype", iTween.EaseType.easeInBounce, "time", 0.5f, "delay", 2f };
-            iTween.ScaleTo(target, iTween.Hash(objArray2));
-        }
-    }
     
     [PunRPC]
     public void SpawnCannonRPC(string settings, PhotonMessageInfo info)
@@ -2997,64 +2964,6 @@ public class Hero : Human
         photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
     }
 
-    
-    private void BodyLean()
-    {
-        if (photonView.isMine)
-        {
-            float z = 0f;
-            needLean = false;
-            if ((!useGun && (State == HERO_STATE.Attack)) && ((attackAnimation != "attack3_1") && (attackAnimation != "attack3_2")))
-            {
-                float y = rigidBody.velocity.y;
-                float x = rigidBody.velocity.x;
-                float num4 = rigidBody.velocity.z;
-                float num5 = Mathf.Sqrt((x * x) + (num4 * num4));
-                float num6 = Mathf.Atan2(y, num5) * Mathf.Rad2Deg;
-                targetRotation = Quaternion.Euler(-num6 * (1f - (Vector3.Angle(rigidBody.velocity, transform.forward) / 90f)), facingDirection, 0f);
-                if ((isLeftHandHooked && (bulletLeft != null)) || (isRightHandHooked && (bulletRight != null)))
-                {
-                    transform.rotation = targetRotation;
-                }
-            }
-            else
-            {
-                if ((isLeftHandHooked && (bulletLeft != null)) && (isRightHandHooked && (bulletRight != null)))
-                {
-                    if (almostSingleHook)
-                    {
-                        needLean = true;
-                        z = GetLeanAngle(bulletRight.transform.position, true);
-                    }
-                }
-                else if (isLeftHandHooked && (bulletLeft != null))
-                {
-                    needLean = true;
-                    z = GetLeanAngle(bulletLeft.transform.position, true);
-                }
-                else if (isRightHandHooked && (bulletRight != null))
-                {
-                    needLean = true;
-                    z = GetLeanAngle(bulletRight.transform.position, false);
-                }
-                if (needLean)
-                {
-                    float a = 0f;
-                    if (!useGun && (State != HERO_STATE.Attack))
-                    {
-                        a = currentSpeed * 0.1f;
-                        a = Mathf.Min(a, 20f);
-                    }
-                    targetRotation = Quaternion.Euler(-a, facingDirection, z);
-                }
-                else if (State != HERO_STATE.Attack)
-                {
-                    targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
-                }
-            }
-        }
-    }
-
     public void BombInit()
     {
         skillIDHUD = skillId;
@@ -3283,11 +3192,6 @@ public class Hero : Human
                 skillCDDuration = 0f;
             }
         }
-    }
-
-    private float CalculateJumpVerticalSpeed()
-    {
-        return Mathf.Sqrt((2f * jumpHeight) * gravity);
     }
 
     private void ChangeBlade()
@@ -3614,37 +3518,6 @@ public class Hero : Human
         }
     }
 
-    [Obsolete("Unused Method")]
-    public void Die(Transform tf)
-    {
-        if (invincible <= 0f)
-        {
-            if (titanForm && (eren_titan != null))
-            {
-                eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
-            }
-            if (bulletLeft != null)
-            {
-                bulletLeft.removeMe();
-            }
-            if (bulletRight != null)
-            {
-                bulletRight.removeMe();
-            }
-            audioSystem
-                .PlayOneShot(audioSystem.clipDie)
-                .Disconnect(audioSystem.clipDie);
-
-            currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-            currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-            FalseAttack();
-            hasDied = true;
-            GameObject obj2 = (GameObject) Instantiate(Resources.Load("hitMeat2"));
-            obj2.transform.position = audioSystem.Position;
-            Destroy(gameObject);
-        }
-    }
-
     private void Dodge(bool offTheWall = false)
     {
         if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
@@ -3723,10 +3596,6 @@ public class Hero : Human
             photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, objArray2);
         }
         smoke_3dmgEmission.enabled = false;
-    }
-
-    private void EscapeFromGrab()
-    {
     }
 
     public void FalseAttack()
@@ -3824,13 +3693,6 @@ public class Hero : Human
         return new Vector3(x, 0f, Mathf.Sin(num * 0.01745329f));
     }
 
-    private Vector3 GetGlobalFacingVector3(float horizontal, float vertical)
-    {
-        float num = -GetGlobalFacingDirection(horizontal, vertical) + 90f;
-        float x = Mathf.Cos(num * 0.01745329f);
-        return new Vector3(x, 0f, Mathf.Sin(num * 0.01745329f));
-    }
-
     private float GetGlobalFacingDirection(float horizontal, float vertical)
     {
         if ((vertical == 0f) && (horizontal == 0f))
@@ -3841,50 +3703,6 @@ public class Hero : Human
         float num2 = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg;
         num2 = -num2 + 90f;
         return (y + num2);
-    }
-
-    private float GetLeanAngle(Vector3 p, bool left)
-    {
-        if (!useGun && (State == HERO_STATE.Attack))
-        {
-            return 0f;
-        }
-        float num = p.y - transform.position.y;
-        float num2 = Vector3.Distance(p, transform.position);
-        float a = Mathf.Acos(num / num2) * Mathf.Rad2Deg;
-        a *= 0.1f;
-        a *= 1f + Mathf.Pow(rigidBody.velocity.magnitude, 0.2f);
-        var vector3 = p - transform.position;
-        float current = Mathf.Atan2(vector3.x, vector3.z) * Mathf.Rad2Deg;
-        float target = Mathf.Atan2(rigidBody.velocity.x, rigidBody.velocity.z) * Mathf.Rad2Deg;
-        float num6 = Mathf.DeltaAngle(current, target);
-        a += Mathf.Abs((float) (num6 * 0.5f));
-        if (State != HERO_STATE.Attack)
-        {
-            a = Mathf.Min(a, 80f);
-        }
-        if (num6 > 0f)
-        {
-            leanLeft = true;
-        }
-        else
-        {
-            leanLeft = false;
-        }
-        if (useGun)
-        {
-            return (a * ((num6 >= 0f) ? ((float) 1) : ((float) (-1))));
-        }
-        float num7 = 0f;
-        if ((left && (num6 < 0f)) || (!left && (num6 > 0f)))
-        {
-            num7 = 0.1f;
-        }
-        else
-        {
-            num7 = 0.5f;
-        }
-        return (a * ((num6 >= 0f) ? num7 : -num7));
     }
 
     private void GetOffHorse()
@@ -3933,25 +3751,6 @@ public class Hero : Human
         }
         smoke_3dmgEmission.enabled = false;
         sparksEmission.enabled = false;
-    }
-
-
-    private void HeadMovement()
-    {
-        var head = body.Head; // transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
-        var neck = body.Neck; // transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
-        float x = Mathf.Sqrt(((gunTarget.x - head.position.x) * (gunTarget.x - head.position.x)) + ((gunTarget.z - head.position.z) * (gunTarget.z - head.position.z)));
-        targetHeadRotation = head.rotation;
-        Vector3 vector5 = gunTarget - head.position;
-        float current = -Mathf.Atan2(vector5.z, vector5.x) * Mathf.Rad2Deg;
-        float num3 = -Mathf.DeltaAngle(current, head.rotation.eulerAngles.y - 90f);
-        num3 = Mathf.Clamp(num3, -40f, 40f);
-        float y = neck.position.y - gunTarget.y;
-        float num5 = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
-        num5 = Mathf.Clamp(num5, -40f, 30f);
-        targetHeadRotation = Quaternion.Euler(head.rotation.eulerAngles.x + num5, head.rotation.eulerAngles.y + num3, head.rotation.eulerAngles.z);
-        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 60f);
-        head.rotation = oldHeadRotation;
     }
 
     public void HookedByHuman(int hooker, Vector3 hookPosition)
@@ -4103,19 +3902,20 @@ public class Hero : Human
         sparksEmission.enabled = false;
     }
 
-    private void LaunchLeftRope(float distance, Vector3 point, bool single, int mode = 0)
+    private void LaunchLeftRope(float distance, Vector3 point, bool single)
     {
         if (currentGas != 0f)
         {
             UseGas(0f);
             bulletLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
-            GameObject obj2 = !useGun ? hookRefL1 : hookRefL2;
+            GameObject hookRef = !useGun ? hookRefL1 : hookRefL2;
             string str = !useGun ? "hookRefL1" : "hookRefL2";
-            bulletLeft.transform.position = obj2.transform.position;
+            bulletLeft.transform.position = hookRef.transform.position;
 
             float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
             var vector = (point - ((transform.right * num))) - bulletLeft.transform.position;
             vector.Normalize();
+            var mode = 0;
             if (mode == 1)
             {
                 bulletLeft.launch((vector * 3f), rigidBody.velocity, str, true, gameObject, true);
@@ -4128,19 +3928,20 @@ public class Hero : Human
         }
     }
 
-    private void LaunchRightRope(float distance, Vector3 point, bool single, int mode = 0)
+    private void LaunchRightRope(float distance, Vector3 point, bool single)
     {
         if (currentGas != 0f)
         {
             UseGas(0f);
             bulletRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
-            GameObject obj2 = !useGun ? hookRefR1 : hookRefR2;
+            GameObject hookRef = !useGun ? hookRefR1 : hookRefR2;
             string str = !useGun ? "hookRefR1" : "hookRefR2";
-            bulletRight.transform.position = obj2.transform.position;
+            bulletRight.transform.position = hookRef.transform.position;
 
             float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
             var vector = (point + ((transform.right * num))) - bulletRight.transform.position;
             vector.Normalize();
+            var mode = 0;
             if (mode == 1)
             {
                 bulletRight.launch((vector * 5f), rigidBody.velocity, str, false, gameObject, true);
@@ -4151,17 +3952,6 @@ public class Hero : Human
             }
             launchPointRight = Vector3.zero;
         }
-    }
-
-    private void LeftArmAimTo(Vector3 target)
-    {
-        float y = target.x - upperarmL.transform.position.x;
-        float num2 = target.y - upperarmL.transform.position.y;
-        float x = target.z - upperarmL.transform.position.z;
-        float num4 = Mathf.Sqrt((y * y) + (x * x));
-        handL.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        forearmL.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-        upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), -Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
     }
 
     public void LoadSkin()
@@ -5027,127 +4817,10 @@ public class Hero : Human
         CustomAnimationSpeed();
     }
 
-    private void RightArmAimTo(Vector3 target)
-    {
-        float y = target.x - upperarmR.transform.position.x;
-        float num2 = target.y - upperarmR.transform.position.y;
-        float x = target.z - upperarmR.transform.position.z;
-        float num4 = Mathf.Sqrt((y * y) + (x * x));
-        handR.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-        forearmR.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        upperarmR.rotation = Quaternion.Euler(180f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
-    }
-
-
     private void Salute()
     {
         State = HERO_STATE.Salute;
         CrossFade("salute", 0.1f);
-    }
-
-    private void SetHookedPplDirection()
-    {
-        almostSingleHook = false;
-        if (isRightHandHooked && isLeftHandHooked)
-        {
-            if ((bulletLeft != null) && (bulletRight != null))
-            {
-                Vector3 normal = bulletLeft.transform.position - bulletRight.transform.position;
-                if (normal.sqrMagnitude < 4f)
-                {
-                    var vector2 = (((bulletLeft.transform.position + bulletRight.transform.position) * 0.5f)) - transform.position;
-                    facingDirection = Mathf.Atan2(vector2.x, vector2.z) * Mathf.Rad2Deg;
-                    if (useGun && (State != HERO_STATE.Attack))
-                    {
-                        float current = -Mathf.Atan2(rigidBody.velocity.z, rigidBody.velocity.x) * Mathf.Rad2Deg;
-                        float target = -Mathf.Atan2(vector2.z, vector2.x) * Mathf.Rad2Deg;
-                        float num3 = -Mathf.DeltaAngle(current, target);
-                        facingDirection += num3;
-                    }
-                    almostSingleHook = true;
-                }
-                else
-                {
-                    var to = transform.position - bulletLeft.transform.position;
-                    var vector6 = transform.position - bulletRight.transform.position;
-                    Vector3 vector7 = ((bulletLeft.transform.position + bulletRight.transform.position) * 0.5f);
-                    var from = transform.position - vector7;
-                    if ((Vector3.Angle(from, to) < 30f) && (Vector3.Angle(from, vector6) < 30f))
-                    {
-                        almostSingleHook = true;
-                        var vector9 = vector7 - transform.position;
-                        facingDirection = Mathf.Atan2(vector9.x, vector9.z) * Mathf.Rad2Deg;
-                    }
-                    else
-                    {
-                        almostSingleHook = false;
-                        var forward = transform.forward;
-                        Vector3.OrthoNormalize(ref normal, ref forward);
-                        facingDirection = Mathf.Atan2(forward.x, forward.z) * Mathf.Rad2Deg;
-                        float num4 = Mathf.Atan2(to.x, to.z) * Mathf.Rad2Deg;
-                        if (Mathf.DeltaAngle(num4, facingDirection) > 0f)
-                        {
-                            facingDirection += 180f;
-                        }
-                    }
-                }
-            }
-        }
-        else
-        {
-            almostSingleHook = true;
-            Vector3 bulletDirection = Vector3.zero;
-            if (isRightHandHooked && (bulletRight != null))
-            {
-                bulletDirection = bulletRight.transform.position - transform.position;
-            }
-            else
-            {
-                if (!isLeftHandHooked || (bulletLeft == null))
-                {
-                    return;
-                }
-                bulletDirection = bulletLeft.transform.position - transform.position;
-            }
-            facingDirection = Mathf.Atan2(bulletDirection.x, bulletDirection.z) * Mathf.Rad2Deg;
-            if (State != HERO_STATE.Attack)
-            {
-                float velocityAngle = -Mathf.Atan2(rigidBody.velocity.z, rigidBody.velocity.x) * Mathf.Rad2Deg;
-                float bulletDirAngle = -Mathf.Atan2(bulletDirection.z, bulletDirection.x) * Mathf.Rad2Deg;
-                float deltaAngle = -Mathf.DeltaAngle(velocityAngle, bulletDirAngle);
-                if (useGun)
-                {
-                    facingDirection += deltaAngle;
-                }
-                else
-                {
-                    float deltaMultiplier = 0f;
-                    if ((isLeftHandHooked && (deltaAngle < 0f)) || (isRightHandHooked && (deltaAngle > 0f)))
-                    {
-                        deltaMultiplier = -0.1f;
-                    }
-                    else
-                    {
-                        deltaMultiplier = 0.1f;
-                    }
-                    facingDirection += deltaAngle * deltaMultiplier;
-                }
-            }
-        }
-    }
-
-    
-    public void SetSkillHUDPosition()
-    {
-        skillCD = GameObject.Find("skill_cd_" + skillId);
-        if (skillCD != null)
-        {
-            skillCD.transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
-        }
-        if (useGun)
-        {
-            skillCD.transform.localPosition = (Vector3.up * 5000f);
-        }
     }
 
     public void SetSkillHUDPosition2()
@@ -5168,58 +4841,56 @@ public class Hero : Human
     {
         skillCDLast = 1.5f;
         skillId = setup.myCostume.stat.skillId;
-        if (skillId == "levi")
-        {
-            skillCDLast = 3.5f;
-        }
         CustomAnimationSpeed();
-        if (skillId == "armin")
+        switch (skillId)
         {
-            skillCDLast = 5f;
-        }
-        if (skillId == "marco")
-        {
-            skillCDLast = 10f;
-        }
-        if (skillId == "jean")
-        {
-            skillCDLast = 0.001f;
-        }
-        if (skillId == "eren")
-        {
-            skillCDLast = 120f;
-            if (!PhotonNetwork.offlineMode)
-            {
-                if (!GameSettings.Gamemode.PlayerShifters.Value)
+            case "levi":
+                skillCDLast = 3.5f;
+                break;
+            case "armin":
+                skillCDLast = 5f;
+                break;
+            case "marco":
+                skillCDLast = 10f;
+                break;
+            case "jean":
+                skillCDLast = 0.001f;
+                break;
+            case "eren":
+                skillCDLast = 120f;
+                if (!PhotonNetwork.offlineMode)
                 {
-                    skillId = "petra";
-                    skillCDLast = 1f;
-                }
-                else
-                {
-                    int num = 0;
-                    foreach (PhotonPlayer player in PhotonNetwork.playerList)
-                    {
-                        if ((RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1) && (RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.character]).ToUpper() == "EREN"))
-                        {
-                            num++;
-                        }
-                    }
-                    if (num > 1)
+                    if (!GameSettings.Gamemode.PlayerShifters.Value)
                     {
                         skillId = "petra";
                         skillCDLast = 1f;
                     }
+                    else
+                    {
+                        var num = 0;
+                        foreach (var player in PhotonNetwork.playerList)
+                        {
+                            if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1 && 
+                                RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.character]).ToUpper() == "EREN")
+                            {
+                                num++;
+                            }
+                        }
+                        if (num > 1)
+                        {
+                            skillId = "petra";
+                            skillCDLast = 1f;
+                        }
+                    }
                 }
-            }
-        }
-        if (skillId == "sasha")
-        {
-            skillCDLast = 20f;
-        }
-        if (skillId == "petra")
-        {
-            skillCDLast = 3.5f;
+
+                break;
+            case "sasha":
+                skillCDLast = 20f;
+                break;
+            case "petra":
+                skillCDLast = 3.5f;
+                break;
         }
         BombInit();
         speed = ((float) setup.myCostume.stat.SPD) / 10f;
@@ -5257,7 +4928,7 @@ public class Hero : Human
             gunDummy.name = "gunDummy";
             gunDummy.transform.position = transform.position;
             gunDummy.transform.rotation = transform.rotation;
-            SetTeam2(2);
+            SetTeam(2);
             if (photonView.isMine)
             {
                 //GameObject.Find("bladeCL").GetComponent<UISprite>().enabled = false;
@@ -5297,29 +4968,16 @@ public class Hero : Human
         else if (setup.myCostume.sex == SEX.FEMALE)
         {
             standAnimation = "stand";
-            SetTeam2(1);
+            SetTeam(1);
         }
         else
         {
             standAnimation = "stand_levi";
-            SetTeam2(1);
+            SetTeam(1);
         }
     }
 
     public void SetTeam(int team)
-    {
-        SetMyTeam(team);
-        if (photonView.isMine)
-        {
-            object[] parameters = new object[] { team };
-            photonView.RPC(nameof(SetMyTeam), PhotonTargets.OthersBuffered, parameters);
-            ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.team, team);
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-        }
-    }
-
-    public void SetTeam2(int team)
     {
         if (photonView.isMine)
         {
@@ -5436,26 +5094,6 @@ public class Hero : Human
             hookUI.crossR.transform.position = currentCamera.WorldToScreenPoint(hitPoint);
             hookUI.crossR.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(hookUI.crossR.transform.position.y - mousePos.y, hookUI.crossR.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
             hookUI.crossImageR.color = hitDistance > 120f ? Color.red : Color.white;
-        }
-    }
-
-    private void ShowFlareCD()
-    {
-        if (GameObject.Find("UIflare1") != null)
-        {
-            //GameObject.Find("UIflare1").GetComponent<UISprite>().fillAmount = (flareTotalCD - flare1CD) / flareTotalCD;
-            //GameObject.Find("UIflare2").GetComponent<UISprite>().fillAmount = (flareTotalCD - flare2CD) / flareTotalCD;
-            //GameObject.Find("UIflare3").GetComponent<UISprite>().fillAmount = (flareTotalCD - flare3CD) / flareTotalCD;
-        }
-    }
-
-    private void ShowFlareCD2()
-    {
-        if (cachedSprites["UIflare1"] != null)
-        {
-            cachedSprites["UIflare1"].fillAmount = (flareTotalCD - flare1CD) / flareTotalCD;
-            cachedSprites["UIflare2"].fillAmount = (flareTotalCD - flare2CD) / flareTotalCD;
-            cachedSprites["UIflare3"].fillAmount = (flareTotalCD - flare3CD) / flareTotalCD;
         }
     }
 
@@ -5743,7 +5381,4 @@ public class Hero : Human
             }
         }
     }
-
-
- 
 }

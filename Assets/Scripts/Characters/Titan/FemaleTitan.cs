@@ -645,7 +645,7 @@ public class FemaleTitan : TitanBase
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { base.photonView.viewID, false };
-                grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, parameters);
+                grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
                 grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
                 base.photonView.RPC(nameof(grabToRight), PhotonTargets.Others, new object[0]);
@@ -666,7 +666,7 @@ public class FemaleTitan : TitanBase
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { base.photonView.viewID, true };
-                grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, parameters);
+                grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
                 grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
                 base.photonView.RPC(nameof(grabToLeft), PhotonTargets.Others, new object[0]);
@@ -954,7 +954,7 @@ public class FemaleTitan : TitanBase
             {
                 if (this.grabbedTarget != null)
                 {
-                    this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                    this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
                 }
                 Vector3 vector = view.gameObject.transform.position - base.transform.Find("Amarture/Core/Controller_Body").transform.position;
                 if (vector.magnitude < 20f)
@@ -994,7 +994,7 @@ public class FemaleTitan : TitanBase
             {
                 if (this.grabbedTarget != null)
                 {
-                    this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                    this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
                 }
                 Vector3 vector = view.gameObject.transform.position - base.transform.Find("Amarture/Core/Controller_Body").transform.position;
                 if (vector.magnitude < 20f)
@@ -1027,7 +1027,7 @@ public class FemaleTitan : TitanBase
         {
             if (this.grabbedTarget != null)
             {
-                this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
             }
             Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
             PhotonView view = PhotonView.Find(viewID);
@@ -1063,7 +1063,7 @@ public class FemaleTitan : TitanBase
             {
                 target.GetComponent<Hero>().MarkDie();
                 object[] parameters = new object[] { -1, "Female Titan" };
-                target.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, parameters);
+                target.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, parameters);
             }
         }
     }
@@ -1444,7 +1444,7 @@ public class FemaleTitan : TitanBase
                         base.photonView.RPC(nameof(netDie), PhotonTargets.OthersBuffered, new object[0]);
                         if (this.grabbedTarget != null)
                         {
-                            this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                            this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
                         }
                         this.netDie();
                         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().titanGetKill(view.owner, speed, base.name);

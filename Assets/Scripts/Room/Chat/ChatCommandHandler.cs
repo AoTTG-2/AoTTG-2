@@ -520,8 +520,9 @@ public static class ChatCommandHandler
         {
             if (gameObject.GetPhotonView().isMine)
             {
-                gameObject.GetComponent<Hero>().MarkDie();
-                gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                var hero = gameObject.GetComponent<Hero>();
+                hero.MarkDie();
+                hero.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, new object[] { -1, "Team Switch" });
             }
         }
     }
