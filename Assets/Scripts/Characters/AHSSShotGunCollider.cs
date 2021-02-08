@@ -92,7 +92,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnNapeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                     }
                     else if (!PhotonNetwork.isMasterClient)
@@ -128,7 +128,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             {
                                 GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(item.transform.position, num7, null, 0.02f);
                             }
-                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc2(base.transform.root.gameObject.GetPhotonView().viewID, num7, new PhotonMessageInfo());
+                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc(base.transform.root.gameObject.GetPhotonView().viewID, num7);
                         }
                     }
                     else if ((item.transform.root.GetComponent<ColossalTitan>() != null) && !item.transform.root.GetComponent<ColossalTitan>().hasDie)
@@ -140,7 +140,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         {
                             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(item.transform.position, num8, null, 0.02f);
                         }
-                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc2(transform.root.gameObject.GetPhotonView().viewID, num8, new PhotonMessageInfo());
+                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, num8);
                     }
                     this.showCriticalHitFX(other.gameObject.transform.position);
                 }
@@ -178,7 +178,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnEyeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnEyeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                         this.showCriticalHitFX(other.gameObject.transform.position);
                     }

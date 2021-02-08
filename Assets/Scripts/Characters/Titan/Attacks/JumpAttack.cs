@@ -188,7 +188,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     {
                         hero.MarkDie();
                         object[] objArray8 = { (hero.transform.position - vector13) * 15f * Titan.Size, true, Titan.photonView.viewID, Titan.name, true };
-                        hero.photonView.RPC("netDie", PhotonTargets.All, objArray8);
+                        hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray8);
                     }
 
                     AttackAnimation = AnimationFall;

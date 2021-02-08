@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
-using Newtonsoft.Json;
-public class FPSCounter : MonoBehaviour {
+using Assets.Scripts.UI;
+
+public class FPSCounter : UiElement {
 
 	private float time;
 	[SerializeField] public Text counterText;

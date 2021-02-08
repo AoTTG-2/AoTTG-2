@@ -1060,6 +1060,9 @@ public class Hero : Human
             audioSystem
                 .PlayOneShot(audioSystem.clipDie)
                 .Disconnect(audioSystem.clipDie);
+            var propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+            propertiesToSet.Add(PhotonPlayerProperty.deaths, (int)PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths] + 1);
+            photonView.owner.SetCustomProperties(propertiesToSet);
             if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
             {
                 GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(audioSystem.Position, 0, null, 0.02f);
@@ -4221,7 +4224,7 @@ public class Hero : Human
 
     private void ShowAimUI2()
     {
-        if (MenuManager.IsMenuOpen)
+        if (MenuManager.IsAnyMenuOpen)
         {
             hookUI.Disable();
         }
@@ -4853,7 +4856,7 @@ public class Hero : Human
                         }
                         if (State == HERO_STATE.Idle)
                         {
-                            if (!MenuManager.IsMenuOpen)
+                            if (!MenuManager.IsAnyMenuOpen)
                             {
                                 if (InputManager.KeyDown(InputHuman.Item1))
                                 {
