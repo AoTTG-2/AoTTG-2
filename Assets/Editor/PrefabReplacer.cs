@@ -20,11 +20,9 @@ namespace Assets.Editor.Prefabs
         {
             prefab = (GameObject)EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), false);
             GUILayout.Label("Selected Objects:");
-#if UNITY_EDITOR
-            GUILayout.Label(Selection.gameObjects != null ? Selection.count.ToString() : 0.ToString());
-#endif
-
-            if (GUILayout.Button("Replace All"))
+            GUILayout.Label(Selection.gameObjects != null ? Selection.gameObjects.Length.ToString() : 0.ToString());
+            GUI.enabled = Selection.gameObjects == null || Selection.gameObjects.Length == 0;
+            if(GUILayout.Button("Replace All"))
             {
                 var objs = Selection.gameObjects;
                 for(int i = 0; i < objs.Length; i++)
@@ -38,6 +36,8 @@ namespace Assets.Editor.Prefabs
                     cur.SetActive(false);
                 }
             }
+            GUI.enabled = true;
         }
     }
+
 }
