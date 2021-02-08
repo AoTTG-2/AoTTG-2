@@ -601,7 +601,7 @@ public class FemaleTitan : TitanBase
                     }
                     return gameObject;
                 }
-                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible())
+                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible)
                 {
                     return gameObject;
                 }
@@ -615,7 +615,7 @@ public class FemaleTitan : TitanBase
         float num = rad * 4f;
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if ((obj2.GetComponent<ErenTitan>() == null) && !obj2.GetComponent<Hero>().IsInvincible())
+            if ((obj2.GetComponent<ErenTitan>() == null) && !obj2.GetComponent<Hero>().IsInvincible)
             {
                 float num3 = obj2.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(obj2.transform.position + ((Vector3) (Vector3.up * num3)), head.transform.position + ((Vector3) ((Vector3.up * 1.5f) * 4f))) < (num + num3))

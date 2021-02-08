@@ -29,7 +29,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             float num = rad * size;
             foreach (Hero hero in EntityService.GetAll<Hero>())
             {
-                if (hero.GetComponent<ErenTitan>() == null && !hero.GetComponent<Hero>().IsInvincible())
+                if (hero.GetComponent<ErenTitan>() == null && !hero.IsInvincible)
                 {
                     float num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;
                     if (Vector3.Distance(hero.transform.position + ((Vector3)(Vector3.up * num3)), head.position - ((Vector3)((Vector3.up * 1.5f) * size))) < (num + num3))

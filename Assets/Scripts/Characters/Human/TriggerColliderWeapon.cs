@@ -36,7 +36,7 @@ public class TriggerColliderWeapon : MonoBehaviour
     private void HeroHit(Hero hitHero, HitBox hitbox, float distance)
     {
         Service.Player.HeroHit(new HeroHitEvent(hitHero, hero));
-        if (hitHero.myTeam != myTeam && !hitHero.IsInvincible() && hitHero.HasDied() && !hitHero.IsGrabbed)
+        if (hitHero.myTeam != myTeam && !hitHero.IsInvincible && hitHero.HasDied() && !hitHero.IsGrabbed)
         {
             // I honestly don't have a clue as to what this does
             float b = Mathf.Min(1f, 1f - (distance * 0.05f));

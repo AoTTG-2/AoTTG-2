@@ -52,7 +52,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
                         component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.BlowAway), PhotonTargets.All, parameters);
                     }
-                    else if (!component.transform.root.GetComponent<Hero>().IsInvincible())
+                    else if (!component.transform.root.GetComponent<Hero>().IsInvincible)
                     {
                         if (PhotonNetwork.offlineMode)
                         {

@@ -33,7 +33,7 @@ public class RockThrow : Photon.MonoBehaviour
 
     private void hitPlayer(GameObject hero)
     {
-        if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().IsInvincible())
+        if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().IsInvincible)
         {
             if ((!hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().IsGrabbed)
             {
@@ -138,7 +138,7 @@ public class RockThrow : Photon.MonoBehaviour
                                 hero.GetComponent<ErenTitan>().hitByTitan();
                             }
                         }
-                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().IsInvincible())
+                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().IsInvincible)
                         {
                             this.hitPlayer(hero);
                         }

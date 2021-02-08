@@ -75,7 +75,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     }
                 }
                 else if ((gameObject.GetComponent<Hero>() != null) 
-                         && !gameObject.GetComponent<Hero>().IsInvincible()
+                         && !gameObject.GetComponent<Hero>().IsInvincible
                          && gameObject.GetComponent<Hero>()._state != HERO_STATE.Grab)
                 {
                     return gameObject;

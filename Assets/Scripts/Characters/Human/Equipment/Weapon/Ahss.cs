@@ -63,7 +63,7 @@ public class Ahss : Weapon
 
     public override void Reload()
     {
-        if (Hero.baseAnimation[Hero.reloadAnimation].normalizedTime > 0.22f)
+        if (Hero.animation[Hero.reloadAnimation].normalizedTime > 0.22f)
         {
             if (!(Hero.leftGunHasBullet || !Hero.setup.part_blade_l.activeSelf))
             {
@@ -71,7 +71,7 @@ public class Ahss : Weapon
                 Transform transform = Hero.setup.part_blade_l.transform;
                 GameObject obj5 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
                 obj5.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
-                Vector3 force = ((Vector3)((-Hero.baseTransform.forward * 10f) + (Hero.baseTransform.up * 5f))) - Hero.baseTransform.right;
+                Vector3 force = ((Vector3)((-Hero.transform.forward * 10f) + (Hero.transform.up * 5f))) - Hero.transform.right;
                 obj5.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
                 Vector3 torque = new Vector3((float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100), (float)UnityEngine.Random.Range(-100, 100));
                 obj5.GetComponent<Rigidbody>().AddTorque(torque, ForceMode.Acceleration);
@@ -82,13 +82,13 @@ public class Ahss : Weapon
                 Transform transform5 = Hero.setup.part_blade_r.transform;
                 GameObject obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform5.position, transform5.rotation);
                 obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
-                Vector3 vector3 = ((Vector3)((-Hero.baseTransform.forward * 10f) + (Hero.baseTransform.up * 5f))) + Hero.baseTransform.right;
+                Vector3 vector3 = ((Vector3)((-Hero.transform.forward * 10f) + (Hero.transform.up * 5f))) + Hero.transform.right;
                 obj6.GetComponent<Rigidbody>().AddForce(vector3, ForceMode.Impulse);
                 Vector3 vector4 = new Vector3((float)UnityEngine.Random.Range(-300, 300), (float)UnityEngine.Random.Range(-300, 300), (float)UnityEngine.Random.Range(-300, 300));
                 obj6.GetComponent<Rigidbody>().AddTorque(vector4, ForceMode.Acceleration);
             }
         }
-        if ((Hero.baseAnimation[Hero.reloadAnimation].normalizedTime > 0.62f) && !Hero.throwedBlades)
+        if ((Hero.animation[Hero.reloadAnimation].normalizedTime > 0.62f) && !Hero.throwedBlades)
         {
             Hero.throwedBlades = true;
             if (!((Hero.leftBulletLeft <= 0) || Hero.leftGunHasBullet))

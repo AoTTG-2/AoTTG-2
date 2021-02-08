@@ -41,7 +41,7 @@ public class Blades : Weapon
         }
         else
         {
-            if (!((Hero.baseAnimation[Hero.reloadAnimation].normalizedTime < 0.13f) || Hero.throwedBlades))
+            if (!((Hero.animation[Hero.reloadAnimation].normalizedTime < 0.13f) || Hero.throwedBlades))
             {
                 Hero.throwedBlades = true;
                 if (Hero.setup.part_blade_l.activeSelf)
@@ -49,7 +49,7 @@ public class Blades : Weapon
                     ThrowBlades();
                 }
             }
-            if ((Hero.baseAnimation[Hero.reloadAnimation].normalizedTime >= 0.37f) && (Hero.currentBladeNum > 0))
+            if ((Hero.animation[Hero.reloadAnimation].normalizedTime >= 0.37f) && (Hero.currentBladeNum > 0))
             {
                 Hero.setup.part_blade_l.SetActive(true);
                 Hero.setup.part_blade_r.SetActive(true);

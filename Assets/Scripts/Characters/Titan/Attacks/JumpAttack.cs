@@ -91,7 +91,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var num = rad * titanSize;
             foreach (Hero hero in Service.Entity.GetAll<Hero>())
             {
-                if (hero.IsInvincible()) continue;
+                if (hero.IsInvincible) continue;
                 var num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(hero.transform.position + Vector3.up * num3, head.position + Vector3.up * 1.5f * titanSize) < (num + num3))
                 {

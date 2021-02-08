@@ -60,7 +60,7 @@ namespace Assets.Scripts.Characters.Titan
             this.checkHitCapsuleStart = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R");
             this.checkHitCapsuleEnd = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R/hand_R_001");
             this.checkHitCapsuleR = 20f;
-            this.crossFade("attack_" + this.attackAnimation, 0.1f);
+            this.CrossFade("attack_" + this.attackAnimation, 0.1f);
             this.attackChkOnce = false;
             this.sweepSmokeObject.GetComponent<ParticleSystem>().enableEmission = true;
             this.sweepSmokeObject.GetComponent<ParticleSystem>().Play();
@@ -120,15 +120,17 @@ namespace Assets.Scripts.Characters.Titan
                 if (collider.transform.root.tag == "Player")
                 {
                     GameObject gameObject = collider.transform.root.gameObject;
-                    if (gameObject.GetComponent<ErenTitan>() != null)
+                    var erenTitan = gameObject.GetComponent<ErenTitan>();
+                    if (erenTitan != null)
                     {
-                        if (!gameObject.GetComponent<ErenTitan>().isHit)
+                        if (!erenTitan.isHit)
                         {
-                            gameObject.GetComponent<ErenTitan>().hitByTitan();
+                            erenTitan.hitByTitan();
                         }
                         return gameObject;
                     }
-                    if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible())
+                    var hero = gameObject.GetComponent<Hero>();
+                    if ((hero != null) && !hero.IsInvincible)
                     {
                         return gameObject;
                     }
@@ -137,7 +139,7 @@ namespace Assets.Scripts.Characters.Titan
             return null;
         }
 
-        private void crossFade(string aniName, float time)
+        private void CrossFade(string aniName, float time)
         {
             base.GetComponent<Animation>().CrossFade(aniName, time);
             if (PhotonNetwork.isMasterClient)
@@ -147,12 +149,12 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        private void findNearestHero()
+        private void FindNearestHero()
         {
-            this.myHero = this.getNearestHero();
+            this.myHero = this.GetNearestHero();
         }
 
-        private GameObject getNearestHero()
+        private GameObject GetNearestHero()
         {
             GameObject[] objArray = GameObject.FindGameObjectsWithTag("Player");
             GameObject obj2 = null;
@@ -172,10 +174,10 @@ namespace Assets.Scripts.Characters.Titan
             return obj2;
         }
 
-        private void idle()
+        private void Idle()
         {
             this.state = "idle";
-            this.crossFade("idle", 0.2f);
+            this.CrossFade("idle", 0.2f);
         }
 
         private void kick()
@@ -184,7 +186,7 @@ namespace Assets.Scripts.Characters.Titan
             this.actionName = "attack_kick_wall";
             this.attackCheckTime = 0.64f;
             this.attackChkOnce = false;
-            this.crossFade(this.actionName, 0.1f);
+            this.CrossFade(this.actionName, 0.1f);
         }
 
         private void killPlayer(GameObject hitHero)
@@ -430,7 +432,7 @@ namespace Assets.Scripts.Characters.Titan
             }
             this.attackCheckTime = 0.57f;
             this.attackChkOnce = false;
-            this.crossFade("attack_slap_" + this.attackAnimation, 0.1f);
+            this.CrossFade("attack_slap_" + this.attackAnimation, 0.1f);
         }
 
         private void Start()
@@ -463,7 +465,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (this.myHero == null)
             {
-                this.findNearestHero();
+                this.FindNearestHero();
             }
             base.name = "ColossalTitan";
             //else if (Gamemode.Settings.Difficulty == Difficulty.Hard)
@@ -553,7 +555,7 @@ namespace Assets.Scripts.Characters.Titan
             this.state = "steam";
             this.actionName = "attack_steam";
             this.attackCheckTime = 0.45f;
-            this.crossFade(this.actionName, 0.1f);
+            this.CrossFade(this.actionName, 0.1f);
             this.attackChkOnce = false;
         }
 
@@ -621,7 +623,7 @@ namespace Assets.Scripts.Characters.Titan
                         Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().FlashBlind();
                         if (base.photonView.isMine)
                         {
-                            this.idle();
+                            this.Idle();
                         }
                         else
                         {
@@ -666,8 +668,8 @@ namespace Assets.Scripts.Characters.Titan
                             this.sweepSmokeObject.GetComponent<ParticleSystem>().enableEmission = false;
                             this.sweepSmokeObject.GetComponent<ParticleSystem>().Stop();
                             base.photonView.RPC(nameof(stopSweepSmoke), PhotonTargets.Others, new object[0]);
-                            this.findNearestHero();
-                            this.idle();
+                            this.FindNearestHero();
+                            this.Idle();
                             this.playAnimation("idle");
                         }
                     }
@@ -684,8 +686,8 @@ namespace Assets.Scripts.Characters.Titan
                         }
                         if (base.GetComponent<Animation>()[this.actionName].normalizedTime >= 1f)
                         {
-                            this.findNearestHero();
-                            this.idle();
+                            this.FindNearestHero();
+                            this.Idle();
                             this.playAnimation("idle");
                         }
                     }
@@ -704,8 +706,8 @@ namespace Assets.Scripts.Characters.Titan
                         }
                         if (base.GetComponent<Animation>()["attack_slap_" + this.attackAnimation].normalizedTime >= 1f)
                         {
-                            this.findNearestHero();
-                            this.idle();
+                            this.FindNearestHero();
+                            this.Idle();
                             this.playAnimation("idle");
                         }
                     }
@@ -742,8 +744,8 @@ namespace Assets.Scripts.Characters.Titan
                                     PhotonNetwork.Destroy(base.photonView);
                                 }
                             }
-                            this.findNearestHero();
-                            this.idle();
+                            this.FindNearestHero();
+                            this.Idle();
                             this.playAnimation("idle");
                         }
                     }
@@ -778,7 +780,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
                 else if (this.myHero == null)
                 {
-                    this.findNearestHero();
+                    this.FindNearestHero();
                 }
                 else
                 {
