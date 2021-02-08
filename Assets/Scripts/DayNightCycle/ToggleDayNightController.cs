@@ -28,7 +28,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (PhotonNetwork.isMasterClient)
             {
-                dayNightCycle.pause = !change.isOn;
+                dayNightCycle.Pause = !change.isOn;
                 GameSettings.Time.pause = !change.isOn;
                 Service.Settings.SyncSettings();
             }

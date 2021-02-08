@@ -28,18 +28,18 @@ namespace Assets.Scripts.DayNightCycle
         public int CurrentDay = 0;
         public Light DirectionalLight;
         public float DayLength = 300f; //default value is 300 seconds in one day
-        public bool pause { get; set; }
-        public float lightIntensity; //static variable to see what the current light's insensity is in the inspector
+        public bool Pause { get; set; }
+        public float LightIntensity; //static variable to see what the current light's insensity is in the inspector
 
         private int frames;
        
         // Use this for initialization
         void Start()
         {
-            pause=true;
+            Pause=true;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             MoonCamera = GetComponentInChildren<Camera>();
-            lightIntensity = DirectionalLight.intensity; // What's the current intensity of the sunlight
+            LightIntensity = DirectionalLight.intensity; // What's the current intensity of the sunlight
 
             UpdateLightingSettings();
             UpdateLight(); // Initial lighting update.
@@ -76,9 +76,9 @@ namespace Assets.Scripts.DayNightCycle
                 DayLength = (float)GameSettings.Time.dayLength;
             }
             else { DayLength = 60; }
-            pause = (bool) GameSettings.Time.pause;
+            Pause = (bool) GameSettings.Time.pause;
 
-            if (!pause)
+            if (!Pause)
             {
                 // 300s since MC updated this
                 var diff = (float) (DateTime.UtcNow - settings.LastModified).TotalSeconds;
@@ -112,7 +112,7 @@ namespace Assets.Scripts.DayNightCycle
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
             }
 
-            if (!pause)
+            if (!Pause)
             {
                 CurrentTime += (Time.deltaTime / DayLength) * 24;
                 if (CurrentTime01 >= 1) // If CurrentTime >= 24 hours
@@ -134,7 +134,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 GameSettings.Time.currentTime = CurrentTime;
                 GameSettings.Time.dayLength = DayLength;
-                GameSettings.Time.pause = pause;
+                GameSettings.Time.pause = Pause;
             }
         }
 
