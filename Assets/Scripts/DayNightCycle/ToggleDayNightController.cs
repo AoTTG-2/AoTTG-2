@@ -40,12 +40,20 @@ namespace Assets.Scripts.DayNightCycle
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             ToggleDayNight.isOn = false;
         }
-
-
     }
 }
 
