@@ -5795,12 +5795,11 @@ public class Hero : Human
             this._state = value;
         }
     }
-}
-
-void PlayRopeSound(){
-    if(this.currentGas > 0){
-        this.rope.Play();
-    }else{
-        // TODO: Sound for an empty tank.
-    }
+    void PlayRopeSound(){
+        if(this.currentGas > 0){
+            this.rope.Play();
+        }else{
+            // TODO: Sound for an empty tank.
+        }
+    }   
 }
