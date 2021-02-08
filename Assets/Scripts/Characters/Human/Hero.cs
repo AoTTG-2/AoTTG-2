@@ -4560,6 +4560,10 @@ public class Hero : Human
                 base.StartCoroutine(this.stopImmunity());
             }
         }
+
+        // This lowers the doppler effect which made high speed grappling/slashing sound distorted.
+        rope.dopplerLevel = 0.25F;
+        slash.dopplerLevel = 0.25F;
     }
 
     public IEnumerator stopImmunity()
