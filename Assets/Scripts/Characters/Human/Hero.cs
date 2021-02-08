@@ -4,6 +4,7 @@ using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Base;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.InGame.HUD;
@@ -11,11 +12,12 @@ using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class Hero : Human
+public class Hero : Human, IDebugable
 {
     #region Fields
 
@@ -2879,10 +2881,42 @@ public class Hero : Human
 
     #endregion
 
+    #region Implement IDebugable
+    public string GetDebugString(StringBuilder sb)
+    {
+        sb.AppendLine();
+        sb.Append("Left:").Append(isLeftHandHooked).Append(" ");
 
+        if (isLeftHandHooked && (bulletLeft != null))
+        {
+            var vector = bulletLeft.transform.position - transform.position;
+            var num = ((int) (Mathf.Atan2(vector.x, vector.z) * Mathf.Rad2Deg));
+            sb.Append(num);
+        }
 
+        sb.AppendLine();
+        sb.Append("Right:").Append(isRightHandHooked).Append(" ");
 
+        if (isRightHandHooked && (bulletRight != null))
+        {
+            var vector = bulletRight.transform.position - transform.position;
+            var num = ((int) (Mathf.Atan2(vector.x, vector.z) * Mathf.Rad2Deg));
+            sb.Append(num);
+        }
+        sb.AppendLine();
 
+        sb.Append("Facing Direction:").Append((int) facingDirection).AppendLine();
+        sb.Append("Actual Facing Direction:").Append((int) transform.rotation.eulerAngles.y).AppendLine();
+        sb.Append("State:").Append(State).AppendLine();
+        sb.AppendLine().AppendLine().AppendLine().AppendLine();
+
+        if (State == HERO_STATE.Attack)
+        {
+            targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
+        }
+        return sb.ToString();
+    }
+    #endregion
 
     public void WeaponColliderClearHits()
     {
@@ -3658,32 +3692,6 @@ public class Hero : Human
     {
         //Whereas this may not be completely accurate to AoTTG, it is very close. Further balancing required in the future.
         rigidBody.AddForce(rigidBody.velocity * 0.00f, ForceMode.Acceleration);
-    }
-
-    
-    public string GetDebugInfo()
-    {
-        string str = "\n";
-        str = "Left:" + isLeftHandHooked + " ";
-        if (isLeftHandHooked && (bulletLeft != null))
-        {
-            var vector = bulletLeft.transform.position - transform.position;
-            str = str + ((int) (Mathf.Atan2(vector.x, vector.z) * Mathf.Rad2Deg));
-        }
-        string str2 = str;
-        object[] objArray1 = new object[] { str2, "\nRight:", isRightHandHooked, " " };
-        str = string.Concat(objArray1);
-        if (isRightHandHooked && (bulletRight != null))
-        {
-            var vector2 = bulletRight.transform.position - transform.position;
-            str = str + ((int) (Mathf.Atan2(vector2.x, vector2.z) * Mathf.Rad2Deg));
-        }
-        str = (((str + "\nfacingDirection:" + ((int) facingDirection)) + "\nActual facingDirection:" + ((int) transform.rotation.eulerAngles.y)) + "\nState:" + State.ToString()) + "\n\n\n\n\n";
-        if (State == HERO_STATE.Attack)
-        {
-            targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
-        }
-        return str;
     }
 
     private Vector3 GetGlobalFacingVector3(float resultAngle)
@@ -5381,4 +5389,5 @@ public class Hero : Human
             }
         }
     }
+
 }
