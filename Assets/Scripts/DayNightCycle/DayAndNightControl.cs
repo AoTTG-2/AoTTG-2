@@ -220,12 +220,12 @@ namespace Assets.Scripts.DayNightCycle
             }
         }
 
+#if UNITY_EDITOR
         void OnValidate()
         {
             UpdateLightingSettings();
             UpdateLight();
             reflectionProbe.RenderProbe();
-#if UNITY_EDITOR
             // Reflection Probes have limited range so we'll want it to follow the scene view's camera when previewing changes
             Vector3 sceneViewPosition = SceneView.lastActiveSceneView.camera.transform.position;
             // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
