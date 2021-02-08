@@ -2884,6 +2884,18 @@ public class Hero : Human, IDebugable
     #region Implement IDebugable
     public string GetDebugString(StringBuilder sb)
     {
+        sb.Append("Position: ")
+            .Append(transform.position.x).Append("x, ")
+            .Append(transform.position.y).Append("y, ")
+            .Append(transform.position.z).Append("z").AppendLine();
+        sb.Append("Rotation: ")
+            .Append(transform.eulerAngles.x).Append("x, ")
+            .Append(transform.eulerAngles.y).Append("y, ")
+            .Append(transform.eulerAngles.z).Append("z").AppendLine();
+        sb.Append("State: ").Append(State).AppendLine();
+        sb.Append("Team: ").Append(myTeam).AppendLine();
+
+
         sb.AppendLine();
         sb.Append("Left:").Append(isLeftHandHooked).Append(" ");
 
@@ -2907,7 +2919,6 @@ public class Hero : Human, IDebugable
 
         sb.Append("Facing Direction:").Append((int) facingDirection).AppendLine();
         sb.Append("Actual Facing Direction:").Append((int) transform.rotation.eulerAngles.y).AppendLine();
-        sb.Append("State:").Append(State).AppendLine();
         sb.AppendLine().AppendLine().AppendLine().AppendLine();
 
         if (State == HERO_STATE.Attack)
