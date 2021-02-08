@@ -30,8 +30,8 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (PhotonNetwork.isMasterClient)
             {
-                dayNightCycle.currentTime = TimeSlider.value * 24;
-                GameSettings.Time.currentTime = dayNightCycle.currentTime;
+                dayNightCycle.CurrentTime = TimeSlider.value * 24;
+                GameSettings.Time.currentTime = dayNightCycle.CurrentTime;
             }
         }
 
@@ -39,8 +39,8 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (PhotonNetwork.isMasterClient && PhotonNetwork.connected)
             {
-                dayNightCycle.currentTime = TimeSlider.value * 24;
-                GameSettings.Time.currentTime = dayNightCycle.currentTime;
+                dayNightCycle.CurrentTime = TimeSlider.value * 24;
+                GameSettings.Time.currentTime = dayNightCycle.CurrentTime;
                 Service.Settings.SyncSettings();
             }
         }
@@ -57,8 +57,8 @@ namespace Assets.Scripts.DayNightCycle
             {
                 double seconds = timeSpan.TotalSeconds;
                 TimeSlider.value = (float)(seconds / 86400);
-                dayNightCycle.currentTime = (float)(24 * seconds / 86400);
-                GameSettings.Time.currentTime = dayNightCycle.currentTime;
+                dayNightCycle.CurrentTime = (float)(24 * seconds / 86400);
+                GameSettings.Time.currentTime = dayNightCycle.CurrentTime;
                 Service.Settings.SyncSettings();
             }
         }
