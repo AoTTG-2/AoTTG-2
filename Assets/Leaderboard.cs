@@ -12,13 +12,16 @@ namespace Assets.Scripts.UI
         public GameObject playerInfoPrefab;
         public GameObject playerListParent;
 
-        public static int SortByKills (PhotonPlayer a, PhotonPlayer b){
-                return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.kills]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.kills]));
-            }
+        public static int SortByKills (PhotonPlayer a, PhotonPlayer b)
+        {
+            return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.kills]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.kills]));
+        }
 
-        public static int SortByTotalDamage (PhotonPlayer a, PhotonPlayer b){
+        public static int SortByTotalDamage (PhotonPlayer a, PhotonPlayer b)
+        {
             return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.total_dmg]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.total_dmg]));
         }
+        
         public void OnEnable()
         {
             List<PhotonPlayer> playerList = PhotonNetwork.playerList.ToList();
@@ -27,8 +30,8 @@ namespace Assets.Scripts.UI
             //playerList.Sort(SortByTotalDamage);
 
             
-            foreach (PhotonPlayer player in playerList){
-
+            foreach (PhotonPlayer player in playerList)
+            {
                 var name = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
                 var kills = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]);
                 var deaths = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.deaths]);
