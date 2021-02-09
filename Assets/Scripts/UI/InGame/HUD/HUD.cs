@@ -10,6 +10,12 @@ namespace Assets.Scripts.UI.InGame.HUD
         public GameObject Damage;
         public Labels Labels;
         public GameObject BloodSmear;
+        public bool hasCustomHUD;
+
+        void Start()
+        {
+            hasCustomHUD = RCextensions.intToBool(PlayerPrefs.GetInt("HasCustomHUD", 0));
+        }
 
         public void SetDamage(int damage)
         {

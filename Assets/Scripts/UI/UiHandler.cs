@@ -18,6 +18,9 @@ namespace Assets.Scripts.UI
         public GameObject InGameUi;
         public Text Version;
 
+        public bool hasCustomHUD = false;
+        
+
         public void Start()
         {
             ShowMenu();
@@ -30,6 +33,8 @@ namespace Assets.Scripts.UI
             }
             Elements[0].gameObject.SetActive(true);
             Version.text = versionManager.Version;
+
+            hasCustomHUD = RCextensions.intToBool(PlayerPrefs.GetInt("HasCustomHUD", 0));
         }
 
         public void ShowMenu()

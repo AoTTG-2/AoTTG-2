@@ -9,10 +9,15 @@ namespace Assets.Scripts.UI.InGame
         public bool inEditMode; // True if the user is changing the HUD.
         //private CameraMode previousCameraMode;
         public InGameMenu menu;
+        public HUD.HUD HUD;
+        public GameObject[] HUDelements;
+        public bool elementSelected = false;
 
         void Start()
         {
             inEditMode = false;
+            HUD.hasCustomHUD = RCextensions.intToBool(PlayerPrefs.GetInt("HasCustomHUD", 0));
+            Debug.Log(HUD.hasCustomHUD);
         }
 
         // Called when the user starts editing the HUD after clicking the "Change HUD" button.
@@ -30,11 +35,37 @@ namespace Assets.Scripts.UI.InGame
         // Called when the user clicks "Save" after editing their HUD. 
         public void SaveHudLayout()
         {
-            Debug.Log("got into save hud layout");
+            foreach(GameObject element in HUDelements)
+            {
+                element.GetComponent<CustomizableHUDElement>().SavePosition();
+            }
+
+            Debug.Log("SAVED!!!");
+           
             inEditMode = false;
+            PlayerPrefs.SetInt("HasCustomHUD", 1); //CUSTOM
             //GameCursor.CameraMode = previousCameraMode;
             this.Hide();
             menu.Show();
+
         }
+
+        public void LoadDefaultHudLayout()
+        {
+            foreach(GameObject element in HUDelements)
+            {
+                element.GetComponent<CustomizableHUDElement>().LoadDefault();
+            }
+        }
+
+        public void LoadCustomHudLayout()
+        {
+            foreach(GameObject element in HUDelements)
+            {
+                element.GetComponent<CustomizableHUDElement>().LoadCustom();
+            }
+        }
+
+        
     }
 }
