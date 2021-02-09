@@ -230,7 +230,8 @@ namespace Assets.Scripts.DayNightCycle
             Vector3 sceneViewPosition = SceneView.lastActiveSceneView.camera.transform.position;
             // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
             ReflectionProbe.transform.position = new Vector3(sceneViewPosition.x, sceneViewPosition.y - 5f, sceneViewPosition.z);
+        }
 #endif
         }
     }
-}
+
