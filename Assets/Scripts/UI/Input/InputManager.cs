@@ -161,7 +161,8 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.InteractionWheel] = KeyCode.I, //was Tab
                 [InputUi.Screenshot] = KeyCode.F2,
                 [InputUi.HideHUD] = KeyCode.F1,
-                [InputUi.Leaderboard] = KeyCode.Tab
+                [InputUi.Leaderboard] = KeyCode.Tab,
+                [InputUi.HideHooks] = KeyCode.H
             };
 
             _uiKeys = uiKeys.Values.ToArray();
