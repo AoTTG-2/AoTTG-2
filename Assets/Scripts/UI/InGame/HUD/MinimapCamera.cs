@@ -7,9 +7,9 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         public int Height = 500;
         public bool Rotate = true;
-        [SerializeField] private IN_GAME_MAIN_CAMERA mainCamera;
-        [SerializeField] private GameObject playerTransform;
-        [SerializeField] private UnityCamera minimapCamera;
+        private IN_GAME_MAIN_CAMERA mainCamera;
+        private GameObject playerTransform;
+        private UnityCamera minimapCamera;
 
         private void OnEnable()
         {
