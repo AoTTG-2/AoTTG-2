@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Room;
 using Assets.Scripts.Services;
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +10,7 @@ namespace Assets.Scripts.UI.Menu
     {
         public GameObject ScrollViewContent;
         public GameObject Row;
+        public Dropdown ServerDropdown;
 
         private RoomRow selectedRoom;
 
@@ -24,54 +24,97 @@ namespace Assets.Scripts.UI.Menu
             }
         }
 
-        private int Region { get; set; }
-
+        #region UI Action
         public void CreateRoom()
         {
             Navigate(typeof(CreateRoom));
         }
 
+        public override void Back()
+        {
+            base.Back();
+            PhotonNetwork.Disconnect();
+        }
+        #endregion
+
+        #region MonoBehavior
+        private void Awake()
+        {
+            ServerDropdown.onValueChanged.AddListener(delegate
+            {
+                OnServerChanged(ServerDropdown);
+            });
+        }
+
+        private void OnDestroy()
+        {
+            ServerDropdown.onValueChanged.RemoveAllListeners();
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
-            Service.Photon.Initialize();
-        }
+            Service.Photon.Connect();
+            ServerDropdown.options.Clear();
 
-        public void OnRegionChanged(int region)
+            var servers = Service.Photon.GetAllServers();
+            foreach (var server in servers)
+            {
+                ServerDropdown.options.Add(new Dropdown.OptionData(server.Name));
+            }
+        }
+        #endregion
+
+        #region PunBehavior
+        public override void OnConnectedToPhoton()
         {
-            Region = region;
-            Service.Photon.ChangeRegionDisconnect();
+            CancelInvoke(nameof(RefreshLobby));
+            CancelInvoke(nameof(TryJoin));
+            InvokeRepeating(nameof(RefreshLobby), 1f, 5f);
         }
 
-        public void OnDisconnectedFromPhoton()
+        public override void OnFailedToConnectToPhoton(DisconnectCause cause)
         {
-            //Check if this is required to be in the service.
-            // PhotonServer complains about no UserId being set, temp fix
-            //PhotonNetwork.ConnectToRegion((CloudRegionCode) Region, "2021");
+            ClearLobby();
+            CancelInvoke(nameof(RefreshLobby));
+            CancelInvoke(nameof(TryJoin));
+            var row = Instantiate(Row, ScrollViewContent.transform);
+            var noRoom = row.GetComponent<RoomRow>();
+            noRoom.DisplayName = $"An Error Occured: {cause}";
+            noRoom.IsJoinable = false;
+            Destroy(SelectedRoom?.gameObject);
+            SelectedRoom = null;
 
-            Service.Photon.OnDisconnectFromPhoton();
+            Invoke(nameof(TryJoin), 5f);
         }
 
-        public void OnPhotonJoinRoomFailed(object[] codeAndMsg)
+        public override void OnPhotonJoinRoomFailed(object[] codeAndMsg)
         {
             if (SelectedRoom == null) return;
             SelectedRoom.PasswordInputField.text = string.Empty;
             SelectedRoom.PasswordInputField.placeholder.GetComponent<Text>().text = codeAndMsg[1]?.ToString();
         }
+        #endregion
 
-        public void OnConnectedToPhoton()
+        private void OnServerChanged(Dropdown change)
         {
-            CancelInvoke(nameof(RefreshLobby));
-            InvokeRepeating(nameof(RefreshLobby), 1f, 5f);
+            var photonConfig = Service.Photon.GetConfigByName(change.options[change.value]?.text);
+            Service.Photon.ChangePhotonServer(photonConfig);
+            RefreshLobby();
         }
 
-        private void RefreshLobby()
+        private void ClearLobby()
         {
             foreach (Transform child in ScrollViewContent.transform)
             {
                 if (child == SelectedRoom?.transform) continue;
                 Destroy(child.gameObject);
             }
+        }
+
+        private void RefreshLobby()
+        {
+            ClearLobby();
 
             var rooms = PhotonNetwork.GetRoomList().ToList();
 
@@ -108,6 +151,11 @@ namespace Assets.Scripts.UI.Menu
                 roomRow.IsPasswordRequired = roomInfo.IsPasswordRequired();
                 roomRow.IsAccountRequired = roomInfo.IsAccountRequired();
             }
+        }
+
+        private void TryJoin()
+        {
+            Service.Photon.Connect();
         }
     }
 }

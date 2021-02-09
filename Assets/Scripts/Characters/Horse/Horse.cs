@@ -70,7 +70,7 @@ public sealed class Horse : PhotonView
     {
         animation.CrossFade(aniName, time);
         if (PhotonNetwork.connected && photonView.isMine)
-            photonView.RPC("netCrossFade", PhotonTargets.Others, aniName, time);
+            photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, aniName, time);
     }
 
     private void DisableDust()
@@ -78,7 +78,7 @@ public sealed class Horse : PhotonView
         if (dustParticles.enableEmission)
         {
             dustParticles.enableEmission = false;
-            photonView.RPC("setDust", PhotonTargets.Others, false);
+            photonView.RPC(nameof(setDust), PhotonTargets.Others, false);
         }
     }
 
@@ -87,7 +87,7 @@ public sealed class Horse : PhotonView
         if (!dustParticles.enableEmission)
         {
             dustParticles.enableEmission = true;
-            photonView.RPC("setDust", PhotonTargets.Others, true);
+            photonView.RPC(nameof(setDust), PhotonTargets.Others, true);
         }
     }
 
