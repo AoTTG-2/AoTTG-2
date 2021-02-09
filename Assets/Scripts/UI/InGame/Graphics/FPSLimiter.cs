@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class FPSLimiter : MonoBehaviour
 {
     public InputField fpsLimiter;
-    public int limit; 
+    public int limit; //public so it can be easily modified and accessed by other classes
 
     public InputField FPSLimit
     {
