@@ -9,6 +9,7 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         public GameObject Damage;
         public Labels Labels;
+        public GameObject BloodSmear;
 
         public void SetDamage(int damage)
         {
@@ -20,6 +21,8 @@ namespace Assets.Scripts.UI.InGame.HUD
             }
 
             ShowDamage();
+            ShowBloodSmear(damage);
+
         }
 
         public void ClearDamage()
@@ -34,6 +37,14 @@ namespace Assets.Scripts.UI.InGame.HUD
         private void ShowDamage()
         {
             Damage.GetComponent<Animator>().SetTrigger("ShowDamage");
+        }
+
+        private void ShowBloodSmear(int damage)
+        {
+            // if(damage >= 1000)
+            // {
+                BloodSmear.GetComponent<Animator>().SetTrigger("ShowBloodSmear");
+            // }
         }
 
         private int ScaleDamageText(int damage)
