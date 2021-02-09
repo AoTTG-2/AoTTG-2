@@ -4,6 +4,7 @@ using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Room;
+using Assets.Scripts.Room.Chat;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
@@ -690,7 +691,7 @@ namespace Assets.Scripts
             {
                 PhotonNetwork.DestroyPlayerObjects(player);
                 PhotonNetwork.CloseConnection(player);
-                base.photonView.RPC("ignorePlayer", PhotonTargets.Others, new object[] { player.ID });
+                base.photonView.RPC(nameof(ignorePlayer), PhotonTargets.Others, new object[] { player.ID });
                 if (!ignoreList.Contains(player.ID))
                 {
                     ignoreList.Add(player.ID);
@@ -1070,7 +1071,7 @@ namespace Assets.Scripts
                 if (PhotonNetwork.isMasterClient)
                 {
                     oldScriptLogic = currentScriptLogic;
-                    base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
+                    base.photonView.RPC(nameof(setMasterRC), PhotonTargets.All, new object[0]);
                 }
                 logicLoaded = true;
                 this.racingSpawnPoint = new Vector3(0f, 0f, 0f);
@@ -1171,7 +1172,7 @@ namespace Assets.Scripts
                             strArray3[num] = (string) settings[num + 0xaf];
                         }
                         strArray3[6] = (string) settings[0xa2];
-                        base.photonView.RPC("clearlevel", PhotonTargets.AllBuffered, new object[] { strArray3 });
+                        base.photonView.RPC(nameof(clearlevel), PhotonTargets.AllBuffered, new object[] { strArray3 });
                         if (oldScript != currentScript)
                         {
                             ExitGames.Client.Photon.Hashtable hashtable;
@@ -1693,7 +1694,7 @@ namespace Assets.Scripts
             else
             {
                 object[] parameters = new object[] { LoginFengKAI.player.name, time };
-                base.photonView.RPC("getRacingResult", PhotonTargets.MasterClient, parameters);
+                base.photonView.RPC(nameof(getRacingResult), PhotonTargets.MasterClient, parameters);
             }
         }
 
@@ -1944,7 +1945,7 @@ namespace Assets.Scripts
                 if (!(this.gameTimesUp || !PhotonNetwork.isMasterClient))
                 {
                     this.restartGame2(true);
-                    base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
+                    base.photonView.RPC(nameof(setMasterRC), PhotonTargets.All, new object[0]);
                 }
             }
             noRestart = false;
@@ -1997,9 +1998,9 @@ namespace Assets.Scripts
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     if ((ignoreList != null) && (ignoreList.Count > 0))
                     {
-                        photonView.RPC("ignorePlayerArray", player, new object[] { ignoreList.ToArray() });
+                        photonView.RPC(nameof(ignorePlayerArray), player, new object[] { ignoreList.ToArray() });
                     }
-                    photonView.RPC("setMasterRC", player, new object[0]);
+                    photonView.RPC(nameof(setMasterRC), player, new object[0]);
                 }
             }
             this.RecompilePlayerList(0.1f);
@@ -2014,7 +2015,7 @@ namespace Assets.Scripts
             InstantiateTracker.instance.TryRemovePlayer(player.ID);
             if (PhotonNetwork.isMasterClient)
             {
-                base.photonView.RPC("verifyPlayerHasLeft", PhotonTargets.All, new object[] { player.ID });
+                base.photonView.RPC(nameof(verifyPlayerHasLeft), PhotonTargets.All, new object[] { player.ID });
             }
             if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
             {
@@ -2124,7 +2125,7 @@ namespace Assets.Scripts
                 this.localRacingResult = this.localRacingResult + "\n";
             }
             object[] parameters = new object[] { this.localRacingResult };
-            base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
+            base.photonView.RPC(nameof(netRefreshRacingResult), PhotonTargets.All, parameters);
         }
 
         public IEnumerator reloadSky()
@@ -2200,7 +2201,7 @@ namespace Assets.Scripts
                     PhotonPlayer targetPlayer = PhotonNetwork.playerList[j];
                     if (((targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam] == null) && RCextensions.returnBoolFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
                     {
-                        this.photonView.RPC("respawnHeroInNewRound", targetPlayer, new object[0]);
+                        this.photonView.RPC(nameof(respawnHeroInNewRound), targetPlayer, new object[0]);
                     }
                 }
             }
@@ -2286,13 +2287,13 @@ namespace Assets.Scripts
         public void sendChatContentInfo(string content)
         {
             object[] parameters = new object[] { content, string.Empty };
-            base.photonView.RPC("Chat", PhotonTargets.All, parameters);
+            base.photonView.RPC(nameof(Chat), PhotonTargets.All, parameters);
         }
 
         public void sendKillInfo(bool t1, string killer, bool t2, string victim, int dmg = 0)
         {
             object[] parameters = new object[] { t1, killer, t2, victim, dmg };
-            base.photonView.RPC("updateKillInfo", PhotonTargets.All, parameters);
+            base.photonView.RPC(nameof(updateKillInfo), PhotonTargets.All, parameters);
         }
 
         public static void ServerCloseConnection(PhotonPlayer targetPlayer, bool requestIpBan, string inGameName = null)
@@ -2415,7 +2416,7 @@ namespace Assets.Scripts
                 {
                     if (obj2.GetPhotonView().isMine)
                     {
-                        base.photonView.RPC("labelRPC", PhotonTargets.All, new object[] { obj2.GetPhotonView().viewID });
+                        base.photonView.RPC(nameof(labelRPC), PhotonTargets.All, new object[] { obj2.GetPhotonView().viewID });
                     }
                 }
             }
@@ -2769,8 +2770,11 @@ namespace Assets.Scripts
         {
             Damage = Mathf.Max(10, Damage);
             object[] parameters = new object[] { Damage };
-            base.photonView.RPC("netShowDamage", player, parameters);
-            this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+            base.photonView.RPC(nameof(netShowDamage), player, parameters);
+            if (!PhotonNetwork.offlineMode)
+            {
+                this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+            }
             this.playerKillInfoUpdate(player, Damage);
         }
 
@@ -2791,7 +2795,7 @@ namespace Assets.Scripts
         }
 
         [PunRPC]
-        private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
+        private void updateKillInfo(bool killerIsTitan, string killer, bool victimIsTitan, string victim, int dmg)
         {
             var killFeed = GameObject.Find("KillFeed");
             var newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
@@ -2815,7 +2819,7 @@ namespace Assets.Scripts
 
             newKillInfo.transform.parent = killFeed.transform;
             newKillInfo.transform.position = new Vector3();
-            newKillInfo.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
+            newKillInfo.GetComponent<KillInfo>().Show(killerIsTitan, killer, victimIsTitan, victim, dmg);
             killInfoGO.Add(newKillInfo);
         }
 
@@ -2997,7 +3001,7 @@ namespace Assets.Scripts
                             }
                             if (num12 > 0)
                             {
-                                this.photonView.RPC("setTeamRPC", player2, new object[] { num12 });
+                                this.photonView.RPC(nameof(setTeamRPC), player2, new object[] { num12 });
                             }
                         }
                     }
@@ -3033,7 +3037,7 @@ namespace Assets.Scripts
                                 }
                                 if (num13 > 0)
                                 {
-                                    this.photonView.RPC("setTeamRPC", player3, new object[] { num13 });
+                                    this.photonView.RPC(nameof(setTeamRPC), player3, new object[] { num13 });
                                 }
                             }
                         }
@@ -3232,14 +3236,14 @@ namespace Assets.Scripts
                         if (this.cyanKills >= GameSettings.Gamemode.PointMode)
                         {
                             object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
-                            this.photonView.RPC("Chat", PhotonTargets.All, parameters);
+                            this.photonView.RPC(nameof(Chat), PhotonTargets.All, parameters);
                             //TODO: 160, game won
                             //this.gameWin2();
                         }
                         else if (this.magentaKills >= GameSettings.Gamemode.PointMode)
                         {
                             objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
-                            this.photonView.RPC("Chat", PhotonTargets.All, objArray2);
+                            this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray2);
                             //TODO: 160, game won
                             //this.gameWin2();
                         }
@@ -3252,7 +3256,7 @@ namespace Assets.Scripts
                             if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= GameSettings.Gamemode.PointMode)
                             {
                                 object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
-                                this.photonView.RPC("Chat", PhotonTargets.All, objArray4);
+                                this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray4);
                                 //TODO: 160, game won
                                 //this.gameWin2();
                             }
@@ -3297,14 +3301,14 @@ namespace Assets.Scripts
                                 if (num24 == 0)
                                 {
                                     object[] objArray5 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
-                                    this.photonView.RPC("Chat", PhotonTargets.All, objArray5);
+                                    this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray5);
                                     //TODO: 160, game won
                                     //this.gameWin2();
                                 }
                                 else if (num25 == 0)
                                 {
                                     object[] objArray6 = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
-                                    this.photonView.RPC("Chat", PhotonTargets.All, objArray6);
+                                    this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray6);
                                     //TODO: 160, game won
                                     //this.gameWin2();
                                 }
@@ -3340,7 +3344,7 @@ namespace Assets.Scripts
                                     }
                                 }
                                 object[] objArray7 = new object[] { "<color=#FFCC00>" + text.hexColor() + " wins." + str4 + "</color>", string.Empty };
-                                this.photonView.RPC("Chat", PhotonTargets.All, objArray7);
+                                this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray7);
                                 //TODO: 160, game won
                                 //this.gameWin2();
                             }
