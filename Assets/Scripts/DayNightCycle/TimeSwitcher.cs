@@ -74,15 +74,12 @@ namespace Assets.Scripts.DayNightCycle
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        void OnDisable()
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-
         //When Scene changes, erase input field
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+
             TimeInput.text = "";
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
 }
