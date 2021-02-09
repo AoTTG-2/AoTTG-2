@@ -1,30 +1,29 @@
 ﻿using UnityEngine;
 
-namespace AOT.UI
+namespace Assets.Scripts.UI.InGame.HUD
 {
     public class MinimapIcon : MonoBehaviour
     {
-        private Rigidbody rb;
+        private Rigidbody parentRigidbody;
         private float targetY = 0f;
         private float currentY = 0f;
         private readonly float speed = 1000f;
 
-        private void Start()
+        private void Awake()
         {
-            rb = GetComponentInParent<Rigidbody>();
+            parentRigidbody = GetComponentInParent<Rigidbody>();
         }
 
         private void LateUpdate()
         {
-            if (transform != null)
-                transform.position = new Vector3(transform.parent.position.x, 605f, transform.parent.position.z);
+            transform.position = new Vector3(transform.parent.position.x, 605f, transform.parent.position.z);
 
-            if (rb != null)
+            if (parentRigidbody != null)
             {
-                if (rb.velocity.magnitude <= 1f)
+                if (parentRigidbody.velocity.magnitude <= 1f)
                     targetY = transform.parent.rotation.eulerAngles.y;
                 else
-                    targetY = Quaternion.LookRotation(rb.velocity).eulerAngles.y;
+                    targetY = Quaternion.LookRotation(parentRigidbody.velocity).eulerAngles.y;
             }
 
             currentY = Mathf.MoveTowardsAngle(currentY, targetY, speed * Time.deltaTime);

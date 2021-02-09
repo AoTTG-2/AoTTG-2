@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Settings;
+using Assets.Scripts.UI.InGame.HUD;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Assets.Scripts.Characters.Titan
         private float DamageTimer { get; set; }
         public new MindlessTitanBody Body { get; protected set; }
 
-        public AOT.UI.MinimapIcon minimapIcon;
+        public MinimapIcon minimapIcon;
 
         private float turnDeg;
         private float desDeg;
