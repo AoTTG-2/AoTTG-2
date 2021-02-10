@@ -142,7 +142,7 @@
      <Compile Include="Assets\Scripts\FengGameManagerMKII.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanType.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\CommandHandler.cs" />
-     <Compile Include="Assets\PlayerInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\HERO_SETUP.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PhotonNetwork.cs" />
      <Compile Include="Assets\Scripts\Effects\EffectLayer.cs" />
@@ -281,7 +281,7 @@
      <Compile Include="Assets\Scripts\Characters\Human\BUFF.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\ScrollingScrollView.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\HumanController.cs" />
-     <Compile Include="Assets\Leaderboard.cs" />
+     <Compile Include="Assets\Scripts\UI\Leaderboard.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\UNIFORM_TYPE.cs" />
      <Compile Include="Assets\Scripts\Room\Chat\ChatCommands.cs" />
      <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
@@ -548,6 +548,9 @@
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.VSCode.Editor">
+ <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
@@ -563,6 +566,9 @@
  <Reference Include="Unity.Rider.Editor">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.VisualStudio.Editor">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
@@ -574,9 +580,6 @@
  </Reference>
  <Reference Include="com.unity.quicksearch">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/com.unity.quicksearch.dll</HintPath>
- </Reference>
- <Reference Include="Unity.VSCode.Editor">
- <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

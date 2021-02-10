@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Room.Chat;
+using Assets.Scripts.Room.Chat;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.Controls;
@@ -95,6 +95,7 @@ namespace Assets.Scripts.UI.InGame
             {
                 TogglePauseMenu();
             }
+            
             // TODO: I hardcoded in KeyCode.L, but figure out how to implement the enumeration found in InputManager.
             if (InputManager.KeyDown(InputUi.Leaderboard) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
             {

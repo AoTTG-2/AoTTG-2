@@ -12,6 +12,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public GameObject BloodSmear;
         public bool inEditMode;
 
+
         public void SetDamage(int damage)
         {
             var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();
@@ -42,10 +43,10 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         private void ShowBloodSmear(int damage)
         {
-            // if(damage >= 1000)
-            // {
+            if(damage >= 1000)
+            {
                 BloodSmear.GetComponent<Animator>().SetTrigger("ShowBloodSmear");
-            // }
+            }
         }
 
         private int ScaleDamageText(int damage)
