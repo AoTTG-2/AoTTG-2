@@ -22,7 +22,6 @@ namespace Assets.Scripts.DayNightCycle
 
         [Range(0f, 24f)] public float CurrentTime;
         public float CurrentTime01 => CurrentTime / 24;
-        public Slider TimeSlider  = null;
         public Camera MoonCamera = null;
         public Camera MainCamera = null;
         public int CurrentDay = 0;
