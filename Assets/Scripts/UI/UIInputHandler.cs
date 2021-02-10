@@ -7,6 +7,7 @@ namespace Assets.Scripts.UI
     {
         private GameObject interactionWheel;
         private GameObject leaderboard;
+        public GameObject[] hooksIndicators;
 
         private void Start()
         {
@@ -38,6 +39,20 @@ namespace Assets.Scripts.UI
             {
                 if (leaderboard.activeSelf)
                     leaderboard.SetActive(false);
+            }
+
+            if(InputManager.KeyDown(InputUi.HideHooks))
+            {
+                foreach(GameObject hook in hooksIndicators)
+                {
+                    if(hook.activeSelf)
+                    {
+                        hook.SetActive(false);
+                    } else
+                    {
+                        hook.SetActive(true);
+                    }
+                }
             }
 
         }
