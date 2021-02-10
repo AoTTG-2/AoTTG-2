@@ -8,7 +8,6 @@ namespace Assets.Scripts.UI.InGame
 {
     public class ChangeHUDHandler : UiMenu
     {
-        public bool inEditMode; // True if the user is changing the HUD.
         public InGameMenu menu;
         public HUD.HUD HUD;
         public GameObject[] HUDelements;
@@ -16,6 +15,7 @@ namespace Assets.Scripts.UI.InGame
         public GameObject selectedElement;
         public Slider scaleSlider;
         public TMP_Text elementLabel;
+        public Toggle toggleVisibility;
 
         public void Update()
         {
@@ -23,17 +23,34 @@ namespace Assets.Scripts.UI.InGame
             {
                 elementLabel.text = selectedElement.name;
                 selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+                selectedElement.GetComponent<CustomizableHUDElement>().isVisible = toggleVisibility.isOn;
+            }
+
+            if(HUD.inEditMode)
+            {
+                foreach(GameObject element in HUDelements)
+                {
+                    element.SetActive(true); //WHILE IN EDIT MODE
+                }
+            } else
+            {
+                SetVisibility();
             }
 
         }
 
-
-
+        public void SetVisibility()
+        {
+            foreach(GameObject element in HUDelements)
+            {
+                element.SetActive(element.GetComponent<CustomizableHUDElement>().isVisible);
+            }
+        }
 
         // Called when the user starts editing the HUD after clicking the "Change HUD" button.
         public void EnterEditMode()
         {
-            inEditMode = true;
+            HUD.inEditMode = true;
 
             // TODO: Try to figure out how to stop camera from moving when in the menu. Below was my attempt but the cursor would magically disappear.
             //previousCameraMode = GameCursor.CameraMode;
@@ -50,9 +67,10 @@ namespace Assets.Scripts.UI.InGame
                 element.GetComponent<CustomizableHUDElement>().SavePosition();
             }
            
-            inEditMode = false;
+            HUD.inEditMode = false;
             PlayerPrefs.SetInt("hasCustomHUD", 1); //CUSTOM
             //GameCursor.CameraMode = previousCameraMode;
+            SetVisibility();
             this.Hide();
             menu.Show();
 

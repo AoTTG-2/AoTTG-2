@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Assets.Scripts.UI.Menu;
 using UnityEngine;
@@ -33,8 +33,6 @@ namespace Assets.Scripts.UI
             }
             Elements[0].gameObject.SetActive(true);
             Version.text = versionManager.Version;
-
-            hasCustomHUD = RCextensions.intToBool(PlayerPrefs.GetInt("HasCustomHUD", 0));
         }
 
         public void ShowMenu()

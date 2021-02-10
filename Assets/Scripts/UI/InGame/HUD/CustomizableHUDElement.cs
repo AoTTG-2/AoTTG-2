@@ -14,6 +14,7 @@ public class CustomizableHUDElement : MonoBehaviour
     public float clickAreaSizeY = 30f;
     private bool beingDragged;
     private string PlayerPrefsKey;
+    public bool isVisible = true;
 
     void Start()
     {
@@ -26,13 +27,16 @@ public class CustomizableHUDElement : MonoBehaviour
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
             PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
             PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
+            PlayerPrefs.SetInt(PlayerPrefsKey + "DefaultVisibility", 1);
         } else
         {
             // Grab saved positions.
             LoadCustom();
         }
 
+
         beingDragged = false;
+
     }
 
     // Update is called once per frame
@@ -50,6 +54,7 @@ public class CustomizableHUDElement : MonoBehaviour
                 handler.elementSelected = true;
                 handler.scaleSlider.value = transform.localScale.x; //x or y, doesn't matter. scale is 1:1
                 handler.selectedElement = this.gameObject;
+                handler.toggleVisibility.isOn = isVisible;
             }        
         }
 
@@ -59,10 +64,9 @@ public class CustomizableHUDElement : MonoBehaviour
             handler.elementSelected = false;
         }
 
-        if(beingDragged && handler.inEditMode)
+        if(beingDragged && handler.HUD.inEditMode)
         {
             this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
-                Debug.Log(transform.position);
         }
 
     }
@@ -84,6 +88,7 @@ public class CustomizableHUDElement : MonoBehaviour
         PlayerPrefs.SetFloat(PlayerPrefsKey + "Scale", this.transform.localScale.x);
         PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
         PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
+        PlayerPrefs.SetInt(PlayerPrefsKey + "Visibility", RCextensions.boolToInt(isVisible));
     }
 
     public void LoadDefault()
@@ -98,6 +103,9 @@ public class CustomizableHUDElement : MonoBehaviour
 
         transform.position = newPositionFromResolution;
         transform.localScale = new Vector3(1, 1, 1);
+                
+        //Load Visibility
+        isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "DefaultVisibility", 1));
 
     }
 
@@ -108,6 +116,10 @@ public class CustomizableHUDElement : MonoBehaviour
         float loadedScale = PlayerPrefs.GetFloat(PlayerPrefsKey + "Scale", 1);
         float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", 1920);
         float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", 1080);
+                
+        //Load Visibility
+        isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1));
+        this.gameObject.SetActive(RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1)));
 
 
         Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
