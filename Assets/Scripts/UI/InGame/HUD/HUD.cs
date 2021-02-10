@@ -38,7 +38,7 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         private void ShowDamage()
         {
-            Damage.GetComponent<Animator>().SetTrigger("ShowDamage");
+            Damage.GetComponent<Animator>().SetTrigger("ShowDamage2");
         }
 
         private void ShowBloodSmear(int damage)
