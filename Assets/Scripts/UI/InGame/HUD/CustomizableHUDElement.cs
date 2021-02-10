@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Assets.Scripts.UI.InGame;
 
 /* Any HUD element that is customizable should have this script attached */
 public class CustomizableHUDElement : MonoBehaviour
 {
     public ChangeHUDHandler handler;
-    [Range(30f, 150f)]
-    public float clickAreaSize = 30f;
+    [Range(30f, 200f)]
+    public float clickAreaSizeX = 30f;
+    [Range(30f, 200f)]
+    public float clickAreaSizeY = 30f;
     private bool beingDragged;
     private string PlayerPrefsKey;
 
@@ -21,11 +24,14 @@ public class CustomizableHUDElement : MonoBehaviour
             // Set default positions. 
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
+            PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
+            PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
         } else
         {
             // Grab saved positions.
-            transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y), transform.position.z);
+            LoadCustom();
         }
+
         beingDragged = false;
     }
 
@@ -39,9 +45,11 @@ public class CustomizableHUDElement : MonoBehaviour
             float mousex = Input.mousePosition.x;
             float mousey = Input.mousePosition.y;
 
-            if(Mathf.Abs(thisx - mousex) < clickAreaSize && Mathf.Abs(thisy - mousey) < clickAreaSize){
+            if(Mathf.Abs(thisx - mousex) < clickAreaSizeX && Mathf.Abs(thisy - mousey) < clickAreaSizeY){
                 MouseDown();
                 handler.elementSelected = true;
+                handler.scaleSlider.value = transform.localScale.x; //x or y, doesn't matter. scale is 1:1
+                handler.selectedElement = this.gameObject;
             }        
         }
 
@@ -53,8 +61,10 @@ public class CustomizableHUDElement : MonoBehaviour
 
         if(beingDragged && handler.inEditMode)
         {
-            this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.25f);
+            this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
+                Debug.Log(transform.position);
         }
+
     }
 
     public void MouseDown()
@@ -71,15 +81,41 @@ public class CustomizableHUDElement : MonoBehaviour
     {
         PlayerPrefs.SetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x);
         PlayerPrefs.SetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y);
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "Scale", this.transform.localScale.x);
+        PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
+        PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
     }
 
     public void LoadDefault()
     {
-        transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y), transform.position.z);
+        float PlayerPrefsX = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
+        float PlayerPrefsY = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
+        float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", 1920);
+        float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", 1080);
+
+
+        Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
+
+        transform.position = newPositionFromResolution;
+        transform.localScale = new Vector3(1, 1, 1);
+
     }
 
     public void LoadCustom()
     {
-        transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y), transform.position.z);
+        float PlayerPrefsX = PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x);
+        float PlayerPrefsY = PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y);
+        float loadedScale = PlayerPrefs.GetFloat(PlayerPrefsKey + "Scale", 1);
+        float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", 1920);
+        float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", 1080);
+
+
+        Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
+
+        transform.position = newPositionFromResolution;
+        transform.localScale = new Vector3(loadedScale, loadedScale, 1);
+
     }
+
+
 }

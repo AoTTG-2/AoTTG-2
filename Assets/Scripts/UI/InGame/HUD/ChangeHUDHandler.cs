@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -11,6 +13,22 @@ namespace Assets.Scripts.UI.InGame
         public HUD.HUD HUD;
         public GameObject[] HUDelements;
         public bool elementSelected = false;
+        public GameObject selectedElement;
+        public Slider scaleSlider;
+        public TMP_Text elementLabel;
+
+        public void Update()
+        {
+            if(selectedElement != null)
+            {
+                elementLabel.text = selectedElement.name;
+                selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+            }
+
+        }
+
+
+
 
         // Called when the user starts editing the HUD after clicking the "Change HUD" button.
         public void EnterEditMode()
@@ -31,8 +49,6 @@ namespace Assets.Scripts.UI.InGame
             {
                 element.GetComponent<CustomizableHUDElement>().SavePosition();
             }
-
-            Debug.Log("SAVED!!!");
            
             inEditMode = false;
             PlayerPrefs.SetInt("hasCustomHUD", 1); //CUSTOM
