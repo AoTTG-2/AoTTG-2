@@ -2,96 +2,84 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.UI.InGame;
+
 /* Any HUD element that is customizable should have this script attached */
+public class CustomizableHUDElement : MonoBehaviour
+{
+    public ChangeHUDHandler handler;
+    [Range(30f, 150f)]
+    public float clickAreaSize = 30f;
+    private bool beingDragged;
+    private string PlayerPrefsKey;
 
-    public class CustomizableHUDElement : MonoBehaviour
+    void Start()
     {
-        public ChangeHUDHandler handler;
-        [Range(30f, 150f)]
-        public float clickAreaSize = 30f;
-        private bool beingDragged;
-        private string PlayerPrefsKey;
-
-        void Start()
-        {
         PlayerPrefsKey = gameObject.name;
-        
-        if (!handler.HUD.hasCustomHUD)
+
+        if (PlayerPrefs.GetInt("hasCustomHUD", 0) != 1)
         {
-            //SET DEFAULT POSITIONS
+            // Set default positions. 
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
-
-            Debug.Log("DEFAULT SET");
         } else
         {
-            //GRAB SAVED POSITIONS
+            // Grab saved positions.
             transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y), transform.position.z);
-
         }
-
-
-            //if has custom hud
-            //Grab all saved positions
-            //else
-            //default hud
-
         beingDragged = false;
-        }
+    }
 
-        // Update is called once per frame
-        void Update()
-        {   
-            if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
-            {
-                float thisx = this.transform.position.x;
-                float thisy = this.transform.position.y;
-                float mousex = Input.mousePosition.x;
-                float mousey = Input.mousePosition.y;
-
-                if(Mathf.Abs(thisx - mousex) < clickAreaSize && Mathf.Abs(thisy - mousey) < clickAreaSize){
-                    MouseDown();
-                    handler.elementSelected = true;
-                }        
-            }
-
-            if(Input.GetMouseButtonUp(0))
-            {
-                MouseUp();      
-                handler.elementSelected = false;
-            }
-
-            //if(handler.inEditMode && beingDragged)
-            if(beingDragged)
-            {
-                this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.25f);
-            }
-        }
-
-        public void MouseDown()
+    // Update is called once per frame
+    void Update()
+    {   
+        if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
         {
-            beingDragged = true;
+            float thisx = this.transform.position.x;
+            float thisy = this.transform.position.y;
+            float mousex = Input.mousePosition.x;
+            float mousey = Input.mousePosition.y;
+
+            if(Mathf.Abs(thisx - mousex) < clickAreaSize && Mathf.Abs(thisy - mousey) < clickAreaSize){
+                MouseDown();
+                handler.elementSelected = true;
+            }        
         }
 
-        public void MouseUp()
+        if(Input.GetMouseButtonUp(0))
         {
-            beingDragged = false;
+            MouseUp();      
+            handler.elementSelected = false;
         }
 
-        public void SavePosition()
+        if(beingDragged && handler.inEditMode)
         {
-            
-            PlayerPrefs.SetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x);
-            PlayerPrefs.SetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y);
-        }
-
-        public void LoadDefault()
-        {
-            transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y), transform.position.z);
-        }
-
-        public void LoadCustom()
-        {
-            transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y), transform.position.z);
+            this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.25f);
         }
     }
+
+    public void MouseDown()
+    {
+        beingDragged = true;
+    }
+
+    public void MouseUp()
+    {
+        beingDragged = false;
+    }
+
+    public void SavePosition()
+    {
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x);
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y);
+    }
+
+    public void LoadDefault()
+    {
+        transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y), transform.position.z);
+    }
+
+    public void LoadCustom()
+    {
+        transform.position = new Vector3( PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x), PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y), transform.position.z);
+    }
+}
