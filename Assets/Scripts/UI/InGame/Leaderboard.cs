@@ -20,6 +20,7 @@ namespace Assets.Scripts.UI.InGame
         public bool isSortedByKills = false;
         public bool isSortedByScore = true;
         public bool isSortedByDmg = false;
+        private float timeLast = 0;
 
         public static int SortByKills (PhotonPlayer a, PhotonPlayer b)
         {
@@ -49,6 +50,7 @@ namespace Assets.Scripts.UI.InGame
             return bScore.CompareTo(aScore);
         }
 
+        // Formula for calculating score.
         private static float svorkBalance(int k, int d, int m, int t)
         {
             float score;
@@ -61,9 +63,14 @@ namespace Assets.Scripts.UI.InGame
             base.OnEnable();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            UpdateScoreboard();
+            // UpdateScoreboard should be called 8 times a second. 
+            float timeSince = Time.time * 1000;
+            if(timeSince - timeLast > 125){
+                UpdateScoreboard();
+                timeLast = timeSince;
+            }
         }
         
         private void UpdateScoreboard()
@@ -78,16 +85,15 @@ namespace Assets.Scripts.UI.InGame
             if(isSortedByScore)
             {
                 playerList.Sort(SortBySvork);
-            } else
-            if(isSortedByDmg)
+            }else if(isSortedByDmg)
             {
                 playerList.Sort(SortByTotalDamage);
-            } else
-            if (isSortedByKills)
+            }else if (isSortedByKills)
             {
                 playerList.Sort(SortByKills);
             }
             
+            // Loop through each player and display them on the scoreboard.
             foreach (PhotonPlayer player in playerList)
             {
                 var id = player.ID;
@@ -137,7 +143,6 @@ namespace Assets.Scripts.UI.InGame
             isSortedByDmg = false;
             isSortedByScore = false;
             sortLabel.text = "Kills";
-            // UpdateScoreboard();
         }
 
         public void SortByDmg()
@@ -147,17 +152,14 @@ namespace Assets.Scripts.UI.InGame
             isSortedByDmg = true;
             isSortedByScore = false;
             sortLabel.text = "Dmg";
-            // UpdateScoreboard();
         }
 
         public void SortByScore()
         {
-            
             isSortedByKills = false;
             isSortedByDmg = false;
             isSortedByScore = true;
             sortLabel.text = "Score";
-            // UpdateScoreboard();
         }
 
         public void ToggleSort()
@@ -165,12 +167,10 @@ namespace Assets.Scripts.UI.InGame
             if(isSortedByScore)
             {
                 SortByKills();
-            } else
-            if (isSortedByKills)
+            }else if(isSortedByKills)
             {
                 SortByDmg();
-            } else
-            if (isSortedByDmg)
+            }else if (isSortedByDmg)
             {
                 SortByScore();
             }
