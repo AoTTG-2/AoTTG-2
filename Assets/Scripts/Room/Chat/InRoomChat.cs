@@ -145,7 +145,7 @@ namespace Assets.Scripts.Room.Chat
                         }
                         else
                         {
-                            ChatAll(chat.inputLine);
+                            ChatAll("  "+chat.inputLine); // Two spaces to separate playerId and their message. 
                         }
                     }
                     chat.inputLine = string.Empty;
