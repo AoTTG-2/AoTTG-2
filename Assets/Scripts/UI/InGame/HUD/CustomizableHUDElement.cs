@@ -28,6 +28,7 @@ public class CustomizableHUDElement : MonoBehaviour
             PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
             PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
             PlayerPrefs.SetInt(PlayerPrefsKey + "DefaultVisibility", 1);
+            PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
         } else
         {
             // Grab saved positions.
@@ -96,6 +97,7 @@ public class CustomizableHUDElement : MonoBehaviour
     {
         float PlayerPrefsX = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
         float PlayerPrefsY = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
+        float loadedScale = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultScale", 1);
         float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", 1920);
         float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", 1080);
 
@@ -103,7 +105,7 @@ public class CustomizableHUDElement : MonoBehaviour
         Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
 
         transform.position = newPositionFromResolution;
-        transform.localScale = new Vector3(1, 1, 1);
+        transform.localScale = new Vector3(loadedScale, loadedScale, 1);
                 
         //Load Visibility
         isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "DefaultVisibility", 1));
