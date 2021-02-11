@@ -133,6 +133,8 @@ namespace Assets.Scripts
         public static Level NewRoundLevel { get; set; }
         public static GamemodeSettings NewRoundGamemode { get; set; }
 
+        private float pingTimeLast = 0; // This is used to ensure ping is only retrieved once a second. 
+
         /// <summary>
         /// We store this in a variable to make sure the Coroutine is killed if the game 
         /// is restarted, making it so player can't be duplicated.
@@ -351,6 +353,19 @@ namespace Assets.Scripts
         //[Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
         private void LateUpdate()
         {
+            // Update the players ping once every second. 
+            float timeSince = Time.time * 1000;
+            if(timeSince - pingTimeLast > 1000)
+            {
+                pingTimeLast = timeSince;
+                var hashtable = new Hashtable
+                {
+                    {PhotonPlayerProperty.ping, PhotonNetwork.networkingPeer.RoundTripTime.ToString()},
+                };
+                var propertiesToSet = hashtable;
+                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            }
+
             if (((int) settings[0x40]) >= 100)
             {
                 throw new NotImplementedException("Level editor is not implemented");
