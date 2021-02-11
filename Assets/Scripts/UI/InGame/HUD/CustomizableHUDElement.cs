@@ -42,33 +42,34 @@ public class CustomizableHUDElement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
-        {
-            float thisx = this.transform.position.x;
-            float thisy = this.transform.position.y;
-            float mousex = Input.mousePosition.x;
-            float mousey = Input.mousePosition.y;
+        if(handler.HUD.inEditMode){
+            if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
+            {
+                float thisx = this.transform.position.x;
+                float thisy = this.transform.position.y;
+                float mousex = Input.mousePosition.x;
+                float mousey = Input.mousePosition.y;
 
-            if(Mathf.Abs(thisx - mousex) < clickAreaSizeX && Mathf.Abs(thisy - mousey) < clickAreaSizeY){
-                MouseDown();
-                handler.elementSelected = true;
-                handler.scaleSlider.value = transform.localScale.x; //x or y, doesn't matter. scale is 1:1
-                handler.selectedElement = this.gameObject;
-                handler.toggleVisibility.isOn = isVisible;
-            }        
+                if(Mathf.Abs(thisx - mousex) < clickAreaSizeX && Mathf.Abs(thisy - mousey) < clickAreaSizeY){
+                    MouseDown();
+                    handler.elementSelected = true;
+                    handler.scaleSlider.value = transform.localScale.x; //x or y, doesn't matter. scale is 1:1
+                    handler.selectedElement = this.gameObject;
+                    handler.toggleVisibility.isOn = isVisible;
+                }        
+            }
+
+            if(Input.GetMouseButtonUp(0))
+            {
+                MouseUp();      
+                handler.elementSelected = false;
+            }
+
+            if(beingDragged)
+            {
+                this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
+            }
         }
-
-        if(Input.GetMouseButtonUp(0))
-        {
-            MouseUp();      
-            handler.elementSelected = false;
-        }
-
-        if(beingDragged && handler.HUD.inEditMode)
-        {
-            this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
-        }
-
     }
 
     public void MouseDown()

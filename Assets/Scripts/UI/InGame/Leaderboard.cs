@@ -124,8 +124,12 @@ namespace Assets.Scripts.UI.InGame
                 playerLabel.playerDeaths.text = deaths.ToString();
                 playerLabel.playerHighest.text = maxDamage.ToString();
                 playerLabel.playerTotal.text = totalDamage.ToString();
-                playerLabel.playerPing.text = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.ping]);
-                
+                if(!PhotonNetwork.offlineMode){
+                    playerLabel.playerPing.text = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.ping]);
+                }else{
+                    playerLabel.playerPing.text = "N/A";
+                }
+        
                 //if svork
                 float score = svorkBalance(kills, deaths, maxDamage, totalDamage);
                 playerLabel.playerScore.text = score.ToString();
