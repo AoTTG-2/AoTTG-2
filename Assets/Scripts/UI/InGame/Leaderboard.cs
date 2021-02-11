@@ -16,6 +16,10 @@ namespace Assets.Scripts.UI.InGame
         public TMP_Text roomName;
         public TMP_Text playerCount;
         public TMP_Text gameMode;
+        public TMP_Text sortLabel;
+        public bool isSortedByKills = false;
+        public bool isSortedByScore = true;
+        public bool isSortedByDmg = false;
 
         public static int SortByKills (PhotonPlayer a, PhotonPlayer b)
         {
@@ -55,13 +59,34 @@ namespace Assets.Scripts.UI.InGame
         protected override void OnEnable()
         {
             base.OnEnable();
+        }
+
+        private void Update()
+        {
+            UpdateScoreboard();
+        }
+        
+        private void UpdateScoreboard()
+        {
+            foreach (Transform child in playerListParent.transform)
+            {
+                GameObject.Destroy(child.gameObject); //REMOVE ALL CHILD (player infos) to prevent dupes
+            }
 
             List<PhotonPlayer> playerList = PhotonNetwork.playerList.ToList();
 
-            playerList.Sort(SortBySvork);
-            //playerList.Sort(SortByKills);
-            //playerList.Sort(SortByTotalDamage);
-
+            if(isSortedByScore)
+            {
+                playerList.Sort(SortBySvork);
+            } else
+            if(isSortedByDmg)
+            {
+                playerList.Sort(SortByTotalDamage);
+            } else
+            if (isSortedByKills)
+            {
+                playerList.Sort(SortByKills);
+            }
             
             foreach (PhotonPlayer player in playerList)
             {
@@ -106,14 +131,54 @@ namespace Assets.Scripts.UI.InGame
             playerCount.text = PhotonNetwork.room.PlayerCount + "/" + PhotonNetwork.room.MaxPlayers;
         }
 
+        public void SortByKills()
+        {
+            isSortedByKills = true;
+            isSortedByDmg = false;
+            isSortedByScore = false;
+            sortLabel.text = "Kills";
+            // UpdateScoreboard();
+        }
+
+        public void SortByDmg()
+        {
+            
+            isSortedByKills = false;
+            isSortedByDmg = true;
+            isSortedByScore = false;
+            sortLabel.text = "Dmg";
+            // UpdateScoreboard();
+        }
+
+        public void SortByScore()
+        {
+            
+            isSortedByKills = false;
+            isSortedByDmg = false;
+            isSortedByScore = true;
+            sortLabel.text = "Score";
+            // UpdateScoreboard();
+        }
+
+        public void ToggleSort()
+        {
+            if(isSortedByScore)
+            {
+                SortByKills();
+            } else
+            if (isSortedByKills)
+            {
+                SortByDmg();
+            } else
+            if (isSortedByDmg)
+            {
+                SortByScore();
+            }
+        }
+
         protected override void OnDisable()
         {
             base.OnDisable();
-
-            foreach (Transform child in playerListParent.transform)
-            {
-                GameObject.Destroy(child.gameObject); //REMOVE ALL CHILD (player infos) to prevent dupes
-            }
         }
 
     }
