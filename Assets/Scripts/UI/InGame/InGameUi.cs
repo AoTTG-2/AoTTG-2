@@ -38,19 +38,6 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
-        // public void ToggleLeaderboard(){
-        //     if (Leaderboard.IsVisible())
-        //     {
-        //         Leaderboard.Hide();
-        //     }
-        //     else if (!Leaderboard.IsVisible())
-        //     {
-        //         if (!PhotonNetwork.offlineMode)
-        //         {
-        //             Leaderboard.Show();
-        //         }
-        //     }
-        // }
 
         private void Awake()
         {
@@ -97,13 +84,15 @@ namespace Assets.Scripts.UI.InGame
             }
             
             // TODO: I hardcoded in KeyCode.L, but figure out how to implement the enumeration found in InputManager.
-            if (InputManager.KeyDown(InputUi.Leaderboard) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
             {
                 Leaderboard.Show();
-            } else if (InputManager.KeyUp(InputUi.Leaderboard))
+            }
+            if (UnityEngine.Input.GetKeyUp(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
             {
                 Leaderboard.Hide();
             }
+            
         }
 
         private void OnDestroy()
