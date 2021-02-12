@@ -30,7 +30,7 @@ public class FPSLimiter : MonoBehaviour
         FPSLimit.interactable = true;
         var text = FPSLimit.text;
         text = text.Replace("-", string.Empty); ///prevents negative values from breaking fps limit
-        Int32.TryParse(text.ToString(), out limit);
+        int.TryParse(text.ToString(), out limit);
         Application.targetFrameRate = limit;
         if (FPSLimit.text == "")
         {
