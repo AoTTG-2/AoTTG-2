@@ -238,6 +238,7 @@
      <Compile Include="Assets\Scripts\Room\HintType.cs" />
      <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TITAN_SETUP.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassController.cs" />
      <Compile Include="Assets\Scripts\Settings\GameSettingService.cs" />
      <Compile Include="Assets\Scripts\Effects\STYPE.cs" />
      <Compile Include="Assets\Scripts\Effects\ParticleScaling.cs" />
@@ -485,7 +486,6 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
      <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
      <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassController.cs" />
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />

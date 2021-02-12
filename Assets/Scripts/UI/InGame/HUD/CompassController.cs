@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CompassController : MonoBehaviour
@@ -9,11 +7,6 @@ public class CompassController : MonoBehaviour
     public bool compassMode;
     public RawImage compassImage;
     public Transform cam;
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {

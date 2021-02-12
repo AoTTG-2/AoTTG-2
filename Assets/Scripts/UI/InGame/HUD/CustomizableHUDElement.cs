@@ -71,6 +71,8 @@ public class CustomizableHUDElement : MonoBehaviour
             {
                 this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
             }
+
+            this.gameObject.SetActive(true);
         }
     }
 
@@ -130,7 +132,7 @@ public class CustomizableHUDElement : MonoBehaviour
                 
         //Load Visibility
         isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1));
-        this.gameObject.SetActive(RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1)));
+        // this.gameObject.SetActive(RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1)));
 
 
         Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
