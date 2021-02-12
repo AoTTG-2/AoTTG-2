@@ -2741,6 +2741,7 @@ namespace Assets.Scripts
         
         private void Start()
         {
+            Application.targetFrameRate = Screen.currentResolution.refreshRate; ///vsync on start up
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log($"Version: {versionManager.Version}");
             instance = this;
