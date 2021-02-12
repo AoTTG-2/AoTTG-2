@@ -12,11 +12,13 @@ public class CustomizableHUDElement : MonoBehaviour
     private string PlayerPrefsKey;
     public bool isVisible = true;
     private Animator anim;
+    public GameObject selection;
 
     void Start()
     {
         
         anim = this.gameObject.GetComponent<Animator>();
+        selection.SetActive(false);
         
 
         PlayerPrefsKey = gameObject.name;
@@ -146,6 +148,16 @@ public class CustomizableHUDElement : MonoBehaviour
     public void StopCustomization()
     {
         anim.SetBool("Customizing", false);
+    }
+
+    public void HoverSelection()
+    {
+        selection.SetActive(true);
+    }
+
+    public void CloseSelection()
+    {
+        selection.SetActive(false);
     }
 
 
