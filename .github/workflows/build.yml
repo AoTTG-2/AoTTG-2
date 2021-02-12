@@ -45,7 +45,7 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.3
+        uses: webbertakken/unity-test-runner@v1.4
         with:
           unityVersion: 2020.1.4f1
           
