@@ -25,20 +25,16 @@ namespace Assets.Scripts.UI.InGame
             base.OnEnable();
         }
 
-        // private void LateUpdate()
-        // {
-        //     // UpdateScoreboard should be called 8 times a second. 
-        //     float timeSince = Time.time * 1000;
-        //     if(timeSince - timeLast > 125){
-        //         UpdateScoreboard();
-        //         timeLast = timeSince;
-        //     }
-        // }
-
-        public void OnPlayerPropertiesUpdate(PhotonPlayer player, ExitGames.Client.Photon.Hashtable changedProps)
+        private void LateUpdate()
         {
-
+            // UpdateScoreboard should be called 8 times a second. 
+            float timeSince = Time.time * 1000;
+            if(timeSince - timeLast > 125){
+                UpdateScoreboard();
+                timeLast = timeSince;
+            }
         }
+
         
         private void UpdateScoreboard()
         {
@@ -51,7 +47,7 @@ namespace Assets.Scripts.UI.InGame
 
             switch (sortLabel)
             {
-                case "id":
+                case "ID":
                     playerList.Sort(SortByID);
                     break;
                 case "name":
@@ -215,7 +211,8 @@ namespace Assets.Scripts.UI.InGame
         {
             float score;
             score = (10*(1000*k + t)*(10 - Mathf.Sqrt(d))+m*m/2)/Mathf.Pow(10,5);
-            return score;
+            score *= 100;
+            return Mathf.RoundToInt(score);
         }
 
         protected override void OnDisable()
