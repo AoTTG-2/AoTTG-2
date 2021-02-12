@@ -46,15 +46,15 @@ namespace Assets.Scripts.UI.InGame.Weapon
 
                 if(i == 0)
                 {
-                    previousLeftBlade = Instantiate(currentLeftBladeSprite, currentLeftBladeSprite.transform.position, currentLeftBladeSprite.transform.rotation, currentLeftBlade.transform);
+                    previousLeftBlade = Instantiate(currentLeftBladeSprite, currentLeftBlade.transform);
 
-                    previousRightBlade = Instantiate(currentRightBladeSprite, currentRightBladeSprite.transform.position, currentRightBladeSprite.transform.rotation, currentRightBlade.transform);
+                    previousRightBlade = Instantiate(currentRightBladeSprite, currentRightBlade.transform);
                 }
                 else
                 {
-                    previousLeftBlade = Instantiate(BladeLeftSprite, BladeLeftSprite.transform.position, BladeLeftSprite.transform. rotation, BladeLeft.transform);
+                    previousLeftBlade = Instantiate(BladeLeftSprite, BladeLeft.transform);
 
-                    previousRightBlade = Instantiate(BladeRightSprite, BladeRightSprite.transform.position, BladeRightSprite.transform.rotation, BladeRight.transform);
+                    previousRightBlade = Instantiate(BladeRightSprite, BladeRight.transform);
                 }
                 
             }

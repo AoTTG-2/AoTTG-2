@@ -852,6 +852,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         // TODO: Fix titan locking
         locker = GameObject.Find("locker");
         CreateSnapShotRT2();
+
+        GameObject.Find("Compass").GetComponent<CompassController>().cam = this.transform;
+        GameObject.Find("Compass").GetComponent<CompassController>().compassMode = true;
     }
 
     private void OnDestroy()
