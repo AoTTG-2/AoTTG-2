@@ -48,6 +48,12 @@ jobs:
         uses: webbertakken/unity-test-runner@v1.3
         with:
           unityVersion: 2020.1.4f1
+          
+      # Test Results
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results
+          path: artifacts
 
       # Build
       - name: Build project
