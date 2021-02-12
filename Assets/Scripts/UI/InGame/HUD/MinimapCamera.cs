@@ -11,6 +11,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         private GameObject playerTransform;
         private UnityCamera minimapCamera;
 
+        private float shadowDistance;
         private void OnEnable()
         {
             mainCamera = FindObjectOfType<IN_GAME_MAIN_CAMERA>();
@@ -44,6 +45,17 @@ namespace Assets.Scripts.UI.InGame.HUD
             transform.eulerAngles = Rotate
                 ? new Vector3(90, rot.eulerAngles.y)
                 : new Vector3(90, 0);
+        }
+
+        private void OnPreRender()
+        {
+            shadowDistance = QualitySettings.shadowDistance;
+            QualitySettings.shadowDistance = 0;
+        }
+
+        private void OnPostRender()
+        {
+            QualitySettings.shadowDistance = shadowDistance;
         }
     }
 }

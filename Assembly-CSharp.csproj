@@ -359,6 +359,7 @@
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\RPC.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\CaptureBehavior.cs" />
     <Compile Include="Assets\Scripts\Gamemode\WaveGamemode.cs" />
+    <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapIcon.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\CharacterMaterials.cs" />
     <Compile Include="Assets\Scripts\UI\UiMenuPUN.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
@@ -429,6 +430,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\PauseIndicator.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\QuitOnEscapeOrBack.cs" />
     <Compile Include="Assets\Scripts\Interactable\PlayerInteractable.cs" />
+    <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
     <Compile Include="Assets\Scripts\Room\InRoomRoundTimer.cs" />
     <Compile Include="Assets\Scripts\Characters\Human\TriggerColliderWeapon.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
@@ -450,7 +452,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsController.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingStartBarrier.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PhotonPlayer.cs" />
-    <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
+    <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapCamera.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PhotonView.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapFaceAttack.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\IN_GAME_MAIN_CAMERA.cs" />
@@ -491,7 +493,6 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-    <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
