@@ -8,10 +8,10 @@ namespace Assets.Tests.EditorMode
     {
         private readonly Dictionary<string, string> expectedByInput = new Dictionary<string, string>()
         {
-            ["#157-gitignore-csproj"] = "Alpha-Issue157",
-            ["#164-cursor-overhaul"] = "Alpha-Issue164",
-            ["#176-editorconfig"] = "Alpha-Issue176",
-            ["#75-cannons"] = "Alpha-Issue75",
+            ["#157-gitignore-csproj"] = "Alpha-Issue#157",
+            ["#164-cursor-overhaul"] = "Alpha-Issue#164",
+            ["#176-editorconfig"] = "Alpha-Issue#176",
+            ["#75-cannons"] = "Alpha-Issue#75",
             ["development"] = "development",
             ["master"] = "master",
             ["titan-fix"] = "titan-fix",
@@ -36,7 +36,7 @@ namespace Assets.Tests.EditorMode
         [Test]
         public void DictionaryTestBenchmark()
         {
-            RunDictionaryTest(new VersionFormatter("#(?<issue>\\d+)", "Alpha-Issue<issue>"));
+            RunDictionaryTest(new VersionFormatter("#(?<issue>\\d+)", "Alpha-Issue#<issue>"));
         }
 
         private void RunDictionaryTest(VersionFormatter formatter)
