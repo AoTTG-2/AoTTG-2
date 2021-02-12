@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace Assets.Editor
+namespace Assets.Tests.EditorMode
 {
     public class VersionFormatterTest
     {
