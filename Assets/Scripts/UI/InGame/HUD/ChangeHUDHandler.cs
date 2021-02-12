@@ -23,10 +23,7 @@ namespace Assets.Scripts.UI.InGame
 
             if(HUD.inEditMode)
             {
-                foreach(GameObject element in HUDelements)
-                {
-                    element.SetActive(true); //WHILE IN EDIT MODE
-                }
+                
 
                 if(selectedElement != null)
                 {
@@ -58,6 +55,7 @@ namespace Assets.Scripts.UI.InGame
             //Animate all HUD elements
             foreach(GameObject element in HUDelements)
             {
+                element.SetActive(true); //WHILE IN EDIT MODE
                 element.GetComponent<CustomizableHUDElement>().AnimateCustomization();
             }
 

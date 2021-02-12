@@ -56,10 +56,11 @@ namespace Assets.Scripts.UI.InGame.Weapon
 
                     previousRightBlade = Instantiate(BladeRightSprite, BladeRightSprite.transform.position, BladeRightSprite.transform.rotation, BladeRight.transform);
                 }
-
-
                 
             }
+
+            
+
         }
     }
 }

@@ -152,12 +152,12 @@ public class CustomizableHUDElement : MonoBehaviour
 
     public void HoverSelection()
     {
-        selection.SetActive(true);
+        if (handler.HUD.inEditMode) selection.SetActive(true);
     }
 
     public void CloseSelection()
     {
-        selection.SetActive(false);
+        if (handler.HUD.inEditMode) selection.SetActive(false);
     }
 
 
