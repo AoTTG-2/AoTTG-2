@@ -8,16 +8,17 @@ using Assets.Scripts.UI.InGame;
 public class CustomizableHUDElement : MonoBehaviour
 {
     public ChangeHUDHandler handler;
-    [Range(30f, 200f)]
-    public float clickAreaSizeX = 30f;
-    [Range(30f, 200f)]
-    public float clickAreaSizeY = 30f;
     private bool beingDragged;
     private string PlayerPrefsKey;
     public bool isVisible = true;
+    private Animator anim;
 
     void Start()
     {
+        
+        anim = this.gameObject.GetComponent<Animator>();
+        
+
         PlayerPrefsKey = gameObject.name;
 
         if (PlayerPrefs.GetInt("hasCustomHUD", 0) != 1)
@@ -44,6 +45,9 @@ public class CustomizableHUDElement : MonoBehaviour
     void Update()
     {   
         if(handler.HUD.inEditMode){
+
+            //Animate changing HUD idle
+
             if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
             {
                 float thisx = this.transform.position.x;
@@ -51,20 +55,15 @@ public class CustomizableHUDElement : MonoBehaviour
                 float mousex = Input.mousePosition.x;
                 float mousey = Input.mousePosition.y;
 
-                if(Mathf.Abs(thisx - mousex) < clickAreaSizeX && Mathf.Abs(thisy - mousey) < clickAreaSizeY){
-                    MouseDown();
-                    handler.elementSelected = true;
-                    handler.scaleSlider.value = transform.localScale.x; //x or y, doesn't matter. scale is 1:1
-                    handler.selectedElement = this.gameObject;
-                    handler.toggleVisibility.isOn = isVisible;
-                }        
+                // if(Mathf.Abs(thisx - mousex) < clickAreaSizeX && Mathf.Abs(thisy - mousey) < clickAreaSizeY){
+                //     MouseDown();
+                // }        
             }
 
-            if(Input.GetMouseButtonUp(0))
-            {
-                MouseUp();      
-                handler.elementSelected = false;
-            }
+            // if(Input.GetMouseButtonUp(0))
+            // {
+            //     MouseUp();      
+            // }
 
             if(beingDragged)
             {
@@ -76,11 +75,18 @@ public class CustomizableHUDElement : MonoBehaviour
     public void MouseDown()
     {
         beingDragged = true;
+        handler.elementSelected = true;
+        handler.scaleSlider.value = transform.localScale.x; //x or y, doesn't matter. scale is 1:1
+        handler.selectedElement = this.gameObject;
+        handler.toggleVisibility.isOn = isVisible;
+
+        Debug.Log("Pressed");
     }
 
     public void MouseUp()
     {
         beingDragged = false;
+        handler.elementSelected = false;
     }
 
     public void SavePosition()
@@ -108,7 +114,7 @@ public class CustomizableHUDElement : MonoBehaviour
         transform.localScale = new Vector3(loadedScale, loadedScale, 1);
                 
         //Load Visibility
-        isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "DefaultVisibility", 1));
+        isVisible = true;
 
     }
 
@@ -130,6 +136,16 @@ public class CustomizableHUDElement : MonoBehaviour
         transform.position = newPositionFromResolution;
         transform.localScale = new Vector3(loadedScale, loadedScale, 1);
 
+    }
+
+    public void AnimateCustomization()
+    {
+        anim.SetBool("Customizing", true);
+    }
+
+    public void StopCustomization()
+    {
+        anim.SetBool("Customizing", false);
     }
 
 

@@ -19,12 +19,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void Update()
         {
-            if(selectedElement != null)
-            {
-                elementLabel.text = selectedElement.name;
-                selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
-                selectedElement.GetComponent<CustomizableHUDElement>().isVisible = toggleVisibility.isOn;
-            }
+            
 
             if(HUD.inEditMode)
             {
@@ -32,6 +27,14 @@ namespace Assets.Scripts.UI.InGame
                 {
                     element.SetActive(true); //WHILE IN EDIT MODE
                 }
+
+                if(selectedElement != null)
+                {
+                    elementLabel.text = selectedElement.name;
+                    selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
+                    selectedElement.GetComponent<CustomizableHUDElement>().isVisible = toggleVisibility.isOn;
+                }
+
             } else
             {
                 SetVisibility();
@@ -52,6 +55,12 @@ namespace Assets.Scripts.UI.InGame
         {
             HUD.inEditMode = true;
 
+            //Animate all HUD elements
+            foreach(GameObject element in HUDelements)
+            {
+                element.GetComponent<CustomizableHUDElement>().AnimateCustomization();
+            }
+
             // TODO: Try to figure out how to stop camera from moving when in the menu. Below was my attempt but the cursor would magically disappear.
             //previousCameraMode = GameCursor.CameraMode;
             //GameCursor.CameraMode = CameraMode.WOW;
@@ -65,8 +74,10 @@ namespace Assets.Scripts.UI.InGame
             foreach(GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHUDElement>().SavePosition();
+                element.GetComponent<CustomizableHUDElement>().StopCustomization();
             }
            
+            ClearSelection();
             HUD.inEditMode = false;
             PlayerPrefs.SetInt("hasCustomHUD", 1); //CUSTOM
             //GameCursor.CameraMode = previousCameraMode;
@@ -81,8 +92,9 @@ namespace Assets.Scripts.UI.InGame
             foreach(GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHUDElement>().LoadDefault();
-                PlayerPrefs.SetInt("hasCustomHUD", 0);
             }
+
+            ClearSelection();
         }
 
         public void LoadCustomHudLayout()
@@ -92,6 +104,14 @@ namespace Assets.Scripts.UI.InGame
                 element.GetComponent<CustomizableHUDElement>().LoadCustom();
                 PlayerPrefs.SetInt("hasCustomHUD", 1);
             }
+            
+            ClearSelection();
+        }
+
+        private void ClearSelection()
+        {
+            selectedElement = null;
+            elementLabel.text = "";
         }
 
         

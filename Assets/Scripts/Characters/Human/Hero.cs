@@ -4235,6 +4235,7 @@ public class Hero : Human
             cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
         }
         Equipment.Weapon.UpdateSupplyUi(InGameUI);
+        
         //if (!this.useGun)
         //{
         //    this.cachedSprites["bladeCL"].fillAmount = this.currentBladeSta / this.totalBladeSta;
