@@ -43,6 +43,13 @@ jobs:
           path: Library
           key: Library
 
+      # Build
+      - name: Build project
+        uses: webbertakken/unity-builder@v0.10
+        with:
+          unityVersion: 2020.1.4f1
+          targetPlatform: StandaloneWindows64
+
       # Test
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.4
@@ -54,13 +61,6 @@ jobs:
         with:
           name: Test results
           path: artifacts
-
-      # Build
-      - name: Build project
-        uses: webbertakken/unity-builder@v0.10
-        with:
-          unityVersion: 2020.1.4f1
-          targetPlatform: StandaloneWindows64
   
       - name: SonarQube analysis
         if: always()
