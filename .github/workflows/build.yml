@@ -59,7 +59,7 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: game-ci/unity-test-runner@v2.0-alpha-2
+        uses: game-ci/unity-test-runner@v1.7
         id: tests
         with:
           unityVersion: ${{ matrix.unityVersion }}
