@@ -45,9 +45,15 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.3
+        uses: webbertakken/unity-test-runner@v1.4
         with:
           unityVersion: 2020.1.4f1
+          
+      # Test Results
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results
+          path: artifacts
 
       # Build
       - name: Build project
