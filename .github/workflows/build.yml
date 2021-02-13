@@ -20,21 +20,21 @@ jobs:
           - editmode
     steps:            
       # Request manual activation file
-      - name: Unity - Request Activation File
-        id: getManualLicenseFile
-        uses: game-ci/unity-request-activation-file@v2.0-alpha-1
-        with:
-          unityVersion: 2020.1.4f1
+      #- name: Unity - Request Activation File
+      #  id: getManualLicenseFile
+      #  uses: game-ci/unity-request-activation-file@v2.0-alpha-1
+      #  with:
+      #    unityVersion: 2020.1.4f1
 
-      - name: Unity - Activate
-        uses: game-ci/unity-activate@v1.3
+      #- name: Unity - Activate
+      #  uses: game-ci/unity-activate@v1.3
 
       # Upload artifact (Unity_v20XX.X.XXXX.alf)
-      - name: Expose as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+      #- name: Expose as artifact
+      #  uses: actions/upload-artifact@v1
+      #  with:
+      #    name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+      #    path: ${{ steps.getManualLicenseFile.outputs.filePath }}
       
       # Checkout    
       - name: Checkout repository
