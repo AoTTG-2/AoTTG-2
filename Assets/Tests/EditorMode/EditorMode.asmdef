@@ -1,13 +1,11 @@
 {
     "name": "EditorMode",
-    "optionalUnityReferences": [
+        "optionalUnityReferences": [
         "TestAssemblies"
     ],
     "references": [
         "AoTTG2.Core",
-        "BoundfoxStudios.FluentAssertions",
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "BoundfoxStudios.FluentAssertions"
     ],
     "includePlatforms": [
         "Editor"
@@ -15,13 +13,7 @@
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [
-        "nunit.framework.dll"
-    ],
     "autoReferenced": false,
-    "defineConstraints": [
-        "UNITY_INCLUDE_TESTS"
-    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

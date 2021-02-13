@@ -679,6 +679,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="BoundfoxStudios.FluentAssertions">
+      <HintPath>Library\ScriptAssemblies\BoundfoxStudios.FluentAssertions.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -709,22 +712,11 @@
     <Reference Include="com.unity.quicksearch">
       <HintPath>Library\ScriptAssemblies\com.unity.quicksearch.dll</HintPath>
     </Reference>
-    <Reference Include="BoundfoxStudios.FluentAssertions">
-      <HintPath>Library\ScriptAssemblies\BoundfoxStudios.FluentAssertions.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{52B85106-4402-77E3-45B7-F4F0FF81598D}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
-    <ProjectReference Include="Discord.csproj">
-      <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
-      <Name>Discord</Name>
-    </ProjectReference>
-    <ProjectReference Include="AoTTG2.Core.csproj">
-      <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
-      <Name>AoTTG2.Core</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
       <Project>{A50E6B69-C0E9-D48F-30FD-CE50EAFBEE57}</Project>
@@ -733,6 +725,14 @@
     <ProjectReference Include="PhotonUnityNetworking.csproj">
       <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
       <Name>PhotonUnityNetworking</Name>
+    </ProjectReference>
+    <ProjectReference Include="Discord.csproj">
+      <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
+      <Name>Discord</Name>
+    </ProjectReference>
+    <ProjectReference Include="AoTTG2.Core.csproj">
+      <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
+      <Name>AoTTG2.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
