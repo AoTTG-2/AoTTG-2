@@ -1,5 +1,11 @@
 name: Acquire activation file
-on: [workflow_dispatch]
+on: 
+  workflow_dispatch:
+    inputs:
+      unityVersion:
+        description: 'Unity Version'     
+        required: true
+        default: 'warning'
 jobs:
   activation:
     name: Request manual activation file 🔑
@@ -10,7 +16,7 @@ jobs:
       id: getManualLicenseFile
       uses: webbertakken/unity-request-manual-activation-file@v1.1
       with:
-        unityVersion: 2020.1.4f1
+        unityVersion: ${{ github.event.inputs.unityVersion }}
         
      # Upload artifact (Unity_v20XX.X.XXXX.alf)
     - name: Expose as artifact
