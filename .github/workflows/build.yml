@@ -30,6 +30,14 @@ jobs:
   CI:
     name: Build
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 2020.1.4f1
+        testMode:
+          - playmode
+          - editmode
     steps:
       # Checkout
       - name: Checkout repository
@@ -42,13 +50,17 @@ jobs:
         with:
           path: Library
           key: Library
+          restore-keys: |
+            Library
 
       # Test
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.4
+        id: tests
         with:
-          unityVersion: 2020.1.4f1
-          testMode: editmode
+          unityVersion: ${{ matrix.unityVersion }}
+          testMode: ${{ matrix.testMode }}
+          artifactsPath: ${{ matrix.testMode }}-artifacts
 
       # Build
       - name: Build project
@@ -60,8 +72,8 @@ jobs:
       # Test Results
       - uses: actions/upload-artifact@v1
         with:
-          name: Test results
-          path: artifacts
+          name: Test results for ${{ matrix.testMode }}
+          path: ${{ steps.tests.outputs.artifactsPath }}
   
       - name: SonarQube analysis
         if: always()
