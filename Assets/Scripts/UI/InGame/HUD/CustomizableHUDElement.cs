@@ -11,26 +11,31 @@ public class CustomizableHUDElement : MonoBehaviour
     private Animator anim;
     public GameObject selection;
 
-    void Start()
+    void OnEnable()
     {
         anim = this.gameObject.GetComponent<Animator>();
         selection.SetActive(false);
 
         PlayerPrefsKey = gameObject.name;
-        if (PlayerPrefs.GetInt("hasCustomHUD", 0) != 1)
+
+        // Load the default layout every time the player starts the game. This is because different resolutions have different default layouts. 
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
+        PlayerPrefs.SetInt(PlayerPrefsKey + "DefaultVisibility", 1);
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
+
+        // If the player has a custom layout, then load that. 
+        if (PlayerPrefs.GetInt("hasCustomHUD", 0) == 1 && Screen.width == PlayerPrefs.GetFloat("HUDResolutionX"))
         {
-            //If there is no saved Custom HUD layout, set the current position, scale, and visibility as default.
-            PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
-            PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
-            PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
-            PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
-            PlayerPrefs.SetInt(PlayerPrefsKey + "DefaultVisibility", 1);
-            PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
-        } else
-        {
-            //If there is a custom HUD layout, then load them via PlayerPrefs.
             LoadCustom();
+        }else // If resolution changes, then reset hasCustomLayout.
+        {   
+            PlayerPrefs.SetInt("hasCustomHUD", 0);
         }
+
+        // Setting the HUD resolution after the default/custom layout logic ensures that the default layout will be chosen if the resolution changes. 
+        PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
+        PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
 
         beingDragged = false;
     }
@@ -41,6 +46,7 @@ public class CustomizableHUDElement : MonoBehaviour
 
             if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
             {
+                handler.hasChanged = true;
                 float thisx = this.transform.position.x;
                 float thisy = this.transform.position.y;
                 float mousex = Input.mousePosition.x;
@@ -103,8 +109,8 @@ public class CustomizableHUDElement : MonoBehaviour
         float PlayerPrefsX = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
         float PlayerPrefsY = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
         float loadedScale = PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultScale", 1);
-        float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", 1920);
-        float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", 1080);
+        float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", Screen.width);
+        float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", Screen.height);
 
 
         Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
@@ -121,8 +127,8 @@ public class CustomizableHUDElement : MonoBehaviour
         float PlayerPrefsX = PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomX", this.transform.position.x);
         float PlayerPrefsY = PlayerPrefs.GetFloat(PlayerPrefsKey + "CustomY", this.transform.position.y);
         float loadedScale = PlayerPrefs.GetFloat(PlayerPrefsKey + "Scale", 1);
-        float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", 1920);
-        float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", 1080);
+        float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", Screen.width);
+        float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", Screen.height);
                 
         isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1));
 

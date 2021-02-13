@@ -14,6 +14,7 @@ namespace Assets.Scripts.UI.InGame
         public Slider scaleSlider;
         public TMP_Text elementLabel;
         public Toggle toggleVisibility;
+        public bool hasChanged = false;
 
         public void Update()
         {
@@ -60,19 +61,24 @@ namespace Assets.Scripts.UI.InGame
         // Called when the user clicks "Save" after editing their HUD. 
         public void SaveHudLayout()
         {
-            foreach(GameObject element in HUDelements)
+            if(hasChanged)
             {
-                element.GetComponent<CustomizableHUDElement>().SavePosition();
-                element.GetComponent<CustomizableHUDElement>().StopCustomization();
+                foreach(GameObject element in HUDelements)
+                {
+                    element.GetComponent<CustomizableHUDElement>().SavePosition();
+                    element.GetComponent<CustomizableHUDElement>().StopCustomization();
+                }
+
+                PlayerPrefs.SetInt("hasCustomHUD", 1);
+
+                hasChanged = false;
             }
-           
-            ClearSelection();
+
             HUD.inEditMode = false;
-            PlayerPrefs.SetInt("hasCustomHUD", 1);
             SetVisibility();
             this.Hide();
             menu.Show();
-
+            ClearSelection();
         }
 
         public void LoadDefaultHudLayout()
@@ -81,7 +87,7 @@ namespace Assets.Scripts.UI.InGame
             {
                 element.GetComponent<CustomizableHUDElement>().LoadDefault();
             }
-
+            PlayerPrefs.SetInt("hasCustomHUD", 0);
             ClearSelection();
         }
 
@@ -90,9 +96,8 @@ namespace Assets.Scripts.UI.InGame
             foreach(GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHUDElement>().LoadCustom();
-                PlayerPrefs.SetInt("hasCustomHUD", 1);
             }
-            
+            PlayerPrefs.SetInt("hasCustomHUD", 1);
             ClearSelection();
         }
 
