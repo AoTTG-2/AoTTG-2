@@ -61,13 +61,15 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
 
       # Build
-      - name: Build project
-        uses: webbertakken/unity-builder@v0.10
-        with:
-          unityVersion: 2020.1.4f1
-          targetPlatform: StandaloneWindows64
+      #- name: Build project
+      #  uses: webbertakken/unity-builder@v0.10
+      #  with:
+      #    unityVersion: 2020.1.4f1
+      #    targetPlatform: StandaloneWindows64
   
       # Test Results
       - uses: actions/upload-artifact@v1
@@ -75,19 +77,19 @@ jobs:
           name: Test results for ${{ matrix.testMode }}
           path: ${{ steps.tests.outputs.artifactsPath }}
   
-      - name: SonarQube analysis
-        if: always()
-        uses: MirrorNG/unity-runner@3.0.0
-        with:
-          entrypoint: /sonar-scanner.sh
-          projectKey: AoTTG-2_AoTTG-2
-          projectName: AoTTG-2
-          sonarOrganisation: aottg-2
-          beginArguments: /d:sonar.verbose="true"
-        env:
-          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      #- name: SonarQube analysis
+      #  if: always()
+      #  uses: MirrorNG/unity-runner@3.0.0
+      #  with:
+      #    entrypoint: /sonar-scanner.sh
+      #    projectKey: AoTTG-2_AoTTG-2
+      #    projectName: AoTTG-2
+      #    sonarOrganisation: aottg-2
+      #    beginArguments: /d:sonar.verbose="true"
+      #  env:
+      #    FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
+      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #    GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
 #  Release:
 #    runs-on: ubuntu-latest
