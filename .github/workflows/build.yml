@@ -36,7 +36,7 @@ jobs:
         unityVersion:
           - 2020.1.4f1
         testMode:
-          - playmode
+         # - playmode
           - editmode
     steps:
       # Checkout
