@@ -55,7 +55,7 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.4
+        uses: game-ci/unity-test-runner@v2.0-alpha-2
         id: tests
         with:
           unityVersion: ${{ matrix.unityVersion }}
