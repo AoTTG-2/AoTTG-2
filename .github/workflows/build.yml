@@ -24,7 +24,7 @@ on:
   push: { branches: [development] }
   
 env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
 
 jobs:   
   CI:
