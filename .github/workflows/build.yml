@@ -43,19 +43,20 @@ jobs:
           path: Library
           key: Library
 
+      # Test
+      - name: Run tests
+        uses: webbertakken/unity-test-runner@v1.4
+        with:
+          unityVersion: 2020.1.4f1
+          testMode: editmode
+
       # Build
       - name: Build project
         uses: webbertakken/unity-builder@v0.10
         with:
           unityVersion: 2020.1.4f1
           targetPlatform: StandaloneWindows64
-
-      # Test
-      - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.4
-        with:
-          unityVersion: 2020.1.4f1
-          
+  
       # Test Results
       - uses: actions/upload-artifact@v1
         with:
