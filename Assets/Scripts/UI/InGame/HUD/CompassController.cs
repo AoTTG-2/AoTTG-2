@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CompassController : MonoBehaviour
+namespace Assets.Scripts.UI.InGame
 {
-
-    public bool compassMode;
-    public RawImage compassImage;
-    public Transform cam;
-
-    void Update()
+    public class CompassController : UiElement
     {
-        if(compassMode)
+        public bool compassMode;
+        public RawImage compassImage;
+        public Transform cam;
+
+        void Update()
         {
-            compassImage.uvRect = new Rect (cam.localEulerAngles.y / 360f, 0f, 1f, 1f);
+            if(compassMode)
+            {
+                compassImage.uvRect = new Rect (cam.localEulerAngles.y / 360f, 0f, 1f, 1f);
+            }
         }
     }
 }

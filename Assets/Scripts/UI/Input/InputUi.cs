@@ -13,7 +13,7 @@
         InteractionWheel,
         Screenshot,
         HideHUD,
-        Leaderboard,
+        Scoreboard,
         HideHooks
     }
 }

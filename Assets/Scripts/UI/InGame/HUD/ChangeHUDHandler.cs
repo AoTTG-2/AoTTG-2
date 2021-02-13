@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -19,24 +17,18 @@ namespace Assets.Scripts.UI.InGame
 
         public void Update()
         {
-            
-
             if(HUD.inEditMode)
             {
-                
-
                 if(selectedElement != null)
                 {
                     elementLabel.text = selectedElement.name;
                     selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
                     selectedElement.GetComponent<CustomizableHUDElement>().isVisible = toggleVisibility.isOn;
                 }
-
             } else
             {
                 SetVisibility();
             }
-
         }
 
         public void SetVisibility()
@@ -52,16 +44,15 @@ namespace Assets.Scripts.UI.InGame
         {
             HUD.inEditMode = true;
 
-            //Animate all HUD elements
             foreach(GameObject element in HUDelements)
-            {
-                element.SetActive(true); //WHILE IN EDIT MODE
+            {   
+                //You should want to always have the elements visible whenever you're on the edit mode.
+                element.SetActive(true);
                 element.GetComponent<CustomizableHUDElement>().AnimateCustomization();
             }
 
             // TODO: Try to figure out how to stop camera from moving when in the menu. Below was my attempt but the cursor would magically disappear.
-            //previousCameraMode = GameCursor.CameraMode;
-            //GameCursor.CameraMode = CameraMode.WOW;
+            
             this.Show();
             menu.Hide();
         }
@@ -77,8 +68,7 @@ namespace Assets.Scripts.UI.InGame
            
             ClearSelection();
             HUD.inEditMode = false;
-            PlayerPrefs.SetInt("hasCustomHUD", 1); //CUSTOM
-            //GameCursor.CameraMode = previousCameraMode;
+            PlayerPrefs.SetInt("hasCustomHUD", 1);
             SetVisibility();
             this.Hide();
             menu.Show();

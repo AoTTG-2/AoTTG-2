@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using Assets.Scripts.UI.InGame;
 
 /* Any HUD element that is customizable should have this script attached */
@@ -16,16 +13,13 @@ public class CustomizableHUDElement : MonoBehaviour
 
     void Start()
     {
-        
         anim = this.gameObject.GetComponent<Animator>();
         selection.SetActive(false);
-        
 
         PlayerPrefsKey = gameObject.name;
-
         if (PlayerPrefs.GetInt("hasCustomHUD", 0) != 1)
         {
-            // Set default positions. 
+            //If there is no saved Custom HUD layout, set the current position, scale, and visibility as default.
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
             PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
@@ -34,21 +28,16 @@ public class CustomizableHUDElement : MonoBehaviour
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
         } else
         {
-            // Grab saved positions.
+            //If there is a custom HUD layout, then load them via PlayerPrefs.
             LoadCustom();
         }
 
-
         beingDragged = false;
-
     }
 
-    // Update is called once per frame
     void Update()
     {   
         if(handler.HUD.inEditMode){
-
-            //Animate changing HUD idle
 
             if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
             {
@@ -56,25 +45,16 @@ public class CustomizableHUDElement : MonoBehaviour
                 float thisy = this.transform.position.y;
                 float mousex = Input.mousePosition.x;
                 float mousey = Input.mousePosition.y;
-
-                // if(Mathf.Abs(thisx - mousex) < clickAreaSizeX && Mathf.Abs(thisy - mousey) < clickAreaSizeY){
-                //     MouseDown();
-                // }        
             }
 
-            // if(Input.GetMouseButtonUp(0))
-            // {
-            //     MouseUp();      
-            // }
+            if (beingDragged) this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
 
-            if(beingDragged)
-            {
-                this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
-            }
-
-            this.gameObject.SetActive(true);
         }
     }
+
+
+    #region EventTriggers
+    //This region consists of functions that are called via EventTriggers.
 
     public void MouseDown()
     {
@@ -92,6 +72,21 @@ public class CustomizableHUDElement : MonoBehaviour
         beingDragged = false;
         handler.elementSelected = false;
     }
+
+    public void HoverSelection()
+    {
+        if (handler.HUD.inEditMode) selection.SetActive(true);
+    }
+
+    public void CloseSelection()
+    {
+        if (handler.HUD.inEditMode) selection.SetActive(false);
+    }
+
+    #endregion
+
+
+    #region Saving and Loading functions
 
     public void SavePosition()
     {
@@ -117,7 +112,6 @@ public class CustomizableHUDElement : MonoBehaviour
         transform.position = newPositionFromResolution;
         transform.localScale = new Vector3(loadedScale, loadedScale, 1);
                 
-        //Load Visibility
         isVisible = true;
 
     }
@@ -130,10 +124,7 @@ public class CustomizableHUDElement : MonoBehaviour
         float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", 1920);
         float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", 1080);
                 
-        //Load Visibility
         isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1));
-        // this.gameObject.SetActive(RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "Visibility", 1)));
-
 
         Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
 
@@ -141,6 +132,8 @@ public class CustomizableHUDElement : MonoBehaviour
         transform.localScale = new Vector3(loadedScale, loadedScale, 1);
 
     }
+
+    #endregion
 
     public void AnimateCustomization()
     {
@@ -151,16 +144,5 @@ public class CustomizableHUDElement : MonoBehaviour
     {
         anim.SetBool("Customizing", false);
     }
-
-    public void HoverSelection()
-    {
-        if (handler.HUD.inEditMode) selection.SetActive(true);
-    }
-
-    public void CloseSelection()
-    {
-        if (handler.HUD.inEditMode) selection.SetActive(false);
-    }
-
 
 }

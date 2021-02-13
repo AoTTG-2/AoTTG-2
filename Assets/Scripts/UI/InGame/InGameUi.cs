@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.InGame
     {
         public HUD.HUD HUD;
         public InGameMenu Menu;
-        public Leaderboard Leaderboard;
+        public Scoreboard.Scoreboard Scoreboard;
         public SpawnMenu SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
@@ -62,7 +62,7 @@ namespace Assets.Scripts.UI.InGame
             Menu.Hide();
             PauseIndicator.Hide();
             ControlsMenu.Hide();
-            Leaderboard.Hide();
+            Scoreboard.Hide();
 
             PauseService.OnPaused += PauseService_OnPaused;
             PauseService.OnUnPaused += PauseService_OnUnPaused;
@@ -83,14 +83,14 @@ namespace Assets.Scripts.UI.InGame
                 TogglePauseMenu();
             }
             
-            // TODO: I hardcoded in KeyCode.L, but figure out how to implement the enumeration found in InputManager.
+            // TODO: I hardcoded in KeyCode.Tab, but figure out how to implement the enumeration found in InputManager.
             if (UnityEngine.Input.GetKeyDown(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
             {
-                Leaderboard.Show();
+                Scoreboard.Show();
             }
             if (UnityEngine.Input.GetKeyUp(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
             {
-                Leaderboard.Hide();
+                Scoreboard.Hide();
             }
             
         }

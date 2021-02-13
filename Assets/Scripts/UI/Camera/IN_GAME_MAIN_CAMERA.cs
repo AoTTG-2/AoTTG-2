@@ -5,6 +5,7 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.UI.InGame;
 using System;
 using UnityEngine;
 using static Assets.Scripts.FengGameManagerMKII;
@@ -853,12 +854,16 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         locker = GameObject.Find("locker");
         CreateSnapShotRT2();
 
-        GameObject.Find("Compass").GetComponent<CompassController>().cam = this.transform; //FIND COMPASS
-        GameObject.Find("Compass").GetComponent<CompassController>().compassMode = true;
+        // Find the compass gameobject to set the camera's transform to this.
+        CompassController compass = GameObject.Find("Compass").GetComponent<CompassController>();
+        compass.cam = this.transform;
+        compass.compassMode = true;
     }
 
     private void OnDestroy()
     {
         EntityService.OnRegister -= EntityService_OnRegistered;
+        CompassController compass = GameObject.Find("Compass").GetComponent<CompassController>();
+        compass.compassMode = false;
     }
 }

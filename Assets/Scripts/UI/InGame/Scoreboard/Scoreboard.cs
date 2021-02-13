@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 using TMPro;
-using Photon;
-namespace Assets.Scripts.UI.InGame
+
+namespace Assets.Scripts.UI.InGame.Scoreboard
 {
-    public class Leaderboard : UiMenu
+    public class Scoreboard : UiMenu
     {
 
         public GameObject playerInfoPrefab;
@@ -16,6 +15,7 @@ namespace Assets.Scripts.UI.InGame
         public TMP_Text playerCount;
         public TMP_Text gameMode;
         public TMP_Text sortContainer;
+        public TMP_Text[] labels;
         public string sortLabel;
         private float timeLast = 0;
 
@@ -23,6 +23,11 @@ namespace Assets.Scripts.UI.InGame
         protected override void OnEnable()
         {
             base.OnEnable();
+        }
+
+        void Start()
+        {
+            SortByScore();
         }
 
         private void LateUpdate()
@@ -34,36 +39,36 @@ namespace Assets.Scripts.UI.InGame
                 timeLast = timeSince;
             }
         }
-
         
         private void UpdateScoreboard()
         {
+            // Remove all instances of playerList to prevent duplications when instantiating.
             foreach (Transform child in playerListParent.transform)
             {
-                GameObject.Destroy(child.gameObject); //REMOVE ALL CHILD (player infos) to prevent dupes
+                GameObject.Destroy(child.gameObject);
             }
 
             List<PhotonPlayer> playerList = PhotonNetwork.playerList.ToList();
 
             switch (sortLabel)
             {
-                case "ID":
+                case "id":
                     playerList.Sort(SortByID);
                     break;
                 case "name":
                     playerList.Sort(SortByName);
                     break;
-                case "highest score":
-                    playerList.Sort(SortBySvork);
+                case "score":
+                    playerList.Sort(SortByScore);
                     break;
-                case "most kills":
+                case "kills":
                     playerList.Sort(SortByKills);
                     break;
-                case "most deaths":
+                case "deaths":
                     playerList.Sort(SortByDeaths);
                     break;
-                case "highest damage":
-                    playerList.Sort(SortByHighestDamage);
+                case "max damage":
+                    playerList.Sort(SortByMaxDamage);
                     break;
                 case "total damage":
                     playerList.Sort(SortByTotalDamage);
@@ -109,11 +114,8 @@ namespace Assets.Scripts.UI.InGame
                 }else{
                     playerLabel.playerPing.text = "N/A";
                 }
-        
-                //if svork
-                float score = svorkBalance(kills, deaths, maxDamage, totalDamage);
+                float score = CalculateScore(kills, deaths, maxDamage, totalDamage);
                 playerLabel.playerScore.text = score.ToString();
-
             }
 
             roomName.text = PhotonNetwork.room.CustomProperties["name"].ToString();;
@@ -121,43 +123,68 @@ namespace Assets.Scripts.UI.InGame
             playerCount.text = PhotonNetwork.room.PlayerCount + "/" + PhotonNetwork.room.MaxPlayers;
         }
 
+    #region OnClick events called by buttons
 
-        //Sorting functions
         public void SortByID()
         {
-            sortLabel = "ID";
+            sortLabel = "id";
+            SetLabelIndicators();
         }
         public void SortByName()
         {
             sortLabel = "name";
+            SetLabelIndicators();
         }
 
         public void SortByKills()
         {
-            sortLabel = "most kills";
+            sortLabel = "kills";
+            SetLabelIndicators();
         }
 
         public void SortByDeaths()
         {
-            sortLabel = "most deaths";
+            sortLabel = "deaths";
+            SetLabelIndicators();
         }
 
-        public void SortByHighestDamage()
+        public void SortByMaxDamage()
         {
-            sortLabel = "highest damage";
+            sortLabel = "max damage";
+            SetLabelIndicators();
         }
 
         public void SortByTotal()
         {
             sortLabel = "total damage";
+            SetLabelIndicators();
         }
 
         public void SortByScore()
         {
-            sortLabel = "highest score";
+            sortLabel = "score";
+            SetLabelIndicators();
         }
 
-        //SORTING METHODS
+        private void SetLabelIndicators()
+        {
+            foreach(TMP_Text label in labels)
+            {
+                if(label.gameObject.name == sortLabel)
+                {
+                    label.GetComponent<SortLabelIndicator>().SetIndicator();
+                }
+                else
+                {
+                    label.GetComponent<SortLabelIndicator>().SetDefault();
+                }
+            }
+        }
+
+    #endregion
+
+    #region Sorting Functions
+
         public static int SortByID (PhotonPlayer b, PhotonPlayer a)
         {
             return b.ID.CompareTo(a.ID);
@@ -178,7 +205,7 @@ namespace Assets.Scripts.UI.InGame
             return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.deaths]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.deaths]));
         }
         
-        public static int SortByHighestDamage (PhotonPlayer a, PhotonPlayer b)
+        public static int SortByMaxDamage (PhotonPlayer a, PhotonPlayer b)
         {
             return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.max_dmg]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.max_dmg]));
         }
@@ -188,7 +215,7 @@ namespace Assets.Scripts.UI.InGame
             return RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.total_dmg]).CompareTo(RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.total_dmg]));
         }
 
-        public static int SortBySvork (PhotonPlayer a, PhotonPlayer b)
+        public static int SortByScore (PhotonPlayer a, PhotonPlayer b)
         {
             var killsA = RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.kills]);
             var deathsA = RCextensions.returnIntFromObject(a.CustomProperties[PhotonPlayerProperty.deaths]);
@@ -200,14 +227,16 @@ namespace Assets.Scripts.UI.InGame
             var maxDamageB = RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.max_dmg]);
             var totalDamageB = RCextensions.returnIntFromObject(b.CustomProperties[PhotonPlayerProperty.total_dmg]);
 
-            float aScore = svorkBalance(killsA, deathsA, maxDamageA, totalDamageA);
-            float bScore = svorkBalance(killsB, deathsB, maxDamageB, totalDamageB);
+            float aScore = CalculateScore(killsA, deathsA, maxDamageA, totalDamageA);
+            float bScore = CalculateScore(killsB, deathsB, maxDamageB, totalDamageB);
 
             return bScore.CompareTo(aScore);
         }
 
-        // Formula for calculating score.
-        private static float svorkBalance(int k, int d, int m, int t)
+    #endregion
+
+        // Formula for calculating score using svork balance
+        private static float CalculateScore(int k, int d, int m, int t)
         {
             float score;
             score = (10*(1000*k + t)*(10 - Mathf.Sqrt(d))+m*m/2)/Mathf.Pow(10,5);
