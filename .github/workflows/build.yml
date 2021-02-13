@@ -50,26 +50,27 @@ jobs:
           restore-keys: |
             Library
 
+      # Build
+      - name: Build project
+        uses: webbertakken/unity-builder@v0.10
+        with:
+          unityVersion: 2020.1.4f1
+          targetPlatform: StandaloneWindows64
+
       # Test
       - name: Run tests
         uses: game-ci/unity-test-runner@v2.0-alpha-2
         id: tests
         with:
           unityVersion: ${{ matrix.unityVersion }}
-          testMode: ${{ matrix.testMode }}
+          #testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
-
-      # Build
-      #- name: Build project
-      #  uses: webbertakken/unity-builder@v0.10
-      #  with:
-      #    unityVersion: 2020.1.4f1
-      #    targetPlatform: StandaloneWindows64
   
       # Test Results
       - uses: actions/upload-artifact@v1
+        if: always()
         with:
           name: Test results for ${{ matrix.testMode }}
           path: ${{ steps.tests.outputs.artifactsPath }}
