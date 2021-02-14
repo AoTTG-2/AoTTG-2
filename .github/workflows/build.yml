@@ -71,6 +71,8 @@ jobs:
           testMode: editmode
           unityVersion: 2020.1.17f1
           useNetworkHost: true
+          customParameters: |
+            -nographics
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
