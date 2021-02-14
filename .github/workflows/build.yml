@@ -28,6 +28,8 @@ jobs:
 
       - name: Unity - Activate
         uses: game-ci/unity-activate@v1.3
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
 
       # Upload artifact (Unity_v20XX.X.XXXX.alf)
       #- name: Expose as artifact
