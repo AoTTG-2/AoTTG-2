@@ -116,6 +116,7 @@
      <Compile Include="Assets\Scripts\Effects\Xffect.cs" />
      <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\HeroStat.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassMarker.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\PingCloudRegions.cs" />
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\InputToEvent.cs" />
      <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
@@ -487,7 +488,6 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
      <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
      <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassMarker.cs" />
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
@@ -570,9 +570,6 @@
  <Reference Include="Unity.Rider.Editor">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
- </Reference>
  <Reference Include="Unity.VisualStudio.Editor">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
@@ -584,6 +581,9 @@
  </Reference>
  <Reference Include="com.unity.quicksearch">
  <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/com.unity.quicksearch.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>C:/Users/ghegi/source/repos/AoTTG-2/AoTTG-2/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

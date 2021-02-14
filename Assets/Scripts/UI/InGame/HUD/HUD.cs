@@ -12,6 +12,23 @@ namespace Assets.Scripts.UI.InGame.HUD
         public GameObject BloodSmear;
         public bool inEditMode;
         public bool isActive = true;
+        public float damageTimer = 2.25f;
+        public bool inDamageWindow;
+
+        void Update()
+        {
+            if(damageTimer > 0)
+            {
+                damageTimer -= Time.deltaTime;
+                inDamageWindow = true;
+            }
+            
+            if(damageTimer <= 0)
+            {
+                inDamageWindow = false;
+            }
+            
+        }
 
         public void SetDamage(int damage)
         {
@@ -19,13 +36,23 @@ namespace Assets.Scripts.UI.InGame.HUD
             foreach (var label in damageLabels)
             {
                 label.fontSize = ScaleDamageText(damage);
-                label.text = damage.ToString();
+                if(inDamageWindow)
+                {
+                    label.text += " " + damage.ToString(); //Do some effects with double damage, maybe a certain animations
+                    // label.color = Color.red;
+                }
+                else
+                {
+                    label.text = damage.ToString();
+                }
             }
+
+            damageTimer = 2.25f;
 
             ShowDamage();
             ShowBloodSmear(damage);
-
         }
+
 
         public void ClearDamage()
         {
