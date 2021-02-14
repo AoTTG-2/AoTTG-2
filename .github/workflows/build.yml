@@ -151,8 +151,6 @@ jobs:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
-          - iOS # Build an iOS player.
-          - WebGL # WebGL.
     steps:
       - uses: actions/checkout@v2
         with:
@@ -161,14 +159,14 @@ jobs:
         with:
           path: Library
           key: Library
-      - uses: webbertakken/unity-test-runner@v1.3
-        id: testRunner
-        with:
-          unityVersion: ${{ matrix.unityVersion }}
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
+      #- uses: webbertakken/unity-test-runner@v1.3
+      #  id: testRunner
+      #  with:
+      #    unityVersion: ${{ matrix.unityVersion }}
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Test results (all modes)
+      #    path: ${{ steps.testRunner.outputs.artifactsPath }}
       - uses: webbertakken/unity-builder@v0.10
         with:
           unityVersion: ${{ matrix.unityVersion }}
