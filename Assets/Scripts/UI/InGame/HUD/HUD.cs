@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public Labels Labels;
         public GameObject BloodSmear;
         public bool inEditMode;
-
+        public bool isActive = true;
 
         public void SetDamage(int damage)
         {
