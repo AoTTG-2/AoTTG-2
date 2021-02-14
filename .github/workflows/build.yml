@@ -116,10 +116,8 @@ jobs:
           lfs: true
       - uses: actions/cache@v1.1.0
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-
+          path: Library
+          key: Library
       - uses: webbertakken/unity-test-runner@v1.3
         id: testRunner
         with:
