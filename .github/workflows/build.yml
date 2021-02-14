@@ -76,6 +76,7 @@ jobs:
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
+        if: always()
         with:
           name: Test results (edit mode)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
