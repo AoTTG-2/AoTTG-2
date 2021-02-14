@@ -10,7 +10,7 @@ namespace Assets.Tests.EditorMode
         {
             ["#157-gitignore-csproj"] = "Alpha-Issue#157",
             ["#164-cursor-overhaul"] = "Alpha-Issue#164",
-            ["#176-editorconfig"] = "Alpha-Issue#176",
+            ["#176-editorconfig"] = "Alpha-Issue176",
             ["#75-cannons"] = "Alpha-Issue#75",
             ["development"] = "development",
             ["master"] = "master",
