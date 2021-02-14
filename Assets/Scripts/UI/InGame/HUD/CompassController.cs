@@ -18,6 +18,7 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         void Start()
         {
+            //1 compass unit equals 1 degree angle
             compassUnit = compassImage.rectTransform.rect.width / 360f;
         }
 

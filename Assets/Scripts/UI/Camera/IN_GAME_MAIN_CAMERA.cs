@@ -799,12 +799,26 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private float GetSensitivityMulti()
     {
-        return InputManager.Settings.MouseSensitivity;
+        if(MenuManager.IsAnyMenuOpen)
+        {
+            return 0f; //Prevents camera from moving when on menu
+        }
+        else
+        {
+            return InputManager.Settings.MouseSensitivity;
+        }
     }
 
     private float GetSensitivityMultiWithDeltaTime()
     {
-        return InputManager.Settings.MouseSensitivity * Time.deltaTime * 62f;
+        if(MenuManager.IsAnyMenuOpen)
+        {
+            return 0f; //Prevents camera from moving when on menu
+        }
+        else
+        {
+            return InputManager.Settings.MouseSensitivity * Time.deltaTime * 62f;
+        }
     }
 
     private Texture2D RTImage2(Camera cam)
