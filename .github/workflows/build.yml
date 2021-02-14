@@ -38,7 +38,7 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: Test results (edit mode)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}:
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
  
   buildAndTestForSomePlatforms:
     name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
