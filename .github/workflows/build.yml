@@ -69,6 +69,7 @@ jobs:
         id: testRunner
         with:
           testMode: editmode
+          unityVersion: 2020.1.4f1
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
@@ -97,6 +98,7 @@ jobs:
         id: testRunner
         with:
           testMode: playmode
+          unityVersion: 2020.1.4f1
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
@@ -125,6 +127,7 @@ jobs:
         id: testRunner
         with:
           testMode: all
+          unityVersion: 2020.1.4f1
 
       # Upload artifacts
       - uses: actions/upload-artifact@v1
