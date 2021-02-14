@@ -103,7 +103,6 @@ namespace Assets.Scripts.UI.InGame.HUD
                 else
                 {
                     float num = ((int)(-startPosition)) + (this.col * this.offset);
-                    Debug.Log(col);
                     base.transform.position = Vector3.Lerp(base.transform.position, new Vector3(Screen.width * 0.5f, -num, 0f), Time.deltaTime * 10f);
                 }
                 if (this.timeElapsed > (this.lifeTime + 0.5f))

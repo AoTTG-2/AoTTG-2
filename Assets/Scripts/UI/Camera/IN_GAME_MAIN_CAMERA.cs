@@ -870,7 +870,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private void OnDestroy()
     {
         EntityService.OnRegister -= EntityService_OnRegistered;
-        CompassController compass = GameObject.Find("Compass").GetComponent<CompassController>();
-        compass.compassMode = false;
+        GameObject.Find("Compass").GetComponent<CompassController>().compassMode = false;
     }
 }

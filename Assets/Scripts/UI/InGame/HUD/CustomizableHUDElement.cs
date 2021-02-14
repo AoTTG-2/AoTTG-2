@@ -11,7 +11,7 @@ public class CustomizableHUDElement : MonoBehaviour
     private Animator anim;
     public GameObject selection;
 
-    void OnEnable()
+    void Start()
     {
         anim = this.gameObject.GetComponent<Animator>();
         selection.SetActive(false);
@@ -25,8 +25,9 @@ public class CustomizableHUDElement : MonoBehaviour
         PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
 
         // If the player has a custom layout, then load that. 
-        if (PlayerPrefs.GetInt("hasCustomHUD", 0) == 1 && Screen.width == PlayerPrefs.GetFloat("HUDResolutionX"))
+        if (PlayerPrefs.GetInt("hasCustomHUD", 0) == 1 && Screen.width == PlayerPrefs.GetFloat("HUDResolutionX", Screen.width))
         {
+            //Debug.Log("Got into if statement and will soon call LoadCustom()");
             LoadCustom();
         }else // If resolution changes, then reset hasCustomLayout.
         {   
@@ -46,6 +47,7 @@ public class CustomizableHUDElement : MonoBehaviour
         {
             float mouseX = Input.mousePosition.x;
             float mouseY = Input.mousePosition.y;
+            handler.hasChanged = true;
             
             // Check if the mouse is inside of the bounds of the screen. This avoid dragging HUD elements off screen. 
             if(mouseX < Screen.width && mouseX > 0 && mouseY < Screen.height && mouseY > 0)
