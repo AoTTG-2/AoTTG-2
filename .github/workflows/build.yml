@@ -6,22 +6,51 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
+  UNITY_VERSION: 2020.1.17f1
 
 jobs:
+  testRunnerInEditMode:
+    name: Test in editmode 📝
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository (required to test local actions)
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-
+      # Configure test runner
+      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+        id: testRunner
+        with:
+          testMode: editmode
+          unityVersion: env.UNITY_VERSION
+          useNetworkHost: true
+          customParameters: |
+            -nographics
+      # Upload artifact
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results (edit mode)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}:
+ 
   buildAndTestForSomePlatforms:
     name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        unityVersion:
-          - 2020.1.4f1
         targetPlatform:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
-    steps:
-      
+    steps:     
       # Checkout
       - uses: actions/checkout@v2
         with:
@@ -34,17 +63,7 @@ jobs:
           key: Library-${{ matrix.targetPlatform }}
           restore-keys: |
             Library-
-          
-      # Run Tests
-      - uses: game-ci/unity-test-runner@v2.0-alpha-2
-        id: testRunner
-        with:
-          testMode: editmode
-          unityVersion: 2020.1.17f1
-          useNetworkHost: true
-          customParameters: |
-            -nographics
-          
+                    
       # Upload Tests
       - uses: actions/upload-artifact@v1
         with:
@@ -54,9 +73,19 @@ jobs:
       # Build
       - uses: webbertakken/unity-builder@v0.10
         with:
-          unityVersion: ${{ matrix.unityVersion }}
+          unityVersion: env.UNITY_VERSION
           targetPlatform: ${{ matrix.targetPlatform }}
           
+  sonarQube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
       # SonarQube    
       - name: SonarQube analysis
         if: always()
