@@ -65,14 +65,12 @@ jobs:
           restore-keys: |
             Library-
       # Configure test runner
-      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+      - uses: game-ci/unity-test-runner@main
         id: testRunner
         with:
           testMode: editmode
           unityVersion: 2020.1.4f1
           useNetworkHost: true
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
