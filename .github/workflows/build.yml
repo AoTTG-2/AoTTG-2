@@ -111,6 +111,6 @@ jobs:
           sonarOrganisation: aottg-2
           beginArguments: /d:sonar.verbose="true"
         env:
-          FrameworkPathOverride: /opt/Unity/Editor/Data/
+          FrameworkPathOverride: /build/StandaloneWindows64/StandaloneWindows64_Data/Managed
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
