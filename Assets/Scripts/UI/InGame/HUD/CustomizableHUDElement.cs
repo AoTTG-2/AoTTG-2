@@ -42,19 +42,16 @@ public class CustomizableHUDElement : MonoBehaviour
 
     void Update()
     {   
-        if(handler.HUD.inEditMode){
-
-            if(Input.GetMouseButtonDown(0) && !handler.elementSelected)
+        if (beingDragged && handler.HUD.inEditMode) 
+        {
+            float mouseX = Input.mousePosition.x;
+            float mouseY = Input.mousePosition.y;
+            
+            // Check if the mouse is inside of the bounds of the screen. This avoid dragging HUD elements off screen. 
+            if(mouseX < Screen.width && mouseX > 0 && mouseY < Screen.height && mouseY > 0)
             {
-                handler.hasChanged = true;
-                float thisx = this.transform.position.x;
-                float thisy = this.transform.position.y;
-                float mousex = Input.mousePosition.x;
-                float mousey = Input.mousePosition.y;
+                this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
             }
-
-            if (beingDragged) this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
-
         }
     }
 

@@ -28,9 +28,11 @@ namespace Assets.Scripts.UI.InGame.HUD
         }
 
         void Update()
-        {
+        {   
+            // Check if the resolution changed. 
             if(screenWidth != Screen.width){
                 SetLocations();
+                screenWidth = Screen.width;
             }
         }
 

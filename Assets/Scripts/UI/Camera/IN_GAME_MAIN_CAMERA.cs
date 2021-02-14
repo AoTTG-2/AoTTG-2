@@ -10,6 +10,7 @@ using System;
 using UnityEngine;
 using static Assets.Scripts.FengGameManagerMKII;
 using Random = UnityEngine.Random;
+using Assets.Scripts.UI.InGame.HUD;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
@@ -669,7 +670,13 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void ToggleHUD()
     {
-       HUD.SetActive(!HUD.activeInHierarchy);
+        if(HUD.GetComponent<HUD>().isActive){
+            HUD.GetComponent<HUD>().isActive = false;
+            HUD.transform.localScale = new Vector3(0,0,0);
+        }else{
+            HUD.GetComponent<HUD>().isActive = true;
+            HUD.transform.localScale = new Vector3(1,1,1);
+        }
     }
 
     public static void ToggleSpawnMenu()
