@@ -41,7 +41,7 @@ jobs:
           path: ${{ steps.testRunner.outputs.artifactsPath }}
  
   buildAndTestForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ env.UNITY_VERSION }}
+    name: Build for ${{ matrix.targetPlatform }} on version $env.UNITY_VERSION
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
