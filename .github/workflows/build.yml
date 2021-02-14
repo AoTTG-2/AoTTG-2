@@ -70,6 +70,7 @@ jobs:
         with:
           testMode: editmode
           unityVersion: 2020.1.4f1
+          useNetworkHost: true
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
