@@ -39,13 +39,28 @@ namespace Assets.Scripts.UI.InGame.HUD
         public void AddCompassMarker (CompassMarker marker)
         {
             GameObject newMarker = Instantiate(iconPrefab, compassImage.transform);
+            newMarker.name = marker.name;
             marker.image = newMarker.GetComponent<Image>();
             marker.image.sprite = marker.icon;
 
             compassMarkers.Add(marker);
         }
 
-        Vector2 GetPosOnCompass (CompassMarker marker) {
+        public void DeleteCompassMarker(CompassMarker marker)
+        {
+            foreach(Transform child in compassImage.transform)
+            {
+                if(child.name == marker.name)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            
+            compassMarkers.Remove(marker);
+        }
+
+        Vector2 GetPosOnCompass (CompassMarker marker)
+        {
             Vector2 playerPos = new Vector2(cam.transform.position.x, cam.transform.position.z);
             Vector2 playerFwd = new Vector2(cam.transform.forward.x, cam.transform.forward.z);
 

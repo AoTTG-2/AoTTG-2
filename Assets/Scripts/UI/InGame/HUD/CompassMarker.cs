@@ -16,5 +16,11 @@ namespace Assets.Scripts.UI.InGame.HUD
             position = new Vector2(transform.position.x, transform.position.z);
         }
 
+
+        void OnDestroy()
+        {
+            GameObject.Find("Compass").GetComponent<CompassController>().DeleteCompassMarker(this);
+        }
+
     }
 }
