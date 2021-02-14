@@ -2785,10 +2785,9 @@ namespace Assets.Scripts
             Damage = Mathf.Max(10, Damage);
             object[] parameters = new object[] { Damage };
             base.photonView.RPC(nameof(netShowDamage), player, parameters);
-            if (!PhotonNetwork.offlineMode)
-            {
-                this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
-            }
+            
+            this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+            
             this.playerKillInfoUpdate(player, Damage);
         }
 
