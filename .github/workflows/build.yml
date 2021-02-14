@@ -63,12 +63,6 @@ jobs:
           key: Library-${{ matrix.targetPlatform }}
           restore-keys: |
             Library-
-                    
-      # Upload Tests
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
           
       # Build
       - uses: webbertakken/unity-builder@v0.10
