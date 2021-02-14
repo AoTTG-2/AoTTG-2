@@ -65,7 +65,7 @@ jobs:
           restore-keys: |
             Library-
       # Configure test runner
-      - uses: game-ci/unity-test-runner@v1.7
+      - uses: game-ci/unity-test-runner@v2.0-alpha-2
         id: testRunner
         with:
           testMode: editmode
