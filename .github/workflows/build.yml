@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         unityVersion:
-          - 2020.2.4
+          - 2020.1.17f1
     steps:
       # Checkout repository
       - uses: actions/checkout@v2
@@ -69,7 +69,7 @@ jobs:
         id: testRunner
         with:
           testMode: editmode
-          unityVersion: 2020.2.4
+          unityVersion: 2020.1.17f1
           useNetworkHost: true
 
       # Upload artifact
