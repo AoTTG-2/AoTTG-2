@@ -32,13 +32,14 @@ namespace Assets.Scripts.UI.InGame.HUD
             var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();
             foreach (var label in damageLabels)
             {
-                label.text = string.Empty;
+                label.text = "";
             }
+            Damage.transform.localScale = new Vector3(0,0,1f);
         }
 
         private void ShowDamage()
         {
-            Damage.GetComponent<Animator>().SetTrigger("ShowDamage2");
+            Damage.GetComponent<Animator>().SetTrigger("ShowDamage");
         }
 
         private void ShowBloodSmear(int damage)
