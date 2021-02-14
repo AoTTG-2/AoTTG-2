@@ -16,13 +16,13 @@ jobs:
       fail-fast: false
       matrix:
         unityVersion:
-          - 2020.1.4f1
+          - 2020.1.17f1
     steps:
       # Checkout repository
       - uses: actions/checkout@v2
 
       # Request manual activation file
-      - uses: webbertakken/unity-request-manual-activation-file@v1.1
+      - uses: game-ci/unity-request-activation-file@v2.0-alpha-1
         id: getManualLicenseFile
         with:
           unityVersion: ${{ matrix.unityVersion }}
@@ -60,16 +60,19 @@ jobs:
       # Cache
       - uses: actions/cache@v1.1.0
         with:
-          path: test-project/Library
+          path: Library
           key: Library-${{ matrix.targetPlatform }}
           restore-keys: |
             Library-
       # Configure test runner
-      - uses: webbertakken/unity-test-runner@v1.3
+      - uses: game-ci/unity-test-runner@v2.0-alpha-2
         id: testRunner
         with:
           testMode: editmode
-          unityVersion: 2020.1.4f1
+          unityVersion: 2020.1.17f1
+          useNetworkHost: true
+          customParameters: |
+            -nographics
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
@@ -77,88 +80,30 @@ jobs:
           name: Test results (edit mode)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
 
-  testRunnerInPlayMode:
-    name: Test in playmode 📺
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout repository (required to test local actions)
-      - uses: actions/checkout@v2
-        with:
-          lfs: true
-
-      # Cache
-      - uses: actions/cache@v1.1.0
-        with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-
-      # Configure test runner
-      - uses: webbertakken/unity-test-runner@v1.3
-        id: testRunner
-        with:
-          testMode: playmode
-          unityVersion: 2020.1.4f1
-
-      # Upload artifact
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (play mode)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-  testRunnerInAllModes:
-    name: Test all modes ✨
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout repository (required to test local actions)
-      - uses: actions/checkout@v2
-        with:
-          lfs: true
-
-      # Cache
-      - uses: actions/cache@v1.1.0
-        with:
-          path: test-project/Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-
-      # Configure test runner
-      - uses: webbertakken/unity-test-runner@v1.3
-        id: testRunner
-        with:
-          testMode: all
-          unityVersion: 2020.1.4f1
-
-      # Upload artifacts
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
-
   #
   # Complete advanced workflow
   #
 
-  buildAndTestForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        unityVersion:
-          - 2020.1.4f1
-        targetPlatform:
-          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
-          - StandaloneLinux64 # Build a Linux 64-bit standalone.
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          lfs: true
-      - uses: actions/cache@v1.1.0
-        with:
-          path: Library
-          key: Library
+  #buildAndTestForSomePlatforms:
+  #  name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+  #  runs-on: ubuntu-latest
+  #  strategy:
+  #    fail-fast: false
+  #    matrix:
+  #      unityVersion:
+  #        - 2020.1.4f1
+  #      targetPlatform:
+  #        - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+  #        - StandaloneWindows64 # Build a Windows 64-bit standalone.
+  #        - StandaloneLinux64 # Build a Linux 64-bit standalone.
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #      with:
+  #        lfs: true
+  #    - uses: actions/cache@v1.1.0
+  #      with:
+  #        path: Library
+  #        key: Library
       #- uses: webbertakken/unity-test-runner@v1.3
       #  id: testRunner
       #  with:
@@ -167,11 +112,11 @@ jobs:
       #  with:
       #    name: Test results (all modes)
       #    path: ${{ steps.testRunner.outputs.artifactsPath }}
-      - uses: webbertakken/unity-builder@v0.10
-        with:
-          unityVersion: ${{ matrix.unityVersion }}
-          targetPlatform: ${{ matrix.targetPlatform }}
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Build
-          path: build
+   #   - uses: webbertakken/unity-builder@v0.10
+   #     with:
+   #       unityVersion: ${{ matrix.unityVersion }}
+   #       targetPlatform: ${{ matrix.targetPlatform }}
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
