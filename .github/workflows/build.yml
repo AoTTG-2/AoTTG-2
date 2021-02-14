@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # Request manual activation file
-      - uses: webbertakken/unity-request-manual-activation-file@v1.1
+      - uses: game-ci/unity-request-activation-file@v2.0-alpha-1
         id: getManualLicenseFile
         with:
           unityVersion: ${{ matrix.unityVersion }}
@@ -76,64 +76,6 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: Test results (edit mode)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-  testRunnerInPlayMode:
-    name: Test in playmode 📺
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout repository (required to test local actions)
-      - uses: actions/checkout@v2
-        with:
-          lfs: true
-
-      # Cache
-      - uses: actions/cache@v1.1.0
-        with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-
-      # Configure test runner
-      - uses: game-ci/unity-test-runner@v2.0-alpha-2
-        id: testRunner
-        with:
-          testMode: playmode
-          unityVersion: 2020.1.4f1
-
-      # Upload artifact
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (play mode)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-  testRunnerInAllModes:
-    name: Test all modes ✨
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout repository (required to test local actions)
-      - uses: actions/checkout@v2
-        with:
-          lfs: true
-
-      # Cache
-      - uses: actions/cache@v1.1.0
-        with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-
-      # Configure test runner
-      - uses: game-ci/unity-test-runner@v2.0-alpha-2
-        id: testRunner
-        with:
-          testMode: all
-          unityVersion: 2020.1.4f1
-
-      # Upload artifacts
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
 
   #
