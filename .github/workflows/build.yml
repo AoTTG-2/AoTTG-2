@@ -10,6 +10,7 @@ env:
 
 jobs:
   testRunnerInEditMode:
+    if: false
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -41,6 +42,7 @@ jobs:
           path: ${{ steps.testRunner.outputs.artifactsPath }}
  
   buildAndTestForSomePlatforms:
+    if: false
     name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
@@ -50,7 +52,7 @@ jobs:
           - ${{ env.UNITY_VERSION }}
         targetPlatform:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          #- StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
     steps:     
       # Checkout
@@ -72,9 +74,38 @@ jobs:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: ${{ matrix.targetPlatform }}
           
-      - name: SonarQube
+      # This will automatically deploy the Builds
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
+
+  buildAndTestWindows:
+    name: Build for Windows64 with SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: StandaloneWindows64
+  
+      - name: SonarQube analysis
+        if: always()
         uses: MirrorNG/unity-runner@3.0.0
-        if: matrix.targetPlatform == 'StandaloneWindows64'
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: AoTTG-2_AoTTG-2
@@ -85,9 +116,3 @@ jobs:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-          
-      # This will automatically deploy the Builds
-      #- uses: actions/upload-artifact@v1
-      #  with:
-      #    name: Build
-      #    path: build
