@@ -70,20 +70,9 @@ jobs:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: ${{ matrix.targetPlatform }}
           
-  sonarQube:
-    name: SonarQube
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          lfs: true
-
-      # SonarQube    
-      - name: SonarQube analysis
-        if: always()
+      - name: SonarQube
         uses: MirrorNG/unity-runner@3.0.0
+        if: matrix.targetPlatform == 'StandaloneWindows64'
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: AoTTG-2_AoTTG-2
