@@ -43,13 +43,11 @@ jobs:
  
   buildAndTestForSomePlatforms:
     if: false
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        unityVersion: 
-          - ${{ env.UNITY_VERSION }}
         targetPlatform:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           #- StandaloneWindows64 # Build a Windows 64-bit standalone.
