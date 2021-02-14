@@ -41,7 +41,7 @@ jobs:
           path: ${{ steps.testRunner.outputs.artifactsPath }}
  
   buildAndTestForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    name: Build for ${{ matrix.targetPlatform }} on version ${{ env.UNITY_VERSION }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -60,12 +60,12 @@ jobs:
       - uses: actions/cache@v1.1.0
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
+          key: Library
           restore-keys: |
-            Library-
+            Library
           
       # Build
-      - uses: webbertakken/unity-builder@v0.10
+      - uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: ${{ matrix.targetPlatform }}
