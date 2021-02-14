@@ -72,6 +72,12 @@ namespace Assets.Scripts.UI.InGame
                 PlayerPrefs.SetInt("hasCustomHUD", 1);
 
                 hasChanged = false;
+            } else
+            {
+                foreach(GameObject element in HUDelements)
+                {
+                    element.GetComponent<CustomizableHUDElement>().StopCustomization();
+                }
             }
 
             HUD.inEditMode = false;

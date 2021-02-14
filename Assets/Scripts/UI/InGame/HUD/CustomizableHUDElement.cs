@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿ using UnityEngine.EventSystems;
+ using UnityEngine;
 using Assets.Scripts.UI.InGame;
 
 /* Any HUD element that is customizable should have this script attached */
-public class CustomizableHUDElement : MonoBehaviour
+public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
 {
     public ChangeHUDHandler handler;
     private bool beingDragged;
@@ -10,6 +11,27 @@ public class CustomizableHUDElement : MonoBehaviour
     public bool isVisible = true;
     private Animator anim;
     public GameObject selection;
+    private bool onSelection;
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        HoverSelection();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        CloseSelection();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        MouseUp();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        MouseDown();
+    }
 
     void Start()
     {
@@ -48,7 +70,8 @@ public class CustomizableHUDElement : MonoBehaviour
             float mouseX = Input.mousePosition.x;
             float mouseY = Input.mousePosition.y;
             handler.hasChanged = true;
-            
+
+
             // Check if the mouse is inside of the bounds of the screen. This avoid dragging HUD elements off screen. 
             if(mouseX < Screen.width && mouseX > 0 && mouseY < Screen.height && mouseY > 0)
             {

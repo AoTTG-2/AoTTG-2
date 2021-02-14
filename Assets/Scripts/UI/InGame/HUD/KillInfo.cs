@@ -76,9 +76,10 @@ namespace Assets.Scripts.UI.InGame.HUD
         private void Start()
         {
             this.start = true;
-            base.transform.localScale = new Vector3(0.85f, 0.85f, 0.85f);
-            startPosition = (Screen.height * startPositionRatio);
-            base.transform.position = new Vector3(Screen.width * 0.5f, startPosition, 0f);
+            this.transform.localScale = new Vector3(1,1,1);
+            // base.transform.localScale = new Vector3(0.85f, 0.85f, 0.85f);
+            // startPosition = (Screen.height * startPositionRatio);
+            // base.transform.position = new Vector3(Screen.width * 0.5f, startPosition, 0f);
         }
 
         private void Update()
@@ -86,25 +87,25 @@ namespace Assets.Scripts.UI.InGame.HUD
             if (this.start)
             {
                 this.timeElapsed += Time.deltaTime;
-                if (this.timeElapsed < 0.2f)
-                {
-                    base.transform.localScale = Vector3.Lerp(base.transform.localScale, (Vector3)(Vector3.one * this.maxScale), Time.deltaTime * 10f);
-                }
-                else if (this.timeElapsed < 1f)
-                {
-                    base.transform.localScale = Vector3.Lerp(base.transform.localScale, Vector3.one, Time.deltaTime * 10f);
-                }
-                if (this.timeElapsed > this.lifeTime)
-                {
-                    base.transform.position += new Vector3(0f, Time.deltaTime * 0.15f, 0f);
-                    this.alpha = ((1f - (Time.deltaTime * 45f)) + this.lifeTime) - this.timeElapsed;
-                    this.setAlpha(this.alpha);
-                }
-                else
-                {
-                    float num = ((int)(-startPosition)) + (this.col * this.offset);
-                    base.transform.position = Vector3.Lerp(base.transform.position, new Vector3(Screen.width * 0.5f, -num, 0f), Time.deltaTime * 10f);
-                }
+                // if (this.timeElapsed < 0.2f)
+                // {
+                //     base.transform.localScale = Vector3.Lerp(base.transform.localScale, (Vector3)(Vector3.one * this.maxScale), Time.deltaTime * 10f);
+                // }
+                // else if (this.timeElapsed < 1f)
+                // {
+                //     base.transform.localScale = Vector3.Lerp(base.transform.localScale, Vector3.one, Time.deltaTime * 10f);
+                // }
+                // if (this.timeElapsed > this.lifeTime)
+                // {
+                //     base.transform.position += new Vector3(0f, Time.deltaTime * 0.15f, 0f);
+                //     this.alpha = ((1f - (Time.deltaTime * 45f)) + this.lifeTime) - this.timeElapsed;
+                //     this.setAlpha(this.alpha);
+                // }
+                // else
+                // {
+                //     float num = ((int)(-startPosition)) + (this.col * this.offset);
+                //     base.transform.position = Vector3.Lerp(base.transform.position, new Vector3(Screen.width * 0.5f, -num, 0f), Time.deltaTime * 10f);
+                // }
                 if (this.timeElapsed > (this.lifeTime + 0.5f))
                 {
                     UnityEngine.Object.Destroy(base.gameObject);
