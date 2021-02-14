@@ -10,6 +10,15 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public Vector2 position;
 
+        public string markerName;
+
+        void Awake()
+        {
+            //Generate a unique ID as a name for the compass controller to remove this exact marker and not another marker with the same name.
+            System.Guid myGUID = System.Guid.NewGuid();
+            this.name = myGUID.ToString();
+        }
+
         void Start()
         {
             GameObject.Find("Compass").GetComponent<CompassController>().AddCompassMarker(this);
