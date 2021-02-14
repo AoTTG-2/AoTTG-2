@@ -30,7 +30,7 @@ jobs:
         id: testRunner
         with:
           testMode: editmode
-          unityVersion: env.UNITY_VERSION
+          unityVersion: ${{ env.UNITY_VERSION }}
           useNetworkHost: true
           customParameters: |
             -nographics
@@ -73,7 +73,7 @@ jobs:
       # Build
       - uses: webbertakken/unity-builder@v0.10
         with:
-          unityVersion: env.UNITY_VERSION
+          unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: ${{ matrix.targetPlatform }}
           
   sonarQube:
