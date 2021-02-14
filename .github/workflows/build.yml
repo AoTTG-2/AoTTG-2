@@ -26,8 +26,8 @@ jobs:
       #  with:
       #    unityVersion: 2020.1.4f1
 
-      #- name: Unity - Activate
-      #  uses: game-ci/unity-activate@v1.3
+      - name: Unity - Activate
+        uses: game-ci/unity-activate@v1.3
 
       # Upload artifact (Unity_v20XX.X.XXXX.alf)
       #- name: Expose as artifact
@@ -59,11 +59,11 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: game-ci/unity-test-runner@v1.7
+        uses: game-ci/unity-test-runner@main
         id: tests
         with:
           unityVersion: ${{ matrix.unityVersion }}
-          #testMode: ${{ matrix.testMode }}
+          testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
