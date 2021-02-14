@@ -1,31 +1,57 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.InGame
+namespace Assets.Scripts.UI.InGame.HUD
 {
     public class CompassController : UiElement
     {
+        public GameObject iconPrefab;
+        public List<CompassMarker> compassMarkers = new List<CompassMarker>();
+
         public bool compassMode;
+
         public RawImage compassImage;
         public Transform cam;
-        //public float screenPositionRatio = 0.95f;
 
+        float compassUnit;
 
-        // void OnEnable()
-        // {
-        //     Debug.Log("Has custom hud?: "+PlayerPrefs.GetInt("hasCustomHUD", 0)); // TODO: Remove this when finished. 
-        //     if(PlayerPrefs.GetInt("hasCustomHUD", 0) != 1)
-        //     {
-        //         GameObject.Find("CompassContainer").transform.position = new Vector3(Screen.width * 0.5f, Screen.height * screenPositionRatio, 0f);
-        //     }
-        // }
+        void Start()
+        {
+            compassUnit = compassImage.rectTransform.rect.width / 360f;
+        }
 
         void Update()
         {
             if(compassMode)
             {
                 compassImage.uvRect = new Rect (cam.localEulerAngles.y / 360f, 0f, 1f, 1f);
+
+                foreach(CompassMarker marker in compassMarkers)
+                {
+                    marker.image.rectTransform.anchoredPosition = GetPosOnCompass(marker);
+                } 
+
             }
+
+        }
+
+        public void AddCompassMarker (CompassMarker marker)
+        {
+            GameObject newMarker = Instantiate(iconPrefab, compassImage.transform);
+            marker.image = newMarker.GetComponent<Image>();
+            marker.image.sprite = marker.icon;
+
+            compassMarkers.Add(marker);
+        }
+
+        Vector2 GetPosOnCompass (CompassMarker marker) {
+            Vector2 playerPos = new Vector2(cam.transform.position.x, cam.transform.position.z);
+            Vector2 playerFwd = new Vector2(cam.transform.forward.x, cam.transform.forward.z);
+
+            float angle = Vector2.SignedAngle (marker.position - playerPos, playerFwd);
+
+            return new Vector2(compassUnit * angle, 0f);
         }
     }
 }
