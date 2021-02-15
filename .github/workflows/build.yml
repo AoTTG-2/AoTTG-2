@@ -102,7 +102,7 @@ jobs:
           targetPlatform: StandaloneWindows64
   
       - name: unity-sonarscanner
-        uses: FransStreicher/unity-sonarscanner@1.0.1
+        uses: FransStreicher/unity-sonarscanner@1.0.2
         with:
           buildCommand: dotnet build .
           testCommand: dotnet test.
