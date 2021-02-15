@@ -111,6 +111,6 @@ jobs:
           sonarOrganisation: aottg-2
           beginArguments: /d:sonar.verbose="true"
         env:
-          FrameworkPathOverride: /opt/unity/Editor/Data/Managed/
+          FrameworkPathOverride: /opt/unity/Editor/Data/MonoBleedingEdge/lib/mono/unityjit
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
