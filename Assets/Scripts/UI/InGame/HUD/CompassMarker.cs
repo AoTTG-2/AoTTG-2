@@ -10,25 +10,32 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public Vector2 position;
 
-        public string markerName;
+        public string markerID;
+
+        public bool isGlobal;
+        public bool followAlways;
 
         void Awake()
         {
             //Generate a unique ID as a name for the compass controller to remove this exact marker and not another marker with the same name.
             System.Guid myGUID = System.Guid.NewGuid();
-            this.name = myGUID.ToString();
+            markerID = myGUID.ToString();
         }
 
         void Start()
         {
-            GameObject.Find("Compass").GetComponent<CompassController>().AddCompassMarker(this);
+            CompassController compass = GameObject.Find("Compass").GetComponent<CompassController>();
+            compass.AddCompassMarker(this);
             position = new Vector2(transform.position.x, transform.position.z);
         }
 
-        // void Update()
-        // {
-        //     position = new Vector2(transform.position.x, transform.position.z);
-        // }
+        void Update()
+        {
+            if(followAlways)
+            {
+                position = new Vector2(transform.position.x, transform.position.z);
+            }
+        }
 
 
         void OnDestroy()

@@ -14,6 +14,10 @@ namespace Assets.Scripts.UI.InGame.HUD
         public RawImage compassImage;
         public Transform cam;
 
+        public float maxDistance = 450f; //minimap max distance
+
+        public GameObject markersParent;
+
         float compassUnit;
 
         void Start()
@@ -31,6 +35,20 @@ namespace Assets.Scripts.UI.InGame.HUD
                 foreach(CompassMarker marker in compassMarkers)
                 {
                     marker.image.rectTransform.anchoredPosition = GetPosOnCompass(marker);
+
+                    if(!marker.isGlobal)
+                    {
+                        float dst = Vector2.Distance (new Vector2(cam.transform.position.x, cam.transform.position.z), marker.position);
+                        float scale = 0f;
+
+                        if (dst < maxDistance)
+                            scale = 1f - (dst / maxDistance);
+
+                        //Fades whenever the player is far away
+                        var tempColor = marker.image.color;
+                        tempColor.a = scale;
+                        marker.image.color = tempColor;
+                    }
                 } 
 
             }
@@ -39,8 +57,8 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public void AddCompassMarker (CompassMarker marker)
         {
-            GameObject newMarker = Instantiate(iconPrefab, compassImage.transform);
-            newMarker.name = marker.name;
+            GameObject newMarker = Instantiate(iconPrefab, markersParent.transform);
+            newMarker.name = marker.markerID;
             marker.image = newMarker.GetComponent<Image>();
             marker.image.sprite = marker.icon;
 
@@ -49,9 +67,9 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public void DeleteCompassMarker(CompassMarker marker)
         {
-            foreach(Transform child in compassImage.transform)
+            foreach(Transform child in markersParent.transform)
             {
-                if(child.name == marker.name)
+                if(child.name == marker.markerID)
                 {
                     Destroy(child.gameObject);
                 }

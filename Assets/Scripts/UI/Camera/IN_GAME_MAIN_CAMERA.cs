@@ -879,6 +879,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         CompassController compass = GameObject.Find("Compass").GetComponent<CompassController>();
         compass.cam = this.transform;
         compass.compassMode = true;
+
     }
 
     private void OnDestroy()
