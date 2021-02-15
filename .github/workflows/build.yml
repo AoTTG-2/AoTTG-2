@@ -111,6 +111,6 @@ jobs:
           sonarOrganisation: aottg-2
           beginArguments: /d:sonar.verbose="true"
         env:
-          FrameworkPathOverride: Library
+          FrameworkPathOverride: /usr/lib/mono/4.5
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
