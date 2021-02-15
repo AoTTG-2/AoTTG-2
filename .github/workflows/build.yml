@@ -125,4 +125,4 @@ jobs:
         if: always()
         with:	
           name: 'Raw'	
-          path: '~/*'
+          path: ${{ github.workspace }}/**/*
