@@ -1,34 +1,85 @@
-#name: Acquire activation file
-#on: [push]
-#jobs:
-#  activation:
-#    name: Request manual activation file 🔑
-#    runs-on: ubuntu-latest
-#    steps:
-#      # Request manual activation file
-#      - name: Request manual activation file
-#        id: getManualLicenseFile
-#        uses: webbertakken/unity-request-manual-activation-file@v1.1
-#        with:
-#          unityVersion: 2020.1.4f1
-#      # Upload artifact (Unity_v20XX.X.XXXX.alf)
-#      - name: Expose as artifact
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-#          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+name: Actions 😎
 
-name: CI
 on:
   pull_request: {}
   push: { branches: [development] }
-  
-env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
-jobs:   
-  CI:
-    name: Build
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
+  UNITY_VERSION: 2020.1.17f1
+
+jobs:
+  testRunnerInEditMode:
+    if: false
+    name: Test in editmode 📝
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository (required to test local actions)
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-
+      # Configure test runner
+      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+        id: testRunner
+        with:
+          testMode: editmode
+          unityVersion: ${{ env.UNITY_VERSION }}
+          useNetworkHost: true
+          customParameters: |
+            -nographics
+      # Upload artifact
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results (edit mode)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
+ 
+  buildAndTestForSomePlatforms:
+    if: false
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+          #- StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+    steps:     
+      # Checkout
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+          restore-keys: |
+            Library
+          
+      # Build
+      - uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          
+      # This will automatically deploy the Builds
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
+
+  buildAndTestWindows:
+    name: Build for Windows64 with SonarQube
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -43,56 +94,31 @@ jobs:
           path: Library
           key: Library
 
-      # Test
-      #- name: Run tests
-      #  uses: webbertakken/unity-test-runner@v1.3
-      #  with:
-      #    unityVersion: 2020.1.4f1
-
       # Build
       - name: Build project
-        uses: webbertakken/unity-builder@v0.10
+        uses: AoTTG-2/unity-builder@main
         with:
-          unityVersion: 2020.1.4f1
+          unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
-  
+            
+      #- name: Find and Replace
+      #  uses: jacobtomlinson/gha-find-replace@master
+      #  with:
+      #    find: "/opt/unity/Editor/Data/"
+      #    replace: "world"
+      #    exclude: "*.py" # Do not modify Python files      
+      
       - name: SonarQube analysis
         if: always()
-        uses: MirrorNG/unity-runner@3.0.0
+        uses: MirrorNG/unity-runner@3.1.0
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: AoTTG-2_AoTTG-2
           projectName: AoTTG-2
           sonarOrganisation: aottg-2
+          solution: AoTTG-2.sln
           beginArguments: /d:sonar.verbose="true"
         env:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-          
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:	
-          name: 'Raw'	
-          path: ${{ github.workspace }}/**/*
-
-#  Release:
-#    runs-on: ubuntu-latest
-#    needs: CI
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0
-  
-#      - name: Release
-#        uses: cycjimmy/semantic-release-action@v2
-#        with:
-#          extra_plugins: |
-#            @semantic-release/exec
-#            @semantic-release/changelog
-#            @semantic-release/git
-#          branch: development
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-
