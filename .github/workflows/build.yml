@@ -101,15 +101,16 @@ jobs:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
   
-      - name: unity-sonarscanner
-        uses: MirrorNG/unity-sonarscanner@1.0.1
+      - name: SonarQube analysis
+        if: always()
+        uses: MirrorNG/unity-runner@3.0.0
         with:
-          buildCommand: dotnet build .
-          testCommand: dotnet test.
+          entrypoint: /sonar-scanner.sh
           projectKey: AoTTG-2_AoTTG-2
           projectName: AoTTG-2
           sonarOrganisation: aottg-2
           beginArguments: /d:sonar.verbose="true"
         env:
+          FrameworkPathOverride: /opt/unity/Editor/Data/Managed/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
