@@ -16,6 +16,7 @@ namespace Assets.Scripts.UI.InGame
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
         public PauseIndicator PauseIndicator;
+        public ChangeHUDHandler ChangeHUDMenu;
         private static IPauseService PauseService => Service.Pause;
 
         public void TogglePauseMenu()
@@ -41,6 +42,7 @@ namespace Assets.Scripts.UI.InGame
 
         private void Awake()
         {
+            AddChild(ChangeHUDMenu);
             AddChild(HUD);
             AddChild(Menu);
             AddChild(SpawnMenu);
@@ -63,6 +65,7 @@ namespace Assets.Scripts.UI.InGame
             PauseIndicator.Hide();
             ControlsMenu.Hide();
             Scoreboard.Hide();
+            ChangeHUDMenu.Hide();
 
             PauseService.OnPaused += PauseService_OnPaused;
             PauseService.OnUnPaused += PauseService_OnUnPaused;
