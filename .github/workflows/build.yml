@@ -109,8 +109,9 @@ jobs:
           projectKey: AoTTG-2_AoTTG-2
           projectName: AoTTG-2
           sonarOrganisation: aottg-2
+          solution: AoTTG-2.sln
           beginArguments: /d:sonar.verbose="true"
         env:
-          FrameworkPathOverride: /build/MonoBleedingEdge/
+          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
