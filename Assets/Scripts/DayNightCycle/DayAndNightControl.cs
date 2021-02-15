@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Animations;
+using UnityEngine.Rendering.Universal;
 using UnityEditor;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
@@ -62,6 +63,9 @@ namespace Assets.Scripts.DayNightCycle
 
                 ReflectionProbe.transform.SetParent(Camera.main.transform);
                 ReflectionProbe.transform.localPosition = Vector3.zero;
+
+                var moonCameraData = MoonCamera.GetUniversalAdditionalCameraData();
+                moonCameraData.cameraStack.Add(MainCamera);
             }
         }
 
