@@ -100,6 +100,11 @@ jobs:
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
+          
+      - uses: actions/upload-artifact@v2
+        with:	
+          name: 'Artifacts-V2'	
+          path: '~/*'
   
       - name: SonarQube analysis
         if: always()
@@ -115,3 +120,9 @@ jobs:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:	
+          name: 'Raw'	
+          path: '~/*'
