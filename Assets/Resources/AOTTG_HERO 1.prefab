@@ -202,7 +202,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1 &1025234496436992
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ SkinnedMeshRenderer:
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+  m_DirtyAABB: 0
 --- !u!1 &1060016085738338
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,7 +732,6 @@ MonoBehaviour:
   myCannonBase: {fileID: 0}
   myCannonPlayer: {fileID: 0}
   myCannonRegion: {fileID: 0}
-  myGroup: 0
   myNetWorkName: {fileID: 0}
   myScale: 1
   myTeam: 1
@@ -1400,6 +1399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4554367112247472}
   - component: {fileID: 212972464502073596}
+  - component: {fileID: 5122841081289485408}
   m_Layer: 21
   m_Name: MinimapIcon
   m_TagString: Untagged
@@ -1472,6 +1472,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5122841081289485408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254213401184238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d769059bd3f79784e8ed4dc10796bc5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1276579415760026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,11 +1625,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3949d1ea012e8943b695945196156cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active_me: 0
+  IsActive: 0
+  RightHand: 0
   currentCamera: {fileID: 0}
   meatDie: {fileID: 82385810793831916}
+  hero: {fileID: 0}
   myTeam: 1
   scoreMulti: 1
+  body: {fileID: 0}
 --- !u!54 &54703817492150332
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2068,7 +2083,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10b13c1ea6af0a4f9e6e421f68a9ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  group: 0
   hitPosition: {x: 0, y: 0, z: 0}
   multiple: 1
 --- !u!1 &1409016993212480
@@ -2355,11 +2369,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3949d1ea012e8943b695945196156cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active_me: 0
+  IsActive: 0
+  RightHand: 0
   currentCamera: {fileID: 0}
   meatDie: {fileID: 82385810793831916}
+  hero: {fileID: 0}
   myTeam: 1
   scoreMulti: 1
+  body: {fileID: 0}
 --- !u!54 &54686914766125102
 Rigidbody:
   m_ObjectHideFlags: 0
