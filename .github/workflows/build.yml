@@ -168,14 +168,13 @@ jobs:
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
-          
-      - name: Find and Replace
-        uses: jacobtomlinson/gha-find-replace@master
+      
+      # Experimental .csproj modifier
+      - name: Hello world action step
+        id: hello
+        uses: Lithrun/file-content-replacer@main
         with:
-          find: "/opt/unity/Editor/Data/Managed/UnityEngine"
-          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
-          include: .*.csproj
-          exclude: ''
+          who-to-greet: 'Mona the Octocat'
       
        # This will automatically deploy the Builds
       - uses: actions/upload-artifact@v2
