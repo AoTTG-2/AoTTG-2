@@ -111,6 +111,7 @@ jobs:
   buildAndTestWindows:
     needs: testRunnerInPlayMode
     name: Build for Windows64 with SonarQube
+    if: always()
     runs-on: ubuntu-latest
     steps:
       # Checkout
