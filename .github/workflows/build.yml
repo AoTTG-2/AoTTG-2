@@ -164,7 +164,8 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@master
         with:
           find: "/opt/unity/Editor/Data/Managed/UnityEngine"
-          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"   
+          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
+          exclude: "Library"
       
       - name: SonarQube analysis
         if: always()
