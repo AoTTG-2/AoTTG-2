@@ -65,7 +65,8 @@ jobs:
           testMode: playmode
           unityVersion: ${{ env.UNITY_VERSION }}
           customParameters: |
-            -nographics:
+            -nographics
+            -silent-crashes
       # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
