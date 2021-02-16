@@ -147,9 +147,8 @@ jobs:
       #    path: build
 
   sonarCloud:
-    needs: buildWindows
+    needs: testRunnerInPlayMode
     name: Build for Windows64 with SonarQube
-    if: always()
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -163,18 +162,20 @@ jobs:
         with:
           path: Library
           key: Library
-                  
-      - name: Replace Action
-        uses: datamonsters/replace-action@v2
-
-                  
-      - name: Find and Replace
-        uses: jacobtomlinson/gha-find-replace@master
+                                    
+      #- name: Find and Replace
+      #  uses: jacobtomlinson/gha-find-replace@master
+      #  with:
+      #    find: "/opt/unity/Editor/Data/Managed/UnityEngine"
+      #    replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
+      #    include: .*.csproj
+      #    exclude: ''
+      
+      # Build
+      - uses: game-ci/unity-builder@v2.0-alpha-6
         with:
-          find: "/opt/unity/Editor/Data/Managed/UnityEngine"
-          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
-          include: .*.csproj
-          exclude: ''
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: ${{ matrix.targetPlatform }}
       
       - name: SonarQube analysis
         if: always()
