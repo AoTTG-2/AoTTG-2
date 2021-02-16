@@ -15,132 +15,17 @@ MonoBehaviour:
   AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 51.210.5.100
+  ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
   RunInBackground: 1
-  RpcList:
-  - backToHumanRPC
-  - badGuyReleaseMe
-  - blowAway
-  - changeDoor
-  - changeHumanPt
-  - changeState
-  - changeTitanPt
-  - Chat
-  - ChatPM
-  - ClearChat
-  - clearlevel
-  - CrossFadeRpc
-  - DestroyRpc
-  - endMovingRock
-  - GetHit
-  - getRacingResult
-  - Grab
-  - grabbedTargetEscape
-  - GrabEscapeRpc
-  - grabToLeft
-  - grabToRight
-  - hitAnkleLRPC
-  - hitAnkleRRPC
-  - hitByFTRPC
-  - hitByTitanRPC
-  - hitEyeRPC
-  - hookFail
-  - InitializeRpc
-  - InitializeRPC
-  - InstantiateRpc
-  - ignorePlayer
-  - ignorePlayerArray
-  - initRPC
-  - killObject
-  - labelRPC
-  - launchRPC
-  - loadskinE
-  - loadskinRPC
-  - moveToRPC
-  - myMasterIs
-  - net3DMGSMOKE
-  - netContinueAnimation
-  - netCrossFade
-  - netDie
-  - netDie2
-  - netGrabbed
-  - netlaughAttack
-  - netLaunch
-  - netPauseAnimation
-  - netPlayAnimation
-  - netPlayAnimationAt
-  - netRefreshRacingResult
-  - netSetIsGrabbedFalse
-  - netShowDamage
-  - netTauntAttack
-  - netUngrabbed
-  - netUpdateLeviSpiral
-  - netUpdatePhase1
-  - OnArrivedAtLastCheckpointRpc
-  - OnBodyPartHitRpc
-  - OnEyeHitRpc
-  - OnGameEndRpc
-  - OnNapeHitRpc
-  - OnNapeHitRpc2
-  - PauseRpc
-  - PickupItemInit
-  - playsoundRPC
-  - PunPickup
-  - PunPickupSimple
-  - PunRespawn
-  - RacingStartRpc
-  - RefreshCaptureScore
-  - removeMe
-  - RequestControlRPC
-  - RequestForPickupItems
-  - RequestForPickupTimes
-  - RequestStatus
-  - respawnHeroInNewRound
-  - RespawnRpc
-  - ReturnFromCannon
-  - rockPlayAnimation
-  - RPCHookedByHuman
-  - RPCLoadLevel
-  - setDust
-  - setHairPRC
-  - setHairRPC2
-  - setIfLookTarget
-  - setMasterRC
-  - SetMyCannon
-  - SetMyPhotonCamera
-  - setMyTeam
-  - setPhase
-  - setSize
-  - SetSize
-  - setTeamRPC
-  - setVelocityAndLeft
-  - showHitDamage
-  - showResult
-  - SpawnCannonRPC
-  - spawnPlayerAtRPC
-  - SpawnPlayerTitanRpc
-  - startMovingRock
-  - startNeckSteam
-  - startSweepSmoke
-  - stopSweepSmoke
-  - SyncBodyPartRpc
-  - SyncSettingsRpc
-  - tieMeTo
-  - tieMeToOBJ
-  - titanGetKill
-  - UpdateHealthLabelRpc
-  - UpdateHealthLabelRpc2
-  - updateKillInfo
-  - verifyPlayerHasLeft
-  - whoIsMyErenTitan
-  DisableAutoOpenWizard: 1
+  RpcList: []
+  DisableAutoOpenWizard: 0

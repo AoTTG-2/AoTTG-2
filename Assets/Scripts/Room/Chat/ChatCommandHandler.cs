@@ -393,7 +393,7 @@ public static class ChatCommandHandler
         if (PhotonNetwork.offlineMode)
         {
             instance.InGameUI.TogglePauseMenu();
-        } 
+        }
         else
         {
             Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All, !Service.Pause.IsPaused(), false);

@@ -53,6 +53,7 @@ namespace Assets.Scripts.Room.Chat
             RemoveMessageIfMoreThanMax();
             messages.Add(message);
         }
+
         public void OutputSystemMessage(string input)
         {
             var message = $"<color=#FFCC00>{input}</color>"; ;
@@ -183,47 +184,47 @@ namespace Assets.Scripts.Room.Chat
             ChatCommandHandler.CommandHandler(input);
         }
 
-    private bool MarkupIsOk(string message)
-    {
-        var openingTags = Regex.Matches(message, @"<([a-z]*)(?:=.+?)?>");
-        var closingTags =  Regex.Matches(message, @"</([a-z]*)>");
-        Dictionary<string, int> openCount = new Dictionary<string, int>();
-        Dictionary<string, int> closeCount = new Dictionary<string, int>();
-
-        for(int i = 0; i < openingTags.Count; i++)
+        private bool MarkupIsOk(string message)
         {
-            var match = openingTags[i];
-            var m = match.Groups[1].Value;
+            var openingTags = Regex.Matches(message, @"<([a-z]*)(?:=.+?)?>");
+            var closingTags = Regex.Matches(message, @"</([a-z]*)>");
+            Dictionary<string, int> openCount = new Dictionary<string, int>();
+            Dictionary<string, int> closeCount = new Dictionary<string, int>();
 
-            if (openCount.ContainsKey(m))
-                openCount[m] += 1;
-            else
-                openCount.Add(m, 1);
+            for (int i = 0; i < openingTags.Count; i++)
+            {
+                var match = openingTags[i];
+                var m = match.Groups[1].Value;
+
+                if (openCount.ContainsKey(m))
+                    openCount[m] += 1;
+                else
+                    openCount.Add(m, 1);
+            }
+            for (int i = 0; i < closingTags.Count; i++)
+            {
+                var match = closingTags[i];
+                var m = match.Groups[1].Value;
+
+                if (closeCount.ContainsKey(m))
+                    closeCount[m] += 1;
+                else
+                    closeCount.Add(m, 1);
+            }
+
+            if (openCount.Keys.Count != closeCount.Keys.Count)
+                return false;
+
+            foreach (var key in openCount.Keys)
+            {
+                if (openCount[key] == closeCount[key])
+                    continue;
+
+                return false;
+            }
+
+            return true;
         }
-        for (int i = 0; i < closingTags.Count; i++)
-        {
-            var match = closingTags[i];
-            var m = match.Groups[1].Value;
-
-            if (closeCount.ContainsKey(m))
-                closeCount[m] += 1;
-            else
-                closeCount.Add(m, 1);
-        }
-
-        if (openCount.Keys.Count != closeCount.Keys.Count)
-            return false;
-
-        foreach(var key in openCount.Keys)
-        {
-            if (openCount[key] == closeCount[key])
-                continue;
-
-            return false;
-        }
-
-        return true;
-    }
 
     }
 }
