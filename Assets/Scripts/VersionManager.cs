@@ -36,8 +36,7 @@ namespace Assets.Scripts
             }
             catch (Exception e)
             {
-                Debug.LogError("Unable to retrieve the branch name");
-                Debug.LogException(e);
+                Debug.LogWarning("Unable to retrieve the branch name");
             }
             return false;
         }
