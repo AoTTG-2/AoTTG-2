@@ -160,11 +160,16 @@ jobs:
           path: Library
           key: Library
                   
+      - name: Replace Action
+        uses: datamonsters/replace-action@v2
+
+                  
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@master
         with:
           find: "/opt/unity/Editor/Data/Managed/UnityEngine"
           replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
+          include: ".*.csproj"
       
       - name: SonarQube analysis
         if: always()
