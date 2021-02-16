@@ -10,7 +10,7 @@ env:
 
 jobs:
   testRunnerInEditMode:
-    if: true
+    if: false
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +42,7 @@ jobs:
           path: ${{ steps.testRunner.outputs.artifactsPath }}
           
   testRunnerInPlayMode:
-    if: true
+    if: false
     name: Test in playmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +71,41 @@ jobs:
           name: Test results (edit mode)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
  
-  buildAndTestForSomePlatforms:
+  buildWindows:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+    steps:     
+      # Checkout
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+          restore-keys: |
+            Library
+          
+      # Build
+      - uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          
+      # This will automatically deploy the Builds
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
+ 
+  buildOtherPlatforms:
     if: false
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
@@ -108,8 +142,8 @@ jobs:
       #    name: Build
       #    path: build
 
-  buildAndTestWindows:
-    needs: testRunnerInPlayMode
+  sonarCloud:
+    needs: buildWindows
     name: Build for Windows64 with SonarQube
     if: always()
     runs-on: ubuntu-latest
@@ -125,30 +159,13 @@ jobs:
         with:
           path: Library
           key: Library
-
-      # Build
-      - name: Build project
-        uses: game-ci/unity-builder@v2.0-alpha-6
+                  
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@master
         with:
-          unityVersion: ${{ env.UNITY_VERSION }}
-          targetPlatform: StandaloneWindows64
-      
-      # Configure test runner
-      - uses: game-ci/unity-test-runner@v2.0-alpha-2
-        id: testRunner
-        with:
-          testMode: editmode
-          unityVersion: ${{ env.UNITY_VERSION }}
-          useNetworkHost: true
-          customParameters: |
-            -nographics
-            
-      #- name: Find and Replace
-      #  uses: jacobtomlinson/gha-find-replace@master
-      #  with:
-      #    find: "/opt/unity/Editor/Data/"
-      #    replace: "world"
-      #    exclude: "*.py" # Do not modify Python files      
+          find: "/opt/unity/Editor/Data/Managed/UnityEngine"
+          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
+          include: "*.csproj" # Do not modify Python files      
       
       - name: SonarQube analysis
         if: always()
