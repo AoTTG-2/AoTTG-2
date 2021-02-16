@@ -177,6 +177,12 @@ jobs:
           include: .*.csproj
           exclude: ''
       
+       # This will automatically deploy the Builds
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Projects
+          path: "*.csproj"
+      
       - name: SonarQube analysis
         if: always()
         uses: MirrorNG/unity-runner@3.1.0
