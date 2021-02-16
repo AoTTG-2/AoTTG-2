@@ -7,15 +7,16 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
 {
     public class Scoreboard : UiMenu
     {
-
         public GameObject playerInfoPrefab;
-        public GameObject otherPlayerInfoPrefab;
         public GameObject playerListParent;
+
+        public SortButton[] sortButtons;
+
         public TMP_Text roomName;
         public TMP_Text playerCount;
         public TMP_Text gameMode;
         public TMP_Text sortContainer;
-        public TMP_Text[] labels;
+        // public TMP_Text[] labels;
         public string sortLabel;
         private float timeLast = 0;
 
@@ -27,7 +28,11 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
 
         void Start()
         {
-            SortByScore();
+            sortButtons = GameObject.FindObjectsOfType<SortButton>();
+            foreach(SortButton btn in sortButtons)
+            {
+                if(btn.defaultLabel == "SCORE") btn.Sort(); //Sort by score on start
+            }
         }
 
         private void LateUpdate()
@@ -52,30 +57,30 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
 
             switch (sortLabel)
             {
-                case "id":
+                case "ID":
                     playerList.Sort(SortByID);
                     break;
-                case "name":
+                case "NAME":
                     playerList.Sort(SortByName);
                     break;
-                case "score":
+                case "SCORE":
                     playerList.Sort(SortByScore);
                     break;
-                case "kills":
+                case "K":
                     playerList.Sort(SortByKills);
                     break;
-                case "deaths":
+                case "D":
                     playerList.Sort(SortByDeaths);
                     break;
-                case "max damage":
+                case "MAX DAMAGE":
                     playerList.Sort(SortByMaxDamage);
                     break;
-                case "total damage":
+                case "TOTAL DAMAGE":
                     playerList.Sort(SortByTotalDamage);
                     break;
             }
 
-            sortContainer.text = "Sorted by " + sortLabel;
+            sortContainer.text = "SORTED BY " + sortLabel;
             
             
             // Loop through each player and display them on the scoreboard.
@@ -95,10 +100,11 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
                 if(player.IsLocal)
                 {
                     playerInfo = Instantiate(playerInfoPrefab, transform.position, transform.rotation, playerListParent.transform);
+                    playerInfo.GetComponent<PlayerInfo>().isMine = true;
                 }
                 else
                 {
-                    playerInfo = Instantiate(otherPlayerInfoPrefab, transform.position, transform.rotation, playerListParent.transform);
+                    playerInfo = Instantiate(playerInfoPrefab, transform.position, transform.rotation, playerListParent.transform);
                 }
 
                 PlayerInfo playerLabel = playerInfo.GetComponent<PlayerInfo>();
@@ -122,66 +128,6 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
             gameMode.text = PhotonNetwork.room.CustomProperties["gamemode"].ToString() + " - " + PhotonNetwork.room.CustomProperties["level"].ToString();
             playerCount.text = PhotonNetwork.room.PlayerCount + "/" + PhotonNetwork.room.MaxPlayers;
         }
-
-    #region OnClick events called by buttons
-
-        public void SortByID()
-        {
-            sortLabel = "id";
-            SetLabelIndicators();
-        }
-        public void SortByName()
-        {
-            sortLabel = "name";
-            SetLabelIndicators();
-        }
-
-        public void SortByKills()
-        {
-            sortLabel = "kills";
-            SetLabelIndicators();
-        }
-
-        public void SortByDeaths()
-        {
-            sortLabel = "deaths";
-            SetLabelIndicators();
-        }
-
-        public void SortByMaxDamage()
-        {
-            sortLabel = "max damage";
-            SetLabelIndicators();
-        }
-
-        public void SortByTotal()
-        {
-            sortLabel = "total damage";
-            SetLabelIndicators();
-        }
-
-        public void SortByScore()
-        {
-            sortLabel = "score";
-            SetLabelIndicators();
-        }
-
-        private void SetLabelIndicators()
-        {
-            foreach(TMP_Text label in labels)
-            {
-                if(label.gameObject.name == sortLabel)
-                {
-                    label.GetComponent<SortLabelIndicator>().SetIndicator();
-                }
-                else
-                {
-                    label.GetComponent<SortLabelIndicator>().SetDefault();
-                }
-            }
-        }
-
-    #endregion
 
     #region Sorting Functions
 
@@ -243,6 +189,7 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
             score *= 100;
             return Mathf.RoundToInt(score);
         }
+
 
         protected override void OnDisable()
         {

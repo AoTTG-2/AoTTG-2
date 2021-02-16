@@ -14,7 +14,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public RawImage compassImage;
         public Transform cam;
 
-        public float maxDistance = 450f; //minimap max distance
+        public float maxDistance; 
 
         public GameObject markersParent;
 
@@ -24,6 +24,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         {
             //1 compass unit equals 1 degree angle
             compassUnit = compassImage.rectTransform.rect.width / 360f;
+            maxDistance = 150f; //minimap max distance
         }
 
         void Update()
