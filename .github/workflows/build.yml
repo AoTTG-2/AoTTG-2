@@ -165,8 +165,6 @@ jobs:
         with:
           find: "/opt/unity/Editor/Data/Managed/UnityEngine"
           replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
-          include: "csproj"
-          exclude: "Library"
       
       - name: SonarQube analysis
         if: always()
