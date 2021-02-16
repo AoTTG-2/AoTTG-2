@@ -33,7 +33,6 @@ namespace Assets.Scripts.DayNightCycle
 
         private int frames;
        
-        // Use this for initialization
         void Start()
         {
             Pause=true;
@@ -101,7 +100,6 @@ namespace Assets.Scripts.DayNightCycle
             Service.Settings.OnTimeSettingsChanged -= Settings_OnTimeSettingsChanged;
         }
 
-        // Update is called once per frame
         void Update()
         {
             

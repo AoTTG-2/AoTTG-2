@@ -12,9 +12,8 @@ namespace Assets.Scripts.DayNightCycle
         public GameObject DayNightController;
         public GameObject MainLight;
         public Text Label;
-
         DayAndNightControl dayNightCycle;
-        // Start is called before the first frame update
+
         void Start()
         {
             ToggleDayNight.isOn = false;
