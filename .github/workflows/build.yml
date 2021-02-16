@@ -68,6 +68,22 @@ jobs:
             -nographics
             -silent-crashes
             -force-glcore
+             
+            - name: SonarQube analysis
+        
+      - uses: MirrorNG/unity-runner@3.1.0
+        with:
+          entrypoint: /sonar-scanner.sh
+          projectKey: AoTTG-2_AoTTG-2
+          projectName: AoTTG-2
+          sonarOrganisation: aottg-2
+          solution: AoTTG-2.sln
+          beginArguments: /d:sonar.verbose="true"
+        env:
+          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}        
+     
       # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
