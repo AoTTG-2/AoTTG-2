@@ -115,10 +115,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          lfs: true
+      #- name: Checkout repository
+      #  uses: actions/checkout@v2
+      #  with:
+      #    lfs: true
 
       # Cache
       - uses: actions/cache@v1.1.0
