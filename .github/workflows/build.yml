@@ -64,7 +64,8 @@ jobs:
         with:
           testMode: playmode
           unityVersion: ${{ env.UNITY_VERSION }}
-          useNetworkHost: true
+          customParameters: |
+            -nographics:
       # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
