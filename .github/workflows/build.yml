@@ -65,9 +65,16 @@ jobs:
           testMode: playmode
           unityVersion: ${{ env.UNITY_VERSION }}
           customParameters: |
+            -nographics
             -silent-crashes
             -force-glcore
              
+      # Build
+      - uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+                      
       - name: SonarQube analysis
         uses: MirrorNG/unity-runner@3.1.0
         with:
@@ -161,7 +168,7 @@ jobs:
       #    path: build
 
   sonarCloud:
-    needs: testRunnerInPlayMode
+    if: false
     name: Build for Windows64 with SonarQube
     runs-on: ubuntu-latest
     steps:
