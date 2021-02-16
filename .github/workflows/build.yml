@@ -115,10 +115,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout
-      #- name: Checkout repository
-      #  uses: actions/checkout@v2
-      #  with:
-      #    lfs: true
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
 
       # Cache
       - uses: actions/cache@v1.1.0
@@ -132,6 +132,16 @@ jobs:
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
+      
+      # Configure test runner
+      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+        id: testRunner
+        with:
+          testMode: editmode
+          unityVersion: ${{ env.UNITY_VERSION }}
+          useNetworkHost: true
+          customParameters: |
+            -nographics
             
       #- name: Find and Replace
       #  uses: jacobtomlinson/gha-find-replace@master
