@@ -30,7 +30,12 @@ namespace Assets.Scripts.Services
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
+#if UNITY_INCLUDE_TESTS
+            Discord = gameObject.AddComponent<DiscordTestService>();
+#else
             Discord = gameObject.AddComponent<DiscordService>();
+#endif
+
             Photon = gameObject.GetComponent<IPhotonService>();
             gameObject.AddComponent<ScreenshotService>();
         }
