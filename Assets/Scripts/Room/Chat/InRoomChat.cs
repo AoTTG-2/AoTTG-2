@@ -24,6 +24,8 @@ namespace Assets.Scripts.Room.Chat
         public GameObject messagePrefab;
         public GameObject messagePrefabParent;
         private bool IsChatOpen { get; set; }
+        Regex openingTags = new Regex(@"<([a-z]*)(?:=.+?)?>");
+        Regex closingTags = new Regex( @"</([a-z]*)>");
 
         public bool IsVisible()
         {
@@ -55,6 +57,8 @@ namespace Assets.Scripts.Room.Chat
             }
             RemoveMessageIfMoreThanMax();
             messages.Add(message);
+            
+            UpdateChat(message);
         }
         public void OutputSystemMessage(string input)
         {
@@ -99,8 +103,7 @@ namespace Assets.Scripts.Room.Chat
             }
 
             HandleChatInput(this);
-
-            UpdateChat(this);
+            inputLine = ChatInputField?.text;
         }
 
         private void TrimMessage(string message)
@@ -166,47 +169,10 @@ namespace Assets.Scripts.Room.Chat
             }
         }
 
-        public void UpdateChat(InRoomChat chat)
+        public void UpdateChat(string message)
         {
-            // var messageHandler = new StringBuilder();
-            // foreach (var message in messages)
-            // {
-            //     messageHandler.AppendLine(message);
-            // }
-
-            // if (ChatText != null)
-            // {
-            //     chat.ChatText.text = messageHandler.ToString();
-            // }
-
-            //To have each messages as separate object, I instantiated them instead
-            foreach(Transform child in messagePrefabParent.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-
-            foreach (var message in messages)
-            {
-                GameObject newMessage = Instantiate(messagePrefab, messagePrefabParent.transform);
-                newMessage.GetComponent<TMP_Text>().text = message;
-            }
-
-            chat.inputLine = chat.ChatInputField?.text;
-        }
-
-        public void UpdateMessages()
-        {
-            
-            // foreach(Transform child in messagePrefabParent.transform)
-            // {
-            //     GameObject.Destroy(child.gameObject);
-            // }
-
-            foreach (var message in messages)
-            {
-                GameObject newMessage = Instantiate(messagePrefab, messagePrefabParent.transform);
-                newMessage.GetComponent<TMP_Text>().text = message;
-            }
+            GameObject newMessage = Instantiate(messagePrefab, messagePrefabParent.transform);
+            newMessage.GetComponent<TMP_Text>().text = message;
         }
 
         private void CommandHandler(string input)
@@ -216,8 +182,8 @@ namespace Assets.Scripts.Room.Chat
 
     private bool MarkupIsOk(string message)
     {
-        var openingTags = Regex.Matches(message, @"<([a-z]*)(?:=.+?)?>");
-        var closingTags =  Regex.Matches(message, @"</([a-z]*)>");
+        var openingTags = this.openingTags.Matches(message);
+        var closingTags =  this.closingTags.Matches(message);
         Dictionary<string, int> openCount = new Dictionary<string, int>();
         Dictionary<string, int> closeCount = new Dictionary<string, int>();
 
