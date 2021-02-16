@@ -3,7 +3,6 @@ using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Settings;
-using Assets.Scripts.UI.InGame.HUD;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,8 +17,6 @@ namespace Assets.Scripts.Characters.Titan
         public AudioSource AudioSourceFoot;
         public new MindlessTitanBody Body;
         public TITAN_SETUP SetupScript;
-
-        public MinimapIcon minimapIcon;
 
         public TitanState PreviousState;
         public TitanState NextState;
@@ -455,7 +452,6 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (!Animation.IsPlaying(AnimationDeath))
             {
-                Destroy(minimapIcon.gameObject);
                 CrossFade(AnimationDeath, 0.05f);
             }
             var deathTime = Animation[AnimationDeath].normalizedTime;

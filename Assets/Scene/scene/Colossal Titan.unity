@@ -28761,19 +28761,19 @@ BoxCollider:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
-  m_FogColor: {r: 0.5411765, g: 0.6313726, b: 0.7058824, a: 0.15686378}
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.00047059133
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.23137099, g: 0.32940978, b: 0.50195724, a: 1}
-  m_AmbientEquatorColor: {r: 0.70588195, g: 0.76470536, b: 0.7843125, a: 1}
-  m_AmbientGroundColor: {r: 0.2980382, g: 0.2745084, b: 0.2509781, a: 1}
+  m_AmbientSkyColor: {r: 0.5568628, g: 0.5095071, b: 0.4585929, a: 1}
+  m_AmbientEquatorColor: {r: 0.5568628, g: 0.5095071, b: 0.4585929, a: 1}
+  m_AmbientGroundColor: {r: 0.5568628, g: 0.5095071, b: 0.4585929, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 1
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 6a23a9e4018917b4e9f0e8aebcf27acc, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -28784,7 +28784,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 1198174950}
+  m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.10554765, g: 0.13596165, b: 0.13583474, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!111 &1555
@@ -43311,12 +43311,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7496b60d927ab42ae88bede3e35b7c, type: 3}
---- !u!108 &1198174950 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 10851780, guid: 3e7496b60d927ab42ae88bede3e35b7c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1198174949}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1268493715
 GameObject:
   m_ObjectHideFlags: 0
@@ -43370,7 +43364,7 @@ Terrain:
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: 8a929fed7eaf66341bedc2f933bdb931, type: 2}
+  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
