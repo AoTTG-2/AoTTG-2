@@ -164,8 +164,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@master
         with:
           find: "/opt/unity/Editor/Data/Managed/UnityEngine"
-          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
-          include: "*.csproj" # Do not modify Python files      
+          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"   
       
       - name: SonarQube analysis
         if: always()
