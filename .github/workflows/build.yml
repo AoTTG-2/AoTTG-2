@@ -10,7 +10,7 @@ env:
 
 jobs:
   testRunnerInEditMode:
-    if: false
+    if: true
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +42,7 @@ jobs:
           path: ${{ steps.testRunner.outputs.artifactsPath }}
           
   testRunnerInPlayMode:
-    if: false
+    if: true
     name: Test in playmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +72,7 @@ jobs:
           path: ${{ steps.testRunner.outputs.artifactsPath }}
  
   buildWindows:
+    if: false
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
