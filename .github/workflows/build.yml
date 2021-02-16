@@ -10,7 +10,7 @@ env:
 
 jobs:
   testRunnerInEditMode:
-    if: false
+    if: true
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -35,6 +35,36 @@ jobs:
           useNetworkHost: true
           customParameters: |
             -nographics
+      # Upload artifact
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results (edit mode)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
+          
+  testRunnerInPlayMode:
+    if: true
+    name: Test in playmode 📝
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository (required to test local actions)
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-
+      # Configure test runner
+      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+        id: testRunner
+        with:
+          testMode: playmode
+          unityVersion: ${{ env.UNITY_VERSION }}
+          useNetworkHost: true
       # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
@@ -79,6 +109,7 @@ jobs:
       #    path: build
 
   buildAndTestWindows:
+    needs: testRunnerInPlayMode
     name: Build for Windows64 with SonarQube
     runs-on: ubuntu-latest
     steps:
@@ -96,7 +127,7 @@ jobs:
 
       # Build
       - name: Build project
-        uses: AoTTG-2/unity-builder@main
+        uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
