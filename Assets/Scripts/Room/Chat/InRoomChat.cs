@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine.EventSystems;
-//using UnityEngine.UI;
+using UnityEngine;
 using TMPro;
 using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
@@ -21,6 +21,8 @@ namespace Assets.Scripts.Room.Chat
         private readonly List<string> messages = new List<string>();
         public TMP_InputField ChatInputField;
         public TMP_Text ChatText;
+        public GameObject messagePrefab;
+        public GameObject messagePrefabParent;
         private bool IsChatOpen { get; set; }
 
         public bool IsVisible()
@@ -56,7 +58,7 @@ namespace Assets.Scripts.Room.Chat
         }
         public void OutputSystemMessage(string input)
         {
-            var message = $"<color=#FFCC00>{input}</color>"; ;
+            var message = $"<color=#FFCC00>{input}</color>";
             instance.chatRoom.AddMessage(message);
         }
 
@@ -69,6 +71,7 @@ namespace Assets.Scripts.Room.Chat
         {
             var message = $"<color=#FF0000>Error: {input}</color>";
             instance.chatRoom.AddMessage(message);
+
         }
 
         /// <summary>
@@ -163,20 +166,47 @@ namespace Assets.Scripts.Room.Chat
             }
         }
 
-        private void UpdateChat(InRoomChat chat)
+        public void UpdateChat(InRoomChat chat)
         {
-            var messageHandler = new StringBuilder();
-            foreach (var message in messages)
+            // var messageHandler = new StringBuilder();
+            // foreach (var message in messages)
+            // {
+            //     messageHandler.AppendLine(message);
+            // }
+
+            // if (ChatText != null)
+            // {
+            //     chat.ChatText.text = messageHandler.ToString();
+            // }
+
+            //To have each messages as separate object, I instantiated them instead
+            foreach(Transform child in messagePrefabParent.transform)
             {
-                messageHandler.AppendLine(message);
+                GameObject.Destroy(child.gameObject);
             }
 
-            if (ChatText != null)
+            foreach (var message in messages)
             {
-                chat.ChatText.text = messageHandler.ToString();
+                GameObject newMessage = Instantiate(messagePrefab, messagePrefabParent.transform);
+                newMessage.GetComponent<TMP_Text>().text = message;
             }
 
             chat.inputLine = chat.ChatInputField?.text;
+        }
+
+        public void UpdateMessages()
+        {
+            
+            // foreach(Transform child in messagePrefabParent.transform)
+            // {
+            //     GameObject.Destroy(child.gameObject);
+            // }
+
+            foreach (var message in messages)
+            {
+                GameObject newMessage = Instantiate(messagePrefab, messagePrefabParent.transform);
+                newMessage.GetComponent<TMP_Text>().text = message;
+            }
         }
 
         private void CommandHandler(string input)

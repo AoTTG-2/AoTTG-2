@@ -186,6 +186,7 @@ namespace Assets.Scripts
                 content = sender + ":" + content;
             }
             content = "<color=#FFC000>[" + Convert.ToString(info.sender.ID) + "]</color> " + content;
+            Debug.LogError("Chat sent");
             this.chatRoom.AddMessage(content);
         }
 
