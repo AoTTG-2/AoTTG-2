@@ -68,27 +68,7 @@ jobs:
             -nographics
             -silent-crashes
             -force-glcore
-             
-      # Build
-      - uses: game-ci/unity-builder@v2.0-alpha-6
-        with:
-          unityVersion: ${{ env.UNITY_VERSION }}
-          targetPlatform: ${{ matrix.targetPlatform }}
-                      
-      - name: SonarQube analysis
-        uses: MirrorNG/unity-runner@3.1.0
-        with:
-          entrypoint: /sonar-scanner.sh
-          projectKey: AoTTG-2_AoTTG-2
-          projectName: AoTTG-2
-          sonarOrganisation: aottg-2
-          solution: AoTTG-2.sln
-          beginArguments: /d:sonar.verbose="true"
-        env:
-          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}        
-     
+              
       # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
@@ -168,7 +148,6 @@ jobs:
       #    path: build
 
   sonarCloud:
-    if: false
     name: Build for Windows64 with SonarQube
     runs-on: ubuntu-latest
     steps:
@@ -183,20 +162,20 @@ jobs:
         with:
           path: Library
           key: Library
-                                    
-      #- name: Find and Replace
-      #  uses: jacobtomlinson/gha-find-replace@master
-      #  with:
-      #    find: "/opt/unity/Editor/Data/Managed/UnityEngine"
-      #    replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
-      #    include: .*.csproj
-      #    exclude: ''
-      
+                                          
       # Build
       - uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
-          targetPlatform: ${{ matrix.targetPlatform }}
+          targetPlatform: StandaloneWindows64
+          
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@master
+        with:
+          find: "/opt/unity/Editor/Data/Managed/UnityEngine"
+          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
+          include: .*.csproj
+          exclude: ''
       
       - name: SonarQube analysis
         if: always()
