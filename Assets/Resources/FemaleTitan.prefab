@@ -1565,7 +1565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c06dcbc4ae91bd47a1a394db0d63d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthLabel: {fileID: 8143596017650738627}
+  HealthLabel: {fileID: 0}
   NavMeshAgent: {fileID: 0}
   AnkleLHP: 200
   AnkleRHP: 200
@@ -1577,7 +1577,7 @@ MonoBehaviour:
   grabTF: {fileID: 0}
   hasDie: 0
   hasspawn: 0
-  healthLabel: {fileID: 8143596017650738627}
+  healthLabel: {fileID: 0}
   healthTime: 0
   hitAnimation: 
   lagMax: 0
@@ -3402,12 +3402,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83d7a9a600b4a0746927a4a4839a8cbc, type: 3}
---- !u!1 &8143596017650738627 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1594057983723855, guid: 83d7a9a600b4a0746927a4a4839a8cbc,
-    type: 3}
-  m_PrefabInstance: {fileID: 8144325240940702860}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8145160962895887150 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4248626180986786, guid: 83d7a9a600b4a0746927a4a4839a8cbc,
