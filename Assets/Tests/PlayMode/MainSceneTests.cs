@@ -27,7 +27,7 @@ namespace Assets.Tests.PlayMode
         [UnityTest]
         public IEnumerator TestReferencesNotNullAfterLoad()
         {
-            yield return new WaitWhile(() => sceneLoaded == false);
+            yield return new WaitWhile(() => !sceneLoaded);
 
             var startup = Resources.FindObjectsOfTypeAll<Startup>().SingleOrDefault();
 

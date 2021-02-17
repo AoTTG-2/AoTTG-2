@@ -7,7 +7,7 @@ namespace Assets.Scripts.Services
     {
         public void UpdateDiscordActivity(global::Room room)
         {
-            
+            // Ignored, as Discord won't work in CI
         }
     }
 }

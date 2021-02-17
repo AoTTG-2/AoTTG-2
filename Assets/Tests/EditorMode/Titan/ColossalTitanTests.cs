@@ -8,7 +8,7 @@ namespace Assets.Tests.EditorMode.Titan
 {
     public class ColossalTitanTests
     {
-        private GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/ColossalTitan.prefab");
+        private readonly GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/ColossalTitan.prefab");
 
         // A Test behaves as an ordinary method
         [Test]
