@@ -7,6 +7,10 @@ using System;
 using UnityEngine.SceneManagement;
 namespace Assets.Scripts.DayNightCycle
 {
+    /// <summary>
+    /// The TimeSwitcher class handles changing the time of DayAndNightControl.cs via the TimeSLider and  TimeInput Inputfield
+    /// UI components
+    /// </summary>
     public class TimeSwitcher : MonoBehaviour, IEndDragHandler, IDragHandler
     {
         public Text Label;
@@ -35,6 +39,9 @@ namespace Assets.Scripts.DayNightCycle
             }
         }
 
+        /// <summary>
+        /// Settings are only synched OnEndDrag of TimeSlider to minimize network usage
+        /// </summary>
         public void OnEndDrag(PointerEventData eventData)
         {
             if (PhotonNetwork.isMasterClient && PhotonNetwork.connected)
@@ -50,6 +57,9 @@ namespace Assets.Scripts.DayNightCycle
             TimeSlider.value = dayNightCycle.CurrentTime01;
         }
 
+        /// <summary>
+        /// SubmitTime is the method used to change the CurrentTime of DayAndNightControl.cs via the TimeInput Input Field UI component
+        /// </summary>
         private void SubmitTime(string time)
         {
             //only inputs with ":" and no negatives allowed, "-12:00" is an easter egg

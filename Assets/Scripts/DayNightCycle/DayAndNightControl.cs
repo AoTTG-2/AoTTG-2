@@ -9,6 +9,9 @@ using Assets.Scripts.Settings;
 
 namespace Assets.Scripts.DayNightCycle
 {
+    /// <summary>
+    /// The DayAndNightControl class controls the time of day and lighting of AoTTG2. Gradients for ambient light can be found in TimeCycleProfile.cs
+    /// </summary>
     public class DayAndNightControl : MonoBehaviour
     {
         public GameObject Moon;
@@ -27,9 +30,9 @@ namespace Assets.Scripts.DayNightCycle
         public Camera MainCamera = null;
         public int CurrentDay = 0;
         public Light DirectionalLight;
-        public float DayLength = 300f; //default value is 300 seconds in one day
+        public float DayLength = 300f; 
         public bool Pause { get; set; }
-        public float LightIntensity; //static variable to see what the current light's insensity is in the inspector
+        public float LightIntensity; //static variable to see what the main light's insensity is in the inspector
 
         private int frames;
        
@@ -80,10 +83,10 @@ namespace Assets.Scripts.DayNightCycle
 
             if (!Pause)
             {
-                // 300s since MC updated this
+
                 var diff = (float) (DateTime.UtcNow - settings.LastModified).TotalSeconds;
-                // 5 += ( 300 / 300) * 24 => 29 % 24 => 5
                 CurrentTime += (diff / DayLength) * 24;
+
                 //If time passed will put the currentTime over 24, do maths to correct for this and give an accurate
                 //time according to a 24h time range
                 if (CurrentTime > 24)
@@ -150,25 +153,25 @@ namespace Assets.Scripts.DayNightCycle
             RenderSettings.sun = DirectionalLight; // Procedural skybox needs this to work
             RenderSettings.fog = true;
 
-            if (timecycle)
+            if (!timecycle) return;
+
+            if (timecycle.overrideEnvironmentLighting)
             {
-                if (timecycle.overrideEnvironmentLighting)
+                switch (timecycle.lightingOverrideMode)
                 {
-                    switch (timecycle.lightingOverrideMode)
-                    {
-                        case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
-                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
-                            break;
-                        case TimecycleProfile.AmbientLightingOverrideMode.Color:
-                            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-                            break;
-                    }
-                }
-                else
-                {
-                    RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+                    case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
+                        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+                        break;
+                    case TimecycleProfile.AmbientLightingOverrideMode.Color:
+                        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+                        break;
                 }
             }
+            else
+            {
+                RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+            }
+
         }
         
         void UpdateLight()
@@ -180,44 +183,44 @@ namespace Assets.Scripts.DayNightCycle
             DirectionalLight.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
             Moon.transform.forward = -DirectionalLight.transform.forward;
 
-            if (timecycle)
+            if (!timecycle) return;
+
+            // Sun & moon's color and brightness
+            if (timecycle.overrideSunlight)
             {
-                // Sun & moon's color and brightness
-                if (timecycle.overrideSunlight)
-                {
-                    DirectionalLight.color = timecycle.sunlightColor.Evaluate(CurrentTime01);
-                    DirectionalLight.intensity = timecycle.sunlightColor.Evaluate(CurrentTime01).a * timecycle.maxSunlightIntensity;
-                }
-                if (timecycle.overrideMoonlight)
-                {
-                    Light moonLight = Moon.GetComponent<Light>();
-                    moonLight.color = timecycle.moonlightColor.Evaluate(CurrentTime01);
-                    moonLight.intensity = timecycle.moonlightColor.Evaluate(CurrentTime01).a * timecycle.maxMoonlightIntensity;
-                }
+                DirectionalLight.color = timecycle.sunlightColor.Evaluate(CurrentTime01);
+                DirectionalLight.intensity = timecycle.sunlightColor.Evaluate(CurrentTime01).a * timecycle.maxSunlightIntensity;
+            }
+            if (timecycle.overrideMoonlight)
+            {
+                Light moonLight = Moon.GetComponent<Light>();
+                moonLight.color = timecycle.moonlightColor.Evaluate(CurrentTime01);
+                moonLight.intensity = timecycle.moonlightColor.Evaluate(CurrentTime01).a * timecycle.maxMoonlightIntensity;
+            }
 
-                // Environment lighting
-                if (timecycle.overrideEnvironmentLighting)
+            // Environment lighting
+            if (timecycle.overrideEnvironmentLighting)
+            {
+                switch (timecycle.lightingOverrideMode)
                 {
-                    switch (timecycle.lightingOverrideMode)
-                    {
-                        case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
-                            RenderSettings.ambientSkyColor = timecycle.skyColor.Evaluate(CurrentTime01);
-                            RenderSettings.ambientEquatorColor = timecycle.equatorColor.Evaluate(CurrentTime01);
-                            RenderSettings.ambientGroundColor = timecycle.groundColor.Evaluate(CurrentTime01);
-                            break;
-                        case TimecycleProfile.AmbientLightingOverrideMode.Color:
-                            RenderSettings.ambientLight = timecycle.lightingColor.Evaluate(CurrentTime01);
-                            break;
-                    }
-                }
-
-                // Fog
-                if (timecycle.overrideFog)
-                {
-                    RenderSettings.fogColor = timecycle.fogColor.Evaluate(CurrentTime01);
-                    RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTime01).a * timecycle.maxFogDensity;
+                    case TimecycleProfile.AmbientLightingOverrideMode.Gradient:
+                        RenderSettings.ambientSkyColor = timecycle.skyColor.Evaluate(CurrentTime01);
+                        RenderSettings.ambientEquatorColor = timecycle.equatorColor.Evaluate(CurrentTime01);
+                        RenderSettings.ambientGroundColor = timecycle.groundColor.Evaluate(CurrentTime01);
+                        break;
+                    case TimecycleProfile.AmbientLightingOverrideMode.Color:
+                        RenderSettings.ambientLight = timecycle.lightingColor.Evaluate(CurrentTime01);
+                        break;
                 }
             }
+
+            // Fog
+            if (timecycle.overrideFog)
+            {
+                RenderSettings.fogColor = timecycle.fogColor.Evaluate(CurrentTime01);
+                RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTime01).a * timecycle.maxFogDensity;
+            }
+
         }
 
 #if UNITY_EDITOR
