@@ -68,6 +68,7 @@ jobs:
             -nographics
             -silent-crashes
             -force-glcore
+              
       # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
@@ -147,9 +148,7 @@ jobs:
       #    path: build
 
   sonarCloud:
-    needs: buildWindows
     name: Build for Windows64 with SonarQube
-    if: always()
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -163,18 +162,25 @@ jobs:
         with:
           path: Library
           key: Library
-                  
-      - name: Replace Action
-        uses: datamonsters/replace-action@v2
-
-                  
-      - name: Find and Replace
-        uses: jacobtomlinson/gha-find-replace@master
+                                          
+      # Build
+      - uses: AoTTG-2/unity-builder@main
         with:
-          find: "/opt/unity/Editor/Data/Managed/UnityEngine"
-          replace: "/github/workspace/Library/PlayerDataCache/Win64/Data/Managed"
-          include: .*.csproj
-          exclude: ''
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: StandaloneWindows64
+      
+      # Experimental .csproj modifier
+      - name: Hello world action step
+        id: hello
+        uses: Lithrun/file-content-replacer@main
+        with:
+          who-to-greet: 'Mona the Octocat'
+      
+       # This will automatically deploy the Builds
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Projects
+          path: "*.csproj"
       
       - name: SonarQube analysis
         if: always()
