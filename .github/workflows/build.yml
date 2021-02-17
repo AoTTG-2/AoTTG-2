@@ -164,7 +164,7 @@ jobs:
           key: Library
                                           
       # Build
-      - uses: AoTTG-2/unity-builder@main
+      - uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
