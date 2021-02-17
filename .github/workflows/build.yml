@@ -1,4 +1,4 @@
-name: Actions 😎
+name: Continious Integration
 
 on:
   pull_request: {}
@@ -10,7 +10,6 @@ env:
 
 jobs:
   testRunnerInEditMode:
-    if: true
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +27,7 @@ jobs:
             Library-
       # Configure test runner
       - uses: game-ci/unity-test-runner@v2.0-alpha-2
-        id: testRunner
+        id: editTestRunner
         with:
           testMode: editmode
           unityVersion: ${{ env.UNITY_VERSION }}
@@ -39,11 +38,10 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: Test results (edit mode)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
+          path: ${{ steps.editTestRunner.outputs.artifactsPath }}
           
   testRunnerInPlayMode:
-    if: true
-    name: Test in playmode 📝
+    name: Test in playmode 📺
     runs-on: ubuntu-latest
     steps:
       # Checkout repository (required to test local actions)
@@ -60,7 +58,7 @@ jobs:
             Library-
       # Configure test runner
       - uses: game-ci/unity-test-runner@v2.0-alpha-2
-        id: testRunner
+        id: playTestRunner
         with:
           testMode: playmode
           unityVersion: ${{ env.UNITY_VERSION }}
@@ -72,82 +70,10 @@ jobs:
       # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
-          name: Test results (edit mode)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
- 
-  buildWindows:
-    if: false
-    name: Build for ${{ matrix.targetPlatform }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        targetPlatform:
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
-    steps:     
-      # Checkout
-      - uses: actions/checkout@v2
-        with:
-          lfs: true
+          name: Test results (play mode)
+          path: ${{ steps.playTestRunner.outputs.artifactsPath }}
           
-      # Cache
-      - uses: actions/cache@v1.1.0
-        with:
-          path: Library
-          key: Library
-          restore-keys: |
-            Library
-          
-      # Build
-      - uses: game-ci/unity-builder@v2.0-alpha-6
-        with:
-          unityVersion: ${{ env.UNITY_VERSION }}
-          targetPlatform: ${{ matrix.targetPlatform }}
-          
-      # This will automatically deploy the Builds
-      #- uses: actions/upload-artifact@v1
-      #  with:
-      #    name: Build
-      #    path: build
- 
-  buildOtherPlatforms:
-    if: false
-    name: Build for ${{ matrix.targetPlatform }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        targetPlatform:
-          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-          #- StandaloneWindows64 # Build a Windows 64-bit standalone.
-          - StandaloneLinux64 # Build a Linux 64-bit standalone.
-    steps:     
-      # Checkout
-      - uses: actions/checkout@v2
-        with:
-          lfs: true
-          
-      # Cache
-      - uses: actions/cache@v1.1.0
-        with:
-          path: Library
-          key: Library
-          restore-keys: |
-            Library
-          
-      # Build
-      - uses: game-ci/unity-builder@v2.0-alpha-6
-        with:
-          unityVersion: ${{ env.UNITY_VERSION }}
-          targetPlatform: ${{ matrix.targetPlatform }}
-          
-      # This will automatically deploy the Builds
-      #- uses: actions/upload-artifact@v1
-      #  with:
-      #    name: Build
-      #    path: build
-
-  sonarCloud:
+  windowsWithSonarQube:
     name: Build for Windows64 with SonarQube
     runs-on: ubuntu-latest
     steps:
@@ -196,3 +122,38 @@ jobs:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+ 
+  buildOtherPlatforms:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+    steps:     
+      # Checkout
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+          restore-keys: |
+            Library
+          
+      # Build
+      - uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          
+      # This will automatically deploy the Builds
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
