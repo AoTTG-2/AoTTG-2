@@ -149,7 +149,7 @@ jobs:
 
   sonarCloud:
     name: Build for Windows64 with SonarQube
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       # Checkout
       - name: Checkout repository
