@@ -2,8 +2,10 @@
     "name": "EditorMode",
     "references": [
         "AoTTG2.Core",
+        "PhotonUnityNetworking",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "BoundfoxStudios.FluentAssertions"
     ],
     "includePlatforms": [
         "Editor"
