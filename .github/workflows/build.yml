@@ -95,8 +95,8 @@ jobs:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
       
-      # Experimental .csproj modifier
-      - name: Hello world action step
+      # Experimental .csproj modifier. This modifies .csproj to be compatible with SonarQube analysis
+      - name: File Content Replacer
         id: hello
         uses: Lithrun/file-content-replacer@main
         with:
