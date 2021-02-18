@@ -56,14 +56,7 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Plugins\DiscordGameSDK\LobbyManager.cs" />
-    <Compile Include="Assets\Plugins\DiscordGameSDK\Constants.cs" />
-    <Compile Include="Assets\Plugins\DiscordGameSDK\StoreManager.cs" />
-    <Compile Include="Assets\Plugins\DiscordGameSDK\StorageManager.cs" />
-    <Compile Include="Assets\Plugins\DiscordGameSDK\Core.cs" />
     <Compile Include="Assets\Plugins\WebSocket\SocketWebTcp.cs" />
-    <Compile Include="Assets\Plugins\DiscordGameSDK\ImageManager.cs" />
-    <Compile Include="Assets\Plugins\DiscordGameSDK\ActivityManager.cs" />
     <Compile Include="Assets\Plugins\WebSocket\WebSocket.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -280,9 +273,6 @@
     </Reference>
     <Reference Include="websocket-sharp">
       <HintPath>Assets\Plugins\WebSocket\websocket-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.5\net35\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.17f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
@@ -632,6 +622,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="BoundfoxStudios.FluentAssertions">
+      <HintPath>Library\ScriptAssemblies\BoundfoxStudios.FluentAssertions.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -664,6 +657,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
+      <Project>{A50E6B69-C0E9-D48F-30FD-CE50EAFBEE57}</Project>
+      <Name>PhotonUnityNetworking.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.csproj">
+      <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
+      <Name>PhotonUnityNetworking</Name>
+    </ProjectReference>
+    <ProjectReference Include="Discord.csproj">
+      <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
+      <Name>Discord</Name>
+    </ProjectReference>
+    <ProjectReference Include="AoTTG2.Core.csproj">
+      <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
+      <Name>AoTTG2.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
