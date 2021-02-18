@@ -138,7 +138,7 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
         Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
 
         transform.position = newPositionFromResolution;
-        transform.localScale = new Vector3(loadedScale, loadedScale, 1);
+        transform.localScale = Vector3.one * loadedScale;
                 
         isVisible = true;
 
@@ -157,8 +157,31 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
         Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
 
         transform.position = newPositionFromResolution;
-        transform.localScale = new Vector3(loadedScale, loadedScale, 1);
+        transform.localScale = Vector3.one * loadedScale;
+    }
 
+    public void SetVisibility()
+    {
+        if(isVisible)
+        {
+            ShowElement();
+        }
+        else
+        {
+            //To avoid nullref exceptions, change this element's scale to zero instead of disabling the GameObject.
+            this.transform.localScale = Vector3.zero;
+        }
+    }
+
+    public void ShowElement()
+    {
+        if (PlayerPrefs.GetInt("hasCustomHUD", 0) == 1)
+        {
+            this.transform.localScale = Vector3.one * PlayerPrefs.GetFloat(PlayerPrefsKey + "Scale", 1);
+        } else
+        {
+            this.transform.localScale = Vector3.one * PlayerPrefs.GetFloat(PlayerPrefsKey + "DefaultScale", 1);
+        }
     }
 
     #endregion

@@ -45,7 +45,7 @@ namespace Assets.Scripts.UI.InGame
         {
             foreach(GameObject element in HUDelements)
             {
-                element.SetActive(element.GetComponent<CustomizableHUDElement>().isVisible);
+                element.GetComponent<CustomizableHUDElement>().SetVisibility();
             }
         }
 
@@ -57,7 +57,7 @@ namespace Assets.Scripts.UI.InGame
             foreach(GameObject element in HUDelements)
             {   
                 //You should want to always have the elements visible whenever you're on the edit mode.
-                element.SetActive(true);
+                element.GetComponent<CustomizableHUDElement>().ShowElement();
                 element.GetComponent<CustomizableHUDElement>().AnimateCustomization();
             }
 

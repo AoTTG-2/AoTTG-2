@@ -82,6 +82,7 @@
      <Compile Include="Assets\Scripts\Room\Spawner.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\LoadbalancingPeer.cs" />
      <Compile Include="Assets\Scripts\Services\Service.cs" />
+     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\SortButton.cs" />
      <Compile Include="Assets\Scripts\Characters\Human\Equipment\Weapon\Blades.cs" />
      <Compile Include="Assets\Scripts\Settings\ColorSet.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\SocketUdp.cs" />
@@ -488,7 +489,6 @@
      <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
      <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
      <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\SortButton.cs" />
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
