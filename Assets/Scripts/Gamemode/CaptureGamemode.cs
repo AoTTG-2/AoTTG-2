@@ -31,7 +31,7 @@ namespace Assets.Scripts.Gamemode
 
             UiService.SetMessage(LabelPosition.Top, content);
         }
-
+        
         public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
         {
             var configuration = GetTitanConfiguration();
@@ -66,15 +66,14 @@ namespace Assets.Scripts.Gamemode
                 //        PvpHumanScore += 3;
                 //        break;
                 //}
-            }
-            else if (entity is Human human)
+            } else if (entity is Human human)
             {
                 PvpTitanScore += 2;
             }
 
             CheckWinConditions();
         }
-
+        
         [PunRPC]
         public void RefreshCaptureScore(int humanScore, int titanScore, PhotonMessageInfo info)
         {
@@ -149,17 +148,20 @@ namespace Assets.Scripts.Gamemode
                 }
             }
         }
-
+        
         public override GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             if (FengGameManagerMKII.instance.checkpoint == null)
             {
-                FengGameManagerMKII.instance.checkpoint = tag switch
+                switch (tag)
                 {
-                    "playerRespawn" => GameObject.Find("CheckpointStartHuman"),
-                    "titanRespawn" => GameObject.Find("CheckpointStartTitan"),
-                    _ => null
-                };
+                    case "playerRespawn":
+                        FengGameManagerMKII.instance.checkpoint = GameObject.Find("CheckpointStartHuman");
+                        break;
+                    case "titanRespawn":
+                        FengGameManagerMKII.instance.checkpoint = GameObject.Find("CheckpointStartTitan");
+                        break;
+                }
             }
             return FengGameManagerMKII.instance.checkpoint;
         }
@@ -171,7 +173,7 @@ namespace Assets.Scripts.Gamemode
                 entity.transform.position += new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20));
             }
         }
-
+        
         public override void OnRestart()
         {
             base.OnRestart();
