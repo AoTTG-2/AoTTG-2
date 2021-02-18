@@ -153,15 +153,12 @@ namespace Assets.Scripts.Gamemode
         {
             if (FengGameManagerMKII.instance.checkpoint == null)
             {
-                switch (tag)
+                FengGameManagerMKII.instance.checkpoint = tag switch
                 {
-                    case "playerRespawn":
-                        FengGameManagerMKII.instance.checkpoint = GameObject.Find("CheckpointStartHuman");
-                        break;
-                    case "titanRespawn":
-                        FengGameManagerMKII.instance.checkpoint = GameObject.Find("CheckpointStartTitan");
-                        break;
-                }
+                    "playerRespawn" => GameObject.Find("CheckpointStartHuman"),
+                    "titanRespawn" => GameObject.Find("CheckpointStartTitan"),
+                    _ => null
+                };
             }
             return FengGameManagerMKII.instance.checkpoint;
         }
