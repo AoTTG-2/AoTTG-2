@@ -29,7 +29,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "1.2.1",
+      "version": "2.0.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -52,10 +52,26 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.quicksearch": {
-      "version": "1.5.4",
+      "version": "2.0.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sysroot": {
+      "version": "0.1.18-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sysroot.linux-x86_64": {
+      "version": "0.1.14-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "0.1.18-preview"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
@@ -83,6 +99,16 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.toolchain.win-x86_64-linux-x86_64": {
+      "version": "0.1.18-preview",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "0.1.18-preview",
+        "com.unity.sysroot.linux-x86_64": "0.1.14-preview"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.ugui": {
