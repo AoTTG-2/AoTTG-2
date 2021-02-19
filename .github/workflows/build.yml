@@ -124,6 +124,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
  
   buildOtherPlatforms:
+    if: false
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
