@@ -6,10 +6,11 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
-  UNITY_VERSION: 2020.1.17f1
+  UNITY_VERSION: 2020.2.3f1
 
 jobs:
   testRunnerInEditMode:
+    if: false
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -41,6 +42,7 @@ jobs:
           path: ${{ steps.editTestRunner.outputs.artifactsPath }}
           
   testRunnerInPlayMode:
+    if: false
     name: Test in playmode 📺
     runs-on: ubuntu-latest
     steps:
@@ -110,7 +112,7 @@ jobs:
       
       - name: SonarQube analysis
         if: always()
-        uses: MirrorNG/unity-runner@3.1.0
+        uses: AoTTG-2/unity-runner@master
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: AoTTG-2_AoTTG-2
@@ -124,6 +126,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
  
   buildOtherPlatforms:
+    if: false
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
