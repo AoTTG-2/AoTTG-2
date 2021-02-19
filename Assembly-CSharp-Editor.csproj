@@ -56,9 +56,26 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\PhotonNetwork\PhotonViewHandler.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\ReorderableListResources.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\AccountService.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PhotonConverter.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\Views\PhotonTransformViewEditor.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\Views\PhotonAnimatorViewEditor.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\Views\PhotonRigidbody2DViewEditor.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PunTeamsInspector.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\ServerSettingsInspector.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PhotonEditorUtils.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\Views\PhotonRigidbodyViewEditor.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\CullAreaEditor.cs" />
     <Compile Include="Assets\Editor\CustomMapToUnityConverter.cs" />
     <Compile Include="Assets\Editor\GameObjectToPrefabConverter.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PunSceneSettings.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PhotonEditor.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PhotonViewInspector.cs" />
     <Compile Include="Assets\Editor\SceneToAssetBundle.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PlayerRoomIndexingInspector.cs" />
+    <Compile Include="Assets\Editor\PhotonNetwork\PhotonGUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -676,6 +693,12 @@
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Sysroot.Linux_x86_64">
+      <HintPath>Library\ScriptAssemblies\Unity.Sysroot.Linux_x86_64.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Toolchain.Win-x86_64-Linux-x86_64">
+      <HintPath>Library\ScriptAssemblies\Unity.Toolchain.Win-x86_64-Linux-x86_64.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -700,12 +723,6 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Sysroot.Linux_x86_64">
-      <HintPath>Library\ScriptAssemblies\Unity.Sysroot.Linux_x86_64.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Toolchain.Win-x86_64-Linux-x86_64">
-      <HintPath>Library\ScriptAssemblies\Unity.Toolchain.Win-x86_64-Linux-x86_64.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.SysrootPackage.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.SysrootPackage.Editor.dll</HintPath>
     </Reference>
@@ -722,10 +739,6 @@
     <ProjectReference Include="AoTTG2.Core.csproj">
       <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
       <Name>AoTTG2.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
-      <Project>{A50E6B69-C0E9-D48F-30FD-CE50EAFBEE57}</Project>
-      <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
       <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
