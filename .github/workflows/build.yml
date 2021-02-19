@@ -110,7 +110,7 @@ jobs:
       
       - name: SonarQube analysis
         if: always()
-        uses: MirrorNG/unity-runner@3.1.0
+        uses: AoTTG-2/unity-runner@master
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: AoTTG-2_AoTTG-2
