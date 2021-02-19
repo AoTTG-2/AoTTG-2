@@ -3,12 +3,16 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+      <PropertyGroup>
+     <!-- Exclude the project from analysis -->
+     <SonarQubeExclude>true</SonarQubeExclude>
+  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>Photon</RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
