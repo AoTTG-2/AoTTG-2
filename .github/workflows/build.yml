@@ -108,8 +108,6 @@ jobs:
           name: Projects
           path: "*.csproj"
       
-      - Sonar Setup
-      
       - name: SonarQube analysis
         if: always()
         uses: AoTTG-2/unity-runner@master
