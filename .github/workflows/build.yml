@@ -10,6 +10,7 @@ env:
 
 jobs:
   testRunnerInEditMode:
+    if: false
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -41,6 +42,7 @@ jobs:
           path: ${{ steps.editTestRunner.outputs.artifactsPath }}
           
   testRunnerInPlayMode:
+    if: false
     name: Test in playmode 📺
     runs-on: ubuntu-latest
     steps:
