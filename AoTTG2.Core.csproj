@@ -416,7 +416,6 @@
     <Compile Include="Assets\Scripts\Room\HumanSpawner.cs" />
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapFaceAttack.cs" />
-    <Compile Include="Assets\Scripts\AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Legacy\BombExplode.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IFactionService.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
@@ -1036,6 +1035,10 @@
     <ProjectReference Include="PhotonUnityNetworking.csproj">
       <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
       <Name>PhotonUnityNetworking</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
+      <Project>{A50E6B69-C0E9-D48F-30FD-CE50EAFBEE57}</Project>
+      <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
