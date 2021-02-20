@@ -92,10 +92,14 @@ jobs:
           key: Library
                                           
       # Build
-      - uses: game-ci/unity-builder@v2.0-alpha-6
+      - uses: AoTTG-2/unity-builder@main
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
+        env:
+          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       
       # Experimental .csproj modifier. This modifies .csproj to be compatible with SonarQube analysis
       - name: File Content Replacer
