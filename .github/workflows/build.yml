@@ -3,7 +3,7 @@ name: Continious Integration
 on:
   pull_request: {}
   push: { branches: [development] }
-
+  
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
   UNITY_VERSION: 2020.2.3f1
