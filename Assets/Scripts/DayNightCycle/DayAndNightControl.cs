@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Animations;
+using UnityEngine.Rendering.Universal;
 using UnityEditor;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
@@ -25,18 +26,16 @@ namespace Assets.Scripts.DayNightCycle
 
         [Range(0f, 24f)] public float CurrentTime;
         public float CurrentTime01 => CurrentTime / 24;
-        public Slider TimeSlider  = null;
         public Camera MoonCamera = null;
         public Camera MainCamera = null;
         public int CurrentDay = 0;
         public Light DirectionalLight;
-        public float DayLength = 300f; 
+        public float DayLength; 
         public bool Pause { get; set; }
         public float LightIntensity; //static variable to see what the main light's insensity is in the inspector
 
         private int frames;
        
-        // Use this for initialization
         void Start()
         {
             Pause=true;
@@ -66,6 +65,9 @@ namespace Assets.Scripts.DayNightCycle
 
                 ReflectionProbe.transform.SetParent(Camera.main.transform);
                 ReflectionProbe.transform.localPosition = Vector3.zero;
+
+                var moonCameraData = MoonCamera.GetUniversalAdditionalCameraData();
+                moonCameraData.cameraStack.Add(MainCamera);
             }
         }
 
@@ -83,10 +85,8 @@ namespace Assets.Scripts.DayNightCycle
 
             if (!Pause)
             {
-
                 var diff = (float) (DateTime.UtcNow - settings.LastModified).TotalSeconds;
                 CurrentTime += (diff / DayLength) * 24;
-
                 //If time passed will put the currentTime over 24, do maths to correct for this and give an accurate
                 //time according to a 24h time range
                 if (CurrentTime > 24)
@@ -101,7 +101,6 @@ namespace Assets.Scripts.DayNightCycle
             Service.Settings.OnTimeSettingsChanged -= Settings_OnTimeSettingsChanged;
         }
 
-        // Update is called once per frame
         void Update()
         {
             
@@ -154,7 +153,6 @@ namespace Assets.Scripts.DayNightCycle
             RenderSettings.fog = true;
 
             if (!timecycle) return;
-
             if (timecycle.overrideEnvironmentLighting)
             {
                 switch (timecycle.lightingOverrideMode)
@@ -171,7 +169,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
             }
-
+            
         }
         
         void UpdateLight()
@@ -184,7 +182,7 @@ namespace Assets.Scripts.DayNightCycle
             Moon.transform.forward = -DirectionalLight.transform.forward;
 
             if (!timecycle) return;
-
+            
             // Sun & moon's color and brightness
             if (timecycle.overrideSunlight)
             {
@@ -220,7 +218,7 @@ namespace Assets.Scripts.DayNightCycle
                 RenderSettings.fogColor = timecycle.fogColor.Evaluate(CurrentTime01);
                 RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTime01).a * timecycle.maxFogDensity;
             }
-
+            
         }
 
 #if UNITY_EDITOR
@@ -230,7 +228,7 @@ namespace Assets.Scripts.DayNightCycle
             UpdateLight();
             ReflectionProbe.RenderProbe();
             // Reflection Probes have limited range so we'll want it to follow the scene view's camera when previewing changes
-            Vector3 sceneViewPosition = SceneView.lastActiveSceneView.camera != null ? SceneView.lastActiveSceneView.camera.transform.position : Vector3.zero;
+            Vector3 sceneViewPosition = SceneView.lastActiveSceneView != null ? SceneView.lastActiveSceneView.camera.transform.position : Vector3.zero;
             // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
             ReflectionProbe.transform.position = new Vector3(sceneViewPosition.x, sceneViewPosition.y - 5f, sceneViewPosition.z);
         }

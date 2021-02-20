@@ -1013,6 +1013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4891035867795438}
   - component: {fileID: 212917092501947336}
+  - component: {fileID: 4261993353365951143}
   m_Layer: 21
   m_Name: MinimapIcon
   m_TagString: Untagged
@@ -1028,7 +1029,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362134592567184}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 33.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 9, y: 9, z: 9}
   m_Children: []
   m_Father: {fileID: 4970633147100212}
@@ -1085,6 +1086,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4261993353365951143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362134592567184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d769059bd3f79784e8ed4dc10796bc5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1416271399273010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2293,6 +2306,7 @@ MonoBehaviour:
   PreviousState: 0
   NextState: 0
   MindlessType: 0
+  minimapIcon: {fileID: 4261993353365951143}
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:

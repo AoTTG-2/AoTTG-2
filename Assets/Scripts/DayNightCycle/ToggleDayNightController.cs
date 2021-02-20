@@ -16,9 +16,8 @@ namespace Assets.Scripts.DayNightCycle
         public GameObject DayNightController;
         public GameObject MainLight;
         public Text Label;
-
         DayAndNightControl dayNightCycle;
-        // Start is called before the first frame update
+
         void Start()
         {
             ToggleDayNight.isOn = false;
@@ -43,8 +42,7 @@ namespace Assets.Scripts.DayNightCycle
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
-
-
+        
         //on scene change, reset the toggle + unsubscribe from scene listener event
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {

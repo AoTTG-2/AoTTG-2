@@ -40,7 +40,7 @@ namespace Assets.Scripts.DayNightCycle
         }
 
         /// <summary>
-        /// Settings are only synched OnEndDrag of TimeSlider to minimize network usage
+        /// Seettings are only synched OnEndDrag of TimeSlider to minimize network usage
         /// </summary>
         public void OnEndDrag(PointerEventData eventData)
         {
