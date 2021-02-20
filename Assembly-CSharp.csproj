@@ -74,6 +74,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\Photon Unity Networking\changelog.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
@@ -109,6 +110,7 @@
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\Photon Unity Networking\readme.txt" />
      <None Include="Assets\Shader\TiltShift.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
@@ -121,6 +123,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\Photon Unity Networking\link.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
@@ -752,10 +755,6 @@
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
       <Project>{A50E6B69-C0E9-D48F-30FD-CE50EAFBEE57}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
-      <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
     <ProjectReference Include="Discord.csproj">
       <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>

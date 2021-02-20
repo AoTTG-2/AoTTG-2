@@ -671,10 +671,6 @@
       <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
       <Name>AoTTG2.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
-      <Name>PhotonUnityNetworking</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
