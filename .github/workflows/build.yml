@@ -10,7 +10,6 @@ env:
 
 jobs:
   testRunnerInEditMode:
-    if: false
     name: Test in editmode 📝
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +41,6 @@ jobs:
           path: ${{ steps.editTestRunner.outputs.artifactsPath }}
           
   testRunnerInPlayMode:
-    if: false
     name: Test in playmode 📺
     runs-on: ubuntu-latest
     steps:
@@ -126,9 +124,14 @@ jobs:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        
+      # This will automatically deploy the Builds
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
  
   buildOtherPlatforms:
-    if: false
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
