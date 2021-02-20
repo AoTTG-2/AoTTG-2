@@ -92,11 +92,10 @@ jobs:
           key: Library
                                           
       # Build
-      - uses: AoTTG-2/unity-builder@main
+      - uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
-          sonarToken: ${{ secrets.SONAR_TOKEN }}
         env:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -114,19 +113,19 @@ jobs:
           name: Projects
           path: "*.csproj"
       
-      #- name: SonarQube analysis
-      #  uses: AoTTG-2/unity-runner@master
-      #  with:
-      #    entrypoint: /sonar-scanner.sh
-      #    projectKey: AoTTG-2_AoTTG-2
-      #    projectName: AoTTG-2
-      #    sonarOrganisation: aottg-2
-      #    solution: AoTTG-2.sln
-      #    beginArguments: /d:sonar.verbose="true"
-      #  env:
-      #    FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
-      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #    GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      - name: SonarQube analysis
+        uses: AoTTG-2/unity-runner@master
+        with:
+          entrypoint: /sonar-scanner.sh
+          projectKey: AoTTG-2_AoTTG-2
+          projectName: AoTTG-2
+          sonarOrganisation: aottg-2
+          solution: AoTTG-2.sln
+          beginArguments: /d:sonar.verbose="true"
+        env:
+          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
  
   buildOtherPlatforms:
     if: false
