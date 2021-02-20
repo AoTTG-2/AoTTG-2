@@ -115,7 +115,6 @@ jobs:
           path: "*.csproj"
       
       - name: SonarQube analysis
-        if: always()
         uses: AoTTG-2/unity-runner@master
         with:
           entrypoint: /sonar-scanner.sh
