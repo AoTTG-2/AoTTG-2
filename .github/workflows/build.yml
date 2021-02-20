@@ -3,10 +3,10 @@ name: Continious Integration
 on:
   pull_request: {}
   push: { branches: [development] }
-
+  
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE2 }}
-  UNITY_VERSION: 2020.1.17f1
+  UNITY_VERSION: 2020.2.3f1
 
 jobs:
   testRunnerInEditMode:
@@ -94,6 +94,9 @@ jobs:
         with:
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
+        env:
+          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       
       # Experimental .csproj modifier. This modifies .csproj to be compatible with SonarQube analysis
       - name: File Content Replacer
@@ -101,7 +104,7 @@ jobs:
         uses: Lithrun/file-content-replacer@main
         with:
           who-to-greet: 'Mona the Octocat'
-      
+       
        # This will automatically deploy the Builds
       - uses: actions/upload-artifact@v2
         with:
@@ -109,8 +112,7 @@ jobs:
           path: "*.csproj"
       
       - name: SonarQube analysis
-        if: always()
-        uses: MirrorNG/unity-runner@3.1.0
+        uses: AoTTG-2/unity-runner@master
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: AoTTG-2_AoTTG-2
@@ -122,6 +124,12 @@ jobs:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        
+      # This will automatically deploy the Builds
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
  
   buildOtherPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
