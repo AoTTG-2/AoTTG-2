@@ -99,7 +99,6 @@ jobs:
           sonarToken: ${{ secrets.SONAR_TOKEN }}
         env:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       
       # Experimental .csproj modifier. This modifies .csproj to be compatible with SonarQube analysis
@@ -115,19 +114,19 @@ jobs:
           name: Projects
           path: "*.csproj"
       
-      - name: SonarQube analysis
-        uses: AoTTG-2/unity-runner@master
-        with:
-          entrypoint: /sonar-scanner.sh
-          projectKey: AoTTG-2_AoTTG-2
-          projectName: AoTTG-2
-          sonarOrganisation: aottg-2
-          solution: AoTTG-2.sln
-          beginArguments: /d:sonar.verbose="true"
-        env:
-          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      #- name: SonarQube analysis
+      #  uses: AoTTG-2/unity-runner@master
+      #  with:
+      #    entrypoint: /sonar-scanner.sh
+      #    projectKey: AoTTG-2_AoTTG-2
+      #    projectName: AoTTG-2
+      #    sonarOrganisation: aottg-2
+      #    solution: AoTTG-2.sln
+      #    beginArguments: /d:sonar.verbose="true"
+      #  env:
+      #    FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
+      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #    GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
  
   buildOtherPlatforms:
     if: false
