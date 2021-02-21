@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: e5a87c5aaacb182469a100f47a75b648
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Leaf
+    second: {fileID: 2100000, guid: 9b704e8c938d31b4a9c8231c9a182d58, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -98,6 +103,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
