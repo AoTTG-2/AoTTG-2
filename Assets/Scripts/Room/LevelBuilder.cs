@@ -3,11 +3,10 @@ using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets.Scripts.Room
 {
-    public class LevelBuilder : MonoBehaviour
+    public class LevelBuilder
     {
         private static List<Level> _levels;
         public static List<Level> GetAllLevels()
