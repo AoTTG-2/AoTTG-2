@@ -360,7 +360,7 @@ namespace Assets.Scripts
                 pingTimeLast = timeSince;
                 var hashtable = new Hashtable
                 {
-                    {PhotonPlayerProperty.ping, PhotonNetwork.networkingPeer.RoundTripTime.ToString()},
+                    {PhotonPlayerProperty.ping, PhotonNetwork.GetPing().ToString()},
                 };
                 var propertiesToSet = hashtable;
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
