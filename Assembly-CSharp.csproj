@@ -753,13 +753,17 @@
       <Project>{A50E6B69-C0E9-D48F-30FD-CE50EAFBEE57}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.csproj">
+      <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
+      <Name>PhotonUnityNetworking</Name>
+    </ProjectReference>
     <ProjectReference Include="Discord.csproj">
       <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
       <Name>Discord</Name>
     </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
-      <Name>PhotonUnityNetworking</Name>
+    <ProjectReference Include="AoTTG2.API.csproj">
+      <Project>{0FC130EF-6D8A-18AB-EB1B-D4F26E5BF606}</Project>
+      <Name>AoTTG2.API</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

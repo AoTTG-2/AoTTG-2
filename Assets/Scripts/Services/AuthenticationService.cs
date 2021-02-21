@@ -79,6 +79,8 @@ namespace Assets.Scripts.Services
 
         public async Task<HttpResponseMessage> GetHealthCheckResponse()
         {
+            ServicePointManager.ServerCertificateValidationCallback +=
+                (sender, cert, chain, sslPolicyErrors) => true;
             var client = new HttpClient();
             return await client.GetAsync(OAuth.GetHealthCheckEndpoint());
         }
