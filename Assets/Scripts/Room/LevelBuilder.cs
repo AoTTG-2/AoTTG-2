@@ -5,7 +5,7 @@ using Assets.Scripts.Settings.Titans;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Room //added namespace and imported the file into "ServerSettingsPage.cs", "CreateRoom.cs" and "Singleplayer.cs" because the console was unhappy without it
+namespace Assets.Scripts.Room
 {
     public class LevelBuilder : MonoBehaviour
     {
@@ -122,7 +122,7 @@ namespace Assets.Scripts.Room //added namespace and imported the file into "Serv
             {
                 new RacingSettings()
                     {
-                        IsPlayerTitanEnabled = false, //Now you are unable to choose the player titan option in Akina
+                        IsPlayerTitanEnabled = false
                     }
             },
             });
@@ -155,7 +155,7 @@ namespace Assets.Scripts.Room //added namespace and imported the file into "Serv
                 {
                     new PvPAhssSettings()
                     {
-                        IsPlayerTitanEnabled = false, //Now you are unable to choose the player titan option in Cave Fight
+                        IsPlayerTitanEnabled = false
                     }
                 }
             });
@@ -169,7 +169,7 @@ namespace Assets.Scripts.Room //added namespace and imported the file into "Serv
             {
                 new PvPAhssSettings()
                     {
-                        IsPlayerTitanEnabled = false, //Now you are unable to choose the player titan option in House Fight
+                        IsPlayerTitanEnabled = false
                     }
             }
             });
