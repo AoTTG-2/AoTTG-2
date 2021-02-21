@@ -13,6 +13,8 @@ namespace Assets.Scripts.Gamemode
     //This is the colossal gamemode, where titans "rush" towards a specified endpoint
     public class TitanRushGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.TitanRush;
+
         private RushSettings Settings => GameSettings.Gamemode as RushSettings;
         private GameObject[] Routes { get; set; }
         private GameObject[] Spawns { get; set; }

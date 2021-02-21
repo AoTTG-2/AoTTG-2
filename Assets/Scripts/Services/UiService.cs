@@ -49,6 +49,8 @@ namespace Assets.Scripts.Services
                 = labels.TopRight.text
                 = labels.Center.text
                     = string.Empty;
+
+            Ui.HUD.ClearDamage();
         }
 
         public void SetMessage(LabelPosition label, string message)
@@ -56,9 +58,12 @@ namespace Assets.Scripts.Services
             GetLabel(label).text = message;
         }
 
-        public override void OnDisconnectedFromPhoton()
+        private void OnLevelWasLoaded(int level)
         {
-            MainUi.ShowMenu();
+            if (level == 0)
+            {
+                MainUi.ShowMenu();
+            }
         }
     }
 }

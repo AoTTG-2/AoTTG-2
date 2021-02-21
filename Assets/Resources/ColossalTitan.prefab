@@ -5449,7 +5449,7 @@ TextMesh:
   m_Anchor: 1
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 1
+  m_FontSize: 100
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 8a0ab79a09328bd439332a380cb3b965, type: 3}
@@ -5716,6 +5716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465a679c6dee6f74183d28105da7a396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthLabel: {fileID: 1157876286233964}
+  NavMeshAgent: {fileID: 0}
   bottomObject: {fileID: 1641384019360066}
   door_broken: {fileID: 0}
   door_closed: {fileID: 0}
@@ -5727,7 +5729,6 @@ MonoBehaviour:
   maxHealth: 0
   myDistance: 0
   myHero: {fileID: 0}
-  NapeArmor: 10000
   NapeArmorTotal: 10000
   neckSteamObject: {fileID: 1323870288062576}
   size: 0
@@ -5747,7 +5748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AABB: {fileID: 0}
   Core: {fileID: 0}
-  Head: {fileID: 0}
+  Head: {fileID: 4045231817047669}
   Neck: {fileID: 0}
   HandRight: {fileID: 0}
   HandLeft: {fileID: 0}

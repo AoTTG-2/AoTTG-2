@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class SpawnMenu : MonoBehaviour
+    public class SpawnMenu : UiMenu
     {
         private ISpawnService SpawnService => Service.Spawn;
 
@@ -60,7 +60,6 @@ namespace Assets.Scripts.UI.InGame
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
             }
             IN_GAME_MAIN_CAMERA.usingTitan = false;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
             Hashtable hashtable = new Hashtable();
             hashtable.Add(PhotonPlayerProperty.character, selection);
             Hashtable propertiesToSet = hashtable;
@@ -91,16 +90,6 @@ namespace Assets.Scripts.UI.InGame
                 }
             }
             return (num == num2);
-        }
-
-        private void OnEnable()
-        {
-            MenuManager.RegisterOpened();
-        }
-
-        private void OnDisable()
-        {
-            MenuManager.RegisterClosed();
         }
     }
 }

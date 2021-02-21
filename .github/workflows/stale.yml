@@ -1,0 +1,20 @@
+name: 'Stale issue handler'
+on:
+  push:
+    branches: development
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Lithrun/stale@main
+        with:
+          stale-issue-message: 'This issue is stale because it has been open 15 days with no activity. Remove stale label or comment'
+          stale-pr-message: 'This pr is stale because it has been open 15 days with no activity. Remove stale label or comment'
+          days-before-stale: 15
+          days-before-close: -1
+          exempt-issue-labels: 'Proposal'
+          exempt-milestones: 'Future'

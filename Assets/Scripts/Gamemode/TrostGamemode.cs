@@ -7,6 +7,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class TrostGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Trost;
         private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
 
         protected override void OnLevelWasLoaded()

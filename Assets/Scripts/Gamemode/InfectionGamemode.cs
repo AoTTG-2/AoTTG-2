@@ -6,6 +6,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class InfectionGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Infection;
         private InfectionGamemodeSettings Settings => GameSettings.Gamemode as InfectionGamemodeSettings;
 
         public override void OnRestart()
@@ -59,7 +60,7 @@ namespace Assets.Scripts.Gamemode
                             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                             propertiesToSet.Add(PhotonPlayerProperty.isTitan, 2);
                             targetPlayer.SetCustomProperties(propertiesToSet);
-                            photonView.RPC("SpawnPlayerTitanRpc", targetPlayer, new object[0]);
+                            photonView.RPC(nameof(SpawnPlayerTitanRpc), targetPlayer, new object[0]);
                         }
                         else if (FengGameManagerMKII.imatitan.ContainsKey(targetPlayer.ID))
                         {

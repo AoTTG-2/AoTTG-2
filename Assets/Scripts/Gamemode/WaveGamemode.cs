@@ -12,6 +12,7 @@ namespace Assets.Scripts.Gamemode
 {
     public class WaveGamemode : GamemodeBase
     {
+        public override GamemodeType GamemodeType { get; } = GamemodeType.Wave;
         private WaveGamemodeSettings Settings => GameSettings.Gamemode as WaveGamemodeSettings;
 
         private int HighestWave { get; set; } = 1;
