@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Room
 {
-    public class LevelBuilder
+    public static class LevelBuilder
     {
         private static List<Level> _levels;
         public static List<Level> GetAllLevels()
