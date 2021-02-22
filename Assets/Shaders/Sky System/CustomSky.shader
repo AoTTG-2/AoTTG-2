@@ -1,6 +1,6 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Custom/Sky Procedural" {
+Shader "Custom/Sky Procedural Stars" {
     Properties{
         [KeywordEnum(None, Simple, High Quality)] _SunDisk("Sun", Int) = 2
         _SunSize("Sun Size", Range(0,1)) = 0.04
@@ -39,7 +39,7 @@ Shader "Custom/Sky Procedural" {
 
                 #include "UnityCG.cginc"
                 #include "Lighting.cginc"
-                #include "Assets/Shader/Sky System/CGInc/GPUVoronoiNoise4D.cginc"
+                #include "/CGInc/GPUVoronoiNoise4D.cginc" 
 
 
                 #pragma multi_compile_local _SUNDISK_NONE _SUNDISK_SIMPLE _SUNDISK_HIGH_QUALITY
