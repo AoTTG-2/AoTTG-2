@@ -746,7 +746,16 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
             transform.RotateAround(transform.position, Vector3.up, num3);
         }
-        float x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / Screen.height) * 0.5f;
+
+        float x;
+
+        if(!MenuManager.IsAnyMenuOpen)
+        {
+            x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / Screen.height) * 0.5f;
+        } else
+        {
+            x = 0f;
+        }
         transform.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         Transform transform4 = transform;
         transform4.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
