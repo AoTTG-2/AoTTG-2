@@ -383,7 +383,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public void Update()
     {
 
-        if (Input.GetKey(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F1))
          {
             ToggleHUD();
          }
