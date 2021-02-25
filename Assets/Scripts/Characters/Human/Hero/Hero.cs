@@ -3,8 +3,6 @@ using Assets.Scripts.Audio;
 using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Base;
 using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Gamemode.Options;
-using Assets.Scripts.Interfaces;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.InGame.HUD;
@@ -12,7 +10,7 @@ using Assets.Scripts.UI.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -40,13 +38,9 @@ public partial class Hero : Human
     public Rigidbody rigidBody;
 
     public bool bigLean;
-    public float bombCD;
-    public bool bombImmune;
-    public float bombRadius;
-    public float bombSpeed;
-    public float bombTime;
-    public float bombTimeMax;
     private float buffTime;
+
+    public BombSettings bombSettings;
 
     [Header("Bullet / Hook")]
     public Bullet bulletLeft;
@@ -188,7 +182,7 @@ public partial class Hero : Human
     private float wallRunTime;
 
     public GameObject InGameUI;
-    public TextMesh PlayerName;
+    public TextMeshPro PlayerName;
 
     string standAnimation = "stand";
 
@@ -219,11 +213,11 @@ public partial class Hero : Human
         rigidBody.useGravity = false;
         smoothSyncMovement = GetComponent<SmoothSyncMovement>();
 
-        maskGround              = 1 << LayerMask.NameToLayer("Ground");
-        maskEnemy               = 1 << LayerMask.NameToLayer("EnemyBox");
-        maskPlayerAttackBox     = 1 << LayerMask.NameToLayer("PlayerAttackBox");
-        maskGroundEnemy         = maskGround | maskEnemy;
-        maskGroundEnemyPlayer   = maskGroundEnemy | maskPlayerAttackBox;
+        maskGround = 1 << LayerMask.NameToLayer("Ground");
+        maskEnemy = 1 << LayerMask.NameToLayer("EnemyBox");
+        maskPlayerAttackBox = 1 << LayerMask.NameToLayer("PlayerAttackBox");
+        maskGroundEnemy = maskGround | maskEnemy;
+        maskGroundEnemyPlayer = maskGroundEnemy | maskPlayerAttackBox;
 
         Equipment = gameObject.AddComponent<Equipment>();
         Faction = Service.Faction.GetHumanity();
@@ -299,10 +293,10 @@ public partial class Hero : Human
             LoadSkin();
             hasspawn = true;
             StartCoroutine(ReloadSky());
-            bombImmune = false;
+            bombSettings.bombImmune = false;
             if (GameSettings.PvP.Bomb.Value)
             {
-                bombImmune = true;
+                bombSettings.bombImmune = true;
                 StartCoroutine(StopImmunity());
             }
         }
@@ -369,7 +363,6 @@ public partial class Hero : Human
                             }
                             break;
                         case SKILL_EREN:
-                            ShowSkillCD();
                             if (!IN_GAME_MAIN_CAMERA.isPausing)
                             {
                                 CalcSkillCD();
@@ -466,7 +459,7 @@ public partial class Hero : Human
                     }
 
                     Update_HeroState();
-                    
+
                     if (InputManager.Key(InputHuman.HookLeft))
                     {
                         hookLeft = true;
@@ -582,8 +575,8 @@ public partial class Hero : Human
             currentSpeed = rigidBody.velocity.magnitude;
             if (photonView.isMine)
             {
-                if (!((animation.IsPlaying(ANIM_ATTACK_3_2) || 
-                    animation.IsPlaying(ANIM_ATTACK_5)) || 
+                if (!((animation.IsPlaying(ANIM_ATTACK_3_2) ||
+                    animation.IsPlaying(ANIM_ATTACK_5)) ||
                     animation.IsPlaying(ANIM_SPECIAL_PETRA)))
                 {
                     rigidBody.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 6f);
@@ -1251,7 +1244,7 @@ public partial class Hero : Human
                         }
 
                         break;
-                    
+
                 }
             }
         }
@@ -1298,7 +1291,7 @@ public partial class Hero : Human
 
     #endregion
 
-   
+
     #region Checks and Properties
     /// <summary>
     /// Is <see cref="State"/> == <see cref="HERO_STATE.Grab"/>
@@ -1799,7 +1792,7 @@ public partial class Hero : Human
             }
         }
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
@@ -2028,7 +2021,7 @@ public partial class Hero : Human
         }
 
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
@@ -2040,22 +2033,22 @@ public partial class Hero : Human
             Idle();
         }
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
-    void Update_HeroState_Salute() 
+    void Update_HeroState_Salute()
     {
         if (animation["salute"].normalizedTime >= 1f)
         {
             Idle();
         }
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
-    void Update_HeroState_GroundDodge() 
+    void Update_HeroState_GroundDodge()
     {
         if (animation.IsPlaying(ANIM_DODGE))
         {
@@ -2069,18 +2062,18 @@ public partial class Hero : Human
             }
         }
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
-    void Update_HeroState_Land() 
+    void Update_HeroState_Land()
     {
         if (animation.IsPlaying(ANIM_DASH_LAND) && (animation[ANIM_DASH_LAND].normalizedTime >= 1f))
         {
             Idle();
         }
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
@@ -2110,22 +2103,22 @@ public partial class Hero : Human
             Idle();
         }
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
-    void Update_HeroState_Slide() 
+    void Update_HeroState_Slide()
     {
         if (!grounded)
         {
             Idle();
         }
     }
-    
+
     /// <summary>
     /// Called by <see cref="Update_HeroState"/>
     /// </summary>
-    void Update_HeroState_AirDodge() 
+    void Update_HeroState_AirDodge()
     {
         if (dashTime > 0f)
         {
@@ -2144,6 +2137,7 @@ public partial class Hero : Human
 
     #endregion
 
+    #region Weapon Collider
     public void WeaponColliderClearHits()
     {
         checkLeftTrigger.ClearHits();
@@ -2151,8 +2145,8 @@ public partial class Hero : Human
     }
     public void ActivateWeaponCollider(bool active)
     {
-            checkLeftTrigger.IsActive = active;
-            checkRightTrigger.IsActive = active;
+        checkLeftTrigger.IsActive = active;
+        checkRightTrigger.IsActive = active;
     }
     public void ActivateWeaponCollider(bool? left, bool? right)
     {
@@ -2163,10 +2157,10 @@ public partial class Hero : Human
     }
     public void ActivateWeaponCollider(bool left, bool right)
     {
-            checkLeftTrigger.IsActive = left;
-            checkRightTrigger.IsActive = right;
+        checkLeftTrigger.IsActive = left;
+        checkRightTrigger.IsActive = right;
     }
-
+    #endregion
 
 
 
@@ -2209,7 +2203,7 @@ public partial class Hero : Human
         }
     }
 
-    
+
 
     public void BackToHuman()
     {
@@ -2264,20 +2258,20 @@ public partial class Hero : Human
                 FengGameManagerMKII.settings[252] = 5;
                 FengGameManagerMKII.settings[253] = 5;
             }
-            bombTimeMax = ((num2 * 60f) + 200f) / ((num3 * 60f) + 200f);
-            bombRadius = (num * 4f) + 20f;
-            bombCD = (num4 * -0.4f) + 5f;
-            bombSpeed = (num3 * 60f) + 200f;
+            bombSettings.bombTimeMax = ((num2 * 60f) + 200f) / ((num3 * 60f) + 200f);
+            bombSettings.bombRadius = (num * 4f) + 20f;
+            bombSettings.bombCD = (num4 * -0.4f) + 5f;
+            bombSettings.bombSpeed = (num3 * 60f) + 200f;
             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
             propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float) FengGameManagerMKII.settings[246]);
             propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float) FengGameManagerMKII.settings[247]);
             propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float) FengGameManagerMKII.settings[248]);
             propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float) FengGameManagerMKII.settings[249]);
-            propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, bombRadius);
+            propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, bombSettings.bombRadius);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             skillId = BOMB_STRING;
             skillIDHUD = "armin";
-            skillCDLast = bombCD;
+            skillCDLast = bombSettings.bombCD;
             skillCDDuration = 10f;
             if (Service.Time.GetRoundTime() > 10f)
             {
@@ -2594,7 +2588,7 @@ public partial class Hero : Human
         myTitans = list2;
     }
 
-    
+
     public void ContinueAnimation()
     {
         IEnumerator enumerator = animation.GetEnumerator();
@@ -2963,14 +2957,14 @@ public partial class Hero : Human
     }
 
 
-    
+
     public void MarkDie()
     {
         hasDied = true;
         State = HERO_STATE.Die;
     }
 
-    
+
     public void NetDieLocal(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true)
     {
         if (photonView.isMine)
@@ -3055,7 +3049,7 @@ public partial class Hero : Human
         }
     }
 
-    
+
 
     public void PauseAnimation()
     {
@@ -3157,7 +3151,7 @@ public partial class Hero : Human
     [Obsolete]
     public void SetSkillHUDPosition2()
     {
-        
+
     }
 
     public void SetStat2()
@@ -3193,7 +3187,7 @@ public partial class Hero : Human
                         var num = 0;
                         foreach (var player in PhotonNetwork.playerList)
                         {
-                            if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1 && 
+                            if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 1 &&
                                 RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.character]).ToUpper() == "EREN")
                             {
                                 num++;
@@ -3384,16 +3378,6 @@ public partial class Hero : Human
     }
 
 
-
-    private void ShowSkillCD()
-    {
-        if (skillCD != null)
-        {
-            //skillCD.GetComponent<UISprite>().fillAmount = (skillCDLast - skillCDDuration) / skillCDLast;
-        }
-    }
-
-
     public void SetHorse()
     {
         if (!photonView.isMine) return;
@@ -3411,10 +3395,10 @@ public partial class Hero : Human
     }
 
 
-    public IEnumerator StopImmunity()
+    public IEnumerator StopImmunity(float delay = 5f)
     {
-        yield return new WaitForSeconds(5f);
-        bombImmune = false;
+        yield return new WaitForSeconds(delay);
+        bombSettings.bombImmune = false;
     }
 
     private void Suicide()
@@ -3453,10 +3437,10 @@ public partial class Hero : Human
             {
                 if (!((myBomb == null) || myBomb.disabled))
                 {
-                    myBomb.Explode(bombRadius);
+                    myBomb.Explode(bombSettings.bombRadius);
                 }
                 detonate = false;
-                skillCDDuration = bombCD;
+                skillCDDuration = bombSettings.bombCD;
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 currentV = transform.position;
@@ -3467,13 +3451,13 @@ public partial class Hero : Human
                 }
                 Vector3 vector = Vector3.Normalize(targetV - currentV);
                 GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", currentV + ((vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
-                obj2.GetComponent<Rigidbody>().velocity = (vector * bombSpeed);
+                obj2.GetComponent<Rigidbody>().velocity = (vector * bombSettings.bombSpeed);
                 myBomb = obj2.GetComponent<Bomb>();
-                bombTime = 0f;
+                bombSettings.bombTime = 0f;
             }
             else if ((myBomb != null) && !myBomb.disabled)
             {
-                bombTime += Time.deltaTime;
+                bombSettings.bombTime += Time.deltaTime;
                 bool flag2 = false;
                 if (InputManager.KeyUp(InputHuman.AttackSpecial))
                 {
@@ -3484,13 +3468,13 @@ public partial class Hero : Human
                     detonate = false;
                     flag2 = true;
                 }
-                if (bombTime >= bombTimeMax)
+                if (bombSettings.bombTime >= bombSettings.bombTimeMax)
                 {
                     flag2 = true;
                 }
                 if (flag2)
                 {
-                    myBomb.Explode(bombRadius);
+                    myBomb.Explode(bombSettings.bombRadius);
                     detonate = false;
                 }
             }

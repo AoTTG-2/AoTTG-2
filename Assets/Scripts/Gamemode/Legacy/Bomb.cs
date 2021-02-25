@@ -71,14 +71,14 @@ public class Bomb : Photon.MonoBehaviour
 
     public void Explode(float radius)
     {
-        this.disabled = true;
-        base.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        disabled = true;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         Vector3 position = base.transform.position;
-        this.myExplosion = PhotonNetwork.Instantiate("RCAsset/BombExplodeMain", position, Quaternion.Euler(0f, 0f, 0f), 0);
+        myExplosion = PhotonNetwork.Instantiate("RCAsset/BombExplodeMain", position, Quaternion.Euler(0f, 0f, 0f), 0);
         foreach (Hero hero in EntityService.GetAll<Hero>())
         {
             GameObject gameObject = hero.gameObject;
-            if (((Vector3.Distance(gameObject.transform.position, position) < radius) && !gameObject.GetPhotonView().isMine) && !hero.bombImmune)
+            if (((Vector3.Distance(gameObject.transform.position, position) < radius) && !gameObject.GetPhotonView().isMine) && !hero.bombSettings.bombImmune)
             {
                 PhotonPlayer owner = gameObject.GetPhotonView().owner;
                 if (((GameSettings.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
