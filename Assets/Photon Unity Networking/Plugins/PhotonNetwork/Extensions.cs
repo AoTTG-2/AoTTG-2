@@ -37,14 +37,14 @@ public static class Extensions
         return result;
     }
 
-    public static PhotonView[] GetPhotonViewsInChildren(this UnityEngine.GameObject go)
+    public static PhotonView[] GetPhotonViewsInChildren(this GameObject go)
     {
         return go.GetComponentsInChildren<PhotonView>(true) as PhotonView[];
     }
 
-    public static PhotonView GetPhotonView(this UnityEngine.GameObject go)
+    public static PhotonView GetPhotonView(this GameObject go)
     {
-        return go.GetComponent<PhotonView>() as PhotonView;
+        return go.GetComponent<PhotonView>();
     }
 
     /// <summary>compares the squared magnitude of target - second to given float value</summary>
