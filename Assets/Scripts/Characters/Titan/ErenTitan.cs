@@ -11,7 +11,7 @@ namespace Assets.Scripts.Characters.Titan
 {
     public class ErenTitan : TitanBase
     {
-        public new ErenTitanBody Body { get; protected set; }
+        //public new ErenTitanBody Body { get; protected set; }
         public AudioSource AudioSourceFoot;
 
         private string attackAnimation;
@@ -107,7 +107,7 @@ namespace Assets.Scripts.Characters.Titan
                 HealthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{Health}</color>";
             }
 
-            AttackDistance = Vector3.Distance(base.transform.position, Body.AttackFrontGround.position) * 1.65f;
+            AttackDistance = Vector3.Distance(base.transform.position, ((ErenTitanBody)Body).AttackFrontGround.position) * 1.65f;
             EntityService.Register(this);
         }
 
