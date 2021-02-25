@@ -14,7 +14,7 @@ public partial class Hero
     private void BackToHumanRPC()
     {
         titanForm = false;
-        eren_titan = null;
+        erenTitanGameObject = null;
         smoothSyncMovement.disabled = false;
     }
 
@@ -153,9 +153,9 @@ public partial class Hero
             {
                 PhotonNetwork.Destroy(myCannon);
             }
-            if (titanForm && (eren_titan != null))
+            if (titanForm && (erenTitanGameObject != null))
             {
-                eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
+                erenTitanGameObject.GetComponent<ErenTitan>().lifeTime = 0.1f;
             }
             if (skillCD != null)
             {
@@ -274,9 +274,9 @@ public partial class Hero
                 PhotonNetwork.Destroy(myCannon);
             }
             PhotonNetwork.RemoveRPCs(photonView);
-            if (titanForm && (eren_titan != null))
+            if (titanForm && (erenTitanGameObject != null))
             {
-                eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
+                erenTitanGameObject.GetComponent<ErenTitan>().lifeTime = 0.1f;
             }
             if (skillCD != null)
             {
@@ -602,7 +602,7 @@ public partial class Hero
     [PunRPC]
     private void WhoIsMyErenTitan(int id)
     {
-        eren_titan = PhotonView.Find(id).gameObject;
+        erenTitanGameObject = PhotonView.Find(id).gameObject;
         titanForm = true;
     }
 

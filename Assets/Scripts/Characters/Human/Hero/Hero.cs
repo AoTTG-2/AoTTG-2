@@ -73,7 +73,7 @@ public partial class Hero : Human
     public bool detonate;
     private float dTapTime = -1f;
     private bool eHold;
-    private GameObject eren_titan;
+    
     private int escapeTimes = 1;
     private float facingDirection;
     private float flare1CD;
@@ -186,6 +186,8 @@ public partial class Hero : Human
 
     string standAnimation = "stand";
 
+    private GameObject erenTitanGameObject;
+    private ErenTitan erenTitan;
 
     public HeroAudio audioSystem;
     private HookUI hookUI = new HookUI();
@@ -313,9 +315,9 @@ public partial class Hero : Human
         }
         if (!hasDied)
         {
-            if (titanForm && (eren_titan != null))
+            if (titanForm && (erenTitan != null))
             {
-                transform.position = eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
+                transform.position = erenTitan.Body.Neck.position;
                 smoothSyncMovement.disabled = true;
             }
             else if (isCannon && (myCannon != null))
@@ -2703,9 +2705,9 @@ public partial class Hero : Human
     {
         if (invincible <= 0f)
         {
-            if (titanForm && (eren_titan != null))
+            if (titanForm && (erenTitan != null))
             {
-                eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
+                erenTitan.lifeTime = 0.1f;
             }
             if (bulletLeft != null)
             {
@@ -2795,16 +2797,18 @@ public partial class Hero : Human
         {
             bulletRight.removeMe();
         }
-        eren_titan = PhotonNetwork.Instantiate("ErenTitan", transform.position, transform.rotation, 0);
-        eren_titan.GetComponent<ErenTitan>().realBody = gameObject;
-        GameObject.Find(NAME_MAIN_CAMERA).GetComponent<IN_GAME_MAIN_CAMERA>().FlashBlind();
-        GameObject.Find(NAME_MAIN_CAMERA).GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(eren_titan, true, false);
-        eren_titan.GetComponent<ErenTitan>().born();
-        eren_titan.GetComponent<Rigidbody>().velocity = rigidBody.velocity;
+        erenTitanGameObject = PhotonNetwork.Instantiate("ErenTitan", transform.position, transform.rotation, 0);
+        erenTitan = erenTitanGameObject.GetComponent<ErenTitan>();
+        erenTitan.realBody = gameObject;
+        var cam = GameObject.Find(NAME_MAIN_CAMERA).GetComponent<IN_GAME_MAIN_CAMERA>();
+        cam.FlashBlind();
+        cam.SetMainObject(erenTitanGameObject, true, false);
+        erenTitan.born();
+        erenTitanGameObject.GetComponent<Rigidbody>().velocity = rigidBody.velocity;
         rigidBody.velocity = Vector3.zero;
-        transform.position = eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
+        transform.position = erenTitan.Body.Neck.position;
         titanForm = true;
-        object[] parameters = new object[] { eren_titan.GetPhotonView().viewID };
+        object[] parameters = new object[] { erenTitanGameObject.GetPhotonView().viewID };
         photonView.RPC(nameof(WhoIsMyErenTitan), PhotonTargets.Others, parameters);
         if ((smoke_3dmgEmission.enabled && photonView.isMine))
         {
@@ -2912,9 +2916,9 @@ public partial class Hero : Human
         GetComponent<CapsuleCollider>().isTrigger = true;
         FalseAttack();
         titanWhoGrabMe = titan;
-        if (titanForm && (eren_titan != null))
+        if (titanForm && (erenTitan != null))
         {
-            eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
+            erenTitan.lifeTime = 0.1f;
         }
 
         smoke_3dmgEmission.enabled = false;
@@ -2933,9 +2937,9 @@ public partial class Hero : Human
         ReleaseIfIHookSb();
         hookTarget = target;
         hookSomeOne = true;
-        if (target.GetComponent<Hero>() != null)
+        if (target.TryGetComponent<Hero>(out var h))
         {
-            target.GetComponent<Hero>().HookedByHuman(photonView.viewID, hookPosition);
+            h.HookedByHuman(photonView.viewID, hookPosition);
         }
         launchForce = hookPosition - transform.position;
         float num = Mathf.Pow(launchForce.magnitude, 0.1f);
@@ -2970,9 +2974,9 @@ public partial class Hero : Human
         if (photonView.isMine)
         {
             Vector3 vector = (Vector3.up * 5000f);
-            if (titanForm && (eren_titan != null))
+            if (titanForm && (erenTitan != null))
             {
-                eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
+                erenTitan.lifeTime = 0.1f;
             }
             if (myBomb != null)
             {
@@ -3001,8 +3005,9 @@ public partial class Hero : Human
         BreakApart(v, isBite);
         if (photonView.isMine)
         {
-            currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
-            currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            var cam = currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>();
+            cam.SetSpectorMode(false);
+            cam.gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
         hasDied = true;
