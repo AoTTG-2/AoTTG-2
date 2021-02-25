@@ -276,7 +276,7 @@ public partial class Hero : Human
             gameObject.layer = LayerMask.NameToLayer("NetworkObject");
             if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
             {
-                GameObject obj3 = (GameObject) Instantiate(Resources.Load("flashlight"));
+                GameObject obj3 = Instantiate(Resources.Load<GameObject>("flashlight"));
                 obj3.transform.parent = transform;
                 obj3.transform.position = transform.position + Vector3.up;
                 obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
@@ -337,6 +337,7 @@ public partial class Hero : Human
                 }
                 if ((State == HERO_STATE.Grab) && !useGun)
                 {
+                    MindlessTitan mTitan;
                     switch (skillId)
                     {
                         case SKILL_JEAN:
@@ -349,14 +350,14 @@ public partial class Hero : Human
                                 animation[ANIM_GRABBED_JEAN].time = 0f;
                                 escapeTimes--;
                             }
-                            if ((animation.IsPlaying(ANIM_GRABBED_JEAN) && (animation[ANIM_GRABBED_JEAN].normalizedTime > 0.64f)) && (titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
+                            if ((animation.IsPlaying(ANIM_GRABBED_JEAN) && (animation[ANIM_GRABBED_JEAN].normalizedTime > 0.64f)) && (titanWhoGrabMe.TryGetComponent(out mTitan)))
                             {
                                 Ungrabbed();
                                 rigidBody.velocity = (Vector3.up * 30f);
                                 photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
                                 if (PhotonNetwork.isMasterClient)
                                 {
-                                    titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
+                                    mTitan.GrabEscapeRpc();
                                 }
                                 else
                                 {
@@ -380,13 +381,13 @@ public partial class Hero : Human
                                 else
                                 {
                                     skillCDDuration = skillCDLast;
-                                    if ((skillId == SKILL_EREN) && (titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
+                                    if ((skillId == SKILL_EREN) && (titanWhoGrabMe.TryGetComponent(out mTitan)))
                                     {
                                         Ungrabbed();
                                         photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
                                         if (PhotonNetwork.isMasterClient)
                                         {
-                                            titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
+                                            mTitan.GrabEscapeRpc();
                                         }
                                         else
                                         {
@@ -1998,14 +1999,14 @@ public partial class Hero : Human
                 if (photonView.isMine)
                 {
                     obj4 = PhotonNetwork.Instantiate(prefabName, ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation, 0);
-                    if (obj4.GetComponent<EnemyfxIDcontainer>() != null)
+                    if (obj4.TryGetComponent<EnemyfxIDcontainer>(out var fxId))
                     {
-                        obj4.GetComponent<EnemyfxIDcontainer>().myOwnerViewID = photonView.viewID;
+                        fxId.myOwnerViewID = photonView.viewID;
                     }
                 }
                 else
                 {
-                    obj4 = (GameObject) Instantiate(Resources.Load(prefabName), ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
+                    obj4 = Instantiate(Resources.Load<GameObject>(prefabName), ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
                 }
             }
             if (animation[attackAnimation].normalizedTime >= 1f)
@@ -2284,27 +2285,32 @@ public partial class Hero : Human
 
     private void BreakApart(Vector3 v, bool isBite)
     {
-        GameObject obj6;
-        GameObject obj7;
-        GameObject obj8;
-        GameObject obj9;
-        GameObject obj10;
-        var obj2 = (GameObject) Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
+        GameObject weaponLeft;
+        GameObject weaponRight;
+        GameObject char3dmg;
+        GameObject char3dmgResourceL;
+        GameObject char3dmgResourceR;
+        var obj2 = Instantiate(Resources.Load<GameObject>("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
         var objHeroSetup = obj2.GetComponent<HERO_SETUP>();
         objHeroSetup.myCostume = setup.myCostume;
         objHeroSetup.isDeadBody = true;
         obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, animation[currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
         if (!isBite)
         {
-            var gO = (GameObject) Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-            var obj4 = (GameObject) Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-            var obj5 = (GameObject) Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-            gO.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-            obj4.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-            obj5.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-            gO.GetComponent<HERO_SETUP>().isDeadBody = true;
-            obj4.GetComponent<HERO_SETUP>().isDeadBody = true;
-            obj5.GetComponent<HERO_SETUP>().isDeadBody = true;
+            var gO =    Instantiate(Resources.Load<GameObject>("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
+            var obj4 =  Instantiate(Resources.Load<GameObject>("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
+            var obj5 =  Instantiate(Resources.Load<GameObject>("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
+
+            var goSetup     = gO.GetComponent <HERO_SETUP>();
+            var obj4Setup   = obj4.GetComponent <HERO_SETUP>();
+            var obj5Setup   = obj5.GetComponent <HERO_SETUP>();
+
+            goSetup.myCostume = setup.myCostume;
+            obj4Setup.myCostume = setup.myCostume;
+            obj5Setup.myCostume = setup.myCostume;
+            goSetup.isDeadBody = true;
+            obj4Setup.isDeadBody = true;
+            obj5Setup.isDeadBody = true;
             gO.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, animation[currentAnimation].normalizedTime, BODY_PARTS.UPPER);
             obj4.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, animation[currentAnimation].normalizedTime, BODY_PARTS.LOWER);
             obj5.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, animation[currentAnimation].normalizedTime, BODY_PARTS.ARM_L);
@@ -2325,30 +2331,30 @@ public partial class Hero : Human
         var handR = body.HandRight; //transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R");
         if (useGun)
         {
-            obj6 = (GameObject) Instantiate(Resources.Load("Character_parts/character_gun_l"), handL.position, handL.rotation);
-            obj7 = (GameObject) Instantiate(Resources.Load("Character_parts/character_gun_r"), handR.position, handR.rotation);
-            obj8 = (GameObject) Instantiate(Resources.Load("Character_parts/character_3dmg_2"), handL.position, handL.rotation);
-            obj9 = (GameObject) Instantiate(Resources.Load("Character_parts/character_gun_mag_l"), handL.position, handL.rotation);
-            obj10 = (GameObject) Instantiate(Resources.Load("Character_parts/character_gun_mag_r"), handL.position, handL.rotation);
+            weaponLeft          = Instantiate(Resources.Load<GameObject>("Character_parts/character_gun_l"), handL.position, handL.rotation);
+            weaponRight         = Instantiate(Resources.Load<GameObject>("Character_parts/character_gun_r"), handR.position, handR.rotation);
+            char3dmg            = Instantiate(Resources.Load<GameObject>("Character_parts/character_3dmg_2"), handL.position, handL.rotation);
+            char3dmgResourceL   = Instantiate(Resources.Load<GameObject>("Character_parts/character_gun_mag_l"), handL.position, handL.rotation);
+            char3dmgResourceR   = Instantiate(Resources.Load<GameObject>("Character_parts/character_gun_mag_r"), handL.position, handL.rotation);
         }
         else
         {
-            obj6 = (GameObject) Instantiate(Resources.Load("Character_parts/character_blade_l"), handL.position, handL.rotation);
-            obj7 = (GameObject) Instantiate(Resources.Load("Character_parts/character_blade_r"), handR.position, handR.rotation);
-            obj8 = (GameObject) Instantiate(Resources.Load("Character_parts/character_3dmg"), handL.position, handL.rotation);
-            obj9 = (GameObject) Instantiate(Resources.Load("Character_parts/character_3dmg_gas_l"), handL.position, handL.rotation);
-            obj10 = (GameObject) Instantiate(Resources.Load("Character_parts/character_3dmg_gas_r"), handL.position, handL.rotation);
+            weaponLeft          = Instantiate(Resources.Load<GameObject>("Character_parts/character_blade_l"), handL.position, handL.rotation);
+            weaponRight         = Instantiate(Resources.Load<GameObject>("Character_parts/character_blade_r"), handR.position, handR.rotation);
+            char3dmg            = Instantiate(Resources.Load<GameObject>("Character_parts/character_3dmg"), handL.position, handL.rotation);
+            char3dmgResourceL   =  Instantiate(Resources.Load<GameObject>("Character_parts/character_3dmg_gas_l"), handL.position, handL.rotation);
+            char3dmgResourceR   = Instantiate(Resources.Load<GameObject>("Character_parts/character_3dmg_gas_r"), handL.position, handL.rotation);
         }
-        obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-        obj7.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-        obj8.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-        obj9.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-        obj10.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-        ApplyForceToBody(obj6, v);
-        ApplyForceToBody(obj7, v);
-        ApplyForceToBody(obj8, v);
-        ApplyForceToBody(obj9, v);
-        ApplyForceToBody(obj10, v);
+        weaponLeft.GetComponent<Renderer>().material        = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
+        weaponRight.GetComponent<Renderer>().material       = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
+        char3dmg.GetComponent<Renderer>().material          = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
+        char3dmgResourceL.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
+        char3dmgResourceR.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
+        ApplyForceToBody(weaponLeft, v);
+        ApplyForceToBody(weaponRight, v);
+        ApplyForceToBody(char3dmg, v);
+        ApplyForceToBody(char3dmgResourceL, v);
+        ApplyForceToBody(char3dmgResourceR, v);
     }
 
     private void BufferUpdate()
