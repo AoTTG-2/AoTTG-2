@@ -34,10 +34,9 @@ namespace Assets.Scripts
                 branchName = headText.Substring(headText.IndexOf('#'));
                 return true;
             }
-            catch (Exception e)
+            catch
             {
-                Debug.LogError("Unable to retrieve the branch name");
-                Debug.LogException(e);
+                Debug.LogWarning("Unable to retrieve the branch name");
             }
             return false;
         }
