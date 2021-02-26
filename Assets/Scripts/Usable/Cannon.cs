@@ -124,8 +124,6 @@ public class Cannon : Photon.MonoBehaviour
             if (strArray.Length > 15)
             {
                 float a = 1f;
-                GameObject gameObject = null;
-                gameObject = gameObject;
                 if (strArray[2] != "default")
                 {
                     if (strArray[2].StartsWith("transparent"))
