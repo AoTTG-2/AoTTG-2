@@ -69,8 +69,8 @@ public class Blades : Weapon
     {
         var bladeLTransform = Hero.setup.part_blade_l.transform;
         var bladeRTransform = Hero.setup.part_blade_r.transform;
-        var bladeL = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), bladeLTransform.position, bladeLTransform.rotation);
-        var bladeR = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), bladeRTransform.position, bladeRTransform.rotation);
+        var bladeL = Object.Instantiate(Resources.Load<GameObject>("Character_parts/character_blade_l"), bladeLTransform.position, bladeLTransform.rotation);
+        var bladeR = Object.Instantiate(Resources.Load<GameObject>("Character_parts/character_blade_r"), bladeRTransform.position, bladeRTransform.rotation);
 
         bladeL.GetComponent<Renderer>(out var rendererL).GetComponent<Rigidbody>(out var rigidL);
         bladeR.GetComponent<Renderer>(out var rendererR).GetComponent<Rigidbody>(out var rigidR);
@@ -79,7 +79,7 @@ public class Blades : Weapon
         rendererL.material = mat;
         rendererR.material = mat;
 
-        var fwd = (Hero.transform.forward + ((Vector3) (Hero.transform.up * 2f)));
+        var fwd = (Hero.transform.forward + ((Hero.transform.up * 2f)));
 
         Vector3 force = fwd - Hero.transform.right;
         rigidL.AddForce(force, ForceMode.Impulse);

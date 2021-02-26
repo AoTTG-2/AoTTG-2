@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Hero
 {
-    
+
     enum Side
     {
         Left,
@@ -66,14 +66,10 @@ public partial class Hero
                 animation[ANIM_DASH].time = 0f;
             }
         }
-        if (left)
-        {
-            isLaunchLeft = true;
-        }
-        if (!left)
-        {
-            isLaunchRight = true;
-        }
+
+        isLaunchLeft = left;
+        isLaunchRight = !left;
+
         launchForce = vector;
         if (!leviMode)
         {
@@ -124,41 +120,42 @@ public partial class Hero
 
     private void LaunchRope(Side side, float distance, Vector3 point, bool single)
     {
-        if (currentGas != 0f)
+        if (currentGas == 0f)
         {
-            UseGas(0f);
-            var bullet = PhotonNetwork.Instantiate(HOOK_STRING, transform.position, transform.rotation, 0).GetComponent<Bullet>();
-            GameObject hookRef = null;
-            int mult = 0;
-            switch (side)
-            {
-                case Side.Left:
-                    bulletLeft = bullet;
-                    hookRef = !useGun ? hookRefL1 : hookRefL2;
-                    mult = -1;
-                    break;
-                case Side.Right:
-                    bulletRight = bullet;
-                    hookRef = !useGun ? hookRefR1 : hookRefR2;
-                    mult = 1;
-                    break;
-            }
+            return;
+        }
+        UseGas(0f);
+        var bullet = PhotonNetwork.Instantiate(HOOK_STRING, transform.position, transform.rotation, 0).GetComponent<Bullet>();
+        GameObject hookRef = null;
+        int mult = 0;
+        switch (side)
+        {
+            case Side.Left:
+                bulletLeft = bullet;
+                hookRef = !useGun ? hookRefL1 : hookRefL2;
+                mult = -1;
+                break;
+            case Side.Right:
+                bulletRight = bullet;
+                hookRef = !useGun ? hookRefR1 : hookRefR2;
+                mult = 1;
+                break;
+        }
 
 
-            bullet.transform.position = hookRef.transform.position;
+        bullet.transform.position = hookRef.transform.position;
 
-            float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
-            var vector = point + (transform.right * num * mult) - bullet.transform.position;
-            bullet.launch((vector.normalized * 3f), rigidBody.velocity, hookRef, side == Side.Left, gameObject, false);
-            switch (side)
-            {
-                case Side.Left:
-                    launchPointLeft = Vector3.zero;
-                    break;
-                case Side.Right:
-                    launchPointRight = Vector3.zero;
-                    break;
-            }
+        float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
+        var vector = point + (transform.right * num * mult) - bullet.transform.position;
+        bullet.launch((vector.normalized * 3f), rigidBody.velocity, hookRef, side == Side.Left, gameObject, false);
+        switch (side)
+        {
+            case Side.Left:
+                launchPointLeft = Vector3.zero;
+                break;
+            case Side.Right:
+                launchPointRight = Vector3.zero;
+                break;
         }
     }
 
@@ -191,7 +188,7 @@ public partial class Hero
 
     public void GetSupply()
     {
-        if (((animation.IsPlaying(standAnimation) || animation.IsPlaying(ANIM_RUN_1)) || animation.IsPlaying(ANIM_RUN_SASHA)) && 
+        if (((animation.IsPlaying(standAnimation) || animation.IsPlaying(ANIM_RUN_1)) || animation.IsPlaying(ANIM_RUN_SASHA)) &&
             (((currentBladeSta != totalBladeSta) || (currentBladeNum != totalBladeNum)) || (((currentGas != totalGas) || (leftBulletLeft != bulletMAX)) || (rightBulletLeft != bulletMAX))))
         {
             State = HERO_STATE.FillGas;

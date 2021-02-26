@@ -1,7 +1,4 @@
 ﻿using Assets.Scripts.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -13,7 +10,7 @@ namespace Assets.Editor
         GameObject selected;
         IDebugable debuggable;
         StringBuilder sb;
-        
+
         [MenuItem("Window/Debug/View IDebugable")]
         static void Open()
         {

@@ -276,7 +276,7 @@ public partial class Hero
             PhotonNetwork.RemoveRPCs(photonView);
             if (titanForm && (erenTitanGameObject != null))
             {
-                erenTitanGameObject.GetComponent<ErenTitan>().lifeTime = 0.1f;
+                erenTitan.lifeTime = 0.1f;
             }
             if (skillCD != null)
             {
@@ -298,9 +298,11 @@ public partial class Hero
 
         if (photonView.isMine)
         {
-            currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-            currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
-            currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            var cam = currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>();
+
+            cam.SetMainObject(null, true, false);
+            cam.SetSpectorMode(true);
+            cam.gameOver = true;
             FengGameManagerMKII.instance.myRespawnTime = 0f;
         }
         FalseAttack();
@@ -466,7 +468,7 @@ public partial class Hero
             float num = Mathf.Pow(launchForce.magnitude, 0.1f);
             if (grounded)
             {
-                rigidBody.AddForce((Vector3.up * Mathf.Min((float) (launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
+                rigidBody.AddForce((Vector3.up * Mathf.Min((launchForce.magnitude * 0.2f), 10f)), ForceMode.Impulse);
             }
             rigidBody.AddForce(((launchForce * num) * 0.1f), ForceMode.Impulse);
             if (State != HERO_STATE.Grab)
@@ -516,7 +518,7 @@ public partial class Hero
         if (photonView.owner == info.sender)
         {
             CameraMultiplier = offset;
-            GetComponent<SmoothSyncMovement>().PhotonCamera = true;
+            smoothSyncMovement.PhotonCamera = true;
             isPhotonCamera = true;
         }
     }
