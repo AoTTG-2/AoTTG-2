@@ -30,11 +30,19 @@ namespace Assets.Scripts.Services
                 Time.timeScale = 1E-06f;
                 OnPaused?.Invoke(this, EventArgs.Empty);
             }
-            else if (!shouldPause && isPaused)
+            else if (!shouldPause && isPaused && !isUnpausing)
             {
                 isUnpausing = true;
                 PauseTimer = immediate ? 0f : DefaultPauseTime;
                 OnUnPaused?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                isPaused = true;
+                isUnpausing = false;
+                PauseTimer = float.MaxValue;
+                Time.timeScale = 1E-06f;
+                OnPaused?.Invoke(this, EventArgs.Empty);
             }
         }
 
