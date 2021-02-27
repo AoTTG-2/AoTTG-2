@@ -58,14 +58,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private float snapShotStartCountDownTime;
     private GameObject snapShotTarget;
     private Vector3 snapShotTargetPosition;
-    public bool spectatorMode;
+    private bool spectatorMode;
     private bool startSnapShotFrameCount;
     public static STEREO_3D_TYPE stereoType;
     public static bool triggerAutoLock;
     public static bool usingTitan;
     private bool isRestarting = true;
     private float startingTime;
-    public bool IsSpecmode => (int) settings[0xf5] == 1;
+    public bool IsSpecmode => !spectatorMode;
 
     private void Awake()
     {
@@ -213,11 +213,13 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         return obj;
     }
 
-    public void SetSpectorMode(bool valuse)
+    public void setSpectorMode(bool val)
     {
-        spectatorMode = valuse;
-        GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !valuse;
-        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !valuse;
+        spectatorMode = val;
+        string message = spectatorMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        instance.chatRoom.OutputSystemMessage(message);
+        GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !val;
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !val;
     }
     public void SnapShot2(int index)
     {
@@ -398,61 +400,59 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
             if (gameOver)
             {
-
-                SetSpectorMode(true);
-                //TODO #160
+                SetSpectatorMode(true); //TODO: Check if this is required
+                //TODO: UI
                 //FengGameManagerMKII.instance.ShowHUDInfoCenter(
                 //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item1)}</color> to toggle the spawn menu.\n" +
                 //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item2)}</color> to spectate the next player.\n" +
-                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n");
-                if (InputManager.KeyDown(InputHuman.Item1))
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.Item3)}</color> to spectate the previous player.\n" +
+                //$"Press <color=#f7d358>{InputManager.GetKey(InputHuman.AttackSpecial)}</color> to enable freeflight with the camera.\n");
+                if (InputManager.KeyDown(InputHuman.AttackSpecial))
                 {
                     ToggleSpecMode();
+                }
+                if (InputManager.KeyDown(InputHuman.Item1))
+                {
                     ToggleSpawnMenu();
                 }
+                if (spectatorMode && InputManager.KeyDown(InputHuman.Item2))
+                {
+                    currentPeekPlayerIndex++;
+                    int length = GameObject.FindGameObjectsWithTag("Player").Length;
+                    if (currentPeekPlayerIndex >= length)
+                    {
+                        currentPeekPlayerIndex = 0;
+                    }
+                    if (length > 0)
+                    {
+                        SetMainObject(GameObject.FindGameObjectsWithTag("Player")[currentPeekPlayerIndex], true, false);
+                        SetSpectorMode(false);
+                        lockAngle = false;
+                    }
+                }
+                if (spectatorMode && InputManager.KeyDown(InputHuman.Item3))
+                {
+                    this.currentPeekPlayerIndex--;
+                    int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
+                    if (this.currentPeekPlayerIndex >= num2)
+                    {
+                        this.currentPeekPlayerIndex = 0;
+                    }
+                    if (this.currentPeekPlayerIndex < 0)
+                    {
+                        this.currentPeekPlayerIndex = num2 - 1;
+                    }
+                    if (num2 > 0)
+                    {
+                        this.setMainObject(GameObject.FindGameObjectsWithTag("Player")[this.currentPeekPlayerIndex], true, false);
+                        this.setSpectorMode(false);
+                        this.lockAngle = false;
+                    }
+                }
+
                 if (spectatorMode)
                 {
-                    if (InputManager.KeyDown(InputHuman.Item2))
-                    {
-                        currentPeekPlayerIndex++;
-                        int length = GameObject.FindGameObjectsWithTag("Player").Length;
-                        if (currentPeekPlayerIndex >= length)
-                        {
-                            currentPeekPlayerIndex = 0;
-                        }
-                        if (length > 0)
-                        {
-                            SetMainObject(GameObject.FindGameObjectsWithTag("Player")[currentPeekPlayerIndex], true, false);
-                            SetSpectorMode(false);
-                            lockAngle = false;
-                        }
-
-                    }
-
-                    if (InputManager.KeyDown(InputHuman.Item3))
-                    {
-                        currentPeekPlayerIndex--;
-                        int num2 = GameObject.FindGameObjectsWithTag("Player").Length;
-                        if (currentPeekPlayerIndex >= num2)
-                        {
-                            currentPeekPlayerIndex = 0;
-                        }
-                        if (currentPeekPlayerIndex < 0)
-                        {
-                            currentPeekPlayerIndex = num2;
-                        }
-                        if (num2 > 0)
-                        {
-                            SetMainObject(GameObject.FindGameObjectsWithTag("Player")[currentPeekPlayerIndex], true, false);
-                            SetSpectorMode(false);
-                            lockAngle = false;
-                        }
-                    }
-
-                    if (spectatorMode)
-                    {
-                        return;
-                    }
+                    return;
                 }
             }
             //TODO #204 - Pause Menu
@@ -654,11 +654,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public static void ToggleSpecMode()
     {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
-        instance.chatRoom.OutputSystemMessage(message);
+        spectatorMode = !spectatorMode;
+        instance.EnterSpecMode(spectatorMode);
     }
 
     public static void ToggleSpawnMenu()

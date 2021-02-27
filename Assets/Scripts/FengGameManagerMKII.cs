@@ -220,7 +220,7 @@ namespace Assets.Scripts
             string key = skybox[6];
             bool mipmap = true;
             bool iteratorVariable2 = false;
-            if (((int) settings[0x3f]) == 1)
+            if (((int)settings[0x3f]) == 1)
             {
                 mipmap = false;
             }
@@ -291,8 +291,8 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    Camera.main.GetComponent<Skybox>().material = (Material) linkHash[1][iteratorVariable3];
-                    skyMaterial = (Material) linkHash[1][iteratorVariable3];
+                    Camera.main.GetComponent<Skybox>().material = (Material)linkHash[1][iteratorVariable3];
+                    skyMaterial = (Material)linkHash[1][iteratorVariable3];
                 }
             }
             if ((key.EndsWith(".jpg") || key.EndsWith(".png")) || key.EndsWith(".jpeg"))
@@ -314,16 +314,16 @@ namespace Assets.Scripts
                                     iteratorVariable2 = true;
                                     iteratorVariable24.material.mainTexture = iteratorVariable26;
                                     linkHash[0].Add(key, iteratorVariable24.material);
-                                    iteratorVariable24.material = (Material) linkHash[0][key];
+                                    iteratorVariable24.material = (Material)linkHash[0][key];
                                 }
                                 else
                                 {
-                                    iteratorVariable24.material = (Material) linkHash[0][key];
+                                    iteratorVariable24.material = (Material)linkHash[0][key];
                                 }
                             }
                             else
                             {
-                                iteratorVariable24.material = (Material) linkHash[0][key];
+                                iteratorVariable24.material = (Material)linkHash[0][key];
                             }
                         }
                     }
@@ -351,7 +351,7 @@ namespace Assets.Scripts
         //[Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
         private void LateUpdate()
         {
-            if (((int) settings[0x40]) >= 100)
+            if (((int)settings[0x40]) >= 100)
             {
                 throw new NotImplementedException("Level editor is not implemented");
             }
@@ -370,7 +370,7 @@ namespace Assets.Scripts
                     Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
                     if ((((Camera.main != null) && (GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)) &&
                          (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
-                        (((int) settings[0xf5]) == 0))
+                        (((int)settings[0xf5]) == 0))
                     {
                         if (GameSettings.Respawn.Mode == RespawnMode.Endless ||
                             !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
@@ -527,7 +527,7 @@ namespace Assets.Scripts
 
         public void EnterSpecMode(bool enter)
         {
-            if (enter)
+            if (!enter)
             {
                 if (Service.Player.Self.photonView.isMine)
                 {
@@ -544,7 +544,7 @@ namespace Assets.Scripts
                 {
                     Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
                 }
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 base.StartCoroutine(this.reloadSky());
             }
@@ -552,15 +552,28 @@ namespace Assets.Scripts
             {
                 if (GameObject.Find("cross1") != null)
                 {
-                    GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
+                    GameObject.Find("cross1").transform.localPosition = (Vector3)(Vector3.up * 5000f);
                 }
-                instance.needChooseSide = true;
+                instance.needChooseSide = false;
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
-    
+
+        [Obsolete("Move into RacingGamemode")]
+        [PunRPC]
+        private void getRacingResult(string player, float time)
+        {
+            RacingResult result = new RacingResult
+            {
+                name = player,
+                time = time
+            };
+            this.racingResult.Add(result);
+            this.refreshRacingResult2();
+        }
+
         [Obsolete("Move into RacingGamemode")]
         [PunRPC]
         private void getRacingResult(string player, float time)
@@ -1013,15 +1026,15 @@ namespace Assets.Scripts
             objArray[0x105] = PlayerPrefs.GetInt("deadlyCannon", 0);
             objArray[0x106] = PlayerPrefs.GetString("liveCam", "Y");
             objArray[0x107] = 0;
-            if (!Enum.IsDefined(typeof(KeyCode), (string) objArray[0xe8]))
+            if (!Enum.IsDefined(typeof(KeyCode), (string)objArray[0xe8]))
             {
                 objArray[0xe8] = "None";
             }
-            if (!Enum.IsDefined(typeof(KeyCode), (string) objArray[0xe9]))
+            if (!Enum.IsDefined(typeof(KeyCode), (string)objArray[0xe9]))
             {
                 objArray[0xe9] = "None";
             }
-            if (!Enum.IsDefined(typeof(KeyCode), (string) objArray[0xea]))
+            if (!Enum.IsDefined(typeof(KeyCode), (string)objArray[0xea]))
             {
                 objArray[0xea] = "None";
             }
@@ -1036,10 +1049,10 @@ namespace Assets.Scripts
             GameObject[] objArray;
             int num;
             GameObject obj2;
-            if (((int) settings[0x40]) >= 100)
+            if (((int)settings[0x40]) >= 100)
             {
                 string[] strArray2 = new string[] { "Flare", "LabelInfoBottomRight", "LabelNetworkStatus", "skill_cd_bottom", "GasUI" };
-                objArray = (GameObject[]) UnityEngine.Object.FindObjectsOfType(typeof(GameObject));
+                objArray = (GameObject[])UnityEngine.Object.FindObjectsOfType(typeof(GameObject));
                 for (num = 0; num < objArray.Length; num++)
                 {
                     obj2 = objArray[num];
@@ -1147,9 +1160,9 @@ namespace Assets.Scripts
                     for (num = 0; num < objArray3.Length; num++)
                     {
                         obj4 = objArray3[num];
-                        obj4.transform.position = new Vector3(UnityEngine.Random.Range((float) -5f, (float) 5f), 0f, UnityEngine.Random.Range((float) -5f, (float) 5f));
+                        obj4.transform.position = new Vector3(UnityEngine.Random.Range((float)-5f, (float)5f), 0f, UnityEngine.Random.Range((float)-5f, (float)5f));
                     }
-                    objArray = (GameObject[]) UnityEngine.Object.FindObjectsOfType(typeof(GameObject));
+                    objArray = (GameObject[])UnityEngine.Object.FindObjectsOfType(typeof(GameObject));
                     for (num = 0; num < objArray.Length; num++)
                     {
                         obj2 = objArray[num];
@@ -1169,9 +1182,9 @@ namespace Assets.Scripts
                         strArray3 = new string[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
                         for (num = 0; num < 6; num++)
                         {
-                            strArray3[num] = (string) settings[num + 0xaf];
+                            strArray3[num] = (string)settings[num + 0xaf];
                         }
-                        strArray3[6] = (string) settings[0xa2];
+                        strArray3[6] = (string)settings[0xa2];
                         base.photonView.RPC(nameof(clearlevel), PhotonTargets.AllBuffered, new object[] { strArray3 });
                         if (oldScript != currentScript)
                         {
@@ -1190,13 +1203,13 @@ namespace Assets.Scripts
                             else
                             {
                                 string[] strArray4 = Regex.Replace(currentScript, @"\s+", "").Replace("\r\n", "").Replace("\n", "").Replace("\r", "").Split(new char[] { ';' });
-                                for (num = 0; num < (Mathf.FloorToInt((float) ((strArray4.Length - 1) / 100)) + 1); num++)
+                                for (num = 0; num < (Mathf.FloorToInt((float)((strArray4.Length - 1) / 100)) + 1); num++)
                                 {
                                     string[] strArray5;
                                     int num7;
                                     string[] strArray6;
                                     string str6;
-                                    if (num < Mathf.FloorToInt((float) (strArray4.Length / 100)))
+                                    if (num < Mathf.FloorToInt((float)(strArray4.Length / 100)))
                                     {
                                         strArray5 = new string[0x65];
                                         num7 = 0;
@@ -1298,7 +1311,7 @@ namespace Assets.Scripts
         {
             bool mipmap = true;
             bool iteratorVariable1 = false;
-            if (((int) settings[0x3f]) == 1)
+            if (((int)settings[0x3f]) == 1)
             {
                 mipmap = false;
             }
@@ -1375,8 +1388,8 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    Camera.main.GetComponent<Skybox>().material = (Material) linkHash[1][key];
-                    skyMaterial = (Material) linkHash[1][key];
+                    Camera.main.GetComponent<Skybox>().material = (Material)linkHash[1][key];
+                    skyMaterial = (Material)linkHash[1][key];
                 }
             }
             if (Level.SceneName.Contains("Forest"))
@@ -1416,16 +1429,16 @@ namespace Assets.Scripts
                                                     iteratorVariable1 = true;
                                                     iteratorVariable33.material.mainTexture = iteratorVariable35;
                                                     linkHash[2].Add(iteratorVariable31, iteratorVariable33.material);
-                                                    iteratorVariable33.material = (Material) linkHash[2][iteratorVariable31];
+                                                    iteratorVariable33.material = (Material)linkHash[2][iteratorVariable31];
                                                 }
                                                 else
                                                 {
-                                                    iteratorVariable33.material = (Material) linkHash[2][iteratorVariable31];
+                                                    iteratorVariable33.material = (Material)linkHash[2][iteratorVariable31];
                                                 }
                                             }
                                             else
                                             {
-                                                iteratorVariable33.material = (Material) linkHash[2][iteratorVariable31];
+                                                iteratorVariable33.material = (Material)linkHash[2][iteratorVariable31];
                                             }
                                         }
                                     }
@@ -1444,16 +1457,16 @@ namespace Assets.Scripts
                                                     iteratorVariable1 = true;
                                                     iteratorVariable33.material.mainTexture = iteratorVariable37;
                                                     linkHash[0].Add(iteratorVariable32, iteratorVariable33.material);
-                                                    iteratorVariable33.material = (Material) linkHash[0][iteratorVariable32];
+                                                    iteratorVariable33.material = (Material)linkHash[0][iteratorVariable32];
                                                 }
                                                 else
                                                 {
-                                                    iteratorVariable33.material = (Material) linkHash[0][iteratorVariable32];
+                                                    iteratorVariable33.material = (Material)linkHash[0][iteratorVariable32];
                                                 }
                                             }
                                             else
                                             {
-                                                iteratorVariable33.material = (Material) linkHash[0][iteratorVariable32];
+                                                iteratorVariable33.material = (Material)linkHash[0][iteratorVariable32];
                                             }
                                         }
                                         else if (iteratorVariable32.ToLower() == "transparent")
@@ -1483,16 +1496,16 @@ namespace Assets.Scripts
                                             iteratorVariable1 = true;
                                             iteratorVariable39.material.mainTexture = iteratorVariable41;
                                             linkHash[0].Add(iteratorVariable38, iteratorVariable39.material);
-                                            iteratorVariable39.material = (Material) linkHash[0][iteratorVariable38];
+                                            iteratorVariable39.material = (Material)linkHash[0][iteratorVariable38];
                                         }
                                         else
                                         {
-                                            iteratorVariable39.material = (Material) linkHash[0][iteratorVariable38];
+                                            iteratorVariable39.material = (Material)linkHash[0][iteratorVariable38];
                                         }
                                     }
                                     else
                                     {
-                                        iteratorVariable39.material = (Material) linkHash[0][iteratorVariable38];
+                                        iteratorVariable39.material = (Material)linkHash[0][iteratorVariable38];
                                     }
                                 }
                             }
@@ -1538,16 +1551,16 @@ namespace Assets.Scripts
                                                 iteratorVariable1 = true;
                                                 iteratorVariable49.material.mainTexture = iteratorVariable51;
                                                 linkHash[0].Add(iteratorVariable48, iteratorVariable49.material);
-                                                iteratorVariable49.material = (Material) linkHash[0][iteratorVariable48];
+                                                iteratorVariable49.material = (Material)linkHash[0][iteratorVariable48];
                                             }
                                             else
                                             {
-                                                iteratorVariable49.material = (Material) linkHash[0][iteratorVariable48];
+                                                iteratorVariable49.material = (Material)linkHash[0][iteratorVariable48];
                                             }
                                         }
                                         else
                                         {
-                                            iteratorVariable49.material = (Material) linkHash[0][iteratorVariable48];
+                                            iteratorVariable49.material = (Material)linkHash[0][iteratorVariable48];
                                         }
                                     }
                                 }
@@ -1580,16 +1593,16 @@ namespace Assets.Scripts
                                                 iteratorVariable1 = true;
                                                 iteratorVariable53.material.mainTexture = iteratorVariable55;
                                                 linkHash[0].Add(iteratorVariable52, iteratorVariable53.material);
-                                                iteratorVariable53.material = (Material) linkHash[0][iteratorVariable52];
+                                                iteratorVariable53.material = (Material)linkHash[0][iteratorVariable52];
                                             }
                                             else
                                             {
-                                                iteratorVariable53.material = (Material) linkHash[0][iteratorVariable52];
+                                                iteratorVariable53.material = (Material)linkHash[0][iteratorVariable52];
                                             }
                                         }
                                         else
                                         {
-                                            iteratorVariable53.material = (Material) linkHash[0][iteratorVariable52];
+                                            iteratorVariable53.material = (Material)linkHash[0][iteratorVariable52];
                                         }
                                     }
                                 }
@@ -1617,16 +1630,16 @@ namespace Assets.Scripts
                                                 iteratorVariable1 = true;
                                                 iteratorVariable59.material.mainTexture = iteratorVariable61;
                                                 linkHash[2].Add(iteratorVariable58, iteratorVariable59.material);
-                                                iteratorVariable59.material = (Material) linkHash[2][iteratorVariable58];
+                                                iteratorVariable59.material = (Material)linkHash[2][iteratorVariable58];
                                             }
                                             else
                                             {
-                                                iteratorVariable59.material = (Material) linkHash[2][iteratorVariable58];
+                                                iteratorVariable59.material = (Material)linkHash[2][iteratorVariable58];
                                             }
                                         }
                                         else
                                         {
-                                            iteratorVariable59.material = (Material) linkHash[2][iteratorVariable58];
+                                            iteratorVariable59.material = (Material)linkHash[2][iteratorVariable58];
                                         }
                                     }
                                 }
@@ -1651,16 +1664,16 @@ namespace Assets.Scripts
                                             iteratorVariable1 = true;
                                             iteratorVariable63.material.mainTexture = iteratorVariable65;
                                             linkHash[2].Add(iteratorVariable62, iteratorVariable63.material);
-                                            iteratorVariable63.material = (Material) linkHash[2][iteratorVariable62];
+                                            iteratorVariable63.material = (Material)linkHash[2][iteratorVariable62];
                                         }
                                         else
                                         {
-                                            iteratorVariable63.material = (Material) linkHash[2][iteratorVariable62];
+                                            iteratorVariable63.material = (Material)linkHash[2][iteratorVariable62];
                                         }
                                     }
                                     else
                                     {
-                                        iteratorVariable63.material = (Material) linkHash[2][iteratorVariable62];
+                                        iteratorVariable63.material = (Material)linkHash[2][iteratorVariable62];
                                     }
                                 }
                             }
@@ -1677,7 +1690,7 @@ namespace Assets.Scripts
         [PunRPC]
         private void loadskinRPC(string n, string url, string url2, string[] skybox, PhotonMessageInfo info)
         {
-            if ((((int) settings[2]) == 1) && info.sender.isMasterClient)
+            if ((((int)settings[2]) == 1) && info.sender.isMasterClient)
             {
                 base.StartCoroutine(this.loadskinE(n, url, url2, skybox));
             }
@@ -1769,7 +1782,7 @@ namespace Assets.Scripts
             this.racingResult = new ArrayList();
             Debug.Log("OnCreatedRoom");
         }
-        
+
         public override void OnDisconnectedFromPhoton()
         {
             Debug.Log("OnDisconnectedFromPhoton");
@@ -1784,14 +1797,14 @@ namespace Assets.Scripts
                 Application.LoadLevel(0);
             }
         }
-        
+
         private void SetGamemode(GamemodeSettings settings)
         {
             if (Gamemode == null)
             {
                 Service.Settings.Get().ChangeSettings(settings);
                 var gamemodeObject = GameObject.Find("Gamemode");
-                Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
+                Gamemode = (GamemodeBase)gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
             }
             else
             {
@@ -1811,7 +1824,7 @@ namespace Assets.Scripts
         {
             Service.Settings.SetRoomPropertySettings();
             SetLevelAndGamemode();
-            
+
             this.playerList = string.Empty;
             char[] separator = new char[] { "`"[0] };
             //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
@@ -1859,7 +1872,7 @@ namespace Assets.Scripts
             {
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
-            
+
             Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
         }
 
@@ -1881,7 +1894,7 @@ namespace Assets.Scripts
                 {
                     await Task.Delay(500);
                 }
-                
+
                 var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
                 ui.ShowInGameUi();
                 ChangeQuality.setCurrentQuality();
@@ -1893,7 +1906,7 @@ namespace Assets.Scripts
                     }
                 }
                 this.gameStart = true;
-                GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
+                GameObject obj3 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
                 UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
                 obj3.name = "MainCamera";
                 this.cache();
@@ -1907,7 +1920,7 @@ namespace Assets.Scripts
                     //TODO: Show ChooseSide Message
                     //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
                 }
-                else if (((int) settings[0xf5]) == 0)
+                else if (((int)settings[0xf5]) == 0)
                 {
                     if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                     {
@@ -1919,7 +1932,7 @@ namespace Assets.Scripts
                     }
                 }
 
-                if (((int) settings[0xf5]) == 1)
+                if (((int)settings[0xf5]) == 1)
                 {
                     this.EnterSpecMode(true);
                 }
@@ -1949,7 +1962,7 @@ namespace Assets.Scripts
             }
             noRestart = false;
         }
-        
+
         public void OnPhotonCustomRoomPropertiesChanged()
         {
             if (PhotonNetwork.isMasterClient)
@@ -2032,10 +2045,10 @@ namespace Assets.Scripts
         public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
         {
             this.RecompilePlayerList(0.1f);
-            if (((playerAndUpdatedProps != null) && (playerAndUpdatedProps.Length >= 2)) && (((PhotonPlayer) playerAndUpdatedProps[0]) == PhotonNetwork.player))
+            if (((playerAndUpdatedProps != null) && (playerAndUpdatedProps.Length >= 2)) && (((PhotonPlayer)playerAndUpdatedProps[0]) == PhotonNetwork.player))
             {
                 ExitGames.Client.Photon.Hashtable hashtable2;
-                ExitGames.Client.Photon.Hashtable hashtable = (ExitGames.Client.Photon.Hashtable) playerAndUpdatedProps[1];
+                ExitGames.Client.Photon.Hashtable hashtable = (ExitGames.Client.Photon.Hashtable)playerAndUpdatedProps[1];
                 if (hashtable.ContainsKey("name") && (RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) != this.name))
                 {
                     hashtable2 = new ExitGames.Client.Photon.Hashtable();
@@ -2080,7 +2093,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         public override void OnReceivedRoomListUpdate()
         {
         }
@@ -2088,13 +2101,13 @@ namespace Assets.Scripts
         public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
         {
             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.kills, ((int) player.CustomProperties[PhotonPlayerProperty.kills]) + 1);
+            propertiesToSet.Add(PhotonPlayerProperty.kills, ((int)player.CustomProperties[PhotonPlayerProperty.kills]) + 1);
             player.SetCustomProperties(propertiesToSet);
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.max_dmg, Mathf.Max(dmg, (int) player.CustomProperties[PhotonPlayerProperty.max_dmg]));
+            propertiesToSet.Add(PhotonPlayerProperty.max_dmg, Mathf.Max(dmg, (int)player.CustomProperties[PhotonPlayerProperty.max_dmg]));
             player.SetCustomProperties(propertiesToSet);
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-            propertiesToSet.Add(PhotonPlayerProperty.total_dmg, ((int) player.CustomProperties[PhotonPlayerProperty.total_dmg]) + dmg);
+            propertiesToSet.Add(PhotonPlayerProperty.total_dmg, ((int)player.CustomProperties[PhotonPlayerProperty.total_dmg]) + dmg);
             player.SetCustomProperties(propertiesToSet);
         }
 
@@ -2120,7 +2133,7 @@ namespace Assets.Scripts
                 object[] objArray2 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
                 this.localRacingResult = string.Concat(objArray2);
                 this.localRacingResult = this.localRacingResult + (this.racingResult[i] as RacingResult).name;
-                this.localRacingResult = this.localRacingResult + "   " + ((((int) ((this.racingResult[i] as RacingResult).time * 100f)) * 0.01f)).ToString() + "s";
+                this.localRacingResult = this.localRacingResult + "   " + ((((int)((this.racingResult[i] as RacingResult).time * 100f)) * 0.01f)).ToString() + "s";
                 this.localRacingResult = this.localRacingResult + "\n";
             }
             object[] parameters = new object[] { this.localRacingResult };
@@ -2231,16 +2244,16 @@ namespace Assets.Scripts
                 base.photonView.RPC(nameof(RPCLoadLevel), PhotonTargets.All, new object[0]);
                 if (masterclientSwitched)
                 {
-                    this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + ((string) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor());
+                    this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + ((string)PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]).hexColor());
                 }
             }
         }
 
         public void restartRC()
         {
-            if (respawnCoroutine != null) 
+            if (respawnCoroutine != null)
                 StopCoroutine(respawnCoroutine);
-            
+
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
                 Level = NewRoundLevel;
@@ -2304,10 +2317,10 @@ namespace Assets.Scripts
             if (requestIpBan)
             {
                 ExitGames.Client.Photon.Hashtable eventContent = new ExitGames.Client.Photon.Hashtable();
-                eventContent[(byte) 0] = true;
+                eventContent[(byte)0] = true;
                 if ((inGameName != null) && (inGameName.Length > 0))
                 {
-                    eventContent[(byte) 1] = inGameName;
+                    eventContent[(byte)1] = inGameName;
                 }
                 PhotonNetwork.RaiseEvent(0xcb, eventContent, true, options);
             }
@@ -2322,7 +2335,7 @@ namespace Assets.Scripts
             if (!string.IsNullOrEmpty(authPassword))
             {
                 ExitGames.Client.Photon.Hashtable eventContent = new ExitGames.Client.Photon.Hashtable();
-                eventContent[(byte) 0] = authPassword;
+                eventContent[(byte)0] = authPassword;
                 PhotonNetwork.RaiseEvent(0xc6, eventContent, true, new RaiseEventOptions());
             }
         }
@@ -2332,7 +2345,7 @@ namespace Assets.Scripts
             if (!string.IsNullOrEmpty(bannedAddress))
             {
                 ExitGames.Client.Photon.Hashtable eventContent = new ExitGames.Client.Photon.Hashtable();
-                eventContent[(byte) 0] = bannedAddress;
+                eventContent[(byte)0] = bannedAddress;
                 PhotonNetwork.RaiseEvent(0xc7, eventContent, true, new RaiseEventOptions());
             }
         }
@@ -2479,7 +2492,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         [PunRPC]
         private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
         {
@@ -2495,7 +2508,7 @@ namespace Assets.Scripts
                 this.kickPlayerRC(t.sender, true, "false game end.");
             }
         }
-    
+
         //TODO: 184 - This gets called upon MapLoaded
         [Obsolete("Migrate into a SpawnService")]
         public void SpawnPlayer(string id, string tag = "playerRespawn")
@@ -2513,13 +2526,13 @@ namespace Assets.Scripts
         {
             Debug.LogError(data);
         }
-        
+
         [Obsolete("Migrate into a SpawnService")]
         public void SpawnPlayerAt2(string id, GameObject pos)
         {
             // HACK
             if (false)
-                //if (!logicLoaded || !customLevelLoaded)
+            //if (!logicLoaded || !customLevelLoaded)
             {
                 this.NOTSpawnPlayerRC(id);
             }
@@ -2662,27 +2675,27 @@ namespace Assets.Scripts
                     case "SET 1":
                     case "SET 2":
                     case "SET 3":
-                    {
-                        HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(slot);
-                        costume.checkstat();
-                        CostumeConeveter.HeroCostumeToLocalData(costume, slot);
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                        if (costume != null)
                         {
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
+                            HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(slot);
+                            costume.checkstat();
+                            CostumeConeveter.HeroCostumeToLocalData(costume, slot);
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
+                            if (costume != null)
+                            {
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
+                            }
+                            else
+                            {
+                                costume = HeroCostume.costumeOption[3];
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
+                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
+                            }
+                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
+                            component.main_object.GetComponent<Hero>().setStat2();
+                            component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
+                            break;
                         }
-                        else
-                        {
-                            costume = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
-                        }
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                        break;
-                    }
                     default:
                         for (int i = 0; i < HeroCostume.costume.Length; i++)
                         {
@@ -2723,7 +2736,7 @@ namespace Assets.Scripts
                 component.gameOver = false;
             }
         }
-        
+
         private void Start()
         {
             QualitySettings.vSyncCount = 1;
@@ -2763,7 +2776,7 @@ namespace Assets.Scripts
             this.loadconfig();
             ChangeQuality.setCurrentQuality();
         }
-        
+
         [PunRPC]
         public void titanGetKill(PhotonPlayer player, int Damage, string name)
         {
@@ -2772,7 +2785,7 @@ namespace Assets.Scripts
             base.photonView.RPC(nameof(netShowDamage), player, parameters);
             if (!PhotonNetwork.offlineMode)
             {
-                this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+                this.sendKillInfo(false, (string)player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
             }
             this.playerKillInfoUpdate(player, Damage);
         }
@@ -2797,7 +2810,7 @@ namespace Assets.Scripts
         private void updateKillInfo(bool killerIsTitan, string killer, bool victimIsTitan, string victim, int dmg)
         {
             var killFeed = GameObject.Find("KillFeed");
-            var newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
+            var newKillInfo = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
             foreach (var killInfo in killInfoGO)
             {
                 if (killInfo != null)
