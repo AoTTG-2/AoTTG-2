@@ -191,13 +191,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             GameObject.Find("stamina_titan").transform.localPosition = new Vector3(0f, 9999f, 0f);
             GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(0f, 9999f, 0f);
         }
-        if ((this.main_object != null) && (this.main_object.GetComponent<Hero>() != null))
-        {
-            if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
-            {
-                this.main_object.GetComponent<Hero>().SetSkillHUDPosition2();
-            }
-        }
+        
         if (stereoType == STEREO_3D_TYPE.SIDE_BY_SIDE)
         {
             base.gameObject.GetComponent<Camera>().aspect = Screen.width / Screen.height;
