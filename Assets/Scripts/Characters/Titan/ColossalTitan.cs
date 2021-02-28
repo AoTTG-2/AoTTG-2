@@ -90,7 +90,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { (Vector3) ((vector.normalized * num) + (Vector3.up * 1f)) };
-                player.GetComponent<Hero>().photonView.RPC(nameof(Hero.blowAway), PhotonTargets.All, parameters);
+                player.GetComponent<Hero>().photonView.RPC(nameof(Hero.BlowAway), PhotonTargets.All, parameters);
             }
         }
 
@@ -129,7 +129,7 @@ namespace Assets.Scripts.Characters.Titan
                         }
                         return gameObject;
                     }
-                    if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                    if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible)
                     {
                         return gameObject;
                     }
@@ -195,9 +195,9 @@ namespace Assets.Scripts.Characters.Titan
                 Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
                 if (!hitHero.GetComponent<Hero>().HasDied())
                 {
-                    hitHero.GetComponent<Hero>().markDie();
+                    hitHero.GetComponent<Hero>().MarkDie();
                     object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Colossal Titan", true };
-                    hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
+                    hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
                 }
             }
         }

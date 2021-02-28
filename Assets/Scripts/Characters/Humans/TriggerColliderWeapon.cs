@@ -48,14 +48,14 @@ namespace Assets.Scripts.Characters.Humans
         private void HeroHit(Hero hero, HitBox hitbox, float distance)
         {
             Service.Player.HeroHit(new HeroHitEvent(hero, hero));
-            if (hero.myTeam != myTeam && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
+            if (hero.myTeam != myTeam && !hero.IsInvincible&& hero.HasDied() && !hero.IsGrabbed)
             {
                 // I honestly don't have a clue as to what this does
                 float b = Mathf.Min(1f, 1f - (distance * 0.05f));
 
                 Service.Player.HeroKill(new HeroKillEvent(hero, hero));
-                hero.markDie();
-                hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
+                hero.MarkDie();
+                hero.photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, new object[]
                 {
                     ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
                     false,
@@ -73,7 +73,7 @@ namespace Assets.Scripts.Characters.Humans
             if (!currentHitsII.Contains(collider.gameObject))
             {
                 currentHitsII.Add(collider.gameObject);
-                currentCamera.startShake(0.1f, 0.1f, 0.95f);
+                currentCamera.StartShake(0.1f, 0.1f, 0.95f);
                 if (collider.gameObject.transform.root.gameObject.CompareTag("titan"))
                 {
                     GameObject meat;
@@ -94,7 +94,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         if (hitbox.transform.root != null && hitbox.transform.root.TryGetComponent(out Hero attackedHero))
                         {
-                            Service.Player.HeroHit(new HeroKillEvent(attackedHero, hero));
+                            Service.Player.HeroHit(new HeroHitEvent(attackedHero, hero));
 
                             HeroHit(attackedHero, hitbox, Vector3.Distance(collider.gameObject.transform.position, transform.position));
                         }

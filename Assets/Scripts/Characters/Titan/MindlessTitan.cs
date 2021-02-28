@@ -279,9 +279,9 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     if (!grabTarget.HasDied())
                     {
-                        grabTarget.markDie();
+                        grabTarget.MarkDie();
                         object[] objArray2 = new object[] { -1, base.name };
-                        grabTarget.photonView.RPC("netDie2", PhotonTargets.All, objArray2);
+                        grabTarget.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, objArray2);
                     }
                 }
             }
@@ -430,7 +430,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (GrabTarget != null)
             {
-                GrabTarget.photonView.RPC("netUngrabbed", PhotonTargets.All);
+                GrabTarget.photonView.RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All);
             }
         }
 
@@ -448,8 +448,8 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
                 {
-                    player.markDie();
-                    player.photonView.RPC("netDie2", PhotonTargets.All,  -1, "Server ");
+                    player.MarkDie();
+                    player.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All,  -1, "Server ");
                 }
             }
         }

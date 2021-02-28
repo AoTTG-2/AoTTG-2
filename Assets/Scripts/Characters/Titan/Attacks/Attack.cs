@@ -76,8 +76,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     }
                 }
                 else if ((gameObject.GetComponent<Hero>() != null) 
-                         && !gameObject.GetComponent<Hero>().isInvincible()
-                         && gameObject.GetComponent<Hero>()._state != HERO_STATE.Grab)
+                         && !gameObject.GetComponent<Hero>().IsInvincible                         && gameObject.GetComponent<Hero>()._state != HERO_STATE.Grab)
                 {
                     return gameObject;
                 }
@@ -120,12 +119,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (!Titan.photonView.isMine) return;
             if (entity is Hero hero)
             {
-                hero.markDie();
+                hero.MarkDie();
                 var knockbackVector = ((hero.transform.position - Titan.Body.Chest.position) * 15f * Titan.Size);
 
                 if (PhotonNetwork.offlineMode)
                 {
-                    hero.die(knockbackVector, (this is BiteAttack));
+                    hero.Die(knockbackVector, (this is BiteAttack));
                 }
                 else
                 {
@@ -136,7 +135,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     netDieParameters[3] = Titan.name;
                     netDieParameters[4] = true;
 
-                    hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, netDieParameters);
+                    hero.photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, netDieParameters);
                 }
             }
             else

@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
+using Assets.Scripts.UI.Menu;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -12,7 +13,7 @@ using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class SpawnMenuV2 : MonoBehaviour
+    public class SpawnMenuV2 : MonoBehaviour, IUiContainer
     {
         private ISpawnService SpawnService => Service.Spawn;
 
@@ -44,7 +45,7 @@ namespace Assets.Scripts.UI.InGame
         public void OnEnable()
         {
             OnCharacterChanged(Characters.First(), 0);
-            MenuManager.RegisterOpened();
+            MenuManager.RegisterOpened(this);
         }
         
         public void OnDisable()
@@ -52,7 +53,7 @@ namespace Assets.Scripts.UI.InGame
             if (Character != null)
                 Destroy(Character);
 
-            MenuManager.RegisterClosed();
+            MenuManager.RegisterClosed(this);
         }
 
         public void Spawn()
@@ -76,7 +77,7 @@ namespace Assets.Scripts.UI.InGame
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
             }
             IN_GAME_MAIN_CAMERA.usingTitan = false;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetHUDposition();
             Hashtable hashtable = new Hashtable();
             hashtable.Add(PhotonPlayerProperty.character, selection);
             Hashtable propertiesToSet = hashtable;
@@ -156,6 +157,41 @@ namespace Assets.Scripts.UI.InGame
             Character.transform.position = new Vector3(0, 0, 0);
             Character.transform.rotation = Quaternion.Euler(0, 180, 0);
             Character.transform.localPosition = new Vector3(0, 0, 0);
+        }
+
+        public List<IUiElement> GetChildren()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetNumVisibleChildren()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AddChild(IUiElement element)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveChild(IUiElement element)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool IsVisible()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Show()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Hide()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

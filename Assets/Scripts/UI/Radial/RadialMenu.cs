@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI.Menu;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Radial
 {
-    public class RadialMenu : MonoBehaviour
+    public class RadialMenu : MonoBehaviour, IUiContainer
     {
         public FlareRadialMenu FlareMenu;
 
@@ -23,18 +25,18 @@ namespace Assets.Scripts.UI.Radial
 
         private void OnEnable()
         {
-            MenuManager.RegisterOpened();
+            MenuManager.RegisterOpened(this);
             Cursor.visible = false;
         }
 
         protected virtual void OnDisable()
         {
-            MenuManager.RegisterClosed();
+            MenuManager.RegisterClosed(this);
         }
 
         protected virtual void OnDestroy()
         {
-            MenuManager.RegisterClosed();
+            MenuManager.RegisterClosed(this);
         }
 
         protected virtual void Start()
@@ -134,5 +136,40 @@ namespace Assets.Scripts.UI.Radial
         }
 
         private float NormalizeAngle(float a) => (a + 360f) % 360f;
+
+        public List<IUiElement> GetChildren()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetNumVisibleChildren()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AddChild(IUiElement element)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveChild(IUiElement element)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool IsVisible()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Show()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Hide()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
             if (Hero._state != HERO_STATE.Idle) return false;
 
             Hero.attackAnimation = "attack3_1";
-            Hero.playAnimation("attack3_1");
+            Hero.PlayAnimation("attack3_1");
             Hero.Rigidbody.velocity = Vector3.up * 10f;
             IsActive = true;
             return true;
@@ -32,10 +32,10 @@ namespace Assets.Scripts.Characters.Humans.Skills
             if (Hero._state == HERO_STATE.Attack && Hero.attackAnimation == "attack3_1" &&
                 Hero.Animation[Hero.attackAnimation].normalizedTime >= 1f)
             {
-                Hero.playAnimation("attack3_2");
-                Hero.resetAnimationSpeed();
+                Hero.PlayAnimation("attack3_2");
+                Hero.ResetAnimationSpeed();
                 Hero.Rigidbody.velocity = Vector3.zero;
-                Hero.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.2f, 0.3f, 0.95f);
+                Hero.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.2f, 0.3f, 0.95f);
                 IsActive = false;
             }
         }

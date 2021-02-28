@@ -64,7 +64,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                 Hero.rightGunHasBullet = false;
                 Hero.leftGunHasBullet = false;
             }
-            Hero.crossFade(Hero.reloadAnimation, 0.05f);
+            Hero.CrossFade(Hero.reloadAnimation, 0.05f);
         }
 
         public override void Reload()

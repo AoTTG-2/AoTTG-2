@@ -179,7 +179,7 @@ namespace Assets.Scripts
 
         [Obsolete("This is a responsibility for the InRoomChat.")]
         [PunRPC]
-        private void Chat(string content, string sender, PhotonMessageInfo info)
+        public void Chat(string content, string sender, PhotonMessageInfo info)
         {
             if (sender != string.Empty)
             {
@@ -191,7 +191,7 @@ namespace Assets.Scripts
 
         [Obsolete("This is a responsibility for the InRoomChat.")]
         [PunRPC]
-        private void ChatPM(string sender, string content, PhotonMessageInfo info)
+        public void ChatPM(string sender, string content, PhotonMessageInfo info)
         {
             content = sender + ":" + content;
             content = "<color=#FFC000>FROM [" + Convert.ToString(info.sender.ID) + "]</color> " + content;
@@ -502,7 +502,7 @@ namespace Assets.Scripts
 
                 //    str11 = Gamemode.GetRoundEndedMessage();
                 //    object[] parameters = new object[] {str6, str7, str8, str9, str10, str11};
-                //    base.photonView.RPC("showResult", PhotonTargets.AllBuffered, parameters);
+                //    base.photonView.RPC(nameof(showResult), PhotonTargets.AllBuffered, parameters);
                 //}
             }
         }
@@ -1140,7 +1140,7 @@ namespace Assets.Scripts
                 //    }
                 //    else if (PhotonNetwork.isMasterClient)
                 //    {
-                //        base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
+                //        base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
                 //    }
                 //}
                 if (Level.Name.StartsWith("Custom"))
@@ -2425,7 +2425,7 @@ namespace Assets.Scripts
 
         [Obsolete("Migrate to TeamService")]
         [PunRPC]
-        private void setTeamRPC(int setting, PhotonMessageInfo info)
+        public void setTeamRPC(int setting, PhotonMessageInfo info)
         {
             if (info.sender.isMasterClient || info.sender.isLocal)
             {

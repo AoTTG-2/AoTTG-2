@@ -155,6 +155,56 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         //this.flashDuration = 2f;
     }
 
+    public void SetHUDposition()
+    {
+        return;
+        GameObject.Find("Flare").transform.localPosition = new Vector3((float) (((int) (-Screen.width * 0.5f)) + 14), (float) ((int) (-Screen.height * 0.5f)), 0f);
+        GameObject obj2 = GameObject.Find("LabelInfoBottomRight");
+        obj2.transform.localPosition = new Vector3((float) ((int) (Screen.width * 0.5f)), (float) ((int) (-Screen.height * 0.5f)), 0f);
+
+        //obj2.GetComponent<UILabel>().text = "Pause : " + GameObject.Find("InputManagerController").GetComponent<FengCustomInputs>().inputString[InputCode.pause] + " ";
+        GameObject.Find("LabelInfoTopCenter").transform.localPosition = new Vector3(0f, (float) ((int) (Screen.height * 0.5f)), 0f);
+        GameObject.Find("LabelInfoTopRight").transform.localPosition = new Vector3((float) ((int) (Screen.width * 0.5f)), (float) ((int) (Screen.height * 0.5f)), 0f);
+        GameObject.Find("LabelNetworkStatus").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (Screen.height * 0.5f)), 0f);
+        GameObject.Find("LabelInfoTopLeft").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) ((Screen.height * 0.5f) - 20f)), 0f);
+        GameObject.Find("Chatroom").transform.localPosition = new Vector3((float) ((int) (-Screen.width * 0.5f)), (float) ((int) (-Screen.height * 0.5f)), 0f);
+        if (usingTitan)
+        {
+            Vector3 vector = new Vector3(0f, 9999f, 0f);
+            GameObject.Find("skill_cd_bottom").transform.localPosition = vector;
+            GameObject.Find("skill_cd_armin").transform.localPosition = vector;
+            GameObject.Find("skill_cd_eren").transform.localPosition = vector;
+            GameObject.Find("skill_cd_jean").transform.localPosition = vector;
+            GameObject.Find("skill_cd_levi").transform.localPosition = vector;
+            GameObject.Find("skill_cd_marco").transform.localPosition = vector;
+            GameObject.Find("skill_cd_mikasa").transform.localPosition = vector;
+            GameObject.Find("skill_cd_petra").transform.localPosition = vector;
+            GameObject.Find("skill_cd_sasha").transform.localPosition = vector;
+            GameObject.Find("GasUI").transform.localPosition = vector;
+            GameObject.Find("stamina_titan").transform.localPosition = new Vector3(-160f, (float) ((int) ((-Screen.height * 0.5f) + 15f)), 0f);
+            GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(-160f, (float) ((int) ((-Screen.height * 0.5f) + 15f)), 0f);
+        }
+        else
+        {
+            GameObject.Find("skill_cd_bottom").transform.localPosition = new Vector3(0f, (float) ((int) ((-Screen.height * 0.5f) + 5f)), 0f);
+            GameObject.Find("GasUI").transform.localPosition = GameObject.Find("skill_cd_bottom").transform.localPosition;
+            GameObject.Find("stamina_titan").transform.localPosition = new Vector3(0f, 9999f, 0f);
+            GameObject.Find("stamina_titan_bottom").transform.localPosition = new Vector3(0f, 9999f, 0f);
+        }
+        if ((this.main_object != null) && (this.main_object.GetComponent<Hero>() != null))
+        {
+            if ((this.main_object.GetPhotonView() != null) && this.main_object.GetPhotonView().isMine)
+            {
+                this.main_object.GetComponent<Hero>().SetSkillHUDPosition2();
+            }
+        }
+        if (stereoType == STEREO_3D_TYPE.SIDE_BY_SIDE)
+        {
+            base.gameObject.GetComponent<Camera>().aspect = Screen.width / Screen.height;
+        }
+        this.CreateSnapShotRT2();
+    }
+
     public GameObject SetMainObject(GameObject obj, bool resetRotation = true, bool lockAngle = false)
     {
         float num;

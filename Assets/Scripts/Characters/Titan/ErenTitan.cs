@@ -937,7 +937,7 @@ namespace Assets.Scripts.Characters.Titan
                         {
                             if (realBody != null)
                             {
-                                realBody.GetComponent<Hero>().backToHuman();
+                                realBody.GetComponent<Hero>().BackToHuman();
                                 realBody.transform.position = transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position + ((Vector3)(Vector3.up * 2f));
                                 realBody = null;
                             }

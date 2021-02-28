@@ -19,7 +19,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
             RaycastHit hit;
             Hero.attackAnimation = "special_petra";
-            Hero.playAnimation("special_petra");
+            Hero.PlayAnimation("special_petra");
             Hero.Rigidbody.velocity += (Vector3) (Vector3.up * 5f);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
@@ -30,12 +30,12 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 if (Hero.bulletRight != null)
                 {
                     Hero.bulletRight.GetComponent<Bullet>().disable();
-                    Hero.releaseIfIHookSb();
+                    Hero.ReleaseIfIHookSb();
                 }
                 if (Hero.bulletLeft != null)
                 {
                     Hero.bulletLeft.GetComponent<Bullet>().disable();
-                    Hero.releaseIfIHookSb();
+                    Hero.ReleaseIfIHookSb();
                 }
                 Hero.dashDirection = hit.point - Hero.transform.position;
                 Hero.LaunchLeftRope(hit.distance, hit.point, true);
@@ -97,12 +97,12 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 if (Hero.bulletRight != null)
                 {
                     Hero.bulletRight.GetComponent<Bullet>().disable();
-                    Hero.releaseIfIHookSb();
+                    Hero.ReleaseIfIHookSb();
                 }
                 if (Hero.bulletLeft != null)
                 {
                     Hero.bulletLeft.GetComponent<Bullet>().disable();
-                    Hero.releaseIfIHookSb();
+                    Hero.ReleaseIfIHookSb();
                 }
             }
 

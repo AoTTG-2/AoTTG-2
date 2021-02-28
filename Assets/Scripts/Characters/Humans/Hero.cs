@@ -179,7 +179,6 @@ namespace Assets.Scripts.Characters.Humans
         public float speed = 10f;
         public GameObject speedFX;
         public GameObject speedFX1;
-        private ParticleSystem speedFXPS { get; set; }
         public bool spinning;
         private string standAnimation { get; set; } = "stand";
         private Quaternion targetHeadRotation { get; set; }
@@ -189,7 +188,6 @@ namespace Assets.Scripts.Characters.Humans
         public bool titanForm;
         private GameObject titanWhoGrabMe { get; set; }
         private int titanWhoGrabMeID { get; set; }
-        private int totalBladeNum { get; set; } = 5;
         public float totalBladeSta = 100f;
         public float totalGas = 100f;
         private Transform upperarmL { get; set; }
@@ -199,6 +197,10 @@ namespace Assets.Scripts.Characters.Humans
         private float uTapTime { get; set; } = -1f;
         private bool wallJump { get; set; }
         private float wallRunTime { get; set; }
+
+        public bool IsGrabbed => state == HERO_STATE.Grab;
+        public bool IsInvincible => (this.invincible > 0f);
+
         #endregion
 
 
@@ -216,7 +218,7 @@ namespace Assets.Scripts.Characters.Humans
             Rigidbody = GetComponent<Rigidbody>();
 
             InGameUI = GameObject.Find("InGameUi");
-            this.cache();
+            this.Cache();
             this.Rigidbody.freezeRotation = true;
             this.Rigidbody.useGravity = false;
             this.handL = this.transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L");
@@ -272,7 +274,7 @@ namespace Assets.Scripts.Characters.Humans
             if (base.photonView.isMine)
             {
                 base.GetComponent<SmoothSyncMovement>().PhotonCamera = true;
-                base.photonView.RPC("SetMyPhotonCamera", PhotonTargets.OthersBuffered,
+                base.photonView.RPC(nameof(SetMyPhotonCamera), PhotonTargets.OthersBuffered,
                     new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });
             }
             else
@@ -318,12 +320,12 @@ namespace Assets.Scripts.Characters.Humans
                 this.currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
                 //this.loadskin();
                 this.hasspawn = true;
-                base.StartCoroutine(this.reloadSky());
+                base.StartCoroutine(this.ReloadSky());
                 this.bombImmune = false;
                 if (GameSettings.PvP.Bomb.Value)
                 {
                     this.bombImmune = true;
-                    base.StartCoroutine(this.stopImmunity());
+                    base.StartCoroutine(this.StopImmunity());
                 }
             }
         }
@@ -426,102 +428,91 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void crossFade(string aniName, float time)
-        {
-            this.CurrentAnimation = aniName;
-            base.GetComponent<Animation>().CrossFade(aniName, time);
-            if (PhotonNetwork.connected && base.photonView.isMine)
-            {
-                object[] parameters = new object[] { aniName, time };
-                base.photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, parameters);
-            }
-        }
-
         public void TryCrossFade(string animationName, float time)
         {
             if (!this.Animation.IsPlaying(animationName))
             {
-                this.crossFade(animationName, time);
+                this.CrossFade(animationName, time);
             }
         }
-    
-        private void customAnimationSpeed()
+
+        private void CustomAnimationSpeed()
         {
-            base.GetComponent<Animation>()["attack5"].speed = 1.85f;
-            base.GetComponent<Animation>()["changeBlade"].speed = 1.2f;
-            base.GetComponent<Animation>()["air_release"].speed = 0.6f;
-            base.GetComponent<Animation>()["changeBlade_air"].speed = 0.8f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_both"].speed = 0.38f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_both_air"].speed = 0.5f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_l"].speed = 0.4f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_l_air"].speed = 0.5f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_r"].speed = 0.4f;
-            base.GetComponent<Animation>()["AHSS_gun_reload_r_air"].speed = 0.5f;
+            Animation["attack5"].speed = 1.85f;
+            Animation["changeBlade"].speed = 1.2f;
+            Animation["air_release"].speed = 0.6f;
+            Animation["changeBlade_air"].speed = 0.8f;
+            Animation["AHSS_gun_reload_both"].speed = 0.38f;
+            Animation["AHSS_gun_reload_both_air"].speed = 0.5f;
+            Animation["AHSS_gun_reload_l"].speed = 0.4f;
+            Animation["AHSS_gun_reload_l_air"].speed = 0.5f;
+            Animation["AHSS_gun_reload_r"].speed = 0.4f;
+            Animation["AHSS_gun_reload_r_air"].speed = 0.5f;
         }
-    
+
         [PunRPC]
-        private void netCrossFade(string aniName, float time)
+        private void NetCrossFade(string aniName, float time)
         {
             this.CurrentAnimation = aniName;
-            if (base.GetComponent<Animation>() != null)
+            if (Animation != null)
             {
-                base.GetComponent<Animation>().CrossFade(aniName, time);
-            }
-        }
-    
-        [PunRPC]
-        private void netPlayAnimation(string aniName)
-        {
-            this.CurrentAnimation = aniName;
-            if (base.GetComponent<Animation>() != null)
-            {
-                base.GetComponent<Animation>().Play(aniName);
+                Animation.CrossFade(aniName, time);
             }
         }
 
         [PunRPC]
-        private void netPlayAnimationAt(string aniName, float normalizedTime)
+        public void NetPlayAnimation(string aniName)
         {
             this.CurrentAnimation = aniName;
-            if (base.GetComponent<Animation>() != null)
+            if (Animation != null)
             {
-                base.GetComponent<Animation>().Play(aniName);
-                base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
+                Animation.Play(aniName);
             }
         }
-    
-        public void playAnimation(string aniName)
+
+        [PunRPC]
+        private void NetPlayAnimationAt(string aniName, float normalizedTime)
         {
             this.CurrentAnimation = aniName;
-            base.GetComponent<Animation>().Play(aniName);
+            if (Animation != null)
+            {
+                Animation.Play(aniName);
+                Animation[aniName].normalizedTime = normalizedTime;
+            }
+        }
+
+        public void PlayAnimation(string aniName)
+        {
+            this.CurrentAnimation = aniName;
+            Animation.Play(aniName);
             if (PhotonNetwork.connected && base.photonView.isMine)
             {
                 object[] parameters = new object[] { aniName };
-                base.photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(NetPlayAnimation), PhotonTargets.Others, parameters);
             }
         }
 
-        private void playAnimationAt(string aniName, float normalizedTime)
+        private void PlayAnimationAt(string aniName, float normalizedTime)
         {
             this.CurrentAnimation = aniName;
-            base.GetComponent<Animation>().Play(aniName);
-            base.GetComponent<Animation>()[aniName].normalizedTime = normalizedTime;
+            Animation.Play(aniName);
+            Animation[aniName].normalizedTime = normalizedTime;
             if (PhotonNetwork.connected && base.photonView.isMine)
             {
                 object[] parameters = new object[] { aniName, normalizedTime };
-                base.photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(NetPlayAnimationAt), PhotonTargets.Others, parameters);
             }
         }
 
         #endregion
 
-        private void applyForceToBody(GameObject GO, Vector3 v)
+        private void ApplyForceToBody(GameObject GO, Vector3 v)
         {
             GO.GetComponent<Rigidbody>().AddForce(v);
             GO.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f), UnityEngine.Random.Range((float) -10f, (float) 10f));
         }
 
-        public void attackAccordingToMouse()
+        public void AttackAccordingToMouse()
         {
             if (Input.mousePosition.x < (Screen.width * 0.5))
             {
@@ -533,7 +524,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void attackAccordingToTarget(Transform a)
+        public void AttackAccordingToTarget(Transform a)
         {
             Vector3 vector = a.position - base.transform.position;
             float current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
@@ -552,20 +543,20 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void backToHuman()
+        public void BackToHuman()
         {
             base.gameObject.GetComponent<SmoothSyncMovement>().disabled = false;
             base.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.titanForm = false;
-            this.ungrabbed();
-            this.falseAttack();
+            this.Ungrabbed();
+            this.FalseAttack();
             this.skillCDDuration = this.skillCDLast;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(base.gameObject, true, false);
-            base.photonView.RPC(nameof(backToHumanRPC), PhotonTargets.Others, new object[0]);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(base.gameObject, true, false);
+            base.photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
         }
 
         [PunRPC]
-        private void backToHumanRPC()
+        private void BackToHumanRPC()
         {
             this.titanForm = false;
             this.eren_titan = null;
@@ -573,14 +564,14 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        public void badGuyReleaseMe()
+        public void BadGuyReleaseMe()
         {
             this.hookBySomeOne = false;
             this.badGuy = null;
         }
 
         [PunRPC]
-        public void blowAway(Vector3 force)
+        public void BlowAway(Vector3 force)
         {
             if (base.photonView.isMine)
             {
@@ -589,7 +580,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void bodyLean()
+        private void BodyLean()
         {
             if (base.photonView.isMine)
             {
@@ -615,18 +606,18 @@ namespace Assets.Scripts.Characters.Humans
                         if (this.almostSingleHook)
                         {
                             this.needLean = true;
-                            z = this.getLeanAngle(this.bulletRight.transform.position, true);
+                            z = this.GetLeanAngle(this.bulletRight.transform.position, true);
                         }
                     }
                     else if (this.isLeftHandHooked && (this.bulletLeft != null))
                     {
                         this.needLean = true;
-                        z = this.getLeanAngle(this.bulletLeft.transform.position, true);
+                        z = this.GetLeanAngle(this.bulletLeft.transform.position, true);
                     }
                     else if (this.isRightHandHooked && (this.bulletRight != null))
                     {
                         this.needLean = true;
-                        z = this.getLeanAngle(this.bulletRight.transform.position, false);
+                        z = this.GetLeanAngle(this.bulletRight.transform.position, false);
                     }
                     if (this.needLean)
                     {
@@ -646,7 +637,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void bombInit()
+        public void BombInit()
         {
             this.skillIDHUD = this.skillId;
             this.skillCDDuration = this.skillCDLast;
@@ -709,7 +700,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void breakApart2(Vector3 v, bool isBite)
+        private void BreakApart2(Vector3 v, bool isBite)
         {
             throw new NotImplementedException("Character death is not implemented yet");
             //GameObject obj6;
@@ -720,7 +711,7 @@ namespace Assets.Scripts.Characters.Humans
             //GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
             //obj2.gameObject.GetComponent<HERO_SETUP>().myCostume = this.setup.myCostume;
             //obj2.GetComponent<HERO_SETUP>().isDeadBody = true;
-            //obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
+            //obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, Animation[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
             //if (!isBite)
             //{
             //    GameObject gO = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), base.transform.position, base.transform.rotation);
@@ -732,9 +723,9 @@ namespace Assets.Scripts.Characters.Humans
             //    gO.GetComponent<HERO_SETUP>().isDeadBody = true;
             //    obj4.GetComponent<HERO_SETUP>().isDeadBody = true;
             //    obj5.GetComponent<HERO_SETUP>().isDeadBody = true;
-            //    gO.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.UPPER);
-            //    obj4.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.LOWER);
-            //    obj5.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, base.GetComponent<Animation>()[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_L);
+            //    gO.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, Animation[this.currentAnimation].normalizedTime, BODY_PARTS.UPPER);
+            //    obj4.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, Animation[this.currentAnimation].normalizedTime, BODY_PARTS.LOWER);
+            //    obj5.GetComponent<HERO_DEAD_BODY_SETUP>().init(this.currentAnimation, Animation[this.currentAnimation].normalizedTime, BODY_PARTS.ARM_L);
             //    this.applyForceToBody(gO, v);
             //    this.applyForceToBody(obj4, v);
             //    this.applyForceToBody(obj5, v);
@@ -778,7 +769,7 @@ namespace Assets.Scripts.Characters.Humans
             //this.applyForceToBody(obj10, v);
         }
 
-        private void bufferUpdate()
+        private void BufferUpdate()
         {
             if (this.buffTime > 0f)
             {
@@ -786,16 +777,16 @@ namespace Assets.Scripts.Characters.Humans
                 if (this.buffTime <= 0f)
                 {
                     this.buffTime = 0f;
-                    if ((this.currentBuff == BUFF.SpeedUp) && base.GetComponent<Animation>().IsPlaying("run_sasha"))
+                    if ((this.currentBuff == BUFF.SpeedUp) && Animation.IsPlaying("run_sasha"))
                     {
-                        this.crossFade("run_1", 0.1f);
+                        this.CrossFade("run_1", 0.1f);
                     }
                     this.currentBuff = BUFF.NoBuff;
                 }
             }
         }
 
-        public void cache()
+        public void Cache()
         {
             this.maincamera = GameObject.Find("MainCamera");
             if (base.photonView.isMine)
@@ -839,7 +830,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void calcSkillCD()
+        private void CalcSkillCD()
         {
             if (this.skillCDDuration > 0f)
             {
@@ -851,7 +842,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void changeBlade()
+        private void ChangeBlade()
         {
             if ((!this.useGun || this.grounded) || GameSettings.PvP.AhssAirReload.Value)
             {
@@ -861,7 +852,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void checkDashDoubleTap()
+        private void CheckDashDoubleTap()
         {
             if (this.uTapTime >= 0f)
             {
@@ -941,7 +932,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void checkDashRebind()
+        private void CheckDashRebind()
         {
             if (InputManager.Key(InputHuman.GasBurst))
             {
@@ -964,7 +955,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void checkTitan()
+        public void CheckTitan()
         {
             int count;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -1030,33 +1021,33 @@ namespace Assets.Scripts.Characters.Humans
             var force = collision.impulse.magnitude / Time.fixedDeltaTime;
             if (GameSettings.Gamemode.ImpactForce > 0 && force >= GameSettings.Gamemode.ImpactForce)
             {
-                die(new Vector3(), false);
+                Die(new Vector3(), false);
             }
         }
 
 
-        private void dash(float horizontal, float vertical)
+        private void Dash(float horizontal, float vertical)
         {
             if (((this.dashTime <= 0f) && (this.currentGas > 0f)) && !this.isMounted)
             {
-                this.useGas(this.totalGas * 0.04f);
-                this.facingDirection = this.getGlobalFacingDirection(horizontal, vertical);
-                this.dashV = this.getGlobaleFacingVector3(this.facingDirection);
+                this.UseGas(this.totalGas * 0.04f);
+                this.facingDirection = this.GetGlobalFacingDirection(horizontal, vertical);
+                this.dashV = this.GetGlobaleFacingVector3(this.facingDirection);
                 this.originVM = this.currentSpeed;
                 Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
                 base.GetComponent<Rigidbody>().rotation = quaternion;
                 this.targetRotation = quaternion;
                 PhotonNetwork.Instantiate("FX/boost_smoke", base.transform.position, base.transform.rotation, 0);
                 this.dashTime = 0.5f;
-                this.crossFade("dash", 0.1f);
-                base.GetComponent<Animation>()["dash"].time = 0.1f;
+                this.CrossFade("dash", 0.1f);
+                Animation["dash"].time = 0.1f;
                 this.state = HERO_STATE.AirDodge;
-                this.falseAttack();
+                this.FalseAttack();
                 base.GetComponent<Rigidbody>().AddForce((Vector3) (this.dashV * 40f), ForceMode.VelocityChange);
             }
         }
 
-        public void die(Vector3 v, bool isBite)
+        public void Die(Vector3 v, bool isBite)
         {
             if (this.invincible <= 0f)
             {
@@ -1082,22 +1073,57 @@ namespace Assets.Scripts.Characters.Humans
                 this.rightbladetrail2.Deactivate();
                 */
                 }
-                this.breakApart2(v, isBite);
+                this.BreakApart2(v, isBite);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-                this.falseAttack();
+                this.FalseAttack();
                 this.hasDied = true;
                 Transform transform = base.transform.Find("audio_die");
                 transform.parent = null;
                 transform.GetComponent<AudioSource>().Play();
+
+                var propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                propertiesToSet.Add(PhotonPlayerProperty.deaths, (int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths] + 1);
+                photonView.owner.SetCustomProperties(propertiesToSet);
+
                 if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
                 {
-                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startSnapShot2(base.transform.position, 0, null, 0.02f);
+                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(base.transform.position, 0, null, 0.02f);
                 }
                 UnityEngine.Object.Destroy(base.gameObject);
             }
         }
 
-        private void dodge2(bool offTheWall = false)
+        public void Die2(Transform tf)
+        {
+            if (this.invincible <= 0f)
+            {
+                if (this.titanForm && (this.eren_titan != null))
+                {
+                    this.eren_titan.GetComponent<ErenTitan>().lifeTime = 0.1f;
+                }
+                if (this.bulletLeft != null)
+                {
+                    this.bulletLeft.GetComponent<Bullet>().removeMe();
+                }
+                if (this.bulletRight != null)
+                {
+                    this.bulletRight.GetComponent<Bullet>().removeMe();
+                }
+                Transform transform = base.transform.Find("audio_die");
+                transform.parent = null;
+                transform.GetComponent<AudioSource>().Play();
+                this.meatDie.Play();
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                this.FalseAttack();
+                this.hasDied = true;
+                GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
+                obj2.transform.position = base.transform.position;
+                UnityEngine.Object.Destroy(base.gameObject);
+            }
+        }
+
+        private void Dodge2(bool offTheWall = false)
         {
             if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
             {
@@ -1130,24 +1156,24 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         num2 = 0f;
                     }
-                    float num3 = this.getGlobalFacingDirection(num2, num);
+                    float num3 = this.GetGlobalFacingDirection(num2, num);
                     if ((num2 != 0f) || (num != 0f))
                     {
                         this.facingDirection = num3 + 180f;
                         this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                     }
-                    this.crossFade("dodge", 0.1f);
+                    this.CrossFade("dodge", 0.1f);
                 }
                 else
                 {
-                    this.playAnimation("dodge");
-                    this.playAnimationAt("dodge", 0.2f);
+                    this.PlayAnimation("dodge");
+                    this.PlayAnimationAt("dodge", 0.2f);
                 }
                 this.sparks.enableEmission = false;
             }
         }
 
-        private void erenTransform()
+        private void ErenTransform()
         {
             this.skillCDDuration = this.skillCDLast;
             if (this.bulletLeft != null)
@@ -1160,24 +1186,24 @@ namespace Assets.Scripts.Characters.Humans
             }
             this.eren_titan = PhotonNetwork.Instantiate("ErenTitan", base.transform.position, base.transform.rotation, 0);
             this.eren_titan.GetComponent<ErenTitan>().realBody = base.gameObject;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.eren_titan, true, false);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().FlashBlind();
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.eren_titan, true, false);
             this.eren_titan.GetComponent<ErenTitan>().born();
             this.eren_titan.GetComponent<Rigidbody>().velocity = base.GetComponent<Rigidbody>().velocity;
             base.GetComponent<Rigidbody>().velocity = Vector3.zero;
             base.transform.position = this.eren_titan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position;
             this.titanForm = true;
             object[] parameters = new object[] { this.eren_titan.GetPhotonView().viewID };
-            base.photonView.RPC(nameof(whoIsMyErenTitan), PhotonTargets.Others, parameters);
+            base.photonView.RPC(nameof(WhoIsMyErenTitan), PhotonTargets.Others, parameters);
             if ((this.smoke_3dmg.enableEmission && base.photonView.isMine))
             {
                 object[] objArray2 = new object[] { false };
-                base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray2);
+                base.photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, objArray2);
             }
             this.smoke_3dmg.enableEmission = false;
         }
 
-        public void falseAttack()
+        public void FalseAttack()
         {
             if (this.useGun)
             {
@@ -1209,12 +1235,12 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void fillGas()
+        public void FillGas()
         {
             this.currentGas = this.totalGas;
         }
 
-        private GameObject findNearestTitan()
+        private GameObject FindNearestTitan()
         {
             GameObject[] objArray = GameObject.FindGameObjectsWithTag("titan");
             GameObject obj2 = null;
@@ -1369,7 +1395,7 @@ namespace Assets.Scripts.Characters.Humans
                         this.launchElapsedTimeL += Time.deltaTime;
                         if (this.QHold && (this.currentGas > 0f))
                         {
-                            this.useGas(this.useGasSpeed * Time.deltaTime);
+                            this.UseGas(this.useGasSpeed * Time.deltaTime);
                         }
                         else if (this.launchElapsedTimeL > 0.3f)
                         {
@@ -1377,7 +1403,7 @@ namespace Assets.Scripts.Characters.Humans
                             if (this.bulletLeft != null)
                             {
                                 this.bulletLeft.GetComponent<Bullet>().disable();
-                                this.releaseIfIHookSb();
+                                this.ReleaseIfIHookSb();
                                 this.bulletLeft = null;
                                 flag3 = false;
                             }
@@ -1412,7 +1438,7 @@ namespace Assets.Scripts.Characters.Humans
                         this.launchElapsedTimeR += Time.deltaTime;
                         if (this.EHold && (this.currentGas > 0f))
                         {
-                            this.useGas(this.useGasSpeed * Time.deltaTime);
+                            this.UseGas(this.useGasSpeed * Time.deltaTime);
                         }
                         else if (this.launchElapsedTimeR > 0.3f)
                         {
@@ -1420,7 +1446,7 @@ namespace Assets.Scripts.Characters.Humans
                             if (this.bulletRight != null)
                             {
                                 this.bulletRight.GetComponent<Bullet>().disable();
-                                this.releaseIfIHookSb();
+                                this.ReleaseIfIHookSb();
                                 this.bulletRight = null;
                                 flag4 = false;
                             }
@@ -1460,7 +1486,7 @@ namespace Assets.Scripts.Characters.Humans
                                 if ((((this.state != HERO_STATE.Attack) && (x == 0f)) && ((z == 0f) && (this.bulletLeft == null))) && ((this.bulletRight == null) && (this.state != HERO_STATE.FillGas)))
                                 {
                                     this.state = HERO_STATE.Land;
-                                    this.crossFade("dash_land", 0.01f);
+                                    this.CrossFade("dash_land", 0.01f);
                                 }
                                 else
                                 {
@@ -1468,7 +1494,7 @@ namespace Assets.Scripts.Characters.Humans
                                     if (((this.state != HERO_STATE.Attack) && (((this.Rigidbody.velocity.x * this.Rigidbody.velocity.x) + (this.Rigidbody.velocity.z * this.Rigidbody.velocity.z)) > ((this.speed * this.speed) * 1.5f))) && (this.state != HERO_STATE.FillGas))
                                     {
                                         this.state = HERO_STATE.Slide;
-                                        this.crossFade("slide", 0.05f);
+                                        this.CrossFade("slide", 0.05f);
                                         this.facingDirection = Mathf.Atan2(this.Rigidbody.velocity.x, this.Rigidbody.velocity.z) * Mathf.Rad2Deg;
                                         this.targetRotation = Quaternion.Euler(0f, this.facingDirection, 0f);
                                         this.sparks.enableEmission = true;
@@ -1492,8 +1518,8 @@ namespace Assets.Scripts.Characters.Humans
                         else if (this.state == HERO_STATE.Idle)
                         {
                             Vector3 vector8 = new Vector3(x, 0f, z);
-                            float resultAngle = this.getGlobalFacingDirection(x, z);
-                            zero = this.getGlobaleFacingVector3(resultAngle);
+                            float resultAngle = this.GetGlobalFacingDirection(x, z);
+                            zero = this.GetGlobaleFacingVector3(resultAngle);
                             float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
                             zero = (Vector3) (zero * num6);
                             zero = (Vector3) (zero * this.speed);
@@ -1507,11 +1533,11 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     if ((this.buffTime > 0f) && (this.currentBuff == BUFF.SpeedUp))
                                     {
-                                        this.crossFade("run_sasha", 0.1f);
+                                        this.CrossFade("run_sasha", 0.1f);
                                     }
                                     else
                                     {
-                                        this.crossFade("run_1", 0.1f);
+                                        this.CrossFade("run_1", 0.1f);
                                     }
                                 }
                             }
@@ -1519,7 +1545,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 if (!(((this.Animation.IsPlaying(this.standAnimation) || (this.state == HERO_STATE.Land)) || (this.Animation.IsPlaying("jump") || this.Animation.IsPlaying("horse_geton"))) || this.Animation.IsPlaying("grabbed")))
                                 {
-                                    this.crossFade(this.standAnimation, 0.1f);
+                                    this.CrossFade(this.standAnimation, 0.1f);
                                     zero = (Vector3) (zero * 0f);
                                 }
                                 resultAngle = -874f;
@@ -1539,7 +1565,7 @@ namespace Assets.Scripts.Characters.Humans
                             zero = (Vector3) (this.Rigidbody.velocity * 0.99f);
                             if (this.currentSpeed < (this.speed * 1.2f))
                             {
-                                this.idle();
+                                this.Idle();
                                 this.sparks.enableEmission = false;
                             }
                         }
@@ -1579,7 +1605,7 @@ namespace Assets.Scripts.Characters.Humans
                             transform.position = myHorse.transform.position + Vector3.up * 1.65f;
                             transform.rotation = myHorse.transform.rotation;
                             isMounted = true;
-                            crossFade("horse_idle", 0.1f);
+                            CrossFade("horse_idle", 0.1f);
                             myHorse.Mount();
                         }
                         if (!((((((this.state != HERO_STATE.Idle) || this.Animation.IsPlaying("dash")) || (this.Animation.IsPlaying("wallrun") || this.Animation.IsPlaying("toRoof"))) || ((this.Animation.IsPlaying("horse_geton") || this.Animation.IsPlaying("horse_getoff")) || (this.Animation.IsPlaying("air_release") || this.isMounted))) || ((this.Animation.IsPlaying("air_hook_l_just") && (this.Animation["air_hook_l_just"].normalizedTime < 1f)) || (this.Animation.IsPlaying("air_hook_r_just") && (this.Animation["air_hook_r_just"].normalizedTime < 1f)))) ? (this.Animation["dash"].normalizedTime < 0.99f) : false))
@@ -1598,12 +1624,12 @@ namespace Assets.Scripts.Characters.Humans
                                     {
                                         if (!this.Animation.IsPlaying("air_fall"))
                                         {
-                                            this.crossFade("air_fall", 0.2f);
+                                            this.CrossFade("air_fall", 0.2f);
                                         }
                                     }
                                     else if (!this.Animation.IsPlaying("air_rise"))
                                     {
-                                        this.crossFade("air_rise", 0.2f);
+                                        this.CrossFade("air_rise", 0.2f);
                                     }
                                 }
                                 else if (!this.isLeftHandHooked && !this.isRightHandHooked)
@@ -1614,26 +1640,26 @@ namespace Assets.Scripts.Characters.Humans
                                     {
                                         if (!this.Animation.IsPlaying("air2"))
                                         {
-                                            this.crossFade("air2", 0.2f);
+                                            this.CrossFade("air2", 0.2f);
                                         }
                                     }
                                     else if ((num11 < 135f) && (num11 > 0f))
                                     {
                                         if (!this.Animation.IsPlaying("air2_right"))
                                         {
-                                            this.crossFade("air2_right", 0.2f);
+                                            this.CrossFade("air2_right", 0.2f);
                                         }
                                     }
                                     else if ((num11 > -135f) && (num11 < 0f))
                                     {
                                         if (!this.Animation.IsPlaying("air2_left"))
                                         {
-                                            this.crossFade("air2_left", 0.2f);
+                                            this.CrossFade("air2_left", 0.2f);
                                         }
                                     }
                                     else if (!this.Animation.IsPlaying("air2_backward"))
                                     {
-                                        this.crossFade("air2_backward", 0.2f);
+                                        this.CrossFade("air2_backward", 0.2f);
                                     }
                                 }
 
@@ -1653,11 +1679,11 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         if (((this.state == HERO_STATE.Idle) && this.Animation.IsPlaying("air_release")) && (this.Animation["air_release"].normalizedTime >= 1f))
                         {
-                            this.crossFade("air_rise", 0.2f);
+                            this.CrossFade("air_rise", 0.2f);
                         }
                         if (this.Animation.IsPlaying("horse_getoff") && (this.Animation["horse_getoff"].normalizedTime >= 1f))
                         {
-                            this.crossFade("air_rise", 0.2f);
+                            this.CrossFade("air_rise", 0.2f);
                         }
                         if (this.Animation.IsPlaying("toRoof"))
                         {
@@ -1677,10 +1703,10 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             if (this.Animation["toRoof"].normalizedTime >= 1f)
                             {
-                                this.playAnimation("air_rise");
+                                this.PlayAnimation("air_rise");
                             }
                         }
-                        else if (!(((((this.state != HERO_STATE.Idle) || !this.isPressDirectionTowardsHero(x, z)) ||
+                        else if (!(((((this.state != HERO_STATE.Idle) || !this.IsPressDirectionTowardsHero(x, z)) ||
                                      (InputManager.Key(InputHuman.Jump) ||
                                       InputManager.Key(InputHuman.HookLeft))) ||
                                     ((InputManager.Key(InputHuman.HookRight) ||
@@ -1688,7 +1714,7 @@ namespace Assets.Scripts.Characters.Humans
                                      (!this.IsFrontGrounded() || this.Animation.IsPlaying("wallrun")))) ||
                                    this.Animation.IsPlaying("dodge")))
                         {
-                            this.crossFade("wallrun", 0.1f);
+                            this.CrossFade("wallrun", 0.1f);
                             this.wallRunTime = 0f;
                         }
                         else if (this.Animation.IsPlaying("wallrun"))
@@ -1698,24 +1724,24 @@ namespace Assets.Scripts.Characters.Humans
                             if ((this.wallRunTime > 1f) || ((z == 0f) && (x == 0f)))
                             {
                                 this.Rigidbody.AddForce((Vector3) ((-this.transform.forward * this.speed) * 0.75f), ForceMode.Impulse);
-                                this.dodge2(true);
+                                this.Dodge2(true);
                             }
                             else if (!this.IsUpFrontGrounded())
                             {
                                 this.wallJump = false;
-                                this.crossFade("toRoof", 0.1f);
+                                this.CrossFade("toRoof", 0.1f);
                             }
                             else if (!this.IsFrontGrounded())
                             {
-                                this.crossFade("air_fall", 0.1f);
+                                this.CrossFade("air_fall", 0.1f);
                             }
                         }
                         // If we are using these skills, then we cannot use gas force
                         else if ((!this.Animation.IsPlaying("attack5") && !this.Animation.IsPlaying("special_petra")) && (!this.Animation.IsPlaying("dash") && !this.Animation.IsPlaying("jump")))
                         {
                             Vector3 vector11 = new Vector3(x, 0f, z);
-                            float num12 = this.getGlobalFacingDirection(x, z);
-                            Vector3 vector12 = this.getGlobaleFacingVector3(num12);
+                            float num12 = this.GetGlobalFacingDirection(x, z);
+                            Vector3 vector12 = this.GetGlobaleFacingVector3(num12);
                             float num13 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
                             vector12 = (Vector3) (vector12 * num13);
                             //TODO: ACL
@@ -1748,7 +1774,7 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         if ((this.Animation.IsPlaying("air_fall") && (this.currentSpeed < 0.2f)) && this.IsFrontGrounded())
                         {
-                            this.crossFade("onWall", 0.3f);
+                            this.CrossFade("onWall", 0.3f);
                         }
                     }
                     this.spinning = false;
@@ -1857,11 +1883,11 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     if (flag2)
                     {
-                        this.useGas(this.useGasSpeed * Time.deltaTime);
+                        this.UseGas(this.useGasSpeed * Time.deltaTime);
                         if (!this.smoke_3dmg.enableEmission && base.photonView.isMine)
                         {
                             object[] parameters = new object[] { true };
-                            base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
+                            base.photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, parameters);
                         }
                         this.smoke_3dmg.enableEmission = true;
                     }
@@ -1870,7 +1896,7 @@ namespace Assets.Scripts.Characters.Humans
                         if (this.smoke_3dmg.enableEmission && base.photonView.isMine)
                         {
                             object[] objArray3 = new object[] { false };
-                            base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, objArray3);
+                            base.photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, objArray3);
                         }
                         this.smoke_3dmg.enableEmission = false;
                     }
@@ -1891,14 +1917,14 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private Vector3 getGlobaleFacingVector3(float resultAngle)
+        private Vector3 GetGlobaleFacingVector3(float resultAngle)
         {
             float num = -resultAngle + 90f;
             float x = Mathf.Cos(num * 0.01745329f);
             return new Vector3(x, 0f, Mathf.Sin(num * 0.01745329f));
         }
 
-        private float getGlobalFacingDirection(float horizontal, float vertical)
+        private float GetGlobalFacingDirection(float horizontal, float vertical)
         {
             if ((vertical == 0f) && (horizontal == 0f))
             {
@@ -1910,7 +1936,7 @@ namespace Assets.Scripts.Characters.Humans
             return (y + num2);
         }
 
-        private float getLeanAngle(Vector3 p, bool left)
+        private float GetLeanAngle(Vector3 p, bool left)
         {
             if (!this.useGun && (this.state == HERO_STATE.Attack))
             {
@@ -1954,21 +1980,21 @@ namespace Assets.Scripts.Characters.Humans
             return (a * ((num6 >= 0f) ? num7 : -num7));
         }
 
-        private void getOffHorse()
+        private void GetOffHorse()
         {
-            this.playAnimation("horse_getoff");
+            this.PlayAnimation("horse_getoff");
             base.GetComponent<Rigidbody>().AddForce((Vector3) (((Vector3.up * 10f) - (base.transform.forward * 2f)) - (base.transform.right * 1f)), ForceMode.VelocityChange);
-            this.unmounted();
+            this.Unmounted();
         }
 
-        private void getOnHorse()
+        private void GetOnHorse()
         {
-            playAnimation("horse_geton");
+            PlayAnimation("horse_geton");
             facingDirection = myHorse.transform.rotation.eulerAngles.y;
             targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
         }
 
-        public void getSupply()
+        public void GetSupply()
         {
             if ((Animation.IsPlaying(this.standAnimation)
                  || Animation.IsPlaying("run_1")
@@ -1976,19 +2002,19 @@ namespace Assets.Scripts.Characters.Humans
                 && (this.currentBladeSta != this.totalBladeSta || this.currentGas != this.totalGas || Equipment.Weapon.CanReload))
             {
                 this.state = HERO_STATE.FillGas;
-                this.crossFade("supply", 0.1f);
+                this.CrossFade("supply", 0.1f);
             }
         }
 
-        public void grabbed(GameObject titan, bool leftHand)
+        public void Grabbed(GameObject titan, bool leftHand)
         {
             if (this.isMounted)
             {
-                this.unmounted();
+                this.Unmounted();
             }
             this.state = HERO_STATE.Grab;
             base.GetComponent<CapsuleCollider>().isTrigger = true;
-            this.falseAttack();
+            this.FalseAttack();
             this.titanWhoGrabMe = titan;
             if (this.titanForm && (this.eren_titan != null))
             {
@@ -2007,10 +2033,10 @@ namespace Assets.Scripts.Characters.Humans
 
         public bool HasDied()
         {
-            return (this.hasDied || this.isInvincible());
+            return (this.hasDied || this.IsInvincible);
         }
 
-        private void headMovement()
+        private void HeadMovement()
         {
             Transform transform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
             Transform transform2 = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
@@ -2028,27 +2054,27 @@ namespace Assets.Scripts.Characters.Humans
             transform.rotation = this.oldHeadRotation;
         }
 
-        public void hookedByHuman(int hooker, Vector3 hookPosition)
+        public void HookedByHuman(int hooker, Vector3 hookPosition)
         {
             object[] parameters = new object[] { hooker, hookPosition };
-            base.photonView.RPC("RPCHookedByHuman", base.photonView.owner, parameters);
+            base.photonView.RPC(nameof(RPCHookedByHuman), base.photonView.owner, parameters);
         }
 
         [PunRPC]
-        public void hookFail()
+        public void HookFail()
         {
             this.hookTarget = null;
             this.hookSomeOne = false;
         }
 
-        public void hookToHuman(GameObject target, Vector3 hookPosition)
+        public void HookToHuman(GameObject target, Vector3 hookPosition)
         {
-            this.releaseIfIHookSb();
+            this.ReleaseIfIHookSb();
             this.hookTarget = target;
             this.hookSomeOne = true;
             if (target.GetComponent<Hero>() != null)
             {
-                target.GetComponent<Hero>().hookedByHuman(base.photonView.viewID, hookPosition);
+                target.GetComponent<Hero>().HookedByHuman(base.photonView.viewID, hookPosition);
             }
             this.launchForce = hookPosition - base.transform.position;
             float num = Mathf.Pow(this.launchForce.magnitude, 0.1f);
@@ -2059,14 +2085,14 @@ namespace Assets.Scripts.Characters.Humans
             base.GetComponent<Rigidbody>().AddForce((Vector3) ((this.launchForce * num) * 0.1f), ForceMode.Impulse);
         }
 
-        private void idle()
+        private void Idle()
         {
             if (this.state == HERO_STATE.Attack)
             {
-                this.falseAttack();
+                this.FalseAttack();
             }
             this.state = HERO_STATE.Idle;
-            this.crossFade(this.standAnimation, 0.1f);
+            this.CrossFade(this.standAnimation, 0.1f);
         }
 
         private bool IsFrontGrounded()
@@ -2085,18 +2111,14 @@ namespace Assets.Scripts.Characters.Humans
             return Physics.Raycast(base.gameObject.transform.position + ((Vector3) (Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask3.value);
         }
 
-        public bool isInvincible()
-        {
-            return (this.invincible > 0f);
-        }
 
-        private bool isPressDirectionTowardsHero(float h, float v)
+        private bool IsPressDirectionTowardsHero(float h, float v)
         {
             if ((h == 0f) && (v == 0f))
             {
                 return false;
             }
-            return (Mathf.Abs(Mathf.DeltaAngle(this.getGlobalFacingDirection(h, v), base.transform.rotation.eulerAngles.y)) < 45f);
+            return (Mathf.Abs(Mathf.DeltaAngle(this.GetGlobalFacingDirection(h, v), base.transform.rotation.eulerAngles.y)) < 45f);
         }
 
         private bool IsUpFrontGrounded()
@@ -2108,7 +2130,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void killObject()
+        private void KillObject()
         {
             UnityEngine.Object.Destroy(base.gameObject);
         }
@@ -2199,14 +2221,14 @@ namespace Assets.Scripts.Characters.Humans
                         Vector3 vector10 = this.gunTarget - this.transform.position;
                         float current = -Mathf.Atan2(vector10.z, vector10.x) * Mathf.Rad2Deg;
                         float num3 = -Mathf.DeltaAngle(current, this.transform.rotation.eulerAngles.y - 90f);
-                        this.headMovement();
+                        this.HeadMovement();
                         if ((!this.isLeftHandHooked && this.leftArmAim) && ((num3 < 40f) && (num3 > -90f)))
                         {
-                            this.leftArmAimTo(this.gunTarget);
+                            this.LeftArmAimTo(this.gunTarget);
                         }
                         if ((!this.isRightHandHooked && this.rightArmAim) && ((num3 > -40f) && (num3 < 90f)))
                         {
-                            this.rightArmAimTo(this.gunTarget);
+                            this.RightArmAimTo(this.gunTarget);
                         }
                     }
                     else if (!this.grounded)
@@ -2216,27 +2238,27 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     if (this.isLeftHandHooked && (this.bulletLeft != null))
                     {
-                        this.leftArmAimTo(this.bulletLeft.transform.position);
+                        this.LeftArmAimTo(this.bulletLeft.transform.position);
                     }
                     if (this.isRightHandHooked && (this.bulletRight != null))
                     {
-                        this.rightArmAimTo(this.bulletRight.transform.position);
+                        this.RightArmAimTo(this.bulletRight.transform.position);
                     }
                 }
-                this.setHookedPplDirection();
-                this.bodyLean();
+                this.SetHookedPplDirection();
+                this.BodyLean();
             }
         }
 
-        public void launch(Vector3 des, bool left = true, bool leviMode = false)
+        public void Launch(Vector3 des, bool left = true, bool leviMode = false)
         {
             if (this.isMounted)
             {
-                this.unmounted();
+                this.Unmounted();
             }
             if (this.state != HERO_STATE.Attack)
             {
-                this.idle();
+                this.Idle();
             }
             Vector3 vector = des - base.transform.position;
             if (left)
@@ -2253,7 +2275,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 vector = (Vector3) (vector * 0.8f);
             }
-            if (!base.GetComponent<Animation>().IsPlaying("attack5") && !base.GetComponent<Animation>().IsPlaying("special_petra"))
+            if (!Animation.IsPlaying("attack5") && !Animation.IsPlaying("special_petra"))
             {
                 leviMode = false;
             }
@@ -2263,24 +2285,24 @@ namespace Assets.Scripts.Characters.Humans
             }
             if (!leviMode)
             {
-                this.falseAttack();
-                this.idle();
+                this.FalseAttack();
+                this.Idle();
                 if (this.useGun)
                 {
-                    this.crossFade("AHSS_hook_forward_both", 0.1f);
+                    this.CrossFade("AHSS_hook_forward_both", 0.1f);
                 }
                 else if (left && !this.isRightHandHooked)
                 {
-                    this.crossFade("air_hook_l_just", 0.1f);
+                    this.CrossFade("air_hook_l_just", 0.1f);
                 }
                 else if (!left && !this.isLeftHandHooked)
                 {
-                    this.crossFade("air_hook_r_just", 0.1f);
+                    this.CrossFade("air_hook_r_just", 0.1f);
                 }
                 else
                 {
-                    this.crossFade("dash", 0.1f);
-                    base.GetComponent<Animation>()["dash"].time = 0f;
+                    this.CrossFade("dash", 0.1f);
+                    Animation["dash"].time = 0f;
                 }
             }
             if (left)
@@ -2321,19 +2343,19 @@ namespace Assets.Scripts.Characters.Humans
             {
                 this.launchElapsedTimeR = -100f;
             }
-            if (base.GetComponent<Animation>().IsPlaying("special_petra"))
+            if (Animation.IsPlaying("special_petra"))
             {
                 this.launchElapsedTimeR = -100f;
                 this.launchElapsedTimeL = -100f;
                 if (this.bulletRight != null)
                 {
                     this.bulletRight.GetComponent<Bullet>().disable();
-                    this.releaseIfIHookSb();
+                    this.ReleaseIfIHookSb();
                 }
                 if (this.bulletLeft != null)
                 {
                     this.bulletLeft.GetComponent<Bullet>().disable();
-                    this.releaseIfIHookSb();
+                    this.ReleaseIfIHookSb();
                 }
             }
             this.sparks.enableEmission = false;
@@ -2343,7 +2365,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (this.currentGas != 0f)
             {
-                this.useGas(0f);
+                this.UseGas(0f);
                 this.bulletLeft = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
                 GameObject obj2 = !this.useGun ? this.hookRefL1 : this.hookRefL2;
                 string str = !this.useGun ? "hookRefL1" : "hookRefL2";
@@ -2368,7 +2390,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (this.currentGas != 0f)
             {
-                this.useGas(0f);
+                this.UseGas(0f);
                 this.bulletRight = PhotonNetwork.Instantiate("hook", base.transform.position, base.transform.rotation, 0);
                 GameObject obj2 = !this.useGun ? this.hookRefR1 : this.hookRefR2;
                 string str = !this.useGun ? "hookRefR1" : "hookRefR2";
@@ -2389,7 +2411,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void leftArmAimTo(Vector3 target)
+        private void LeftArmAimTo(Vector3 target)
         {
             float y = target.x - this.upperarmL.transform.position.x;
             float num2 = target.y - this.upperarmL.transform.position.y;
@@ -2400,29 +2422,29 @@ namespace Assets.Scripts.Characters.Humans
             this.upperarmL.rotation = Quaternion.Euler(0f, 90f + (Mathf.Atan2(y, x) * Mathf.Rad2Deg), -Mathf.Atan2(num2, num4) * Mathf.Rad2Deg);
         }
 
-        public void markDie()
+        public void MarkDie()
         {
             this.hasDied = true;
             this.state = HERO_STATE.Die;
         }
 
         [PunRPC]
-        private void net3DMGSMOKE(bool ifON)
+        private void Net3DMGSMOKE(bool ifON)
         {
             if (this.smoke_3dmg != null)
             {
                 this.smoke_3dmg.enableEmission = ifON;
             }
         }
-    
+
         [PunRPC]
-        public void netDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
+        public void NetDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             if ((base.photonView.isMine && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush)))
             {
                 if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
                 {
-                    base.photonView.RPC("backToHumanRPC", PhotonTargets.Others, new object[0]);
+                    base.photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
                     return;
                 }
                 if (!info.sender.isLocal && !info.sender.isMasterClient)
@@ -2497,11 +2519,11 @@ namespace Assets.Scripts.Characters.Humans
                 //this.leftbladetrail2.Deactivate();
                 //this.rightbladetrail2.Deactivate();
             }
-            this.falseAttack();
-            this.breakApart2(v, isBite);
+            this.FalseAttack();
+            this.BreakApart2(v, isBite);
             if (base.photonView.isMine)
             {
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
@@ -2545,14 +2567,14 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void netDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
+        public void NetDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
         {
             GameObject obj2;
             if ((base.photonView.isMine) && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
             {
                 if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
                 {
-                    base.photonView.RPC("backToHumanRPC", PhotonTargets.Others, new object[0]);
+                    base.photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
                     return;
                 }
                 if (!info.sender.isLocal && !info.sender.isMasterClient)
@@ -2617,12 +2639,12 @@ namespace Assets.Scripts.Characters.Humans
             transform.GetComponent<AudioSource>().Play();
             if (base.photonView.isMine)
             {
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
-            this.falseAttack();
+            this.FalseAttack();
             this.hasDied = true;
             base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
             if (base.photonView.isMine)
@@ -2673,7 +2695,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void netDieLocal(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true)
+        public void NetDieLocal(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true)
         {
             if (base.photonView.isMine)
             {
@@ -2713,11 +2735,11 @@ namespace Assets.Scripts.Characters.Humans
             this.rightbladetrail2.Deactivate();
             */
             }
-            this.falseAttack();
-            this.breakApart2(v, isBite);
+            this.FalseAttack();
+            this.BreakApart2(v, isBite);
             if (base.photonView.isMine)
             {
-                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+                this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
@@ -2766,14 +2788,14 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void netGrabbed(int id, bool leftHand)
+        public void NetGrabbed(int id, bool leftHand)
         {
             this.titanWhoGrabMeID = id;
-            this.grabbed(PhotonView.Find(id).gameObject, leftHand);
+            this.Grabbed(PhotonView.Find(id).gameObject, leftHand);
         }
 
         [PunRPC]
-        private void netlaughAttack()
+        private void NetlaughAttack()
         {
             throw new NotImplementedException("Titan laugh attack is not implemented yet");
             //foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
@@ -2784,15 +2806,37 @@ namespace Assets.Scripts.Characters.Humans
             //    }
             //}
         }
-    
+
         [PunRPC]
-        private void netSetIsGrabbedFalse()
+        private void NetPauseAnimation()
+        {
+            IEnumerator enumerator = Animation.GetEnumerator();
+            try
+            {
+                while (enumerator.MoveNext())
+                {
+                    AnimationState current = (AnimationState) enumerator.Current;
+                    current.speed = 0f;
+                }
+            }
+            finally
+            {
+                IDisposable disposable = enumerator as IDisposable;
+                if (disposable != null)
+                {
+                    disposable.Dispose();
+                }
+            }
+        }
+
+        [PunRPC]
+        private void NetSetIsGrabbedFalse()
         {
             this.state = HERO_STATE.Idle;
         }
 
         [PunRPC]
-        private void netTauntAttack(float tauntTime, float distance = 100f)
+        private void NetTauntAttack(float tauntTime, float distance = 100f)
         {
             throw new NotImplementedException("Titan taunt behavior is not yet implemented");
             //foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
@@ -2805,58 +2849,39 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void netUngrabbed()
+        public void NetUngrabbed()
         {
-            this.ungrabbed();
-            this.netPlayAnimation(this.standAnimation);
-            this.falseAttack();
+            this.Ungrabbed();
+            this.NetPlayAnimation(this.standAnimation);
+            this.FalseAttack();
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            if (this.myNetWorkName != null)
+            {
+                UnityEngine.Object.Destroy(this.myNetWorkName);
+            }
             if (this.gunDummy != null)
             {
-                UnityEngine.Object.Destroy(this.gunDummy);
+                Destroy(this.gunDummy);
             }
-            this.releaseIfIHookSb();
-            //if ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER) && base.photonView.isMine)
-            //{
-            //    Vector3 vector = (Vector3) (Vector3.up * 5000f);
-            //    this.cross1.transform.localPosition = vector;
-            //    this.cross2.transform.localPosition = vector;
-            //    this.crossL1.transform.localPosition = vector;
-            //    this.crossL2.transform.localPosition = vector;
-            //    this.crossR1.transform.localPosition = vector;
-            //    this.crossR2.transform.localPosition = vector;
-            //    this.LabelDistance.transform.localPosition = vector;
-            //}
-            //TODO: Destroy cloth
-            //if (this.setup.part_cape != null)
-            //{
-            //    ClothFactory.DisposeObject(this.setup.part_cape);
-            //}
-            //if (this.setup.part_hair_1 != null)
-            //{
-            //    ClothFactory.DisposeObject(this.setup.part_hair_1);
-            //}
-            //if (this.setup.part_hair_2 != null)
-            //{
-            //    ClothFactory.DisposeObject(this.setup.part_hair_2);
-            //}
+            this.ReleaseIfIHookSb();
+
         }
-    
-        public void releaseIfIHookSb()
+
+        public void ReleaseIfIHookSb()
         {
             if (this.hookSomeOne && (this.hookTarget != null))
             {
-                this.hookTarget.GetPhotonView().RPC("badGuyReleaseMe", this.hookTarget.GetPhotonView().owner, new object[0]);
+                this.hookTarget.GetPhotonView().RPC(nameof(BadGuyReleaseMe), this.hookTarget.GetPhotonView().owner, new object[0]);
                 this.hookTarget = null;
                 this.hookSomeOne = false;
             }
         }
 
-        public IEnumerator reloadSky()
+        public IEnumerator ReloadSky()
         {
             yield return new WaitForSeconds(0.5f);
             if ((FengGameManagerMKII.skyMaterial != null) && (Camera.main.GetComponent<Skybox>().material != FengGameManagerMKII.skyMaterial))
@@ -2865,9 +2890,9 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void resetAnimationSpeed()
+        public void ResetAnimationSpeed()
         {
-            IEnumerator enumerator = base.GetComponent<Animation>().GetEnumerator();
+            IEnumerator enumerator = Animation.GetEnumerator();
             try
             {
                 while (enumerator.MoveNext())
@@ -2885,7 +2910,7 @@ namespace Assets.Scripts.Characters.Humans
                     disposable.Dispose();
                 }
             }
-            this.customAnimationSpeed();
+            this.CustomAnimationSpeed();
         }
 
         [PunRPC]
@@ -2898,7 +2923,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void rightArmAimTo(Vector3 target)
+        private void RightArmAimTo(Vector3 target)
         {
             float y = target.x - this.upperarmR.transform.position.x;
             float num2 = target.y - this.upperarmR.transform.position.y;
@@ -2927,10 +2952,10 @@ namespace Assets.Scripts.Characters.Humans
                 if (this.state != HERO_STATE.Grab)
                 {
                     this.dashTime = 1f;
-                    this.crossFade("dash", 0.05f);
-                    base.GetComponent<Animation>()["dash"].time = 0.1f;
+                    this.CrossFade("dash", 0.05f);
+                    Animation["dash"].time = 0.1f;
                     this.state = HERO_STATE.AirDodge;
-                    this.falseAttack();
+                    this.FalseAttack();
                     this.facingDirection = Mathf.Atan2(this.launchForce.x, this.launchForce.z) * Mathf.Rad2Deg;
                     Quaternion quaternion = Quaternion.Euler(0f, this.facingDirection, 0f);
                     base.gameObject.transform.rotation = quaternion;
@@ -2942,17 +2967,17 @@ namespace Assets.Scripts.Characters.Humans
             {
                 this.hookBySomeOne = false;
                 this.badGuy = null;
-                PhotonView.Find(hooker).RPC("hookFail", PhotonView.Find(hooker).owner, new object[0]);
+                PhotonView.Find(hooker).RPC(nameof(HookFail), PhotonView.Find(hooker).owner, new object[0]);
             }
         }
 
-        private void salute()
+        private void Salute()
         {
             this.state = HERO_STATE.Salute;
-            this.crossFade("salute", 0.1f);
+            this.CrossFade("salute", 0.1f);
         }
 
-        private void setHookedPplDirection()
+        private void SetHookedPplDirection()
         {
             this.almostSingleHook = false;
             if (this.isRightHandHooked && this.isLeftHandHooked)
@@ -3074,7 +3099,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void setMyTeam(int val)
+        private void SetMyTeam(int val)
         {
             this.myTeam = val;
             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().myTeam = val;
@@ -3093,18 +3118,18 @@ namespace Assets.Scripts.Characters.Humans
                     if (val != num)
                     {
                         objArray = new object[] { num };
-                        base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
+                        base.photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, objArray);
                     }
                 }
                 else if (GameSettings.PvP.Mode == PvpMode.FreeForAll && (val != base.photonView.owner.ID))
                 {
                     objArray = new object[] { base.photonView.owner.ID };
-                    base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, objArray);
+                    base.photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, objArray);
                 }
             }
         }
 
-        public void setSkillHUDPosition2()
+        public void SetSkillHUDPosition2()
         {
             return;
             //this.skillCD = GameObject.Find("skill_cd_" + this.skillIDHUD);
@@ -3118,7 +3143,7 @@ namespace Assets.Scripts.Characters.Humans
             //}
         }
 
-        public void setStat2()
+        public void SetStat2()
         {
             this.skillCDLast = 1.5f;
             //this.skillId = this.setup.myCostume.stat.skillId;
@@ -3127,7 +3152,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 this.skillCDLast = 3.5f;
             }
-            this.customAnimationSpeed();
+            this.CustomAnimationSpeed();
             if (this.skillId == "armin")
             {
                 this.skillCDLast = 5f;
@@ -3176,7 +3201,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 this.skillCDLast = 3.5f;
             }
-            this.bombInit();
+            this.BombInit();
             //this.speed = ((float)this.setup.myCostume.stat.SPD) / 10f;
             //this.totalGas = this.currentGas = this.setup.myCostume.stat.GAS;
             //this.totalBladeSta = this.currentBladeSta = this.setup.myCostume.stat.BLA;
@@ -3216,7 +3241,7 @@ namespace Assets.Scripts.Characters.Humans
                 this.gunDummy.name = "gunDummy";
                 this.gunDummy.transform.position = this.transform.position;
                 this.gunDummy.transform.rotation = this.transform.rotation;
-                this.setTeam2(2);
+                this.SetTeam2(2);
                 if (base.photonView.isMine)
                 {
                     //GameObject.Find("bladeCL").GetComponent<UISprite>().enabled = false;
@@ -3256,41 +3281,54 @@ namespace Assets.Scripts.Characters.Humans
             else if (/*this.setup.myCostume.sex == SEX.FEMALE*/false)
             {
                 this.standAnimation = "stand";
-                this.setTeam2(1);
+                this.SetTeam2(1);
             }
             else
             {
                 this.standAnimation = "stand_levi";
-                this.setTeam2(1);
+                this.SetTeam2(1);
             }
         }
 
-        public void setTeam2(int team)
+        public void SetTeam(int team)
+        {
+            this.SetMyTeam(team);
+            if (base.photonView.isMine)
+            {
+                object[] parameters = new object[] { team };
+                base.photonView.RPC(nameof(SetMyTeam), PhotonTargets.OthersBuffered, parameters);
+                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                propertiesToSet.Add(PhotonPlayerProperty.team, team);
+                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            }
+        }
+
+        public void SetTeam2(int team)
         {
             if (base.photonView.isMine)
             {
                 object[] parameters = new object[] { team };
-                base.photonView.RPC("setMyTeam", PhotonTargets.AllBuffered, parameters);
+                base.photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, parameters);
                 ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.team, team);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             }
             else
             {
-                this.setMyTeam(team);
+                this.SetMyTeam(team);
             }
         }
 
-        public void shootFlare(int type)
+        public void ShootFlare(int type)
         {
             var flare = Service.Inventory.GetItems<Assets.Scripts.Items.Flare>()[type - 1];
             flare.Use(this);
         }
 
-        private void showAimUI2()
+        private void ShowAimUI2()
         {
             Vector3 vector;
-            if (MenuManager.IsMenuOpen)
+            if (MenuManager.IsAnyMenuOpen)
             {
                 GameObject cross1 = this.cross1;
                 GameObject cross2 = this.cross2;
@@ -3310,7 +3348,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             else
             {
-                this.checkTitan();
+                this.CheckTitan();
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
                 LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
@@ -3403,7 +3441,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void showGas2()
+        private void ShowGas2()
         {
             float num = this.currentGas / this.totalGas;
             float num2 = this.currentBladeSta / this.totalBladeSta;
@@ -3424,7 +3462,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void showHitDamage()
+        private void ShowHitDamage()
         {
             GameObject target = GameObject.Find("LabelScore");
             if (target != null)
@@ -3442,7 +3480,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void showSkillCD()
+        private void ShowSkillCD()
         {
             if (this.skillCD != null)
             {
@@ -3456,9 +3494,9 @@ namespace Assets.Scripts.Characters.Humans
             if (info.sender.isMasterClient && photonView.isMine && !myCannon)
             {
                 if (myHorse && isMounted)
-                    getOffHorse();
+                    GetOffHorse();
 
-                idle();
+                Idle();
 
                 if (bulletLeft)
                     bulletLeft.GetComponent<Bullet>().removeMe();
@@ -3469,7 +3507,7 @@ namespace Assets.Scripts.Characters.Humans
                 if ((this.smoke_3dmg.enableEmission) && base.photonView.isMine)
                 {
                     object[] parameters = new object[] { false };
-                    base.photonView.RPC("net3DMGSMOKE", PhotonTargets.Others, parameters);
+                    base.photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, parameters);
                 }
                 this.smoke_3dmg.enableEmission = false;
                 base.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -3487,9 +3525,9 @@ namespace Assets.Scripts.Characters.Humans
                 this.isCannon = true;
                 this.myCannon.GetComponent<Cannon>().myHero = this;
                 this.myCannonRegion = null;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
                 Camera.main.fieldOfView = 55f;
-                base.photonView.RPC("SetMyCannon", PhotonTargets.OthersBuffered, new object[] { this.myCannon.GetPhotonView().viewID });
+                base.photonView.RPC(nameof(SetMyCannon), PhotonTargets.OthersBuffered, new object[] { this.myCannon.GetPhotonView().viewID });
                 this.skillCDLastCannon = this.skillCDLast;
                 this.skillCDLast = 3.5f;
                 this.skillCDDuration = 3.5f;
@@ -3512,37 +3550,37 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public IEnumerator stopImmunity()
+        public IEnumerator StopImmunity()
         {
             yield return new WaitForSeconds(5f);
             this.bombImmune = false;
         }
 
-        private void suicide2()
+        private void Suicide2()
         {
-            this.netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+            this.NetDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
             FengGameManagerMKII.instance.needChooseSide = true;
         }
 
-        public void ungrabbed()
+        public void Ungrabbed()
         {
             this.facingDirection = 0f;
             this.targetRotation = Quaternion.Euler(0f, 0f, 0f);
             base.transform.parent = null;
             base.GetComponent<CapsuleCollider>().isTrigger = false;
             this.state = HERO_STATE.Idle;
-            base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
+            base.photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
             if (PhotonNetwork.isMasterClient)
             {
                 this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
             }
             else
             {
-                PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
+                PhotonView.Find(this.titanWhoGrabMeID).RPC(nameof(MindlessTitan.GrabEscapeRpc), PhotonTargets.MasterClient, new object[0]);
             }
         }
 
-        private void unmounted()
+        private void Unmounted()
         {
             this.myHorse.GetComponent<Horse>().Unmount();
             this.isMounted = false;
@@ -3564,7 +3602,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             else if (this.isCannon && (this.myCannon != null))
             {
-                this.updateCannon();
+                this.UpdateCannon();
                 base.gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
             }
 
@@ -3574,7 +3612,7 @@ namespace Assets.Scripts.Characters.Humans
                 Service.Ui.SetMessage(LabelPosition.Center, "Press 'Cannon Mount' key to use Cannon.");
                 if (InputManager.KeyDown(InputCannon.Mount))
                 {
-                    this.myCannonRegion.photonView.RPC("RequestControlRPC", PhotonTargets.MasterClient, new object[] { base.photonView.viewID });
+                    this.myCannonRegion.photonView.RPC(nameof(CannonPropRegion.RequestControlRPC), PhotonTargets.MasterClient, new object[] { base.photonView.viewID });
                 }
             }
 
@@ -3603,7 +3641,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             this.attackAnimation = "attack1";
                         }
-                        this.playAnimation(this.attackAnimation);
+                        this.PlayAnimation(this.attackAnimation);
                     }
                 }
             }
@@ -3612,10 +3650,10 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (this.skillId == "eren")
                 {
-                    this.showSkillCD();
+                    this.ShowSkillCD();
                     if (!IN_GAME_MAIN_CAMERA.isPausing)
                     {
-                        this.calcSkillCD();
+                        this.CalcSkillCD();
                     }
                     if (InputManager.KeyDown(InputHuman.AttackSpecial))
                     {
@@ -3629,17 +3667,17 @@ namespace Assets.Scripts.Characters.Humans
                             this.skillCDDuration = this.skillCDLast;
                             if ((this.skillId == "eren") && (this.titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                             {
-                                this.ungrabbed();
-                                base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
+                                this.Ungrabbed();
+                                base.photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
                                 if (PhotonNetwork.isMasterClient)
                                 {
                                     titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
                                 }
                                 else
                                 {
-                                    PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
+                                    PhotonView.Find(this.titanWhoGrabMeID).photonView.RPC(nameof(MindlessTitan.GrabEscapeRpc), PhotonTargets.MasterClient, new object[0]);
                                 }
-                                this.erenTransform();
+                                this.ErenTransform();
                             }
                         }
                     }
@@ -3650,40 +3688,40 @@ namespace Assets.Scripts.Characters.Humans
                 bool isBothHooksPressed;
                 System.Boolean isRightHookPressed;
                 System.Boolean isLeftHookPressed;
-                this.bufferUpdate();
-                this.updateExt();
+                this.BufferUpdate();
+                this.UpdateExt();
                 if (!this.grounded && (this.state != HERO_STATE.AirDodge))
                 {
                     if (InputManager.Settings.GasBurstDoubleTap)
                     {
-                        this.checkDashDoubleTap();
+                        this.CheckDashDoubleTap();
                     }
                     else
                     {
-                        this.checkDashRebind();
+                        this.CheckDashRebind();
                     }
                     if (this.dashD)
                     {
                         this.dashD = false;
-                        this.dash(0f, -1f);
+                        this.Dash(0f, -1f);
                         return;
                     }
                     if (this.dashU)
                     {
                         this.dashU = false;
-                        this.dash(0f, 1f);
+                        this.Dash(0f, 1f);
                         return;
                     }
                     if (this.dashL)
                     {
                         this.dashL = false;
-                        this.dash(-1f, 0f);
+                        this.Dash(-1f, 0f);
                         return;
                     }
                     if (this.dashR)
                     {
                         this.dashR = false;
-                        this.dash(1f, 0f);
+                        this.Dash(1f, 0f);
                         return;
                     }
                 }
@@ -3691,53 +3729,56 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     if (!((!InputManager.KeyDown(InputHuman.Jump) || this.Animation.IsPlaying("jump")) || this.Animation.IsPlaying("horse_geton")))
                     {
-                        this.idle();
-                        this.crossFade("jump", 0.1f);
+                        this.Idle();
+                        this.CrossFade("jump", 0.1f);
                         this.sparks.enableEmission = false;
                     }
                     if (!((!InputManager.KeyDown(InputHorse.Mount) || this.Animation.IsPlaying("jump")) || this.Animation.IsPlaying("horse_geton")) && (((this.myHorse != null) && !this.isMounted) && (Vector3.Distance(this.myHorse.transform.position, base.transform.position) < 15f)))
                     {
-                        this.getOnHorse();
+                        this.GetOnHorse();
                     }
                     if (!((!InputManager.KeyDown(InputHuman.Dodge) || this.Animation.IsPlaying("jump")) || this.Animation.IsPlaying("horse_geton")))
                     {
-                        this.dodge2(false);
+                        this.Dodge2(false);
                         return;
                     }
                 }
                 if (this.state == HERO_STATE.Idle)
                 {
-                    if (InputManager.KeyDown(InputHuman.Item1))
+                    if (!MenuManager.IsAnyMenuOpen)
                     {
-                        this.shootFlare(1);
-                    }
-                    if (InputManager.KeyDown(InputHuman.Item2))
-                    {
-                        this.shootFlare(2);
-                    }
-                    if (InputManager.KeyDown(InputHuman.Item3))
-                    {
-                        this.shootFlare(3);
+                        if (InputManager.KeyDown(InputHuman.Item1))
+                        {
+                            this.ShootFlare(1);
+                        }
+                        if (InputManager.KeyDown(InputHuman.Item2))
+                        {
+                            this.ShootFlare(2);
+                        }
+                        if (InputManager.KeyDown(InputHuman.Item3))
+                        {
+                            this.ShootFlare(3);
+                        }
                     }
                     if (InputManager.KeyDown(InputUi.Restart))
                     {
                         if (!PhotonNetwork.offlineMode)
                         {
-                            this.suicide2();
+                            this.Suicide2();
                         }
                     }
                     if (((this.myHorse != null) && this.isMounted) && InputManager.KeyDown(InputHorse.Mount))
                     {
-                        this.getOffHorse();
+                        this.GetOffHorse();
                     }
-                    if (((base.GetComponent<Animation>().IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (GameSettings.PvP.AhssAirReload.Value)) || this.grounded))
+                    if (((Animation.IsPlaying(this.standAnimation) || !this.grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!this.useGun || (GameSettings.PvP.AhssAirReload.Value)) || this.grounded))
                     {
-                        this.changeBlade();
+                        this.ChangeBlade();
                         return;
                     }
                     if (this.Animation.IsPlaying(this.standAnimation) && InputManager.KeyDown(InputHuman.Salute))
                     {
-                        this.salute();
+                        this.Salute();
                         return;
                     }
                     if ((!this.isMounted && (InputManager.KeyDown(InputHuman.Attack) || InputManager.KeyDown(InputHuman.AttackSpecial))) && !this.useGun)
@@ -3754,7 +3795,7 @@ namespace Assets.Scripts.Characters.Humans
                                 this.skillCDDuration = this.skillCDLast;
                                 if (this.skillId == "eren")
                                 {
-                                    this.erenTransform();
+                                    this.ErenTransform();
                                     return;
                                 }
                                 if (this.skillId == "marco")
@@ -3762,7 +3803,7 @@ namespace Assets.Scripts.Characters.Humans
                                     if (this.IsGrounded())
                                     {
                                         this.attackAnimation = (UnityEngine.Random.Range(0, 2) != 0) ? "special_marco_1" : "special_marco_0";
-                                        this.playAnimation(this.attackAnimation);
+                                        this.PlayAnimation(this.attackAnimation);
                                     }
                                     else
                                     {
@@ -3775,7 +3816,7 @@ namespace Assets.Scripts.Characters.Humans
                                     if (this.IsGrounded())
                                     {
                                         this.attackAnimation = "special_armin";
-                                        this.playAnimation("special_armin");
+                                        this.PlayAnimation("special_armin");
                                     }
                                     else
                                     {
@@ -3788,7 +3829,7 @@ namespace Assets.Scripts.Characters.Humans
                                     if (this.IsGrounded())
                                     {
                                         this.attackAnimation = "special_sasha";
-                                        this.playAnimation("special_sasha");
+                                        this.PlayAnimation("special_sasha");
                                         this.currentBuff = BUFF.SpeedUp;
                                         this.buffTime = 10f;
                                     }
@@ -3833,7 +3874,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 if (this.lastHook.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck") != null)
                                 {
-                                    this.attackAccordingToTarget(this.lastHook.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck"));
+                                    this.AttackAccordingToTarget(this.lastHook.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck"));
                                 }
                                 else
                                 {
@@ -3845,11 +3886,11 @@ namespace Assets.Scripts.Characters.Humans
                                 Transform a = this.bulletLeft.transform.parent.transform.root.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
                                 if (a != null)
                                 {
-                                    this.attackAccordingToTarget(a);
+                                    this.AttackAccordingToTarget(a);
                                 }
                                 else
                                 {
-                                    this.attackAccordingToMouse();
+                                    this.AttackAccordingToMouse();
                                 }
                             }
                             else if ((this.bulletRight != null) && (this.bulletRight.transform.parent != null))
@@ -3857,31 +3898,31 @@ namespace Assets.Scripts.Characters.Humans
                                 Transform transform2 = this.bulletRight.transform.parent.transform.root.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
                                 if (transform2 != null)
                                 {
-                                    this.attackAccordingToTarget(transform2);
+                                    this.AttackAccordingToTarget(transform2);
                                 }
                                 else
                                 {
-                                    this.attackAccordingToMouse();
+                                    this.AttackAccordingToMouse();
                                 }
                             }
                             else
                             {
-                                GameObject obj2 = this.findNearestTitan();
+                                GameObject obj2 = this.FindNearestTitan();
                                 if (obj2 != null)
                                 {
                                     Transform transform3 = obj2.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
                                     if (transform3 != null)
                                     {
-                                        this.attackAccordingToTarget(transform3);
+                                        this.AttackAccordingToTarget(transform3);
                                     }
                                     else
                                     {
-                                        this.attackAccordingToMouse();
+                                        this.AttackAccordingToMouse();
                                     }
                                 }
                                 else
                                 {
-                                    this.attackAccordingToMouse();
+                                    this.AttackAccordingToMouse();
                                 }
                             }
                         }
@@ -3893,7 +3934,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 this.Rigidbody.AddForce((Vector3) (base.gameObject.transform.forward * 200f));
                             }
-                            this.playAnimation(this.attackAnimation);
+                            this.PlayAnimation(this.attackAnimation);
                             this.Animation[this.attackAnimation].time = 0f;
                             this.buttonAttackRelease = false;
                             this.state = HERO_STATE.Attack;
@@ -4035,7 +4076,7 @@ namespace Assets.Scripts.Characters.Humans
                         if (flag4)
                         {
                             this.state = HERO_STATE.Attack;
-                            this.crossFade(this.attackAnimation, 0.05f);
+                            this.CrossFade(this.attackAnimation, 0.05f);
                             this.gunDummy.transform.position = this.transform.position;
                             this.gunDummy.transform.rotation = this.transform.rotation;
                             this.gunDummy.transform.LookAt(this.gunTarget);
@@ -4045,7 +4086,7 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         else if (flag5 && (this.grounded || (GameSettings.PvP.AhssAirReload.Value)))
                         {
-                            this.changeBlade();
+                            this.ChangeBlade();
                         }
                     }
                 }
@@ -4181,7 +4222,7 @@ namespace Assets.Scripts.Characters.Humans
                             if ((this.attackLoop > 0) && (this.Animation[this.attackAnimation].normalizedTime > num))
                             {
                                 this.attackLoop--;
-                                this.playAnimationAt(this.attackAnimation, num2);
+                                this.PlayAnimationAt(this.attackAnimation, num2);
                             }
                         }
                         if (this.Animation[this.attackAnimation].normalizedTime >= 1f)
@@ -4191,27 +4232,27 @@ namespace Assets.Scripts.Characters.Humans
                                 if (!PhotonNetwork.isMasterClient)
                                 {
                                     object[] parameters = new object[] { 5f, 100f };
-                                    base.photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
+                                    base.photonView.RPC(nameof(NetTauntAttack), PhotonTargets.MasterClient, parameters);
                                 }
                                 else
                                 {
-                                    this.netTauntAttack(5f, 100f);
+                                    this.NetTauntAttack(5f, 100f);
                                 }
-                                this.falseAttack();
-                                this.idle();
+                                this.FalseAttack();
+                                this.Idle();
                             }
                             else if (this.attackAnimation == "special_armin")
                             {
                                 if (!PhotonNetwork.isMasterClient)
                                 {
-                                    base.photonView.RPC("netlaughAttack", PhotonTargets.MasterClient, new object[0]);
+                                    base.photonView.RPC(nameof(NetlaughAttack), PhotonTargets.MasterClient, new object[0]);
                                 }
                                 else
                                 {
-                                    this.netlaughAttack();
+                                    this.NetlaughAttack();
                                 }
-                                this.falseAttack();
-                                this.idle();
+                                this.FalseAttack();
+                                this.Idle();
                             }
                             else if (this.attackAnimation == "attack3_1")
                             {
@@ -4219,14 +4260,14 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else
                             {
-                                this.falseAttack();
-                                this.idle();
+                                this.FalseAttack();
+                                this.Idle();
                             }
                         }
                         if (this.Animation.IsPlaying("attack3_2") && (this.Animation["attack3_2"].normalizedTime >= 1f))
                         {
-                            this.falseAttack();
-                            this.idle();
+                            this.FalseAttack();
+                            this.Idle();
                         }
                     }
                     else
@@ -4286,15 +4327,15 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         if (this.Animation[this.attackAnimation].normalizedTime >= 1f)
                         {
-                            this.falseAttack();
-                            this.idle();
+                            this.FalseAttack();
+                            this.Idle();
                             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
                             this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
                         }
                         if (!this.Animation.IsPlaying(this.attackAnimation))
                         {
-                            this.falseAttack();
-                            this.idle();
+                            this.FalseAttack();
+                            this.Idle();
                             this.checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
                             this.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
                         }
@@ -4305,14 +4346,14 @@ namespace Assets.Scripts.Characters.Humans
                     Equipment.Weapon.Reload();
                     if (this.Animation[this.reloadAnimation].normalizedTime >= 1f)
                     {
-                        this.idle();
+                        this.Idle();
                     }
                 }
                 else if (this.state == HERO_STATE.Salute)
                 {
                     if (this.Animation["salute"].normalizedTime >= 1f)
                     {
-                        this.idle();
+                        this.Idle();
                     }
                 }
                 else if (this.state == HERO_STATE.GroundDodge)
@@ -4321,11 +4362,11 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         if (!(this.grounded || (this.Animation["dodge"].normalizedTime <= 0.6f)))
                         {
-                            this.idle();
+                            this.Idle();
                         }
                         if (this.Animation["dodge"].normalizedTime >= 1f)
                         {
-                            this.idle();
+                            this.Idle();
                         }
                     }
                 }
@@ -4333,7 +4374,7 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     if (this.Animation.IsPlaying("dash_land") && (this.Animation["dash_land"].normalizedTime >= 1f))
                     {
-                        this.idle();
+                        this.Idle();
                     }
                 }
                 else if (this.state == HERO_STATE.FillGas)
@@ -4349,14 +4390,14 @@ namespace Assets.Scripts.Characters.Humans
                             this.rightGunHasBullet = true;
                             this.leftGunHasBullet = true;
                         }
-                        this.idle();
+                        this.Idle();
                     }
                 }
                 else if (this.state == HERO_STATE.Slide)
                 {
                     if (!this.grounded)
                     {
-                        this.idle();
+                        this.Idle();
                     }
                 }
                 else if (this.state == HERO_STATE.AirDodge)
@@ -4372,7 +4413,7 @@ namespace Assets.Scripts.Characters.Humans
                     else
                     {
                         this.dashTime = 0f;
-                        this.idle();
+                        this.Idle();
                     }
                 }
                 if (InputManager.Key(InputHuman.HookLeft))
@@ -4396,9 +4437,9 @@ namespace Assets.Scripts.Characters.Humans
                 // 
 
                 if (!(isLeftHookPressed ? (((this.Animation.IsPlaying("attack3_1") || this.Animation.IsPlaying("attack5")) || (this.Animation.IsPlaying("special_petra") || (this.state == HERO_STATE.Grab))) ? (this.state != HERO_STATE.Idle) : false) : true))
-                    //if (isLeftHookPressed ||
-                    //(!Animation.IsPlaying("attack3_1") || !Animation.IsPlaying("attack5") || !Animation.IsPlaying("special_petra") || state != HERO_STATE.Grab) 
-                    //&& state == HERO_STATE.Idle)
+                //if (isLeftHookPressed ||
+                //(!Animation.IsPlaying("attack3_1") || !Animation.IsPlaying("attack5") || !Animation.IsPlaying("special_petra") || state != HERO_STATE.Grab) 
+                //&& state == HERO_STATE.Idle)
                 {
                     if (this.bulletLeft != null)
                     {
@@ -4496,7 +4537,7 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
                 {
-                    this.calcSkillCD();
+                    this.CalcSkillCD();
                 }
                 //if (!this.useGun)
                 //{
@@ -4525,8 +4566,8 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     //this.showSkillCD();
                     //this.showFlareCD2();
-                    this.showGas2();
-                    this.showAimUI2();
+                    this.ShowGas2();
+                    this.ShowAimUI2();
                 }
             }
             else if (this.isCannon && !IN_GAME_MAIN_CAMERA.isPausing)
@@ -4537,13 +4578,13 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public void updateCannon()
+        public void UpdateCannon()
         {
             this.transform.position = this.myCannonPlayer.position;
             this.transform.rotation = this.myCannonBase.rotation;
         }
 
-        public void updateExt()
+        public void UpdateExt()
         {
             if (this.skillId == "bomb")
             {
@@ -4598,7 +4639,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void useGas(float amount = 0)
+        private void UseGas(float amount = 0)
         {
             if (amount == 0f)
             {
@@ -4615,18 +4656,10 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void whoIsMyErenTitan(int id)
+        private void WhoIsMyErenTitan(int id)
         {
             this.eren_titan = PhotonView.Find(id).gameObject;
             this.titanForm = true;
-        }
-
-        public bool isGrabbed
-        {
-            get
-            {
-                return (this.state == HERO_STATE.Grab);
-            }
         }
     }
 }

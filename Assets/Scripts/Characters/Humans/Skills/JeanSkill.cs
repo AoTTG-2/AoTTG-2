@@ -34,14 +34,14 @@ namespace Assets.Scripts.Characters.Humans.Skills
         //        {
         //            this.ungrabbed();
         //            this.Rigidbody.velocity = (Vector3) (Vector3.up * 30f);
-        //            base.photonView.RPC("netSetIsGrabbedFalse", PhotonTargets.All, new object[0]);
+        //            base.photonView.RPC(nameof(netSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
         //            if (PhotonNetwork.isMasterClient)
         //            {
         //                this.titanWhoGrabMe.GetComponent<MindlessTitan>().GrabEscapeRpc();
         //            }
         //            else
         //            {
-        //                PhotonView.Find(this.titanWhoGrabMeID).RPC("GrabEscapeRpc", PhotonTargets.MasterClient, new object[0]);
+        //                PhotonView.Find(this.titanWhoGrabMeID).RPC(nameof(GrabEscapeRpc), PhotonTargets.MasterClient, new object[0]);
         //            }
         //        }
         //    }
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
             if (TimesUsed < TimesAllowed && !Hero.Animation.IsPlaying("grabbed_jean"))
             {
-                Hero.playAnimation("grabbed_jean");
+                Hero.PlayAnimation("grabbed_jean");
                 TimesUsed++;
                 IsActive = true;
                 return true;
@@ -65,7 +65,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (Hero.Animation.IsPlaying("grabbed_jean") && Hero.Animation["grabbed_jean"].normalizedTime > 0.64f)
             {
-                Hero.ungrabbed();
+                Hero.Ungrabbed();
                 Hero.Rigidbody.velocity = Vector3.up * 30f;
                 IsActive = false;
             }
