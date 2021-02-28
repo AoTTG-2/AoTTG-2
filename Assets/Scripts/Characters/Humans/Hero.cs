@@ -1077,9 +1077,9 @@ namespace Assets.Scripts.Characters.Humans
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 FalseAttack();
                 hasDied = true;
-                Transform transform = transform.Find("audio_die");
-                transform.parent = null;
-                transform.GetComponent<AudioSource>().Play();
+                Transform audioDie = transform.Find("audio_die");
+                audioDie.parent = null;
+                audioDie.GetComponent<AudioSource>().Play();
 
                 var propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                 propertiesToSet.Add(PhotonPlayerProperty.deaths, (int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths] + 1);
@@ -1087,7 +1087,7 @@ namespace Assets.Scripts.Characters.Humans
 
                 if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
                 {
-                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(transform.position, 0, null, 0.02f);
+                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(audioDie.position, 0, null, 0.02f);
                 }
                 UnityEngine.Object.Destroy(gameObject);
             }
@@ -1109,16 +1109,16 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     bulletRight.GetComponent<Bullet>().removeMe();
                 }
-                Transform transform = transform.Find("audio_die");
-                transform.parent = null;
-                transform.GetComponent<AudioSource>().Play();
+                Transform audioDie = transform.Find("audio_die");
+                audioDie.parent = null;
+                audioDie.GetComponent<AudioSource>().Play();
                 meatDie.Play();
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 FalseAttack();
                 hasDied = true;
                 GameObject obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
-                obj2.transform.position = transform.position;
+                obj2.transform.position = audioDie.position;
                 UnityEngine.Object.Destroy(gameObject);
             }
         }
@@ -2038,20 +2038,20 @@ namespace Assets.Scripts.Characters.Humans
 
         private void HeadMovement()
         {
-            Transform transform = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
-            Transform transform2 = transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
-            float x = Mathf.Sqrt(((gunTarget.x - transform.position.x) * (gunTarget.x - transform.position.x)) + ((gunTarget.z - transform.position.z) * (gunTarget.z - transform.position.z)));
-            targetHeadRotation = transform.rotation;
-            Vector3 vector5 = gunTarget - transform.position;
+            Transform neck = this.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
+            Transform head = neck.Find("head");
+            float x = Mathf.Sqrt(((gunTarget.x - head.position.x) * (gunTarget.x - head.position.x)) + ((gunTarget.z - head.position.z) * (gunTarget.z - head.position.z)));
+            targetHeadRotation = head.rotation;
+            Vector3 vector5 = gunTarget - head.position;
             float current = -Mathf.Atan2(vector5.z, vector5.x) * Mathf.Rad2Deg;
-            float num3 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
+            float num3 = -Mathf.DeltaAngle(current, head.rotation.eulerAngles.y - 90f);
             num3 = Mathf.Clamp(num3, -40f, 40f);
-            float y = transform2.position.y - gunTarget.y;
+            float y = neck.position.y - gunTarget.y;
             float num5 = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
             num5 = Mathf.Clamp(num5, -40f, 30f);
-            targetHeadRotation = Quaternion.Euler(transform.rotation.eulerAngles.x + num5, transform.rotation.eulerAngles.y + num3, transform.rotation.eulerAngles.z);
+            targetHeadRotation = Quaternion.Euler(head.rotation.eulerAngles.x + num5, head.rotation.eulerAngles.y + num3, head.rotation.eulerAngles.z);
             oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 60f);
-            transform.rotation = oldHeadRotation;
+            head.rotation = oldHeadRotation;
         }
 
         public void HookedByHuman(int hooker, Vector3 hookPosition)
@@ -2511,14 +2511,6 @@ namespace Assets.Scripts.Characters.Humans
                 bulletRight.GetComponent<Bullet>().removeMe();
             }
             meatDie.Play();
-            if (!(useGun || (!photonView.isMine)))
-            {
-                //TODO: Re-enable these again
-                //leftbladetrail.Deactivate();
-                //rightbladetrail.Deactivate();
-                //leftbladetrail2.Deactivate();
-                //rightbladetrail2.Deactivate();
-            }
             FalseAttack();
             BreakApart2(v, isBite);
             if (photonView.isMine)
@@ -2528,11 +2520,11 @@ namespace Assets.Scripts.Characters.Humans
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
-            Transform transform = transform.Find("audio_die");
-            if (transform != null)
+            Transform audioDie = transform.Find("audio_die");
+            if (audioDie != null)
             {
-                transform.parent = null;
-                transform.GetComponent<AudioSource>().Play();
+                audioDie.parent = null;
+                audioDie.GetComponent<AudioSource>().Play();
             }
             gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
             if (photonView.isMine)
@@ -2634,9 +2626,9 @@ namespace Assets.Scripts.Characters.Humans
             {
                 bulletRight.GetComponent<Bullet>().removeMe();
             }
-            Transform transform = transform.Find("audio_die");
-            transform.parent = null;
-            transform.GetComponent<AudioSource>().Play();
+            Transform audioDie = transform.Find("audio_die");
+            audioDie.parent = null;
+            audioDie.GetComponent<AudioSource>().Play();
             if (photonView.isMine)
             {
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
@@ -2674,13 +2666,13 @@ namespace Assets.Scripts.Characters.Humans
             }
             if (photonView.isMine)
             {
-                obj2 = PhotonNetwork.Instantiate("hitMeat2", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
+                obj2 = PhotonNetwork.Instantiate("hitMeat2", audioDie.position, Quaternion.Euler(270f, 0f, 0f), 0);
             }
             else
             {
                 obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
             }
-            obj2.transform.position = transform.position;
+            obj2.transform.position = audioDie.position;
             if (photonView.isMine)
             {
                 PhotonNetwork.Destroy(photonView);
@@ -2744,9 +2736,9 @@ namespace Assets.Scripts.Characters.Humans
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
-            Transform transform = transform.Find("audio_die");
-            transform.parent = null;
-            transform.GetComponent<AudioSource>().Play();
+            Transform audioDie = transform.Find("audio_die");
+            audioDie.parent = null;
+            audioDie.GetComponent<AudioSource>().Play();
             gameObject.GetComponent<SmoothSyncMovement>().disabled = true;
             if (photonView.isMine)
             {
@@ -3080,7 +3072,7 @@ namespace Assets.Scripts.Characters.Humans
                     if (myCannon != null)
                     {
                         myCannonBase = myCannon.transform;
-                        myCannonPlayer = myCannonFind("PlayerPoint");
+                        myCannonPlayer = myCannonBase.Find("PlayerPoint");
                         isCannon = true;
                     }
                 }
@@ -4501,7 +4493,7 @@ namespace Assets.Scripts.Characters.Humans
         public void UpdateCannon()
         {
             transform.position = myCannonPlayer.position;
-            transform.rotation = myCannonrotation;
+            transform.rotation = myCannonBase.rotation;
         }
 
         public void UpdateExt()
