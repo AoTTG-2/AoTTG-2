@@ -790,26 +790,6 @@ namespace Assets.Scripts.Characters.Humans
                 crossR2 = GameObject.Find("crossR2");
                 LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
                 cachedSprites = new Dictionary<string, Image>();
-                //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-                //{
-                //    if ((obj2.GetComponent<UISprite>() != null) && obj2.activeInHierarchy)
-                //    {
-                //        string name = obj2.name;
-                //        if (!((((name.Contains("blade") || name.Contains("bullet")) || (name.Contains("gas") || name.Contains("flare"))) || name.Contains("skill_cd")) ? cachedSprites.ContainsKey(name) : true))
-                //        {
-                //            cachedSprites.Add(name, obj2.GetComponent<UISprite>());
-                //        }
-                //    }
-                //}
-                //foreach (var obj in Resources.FindObjectsOfTypeAll<GameObject>() )
-                //{
-                //    var image = obj.GetComponent<Image>();
-                //    if (image == null || !obj.activeInHierarchy) continue;
-                //    if (obj.name.Contains("Gas"))
-                //    {
-                //        cachedSprites.Add(obj.name, image);
-                //    }
-                //}
                 foreach (Image image in InGameUI.GetComponentsInChildren(typeof(Image), true))
                 {
                     if (image == null) continue;
