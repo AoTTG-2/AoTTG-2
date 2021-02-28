@@ -1,4 +1,4 @@
-using Assets.Scripts.Characters.Humans.Animations;
+using Assets.Scripts.Characters.Humans.Constants;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Humans.Skills;
 using Assets.Scripts.Characters.Titan;
@@ -30,6 +30,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private const float HookRaycastDistance = 1000f;
         
+
 
         #region Properties
         public HERO_STATE _state { get; set; }
@@ -159,10 +160,7 @@ namespace Assets.Scripts.Characters.Humans
         private bool QHold { get; set; }
         public string reloadAnimation = string.Empty;
         private bool rightArmAim { get; set; }
-        /*
-    public XWeaponTrail rightbladetrail;
-    public XWeaponTrail rightbladetrail2;
-    */
+
         [Obsolete]
         public int rightBulletLeft = 7;
         public bool rightGunHasBullet = true;
@@ -172,7 +170,7 @@ namespace Assets.Scripts.Characters.Humans
         public float skillCDDuration;
         public float skillCDLast;
         public float skillCDLastCannon;
-        private string skillId { get; set; }
+        private SkillId skillId { get; set; }
         public string skillIDHUD;
         public AudioSource slash;
         public AudioSource slashHit;
@@ -632,7 +630,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void BombInit()
         {
-            skillIDHUD = skillId;
+            skillIDHUD = skillId.ToString();
             skillCDDuration = skillCDLast;
             if (GameSettings.PvP.Bomb == true)
             {
@@ -682,8 +680,8 @@ namespace Assets.Scripts.Characters.Humans
                 propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float) FengGameManagerMKII.settings[0xf9]);
                 propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, bombRadius);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                skillId = "bomb";
-                skillIDHUD = "armin";
+                skillId = SkillId.bomb;
+                skillIDHUD = SkillId.armin.ToString();
                 skillCDLast = bombCD;
                 skillCDDuration = 10f;
                 if (Service.Time.GetRoundTime() > 10f)
@@ -1601,10 +1599,10 @@ namespace Assets.Scripts.Characters.Humans
                             CrossFade(HeroAnim.HORSE_IDLE, 0.1f);
                             myHorse.Mount();
                         }
-                        if (!((((((state != HERO_STATE.Idle) || Animation.IsPlaying(HeroAnim.DASH)) || 
-                            (Animation.IsPlaying(HeroAnim.WALL_RUN) || Animation.IsPlaying(HeroAnim.TO_ROOF))) || 
+                        if (!((((((state != HERO_STATE.Idle) || Animation.IsPlaying(HeroAnim.DASH)) ||
+                            (Animation.IsPlaying(HeroAnim.WALL_RUN) || Animation.IsPlaying(HeroAnim.TO_ROOF))) ||
                             ((Animation.IsPlaying(HeroAnim.HORSE_GET_ON) || Animation.IsPlaying(HeroAnim.HORSE_GET_OFF)) || (Animation.IsPlaying(HeroAnim.AIR_RELEASE) || isMounted))) ||
-                            ((Animation.IsPlaying(HeroAnim.AIR_HOOK_L_JUST) && (Animation[HeroAnim.AIR_HOOK_L_JUST].normalizedTime < 1f)) || 
+                            ((Animation.IsPlaying(HeroAnim.AIR_HOOK_L_JUST) && (Animation[HeroAnim.AIR_HOOK_L_JUST].normalizedTime < 1f)) ||
                             (Animation.IsPlaying(HeroAnim.AIR_HOOK_R_JUST) && (Animation[HeroAnim.AIR_HOOK_R_JUST].normalizedTime < 1f)))) ? (Animation[HeroAnim.DASH].normalizedTime < 0.99f) : false))
                         {
                             if (((!isLeftHandHooked && !isRightHandHooked) && ((Animation.IsPlaying(HeroAnim.AIR_HOOK_L) || Animation.IsPlaying(HeroAnim.AIR_HOOK_R)) || Animation.IsPlaying(HeroAnim.AIR_HOOK))) && (Rigidbody.velocity.y > 20f))
@@ -2107,8 +2105,8 @@ namespace Assets.Scripts.Characters.Humans
 
         private bool IsUpFrontGrounded()
         {
-            LayerMask mask =    1 << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 =   1 << LayerMask.NameToLayer("EnemyBox");
+            LayerMask mask = 1 << LayerMask.NameToLayer("Ground");
+            LayerMask mask2 = 1 << LayerMask.NameToLayer("EnemyBox");
             LayerMask mask3 = mask2 | mask;
             return Physics.Raycast(gameObject.transform.position + ((gameObject.transform.up * 3f)), gameObject.transform.forward, (float) 1.2f, mask3.value);
         }
@@ -2128,7 +2126,7 @@ namespace Assets.Scripts.Characters.Humans
                     myNetWorkName.transform.localPosition = ((Vector3.up * Screen.height) * 2f);
                 }
                 Vector3 start = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
-                
+
                 LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
                 LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
                 LayerMask mask3 = mask2 | mask;
@@ -3109,32 +3107,32 @@ namespace Assets.Scripts.Characters.Humans
         {
             skillCDLast = 1.5f;
             //skillId = setup.myCostume.stat.skillId;
-            skillId = "levi";
-            if (skillId == "levi")
+            skillId = SkillId.levi;
+            if (skillId == SkillId.levi)
             {
                 skillCDLast = 3.5f;
             }
             CustomAnimationSpeed();
-            if (skillId == "armin")
+            if (skillId == SkillId.armin)
             {
                 skillCDLast = 5f;
             }
-            if (skillId == "marco")
+            if (skillId == SkillId.marco)
             {
                 skillCDLast = 10f;
             }
-            if (skillId == "jean")
+            if (skillId == SkillId.jean)
             {
                 skillCDLast = 0.001f;
             }
-            if (skillId == "eren")
+            if (skillId == SkillId.eren)
             {
                 skillCDLast = 120f;
                 if (!PhotonNetwork.offlineMode)
                 {
                     if (!GameSettings.Gamemode.PlayerShifters.Value)
                     {
-                        skillId = "petra";
+                        skillId = SkillId.petra;
                         skillCDLast = 1f;
                     }
                     else
@@ -3149,17 +3147,17 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         if (num > 1)
                         {
-                            skillId = "petra";
+                            skillId = SkillId.petra;
                             skillCDLast = 1f;
                         }
                     }
                 }
             }
-            if (skillId == "sasha")
+            if (skillId == SkillId.sasha)
             {
                 skillCDLast = 20f;
             }
-            if (skillId == "petra")
+            if (skillId == SkillId.petra)
             {
                 skillCDLast = 3.5f;
             }
@@ -3232,8 +3230,8 @@ namespace Assets.Scripts.Characters.Humans
             Vector3 vector;
             if (MenuManager.IsAnyMenuOpen)
             {
-                GameObject cross1 =  this.cross1;
-                GameObject cross2 =  this.cross2;
+                GameObject cross1 = this.cross1;
+                GameObject cross2 = this.cross2;
                 GameObject crossL1 = this.crossL1;
                 GameObject crossL2 = this.crossL2;
                 GameObject crossR1 = this.crossR1;
@@ -3550,7 +3548,7 @@ namespace Assets.Scripts.Characters.Humans
 
             if ((state == HERO_STATE.Grab) && !useGun)
             {
-                if (skillId == "eren")
+                if (skillId == SkillId.eren)
                 {
                     ShowSkillCD();
                     if (!IN_GAME_MAIN_CAMERA.isPausing)
@@ -3567,7 +3565,7 @@ namespace Assets.Scripts.Characters.Humans
                         else
                         {
                             skillCDDuration = skillCDLast;
-                            if ((skillId == "eren") && (titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
+                            if ((skillId == SkillId.eren) && (titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
                             {
                                 Ungrabbed();
                                 photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
@@ -3588,8 +3586,8 @@ namespace Assets.Scripts.Characters.Humans
             else if (!titanForm && !isCannon)
             {
                 bool isBothHooksPressed;
-                System.Boolean isRightHookPressed;
-                System.Boolean isLeftHookPressed;
+                bool isRightHookPressed;
+                bool isLeftHookPressed;
                 BufferUpdate();
                 UpdateExt();
                 if (!grounded && (state != HERO_STATE.AirDodge))
@@ -3695,12 +3693,12 @@ namespace Assets.Scripts.Characters.Humans
                             else
                             {
                                 skillCDDuration = skillCDLast;
-                                if (skillId == "eren")
+                                if (skillId == SkillId.eren)
                                 {
                                     ErenTransform();
                                     return;
                                 }
-                                if (skillId == "marco")
+                                if (skillId == SkillId.marco)
                                 {
                                     if (IsGrounded())
                                     {
@@ -3713,7 +3711,7 @@ namespace Assets.Scripts.Characters.Humans
                                         skillCDDuration = 0f;
                                     }
                                 }
-                                else if (skillId == "armin")
+                                else if (skillId == SkillId.armin)
                                 {
                                     if (IsGrounded())
                                     {
@@ -3726,7 +3724,7 @@ namespace Assets.Scripts.Characters.Humans
                                         skillCDDuration = 0f;
                                     }
                                 }
-                                else if (skillId == "sasha")
+                                else if (skillId == SkillId.sasha)
                                 {
                                     if (IsGrounded())
                                     {
@@ -3900,7 +3898,7 @@ namespace Assets.Scripts.Characters.Humans
                         bool flag5 = false;
                         bool flag6 = false;
                         //TODO: AHSS skill dual shot
-                        if (InputManager.KeyUp(InputHuman.AttackSpecial) && (skillId != "bomb"))
+                        if (InputManager.KeyUp(InputHuman.AttackSpecial) && (skillId != SkillId.bomb))
                         {
                             if (leftGunHasBullet && rightGunHasBullet)
                             {
@@ -4438,11 +4436,6 @@ namespace Assets.Scripts.Characters.Humans
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
                 {
                     CalcSkillCD();
-                }
-                if (!IN_GAME_MAIN_CAMERA.isPausing)
-                {
-                    //showSkillCD();
-                    //showFlareCD2();
                     ShowGas2();
                     ShowAimUI2();
                 }
@@ -4457,7 +4450,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void UpdateExt()
         {
-            if (skillId == "bomb")
+            if (skillId == SkillId.bomb)
             {
                 if (InputManager.KeyDown(InputHuman.AttackSpecial) && (skillCDDuration <= 0f))
                 {

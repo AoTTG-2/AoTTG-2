@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Characters.Humans.Animations
+namespace Assets.Scripts.Characters.Humans.Constants
 {
     public static class HeroAnim
     {
