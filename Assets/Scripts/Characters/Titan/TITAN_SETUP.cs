@@ -147,13 +147,13 @@ public class TITAN_SETUP : Photon.MonoBehaviour
                 if (flag2)
                 {
                     objArray2 = new object[] { num, eye, hairlink };
-                    base.photonView.RPC("setHairRPC2", PhotonTargets.AllBuffered, objArray2);
+                    base.photonView.RPC(nameof(setHairRPC2), PhotonTargets.AllBuffered, objArray2);
                 }
                 else
                 {
                     color = hairColors[Random.Range(0, hairColors.Length)];
                     objArray2 = new object[] { num, eye, color.r, color.g, color.b };
-                    base.photonView.RPC("setHairPRC", PhotonTargets.AllBuffered, objArray2);
+                    base.photonView.RPC(nameof(setHairPRC), PhotonTargets.AllBuffered, objArray2);
                 }
             }
         }
@@ -184,7 +184,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
             if (base.photonView.isMine)
             {
                 objArray2 = new object[] { this.hairType, id, this.part_hair.GetComponent<Renderer>().material.color.r, this.part_hair.GetComponent<Renderer>().material.color.g, this.part_hair.GetComponent<Renderer>().material.color.b };
-                base.photonView.RPC("setHairPRC", PhotonTargets.OthersBuffered, objArray2);
+                base.photonView.RPC(nameof(setHairPRC), PhotonTargets.OthersBuffered, objArray2);
             }
         }
     }

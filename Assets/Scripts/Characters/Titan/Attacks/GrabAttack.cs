@@ -185,9 +185,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     : Titan.Body.HandRight;
 
                 var grabTarget = checkIfHitHand(hand, Titan.Size);
-                if (grabTarget != null)
+                if (grabTarget != null && grabTarget.GetComponent<Hero>() != null)
                 {
-                    EatSet(grabTarget);
+                    var hero = grabTarget.GetComponent<Hero>();
+                    EatSet(hero);
                     GrabbedTarget = grabTarget;
                 }
             }
@@ -201,24 +202,24 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
         }
 
-        private void EatSet(GameObject grabTarget)
+        private void EatSet(Hero grabTarget)
         {
             var isLeftHand = Hand == BodyPart.HandLeft;
-            if (!Titan.photonView.isMine || !grabTarget.GetComponent<Hero>().isGrabbed)
+            if (!Titan.photonView.isMine || grabTarget.isGrabbed)
             {
                 Titan.Grab(isLeftHand);
                 if (Titan.photonView.isMine)
                 {
                     Titan.photonView.RPC("Grab", PhotonTargets.Others, isLeftHand);
                     var parameters = new object[] { "grabbed" };
-                    grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
+                    grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, parameters);
                     var objArray2 = new object[] { Titan.photonView.viewID, isLeftHand };
-                    grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, objArray2);
+                    grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, objArray2);
                 }
                 else
                 {
-                    grabTarget.GetComponent<Hero>().grabbed(Titan.gameObject, isLeftHand);
-                    grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
+                    grabTarget.grabbed(Titan.gameObject, isLeftHand);
+                    grabTarget.GetComponent<Animation>().Play("grabbed");
                 }
             }
         }

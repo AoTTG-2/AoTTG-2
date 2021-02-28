@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class ResolutionSwitcher : MonoBehaviour
+    public class ResolutionSwitcher : UiElement
     {
 
         public Dropdown Dropdown;

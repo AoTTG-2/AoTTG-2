@@ -73,14 +73,14 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                                 myOwnerViewID = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID;
                                 titanName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
                             }
-                            object[] objArray2 = new object[5];
                             Vector3 vector5 = component.transform.root.position - base.transform.position;
-                            objArray2[0] = (Vector3) (((vector5.normalized * b) * 1000f) + (Vector3.up * 50f));
-                            objArray2[1] = this.isThisBite;
-                            objArray2[2] = myOwnerViewID;
-                            objArray2[3] = titanName;
-                            objArray2[4] = true;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray2);
+                            object[] netDieParameters = new object[5];
+                            netDieParameters[0] = (Vector3) (((vector5.normalized * b) * 1000f) + (Vector3.up * 50f));
+                            netDieParameters[1] = this.isThisBite;
+                            netDieParameters[2] = myOwnerViewID;
+                            netDieParameters[3] = titanName;
+                            netDieParameters[4] = true;
+                            component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, netDieParameters);
                         }
                     }
                 }

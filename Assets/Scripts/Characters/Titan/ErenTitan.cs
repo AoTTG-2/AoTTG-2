@@ -13,6 +13,7 @@ namespace Assets.Scripts.Characters.Titan
     public class ErenTitan : TitanBase
     {
         public new ErenTitanBody Body { get; protected set; }
+        public AudioSource AudioSourceFoot;
 
         private string attackAnimation;
         private Transform attackBox;
@@ -147,7 +148,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.connected && photonView.isMine)
             {
                 object[] parameters = new object[] { aniName, time };
-                photonView.RPC("netCrossFade", PhotonTargets.Others, parameters);
+                photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, parameters);
             }
         }
 
@@ -423,7 +424,7 @@ namespace Assets.Scripts.Characters.Titan
         public void hitByFTByServer(int phase)
         {
             object[] parameters = new object[] { phase };
-            photonView.RPC("hitByFTRPC", PhotonTargets.All, parameters);
+            photonView.RPC(nameof(hitByFTRPC), PhotonTargets.All, parameters);
         }
 
         [PunRPC]
@@ -451,7 +452,7 @@ namespace Assets.Scripts.Characters.Titan
                     //TODO: 160, game lose
                     //this.gameWin2();
                     object[] parameters = new object[] { "set" };
-                    photonView.RPC("rockPlayAnimation", PhotonTargets.All, parameters);
+                    photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, parameters);
                 }
                 else
                 {
@@ -466,7 +467,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void hitByTitanByServer()
         {
-            photonView.RPC("hitByTitanRPC", PhotonTargets.All, new object[0]);
+            photonView.RPC(nameof(hitByTitanRPC), PhotonTargets.All, new object[0]);
         }
 
         [PunRPC]
@@ -496,7 +497,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (photonView.isMine && (((int) FengGameManagerMKII.settings[1]) == 1))
             {
-                photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x41] });
+                photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x41] });
             }
         }
 
@@ -594,7 +595,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.connected && photonView.isMine)
             {
                 object[] parameters = new object[] { aniName };
-                photonView.RPC("netPlayAnimation", PhotonTargets.Others, parameters);
+                photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, parameters);
             }
         }
 
@@ -605,7 +606,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.connected && photonView.isMine)
             {
                 object[] parameters = new object[] { aniName, normalizedTime };
-                photonView.RPC("netPlayAnimationAt", PhotonTargets.Others, parameters);
+                photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, parameters);
             }
         }
 
@@ -699,7 +700,7 @@ namespace Assets.Scripts.Characters.Titan
                             rockPhase++;
                             crossFade("rock_lift", 0.1f);
                             object[] parameters = new object[] { "lift" };
-                            photonView.RPC("rockPlayAnimation", PhotonTargets.All, parameters);
+                            photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, parameters);
                             waitCounter = 0f;
                             targetCheckPt = (Vector3) checkPoints[0];
                         }
@@ -714,10 +715,10 @@ namespace Assets.Scripts.Characters.Titan
                             rockPhase++;
                             crossFade("rock_walk", 0.1f);
                             object[] objArray3 = new object[] { "move" };
-                            photonView.RPC("rockPlayAnimation", PhotonTargets.All, objArray3);
+                            photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, objArray3);
                             rock.GetComponent<Animation>()["move"].normalizedTime = GetComponent<Animation>()["rock_walk"].normalizedTime;
                             waitCounter = 0f;
-                            photonView.RPC("startMovingRock", PhotonTargets.All, new object[0]);
+                            photonView.RPC(nameof(startMovingRock), PhotonTargets.All, new object[0]);
                         }
                     }
                     else if (rockPhase == 5)
@@ -804,8 +805,8 @@ namespace Assets.Scripts.Characters.Titan
                         rockPhase++;
                         crossFade("rock_fix_hole", 0.1f);
                         object[] objArray4 = new object[] { "set" };
-                        photonView.RPC("rockPlayAnimation", PhotonTargets.All, objArray4);
-                        photonView.RPC("endMovingRock", PhotonTargets.All, new object[0]);
+                        photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, objArray4);
+                        photonView.RPC(nameof(endMovingRock), PhotonTargets.All, new object[0]);
                     }
                     else if (rockPhase == 7)
                     {
@@ -895,6 +896,15 @@ namespace Assets.Scripts.Characters.Titan
         {
             isROCKMOVE = true;
         }
+
+        #region Animation Events
+
+        public void Footstep()
+        {
+            AudioSourceFoot.PlayOneShot(AudioSourceFoot.clip);
+        }
+
+        #endregion
 
         protected override void Update()
         {
@@ -1211,7 +1221,7 @@ namespace Assets.Scripts.Characters.Titan
                                 }
                                 if ((GetComponent<Animation>()["born"].normalizedTime >= 0.5f) && (GetComponent<Animation>()["born"].normalizedTime <= 0.7f))
                                 {
-                                    currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().startShake(0.5f, 1f, 0.95f);
+                                    currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.5f, 1f, 0.95f);
                                 }
                                 if (GetComponent<Animation>()["born"].normalizedTime >= 1f)
                                 {
@@ -1219,7 +1229,7 @@ namespace Assets.Scripts.Characters.Titan
                                     if (PhotonNetwork.isMasterClient)
                                     {
                                         object[] parameters = new object[] { 10f, 500f };
-                                        photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
+                                        photonView.RPC(nameof(netTauntAttack), PhotonTargets.MasterClient, parameters);
                                     }
                                     else
                                     {

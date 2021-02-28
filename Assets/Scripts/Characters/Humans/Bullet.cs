@@ -112,7 +112,7 @@ public class Bullet : Photon.MonoBehaviour
                 if (hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("EnemyBox"))
                 {
                     object[] parameters = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
-                    base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, parameters);
+                    base.photonView.RPC(nameof(tieMeToOBJ), PhotonTargets.Others, parameters);
                     this.master.GetComponent<Hero>().lastHook = hit.collider.transform.root;
                     base.transform.parent = hit.collider.transform;
                 }
@@ -123,7 +123,7 @@ public class Bullet : Photon.MonoBehaviour
                 else if (((hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("NetworkObject")) && (hit.collider.transform.gameObject.tag == "Player")) && !this.leviMode)
                 {
                     object[] objArray3 = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
-                    base.photonView.RPC("tieMeToOBJ", PhotonTargets.Others, objArray3);
+                    base.photonView.RPC(nameof(tieMeToOBJ), PhotonTargets.Others, objArray3);
                     this.master.GetComponent<Hero>().hookToHuman(hit.collider.transform.root.gameObject, base.transform.position);
                     base.transform.parent = hit.collider.transform;
                     this.master.GetComponent<Hero>().lastHook = null;
@@ -144,9 +144,9 @@ public class Bullet : Photon.MonoBehaviour
                     {
                         this.phase = 1;
                         object[] objArray4 = new object[] { 1 };
-                        base.photonView.RPC("setPhase", PhotonTargets.Others, objArray4);
+                        base.photonView.RPC(nameof(setPhase), PhotonTargets.Others, objArray4);
                         object[] objArray5 = new object[] { base.transform.position };
-                        base.photonView.RPC("tieMeTo", PhotonTargets.Others, objArray5);
+                        base.photonView.RPC(nameof(tieMeTo), PhotonTargets.Others, objArray5);
                         if (this.leviMode)
                         {
                             this.getSpiral(this.master.transform.position, this.master.transform.rotation.eulerAngles);
@@ -163,7 +163,7 @@ public class Bullet : Photon.MonoBehaviour
                 {
                     this.phase = 4;
                     object[] objArray6 = new object[] { 4 };
-                    base.photonView.RPC("setPhase", PhotonTargets.Others, objArray6);
+                    base.photonView.RPC(nameof(setPhase), PhotonTargets.Others, objArray6);
                 }
             }
         }
@@ -252,9 +252,9 @@ public class Bullet : Photon.MonoBehaviour
             if (base.photonView.isMine)
             {
                 object[] parameters = new object[] { hero.GetComponent<Hero>().photonView.viewID, launcher_ref };
-                base.photonView.RPC("myMasterIs", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(myMasterIs), PhotonTargets.Others, parameters);
                 object[] objArray2 = new object[] { v, this.velocity2, this.left };
-                base.photonView.RPC("setVelocityAndLeft", PhotonTargets.Others, objArray2);
+                base.photonView.RPC(nameof(setVelocityAndLeft), PhotonTargets.Others, objArray2);
             }
             base.transform.position = this.myRef.transform.position;
             base.transform.rotation = Quaternion.LookRotation(v.normalized);

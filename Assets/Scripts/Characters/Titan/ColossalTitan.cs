@@ -144,7 +144,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { aniName, time };
-                base.photonView.RPC("netCrossFade", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, parameters);
             }
         }
 
@@ -197,7 +197,7 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     hitHero.GetComponent<Hero>().markDie();
                     object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Colossal Titan", true };
-                    hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                    hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
                 }
             }
         }
@@ -250,7 +250,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (PhotonNetwork.isMasterClient && (((int) FengGameManagerMKII.settings[1]) == 1))
             {
-                base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x43] });
+                base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x43] });
             }
         }
 
@@ -367,7 +367,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { aniName };
-                base.photonView.RPC("netPlayAnimation", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, parameters);
             }
         }
 
@@ -378,7 +378,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { aniName, normalizedTime };
-                base.photonView.RPC("netPlayAnimationAt", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, parameters);
             }
         }
 
@@ -388,7 +388,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { sndname };
-                base.photonView.RPC("playsoundRPC", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(playsoundRPC), PhotonTargets.Others, parameters);
             }
         }
 
@@ -443,7 +443,7 @@ namespace Assets.Scripts.Characters.Titan
             if (base.photonView.isMine)
             {
                 //this.size = GameSettings.Titan.Colossal.Size.Value;
-                base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
+                base.photonView.RPC(nameof(setSize), PhotonTargets.AllBuffered, new object[] { this.size });
                 this.lagMax = 150f + (this.size * 3f);
                 this.healthTime = 0f;
                 this.maxHealth = Health;
@@ -453,7 +453,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
                 if (this.Health > 0)
                 {
-                    base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
+                    base.photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
                 }
                 this.loadskin();
             }
@@ -566,7 +566,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
-        public override void OnNapeHitRpc2(int viewID, int damage, PhotonMessageInfo info)
+        public override void OnNapeHitRpc(int viewID, int damage, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
             PhotonView view = PhotonView.Find(viewID);
@@ -581,7 +581,7 @@ namespace Assets.Scripts.Characters.Titan
                     }
                     if (this.maxHealth > 0f)
                     {
-                        base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
+                        base.photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
                     }
                     this.neckSteam();
 
@@ -590,7 +590,7 @@ namespace Assets.Scripts.Characters.Titan
                         this.Health = 0;
                         if (!this.hasDie)
                         {
-                            base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
+                            base.photonView.RPC(nameof(netDie), PhotonTargets.OthersBuffered, new object[0]);
                             this.netDie();
                             manager.titanGetKill(view.owner, damage, base.name);
                         }
@@ -599,7 +599,7 @@ namespace Assets.Scripts.Characters.Titan
                     {
                         manager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Colossal Titan's neck", damage);
                         object[] parameters = new object[] { damage };
-                        manager.photonView.RPC("netShowDamage", view.owner, parameters);
+                        manager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                     }
                     this.healthTime = 0.2f;
                 }
@@ -619,7 +619,7 @@ namespace Assets.Scripts.Characters.Titan
                     {
                         base.transform.position = new Vector3(30f, 0f, 784f);
                         UnityEngine.Object.Instantiate(Resources.Load("FX/ThunderCT"), base.transform.position + ((Vector3) (Vector3.up * 350f)), Quaternion.Euler(270f, 0f, 0f));
-                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().flashBlind();
+                        Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().FlashBlind();
                         if (base.photonView.isMine)
                         {
                             this.idle();

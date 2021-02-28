@@ -28,7 +28,7 @@ public class RockThrow : Photon.MonoBehaviour
         obj2.transform.localScale = base.transform.localScale;
         float b = 1f - (Vector3.Distance(GameObject.Find("MainCamera").transform.position, obj2.transform.position) * 0.05f);
         b = Mathf.Min(1f, b);
-        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().startShake(b, b, 0.95f);
+        GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(b, b, 0.95f);
         PhotonNetwork.Destroy(base.photonView);
     }
 
@@ -48,7 +48,7 @@ public class RockThrow : Photon.MonoBehaviour
                 }
                 Debug.Log("rock hit player " + titanName);
                 object[] parameters = new object[] { (Vector3) ((this.v.normalized * 1000f) + (Vector3.up * 50f)), false, myOwnerViewID, titanName, true };
-                hero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                hero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
             }
         }
     }
@@ -71,7 +71,7 @@ public class RockThrow : Photon.MonoBehaviour
         if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { this.v, this.oldP };
-            base.photonView.RPC("launchRPC", PhotonTargets.Others, parameters);
+            base.photonView.RPC(nameof(launchRPC), PhotonTargets.Others, parameters);
         }
     }
 

@@ -28,6 +28,17 @@ namespace Assets.Scripts.Characters.Humans
 
         private FengGameManagerMKII manager;
 
+
+        private void Start()
+        {
+            currentCamera = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
+            body = currentCamera.main_object.GetComponent<Rigidbody>();
+            Equipment = transform.root.GetComponent<Equipment.Equipment>();
+            hero = currentCamera.main_object.GetComponent<Hero>();
+            manager = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>();
+        }
+
+
         public void ClearHits()
         {
             currentHitsII.Clear();
@@ -36,11 +47,13 @@ namespace Assets.Scripts.Characters.Humans
 
         private void HeroHit(Hero hero, HitBox hitbox, float distance)
         {
+            Service.Player.HeroHit(new HeroHitEvent(hero, hero));
             if (hero.myTeam != myTeam && !hero.isInvincible() && hero.HasDied() && !hero.isGrabbed)
             {
                 // I honestly don't have a clue as to what this does
                 float b = Mathf.Min(1f, 1f - (distance * 0.05f));
 
+                Service.Player.HeroKill(new HeroKillEvent(hero, hero));
                 hero.markDie();
                 hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, new object[]
                 {
@@ -100,10 +113,10 @@ namespace Assets.Scripts.Characters.Humans
                         Service.Player.TitanDamaged(new TitanDamagedEvent(titanBase, hero, damage));
                         Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, hero, RightHand));
 
-                        titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc2), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
-                    }
-                    break;
-                case "titaneye":
+                    titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                }
+                break;
+            case "titaneye":
                 {
                     currentHits.Add(collider.gameObject);
                     GameObject rootObject = collider.gameObject.transform.root.gameObject;
@@ -239,17 +252,8 @@ namespace Assets.Scripts.Characters.Humans
         private void ShowCriticalHitFX()
         {
             GameObject obj2 = PhotonNetwork.Instantiate("redCross", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
-            currentCamera.startShake(0.2f, 0.3f, 0.95f);
+            currentCamera.StartShake(0.2f, 0.3f, 0.95f);
             obj2.transform.position = transform.position;
-        }
-
-        private void Start()
-        {
-            currentCamera = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
-            body = currentCamera.main_object.GetComponent<Rigidbody>();
-            Equipment = transform.root.GetComponent<Equipment.Equipment>();
-            hero = currentCamera.main_object.GetComponent<Hero>();
-            manager = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>();
         }
     }
 }

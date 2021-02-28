@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Services.Interface;
+using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Services
@@ -17,6 +18,9 @@ namespace Assets.Scripts.Services
         public static ITimeService Time { get; private set; }
         public static IUiService Ui { get; private set; }
         
+        public static IPhotonService Photon { get; private set; }
+        public static IDiscordService Discord { get; private set; }
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -28,7 +32,13 @@ namespace Assets.Scripts.Services
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
+#if UNITY_INCLUDE_TESTS
+            Discord = gameObject.AddComponent<DiscordTestService>();
+#else
+            Discord = gameObject.AddComponent<DiscordService>();
+#endif
 
+            Photon = gameObject.GetComponent<IPhotonService>();
             gameObject.AddComponent<ScreenshotService>();
         }
     }
