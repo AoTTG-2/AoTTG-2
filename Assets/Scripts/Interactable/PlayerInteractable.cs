@@ -9,7 +9,7 @@ public class PlayerInteractable : Interactable
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer(Layer.Interactable))
+        if (col.gameObject.layer == (int)Layers.Interactable)
         {
             var interactable = col.gameObject.GetComponentInParent<Interactable>();
             if (Collisions.Any(x => x == interactable)) return;
@@ -19,7 +19,7 @@ public class PlayerInteractable : Interactable
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer(Layer.Interactable))
+        if (col.gameObject.layer == (int)Layers.Interactable)
         {
             Collisions.Remove(col.gameObject.GetComponentInParent<Interactable>());
         }

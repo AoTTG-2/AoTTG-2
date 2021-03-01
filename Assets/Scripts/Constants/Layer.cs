@@ -1,10 +1,13 @@
-﻿public static class Layer
+﻿using UnityEngine;
+
+public static class Layer
 {
-    public const string Player = "Player";
-    public const string Ground = "Ground";
-    public const string Titan = "Titan";
-    public const string EnemyBox = "EnemyBox";
-    public const string NetworkObject = "NetworkObject";
-    public const string Interactable = "Interactable";
+    /// <summary>
+    /// Extension Method to retrieve the layer names from <see cref="Layers"/>
+    /// </summary>
+    public static string ToName(this Layers layer)
+    {
+        return LayerMask.LayerToName((int) layer);
+    }
 }
 

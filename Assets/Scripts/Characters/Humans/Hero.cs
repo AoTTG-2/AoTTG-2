@@ -4247,12 +4247,10 @@ namespace Assets.Scripts.Characters.Humans
                     skillCDDuration = bombCD;
                     RaycastHit hitInfo = new RaycastHit();
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-                    LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                    LayerMask mask3 = mask2 | mask;
+                    LayerMask mask = 1 << (int)Layers.Ground | 1 << (int)Layers.EnemyBox;
                     currentV = transform.position;
                     targetV = currentV + ((Vector3.forward * 200f));
-                    if (Physics.Raycast(ray, out hitInfo, 1000000f, mask3.value))
+                    if (Physics.Raycast(ray, out hitInfo, 1000000f, mask.value))
                     {
                         targetV = hitInfo.point;
                     }

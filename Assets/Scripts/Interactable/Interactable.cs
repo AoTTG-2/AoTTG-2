@@ -13,7 +13,7 @@ public abstract class Interactable : MonoBehaviour
     void Awake()
     {
 		var interactableObject = new GameObject("Interactable");
-        interactableObject.layer = LayerMask.NameToLayer(Layer.Interactable);
+        interactableObject.layer = (int)Layers.Interactable;
         collider = interactableObject.AddComponent<CapsuleCollider>();
         collider.radius = Radius;
         collider.isTrigger = true;
