@@ -21,18 +21,18 @@ namespace Assets.Scripts.Characters.Humans
     public class Hero : Human
     {
         public CharacterPrefabs Prefabs;
-        public Equipment.Equipment Equipment { get; set; }
         public EquipmentType EquipmentType;
 
-        public Skill Skill { get; set; }
 
-        public HumanState State { get; protected set; } = HumanState.Idle;
 
         private const float HookRaycastDistance = 1000f;
         
 
 
         #region Properties
+        public Equipment.Equipment Equipment { get; set; }
+        public Skill Skill { get; set; }
+        public HumanState State { get; protected set; } = HumanState.Idle;
         public HERO_STATE _state { get; set; }
         private HERO_STATE state
         {
@@ -55,7 +55,6 @@ namespace Assets.Scripts.Characters.Humans
         public int attackLoop { get; set; }
         private bool attackReleased { get; set; }
         private GameObject badGuy { get; set; }
-        public bool bigLean;
         public float bombCD;
         public bool bombImmune;
         public float bombRadius;
@@ -63,20 +62,14 @@ namespace Assets.Scripts.Characters.Humans
         public float bombTime;
         public float bombTimeMax;
         private float buffTime { get; set; }
-        public GameObject bulletLeft;
         private int bulletMAX { get; set; } = 7;
-        public GameObject bulletRight;
+        public Bullet bulletLeft { get; private set; }
+        public Bullet bulletRight { get; private set; }
         private bool buttonAttackRelease { get; set; }
         public Dictionary<string, Image> cachedSprites;
         public float CameraMultiplier;
-        public GameObject checkBoxLeft;
-        public GameObject checkBoxRight;
-        public GameObject cross1;
-        public GameObject cross2;
-        public GameObject crossL1;
-        public GameObject crossL2;
-        public GameObject crossR1;
-        public GameObject crossR2;
+        public TriggerColliderWeapon checkBoxLeft;
+        public TriggerColliderWeapon checkBoxRight;
         public string CurrentAnimation;
         public float currentBladeSta = 100f;
         private BUFF currentBuff { get; set; }
@@ -123,7 +116,6 @@ namespace Assets.Scripts.Characters.Humans
         private bool isRightHandHooked { get; set; }
         public float jumpHeight = 2f;
         private bool justGrounded { get; set; }
-        public Text LabelDistance;
         public Transform lastHook;
         private float launchElapsedTimeL { get; set; }
         private float launchElapsedTimeR { get; set; }
@@ -200,6 +192,9 @@ namespace Assets.Scripts.Characters.Humans
 
         public bool IsGrabbed => state == HERO_STATE.Grab;
         public bool IsInvincible => (invincible > 0f);
+
+
+        private HookUI hookUI = new HookUI();
 
         #endregion
 
@@ -290,7 +285,7 @@ namespace Assets.Scripts.Characters.Humans
             //}
             if (!photonView.isMine)
             {
-                gameObject.layer = LayerMask.NameToLayer("NetworkObject");
+                gameObject.layer = Layers.NetworkObject.ToLayer();
                 if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
                 {
                     GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
@@ -501,7 +496,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         if (!PhotonNetwork.offlineMode)
                         {
-                            Suicide2();
+                            Suicide();
                         }
                     }
                     if (((myHorse != null) && isMounted) && InputManager.KeyDown(InputHorse.Mount))
@@ -665,8 +660,8 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         if (!flag3)
                         {
-                            checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
-                            checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
+                            checkBoxLeft.ClearHits();
+                            checkBoxRight.ClearHits();
                             if (grounded)
                             {
                                 Rigidbody.AddForce((gameObject.transform.forward * 200f));
@@ -723,10 +718,8 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             RaycastHit hit3;
                             Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                            LayerMask mask7 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                            LayerMask mask8 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                            LayerMask mask9 = mask8 | mask7;
-                            if (Physics.Raycast(ray3, out hit3, 1E+07f, mask9.value))
+                            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+                            if (Physics.Raycast(ray3, out hit3, 1E+07f, mask.value))
                             {
                                 gunTarget = hit3.point;
                             }
@@ -853,9 +846,9 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             if (Animation[attackAnimation].normalizedTime >= 0.8f)
                             {
-                                if (!checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                                if (!checkBoxLeft.IsActive)
                                 {
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                    checkBoxLeft.IsActive = true;
                                     if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                     {
                                         /*
@@ -867,18 +860,18 @@ namespace Assets.Scripts.Characters.Humans
                                     }
                                     Rigidbody.velocity = (-Vector3.up * 30f);
                                 }
-                                if (!checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive)
+                                if (!checkBoxRight.IsActive)
                                 {
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                    checkBoxRight.IsActive = true;
                                     slash.Play();
                                 }
                             }
-                            else if (checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                            else if (checkBoxLeft.IsActive)
                             {
-                                checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
-                                checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
+                                checkBoxLeft.IsActive = false;
+                                checkBoxRight.IsActive = false;
+                                checkBoxLeft.ClearHits();
+                                checkBoxRight.ClearHits();
                                 /*
                                         leftbladetrail.StopSmoothly(0.1f);
                                         rightbladetrail.StopSmoothly(0.1f);
@@ -928,9 +921,9 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             if ((Animation[attackAnimation].normalizedTime > num2) && (Animation[attackAnimation].normalizedTime < num))
                             {
-                                if (!checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                                if (!checkBoxLeft.IsActive)
                                 {
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                    checkBoxLeft.IsActive = true;
                                     slash.Play();
                                     if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                     {
@@ -940,17 +933,17 @@ namespace Assets.Scripts.Characters.Humans
                                         //rightbladetrail.Activate();
                                     }
                                 }
-                                if (!checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive)
+                                if (!checkBoxRight.IsActive)
                                 {
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                    checkBoxRight.IsActive = true;
                                 }
                             }
-                            else if (checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive)
+                            else if (checkBoxLeft.IsActive)
                             {
-                                checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                                checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
-                                checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
+                                checkBoxLeft.IsActive = false;
+                                checkBoxRight.IsActive = false;
+                                checkBoxLeft.ClearHits();
+                                checkBoxRight.ClearHits();
                                 //leftbladetrail2.StopSmoothly(0.1f);
                                 //rightbladetrail2.StopSmoothly(0.1f);
                                 //leftbladetrail.StopSmoothly(0.1f);
@@ -1009,8 +1002,8 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     else
                     {
-                        checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                        checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
+                        checkBoxLeft.IsActive = false;
+                        checkBoxRight.IsActive = false;
                         transform.rotation = Quaternion.Lerp(transform.rotation, gunDummy.transform.rotation, Time.deltaTime * 30f);
                         if (!attackReleased && (Animation[attackAnimation].normalizedTime > 0.167f))
                         {
@@ -1022,8 +1015,8 @@ namespace Assets.Scripts.Characters.Humans
                                 //Should use AHSSShotgunCollider instead of TriggerColliderWeapon.  
                                 //Apply that change when abstracting weapons from this class.
                                 //Note, when doing the abstraction, the relationship between the weapon collider and the abstracted weapon class should be carefully considered.
-                                checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
-                                checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                checkBoxLeft.IsActive = true;
+                                checkBoxRight.IsActive = true;
                                 flag7 = true;
                                 leftGunHasBullet = false;
                                 rightGunHasBullet = false;
@@ -1033,12 +1026,12 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 if ((attackAnimation == HeroAnim.AHSS_SHOOT_L) || (attackAnimation == HeroAnim.AHSS_SHOOT_L_AIR))
                                 {
-                                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                    checkBoxLeft.IsActive = true;
                                     leftGunHasBullet = false;
                                 }
                                 else
                                 {
-                                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = true;
+                                    checkBoxRight.IsActive = true;
                                     rightGunHasBullet = false;
                                 }
                                 Rigidbody.AddForce((-transform.forward * 600f), ForceMode.Acceleration);
@@ -1066,15 +1059,15 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             FalseAttack();
                             Idle();
-                            checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                            checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
+                            checkBoxLeft.IsActive = false;
+                            checkBoxRight.IsActive = false;
                         }
                         if (!Animation.IsPlaying(attackAnimation))
                         {
                             FalseAttack();
                             Idle();
-                            checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                            checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
+                            checkBoxLeft.IsActive = false;
+                            checkBoxRight.IsActive = false;
                         }
                     }
                 }
@@ -1184,10 +1177,9 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         RaycastHit hit4;
                         Ray ray4 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        LayerMask mask10 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                        LayerMask mask11 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                        LayerMask mask12 = mask11 | mask10;
-                        if (Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask12.value))
+                        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+                        if (Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask.value))
                         {
                             LaunchLeftRope(hit4.distance, hit4.point, true);
                         }
@@ -1220,10 +1212,9 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         RaycastHit hit5;
                         Ray ray5 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        LayerMask mask13 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                        LayerMask mask14 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                        LayerMask mask15 = mask14 | mask13;
-                        if (Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask15.value))
+                        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+                        if (Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask.value))
                         {
                             LaunchRightRope(hit5.distance, hit5.point, true);
                         }
@@ -1254,10 +1245,9 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         RaycastHit hit6;
                         Ray ray6 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        LayerMask mask16 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                        LayerMask mask17 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                        LayerMask mask18 = mask17 | mask16;
-                        if (Physics.Raycast(ray6, out hit6, HookRaycastDistance, mask18.value))
+                        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+                        if (Physics.Raycast(ray6, out hit6, HookRaycastDistance, mask.value))
                         {
                             LaunchLeftRope(hit6.distance, hit6.point, false);
                             LaunchRightRope(hit6.distance, hit6.point, false);
@@ -1273,8 +1263,8 @@ namespace Assets.Scripts.Characters.Humans
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
                 {
                     CalcSkillCD();
-                    ShowGas2();
-                    ShowAimUI2();
+                    ShowGas();
+                    ShowAimUI();
                 }
             }
         }
@@ -1285,7 +1275,7 @@ namespace Assets.Scripts.Characters.Humans
             base.OnDestroy();
             if (myNetWorkName != null)
             {
-                UnityEngine.Object.Destroy(myNetWorkName);
+                Destroy(myNetWorkName);
             }
             if (gunDummy != null)
             {
@@ -1305,10 +1295,9 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 Vector3 start = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
 
-                LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                LayerMask mask3 = mask2 | mask;
-                if ((Vector3.Angle(maincamera.transform.forward, start - maincamera.transform.position) > 90f) || Physics.Linecast(start, maincamera.transform.position, (int) mask3))
+                LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+                if ((Vector3.Angle(maincamera.transform.forward, start - maincamera.transform.position) > 90f) || Physics.Linecast(start, maincamera.transform.position, mask))
                 {
                     myNetWorkName.transform.localPosition = ((Vector3.up * Screen.height) * 2f);
                 }
@@ -1325,11 +1314,11 @@ namespace Assets.Scripts.Characters.Humans
                     Quaternion quaternion2;
                     Vector3 zero = Vector3.zero;
                     Vector3 position = Vector3.zero;
-                    if ((isLaunchLeft && (bulletLeft != null)) && bulletLeft.GetComponent<Bullet>().isHooked())
+                    if ((isLaunchLeft && (bulletLeft != null)) && bulletLeft.isHooked())
                     {
                         zero = bulletLeft.transform.position;
                     }
-                    if ((isLaunchRight && (bulletRight != null)) && bulletRight.GetComponent<Bullet>().isHooked())
+                    if ((isLaunchRight && (bulletRight != null)) && bulletRight.isHooked())
                     {
                         position = bulletRight.transform.position;
                     }
@@ -1363,15 +1352,15 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 if ((state == HERO_STATE.Grab) && (titanWhoGrabMe != null))
                 {
-                    if (titanWhoGrabMe.GetComponent<MindlessTitan>() != null)
+                    if (titanWhoGrabMe.TryGetComponent<MindlessTitan>(out var mindlessTitan))
                     {
-                        transform.position = titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.position;
-                        transform.rotation = titanWhoGrabMe.GetComponent<MindlessTitan>().grabTF.transform.rotation;
+                        transform.position = mindlessTitan.grabTF.transform.position;
+                        transform.rotation = mindlessTitan.grabTF.transform.rotation;
                     }
-                    else if (titanWhoGrabMe.GetComponent<FemaleTitan>() != null)
+                    else if (titanWhoGrabMe.TryGetComponent<FemaleTitan>(out var femaleTitan))
                     {
-                        transform.position = titanWhoGrabMe.GetComponent<FemaleTitan>().grabTF.transform.position;
-                        transform.rotation = titanWhoGrabMe.GetComponent<FemaleTitan>().grabTF.transform.rotation;
+                        transform.position = femaleTitan.grabTF.transform.position;
+                        transform.rotation = femaleTitan.grabTF.transform.rotation;
                     }
                 }
                 if (useGun)
@@ -1512,7 +1501,7 @@ namespace Assets.Scripts.Characters.Humans
                     isRightHandHooked = false;
                     if (isLaunchLeft)
                     {
-                        if ((bulletLeft != null) && bulletLeft.GetComponent<Bullet>().isHooked())
+                        if ((bulletLeft != null) && bulletLeft.isHooked())
                         {
                             isLeftHandHooked = true;
                             Vector3 to = bulletLeft.transform.position - transform.position;
@@ -1546,7 +1535,7 @@ namespace Assets.Scripts.Characters.Humans
                             isLaunchLeft = false;
                             if (bulletLeft != null)
                             {
-                                bulletLeft.GetComponent<Bullet>().disable();
+                                bulletLeft.disable();
                                 ReleaseIfIHookSb();
                                 bulletLeft = null;
                                 flag3 = false;
@@ -1555,7 +1544,7 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     if (isLaunchRight)
                     {
-                        if ((bulletRight != null) && bulletRight.GetComponent<Bullet>().isHooked())
+                        if ((bulletRight != null) && bulletRight.isHooked())
                         {
                             isRightHandHooked = true;
                             Vector3 vector5 = bulletRight.transform.position - transform.position;
@@ -1589,7 +1578,7 @@ namespace Assets.Scripts.Characters.Humans
                             isLaunchRight = false;
                             if (bulletRight != null)
                             {
-                                bulletRight.GetComponent<Bullet>().disable();
+                                bulletRight.disable();
                                 ReleaseIfIHookSb();
                                 bulletRight = null;
                                 flag4 = false;
@@ -2004,11 +1993,11 @@ namespace Assets.Scripts.Characters.Humans
                     bool flag7 = false;
                     if ((bulletLeft != null) || (bulletRight != null))
                     {
-                        if (((bulletLeft != null) && (bulletLeft.transform.position.y > gameObject.transform.position.y)) && (isLaunchLeft && bulletLeft.GetComponent<Bullet>().isHooked()))
+                        if (((bulletLeft != null) && (bulletLeft.transform.position.y > gameObject.transform.position.y)) && (isLaunchLeft && bulletLeft.isHooked()))
                         {
                             flag7 = true;
                         }
-                        if (((bulletRight != null) && (bulletRight.transform.position.y > gameObject.transform.position.y)) && (isLaunchRight && bulletRight.GetComponent<Bullet>().isHooked()))
+                        if (((bulletRight != null) && (bulletRight.transform.position.y > gameObject.transform.position.y)) && (isLaunchRight && bulletRight.isHooked()))
                         {
                             flag7 = true;
                         }
@@ -2021,13 +2010,14 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         Rigidbody.AddForce(new Vector3(0f, -gravity * Rigidbody.mass, 0f));
                     }
+
                     if (currentSpeed > 10f)
                     {
-                        currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(currentCamera.GetComponent<Camera>().fieldOfView, Mathf.Min((float) 100f, (float) (currentSpeed + 40f)), 0.1f);
+                        currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, Mathf.Min((float) 100f, (float) (currentSpeed + 40f)), 0.1f);
                     }
                     else
                     {
-                        currentCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(currentCamera.GetComponent<Camera>().fieldOfView, 50f, 0.1f);
+                        currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, 50f, 0.1f);
                     }
                     if (flag2)
                     {
@@ -2165,16 +2155,16 @@ namespace Assets.Scripts.Characters.Humans
 
         private void CustomAnimationSpeed()
         {
-            Animation[HeroAnim.ATTACK5].speed = 1.85f;
-            Animation[HeroAnim.CHANGE_BLADE].speed = 1.2f;
-            Animation[HeroAnim.AIR_RELEASE].speed = 0.6f;
-            Animation[HeroAnim.CHANGE_BLADE_AIR].speed = 0.8f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_BOTH].speed = 0.38f;
+            Animation[HeroAnim.ATTACK5]                 .speed = 1.85f;
+            Animation[HeroAnim.CHANGE_BLADE]            .speed = 1.2f;
+            Animation[HeroAnim.AIR_RELEASE]             .speed = 0.6f;
+            Animation[HeroAnim.CHANGE_BLADE_AIR]        .speed = 0.8f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_BOTH]    .speed = 0.38f;
             Animation[HeroAnim.AHSS_GUN_RELOAD_BOTH_AIR].speed = 0.5f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_L].speed = 0.4f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_L_AIR].speed = 0.5f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_R].speed = 0.4f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_R_AIR].speed = 0.5f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_L]       .speed = 0.4f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_L_AIR]   .speed = 0.5f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_R]       .speed = 0.4f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_R_AIR]   .speed = 0.5f;
         }
 
         [PunRPC]
@@ -2411,73 +2401,9 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void BreakApart2(Vector3 v, bool isBite)
+        private void BreakApart(Vector3 v, bool isBite)
         {
             throw new NotImplementedException("Character death is not implemented yet");
-            //GameObject obj6;
-            //GameObject obj7;
-            //GameObject obj8;
-            //GameObject obj9;
-            //GameObject obj10;
-            //GameObject obj2 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-            //obj2.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-            //obj2.GetComponent<HERO_SETUP>().isDeadBody = true;
-            //obj2.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, Animation[currentAnimation].normalizedTime, BODY_PARTS.ARM_R);
-            //if (!isBite)
-            //{
-            //    GameObject gO = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-            //    GameObject obj4 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-            //    GameObject obj5 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/AOTTG_HERO_body"), transform.position, transform.rotation);
-            //    gO.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-            //    obj4.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-            //    obj5.gameObject.GetComponent<HERO_SETUP>().myCostume = setup.myCostume;
-            //    gO.GetComponent<HERO_SETUP>().isDeadBody = true;
-            //    obj4.GetComponent<HERO_SETUP>().isDeadBody = true;
-            //    obj5.GetComponent<HERO_SETUP>().isDeadBody = true;
-            //    gO.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, Animation[currentAnimation].normalizedTime, BODY_PARTS.UPPER);
-            //    obj4.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, Animation[currentAnimation].normalizedTime, BODY_PARTS.LOWER);
-            //    obj5.GetComponent<HERO_DEAD_BODY_SETUP>().init(currentAnimation, Animation[currentAnimation].normalizedTime, BODY_PARTS.ARM_L);
-            //    applyForceToBody(gO, v);
-            //    applyForceToBody(obj4, v);
-            //    applyForceToBody(obj5, v);
-            //    if (photonView.isMine)
-            //    {
-            //        currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(gO, false, false);
-            //    }
-            //}
-            //else if (photonView.isMine)
-            //{
-            //    currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj2, false, false);
-            //}
-            //applyForceToBody(obj2, v);
-            //Transform transform = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L").transform;
-            //Transform transform2 = transform.Find("Amarture/Controller_Body/hip/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R").transform;
-            //if (useGun)
-            //{
-            //    obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_l"), transform.position, transform.rotation);
-            //    obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_r"), transform2.position, transform2.rotation);
-            //    obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_2"), transform.position, transform.rotation);
-            //    obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_l"), transform.position, transform.rotation);
-            //    obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_gun_mag_r"), transform.position, transform.rotation);
-            //}
-            //else
-            //{
-            //    obj6 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-            //    obj7 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
-            //    obj8 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg"), transform.position, transform.rotation);
-            //    obj9 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_l"), transform.position, transform.rotation);
-            //    obj10 = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Character_parts/character_3dmg_gas_r"), transform.position, transform.rotation);
-            //}
-            //obj6.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-            //obj7.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-            //obj8.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-            //obj9.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-            //obj10.GetComponent<Renderer>().material = CharacterMaterials.materials[setup.myCostume._3dmg_texture];
-            //applyForceToBody(obj6, v);
-            //applyForceToBody(obj7, v);
-            //applyForceToBody(obj8, v);
-            //applyForceToBody(obj9, v);
-            //applyForceToBody(obj10, v);
         }
 
         private void BufferUpdate()
@@ -2502,13 +2428,7 @@ namespace Assets.Scripts.Characters.Humans
             maincamera = GameObject.Find("MainCamera");
             if (photonView.isMine)
             {
-                cross1 = GameObject.Find("cross1");
-                cross2 = GameObject.Find("cross2");
-                crossL1 = GameObject.Find("crossL1");
-                crossL2 = GameObject.Find("crossL2");
-                crossR1 = GameObject.Find("crossR1");
-                crossR2 = GameObject.Find("crossR2");
-                LabelDistance = GameObject.Find("Distance").GetComponent<Text>();
+                hookUI.Find();
                 cachedSprites = new Dictionary<string, Image>();
                 foreach (Image image in InGameUI.GetComponentsInChildren(typeof(Image), true))
                 {
@@ -2650,11 +2570,10 @@ namespace Assets.Scripts.Characters.Humans
         {
             int count;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("PlayerAttackBox");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask3 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask4 = (mask | mask2) | mask3;
-            RaycastHit[] hitArray = Physics.RaycastAll(ray, 180f, mask4.value);
+
+            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer() | Layers.PlayerAttackBox.ToLayer();
+
+            RaycastHit[] hitArray = Physics.RaycastAll(ray, 180f, mask.value);
             List<RaycastHit> list = new List<RaycastHit>();
             List<MindlessTitan> list2 = new List<MindlessTitan>();
             for (count = 0; count < hitArray.Length; count++)
@@ -2677,7 +2596,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             count = list.Count;
                         }
-                        MindlessTitan component = gameObject.transform.root.gameObject.GetComponent<MindlessTitan>();
+                        MindlessTitan component = gameObject.GetComponentInParent<MindlessTitan>();
                         if (component != null)
                         {
                             list2.Add(component);
@@ -2736,11 +2655,11 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 if (bulletLeft != null)
                 {
-                    bulletLeft.GetComponent<Bullet>().removeMe();
+                    bulletLeft.removeMe();
                 }
                 if (bulletRight != null)
                 {
-                    bulletRight.GetComponent<Bullet>().removeMe();
+                    bulletRight.removeMe();
                 }
                 meatDie.Play();
                 if ((photonView.isMine) && !useGun)
@@ -2752,7 +2671,7 @@ namespace Assets.Scripts.Characters.Humans
                 rightbladetrail2.Deactivate();
                 */
                 }
-                BreakApart2(v, isBite);
+                BreakApart(v, isBite);
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 FalseAttack();
                 hasDied = true;
@@ -2827,16 +2746,17 @@ namespace Assets.Scripts.Characters.Humans
             skillCDDuration = skillCDLast;
             if (bulletLeft != null)
             {
-                bulletLeft.GetComponent<Bullet>().removeMe();
+                bulletLeft.removeMe();
             }
             if (bulletRight != null)
             {
-                bulletRight.GetComponent<Bullet>().removeMe();
+                bulletRight.removeMe();
             }
             eren_titan = PhotonNetwork.Instantiate("ErenTitan", transform.position, transform.rotation, 0);
             eren_titan.GetComponent<ErenTitan>().realBody = gameObject;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().FlashBlind();
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(eren_titan, true, false);
+            var cam = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
+            cam.FlashBlind();
+            cam.SetMainObject(eren_titan, true, false);
             eren_titan.GetComponent<ErenTitan>().born();
             eren_titan.GetComponent<Rigidbody>().velocity = Rigidbody.velocity;
             Rigidbody.velocity = Vector3.zero;
@@ -2866,10 +2786,10 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (photonView.isMine)
                 {
-                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                    checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
-                    checkBoxLeft.GetComponent<TriggerColliderWeapon>().ClearHits();
-                    checkBoxRight.GetComponent<TriggerColliderWeapon>().ClearHits();
+                    checkBoxLeft.IsActive = false;
+                    checkBoxRight.IsActive = false;
+                    checkBoxLeft.ClearHits();
+                    checkBoxRight.ClearHits();
                     //leftbladetrail.StopSmoothly(0.2f);
                     //rightbladetrail.StopSmoothly(0.2f);
                     //leftbladetrail2.StopSmoothly(0.2f);
@@ -3096,18 +3016,16 @@ namespace Assets.Scripts.Characters.Humans
 
         private bool IsFrontGrounded()
         {
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask3 = mask2 | mask;
-            return Physics.Raycast(gameObject.transform.position + ((gameObject.transform.up * 1f)), gameObject.transform.forward, (float) 1f, mask3.value);
+            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+            return Physics.Raycast(gameObject.transform.position + ((gameObject.transform.up * 1f)), gameObject.transform.forward, (float) 1f, mask.value);
         }
 
         public bool IsGrounded()
         {
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask3 = mask2 | mask;
-            return Physics.Raycast(gameObject.transform.position + ((Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask3.value);
+            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+            return Physics.Raycast(gameObject.transform.position + ((Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask.value);
         }
 
 
@@ -3122,10 +3040,9 @@ namespace Assets.Scripts.Characters.Humans
 
         private bool IsUpFrontGrounded()
         {
-            LayerMask mask = 1 << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = 1 << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask3 = mask2 | mask;
-            return Physics.Raycast(gameObject.transform.position + ((gameObject.transform.up * 3f)), gameObject.transform.forward, (float) 1.2f, mask3.value);
+            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+            return Physics.Raycast(gameObject.transform.position + ((gameObject.transform.up * 3f)), gameObject.transform.forward, (float) 1.2f, mask.value);
         }
 
         public void Launch(Vector3 des, bool left = true, bool leviMode = false)
@@ -3149,7 +3066,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             vector.Normalize();
             vector = (vector * 20f);
-            if (((bulletLeft != null) && (bulletRight != null)) && (bulletLeft.GetComponent<Bullet>().isHooked() && bulletRight.GetComponent<Bullet>().isHooked()))
+            if (((bulletLeft != null) && (bulletRight != null)) && (bulletLeft.isHooked() && bulletRight.isHooked()))
             {
                 vector = (vector * 0.8f);
             }
@@ -3227,12 +3144,12 @@ namespace Assets.Scripts.Characters.Humans
                 launchElapsedTimeL = -100f;
                 if (bulletRight != null)
                 {
-                    bulletRight.GetComponent<Bullet>().disable();
+                    bulletRight.disable();
                     ReleaseIfIHookSb();
                 }
                 if (bulletLeft != null)
                 {
-                    bulletLeft.GetComponent<Bullet>().disable();
+                    bulletLeft.disable();
                     ReleaseIfIHookSb();
                 }
             }
@@ -3244,21 +3161,20 @@ namespace Assets.Scripts.Characters.Humans
             if (currentGas != 0f)
             {
                 UseGas(0f);
-                bulletLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0);
+                bulletLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
                 GameObject obj2 = !useGun ? hookRefL1 : hookRefL2;
                 string str = !useGun ? "hookRefL1" : "hookRefL2";
                 bulletLeft.transform.position = obj2.transform.position;
-                Bullet component = bulletLeft.GetComponent<Bullet>();
                 float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
                 Vector3 vector = (point - ((transform.right * num))) - bulletLeft.transform.position;
                 vector.Normalize();
                 if (mode == 1)
                 {
-                    component.launch((vector * 3f), Rigidbody.velocity, str, true, gameObject, true);
+                    bulletLeft.launch((vector * 3f), Rigidbody.velocity, str, true, gameObject, true);
                 }
                 else
                 {
-                    component.launch((vector * 3f), Rigidbody.velocity, str, true, gameObject, false);
+                    bulletLeft.launch((vector * 3f), Rigidbody.velocity, str, true, gameObject, false);
                 }
                 launchPointLeft = Vector3.zero;
             }
@@ -3269,21 +3185,20 @@ namespace Assets.Scripts.Characters.Humans
             if (currentGas != 0f)
             {
                 UseGas(0f);
-                bulletRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0);
+                bulletRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
                 GameObject obj2 = !useGun ? hookRefR1 : hookRefR2;
                 string str = !useGun ? "hookRefR1" : "hookRefR2";
                 bulletRight.transform.position = obj2.transform.position;
-                Bullet component = bulletRight.GetComponent<Bullet>();
                 float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
                 Vector3 vector = (point + ((transform.right * num))) - bulletRight.transform.position;
                 vector.Normalize();
                 if (mode == 1)
                 {
-                    component.launch((vector * 5f), Rigidbody.velocity, str, false, gameObject, true);
+                    bulletRight.launch((vector * 5f), Rigidbody.velocity, str, false, gameObject, true);
                 }
                 else
                 {
-                    component.launch((vector * 3f), Rigidbody.velocity, str, false, gameObject, false);
+                    bulletRight.launch((vector * 3f), Rigidbody.velocity, str, false, gameObject, false);
                 }
                 launchPointRight = Vector3.zero;
             }
@@ -3382,7 +3297,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             if (bulletLeft != null)
             {
-                bulletLeft.GetComponent<Bullet>().removeMe();
+                bulletLeft.removeMe();
             }
             if (bulletRight != null)
             {
@@ -3390,7 +3305,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             meatDie.Play();
             FalseAttack();
-            BreakApart2(v, isBite);
+            BreakApart(v, isBite);
             if (photonView.isMine)
             {
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
@@ -3498,11 +3413,11 @@ namespace Assets.Scripts.Characters.Humans
             meatDie.Play();
             if (bulletLeft != null)
             {
-                bulletLeft.GetComponent<Bullet>().removeMe();
+                bulletLeft.removeMe();
             }
             if (bulletRight != null)
             {
-                bulletRight.GetComponent<Bullet>().removeMe();
+                bulletRight.removeMe();
             }
             Transform audioDie = transform.Find("audio_die");
             audioDie.parent = null;
@@ -3589,11 +3504,11 @@ namespace Assets.Scripts.Characters.Humans
             }
             if (bulletLeft != null)
             {
-                bulletLeft.GetComponent<Bullet>().removeMe();
+                bulletLeft.removeMe();
             }
             if (bulletRight != null)
             {
-                bulletRight.GetComponent<Bullet>().removeMe();
+                bulletRight.removeMe();
             }
             meatDie.Play();
             if (!(useGun || (!photonView.isMine)))
@@ -3606,7 +3521,7 @@ namespace Assets.Scripts.Characters.Humans
             */
             }
             FalseAttack();
-            BreakApart2(v, isBite);
+            BreakApart(v, isBite);
             if (photonView.isMine)
             {
                 currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
@@ -3935,8 +3850,8 @@ namespace Assets.Scripts.Characters.Humans
         private void SetMyTeam(int val)
         {
             myTeam = val;
-            checkBoxLeft.GetComponent<TriggerColliderWeapon>().myTeam = val;
-            checkBoxRight.GetComponent<TriggerColliderWeapon>().myTeam = val;
+            checkBoxLeft.myTeam = val;
+            checkBoxRight.myTeam = val;
             if (PhotonNetwork.isMasterClient)
             {
                 object[] objArray;
@@ -3984,45 +3899,31 @@ namespace Assets.Scripts.Characters.Humans
             flare.Use(this);
         }
 
-        private void ShowAimUI2()
+        private void ShowAimUI()
         {
             Vector3 vector;
             if (MenuManager.IsAnyMenuOpen)
             {
-                GameObject cross1 = this.cross1;
-                GameObject cross2 = this.cross2;
-                GameObject crossL1 = this.crossL1;
-                GameObject crossL2 = this.crossL2;
-                GameObject crossR1 = this.crossR1;
-                GameObject crossR2 = this.crossR2;
-                var labelDistance = LabelDistance;
-                vector = (Vector3.up * 10000f);
-                crossR2.transform.localPosition = vector;
-                crossR1.transform.localPosition = vector;
-                crossL2.transform.localPosition = vector;
-                crossL1.transform.localPosition = vector;
-                labelDistance.gameObject.transform.localPosition = vector;
-                cross2.transform.localPosition = vector;
-                cross1.transform.localPosition = vector;
+                hookUI.Disable();
             }
             else
             {
+                hookUI.Enable();
+
                 CheckTitan();
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                LayerMask mask3 = mask2 | mask;
+                LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
                 var distance = "???";
                 var magnitude = HookRaycastDistance;
                 var hitDistance = HookRaycastDistance;
                 var hitPoint = ray.GetPoint(hitDistance);
 
                 var mousePos = Input.mousePosition;
-                cross1.transform.position = mousePos;
-                cross2.transform.localPosition = cross1.transform.localPosition;
+                hookUI.cross.position = mousePos;
 
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 1000f, mask3.value))
+                if (Physics.Raycast(ray, out hit, 1000f, mask.value))
                 {
                     magnitude = (hit.point - transform.position).magnitude;
                     distance = ((int) magnitude).ToString();
@@ -4030,17 +3931,8 @@ namespace Assets.Scripts.Characters.Humans
                     hitPoint = hit.point;
                 }
 
-                if (magnitude > 120f)
-                {
-                    cross1.transform.localPosition += (Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = cross2.transform.localPosition;
-                }
-                else
-                {
-                    cross2.transform.localPosition += (Vector3.up * 10000f);
-                    LabelDistance.gameObject.transform.localPosition = cross1.transform.localPosition;
-                }
-                LabelDistance.gameObject.transform.localPosition -= new Vector3(0f, 15f, 0f);
+                hookUI.crossImage.color = magnitude > 120f ? Color.red : Color.white;
+                hookUI.distanceLabel.transform.localPosition = hookUI.cross.localPosition;
 
                 if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
                 {
@@ -4050,7 +3942,7 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     distance += "\n" + ((currentSpeed / 100f)).ToString("F1") + "K";
                 }
-                LabelDistance.text = distance;
+                hookUI.distanceLabel.text = distance;
 
                 Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
                 vector2 -= (transform.right * 0.3f);
@@ -4066,41 +3958,31 @@ namespace Assets.Scripts.Characters.Humans
                 RaycastHit hit2;
                 hitPoint = (transform.position + vector2) + vector4;
                 hitDistance = HookRaycastDistance;
-                if (Physics.Linecast(transform.position + vector2, (transform.position + vector2) + vector4, out hit2, mask3.value))
+                if (Physics.Linecast(transform.position + vector2, (transform.position + vector2) + vector4, out hit2, mask.value))
                 {
                     hitPoint = hit2.point;
                     hitDistance = hit2.distance;
                 }
 
-                crossL1.transform.position = currentCamera.WorldToScreenPoint(hitPoint);
-                crossL1.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(crossL1.transform.position.y - mousePos.y, crossL1.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
-                crossL2.transform.localPosition = crossL1.transform.localPosition;
-                crossL2.transform.localRotation = crossL1.transform.localRotation;
-                if (hitDistance > 120f)
-                    crossL1.transform.localPosition += (Vector3.up * 10000f);
-                else
-                    crossL2.transform.localPosition += (Vector3.up * 10000f);
+                hookUI.crossL.transform.position = currentCamera.WorldToScreenPoint(hitPoint);
+                hookUI.crossL.transform.localRotation = Quaternion.Euler(0f, 0f, (Mathf.Atan2(hookUI.crossL.transform.position.y - mousePos.y, hookUI.crossL.transform.position.x - mousePos.x) * Mathf.Rad2Deg) + 180f);
+                hookUI.crossImageL.color = hitDistance > 120f ? Color.red : Color.white;
 
                 hitPoint = (transform.position + vector3) + vector5;
                 hitDistance = HookRaycastDistance;
-                if (Physics.Linecast(transform.position + vector3, (transform.position + vector3) + vector5, out hit2, mask3.value))
+                if (Physics.Linecast(transform.position + vector3, (transform.position + vector3) + vector5, out hit2, mask.value))
                 {
                     hitPoint = hit2.point;
                     hitDistance = hit2.distance;
                 }
 
-                crossR1.transform.position = currentCamera.WorldToScreenPoint(hitPoint);
-                crossR1.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(crossR1.transform.position.y - mousePos.y, crossR1.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
-                crossR2.transform.localPosition = crossR1.transform.localPosition;
-                crossR2.transform.localRotation = crossR1.transform.localRotation;
-                if (hitDistance > 120f)
-                    crossR1.transform.localPosition += Vector3.up * 10000f;
-                else
-                    crossR2.transform.localPosition += Vector3.up * 10000f;
+                hookUI.crossR.transform.position = currentCamera.WorldToScreenPoint(hitPoint);
+                hookUI.crossR.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(hookUI.crossR.transform.position.y - mousePos.y, hookUI.crossR.transform.position.x - mousePos.x) * Mathf.Rad2Deg);
+                hookUI.crossImageR.color = hitDistance > 120f ? Color.red : Color.white;
             }
         }
 
-        private void ShowGas2()
+        private void ShowGas()
         {
             float num = currentGas / totalGas;
             float num2 = currentBladeSta / totalBladeSta;
@@ -4139,10 +4021,10 @@ namespace Assets.Scripts.Characters.Humans
                 Idle();
 
                 if (bulletLeft)
-                    bulletLeft.GetComponent<Bullet>().removeMe();
+                    bulletLeft.removeMe();
 
                 if (bulletRight)
-                    bulletRight.GetComponent<Bullet>().removeMe();
+                    bulletRight.removeMe();
 
                 if ((smoke_3dmg.enableEmission) && photonView.isMine)
                 {
@@ -4196,7 +4078,7 @@ namespace Assets.Scripts.Characters.Humans
             bombImmune = false;
         }
 
-        private void Suicide2()
+        private void Suicide()
         {
             NetDieLocal((Rigidbody.velocity * 50f), false, -1, string.Empty, true);
             FengGameManagerMKII.instance.needChooseSide = true;
@@ -4247,7 +4129,8 @@ namespace Assets.Scripts.Characters.Humans
                     skillCDDuration = bombCD;
                     RaycastHit hitInfo = new RaycastHit();
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    LayerMask mask = 1 << (int)Layers.Ground | 1 << (int)Layers.EnemyBox;
+                    LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
                     currentV = transform.position;
                     targetV = currentV + ((Vector3.forward * 200f));
                     if (Physics.Raycast(ray, out hitInfo, 1000000f, mask.value))
@@ -4255,7 +4138,7 @@ namespace Assets.Scripts.Characters.Humans
                         targetV = hitInfo.point;
                     }
                     Vector3 vector = Vector3.Normalize(targetV - currentV);
-                    GameObject obj2 = PhotonNetwork.Instantiate("RCAsset/BombMain", currentV + ((vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
+                    GameObject obj2 = PhotonNetwork.Instantiate("RC Prefabs/BombMain", currentV + ((vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
                     obj2.GetComponent<Rigidbody>().velocity = (vector * bombSpeed);
                     myBomb = obj2.GetComponent<Bomb>();
                     bombTime = 0f;

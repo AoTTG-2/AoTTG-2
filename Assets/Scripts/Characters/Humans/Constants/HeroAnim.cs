@@ -68,6 +68,7 @@ namespace Assets.Scripts.Characters.Humans.Constants
 
         public const string DASH = "dash";
         public const string GRABBED = "grabbed";
+        public const string GRABBED_JEAN = "grabbed_jean";
         public const string JUMP = "jump";
         public const string ON_WALL = "onWall";
         public const string SLIDE = "slide";

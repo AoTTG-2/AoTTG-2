@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Characters.Humans.Constants;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
@@ -17,18 +18,16 @@ namespace Assets.Scripts.Characters.Humans.Skills
             if (Hero._state != HERO_STATE.Idle) return false;
 
             RaycastHit hit;
-            Hero.attackAnimation = "attack5";
-            Hero.PlayAnimation("attack5");
+            Hero.attackAnimation = HeroAnim.ATTACK5;
+            Hero.PlayAnimation(HeroAnim.ATTACK5);
             Hero.Rigidbody.velocity += (Vector3) (Vector3.up * 5f);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            LayerMask mask = ((int) 1) << LayerMask.NameToLayer("Ground");
-            LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-            LayerMask mask3 = mask2 | mask;
-            if (Physics.Raycast(ray, out hit, 1E+07f, mask3.value))
+            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+            if (Physics.Raycast(ray, out hit, float.MaxValue, mask.value))
             {
                 if (Hero.bulletRight != null)
                 {
-                    Hero.bulletRight.GetComponent<Bullet>().disable();
+                    Hero.bulletRight.disable();
                     Hero.ReleaseIfIHookSb();
                 }
                 Hero.dashDirection = hit.point - Hero.transform.position;
@@ -45,7 +44,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override void OnUpdate()
         {
-            if (Hero.Animation.IsPlaying("attack5")) return;
+            if (Hero.Animation.IsPlaying(HeroAnim.ATTACK5)) return;
             IsActive = false;
         }
 
@@ -53,8 +52,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (!UsePhysics) return;
 
-            if (Hero._state != HERO_STATE.Attack || Hero.attackAnimation != "attack5" ||
-                Hero.Animation["attack5"].normalizedTime <= 0.4f) return;
+            if (Hero._state != HERO_STATE.Attack || Hero.attackAnimation != HeroAnim.ATTACK5 ||
+                Hero.Animation[HeroAnim.ATTACK5].normalizedTime <= 0.4f) return;
 
             if (Hero.launchPointRight.magnitude > 0f)
             {

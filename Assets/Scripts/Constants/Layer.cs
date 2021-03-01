@@ -9,5 +9,15 @@ public static class Layer
     {
         return LayerMask.LayerToName((int) layer);
     }
+
+    /// <summary>
+    /// Convert Layers Enum to LayerMask
+    /// </summary>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    public static LayerMask ToLayer(this Layers layer)
+    {
+        return 1 << (int)layer;
+    }
 }
 

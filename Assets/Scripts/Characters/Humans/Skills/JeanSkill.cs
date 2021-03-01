@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.Characters.Humans.Constants;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
@@ -50,9 +46,9 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if ((Hero.State != HumanState.Grabbed && Hero._state != HERO_STATE.Grab) || IsActive) return false;
 
-            if (TimesUsed < TimesAllowed && !Hero.Animation.IsPlaying("grabbed_jean"))
+            if (TimesUsed < TimesAllowed && !Hero.Animation.IsPlaying(HeroAnim.GRABBED_JEAN))
             {
-                Hero.PlayAnimation("grabbed_jean");
+                Hero.PlayAnimation(HeroAnim.GRABBED_JEAN);
                 TimesUsed++;
                 IsActive = true;
                 return true;
@@ -63,7 +59,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override void OnUpdate()
         {
-            if (Hero.Animation.IsPlaying("grabbed_jean") && Hero.Animation["grabbed_jean"].normalizedTime > 0.64f)
+            if (Hero.Animation.IsPlaying(HeroAnim.GRABBED_JEAN) && Hero.Animation[HeroAnim.GRABBED_JEAN].normalizedTime > 0.64f)
             {
                 Hero.Ungrabbed();
                 Hero.Rigidbody.velocity = Vector3.up * 30f;

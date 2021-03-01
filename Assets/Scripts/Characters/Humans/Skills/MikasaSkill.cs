@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Humans.Constants;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
@@ -13,8 +14,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (Hero._state != HERO_STATE.Idle) return false;
 
-            Hero.attackAnimation = "attack3_1";
-            Hero.PlayAnimation("attack3_1");
+            Hero.attackAnimation = HeroAnim.ATTACK3_1;
+            Hero.PlayAnimation(HeroAnim.ATTACK3_1);
             Hero.Rigidbody.velocity = Vector3.up * 10f;
             IsActive = true;
             return true;
@@ -29,10 +30,10 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (!Hero.grounded) return;
 
-            if (Hero._state == HERO_STATE.Attack && Hero.attackAnimation == "attack3_1" &&
+            if (Hero._state == HERO_STATE.Attack && Hero.attackAnimation == HeroAnim.ATTACK3_1 &&
                 Hero.Animation[Hero.attackAnimation].normalizedTime >= 1f)
             {
-                Hero.PlayAnimation("attack3_2");
+                Hero.PlayAnimation(HeroAnim.ATTACK3_2);
                 Hero.ResetAnimationSpeed();
                 Hero.Rigidbody.velocity = Vector3.zero;
                 Hero.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.2f, 0.3f, 0.95f);
