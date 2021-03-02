@@ -15,14 +15,14 @@ MonoBehaviour:
   AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 51.210.5.100
+  ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
@@ -55,12 +55,12 @@ MonoBehaviour:
   - hitByTitanRPC
   - hitEyeRPC
   - hookFail
-  - InitializeRpc
-  - InitializeRPC
-  - InstantiateRpc
   - ignorePlayer
   - ignorePlayerArray
+  - InitializeRpc
+  - InitializeRPC
   - initRPC
+  - InstantiateRpc
   - killObject
   - labelRPC
   - launchRPC
@@ -91,7 +91,6 @@ MonoBehaviour:
   - OnEyeHitRpc
   - OnGameEndRpc
   - OnNapeHitRpc
-  - OnNapeHitRpc2
   - PauseRpc
   - PickupItemInit
   - playsoundRPC
@@ -139,7 +138,6 @@ MonoBehaviour:
   - tieMeToOBJ
   - titanGetKill
   - UpdateHealthLabelRpc
-  - UpdateHealthLabelRpc2
   - updateKillInfo
   - verifyPlayerHasLeft
   - whoIsMyErenTitan

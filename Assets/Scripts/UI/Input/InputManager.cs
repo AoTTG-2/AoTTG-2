@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.UI.InGame.Controls;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,133 @@ namespace Assets.Scripts.UI.Input
 {
     public class InputManager : MonoBehaviour
     {
+        // NEW STUFF
+
+        public class InputCategory<T> where T : Enum
+        {
+            public Type EnumType => typeof(T);
+
+            private readonly Dictionary<T, Action> down;
+            private readonly Dictionary<T, Action> up;
+            private readonly Dictionary<T, Action> held;
+
+            public void InvokeHeld(T input)
+            {
+                held[input]?.Invoke();
+            }
+            public void InvokeDown(T input)
+            {
+                down[input]?.Invoke();
+            }
+            public void InvokeUp(T input)
+            {
+                up[input]?.Invoke();
+            }
+
+            public void RegisterHeld(T input, Action action)
+            {
+                held[input] += action;
+            }
+            public void DeregisterHeld(T input, Action action)
+            {
+                held[input] -= action;
+            }
+            public void RegisterDown(T input, Action action)
+            {
+                down[input] += action;
+            }
+            public void DeregisterDown(T input, Action action)
+            {
+                down[input] -= action;
+            }
+            public void RegisterUp(T input, Action action)
+            {
+                up[input] += action;
+            }
+            public void DeregisterUp(T input, Action action)
+            {
+                up[input] -= action;
+            }
+
+            // This is awful but I can't find a better way without changing old code
+            public KeyCode[] GetKeyCodes()
+            {
+                if (typeof(InputCannon) == EnumType)
+                    return _cannonKeys;
+                if (typeof(InputHorse) == EnumType)
+                    return _horseKeys;
+                if (typeof(InputHuman) == EnumType)
+                    return _humanKeys;
+                if (typeof(InputTitan) == EnumType)
+                    return _titanKeys;
+                if (typeof(InputUi) == EnumType)
+                    return _uiKeys;
+
+                return null;
+            }
+
+            public InputCategory(ref KeyCode[] keyCodes)
+            {
+                down = new Dictionary<T, Action>();
+                up = new Dictionary<T, Action>();
+                held = new Dictionary<T, Action>();
+
+                foreach (T input in Enum.GetValues(typeof(T)))
+                {
+                    down.Add(input, null);
+                    up.Add(input, null);
+                    held.Add(input, null);
+                }
+            }
+        }
+
+        public static InputCategory<InputCannon> Cannon = new InputCategory<InputCannon>(ref _cannonKeys);
+        public static InputCategory<InputHorse> Horse = new InputCategory<InputHorse>(ref _horseKeys);
+        public static InputCategory<InputHuman> Human = new InputCategory<InputHuman>(ref _humanKeys);
+        public static InputCategory<InputTitan> Titan = new InputCategory<InputTitan>(ref _titanKeys);
+        public static InputCategory<InputUi> UI = new InputCategory<InputUi>(ref _uiKeys);
+
+        private void Update()
+        {
+            UpdateInputEvents(Cannon);
+            UpdateInputEvents(Horse);
+            UpdateInputEvents(Human);
+            UpdateInputEvents(Titan);
+            UpdateInputEvents(UI);
+        }
+
+        private static void UpdateInputEvents<T>(InputCategory<T> category)
+            where T : Enum
+        {
+            foreach (T input in Enum.GetValues(typeof(T)))
+            {
+                CheckActionPressed(category, input);
+                CheckEventUp(category, input);
+            }
+        }
+        private static void CheckActionPressed<T>(InputCategory<T> category, T input) where T : Enum
+        {
+            if (Key(input, category.GetKeyCodes()))
+            {
+                category.InvokeHeld(input);
+                CheckEventDown(category, input);
+            }
+        }
+        private static void CheckEventDown<T>(InputCategory<T> category, T input) where T : Enum
+        {
+            if (KeyDown(input, category.GetKeyCodes()))
+                category.InvokeDown(input);
+        }
+        private static void CheckEventUp<T>(InputCategory<T> category, T input) where T : Enum
+        {
+            if (KeyUp(input, category.GetKeyCodes()))
+                category.InvokeUp(input);
+        }
+
+
+
+        // OLD STUFF
+
         private static KeyCode[] _cannonKeys;
         private static KeyCode[] _horseKeys;
         private static KeyCode[] _humanKeys;
@@ -19,7 +147,7 @@ namespace Assets.Scripts.UI.Input
         private const string HorsePlayerPrefs = "InputHorse";
         private const string HumanPlayerPrefs = "InputHuman";
         private const string TitanPlayerPrefs = "InputTitan";
-        private const string UiPlayerPrefs = "InputUi";
+        private const string UIPlayerPrefs = "InputUi";
         private const string OtherPlayersPrefs = "OtherControls";
 
         public const KeyCode ScrollUp = KeyCode.Joystick8Button18;
@@ -163,7 +291,7 @@ namespace Assets.Scripts.UI.Input
             };
 
             _uiKeys = uiKeys.Values.ToArray();
-            PlayerPrefs.SetString(UiPlayerPrefs, JsonConvert.SerializeObject(_uiKeys));
+            PlayerPrefs.SetString(UIPlayerPrefs, JsonConvert.SerializeObject(_uiKeys));
         }
 
         #endregion
@@ -178,7 +306,7 @@ namespace Assets.Scripts.UI.Input
                     SetDefaultCannonKeyBindings();
                     cannonRebinds = PlayerPrefs.GetString(CannonPlayerPrefs);
                 }
-                
+
                 _cannonKeys = JsonConvert.DeserializeObject<KeyCode[]>(cannonRebinds);
                 if (_cannonKeys.Length != Enum.GetNames(inputType).Length)
                 {
@@ -236,11 +364,11 @@ namespace Assets.Scripts.UI.Input
             }
             else if (inputType == typeof(InputUi))
             {
-                var uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
+                var uiRebinds = PlayerPrefs.GetString(UIPlayerPrefs);
                 if (string.IsNullOrEmpty(uiRebinds))
                 {
                     SetDefaultUiKeyBindings();
-                    uiRebinds = PlayerPrefs.GetString(UiPlayerPrefs);
+                    uiRebinds = PlayerPrefs.GetString(UIPlayerPrefs);
                 }
                 _uiKeys = JsonConvert.DeserializeObject<KeyCode[]>(uiRebinds);
                 if (_uiKeys.Length != Enum.GetNames(inputType).Length)
@@ -346,7 +474,7 @@ namespace Assets.Scripts.UI.Input
 
             if (typeof(T) == typeof(InputUi))
             {
-                return UiPlayerPrefs;
+                return UIPlayerPrefs;
             }
 
             throw new ArgumentException($"{typeof(T)} is not implemented in InputManager.GetPlayerPrefs");
@@ -354,6 +482,16 @@ namespace Assets.Scripts.UI.Input
 
         #region KeyDown
 
+        public static bool KeyDown<T>(T input, KeyCode[] keyCodes) where T : Enum
+        {
+            if (MenuManager.IsAnyMenuOpen) return false;
+            var index = (int) (object) input;
+            return IsMouseScrollKeyCode(keyCodes[index])
+                ? IsScrolling(keyCodes[index])
+                : UnityEngine.Input.GetKeyDown(keyCodes[index]);
+        }
+
+        [Obsolete]
         public static bool KeyDown(InputCannon input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -363,6 +501,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyDown(_cannonKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyDown(InputHuman input)
         {
             if (input != InputHuman.Item1 && MenuManager.IsAnyMenuOpen) return false;
@@ -372,6 +511,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyDown(_humanKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyDown(InputHorse input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -381,6 +521,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyDown(_horseKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyDown(InputTitan input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -390,6 +531,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyDown(_titanKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyDown(InputUi input)
         {
             if (input != InputUi.Chat && input != InputUi.Screenshot && MenuManager.IsAnyMenuOpen) return false;
@@ -403,6 +545,16 @@ namespace Assets.Scripts.UI.Input
 
         #region KeyPressed
 
+        public static bool Key<T>(T input, KeyCode[] keyCodes) where T : Enum
+        {
+            if (MenuManager.IsAnyMenuOpen) return false;
+            var index = (int) (object) input;
+            return IsMouseScrollKeyCode(keyCodes[index])
+                ? IsScrolling(keyCodes[index])
+                : UnityEngine.Input.GetKey(keyCodes[index]);
+        }
+
+        [Obsolete]
         public static bool Key(InputCannon input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -412,6 +564,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_cannonKeys[index]);
         }
 
+        [Obsolete]
         public static bool Key(InputHuman input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -421,6 +574,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_humanKeys[index]);
         }
 
+        [Obsolete]
         public static bool Key(InputHorse input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -430,6 +584,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_horseKeys[index]);
         }
 
+        [Obsolete]
         public static bool Key(InputTitan input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -439,6 +594,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKey(_titanKeys[index]);
         }
 
+        [Obsolete]
         public static bool Key(InputUi input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -452,6 +608,16 @@ namespace Assets.Scripts.UI.Input
 
         #region KeyUp
 
+        public static bool KeyUp<T>(T input, KeyCode[] keyCodes) where T : Enum
+        {
+            if (MenuManager.IsAnyMenuOpen) return false;
+            var index = (int) (object) input;
+            return IsMouseScrollKeyCode(keyCodes[index])
+                ? IsScrolling(keyCodes[index])
+                : UnityEngine.Input.GetKeyUp(keyCodes[index]);
+        }
+
+        [Obsolete]
         public static bool KeyUp(InputCannon input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -461,6 +627,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyUp(_cannonKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyUp(InputHuman input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -470,6 +637,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyUp(_humanKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyUp(InputHorse input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -479,6 +647,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyUp(_horseKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyUp(InputTitan input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -488,6 +657,7 @@ namespace Assets.Scripts.UI.Input
                 : UnityEngine.Input.GetKeyUp(_titanKeys[index]);
         }
 
+        [Obsolete]
         public static bool KeyUp(InputUi input)
         {
             if (MenuManager.IsAnyMenuOpen) return false;
@@ -499,6 +669,7 @@ namespace Assets.Scripts.UI.Input
 
         #endregion
 
+        [Obsolete]
         public static KeyCode GetKey<T>(T inputEnum)
         {
             return GetRebind(inputEnum);

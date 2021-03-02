@@ -82,7 +82,7 @@ namespace Assets.Scripts.UI.InGame.Controls
 
         private void CreateRebindElement<T>()
         {
-            foreach (T input in Enum.GetValues(typeof(T)))
+            foreach (Enum input in Enum.GetValues(typeof(T)))
             {
                 var key = InputManager.GetKey(input);
                 var rebindElement = Instantiate(RebindElementPrefab);
@@ -92,7 +92,7 @@ namespace Assets.Scripts.UI.InGame.Controls
             }
         }
 
-        private void SaveRebinds<T>()
+        private void SaveRebinds<T>() where T : Enum
         {
             var rebindKeys = RebindsViewContent.GetComponentsInChildren<RebindElement>();
             var keys = rebindKeys.Select(x => x.Key).ToArray();

@@ -16,7 +16,9 @@ namespace Assets.Scripts.Services
         public static ISpawnService Spawn { get; private set; }
         public static ITimeService Time { get; private set; }
         public static IUiService Ui { get; private set; }
-        
+        public static IPlaybackService PlaybackService { get; private set; }
+
+
         public static IPhotonService Photon { get; private set; }
         public static IDiscordService Discord { get; private set; }
 
@@ -30,6 +32,7 @@ namespace Assets.Scripts.Services
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
+            PlaybackService = gameObject.AddComponent<PlaybackService>();
 #if UNITY_INCLUDE_TESTS
             Discord = gameObject.AddComponent<DiscordTestService>();
 #else
