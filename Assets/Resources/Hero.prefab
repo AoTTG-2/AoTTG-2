@@ -62,8 +62,6 @@ MonoBehaviour:
   bombSpeed: 0
   bombTime: 0
   bombTimeMax: 0
-  bulletLeft: {fileID: 0}
-  bulletRight: {fileID: 0}
   CameraMultiplier: 0
   checkBoxLeft: {fileID: 5592607818519222101}
   checkBoxRight: {fileID: 5592407943186149401}
@@ -106,6 +104,8 @@ MonoBehaviour:
   skillIDHUD: 
   slash: {fileID: 5560960010637169427}
   slashHit: {fileID: 5561826668602817875}
+  particle_Smoke_3dmg: {fileID: 5671533455928775285}
+  particle_Sparks: {fileID: 5676877894678868267}
   speed: 10
   speedFX: {fileID: 0}
   speedFX1: {fileID: 0}
@@ -324,6 +324,18 @@ GameObject:
 --- !u!1 &5480589323768547257 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4759155575018946212, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1010244701562288413}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5671533455928775285 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4661306518907906920, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1010244701562288413}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5676877894678868267 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4669474606720927798, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
     type: 3}
   m_PrefabInstance: {fileID: 1010244701562288413}
   m_PrefabAsset: {fileID: 0}

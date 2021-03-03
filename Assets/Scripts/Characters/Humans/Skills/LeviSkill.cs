@@ -25,9 +25,9 @@ namespace Assets.Scripts.Characters.Humans.Skills
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
             if (Physics.Raycast(ray, out hit, float.MaxValue, mask.value))
             {
-                if (Hero.bulletRight != null)
+                if (Hero.hookRight != null)
                 {
-                    Hero.bulletRight.disable();
+                    Hero.hookRight.disable();
                     Hero.ReleaseIfIHookSb();
                 }
                 Hero.dashDirection = hit.point - Hero.transform.position;

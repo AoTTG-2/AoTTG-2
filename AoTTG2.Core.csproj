@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{58A71158-A078-3D3B-55A7-E8093DDFD643}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -197,6 +196,7 @@
     <Compile Include="Assets\Scripts\Room\LevelBottom.cs" />
     <Compile Include="Assets\Scripts\UI\UiNavigationElement.cs" />
     <Compile Include="Assets\Scripts\Effects\UVAnimation.cs" />
+    <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
     <Compile Include="Assets\Scripts\Legacy\RCRegionLabel.cs" />
     <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Configuration\TitanConfiguration.cs" />
@@ -455,10 +455,9 @@
     <Compile Include="Assets\Scripts\Settings\CheckBoxCostume.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-    <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
+     <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
