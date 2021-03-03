@@ -251,9 +251,7 @@ namespace Assets.Scripts.Characters.Humans
             targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
             smoke_3dmg_em.enabled = false;
             sparks_em.enabled = false;
-            //HACK
-            //speedFXPS = speedFX1.GetComponent<ParticleSystem>();
-            //speedFXPS.enableEmission = false;
+
             if (PhotonNetwork.isMasterClient)
             {
                 int iD = photonView.owner.ID;
@@ -267,7 +265,7 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
 
-            PlayerName.GetComponent<TextMesh>().text = FengGameManagerMKII.instance.name;
+            PlayerName.text = FengGameManagerMKII.instance.name;
             if (photonView.isMine)
             {
                 SmoothSync.PhotonCamera = true;
@@ -280,7 +278,7 @@ namespace Assets.Scripts.Characters.Humans
                 gameObject.layer = Layers.NetworkObject.ToLayer();
                 if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
                 {
-                    GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("flashlight"));
+                    GameObject obj3 = Instantiate(Resources.Load<GameObject>("flashlight"));
                     obj3.transform.parent = transform;
                     obj3.transform.position = transform.position + Vector3.up;
                     obj3.transform.rotation = Quaternion.Euler(353f, 0f, 0f);
@@ -1039,7 +1037,7 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else
                             {
-                                obj4 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load(prefabName), ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
+                                obj4 = Instantiate(Resources.Load<GameObject>(prefabName), ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
                             }
                         }
                         if (Animation[attackAnimation].normalizedTime >= 1f)
@@ -3310,7 +3308,7 @@ namespace Assets.Scripts.Characters.Humans
                     PhotonView view2 = PhotonView.Find(viewID);
                     if (view2 != null)
                     {
-                        FengGameManagerMKII.instance.sendKillInfo(killByTitan, $"<color=#ffc000>[{info.sender.ID}]</color> " + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                        FengGameManagerMKII.instance.sendKillInfo(killByTitan, $"[{info.sender.ID.ToString().Color("ffc000")}] {RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name])}", false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                         propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                         propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                         view2.owner.SetCustomProperties(propertiesToSet);
@@ -3318,7 +3316,7 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 else
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), $"<color=#ffc000>[{info.sender.ID}]</color> " + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), $"[{info.sender.ID.ToString().Color("ffc000")}] {titanName}", false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                 }
             }
             if (photonView.isMine)
@@ -3342,26 +3340,26 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                     {
-                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage($"Unusual Kill from ID {info.sender.ID}".Color("FFCC00"));
                     }
                     else if (viewID < 0)
                     {
                         if (titanName == "")
                         {
-                            FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + " (possibly valid).</color>");
+                            FengGameManagerMKII.instance.chatRoom.AddMessage($"Unusual Kill from ID {info.sender.ID} (possibly valid).".Color("FFCC00"));
                         }
                         else if (GameSettings.PvP.Bomb.Value && (!GameSettings.PvP.Cannons.Value))
                         {
-                            FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                            FengGameManagerMKII.instance.chatRoom.AddMessage($"Unusual Kill from ID {info.sender.ID}".Color("FFCC00"));
                         }
                     }
                     else if (PhotonView.Find(viewID) == null)
                     {
-                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage($"Unusual Kill from ID {info.sender.ID}".Color("FFCC00"));
                     }
                     else if (PhotonView.Find(viewID).owner.ID != info.sender.ID)
                     {
-                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#FFCC00>Unusual Kill from ID " + info.sender.ID.ToString() + "</color>");
+                        FengGameManagerMKII.instance.chatRoom.AddMessage($"Unusual Kill from ID {info.sender.ID}".Color("FFCC00"));
                     }
                 }
             }
@@ -3422,7 +3420,7 @@ namespace Assets.Scripts.Characters.Humans
                     PhotonView view2 = PhotonView.Find(viewID);
                     if (view2 != null)
                     {
-                        FengGameManagerMKII.instance.sendKillInfo(true, $"<color=#ffc000>[{info.sender.ID}]</color> " + RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                        FengGameManagerMKII.instance.sendKillInfo(true, $"{info.sender.ID.ToString().Color("ffc000")} {RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name])}", false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                         propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                         propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                         view2.owner.SetCustomProperties(propertiesToSet);
@@ -3430,7 +3428,7 @@ namespace Assets.Scripts.Characters.Humans
                 }
                 else
                 {
-                    FengGameManagerMKII.instance.sendKillInfo(true, $"<color=#ffc000>[{info.sender.ID}]</color> " + titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
+                    FengGameManagerMKII.instance.sendKillInfo(true, $"{info.sender.ID.ToString().Color("ffc000")} {titanName}", false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                 }
             }
             if (photonView.isMine)
@@ -3439,7 +3437,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             else
             {
-                obj2 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("hitMeat2"));
+                obj2 = Instantiate(Resources.Load<GameObject>("hitMeat2"));
             }
             obj2.transform.position = audioDie.position;
             if (photonView.isMine)
