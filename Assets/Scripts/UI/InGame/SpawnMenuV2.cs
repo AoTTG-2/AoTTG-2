@@ -17,6 +17,10 @@ namespace Assets.Scripts.UI.InGame
     {
         private ISpawnService SpawnService => Service.Spawn;
 
+
+        public GameObject mainWindow;
+
+        [Space]
         public List<CharacterPreset> Characters;
         public CharacterPrefabs Prefabs;
         public TMP_Dropdown CharacterDropdown;
@@ -181,17 +185,18 @@ namespace Assets.Scripts.UI.InGame
 
         public bool IsVisible()
         {
-            throw new System.NotImplementedException();
+            return mainWindow.activeSelf;
         }
 
         public void Show()
         {
-            throw new System.NotImplementedException();
+            mainWindow.SetActive(true);
         }
 
         public void Hide()
         {
-            throw new System.NotImplementedException();
+            mainWindow.SetActive(false);
+
         }
     }
 }
