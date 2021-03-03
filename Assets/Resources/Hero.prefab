@@ -68,6 +68,7 @@ MonoBehaviour:
   CurrentAnimation: 
   currentBladeSta: 100
   currentCamera: {fileID: 0}
+  currentInGameCamera: {fileID: 0}
   currentSpeed: 0
   currentV: {x: 0, y: 0, z: 0}
   detonate: 0
@@ -118,6 +119,8 @@ MonoBehaviour:
   useGun: 0
   InGameUI: {fileID: 0}
   PlayerName: {fileID: 5577408136596478129}
+  bombMainPath: {fileID: 1701559614523589665, guid: f9310ab4c24d98a46a335feddb509165,
+    type: 2}
 --- !u!114 &6802029126232069487
 MonoBehaviour:
   m_ObjectHideFlags: 0

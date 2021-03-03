@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Toorah.ScriptableVariables;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -74,6 +75,7 @@ namespace Assets.Scripts.Characters.Humans
         public float currentBladeSta = 100f;
         private BUFF currentBuff { get; set; }
         public Camera currentCamera;
+        public IN_GAME_MAIN_CAMERA currentInGameCamera;
         private float currentGas { get; set; } = 100f;
         public float currentSpeed;
         public Vector3 currentV;
@@ -212,6 +214,9 @@ namespace Assets.Scripts.Characters.Humans
         public Rigidbody Rigidbody { get; protected set; }
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
+        [SerializeField] StringVariable bombMainPath;
+
+
         #region Unity Methods
 
         protected override void Awake()
@@ -291,6 +296,7 @@ namespace Assets.Scripts.Characters.Humans
             else
             {
                 currentCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+                currentInGameCamera = currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>();
 
                 hasspawn = true;
                 StartCoroutine(ReloadSky());
@@ -2237,7 +2243,7 @@ namespace Assets.Scripts.Characters.Humans
             Ungrabbed();
             FalseAttack();
             skillCDDuration = skillCDLast;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(gameObject, true, false);
+            currentInGameCamera.SetMainObject(gameObject, true, false);
             photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
         }
 
@@ -2657,7 +2663,7 @@ namespace Assets.Scripts.Characters.Humans
                 */
                 }
                 BreakApart(v, isBite);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                currentInGameCamera.gameOver = true;
                 FalseAttack();
                 hasDied = true;
                 Transform audioDie = transform.Find("audio_die");
@@ -2670,7 +2676,7 @@ namespace Assets.Scripts.Characters.Humans
 
                 if (PlayerPrefs.HasKey("EnableSS") && (PlayerPrefs.GetInt("EnableSS") == 1))
                 {
-                    GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(audioDie.position, 0, null, 0.02f);
+                    currentInGameCamera.StartSnapShot2(audioDie.position, 0, null, 0.02f);
                 }
                 UnityEngine.Object.Destroy(gameObject);
             }
@@ -2739,9 +2745,9 @@ namespace Assets.Scripts.Characters.Humans
             }
             eren_titan = PhotonNetwork.Instantiate("ErenTitan", transform.position, transform.rotation, 0).GetComponent<ErenTitan>();
             eren_titan.realBody = gameObject;
-            var cam = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
-            cam.FlashBlind();
-            cam.SetMainObject(eren_titan.gameObject, true, false);
+            
+            currentInGameCamera.FlashBlind();
+            currentInGameCamera.SetMainObject(eren_titan.gameObject, true, false);
             eren_titan.born();
             eren_titan.Rigidbody.velocity = Rigidbody.velocity;
             Rigidbody.velocity = Vector3.zero;
@@ -3282,8 +3288,8 @@ namespace Assets.Scripts.Characters.Humans
             BreakApart(v, isBite);
             if (photonView.isMine)
             {
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                currentInGameCamera.SetSpectorMode(false);
+                currentInGameCamera.gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
@@ -3398,9 +3404,9 @@ namespace Assets.Scripts.Characters.Humans
             audioDie.GetComponent<AudioSource>().Play();
             if (photonView.isMine)
             {
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                currentInGameCamera.SetMainObject(null, true, false);
+                currentInGameCamera.SetSpectorMode(true);
+                currentInGameCamera.gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             FalseAttack();
@@ -3498,8 +3504,8 @@ namespace Assets.Scripts.Characters.Humans
             BreakApart(v, isBite);
             if (photonView.isMine)
             {
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
-                currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+                currentInGameCamera.SetSpectorMode(false);
+                currentInGameCamera.gameOver = true;
                 FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
@@ -4015,8 +4021,8 @@ namespace Assets.Scripts.Characters.Humans
                 isCannon = true;
                 myCannon.GetComponent<Cannon>().myHero = this;
                 myCannonRegion = null;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
-                Camera.main.fieldOfView = 55f;
+                currentInGameCamera.SetMainObject(myCannon.transform.Find("Barrel").Find("FiringPoint").gameObject, true, false);
+                currentCamera.fieldOfView = 55f;
                 photonView.RPC(nameof(SetMyCannon), PhotonTargets.OthersBuffered, new object[] { myCannon.GetPhotonView().viewID });
                 skillCDLastCannon = skillCDLast;
                 skillCDLast = 3.5f;
@@ -4106,7 +4112,7 @@ namespace Assets.Scripts.Characters.Humans
                         targetV = hitInfo.point;
                     }
                     Vector3 vector = Vector3.Normalize(targetV - currentV);
-                    GameObject obj2 = PhotonNetwork.Instantiate("RC Resources/BombMain", currentV + ((vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
+                    GameObject obj2 = PhotonNetwork.Instantiate(bombMainPath, currentV + ((vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
                     obj2.GetComponent<Rigidbody>().velocity = (vector * bombSpeed);
                     myBomb = obj2.GetComponent<Bomb>();
                     bombTime = 0f;
