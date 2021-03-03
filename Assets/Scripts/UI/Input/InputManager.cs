@@ -71,11 +71,13 @@ namespace Assets.Scripts.UI.Input
                     return _titanKeys;
                 if (typeof(InputUi) == EnumType)
                     return _uiKeys;
+                if (typeof(InputPlayback) == EnumType)
+                    return _playbackKeys;
 
                 return null;
             }
 
-            public InputCategory(ref KeyCode[] keyCodes)
+            public InputCategory()
             {
                 down = new Dictionary<T, Action>();
                 up = new Dictionary<T, Action>();
@@ -90,11 +92,12 @@ namespace Assets.Scripts.UI.Input
             }
         }
 
-        public static InputCategory<InputCannon> Cannon = new InputCategory<InputCannon>(ref _cannonKeys);
-        public static InputCategory<InputHorse> Horse = new InputCategory<InputHorse>(ref _horseKeys);
-        public static InputCategory<InputHuman> Human = new InputCategory<InputHuman>(ref _humanKeys);
-        public static InputCategory<InputTitan> Titan = new InputCategory<InputTitan>(ref _titanKeys);
-        public static InputCategory<InputUi> UI = new InputCategory<InputUi>(ref _uiKeys);
+        public static InputCategory<InputCannon> Cannon = new InputCategory<InputCannon>();
+        public static InputCategory<InputHorse> Horse = new InputCategory<InputHorse>();
+        public static InputCategory<InputHuman> Human = new InputCategory<InputHuman>();
+        public static InputCategory<InputTitan> Titan = new InputCategory<InputTitan>();
+        public static InputCategory<InputUi> UI = new InputCategory<InputUi>();
+        public static InputCategory<InputPlayback> Playback = new InputCategory<InputPlayback>();
 
         private void Update()
         {
@@ -103,6 +106,7 @@ namespace Assets.Scripts.UI.Input
             UpdateInputEvents(Human);
             UpdateInputEvents(Titan);
             UpdateInputEvents(UI);
+            UpdateInputEvents(Playback);
         }
 
         private static void UpdateInputEvents<T>(InputCategory<T> category)
@@ -142,6 +146,7 @@ namespace Assets.Scripts.UI.Input
         private static KeyCode[] _humanKeys;
         private static KeyCode[] _titanKeys;
         private static KeyCode[] _uiKeys;
+        private static KeyCode[] _playbackKeys;
 
         private const string CannonPlayerPrefs = "InputCannon";
         private const string HorsePlayerPrefs = "InputHorse";
@@ -173,6 +178,7 @@ namespace Assets.Scripts.UI.Input
             LoadRebinds(typeof(InputHuman));
             LoadRebinds(typeof(InputTitan));
             LoadRebinds(typeof(InputUi));
+            LoadRebinds(typeof(InputPlayback));
 
             Settings = JsonConvert.DeserializeObject<ControlSettings>(PlayerPrefs.GetString(OtherPlayersPrefs));
             if (Settings == null)
@@ -183,7 +189,7 @@ namespace Assets.Scripts.UI.Input
         }
 
         #region Default Rebinds
-
+        [Obsolete]
         private static void SetDefaultCannonKeyBindings()
         {
             var cannonKeys = new Dictionary<InputCannon, KeyCode>
@@ -200,7 +206,7 @@ namespace Assets.Scripts.UI.Input
             _cannonKeys = cannonKeys.Values.ToArray();
             PlayerPrefs.SetString(CannonPlayerPrefs, JsonConvert.SerializeObject(_cannonKeys));
         }
-
+        [Obsolete]
         private static void SetDefaultHorseKeyBindings()
         {
             var horseKeys = new Dictionary<InputHorse, KeyCode>
@@ -217,7 +223,7 @@ namespace Assets.Scripts.UI.Input
             _horseKeys = horseKeys.Values.ToArray();
             PlayerPrefs.SetString(HorsePlayerPrefs, JsonConvert.SerializeObject(_horseKeys));
         }
-
+        [Obsolete]
         private static void SetDefaultHumanKeyBindings()
         {
             var humanKeys = new Dictionary<InputHuman, KeyCode>
@@ -248,7 +254,7 @@ namespace Assets.Scripts.UI.Input
             _humanKeys = humanKeys.Values.ToArray();
             PlayerPrefs.SetString(HumanPlayerPrefs, JsonConvert.SerializeObject(_humanKeys));
         }
-
+        [Obsolete]
         private static void SetDefaultTitanKeyBindings()
         {
             var titanKeys = new Dictionary<InputTitan, KeyCode>
@@ -273,7 +279,7 @@ namespace Assets.Scripts.UI.Input
             _titanKeys = titanKeys.Values.ToArray();
             PlayerPrefs.SetString(TitanPlayerPrefs, JsonConvert.SerializeObject(_titanKeys));
         }
-
+        [Obsolete]
         private static void SetDefaultUiKeyBindings()
         {
             var uiKeys = new Dictionary<InputUi, KeyCode>
@@ -293,9 +299,23 @@ namespace Assets.Scripts.UI.Input
             _uiKeys = uiKeys.Values.ToArray();
             PlayerPrefs.SetString(UIPlayerPrefs, JsonConvert.SerializeObject(_uiKeys));
         }
+        [Obsolete]
+        private static void SetDefaultPlaybackKeyBindings()
+        {
+            var playbackKeys = new Dictionary<InputPlayback, KeyCode>
+            {
+                [InputPlayback.StartRecording] = KeyCode.LeftBracket,
+                [InputPlayback.StopRecording] = KeyCode.LeftBracket,
+                [InputPlayback.StartPlaying] = KeyCode.RightBracket,
+                [InputPlayback.StopPlaying] = KeyCode.RightBracket,
+            };
+
+            _playbackKeys = playbackKeys.Values.ToArray();
+        }
 
         #endregion
 
+        [Obsolete]
         public static void LoadRebinds(Type inputType)
         {
             if (inputType == typeof(InputCannon))
@@ -373,9 +393,13 @@ namespace Assets.Scripts.UI.Input
                 _uiKeys = JsonConvert.DeserializeObject<KeyCode[]>(uiRebinds);
                 if (_uiKeys.Length != Enum.GetNames(inputType).Length)
                 {
-                    SetDefaultUiKeyBindings();
+                    SetDefaultPlaybackKeyBindings();
                     LoadRebinds(inputType);
                 }
+            }
+            else if (inputType == typeof(InputPlayback))
+            {
+                SetDefaultPlaybackKeyBindings();
             }
             else
             {
@@ -383,6 +407,7 @@ namespace Assets.Scripts.UI.Input
             }
         }
 
+        [Obsolete]
         public static void SaveRebinds<T>(KeyCode[] newKeys)
         {
             var json = JsonConvert.SerializeObject(newKeys);
@@ -390,11 +415,13 @@ namespace Assets.Scripts.UI.Input
             LoadRebinds(typeof(T));
         }
 
+        [Obsolete]
         public static void SaveOtherPlayerPrefs()
         {
             PlayerPrefs.SetString(OtherPlayersPrefs, JsonConvert.SerializeObject(Settings));
         }
 
+        [Obsolete]
         public static void SetDefaultRebinds(Type inputEnum)
         {
             if (inputEnum == typeof(InputCannon))
@@ -417,8 +444,13 @@ namespace Assets.Scripts.UI.Input
             {
                 SetDefaultUiKeyBindings();
             }
+            else if (inputEnum == typeof(InputPlayback))
+            {
+                SetDefaultPlaybackKeyBindings();
+            }
         }
 
+        [Obsolete]
         private static KeyCode GetRebind<T>(T type)
         {
             var index = (int) (object) type;
@@ -447,9 +479,15 @@ namespace Assets.Scripts.UI.Input
                 return _uiKeys[index];
             }
 
+            if (type is InputPlayback)
+            {
+                return _playbackKeys[index];
+            }
+
             throw new ArgumentException($"{type.GetType()} is not implemented in InputManager.GetRebinds");
         }
 
+        [Obsolete]
         private static string GetPlayerPrefs<T>()
         {
             if (typeof(T) == typeof(InputCannon))
