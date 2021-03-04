@@ -39,6 +39,14 @@ namespace Assets.Scripts.DayNightCycle
         {
             Pause=true;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
+            //MC loads settings on start because these values need to have a default.
+            if (PhotonNetwork.isMasterClient)
+            {
+                GameSettings.Time.currentTime = CurrentTime;
+                GameSettings.Time.dayLength = DayLength;
+                GameSettings.Time.pause = Pause;
+                Service.Settings.SyncSettings();
+            }
             MoonCamera = GetComponentInChildren<Camera>();
             LightIntensity = DirectionalLight.intensity; // What's the current intensity of the sunlight
 
