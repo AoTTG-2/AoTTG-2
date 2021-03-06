@@ -61,8 +61,12 @@ public class Blades : Weapon
     public override void UpdateSupplyUi(GameObject inGameUi)
     {
         var bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
-        try { bladesUi.SetBlades(AmountLeft); }
-        catch { UnityEngine.Debug.Log("No blades in HUD"); }
+        if(Hero.currentBladeSta != 0)
+        {
+            bladesUi.SetBlades(AmountLeft);
+        }
+        
+        bladesUi.bladeSta = Hero.currentBladeSta;
         
     }
 
