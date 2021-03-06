@@ -31,9 +31,12 @@ namespace Assets.Scripts.UI.InGame
             {
                 if(selectedElement != null)
                 {
-                    elementLabel.text = selectedElement.name;
+                    elementLabel.text = selectedElement.GetComponent<CustomizableHUDElement>().elementName;
                     selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
                     selectedElement.GetComponent<CustomizableHUDElement>().isVisible = toggleVisibility.isOn;
+                } else
+                {
+                    elementLabel.text = "Select an Element";
                 }
             } else
             {
@@ -119,9 +122,20 @@ namespace Assets.Scripts.UI.InGame
         private void ClearSelection()
         {
             selectedElement = null;
-            elementLabel.text = "";
         }
 
+        public void CancelChanges()
+        {
+            foreach(GameObject element in HUDelements)
+            {
+                element.GetComponent<CustomizableHUDElement>().StopCustomization();
+            }
+            HUD.inEditMode = false;
+            SetVisibility();
+            this.Hide();
+            menu.Show();
+            ClearSelection();
+        }
         
     }
 }

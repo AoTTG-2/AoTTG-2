@@ -5,6 +5,7 @@ using Assets.Scripts.UI.InGame;
 /* Any HUD element that is customizable should have this script attached */
 public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
 {
+    public string elementName;
     public ChangeHUDHandler handler;
     private bool beingDragged;
     private string PlayerPrefsKey;
@@ -78,6 +79,13 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
                 this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition, 0.3f);
             }
         }
+
+        if(!handler.HUD.inEditMode)
+        {
+            onSelection = false;
+            selection.SetActive(false);
+        }
+        
     }
 
 
@@ -92,6 +100,11 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
         handler.selectedElement = this.gameObject;
         handler.toggleVisibility.isOn = isVisible;
 
+        foreach(GameObject element in handler.HUDelements) 
+        {
+            element.GetComponent<CustomizableHUDElement>().selection.SetActive(element == this.gameObject);
+            element.GetComponent<CustomizableHUDElement>().onSelection = (element == this.gameObject);
+        }
         Debug.Log("Pressed");
     }
 
@@ -108,7 +121,7 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void CloseSelection()
     {
-        if (handler.HUD.inEditMode) selection.SetActive(false);
+        if (handler.HUD.inEditMode && !onSelection) selection.SetActive(false);
     }
 
     #endregion
