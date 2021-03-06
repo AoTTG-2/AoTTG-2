@@ -784,7 +784,7 @@ namespace Assets.Scripts.Characters.Titan
                 else
                 {
                     Vector3 vector = this.myHero.transform.position - base.transform.position;
-                    float current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                    float current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
                     float f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                     this.myDistance = Mathf.Sqrt(((this.myHero.transform.position.x - base.transform.position.x) * (this.myHero.transform.position.x - base.transform.position.x)) + ((this.myHero.transform.position.z - base.transform.position.z) * (this.myHero.transform.position.z - base.transform.position.z)));
                     float num4 = this.myHero.transform.position.y - base.transform.position.y;

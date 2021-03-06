@@ -298,11 +298,11 @@ namespace Assets.Scripts.Characters.Titan
                     if (State == TitanState.Chase && TargetDistance < 100f && Target != null)
                     {
                         var vector = Target.transform.position - transform.position;
-                        var angle = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                        var angle = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
                         float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
                         num = Mathf.Clamp(num, -40f, 40f);
                         float y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                        float num3 = Mathf.Atan2(y, TargetDistance) * 57.29578f;
+                        float num3 = Mathf.Atan2(y, TargetDistance) * Mathf.Rad2Deg;
                         num3 = Mathf.Clamp(num3, -40f, 30f);
                         targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num3,
                             Body.Head.rotation.eulerAngles.y + num, Body.Head.rotation.eulerAngles.z);
@@ -352,11 +352,11 @@ namespace Assets.Scripts.Characters.Titan
                     if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
                     {
                         var vector2 = Target.transform.position - transform.position;
-                        var angle = -Mathf.Atan2(vector2.z, vector2.x) * 57.29578f;
+                        var angle = -Mathf.Atan2(vector2.z, vector2.x) * Mathf.Rad2Deg;
                         float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
                         num4 = Mathf.Clamp(num4, -40f, 40f);
                         float num5 = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                        float num6 = Mathf.Atan2(num5, TargetDistance) * 57.29578f;
+                        float num6 = Mathf.Atan2(num5, TargetDistance) * Mathf.Rad2Deg;
                         num6 = Mathf.Clamp(num6, -40f, 30f);
                         this.targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num6,
                             Body.Head.rotation.eulerAngles.y + num4, Body.Head.rotation.eulerAngles.z);
@@ -785,7 +785,7 @@ namespace Assets.Scripts.Characters.Titan
             else
             {
                 Vector3 vector18 = Target.transform.position - transform.position;
-                var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
+                var angle = -Mathf.Atan2(vector18.z, vector18.x) * Mathf.Rad2Deg;
                 var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
                 if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
                 {
@@ -955,7 +955,7 @@ namespace Assets.Scripts.Characters.Titan
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
                 var vector17 = Target.transform.position - transform.position;
-                var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f + RotationModifier;
+                var current = -Mathf.Atan2(vector17.z, vector17.x) * Mathf.Rad2Deg + RotationModifier;
                 float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);
             }

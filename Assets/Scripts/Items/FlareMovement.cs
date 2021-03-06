@@ -39,7 +39,7 @@ namespace Assets.Scripts.Items
                 this.hint.transform.parent = base.transform.root;
                 this.hint.transform.position = this.hero.transform.position + this.offY;
                 Vector3 vector = base.transform.position - this.hint.transform.position;
-                float num = Mathf.Atan2(-vector.z, vector.x) * 57.29578f;
+                float num = Mathf.Atan2(-vector.z, vector.x) * Mathf.Rad2Deg;
                 this.hint.transform.rotation = Quaternion.Euler(-90f, num + 180f, 0f);
                 this.hint.transform.localScale = Vector3.zero;
                 object[] args = new object[] { "x", 1f, "y", 1f, "z", 1f, "easetype", iTween.EaseType.easeOutElastic, "time", 1f };
@@ -58,7 +58,7 @@ namespace Assets.Scripts.Items
                 {
                     this.hint.transform.position = this.hero.transform.position + this.offY;
                     Vector3 vector = base.transform.position - this.hint.transform.position;
-                    float num = Mathf.Atan2(-vector.z, vector.x) * 57.29578f;
+                    float num = Mathf.Atan2(-vector.z, vector.x) * Mathf.Rad2Deg;
                     this.hint.transform.rotation = Quaternion.Euler(-90f, num + 180f, 0f);
                 }
                 else if (this.hint != null)

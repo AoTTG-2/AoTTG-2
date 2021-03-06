@@ -40,7 +40,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 Hero.LaunchRightRope(hit.distance, hit.point, true);
                 Hero.rope.Play();
             }
-            Hero.facingDirection = Mathf.Atan2(Hero.dashDirection.x, Hero.dashDirection.z) * 57.29578f;
+            Hero.facingDirection = Mathf.Atan2(Hero.dashDirection.x, Hero.dashDirection.z) * Mathf.Rad2Deg;
             Hero.targetRotation = Quaternion.Euler(0f, Hero.facingDirection, 0f);
             Hero.attackLoop = 3;
             IsActive = true;

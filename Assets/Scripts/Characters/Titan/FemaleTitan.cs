@@ -308,7 +308,7 @@ public class FemaleTitan : TitanBase
         float current = 0f;
         float f = 0f;
         Vector3 vector = target.transform.position - base.transform.position;
-        current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+        current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
         f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
         if ((this.eren != null) && (this.myDistance < 35f))
         {
@@ -724,7 +724,7 @@ public class FemaleTitan : TitanBase
                     base.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
                     float current = 0f;
                     Vector3 vector6 = this.myHero.transform.position - base.transform.position;
-                    current = -Mathf.Atan2(vector6.z, vector6.x) * 57.29578f;
+                    current = -Mathf.Atan2(vector6.z, vector6.x) * Mathf.Rad2Deg;
                     float num2 = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                     base.gameObject.transform.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, base.gameObject.transform.rotation.eulerAngles.y + num2, 0f), this.speed * Time.deltaTime);
                 }
@@ -1582,7 +1582,7 @@ public class FemaleTitan : TitanBase
                         float current = 0f;
                         float f = 0f;
                         Vector3 vector9 = this.myHero.transform.position - base.transform.position;
-                        current = -Mathf.Atan2(vector9.z, vector9.x) * 57.29578f;
+                        current = -Mathf.Atan2(vector9.z, vector9.x) * Mathf.Rad2Deg;
                         f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                         if (!this.attackTarget(this.myHero))
                         {
@@ -1709,7 +1709,7 @@ public class FemaleTitan : TitanBase
                         Vector3 force = vector17 - velocity;
                         base.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
                         float num18 = Vector2.Angle(new Vector2(base.transform.position.x, base.transform.position.z), new Vector2(this.myHero.transform.position.x, this.myHero.transform.position.z));
-                        num18 = Mathf.Atan2(this.myHero.transform.position.x - base.transform.position.x, this.myHero.transform.position.z - base.transform.position.z) * 57.29578f;
+                        num18 = Mathf.Atan2(this.myHero.transform.position.x - base.transform.position.x, this.myHero.transform.position.z - base.transform.position.z) * Mathf.Rad2Deg;
                         base.gameObject.transform.rotation = Quaternion.Euler(0f, num18, 0f);
                     }
                     if (this.attackAnimation == "jumpCombo_3")

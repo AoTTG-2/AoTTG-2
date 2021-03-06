@@ -219,7 +219,7 @@ public class Bullet : Photon.MonoBehaviour
         {
             this.master = hero;
             this.velocity = v;
-            float f = Mathf.Acos(Vector3.Dot(v.normalized, v2.normalized)) * 57.29578f;
+            float f = Mathf.Acos(Vector3.Dot(v.normalized, v2.normalized)) * Mathf.Rad2Deg;
             if (Mathf.Abs(f) > 90f)
             {
                 this.velocity2 = Vector3.zero;

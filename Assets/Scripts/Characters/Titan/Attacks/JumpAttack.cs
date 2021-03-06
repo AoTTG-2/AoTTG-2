@@ -42,7 +42,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (isCrawler)
             {
                 var vector14 = Titan.Target.transform.position - Titan.transform.position;
-                var current = -Mathf.Atan2(vector14.z, vector14.x) * 57.29578f;
+                var current = -Mathf.Atan2(vector14.z, vector14.x) * Mathf.Rad2Deg;
                 var f = -Mathf.DeltaAngle(current, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
                 if (Titan.TargetDistance < Titan.AttackDistance * 3f
                     && Mathf.Abs(f) < 90f
@@ -169,7 +169,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         var force = new Vector3(JumpPosition.x, velocity.y, JumpPosition.z) - velocity;
                         Titan.Rigidbody.AddForce(force, ForceMode.VelocityChange);
                         Titan.Rigidbody.AddForce(Vector3.up * num18, ForceMode.VelocityChange);
-                        var num22 = Mathf.Atan2(Titan.Target.transform.position.x - Titan.transform.position.x, Titan.Target.transform.position.z - Titan.transform.position.z) * 57.29578f;
+                        var num22 = Mathf.Atan2(Titan.Target.transform.position.x - Titan.transform.position.x, Titan.Target.transform.position.z - Titan.transform.position.z) * Mathf.Rad2Deg;
                         Titan.gameObject.transform.rotation = Quaternion.Euler(0f, num22, 0f);
                     }
                 }

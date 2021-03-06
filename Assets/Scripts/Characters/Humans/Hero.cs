@@ -2815,6 +2815,7 @@ namespace Assets.Scripts.Characters.Humans
             return obj2;
         }
 
+        [Obsolete("Does this do something?")]
         //Hotfix for Issue 97.
         private void AddRightForce()
         {
@@ -2826,8 +2827,8 @@ namespace Assets.Scripts.Characters.Humans
         private Vector3 GetGlobaleFacingVector3(float resultAngle)
         {
             float num = -resultAngle + 90f;
-            float x = Mathf.Cos(num * 0.01745329f);
-            return new Vector3(x, 0f, Mathf.Sin(num * 0.01745329f));
+            float x = Mathf.Cos(num * Mathf.Deg2Rad);
+            return new Vector3(x, 0f, Mathf.Sin(num * Mathf.Deg2Rad));
         }
 
         private float GetGlobalFacingDirection(float horizontal, float vertical)

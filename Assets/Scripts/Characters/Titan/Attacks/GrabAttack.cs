@@ -31,7 +31,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
             GrabbedTarget = null;
             var delta = Titan.Target.transform.position - Titan.transform.position;
-            var angle = -Mathf.Atan2(delta.z, delta.x) * 57.29578f;
+            var angle = -Mathf.Atan2(delta.z, delta.x) * Mathf.Rad2Deg;
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
 
             if (Titan.Target.transform.position.y > Titan.Body.Neck.position.y - 3f * Titan.Size

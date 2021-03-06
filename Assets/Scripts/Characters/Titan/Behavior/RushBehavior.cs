@@ -68,7 +68,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             Titan.Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
             Vector3 vector17 = TargetLocation - Titan.transform.position;
-            var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f;
+            var current = -Mathf.Atan2(vector17.z, vector17.x) * Mathf.Rad2Deg;
             float num4 = -Mathf.DeltaAngle(current, Titan.transform.rotation.eulerAngles.y - 90f);
             Titan.transform.rotation = Quaternion.Lerp(Titan.transform.rotation, Quaternion.Euler(0f, Titan.transform.rotation.eulerAngles.y + num4, 0f), ((Titan.Speed * 0.5f) * Time.deltaTime) / Titan.Size);
             return true;

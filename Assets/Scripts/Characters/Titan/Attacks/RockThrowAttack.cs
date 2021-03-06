@@ -68,7 +68,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
             if (Titan.Animation[AttackAnimation].normalizedTime >= 0.11f && Titan.Animation[AttackAnimation].normalizedTime <= 1f)
             {
-                float y = Mathf.Atan2(Titan.Target.transform.position.x - Titan.transform.position.x, Titan.Target.transform.position.z - Titan.transform.position.z) * 57.29578f;
+                float y = Mathf.Atan2(Titan.Target.transform.position.x - Titan.transform.position.x, Titan.Target.transform.position.z - Titan.transform.position.z) * Mathf.Rad2Deg;
                 Titan.gameObject.transform.rotation = Quaternion.Euler(0f, y, 0f);
             }
             if ((Rock != null) && ((Titan.Animation[AttackAnimation].normalizedTime >= 0.62f && Titan.Animation[AttackAnimation].normalizedTime <= 1f)))
