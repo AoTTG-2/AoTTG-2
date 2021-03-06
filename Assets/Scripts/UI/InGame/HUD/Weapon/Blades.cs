@@ -17,43 +17,42 @@ namespace Assets.Scripts.UI.InGame.Weapon
         public GameObject currentLeftBladeSprite;
         public GameObject currentRightBladeSprite;
 
-        public UnityEngine.Sprite[] LeftBlades;
-        public UnityEngine.Sprite[] RightBlades;
+        public GameObject bloodPrefab;
 
-        private Image leftImage;
-        private Image rightImage;
+        public UnityEngine.Sprite[] BladesSprite;
+
+        public Image leftImage;
+        public Image rightImage;
         
         private int previousBlades;
 
-        private void Start()
-        {
-            leftImage = currentLeftBladeSprite.GetComponent<Image>();
-            rightImage = currentRightBladeSprite.GetComponent<Image>();
-        }
-
         private void Update()
+        {   
+            if(leftImage != null && rightImage != null)
+            {
+                if(bladeSta > 75)
+                {
+                    leftImage.sprite = rightImage.sprite = BladesSprite[0];
+                } else if (bladeSta > 50 && bladeSta <= 75)
+                {
+                    leftImage.sprite = rightImage.sprite = BladesSprite[1];
+                } else if (bladeSta > 25 && bladeSta <= 50)
+                {
+                    leftImage.sprite = rightImage.sprite = BladesSprite[2];
+                } else if (bladeSta > 0 && bladeSta <= 25)
+                {
+                    leftImage.sprite = rightImage.sprite = BladesSprite[3];
+                } else if (bladeSta <= 0)
+                {
+                    leftImage.sprite = rightImage.sprite = BladesSprite[4];
+                }
+            }   
+        }
+        
+        public void ShakeBlades(GameObject left, GameObject right)
         {
-            if(bladeSta > 75)
-            {
-                leftImage.sprite = LeftBlades[0];
-                rightImage.sprite = LeftBlades[0];
-            } else if (bladeSta > 50 && bladeSta <= 75)
-            {
-                leftImage.sprite = LeftBlades[1];
-                rightImage.sprite = LeftBlades[1];
-            } else if (bladeSta > 25 && bladeSta <= 50)
-            {
-                leftImage.sprite = LeftBlades[2];
-                rightImage.sprite = LeftBlades[2];
-            } else if (bladeSta > 0 && bladeSta <= 25)
-            {
-                leftImage.sprite = LeftBlades[3];
-                rightImage.sprite = LeftBlades[3];
-            } else if (bladeSta <= 0)
-            {
-                leftImage.sprite = LeftBlades[0];
-                rightImage.sprite = LeftBlades[0];
-            }
+            Instantiate(bloodPrefab, left.transform);
+            Instantiate(bloodPrefab, right.transform);
         }
 
         public void SetBlades(int blades)
@@ -90,6 +89,11 @@ namespace Assets.Scripts.UI.InGame.Weapon
                     previousLeftBlade = Instantiate(currentLeftBladeSprite, currentLeftBlade.transform);
 
                     previousRightBlade = Instantiate(currentRightBladeSprite, currentRightBlade.transform);
+
+                    leftImage = previousLeftBlade.GetComponent<Image>();
+                    rightImage = previousRightBlade.GetComponent<Image>();
+
+                    ShakeBlades(previousLeftBlade, previousRightBlade);
                 }
                 else
                 {

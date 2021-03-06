@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7993780232329929166}
   - component: {fileID: 178006397564297835}
   - component: {fileID: 8105181374620591212}
+  - component: {fileID: 2300846768699289394}
   m_Layer: 5
   m_Name: Blood
   m_TagString: Untagged
@@ -95,3 +96,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2300846768699289394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608923908675114103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc767132b9d4584dbf19597cacb4438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countdown: 5
