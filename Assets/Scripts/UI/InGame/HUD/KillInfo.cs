@@ -65,10 +65,31 @@ namespace Assets.Scripts.UI.InGame.HUD
             }
             else
             {
+                Color32 green = new Color32(110,247,59, 255);
+                Color32 yellow = new Color32(246,255,77, 255);
+                Color32 orange = new Color32(240,99,53, 255);
+                Color32 purple = new Color32(134,50,194, 255);
+                Color32 red = new Color32(186,43,43, 255);
                 DamageLabel.text = dmg.ToString();
-                if (dmg >= 1000)
+                if (dmg >= 500 && dmg < 1000)
                 {
-                    DamageLabel.color = Color.red;
+                    DamageLabel.color = green;
+                } else 
+                if (dmg >= 1000 && dmg < 2000)
+                {
+                    DamageLabel.color = yellow;
+                } else 
+                if (dmg >= 2000 && dmg < 3000)
+                {
+                    DamageLabel.color = orange;
+                } else 
+                if (dmg >= 3000 && dmg < 4000)
+                {
+                    DamageLabel.color = purple;
+                } else 
+                if (dmg >= 4000)
+                {
+                    DamageLabel.color = red;
                 }
             }
         }

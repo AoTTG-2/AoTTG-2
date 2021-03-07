@@ -63,7 +63,7 @@ public class Hero : Human
     public float currentBladeSta = 100f;
     private BUFF currentBuff;
     public Camera currentCamera;
-    private float currentGas = 100f;
+    public float currentGas = 100f;
     public float currentSpeed;
     public Vector3 currentV;
     private bool dashD;

@@ -41,12 +41,6 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
 
         PlayerPrefsKey = gameObject.name;
 
-        // Load the default layout every time the player starts the game. This is because different resolutions have different default layouts. 
-        PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
-        PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
-        PlayerPrefs.SetInt(PlayerPrefsKey + "DefaultVisibility", 1);
-        PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
-
         // If the player has a custom layout, then load that. 
         if (PlayerPrefs.GetInt("hasCustomHUD", 0) == 1 && Screen.width == PlayerPrefs.GetFloat("HUDResolutionX", Screen.width))
         {
@@ -55,6 +49,11 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
         }else // If resolution changes, then reset hasCustomLayout.
         {   
             PlayerPrefs.SetInt("hasCustomHUD", 0);
+            // Load the default layout every time the player starts the game. This is because different resolutions have different default layouts. 
+            PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultX", this.transform.position.x);
+            PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultY", this.transform.position.y);
+            PlayerPrefs.SetInt(PlayerPrefsKey + "DefaultVisibility", 1);
+            PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
         }
 
         // Setting the HUD resolution after the default/custom layout logic ensures that the default layout will be chosen if the resolution changes. 

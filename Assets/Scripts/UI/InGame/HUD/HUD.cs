@@ -10,24 +10,17 @@ namespace Assets.Scripts.UI.InGame.HUD
         public GameObject Damage;
         public Labels Labels;
         public GameObject BloodSmear;
+        public UnityEngine.Sprite[] BloodSmearSprite;
         public bool inEditMode;
         public bool isActive = true;
-        public float damageTimer = 2.25f;
-        public bool inDamageWindow;
 
-        void Update()
+
+        public void Update()
         {
-            if(damageTimer > 0)
+            if(UnityEngine.Input.GetKeyDown(KeyCode.J))
             {
-                damageTimer -= Time.deltaTime;
-                inDamageWindow = true;
+                SetDamage(UnityEngine.Random.Range(1000,5000));
             }
-            
-            if(damageTimer <= 0)
-            {
-                inDamageWindow = false;
-            }
-            
         }
 
         public void SetDamage(int damage)
@@ -36,18 +29,8 @@ namespace Assets.Scripts.UI.InGame.HUD
             foreach (var label in damageLabels)
             {
                 label.fontSize = ScaleDamageText(damage);
-                if(inDamageWindow)
-                {
-                    label.text += " " + damage.ToString(); //Do some effects with double damage, maybe a certain animations
-                    // label.color = Color.red;
-                }
-                else
-                {
-                    label.text = damage.ToString();
-                }
+                label.text = damage.ToString();
             }
-
-            damageTimer = 2.25f;
 
             ShowDamage();
             ShowBloodSmear(damage);
@@ -73,7 +56,9 @@ namespace Assets.Scripts.UI.InGame.HUD
         {
             if(damage >= 1000)
             {
-                BloodSmear.GetComponent<Animator>().SetTrigger("ShowBloodSmear");
+                GameObject BloodOverlay = Instantiate(BloodSmear, transform);
+                BloodOverlay.GetComponent<Image>().sprite = BloodSmearSprite[UnityEngine.Random.Range(0,BloodSmearSprite.Length)];
+                Destroy(BloodOverlay, 5f);
             }
         }
 

@@ -69,6 +69,7 @@ public class Blades : Weapon
         }
         
         bladesUi.bladeSta = Hero.currentBladeSta;
+        GameObject.Find("Gas").GetComponent<Gas>().currentGas = Hero.currentGas;
         
     }
 
