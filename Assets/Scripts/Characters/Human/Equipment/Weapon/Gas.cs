@@ -9,6 +9,6 @@ public class Gas : MonoBehaviour
 
     void Update()
     {
-        GasNotification.SetActive(currentGas <= 10f);
+        GasNotification.SetActive(currentGas <= 20f);
     }
 }
