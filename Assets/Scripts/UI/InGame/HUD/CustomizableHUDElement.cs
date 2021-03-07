@@ -173,6 +173,32 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
         transform.localScale = Vector3.one * loadedScale;
     }
 
+    public void SaveTempPosition()
+    {
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "TempX", this.transform.position.x);
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "TempY", this.transform.position.y);
+        PlayerPrefs.SetFloat(PlayerPrefsKey + "TempScale", this.transform.localScale.x);
+        PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
+        PlayerPrefs.SetFloat("HUDResolutionY", Screen.height);
+        PlayerPrefs.SetInt(PlayerPrefsKey + "TempVisibility", RCextensions.boolToInt(isVisible));
+    }
+
+    public void LoadTempPosition()
+    {
+        float PlayerPrefsX = PlayerPrefs.GetFloat(PlayerPrefsKey + "TempX", this.transform.position.x);
+        float PlayerPrefsY = PlayerPrefs.GetFloat(PlayerPrefsKey + "TempY", this.transform.position.y);
+        float loadedScale = PlayerPrefs.GetFloat(PlayerPrefsKey + "TempScale", 1);
+        float baseWidth = PlayerPrefs.GetFloat("HUDResolutionX", Screen.width);
+        float baseHeight = PlayerPrefs.GetFloat("HUDResolutionY", Screen.height);
+                
+        isVisible = RCextensions.intToBool(PlayerPrefs.GetInt(PlayerPrefsKey + "TempVisibility", 1));
+
+        Vector3 newPositionFromResolution = new Vector3( Screen.width * (PlayerPrefsX/baseWidth) , Screen.height * (PlayerPrefsY/baseHeight) , transform.position.z);
+
+        transform.position = newPositionFromResolution;
+        transform.localScale = Vector3.one * loadedScale;
+    }
+
     public void SetVisibility()
     {
         if(isVisible)

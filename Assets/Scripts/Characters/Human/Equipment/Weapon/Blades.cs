@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Blades : Weapon 
 {
+    private Assets.Scripts.UI.InGame.Weapon.Blades bladesUi;
+
     public Blades()
     {
         HookForwardLeft = "air_hook_l";
@@ -60,7 +62,7 @@ public class Blades : Weapon
 
     public override void UpdateSupplyUi(GameObject inGameUi)
     {
-        var bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
+        bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
         if(Hero.currentBladeSta != 0)
         {
             bladesUi.SetBlades(AmountLeft);
@@ -110,6 +112,7 @@ public class Blades : Weapon
         if (Hero.currentBladeSta > 0f)
         {
             Hero.currentBladeSta -= amount;
+            bladesUi.ShakeBlades();
             if (Hero.currentBladeSta <= 0f)
             {
                 if (Hero.photonView.isMine)

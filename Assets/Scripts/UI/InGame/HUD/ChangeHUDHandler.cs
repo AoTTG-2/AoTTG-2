@@ -62,6 +62,7 @@ namespace Assets.Scripts.UI.InGame
                 //You should want to always have the elements visible whenever you're on the edit mode.
                 element.GetComponent<CustomizableHUDElement>().ShowElement();
                 element.GetComponent<CustomizableHUDElement>().AnimateCustomization();
+                element.GetComponent<CustomizableHUDElement>().SaveTempPosition();
             }
 
             // TODO: Try to figure out how to stop camera from moving when in the menu. Below was my attempt but the cursor would magically disappear.
@@ -129,6 +130,7 @@ namespace Assets.Scripts.UI.InGame
             foreach(GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHUDElement>().StopCustomization();
+                element.GetComponent<CustomizableHUDElement>().LoadTempPosition();
             }
             HUD.inEditMode = false;
             SetVisibility();

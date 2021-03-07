@@ -24,6 +24,9 @@ namespace Assets.Scripts.UI.InGame.Weapon
         public Image leftImage;
         public Image rightImage;
         
+        private GameObject curLeft;
+        private GameObject curRight;
+
         private int previousBlades;
 
         private void Update()
@@ -49,10 +52,12 @@ namespace Assets.Scripts.UI.InGame.Weapon
             }   
         }
         
-        public void ShakeBlades(GameObject left, GameObject right)
+        public void ShakeBlades()
         {
-            Instantiate(bloodPrefab, left.transform);
-            Instantiate(bloodPrefab, right.transform);
+            if(curLeft.transform.childCount < 5) Instantiate(bloodPrefab, curLeft.transform); //To prevent overpopulating blood prefabs
+            if(curRight.transform.childCount < 5) Instantiate(bloodPrefab, curRight.transform);
+            currentLeftBlade.GetComponent<Animator>().SetTrigger("Shake");
+            currentRightBlade.GetComponent<Animator>().SetTrigger("Shake");
         }
 
         public void SetBlades(int blades)
@@ -93,7 +98,8 @@ namespace Assets.Scripts.UI.InGame.Weapon
                     leftImage = previousLeftBlade.GetComponent<Image>();
                     rightImage = previousRightBlade.GetComponent<Image>();
 
-                    ShakeBlades(previousLeftBlade, previousRightBlade);
+                    curLeft = previousLeftBlade;
+                    curRight = previousRightBlade;
                 }
                 else
                 {
