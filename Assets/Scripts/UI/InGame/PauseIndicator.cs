@@ -15,10 +15,8 @@ namespace Assets.Scripts.UI.InGame
         {
             if (PhotonNetwork.offlineMode)
             {
-                GameObject.Find("Gamemode").GetComponent<Gamemode.RacingGamemode>().enabled = false;
                 return;
             }
-            GameObject.Find("Gamemode").GetComponent<Gamemode.RacingGamemode>().enabled = false;
             gameObject.GetComponentInChildren<Text>().text = "Game Paused";
             UnPausing = false;
             Show();
@@ -31,7 +29,6 @@ namespace Assets.Scripts.UI.InGame
         {
             if (PhotonNetwork.offlineMode)
             {
-                GameObject.Find("Gamemode").GetComponent<Gamemode.RacingGamemode>().enabled = true;
                 return;
             }
             UnPausing = true;
