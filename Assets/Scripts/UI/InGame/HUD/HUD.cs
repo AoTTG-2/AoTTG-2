@@ -14,7 +14,11 @@ namespace Assets.Scripts.UI.InGame.HUD
         public bool inEditMode;
         public bool isActive = true;
 
+        public void Start()
+        {
 
+        }
+        
         public void Update()
         {
             if(UnityEngine.Input.GetKeyDown(KeyCode.J))
