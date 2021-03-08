@@ -20,6 +20,9 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
             GetComponent<Button>().onClick.AddListener(Sort);
 
             scoreboard = GameObject.Find("Scoreboard").GetComponent<Scoreboard>();
+
+            //sort score by default
+            if(defaultLabel == "SCORE") Sort();
         }
 
         public void Sort()
@@ -38,6 +41,7 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
                     button.SetDefault();
                 }
             }
+
         }
 
         void SetIndicator()

@@ -29,10 +29,6 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
         void Start()
         {
             sortButtons = GameObject.FindObjectsOfType<SortButton>();
-            foreach(SortButton btn in sortButtons)
-            {
-                if(btn.defaultLabel == "SCORE") btn.Sort(); //Sort by score on start
-            }
         }
 
         private void LateUpdate()
