@@ -4223,17 +4223,8 @@ public class Hero : Human
         float num2 = this.currentBladeSta / this.totalBladeSta;
         cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentGas / totalGas;
         if (num <= 0.25f)
-        {
-            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.red;
-        }
-        else if (num < 0.5f)
-        {
-            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.green;
-        }
-        else
-        {
-            cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
-        }
+        cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = new Color(1,1,1, (currentGas/totalGas)*0.5f + 0.5f);
+        
         Equipment.Weapon.UpdateSupplyUi(InGameUI);
         
         //if (!this.useGun)
