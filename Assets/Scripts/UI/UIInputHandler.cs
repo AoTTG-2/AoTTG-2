@@ -11,6 +11,11 @@ namespace Assets.Scripts.UI
         private void Start()
         {
             interactionWheel = gameObject.GetComponentInChildren<InteractionWheel>(true).gameObject;
+
+            foreach(GameObject hook in hooksIndicators)
+            {
+                hook.transform.localScale = Vector3.one * PlayerPrefs.GetInt("Hook Indicator", 1);
+            }
         }
 
         private void Update()
@@ -31,12 +36,14 @@ namespace Assets.Scripts.UI
             {
                 foreach(GameObject hook in hooksIndicators)
                 {
-                    if(hook.activeSelf)
+                    if(hook.transform.localScale == Vector3.one)
                     {
-                        hook.SetActive(false);
+                        hook.transform.localScale = Vector3.zero;
+                        PlayerPrefs.SetInt("Hook Indicator", 0);
                     } else
                     {
-                        hook.SetActive(true);
+                        hook.transform.localScale = Vector3.one;
+                        PlayerPrefs.SetInt("Hook Indicator", 1);
                     }
                 }
             }
