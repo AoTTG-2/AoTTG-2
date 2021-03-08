@@ -45,6 +45,10 @@ namespace Assets.Scripts.Room.Chat
         public void ClearMessages()
         {
             messages.Clear();
+            foreach(Transform child in messagePrefabParent.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
         public void AddMessage(string message)
@@ -113,9 +117,9 @@ namespace Assets.Scripts.Room.Chat
 
         private void RemoveMessageIfMoreThanMax()
         {
-            if (messages.Count() == MaxStoredMessages)
+            if(messagePrefabParent.transform.childCount >= MaxStoredMessages)
             {
-                messages.RemoveAt(0);
+                Destroy(messagePrefabParent.transform.GetChild(0).gameObject);
             }
         }
 
