@@ -64,8 +64,6 @@ namespace Assets.Scripts.UI.InGame
                 element.GetComponent<CustomizableHUDElement>().AnimateCustomization();
                 element.GetComponent<CustomizableHUDElement>().SaveTempPosition();
             }
-
-            // TODO: Try to figure out how to stop camera from moving when in the menu. Below was my attempt but the cursor would magically disappear.
             
             this.Show();
             menu.Hide();

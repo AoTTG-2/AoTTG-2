@@ -86,15 +86,8 @@ namespace Assets.Scripts.UI.InGame
                 TogglePauseMenu();
             }
             
-            // TODO: I hardcoded in KeyCode.Tab, but figure out how to implement the enumeration found in InputManager.
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
-            {
-                Scoreboard.Show();
-            }
-            if (UnityEngine.Input.GetKeyUp(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat)))
-            {
-                Scoreboard.Hide();
-            }
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Show();
+            if (UnityEngine.Input.GetKeyUp(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Hide();
             
         }
 
