@@ -36,16 +36,27 @@ namespace Assets.Scripts.Gamemode
 
             if (!PhotonNetwork.isMasterClient)
                 photonView.RPC(nameof(RequestStatus), PhotonTargets.MasterClient);
-
-            if (Objectives.Count == 0) return;
-            Objectives = Objectives.OrderBy(x => x.Order).ToList();
-            for (int i = 0; i < Objectives.Count; i++)
-            {
-                if (i + 1 >= Objectives.Count) continue;
-                Objectives[i].NextObjective = Objectives[i + 1];
-            }
-            Objectives[0].Current();
         }
+        
+	    public void AddObjective(RacingObjective objective)
+	    {
+	    	Objectives.Add(objective);
+	    	if(Objectives.Count == FindObjectsOfType<RacingObjective>().Length)
+	    	{
+	    		AllObjectivesAdded();
+	    	}
+	    }
+	    
+	    private void AllObjectivesAdded()
+	    {            
+		    Objectives = Objectives.OrderBy(x => x.Order).ToList();
+		    for (int i = 0; i < Objectives.Count; i++)
+		    {
+			    if (i + 1 >= Objectives.Count) continue;
+			    Objectives[i].NextObjective = Objectives[i + 1];
+		    }
+		    Objectives[0].Current();
+	    }
 
         protected override void SetStatusTop()
         {

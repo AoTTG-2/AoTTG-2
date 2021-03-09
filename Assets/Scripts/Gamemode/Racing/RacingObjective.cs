@@ -77,8 +77,8 @@ namespace Assets.Scripts.Gamemode.Racing
                 Destroy(gameObject.transform.parent.gameObject);
                 return;
             }
-            Gamemode.Objectives.Add(this);
-            State = ObjectiveState.Queue;
+	        State = ObjectiveState.Queue;
+	        Gamemode.AddObjective(this);
         }
 
         private void OnDestroy()
@@ -115,8 +115,7 @@ namespace Assets.Scripts.Gamemode.Racing
             if (!hero.photonView.isMine) return;
             State = ObjectiveState.Taken;
             Hero = hero;
-            audioSource.Play();
-            
+	        if (audioSource) audioSource.Play();          
 
             FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
             hero.fillGas();
