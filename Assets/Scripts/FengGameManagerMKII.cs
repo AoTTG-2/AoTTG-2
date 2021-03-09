@@ -2162,6 +2162,7 @@ namespace Assets.Scripts
             ignoreList = new List<int>();
             this.restartCount = new List<float>();
             heroHash = new ExitGames.Client.Photon.Hashtable();
+            needChooseSide = true;
         }
 
         [Obsolete("Move into a RespawnService")]
