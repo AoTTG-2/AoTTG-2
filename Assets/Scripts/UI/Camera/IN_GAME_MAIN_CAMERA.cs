@@ -5,6 +5,7 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.UI.InGame;
 using System;
 using UnityEngine;
 using static Assets.Scripts.FengGameManagerMKII;
@@ -842,6 +843,12 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         // TODO: Fix titan locking
         locker = GameObject.Find("locker");
         CreateSnapShotRT2();
+
+        //SFX Visualizer
+        SfxVisualizer sfxVisualizer = GameObject.Find("SFX Visualizer").GetComponent<SfxVisualizer>();
+        sfxVisualizer.cam = this.transform;
+        sfxVisualizer.player = this.head;
+        sfxVisualizer.visualize = true;
     }
 
     private void OnDestroy()
