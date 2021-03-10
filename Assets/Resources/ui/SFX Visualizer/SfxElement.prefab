@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 376574171644268510}
   - component: {fileID: 5142868576407183767}
   - component: {fileID: 2198014212071063169}
+  - component: {fileID: 3684292627801558837}
   m_Layer: 5
   m_Name: SfxElement
   m_TagString: Untagged
@@ -35,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 71.8112, y: 288.11}
+  m_SizeDelta: {x: 184.6666, y: 288.11}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5142868576407183767
 CanvasRenderer:
@@ -75,3 +76,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &3684292627801558837
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473715476384993244}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4031939c69b6cfa408b926b7a1abbb26, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -15,34 +15,29 @@ namespace Assets.Scripts.UI.InGame
         public float maxDistance;
 
         public bool visualize;
-        
-        void Start()
-        {
-
-        }
 
         void Update()
         {
             if(visualize)
             {
-            // ringElement.transform.rotation = Quaternion.Euler(0,0,ringUnit);
                 foreach(SfxMarker marker in sfxMarkers)
                 {
                     marker.image.transform.rotation = Quaternion.Euler(0,0,GetUnit(marker));
-                    Debug.Log(GetUnit(marker));
 
                     if(!marker.isGlobal)
                     {
-                        float dst = Vector2.Distance (new Vector2(cam.transform.position.x, cam.transform.position.z), marker.position);
+                        float dst = Vector2.Distance (new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
                         float scale = 0f;
 
                         if (dst < maxDistance)
+                        {
                             scale = 1f - (dst / maxDistance);
+                        }
 
-                        //Fades whenever the player is far away
-                        var tempColor = marker.image.color;
-                        tempColor.a = scale;
-                        marker.image.color = tempColor;
+                        marker.distanceScale = scale;
+                    } else
+                    {
+                        marker.distanceScale = 1;
                     }
                 } 
             }
@@ -58,7 +53,7 @@ namespace Assets.Scripts.UI.InGame
             sfxMarkers.Add(marker);
         }
 
-        public void DeleteCompassMarker(SfxMarker marker)
+        public void DeleteSfxMarker(SfxMarker marker)
         {
             foreach(Transform child in transform)
             {

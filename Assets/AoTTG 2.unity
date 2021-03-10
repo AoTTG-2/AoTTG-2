@@ -1024,6 +1024,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1595354040}
     m_Modifications:
+    - target: {fileID: 323642727744318108, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -94
+      objectReference: {fileID: 0}
     - target: {fileID: 323642728076069328, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1174,6 +1179,27 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4904294358303107658, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4904294358303107658, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7660693245651585054, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: maxDistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7660693245651585054, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: sfxMarkerPrefab
+      value: 
+      objectReference: {fileID: 1473715476384993244, guid: 384f78aa6e8442a4aa9cba250173ea79,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 739f3587de222de419a53e81827c31b0, type: 3}
 --- !u!114 &1692878494 stripped
