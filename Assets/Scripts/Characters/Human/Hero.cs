@@ -14,6 +14,8 @@ using UnityEngine.UI;
 
 public class Hero : Human
 {
+    public static Action<Rigidbody> OnSpawn;
+
     public Equipment Equipment { get; set; }
     public EquipmentType EquipmentType;
 
@@ -253,6 +255,8 @@ public class Hero : Human
         Equipment = gameObject.AddComponent<Equipment>();
         Faction = Service.Faction.GetHumanity();
         Service.Entity.Register(this);
+
+        OnSpawn?.Invoke(GetComponent<Rigidbody>());
     }
 
     public void backToHuman()
