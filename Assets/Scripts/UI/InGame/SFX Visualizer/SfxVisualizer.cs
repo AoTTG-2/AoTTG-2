@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.InGame
         public float ringUnit;
 
         public Transform cam;
-        public Transform player;
+        // public Transform player;
         public float maxDistance;
 
         public bool visualize;
@@ -27,7 +27,7 @@ namespace Assets.Scripts.UI.InGame
 
                     if(!marker.isGlobal)
                     {
-                        float dst = Vector2.Distance (new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
+                        float dst = Vector2.Distance (new Vector2(cam.transform.position.x, cam.transform.position.z), marker.position);
                         float scale = 0f;
 
                         if (dst < maxDistance)
@@ -69,7 +69,7 @@ namespace Assets.Scripts.UI.InGame
 
         float GetUnit (SfxMarker marker)
         {
-            Vector2 playerPos = playerPos = new Vector2(player.transform.position.x, player.transform.position.z);
+            Vector2 playerPos = new Vector2(cam.transform.position.x, cam.transform.position.z);
             Vector2 playerFwd = new Vector2(cam.transform.forward.x, cam.transform.forward.z);
 
             float angle = Vector2.SignedAngle (marker.position - playerPos, playerFwd);
