@@ -6,26 +6,24 @@ namespace Assets.Scripts.UI.InGame
 {
     public class SfxMarker : UiElement
     {
+        [Header("Customize")]
         public UnityEngine.Sprite icon;
-        public Image image;
-
-        public Vector2 position;
-
-        public string markerID;
-
+        public Color markerColor;
+        [Header("Settings")]
+        public bool triggerOnStart;
         public bool isGlobal;
         public bool followAlways;
-        public float distanceScale;
-
-
-        public float timeToDie;
         public float defaultTimeToFade = 1f;
+
+        [HideInInspector]public Image image;
+        [HideInInspector]public Vector2 position;
+        [HideInInspector]public string markerID;
+        [HideInInspector]public float distanceScale;
         float timeToFade = 1f;
-        public float fadingAlpha;
-
+        [HideInInspector]public float fadingAlpha;
         SfxVisualizer sfxVisualizer;
-
         private GameObject markerGO;
+        [HideInInspector]public GameObject markerGOicon;
 
 
         void Awake()
@@ -39,20 +37,13 @@ namespace Assets.Scripts.UI.InGame
             sfxVisualizer = GameObject.Find("SFX Visualizer").GetComponent<SfxVisualizer>();
             sfxVisualizer.AddSfxMarker(this);
             markerGO = GameObject.Find(markerID);
+            markerGOicon = markerGO.transform.GetChild(0).gameObject;
             position = new Vector2(transform.position.x, transform.position.z);
+            if(triggerOnStart) TriggerSound();
         }
 
         void Update()
         {
-            if(timeToDie > 0)
-            {
-                timeToDie -= Time.deltaTime;
-            } else if(timeToDie <= 0)
-            {
-                sfxVisualizer.DeleteSfxMarker(this);
-            }
-
-            
             if(timeToFade > 0)
             {
                 timeToFade -= Time.deltaTime;
@@ -67,7 +58,9 @@ namespace Assets.Scripts.UI.InGame
             }
 
             fadingAlpha = distanceScale * timeToFade/defaultTimeToFade;
-            markerGO.GetComponent<Image>().color = new Color(1,1,1,fadingAlpha * 0.8f);
+            markerColor.a = fadingAlpha * 0.8f;
+            markerGO.GetComponent<Image>().color = markerColor;
+            markerGOicon.GetComponent<Image>().color = new Color(1,1,1,fadingAlpha);
         }
 
         public void TriggerSound()

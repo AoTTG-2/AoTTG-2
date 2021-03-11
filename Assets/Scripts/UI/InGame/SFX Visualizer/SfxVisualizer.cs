@@ -23,6 +23,7 @@ namespace Assets.Scripts.UI.InGame
                 foreach(SfxMarker marker in sfxMarkers)
                 {
                     marker.image.transform.rotation = Quaternion.Euler(0,0,GetUnit(marker));
+                    marker.markerGOicon.transform.rotation = Quaternion.Euler(0,0,-marker.image.transform.rotation.z);
 
                     if(!marker.isGlobal)
                     {
@@ -48,7 +49,7 @@ namespace Assets.Scripts.UI.InGame
             GameObject newMarker = Instantiate(sfxMarkerPrefab, transform);
             newMarker.name = marker.markerID;
             marker.image = newMarker.GetComponent<Image>();
-            marker.image.sprite = marker.icon;
+            newMarker.transform.GetChild(0).GetComponent<Image>().sprite = marker.icon;
 
             sfxMarkers.Add(marker);
         }
@@ -68,7 +69,7 @@ namespace Assets.Scripts.UI.InGame
 
         float GetUnit (SfxMarker marker)
         {
-            Vector2 playerPos = new Vector2(player.transform.position.x, player.transform.position.z);
+            Vector2 playerPos = playerPos = new Vector2(player.transform.position.x, player.transform.position.z);
             Vector2 playerFwd = new Vector2(cam.transform.forward.x, cam.transform.forward.z);
 
             float angle = Vector2.SignedAngle (marker.position - playerPos, playerFwd);

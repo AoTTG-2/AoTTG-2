@@ -881,8 +881,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void Footstep()
         {
-            AudioSourceFoot.PlayOneShot(AudioSourceFoot.clip);
-            this.gameObject.GetComponent<Assets.Scripts.UI.InGame.SfxMarker>().TriggerSound();
+            AudioSourceFoot.PlayOneShotAndVisualize(AudioSourceFoot.clip, this.gameObject);
         }
 
         #endregion

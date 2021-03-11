@@ -2471,13 +2471,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1b93a7d61def74aa0421f8818b87c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: b0d8aa5a15ccdce45bc6edab868d5d9c, type: 3}
+  icon: {fileID: 21300000, guid: 89f4c49d1a3fd2b4a97c6fb9327db742, type: 3}
+  markerColor: {r: 0.5849056, g: 0.16278034, b: 0.18364756, a: 1}
+  triggerOnStart: 0
+  isGlobal: 0
+  followAlways: 1
+  defaultTimeToFade: 2
   image: {fileID: 0}
   position: {x: 0, y: 0}
   markerID: 
-  isGlobal: 0
-  followAlways: 1
-  timeToDie: 9899
+  distanceScale: 0
+  fadingAlpha: 0
+  markerGOicon: {fileID: 0}
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0

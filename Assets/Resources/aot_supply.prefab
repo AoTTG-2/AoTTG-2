@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4225133640910126}
   - component: {fileID: 114042612924044926}
   - component: {fileID: 114541545991662818}
-  - component: {fileID: 5380010750136889700}
   m_Layer: 0
   m_Name: aot_supply
   m_TagString: Untagged
@@ -80,24 +79,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &5380010750136889700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308685446529770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d1b93a7d61def74aa0421f8818b87c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: c0c4a215efaf2a344ad6cfcdfdadd4a9, type: 3}
-  image: {fileID: 0}
-  position: {x: 0, y: 0}
-  markerID: 
-  isGlobal: 1
-  followAlways: 1
 --- !u!1 &1418053327083272
 GameObject:
   m_ObjectHideFlags: 0

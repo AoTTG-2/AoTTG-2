@@ -847,7 +847,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         //SFX Visualizer
         SfxVisualizer sfxVisualizer = GameObject.Find("SFX Visualizer").GetComponent<SfxVisualizer>();
         sfxVisualizer.cam = this.transform;
-        sfxVisualizer.player = this.head;
+        sfxVisualizer.player = head.transform;
         sfxVisualizer.visualize = true;
     }
 
