@@ -12,5 +12,6 @@
         Annie,
         Reiner,
         Bertholdt,
+        BombPvp,
     }
 }

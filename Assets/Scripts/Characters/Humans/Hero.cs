@@ -164,7 +164,6 @@ namespace Assets.Scripts.Characters.Humans
         public float skillCDDuration;
         public float skillCDLast;
         public float skillCDLastCannon;
-        private SkillId skillId { get; set; }
         public string skillIDHUD;
         public AudioSource slash;
         public AudioSource slashHit;
@@ -371,7 +370,7 @@ namespace Assets.Scripts.Characters.Humans
 
             if ((state == HERO_STATE.Grab) && !useGun)
             {
-                if (skillId == SkillId.eren)
+                if (Skill is ErenSkill)
                 {
                     ShowSkillCD();
                     if (!IN_GAME_MAIN_CAMERA.isPausing)
@@ -388,7 +387,7 @@ namespace Assets.Scripts.Characters.Humans
                         else
                         {
                             skillCDDuration = skillCDLast;
-                            if ((skillId == SkillId.eren) && (titanWhoGrabMe.GetComponent<MindlessTitan>() != null))
+                            if (titanWhoGrabMe.GetComponent<MindlessTitan>() != null)
                             {
                                 Ungrabbed();
                                 photonView.RPC(nameof(NetSetIsGrabbedFalse), PhotonTargets.All, new object[0]);
@@ -516,12 +515,14 @@ namespace Assets.Scripts.Characters.Humans
                             else
                             {
                                 skillCDDuration = skillCDLast;
-                                if (skillId == SkillId.eren)
+                                //TODO: Eren Skill
+                                if (Skill is ErenSkill)
                                 {
                                     ErenTransform();
                                     return;
                                 }
-                                if (skillId == SkillId.marco)
+                                //TODO: Marco Skill
+                                if (Skill is MarcoSkill)
                                 {
                                     if (IsGrounded())
                                     {
@@ -534,7 +535,8 @@ namespace Assets.Scripts.Characters.Humans
                                         skillCDDuration = 0f;
                                     }
                                 }
-                                else if (skillId == SkillId.armin)
+                                //TODO: Armin Skill
+                                else if (Skill is ArminSkill)
                                 {
                                     if (IsGrounded())
                                     {
@@ -547,7 +549,8 @@ namespace Assets.Scripts.Characters.Humans
                                         skillCDDuration = 0f;
                                     }
                                 }
-                                else if (skillId == SkillId.sasha)
+                                //TODO: Sasha Skill
+                                else if (Skill is SashaSkill)
                                 {
                                     if (IsGrounded())
                                     {
@@ -719,7 +722,7 @@ namespace Assets.Scripts.Characters.Humans
                         bool flag5 = false;
                         bool flag6 = false;
                         //TODO: AHSS skill dual shot
-                        if (InputManager.KeyUp(InputHuman.AttackSpecial) && (skillId != SkillId.bomb))
+                        if (InputManager.KeyUp(InputHuman.AttackSpecial) && (!(Skill is BombPvpSkill)))
                         {
                             if (leftGunHasBullet && rightGunHasBullet)
                             {
@@ -2331,65 +2334,65 @@ namespace Assets.Scripts.Characters.Humans
 
         public void BombInit()
         {
-            skillIDHUD = skillId.ToString();
-            skillCDDuration = skillCDLast;
-            if (GameSettings.PvP.Bomb == true)
-            {
-                int num = (int) FengGameManagerMKII.settings[250];
-                int num2 = (int) FengGameManagerMKII.settings[251];
-                int num3 = (int) FengGameManagerMKII.settings[252];
-                int num4 = (int) FengGameManagerMKII.settings[253];
-                if ((num < 0) || (num > 10))
-                {
-                    num = 5;
-                    FengGameManagerMKII.settings[250] = 5;
-                }
-                if ((num2 < 0) || (num2 > 10))
-                {
-                    num2 = 5;
-                    FengGameManagerMKII.settings[0xfb] = 5;
-                }
-                if ((num3 < 0) || (num3 > 10))
-                {
-                    num3 = 5;
-                    FengGameManagerMKII.settings[0xfc] = 5;
-                }
-                if ((num4 < 0) || (num4 > 10))
-                {
-                    num4 = 5;
-                    FengGameManagerMKII.settings[0xfd] = 5;
-                }
-                if ((((num + num2) + num3) + num4) > 20)
-                {
-                    num = 5;
-                    num2 = 5;
-                    num3 = 5;
-                    num4 = 5;
-                    FengGameManagerMKII.settings[250] = 5;
-                    FengGameManagerMKII.settings[0xfb] = 5;
-                    FengGameManagerMKII.settings[0xfc] = 5;
-                    FengGameManagerMKII.settings[0xfd] = 5;
-                }
-                bombTimeMax = ((num2 * 60f) + 200f) / ((num3 * 60f) + 200f);
-                bombRadius = (num * 4f) + 20f;
-                bombCD = (num4 * -0.4f) + 5f;
-                bombSpeed = (num3 * 60f) + 200f;
-                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float) FengGameManagerMKII.settings[0xf6]);
-                propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float) FengGameManagerMKII.settings[0xf7]);
-                propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float) FengGameManagerMKII.settings[0xf8]);
-                propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float) FengGameManagerMKII.settings[0xf9]);
-                propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, bombRadius);
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                skillId = SkillId.bomb;
-                skillIDHUD = SkillId.armin.ToString();
-                skillCDLast = bombCD;
-                skillCDDuration = 10f;
-                if (Service.Time.GetRoundTime() > 10f)
-                {
-                    skillCDDuration = 5f;
-                }
-            }
+            //skillIDHUD = skillId.ToString();
+            //skillCDDuration = skillCDLast;
+            //if (GameSettings.PvP.Bomb == true)
+            //{
+            //    int num = (int) FengGameManagerMKII.settings[250];
+            //    int num2 = (int) FengGameManagerMKII.settings[251];
+            //    int num3 = (int) FengGameManagerMKII.settings[252];
+            //    int num4 = (int) FengGameManagerMKII.settings[253];
+            //    if ((num < 0) || (num > 10))
+            //    {
+            //        num = 5;
+            //        FengGameManagerMKII.settings[250] = 5;
+            //    }
+            //    if ((num2 < 0) || (num2 > 10))
+            //    {
+            //        num2 = 5;
+            //        FengGameManagerMKII.settings[0xfb] = 5;
+            //    }
+            //    if ((num3 < 0) || (num3 > 10))
+            //    {
+            //        num3 = 5;
+            //        FengGameManagerMKII.settings[0xfc] = 5;
+            //    }
+            //    if ((num4 < 0) || (num4 > 10))
+            //    {
+            //        num4 = 5;
+            //        FengGameManagerMKII.settings[0xfd] = 5;
+            //    }
+            //    if ((((num + num2) + num3) + num4) > 20)
+            //    {
+            //        num = 5;
+            //        num2 = 5;
+            //        num3 = 5;
+            //        num4 = 5;
+            //        FengGameManagerMKII.settings[250] = 5;
+            //        FengGameManagerMKII.settings[0xfb] = 5;
+            //        FengGameManagerMKII.settings[0xfc] = 5;
+            //        FengGameManagerMKII.settings[0xfd] = 5;
+            //    }
+            //    bombTimeMax = ((num2 * 60f) + 200f) / ((num3 * 60f) + 200f);
+            //    bombRadius = (num * 4f) + 20f;
+            //    bombCD = (num4 * -0.4f) + 5f;
+            //    bombSpeed = (num3 * 60f) + 200f;
+            //    ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+            //    propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float) FengGameManagerMKII.settings[0xf6]);
+            //    propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float) FengGameManagerMKII.settings[0xf7]);
+            //    propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float) FengGameManagerMKII.settings[0xf8]);
+            //    propertiesToSet.Add(PhotonPlayerProperty.RCBombA, (float) FengGameManagerMKII.settings[0xf9]);
+            //    propertiesToSet.Add(PhotonPlayerProperty.RCBombRadius, bombRadius);
+            //    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            //    skillId = SkillId.bomb;
+            //    skillIDHUD = SkillId.armin.ToString();
+            //    skillCDLast = bombCD;
+            //    skillCDDuration = 10f;
+            //    if (Service.Time.GetRoundTime() > 10f)
+            //    {
+            //        skillCDDuration = 5f;
+            //    }
+            //}
         }
 
         private void BreakApart(Vector3 v, bool isBite)
@@ -4092,7 +4095,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void UpdateExt()
         {
-            if (skillId == SkillId.bomb)
+            if (Skill is BombPvpSkill)
             {
                 if (InputManager.KeyDown(InputHuman.AttackSpecial) && (skillCDDuration <= 0f))
                 {

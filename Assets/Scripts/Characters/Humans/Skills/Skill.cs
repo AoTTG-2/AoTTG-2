@@ -56,6 +56,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
                     break;
                 case HeroSkill.Bertholdt:
                     break;
+                case HeroSkill.BombPvp:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(skill), skill, null);
             }
