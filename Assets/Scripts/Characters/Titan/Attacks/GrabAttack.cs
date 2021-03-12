@@ -1,6 +1,6 @@
-﻿using System;
-using Assets.Scripts.Characters.Humans;
+﻿using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Gamemode;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
@@ -205,14 +205,12 @@ namespace Assets.Scripts.Characters.Titan.Attacks
         private void EatSet(Hero grabTarget)
         {
             var isLeftHand = Hand == BodyPart.HandLeft;
-            if (!Titan.photonView.isMine || grabTarget.IsGrabbed)
+            if (!grabTarget.IsGrabbed)
             {
                 Titan.Grab(isLeftHand);
                 if (Titan.photonView.isMine)
                 {
                     Titan.photonView.RPC(nameof(MindlessTitan.Grab), PhotonTargets.Others, isLeftHand);
-                    var parameters = new object[] { "grabbed" };
-                    grabTarget.photonView.RPC(nameof(Hero.NetPlayAnimation), PhotonTargets.All, parameters);
                     var objArray2 = new object[] { Titan.photonView.viewID, isLeftHand };
                     grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, objArray2);
                 }

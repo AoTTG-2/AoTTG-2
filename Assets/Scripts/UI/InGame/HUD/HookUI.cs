@@ -1,6 +1,5 @@
+using Assets.Scripts.Services;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,16 +29,15 @@ namespace Assets.Scripts.UI.InGame.HUD
         /// </summary>
         public void Find()
         {
-            // Todo: Implement system that does not use GameObject.Find()
+            var crosshair = Service.Ui.GetUiHandler().InGameUi.HUD.Crosshair;
+            cross = crosshair.Cross1.transform;
+            crossImage = cross.GetComponentInChildren<Image>(true);
+            crossL = crosshair.CrossL1.transform;
+            crossImageL = crossL.GetComponentInChildren<Image>(true);
+            crossR = crosshair.CrossR1.transform;
+            crossImageR = crossR.GetComponentInChildren<Image>(true);
 
-            cross = GameObject.Find("cross1").transform;
-            crossImage = cross.GetComponentInChildren<Image>();
-            crossL = GameObject.Find("crossL1").transform;
-            crossImageL = crossL.GetComponentInChildren<Image>();
-            crossR = GameObject.Find("crossR1").transform;
-            crossImageR = crossR.GetComponentInChildren<Image>();
-
-            distanceLabel = GameObject.Find("Distance").GetComponent<Text>();
+            distanceLabel = crosshair.Distance.transform.GetComponent<Text>();
 
             Enable();
         }

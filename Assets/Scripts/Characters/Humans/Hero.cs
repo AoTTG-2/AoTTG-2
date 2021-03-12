@@ -27,7 +27,7 @@ namespace Assets.Scripts.Characters.Humans
 
 
         private const float HookRaycastDistance = 1000f;
-        
+
 
 
         #region Properties
@@ -276,7 +276,7 @@ namespace Assets.Scripts.Characters.Humans
                 photonView.RPC(nameof(SetMyPhotonCamera), PhotonTargets.OthersBuffered,
                     new object[] { PlayerPrefs.GetFloat("cameraDistance") + 0.3f });
             }
-            
+
             if (!photonView.isMine)
             {
                 gameObject.layer = Layers.NetworkObject.ToLayer();
@@ -1278,7 +1278,7 @@ namespace Assets.Scripts.Characters.Humans
             ReleaseIfIHookSb();
 
         }
-        
+
         public void LateUpdate()
         {
             if ((myNetWorkName != null))
@@ -2149,16 +2149,16 @@ namespace Assets.Scripts.Characters.Humans
 
         private void CustomAnimationSpeed()
         {
-            Animation[HeroAnim.ATTACK5]                 .speed = 1.85f;
-            Animation[HeroAnim.CHANGE_BLADE]            .speed = 1.2f;
-            Animation[HeroAnim.AIR_RELEASE]             .speed = 0.6f;
-            Animation[HeroAnim.CHANGE_BLADE_AIR]        .speed = 0.8f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_BOTH]    .speed = 0.38f;
+            Animation[HeroAnim.ATTACK5].speed = 1.85f;
+            Animation[HeroAnim.CHANGE_BLADE].speed = 1.2f;
+            Animation[HeroAnim.AIR_RELEASE].speed = 0.6f;
+            Animation[HeroAnim.CHANGE_BLADE_AIR].speed = 0.8f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_BOTH].speed = 0.38f;
             Animation[HeroAnim.AHSS_GUN_RELOAD_BOTH_AIR].speed = 0.5f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_L]       .speed = 0.4f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_L_AIR]   .speed = 0.5f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_R]       .speed = 0.4f;
-            Animation[HeroAnim.AHSS_GUN_RELOAD_R_AIR]   .speed = 0.5f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_L].speed = 0.4f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_L_AIR].speed = 0.5f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_R].speed = 0.4f;
+            Animation[HeroAnim.AHSS_GUN_RELOAD_R_AIR].speed = 0.5f;
         }
 
         [PunRPC]
@@ -2748,7 +2748,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             eren_titan = PhotonNetwork.Instantiate("ErenTitan", transform.position, transform.rotation, 0).GetComponent<ErenTitan>();
             eren_titan.realBody = gameObject;
-            
+
             currentInGameCamera.FlashBlind();
             currentInGameCamera.SetMainObject(eren_titan.gameObject, true, false);
             eren_titan.born();
@@ -3560,6 +3560,7 @@ namespace Assets.Scripts.Characters.Humans
         public void NetGrabbed(int id, bool leftHand)
         {
             titanWhoGrabMeID = id;
+            NetPlayAnimation("grabbed");
             Grabbed(PhotonView.Find(id).gameObject, leftHand);
         }
 
