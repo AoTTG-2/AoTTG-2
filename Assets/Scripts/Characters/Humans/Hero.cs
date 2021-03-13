@@ -133,7 +133,7 @@ namespace Assets.Scripts.Characters.Humans
     public XWeaponTrail leftbladetrail;
     public XWeaponTrail leftbladetrail2;
     */
-        [Obsolete]
+        [Obsolete("Should be within AHSS.cs")]
         public int leftBulletLeft = 7;
         public bool leftGunHasBullet = true;
         private float lTapTime { get; set; } = -1f;
@@ -158,7 +158,7 @@ namespace Assets.Scripts.Characters.Humans
         public string reloadAnimation = string.Empty;
         private bool rightArmAim { get; set; }
 
-        [Obsolete]
+        [Obsolete("Should be within AHSS.cs")]
         public int rightBulletLeft = 7;
         public bool rightGunHasBullet = true;
         public AudioSource rope;
@@ -203,7 +203,7 @@ namespace Assets.Scripts.Characters.Humans
         public bool IsInvincible => (invincible > 0f);
 
 
-        private HookUI hookUI = new HookUI();
+        private readonly HookUI hookUI = new HookUI();
 
         #endregion
 
@@ -3350,7 +3350,7 @@ namespace Assets.Scripts.Characters.Humans
                     photonView.RPC(nameof(BackToHumanRPC), PhotonTargets.Others, new object[0]);
                     return;
                 }
-                if (!info.sender.isLocal && !info.sender.isMasterClient)
+                if (!info.sender.IsLocal && !info.sender.IsMasterClient)
                 {
                     if ((info.sender.CustomProperties[PhotonPlayerProperty.name] == null) || (info.sender.CustomProperties[PhotonPlayerProperty.isTitan] == null))
                     {
@@ -3677,7 +3677,7 @@ namespace Assets.Scripts.Characters.Humans
                 float num = Mathf.Pow(launchForce.magnitude, 0.1f);
                 if (grounded)
                 {
-                    Rigidbody.AddForce((Vector3.up * Mathf.Min((float) (launchForce.magnitude * 0.2f), (float) 10f)), ForceMode.Impulse);
+                    Rigidbody.AddForce((Vector3.up * Mathf.Min(launchForce.magnitude * 0.2f, 10f)), ForceMode.Impulse);
                 }
                 Rigidbody.AddForce(((launchForce * num) * 0.1f), ForceMode.Impulse);
                 if (state != HumanState.Grab)

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters.Titan.Attacks;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
@@ -8,8 +9,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Gamemode.Options;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

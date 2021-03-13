@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans
 {
-    [Obsolete]
+    [Obsolete("Develop a better way of managing cloth")]
     public static class ClothFactory
     {
         private static Dictionary<string, List<GameObject>> clothCache = new Dictionary<string, List<GameObject>>(CostumeHair.hairsF.Length);

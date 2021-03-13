@@ -2,7 +2,7 @@ using System;
 
 namespace Assets.Scripts.Characters.Humans
 {
-    [Obsolete]
+    [Obsolete("BUFF should be managed by Sasha skill")]
     public enum BUFF
     {
         NoBuff,

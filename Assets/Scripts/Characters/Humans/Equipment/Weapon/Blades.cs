@@ -85,9 +85,9 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
             //obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
             //obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
-            Vector3 force = (Hero.transform.forward + ((Vector3) (Hero.transform.up * 2f))) - Hero.transform.right;
+            Vector3 force = (Hero.transform.forward + Hero.transform.up * 2f) - Hero.transform.right;
             obj2.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-            Vector3 vector2 = (Hero.transform.forward + ((Vector3) (Hero.transform.up * 2f))) + Hero.transform.right;
+            Vector3 vector2 = (Hero.transform.forward + Hero.transform.up * 2f) + Hero.transform.right;
             obj3.GetComponent<Rigidbody>().AddForce(vector2, ForceMode.Impulse);
             Vector3 torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
             torque.Normalize();

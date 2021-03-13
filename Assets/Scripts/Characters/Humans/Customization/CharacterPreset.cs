@@ -312,9 +312,9 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         IEnumerator DownloadImage(Renderer renderer, string url)
         {
-            UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+            var request = UnityWebRequestTexture.GetTexture(url);
             yield return request.SendWebRequest();
-            if (request.isNetworkError || request.isHttpError)
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log($"Could not downloaded skin. Error: {request.error}");
 

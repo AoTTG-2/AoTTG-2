@@ -6,11 +6,9 @@ namespace Assets.Scripts.Characters.Humans
 {
     public class Bullet : Photon.MonoBehaviour
     {
-        private Vector3 heightOffSet = ((Vector3) (Vector3.up * 0.48f));
         private bool isdestroying;
         private float killTime;
         private float killTime2;
-        private Vector3 launchOffSet = Vector3.zero;
         private bool left = true;
         public bool leviMode;
         public float leviShootTime;
@@ -83,7 +81,7 @@ namespace Assets.Scripts.Characters.Humans
                 if (this.phase == 0)
                 {
                     Transform transform = base.gameObject.transform;
-                    transform.position += (Vector3) (((this.velocity * Time.deltaTime) * 50f) + (this.velocity2 * Time.deltaTime));
+                    transform.position += ((this.velocity * Time.deltaTime) * 50f) + (this.velocity2 * Time.deltaTime);
                     this.nodes.Add(new Vector3(base.gameObject.transform.position.x, base.gameObject.transform.position.y, base.gameObject.transform.position.z));
                 }
             }
@@ -92,10 +90,10 @@ namespace Assets.Scripts.Characters.Humans
                 RaycastHit hit;
                 this.checkTitan();
                 Transform transform3 = base.gameObject.transform;
-                transform3.position += (Vector3) (((this.velocity * Time.deltaTime) * 50f) + (this.velocity2 * Time.deltaTime));
-                LayerMask mask = ((int) 1) << LayerMask.NameToLayer("EnemyBox");
-                LayerMask mask2 = ((int) 1) << LayerMask.NameToLayer("Ground");
-                LayerMask mask3 = ((int) 1) << LayerMask.NameToLayer("NetworkObject");
+                transform3.position += ((this.velocity * Time.deltaTime) * 50f) + (this.velocity2 * Time.deltaTime);
+                LayerMask mask = 1 << LayerMask.NameToLayer("EnemyBox");
+                LayerMask mask2 = 1 << LayerMask.NameToLayer("Ground");
+                LayerMask mask3 = 1 << LayerMask.NameToLayer("NetworkObject");
                 LayerMask mask4 = (mask | mask2) | mask3;
                 bool flag2 = false;
                 bool flag3 = false;
@@ -112,7 +110,7 @@ namespace Assets.Scripts.Characters.Humans
                     bool flag4 = true;
                     if (hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("EnemyBox"))
                     {
-                        object[] parameters = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
+                        object[] parameters = { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
                         base.photonView.RPC(nameof(tieMeToOBJ), PhotonTargets.Others, parameters);
                         this.master.GetComponent<Hero>().lastHook = hit.collider.transform.root;
                         base.transform.parent = hit.collider.transform;
@@ -123,7 +121,7 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     else if (((hit.collider.transform.gameObject.layer == LayerMask.NameToLayer("NetworkObject")) && (hit.collider.transform.gameObject.tag == "Player")) && !this.leviMode)
                     {
-                        object[] objArray3 = new object[] { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
+                        object[] objArray3 = { hit.collider.transform.root.gameObject.GetPhotonView().viewID };
                         base.photonView.RPC(nameof(tieMeToOBJ), PhotonTargets.Others, objArray3);
                         this.master.GetComponent<Hero>().HookToHuman(hit.collider.transform.root.gameObject, base.transform.position);
                         base.transform.parent = hit.collider.transform;
@@ -144,9 +142,9 @@ namespace Assets.Scripts.Characters.Humans
                         if (this.phase != 2)
                         {
                             this.phase = 1;
-                            object[] objArray4 = new object[] { 1 };
+                            object[] objArray4 = { 1 };
                             base.photonView.RPC(nameof(setPhase), PhotonTargets.Others, objArray4);
-                            object[] objArray5 = new object[] { base.transform.position };
+                            object[] objArray5 = { base.transform.position };
                             base.photonView.RPC(nameof(tieMeTo), PhotonTargets.Others, objArray5);
                             if (this.leviMode)
                             {
@@ -163,7 +161,7 @@ namespace Assets.Scripts.Characters.Humans
                     if (this.killTime2 > 0.8f)
                     {
                         this.phase = 4;
-                        object[] objArray6 = new object[] { 4 };
+                        object[] objArray6 = { 4 };
                         base.photonView.RPC(nameof(setPhase), PhotonTargets.Others, objArray6);
                     }
                 }
@@ -356,7 +354,7 @@ namespace Assets.Scripts.Characters.Humans
                 this.lineRenderer.SetVertexCount(this.nodes.Count);
                 for (int i = 0; i <= (this.nodes.Count - 1); i++)
                 {
-                    this.lineRenderer.SetPosition(i, ((Vector3) this.nodes[i]) + ((Vector3) (vector * Mathf.Pow(0.75f, (float) i))));
+                    this.lineRenderer.SetPosition(i, ((Vector3) this.nodes[i]) + vector * Mathf.Pow(0.75f, (float) i));
                 }
                 if (this.nodes.Count > 1)
                 {
@@ -439,7 +437,7 @@ namespace Assets.Scripts.Characters.Humans
                         float num8 = (num6 - num7) / ((float) num6);
                         num8 = Mathf.Pow(num8, 0.5f);
                         float max = ((num5 + magnitude) * 0.0015f) * num8;
-                        this.lineRenderer.SetPosition(index, (Vector3) ((((new Vector3(UnityEngine.Random.Range(-max, max), UnityEngine.Random.Range(-max, max), UnityEngine.Random.Range(-max, max)) + this.myRef.transform.position) + (vector * (((float) index) / ((float) num3)))) - (((Vector3.up * num5) * 0.05f) * num8)) - (((velocity * 0.001f) * num8) * num5)));
+                        this.lineRenderer.SetPosition(index, (((new Vector3(UnityEngine.Random.Range(-max, max), UnityEngine.Random.Range(-max, max), UnityEngine.Random.Range(-max, max)) + this.myRef.transform.position) + (vector * (((float) index) / ((float) num3)))) - (((Vector3.up * num5) * 0.05f) * num8)) - (((velocity * 0.001f) * num8) * num5));
                         index++;
                     }
                     this.lineRenderer.SetPosition(num3 - 1, base.transform.position);
@@ -469,7 +467,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 Vector3 position = ((Vector3) this.spiralNodes[i]) + vector4;
                                 float num11 = (this.spiralNodes.Count - 1) - (this.spiralcount * 0.5f);
-                                position = new Vector3(position.x, (position.y * ((num11 - i) / num11)) + (base.gameObject.transform.position.y * (((float) i) / num11)), position.z);
+                                position = new Vector3(position.x, (position.y * ((num11 - i) / num11)) + (base.gameObject.transform.position.y * (i / num11)), position.z);
                                 this.lineRenderer.SetPosition(i, position);
                             }
                             else
@@ -482,7 +480,7 @@ namespace Assets.Scripts.Characters.Humans
                 else if (this.phase == 4)
                 {
                     Transform transform = base.gameObject.transform;
-                    transform.position += this.velocity + ((Vector3) (this.velocity2 * Time.deltaTime));
+                    transform.position += this.velocity + this.velocity2 * Time.deltaTime;
                     this.nodes.Add(new Vector3(base.gameObject.transform.position.x, base.gameObject.transform.position.y, base.gameObject.transform.position.z));
                     Vector3 vector10 = this.myRef.transform.position - ((Vector3) this.nodes[0]);
                     for (int j = 0; j <= (this.nodes.Count - 1); j++)

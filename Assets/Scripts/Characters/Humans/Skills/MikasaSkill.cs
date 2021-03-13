@@ -22,7 +22,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override void OnUpdate()
         {
-            //throw new NotImplementedException();
+            // Ignored
         }
 
         public override void OnFixedUpdate()

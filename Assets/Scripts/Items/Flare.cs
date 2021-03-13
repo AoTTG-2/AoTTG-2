@@ -17,15 +17,13 @@ namespace Assets.Scripts.Items
             _color = color;
         }
 
-        public override void Use(Hero user)
+        public override void Use(Hero hero)
         {
             if (Time.time - (Cooldown + FlareCooldown) <= 0f) return;
             Cooldown = Time.time;
 
-            //var flare = PhotonNetwork.Instantiate("FX/flare", user.transform.position,
-            //    Quaternion.LookRotation(Camera.main.transform.forward), 0).GetComponent<FlareMovement>();
-            var flare = PhotonNetwork.Instantiate("FX/flare", user.transform.position,
-                user.transform.rotation, 0).GetComponent<FlareMovement>();
+            var flare = PhotonNetwork.Instantiate("FX/flare", hero.transform.position,
+                hero.transform.rotation, 0).GetComponent<FlareMovement>();
             flare.HideHint();
             var json = JsonConvert.SerializeObject(_color, Formatting.Indented, new ColorJsonConverter());
             flare.photonView.RPC(nameof(FlareMovement.SetColorRpc), PhotonTargets.All, json);

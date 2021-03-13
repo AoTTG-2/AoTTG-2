@@ -21,7 +21,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
             RaycastHit hit;
             Hero.attackAnimation = HeroAnim.ATTACK5;
             Hero.PlayAnimation(HeroAnim.ATTACK5);
-            Hero.Rigidbody.velocity += (Vector3) (Vector3.up * 5f);
+            Hero.Rigidbody.velocity += Vector3.up * 5f;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
             if (Physics.Raycast(ray, out hit, float.MaxValue, mask.value))
@@ -60,8 +60,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
             {
                 Vector3 vector19 = Hero.launchPointRight - Hero.transform.position;
                 vector19.Normalize();
-                vector19 = (Vector3) (vector19 * 13f);
-                Hero.Rigidbody.AddForce(vector19, ForceMode.Impulse);
+                Hero.Rigidbody.AddForce(vector19 * 13f, ForceMode.Impulse);
             }
             Hero.Rigidbody.AddForce(Vector3.up * 2f, ForceMode.Impulse);
             UsePhysics = false;

@@ -28,7 +28,7 @@ namespace Assets.Scripts.Characters.Humans
         public GameObject leg;
         private float lifetime = 15f;
 
-        public void init(string aniname, float time, BODY_PARTS part)
+        public void init(string aniname, float time)
         {
             throw new NotImplementedException("Death explosion");
             //base.GetComponent<Animation>().Play(aniname);

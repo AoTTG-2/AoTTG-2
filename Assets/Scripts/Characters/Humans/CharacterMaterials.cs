@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans
 {
-    [Obsolete]
+    [Obsolete("This is only used for TitanHair currently")]
     public class CharacterMaterials
     {
         private static bool inited = true;

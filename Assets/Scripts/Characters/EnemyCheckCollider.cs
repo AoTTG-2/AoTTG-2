@@ -47,10 +47,10 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         float num3 = 5f;
                         if (num2 > 0f)
                         {
-                            num3 = Mathf.Max((float) 5f, (float) (num2 - vector.magnitude));
+                            num3 = Mathf.Max(5f, num2 - vector.magnitude);
                         }
 
-                        object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
+                        object[] parameters = { (vector.normalized * num3) + (Vector3.up * 1f) };
                         component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.BlowAway), PhotonTargets.All, parameters);
                     }
                     else if (!component.transform.root.GetComponent<Hero>().IsInvincible)
@@ -60,7 +60,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                             if (!component.transform.root.GetComponent<Hero>().IsGrabbed)
                             {
                                 Vector3 vector4 = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<Hero>().Die((Vector3) (((vector4.normalized * b) * 1000f) + (Vector3.up * 50f)), this.isThisBite);
+                                component.transform.root.GetComponent<Hero>().Die(((vector4.normalized * b) * 1000f) + (Vector3.up * 50f), this.isThisBite);
                             }
                         }
                         else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().IsGrabbed)
@@ -75,7 +75,7 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                             }
                             Vector3 vector5 = component.transform.root.position - base.transform.position;
                             object[] netDieParameters = new object[5];
-                            netDieParameters[0] = (Vector3) (((vector5.normalized * b) * 1000f) + (Vector3.up * 50f));
+                            netDieParameters[0] = ((vector5.normalized * b) * 1000f) + (Vector3.up * 50f);
                             netDieParameters[1] = this.isThisBite;
                             netDieParameters[2] = myOwnerViewID;
                             netDieParameters[3] = titanName;

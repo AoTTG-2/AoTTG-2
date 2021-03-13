@@ -59,7 +59,6 @@ namespace Assets.Scripts.UI.Radial
 
             for (int i = 0; i < Pieces.Length; i++)
             {
-                //Pieces[i] = Instantiate(RadialElementPrefab, transform);
                 //set root element
                 Pieces[i].transform.localPosition = Vector3.zero;
                 Pieces[i].transform.localRotation = Quaternion.identity;
@@ -68,9 +67,6 @@ namespace Assets.Scripts.UI.Radial
                 Pieces[i].CakePiece.fillAmount = 1f / Pieces.Length - GapWidthDegree / 360f;
                 Pieces[i].CakePiece.transform.localPosition = Vector3.zero;
                 Pieces[i].CakePiece.transform.localRotation = Quaternion.Euler(0, 0, -stepLength / 2f + GapWidthDegree / 2f + i * stepLength);
-
-
-
                 Pieces[i].CakePiece.color = new Color(1f, 1f, 1f, 0.5f);
 
                 //set icon
@@ -78,8 +74,6 @@ namespace Assets.Scripts.UI.Radial
 
                 Pieces[i].Number.transform.localPosition = Pieces[i].CakePiece.transform.localPosition + Quaternion.AngleAxis(i * stepLength, Vector3.forward) * Vector3.up * iconDist / 1.7f;
                 Pieces[i].Number.text = $"{i + 1}";
-
-                //Pieces[i].Icon.sprite = Data.Elements[i].Icon;
 
                 Pieces[i].Animate();
 
@@ -102,7 +96,7 @@ namespace Assets.Scripts.UI.Radial
             var mouseAngle = NormalizeAngle(Vector3.SignedAngle(Vector3.up, UnityEngine.Input.mousePosition - transform.position, Vector3.forward) + stepLength / 2f);
             var activeElement = (int) (mouseAngle / stepLength);
 
-            Direction.transform.rotation = Quaternion.Euler(0, 0, mouseAngle - 45f);/* .Rotate(new Vector3(0, 0, mouseAngle));*/
+            Direction.transform.rotation = Quaternion.Euler(0, 0, mouseAngle - 45f);
 
             for (int i = 0; i < Pieces.Length; i++)
             {
