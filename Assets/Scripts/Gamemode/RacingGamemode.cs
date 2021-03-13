@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -26,10 +27,15 @@ namespace Assets.Scripts.Gamemode
         private float TotalSpeed { get; set; }
         private int TotalFrames { get; set; }
         private float AverageSpeed => TotalSpeed / TotalFrames;
+        
+        private bool IsLoaded;
 
         protected override void OnLevelWasLoaded()
         {
+            Debug.Log(IsLoaded);
+            IsLoaded = true;
             base.OnLevelWasLoaded();
+            StartBarriers = GameObject.FindObjectsOfType<RacingStartBarrier>().ToList();
             HasStarted = false;
             TotalSpeed = 0;
             TotalFrames = 0;
@@ -82,7 +88,7 @@ namespace Assets.Scripts.Gamemode
                     HasStarted = true;
                     if (PhotonNetwork.isMasterClient)
                     {
-                        photonView.RPC(nameof(RacingStartRpc), PhotonTargets.All);
+                        photonView.RPC(nameof(RacingStartRpc), PhotonTargets.AllBufferedViaServer);
                     }
                 }
             }
@@ -99,9 +105,20 @@ namespace Assets.Scripts.Gamemode
         private void RacingStartRpc(PhotonMessageInfo info)
         {
             if (!info.sender.IsMasterClient) return;
+            Debug.Log(nameof(RacingStartRpc));
+            StartCoroutine(FixStartBarriers());
+        }
 
-            StartBarriers.ForEach(x => x.gameObject.SetActive(false));
-            UiService.ResetMessage(LabelPosition.Center);
+        private IEnumerator FixStartBarriers()
+        {
+            if (IsLoaded)
+            {
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            FindObjectsOfType<RacingStartBarrier>().ToList()
+                .ForEach(x => x.gameObject.SetActive(false));
+            Debug.Log("Running Couroutine");
         }
 
 
