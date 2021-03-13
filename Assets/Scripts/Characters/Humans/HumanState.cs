@@ -1,19 +1,22 @@
-﻿namespace Assets.Scripts.Characters.Humans
+namespace Assets.Scripts.Characters.Humans
 {
     public enum HumanState
     {
         Idle,
-        Dead,
-        Grabbed,
         Attack,
         GroundDodge,
         AirDodge,
-        Reload,
-        Resupply,
-        Slide,
+        ChangeBlade,
+        FillGas,
+        ChangeGun,
+        Die,
+        Grab,
+        TitanForm,
         Salute,
+        Slide,
         Run,
         Jump,
         Land
     }
 }
+

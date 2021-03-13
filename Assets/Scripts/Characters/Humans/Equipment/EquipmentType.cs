@@ -1,6 +1,9 @@
-﻿public enum EquipmentType
+﻿namespace Assets.Scripts.Characters.Humans.Equipment
 {
-    Blades,
-    Ahss,
-    ThunderSpear
+    public enum EquipmentType
+    {
+        Blades,
+        Ahss,
+        ThunderSpear
+    }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Constants;
+using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans.Customization.Components;
+using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Humans.Skills;
 using System;
 using UnityEngine;

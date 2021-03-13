@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Characters.Humans.Constants;
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
@@ -12,7 +11,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if (Hero._state != HERO_STATE.Idle) return false;
+            if (Hero._state != HumanState.Idle) return false;
 
             Hero.attackAnimation = HeroAnim.ATTACK3_1;
             Hero.PlayAnimation(HeroAnim.ATTACK3_1);
@@ -30,7 +29,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (!Hero.grounded) return;
 
-            if (Hero._state == HERO_STATE.Attack && Hero.attackAnimation == HeroAnim.ATTACK3_1 &&
+            if (Hero._state == HumanState.Attack && Hero.attackAnimation == HeroAnim.ATTACK3_1 &&
                 Hero.Animation[Hero.attackAnimation].normalizedTime >= 1f)
             {
                 Hero.PlayAnimation(HeroAnim.ATTACK3_2);

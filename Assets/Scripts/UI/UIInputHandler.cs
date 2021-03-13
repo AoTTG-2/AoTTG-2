@@ -2,35 +2,38 @@
 using Assets.Scripts.UI.Radial;
 using UnityEngine;
 
-public class UIInputHandler : MonoBehaviour
+namespace Assets.Scripts.UI
 {
-    private GameObject interactionWheel;
-
-    public GameObject RadialMenu;
-
-    private void Start()
+    public class UIInputHandler : MonoBehaviour
     {
-        interactionWheel = gameObject.GetComponentInChildren<RadialMenu>(true).gameObject;
-    }
+        private GameObject interactionWheel;
 
-    private void Update()
-    {
-        if (InputManager.KeyDown(InputUi.InteractionWheel))
+        public GameObject RadialMenu;
+
+        private void Start()
         {
-            if (!RadialMenu.activeSelf)
+            interactionWheel = gameObject.GetComponentInChildren<RadialMenu>(true).gameObject;
+        }
+
+        private void Update()
+        {
+            if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
-                RadialMenu.SetActive(true);
-                interactionWheel.SetActive(true);
+                if (!RadialMenu.activeSelf)
+                {
+                    RadialMenu.SetActive(true);
+                    interactionWheel.SetActive(true);
+                }
+
+
             }
-                
-                
-        }
 
-        if (InputManager.KeyUp(InputUi.InteractionWheel))
-        {
-            if (RadialMenu.activeSelf)
-                RadialMenu.SetActive(false);
-        }
+            if (InputManager.KeyUp(InputUi.InteractionWheel))
+            {
+                if (RadialMenu.activeSelf)
+                    RadialMenu.SetActive(false);
+            }
 
+        }
     }
 }

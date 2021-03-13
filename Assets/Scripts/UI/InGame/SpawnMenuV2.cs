@@ -81,7 +81,6 @@ namespace Assets.Scripts.UI.InGame
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
             }
             IN_GAME_MAIN_CAMERA.usingTitan = false;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetHUDposition();
             Hashtable hashtable = new Hashtable();
             hashtable.Add(PhotonPlayerProperty.character, selection);
             Hashtable propertiesToSet = hashtable;

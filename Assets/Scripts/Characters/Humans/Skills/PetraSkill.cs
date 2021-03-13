@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans.Constants;
+using Assets.Scripts.Constants;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
@@ -15,7 +16,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if (Hero._state != HERO_STATE.Idle) return false;
+            if (Hero._state != HumanState.Idle) return false;
 
             RaycastHit hit;
             Hero.attackAnimation = HeroAnim.SPECIAL_PETRA;
@@ -63,7 +64,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 AddUseForce();
             }
 
-            if (Hero.grounded && Hero._state == HERO_STATE.Attack)
+            if (Hero.grounded && Hero._state == HumanState.Attack)
             {
                 if (Hero.Animation[HeroAnim.SPECIAL_PETRA].normalizedTime > 0.35f &&
                     Hero.Animation[HeroAnim.SPECIAL_PETRA].normalizedSpeed < 0.48f)
@@ -75,7 +76,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         private void AddUseForce()
         {
-            if (Hero._state != HERO_STATE.Attack || Hero.attackAnimation != HeroAnim.SPECIAL_PETRA ||
+            if (Hero._state != HumanState.Attack || Hero.attackAnimation != HeroAnim.SPECIAL_PETRA ||
                 Hero.Animation[HeroAnim.SPECIAL_PETRA].normalizedTime <= 0.4f) return;
 
             if (Hero.launchPointRight.magnitude > 0f)

@@ -104,7 +104,7 @@ namespace Assets.Scripts.Characters.Humans
                     if (collider.gameObject.TryGetComponent(out HitBox hitBox) && hitBox.transform.root.TryGetComponent(out TitanBase titanBase))
                     {
 
-                        if (Vector3.Angle(-titanBase.Body.Head.forward, titanBase.Body.Head.position - titanBase.Body.Head.position) >= 70f)
+                        if (Vector3.Angle(-titanBase.Body.Head.forward, transform.position - titanBase.Body.Head.position) >= 70f)
                             break;
 
                         Vector3 velocity = body.velocity - hitBox.transform.root.GetComponent<Rigidbody>().velocity;

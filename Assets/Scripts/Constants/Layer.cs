@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public static class Layer
+namespace Assets.Scripts.Constants
 {
-    /// <summary>
-    /// Extension Method to retrieve the layer names from <see cref="Layers"/>
-    /// </summary>
-    public static string ToName(this Layers layer)
+    public static class Layer
     {
-        return LayerMask.LayerToName((int) layer);
-    }
+        /// <summary>
+        /// Extension Method to retrieve the layer names from <see cref="Layers"/>
+        /// </summary>
+        public static string ToName(this Layers layer)
+        {
+            return LayerMask.LayerToName((int) layer);
+        }
 
-    /// <summary>
-    /// Convert Layers Enum to LayerMask
-    /// </summary>
-    /// <param name="layer"></param>
-    /// <returns></returns>
-    public static LayerMask ToLayer(this Layers layer)
-    {
-        return 1 << (int)layer;
+        /// <summary>
+        /// Convert Layers Enum to LayerMask
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public static LayerMask ToLayer(this Layers layer)
+        {
+            return 1 << (int)layer;
+        }
     }
 }
 

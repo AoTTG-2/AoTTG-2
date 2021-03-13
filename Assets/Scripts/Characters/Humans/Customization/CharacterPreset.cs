@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans.Customization.Components;
+using Assets.Scripts.Characters.Humans.Equipment;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

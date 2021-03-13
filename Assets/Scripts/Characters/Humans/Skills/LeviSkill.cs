@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans.Constants;
+using Assets.Scripts.Constants;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
@@ -15,7 +16,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if (Hero._state != HERO_STATE.Idle) return false;
+            if (Hero._state != HumanState.Idle) return false;
 
             RaycastHit hit;
             Hero.attackAnimation = HeroAnim.ATTACK5;
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             if (!UsePhysics) return;
 
-            if (Hero._state != HERO_STATE.Attack || Hero.attackAnimation != HeroAnim.ATTACK5 ||
+            if (Hero._state != HumanState.Attack || Hero.attackAnimation != HeroAnim.ATTACK5 ||
                 Hero.Animation[HeroAnim.ATTACK5].normalizedTime <= 0.4f) return;
 
             if (Hero.launchPointRight.magnitude > 0f)

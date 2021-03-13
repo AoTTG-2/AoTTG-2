@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Humans.Equipment;
+using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Characters.Humans.Skills

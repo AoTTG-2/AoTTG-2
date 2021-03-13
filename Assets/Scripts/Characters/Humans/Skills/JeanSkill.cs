@@ -44,7 +44,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if ((Hero.State != HumanState.Grabbed && Hero._state != HERO_STATE.Grab) || IsActive) return false;
+            if (Hero._state != HumanState.Grab || IsActive) return false;
 
             if (TimesUsed < TimesAllowed && !Hero.Animation.IsPlaying(HeroAnim.GRABBED_JEAN))
             {
