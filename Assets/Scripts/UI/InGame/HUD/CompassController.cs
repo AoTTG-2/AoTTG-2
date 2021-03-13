@@ -6,17 +6,18 @@ namespace Assets.Scripts.UI.InGame.HUD
 {
     public class CompassController : UiElement
     {
-        public GameObject iconPrefab;
-        public List<CompassMarker> compassMarkers = new List<CompassMarker>();
-
-        public bool compassMode;
-
+        [Header("Customization")]
         public RawImage compassImage;
-        public Transform cam;
-
+        [Header("Settings")]
         public float maxDistance; 
-
+        public GameObject iconPrefab;
         public GameObject markersParent;
+        [Header("Markers")]
+        public List<CompassMarker> compassMarkers = new List<CompassMarker>();
+        [HideInInspector]public bool compassMode;
+        [HideInInspector]public Transform cam; //Is declared by the IN_GAME_MAIN_CAMERA script
+
+
 
         float compassUnit;
 

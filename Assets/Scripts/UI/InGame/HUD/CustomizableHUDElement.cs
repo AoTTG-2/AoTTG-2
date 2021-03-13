@@ -5,14 +5,15 @@ using Assets.Scripts.UI.InGame;
 /* Any HUD element that is customizable should have this script attached */
 public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
 {
+    [Header("Settings:")]
     public string elementName;
-    public ChangeHUDHandler handler;
+    [HideInInspector]public ChangeHUDHandler handler;
+    [HideInInspector]public bool isVisible = true;
+    [HideInInspector]public GameObject selection;
     private bool beingDragged;
-    private string PlayerPrefsKey;
-    public bool isVisible = true;
-    private Animator anim;
-    public GameObject selection;
     private bool onSelection;
+    private string PlayerPrefsKey;
+    private Animator anim;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
