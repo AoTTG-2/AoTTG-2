@@ -1121,7 +1121,7 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     if (!grounded)
                     {
-                        Idle();
+                        state = HERO_STATE.Idle;
                     }
                 }
                 else if (state == HERO_STATE.AirDodge)
@@ -1137,7 +1137,8 @@ namespace Assets.Scripts.Characters.Humans
                     else
                     {
                         dashTime = 0f;
-                        Idle();
+                        // State must be set directly, as Idle() will cause the HERO to briefly enter the stand animation mid-air
+                        state = HERO_STATE.Idle;
                     }
                 }
                 if (InputManager.Key(InputHuman.HookLeft))
@@ -2397,7 +2398,8 @@ namespace Assets.Scripts.Characters.Humans
 
         private void BreakApart(Vector3 v, bool isBite)
         {
-            throw new NotImplementedException("Character death is not implemented yet");
+            //TODO: Implement Character Break Apart with the characters materials
+            return;
         }
 
         private void BufferUpdate()
@@ -3008,7 +3010,6 @@ namespace Assets.Scripts.Characters.Humans
         public bool IsGrounded()
         {
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-
             return Physics.Raycast(gameObject.transform.position + ((Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask.value);
         }
 
