@@ -1,0 +1,77 @@
+.icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(32, 32, 32, 255);
+    flex-shrink: 0;
+    margin-top: 5px;
+    margin-bottom: 18px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.icon:hover {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgba(255, 255, 255, 0.3);
+    border-right-color: rgba(255, 255, 255, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.3);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.icon > Label {
+    bottom: -16px;
+    position: absolute;
+    -unity-font-style: normal;
+    overflow: hidden;
+    white-space: nowrap;
+    -unity-text-align: lower-left;
+    flex-shrink: 0;
+    flex-grow: 1;
+    width: 100%;
+}
+
+#unity-content-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 100%;
+}
+
+#unity-content-viewport {
+    flex-shrink: 0;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.selected {
+    border-left-color: rgba(255, 144, 0, 255);
+    border-right-color: rgba(255, 144, 0, 255);
+    border-top-color: rgba(255, 144, 0, 255);
+    border-bottom-color: rgba(255, 144, 0, 255);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.selected:hover {
+    border-left-color: rgba(255, 182, 88, 255);
+    border-right-color: rgba(255, 182, 88, 255);
+    border-top-color: rgba(255, 182, 88, 255);
+    border-bottom-color: rgba(255, 182, 88, 255);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}

@@ -40,6 +40,10 @@ namespace Assets.Editor
                 {
                     Selected = EditorGUI.Popup(unitRect, Selected, objectData.Textures.Select(x => x.name).ToArray());
                     EditorGUI.ObjectField(spriteRect, objectData.Textures[Selected], typeof(Texture2D), false);
+                    spriteRect.x += spriteRect.width+10;
+                    spriteRect.width += 15;
+                    if (GUI.Button(spriteRect, "Select"))
+                        ObjectBrowser.Open(objectData.Textures, i => Selected = i);
                 }
             }
 
