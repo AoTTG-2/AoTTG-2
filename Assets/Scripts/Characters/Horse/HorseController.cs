@@ -29,7 +29,7 @@ public class HorseController : MonoBehaviour
         if (inputX != 0 || inputY != 0)
         {
             var cameraRotY = camera.transform.rotation.eulerAngles.y;
-            var inputRotY = -(Mathf.Atan2(inputY, inputX) * 57.29578f) + 90f;
+            var inputRotY = -(Mathf.Atan2(inputY, inputX) * Mathf.Rad2Deg) + 90f;
             TargetDirection = cameraRotY + inputRotY;
         }
         else

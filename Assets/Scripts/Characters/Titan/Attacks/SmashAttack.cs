@@ -17,7 +17,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
             if (IsDisabled()) return false;
             Vector3 vector18 = Titan.Target.transform.position - Titan.transform.position;
-            var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
+            var angle = -Mathf.Atan2(vector18.z, vector18.x) * Mathf.Rad2Deg;
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
             if (Mathf.Abs(between) < 90f && between > 0f && Titan.TargetDistance < Titan.AttackDistance * 0.25f)
             {

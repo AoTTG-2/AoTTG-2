@@ -1,10 +1,11 @@
-using Assets.Scripts.UI.Input;
-using System;
-using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Attacks.Eren;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.UI.Input;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
@@ -272,12 +273,12 @@ namespace Assets.Scripts.Characters.Titan
                                 {
                                     Vector3 vector7 = new Vector3(x, 0f, z);
                                     float y = currentCamera.transform.rotation.eulerAngles.y;
-                                    float num4 = Mathf.Atan2(z, x) * 57.29578f;
+                                    float num4 = Mathf.Atan2(z, x) * Mathf.Rad2Deg;
                                     num4 = -num4 + 90f;
                                     float num5 = y + num4;
                                     float num6 = -num5 + 90f;
-                                    float num7 = Mathf.Cos(num6 * 0.01745329f);
-                                    float num8 = Mathf.Sin(num6 * 0.01745329f);
+                                    float num7 = Mathf.Cos(num6 * Mathf.Deg2Rad);
+                                    float num8 = Mathf.Sin(num6 * Mathf.Deg2Rad);
                                     zero = new Vector3(num7, 0f, num8);
                                     float num9 = (vector7.magnitude <= 0.95f) ? ((vector7.magnitude >= 0.25f) ? vector7.magnitude : 0f) : 1f;
                                     zero = (Vector3) (zero * num9);
@@ -328,16 +329,16 @@ namespace Assets.Scripts.Characters.Titan
                                 {
                                     Vector3 vector11 = new Vector3(x, 0f, z);
                                     float num10 = currentCamera.transform.rotation.eulerAngles.y;
-                                    float num11 = Mathf.Atan2(z, x) * 57.29578f;
+                                    float num11 = Mathf.Atan2(z, x) * Mathf.Rad2Deg;
                                     num11 = -num11 + 90f;
                                     float num12 = num10 + num11;
                                     float num13 = -num12 + 90f;
-                                    float num14 = Mathf.Cos(num13 * 0.01745329f);
-                                    float num15 = Mathf.Sin(num13 * 0.01745329f);
+                                    float num14 = Mathf.Cos(num13 * Mathf.Deg2Rad);
+                                    float num15 = Mathf.Sin(num13 * Mathf.Deg2Rad);
                                     Vector3 vector13 = new Vector3(num14, 0f, num15);
                                     float num16 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
-                                    vector13 = (Vector3) (vector13 * num16);
-                                    vector13 = (Vector3) (vector13 * (speed * 2f));
+                                    vector13 = (vector13 * num16);
+                                    vector13 = (vector13 * (speed * 2f));
                                     if ((x == 0f) && (z == 0f))
                                     {
                                         num12 = -874f;
@@ -792,7 +793,7 @@ namespace Assets.Scripts.Characters.Titan
                         GetComponent<Rigidbody>().AddForce(vector12, ForceMode.VelocityChange);
                         GetComponent<Rigidbody>().AddForce(new Vector3(0f, -gravity * GetComponent<Rigidbody>().mass, 0f));
                         Vector3 vector13 = targetCheckPt - transform.position;
-                        float current = -Mathf.Atan2(vector13.z, vector13.x) * 57.29578f;
+                        float current = -Mathf.Atan2(vector13.z, vector13.x) * Mathf.Rad2Deg;
                         float num4 = -Mathf.DeltaAngle(current, gameObject.transform.rotation.eulerAngles.y - 90f);
                         gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, gameObject.transform.rotation.eulerAngles.y + num4, 0f), 0.8f * Time.deltaTime);
                     }
@@ -936,7 +937,7 @@ namespace Assets.Scripts.Characters.Titan
                         {
                             if (realBody != null)
                             {
-                                realBody.GetComponent<Hero>().backToHuman();
+                                realBody.GetComponent<Hero>().BackToHuman();
                                 realBody.transform.position = transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position + ((Vector3)(Vector3.up * 2f));
                                 realBody = null;
                             }

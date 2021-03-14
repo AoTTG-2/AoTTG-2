@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
+  m_Name: Levi
+  m_EditorClassIdentifier: 
+  Name: Levi
+  Description: 
+  CharacterOutfit:
+  - Name: Default
+    Gender: 1
+    Head:
+      Model: 0
+    Skin:
+      Skin: 0
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Hair:
+      Model: 14
+      Texture: 15
+      CustomUrl: 
+      Color: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+    Eyes:
+      Model: 0
+      Texture: 21
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Glasses:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0.7264151, g: 0.71092844, b: 0.33922213, a: 1}
+    Facial:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Outfit:
+      Model: 7
+      Texture: 9
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Cape:
+      Texture: 2
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Advanced:
+      EmblemChest:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemBack:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemRightArm:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemLeftArm:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+  - Name: S2
+    Gender: 1
+    Head:
+      Model: 0
+    Skin:
+      Skin: 0
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Hair:
+      Model: 14
+      Texture: 15
+      CustomUrl: 
+      Color: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+    Eyes:
+      Model: 0
+      Texture: 21
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Glasses:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0.7264151, g: 0.71092844, b: 0.33922213, a: 1}
+    Facial:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Outfit:
+      Model: 7
+      Texture: 9
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Cape:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Advanced:
+      EmblemChest:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemBack:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemRightArm:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemLeftArm:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+  CharacterBuild:
+  - Name: Blades
+    Equipment: 0
+    EquipmentComponent:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+      HandGrid:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+    Stats:
+      Acceleration: 0
+      Speed: 0
+      Gas: 0
+      Equipment: 0
+    Skill: 3
+  - Name: AHSS
+    Equipment: 1
+    EquipmentComponent:
+      Texture: 2
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+      HandGrid:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+    Stats:
+      Acceleration: 0
+      Speed: 0
+      Gas: 0
+      Equipment: 0
+    Skill: 3
