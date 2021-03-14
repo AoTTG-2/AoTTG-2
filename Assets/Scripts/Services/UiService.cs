@@ -36,6 +36,11 @@ namespace Assets.Scripts.Services
             }
         }
 
+        public UiHandler GetUiHandler()
+        {
+            return MainUi;
+        }
+
         public void ResetMessage(LabelPosition label)
         {
             GetLabel(label).text = string.Empty;

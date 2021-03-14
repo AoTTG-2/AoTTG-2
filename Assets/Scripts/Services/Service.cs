@@ -11,6 +11,7 @@ namespace Assets.Scripts.Services
 
         public static AuthenticationService Authentication { get; private set; }
         public static IFactionService Faction { get; private set; }
+        public static IInventoryService Inventory { get; private set; }
         public static IPauseService Pause { get; private set; }
         public static ISettingsService Settings { get; private set; }
         public static ISpawnService Spawn { get; private set; }
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Services
             DontDestroyOnLoad(gameObject);
             Authentication = gameObject.GetComponent<AuthenticationService>();
             Faction = gameObject.AddComponent<FactionService>();
+            Inventory = gameObject.GetComponent<IInventoryService>();
             Pause = gameObject.AddComponent<PauseService>();
             Settings = gameObject.AddComponent<SettingsService>();
             Spawn = gameObject.AddComponent<SpawnService>();

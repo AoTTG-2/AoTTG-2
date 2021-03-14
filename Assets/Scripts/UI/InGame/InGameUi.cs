@@ -12,7 +12,7 @@ namespace Assets.Scripts.UI.InGame
         public HUD.HUD HUD;
         public InGameMenu Menu;
         public Scoreboard.Scoreboard Scoreboard;
-        public SpawnMenu SpawnMenu;
+        public SpawnMenuV2 SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
         public PauseIndicator PauseIndicator;

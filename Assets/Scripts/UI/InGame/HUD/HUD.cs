@@ -13,11 +13,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public UnityEngine.Sprite[] BloodSmearSprite;
         public bool inEditMode;
         public bool isActive = true;
-
-        public void Start()
-        {
-
-        }
+        public Crosshair Crosshair;
         
         public void Update()
         {

@@ -1,6 +1,6 @@
+using Assets.Scripts.UI.InGame;
 using System;
 using System.Linq;
-using Assets.Scripts.UI.Menu;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +15,7 @@ namespace Assets.Scripts.UI
         public UiNavigationElement[] Elements;
 
         public MenuUi MenuUi;
-        public GameObject InGameUi;
+        public InGameUi InGameUi;
         public Text Version;
 
         public bool hasCustomHUD = false;
@@ -39,12 +39,12 @@ namespace Assets.Scripts.UI
         {
             MenuUi.gameObject.SetActive(true);
             MenuUi.ShowMainMenu();
-            InGameUi.SetActive(false);
+            InGameUi.gameObject.SetActive(false);
         }
-        
+
         public void ShowInGameUi()
         {
-            InGameUi.SetActive(true);
+            InGameUi.gameObject.SetActive(true);
             MenuUi.gameObject.SetActive(false);
         }
 

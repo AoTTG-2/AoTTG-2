@@ -293,7 +293,7 @@ namespace Assets.Scripts.Characters.Titan
             if ((num2 != 0) || (num != 0))
             {
                 y = this.currentCamera.transform.rotation.eulerAngles.y;
-                num4 = Mathf.Atan2((float)num, (float)num2) * 57.29578f;
+                num4 = Mathf.Atan2((float)num, (float)num2) * Mathf.Rad2Deg;
                 num4 = -num4 + 90f;
                 num5 = y + num4;
                 this.targetDirection = num5;

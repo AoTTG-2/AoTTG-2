@@ -1,4 +1,6 @@
 using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
@@ -179,7 +181,7 @@ namespace Assets.Scripts
 
         [Obsolete("This is a responsibility for the InRoomChat.")]
         [PunRPC]
-        private void Chat(string content, string sender, PhotonMessageInfo info)
+        public void Chat(string content, string sender, PhotonMessageInfo info)
         {
             if (sender != string.Empty)
             {
@@ -191,7 +193,7 @@ namespace Assets.Scripts
 
         [Obsolete("This is a responsibility for the InRoomChat.")]
         [PunRPC]
-        private void ChatPM(string sender, string content, PhotonMessageInfo info)
+        public void ChatPM(string sender, string content, PhotonMessageInfo info)
         {
             content = sender + ":" + content;
             content = "<color=#FFC000>FROM [" + Convert.ToString(info.sender.ID) + "]</color> " + content;
@@ -515,7 +517,7 @@ namespace Assets.Scripts
 
                 //    str11 = Gamemode.GetRoundEndedMessage();
                 //    object[] parameters = new object[] {str6, str7, str8, str9, str10, str11};
-                //    base.photonView.RPC("showResult", PhotonTargets.AllBuffered, parameters);
+                //    base.photonView.RPC(nameof(showResult), PhotonTargets.AllBuffered, parameters);
                 //}
             }
         }
@@ -575,7 +577,7 @@ namespace Assets.Scripts
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
-    
+
         [Obsolete("Move into RacingGamemode")]
         [PunRPC]
         private void getRacingResult(string player, float time)
@@ -1153,7 +1155,7 @@ namespace Assets.Scripts
                 //    }
                 //    else if (PhotonNetwork.isMasterClient)
                 //    {
-                //        base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
+                //        base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
                 //    }
                 //}
                 if (Level.Name.StartsWith("Custom"))
@@ -1784,7 +1786,7 @@ namespace Assets.Scripts
             this.racingResult = new ArrayList();
             Debug.Log("OnCreatedRoom");
         }
-        
+
         public override void OnDisconnectedFromPhoton()
         {
             Debug.Log("OnDisconnectedFromPhoton");
@@ -1799,7 +1801,7 @@ namespace Assets.Scripts
                 Application.LoadLevel(0);
             }
         }
-        
+
         private void SetGamemode(GamemodeSettings settings)
         {
             if (Gamemode == null)
@@ -1964,7 +1966,7 @@ namespace Assets.Scripts
             }
             noRestart = false;
         }
-        
+
         public void OnPhotonCustomRoomPropertiesChanged()
         {
             if (PhotonNetwork.isMasterClient)
@@ -2095,7 +2097,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         public override void OnReceivedRoomListUpdate()
         {
         }
@@ -2255,7 +2257,7 @@ namespace Assets.Scripts
         {
             if (respawnCoroutine != null) 
                 StopCoroutine(respawnCoroutine);
-            
+
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
                 Level = NewRoundLevel;
@@ -2438,7 +2440,7 @@ namespace Assets.Scripts
 
         [Obsolete("Migrate to TeamService")]
         [PunRPC]
-        private void setTeamRPC(int setting, PhotonMessageInfo info)
+        public void setTeamRPC(int setting, PhotonMessageInfo info)
         {
             if (info.sender.isMasterClient || info.sender.isLocal)
             {
@@ -2494,7 +2496,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         [PunRPC]
         private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
         {
@@ -2510,10 +2512,10 @@ namespace Assets.Scripts
                 this.kickPlayerRC(t.sender, true, "false game end.");
             }
         }
-    
+
         //TODO: 184 - This gets called upon MapLoaded
         [Obsolete("Migrate into a SpawnService")]
-        public void SpawnPlayer(string id, string tag = "playerRespawn")
+        public void SpawnPlayer(string id, string tag = "playerRespawn", CharacterPreset preset = null)
         {
             if (id == null)
             {
@@ -2521,20 +2523,20 @@ namespace Assets.Scripts
             }
             myLastRespawnTag = tag;
             var location = Gamemode.GetPlayerSpawnLocation(tag);
-            SpawnPlayerAt2(id, location);
+            SpawnPlayerAt2(id, location, preset);
         }
 
         public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
         {
             Debug.LogError(data);
         }
-        
+
         [Obsolete("Migrate into a SpawnService")]
-        public void SpawnPlayerAt2(string id, GameObject pos)
+        public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)
         {
             // HACK
             if (false)
-                //if (!logicLoaded || !customLevelLoaded)
+            //if (!logicLoaded || !customLevelLoaded)
             {
                 this.NOTSpawnPlayerRC(id);
             }
@@ -2582,67 +2584,8 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    component.SetMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0),
-                        true, false);
-                    id = id.ToUpper();
-                    if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
-                    {
-                        HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
-                        costume2.checkstat();
-                        CostumeConeveter.HeroCostumeToLocalData(costume2, id);
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                        if (costume2 != null)
-                        {
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                costume2.stat;
-                        }
-                        else
-                        {
-                            costume2 = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                HeroStat.getInfo(costume2.name.ToUpper());
-                        }
-
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                    }
-                    else
-                    {
-                        for (int j = 0; j < HeroCostume.costume.Length; j++)
-                        {
-                            if (HeroCostume.costume[j].name.ToUpper() == id.ToUpper())
-                            {
-                                int num4 = HeroCostume.costume[j].id;
-                                if (id.ToUpper() != "AHSS")
-                                {
-                                    num4 += CheckBoxCostume.costumeSet - 1;
-                                }
-
-                                if (HeroCostume.costume[num4].name != HeroCostume.costume[j].name)
-                                {
-                                    num4 = HeroCostume.costume[j].id + 1;
-                                }
-
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume =
-                                    HeroCostume.costume[num4];
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                    HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>()
-                                    .setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                                break;
-                            }
-                        }
-                    }
-
-                    CostumeConeveter.HeroCostumeToPhotonData2(
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume,
-                        PhotonNetwork.player);
+                    var hero = SpawnService.Spawn<Hero>(position, pos.transform.rotation, preset);
+                    component.SetMainObject(hero.transform.gameObject, true, false);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
                     ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
@@ -2661,84 +2604,6 @@ namespace Assets.Scripts
             }
         }
 
-
-        [PunRPC]
-        [Obsolete("Migrate into a SpawnService")]
-        public void spawnPlayerAtRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
-        {
-            if (info.sender.isMasterClient && logicLoaded && !this.needChooseSide && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
-            {
-                Vector3 position = new Vector3(posX, posY, posZ);
-                IN_GAME_MAIN_CAMERA component = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
-                component.SetMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, new Quaternion(0f, 0f, 0f, 1f), 0), true, false);
-                string slot = this.myLastHero.ToUpper();
-                switch (slot)
-                {
-                    case "SET 1":
-                    case "SET 2":
-                    case "SET 3":
-                    {
-                        HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(slot);
-                        costume.checkstat();
-                        CostumeConeveter.HeroCostumeToLocalData(costume, slot);
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                        if (costume != null)
-                        {
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
-                        }
-                        else
-                        {
-                            costume = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
-                        }
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                        break;
-                    }
-                    default:
-                        for (int i = 0; i < HeroCostume.costume.Length; i++)
-                        {
-                            if (HeroCostume.costume[i].name.ToUpper() == slot.ToUpper())
-                            {
-                                int id = HeroCostume.costume[i].id;
-                                if (slot.ToUpper() != "AHSS")
-                                {
-                                    id += CheckBoxCostume.costumeSet - 1;
-                                }
-                                if (HeroCostume.costume[id].name != HeroCostume.costume[i].name)
-                                {
-                                    id = HeroCostume.costume[i].id + 1;
-                                }
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[id];
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[id].name.ToUpper());
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                                break;
-                            }
-                        }
-                        break;
-                }
-                CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
-                ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-                hashtable.Add("dead", false);
-                ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                hashtable = new ExitGames.Client.Photon.Hashtable();
-                hashtable.Add(PhotonPlayerProperty.isTitan, 1);
-                propertiesToSet = hashtable;
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-                GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
-                component.gameOver = false;
-            }
-        }
-        
         private void Start()
         {
             QualitySettings.vSyncCount = 1;
@@ -2750,7 +2615,6 @@ namespace Assets.Scripts
             base.gameObject.name = "MultiplayerManager";
             CostumeHair.init();
             CharacterMaterials.init();
-            HeroCostume.init2();
             UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
             this.name = string.Empty;
             banHash = new ExitGames.Client.Photon.Hashtable();

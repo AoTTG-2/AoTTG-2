@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI.Input;
+using Assets.Scripts.UI.Radial;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
@@ -8,10 +9,11 @@ namespace Assets.Scripts.UI
         private GameObject interactionWheel;
         public GameObject[] hooksIndicators;
 
+        public GameObject RadialMenu;
+
         private void Start()
         {
-            interactionWheel = gameObject.GetComponentInChildren<InteractionWheel>(true).gameObject;
-
+            interactionWheel = gameObject.GetComponentInChildren<RadialMenu>(true).gameObject;
             foreach(GameObject hook in hooksIndicators)
             {
                 hook.transform.localScale = Vector3.one * PlayerPrefs.GetInt("Hook Indicator", 1);
@@ -22,14 +24,19 @@ namespace Assets.Scripts.UI
         {
             if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
-                if (!interactionWheel.activeSelf)
+                if (!RadialMenu.activeSelf)
+                {
+                    RadialMenu.SetActive(true);
                     interactionWheel.SetActive(true);
+                }
+
+
             }
 
             if (InputManager.KeyUp(InputUi.InteractionWheel))
             {
-                if (interactionWheel.activeSelf)
-                    interactionWheel.SetActive(false);
+                if (RadialMenu.activeSelf)
+                    RadialMenu.SetActive(false);
             }
 
             if(InputManager.KeyDown(InputUi.HideHooks))
