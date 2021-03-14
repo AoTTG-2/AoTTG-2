@@ -10,6 +10,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
     [CreateAssetMenu(fileName = "New Character Preset", menuName = "Character/Character Preset")]
     public class CharacterPreset : ScriptableObject
     {
+        [SerializeField] public HumanSelectedComponent Test;
         [SerializeField] public string Name;
         [SerializeField] public string Description;
         [SerializeField] public List<CharacterOutfit> CharacterOutfit;

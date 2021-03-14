@@ -13,4 +13,9 @@ namespace Assets.Scripts.Characters.Humans.Customization.Components
     {
         Default
     }
+
+    public class HeadComponent2 : ScriptableObject
+    {
+
+    }
 }

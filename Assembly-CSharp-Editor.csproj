@@ -57,11 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\DrawerEnumNamedArray.cs" />
+    <Compile Include="Assets\Editor\HumanSelectedComponentDrawer.cs" />
     <Compile Include="Assets\Editor\CustomMapToUnityConverter.cs" />
     <Compile Include="Assets\Editor\CreateLayerEnum.cs" />
     <Compile Include="Assets\Editor\GameObjectToPrefabConverter.cs" />
-    <Compile Include="Assets\Editor\SceneToAssetBundle.cs" />
     <Compile Include="Assets\Editor\BuildAddressable.cs" />
+    <Compile Include="Assets\Editor\SceneToAssetBundle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
