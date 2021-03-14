@@ -1,0 +1,343 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f61c1d37c23b89542bca3cab971aacae, type: 3}
+  m_Name: Character Prefabs
+  m_EditorClassIdentifier: 
+  Base: {fileID: 1294453872417432465, guid: 75e933bcc11bd9e42a44a05190d259da, type: 3}
+  Head:
+  - Prefab: {fileID: 546283096045666565, guid: dcfd4d2f9d8a8634aac04e678b6812dc, type: 3}
+    Model: 0
+  Eyes:
+    Prefab: {fileID: 5845003723029362501, guid: e4a5db03b90dda640a638a4c962b72cd,
+      type: 3}
+    Textures:
+    - File: {fileID: 0}
+    - File: {fileID: 2800000, guid: aad47877c2ce57c4e9602e4f01b45b61, type: 3}
+    - File: {fileID: 2800000, guid: f9dd1b22fb1812a40be561c7c432901e, type: 3}
+    - File: {fileID: 2800000, guid: b8660f5a94c6ab7438bad80d8b658fef, type: 3}
+    - File: {fileID: 2800000, guid: 808e68a6e07f1b54a9439ce3a3bcb020, type: 3}
+    - File: {fileID: 2800000, guid: 3a37a40c6b954434785c1b7ba39e8852, type: 3}
+    - File: {fileID: 2800000, guid: f2d8e2e7e4347614e921afc9dc58055d, type: 3}
+    - File: {fileID: 2800000, guid: ab004e1eb7a689f4faf04782184aef12, type: 3}
+    - File: {fileID: 2800000, guid: 9df789a5d24157e4ea30c7a712fead47, type: 3}
+    - File: {fileID: 2800000, guid: 81968f134d3982142a95d1fe1034ad08, type: 3}
+    - File: {fileID: 2800000, guid: 1145438615141554fac79a4159455dad, type: 3}
+    - File: {fileID: 2800000, guid: 8dea1c031d8193345aa699ca3f898ce1, type: 3}
+    - File: {fileID: 2800000, guid: bd77e5c6fe19ec14b9bcf287915f477c, type: 3}
+    - File: {fileID: 2800000, guid: d6d5eb7c114f5c642846ccb8adbae397, type: 3}
+    - File: {fileID: 2800000, guid: 9f3dfa10157231a469aab2b8b1551c3d, type: 3}
+    - File: {fileID: 2800000, guid: 66ea8d64573d9354886be72cbeeecfce, type: 3}
+    - File: {fileID: 2800000, guid: 59616ab03d524f44c8c8103e7224825b, type: 3}
+    - File: {fileID: 2800000, guid: 4db2dacd0a8592a41a3dc204317e96ed, type: 3}
+    - File: {fileID: 2800000, guid: 3d20d7cf3728e3f4e965a5e1330f744b, type: 3}
+    - File: {fileID: 2800000, guid: 8ebf59df283812b40902407d4323ef69, type: 3}
+    - File: {fileID: 2800000, guid: 0f1a17101a3ce89449e45d576b73c7ea, type: 3}
+    - File: {fileID: 2800000, guid: 982b2dfd85cfbfe4fa64cccad1cf25fe, type: 3}
+    - File: {fileID: 2800000, guid: 2a2efc625942a444ba67e102e544f2c6, type: 3}
+    - File: {fileID: 2800000, guid: 888723091d8cf944db7407956ee29d09, type: 3}
+    - File: {fileID: 2800000, guid: da3ffacec7f16ff4eae31363d196afb6, type: 3}
+    - File: {fileID: 2800000, guid: 8dd80ce4763c1534e8728a68729e103c, type: 3}
+    - File: {fileID: 2800000, guid: 172f98458fd5c6946a0811a8ed8f7099, type: 3}
+    - File: {fileID: 2800000, guid: dafbd2a37565f1540b23f00e5cec0627, type: 3}
+  Glasses:
+    Prefab: {fileID: 522262207292237073, guid: d971cb2c3a4c4f048a37271f31e5724d, type: 3}
+    Textures:
+    - File: {fileID: 0}
+    - File: {fileID: 0}
+    - File: {fileID: 2800000, guid: 9257208de5945d144905bbb01332cb23, type: 3}
+    - File: {fileID: 2800000, guid: fd1090372bf42274aa1d7ef1d93a7ede, type: 3}
+    - File: {fileID: 2800000, guid: f6b31c0eec34ba146abacbdb95ff776a, type: 3}
+    - File: {fileID: 2800000, guid: f1d763fac29d62c42b51c4145554ab9e, type: 3}
+    - File: {fileID: 2800000, guid: 27c5511aea36a2741a4f073118a82183, type: 3}
+    - File: {fileID: 2800000, guid: 49a47a1f9fb80d84498b392df834ed7b, type: 3}
+    - File: {fileID: 2800000, guid: 6e18450ff4f83c74498ea2aa3f25ffb4, type: 3}
+    - File: {fileID: 2800000, guid: ff5f7d029cfe5f145997b9b798be6deb, type: 3}
+    - File: {fileID: 2800000, guid: 761a17b86fc170143aa95b0d5684d0dd, type: 3}
+  Facial:
+    Prefab: {fileID: 8726321704235510408, guid: 2ae5faaeb0ef2e24198b3ddcbf8773c7,
+      type: 3}
+    Textures:
+    - File: {fileID: 0}
+    - File: {fileID: 0}
+    - File: {fileID: 2800000, guid: f9d5cc8d7d545624d82df0cc57045cab, type: 3}
+    - File: {fileID: 2800000, guid: e58d146cb082230418ec929fac0d758d, type: 3}
+    - File: {fileID: 2800000, guid: 98290b5559e968d42b48cb46e16db3b5, type: 3}
+    - File: {fileID: 2800000, guid: 863ada9acb3b0964a8f53f9ca7830e73, type: 3}
+    - File: {fileID: 2800000, guid: fc313398650f88c40a2e602a8857caf7, type: 3}
+    - File: {fileID: 2800000, guid: 7b21544354c82714490f0843ba5c985d, type: 3}
+    - File: {fileID: 2800000, guid: 2c7c7e9455428e642931757fc2435154, type: 3}
+    - File: {fileID: 2800000, guid: 99737e391885dbb44a71e7e784af7938, type: 3}
+    - File: {fileID: 2800000, guid: 49d5e13e76ce64d44b494a8a8e59176f, type: 3}
+    - File: {fileID: 2800000, guid: b449e76d771e2cf4a95bf3b45e4e963d, type: 3}
+    - File: {fileID: 2800000, guid: 0f93fbdf2409c774fa778de0b0ce4cbb, type: 3}
+    - File: {fileID: 2800000, guid: a516c96412d2e1846afdf58cdc2ec8a2, type: 3}
+  Hair:
+  - Prefab: {fileID: 8473252391858509866, guid: 297ba321c24857447abcbd4909c573dc,
+      type: 3}
+    Gender: 2
+    Textures: 01000000
+  - Prefab: {fileID: 5566734900918625990, guid: 5a13c61bd8bad0241a9a97bd2d880351,
+      type: 3}
+    Gender: 1
+    Textures: 02000000
+  - Prefab: {fileID: 4341045552482706101, guid: c6629cb0d6f13a4429743e9edc37413f,
+      type: 3}
+    Gender: 1
+    Textures: 03000000
+  - Prefab: {fileID: 176192226034556137, guid: a32ecedfb1c0b2444bbe32e3121ef572, type: 3}
+    Gender: 1
+    Textures: 04000000
+  - Prefab: {fileID: 79737419067637150, guid: 3e465396f45e312428b865d4a0ebd701, type: 3}
+    Gender: 1
+    Textures: 05000000
+  - Prefab: {fileID: 1901792500276358842, guid: b01d9fc5f59a7724da3287c8c1bd22cf,
+      type: 3}
+    Gender: 1
+    Textures: 06000000
+  - Prefab: {fileID: 566252420849017410, guid: 656b1363e03cc6042aa63f90560fcc54, type: 3}
+    Gender: 1
+    Textures: 07000000
+  - Prefab: {fileID: 6377447421721400115, guid: 70cf9db1ae4488c4faa18f9ecf409a63,
+      type: 3}
+    Gender: 2
+    Textures: 08000000
+  - Prefab: {fileID: 7846709785104861818, guid: 102ebb5adb7cfbd46be17148e2873de5,
+      type: 3}
+    Gender: 2
+    Textures: 09000000
+  - Prefab: {fileID: 3177513476133863032, guid: 53675234c567e304fbdf15c7e7f38be6,
+      type: 3}
+    Gender: 2
+    Textures: 0a000000
+  - Prefab: {fileID: 2167418720181278067, guid: d48f6ff2b79c32c42a1270861e5db96c,
+      type: 3}
+    Gender: 2
+    Textures: 0b000000
+  - Prefab: {fileID: 3012679433072939150, guid: b035f6d3f042fb644ac26e9946d030ab,
+      type: 3}
+    Gender: 2
+    Textures: 0c000000
+  - Prefab: {fileID: 343477332886636574, guid: 3a3fc30c0ad7f1243aeca8ff434ec458, type: 3}
+    Gender: 1
+    Textures: 0d000000
+  - Prefab: {fileID: 1356943577702733631, guid: 06ba00ba55d8cac4cbb6faadcfa7d343,
+      type: 3}
+    Gender: 1
+    Textures: 0e000000
+  - Prefab: {fileID: 3597299104995062974, guid: 5907bd8570526ed40b96830ed2f820e6,
+      type: 3}
+    Gender: 1
+    Textures: 0f000000
+  - Prefab: {fileID: 2405557168252236291, guid: 68efd19da2f724b41acf7e89a3a131dc,
+      type: 3}
+    Gender: 1
+    Textures: 10000000
+  - Prefab: {fileID: 4482451300652169553, guid: ae3cbf4b238748e4b83860ade78b6a2d,
+      type: 3}
+    Gender: 2
+    Textures: 11000000
+  - Prefab: {fileID: 9206371421606867503, guid: 740b0b4c728a9d84f826539719da2c2f,
+      type: 3}
+    Gender: 1
+    Textures: 12000000
+  - Prefab: {fileID: 4032955024759370695, guid: 98b39339023935947b24ada38de0728e,
+      type: 3}
+    Gender: 2
+    Textures: 13000000
+  - Prefab: {fileID: 2944899535227286578, guid: 9e8f5d190e72089458dcd92cc16b919d,
+      type: 3}
+    Gender: 2
+    Textures: 14000000
+  - Prefab: {fileID: 5010810136621365855, guid: a4adefa5024af934fa5828b4f89af356,
+      type: 3}
+    Gender: 2
+    Textures: 15000000
+  Outfits:
+  - Prefab: {fileID: 6140196266423352498, guid: b242c07ffa1115c4cb5849aa84b2bad0,
+      type: 3}
+    Gender: 2
+    Textures: 0a0000000b000000
+  - Prefab: {fileID: 7564927333802397261, guid: 1714a9577fb88044bbbe5890e4410478,
+      type: 3}
+    Gender: 2
+    Textures: 0c0000000d000000
+  - Prefab: {fileID: 1758115222797931338, guid: 70659d2f37918b4418b4dac265fbb857,
+      type: 3}
+    Gender: 1
+    Textures: 0100000002000000
+  - Prefab: {fileID: 425395528327097731, guid: 45e8647d6d56e3740bd72b13f38fbb3b, type: 3}
+    Gender: 1
+    Textures: 030000000400000005000000
+  - Prefab: {fileID: 6567863325819649678, guid: 937454f0760b89f478f5ab6b032ecf0d,
+      type: 3}
+    Gender: 2
+    Textures: 0e000000
+  - Prefab: {fileID: 6147868918235877228, guid: 40f0ff37c2a227241b429fc292f25a27,
+      type: 3}
+    Gender: 2
+    Textures: 0f00000010000000
+  - Prefab: {fileID: 5960538815920824186, guid: 1bb11ccb84025ff4d9df8b972a814d01,
+      type: 3}
+    Gender: 1
+    Textures: 06000000
+  - Prefab: {fileID: 3386359218058407558, guid: f932e8db20aaf864a9aee6b8e000763a,
+      type: 3}
+    Gender: 1
+    Textures: 070000000800000009000000
+  Equipment:
+  - Name: Odm
+    HandLeft: {fileID: 956049245627132838, guid: 6da179af98527a34ea50fe8b39c9dbb1,
+      type: 3}
+    HandRight: {fileID: 5526407258255872838, guid: fdbf804ea5645b74db4883e30bc9706b,
+      type: 3}
+    AmmoLeft: {fileID: 4221614221113340878, guid: 64ef8986faead654e9749ffedfa5acf6,
+      type: 3}
+    AmmoRight: {fileID: 6610819512428143971, guid: ba04c9cc947be9b4fa9570ea6d927d6c,
+      type: 3}
+    WeaponLeft: {fileID: 5152706585247795694, guid: 45406ff98b8007f4ea943a76dedf38eb,
+      type: 3}
+    WeaponRight: {fileID: 3722587441551587726, guid: 3c29429c2149d604fa2757c0ca1ae5b6,
+      type: 3}
+    Equipment: {fileID: 4968137052330538378, guid: 40b0c590b89e5d344ab3d7cfdacf1421,
+      type: 3}
+    Extras:
+    - {fileID: 1956738631465821237, guid: 53c1946adfcb0004ab7c2ec62b7be3ab, type: 3}
+    EquipmentType: 0
+    EquipmentTextures:
+    - File: {fileID: 2800000, guid: c6130ce188a29ca49924adbac94dc5ae, type: 3}
+      Texture: 1
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 6b958d25f7cb65b4c9f9fc50c6227e9c, type: 3}
+      Texture: 1
+  - Name: Odm (AHSS)
+    HandLeft: {fileID: 5546613045034110971, guid: 8e5aecc917c7943499be36794b198d5c,
+      type: 3}
+    HandRight: {fileID: 7319715846295325891, guid: f8c6b5489a806f3488d9ae46c65c476f,
+      type: 3}
+    AmmoLeft: {fileID: 597459554847515780, guid: 4a7a31bb411fb1d428226c0d37c1e463,
+      type: 3}
+    AmmoRight: {fileID: 741190811112656293, guid: 0847ca3eb9e4f9a4293242cf546d426f,
+      type: 3}
+    WeaponLeft: {fileID: 9016748212667235426, guid: d173901e06353e5448328562cd6db309,
+      type: 3}
+    WeaponRight: {fileID: 3459695057023854892, guid: ad76402faa269cb419e9c4859868e8ad,
+      type: 3}
+    Equipment: {fileID: 1968309134548013, guid: 8258c6c181901e44680b2d13eed255ff,
+      type: 3}
+    Extras: []
+    EquipmentType: 1
+    EquipmentTextures:
+    - File: {fileID: 2800000, guid: 0cf3c719a8efa8144b4695d1cb81c75a, type: 3}
+      Texture: 2
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 0dd06f890da108b42a459f6ee3d96dc3, type: 3}
+      Texture: 2
+  - Name: Odm (AHSS)
+    HandLeft: {fileID: 5546613045034110971, guid: 8e5aecc917c7943499be36794b198d5c,
+      type: 3}
+    HandRight: {fileID: 7319715846295325891, guid: f8c6b5489a806f3488d9ae46c65c476f,
+      type: 3}
+    AmmoLeft: {fileID: 597459554847515780, guid: 4a7a31bb411fb1d428226c0d37c1e463,
+      type: 3}
+    AmmoRight: {fileID: 741190811112656293, guid: 0847ca3eb9e4f9a4293242cf546d426f,
+      type: 3}
+    WeaponLeft: {fileID: 0}
+    WeaponRight: {fileID: 0}
+    Equipment: {fileID: 1968309134548013, guid: 8258c6c181901e44680b2d13eed255ff,
+      type: 3}
+    Extras: []
+    EquipmentType: 2
+    EquipmentTextures:
+    - File: {fileID: 2800000, guid: 0cf3c719a8efa8144b4695d1cb81c75a, type: 3}
+      Texture: 2
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 6e54b1a1a98d77f4d9f4d0bab36fb727, type: 3}
+      Texture: 2
+  Skin:
+  - File: {fileID: 2800000, guid: 514583a8848f66b429ef5e9f4b35cc35, type: 3}
+    Skin: 0
+  - File: {fileID: 2800000, guid: 3f54f8f868c656944a75a1ff546ddff6, type: 3}
+    Skin: 1
+  Legs: {fileID: 3305592698201889044, guid: 64209cafbb4033341b59c3750bcc4894, type: 3}
+  Chest: {fileID: 0}
+  Arms:
+    LeftCasual: {fileID: 868851076093622071, guid: 798390a076c134647afaec0776c973de,
+      type: 3}
+    LeftAhss: {fileID: 2298196860539082891, guid: f8286a0f0a45b3d4d8c1b0e7211e4607,
+      type: 3}
+    LeftUniform: {fileID: 1730685421084829319, guid: 8a8498b865b834d4388609e8b53203e3,
+      type: 3}
+    RightCasual: {fileID: 429253701733756997, guid: 1b000047cb1658e4a843790e1620d0ec,
+      type: 3}
+    RightAhss: {fileID: 1904925187269708889, guid: 1c7203fad2091ac4fbff80f33843c1a8,
+      type: 3}
+    RightUniform: {fileID: 5487613470261266201, guid: 585276b9f3241524bbc3c69817d80305,
+      type: 3}
+  Cape:
+    Prefab: {fileID: 980092367085639070, guid: 7343dab8a71a09140bf8a38c11f46ce8, type: 3}
+    Textures:
+    - File: {fileID: 2800000, guid: 367fb131fa577aa479421b9c6cd6fea8, type: 3}
+      Texture: 2
+  Emblem:
+    ArmLeft: {fileID: 4648260104365837487, guid: 0d879922fa1f9394799d877d71fbba53,
+      type: 3}
+    ArmRight: {fileID: 3119286009903484735, guid: 3bd398a8fbcf5e747a845c49c9aff038,
+      type: 3}
+    BackMale: {fileID: 4951063426726137778, guid: 9a86a5b13a51d8b46aefbfb5d0b7b646,
+      type: 3}
+    BackFemale: {fileID: 2942471716240817570, guid: 8e4f28afc76421a428b797fa719ef493,
+      type: 3}
+    ChestMale: {fileID: 5829737728309230095, guid: cbf03e35b9f7ac64d983da68c123bd4b,
+      type: 3}
+    ChestFemale: {fileID: 3186253259835440149, guid: 5a9c9bf5aa51a104daf62ac524616d7e,
+      type: 3}
+  OutfitTextures:
+  - File: {fileID: 0}
+  - File: {fileID: 2800000, guid: ea3834bf10b89774fae97656de12caae, type: 3}
+  - File: {fileID: 2800000, guid: 099f93e8b23fa02438e51a34dbf958e7, type: 3}
+  - File: {fileID: 2800000, guid: 4cb1382bffc5aff49b5b61d05bd84afb, type: 3}
+  - File: {fileID: 2800000, guid: 8646bae7822ba0d4a888ee52d78c9862, type: 3}
+  - File: {fileID: 2800000, guid: 598df76a444320e4792b35c152027874, type: 3}
+  - File: {fileID: 2800000, guid: 7c898a93a49c421419000f3e523faf91, type: 3}
+  - File: {fileID: 2800000, guid: dad8e4fa1b319b24096604526fdc861b, type: 3}
+  - File: {fileID: 2800000, guid: 1130831264c34c44d818161345ab4a98, type: 3}
+  - File: {fileID: 2800000, guid: 0b7fa354434306b41b772b2c214a77e3, type: 3}
+  - File: {fileID: 2800000, guid: 1d1866e5e6f9a6243b3d5b5cbecf0816, type: 3}
+  - File: {fileID: 2800000, guid: 22e03e9dfa3c4a942ba5e3a7ad747973, type: 3}
+  - File: {fileID: 2800000, guid: a0d91bf5f7b10f6479e67233f7379544, type: 3}
+  - File: {fileID: 2800000, guid: 1b4e20cfcf0e58b4894383dfc079f9c9, type: 3}
+  - File: {fileID: 2800000, guid: 186b1900e9894b4428fa51f30ccf0d9b, type: 3}
+  - File: {fileID: 2800000, guid: cebabd76bada69049babeeaf72efa34f, type: 3}
+  - File: {fileID: 2800000, guid: 5a3f9661db13b4a488919fe173bfd189, type: 3}
+  HairTextures:
+  - File: {fileID: 0}
+  - File: {fileID: 2800000, guid: 864982019ae890246abb50a1806e7fcc, type: 3}
+  - File: {fileID: 2800000, guid: 5039eeeb94938e04986aaafe21eccf98, type: 3}
+  - File: {fileID: 2800000, guid: 3710bf58c525b0747b3e34bb46f6e5ea, type: 3}
+  - File: {fileID: 2800000, guid: 6e0ac0291e1c0684e82e4fda59726be5, type: 3}
+  - File: {fileID: 2800000, guid: 4c0bb6145d4fb494a95a87a9a257d284, type: 3}
+  - File: {fileID: 2800000, guid: efcd0586e52052f4390cc1739f1b2d56, type: 3}
+  - File: {fileID: 2800000, guid: 585ae53af8905f44fbacd80bf47bb234, type: 3}
+  - File: {fileID: 2800000, guid: c30e81de91da9ee429ac9a47b2ce6f65, type: 3}
+  - File: {fileID: 2800000, guid: 99df37eba7f9181438400c2d8f569840, type: 3}
+  - File: {fileID: 2800000, guid: 157eaa0ac6c534141a16ae574eefdb43, type: 3}
+  - File: {fileID: 2800000, guid: a0593249862c60b4f922be578fdf115b, type: 3}
+  - File: {fileID: 2800000, guid: 0eaf3567c1b4e9f4c8754d06d50ad62d, type: 3}
+  - File: {fileID: 2800000, guid: a425663b434334041accfda00aee5242, type: 3}
+  - File: {fileID: 2800000, guid: 7b19f1a8a22cdf347a6c2c48b7ea91aa, type: 3}
+  - File: {fileID: 2800000, guid: ad6e9e81fd1e1974cb7dc2829d68f4c1, type: 3}
+  - File: {fileID: 2800000, guid: 53918550d40fcfa4ba1136c0f20c48b0, type: 3}
+  - File: {fileID: 2800000, guid: 34032a84f676f614b8b96dc0af4b8663, type: 3}
+  - File: {fileID: 2800000, guid: 5f8d7c681c47fdd44a0c39f18b5a482a, type: 3}
+  - File: {fileID: 2800000, guid: 9d004d7eaebbf8f458b6143416320cce, type: 3}
+  - File: {fileID: 2800000, guid: e1151e7683ba97d4aa7c84b03268348e, type: 3}
+  - File: {fileID: 2800000, guid: ee04b09ef726895419f93939a3c9a3de, type: 3}

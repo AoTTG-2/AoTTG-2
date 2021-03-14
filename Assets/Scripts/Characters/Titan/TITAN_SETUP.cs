@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class TITAN_SETUP : Photon.MonoBehaviour
@@ -14,11 +15,23 @@ public class TITAN_SETUP : Photon.MonoBehaviour
     public int skin;
     public TitanBody TitanBody;
 
+    [SerializeField] private Color[] hairColors = {
+        new Color(1f, 0.9f, 0.5f),
+        new Color(0.15f, 0.15f, 0.145f),
+        new Color(0.295f, 0.295f, 0.275f),
+        new Color(0.45f, 0.33f, 0.255f),
+        new Color(0.295f, 0.23f, 0.17f),
+        new Color(1f, 1f, 1f),
+        new Color(0.94f, 0.84f, 0.6f),
+        new Color(0.95f, 0.8f, 0.5f),
+        new Color(1f, 0.725f, 0.376f)
+    };
+
     private void Awake()
     {
         this.hair_go_ref = new GameObject("Hair Reference");
         this.eye.transform.parent = TitanBody.Head.transform;
-        this.hair_go_ref.transform.position = (Vector3)((this.eye.transform.position + (Vector3.up * 3.5f)) + (base.transform.forward * 5.2f));
+        this.hair_go_ref.transform.position = (Vector3) ((this.eye.transform.position + (Vector3.up * 3.5f)) + (base.transform.forward * 5.2f));
         this.hair_go_ref.transform.rotation = this.eye.transform.rotation;
         this.hair_go_ref.transform.RotateAround(this.eye.transform.position, base.transform.right, -20f);
         this.hair_go_ref.transform.localScale = new Vector3(210f, 210f, 210f);
@@ -138,7 +151,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
                 }
                 else
                 {
-                    color = HeroCostume.costume[UnityEngine.Random.Range(0, HeroCostume.costume.Length - 5)].hair_color;
+                    color = hairColors[Random.Range(0, hairColors.Length)];
                     objArray2 = new object[] { num, eye, color.r, color.g, color.b };
                     base.photonView.RPC(nameof(setHairPRC), PhotonTargets.AllBuffered, objArray2);
                 }
@@ -165,7 +178,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
             this.part_hair.transform.rotation = this.hair_go_ref.transform.rotation;
             this.part_hair.transform.localScale = this.hair_go_ref.transform.localScale;
             this.part_hair.GetComponent<Renderer>().material = CharacterMaterials.materials[this.hair.texture];
-            this.part_hair.GetComponent<Renderer>().material.color = HeroCostume.costume[UnityEngine.Random.Range(0, HeroCostume.costume.Length - 5)].hair_color;
+            this.part_hair.GetComponent<Renderer>().material.color = hairColors[Random.Range(0, hairColors.Length)];
             int id = UnityEngine.Random.Range(1, 8);
             this.setFacialTexture(this.eye, id);
             if (base.photonView.isMine)

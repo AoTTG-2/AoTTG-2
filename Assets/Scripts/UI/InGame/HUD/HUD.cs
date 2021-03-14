@@ -8,6 +8,7 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         public GameObject Damage;
         public Labels Labels;
+        public Crosshair Crosshair;
 
         public void SetDamage(int damage)
         {

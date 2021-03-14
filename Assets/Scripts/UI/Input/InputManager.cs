@@ -490,7 +490,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp(InputUi input)
         {
-            if (MenuManager.IsAnyMenuOpen) return false;
+            if (input != InputUi.InteractionWheel && MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])

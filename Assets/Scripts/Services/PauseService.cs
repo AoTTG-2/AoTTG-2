@@ -52,7 +52,7 @@ namespace Assets.Scripts.Services
             {
                 photonView.RPC(nameof(PauseRpc), newPlayer, true, true);
                 object[] parameters = new object[] { "<color=#FFCC00>MasterClient has paused the game.</color>", "" };
-                FengGameManagerMKII.instance.photonView.RPC("Chat", newPlayer, parameters);
+                FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), newPlayer, parameters);
             }
         }
 
