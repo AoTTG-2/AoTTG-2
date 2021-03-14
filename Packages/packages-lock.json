@@ -22,11 +22,11 @@
       "hash": "f5cf84586da5513cbefa8b496f660a7fcefc5953"
     },
     "com.unity.addressables": {
-      "version": "1.16.6",
+      "version": "1.16.13",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "1.13.1",
+        "com.unity.scriptablebuildpipeline": "1.15.1",
         "com.unity.modules.assetbundle": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
         "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
@@ -73,18 +73,17 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.localization": {
-      "version": "0.9.0-preview",
+      "version": "0.10.0-preview",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.addressables": "1.16.6",
-        "com.unity.nuget.newtonsoft-json": "2.0.0"
+        "com.unity.addressables": "1.16.13"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.nuget.newtonsoft-json": {
       "version": "2.0.0",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -97,10 +96,26 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.scriptablebuildpipeline": {
-      "version": "1.13.1",
+      "version": "1.15.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sysroot": {
+      "version": "0.1.19-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sysroot.linux-x86_64": {
+      "version": "0.1.14-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "0.1.18-preview"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
@@ -132,6 +147,16 @@
         "com.unity.modules.animation": "1.0.0",
         "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.toolchain.win-x86_64-linux-x86_64": {
+      "version": "0.1.19-preview",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "0.1.19-preview",
+        "com.unity.sysroot.linux-x86_64": "0.1.14-preview"
       },
       "url": "https://packages.unity.com"
     },
