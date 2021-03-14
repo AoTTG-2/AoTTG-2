@@ -7,7 +7,7 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
 {
     [Header("Settings:")]
     public string elementName;
-    [HideInInspector]public ChangeHUDHandler handler;
+    public ChangeHUDHandler handler;
     [HideInInspector]public bool isVisible = true;
     [HideInInspector]public GameObject selection;
     private bool beingDragged;
