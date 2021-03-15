@@ -17,6 +17,7 @@ namespace Assets.Scripts.Settings
 
         public static PvPSettings PvP { get; private set; }
         public static GamemodeSettings Gamemode { get; private set; }
+        public static GlobalSettings Global { get; private set; }
 
         public static T DerivedGamemode<T>() where T : GamemodeSettings
         {
@@ -41,6 +42,9 @@ namespace Assets.Scripts.Settings
         [JsonProperty("Respawn")]
         private RespawnSettings ConfigRespawn { get; set; }
 
+        [JsonProperty("Global")]
+        private GlobalSettings ConfigGlobal { get; set; }
+
         /// <summary>
         /// Update the GameSettings based on the static definitions
         /// </summary>
@@ -60,6 +64,7 @@ namespace Assets.Scripts.Settings
             ConfigTitan = Titan;
             ConfigHorse = Horse;
             ConfigRespawn = Respawn;
+            ConfigGlobal = Global;
         }
 
         /// <summary>
@@ -121,6 +126,16 @@ namespace Assets.Scripts.Settings
             SettingsService.SyncSettings();
         }
 
+        /// <summary>
+        /// Update the Global Settings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(GlobalSettings settings)
+        {
+            Global = ConfigGlobal = settings;
+            SettingsService.SyncSettings();
+        }
+
         public void Initialize(GamemodeType type)
         {
             Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == type);
@@ -129,10 +144,10 @@ namespace Assets.Scripts.Settings
         public void Initialize(string json)
         {
             var gameSettings = JsonConvert.DeserializeObject<GameSettings>(json);
-            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn);
+            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn, gameSettings.ConfigGlobal);
         }
 
-        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn)
+        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn, GlobalSettings global)
         {
             PvP = ConfigPvP = pvp;
             Titan = ConfigTitan = titan;
@@ -141,6 +156,7 @@ namespace Assets.Scripts.Settings
                 Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == FengGameManagerMKII.Gamemode.GamemodeType);
             Horse = ConfigHorse = horse;
             Respawn = ConfigRespawn = respawn;
+            Global = ConfigGlobal = global;
         }
         
         public void ChangeSettings(GamemodeSettings levelGamemode)

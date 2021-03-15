@@ -23,6 +23,7 @@ namespace Assets.Scripts.Services
         public event OnHorseSettingsChanged OnHorseSettingsChanged;
         public event OnRespawnSettingsChanged OnRespawnSettingsChanged;
         public event OnTitanSettingsChanged OnTitanSettingsChanged;
+        public event OnGlobalSettingsChanged OnGlobalSettingsChanged;
 
         public GameSettings Get()
         {
@@ -100,7 +101,8 @@ namespace Assets.Scripts.Services
                     Eren = new TitanSettings(difficulty)
                 },
                 new HorseSettings(difficulty),
-                new RespawnSettings(difficulty)
+                new RespawnSettings(difficulty),
+                new GlobalSettings()
             );
 
             if (!PhotonNetwork.isMasterClient) return;
@@ -135,6 +137,7 @@ namespace Assets.Scripts.Services
             OnHorseSettingsChanged?.Invoke(GameSettings.Horse);
             OnRespawnSettingsChanged?.Invoke(GameSettings.Respawn);
             OnTitanSettingsChanged?.Invoke(GameSettings.Titan);
+            OnGlobalSettingsChanged?.Invoke(GameSettings.Global);
         }
     }
 }
