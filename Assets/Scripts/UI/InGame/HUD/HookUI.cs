@@ -2,6 +2,7 @@ using Assets.Scripts.Services;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
@@ -20,7 +21,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public Image crossImageL;
         public Image crossImageR;
 
-        public Text distanceLabel;
+        public TMP_Text distanceLabel;
 
         public bool enabled = false;
 
@@ -37,7 +38,7 @@ namespace Assets.Scripts.UI.InGame.HUD
             crossR = crosshair.CrossR1.transform;
             crossImageR = crossR.GetComponentInChildren<Image>(true);
 
-            distanceLabel = crosshair.Distance.transform.GetComponent<Text>();
+            distanceLabel = crosshair.Distance.transform.GetComponent<TMP_Text>();
 
             Enable();
         }
