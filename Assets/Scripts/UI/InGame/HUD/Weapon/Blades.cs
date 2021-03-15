@@ -5,7 +5,8 @@ namespace Assets.Scripts.UI.InGame.Weapon
 {
     public class Blades : MonoBehaviour
     {
-        public float bladeSta = 100f;
+        [HideInInspector]public float bladeSta = 100f;
+        [HideInInspector]public float curGas = 100f;
 
         public GameObject BladeLeft;
         public GameObject BladeRight;

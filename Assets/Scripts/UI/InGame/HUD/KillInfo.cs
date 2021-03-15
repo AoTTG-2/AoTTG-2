@@ -22,6 +22,13 @@ namespace Assets.Scripts.UI.InGame.HUD
         private float startPosition;
         private float startPositionRatio = 0.85f; // this is the proportion of the total screen that is below the kill feed.
 
+        [Header("Colors")]
+        public Color fiveHundred;
+        public Color oneThousand;
+        public Color twoThousand;
+        public Color threeThousand;
+        public Color fourThousand;
+
         public void Destroy()
         {
             this.timeElapsed = this.lifeTime;
@@ -65,31 +72,26 @@ namespace Assets.Scripts.UI.InGame.HUD
             }
             else
             {
-                Color32 green = new Color32(110,247,59, 255);
-                Color32 yellow = new Color32(246,255,77, 255);
-                Color32 orange = new Color32(240,99,53, 255);
-                Color32 purple = new Color32(134,50,194, 255);
-                Color32 red = new Color32(186,43,43, 255);
                 DamageLabel.text = dmg.ToString();
                 if (dmg >= 500 && dmg < 1000)
                 {
-                    DamageLabel.color = green;
+                    DamageLabel.color = fiveHundred;
                 } else 
                 if (dmg >= 1000 && dmg < 2000)
                 {
-                    DamageLabel.color = yellow;
+                    DamageLabel.color = oneThousand;
                 } else 
                 if (dmg >= 2000 && dmg < 3000)
                 {
-                    DamageLabel.color = orange;
+                    DamageLabel.color = twoThousand;
                 } else 
                 if (dmg >= 3000 && dmg < 4000)
                 {
-                    DamageLabel.color = purple;
+                    DamageLabel.color = threeThousand;
                 } else 
                 if (dmg >= 4000)
                 {
-                    DamageLabel.color = red;
+                    DamageLabel.color = fourThousand;
                 }
             }
         }

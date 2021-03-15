@@ -79,7 +79,7 @@ namespace Assets.Scripts.Characters.Humans
         private BUFF currentBuff { get; set; }
         public Camera currentCamera;
         public IN_GAME_MAIN_CAMERA currentInGameCamera;
-        private float currentGas { get; set; } = 100f;
+        public float currentGas { get; set; } = 100f;
         public float currentSpeed;
         public Vector3 currentV;
         private bool dashD { get; set; }
@@ -2058,7 +2058,7 @@ namespace Assets.Scripts.Characters.Humans
             Skill = Skill.Create(preset.CurrentBuild.Skill, this);
 
             EquipmentType = preset.CurrentBuild.Equipment;
-            Equipment.Initialize();
+                                            Equipment.Initialize();
 
             if (EquipmentType == EquipmentType.Ahss)
             {

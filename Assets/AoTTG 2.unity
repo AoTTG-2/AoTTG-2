@@ -1580,7 +1580,7 @@ PrefabInstance:
     - target: {fileID: 323642728197284684, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00006306845
+      value: -0.000030335628
       objectReference: {fileID: 0}
     - target: {fileID: 323642728300029357, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
@@ -1822,6 +1822,26 @@ PrefabInstance:
       propertyPath: MenuUi
       value: 
       objectReference: {fileID: 1291268479}
+    - target: {fileID: 386848197929240167, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.02464557
+      objectReference: {fileID: 0}
+    - target: {fileID: 386848197929240167, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 386848197929240167, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.3490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 386848197929240167, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278583385
+      objectReference: {fileID: 0}
     - target: {fileID: 428117934839610716, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: HUD
@@ -1907,6 +1927,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3685858439608280296, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3989776034357865906, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: handler
@@ -1927,10 +1952,20 @@ PrefabInstance:
       propertyPath: handler
       value: 
       objectReference: {fileID: 1656185691}
+    - target: {fileID: 4185290731730982841, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_ReverseArrangement
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6051587190421100904, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447733905657106847, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 16777215
       objectReference: {fileID: 0}
     - target: {fileID: 6534695263962072462, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
@@ -1952,6 +1987,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Assets.Scripts.UI.InGame.InGameMenu, AoTTG2.Core
       objectReference: {fileID: 0}
+    - target: {fileID: 7158078827736479539, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 16777215
+      objectReference: {fileID: 0}
     - target: {fileID: 7776498474637336368, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1966,6 +2006,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7899101815103601348, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 16777215
       objectReference: {fileID: 0}
     - target: {fileID: 8147333672044660772, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
@@ -1984,6 +2029,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 573157632919365762, guid: 739f3587de222de419a53e81827c31b0, type: 3}
+    - {fileID: 6999660866330211905, guid: 739f3587de222de419a53e81827c31b0, type: 3}
+    - {fileID: 6795355304892410189, guid: 739f3587de222de419a53e81827c31b0, type: 3}
+    - {fileID: 3050296388102930353, guid: 739f3587de222de419a53e81827c31b0, type: 3}
+    - {fileID: 6105942392748073790, guid: 739f3587de222de419a53e81827c31b0, type: 3}
+    - {fileID: 833508856475992788, guid: 739f3587de222de419a53e81827c31b0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 739f3587de222de419a53e81827c31b0, type: 3}
 --- !u!114 &1692878494 stripped
 MonoBehaviour:
