@@ -115,7 +115,6 @@
     <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerRacingResult.cs" />
     <Compile Include="Assets\Scripts\Services\SettingsService.cs" />
     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Head.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\RockScript.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Difficulty.cs" />
     <Compile Include="Assets\Scripts\Gamemode\GamemodeBase.cs" />
@@ -457,6 +456,8 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

@@ -13,9 +13,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject Base;
         [Header("Face")]
 
-        [EnumNamedArray(typeof(HeadModel), typeof(HeadPrefab))]
         [SerializeField]
-        public List<HeadPrefab> Head;
+        public List<HumanHeadComponent> Head;
 
         [SerializeField] public EyePrefab Eyes;
         [SerializeField] public GlassesPrefab Glasses;
@@ -46,11 +45,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         [EnumNamedArray(typeof(HairTexture), typeof(HairPrefabTexture))]
         [SerializeField] public List<HairPrefabTexture> HairTextures;
-
-        public HeadPrefab GetHeadPrefab(HeadModel model)
-        {
-            return Head.First();
-        }
 
         public HairPrefab GetHairPrefab(HairModel model)
         {
@@ -96,14 +90,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
     {
         [SerializeField] public Texture2D File;
     }
-
-    [Serializable]
-    public struct HeadPrefab
-    {
-        [SerializeField] public GameObject Prefab;
-        [SerializeField] public HeadModel Model;
-    }
-
+    
     [Serializable]
     public struct SkinPrefab
     {

@@ -5,11 +5,12 @@ using UnityEngine;
 namespace Assets.Scripts.Characters.Humans.Customization
 {
     [Serializable]
-    public struct CharacterOutfit
+    //TODO: 599 This can be made a struct again after migration
+    public class CharacterOutfit
     {
         [SerializeField] public string Name;
         [SerializeField] public Gender Gender;
-        [SerializeField] public HeadComponent Head;
+        [SerializeField] public HumanHeadSelected Head;
         [SerializeField] public SkinComponent Skin;
         [SerializeField] public HairComponent Hair;
         [SerializeField] public EyesComponent Eyes;
@@ -18,5 +19,23 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public OutfitComponent Outfit;
         [SerializeField] public CapeComponent Cape;
         [SerializeField] public AdvancedOptions Advanced;
+
+        public CharacterOutfit Clone()
+        {
+            return new CharacterOutfit
+            {
+                Name = Name,
+                Gender = Gender,
+                Head = Head,
+                Skin = Skin,
+                Hair = Hair,
+                Eyes = Eyes,
+                Glasses = Glasses,
+                Facial = Facial,
+                Outfit = Outfit,
+                Cape = Cape,
+                Advanced = Advanced
+            };
+        }
     }
 }

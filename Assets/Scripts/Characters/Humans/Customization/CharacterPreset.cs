@@ -10,7 +10,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
     [CreateAssetMenu(fileName = "New Character Preset", menuName = "Character/Character Preset")]
     public class CharacterPreset : ScriptableObject
     {
-        [SerializeField] public HumanSelectedComponent Test;
         [SerializeField] public string Name;
         [SerializeField] public string Description;
         [SerializeField] public List<CharacterOutfit> CharacterOutfit;
@@ -31,7 +30,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
 
-            CreateHead(CurrentOutfit.Head, skin);
+            CreateHead(CurrentOutfit.Head);
             CreateHair(CurrentOutfit.Hair);
             CreateGlasses(CurrentOutfit.Glasses);
             CreateFacial(CurrentOutfit.Facial);
@@ -54,7 +53,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
 
-            CreateHead(CurrentOutfit.Head, skin);
+            CreateHead(CurrentOutfit.Head);
             CreateHair(CurrentOutfit.Hair);
             CreateGlasses(CurrentOutfit.Glasses);
             CreateFacial(CurrentOutfit.Facial);
@@ -113,10 +112,10 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             return result;
         }
-        
-        private void CreateHead(HeadComponent head, SkinPrefab skin)
+
+        private void CreateHead(HumanHeadSelected head)
         {
-            var result = CreateComponent(Prefabs.GetHeadPrefab(head.Model).Prefab, skin.File, Body.head);
+            var result = CreateComponent(head.Component.Model, head.Component.Textures[head.Texture], Body.head);
         }
 
         private void CreateHair(HairComponent hair)

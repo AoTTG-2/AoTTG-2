@@ -12,16 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
   m_Name: Levi
   m_EditorClassIdentifier: 
-  Test:
-    Component: {fileID: 11400000, guid: 9bd55313c047d7444a835c3e86df4203, type: 2}
-    Texture: 0
   Name: Levi
   Description: 
   CharacterOutfit:
   - Name: Default
     Gender: 1
     Head:
-      Model: 0
+      Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
+      Texture: 1
     Skin:
       Skin: 0
       CustomUrl: 
@@ -73,7 +71,8 @@ MonoBehaviour:
   - Name: S2
     Gender: 1
     Head:
-      Model: 0
+      Component: {fileID: 0}
+      Texture: 0
     Skin:
       Skin: 0
       CustomUrl: 

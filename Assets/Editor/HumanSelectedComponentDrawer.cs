@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Editor
 {
-    [CustomPropertyDrawer(typeof(HumanSelectedComponent))]
+    [CustomPropertyDrawer(typeof(HumanSelectedComponent<>), true)]
     public class HumanSelectedComponentDrawer : PropertyDrawer
     {
         private int Selected { get; set; } = 0;
@@ -30,7 +30,7 @@ namespace Assets.Editor
             var spriteRect = new Rect(position.x + 205, position.y, 50, position.height);
 
             // Draw fields - passs GUIContent.none to each so they are drawn without labels
-            var component = property.FindPropertyRelative(nameof(HumanSelectedComponent.Component));
+            var component = property.FindPropertyRelative("Component");
             EditorGUI.PropertyField(amountRect, component, GUIContent.none);
 
             if (component.propertyType == SerializedPropertyType.ObjectReference)
@@ -39,7 +39,9 @@ namespace Assets.Editor
                 if (objectData != null)
                 {
                     Selected = EditorGUI.Popup(unitRect, Selected, objectData.Textures.Select(x => x.name).ToArray());
+                    EditorGUI.BeginDisabledGroup(true);
                     EditorGUI.ObjectField(spriteRect, objectData.Textures[Selected], typeof(Texture2D), false);
+                    EditorGUI.EndDisabledGroup();
                     spriteRect.x += spriteRect.width+10;
                     spriteRect.width += 15;
                     if (GUI.Button(spriteRect, "Select"))
@@ -47,7 +49,7 @@ namespace Assets.Editor
                 }
             }
 
-            var texture = property.FindPropertyRelative(nameof(HumanSelectedComponent.Texture));
+            var texture = property.FindPropertyRelative("Texture");
             if (texture.propertyType == SerializedPropertyType.Integer)
             {
                 texture.intValue = Selected;

@@ -2073,7 +2073,7 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 //TODO: If this is a default preset, find a more efficient way
-                var config = JsonConvert.SerializeObject(preset, Formatting.Indented, new ColorJsonConverter());
+                var config = JsonConvert.SerializeObject(CustomizationNetworkObject.Convert(Prefabs, preset), Formatting.Indented, new ColorJsonConverter());
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
@@ -2091,7 +2091,8 @@ namespace Assets.Scripts.Characters.Humans
 
             if (info.sender.ID == photonView.ownerId)
             {
-                Initialize(JsonConvert.DeserializeObject<CharacterPreset>(characterPreset, new ColorJsonConverter()));
+                var config = JsonConvert.DeserializeObject<CustomizationNetworkObject>(characterPreset, new ColorJsonConverter());
+                Initialize(config.ToPreset(Prefabs));
             }
         }
 
