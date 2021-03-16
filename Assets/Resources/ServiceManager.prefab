@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1650797095130246449}
   - component: {fileID: 1974933086}
   - component: {fileID: 1974933087}
+  - component: {fileID: 1825475748394659375}
   m_Layer: 0
   m_Name: ServiceManager
   m_TagString: Untagged
@@ -28,8 +29,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650797095130246453}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 71.454704, y: 205.88588, z: 943.2292}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -101,6 +102,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OAuth: {fileID: 11400000, guid: db114314cdf094b4ea15356f15dae7bf, type: 2}
 --- !u!114 &1974933087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650797095130246453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 543d573c89fb6d74298d83f46b964b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flares:
+  - {fileID: 11400000, guid: 2b1cac2cd17f2d94e90ef3052fd79713, type: 2}
+  - {fileID: 11400000, guid: 28d17b2f0e875c246953a53d7e634e4d, type: 2}
+  - {fileID: 11400000, guid: 586df2dbce068814bafed60e835d8baa, type: 2}
+  - {fileID: 11400000, guid: 3996373347d5caf4e936dc8297ce7f49, type: 2}
+  - {fileID: 11400000, guid: 60d310188e6795c4a8f7d52d5ce35210, type: 2}
+  - {fileID: 11400000, guid: 6f42279bfda11fa4b9761e7a6e6642d1, type: 2}
+--- !u!114 &1825475748394659375
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

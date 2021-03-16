@@ -71,7 +71,7 @@ namespace Assets.Scripts.UI.InGame
             Service.Settings.SyncSettings();
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
-            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
+            FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
         }
     }
 }

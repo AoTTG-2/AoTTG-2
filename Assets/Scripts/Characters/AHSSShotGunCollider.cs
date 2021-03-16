@@ -1,7 +1,8 @@
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
-using System.Collections;
 using Assets.Scripts.Settings;
+using System.Collections;
 using UnityEngine;
 
 public class AHSSShotGunCollider : MonoBehaviour
@@ -48,11 +49,11 @@ public class AHSSShotGunCollider : MonoBehaviour
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);
                     HitBox component = other.gameObject.GetComponent<HitBox>();
-                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
+                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().IsInvincible)
                     {
-                        if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().IsGrabbed)
                         {
-                            component.transform.root.GetComponent<Hero>().markDie();
+                            component.transform.root.GetComponent<Hero>().MarkDie();
                             object[] parameters = new object[5];
                             Vector3 vector2 = component.transform.root.position - base.transform.position;
                             parameters[0] = (Vector3) (((vector2.normalized * b) * 1000f) + (Vector3.up * 50f));
@@ -60,7 +61,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             parameters[2] = this.viewID;
                             parameters[3] = this.ownerName;
                             parameters[4] = false;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
+                            component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
                         }
                     }
                 }

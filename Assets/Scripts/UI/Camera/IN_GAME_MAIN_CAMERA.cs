@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
@@ -34,6 +35,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private Transform head;
     [SerializeField]
     private float heightMulti;
+    [Obsolete("This is always false")]
     public static bool isPausing;
     public static bool isTyping;
     private bool lockAngle;
@@ -152,7 +154,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         //GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
         //this.flashDuration = 2f;
     }
-
+    
     public GameObject SetMainObject(GameObject obj, bool resetRotation = true, bool lockAngle = false)
     {
         float num;

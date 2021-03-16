@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Room;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,5 +19,6 @@ namespace Assets.Scripts.Services.Interface
         T Spawn<T>() where T : Entity;
         T Spawn<T>(EntityConfiguration configuration) where T : Entity;
         T Spawn<T>(Vector3 position, Quaternion rotation, EntityConfiguration configuration) where T : Entity;
+        T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human;
     }
 }
