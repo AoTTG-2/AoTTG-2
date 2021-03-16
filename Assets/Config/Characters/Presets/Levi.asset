@@ -19,34 +19,27 @@ MonoBehaviour:
     Gender: 1
     Head:
       Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
-      Texture: 1
+      Texture: 0
     Skin:
       Skin: 0
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Hair:
-      Model: 14
-      Texture: 15
-      CustomUrl: 
-      Color: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+      Component: {fileID: 11400000, guid: a05f45de7187b00458e58febd4c05539, type: 2}
+      Texture: 0
     Eyes:
-      Model: 0
-      Texture: 21
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
+      Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+      Texture: 20
     Glasses:
-      Texture: 1
-      CustomUrl: 
-      Color: {r: 0.7264151, g: 0.71092844, b: 0.33922213, a: 1}
+      Component: {fileID: 0}
+      Texture: 0
     Facial:
       Texture: 1
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Outfit:
-      Model: 7
-      Texture: 9
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
+      Component: {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
+      Texture: 2
     Cape:
       Texture: 2
       CustomUrl: 
@@ -78,28 +71,21 @@ MonoBehaviour:
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Hair:
-      Model: 14
+      Component: {fileID: 0}
       Texture: 15
-      CustomUrl: 
-      Color: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
     Eyes:
-      Model: 0
+      Component: {fileID: 0}
       Texture: 21
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
     Glasses:
+      Component: {fileID: 0}
       Texture: 1
-      CustomUrl: 
-      Color: {r: 0.7264151, g: 0.71092844, b: 0.33922213, a: 1}
     Facial:
       Texture: 1
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Outfit:
-      Model: 7
+      Component: {fileID: 0}
       Texture: 9
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
     Cape:
       Texture: 1
       CustomUrl: 

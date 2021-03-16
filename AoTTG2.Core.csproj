@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Effects\VortexAffector.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\KickAttack.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanGlassesComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\WaveGamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\AHSS.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Assets\Scripts\Room\LevelHelper.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
     <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Outfit.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanState.cs" />
     <Compile Include="Assets\Scripts\Characters\HitBox.cs" />
     <Compile Include="Assets\Scripts\Effects\JetAffector.cs" />
@@ -173,6 +173,7 @@
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\DummyTitan.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\MaxCamera.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHairComponent.cs" />
     <Compile Include="Assets\Scripts\Room\TitanSpawnerType.cs" />
     <Compile Include="Assets\Scripts\Gamemode\RespawnMode.cs" />
     <Compile Include="Assets\Scripts\Interactable\Interactable.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Assets\Scripts\Room\LevelTriggerCheckPoint.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\BeastTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Emblem.cs" />
@@ -220,8 +222,8 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
     <Compile Include="Assets\Scripts\UI\CursorMode.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Eyes.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanEyesComponent.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindCategory.cs" />
     <Compile Include="Assets\Scripts\VersionFormatter.cs" />
@@ -330,7 +332,6 @@
     <Compile Include="Assets\Scripts\Events\GamemodeEvents.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsEnums.cs" />
     <Compile Include="Assets\Scripts\Services\TimeService.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Hair.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\RushSettings.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiSlider.cs" />
     <Compile Include="Assets\Scripts\Room\HintType.cs" />
@@ -340,8 +341,8 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsController.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\FlexibleGridLayout.cs" />
-    <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
     <Compile Include="Assets\Scripts\Xft\Spline.cs" />
+    <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\RockThrowSetting.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerHint.cs" />
     <Compile Include="Assets\Scripts\Characters\Entity.cs" />
@@ -368,7 +369,6 @@
     <Compile Include="Assets\Scripts\UI\Camera\CameraShake.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindsPage.cs" />
     <Compile Include="Assets\Scripts\Room\Level.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Glasses.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\KillInfo.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Labels.cs" />
     <Compile Include="Assets\Scripts\Effects\COLOR_GRADUAL_TYPE.cs" />
@@ -389,6 +389,7 @@
     <Compile Include="Assets\Scripts\Serialization\SerializableColor.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\MarcoSkill.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\FPSCounter.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanOutfitComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\ColorSet.cs" />
     <Compile Include="Assets\Scripts\Services\PlayerService.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\EndlessSettings.cs" />
@@ -439,6 +440,7 @@
     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
     <Compile Include="Assets\Scripts\UI\CameraMode.cs" />
     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
     <Compile Include="Assets\Scripts\Characters\EnemyCheckCollider.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\InfectionGamemodeSettings.cs" />
@@ -456,8 +458,6 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

@@ -12,11 +12,11 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public Gender Gender;
         [SerializeField] public HumanHeadSelected Head;
         [SerializeField] public SkinComponent Skin;
-        [SerializeField] public HairComponent Hair;
-        [SerializeField] public EyesComponent Eyes;
-        [SerializeField] public GlassesComponent Glasses;
+        [SerializeField] public HumanHairSelected Hair;
+        [SerializeField] public HumanEyesSelected Eyes;
+        [SerializeField] public HumanGlassesSelected Glasses;
         [SerializeField] public FacialComponent Facial;
-        [SerializeField] public OutfitComponent Outfit;
+        [SerializeField] public HumanOutfitSelected Outfit;
         [SerializeField] public CapeComponent Cape;
         [SerializeField] public AdvancedOptions Advanced;
 

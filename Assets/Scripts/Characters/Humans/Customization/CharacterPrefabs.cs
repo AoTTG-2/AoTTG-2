@@ -13,20 +13,15 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject Base;
         [Header("Face")]
 
-        [SerializeField]
-        public List<HumanHeadComponent> Head;
 
-        [SerializeField] public EyePrefab Eyes;
-        [SerializeField] public GlassesPrefab Glasses;
+        [SerializeField] public HumanHeadComponent Head;
+        [SerializeField] public List<HumanHairComponent> Hair;
+        [SerializeField] public List<HumanEyesComponent> Eyes;
+        [SerializeField] public List<HumanGlassesComponent> Glasses;
         [SerializeField] public FacialPrefab Facial;
 
-        [EnumNamedArray(typeof(HairModel), typeof(HairPrefab))]
-        [SerializeField]
-        public List<HairPrefab> Hair;
-
-        [EnumNamedArray(typeof(OutfitModel), typeof(OutfitPrefab))]
-        [SerializeField]
-        public List<OutfitPrefab> Outfits;
+        [Header("Body")]
+        [SerializeField] public List<HumanOutfitComponent> Outfits;
 
         [EnumNamedArray(typeof(EquipmentType), typeof(EquipmentPrefab))]
         [SerializeField]
@@ -38,53 +33,18 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public ArmPrefab Arms;
         [SerializeField] public CapePrefab Cape;
         [SerializeField] public EmblemPrefab Emblem;
-
-        [Header("Textures")]
-        [EnumNamedArray(typeof(OutfitTexture), typeof(OutfitPrefabTexture))]
-        [SerializeField] public List<OutfitPrefabTexture> OutfitTextures;
-
-        [EnumNamedArray(typeof(HairTexture), typeof(HairPrefabTexture))]
-        [SerializeField] public List<HairPrefabTexture> HairTextures;
-
-        public HairPrefab GetHairPrefab(HairModel model)
-        {
-            return Hair[(int) model];
-        }
-
+        
         public SkinPrefab GetSkinPrefab(Skin skin)
         {
             return Skin.First(x => x.Skin == skin);
-        }
-
-        public OutfitPrefab GetOutfitPrefab(OutfitModel outfit)
-        {
-            return Outfits[(int) outfit];
         }
 
         public EquipmentPrefab GetEquipmentPrefab(EquipmentType equipment)
         {
             return Equipment.First(x => x.EquipmentType == equipment);
         }
-
-        public OutfitPrefabTexture GetOutfitTexture(OutfitTexture texture)
-        {
-            return OutfitTextures[(int) texture];
-        }
-
-        public HairPrefabTexture GetHairTexture(HairTexture texture)
-        {
-            return HairTextures[(int) texture];
-        }
     }
-
-    [Serializable]
-    public struct HairPrefab
-    {
-        [SerializeField] public GameObject Prefab;
-        [SerializeField] public Gender Gender;
-        [SerializeField] public List<HairTexture> Textures;
-    }
-
+    
     [Serializable]
     public struct HairPrefabTexture
     {
@@ -96,48 +56,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
     {
         [SerializeField] public Texture2D File;
         [SerializeField] public Skin Skin;
-    }
-
-    [Serializable]
-    public struct EyePrefab
-    {
-        [Serializable]
-        public struct EyePrefabTexture
-        {
-            [SerializeField] public Texture2D File;
-        }
-
-        [SerializeField] public GameObject Prefab;
-
-        [EnumNamedArray(typeof(EyesTexture), typeof(EyePrefabTexture))]
-        [SerializeField]
-        private List<EyePrefabTexture> Textures;
-
-        public EyePrefabTexture GetTexture(EyesTexture texture)
-        {
-            return Textures[(int) texture];
-        }
-    }
-
-    [Serializable]
-    public struct GlassesPrefab
-    {
-        [Serializable]
-        public struct GlassesPrefabTexture
-        {
-            [SerializeField] public Texture2D File;
-        }
-
-        [SerializeField] public GameObject Prefab;
-
-        [EnumNamedArray(typeof(GlassesTexture), typeof(GlassesPrefabTexture))]
-        [SerializeField]
-        private List<GlassesPrefabTexture> Textures;
-
-        public GlassesPrefabTexture GetTexture(GlassesTexture texture)
-        {
-            return Textures[(int) texture];
-        }
     }
 
     [Serializable]
@@ -160,15 +78,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             return Textures[(int) texture];
         }
     }
-
-    [Serializable]
-    public struct OutfitPrefab
-    {
-        [SerializeField] public GameObject Prefab;
-        [SerializeField] public Gender Gender;
-        [SerializeField] public List<OutfitTexture> Textures;
-    }
-
+    
     [Serializable]
     public struct OutfitPrefabTexture
     {

@@ -31,11 +31,19 @@ namespace Assets.Editor
 
             // Draw fields - passs GUIContent.none to each so they are drawn without labels
             var component = property.FindPropertyRelative("Component");
+            var texture = property.FindPropertyRelative("Texture");
+
             EditorGUI.PropertyField(amountRect, component, GUIContent.none);
 
             if (component.propertyType == SerializedPropertyType.ObjectReference)
             {
                 var objectData = component.objectReferenceValue as HumanComponent;
+
+                if (texture.propertyType == SerializedPropertyType.Integer)
+                {
+                    Selected = texture.intValue;
+                }
+
                 if (objectData != null)
                 {
                     Selected = EditorGUI.Popup(unitRect, Selected, objectData.Textures.Select(x => x.name).ToArray());
@@ -49,7 +57,6 @@ namespace Assets.Editor
                 }
             }
 
-            var texture = property.FindPropertyRelative("Texture");
             if (texture.propertyType == SerializedPropertyType.Integer)
             {
                 texture.intValue = Selected;
