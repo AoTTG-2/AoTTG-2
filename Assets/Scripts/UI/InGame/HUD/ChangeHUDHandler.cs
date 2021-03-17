@@ -24,12 +24,7 @@ namespace Assets.Scripts.UI.InGame
         protected override void OnDisable() {
             base.OnDisable();
 		}
-
-        public void Start()
-        {
-            if(HUD.inEditMode) SetVisibility();
-        }
-
+        
         public void Update()
         {
             if(HUD.inEditMode)

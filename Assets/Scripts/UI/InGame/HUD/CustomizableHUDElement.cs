@@ -56,6 +56,8 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
             PlayerPrefs.SetInt(PlayerPrefsKey + "DefaultVisibility", 1);
             PlayerPrefs.SetFloat(PlayerPrefsKey + "DefaultScale", 1);
         }
+        
+        if(!handler.HUD.inEditMode) SetVisibility();
 
         // Setting the HUD resolution after the default/custom layout logic ensures that the default layout will be chosen if the resolution changes. 
         PlayerPrefs.SetFloat("HUDResolutionX", Screen.width);
