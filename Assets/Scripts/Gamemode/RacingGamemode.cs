@@ -40,9 +40,6 @@ namespace Assets.Scripts.Gamemode
             TotalSpeed = 0;
             TotalFrames = 0;
 
-            if (!PhotonNetwork.isMasterClient)
-                photonView.RPC(nameof(RequestStatus), PhotonTargets.MasterClient);
-
             if (Objectives.Count == 0) return;
             Objectives = Objectives.OrderBy(x => x.Order).ToList();
             for (int i = 0; i < Objectives.Count; i++)
