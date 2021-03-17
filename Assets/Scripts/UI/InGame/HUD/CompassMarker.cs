@@ -5,15 +5,19 @@ namespace Assets.Scripts.UI.InGame.HUD
 {
     public class CompassMarker : MonoBehaviour
     {
+        [Header("Customize")]
         public UnityEngine.Sprite icon;
-        public Image image;
-
-        public Vector2 position;
-
-        public string markerID;
-
+        public Color markerColor;
+        [Header("Settings")]
+        public bool isFlare; //Get Particle System Color
         public bool isGlobal;
         public bool followAlways;
+
+
+        [HideInInspector]public Image image;
+        [HideInInspector]public Vector2 position;
+        [HideInInspector]public string markerID;
+
 
         void Awake()
         {
@@ -24,6 +28,11 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         void Start()
         {
+            if(isFlare)
+            {
+                ParticleSystem particle = GetComponent<ParticleSystem>();
+                markerColor = particle.main.startColor.color;
+            }
             CompassController compass = GameObject.Find("Compass").GetComponent<CompassController>();
             compass.AddCompassMarker(this);
             position = new Vector2(transform.position.x, transform.position.z);

@@ -7,17 +7,12 @@ namespace Assets.Scripts.UI
     public class UIInputHandler : MonoBehaviour
     {
         private GameObject interactionWheel;
-        public GameObject[] hooksIndicators;
 
         public GameObject RadialMenu;
 
         private void Start()
         {
             interactionWheel = gameObject.GetComponentInChildren<RadialMenu>(true).gameObject;
-            foreach(GameObject hook in hooksIndicators)
-            {
-                hook.transform.localScale = Vector3.one * PlayerPrefs.GetInt("Hook Indicator", 1);
-            }
         }
 
         private void Update()
@@ -37,22 +32,6 @@ namespace Assets.Scripts.UI
             {
                 if (RadialMenu.activeSelf)
                     RadialMenu.SetActive(false);
-            }
-
-            if(InputManager.KeyDown(InputUi.HideHooks))
-            {
-                foreach(GameObject hook in hooksIndicators)
-                {
-                    if(hook.transform.localScale == Vector3.one)
-                    {
-                        hook.transform.localScale = Vector3.zero;
-                        PlayerPrefs.SetInt("Hook Indicator", 0);
-                    } else
-                    {
-                        hook.transform.localScale = Vector3.one;
-                        PlayerPrefs.SetInt("Hook Indicator", 1);
-                    }
-                }
             }
 
         }

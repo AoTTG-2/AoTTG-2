@@ -63,6 +63,7 @@ namespace Assets.Scripts.UI.InGame.HUD
             newMarker.name = marker.markerID;
             marker.image = newMarker.GetComponent<Image>();
             marker.image.sprite = marker.icon;
+            marker.image.color = marker.markerColor;
 
             compassMarkers.Add(marker);
         }

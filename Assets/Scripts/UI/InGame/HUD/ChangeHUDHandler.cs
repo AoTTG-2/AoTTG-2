@@ -25,6 +25,11 @@ namespace Assets.Scripts.UI.InGame
             base.OnDisable();
 		}
 
+        public void Start()
+        {
+            if(HUD.inEditMode) SetVisibility();
+        }
+
         public void Update()
         {
             if(HUD.inEditMode)
