@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Services;
+using UnityEngine.SceneManagement;
+
 #if UNITY_EDITOR
 #else
 using UnityEngine;
@@ -26,7 +28,10 @@ namespace Assets.Scripts.UI.Menu
 
         public void MapEditor()
         {
-            //TODO: Switch to MapEditor scene
+            //TODO : Fix this later.
+            SceneManager.LoadScene(10);
+            //fix this later too
+            transform.root.gameObject.SetActive(false);
         }
 
         public void Quit()
