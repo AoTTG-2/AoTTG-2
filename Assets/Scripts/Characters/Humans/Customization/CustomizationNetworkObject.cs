@@ -15,6 +15,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public CustomizationItem Hair;
         public CustomizationItem Eyes;
         public CustomizationItem Glasses;
+        public CustomizationItem Facial;
         public CustomizationItem Outfit;
         public CustomizationItem Cape;
         public CustomizationItem Headgear;
@@ -31,9 +32,10 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 Name = preset.Name,
                 Description = preset.Description,
                 Head = new CustomizationItem(0, outfit.Head.Texture),
-                Hair = new CustomizationItem(prefabs.Hair.IndexOf(outfit.Hair.Component), outfit.Hair.Texture),
+                Hair = new CustomizationItem(prefabs.Hair.IndexOf(outfit.Hair.Component), outfit.Hair.Texture, outfit.Hair.Color),
                 Eyes = new CustomizationItem(prefabs.Eyes.IndexOf(outfit.Eyes.Component), outfit.Eyes.Texture),
                 Glasses = new CustomizationItem(prefabs.Glasses.IndexOf(outfit.Glasses.Component), outfit.Glasses.Texture),
+                Facial = new CustomizationItem(prefabs.Facial.IndexOf(outfit.Facial.Component), outfit.Facial.Texture),
                 Outfit = new CustomizationItem(prefabs.Outfits.IndexOf(outfit.Outfit.Component), outfit.Outfit.Texture),
                 Cape = new CustomizationItem(prefabs.Cape.IndexOf(outfit.Cape.Component), outfit.Cape.Texture),
                 
@@ -44,6 +46,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             data.CurrentOutfit.Hair = null;
             data.CurrentOutfit.Eyes = null;
             data.CurrentOutfit.Glasses = null;
+            data.CurrentOutfit.Facial = null;
             data.CurrentOutfit.Outfit = null;
             data.CurrentOutfit.Cape = null;
             data.CurrentOutfit.Headgear = null;
@@ -68,7 +71,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             data.CurrentOutfit.Hair = new HumanHairSelected
             {
                 Component = prefabs.Hair[Hair.PrefabIndex],
-                Texture = Hair.PrefabTextureIndex
+                Texture = Hair.PrefabTextureIndex,
+                Color = Hair.Color.ToColor()
             };
 
             data.CurrentOutfit.Eyes = new HumanEyesSelected
@@ -87,6 +91,12 @@ namespace Assets.Scripts.Characters.Humans.Customization
             {
                 Component = prefabs.Glasses[Glasses.PrefabIndex],
                 Texture = Glasses.PrefabTextureIndex
+            };
+
+            data.CurrentOutfit.Facial = new FacialSelected
+            {
+                Component = prefabs.Facial[Facial.PrefabIndex],
+                Texture = Facial.PrefabTextureIndex
             };
 
             data.CurrentOutfit.Outfit = new HumanOutfitSelected
@@ -117,6 +127,14 @@ namespace Assets.Scripts.Characters.Humans.Customization
             PrefabIndex = prefabIndex;
             PrefabTextureIndex = prefabTextureIndex;
             Color = new SerializableColor();
+            CustomTexture = null;
+        }
+
+        public CustomizationItem(int prefabIndex, int prefabTextureIndex, Color color)
+        {
+            PrefabIndex = prefabIndex;
+            PrefabTextureIndex = prefabTextureIndex;
+            Color = new SerializableColor(color);
             CustomTexture = null;
         }
     }

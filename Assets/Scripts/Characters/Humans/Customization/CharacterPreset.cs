@@ -28,9 +28,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             Body = human.Body;
             HumanTransform = human.transform;
 
-            var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
-
             CreateHead(CurrentOutfit.Head);
+            CreateEyes(CurrentOutfit.Eyes);
             CreateHair(CurrentOutfit.Hair);
             CreateHeadgear(CurrentOutfit.Headgear);
             CreateGlasses(CurrentOutfit.Glasses);
@@ -41,7 +40,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CreateEmblems();
             CreateEquipment(CurrentBuild.EquipmentComponent);
 
-            CreateEyes(CurrentOutfit.Eyes);
         }
 
         public void Apply(GameObject humanBase, CharacterPrefabs prefabs)
@@ -51,8 +49,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CurrentBuild = CharacterBuild[0];
             Body = humanBase.GetComponentInChildren<HumanBody>();
             HumanTransform = humanBase.transform;
-
-            var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
 
             CreateHead(CurrentOutfit.Head);
             CreateHair(CurrentOutfit.Hair);
@@ -121,7 +117,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private void CreateHair(HumanHairSelected hair)
         {
-            var result = CreateComponent(hair.Component.Model, hair.Component.Textures[hair.Texture], Body.head);
+            var result = CreateComponent(hair.Component.Model, hair.Component.Textures[hair.Texture], hair.Color,Body.head);
             //var prefab = Prefabs.GetHairPrefab(hair.Model);
 
             //if (!string.IsNullOrWhiteSpace(hair.CustomUrl))
@@ -137,6 +133,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private void CreateHeadgear(HeadgearSelected headgear)
         {
+            if (headgear.Component == null) return;
             var result = CreateComponent(headgear.Component.Model, headgear.Component.Textures[headgear.Texture], Body.head);
             //var prefab = Prefabs.GetHairPrefab(hair.Model);
 

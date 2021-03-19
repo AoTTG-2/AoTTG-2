@@ -11,6 +11,6 @@ namespace Assets.Scripts.Characters.Humans.Customization.Components
     [Serializable]
     public class HumanHairSelected : HumanSelectedComponent<HumanHairComponent>
     {
-
+        public Color Color;
     }
 }

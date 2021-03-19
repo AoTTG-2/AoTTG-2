@@ -28,6 +28,7 @@ namespace Assets.Editor
             var amountRect = new Rect(position.x, position.y, 100, position.height);
             var unitRect = new Rect(position.x + 105, position.y, 100, position.height);
             var spriteRect = new Rect(position.x + 205, position.y, 50, position.height);
+            var colorRect = new Rect(position.x + 345, position.y, 75, position.height);
 
             // Draw fields - passs GUIContent.none to each so they are drawn without labels
             var component = property.FindPropertyRelative("Component");
@@ -60,6 +61,12 @@ namespace Assets.Editor
             if (texture.propertyType == SerializedPropertyType.Integer)
             {
                 texture.intValue = Selected;
+            }
+
+            var color = property.FindPropertyRelative("Color");
+            if (color?.propertyType == SerializedPropertyType.Color)
+            {
+                color.colorValue = EditorGUI.ColorField(colorRect, color.colorValue);
             }
 
             // Set indent back to what it was
