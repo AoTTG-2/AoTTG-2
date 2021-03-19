@@ -22,24 +22,12 @@ MonoBehaviour:
   Glasses:
   - {fileID: 11400000, guid: 4579b42a6b696fc40aa02dda0613ccfb, type: 2}
   Facial:
-    Prefab: {fileID: 8726321704235510408, guid: 2ae5faaeb0ef2e24198b3ddcbf8773c7,
-      type: 3}
-    Textures:
-    - File: {fileID: 0}
-    - File: {fileID: 0}
-    - File: {fileID: 2800000, guid: f9d5cc8d7d545624d82df0cc57045cab, type: 3}
-    - File: {fileID: 2800000, guid: e58d146cb082230418ec929fac0d758d, type: 3}
-    - File: {fileID: 2800000, guid: 98290b5559e968d42b48cb46e16db3b5, type: 3}
-    - File: {fileID: 2800000, guid: 863ada9acb3b0964a8f53f9ca7830e73, type: 3}
-    - File: {fileID: 2800000, guid: fc313398650f88c40a2e602a8857caf7, type: 3}
-    - File: {fileID: 2800000, guid: 7b21544354c82714490f0843ba5c985d, type: 3}
-    - File: {fileID: 2800000, guid: 2c7c7e9455428e642931757fc2435154, type: 3}
-    - File: {fileID: 2800000, guid: 99737e391885dbb44a71e7e784af7938, type: 3}
-    - File: {fileID: 2800000, guid: 49d5e13e76ce64d44b494a8a8e59176f, type: 3}
-    - File: {fileID: 2800000, guid: b449e76d771e2cf4a95bf3b45e4e963d, type: 3}
-    - File: {fileID: 2800000, guid: 0f93fbdf2409c774fa778de0b0ce4cbb, type: 3}
-    - File: {fileID: 2800000, guid: a516c96412d2e1846afdf58cdc2ec8a2, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  Headgear:
+  - {fileID: 11400000, guid: 53b1af9786fabc545b6374f96ef9b8f1, type: 2}
   Outfits:
+  - {fileID: 11400000, guid: 5f9c5626be3076743b5ae77fdfe63789, type: 2}
   - {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
   - {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
   Equipment:
@@ -118,6 +106,7 @@ MonoBehaviour:
     Skin: 1
   Legs: {fileID: 3305592698201889044, guid: 64209cafbb4033341b59c3750bcc4894, type: 3}
   Chest: {fileID: 0}
+  Cape: []
   Arms:
     LeftCasual: {fileID: 868851076093622071, guid: 798390a076c134647afaec0776c973de,
       type: 3}
@@ -131,11 +120,6 @@ MonoBehaviour:
       type: 3}
     RightUniform: {fileID: 5487613470261266201, guid: 585276b9f3241524bbc3c69817d80305,
       type: 3}
-  Cape:
-    Prefab: {fileID: 980092367085639070, guid: 7343dab8a71a09140bf8a38c11f46ce8, type: 3}
-    Textures:
-    - File: {fileID: 2800000, guid: 367fb131fa577aa479421b9c6cd6fea8, type: 3}
-      Texture: 2
   Emblem:
     ArmLeft: {fileID: 4648260104365837487, guid: 0d879922fa1f9394799d877d71fbba53,
       type: 3}

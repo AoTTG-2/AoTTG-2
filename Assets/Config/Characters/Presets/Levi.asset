@@ -41,9 +41,8 @@ MonoBehaviour:
       Component: {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
       Texture: 2
     Cape:
-      Texture: 2
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
+      Component: {fileID: 0}
+      Texture: 0
     Advanced:
       EmblemChest:
         Texture: 2
@@ -87,9 +86,8 @@ MonoBehaviour:
       Component: {fileID: 0}
       Texture: 9
     Cape:
+      Component: {fileID: 0}
       Texture: 1
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
     Advanced:
       EmblemChest:
         Texture: 1

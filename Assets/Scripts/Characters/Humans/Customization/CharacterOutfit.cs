@@ -15,10 +15,12 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public HumanHairSelected Hair;
         [SerializeField] public HumanEyesSelected Eyes;
         [SerializeField] public HumanGlassesSelected Glasses;
-        [SerializeField] public FacialComponent Facial;
+        [SerializeField] public FacialSelected Facial;
         [SerializeField] public HumanOutfitSelected Outfit;
-        [SerializeField] public CapeComponent Cape;
+        [SerializeField] public CapeSelected Cape;
         [SerializeField] public AdvancedOptions Advanced;
+
+        [SerializeField] public HeadgearSelected Headgear;
 
         public CharacterOutfit Clone()
         {
@@ -34,7 +36,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 Facial = Facial,
                 Outfit = Outfit,
                 Cape = Cape,
-                Advanced = Advanced
+                Advanced = Advanced,
+                Headgear = Headgear
             };
         }
     }

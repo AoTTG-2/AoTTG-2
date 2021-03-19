@@ -16,6 +16,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
         public CustomizationItem Eyes;
         public CustomizationItem Glasses;
         public CustomizationItem Outfit;
+        public CustomizationItem Cape;
+        public CustomizationItem Headgear;
 
         public CharacterOutfit CurrentOutfit { get; set; }
         public CharacterBuild CurrentBuild { get; set; }
@@ -33,6 +35,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 Eyes = new CustomizationItem(prefabs.Eyes.IndexOf(outfit.Eyes.Component), outfit.Eyes.Texture),
                 Glasses = new CustomizationItem(prefabs.Glasses.IndexOf(outfit.Glasses.Component), outfit.Glasses.Texture),
                 Outfit = new CustomizationItem(prefabs.Outfits.IndexOf(outfit.Outfit.Component), outfit.Outfit.Texture),
+                Cape = new CustomizationItem(prefabs.Cape.IndexOf(outfit.Cape.Component), outfit.Cape.Texture),
+                
                 CurrentOutfit = outfit,
                 CurrentBuild = preset.CurrentBuild
             };
@@ -41,6 +45,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             data.CurrentOutfit.Eyes = null;
             data.CurrentOutfit.Glasses = null;
             data.CurrentOutfit.Outfit = null;
+            data.CurrentOutfit.Cape = null;
+            data.CurrentOutfit.Headgear = null;
             return data;
         }
 
@@ -71,6 +77,12 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 Texture = Eyes.PrefabTextureIndex
             };
 
+            data.CurrentOutfit.Headgear = new HeadgearSelected
+            {
+                Component = prefabs.Headgear[Headgear.PrefabIndex],
+                Texture = Headgear.PrefabTextureIndex
+            };
+
             data.CurrentOutfit.Glasses = new HumanGlassesSelected
             {
                 Component = prefabs.Glasses[Glasses.PrefabIndex],
@@ -80,6 +92,12 @@ namespace Assets.Scripts.Characters.Humans.Customization
             data.CurrentOutfit.Outfit = new HumanOutfitSelected
             {
                 Component = prefabs.Outfits[Outfit.PrefabIndex],
+                Texture = Outfit.PrefabTextureIndex
+            };
+
+            data.CurrentOutfit.Cape = new CapeSelected
+            {
+                Component = prefabs.Cape[Cape.PrefabIndex],
                 Texture = Outfit.PrefabTextureIndex
             };
             return data;

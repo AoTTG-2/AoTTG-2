@@ -18,7 +18,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public List<HumanHairComponent> Hair;
         [SerializeField] public List<HumanEyesComponent> Eyes;
         [SerializeField] public List<HumanGlassesComponent> Glasses;
-        [SerializeField] public FacialPrefab Facial;
+        [SerializeField] public List<FacialComponent> Facial;
+        [SerializeField] public List<HeadgearComponent> Headgear;
 
         [Header("Body")]
         [SerializeField] public List<HumanOutfitComponent> Outfits;
@@ -30,8 +31,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         [SerializeField] public GameObject Legs;
         [SerializeField] public GameObject Chest;
+        [SerializeField] public List<CapeComponent> Cape;
         [SerializeField] public ArmPrefab Arms;
-        [SerializeField] public CapePrefab Cape;
         [SerializeField] public EmblemPrefab Emblem;
         
         public SkinPrefab GetSkinPrefab(Skin skin)
@@ -56,27 +57,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
     {
         [SerializeField] public Texture2D File;
         [SerializeField] public Skin Skin;
-    }
-
-    [Serializable]
-    public struct FacialPrefab
-    {
-        [Serializable]
-        public struct FacialPrefabTexture
-        {
-            [SerializeField] public Texture2D File;
-        }
-
-        [SerializeField] public GameObject Prefab;
-
-        [EnumNamedArray(typeof(FacialTexture), typeof(FacialPrefabTexture))]
-        [SerializeField]
-        private List<FacialPrefabTexture> Textures;
-
-        public FacialPrefabTexture GetTexture(FacialTexture texture)
-        {
-            return Textures[(int) texture];
-        }
     }
     
     [Serializable]
@@ -134,25 +114,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
         {
             [SerializeField] public Texture2D File;
             [SerializeField] public HandGripTexture Texture;
-        }
-    }
-
-    [Serializable]
-    public struct CapePrefab
-    {
-        [SerializeField] public GameObject Prefab;
-        [SerializeField] public List<CapePrefabTexture> Textures;
-
-        public CapePrefabTexture GetTexture(CapeTexture texture)
-        {
-            return Textures.FirstOrDefault(x => x.Texture == texture);
-        }
-
-        [Serializable]
-        public struct CapePrefabTexture
-        {
-            [SerializeField] public Texture2D File;
-            [SerializeField] public CapeTexture Texture;
         }
     }
 

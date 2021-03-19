@@ -32,6 +32,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             CreateHead(CurrentOutfit.Head);
             CreateHair(CurrentOutfit.Hair);
+            CreateHeadgear(CurrentOutfit.Headgear);
             CreateGlasses(CurrentOutfit.Glasses);
             CreateFacial(CurrentOutfit.Facial);
 
@@ -90,7 +91,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 renderer.material.mainTexture = texture;
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
                 prefabObject.transform.position = HumanTransform.position;
-                prefabObject.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
+                prefabObject.transform.rotation = Quaternion.Euler(prefabObject.transform.rotation.eulerAngles.x, prefabObject.transform.rotation.eulerAngles.y, prefabObject.transform.rotation.eulerAngles.z);
             }
 
             return prefabObject;
@@ -134,6 +135,22 @@ namespace Assets.Scripts.Characters.Humans.Customization
             //}
         }
 
+        private void CreateHeadgear(HeadgearSelected headgear)
+        {
+            var result = CreateComponent(headgear.Component.Model, headgear.Component.Textures[headgear.Texture], Body.head);
+            //var prefab = Prefabs.GetHairPrefab(hair.Model);
+
+            //if (!string.IsNullOrWhiteSpace(hair.CustomUrl))
+            //{
+            //    CreateComponentAsync(prefab.Prefab, hair.CustomUrl, hair.Color, Body.head);
+            //}
+            //else
+            //{
+            //    var texture = Prefabs.GetHairTexture(hair.Texture);
+            //    CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
+            //}
+        }
+        
         private void CreateEyes(HumanEyesSelected eyes)
         {
             var result = CreateComponent(eyes.Component.Model, eyes.Component.Textures[eyes.Texture], Body.head);
@@ -170,19 +187,20 @@ namespace Assets.Scripts.Characters.Humans.Customization
             //}
         }
 
-        private void CreateFacial(FacialComponent facial)
+        private void CreateFacial(FacialSelected facial)
         {
-            if (facial.Texture == FacialTexture.None) return;
-            var prefab = Prefabs.Facial;
-            if (!string.IsNullOrWhiteSpace(facial.CustomUrl))
-            {
-                var result = CreateComponentAsync(prefab.Prefab, facial.CustomUrl, facial.Color, Body.head);
-            }
-            else
-            {
-                var texture = prefab.GetTexture(facial.Texture);
-                CreateComponent(prefab.Prefab, texture.File, facial.Color, Body.head);
-            }
+            if (facial.Component == null) return;
+            var result = CreateComponent(facial.Component.Model, facial.Component.Textures[facial.Texture], Body.head);
+            //var prefab = Prefabs.Facial;
+            //if (!string.IsNullOrWhiteSpace(facial.CustomUrl))
+            //{
+            //    var result = CreateComponentAsync(prefab.Prefab, facial.CustomUrl, facial.Color, Body.head);
+            //}
+            //else
+            //{
+            //    var texture = prefab.GetTexture(facial.Texture);
+            //    CreateComponent(prefab.Prefab, texture.File, facial.Color, Body.head);
+            //}
         }
 
         private void CreateOutfit(HumanOutfitSelected outfit)
@@ -276,26 +294,28 @@ namespace Assets.Scripts.Characters.Humans.Customization
             }
         }
 
-        private void CreateCape(CapeComponent cape)
+        private void CreateCape(CapeSelected cape)
         {
-            if (cape.Texture == CapeTexture.None) return;
-            var prefab = Prefabs.Cape;
-            var texture = prefab.GetTexture(cape.Texture);
-            var capeObject = CreateComponent(prefab.Prefab, texture.File, cape.Color);
+            if (cape.Component == null) return;
+            var capeObject = CreateComponent(cape.Component.Model, cape.Component.Textures[cape.Texture]);
+            //if (cape.Texture == CapeTexture.None) return;
+            //var prefab = Prefabs.Cape;
+            //var texture = prefab.GetTexture(cape.Texture);
+            //var capeObject = CreateComponent(prefab.Prefab, texture.File, cape.Color);
             capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
             capeObject.transform.localScale = Vector3.one;
         }
 
         private void CreateEmblems()
         {
-            var texture = Prefabs.Cape.GetTexture(CurrentOutfit.Cape.Texture).File;
-            var prefab = Prefabs.Emblem;
-            var gender = CurrentOutfit.Gender;
+            //var texture = Prefabs.Cape.GetTexture(CurrentOutfit.Cape.Texture).File;
+            //var prefab = Prefabs.Emblem;
+            //var gender = CurrentOutfit.Gender;
 
-            var emblems = new List<GameObject>
-                {prefab.ArmLeft, prefab.ArmRight, prefab.GetBackPrefab(gender), prefab.GetChestPrefab(gender)};
+            //var emblems = new List<GameObject>
+            //    {prefab.ArmLeft, prefab.ArmRight, prefab.GetBackPrefab(gender), prefab.GetChestPrefab(gender)};
 
-            emblems.ForEach(x => CreateComponent(x, texture));
+            //emblems.ForEach(x => CreateComponent(x, texture));
         }
 
         IEnumerator DownloadImage(Renderer renderer, string url)
