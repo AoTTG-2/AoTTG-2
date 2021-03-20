@@ -294,13 +294,19 @@ namespace Assets.Scripts.Characters.Humans.Customization
         private void CreateCape(CapeSelected cape)
         {
             if (cape.Component == null) return;
-            var capeObject = CreateComponent(cape.Component.Model, cape.Component.Textures[cape.Texture]);
-            //if (cape.Texture == CapeTexture.None) return;
-            //var prefab = Prefabs.Cape;
-            //var texture = prefab.GetTexture(cape.Texture);
-            //var capeObject = CreateComponent(prefab.Prefab, texture.File, cape.Color);
-            capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
-            capeObject.transform.localScale = Vector3.one;
+
+            //TODO: Add Mikasa Cape
+            if (cape.Component.Model.TryGetComponent<SkinnedMeshRenderer>(out _))
+            {
+                var capeObject = CreateComponent(cape.Component.Model, cape.Component.Textures[cape.Texture]);
+                capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
+                capeObject.transform.localScale = Vector3.one;
+            }
+            else
+            {
+                // The Hoodie (Mesh Renderer) needs to be instantiated like this
+                var capeObject = CreateComponent(cape.Component.Model, cape.Component.Textures[cape.Texture], Body.neck);
+            }
         }
 
         private void CreateEmblems()

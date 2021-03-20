@@ -27,6 +27,7 @@ MonoBehaviour:
     Hair:
       Component: {fileID: 11400000, guid: a05f45de7187b00458e58febd4c05539, type: 2}
       Texture: 0
+      Color: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
     Eyes:
       Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
       Texture: 20
@@ -34,14 +35,13 @@ MonoBehaviour:
       Component: {fileID: 0}
       Texture: 0
     Facial:
+      Component: {fileID: 0}
       Texture: 1
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
     Outfit:
       Component: {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
       Texture: 2
     Cape:
-      Component: {fileID: 0}
+      Component: {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
       Texture: 0
     Advanced:
       EmblemChest:
@@ -60,6 +60,9 @@ MonoBehaviour:
         Texture: 1
         CustomUrl: 
         Color: {r: 0, g: 0, b: 0, a: 0}
+    Headgear:
+      Component: {fileID: 0}
+      Texture: 0
   - Name: S2
     Gender: 1
     Head:
@@ -72,6 +75,7 @@ MonoBehaviour:
     Hair:
       Component: {fileID: 0}
       Texture: 15
+      Color: {r: 0, g: 0, b: 0, a: 0}
     Eyes:
       Component: {fileID: 0}
       Texture: 21
@@ -79,9 +83,8 @@ MonoBehaviour:
       Component: {fileID: 0}
       Texture: 1
     Facial:
+      Component: {fileID: 0}
       Texture: 1
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
     Outfit:
       Component: {fileID: 0}
       Texture: 9
@@ -105,6 +108,9 @@ MonoBehaviour:
         Texture: 1
         CustomUrl: 
         Color: {r: 0, g: 0, b: 0, a: 0}
+    Headgear:
+      Component: {fileID: 0}
+      Texture: 0
   CharacterBuild:
   - Name: Blades
     Equipment: 0

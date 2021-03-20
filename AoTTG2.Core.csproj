@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanGlassesComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\WaveGamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeadgearComponent.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\AHSS.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeroStats.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\QualitySwitcher.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Assets\Scripts\Startup.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\InGameMenu.cs" />
     <Compile Include="Assets\Scripts\Interactable\SupplyStationInteractable.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\CapeComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\MikasaSkill.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerGas.cs" />
     <Compile Include="Assets\Scripts\Serialization\ColorJsonConverter.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Assets\Scripts\Settings\HorseSettings.cs" />
     <Compile Include="Assets\Scripts\UI\IUiElement.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Weapon.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\FacialComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\KillTitansSettings.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Ahss.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonPropRegion.cs" />
@@ -456,9 +459,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeadgearComponent.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\FacialComponent.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\CapeComponent.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterList.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
