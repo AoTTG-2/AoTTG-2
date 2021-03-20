@@ -92,7 +92,7 @@ namespace Assets.Scripts.DayNightCycle
 
             if (!Pause)
             {
-                var diff = (float) (DateTime.UtcNow - settings.LastModified).TotalSeconds;
+                var diff = (float) (DateTime.UtcNow - settings.LastModified.Value).TotalSeconds;
                 CurrentTime += (diff / DayLength) * 24;
                 //If time passed will put the currentTime over 24, do maths to correct for this and give an accurate
                 //time according to a 24h time range

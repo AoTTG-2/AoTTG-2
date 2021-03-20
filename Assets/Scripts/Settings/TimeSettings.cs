@@ -10,7 +10,7 @@ namespace Assets.Scripts.Settings
         public float? currentTime { get; set; }
         public float? dayLength { get; set; }
         public bool? pause { get; set; }
-        public DateTime LastModified { get; set; }
+        public DateTime? LastModified { get; set; }
 
         public TimeSettings() { }
         public TimeSettings(Difficulty difficulty)
@@ -23,12 +23,12 @@ namespace Assets.Scripts.Settings
                 case Difficulty.Abnormal:
                 case Difficulty.Realism:
                     dayLength = 1000;
+                    LastModified = DateTime.UtcNow;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
             }
         }
-        //add difficulty cases?
 
     }
 }
