@@ -18,17 +18,6 @@ namespace Assets.Scripts.DayNightCycle
         public InputField TimeInput;
         DayAndNightControl dayNightCycle;
 
-       void Start()
-       { 
-            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-            if (PhotonNetwork.isMasterClient)
-            {
-                var se = new InputField.SubmitEvent();
-                se.AddListener(SubmitTime);
-                TimeInput.onEndEdit = se;
-            }
-        }
-
 
         public void OnDrag(PointerEventData eventData)
         {
@@ -82,6 +71,17 @@ namespace Assets.Scripts.DayNightCycle
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             TimeSlider.value = dayNightCycle.CurrentTime01;
             SceneManager.sceneLoaded += OnSceneLoaded;
+            if (PhotonNetwork.isMasterClient)
+            {
+                var se = new InputField.SubmitEvent();
+                se.AddListener(SubmitTime);
+                TimeInput.onEndEdit = se;
+            }
+            else
+            {
+                var se = new InputField.SubmitEvent();
+                se.RemoveListener(SubmitTime);
+            }
         }
 
         //When Scene changes, erase input field
@@ -91,6 +91,7 @@ namespace Assets.Scripts.DayNightCycle
             TimeInput.text = "";
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
+
 
 }
    

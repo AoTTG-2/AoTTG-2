@@ -83,11 +83,14 @@ namespace Assets.Scripts.DayNightCycle
         {
             CurrentTime = (float) GameSettings.Time.currentTime; 
             //additional check to ensure MC cant set non-MC daylengths to less than 60
-            if ((float)GameSettings.Time.dayLength < 60)
+            if ((float)GameSettings.Time.dayLength > 60)
             {
-                DayLength = (float)GameSettings.Time.dayLength;
+                DayLength = (float) GameSettings.Time.dayLength;
             }
-            else { DayLength = 60; }
+            else {
+                DayLength = 60;
+                GameSettings.Time.dayLength = DayLength;
+                 }
             Pause = (bool) GameSettings.Time.pause;
 
             if (!Pause)

@@ -16,20 +16,7 @@ namespace Assets.Scripts.DayNightCycle
         public InputField DayLengthInput;
         DayAndNightControl dayNightCycle;
 
-        void Start()
-        {
-            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-        }
 
-        void Update()
-        {
-            if (PhotonNetwork.isMasterClient)
-            {
-                var se = new InputField.SubmitEvent();
-                se.AddListener(SubmitDayLength);
-                DayLengthInput.onEndEdit = se;
-            }
-        }
          /// <summary>
         /// SubmitDayLength is the method used to change the DayLength in DayAndNightControl.cs via the DayLengthInput Input Field UI component
         /// </summary>
@@ -52,6 +39,17 @@ namespace Assets.Scripts.DayNightCycle
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             SceneManager.sceneLoaded += OnSceneLoaded;
+            if (PhotonNetwork.isMasterClient)
+            {
+                var se = new InputField.SubmitEvent();
+                se.AddListener(SubmitDayLength);
+                DayLengthInput.onEndEdit = se;
+            }
+            else
+            {
+                var se = new InputField.SubmitEvent();
+                se.RemoveListener(SubmitDayLength);
+            }
         }
 
         //When Scene changes, erase input field
@@ -61,5 +59,6 @@ namespace Assets.Scripts.DayNightCycle
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
+        
     }
 }
