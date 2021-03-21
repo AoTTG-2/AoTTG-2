@@ -1,0 +1,200 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Panel
+  m_Shader: {fileID: 4800000, guid: 63a90426d42b698448966291201d6716, type: 3}
+  m_ShaderKeywords: _BLENDMODE_NONE _CHANNELSELECTED_RED _CHANNELSELECTIONMASK_RED
+    _CHANNELSELECTION_RED _DETAILSOURCE_METALLICALPHA _DETAILSOURCE_SPECULARALPHA
+    _ENABLEREFLECTION_ON _PROJECTION_UVPROJECTION _SOURCE_METALLICALPHA _SOURCE_SPECULARALPHA
+    _TRIPLANARSPACEPROJECTION_OBJECTSPACE _USEAOFROMMAINPROPERTIES_ON _USEEMISSIONFROMMAINPROPERTIES_ON
+    _WORLDDIRECTION_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap1:
+        m_Texture: {fileID: 8900000, guid: af1c6176a697d104e917b6cda7e535ca, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CutoutMap:
+        m_Texture: {fileID: 2800000, guid: 8c38d2e72ca280f4783343ec9c4418f7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 2800000, guid: 185714149ed634d4497bd8aec133b8ff, type: 3}
+        m_Scale: {x: -1, y: 1}
+        m_Offset: {x: 0.33, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailSpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: cbafcc29d825a8546988cd420697ee9d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: 9ec36b1684e3fa04e97d3404b5916fbf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 2800000, guid: 9ec36b1684e3fa04e97d3404b5916fbf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap2:
+        m_Texture: {fileID: 2800000, guid: 9ec36b1684e3fa04e97d3404b5916fbf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TransparentMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AmbientLight1: 0
+    - _AoIntensity: 1
+    - _AoIntensity1: 0
+    - _AoIntensity2: 0
+    - _BlendMainNormal: 0
+    - _Blendmode: 0
+    - _BlendmodeOverlay: 0
+    - _BlurReflection1: 0.5
+    - _Brightness: 1
+    - _Brightness1: 0
+    - _Brightness2: 0
+    - _BumpScale: 1
+    - _ChannelSelected: 0
+    - _ChannelSelection: 0
+    - _ChannelSelectionMask: 0
+    - _ContrastDetailMap: 0
+    - _ContrastTransparentMap: 0
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _Desaturation1: 0
+    - _Desaturation2: 0
+    - _DesaturationCubemap: 0
+    - _DetailBrightness: 1
+    - _DetailGlossiness: 0.5
+    - _DetailMetallic: 0
+    - _DetailNormalMapScale: 1
+    - _DetailSaturation: 0
+    - _DetailSource: 0
+    - _DetailSpecularIntensity: 0.2
+    - _DisableAlbedo2AlphaChannel: 0
+    - _DisableAlbedoAlphaChannel: 0
+    - _DoubleSidedBlend: 1
+    - _DstBlend: 0
+    - _EmissionIntensity: 1
+    - _EmissiveIntensity1: 1
+    - _EmissiveIntensity2: 1
+    - _EnableDetailMask: 0
+    - _EnableReflection: 1
+    - _FresnelStrength1: 0
+    - _GeneralTilingLayer1: 1
+    - _GeneralTilingLayer2: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 1
+    - _Glossiness2: 0.912
+    - _GlossyReflections: 1
+    - _IntensityCutoutMap: 0.5
+    - _IntensityMask: 1
+    - _IntensityTransparentMap: 0
+    - _InvertABaseColor: 0
+    - _InvertAlbedo2Alpha: 0
+    - _InvertAlbedoAlpha: 0
+    - _InvertCutout: 0
+    - _InvertMask: 0
+    - _InvertTransparent: 0
+    - _Metallic: 1
+    - _Metallic2: 0.2
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _Projection: 0
+    - _ReflectionIntensity1: 0.05
+    - _Saturation: 0
+    - _Saturation1: 0
+    - _Saturation2: 0
+    - _SmoothnessTextureChannel: 0
+    - _Source: 0
+    - _SpecularHighlights: 1
+    - _SpecularIntensity: 0.706
+    - _SpreadDetailMap: 0
+    - _SpreadTransparentMap: 0
+    - _SrcBlend: 1
+    - _Transparency: 1.501
+    - _TriplanarFalloff: 20
+    - _TriplanarSpaceProjection: 0
+    - _UVSec: 0
+    - _UseAoFromMainProperties: 1
+    - _UseBaseColorAlpha: 0
+    - _UseEmissionFromMainProperties: 1
+    - _VisualizeMask: 0
+    - _WorldDirection: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - __dirty: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color2: {r: 1, g: 1, b: 1, a: 0}
+    - _CubemapColor: {r: 1, g: 1, b: 1, a: 0}
+    - _DetailColor: {r: 1, g: 1, b: 1, a: 0}
+    - _DetailSpecularColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor2: {r: 0, g: 0, b: 0, a: 0}
+    - _GlobalXYTilingXYZWOffsetXY: {r: 1, g: 1, b: 0, a: 0}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
+    - _TriplanarXYTilingXYZWOffsetXY: {r: 1, g: 1, b: 0, a: 0}
