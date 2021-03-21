@@ -43,7 +43,7 @@ namespace Assets.Scripts.DayNightCycle
 
         void Update()
         {
-            TimeSlider.value = dayNightCycle.CurrentTime01;
+            TimeSlider.value = dayNightCycle.CurrentTimeScale;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Assets.Scripts.DayNightCycle
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-            TimeSlider.value = dayNightCycle.CurrentTime01;
+            TimeSlider.value = dayNightCycle.CurrentTimeScale;
             SceneManager.sceneLoaded += OnSceneLoaded;
             if (PhotonNetwork.isMasterClient)
             {
