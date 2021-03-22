@@ -59,6 +59,7 @@ namespace Assets.Scripts.DayNightCycle
                 // Set up rotation constraint for the moon camera.
                 RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
                 ConstraintSource source = new ConstraintSource();
+                yield return new WaitUntil(() => MainCamera != null);
                 source.sourceTransform = Camera.main.transform;
                 source.weight = 1f;
                 constraint.AddSource(source);
