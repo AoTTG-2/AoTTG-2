@@ -42,9 +42,9 @@ namespace Assets.Scripts.DayNightCycle
             //MC loads settings on start because these values need to have a default.
             if (PhotonNetwork.isMasterClient)
             {
-                GameSettings.Time.currentTime = CurrentTime;
-                GameSettings.Time.dayLength = DayLength;
-                GameSettings.Time.pause = Pause;
+                GameSettings.Time.CurrentTime = CurrentTime;
+                GameSettings.Time.DayLength = DayLength;
+                GameSettings.Time.Pause = Pause;
                 Service.Settings.SyncSettings();
             }
             MoonCamera = GetComponentInChildren<Camera>();
@@ -58,11 +58,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 // Set up rotation constraint for the moon camera.
                 RotationConstraint constraint = MoonCamera.gameObject.GetComponent<RotationConstraint>();
-
                 ConstraintSource source = new ConstraintSource();
-                Debug.Log("Waiting for Main Camera...");
-                yield return new WaitUntil(() => MainCamera != null);
-                Debug.Log("The main camera has arriveth");
                 source.sourceTransform = Camera.main.transform;
                 source.weight = 1f;
                 constraint.AddSource(source);
@@ -81,23 +77,23 @@ namespace Assets.Scripts.DayNightCycle
      
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
-            CurrentTime = (float) GameSettings.Time.currentTime; 
+            CurrentTime = (float) GameSettings.Time.CurrentTime; 
             //additional check to ensure MC cant set non-MC daylengths to less than 60
-            if ((float)GameSettings.Time.dayLength > 60)
+            if ((float)GameSettings.Time.DayLength > 60)
             {
-                DayLength = (float) GameSettings.Time.dayLength;
+                DayLength = (float) GameSettings.Time.DayLength;
             }
             else {
                 DayLength = 60;
-                GameSettings.Time.dayLength = DayLength;
+                GameSettings.Time.DayLength = DayLength;
                  }
-            Pause = (bool) GameSettings.Time.pause;
+            Pause = (bool) GameSettings.Time.Pause;
 
             if (!Pause)
             {
                 var diff = (float) (DateTime.UtcNow - settings.LastModified.Value).TotalSeconds;
                 CurrentTime += (diff / DayLength) * 24;
-                //If time passed will put the currentTime over 24, do maths to correct for this and give an accurate
+                //If time passed will put the CurrentTime over 24, do maths to correct for this and give an accurate
                 //time according to a 24h time range
                 if (CurrentTime > 24)
                 {
@@ -144,9 +140,9 @@ namespace Assets.Scripts.DayNightCycle
             //MC loads settings
             if (PhotonNetwork.isMasterClient)
             {
-                GameSettings.Time.currentTime = CurrentTime;
-                GameSettings.Time.dayLength = DayLength;
-                GameSettings.Time.pause = Pause;
+                GameSettings.Time.CurrentTime = CurrentTime;
+                GameSettings.Time.DayLength = DayLength;
+                GameSettings.Time.Pause = Pause;
             }
         }
 

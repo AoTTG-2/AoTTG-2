@@ -172,7 +172,6 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnRestart()
         {
-            Debug.Log("CLEARING THAT CASH");
             if (PhotonNetwork.isMasterClient)
                 PhotonNetwork.RemoveRPCs(photonView);
             if (Settings.PointMode > 0)

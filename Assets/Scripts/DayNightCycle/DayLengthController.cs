@@ -31,7 +31,7 @@ namespace Assets.Scripts.DayNightCycle
                         dayLength = 60;
                     }
                     dayNightCycle.DayLength = dayLength;
-                    GameSettings.Time.dayLength = dayLength;
+                    GameSettings.Time.DayLength = dayLength;
                     Service.Settings.SyncSettings();
                 }
             }

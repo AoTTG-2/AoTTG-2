@@ -102,7 +102,6 @@ namespace Assets.Scripts.Gamemode
         private void RacingStartRpc(PhotonMessageInfo info)
         {
             if (!info.sender.IsMasterClient) return;
-            Debug.Log(nameof(RacingStartRpc));
             StartCoroutine(FixStartBarriers());
         }
 
@@ -115,7 +114,6 @@ namespace Assets.Scripts.Gamemode
 
             FindObjectsOfType<RacingStartBarrier>().ToList()
                 .ForEach(x => x.gameObject.SetActive(false));
-            Debug.Log("Running Couroutine");
         }
 
 
