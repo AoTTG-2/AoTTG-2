@@ -86,8 +86,10 @@ namespace Assets.Scripts.UI.InGame
                 TogglePauseMenu();
             }
             
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Show();
-            if (UnityEngine.Input.GetKeyUp(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Hide();
+            //TODO: When the new InputSystem is implemented, redo this.
+            ///////// TEMPORARILY DISABLED SCOREBOARD //////////
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Show();
+            // if (UnityEngine.Input.GetKeyUp(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Hide();
             
         }
 
