@@ -32,7 +32,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public GameObject Legs;
         [SerializeField] public GameObject Chest;
         [SerializeField] public List<CapeComponent> Cape;
-        [SerializeField] public ArmPrefab Arms;
         [SerializeField] public EmblemPrefab Emblem;
         
         public SkinPrefab GetSkinPrefab(Skin skin)

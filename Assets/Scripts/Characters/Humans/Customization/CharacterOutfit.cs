@@ -18,7 +18,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public FacialSelected Facial;
         [SerializeField] public HumanOutfitSelected Outfit;
         [SerializeField] public CapeSelected Cape;
-        [SerializeField] public AdvancedOptions Advanced;
 
         [SerializeField] public HeadgearSelected Headgear;
 
@@ -36,7 +35,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 Facial = Facial,
                 Outfit = Outfit,
                 Cape = Cape,
-                Advanced = Advanced,
                 Headgear = Headgear
             };
         }

@@ -117,6 +117,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private void CreateHair(HumanHairSelected hair)
         {
+            if (hair.Component == null) return;
             var result = CreateComponent(hair.Component.Model, hair.Component.Textures[hair.Texture], hair.Color,Body.head);
             //var prefab = Prefabs.GetHairPrefab(hair.Model);
 
@@ -219,8 +220,33 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private void CreateArms(HumanOutfitSelected outfit)
         {
-            CreateComponent(outfit.Component.ArmLeft, outfit.Component.Textures[outfit.Texture]);
-            CreateComponent(outfit.Component.ArmRight, outfit.Component.Textures[outfit.Texture]);
+            CreateComponent(outfit.Component.ArmLeft.Model, outfit.Component.Textures[outfit.Texture]);
+            CreateComponent(outfit.Component.ArmRight.Model, outfit.Component.Textures[outfit.Texture]);
+            
+            if (outfit.Component.EmblemFront != null && outfit.EmblemFront != null)
+            {
+                CreateComponent(outfit.Component.EmblemFront,
+                    outfit.EmblemFront.Component.Textures[outfit.EmblemFront.Texture]);
+            }
+
+            if (outfit.Component.EmblemBack != null && outfit.EmblemBack != null)
+            {
+                CreateComponent(outfit.Component.EmblemBack,
+                    outfit.EmblemBack.Component.Textures[outfit.EmblemBack.Texture]);
+            }
+
+            if (outfit.Component.ArmLeft != null && outfit.Component.ArmLeft.Emblem != null && outfit.EmblemLeft != null)
+            {
+                CreateComponent(outfit.Component.ArmLeft.Emblem,
+                    outfit.EmblemLeft.Component.Textures[outfit.EmblemLeft.Texture]);
+            }
+
+            if (outfit.Component.ArmRight != null && outfit.Component.ArmRight.Emblem != null && outfit.EmblemRight != null)
+            {
+                CreateComponent(outfit.Component.ArmRight.Emblem,
+                    outfit.EmblemRight.Component.Textures[outfit.EmblemRight.Texture]);
+            }
+
         }
 
         private void CreateEquipment(EquipmentComponent equipment)

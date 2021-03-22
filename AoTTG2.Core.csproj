@@ -197,7 +197,6 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Emblem.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\LabelPosition.cs" />
     <Compile Include="Assets\Scripts\Settings\PvPSettings.cs" />
@@ -349,7 +348,6 @@
     <Compile Include="Assets\Scripts\Room\LevelTriggerHint.cs" />
     <Compile Include="Assets\Scripts\Characters\Entity.cs" />
     <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\AdvancedOptions.cs" />
     <Compile Include="Assets\Scripts\Effects\AttractionForceAffector.cs" />
     <Compile Include="Assets\Scripts\Security\TokenResult.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\CostumeHair.cs" />
@@ -460,6 +458,8 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterList.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\ArmComponent.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\EmblemComponent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

@@ -7,14 +7,21 @@ namespace Assets.Scripts.Characters.Humans.Customization.Components
     public class HumanOutfitComponent : HumanComponent
     {
         public Gender Gender;
-        public GameObject ArmLeft;
-        public GameObject ArmRight;
+        public ArmComponent ArmLeft;
+        public ArmComponent ArmRight;
         public GameObject Legs;
+
+        public GameObject EmblemFront;
+        public GameObject EmblemBack;
     }
 
     [Serializable]
     public class HumanOutfitSelected : HumanSelectedComponent<HumanOutfitComponent>
     {
-
+        public bool UseCapeEmblem;
+        public EmblemSelected EmblemFront;
+        public EmblemSelected EmblemBack;
+        public EmblemSelected EmblemRight;
+        public EmblemSelected EmblemLeft;
     }
 }

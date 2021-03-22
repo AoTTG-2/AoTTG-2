@@ -25,32 +25,24 @@ MonoBehaviour:
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
     Hair:
-      Model: 16
-      Texture: 17
-      CustomUrl: 
+      Component: {fileID: 11400000, guid: c3fcdf90b747b784c9107954ba039039, type: 2}
+      Texture: 0
       Color: {r: 0.24528301, g: 0.24181202, b: 0.24181202, a: 1}
     Eyes:
-      Model: 0
-      Texture: 23
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
+      Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+      Texture: 22
     Glasses:
+      Component: {fileID: 0}
       Texture: 1
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
     Facial:
+      Component: {fileID: 0}
       Texture: 1
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
     Outfit:
-      Model: 5
-      Texture: 16
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
+      Component: {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
+      Texture: 1
     Cape:
-      Texture: 2
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
+      Component: {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
+      Texture: 0
     Advanced:
       EmblemChest:
         Texture: 2
@@ -68,9 +60,76 @@ MonoBehaviour:
         Texture: 2
         CustomUrl: 
         Color: {r: 0, g: 0, b: 0, a: 0}
+    Headgear:
+      Component: {fileID: 0}
+      Texture: 0
+  - Name: Mankasa
+    Gender: 2
+    Head:
+      Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
+      Texture: 0
+    Skin:
+      Skin: 0
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Hair:
+      Component: {fileID: 11400000, guid: c3fcdf90b747b784c9107954ba039039, type: 2}
+      Texture: 0
+      Color: {r: 0.24528301, g: 0.24181202, b: 0.24181202, a: 1}
+    Eyes:
+      Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+      Texture: 22
+    Glasses:
+      Component: {fileID: 11400000, guid: 4579b42a6b696fc40aa02dda0613ccfb, type: 2}
+      Texture: 7
+    Facial:
+      Component: {fileID: 11400000, guid: 549ec02307783b046ba76cd9f83a68c3, type: 2}
+      Texture: 1
+    Outfit:
+      Component: {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
+      Texture: 1
+    Cape:
+      Component: {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
+      Texture: 0
+    Advanced:
+      EmblemChest:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemBack:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemRightArm:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+      EmblemLeftArm:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+    Headgear:
+      Component: {fileID: 11400000, guid: 53b1af9786fabc545b6374f96ef9b8f1, type: 2}
+      Texture: 0
   CharacterBuild:
   - Name: Blades
     Equipment: 0
+    EquipmentComponent:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+      HandGrid:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+    Stats:
+      Acceleration: 0
+      Speed: 0
+      Gas: 0
+      Equipment: 0
+    Skill: 5
+  - Name: AHSS
+    Equipment: 1
     EquipmentComponent:
       Texture: 1
       CustomUrl: 
