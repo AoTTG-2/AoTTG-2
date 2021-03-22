@@ -3916,6 +3916,7 @@ namespace Assets.Scripts.Characters.Humans
 
                 hookUI.crossImage.color = magnitude > 120f ? Color.red : Color.white;
                 hookUI.distanceLabel.transform.localPosition = hookUI.cross.localPosition;
+                hookUI.speedLabel.transform.localPosition = hookUI.cross.localPosition;
 
                 if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
                 {
@@ -3926,6 +3927,7 @@ namespace Assets.Scripts.Characters.Humans
                     distance += "\n" + ((currentSpeed / 100f)).ToString("F1") + "K";
                 }
                 hookUI.distanceLabel.text = distance;
+                hookUI.speedLabel.text = ((currentSpeed / 100f)).ToString("F1") + "K";
 
                 Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
                 vector2 -= (transform.right * 0.3f);

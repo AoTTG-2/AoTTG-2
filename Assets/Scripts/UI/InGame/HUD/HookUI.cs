@@ -22,6 +22,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public Image crossImageR;
 
         public TMP_Text distanceLabel;
+        public TMP_Text speedLabel;
 
         public bool enabled = false;
 
@@ -39,6 +40,7 @@ namespace Assets.Scripts.UI.InGame.HUD
             crossImageR = crossR.GetComponentInChildren<Image>(true);
 
             distanceLabel = crosshair.Distance.transform.GetComponent<TMP_Text>();
+            speedLabel = crosshair.Speedometer.transform.GetComponent<TMP_Text>();
 
             Enable();
         }
