@@ -2487,12 +2487,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 916a7e123a236544a8a09aa0a1e9673c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 8a71692cbdf39da46be759bd3e839e8a, type: 3}
+  icon: {fileID: 21300000, guid: 7d386ad57bb442a48b6c87e130de4929, type: 3}
+  markerColor: {r: 0.5849056, g: 0, b: 0, a: 0}
+  isFlare: 0
+  isGlobal: 0
+  followAlways: 1
   image: {fileID: 0}
   position: {x: 0, y: 0}
   markerID: 
-  isGlobal: 0
-  followAlways: 1
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0
