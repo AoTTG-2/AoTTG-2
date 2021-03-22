@@ -22,6 +22,8 @@ namespace Assets.Scripts.DayNightCycle
         /// </summary>
         private void SubmitDayLength(string daylength)
         {
+            if (PhotonNetwork.isMasterClient)
+            {
                 if (float.TryParse(daylength, out var dayLength))
                 {
                     if (dayLength < 60)
@@ -31,7 +33,8 @@ namespace Assets.Scripts.DayNightCycle
                     dayNightCycle.DayLength = dayLength;
                     GameSettings.Time.dayLength = dayLength;
                     Service.Settings.SyncSettings();
-                }      
+                }
+            }
         }
 
         //grabbing the local scene's DayAndNightControl script, and adding a scene changed listener

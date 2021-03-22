@@ -51,14 +51,17 @@ namespace Assets.Scripts.DayNightCycle
         /// </summary>
         private void SubmitTime(string time)
         {
-            //only inputs with ":" and no negatives allowed, "-12:00" is an easter egg
-            if (TimeSpan.TryParse(time, out var timeSpan) && time.Contains(":") &&!time.Contains("-") || time.Contains("-12:00"))
+            if (PhotonNetwork.isMasterClient)
             {
-                double seconds = timeSpan.TotalSeconds;
-                TimeSlider.value = (float)(seconds / 86400);
-                dayNightCycle.CurrentTime = (float)(24 * seconds / 86400);
-                GameSettings.Time.currentTime = dayNightCycle.CurrentTime;
-                Service.Settings.SyncSettings();
+                //only inputs with ":" and no negatives allowed, "-12:00" is an easter egg
+                if (TimeSpan.TryParse(time, out var timeSpan) && time.Contains(":") && !time.Contains("-") || time.Contains("-12:00"))
+                {
+                    double seconds = timeSpan.TotalSeconds;
+                    TimeSlider.value = (float) (seconds / 86400);
+                    dayNightCycle.CurrentTime = (float) (24 * seconds / 86400);
+                    GameSettings.Time.currentTime = dayNightCycle.CurrentTime;
+                    Service.Settings.SyncSettings();
+                }
             }
         }
 
