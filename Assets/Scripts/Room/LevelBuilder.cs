@@ -51,20 +51,67 @@ namespace Assets.Scripts.Room
                 Name = "The City - Classic",
                 Description = "Classic City Map from AoTTG",
                 SceneName = "The City I",
+ 
                 Gamemodes = new List<GamemodeSettings>
                 {
+
+                    
                     new KillTitansSettings
                     {
                         GamemodeType = GamemodeType.Titans,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     },
                     new EndlessSettings
                     {
                         GamemodeType = GamemodeType.Endless,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     },
-                    new WaveGamemodeSettings(),
-                    new CaptureGamemodeSettings(),
-                    new RacingSettings(),
-                    new InfectionGamemodeSettings()
+                    new WaveGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new CaptureGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new RacingSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new InfectionGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
                 }
             });
 
@@ -75,7 +122,15 @@ namespace Assets.Scripts.Room
                 SceneName = "The Forest",
                 Gamemodes = new List<GamemodeSettings>
                 {
-                    new WaveGamemodeSettings(),
+                    new WaveGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
                     new KillTitansSettings
                     {
                         GamemodeType = GamemodeType.Titans,
@@ -87,7 +142,13 @@ namespace Assets.Scripts.Room
                             {
                                 Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
                             }
-                        }
+                        },
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     }
                 }
             });
@@ -103,11 +164,23 @@ namespace Assets.Scripts.Room
                     {
                         Name = "Colossal Titan",
                         Description = "Defeat the Colossal! Defeat the Colossal Titan.\nPrevent the abnormal titan from running to the north gate.",
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     },
                     new TrostSettings
                     {
                         Name = "Trost",
-                        Description = "Escort Titan Eren"
+                        Description = "Escort Titan Eren",
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     }
                 }
             });
@@ -121,7 +194,13 @@ namespace Assets.Scripts.Room
                 {
                     new RacingSettings
                     {
-                        IsPlayerTitanEnabled = false
+                        IsPlayerTitanEnabled = false,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     }
                 },
             });
@@ -139,6 +218,12 @@ namespace Assets.Scripts.Room
                         {
                             Enabled = true
                         },
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                         Supply = true,
                         SpawnSupplyStationOnHumanCapture = true
                     }
@@ -154,7 +239,13 @@ namespace Assets.Scripts.Room
                 {
                     new PvPAhssSettings
                     {
-                        IsPlayerTitanEnabled = false
+                        IsPlayerTitanEnabled = false,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     }
                 }
             });
@@ -168,7 +259,13 @@ namespace Assets.Scripts.Room
                 {
                     new PvPAhssSettings
                     {
-                        IsPlayerTitanEnabled = false
+                        IsPlayerTitanEnabled = false,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     }
                 }
             });
@@ -183,7 +280,13 @@ namespace Assets.Scripts.Room
                     new KillTitansSettings
                     {
                         Name = "Test",
-                        Description = "Classic map where you fight the Female Titan"
+                        Description = "Classic map where you fight the Female Titan",
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     },
                     new KillTitansSettings
                     {
@@ -195,11 +298,23 @@ namespace Assets.Scripts.Room
                         Pvp = new PvPSettings
                         {
                             Cannons = true
-                        }
+                        },
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     },
                     new WaveGamemodeSettings
                     {
-                        IsPlayerTitanEnabled = true
+                        IsPlayerTitanEnabled = true,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                     }
 
                 }
@@ -215,15 +330,45 @@ namespace Assets.Scripts.Room
                 SceneName = "Utgard",
                 Gamemodes = new List<GamemodeSettings>
                 {
-                    new KillTitansSettings(),
+                    new KillTitansSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
                     new CaptureGamemodeSettings
                     {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 24,
+                            DayLength = 300,
+                            Pause = true,
+                        },
                         SpawnSupplyStationOnHumanCapture = false,
                         PvpHumanScoreLimit = 400,
                         PvpTitanScoreLimit = 400
                     },
-                    new EndlessSettings(),
-                    new WaveGamemodeSettings()
+                    new EndlessSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new WaveGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
                 }
             });
         }

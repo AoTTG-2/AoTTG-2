@@ -39,12 +39,15 @@ namespace Assets.Scripts.DayNightCycle
         {
             Pause=true;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
-            //MC loads settings on start because these values need to have a default.
+            //Sets Scene variables to time settings
             if (PhotonNetwork.isMasterClient)
             {
-                GameSettings.Time.CurrentTime = CurrentTime;
-                GameSettings.Time.DayLength = DayLength;
-                GameSettings.Time.Pause = Pause;
+                //GameSettings.Time.CurrentTime = CurrentTime;
+                CurrentTime = (float)GameSettings.Time.CurrentTime;
+                //GameSettings.Time.DayLength = DayLength;
+                DayLength = (float)GameSettings.Time.DayLength;
+                //GameSettings.Time.Pause = Pause;
+                Pause = (bool)GameSettings.Time.Pause;
                 Service.Settings.SyncSettings();
             }
             MoonCamera = GetComponentInChildren<Camera>();
