@@ -21,10 +21,8 @@ namespace Assets.Scripts.DayNightCycle
         /// SubmitDayLength is the method used to change the DayLength in DayAndNightControl.cs via the DayLengthInput Input Field UI component
         /// </summary>
         private void SubmitDayLength(string daylength)
-        {
-            if (PhotonNetwork.isMasterClient)
-            {
-                if (float.TryParse(daylength, out var dayLength))
+        {      
+                if ( float.TryParse(daylength, out var dayLength) && PhotonNetwork.isMasterClient )
                 {
                     if (dayLength < 60)
                     {
@@ -34,7 +32,6 @@ namespace Assets.Scripts.DayNightCycle
                     GameSettings.Time.DayLength = dayLength;
                     Service.Settings.SyncSettings();
                 }
-            }
         }
 
         //grabbing the local scene's DayAndNightControl script, and adding a scene changed listener
