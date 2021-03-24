@@ -42,11 +42,8 @@ namespace Assets.Scripts.DayNightCycle
             //Sets Scene variables to time settings
             if (PhotonNetwork.isMasterClient)
             {
-                //GameSettings.Time.CurrentTime = CurrentTime;
                 CurrentTime = (float)GameSettings.Time.CurrentTime;
-                //GameSettings.Time.DayLength = DayLength;
                 DayLength = (float)GameSettings.Time.DayLength;
-                //GameSettings.Time.Pause = Pause;
                 Pause = (bool)GameSettings.Time.Pause;
                 Service.Settings.SyncSettings();
             }
