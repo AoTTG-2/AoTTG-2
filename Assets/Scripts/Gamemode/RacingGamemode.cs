@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 namespace Assets.Scripts.Gamemode
 {
     public class RacingGamemode : GamemodeBase
@@ -26,16 +27,18 @@ namespace Assets.Scripts.Gamemode
         private float TotalSpeed { get; set; }
         private int TotalFrames { get; set; }
         private float AverageSpeed => TotalSpeed / TotalFrames;
+        
+        private bool IsLoaded;
 
         protected override void OnLevelWasLoaded()
         {
+            Debug.Log(IsLoaded);
+            IsLoaded = true;
             base.OnLevelWasLoaded();
+            StartBarriers = GameObject.FindObjectsOfType<RacingStartBarrier>().ToList();
             HasStarted = false;
             TotalSpeed = 0;
             TotalFrames = 0;
-
-            if (!PhotonNetwork.isMasterClient)
-                photonView.RPC(nameof(RequestStatus), PhotonTargets.MasterClient);
 
             if (Objectives.Count == 0) return;
             Objectives = Objectives.OrderBy(x => x.Order).ToList();
@@ -82,7 +85,7 @@ namespace Assets.Scripts.Gamemode
                     HasStarted = true;
                     if (PhotonNetwork.isMasterClient)
                     {
-                        photonView.RPC(nameof(RacingStartRpc), PhotonTargets.All);
+                        photonView.RPC(nameof(RacingStartRpc), PhotonTargets.AllBufferedViaServer);
                     }
                 }
             }
@@ -99,9 +102,18 @@ namespace Assets.Scripts.Gamemode
         private void RacingStartRpc(PhotonMessageInfo info)
         {
             if (!info.sender.IsMasterClient) return;
+            StartCoroutine(FixStartBarriers());
+        }
 
-            StartBarriers.ForEach(x => x.gameObject.SetActive(false));
-            UiService.ResetMessage(LabelPosition.Center);
+        private IEnumerator FixStartBarriers()
+        {
+            if (IsLoaded)
+            {
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            FindObjectsOfType<RacingStartBarrier>().ToList()
+                .ForEach(x => x.gameObject.SetActive(false));
         }
 
 
