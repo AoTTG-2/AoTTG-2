@@ -7,10 +7,10 @@ namespace Assets.Scripts.Gamemode.Racing
     public class RacingObjective : MonoBehaviour
     {
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
-        private enum ObjectiveState { Taken, Current, Next, Queue }
+        public enum ObjectiveState { Taken, Current, Next, Queue }
 
-        private ObjectiveState _state;
-        private ObjectiveState State
+        public ObjectiveState _state;
+        public ObjectiveState State
         {
             get
             {
@@ -72,13 +72,12 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private void Start()
         {
+            OnStateChanged(_state);
             if (Gamemode == null)
             {
                 Destroy(gameObject.transform.parent.gameObject);
                 return;
             }
-	        State = ObjectiveState.Queue;
-	        Gamemode.AddObjective(this);
         }
 
         private void OnDestroy()
