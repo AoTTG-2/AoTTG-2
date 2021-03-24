@@ -12,7 +12,13 @@ namespace Assets.Scripts.Settings
         public bool? Pause { get; set; }
         public DateTime? LastModified { get; set; }
 
-        public TimeSettings() { }
+        public TimeSettings() 
+        {
+            CurrentTime = 12;
+            DayLength = 300;
+            Pause = true;
+            LastModified = DateTime.UtcNow;
+        }
         public TimeSettings(Difficulty difficulty)
         {
             switch (difficulty)
