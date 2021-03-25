@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 public class FPSLimiter : MonoBehaviour
 {
-
-
-    [SerializeField] public InputField fpsLimiter;
+    public InputField fpsLimiter;
+    public int limit;
 
     public InputField FPSLimit
     {
@@ -14,12 +13,11 @@ public class FPSLimiter : MonoBehaviour
         set { fpsLimiter = value; }
     }
 
-
     private void Start()
     {
         if (FPSLimit.text == "")
         {
-            Application.targetFrameRate = Screen.currentResolution.refreshRate;
+            DefaultFPS();
         }
         else
         {
@@ -31,17 +29,20 @@ public class FPSLimiter : MonoBehaviour
     {
         FPSLimit.interactable = true;
         var text = FPSLimit.text;
-        if (FPSLimit.contentType.Equals(InputField.ContentType.IntegerNumber))
+        text = text.Replace("-", string.Empty);
+        int.TryParse(text.ToString(), out limit);
+        Application.targetFrameRate = limit;
+        if (FPSLimit.text == "")
         {
-            int i;
-            Int32.TryParse(text.ToString(), out i);
-            Application.targetFrameRate = i;
-
+            DefaultFPS();
         }
-
     }
 
-    [Serializable]
+    public void DefaultFPS()
+    {
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+    }
+
     public struct FPSData
     {
         public string field;
@@ -51,6 +52,4 @@ public class FPSLimiter : MonoBehaviour
             this.field = toCopy.FPSLimit.text;
         }
     }
-
-
 }
