@@ -66,8 +66,8 @@ AoTTG2 was originally based on the RC mod. It includes every feature from the RC
 - - [ ] **Supplier**. A supplier is a player who carries a large amount of blades and gas to be shared with other players.
 
 # Other
-- - [ ] **Screenshots**. Easily take a screenshot in-game with a single press of a button!
+- - [x] **Screenshots**. Easily take a screenshot in-game with a single press of a button!
 - - [ ] **In-game chat translation**. Meeting players who are speaking another language? Now you can translate ingame #245
-- - [ ] **Discord Integration**. #190
+- - [x] **Discord Integration**. #190
 - - [x] **LAN functionality**. Host a server locally to play via LAN #221
 - - [x] **Chat improvements**. Messages have a character limit, and you can scroll up to re-read previous messages (up to 500 are cached!)
