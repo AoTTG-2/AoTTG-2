@@ -8,9 +8,9 @@ namespace Assets.Scripts.Gamemode.Racing
     public class RacingObjective : MonoBehaviour
     {
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
-        public enum ObjectiveState { Taken, Current, Next, Queue }
+        public enum ObjectiveState { Queue, Taken, Current, Next }
 
-        public ObjectiveState _state;
+        private ObjectiveState _state;
         public ObjectiveState State
         {
             get
@@ -58,7 +58,7 @@ namespace Assets.Scripts.Gamemode.Racing
             {
                 var materialBlock = new MaterialPropertyBlock();
                 renderers[i].GetPropertyBlock(materialBlock);
-                materialBlock.SetColor("_Color", i % 2 == 0 ? evenColor : unevenColor);
+                materialBlock.SetColor("_BaseColor", i % 2 == 0 ? evenColor : unevenColor);
                 renderers[i].SetPropertyBlock(materialBlock);
             }
         }
@@ -71,13 +71,17 @@ namespace Assets.Scripts.Gamemode.Racing
             State = ObjectiveState.Current;
         }
 
+        public void Queue()
+        {
+            State = ObjectiveState.Queue;
+        }
+
         private void Start()
         {
             OnStateChanged(_state);
             if (Gamemode == null)
             {
                 Destroy(gameObject.transform.parent.gameObject);
-                return;
             }
         }
 
