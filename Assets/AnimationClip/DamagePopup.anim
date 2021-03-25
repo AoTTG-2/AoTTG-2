@@ -123,7 +123,15 @@ AnimationClip:
       m_RotationOrder: 4
     path: 
   m_FloatCurves: []
-  m_PPtrCurves: []
+  m_PPtrCurves:
+  - curve:
+    - time: 0.65
+      value: {fileID: 6280221812960601552, guid: b15c7c26a989dc6439fcb0ea6bd27eeb,
+        type: 2}
+    attribute: m_sharedMaterial
+    path: DamagePopup
+    classID: 114
+    script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -138,7 +146,15 @@ AnimationClip:
       typeID: 4
       customType: 0
       isPPtrCurve: 0
-    pptrCurveMapping: []
+    - serializedVersion: 2
+      path: 2577146586
+      attribute: 122495210
+      script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 6280221812960601552, guid: b15c7c26a989dc6439fcb0ea6bd27eeb, type: 2}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

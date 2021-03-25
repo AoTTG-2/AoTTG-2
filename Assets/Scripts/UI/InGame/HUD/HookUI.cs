@@ -60,6 +60,7 @@ namespace Assets.Scripts.UI.InGame.HUD
                 crossImageR.gameObject.SetActive(false);
 
                 distanceLabel.gameObject.SetActive(false);
+                speedLabel.gameObject.SetActive(false);
 
                 enabled = false;
             }
@@ -80,6 +81,7 @@ namespace Assets.Scripts.UI.InGame.HUD
                 crossImageR.gameObject.SetActive(true);
 
                 distanceLabel.gameObject.SetActive(true);
+                speedLabel.gameObject.SetActive(true);
 
                 enabled = true;
             }
