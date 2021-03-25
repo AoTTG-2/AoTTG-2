@@ -29,5 +29,6 @@ namespace Assets.Scripts.Constants
 		Minimap = 21,
 		TitanDetection = 22,
 		MapEditor = 23,
+		Moon = 24,
 	}
 }

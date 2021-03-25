@@ -1847,7 +1847,8 @@ namespace Assets.Scripts
             //{
             //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
             //}
-            LevelHelper.Load(Level);
+            if (PhotonNetwork.isMasterClient)
+                LevelHelper.Load(Level);
             GameCursor.CursorMode = CursorMode.Loading;
             var hashtable = new Hashtable
             {
@@ -2178,6 +2179,7 @@ namespace Assets.Scripts
             ignoreList = new List<int>();
             this.restartCount = new List<float>();
             heroHash = new ExitGames.Client.Photon.Hashtable();
+            needChooseSide = true;
         }
 
         [Obsolete("Move into a RespawnService")]

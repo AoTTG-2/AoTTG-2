@@ -386,8 +386,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void Update()
     {
-
-         if (InputManager.KeyDown(InputUi.HideHUD))
+        if (Input.GetKeyDown(KeyCode.F1))
          {
             ToggleHUD();
          }
@@ -672,15 +671,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void ToggleHUD()
     {
-        if(HUD.GetComponent<HUD>().isActive){
-            HUD.GetComponent<HUD>().isActive = false;
-            HUD.transform.localScale = new Vector3(0,0,0);
-        }else{
-            HUD.GetComponent<HUD>().isActive = true;
-            HUD.transform.localScale = new Vector3(1,1,1);
-        }
+       HUD.SetActive(!HUD.activeInHierarchy);
     }
-
+    
     public static void ToggleSpawnMenu()
     {
         var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
@@ -878,6 +871,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void Start()
     {
+        HUD =GameObject.Find("HUD");
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
         HUD =GameObject.Find("HUD");

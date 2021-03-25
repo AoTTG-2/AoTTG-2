@@ -172,6 +172,8 @@ namespace Assets.Scripts.Gamemode
 
         public virtual void OnRestart()
         {
+            if (PhotonNetwork.isMasterClient)
+                PhotonNetwork.RemoveRPCs(photonView);
             if (Settings.PointMode > 0)
             {
                 for (int i = 0; i < PhotonNetwork.playerList.Length; i++)
