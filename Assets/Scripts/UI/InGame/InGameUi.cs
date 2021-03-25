@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.InGame
     {
         public HUD.HUD HUD;
         public InGameMenu Menu;
-        public SpawnMenu SpawnMenu;
+        public SpawnMenuV2 SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
         public PauseIndicator PauseIndicator;

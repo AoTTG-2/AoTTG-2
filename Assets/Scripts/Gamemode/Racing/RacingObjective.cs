@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Humans;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -97,7 +98,7 @@ namespace Assets.Scripts.Gamemode.Racing
                 {
                     this.hint.transform.position = Hero.transform.position + Vector3.up * 0.5f;
                     Vector3 vector = NextObjective.transform.position - this.hint.transform.position;
-                    float num = Mathf.Atan2(-vector.z, vector.x) * 57.29578f;
+                    float num = Mathf.Atan2(-vector.z, vector.x) * Mathf.Rad2Deg;
                     this.hint.transform.rotation = Quaternion.Euler(-90f, num + 180f, 0f);
                 }
                 else if (this.hint != null)
@@ -117,7 +118,7 @@ namespace Assets.Scripts.Gamemode.Racing
 	        if (audioSource) audioSource.Play();          
 
             FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
-            hero.fillGas();
+            hero.FillGas();
 
             if (NextObjective != null)
             {
@@ -127,7 +128,7 @@ namespace Assets.Scripts.Gamemode.Racing
                 this.hint.transform.parent = Hero.transform;
                 this.hint.transform.position = Hero.transform.position + Vector3.up * 0.5f;
                 Vector3 vector = base.transform.position - this.hint.transform.position;
-                float num = Mathf.Atan2(-vector.z, vector.x) * 57.29578f;
+                float num = Mathf.Atan2(-vector.z, vector.x) * Mathf.Rad2Deg;
                 this.hint.transform.rotation = Quaternion.Euler(-90f, num + 180f, 0f);
             }
             else

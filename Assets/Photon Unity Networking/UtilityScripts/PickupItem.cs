@@ -96,7 +96,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
         }
 
         this.SentPickup = true;
-        this.photonView.RPC("PunPickup", PhotonTargets.AllViaServer);
+        this.photonView.RPC(nameof(PunPickup), PhotonTargets.AllViaServer);
     }
 
 
@@ -105,7 +105,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
     {
         if (this.PickupIsMine)
         {
-            this.photonView.RPC("PunRespawn", PhotonTargets.AllViaServer);
+            this.photonView.RPC(nameof(PunRespawn), PhotonTargets.AllViaServer);
         }
     }
 
@@ -114,7 +114,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
     {
         if (this.PickupIsMine)
         {
-            this.photonView.RPC("PunRespawn", PhotonTargets.AllViaServer, newPosition);
+            this.photonView.RPC(nameof(PunRespawn), PhotonTargets.AllViaServer, newPosition);
         }
     }
 

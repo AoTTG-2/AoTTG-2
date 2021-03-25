@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class FemaleTitan : TitanBase
@@ -307,7 +308,7 @@ public class FemaleTitan : TitanBase
         float current = 0f;
         float f = 0f;
         Vector3 vector = target.transform.position - base.transform.position;
-        current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+        current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
         f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
         if ((this.eren != null) && (this.myDistance < 35f))
         {
@@ -601,7 +602,7 @@ public class FemaleTitan : TitanBase
                     }
                     return gameObject;
                 }
-                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible)
                 {
                     return gameObject;
                 }
@@ -615,7 +616,7 @@ public class FemaleTitan : TitanBase
         float num = rad * 4f;
         foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if ((obj2.GetComponent<ErenTitan>() == null) && !obj2.GetComponent<Hero>().isInvincible())
+            if ((obj2.GetComponent<ErenTitan>() == null) && !obj2.GetComponent<Hero>().IsInvincible)
             {
                 float num3 = obj2.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(obj2.transform.position + ((Vector3) (Vector3.up * num3)), head.transform.position + ((Vector3) ((Vector3.up * 1.5f) * 4f))) < (num + num3))
@@ -639,20 +640,20 @@ public class FemaleTitan : TitanBase
 
     private void EatSet(Hero grabTarget)
     {
-        if (!grabTarget.isGrabbed)
+        if (!grabTarget.IsGrabbed)
         {
             this.grabToRight();
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { base.photonView.viewID, false };
-                grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, parameters);
+                grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
-                grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
+                grabTarget.photonView.RPC(nameof(netPlayAnimation), PhotonTargets.All, objArray2);
                 base.photonView.RPC(nameof(grabToRight), PhotonTargets.Others, new object[0]);
             }
             else
             {
-                grabTarget.grabbed(base.gameObject, false);
+                grabTarget.Grabbed(base.gameObject, false);
                 grabTarget.GetComponent<Animation>().Play("grabbed");
             }
         }
@@ -660,20 +661,20 @@ public class FemaleTitan : TitanBase
 
     private void EatSetL(Hero grabTarget)
     {
-        if (!grabTarget.isGrabbed)
+        if (!grabTarget.IsGrabbed)
         {
             this.grabToLeft();
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { base.photonView.viewID, true };
-                grabTarget.photonView.RPC("netGrabbed", PhotonTargets.All, parameters);
+                grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, parameters);
                 object[] objArray2 = new object[] { "grabbed" };
-                grabTarget.photonView.RPC("netPlayAnimation", PhotonTargets.All, objArray2);
+                grabTarget.photonView.RPC(nameof(netPlayAnimation), PhotonTargets.All, objArray2);
                 base.photonView.RPC(nameof(grabToLeft), PhotonTargets.Others, new object[0]);
             }
             else
             {
-                grabTarget.grabbed(base.gameObject, true);
+                grabTarget.Grabbed(base.gameObject, true);
                 grabTarget.GetComponent<Animation>().Play("grabbed");
             }
         }
@@ -723,7 +724,7 @@ public class FemaleTitan : TitanBase
                     base.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
                     float current = 0f;
                     Vector3 vector6 = this.myHero.transform.position - base.transform.position;
-                    current = -Mathf.Atan2(vector6.z, vector6.x) * 57.29578f;
+                    current = -Mathf.Atan2(vector6.z, vector6.x) * Mathf.Rad2Deg;
                     float num2 = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                     base.gameObject.transform.rotation = Quaternion.Lerp(base.gameObject.transform.rotation, Quaternion.Euler(0f, base.gameObject.transform.rotation.eulerAngles.y + num2, 0f), this.speed * Time.deltaTime);
                 }
@@ -954,7 +955,7 @@ public class FemaleTitan : TitanBase
             {
                 if (this.grabbedTarget != null)
                 {
-                    this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                    this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
                 }
                 Vector3 vector = view.gameObject.transform.position - base.transform.Find("Amarture/Core/Controller_Body").transform.position;
                 if (vector.magnitude < 20f)
@@ -966,7 +967,7 @@ public class FemaleTitan : TitanBase
                     }
                     GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
                     object[] parameters = new object[] { dmg };
-                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                 }
             }
         }
@@ -994,7 +995,7 @@ public class FemaleTitan : TitanBase
             {
                 if (this.grabbedTarget != null)
                 {
-                    this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                    this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
                 }
                 Vector3 vector = view.gameObject.transform.position - base.transform.Find("Amarture/Core/Controller_Body").transform.position;
                 if (vector.magnitude < 20f)
@@ -1006,7 +1007,7 @@ public class FemaleTitan : TitanBase
                     }
                     GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's ankle", dmg);
                     object[] parameters = new object[] { dmg };
-                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                 }
             }
         }
@@ -1027,7 +1028,7 @@ public class FemaleTitan : TitanBase
         {
             if (this.grabbedTarget != null)
             {
-                this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
             }
             Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
             PhotonView view = PhotonView.Find(viewID);
@@ -1061,9 +1062,9 @@ public class FemaleTitan : TitanBase
         {
             if (!target.GetComponent<Hero>().HasDied())
             {
-                target.GetComponent<Hero>().markDie();
+                target.GetComponent<Hero>().MarkDie();
                 object[] parameters = new object[] { -1, "Female Titan" };
-                target.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, parameters);
+                target.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, parameters);
             }
         }
     }
@@ -1080,9 +1081,9 @@ public class FemaleTitan : TitanBase
             Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
             if ((PhotonNetwork.isMasterClient) && !hitHero.GetComponent<Hero>().HasDied())
             {
-                hitHero.GetComponent<Hero>().markDie();
+                hitHero.GetComponent<Hero>().MarkDie();
                 object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Female Titan", true };
-                hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
+                hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
             }
         }
     }
@@ -1444,7 +1445,7 @@ public class FemaleTitan : TitanBase
                         base.photonView.RPC(nameof(netDie), PhotonTargets.OthersBuffered, new object[0]);
                         if (this.grabbedTarget != null)
                         {
-                            this.grabbedTarget.GetPhotonView().RPC("netUngrabbed", PhotonTargets.All, new object[0]);
+                            this.grabbedTarget.GetPhotonView().RPC(nameof(Hero.NetUngrabbed), PhotonTargets.All, new object[0]);
                         }
                         this.netDie();
                         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().titanGetKill(view.owner, speed, base.name);
@@ -1454,7 +1455,7 @@ public class FemaleTitan : TitanBase
                 {
                     GameManager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Female Titan's neck", speed);
                     object[] parameters = new object[] { speed };
-                    GameManager.photonView.RPC("netShowDamage", view.owner, parameters);
+                    GameManager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                 }
                 this.healthTime = 0.2f;
             }
@@ -1581,7 +1582,7 @@ public class FemaleTitan : TitanBase
                         float current = 0f;
                         float f = 0f;
                         Vector3 vector9 = this.myHero.transform.position - base.transform.position;
-                        current = -Mathf.Atan2(vector9.z, vector9.x) * 57.29578f;
+                        current = -Mathf.Atan2(vector9.z, vector9.x) * Mathf.Rad2Deg;
                         f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                         if (!this.attackTarget(this.myHero))
                         {
@@ -1708,7 +1709,7 @@ public class FemaleTitan : TitanBase
                         Vector3 force = vector17 - velocity;
                         base.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
                         float num18 = Vector2.Angle(new Vector2(base.transform.position.x, base.transform.position.z), new Vector2(this.myHero.transform.position.x, this.myHero.transform.position.z));
-                        num18 = Mathf.Atan2(this.myHero.transform.position.x - base.transform.position.x, this.myHero.transform.position.z - base.transform.position.z) * 57.29578f;
+                        num18 = Mathf.Atan2(this.myHero.transform.position.x - base.transform.position.x, this.myHero.transform.position.z - base.transform.position.z) * Mathf.Rad2Deg;
                         base.gameObject.transform.rotation = Quaternion.Euler(0f, num18, 0f);
                     }
                     if (this.attackAnimation == "jumpCombo_3")

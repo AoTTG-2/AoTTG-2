@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8146036808906779882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d306162629172459aa12abee7bb18b, type: 3}
+  m_Name: BombExplodeMain
+  m_EditorClassIdentifier: 
+  m_default: RC Resources/RC Prefabs/BombExplodeMain
+  m_value: RC Resources/RC Prefabs/BombExplodeMain
+  m_isReadOnly: 1
+  OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56d10ca39dc8cd478c47d8f0a994cee, type: 3}
+  m_Name: RC Prefab Paths
+  m_EditorClassIdentifier: 
+  m_variables:
+  - {fileID: 1701559614523589665}
+  - {fileID: -8146036808906779882}
+--- !u!114 &1701559614523589665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d306162629172459aa12abee7bb18b, type: 3}
+  m_Name: BombMain
+  m_EditorClassIdentifier: 
+  m_default: RC Resources/RC Prefabs/BombMain
+  m_value: RC Resources/RC Prefabs/BombMain
+  m_isReadOnly: 1
+  OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []

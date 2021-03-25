@@ -1,10 +1,11 @@
-﻿using Assets.Scripts.Settings;
-using ExitGames.Client.Photon;
-using System;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Settings;
+using ExitGames.Client.Photon;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

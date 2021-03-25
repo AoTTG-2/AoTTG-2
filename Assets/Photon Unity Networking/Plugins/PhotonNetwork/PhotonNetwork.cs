@@ -2956,7 +2956,7 @@ public static class PhotonNetwork
     /// <summary>
     /// Internal to send an RPC on given PhotonView. Do not call this directly but use: PhotonView.RPC!
     /// </summary>
-    internal static void RPC(PhotonView view, string methodName, PhotonTargets target, bool encrypt, params object[] parameters)
+    internal static void RPC(PhotonView view, string methodName, PhotonTargets target, bool encrypt, int[] targetIds, params object[] parameters)
     {
         if (!VerifyCanUseNetwork())
         {
@@ -2973,17 +2973,17 @@ public static class PhotonNetwork
         {
             if (PhotonNetwork.room.serverSideMasterClient)
             {
-                networkingPeer.RPC(view, methodName, target, null, encrypt, parameters);
+                networkingPeer.RPC(view, methodName, target, null, encrypt, targetIds, parameters);
             }
             else
             {
                 if (PhotonNetwork.networkingPeer.hasSwitchedMC && target == PhotonTargets.MasterClient)
                 {
-                    networkingPeer.RPC(view, methodName, PhotonTargets.Others, PhotonNetwork.masterClient, encrypt, parameters);
+                    networkingPeer.RPC(view, methodName, PhotonTargets.Others, PhotonNetwork.masterClient, encrypt, targetIds, parameters);
                 }
                 else
                 {
-                    networkingPeer.RPC(view, methodName, target, null, encrypt, parameters);
+                    networkingPeer.RPC(view, methodName, target, null, encrypt, targetIds, parameters);
                 }
             }
         }
@@ -3016,7 +3016,7 @@ public static class PhotonNetwork
 
         if (networkingPeer != null)
         {
-            networkingPeer.RPC(view, methodName, PhotonTargets.Others, targetPlayer, encrpyt, parameters);
+            networkingPeer.RPC(view, methodName, PhotonTargets.Others, targetPlayer, encrpyt, parameters: parameters);
         }
         else
         {

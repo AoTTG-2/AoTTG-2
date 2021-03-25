@@ -1,10 +1,26 @@
-﻿public static class Layer
+﻿using UnityEngine;
+
+namespace Assets.Scripts.Constants
 {
-    public const string Player = "Player";
-    public const string Ground = "Ground";
-    public const string Titan = "Titan";
-    public const string EnemyBox = "EnemyBox";
-    public const string NetworkObject = "NetworkObject";
-    public const string Interactable = "Interactable";
+    public static class Layer
+    {
+        /// <summary>
+        /// Extension Method to retrieve the layer names from <see cref="Layers"/>
+        /// </summary>
+        public static string ToName(this Layers layer)
+        {
+            return LayerMask.LayerToName((int) layer);
+        }
+
+        /// <summary>
+        /// Convert Layers Enum to LayerMask
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public static LayerMask ToLayer(this Layers layer)
+        {
+            return 1 << (int)layer;
+        }
+    }
 }
 
