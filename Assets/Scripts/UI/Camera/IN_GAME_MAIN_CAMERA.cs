@@ -68,7 +68,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private bool isRestarting = true;
     private float startingTime;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
-
+    public GameObject HUD;
     private void Awake()
     {
         EntityService.OnRegister += EntityService_OnRegistered;
@@ -384,6 +384,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.F1))
+         {
+            ToggleHUD();
+         }
         SnapShotUpdate();
         if (flashDuration > 0f)
         {
@@ -663,6 +668,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         instance.chatRoom.OutputSystemMessage(message);
     }
 
+    public void ToggleHUD()
+    {
+       HUD.SetActive(!HUD.activeInHierarchy);
+    }
     public static void ToggleSpawnMenu()
     {
         var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
@@ -837,6 +846,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void Start()
     {
+        HUD =GameObject.Find("HUD");
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
 
