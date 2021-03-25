@@ -68,7 +68,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var prefabObject = Instantiate(prefab);
             if (prefabObject.TryGetComponent(out SkinnedMeshRenderer meshRenderer))
             {
-                meshRenderer.material.mainTexture = texture;
+                meshRenderer.material.SetTexture("_MainTex", texture);
+                //meshRenderer.material.mainTexture = texture;
                 if (color != default)
                     meshRenderer.material.color = color;
 
@@ -84,7 +85,15 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 if (color != default)
                     renderer.material.color = color;
 
-                renderer.material.mainTexture = texture;
+                if (renderer.material.shader.name.Contains("Two Sided Lit"))
+                {
+                    renderer.material.SetTexture("_MainTex", texture);
+                }
+                else
+                {
+                    renderer.material.mainTexture = texture;
+                }
+
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
                 prefabObject.transform.position = HumanTransform.position;
                 prefabObject.transform.rotation = Quaternion.Euler(prefabObject.transform.rotation.eulerAngles.x, prefabObject.transform.rotation.eulerAngles.y, prefabObject.transform.rotation.eulerAngles.z);
@@ -262,8 +271,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var weaponLeft = Instantiate(prefab.WeaponLeft);
             var weaponRight = Instantiate(prefab.WeaponRight);
 
-            handLeft.GetComponent<Renderer>().material.mainTexture = skin.File;
-            handRight.GetComponent<Renderer>().material.mainTexture = skin.File;
+            handLeft.GetComponent<Renderer>().material.SetTexture("_MainTex", skin.File);
+            handRight.GetComponent<Renderer>().material.SetTexture("_MainTex", skin.File);
             ammoLeft.GetComponent<Renderer>().material.mainTexture = ammo;
             ammoRight.GetComponent<Renderer>().material.mainTexture = ammo;
             weaponLeft.GetComponent<Renderer>().material.mainTexture = ammo;
