@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Assets.Scripts.UI.InGame.HUD;
 
 namespace Assets.Scripts.UI.InGame
 {
