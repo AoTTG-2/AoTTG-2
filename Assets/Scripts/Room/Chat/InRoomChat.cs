@@ -23,6 +23,8 @@ namespace Assets.Scripts.Room.Chat
         public GameObject messagePrefab;
         public GameObject messagePrefabParent;
         private bool IsChatOpen { get; set; }
+        Regex openingTag = new Regex(@"<([a-z]*)(?:=.+?)?>");
+        Regex closingTag = new Regex( @"</([a-z]*)>");
 
         public bool IsVisible()
         {
@@ -183,8 +185,8 @@ namespace Assets.Scripts.Room.Chat
 
     private bool MarkupIsOk(string message)
     {
-        var openingTags = this.openingTags.Matches(message);
-        var closingTags =  this.closingTags.Matches(message);
+        var openingTags = this.openingTag.Matches(message);
+        var closingTags =  this.closingTag.Matches(message);
         Dictionary<string, int> openCount = new Dictionary<string, int>();
         Dictionary<string, int> closeCount = new Dictionary<string, int>();
 

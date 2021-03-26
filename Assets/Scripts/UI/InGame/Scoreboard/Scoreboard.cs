@@ -19,6 +19,18 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
         public string sortLabel;
         private float timeLast = 0;
 
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+        }
+
+
         void Start()
         {
             sortButtons = GameObject.FindObjectsOfType<SortButton>();

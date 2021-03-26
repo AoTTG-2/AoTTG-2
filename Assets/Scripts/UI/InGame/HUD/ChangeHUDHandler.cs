@@ -15,7 +15,17 @@ namespace Assets.Scripts.UI.InGame
         public TMP_Text elementLabel;
         public Toggle toggleVisibility;
         public bool hasChanged = false;
-        
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+        }
+
+        protected override void OnDisable() {
+            base.OnDisable();
+		}
+
+
         public void Update()
         {
             if(HUD.inEditMode)

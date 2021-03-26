@@ -1544,6 +1544,11 @@ PrefabInstance:
       propertyPath: ChangeHUDHandler
       value: 
       objectReference: {fileID: 1656185691}
+    - target: {fileID: 323642727510754057, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: ChangeHudHandler
+      value: 
+      objectReference: {fileID: 1656185691}
     - target: {fileID: 323642727744318108, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1579,6 +1584,11 @@ PrefabInstance:
       propertyPath: SpawnMenu
       value: 
       objectReference: {fileID: 155128640}
+    - target: {fileID: 323642727794963174, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: ChangeHudMenu
+      value: 
+      objectReference: {fileID: 1656185691}
     - target: {fileID: 323642727925578847, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: ServerDropdown
@@ -2049,6 +2059,16 @@ PrefabInstance:
       propertyPath: threeThousand.r
       value: 0.8584906
       objectReference: {fileID: 0}
+    - target: {fileID: 3684867477258934451, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3684867477258934451, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_FillOrigin
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3684867477396787588, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -2098,6 +2118,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 3684867478955503054, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3684867478955503054, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_FillOrigin
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3685858439608280296, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
@@ -2366,6 +2396,11 @@ PrefabInstance:
       propertyPath: handler
       value: 
       objectReference: {fileID: 1656185691}
+    - target: {fileID: 8256990729392546117, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.6431373
+      objectReference: {fileID: 0}
     - target: {fileID: 8839379401444479668, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2601,19 +2636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c513b902eae6834c9d66f6de5408204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2017262145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017262140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c0152780c0d824f8dec9e5e86dcca7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RadialMenu: {fileID: 1517952637227436, guid: 4402d21c3703e5746893e74df6fe31ac, type: 3}
 --- !u!224 &2017262146 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 323642729287420838, guid: 739f3587de222de419a53e81827c31b0,
