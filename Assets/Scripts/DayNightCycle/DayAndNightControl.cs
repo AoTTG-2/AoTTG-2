@@ -171,6 +171,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             ProceduralSkyboxMaterial.SetVector("_Axis", DirectionalLight.transform.right);
             ProceduralSkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
+            ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTime));
         }
 
         void UpdateLightingSettings()
@@ -254,13 +255,15 @@ namespace Assets.Scripts.DayNightCycle
         {
             UpdateLightingSettings();
             UpdateLight();
+            ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTime));
             ReflectionProbe.RenderProbe();
             // Reflection Probes have limited range so we'll want it to follow the scene view's camera when previewing changes
             Vector3 sceneViewPosition = SceneView.lastActiveSceneView != null ? SceneView.lastActiveSceneView.camera.transform.position : Vector3.zero;
             // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
             ReflectionProbe.transform.position = new Vector3(sceneViewPosition.x, sceneViewPosition.y - 5f, sceneViewPosition.z);
+
         }
 #endif
-        }
     }
+}
 
