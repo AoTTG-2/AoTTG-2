@@ -171,7 +171,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             ProceduralSkyboxMaterial.SetVector("_Axis", DirectionalLight.transform.right);
             ProceduralSkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
-            ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTime));
+            ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTimeScale));
         }
 
         void UpdateLightingSettings()
