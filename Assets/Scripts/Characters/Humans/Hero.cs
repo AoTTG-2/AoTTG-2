@@ -3969,7 +3969,6 @@ namespace Assets.Scripts.Characters.Humans
 
         private void ShowGas()
         {
-            float num = currentGas / totalGas;
             float num2 = currentBladeSta / totalBladeSta;
             cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = 1 - (currentGas / totalGas);
             Equipment.Weapon.UpdateSupplyUi(InGameUI);

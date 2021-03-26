@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon;
 
-public class DestroyOnDisconnect : PunBehaviour
+namespace Assets.Scripts.Utility
 {
-    public override void OnDisconnectedFromPhoton()
+    public class DestroyOnDisconnect : PunBehaviour
     {
-        Destroy(this.gameObject);
+        public override void OnDisconnectedFromPhoton()
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

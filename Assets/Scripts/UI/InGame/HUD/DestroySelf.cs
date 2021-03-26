@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class DestroySelf : MonoBehaviour
+namespace Assets.Scripts.Utility
 {
-    public float countdown = 5f;
-
-    void Update()
+    public class DestroySelf : MonoBehaviour
     {
-        if(countdown > 0)
-        {
-            countdown -= Time.deltaTime;
-        }
+        public float countdown = 5f;
 
-        if(countdown <= 0)
+        void Update()
         {
-            Destroy(this.gameObject);
+            if(countdown > 0)
+            {
+                countdown -= Time.deltaTime;
+            }
+
+            if(countdown <= 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

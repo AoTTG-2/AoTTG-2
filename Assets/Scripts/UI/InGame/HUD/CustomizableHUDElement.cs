@@ -49,9 +49,8 @@ namespace Assets.Scripts.UI.InGame.HUD
             // If the player has a custom layout, then load that. 
             if (PlayerPrefs.GetInt("hasCustomHUD", 0) == 1 && Screen.width == PlayerPrefs.GetFloat("HUDResolutionX", Screen.width))
             {
-                //Debug.Log("Got into if statement and will soon call LoadCustom()");
                 LoadCustom();
-            }else // If resolution changes, then reset hasCustomLayout.
+            } else // If resolution changes, then reset hasCustomLayout.
             {   
                 PlayerPrefs.SetInt("hasCustomHUD", 0);
                 // Load the default layout every time the player starts the game. This is because different resolutions have different default layouts. 
@@ -111,7 +110,6 @@ namespace Assets.Scripts.UI.InGame.HUD
                 element.GetComponent<CustomizableHudElement>().selection.SetActive(element == this.gameObject);
                 element.GetComponent<CustomizableHudElement>().onSelection = (element == this.gameObject);
             }
-            Debug.Log("Pressed");
         }
 
         public void MouseUp()

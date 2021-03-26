@@ -5,7 +5,6 @@ namespace Assets.Scripts.UI.InGame.HUD
 {
     public class KillInfo : UiElement
     {
-        private float alpha = 1f;
         private int col;
         public TMP_Text KillerLabel;
         public TMP_Text DamageLabel;
@@ -38,11 +37,6 @@ namespace Assets.Scripts.UI.InGame.HUD
             }
         }
 
-        private void setAlpha(float alpha)
-        {
-
-        }
-
         public void Show(bool isTitan1, string name1, bool isTitan2, string name2, int dmg = 0)
         {
 
@@ -52,30 +46,19 @@ namespace Assets.Scripts.UI.InGame.HUD
             if (dmg == 0)
             {
                 DamageLabel.text = "";
-            }
-            else
+            } else
             {
                 DamageLabel.text = dmg.ToString();
                 if (dmg >= 500 && dmg < 1000)
-                {
                     DamageLabel.color = fiveHundred;
-                } else 
-                if (dmg >= 1000 && dmg < 2000)
-                {
+                else if (dmg >= 1000 && dmg < 2000)
                     DamageLabel.color = oneThousand;
-                } else 
-                if (dmg >= 2000 && dmg < 3000)
-                {
+                else if (dmg >= 2000 && dmg < 3000)
                     DamageLabel.color = twoThousand;
-                } else 
-                if (dmg >= 3000 && dmg < 4000)
-                {
+                else if (dmg >= 3000 && dmg < 4000)
                     DamageLabel.color = threeThousand;
-                } else 
-                if (dmg >= 4000)
-                {
+                else if (dmg >= 4000)
                     DamageLabel.color = fourThousand;
-                }
             }
         }
 
