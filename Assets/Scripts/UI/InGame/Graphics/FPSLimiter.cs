@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +7,7 @@ public class FPSLimiter : MonoBehaviour
     public InputField fpsLimiter;
     public int limit;
 
-    public InputField FPSLimit
-    {
-        get { return fpsLimiter; }
-        set { fpsLimiter = value; }
-    }
+    public InputField FPSLimit { get; set; }
 
     private void Start()
     {
@@ -27,10 +23,11 @@ public class FPSLimiter : MonoBehaviour
 
     public void SetFPSLimit()
     {
+        FPSLimit = fpsLimiter;
         FPSLimit.interactable = true;
         var text = FPSLimit.text;
         text = text.Replace("-", string.Empty);
-        int.TryParse(text.ToString(), out limit);
+        int.TryParse(text, out limit);
         Application.targetFrameRate = limit;
         if (FPSLimit.text == "")
         {
