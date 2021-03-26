@@ -3,11 +3,11 @@
 using Assets.Scripts.UI.InGame;
 
 /* Any HUD element that is customizable should have this script attached */
-public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
+public class CustomizableHudElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
 {
     [Header("Settings:")]
     public string elementName;
-    public ChangeHUDHandler handler;
+    public ChangeHudHandler handler;
     [HideInInspector]public bool isVisible = true;
     [HideInInspector]public GameObject selection;
     private bool beingDragged;
@@ -104,8 +104,8 @@ public class CustomizableHUDElement : MonoBehaviour, IPointerEnterHandler, IPoin
 
         foreach(GameObject element in handler.HUDelements) 
         {
-            element.GetComponent<CustomizableHUDElement>().selection.SetActive(element == this.gameObject);
-            element.GetComponent<CustomizableHUDElement>().onSelection = (element == this.gameObject);
+            element.GetComponent<CustomizableHudElement>().selection.SetActive(element == this.gameObject);
+            element.GetComponent<CustomizableHudElement>().onSelection = (element == this.gameObject);
         }
         Debug.Log("Pressed");
     }

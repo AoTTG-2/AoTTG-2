@@ -2,7 +2,6 @@ using Assets.Scripts.UI.Input;
 using Assets.Scripts.UI.Menu;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine.EventSystems;
 using UnityEngine;
@@ -24,8 +23,6 @@ namespace Assets.Scripts.Room.Chat
         public GameObject messagePrefab;
         public GameObject messagePrefabParent;
         private bool IsChatOpen { get; set; }
-        Regex openingTags = new Regex(@"<([a-z]*)(?:=.+?)?>");
-        Regex closingTags = new Regex( @"</([a-z]*)>");
 
         public bool IsVisible()
         {

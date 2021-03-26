@@ -4,7 +4,7 @@ using TMPro;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class ChangeHUDHandler : UiMenu
+    public class ChangeHudHandler : UiMenu
     {
         public InGameMenu menu;
         public HUD.HUD HUD;
@@ -15,15 +15,6 @@ namespace Assets.Scripts.UI.InGame
         public TMP_Text elementLabel;
         public Toggle toggleVisibility;
         public bool hasChanged = false;
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-        }
-
-        protected override void OnDisable() {
-            base.OnDisable();
-		}
         
         public void Update()
         {
@@ -31,9 +22,9 @@ namespace Assets.Scripts.UI.InGame
             {
                 if(selectedElement != null)
                 {
-                    elementLabel.text = selectedElement.GetComponent<CustomizableHUDElement>().elementName;
+                    elementLabel.text = selectedElement.GetComponent<CustomizableHudElement>().elementName;
                     selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
-                    selectedElement.GetComponent<CustomizableHUDElement>().isVisible = toggleVisibility.isOn;
+                    selectedElement.GetComponent<CustomizableHudElement>().isVisible = toggleVisibility.isOn;
                 } else
                 {
                     elementLabel.text = "Select an Element";
@@ -48,7 +39,7 @@ namespace Assets.Scripts.UI.InGame
         {
             foreach(GameObject element in HUDelements)
             {
-                element.GetComponent<CustomizableHUDElement>().SetVisibility();
+                element.GetComponent<CustomizableHudElement>().SetVisibility();
             }
         }
 
@@ -60,9 +51,9 @@ namespace Assets.Scripts.UI.InGame
             foreach(GameObject element in HUDelements)
             {   
                 //You should want to always have the elements visible whenever you're on the edit mode.
-                element.GetComponent<CustomizableHUDElement>().ShowElement();
-                element.GetComponent<CustomizableHUDElement>().AnimateCustomization();
-                element.GetComponent<CustomizableHUDElement>().SaveTempPosition();
+                element.GetComponent<CustomizableHudElement>().ShowElement();
+                element.GetComponent<CustomizableHudElement>().AnimateCustomization();
+                element.GetComponent<CustomizableHudElement>().SaveTempPosition();
             }
             
             this.Show();
@@ -76,8 +67,8 @@ namespace Assets.Scripts.UI.InGame
             {
                 foreach(GameObject element in HUDelements)
                 {
-                    element.GetComponent<CustomizableHUDElement>().SavePosition();
-                    element.GetComponent<CustomizableHUDElement>().StopCustomization();
+                    element.GetComponent<CustomizableHudElement>().SavePosition();
+                    element.GetComponent<CustomizableHudElement>().StopCustomization();
                 }
 
                 PlayerPrefs.SetInt("hasCustomHUD", 1);
@@ -87,7 +78,7 @@ namespace Assets.Scripts.UI.InGame
             {
                 foreach(GameObject element in HUDelements)
                 {
-                    element.GetComponent<CustomizableHUDElement>().StopCustomization();
+                    element.GetComponent<CustomizableHudElement>().StopCustomization();
                 }
             }
 
@@ -102,7 +93,7 @@ namespace Assets.Scripts.UI.InGame
         {
             foreach(GameObject element in HUDelements)
             {
-                element.GetComponent<CustomizableHUDElement>().LoadDefault();
+                element.GetComponent<CustomizableHudElement>().LoadDefault();
             }
             PlayerPrefs.SetInt("hasCustomHUD", 0);
             ClearSelection();
@@ -112,7 +103,7 @@ namespace Assets.Scripts.UI.InGame
         {
             foreach(GameObject element in HUDelements)
             {
-                element.GetComponent<CustomizableHUDElement>().LoadCustom();
+                element.GetComponent<CustomizableHudElement>().LoadCustom();
             }
             PlayerPrefs.SetInt("hasCustomHUD", 1);
             ClearSelection();
@@ -127,8 +118,8 @@ namespace Assets.Scripts.UI.InGame
         {
             foreach(GameObject element in HUDelements)
             {
-                element.GetComponent<CustomizableHUDElement>().StopCustomization();
-                element.GetComponent<CustomizableHUDElement>().LoadTempPosition();
+                element.GetComponent<CustomizableHudElement>().StopCustomization();
+                element.GetComponent<CustomizableHudElement>().LoadTempPosition();
             }
             HUD.inEditMode = false;
             SetVisibility();

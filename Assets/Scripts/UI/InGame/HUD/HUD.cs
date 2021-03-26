@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Assets.Scripts.UI.Input;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {

@@ -8,7 +8,7 @@ namespace Assets.Scripts.UI.InGame
         public GameSettingMenu GameSettingsMenu;
         public ControlsMenu ControlsMenu;
         public GraphicSettingMenu GraphicsSettingsMenu;
-        public ChangeHUDHandler ChangeHUDHandler;
+        public ChangeHudHandler ChangeHudHandler;
 
         // Used by Button.
         public void Quit()
@@ -37,8 +37,8 @@ namespace Assets.Scripts.UI.InGame
         // Used by Button.
         public void ShowCustomizeHUDMenu()
         {
-            ChangeHUDHandler.Show();
-            ChangeHUDHandler.EnterEditMode();
+            ChangeHudHandler.Show();
+            ChangeHudHandler.EnterEditMode();
         }
 
         private void Awake()
@@ -46,7 +46,7 @@ namespace Assets.Scripts.UI.InGame
             AddChild(GameSettingsMenu);
             AddChild(ControlsMenu);
             AddChild(GraphicsSettingsMenu);
-            AddChild(ChangeHUDHandler);
+            AddChild(ChangeHudHandler);
         }
 
         protected override void OnEnable()

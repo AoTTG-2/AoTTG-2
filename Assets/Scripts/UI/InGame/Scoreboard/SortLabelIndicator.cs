@@ -1,20 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
-public class SortLabelIndicator : MonoBehaviour
+namespace Assets.Scripts.UI.InGame.Scoreboard
 {
-    public string defaultText;
-    public TMP_Text myText;
-
-    public void SetIndicator()
+    public class SortLabelIndicator : MonoBehaviour
     {
-        if(!myText.text.Contains("↓")) myText.text += " ↓";
-    }
+        public string defaultText;
+        public TMP_Text myText;
 
-    public void SetDefault()
-    {
-        myText.text = defaultText;
+        public void SetIndicator()
+        {
+            if(!myText.text.Contains("↓")) myText.text += " ↓";
+        }
+
+        public void SetDefault()
+        {
+            myText.text = defaultText;
+        }
     }
 }

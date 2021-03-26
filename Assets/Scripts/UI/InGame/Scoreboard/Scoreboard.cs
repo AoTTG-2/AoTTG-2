@@ -16,15 +16,8 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
         public TMP_Text playerCount;
         public TMP_Text gameMode;
         public TMP_Text sortContainer;
-        // public TMP_Text[] labels;
         public string sortLabel;
         private float timeLast = 0;
-
-       
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-        }
 
         void Start()
         {
@@ -184,12 +177,6 @@ namespace Assets.Scripts.UI.InGame.Scoreboard
             score = (10*(1000*k + t)*(10 - Mathf.Sqrt(d))+m*m/2)/Mathf.Pow(10,5);
             score *= 100;
             return Mathf.RoundToInt(score);
-        }
-
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
         }
 
     }

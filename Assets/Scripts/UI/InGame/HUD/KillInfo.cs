@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 namespace Assets.Scripts.UI.InGame.HUD
@@ -8,9 +7,6 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         private float alpha = 1f;
         private int col;
-        //public Text KillerLabel;
-        //public Text DamageLabel;
-        //public Text VictimLabel;
         public TMP_Text KillerLabel;
         public TMP_Text DamageLabel;
         public TMP_Text VictimLabel;
@@ -19,10 +15,8 @@ namespace Assets.Scripts.UI.InGame.HUD
         private int offset = 24;
         private bool start;
         private float timeElapsed;
-        private float startPosition;
-        private float startPositionRatio = 0.85f; // this is the proportion of the total screen that is below the kill feed.
 
-        [Header("Colors")]
+        [Header("Colors")] //Customize in the inspector
         public Color fiveHundred;
         public Color oneThousand;
         public Color twoThousand;
@@ -51,17 +45,6 @@ namespace Assets.Scripts.UI.InGame.HUD
 
         public void Show(bool isTitan1, string name1, bool isTitan2, string name2, int dmg = 0)
         {
-
-            //if (!isTitan1)
-            //{
-            //    Transform transform = KillerLabel.transform;
-            //    transform.position += new Vector3(18f, 0f, 0f);
-            //}
-            //else
-            //{
-            //    Transform transform3 = VictimLabel.transform;
-            //    transform3.position -= new Vector3(18f, 0f, 0f);
-            //}
 
             KillerLabel.text = name1;
             VictimLabel.text = name2;
@@ -100,9 +83,6 @@ namespace Assets.Scripts.UI.InGame.HUD
         {
             this.start = true;
             this.transform.localScale = new Vector3(1,1,1);
-            // base.transform.localScale = new Vector3(0.85f, 0.85f, 0.85f);
-            // startPosition = (Screen.height * startPositionRatio);
-            // base.transform.position = new Vector3(Screen.width * 0.5f, startPosition, 0f);
         }
 
         private void Update()
@@ -110,25 +90,6 @@ namespace Assets.Scripts.UI.InGame.HUD
             if (this.start)
             {
                 this.timeElapsed += Time.deltaTime;
-                // if (this.timeElapsed < 0.2f)
-                // {
-                //     base.transform.localScale = Vector3.Lerp(base.transform.localScale, (Vector3)(Vector3.one * this.maxScale), Time.deltaTime * 10f);
-                // }
-                // else if (this.timeElapsed < 1f)
-                // {
-                //     base.transform.localScale = Vector3.Lerp(base.transform.localScale, Vector3.one, Time.deltaTime * 10f);
-                // }
-                // if (this.timeElapsed > this.lifeTime)
-                // {
-                //     base.transform.position += new Vector3(0f, Time.deltaTime * 0.15f, 0f);
-                //     this.alpha = ((1f - (Time.deltaTime * 45f)) + this.lifeTime) - this.timeElapsed;
-                //     this.setAlpha(this.alpha);
-                // }
-                // else
-                // {
-                //     float num = ((int)(-startPosition)) + (this.col * this.offset);
-                //     base.transform.position = Vector3.Lerp(base.transform.position, new Vector3(Screen.width * 0.5f, -num, 0f), Time.deltaTime * 10f);
-                // }
                 if (this.timeElapsed > (this.lifeTime + 0.5f))
                 {
                     UnityEngine.Object.Destroy(base.gameObject);
