@@ -33,7 +33,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 }
                 Hero.dashDirection = hit.point - Hero.transform.position;
                 Hero.LaunchRightRope(hit.distance, hit.point, true, 1);
-                Hero.rope.Play();
+                Hero.rope[UnityEngine.Random.Range(0,2)].Play();
             }
             Hero.facingDirection = Mathf.Atan2(Hero.dashDirection.x, Hero.dashDirection.z) * Mathf.Rad2Deg;
             Hero.targetRotation = Quaternion.Euler(0f, Hero.facingDirection, 0f);

@@ -140,6 +140,9 @@ namespace Assets.Scripts.Characters.Humans
         public GameObject maincamera;
         public float maxVelocityChange = 10f;
         public AudioSource meatDie;
+        public AudioSource reelIn;
+        public AudioSource audioReload;
+        public AudioSource breakBlade;
         public Bomb myBomb;
         public GameObject myCannon;
         public Transform myCannonBase;
@@ -161,7 +164,7 @@ namespace Assets.Scripts.Characters.Humans
         [Obsolete("Should be within AHSS.cs")]
         public int rightBulletLeft = 7;
         public bool rightGunHasBullet = true;
-        public AudioSource rope;
+        public AudioSource[] rope;
         private float rTapTime { get; set; } = -1f;
         private GameObject skillCD { get; set; }
         public float skillCDDuration;
@@ -313,6 +316,8 @@ namespace Assets.Scripts.Characters.Humans
 
         public void Update()
         {
+            bool bladeZeroed = false;
+
             // Upon spawning, we cannot be damaged for 3s
             if (invincible > 0f)
             {
@@ -885,6 +890,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 num = -1f;
                                 num2 = -1f;
+                                
                             }
                             else if (attackAnimation == HeroAnim.ATTACK5)
                             {
@@ -1185,7 +1191,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        rope[UnityEngine.Random.Range(0,2)].Play();
                     }
                 }
                 else
@@ -1220,7 +1226,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        rope[UnityEngine.Random.Range(0,2)].Play();
                     }
                 }
                 else
@@ -1255,7 +1261,7 @@ namespace Assets.Scripts.Characters.Humans
                             LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                             LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                         }
-                        rope.Play();
+                        rope[UnityEngine.Random.Range(0,2)].Play();
                     }
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
@@ -1921,6 +1927,7 @@ namespace Assets.Scripts.Characters.Humans
                         float num15 = 0f;
                         if (InputManager.Key(InputHuman.ReelIn))
                         {
+                            reelIn.Play();
                             num15 = -1f;
                         }
                         else if (InputManager.Key(InputHuman.ReelOut))
@@ -1946,6 +1953,7 @@ namespace Assets.Scripts.Characters.Humans
                         float num18 = 0f;
                         if (InputManager.Key(InputHuman.ReelIn))
                         {
+                            reelIn.Play();
                             num18 = -1f;
                         }
                         else if (InputManager.Key(InputHuman.ReelOut))
@@ -1971,6 +1979,7 @@ namespace Assets.Scripts.Characters.Humans
                         float num21 = 0f;
                         if (InputManager.Key(InputHuman.ReelIn))
                         {
+                            reelIn.Play();
                             num21 = -1f;
                         }
                         else if (InputManager.Key(InputHuman.ReelOut))
@@ -2459,6 +2468,7 @@ namespace Assets.Scripts.Characters.Humans
                 state = HumanState.ChangeBlade;
                 throwedBlades = false;
                 Equipment.Weapon.PlayReloadAnimation();
+                audioReload.Play();
             }
         }
 
@@ -3971,20 +3981,22 @@ namespace Assets.Scripts.Characters.Humans
         {
             float num = currentGas / totalGas;
             float num2 = currentBladeSta / totalBladeSta;
-            cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentGas / totalGas;
-            if (num <= 0.25f)
-            {
-                cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.red;
-            }
-            else if (num < 0.5f)
-            {
-                cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.yellow;
-            }
-            else
-            {
-                cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
-            }
+            cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = 1 - (currentGas / totalGas);
             Equipment.Weapon.UpdateSupplyUi(InGameUI);
+            AudioSource gasSfx = particle_Smoke_3dmg.gameObject.GetComponent<AudioSource>();
+
+            bool gasOn = smoke_3dmg_em.enabled;
+
+            if(gasOn && gasSfx.volume < 0.4f)
+            {
+                gasSfx.volume += Time.deltaTime * 2f;
+            }
+
+            if(!gasOn && gasSfx.volume > 0f)
+            {
+                gasSfx.volume -= Time.deltaTime * 2f;
+            }
+            
         }
 
         private void ShowSkillCD()

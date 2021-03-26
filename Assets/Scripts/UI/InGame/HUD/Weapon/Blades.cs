@@ -29,6 +29,14 @@ namespace Assets.Scripts.UI.InGame.Weapon
         private GameObject curRight;
 
         private int previousBlades;
+        
+        bool played75 = false;
+        bool played50 = false;
+        bool played25 = false;
+        bool played0 = false;
+
+        public AudioSource[] breakBlade;
+        public AudioSource breakSegment;
 
         private void Update()
         {   
@@ -37,17 +45,29 @@ namespace Assets.Scripts.UI.InGame.Weapon
                 if(bladeSta > 75)
                 {
                     leftImage.sprite = rightImage.sprite = BladesSprite[0];
-                } else if (bladeSta > 50 && bladeSta <= 75)
+                    played75 = false;
+                    played50 = false;
+                    played25 = false;
+                    played0 = false;
+                } else if (bladeSta > 50 && bladeSta <= 75 && !played75)
                 {
+                    played75 = true;
+                    breakSegment.Play();
                     leftImage.sprite = rightImage.sprite = BladesSprite[1];
-                } else if (bladeSta > 25 && bladeSta <= 50)
+                } else if (bladeSta > 25 && bladeSta <= 50 && !played50)
                 {
+                    played50 = true;
+                    breakSegment.Play();
                     leftImage.sprite = rightImage.sprite = BladesSprite[2];
-                } else if (bladeSta > 0 && bladeSta <= 25)
+                } else if (bladeSta > 0 && bladeSta <= 25 && !played25)
                 {
+                    played25 = true;
+                    breakSegment.Play();
                     leftImage.sprite = rightImage.sprite = BladesSprite[3];
-                } else if (bladeSta <= 0)
+                } else if (bladeSta <= 0 && !played0)
                 {
+                    played0 = true;
+                    breakBlade[UnityEngine.Random.Range(0,2)].Play();
                     leftImage.sprite = rightImage.sprite = BladesSprite[4];
                 }
             }   

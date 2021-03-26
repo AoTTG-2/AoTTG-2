@@ -17,15 +17,12 @@ namespace Assets.Scripts.UI.InGame.HUD
         [HideInInspector]public bool compassMode;
         [HideInInspector]public Transform cam; //Is declared by the IN_GAME_MAIN_CAMERA script
 
-
-
         float compassUnit;
 
         void Start()
         {
             //1 compass unit equals 1 degree angle
             compassUnit = compassImage.rectTransform.rect.width / 360f;
-            maxDistance = 150f; //minimap max distance
         }
 
         void Update()
