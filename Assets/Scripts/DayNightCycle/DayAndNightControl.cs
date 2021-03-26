@@ -21,8 +21,12 @@ namespace Assets.Scripts.DayNightCycle
         [SerializeField] private float sunRotationOffset = 0f;
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
         [SerializeField] private int lightingUpdateInterval = 10;
-        public Material SkyboxMaterial;
-
+        public Material ProceduralSkyboxMaterial;
+        public Material StaticNightSkyboxMaterial;
+        public Material StaticDaySkyboxMaterial;
+        public Material StaticDawnSkyboxMaterial;
+        public Material StaticDuskSkyboxMaterial;
+        public bool Static;
         [Range(0f, 24f)] public float CurrentTime;
         public float CurrentTimeScale => CurrentTime / 24;
         public Camera MoonCamera = null;
@@ -120,6 +124,22 @@ namespace Assets.Scripts.DayNightCycle
             {
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
             }
+            // Static Skybox
+            if (Static)
+            {
+                if (0 < CurrentTime && CurrentTime <= 5)
+                    RenderSettings.skybox = StaticNightSkyboxMaterial;
+                if (5 < CurrentTime && CurrentTime <= 8)
+                    RenderSettings.skybox = StaticDawnSkyboxMaterial;
+                if (8 < CurrentTime && CurrentTime <= 18)
+                    RenderSettings.skybox = StaticDaySkyboxMaterial;
+                if (17 < CurrentTime && CurrentTime <= 19)
+                    RenderSettings.skybox = StaticDuskSkyboxMaterial;
+                if (19 < CurrentTime && CurrentTime <= 24)
+                    RenderSettings.skybox = StaticNightSkyboxMaterial;
+            }
+            else if (RenderSettings.skybox != ProceduralSkyboxMaterial && !Static)
+                { RenderSettings.skybox = ProceduralSkyboxMaterial; }
 
             if (!Pause)
             {
@@ -149,13 +169,13 @@ namespace Assets.Scripts.DayNightCycle
 
         void UpdateMaterial()
         {
-            SkyboxMaterial.SetVector("_Axis", DirectionalLight.transform.right);
-            SkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
+            ProceduralSkyboxMaterial.SetVector("_Axis", DirectionalLight.transform.right);
+            ProceduralSkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
         }
 
         void UpdateLightingSettings()
         {
-            RenderSettings.skybox = SkyboxMaterial;
+            RenderSettings.skybox = ProceduralSkyboxMaterial;
             RenderSettings.sun = DirectionalLight; // Procedural skybox needs this to work
             RenderSettings.fog = true;
 
@@ -225,6 +245,7 @@ namespace Assets.Scripts.DayNightCycle
                 RenderSettings.fogColor = timecycle.fogColor.Evaluate(CurrentTimeScale);
                 RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTimeScale).a * timecycle.maxFogDensity;
             }
+            
             
         }
 
