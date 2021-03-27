@@ -32,7 +32,6 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnLevelWasLoaded()
         {
-            Debug.Log(IsLoaded);
             IsLoaded = true;
             base.OnLevelWasLoaded();
             StartBarriers = GameObject.FindObjectsOfType<RacingStartBarrier>().ToList();
@@ -40,10 +39,16 @@ namespace Assets.Scripts.Gamemode
             TotalSpeed = 0;
             TotalFrames = 0;
 
+            if (!PhotonNetwork.isMasterClient)
+                photonView.RPC(nameof(RequestStatus), PhotonTargets.MasterClient);
+
+            Objectives = FindObjectsOfType<RacingObjective>().OrderBy(x => x.Order).ToList();
+
             if (Objectives.Count == 0) return;
-            Objectives = Objectives.OrderBy(x => x.Order).ToList();
+
             for (int i = 0; i < Objectives.Count; i++)
             {
+                Objectives[i].Queue();
                 if (i + 1 >= Objectives.Count) continue;
                 Objectives[i].NextObjective = Objectives[i + 1];
             }
