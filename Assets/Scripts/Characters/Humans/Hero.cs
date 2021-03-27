@@ -24,6 +24,25 @@ namespace Assets.Scripts.Characters.Humans
 {
     public class Hero : Human
     {
+        private void OnGUI()
+        {
+            var style = new GUIStyle { fontSize = 50, richText = true };
+            GUI.TextField(new Rect(100f, 100f, 300f, 100f),
+                $"<color=white>Anim:\t {CurrentAnimation}" +
+                $"\nState:\t {State.GetType().Name}" +
+                $"\nneedLean:\t {needLean}" +
+                $"\noldHeadRotation:\t {oldHeadRotation}" +
+                $"\noriginVM:\t {originVM}" +
+                $"\nspinning:\t {spinning}" +
+                $"\nstandAnimation:\t {standAnimation}" +
+                $"\ntargetHeadRotation:\t {targetHeadRotation}" +
+                $"\ntargetRotation:\t {targetRotation}" +
+                $"\ntargetV:\t {targetV}" +
+                $"\nwallJump:\t {wallJump}" +
+                $"\nwallRunTime:\t {wallRunTime}" +
+                $"</color>", style);
+        }
+
         public CharacterPrefabs Prefabs;
         public EquipmentType EquipmentType;
 
@@ -71,7 +90,7 @@ namespace Assets.Scripts.Characters.Humans
         public Bullet hookRight { get; private set; }
         private bool buttonAttackRelease { get; set; }
         public Dictionary<string, Image> cachedSprites;
-        public float CameraMultiplier;
+        public float CameraMultiplier { get; set; }
         public TriggerColliderWeapon checkBoxLeft;
         public TriggerColliderWeapon checkBoxRight;
         public string CurrentAnimation;
@@ -103,7 +122,7 @@ namespace Assets.Scripts.Characters.Humans
         private Transform handL { get; set; }
         private Transform handR { get; set; }
         private bool hasDied { get; set; }
-        public bool hasspawn;
+        public bool hasspawn { get; set; }
         private bool hookBySomeOne { get; set; } = true;
         public GameObject hookRefL1;
         public GameObject hookRefL2;
@@ -119,7 +138,7 @@ namespace Assets.Scripts.Characters.Humans
         private bool isMounted { get; set; }
         public bool isPhotonCamera;
         private bool isRightHandHooked { get; set; }
-        public float jumpHeight = 2f;
+        public float jumpHeight { get; set; } = 2f;
         private bool justGrounded { get; set; }
         public Transform lastHook;
         private float launchElapsedTimeL { get; set; }
@@ -138,7 +157,7 @@ namespace Assets.Scripts.Characters.Humans
         public bool leftGunHasBullet = true;
         private float lTapTime { get; set; } = -1f;
         public GameObject maincamera;
-        public float maxVelocityChange = 10f;
+        public float maxVelocityChange { get; set; } = 10f;
         public AudioSource meatDie;
         public Bomb myBomb;
         public GameObject myCannon;
@@ -177,14 +196,14 @@ namespace Assets.Scripts.Characters.Humans
         [SerializeField] private ParticleSystem particle_Sparks;
         private ParticleSystem.EmissionModule sparks_em;
 
-        public float speed = 10f;
+        public float speed { get; set; } = 10f;
         public GameObject speedFX;
         public GameObject speedFX1;
-        public bool spinning;
+        public bool spinning { get; set; }
         private string standAnimation { get; set; } = HeroAnim.STAND;
         private Quaternion targetHeadRotation { get; set; }
         public Quaternion targetRotation { get; set; }
-        public Vector3 targetV;
+        public Vector3 targetV { get; set; }
         public bool throwedBlades;
         public bool titanForm;
         private GameObject titanWhoGrabMe { get; set; }
@@ -1399,46 +1418,59 @@ namespace Assets.Scripts.Characters.Humans
 
         private void FixedUpdate()
         {
+            Debug.Log("<b>FixedUpdate Start ----------------------------</b>");
             if (!photonView.isMine) return;
             if ((!titanForm && !isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
             {
+                Debug.Log("Not titanForm && Not isCannon");
                 currentSpeed = Rigidbody.velocity.magnitude;
                 if (!((Animation.IsPlaying(HeroAnim.ATTACK3_2) || Animation.IsPlaying(HeroAnim.ATTACK5)) || Animation.IsPlaying(HeroAnim.SPECIAL_PETRA)))
                 {
+                    Debug.Log("\tWas not Mikasa_2, Levi, or Petra skill");
                     Rigidbody.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 6f);
                 }
                 if (state == HumanState.Grab)
                 {
+                    Debug.Log("\tAddForce: Grab");
                     Rigidbody.AddForce(-Rigidbody.velocity, ForceMode.VelocityChange);
                 }
                 else
                 {
+                    Debug.Log("Grounded Check");
                     if (IsGrounded())
                     {
                         if (!grounded)
                         {
+                            Debug.Log("\tJust Grounded");
                             justGrounded = true;
                         }
                         grounded = true;
+                        Debug.Log("\tGrounded");
                     }
                     else
                     {
                         grounded = false;
+                        Debug.Log("\tNot Grounded");
                     }
 
+                    Debug.Log("Skill IsActive check");
                     if (Skill.IsActive)
                     {
+                        Debug.Log("Skill FixedUpdate");
                         Skill.OnFixedUpdate();
                     }
 
+                    Debug.Log("Hook Someone Check");
                     if (hookSomeOne)
                     {
+                        Debug.Log("\tHookedSomeone");
                         if (hookTarget != null)
                         {
                             Vector3 vector2 = hookTarget.transform.position - transform.position;
                             float magnitude = vector2.magnitude;
                             if (magnitude > 2f)
                             {
+                                Debug.Log("\t\tAddForce: HookedSomeone");
                                 Rigidbody.AddForce((((vector2.normalized * Mathf.Pow(magnitude, 0.15f)) * 30f) - (Rigidbody.velocity * 0.95f)), ForceMode.VelocityChange);
                             }
                         }
@@ -1449,12 +1481,14 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     else if (hookBySomeOne && (badGuy != null))
                     {
+                        Debug.Log("HookedBySomeone");
                         if (badGuy != null)
                         {
                             Vector3 vector3 = badGuy.transform.position - transform.position;
                             float f = vector3.magnitude;
                             if (f > 5f)
                             {
+                                Debug.Log("\tAddForce: HookedBySomeone");
                                 Rigidbody.AddForce(((vector3.normalized * Mathf.Pow(f, 0.15f)) * 0.2f), ForceMode.Impulse);
                             }
                         }
@@ -1497,16 +1531,20 @@ namespace Assets.Scripts.Characters.Humans
                     bool flag4 = false;
                     isLeftHandHooked = false;
                     isRightHandHooked = false;
+                    Debug.Log("isLaunchLeft Check");
                     if (isLaunchLeft)
                     {
+                        Debug.Log("\tisLaunchLeft");
                         if ((hookLeft != null) && hookLeft.isHooked())
                         {
+                            Debug.Log("\t\thookLeft != null && hookLeft.isHooked");
                             isLeftHandHooked = true;
                             Vector3 to = hookLeft.transform.position - transform.position;
                             to.Normalize();
                             to = (to * 10f);
                             if (!isLaunchRight)
                             {
+                                Debug.Log("\t\t\t!isLaunchRight");
                                 to = (to * 2f);
                             }
                             if ((Vector3.Angle(Rigidbody.velocity, to) > 90f) && InputManager.Key(InputHuman.Jump))
@@ -1516,6 +1554,7 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             if (!flag3)
                             {
+                                Debug.Log("\t\t\tAddForce: Not flag3");
                                 Rigidbody.AddForce(to);
                                 if (Vector3.Angle(Rigidbody.velocity, to) > 90f)
                                 {
@@ -1524,8 +1563,10 @@ namespace Assets.Scripts.Characters.Humans
                             }
                         }
                         launchElapsedTimeL += Time.deltaTime;
+                        Debug.Log("\tCheck Use Gas Left");
                         if (QHold && (currentGas > 0f))
                         {
+                            Debug.Log("\t\tUseGas() Left");
                             UseGas(useGasSpeed * Time.deltaTime);
                         }
                         else if (launchElapsedTimeL > 0.3f)
@@ -1540,16 +1581,20 @@ namespace Assets.Scripts.Characters.Humans
                             }
                         }
                     }
+                    Debug.Log("isLaunchRight Check");
                     if (isLaunchRight)
                     {
+                        Debug.Log("\tisLaunchRight");
                         if ((hookRight != null) && hookRight.isHooked())
                         {
+                            Debug.Log("\t\thookRight != null && hookRight.isHooked");
                             isRightHandHooked = true;
                             Vector3 vector5 = hookRight.transform.position - transform.position;
                             vector5.Normalize();
                             vector5 = (vector5 * 10f);
                             if (!isLaunchLeft)
                             {
+                                Debug.Log("\t\t\t!isLaunchLeft");
                                 vector5 = (vector5 * 2f);
                             }
                             if ((Vector3.Angle(Rigidbody.velocity, vector5) > 90f) && InputManager.Key(InputHuman.Jump))
@@ -1559,6 +1604,7 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             if (!flag4)
                             {
+                                Debug.Log("\t\t\tAddForce: Not flag4");
                                 Rigidbody.AddForce(vector5);
                                 if (Vector3.Angle(Rigidbody.velocity, vector5) > 90f)
                                 {
@@ -1567,8 +1613,10 @@ namespace Assets.Scripts.Characters.Humans
                             }
                         }
                         launchElapsedTimeR += Time.deltaTime;
+                        Debug.Log("\tCheck Use Gas Right");
                         if (EHold && (currentGas > 0f))
                         {
+                            Debug.Log("\t\tUseGas() Right");
                             UseGas(useGasSpeed * Time.deltaTime);
                         }
                         else if (launchElapsedTimeR > 0.3f)
@@ -1585,35 +1633,44 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     if (grounded)
                     {
+                        Debug.Log("grounded");
                         Vector3 vector7;
                         Vector3 zero = Vector3.zero;
                         if (state == HumanState.Attack)
                         {
+                            Debug.Log("\tstate == Attack");
                             if (attackAnimation == HeroAnim.ATTACK5)
                             {
+                                Debug.Log("\t\tLevi Skill");
                                 if ((Animation[attackAnimation].normalizedTime > 0.4f) && (Animation[attackAnimation].normalizedTime < 0.61f))
                                 {
+                                    Debug.Log("\t\tAddForce: Levi");
                                     Rigidbody.AddForce((gameObject.transform.forward * 200f));
                                 }
                             }
                             else if (Animation.IsPlaying(HeroAnim.ATTACK3_2))
                             {
+                                Debug.Log("\t\tMikasa Skill part 2");
                                 zero = Vector3.zero;
                             }
                             else if (Animation.IsPlaying(HeroAnim.ATTACK1) || Animation.IsPlaying(HeroAnim.ATTACK2))
                             {
+                                Debug.Log("\t\tAddForce: Attack 1 or 2");
                                 Rigidbody.AddForce((gameObject.transform.forward * 200f));
                             }
                             if (Animation.IsPlaying(HeroAnim.ATTACK3_2))
                             {
+                                Debug.Log("\t\tMikasa Skill part 2");
                                 zero = Vector3.zero;
                             }
                         }
                         if (justGrounded)
                         {
+                            Debug.Log("justGrounded");
                             //TODO: attackAnimation conditions appear to be useless
                             if ((state != HumanState.Attack) || (((attackAnimation != HeroAnim.ATTACK3_1) && (attackAnimation != HeroAnim.ATTACK5)) && (attackAnimation != HeroAnim.SPECIAL_PETRA)))
                             {
+                                Debug.Log("\tstate != Attack");
                                 if ((((state != HumanState.Attack) && (x == 0f)) && ((z == 0f) && (hookLeft == null))) && ((hookRight == null) && (state != HumanState.FillGas)))
                                 {
                                     state = HumanState.Land;
@@ -1633,10 +1690,12 @@ namespace Assets.Scripts.Characters.Humans
                                 }
                             }
                             justGrounded = false;
+                            Debug.Log("zero = Rigidbody.velocity");
                             zero = Rigidbody.velocity;
                         }
                         if (state == HumanState.GroundDodge)
                         {
+                            Debug.Log("state == GroundDodge");
                             if ((Animation[HeroAnim.DODGE].normalizedTime >= 0.2f) && (Animation[HeroAnim.DODGE].normalizedTime < 0.8f))
                             {
                                 zero = ((-transform.forward * 2.4f) * speed);
@@ -1648,18 +1707,22 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         else if (state == HumanState.Idle)
                         {
-                            Vector3 vector8 = new Vector3(x, 0f, z);
+                            Debug.Log("state == Idle");
+                            Vector3 movement = new Vector3(x, 0f, z);
                             float resultAngle = GetGlobalFacingDirection(x, z);
                             zero = GetGlobaleFacingVector3(resultAngle);
-                            float num6 = (vector8.magnitude <= 0.95f) ? ((vector8.magnitude >= 0.25f) ? vector8.magnitude : 0f) : 1f;
-                            zero = (zero * num6);
-                            zero = (zero * speed);
+                            if (movement.magnitude < 0.25f)
+                                zero = Vector3.zero;
+                            else if (movement.magnitude <= 0.95f)
+                                zero *= movement.magnitude;
+                            zero *= speed;
                             if ((buffTime > 0f) && (currentBuff == BUFF.SpeedUp))
                             {
-                                zero = (zero * 4f);
+                                zero *= 4f;
                             }
                             if ((x != 0f) || (z != 0f))
                             {
+                                Debug.Log("\tMoving");
                                 if (((!Animation.IsPlaying(HeroAnim.RUN_1) && !Animation.IsPlaying(HeroAnim.JUMP)) && !Animation.IsPlaying(HeroAnim.RUN_SASHA)) && (!Animation.IsPlaying(HeroAnim.HORSE_GET_ON) || (Animation[HeroAnim.HORSE_GET_ON].normalizedTime >= 0.5f)))
                                 {
                                     if ((buffTime > 0f) && (currentBuff == BUFF.SpeedUp))
@@ -1674,6 +1737,7 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else
                             {
+                                Debug.Log("\tNot moving");
                                 if (!(((Animation.IsPlaying(standAnimation) || (state == HumanState.Land)) || (Animation.IsPlaying(HeroAnim.JUMP) || Animation.IsPlaying(HeroAnim.HORSE_GET_ON))) || Animation.IsPlaying(HeroAnim.GRABBED)))
                                 {
                                     CrossFade(standAnimation, 0.1f);
@@ -1689,10 +1753,12 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         else if (state == HumanState.Land)
                         {
+                            Debug.Log("state == Land");
                             zero = (Rigidbody.velocity * 0.96f);
                         }
                         else if (state == HumanState.Slide)
                         {
+                            Debug.Log("state == Slide");
                             zero = (Rigidbody.velocity * 0.99f);
                             if (currentSpeed < (speed * 1.2f))
                             {
@@ -1700,13 +1766,16 @@ namespace Assets.Scripts.Characters.Humans
                                 sparks_em.enabled = false;
                             }
                         }
+                        Debug.Log("velocity == Rigidbody.velocity");
                         Vector3 velocity = Rigidbody.velocity;
+                        Debug.Log("force = zero - velocity");
                         Vector3 force = zero - velocity;
                         force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
                         force.z = Mathf.Clamp(force.z, -maxVelocityChange, maxVelocityChange);
                         force.y = 0f;
                         if (Animation.IsPlaying(HeroAnim.JUMP) && (Animation[HeroAnim.JUMP].normalizedTime > 0.18f))
                         {
+                            Debug.Log("Jump: force.y += 8f");
                             force.y += 8f;
                         }
                         if ((Animation.IsPlaying(HeroAnim.HORSE_GET_ON) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime > 0.18f)) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime < 1f))
@@ -1719,8 +1788,9 @@ namespace Assets.Scripts.Characters.Humans
                             vector7 = myHorse.transform.position - transform.position;
                             force += (num9 * vector7.normalized);
                         }
-                        if (!(state == HumanState.Attack && useGun))
+                        if (state != HumanState.Attack || !useGun)
                         {
+                            Debug.Log("<color=#00FFFF>AddForce: Not Attack || not useGun</color>");
                             Rigidbody.AddForce(force, ForceMode.VelocityChange);
                             Rigidbody.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
                         }
@@ -2038,6 +2108,8 @@ namespace Assets.Scripts.Characters.Humans
                     }
                 }
             }
+
+            Debug.Log("FixedUpdate End");
         }
 
 
@@ -2047,6 +2119,8 @@ namespace Assets.Scripts.Characters.Humans
 
         public void Initialize(CharacterPreset preset)
         {
+            Debug.Log("Init Begin");
+
             //TODO: Remove hack
             var manager = GetComponent<CustomizationManager>();
             if (preset == null)
@@ -2078,6 +2152,7 @@ namespace Assets.Scripts.Characters.Humans
             }
 
             EntityService.Register(this);
+            Debug.Log("Init End");
         }
 
         [PunRPC]
@@ -2124,6 +2199,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void CrossFade(string newAnimation, float fadeLength = 0.1f)
         {
+            Debug.Log($"CrossFading: {newAnimation} over {fadeLength:N2}s");
             if (string.IsNullOrWhiteSpace(newAnimation)) return;
             if (Animation.IsPlaying(newAnimation)) return;
             if (!photonView.isMine) return;
