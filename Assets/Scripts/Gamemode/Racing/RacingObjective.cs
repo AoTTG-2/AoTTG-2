@@ -8,10 +8,10 @@ namespace Assets.Scripts.Gamemode.Racing
     public class RacingObjective : MonoBehaviour
     {
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
-        private enum ObjectiveState { Taken, Current, Next, Queue }
+        public enum ObjectiveState { Queue, Taken, Current, Next }
 
         private ObjectiveState _state;
-        private ObjectiveState State
+        public ObjectiveState State
         {
             get
             {
@@ -58,7 +58,7 @@ namespace Assets.Scripts.Gamemode.Racing
             {
                 var materialBlock = new MaterialPropertyBlock();
                 renderers[i].GetPropertyBlock(materialBlock);
-                materialBlock.SetColor("_Color", i % 2 == 0 ? evenColor : unevenColor);
+                materialBlock.SetColor("_BaseColor", i % 2 == 0 ? evenColor : unevenColor);
                 renderers[i].SetPropertyBlock(materialBlock);
             }
         }
@@ -71,15 +71,18 @@ namespace Assets.Scripts.Gamemode.Racing
             State = ObjectiveState.Current;
         }
 
+        public void Queue()
+        {
+            State = ObjectiveState.Queue;
+        }
+
         private void Start()
         {
+            OnStateChanged(_state);
             if (Gamemode == null)
             {
                 Destroy(gameObject.transform.parent.gameObject);
-                return;
             }
-            Gamemode.Objectives.Add(this);
-            State = ObjectiveState.Queue;
         }
 
         private void OnDestroy()
@@ -116,8 +119,7 @@ namespace Assets.Scripts.Gamemode.Racing
             if (!hero.photonView.isMine) return;
             State = ObjectiveState.Taken;
             Hero = hero;
-            audioSource.Play();
-            
+	        if (audioSource) audioSource.Play();          
 
             FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
             hero.FillGas();
