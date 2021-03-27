@@ -10,6 +10,8 @@ namespace Assets.Scripts.Events
 
     public delegate void OnTitanSettingsChanged(SettingsTitan settings);
 
+    public delegate void OnTimeSettingsChanged(TimeSettings settings);
+
     public delegate void OnHorseSettingsChanged(HorseSettings settings);
 
     public delegate void OnRespawnSettingsChanged(RespawnSettings settings);
