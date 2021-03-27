@@ -246,6 +246,7 @@ namespace Assets.Scripts.Characters.Humans
 
             CustomAnimationSpeed();
         }
+
         public void OnGlobalSettingsChanged(GlobalSettings settings)
         {
             if (settings.Gravity.HasValue)
@@ -1289,7 +1290,7 @@ namespace Assets.Scripts.Characters.Humans
                 Destroy(gunDummy);
             }
             ReleaseIfIHookSb();
-
+            Service.Settings.OnGlobalSettingsChanged -= OnGlobalSettingsChanged;
         }
 
         public void LateUpdate()

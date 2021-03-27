@@ -104,8 +104,8 @@ namespace Assets.Scripts.Services
                 },
                 new HorseSettings(difficulty),
                 new RespawnSettings(difficulty),
-                new GlobalSettings(),
-                new TimeSettings()
+                new TimeSettings(),
+                new GlobalSettings(difficulty)
             );
 
             if (!PhotonNetwork.isMasterClient) return;
