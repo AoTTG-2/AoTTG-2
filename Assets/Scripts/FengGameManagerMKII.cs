@@ -2593,7 +2593,6 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            QualitySettings.vSyncCount = 1;
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
             PhotonNetwork.automaticallySyncScene = true;

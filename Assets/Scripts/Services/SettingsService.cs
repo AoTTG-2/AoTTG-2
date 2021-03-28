@@ -24,6 +24,8 @@ namespace Assets.Scripts.Services
         public event OnRespawnSettingsChanged OnRespawnSettingsChanged;
         public event OnTitanSettingsChanged OnTitanSettingsChanged;
         public event OnTimeSettingsChanged OnTimeSettingsChanged;
+        public event OnGlobalSettingsChanged OnGlobalSettingsChanged;
+
         public GameSettings Get()
         {
             return Settings;
@@ -102,7 +104,8 @@ namespace Assets.Scripts.Services
                 },
                 new HorseSettings(difficulty),
                 new RespawnSettings(difficulty),
-                new TimeSettings()
+                new TimeSettings(),
+                new GlobalSettings(difficulty)
             );
 
             if (!PhotonNetwork.isMasterClient) return;
@@ -137,6 +140,7 @@ namespace Assets.Scripts.Services
             OnHorseSettingsChanged?.Invoke(GameSettings.Horse);
             OnRespawnSettingsChanged?.Invoke(GameSettings.Respawn);
             OnTitanSettingsChanged?.Invoke(GameSettings.Titan);
+            OnGlobalSettingsChanged?.Invoke(GameSettings.Global);
             OnTimeSettingsChanged?.Invoke(GameSettings.Time);
         }
     }
