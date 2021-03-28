@@ -26,7 +26,7 @@ namespace Assets.Scripts.DayNightCycle
         public Material StaticDaySkyboxMaterial;
         public Material StaticDawnSkyboxMaterial;
         public Material StaticDuskSkyboxMaterial;
-        public bool Static;
+        public bool StaticSkybox;
         [Range(0f, 24f)] public float CurrentTime;
         public float CurrentTimeScale => CurrentTime / 24;
         public Camera MoonCamera = null;
@@ -41,7 +41,8 @@ namespace Assets.Scripts.DayNightCycle
        
         void Start()
         {
-            Pause=true;
+            //loads static skybox if player has set so in graphics settings
+            StaticSkybox = PlayerPrefs.GetInt("StaticSkybox") == 1 ? true : false;
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             //Sets Scene variables to time settings
             if (PhotonNetwork.isMasterClient)
@@ -124,8 +125,8 @@ namespace Assets.Scripts.DayNightCycle
             {
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
             }
-            // Static Skybox
-            if (Static)
+            // StaticSkybox Skybox
+            if (StaticSkybox)
             {
                 if (0 < CurrentTime && CurrentTime <= 5)
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
@@ -138,7 +139,7 @@ namespace Assets.Scripts.DayNightCycle
                 if (19 < CurrentTime && CurrentTime <= 24)
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
             }
-            else if (RenderSettings.skybox != ProceduralSkyboxMaterial && !Static)
+            else if (RenderSettings.skybox != ProceduralSkyboxMaterial && !StaticSkybox)
                 { RenderSettings.skybox = ProceduralSkyboxMaterial; }
 
             if (!Pause)

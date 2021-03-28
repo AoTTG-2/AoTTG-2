@@ -19,13 +19,15 @@ namespace Assets.Scripts.DayNightCycle
                 ToggleValueChanged(ToggleStatic);
             });
             SceneManager.sceneLoaded += OnSceneLoaded;
+            ToggleStatic.isOn = PlayerPrefs.GetInt("StaticSkybox") == 1 ? true : false;
         }
 
         void ToggleValueChanged(Toggle change)
         {
             if (PhotonNetwork.isMasterClient)
             {
-                dayNightCycle.Static = !dayNightCycle.Static;
+                dayNightCycle.StaticSkybox = ToggleStatic.isOn;
+                Debug.Log("static change");
             }
 
         }
@@ -40,7 +42,9 @@ namespace Assets.Scripts.DayNightCycle
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-            dayNightCycle.Static = ToggleStatic.isOn;
+            dayNightCycle.StaticSkybox = ToggleStatic.isOn;
+            PlayerPrefs.SetInt("StaticSkybox", ToggleStatic.isOn ? 1 : 0);
+            PlayerPrefs.Save();
         }
 
         void OnApplicationQuit()
