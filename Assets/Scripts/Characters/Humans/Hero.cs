@@ -97,7 +97,7 @@ namespace Assets.Scripts.Characters.Humans
         private Transform forearmL { get; set; }
         private Transform forearmR { get; set; }
         private float Gravity => 20f * gravityModifier;
-        private float gravityModifier = GameSettings.Global.Gravity ?? 1;
+        private float gravityModifier = GameSettings.Global?.Gravity ?? 1;
         public bool grounded;
         private GameObject gunDummy { get; set; }
         private Vector3 gunTarget { get; set; }

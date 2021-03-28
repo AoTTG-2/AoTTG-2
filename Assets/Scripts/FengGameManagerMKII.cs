@@ -531,7 +531,7 @@ namespace Assets.Scripts
         {
             if (enter)
             {
-                if (Service.Player.Self.photonView.isMine)
+                if (Service.Player.Self != null && Service.Player.Self.photonView.isMine)
                 {
                     PhotonNetwork.Destroy(Service.Player.Self.photonView);
                 }

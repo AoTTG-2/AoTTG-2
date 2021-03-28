@@ -82,9 +82,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             if (prefabObject.TryGetComponent(out Renderer renderer))
             {
-                if (color != default)
-                    renderer.material.color = color;
-
                 if (renderer.material.shader.name.Contains("Two Sided Lit"))
                 {
                     renderer.material.SetTexture("_MainTex", texture);
@@ -93,6 +90,9 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 {
                     renderer.material.mainTexture = texture;
                 }
+
+                if (color != default)
+                    renderer.material.color = color;
 
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
                 prefabObject.transform.position = HumanTransform.position;
@@ -121,7 +121,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
         private void CreateHead(HumanHeadSelected head)
         {
-            var result = CreateComponent(head.Component.Model, head.Component.Textures[head.Texture], Body.head);
+            CreateComponent(head.Component.Model, head.Component.Textures[head.Texture], Body.head);
+            CreateComponent(Prefabs.Chest, head.Component.Textures[head.Texture]);
         }
 
         private void CreateHair(HumanHairSelected hair)
@@ -232,25 +233,25 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CreateComponent(outfit.Component.ArmLeft.Model, outfit.Component.Textures[outfit.Texture]);
             CreateComponent(outfit.Component.ArmRight.Model, outfit.Component.Textures[outfit.Texture]);
             
-            if (outfit.Component.EmblemFront != null && outfit.EmblemFront != null)
+            if (outfit.Component.EmblemFront != null && outfit.EmblemFront?.Component != null)
             {
                 CreateComponent(outfit.Component.EmblemFront,
                     outfit.EmblemFront.Component.Textures[outfit.EmblemFront.Texture]);
             }
 
-            if (outfit.Component.EmblemBack != null && outfit.EmblemBack != null)
+            if (outfit.Component.EmblemBack != null && outfit.EmblemBack?.Component != null)
             {
                 CreateComponent(outfit.Component.EmblemBack,
                     outfit.EmblemBack.Component.Textures[outfit.EmblemBack.Texture]);
             }
 
-            if (outfit.Component.ArmLeft != null && outfit.Component.ArmLeft.Emblem != null && outfit.EmblemLeft != null)
+            if (outfit.Component.ArmLeft != null && outfit.Component.ArmLeft.Emblem != null && outfit.EmblemLeft?.Component != null)
             {
                 CreateComponent(outfit.Component.ArmLeft.Emblem,
                     outfit.EmblemLeft.Component.Textures[outfit.EmblemLeft.Texture]);
             }
 
-            if (outfit.Component.ArmRight != null && outfit.Component.ArmRight.Emblem != null && outfit.EmblemRight != null)
+            if (outfit.Component.ArmRight != null && outfit.Component.ArmRight.Emblem != null && outfit.EmblemRight?.Component != null)
             {
                 CreateComponent(outfit.Component.ArmRight.Emblem,
                     outfit.EmblemRight.Component.Textures[outfit.EmblemRight.Texture]);
