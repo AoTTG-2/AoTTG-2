@@ -16,33 +16,29 @@ public class ChangeQuality : MonoBehaviour
 
     private static void setQuality(float val)
     {
-        if (val < 0.143f)
+        if (val < 0.167f)
         {
             QualitySettings.SetQualityLevel(0, true);
         }
-        else if (val < 0.286f)
+        else if (val < 0.33f)
         {
             QualitySettings.SetQualityLevel(1, true);
         }
-        else if (val < 0.429f)
+        else if (val < 0.5f)
         {
             QualitySettings.SetQualityLevel(2, true);
         }
-        else if (val < 0.572f)
+        else if (val < 0.67f)
         {
             QualitySettings.SetQualityLevel(3, true);
         }
-        else if (val < 0.715f)
+        else if (val < 0.83f)
         {
             QualitySettings.SetQualityLevel(4, true);
         }
-        else if (val < 0.858f)
-        {
-            QualitySettings.SetQualityLevel(5, true);
-        }
         else if (val <= 1f)
         {
-            QualitySettings.SetQualityLevel(6, true);
+            QualitySettings.SetQualityLevel(5, true);
         }
         if (val < 0.9f)
         {
