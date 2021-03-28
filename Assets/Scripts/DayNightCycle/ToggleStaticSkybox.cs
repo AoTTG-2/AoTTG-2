@@ -9,7 +9,6 @@ namespace Assets.Scripts.DayNightCycle
     public class ToggleStaticSkybox : MonoBehaviour
     {
         public Toggle ToggleStatic;
-        public GameObject DayNightController;
         public Text Label;
         DayAndNightControl dayNightCycle;
 
@@ -19,7 +18,7 @@ namespace Assets.Scripts.DayNightCycle
             {
                 ToggleValueChanged(ToggleStatic);
             });
-
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         void ToggleValueChanged(Toggle change)
@@ -33,14 +32,19 @@ namespace Assets.Scripts.DayNightCycle
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-           
-            SceneManager.sceneLoaded += OnSceneLoaded;
+
+
         }
 
-        //on scene change, reset the toggle + unsubscribe from scene listener event
+        //on scene change unsubscribe from scene listener event
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            ToggleStatic.isOn = false;
+            dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
+            dayNightCycle.Static = ToggleStatic.isOn;
+        }
+
+        void OnApplicationQuit()
+        {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

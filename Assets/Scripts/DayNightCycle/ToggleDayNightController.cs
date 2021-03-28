@@ -24,7 +24,7 @@ namespace Assets.Scripts.DayNightCycle
             ToggleDayNight.onValueChanged.AddListener(delegate {
                 ToggleValueChanged(ToggleDayNight);
             });
-
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         void ToggleValueChanged(Toggle change)
@@ -40,13 +40,16 @@ namespace Assets.Scripts.DayNightCycle
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         
-        //on scene change, reset the toggle + unsubscribe from scene listener event
+        //on scene change, reset the toggle 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            ToggleDayNight.isOn = false;
+            ToggleDayNight.isOn = false; 
+        }
+
+        void OnApplicationQuit()
+        {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
