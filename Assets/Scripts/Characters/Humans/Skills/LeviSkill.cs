@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Characters.Humans.Constants;
 using Assets.Scripts.Constants;
+using Assets.Scripts.UI.Input;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
@@ -37,7 +38,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
             }
             Hero.facingDirection = Mathf.Atan2(Hero.dashDirection.x, Hero.dashDirection.z) * Mathf.Rad2Deg;
             Hero.targetRotation = Quaternion.Euler(0f, Hero.facingDirection, 0f);
-            Hero.attackLoop = 3;
+            Hero.attackLoop = 10000;
             IsActive = true;
             UsePhysics = true;
             return true;
@@ -45,6 +46,9 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override void OnUpdate()
         {
+            if (InputManager.KeyUp(InputHuman.AttackSpecial))
+                Hero.attackLoop = 3;
+
             if (Hero.Animation.IsPlaying(HeroAnim.ATTACK5)) return;
             IsActive = false;
         }

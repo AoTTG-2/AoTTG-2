@@ -29,17 +29,8 @@ namespace Assets.Scripts.Characters.Humans
             var style = new GUIStyle { fontSize = 50, richText = true };
             GUI.TextField(new Rect(100f, 100f, 300f, 100f),
                 $"<color=white>Anim:\t {CurrentAnimation}" +
-                $"\nState:\t {State.GetType().Name}" +
-                $"\nneedLean:\t {needLean}" +
-                $"\noldHeadRotation:\t {oldHeadRotation}" +
-                $"\noriginVM:\t {originVM}" +
-                $"\nspinning:\t {spinning}" +
-                $"\nstandAnimation:\t {standAnimation}" +
-                $"\ntargetHeadRotation:\t {targetHeadRotation}" +
-                $"\ntargetRotation:\t {targetRotation}" +
-                $"\ntargetV:\t {targetV}" +
-                $"\nwallJump:\t {wallJump}" +
-                $"\nwallRunTime:\t {wallRunTime}" +
+                $"\nState:\t {state}" +
+                $"\nattackLoop:\t {attackLoop}" +
                 $"</color>", style);
         }
 
@@ -56,7 +47,7 @@ namespace Assets.Scripts.Characters.Humans
         public Equipment.Equipment Equipment { get; set; }
         public Skill Skill { get; set; }
         public HumanState State { get; protected set; } = HumanState.Idle;
-        public HumanState _state { get; set; }
+        public HumanState _state;
         private HumanState state
         {
             get
@@ -93,7 +84,7 @@ namespace Assets.Scripts.Characters.Humans
         public float CameraMultiplier { get; set; }
         public TriggerColliderWeapon checkBoxLeft;
         public TriggerColliderWeapon checkBoxRight;
-        public string CurrentAnimation;
+        public string CurrentAnimation { get; set; }
         public float currentBladeSta = 100f;
         private BUFF currentBuff { get; set; }
         public Camera currentCamera;
@@ -1809,11 +1800,20 @@ namespace Assets.Scripts.Characters.Humans
                             CrossFade(HeroAnim.HORSE_IDLE, 0.1f);
                             myHorse.Mount();
                         }
-                        if (!((((((state != HumanState.Idle) || Animation.IsPlaying(HeroAnim.DASH)) ||
-                            (Animation.IsPlaying(HeroAnim.WALL_RUN) || Animation.IsPlaying(HeroAnim.TO_ROOF))) ||
-                            ((Animation.IsPlaying(HeroAnim.HORSE_GET_ON) || Animation.IsPlaying(HeroAnim.HORSE_GET_OFF)) || (Animation.IsPlaying(HeroAnim.AIR_RELEASE) || isMounted))) ||
-                            ((Animation.IsPlaying(HeroAnim.AIR_HOOK_L_JUST) && (Animation[HeroAnim.AIR_HOOK_L_JUST].normalizedTime < 1f)) ||
-                            (Animation.IsPlaying(HeroAnim.AIR_HOOK_R_JUST) && (Animation[HeroAnim.AIR_HOOK_R_JUST].normalizedTime < 1f)))) ? (Animation[HeroAnim.DASH].normalizedTime < 0.99f) : false))
+                        bool thing1 = Animation.IsPlaying(HeroAnim.AIR_HOOK_L_JUST) && Animation[HeroAnim.AIR_HOOK_L_JUST].normalizedTime < 1f;
+                        bool thing2 = Animation.IsPlaying(HeroAnim.AIR_HOOK_R_JUST) && Animation[HeroAnim.AIR_HOOK_R_JUST].normalizedTime < 1f;
+
+                        if ((state == HumanState.Idle
+                                && !Animation.IsPlaying(HeroAnim.DASH)
+                                && !Animation.IsPlaying(HeroAnim.WALL_RUN)
+                                && !Animation.IsPlaying(HeroAnim.TO_ROOF)
+                                && !Animation.IsPlaying(HeroAnim.HORSE_GET_ON)
+                                && !Animation.IsPlaying(HeroAnim.HORSE_GET_OFF)
+                                && !Animation.IsPlaying(HeroAnim.AIR_RELEASE)
+                                && !isMounted
+                                && !(Animation.IsPlaying(HeroAnim.AIR_HOOK_L_JUST) && Animation[HeroAnim.AIR_HOOK_L_JUST].normalizedTime < 1f)
+                                && !(Animation.IsPlaying(HeroAnim.AIR_HOOK_R_JUST) && Animation[HeroAnim.AIR_HOOK_R_JUST].normalizedTime < 1f)
+                            ) || Animation[HeroAnim.DASH].normalizedTime > 0.99f)
                         {
                             if (((!isLeftHandHooked && !isRightHandHooked) && ((Animation.IsPlaying(HeroAnim.AIR_HOOK_L) || Animation.IsPlaying(HeroAnim.AIR_HOOK_R)) || Animation.IsPlaying(HeroAnim.AIR_HOOK))) && (Rigidbody.velocity.y > 20f))
                             {
@@ -2768,7 +2768,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Dodge(bool offTheWall = false)
         {
-            if (((!InputManager.Key(InputHorse.Mount) || !myHorse) || isMounted) || (Vector3.Distance(myHorse.transform.position, transform.position) >= 15f))
+            if (!InputManager.Key(InputHorse.Mount) || !myHorse || isMounted || Vector3.Distance(myHorse.transform.position, transform.position) >= 15f)
             {
                 state = HumanState.GroundDodge;
                 if (!offTheWall)
