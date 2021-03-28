@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans.Customization.Components;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Serialization;
 using System;
 using UnityEngine;
@@ -38,6 +39,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
                 Facial = new CustomizationItem(prefabs.Facial.IndexOf(outfit.Facial.Component), outfit.Facial.Texture),
                 Outfit = new CustomizationItem(prefabs.Outfits.IndexOf(outfit.Outfit.Component), outfit.Outfit.Texture),
                 Cape = new CustomizationItem(prefabs.Cape.IndexOf(outfit.Cape.Component), outfit.Cape.Texture),
+                Headgear = new CustomizationItem(prefabs.Headgear.IndexOf(outfit.Headgear.Component), outfit.Headgear.Texture),
                 
                 CurrentOutfit = outfit,
                 CurrentBuild = preset.CurrentBuild
@@ -65,49 +67,49 @@ namespace Assets.Scripts.Characters.Humans.Customization
             data.CurrentOutfit.Head = new HumanHeadSelected
             {
                 Component = prefabs.Head,
-                Texture = Hair.PrefabTextureIndex
+                Texture = Head.PrefabTextureIndex
             };
 
             data.CurrentOutfit.Hair = new HumanHairSelected
             {
-                Component = prefabs.Hair[Hair.PrefabIndex],
+                Component = prefabs.Hair.GetItemOrNull(Hair.PrefabIndex),
                 Texture = Hair.PrefabTextureIndex,
                 Color = Hair.Color.ToColor()
             };
 
             data.CurrentOutfit.Eyes = new HumanEyesSelected
             {
-                Component = prefabs.Eyes[Eyes.PrefabIndex],
+                Component = prefabs.Eyes.GetItemOrFirst(Eyes.PrefabIndex),
                 Texture = Eyes.PrefabTextureIndex
             };
 
             data.CurrentOutfit.Headgear = new HeadgearSelected
             {
-                Component = prefabs.Headgear[Headgear.PrefabIndex],
+                Component = prefabs.Headgear.GetItemOrNull(Headgear.PrefabIndex),
                 Texture = Headgear.PrefabTextureIndex
             };
 
             data.CurrentOutfit.Glasses = new HumanGlassesSelected
             {
-                Component = prefabs.Glasses[Glasses.PrefabIndex],
+                Component = prefabs.Glasses.GetItemOrNull(Glasses.PrefabIndex),
                 Texture = Glasses.PrefabTextureIndex
             };
 
             data.CurrentOutfit.Facial = new FacialSelected
             {
-                Component = prefabs.Facial[Facial.PrefabIndex],
+                Component = prefabs.Facial.GetItemOrNull(Facial.PrefabIndex),
                 Texture = Facial.PrefabTextureIndex
             };
 
             data.CurrentOutfit.Outfit = new HumanOutfitSelected
             {
-                Component = prefabs.Outfits[Outfit.PrefabIndex],
+                Component = prefabs.Outfits.GetItemOrFirst(Outfit.PrefabIndex),
                 Texture = Outfit.PrefabTextureIndex
             };
 
             data.CurrentOutfit.Cape = new CapeSelected
             {
-                Component = prefabs.Cape[Cape.PrefabIndex],
+                Component = prefabs.Cape.GetItemOrNull(Cape.PrefabIndex),
                 Texture = Outfit.PrefabTextureIndex
             };
             return data;

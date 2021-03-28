@@ -292,7 +292,7 @@ namespace Assets.Scripts.Characters.Humans
 
             if (!photonView.isMine)
             {
-                gameObject.layer = Layers.NetworkObject.ToLayer();
+                gameObject.layer = (int) Layers.NetworkObject;
                 if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
                 {
                     GameObject obj3 = Instantiate(Resources.Load<GameObject>("flashlight"));

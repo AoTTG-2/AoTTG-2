@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Pixis
   Description: 
   CharacterOutfit:
-  - Name: Garrison
+  - Name: Uniform
     Gender: 0
     Head:
       Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
@@ -40,18 +40,19 @@ MonoBehaviour:
     Outfit:
       Component: {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
       Texture: 0
+      UseCapeEmblem: 0
       EmblemFront:
-        Component: {fileID: 0}
-        Texture: 0
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
       EmblemBack:
-        Component: {fileID: 0}
-        Texture: 0
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
       EmblemRight:
-        Component: {fileID: 0}
-        Texture: 0
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
       EmblemLeft:
-        Component: {fileID: 0}
-        Texture: 0
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
     Cape:
       Component: {fileID: 0}
       Texture: 0
