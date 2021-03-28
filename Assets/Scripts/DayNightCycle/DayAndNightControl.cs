@@ -42,7 +42,10 @@ namespace Assets.Scripts.DayNightCycle
         void Start()
         {
             //loads static skybox if player has set so in graphics settings
-            StaticSkybox = PlayerPrefs.GetInt("StaticSkybox") == 1 ? true : false;
+            if (PlayerPrefs.HasKey("StaticSkybox"))
+            {
+                StaticSkybox = PlayerPrefs.GetInt("StaticSkybox") == 1 ? true : false;
+            }
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             //Sets Scene variables to time settings
             if (PhotonNetwork.isMasterClient)

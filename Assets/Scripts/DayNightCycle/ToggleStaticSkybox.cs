@@ -34,8 +34,6 @@ namespace Assets.Scripts.DayNightCycle
         void OnEnable()
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
-
-
         }
 
         //on scene change unsubscribe from scene listener event
