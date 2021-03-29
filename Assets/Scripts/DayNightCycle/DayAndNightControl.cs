@@ -177,7 +177,7 @@ namespace Assets.Scripts.DayNightCycle
                 if (19 < CurrentTime && CurrentTime <= 24)
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
             }
-            else if (RenderSettings.skybox != ProceduralSkyboxMaterial && !StaticSkybox)
+            else if (!StaticSkybox)
             { RenderSettings.skybox = ProceduralSkyboxMaterial; }
         }
         void UpdateLightingSettings()
