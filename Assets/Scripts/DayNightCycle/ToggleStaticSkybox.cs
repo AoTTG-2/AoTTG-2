@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Services;
-using Assets.Scripts.Settings;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -19,14 +17,14 @@ namespace Assets.Scripts.DayNightCycle
                 ToggleValueChanged(ToggleStatic);
             });
             SceneManager.sceneLoaded += OnSceneLoaded;
-            ToggleStatic.isOn = PlayerPrefs.GetInt("StaticSkybox") == 1 ? true : false;
+            ToggleStatic.isOn = PlayerPrefs.GetInt("StaticSkybox") == 1;
         }
 
         void ToggleValueChanged(Toggle change)
         {
             if (PhotonNetwork.isMasterClient)
             {
-                dayNightCycle.StaticSkybox = ToggleStatic.isOn;
+                dayNightCycle.StaticSkybox = change.isOn;
                 Debug.Log("static change");
             }
 

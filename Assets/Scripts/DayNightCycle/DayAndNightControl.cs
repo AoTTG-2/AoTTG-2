@@ -44,7 +44,7 @@ namespace Assets.Scripts.DayNightCycle
             //loads static skybox if player has set so in graphics settings
             if (PlayerPrefs.HasKey("StaticSkybox"))
             {
-                StaticSkybox = PlayerPrefs.GetInt("StaticSkybox") == 1 ? true : false;
+                StaticSkybox = PlayerPrefs.GetInt("StaticSkybox") == 1;
             }
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             //Sets Scene variables to time settings
@@ -129,22 +129,7 @@ namespace Assets.Scripts.DayNightCycle
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
             }
             // StaticSkybox Skybox
-            if (StaticSkybox)
-            {
-                if (0 < CurrentTime && CurrentTime <= 5)
-                    RenderSettings.skybox = StaticNightSkyboxMaterial;
-                if (5 < CurrentTime && CurrentTime <= 8)
-                    RenderSettings.skybox = StaticDawnSkyboxMaterial;
-                if (8 < CurrentTime && CurrentTime <= 18)
-                    RenderSettings.skybox = StaticDaySkyboxMaterial;
-                if (17 < CurrentTime && CurrentTime <= 19)
-                    RenderSettings.skybox = StaticDuskSkyboxMaterial;
-                if (19 < CurrentTime && CurrentTime <= 24)
-                    RenderSettings.skybox = StaticNightSkyboxMaterial;
-            }
-            else if (RenderSettings.skybox != ProceduralSkyboxMaterial && !StaticSkybox)
-                { RenderSettings.skybox = ProceduralSkyboxMaterial; }
-
+            UpdateSkybox();
             if (!Pause)
             {
                 CurrentTime += (Time.deltaTime / DayLength) * 24;
@@ -177,7 +162,24 @@ namespace Assets.Scripts.DayNightCycle
             ProceduralSkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
             ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTimeScale));
         }
-
+        void UpdateSkybox()
+        {
+            if (StaticSkybox)
+            {
+                if (0 < CurrentTime && CurrentTime <= 5)
+                    RenderSettings.skybox = StaticNightSkyboxMaterial;
+                if (5 < CurrentTime && CurrentTime <= 8)
+                    RenderSettings.skybox = StaticDawnSkyboxMaterial;
+                if (8 < CurrentTime && CurrentTime <= 18)
+                    RenderSettings.skybox = StaticDaySkyboxMaterial;
+                if (17 < CurrentTime && CurrentTime <= 19)
+                    RenderSettings.skybox = StaticDuskSkyboxMaterial;
+                if (19 < CurrentTime && CurrentTime <= 24)
+                    RenderSettings.skybox = StaticNightSkyboxMaterial;
+            }
+            else if (RenderSettings.skybox != ProceduralSkyboxMaterial && !StaticSkybox)
+            { RenderSettings.skybox = ProceduralSkyboxMaterial; }
+        }
         void UpdateLightingSettings()
         {
             RenderSettings.skybox = ProceduralSkyboxMaterial;
