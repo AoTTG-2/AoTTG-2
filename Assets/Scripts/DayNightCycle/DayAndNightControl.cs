@@ -166,7 +166,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             if (StaticSkybox)
             {
-                if (0 < CurrentTime && CurrentTime <= 5)
+                if (CurrentTime <= 5)
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
                 if (5 < CurrentTime && CurrentTime <= 8)
                     RenderSettings.skybox = StaticDawnSkyboxMaterial;
@@ -174,15 +174,14 @@ namespace Assets.Scripts.DayNightCycle
                     RenderSettings.skybox = StaticDaySkyboxMaterial;
                 if (17 < CurrentTime && CurrentTime <= 19)
                     RenderSettings.skybox = StaticDuskSkyboxMaterial;
-                if (19 < CurrentTime && CurrentTime <= 24)
+                if (19 < CurrentTime )
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
             }
-            else if (!StaticSkybox)
+            else
             { RenderSettings.skybox = ProceduralSkyboxMaterial; }
         }
         void UpdateLightingSettings()
         {
-            RenderSettings.skybox = ProceduralSkyboxMaterial;
             RenderSettings.sun = DirectionalLight; // Procedural skybox needs this to work
             RenderSettings.fog = true;
 
