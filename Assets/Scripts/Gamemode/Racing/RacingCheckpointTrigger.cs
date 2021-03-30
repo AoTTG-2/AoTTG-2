@@ -1,9 +1,20 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Room.Chat;
+using Assets.Scripts.Gamemode;
 using UnityEngine;
 
 public class RacingCheckpointTrigger : MonoBehaviour
 {
+    private InRoomChat chat;
+    private RacingGamemode gamemode;
+
+    private void Start()
+    {
+        chat = FindObjectOfType<InRoomChat>();
+        gamemode = FindObjectOfType<RacingGamemode>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         GameObject gameObject = other.gameObject;
@@ -12,10 +23,10 @@ public class RacingCheckpointTrigger : MonoBehaviour
             gameObject = gameObject.transform.root.gameObject;
             if (gameObject.GetPhotonView() != null && gameObject.GetPhotonView().isMine && gameObject.GetComponent<Hero>() != null)
             {
-                FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#00ff00>Checkpoint set.</color>");
+                chat.AddMessage("<color=#00ff00>Checkpoint set.</color>");
                 gameObject.GetComponent<Hero>().FillGas();
-                FengGameManagerMKII.instance.racingSpawnPoint = base.gameObject.transform.position;
-                FengGameManagerMKII.instance.racingSpawnPointSet = true;
+                gamemode.racingSpawnPoint = base.gameObject.transform.position;
+                gamemode.racingSpawnPointSet = true;
             }
         }
     }

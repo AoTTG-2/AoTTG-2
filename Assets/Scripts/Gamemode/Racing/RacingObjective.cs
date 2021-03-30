@@ -7,10 +7,10 @@ namespace Assets.Scripts.Gamemode.Racing
 {
     public class RacingObjective : MonoBehaviour
     {
-        private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
+        private RacingGamemode gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
         public enum ObjectiveState { Queue, Taken, Current, Next }
 
-        private ObjectiveState _state;
+        public ObjectiveState _state;
         public ObjectiveState State
         {
             get
@@ -79,7 +79,7 @@ namespace Assets.Scripts.Gamemode.Racing
         private void Start()
         {
             OnStateChanged(_state);
-            if (Gamemode == null)
+            if (gamemode == null)
             {
                 Destroy(gameObject.transform.parent.gameObject);
             }
@@ -87,8 +87,8 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private void OnDestroy()
         {
-            if (Gamemode != null && Gamemode.Objectives.Any(x => this))
-                Gamemode.Objectives.Remove(this);
+            if (gamemode != null && gamemode.Objectives.Any(x => this))
+                gamemode.Objectives.Remove(this);
         }
 
         private float hintTimer = 0f;
@@ -121,7 +121,7 @@ namespace Assets.Scripts.Gamemode.Racing
             Hero = hero;
 	        if (audioSource) audioSource.Play();          
 
-            FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
+            gamemode.racingSpawnPoint = gameObject.transform.parent.position;
             hero.FillGas();
 
             if (NextObjective != null)
@@ -137,7 +137,7 @@ namespace Assets.Scripts.Gamemode.Racing
             }
             else
             {
-                FengGameManagerMKII.instance.multiplayerRacingFinsih();
+                gamemode.MultiplayerRacingFinsih();
             }
         }
     }
