@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Characters.Humans.Customization.Components;
+using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Characters.Humans.Customization.Components;
 using UnityEditor;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 namespace Assets.Editor

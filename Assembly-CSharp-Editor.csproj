@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{CF90C27D-39FC-CF4B-F1E0-95D84108642B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -64,11 +65,10 @@
     <Compile Include="Assets\Editor\GameObjectToPrefabConverter.cs" />
     <Compile Include="Assets\Editor\BuildAddressable.cs" />
     <Compile Include="Assets\Editor\SceneToAssetBundle.cs" />
-    <Compile Include="Assets\Editor\CustomTextureBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uss" />
-     <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uxml" />
+    <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uss" />
+    <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uxml" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

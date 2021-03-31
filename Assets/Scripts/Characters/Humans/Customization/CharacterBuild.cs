@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Scripts.Characters.Humans.Customization
 {
     [Serializable]
-    //TODO: 599 This can be made a struct again after migration
+    //TODO: This may be made a struct again after equipment migration
     public class CharacterBuild
     {
         [SerializeField] public string Name;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Customization.Components
 {
-    //TODO: This one should be made abstract, and then each character component has a strongly typed version
     public abstract class HumanComponent : ScriptableObject
     {
         public GameObject Model;
