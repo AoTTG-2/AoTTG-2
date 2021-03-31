@@ -28,10 +28,10 @@ namespace Assets.Scripts.Characters.Humans.Customization
             Body = human.Body;
             HumanTransform = human.transform;
 
-            var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
-
-            CreateHead(CurrentOutfit.Head, skin);
+            CreateHead(CurrentOutfit.Head);
+            CreateEyes(CurrentOutfit.Eyes);
             CreateHair(CurrentOutfit.Hair);
+            CreateHeadgear(CurrentOutfit.Headgear);
             CreateGlasses(CurrentOutfit.Glasses);
             CreateFacial(CurrentOutfit.Facial);
 
@@ -40,7 +40,6 @@ namespace Assets.Scripts.Characters.Humans.Customization
             CreateEmblems();
             CreateEquipment(CurrentBuild.EquipmentComponent);
 
-            CreateEyes(CurrentOutfit.Eyes);
         }
 
         public void Apply(GameObject humanBase, CharacterPrefabs prefabs)
@@ -51,9 +50,7 @@ namespace Assets.Scripts.Characters.Humans.Customization
             Body = humanBase.GetComponentInChildren<HumanBody>();
             HumanTransform = humanBase.transform;
 
-            var skin = Prefabs.GetSkinPrefab(CurrentOutfit.Skin.Skin);
-
-            CreateHead(CurrentOutfit.Head, skin);
+            CreateHead(CurrentOutfit.Head);
             CreateHair(CurrentOutfit.Hair);
             CreateGlasses(CurrentOutfit.Glasses);
             CreateFacial(CurrentOutfit.Facial);
@@ -71,7 +68,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var prefabObject = Instantiate(prefab);
             if (prefabObject.TryGetComponent(out SkinnedMeshRenderer meshRenderer))
             {
-                meshRenderer.material.mainTexture = texture;
+                meshRenderer.material.SetTexture("_MainTex", texture);
+                //meshRenderer.material.mainTexture = texture;
                 if (color != default)
                     meshRenderer.material.color = color;
 
@@ -84,13 +82,21 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             if (prefabObject.TryGetComponent(out Renderer renderer))
             {
+                if (renderer.material.shader.name.Contains("Two Sided Lit"))
+                {
+                    renderer.material.SetTexture("_MainTex", texture);
+                }
+                else
+                {
+                    renderer.material.mainTexture = texture;
+                }
+
                 if (color != default)
                     renderer.material.color = color;
 
-                renderer.material.mainTexture = texture;
                 prefabObject.transform.parent = parent ?? Body.ControllerBody;
                 prefabObject.transform.position = HumanTransform.position;
-                prefabObject.transform.rotation = Quaternion.Euler(270f, HumanTransform.rotation.eulerAngles.y, 0f);
+                prefabObject.transform.rotation = Quaternion.Euler(prefabObject.transform.rotation.eulerAngles.x, prefabObject.transform.rotation.eulerAngles.y, prefabObject.transform.rotation.eulerAngles.z);
             }
 
             return prefabObject;
@@ -112,112 +118,145 @@ namespace Assets.Scripts.Characters.Humans.Customization
 
             return result;
         }
+
+        private void CreateHead(HumanHeadSelected head)
+        {
+            CreateComponent(head.Component.Model, head.Component.Textures[head.Texture], Body.head);
+            CreateComponent(Prefabs.Chest, head.Component.Textures[head.Texture]);
+        }
+
+        private void CreateHair(HumanHairSelected hair)
+        {
+            if (hair.Component == null) return;
+            var result = CreateComponent(hair.Component.Model, hair.Component.Textures[hair.Texture], hair.Color,Body.head);
+            //var prefab = Prefabs.GetHairPrefab(hair.Model);
+
+            //if (!string.IsNullOrWhiteSpace(hair.CustomUrl))
+            //{
+            //    CreateComponentAsync(prefab.Prefab, hair.CustomUrl, hair.Color, Body.head);
+            //}
+            //else
+            //{
+            //    var texture = Prefabs.GetHairTexture(hair.Texture);
+            //    CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
+            //}
+        }
+
+        private void CreateHeadgear(HeadgearSelected headgear)
+        {
+            if (headgear.Component == null) return;
+            var result = CreateComponent(headgear.Component.Model, headgear.Component.Textures[headgear.Texture], Body.head);
+            //var prefab = Prefabs.GetHairPrefab(hair.Model);
+
+            //if (!string.IsNullOrWhiteSpace(hair.CustomUrl))
+            //{
+            //    CreateComponentAsync(prefab.Prefab, hair.CustomUrl, hair.Color, Body.head);
+            //}
+            //else
+            //{
+            //    var texture = Prefabs.GetHairTexture(hair.Texture);
+            //    CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
+            //}
+        }
         
-        private void CreateHead(HeadComponent head, SkinPrefab skin)
+        private void CreateEyes(HumanEyesSelected eyes)
         {
-            var result = CreateComponent(Prefabs.GetHeadPrefab(head.Model).Prefab, skin.File, Body.head);
+            var result = CreateComponent(eyes.Component.Model, eyes.Component.Textures[eyes.Texture], Body.head);
+
+            //var prefab = Prefabs.Eyes;
+
+            //if (!string.IsNullOrWhiteSpace(eyes.CustomUrl))
+            //{
+            //    var result = CreateComponentAsync(prefab.Prefab, eyes.CustomUrl, eyes.Color, Body.head);
+            //}
+            //else
+            //{
+            //    var texture = prefab.GetTexture(eyes.Texture);
+            //    CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
+            //}
         }
 
-        private void CreateHair(HairComponent hair)
+        private void CreateGlasses(HumanGlassesSelected glasses)
         {
-            var prefab = Prefabs.GetHairPrefab(hair.Model);
+            if (glasses.Component == null) return;
+            var result = CreateComponent(glasses.Component.Model, glasses.Component.Textures[glasses.Texture], Body.head);
 
-            if (!string.IsNullOrWhiteSpace(hair.CustomUrl))
-            {
-                CreateComponentAsync(prefab.Prefab, hair.CustomUrl, hair.Color, Body.head);
-            }
-            else
-            {
-                var texture = Prefabs.GetHairTexture(hair.Texture);
-                CreateComponent(prefab.Prefab, texture.File, hair.Color, Body.head);
-            }
+            //if (glasses.Texture == GlassesTexture.None) return;
+            //var prefab = Prefabs.Glasses;
+
+            //if (!string.IsNullOrWhiteSpace(glasses.CustomUrl))
+            //{
+            //    var result = CreateComponentAsync(prefab.Prefab, glasses.CustomUrl, glasses.Color, Body.head);
+            //}
+            //else
+            //{
+            //    var texture = prefab.GetTexture(glasses.Texture);
+            //    CreateComponent(prefab.Prefab, texture.File, glasses.Color, Body.head);
+            //}
         }
 
-        private void CreateEyes(EyesComponent eyes)
+        private void CreateFacial(FacialSelected facial)
         {
-            var prefab = Prefabs.Eyes;
-
-            if (!string.IsNullOrWhiteSpace(eyes.CustomUrl))
-            {
-                var result = CreateComponentAsync(prefab.Prefab, eyes.CustomUrl, eyes.Color, Body.head);
-            }
-            else
-            {
-                var texture = prefab.GetTexture(eyes.Texture);
-                CreateComponent(prefab.Prefab, texture.File, eyes.Color, Body.head);
-            }
+            if (facial.Component == null) return;
+            var result = CreateComponent(facial.Component.Model, facial.Component.Textures[facial.Texture], Body.head);
+            //var prefab = Prefabs.Facial;
+            //if (!string.IsNullOrWhiteSpace(facial.CustomUrl))
+            //{
+            //    var result = CreateComponentAsync(prefab.Prefab, facial.CustomUrl, facial.Color, Body.head);
+            //}
+            //else
+            //{
+            //    var texture = prefab.GetTexture(facial.Texture);
+            //    CreateComponent(prefab.Prefab, texture.File, facial.Color, Body.head);
+            //}
         }
 
-        private void CreateGlasses(GlassesComponent glasses)
+        private void CreateOutfit(HumanOutfitSelected outfit)
         {
-            if (glasses.Texture == GlassesTexture.None) return;
-            var prefab = Prefabs.Glasses;
+            var result = CreateComponent(outfit.Component.Model, outfit.Component.Textures[outfit.Texture]);
 
-            if (!string.IsNullOrWhiteSpace(glasses.CustomUrl))
-            {
-                var result = CreateComponentAsync(prefab.Prefab, glasses.CustomUrl, glasses.Color, Body.head);
-            }
-            else
-            {
-                var texture = prefab.GetTexture(glasses.Texture);
-                CreateComponent(prefab.Prefab, texture.File, glasses.Color, Body.head);
-            }
-        }
-
-        private void CreateFacial(FacialComponent facial)
-        {
-            if (facial.Texture == FacialTexture.None) return;
-            var prefab = Prefabs.Facial;
-            if (!string.IsNullOrWhiteSpace(facial.CustomUrl))
-            {
-                var result = CreateComponentAsync(prefab.Prefab, facial.CustomUrl, facial.Color, Body.head);
-            }
-            else
-            {
-                var texture = prefab.GetTexture(facial.Texture);
-                CreateComponent(prefab.Prefab, texture.File, facial.Color, Body.head);
-            }
-        }
-
-        private void CreateOutfit(OutfitComponent outfit)
-        {
-            var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
-            var texture = Prefabs.GetOutfitTexture(outfit.Texture);
-            CreateComponent(prefab.Prefab, texture.File, outfit.Color);
+            //var prefab = Prefabs.GetOutfitPrefab(outfit.Model);
+            //var texture = Prefabs.GetOutfitTexture(outfit.Texture);
+            //CreateComponent(prefab.Prefab, texture.File, outfit.Color);
 
             CreateLegs(outfit);
             CreateArms(outfit);
         }
 
-        private void CreateLegs(OutfitComponent outfit)
+        private void CreateLegs(HumanOutfitSelected outfit)
         {
-            var texture = Prefabs.GetOutfitTexture(outfit.Texture);
-            CreateComponent(Prefabs.Legs, texture.File, outfit.Color);
+            CreateComponent(outfit.Component.Legs, outfit.Component.Textures[outfit.Texture]);
         }
 
-        private void CreateArms(OutfitComponent outfit)
+        private void CreateArms(HumanOutfitSelected outfit)
         {
-            var texture = Prefabs.GetOutfitTexture(outfit.Texture);
-
-            GameObject armLeft, armRight;
-            if (outfit.Model == OutfitModel.CasualFemaleA || outfit.Model == OutfitModel.CasualMaleA)
+            CreateComponent(outfit.Component.ArmLeft.Model, outfit.Component.Textures[outfit.Texture]);
+            CreateComponent(outfit.Component.ArmRight.Model, outfit.Component.Textures[outfit.Texture]);
+            
+            if (outfit.Component.EmblemFront != null && outfit.EmblemFront?.Component != null)
             {
-                armLeft = Prefabs.Arms.LeftCasual;
-                armRight = Prefabs.Arms.RightCasual;
-            }
-            else if (outfit.Model == OutfitModel.CasualFemaleB || outfit.Model == OutfitModel.CasualMaleB)
-            {
-                armLeft = Prefabs.Arms.LeftAhss;
-                armRight = Prefabs.Arms.RightAhss;
-            }
-            else
-            {
-                armLeft = Prefabs.Arms.LeftUniform;
-                armRight = Prefabs.Arms.RightUniform;
+                CreateComponent(outfit.Component.EmblemFront,
+                    outfit.EmblemFront.Component.Textures[outfit.EmblemFront.Texture]);
             }
 
-            CreateComponent(armLeft, texture.File, outfit.Color);
-            CreateComponent(armRight, texture.File, outfit.Color);
+            if (outfit.Component.EmblemBack != null && outfit.EmblemBack?.Component != null)
+            {
+                CreateComponent(outfit.Component.EmblemBack,
+                    outfit.EmblemBack.Component.Textures[outfit.EmblemBack.Texture]);
+            }
+
+            if (outfit.Component.ArmLeft != null && outfit.Component.ArmLeft.Emblem != null && outfit.EmblemLeft?.Component != null)
+            {
+                CreateComponent(outfit.Component.ArmLeft.Emblem,
+                    outfit.EmblemLeft.Component.Textures[outfit.EmblemLeft.Texture]);
+            }
+
+            if (outfit.Component.ArmRight != null && outfit.Component.ArmRight.Emblem != null && outfit.EmblemRight?.Component != null)
+            {
+                CreateComponent(outfit.Component.ArmRight.Emblem,
+                    outfit.EmblemRight.Component.Textures[outfit.EmblemRight.Texture]);
+            }
+
         }
 
         private void CreateEquipment(EquipmentComponent equipment)
@@ -233,8 +272,8 @@ namespace Assets.Scripts.Characters.Humans.Customization
             var weaponLeft = Instantiate(prefab.WeaponLeft);
             var weaponRight = Instantiate(prefab.WeaponRight);
 
-            handLeft.GetComponent<Renderer>().material.mainTexture = skin.File;
-            handRight.GetComponent<Renderer>().material.mainTexture = skin.File;
+            handLeft.GetComponent<Renderer>().material.SetTexture("_MainTex", skin.File);
+            handRight.GetComponent<Renderer>().material.SetTexture("_MainTex", skin.File);
             ammoLeft.GetComponent<Renderer>().material.mainTexture = ammo;
             ammoRight.GetComponent<Renderer>().material.mainTexture = ammo;
             weaponLeft.GetComponent<Renderer>().material.mainTexture = ammo;
@@ -288,26 +327,34 @@ namespace Assets.Scripts.Characters.Humans.Customization
             }
         }
 
-        private void CreateCape(CapeComponent cape)
+        private void CreateCape(CapeSelected cape)
         {
-            if (cape.Texture == CapeTexture.None) return;
-            var prefab = Prefabs.Cape;
-            var texture = prefab.GetTexture(cape.Texture);
-            var capeObject = CreateComponent(prefab.Prefab, texture.File, cape.Color);
-            capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
-            capeObject.transform.localScale = Vector3.one;
+            if (cape.Component == null) return;
+
+            //TODO: Add Mikasa Cape
+            if (cape.Component.Model.TryGetComponent<SkinnedMeshRenderer>(out _))
+            {
+                var capeObject = CreateComponent(cape.Component.Model, cape.Component.Textures[cape.Texture]);
+                capeObject.AddComponent<ParentFollow>().SetParent(Body.transform.parent.transform);
+                capeObject.transform.localScale = Vector3.one;
+            }
+            else
+            {
+                // The Hoodie (Mesh Renderer) needs to be instantiated like this
+                var capeObject = CreateComponent(cape.Component.Model, cape.Component.Textures[cape.Texture], Body.neck);
+            }
         }
 
         private void CreateEmblems()
         {
-            var texture = Prefabs.Cape.GetTexture(CurrentOutfit.Cape.Texture).File;
-            var prefab = Prefabs.Emblem;
-            var gender = CurrentOutfit.Gender;
+            //var texture = Prefabs.Cape.GetTexture(CurrentOutfit.Cape.Texture).File;
+            //var prefab = Prefabs.Emblem;
+            //var gender = CurrentOutfit.Gender;
 
-            var emblems = new List<GameObject>
-                {prefab.ArmLeft, prefab.ArmRight, prefab.GetBackPrefab(gender), prefab.GetChestPrefab(gender)};
+            //var emblems = new List<GameObject>
+            //    {prefab.ArmLeft, prefab.ArmRight, prefab.GetBackPrefab(gender), prefab.GetChestPrefab(gender)};
 
-            emblems.ForEach(x => CreateComponent(x, texture));
+            //emblems.ForEach(x => CreateComponent(x, texture));
         }
 
         IEnumerator DownloadImage(Renderer renderer, string url)

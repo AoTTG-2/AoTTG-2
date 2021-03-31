@@ -97,7 +97,7 @@ namespace Assets.Scripts.Characters.Humans
         private Transform forearmL { get; set; }
         private Transform forearmR { get; set; }
         private float Gravity => 20f * gravityModifier;
-        private float gravityModifier = GameSettings.Global.Gravity ?? 1;
+        private float gravityModifier = GameSettings.Global?.Gravity ?? 1;
         public bool grounded;
         private GameObject gunDummy { get; set; }
         private Vector3 gunTarget { get; set; }
@@ -292,7 +292,7 @@ namespace Assets.Scripts.Characters.Humans
 
             if (!photonView.isMine)
             {
-                gameObject.layer = Layers.NetworkObject.ToLayer();
+                gameObject.layer = (int) Layers.NetworkObject;
                 if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
                 {
                     GameObject obj3 = Instantiate(Resources.Load<GameObject>("flashlight"));
@@ -2083,7 +2083,7 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 //TODO: If this is a default preset, find a more efficient way
-                var config = JsonConvert.SerializeObject(preset, Formatting.Indented, new ColorJsonConverter());
+                var config = JsonConvert.SerializeObject(CustomizationNetworkObject.Convert(Prefabs, preset), Formatting.Indented, new ColorJsonConverter());
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
@@ -2101,7 +2101,8 @@ namespace Assets.Scripts.Characters.Humans
 
             if (info.sender.ID == photonView.ownerId)
             {
-                Initialize(JsonConvert.DeserializeObject<CharacterPreset>(characterPreset, new ColorJsonConverter()));
+                var config = JsonConvert.DeserializeObject<CustomizationNetworkObject>(characterPreset, new ColorJsonConverter());
+                Initialize(config.ToPreset(Prefabs));
             }
         }
 
