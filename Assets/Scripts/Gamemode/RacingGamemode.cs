@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode.Racing;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
@@ -16,6 +17,15 @@ namespace Assets.Scripts.Gamemode
         public override GamemodeType GamemodeType { get; } = GamemodeType.Racing;
 
         public string localRacingResult = string.Empty;
+
+        public string localScoreBoard = string.Empty;
+
+        private Dictionary<string, float> racingResults;
+
+        public Vector3 racingSpawnPoint;
+
+        public bool racingSpawnPointSet;
+
         public List<RacingObjective> Objectives = new List<RacingObjective>();
         public List<RacingStartBarrier> StartBarriers = new List<RacingStartBarrier>();
 
@@ -32,6 +42,21 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnLevelWasLoaded()
         {
+            this.racingResults = new Dictionary<string, float>() 
+            {
+                { "Levi", 1f },
+                { "Jean", 2f },
+                { "Eren", 3f },
+                { "Berthold", 4f },
+                { "Reiner", 5f },
+                { "Sasha", 6f },
+                { "Connie", 7f },
+                { "Historia", 8f },
+                { "Armin", 9f },
+                { "Mikasa", 10f },
+                { "Annie", 11f },
+
+            };
             IsLoaded = true;
             base.OnLevelWasLoaded();
             StartBarriers = GameObject.FindObjectsOfType<RacingStartBarrier>().ToList();
@@ -57,12 +82,25 @@ namespace Assets.Scripts.Gamemode
 
         protected override void SetStatusTop()
         {
-            // Ignored
+            UiService.SetMessage(LabelPosition.Top, $"Time: {TimeService.GetRoundTime() - CountDownTimerLimit:F1} | " +
+            $"Average Speed: {AverageSpeed:F1}");
         }
 
         protected override void SetStatusTopLeft()
         {
-            // Ignore
+            this.localRacingResult = "Scoreboard\n";
+            var sortedResults = this.racingResults.OrderBy(result => result.Value).ToList();
+            int num = Mathf.Min(this.racingResults.Count, 10); //This line is to show either the 10 best times or all the players if less than 10
+            for (int i = 0; i < num; i++)
+            {
+                string localRacingResult = this.localRacingResult;
+                object[] objArray2 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
+                this.localRacingResult = string.Concat(objArray2);
+                this.localRacingResult = this.localRacingResult + sortedResults[i].Key;
+                this.localRacingResult = this.localRacingResult + "   " + (((int) ((sortedResults[i].Value * 100f)) * 0.01f)).ToString() + "s";
+                this.localRacingResult = this.localRacingResult + "\n";
+            }
+            UiService.SetMessage(LabelPosition.TopLeft, this.localRacingResult);
         }
 
         protected override void SetStatusTopRight()
@@ -79,8 +117,6 @@ namespace Assets.Scripts.Gamemode
                 TotalSpeed += currentSpeed;
                 TotalFrames++;
 
-                UiService.SetMessage(LabelPosition.Top, $"Time: {TimeService.GetRoundTime() - CountDownTimerLimit:F1} | " +
-                                                        $"Average Speed: {AverageSpeed:F1}");
             }
             else
             {
@@ -88,6 +124,7 @@ namespace Assets.Scripts.Gamemode
                 if (CountDownTimerLimit - TimeService.GetRoundTime() <= 0f)
                 {
                     HasStarted = true;
+                    UiService.ResetMessage(LabelPosition.Center);
                     if (PhotonNetwork.isMasterClient)
                     {
                         photonView.RPC(nameof(RacingStartRpc), PhotonTargets.AllBufferedViaServer);
@@ -143,7 +180,88 @@ namespace Assets.Scripts.Gamemode
             {
                 yield return new WaitForSeconds(0.1f);
                 SetStatusTopLeft();
+                SetStatusTop();
             }
+        }
+
+        [PunRPC]
+        private void GetRacingResult(string player, float time)
+        {
+            Debug.Log("GetRacingResult");
+            if (!this.racingResults.ContainsKey(player))
+            {
+                this.racingResults.Add(player, time);
+            }
+            else
+            {
+                this.racingResults[player] = time;
+            }
+            this.RefreshRacingResult2();
+        }
+
+        public void UpdateResults()
+        {
+            float time = Service.Time.GetRoundTime() - 20f;
+            if (PhotonNetwork.isMasterClient)
+            {
+                this.GetRacingResult(LoginFengKAI.player.name, time);
+            }
+            else
+            {
+                object[] parameters = new object[] { LoginFengKAI.player.name, time };
+                base.photonView.RPC(nameof(GetRacingResult), PhotonTargets.MasterClient, parameters);
+            }
+        }
+
+        public void MultiplayerRacingFinsih()
+        {
+            Debug.Log("MultiplayerRacingFinsih");
+
+            UpdateResults();
+
+            photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, localRacingResult+$"\nRestarting in {{0}}s", HumanScore, TitanScore);
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+
+        }
+
+        [PunRPC]
+        private void NetRefreshRacingResult(string tmp)
+        {
+            Debug.Log("NetRefreshRacingResult");
+            this.localRacingResult = tmp;
+        }
+
+        private void RefreshRacingResult2()
+        {
+            Debug.Log("RefreshRacingResult2");
+            this.localRacingResult = "Result\n";
+            var sortedResults = this.racingResults.OrderBy(result => result.Value).ToList();
+            bool playerInTopTen = false;
+            int num = Mathf.Min(this.racingResults.Count, 10); //This line is to show either the 10 best times or all the players if less than 10
+            for (int i = 0; i < num; i++)
+            {
+                if(sortedResults[i].Key == LoginFengKAI.player.name)
+                {
+                    playerInTopTen = true;
+                }
+                object[] objArray2 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
+                this.localRacingResult = string.Concat(objArray2);
+                this.localRacingResult = this.localRacingResult + sortedResults[i].Key;
+                this.localRacingResult = this.localRacingResult + "   " + (((int) ((sortedResults[i].Value * 100f)) * 0.01f)).ToString() + "s";
+                this.localRacingResult = this.localRacingResult + "\n";
+            }
+            if (!playerInTopTen){
+                this.localRacingResult = this.localRacingResult + "\n";
+                int playerRank = sortedResults.IndexOf(
+                    new KeyValuePair<string, float>(LoginFengKAI.player.name, this.racingResults[LoginFengKAI.player.name]));
+                object[] objArray2 = new object[] { localRacingResult, "Rank ", playerRank + 1, " : " };
+                this.localRacingResult = string.Concat(objArray2);
+                this.localRacingResult = this.localRacingResult + sortedResults[playerRank].Key;
+                this.localRacingResult = this.localRacingResult + "   " + (((int) ((sortedResults[playerRank].Value * 100f)) * 0.01f)).ToString() + "s";
+                this.localRacingResult = this.localRacingResult + "\n";
+            }
+            object[] parameters = new object[] { this.localRacingResult };
+            base.photonView.RPC(nameof(NetRefreshRacingResult), PhotonTargets.All, parameters);
         }
     }
 }
