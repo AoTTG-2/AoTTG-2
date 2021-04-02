@@ -137,6 +137,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\RegistrationCounter.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenuV2.cs" />
     <Compile Include="Assets\Scripts\DayNightCycle\TimeSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Extensions\ListExtensions.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ErenSkill.cs" />
     <Compile Include="Assets\Scripts\LoginFengKAI.cs" />
     <Compile Include="Assets\Scripts\Characters\EnemyfxIDcontainer.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Assets\Scripts\Room\ChangeQuality.cs" />
     <Compile Include="Assets\Scripts\Events\SpawnEvents.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\ClothFactory.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\Converter.cs" />
     <Compile Include="Assets\Scripts\Gamemode\PvPAhssGamemode.cs" />
     <Compile Include="Assets\Scripts\Effects\ScaleAffector.cs" />
     <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
@@ -313,6 +315,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\ServerSettingsPage.cs" />
     <Compile Include="Assets\Scripts\Effects\UVAffector.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\ParentFollow.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\MapObject.cs" />
     <Compile Include="Assets\Scripts\Characters\EntityConfiguration.cs" />
     <Compile Include="Assets\Scripts\Legacy\SnapShotSaves.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputCannon.cs" />
@@ -468,7 +471,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Extensions\ListExtensions.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\MapTexture.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
