@@ -143,6 +143,7 @@ namespace Assets.Scripts.Characters.Humans
         public AudioSource reelIn;
         public AudioSource audioReload;
         public AudioSource breakBlade;
+        public AudioSource gasBurst;
         public Bomb myBomb;
         public GameObject myCannon;
         public Transform myCannonBase;
@@ -2515,6 +2516,7 @@ namespace Assets.Scripts.Characters.Humans
                 if (uTapTime != 0f)
                 {
                     dashU = true;
+                        gasBurst.Play();
                 }
             }
             if (InputManager.KeyDown(InputHuman.Backward))
@@ -2526,6 +2528,7 @@ namespace Assets.Scripts.Characters.Humans
                 if (dTapTime != 0f)
                 {
                     dashD = true;
+                        gasBurst.Play();
                 }
             }
             if (InputManager.KeyDown(InputHuman.Left))
@@ -2537,6 +2540,7 @@ namespace Assets.Scripts.Characters.Humans
                 if (lTapTime != 0f)
                 {
                     dashL = true;
+                        gasBurst.Play();
                 }
             }
             if (InputManager.KeyDown(InputHuman.Right))
@@ -2548,6 +2552,7 @@ namespace Assets.Scripts.Characters.Humans
                 if (rTapTime != 0f)
                 {
                     dashR = true;
+                        gasBurst.Play();
                 }
             }
         }
@@ -2556,6 +2561,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (InputManager.Key(InputHuman.GasBurst))
             {
+                        gasBurst.Play();
                 if (InputManager.Key(InputHuman.Forward))
                 {
                     dashU = true;
