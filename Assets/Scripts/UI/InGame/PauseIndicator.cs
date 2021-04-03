@@ -4,24 +4,24 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class PauseIndicator : UiElement
+    public class PauseIndicator : MonoBehaviour
     {
         private bool UnPausing { get; set; }
+        public bool ShowUi { get; set; } = true; 
 
         /// <summary>
-        /// Displays the pause indicator with the text "Game Paused".
+        /// Displays the pause indicator with the text "Game Paused"
         /// </summary>
         public void Pause()
         {
-            if (PhotonNetwork.offlineMode) return;
-
+            if (!ShowUi) return;
             gameObject.GetComponentInChildren<Text>().text = "Game Paused";
+            gameObject.SetActive(true);
             UnPausing = false;
-            Show();
         }
 
         /// <summary>
-        /// Sets the process to remove the pause indicator.
+        /// Sets the process to remove the pause indicator
         /// </summary>
         public void UnPause()
         {
@@ -38,7 +38,7 @@ namespace Assets.Scripts.UI.InGame
                 gameObject.GetComponentInChildren<Text>().text = $"Unpausing in:\n{timeRemaining:0.00}";
                 if (timeRemaining <= 0f)
                 {
-                    Hide();
+                    gameObject.SetActive(false);
                 }
             }
         }

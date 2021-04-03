@@ -32,8 +32,8 @@ namespace Assets.Scripts.Characters.Titan
                 base.FixedUpdate();
                 return;
             }
+            if (!photonView.isMine) return;
             Rigidbody.AddForce(new Vector3(0f, -120f * Rigidbody.mass, 0f));
-            if (!photonView.isMine || !IsAlive) return;
             if (targetDirection == -874f || CurrentAttack != null) return;
             Vector3 vector12 = transform.forward * Speed * SpeedModifier;
             Vector3 vector14 = vector12 - Rigidbody.velocity;
@@ -42,6 +42,7 @@ namespace Assets.Scripts.Characters.Titan
             vector14.y = 0f;
             Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, targetDirection, 0f), (Speed * 0.15f) * Time.deltaTime);
+
         }
 
         public override void Initialize(TitanConfiguration configuration)
@@ -158,9 +159,9 @@ namespace Assets.Scripts.Characters.Titan
             return false;
         }
 
-        protected override void OnDeath()
+        protected override void OnTitanDeath()
         {
-            base.OnDeath();
+            base.OnTitanDeath();
             if (!photonView.isMine) return;
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
             this.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
@@ -189,7 +190,7 @@ namespace Assets.Scripts.Characters.Titan
                 // PhotonNetwork.Destroy(base.photonView);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().sendKillInfo(false, string.Empty, true, (string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name], 0);
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = true;
-                SetState(TitanState.Dead);
+                ChangeState(TitanState.Dead);
                 Dead();
             }
         }
@@ -206,7 +207,6 @@ namespace Assets.Scripts.Characters.Titan
             if (InputManager.KeyDown(InputUi.Restart)) 
             {
                 Die();
-                return;
             }
             if (InputManager.KeyDown(InputTitan.Blend))
             {
@@ -236,7 +236,7 @@ namespace Assets.Scripts.Characters.Titan
                     CrossFade(CurrentAnimation, 0.1f);
                     return;
                 }
-                SetState(TitanState.Wandering);
+                ChangeState(TitanState.Wandering);
             }
 
             if (IsCovering && Animation.IsPlaying(AnimationCover) && Animation[AnimationCover].normalizedTime < 1f)
@@ -293,7 +293,7 @@ namespace Assets.Scripts.Characters.Titan
             if ((num2 != 0) || (num != 0))
             {
                 y = this.currentCamera.transform.rotation.eulerAngles.y;
-                num4 = Mathf.Atan2((float)num, (float)num2) * Mathf.Rad2Deg;
+                num4 = Mathf.Atan2((float)num, (float)num2) * 57.29578f;
                 num4 = -num4 + 90f;
                 num5 = y + num4;
                 this.targetDirection = num5;

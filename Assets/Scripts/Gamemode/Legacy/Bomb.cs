@@ -1,11 +1,9 @@
 using Assets.Scripts;
-using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using System.Collections;
-using Toorah.ScriptableVariables;
 using UnityEngine;
 
 public class Bomb : Photon.MonoBehaviour
@@ -18,8 +16,6 @@ public class Bomb : Photon.MonoBehaviour
     public bool disabled;
     public GameObject myExplosion;
     public float SmoothingDelay = 10f;
-
-    public StringVariable bombExplodePath;
 
     public void Awake()
     {
@@ -78,28 +74,28 @@ public class Bomb : Photon.MonoBehaviour
         this.disabled = true;
         base.GetComponent<Rigidbody>().velocity = Vector3.zero;
         Vector3 position = base.transform.position;
-        this.myExplosion = PhotonNetwork.Instantiate(bombExplodePath, position, Quaternion.Euler(0f, 0f, 0f), 0);
+        this.myExplosion = PhotonNetwork.Instantiate("RCAsset/BombExplodeMain", position, Quaternion.Euler(0f, 0f, 0f), 0);
         foreach (Hero hero in EntityService.GetAll<Hero>())
         {
-            GameObject heroGO = hero.gameObject;
-            if (((Vector3.Distance(heroGO.transform.position, position) < radius) && !heroGO.GetPhotonView().isMine) && !hero.bombImmune)
+            GameObject gameObject = hero.gameObject;
+            if (((Vector3.Distance(gameObject.transform.position, position) < radius) && !gameObject.GetPhotonView().isMine) && !hero.bombImmune)
             {
-                PhotonPlayer owner = heroGO.GetPhotonView().owner;
+                PhotonPlayer owner = gameObject.GetPhotonView().owner;
                 if (((GameSettings.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                 {
                     int num = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                     int num2 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                     if ((num == 0) || (num != num2))
                     {
-                        hero.MarkDie();
-                        hero.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
+                        gameObject.GetComponent<Hero>().markDie();
+                        gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
                         FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
                     }
                 }
                 else
                 {
-                    heroGO.GetComponent<Hero>().MarkDie();
-                    heroGO.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
+                    gameObject.GetComponent<Hero>().markDie();
+                    gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) + " " });
                     FengGameManagerMKII.instance.playerKillInfoUpdate(PhotonNetwork.player, 0);
                 }
             }

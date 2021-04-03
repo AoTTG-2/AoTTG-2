@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Characters.Titan;
+﻿using Assets.Scripts.Characters.Titan;
 using System;
 
 namespace Assets.Scripts.Events.Args

@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Characters;
-using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Settings;
@@ -154,12 +153,15 @@ namespace Assets.Scripts.Gamemode
         {
             if (FengGameManagerMKII.instance.checkpoint == null)
             {
-                FengGameManagerMKII.instance.checkpoint = tag switch
+                switch (tag)
                 {
-                    "playerRespawn" => GameObject.Find("CheckpointStartHuman"),
-                    "titanRespawn" => GameObject.Find("CheckpointStartTitan"),
-                    _ => null
-                };
+                    case "playerRespawn":
+                        FengGameManagerMKII.instance.checkpoint = GameObject.Find("CheckpointStartHuman");
+                        break;
+                    case "titanRespawn":
+                        FengGameManagerMKII.instance.checkpoint = GameObject.Find("CheckpointStartTitan");
+                        break;
+                }
             }
             return FengGameManagerMKII.instance.checkpoint;
         }

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Constants;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class PlayerInteractable : Interactable
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.layer == (int)Layers.Interactable)
+        if (col.gameObject.layer == LayerMask.NameToLayer(Layer.Interactable))
         {
             var interactable = col.gameObject.GetComponentInParent<Interactable>();
             if (Collisions.Any(x => x == interactable)) return;
@@ -20,7 +19,7 @@ public class PlayerInteractable : Interactable
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.layer == (int)Layers.Interactable)
+        if (col.gameObject.layer == LayerMask.NameToLayer(Layer.Interactable))
         {
             Collisions.Remove(col.gameObject.GetComponentInParent<Interactable>());
         }

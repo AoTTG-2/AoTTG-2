@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7229022285565997208}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -51,12 +51,15 @@ MonoBehaviour:
   chatRoom: {fileID: 0}
   checkpoint: {fileID: 0}
   cyanKills: 0
+  gameEndCD: 0
+  gameEndTotalCDtime: 9
   gameStart: 0
   groundList: []
   isRecompiling: 0
   isRestarting: 0
   isUnloading: 0
   magentaKills: 0
+  maxPlayers: 0
   myRespawnTime: 0
   needChooseSide: 0
   playerList: 

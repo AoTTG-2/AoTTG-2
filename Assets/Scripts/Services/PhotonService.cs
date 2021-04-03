@@ -1,84 +1,44 @@
-﻿using Assets.Scripts.Services.Interface;
-using Assets.Scripts.Settings;
+﻿using System;
+using Assets.Scripts.Services.Interface;
 using Photon;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
     public class PhotonService : PunBehaviour, IPhotonService
     {
-        public VersionManager VersionManager;
-        [SerializeField] private List<PhotonServerConfig> photonServerConfiguration;
-        private PhotonServerConfig currentServerConfig;
-
+        public VersionManager versionManager;
         private static string IpAddress { get; set; }
-        private bool isRegionChanging;
 
-        #region MonoBehavior
-        private void Awake()
+        public void UpdateConnectionType(bool isLocal)
         {
-            currentServerConfig = photonServerConfiguration.FirstOrDefault();
-            if (photonServerConfiguration == null)
-                photonServerConfiguration = new List<PhotonServerConfig>();
-        }
-        #endregion
-
-        #region PunBehavior
-        public override void OnConnectedToPhoton()
-        {
-            isRegionChanging = false;
+            IpAddress = isLocal ? "127.0.0.1" : "51.210.5.100";
         }
 
-        public override void OnDisconnectedFromPhoton()
+        public void OnDisconnectFromPhoton()
         {
-            if (isRegionChanging)
-            {
-                PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
-                isRegionChanging = false;
-            }
-        }
-        #endregion
-
-        public bool IsChangingRegion() => isRegionChanging;
-        public List<PhotonServerConfig> GetAllServers() => photonServerConfiguration;
-
-        public PhotonServerConfig GetCurrentConfig()
-        {
-            return currentServerConfig;
+            PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
         }
 
-        public PhotonServerConfig GetConfigByName(string configName)
+        public void ChangeRegionDisconnect()
         {
-            return photonServerConfiguration.FirstOrDefault(x =>
-                string.Equals(configName, x.Name, StringComparison.InvariantCultureIgnoreCase));
+            PhotonNetwork.Disconnect();
         }
 
-        public void Connect()
+        public void Initialize()
         {
             if (Service.Authentication.AccessToken != null)
             {
-                PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
+                PhotonNetwork.AuthValues = new AuthenticationValues {AuthType = CustomAuthenticationType.Custom};
                 PhotonNetwork.AuthValues.AddAuthParameter("token", Service.Authentication.AccessToken);
-            }
-            PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
-        }
-
-        public void ChangePhotonServer(PhotonServerConfig server)
-        {
-            currentServerConfig = server;
-
-            isRegionChanging = true;
-            if (PhotonNetwork.connected)
-            {
-                PhotonNetwork.Disconnect();
             }
             else
             {
-                Connect();
+                // PhotonServer complains about no UserId being set, temp fix
+                PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
             }
+
+            PhotonNetwork.ConnectToMaster(IpAddress, 5055, "", versionManager.Version);
         }
     }
 }

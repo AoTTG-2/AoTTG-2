@@ -35,7 +35,7 @@ public class GameCursor : MonoBehaviour
 
             if (value)
                 ApplyFreeCursor();
-            else if (MenuManager.IsAnyMenuOpen)
+            else if (MenuManager.IsMenuOpen)
                 ApplyCursorMode();
             else
                 ApplyCameraMode();
@@ -153,7 +153,7 @@ public class GameCursor : MonoBehaviour
     {
         if (hasFocus)
         {
-            if (MenuManager.IsAnyMenuOpen)
+            if (MenuManager.IsMenuOpen)
                 ApplyCursorMode();
             else
                 ApplyCameraMode();
@@ -174,7 +174,7 @@ public class GameCursor : MonoBehaviour
 
     private void OnLevelWasLoaded()
     {
-        if (MenuManager.IsAnyMenuOpen)
+        if (MenuManager.IsMenuOpen)
             CursorMode = CursorMode.Menu;
     }
 

@@ -269,10 +269,10 @@ public class PhotonEditor : EditorWindow
             return;
         }
 
-        //if (PhotonNetwork.PhotonServerSettings.HostType == ServerSettings.HostingOption.NotSet)
-        //{
-        //    EditorUtility.DisplayDialog(CurrentLang.SetupWizardWarningTitle, CurrentLang.SetupWizardWarningMessage, CurrentLang.OkButton);
-        //}
+        if (PhotonNetwork.PhotonServerSettings.HostType == ServerSettings.HostingOption.NotSet)
+        {
+            EditorUtility.DisplayDialog(CurrentLang.SetupWizardWarningTitle, CurrentLang.SetupWizardWarningMessage, CurrentLang.OkButton);
+        }
     }
 
 

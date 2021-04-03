@@ -4,11 +4,10 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
-    public class HUD : UiElement
+    public class HUD : MonoBehaviour
     {
         public GameObject Damage;
         public Labels Labels;
-        public Crosshair Crosshair;
 
         public void SetDamage(int damage)
         {
