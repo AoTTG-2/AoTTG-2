@@ -50,6 +50,7 @@ namespace Assets.Scripts.Settings.Gamemodes
         public SettingsTitan Titan { get; set; }
         public HorseSettings Horse { get; set; }
         public RespawnSettings Respawn { get; set; }
+        public TimeSettings Time { get; set; }
 
         public GamemodeSettings() { }
 
@@ -65,6 +66,7 @@ namespace Assets.Scripts.Settings.Gamemodes
             };
             Horse = new HorseSettings();
             Respawn = new RespawnSettings();
+            Time = new TimeSettings();
             TeamMode = TeamMode.Disabled;
             SaveKDROnDisconnect = true;
             PointMode = 0;

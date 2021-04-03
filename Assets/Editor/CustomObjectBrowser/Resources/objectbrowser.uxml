@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="objectbrowser.uss" />
+    <ui:VisualElement style="flex-shrink: 0; flex-grow: 1; height: 100%; flex-basis: 100%;">
+        <uie:Toolbar style="flex-shrink: 0;">
+            <uie:ToolbarSearchField focusable="true" name="search_field" style="width: auto; flex-grow: 1; flex-shrink: 1;" />
+        </uie:Toolbar>
+        <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" style="flex-grow: 1; flex-shrink: 0; height: 100%; flex-basis: 100px;" />
+        <ui:VisualElement style="height: 24px; align-items: center; flex-shrink: 0; flex-grow: 0; width: 100%; border-top-width: 1px; border-left-color: rgba(0, 0, 0, 0.5); border-right-color: rgba(0, 0, 0, 0.5); border-top-color: rgba(0, 0, 0, 0.5); border-bottom-color: rgba(0, 0, 0, 0.5); justify-content: center; border-bottom-width: 1px; position: absolute; bottom: 0; flex-direction: row;">
+            <ui:Label text="Select an Object" display-tooltip-when-elided="true" name="selected" style="flex-grow: 1;" />
+            <ui:Button text="Accept" display-tooltip-when-elided="true" focusable="true" tabindex="1" name="btn-accept" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

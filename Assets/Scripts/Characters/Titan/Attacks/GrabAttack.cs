@@ -1,5 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Gamemode;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
@@ -23,12 +24,14 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack()
         {
-            if (Titan.Target.GetType() != typeof(Human)) return false;
+            if (Titan.Target.GetType().IsAssignableFrom(typeof(Human))) return false;
 
             if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
             if (IsDisabled()) return false;
+
+            GrabbedTarget = null;
             var delta = Titan.Target.transform.position - Titan.transform.position;
-            var angle = -Mathf.Atan2(delta.z, delta.x) * 57.29578f;
+            var angle = -Mathf.Atan2(delta.z, delta.x) * Mathf.Rad2Deg;
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
 
             if (Titan.Target.transform.position.y > Titan.Body.Neck.position.y - 3f * Titan.Size
@@ -182,9 +185,10 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     : Titan.Body.HandRight;
 
                 var grabTarget = checkIfHitHand(hand, Titan.Size);
-                if (grabTarget != null)
+                if (grabTarget != null && grabTarget.GetComponent<Hero>() != null)
                 {
-                    EatSet(grabTarget);
+                    var hero = grabTarget.GetComponent<Hero>();
+                    EatSet(hero);
                     GrabbedTarget = grabTarget;
                 }
             }
@@ -198,24 +202,22 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
         }
 
-        private void EatSet(GameObject grabTarget)
+        private void EatSet(Hero grabTarget)
         {
             var isLeftHand = Hand == BodyPart.HandLeft;
-            if (!Titan.photonView.isMine || !grabTarget.GetComponent<Hero>().isGrabbed)
+            if (!grabTarget.IsGrabbed)
             {
                 Titan.Grab(isLeftHand);
                 if (Titan.photonView.isMine)
                 {
-                    Titan.photonView.RPC("Grab", PhotonTargets.Others, isLeftHand);
-                    var parameters = new object[] { "grabbed" };
-                    grabTarget.GetPhotonView().RPC("netPlayAnimation", PhotonTargets.All, parameters);
+                    Titan.photonView.RPC(nameof(MindlessTitan.Grab), PhotonTargets.Others, isLeftHand);
                     var objArray2 = new object[] { Titan.photonView.viewID, isLeftHand };
-                    grabTarget.GetPhotonView().RPC("netGrabbed", PhotonTargets.All, objArray2);
+                    grabTarget.photonView.RPC(nameof(Hero.NetGrabbed), PhotonTargets.All, objArray2);
                 }
                 else
                 {
-                    grabTarget.GetComponent<Hero>().grabbed(Titan.gameObject, isLeftHand);
-                    grabTarget.GetComponent<Hero>().GetComponent<Animation>().Play("grabbed");
+                    grabTarget.Grabbed(Titan.gameObject, isLeftHand);
+                    grabTarget.GetComponent<Animation>().Play("grabbed");
                 }
             }
         }

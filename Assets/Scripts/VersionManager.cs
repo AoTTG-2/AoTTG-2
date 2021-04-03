@@ -1,66 +1,52 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-[CreateAssetMenu, ExecuteInEditMode]
-public sealed class VersionManager : ScriptableObject
+namespace Assets.Scripts
 {
-    [SerializeField]
-    private VersionFormatter branchNameFormatter;
+    [CreateAssetMenu, ExecuteInEditMode]
+    public sealed class VersionManager : ScriptableObject
+    {
+        [SerializeField]
+        private VersionFormatter branchNameFormatter;
 
-    [SerializeField]
-    private bool useBranchName = true;
+        [SerializeField]
+        private bool useBranchName = true;
 
-    [SerializeField]
-    private string version = string.Empty;
+        [SerializeField]
+        private string version = string.Empty;
 
-    public string Version => version;
+        public string Version => version;
 
 #if UNITY_EDITOR
 
-    private void OnEnable()
-    {
-        UpdateVersion();
-    }
-
-    private bool TryGetBranchName(ref string branchName)
-    {
-        try
+        private void OnEnable()
         {
-            var startInfo = new ProcessStartInfo("git.exe")
-            {
-                UseShellExecute = false,
-                WorkingDirectory = Directory.GetCurrentDirectory(),
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                Arguments = "rev-parse --abbrev-ref HEAD"
-            };
+            UpdateVersion();
+        }
 
-            using (var process = new Process
+        private static bool TryGetBranchName(ref string branchName)
+        {
+            try
             {
-                StartInfo = startInfo
-            })
-            {
-                process.Start();
-                branchName = process.StandardOutput.ReadLine();
+                var headText = File.ReadAllText(Directory.GetCurrentDirectory() + $"{Path.DirectorySeparatorChar}.git{Path.DirectorySeparatorChar}HEAD");
+                branchName = headText.Substring(headText.IndexOf('#'));
                 return true;
             }
+            catch
+            {
+                Debug.LogWarning("Unable to retrieve the branch name");
+            }
+            return false;
         }
-        catch (Exception e)
+
+        private void UpdateVersion()
         {
-            Debug.LogException(e);
+            if (useBranchName && TryGetBranchName(ref version))
+                version = branchNameFormatter.FormatBranchName(version);
         }
-
-        return false;
-    }
-
-    private void UpdateVersion()
-    {
-        if (useBranchName && TryGetBranchName(ref version))
-            version = branchNameFormatter.FormatBranchName(version);
-    }
 
 #endif
+    }
 }

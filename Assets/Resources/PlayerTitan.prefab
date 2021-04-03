@@ -979,6 +979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2690829094317127773}
   - component: {fileID: 2860542662384366715}
+  - component: {fileID: 7533792099317747396}
   m_Layer: 21
   m_Name: MinimapIcon
   m_TagString: Untagged
@@ -994,7 +995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2684717434638925859}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 33.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 9, y: 9, z: 9}
   m_Children: []
   m_Father: {fileID: 2690749393958574983}
@@ -1051,6 +1052,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7533792099317747396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2684717434638925859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d769059bd3f79784e8ed4dc10796bc5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2684720907367295161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,6 +1908,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthLabel: {fileID: 2685166448900785019}
   NavMeshAgent: {fileID: 0}
+  AudioSourceFoot: {fileID: 2622169014970777431}
+  Body: {fileID: 2653688062289906233}
+  SetupScript: {fileID: 2656664063542202847}
+  minimapIcon: {fileID: 7533792099317747396}
   PreviousState: 0
   NextState: 0
   MindlessType: 0
@@ -2574,7 +2591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2685166448900785019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.19, y: 21.53, z: -0.23}
+  m_LocalPosition: {x: 0, y: 20.98, z: 0}
   m_LocalScale: {x: 0.08505937, y: 0.08505937, z: 0.042529684}
   m_Children: []
   m_Father: {fileID: 2690749393958574983}
@@ -2636,7 +2653,7 @@ TextMesh:
   m_Anchor: 1
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 1
+  m_FontSize: 125
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 8a0ab79a09328bd439332a380cb3b965, type: 3}

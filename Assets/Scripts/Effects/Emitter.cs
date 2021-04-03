@@ -98,7 +98,7 @@ public class Emitter
             {
                 vector2 = node.Position - this.Layer.EmitPoint;
             }
-            Vector3 toDirection = Vector3.RotateTowards(vector2, this.Layer.CircleDir, (90 - this.Layer.AngleAroundAxis) * 0.01745329f, 1f);
+            Vector3 toDirection = Vector3.RotateTowards(vector2, this.Layer.CircleDir, (90 - this.Layer.AngleAroundAxis) * Mathf.Deg2Rad, 1f);
             return (Vector3) (Quaternion.FromToRotation(vector2, toDirection) * vector2);
         }
         if (this.Layer.IsRandomDir)
