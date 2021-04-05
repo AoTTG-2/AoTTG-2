@@ -13,6 +13,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Events;
+using Assets.Scripts.Room;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,7 +22,9 @@ namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : PunBehaviour
     {
+        public event OnLevelLoaded OnLevelLoaded;
         public abstract GamemodeType GamemodeType { get; }
+
 
         private GamemodeSettings Settings => GameSettings.Gamemode;
 
@@ -207,19 +211,39 @@ namespace Assets.Scripts.Gamemode
 
         private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
         {
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-            for (var i = 0; i < amount; i++)
+            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
+            if (!spawns.Any())
             {
-                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
-                var randomSpawn = spawns[Random.Range(0, spawns.Length)].transform;
-                SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
-                yield return new WaitForEndOfFrame();
+                spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
+                    .ToList();
+            }
+            
+            if (spawns.Any())
+            {
+                for (var i = 0; i < amount; i++)
+                {
+                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
+                    var randomSpawn = spawns[Random.Range(0, spawns.Count)];
+                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+            else
+            {
+                for (var i = 0; i < amount; i++)
+                {
+                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
+                    var randomSpawn = Service.Spawn.GetRandomSpawnPosition();
+                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    yield return new WaitForEndOfFrame();
+                }
             }
         }
         
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             var objArray = GameObject.FindGameObjectsWithTag(tag);
+            if (objArray.Length == 0) return null;
             return objArray[Random.Range(0, objArray.Length)];
         }
 

@@ -194,6 +194,7 @@
     <Compile Include="Assets\Scripts\Legacy\RCRegion.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\InGameUi.cs" />
     <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
+    <Compile Include="Assets\Scripts\Services\CustomMapService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Skin.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\TitanBody.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\MouseLook.cs" />
@@ -204,11 +205,13 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\ICustomMapService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\LabelPosition.cs" />
     <Compile Include="Assets\Scripts\Settings\PvPSettings.cs" />
     <Compile Include="Assets\Scripts\Constants\Layers.Enum.cs" />
     <Compile Include="Assets\Scripts\Legacy\SnapShotReview.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\CustomMap.cs" />
     <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatUtility.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPauseService.cs" />
@@ -388,6 +391,7 @@
     <Compile Include="Assets\Scripts\Effects\COLOR_GRADUAL_TYPE.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HandGrip.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IUiService.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\MapTexture.cs" />
     <Compile Include="Assets\Scripts\Services\ScreenshotService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Hero.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\GrabAttack.cs" />
@@ -471,7 +475,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\CustomMaps\MapTexture.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\CustomMapConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 //[Obsolete]
@@ -1833,7 +1834,9 @@ namespace Assets.Scripts
             //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
             //}
             if (PhotonNetwork.isMasterClient)
-                LevelHelper.Load(Level);
+            {
+                Level.LoadLevel();
+            }
             GameCursor.CursorMode = CursorMode.Loading;
             var hashtable = new Hashtable
             {
@@ -2529,7 +2532,7 @@ namespace Assets.Scripts
             }
             else
             {
-                Vector3 position = pos.transform.position;
+                Vector3 position = pos?.transform.position ?? Vector3.zero;
                 if (this.racingSpawnPointSet)
                 {
                     position = this.racingSpawnPoint;
@@ -2540,7 +2543,7 @@ namespace Assets.Scripts
                     {
                         if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                         {
-                            position = SpawnService.GetRandom<HumanSpawner>().gameObject.transform.position;
+                            position = SpawnService.GetRandom<HumanSpawner>()?.gameObject.transform.position ?? new Vector3();
                         }
                         else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                         {
@@ -2566,12 +2569,12 @@ namespace Assets.Scripts
                 this.myLastHero = id.ToUpper();
                 if (myLastHero == "ErenTitan")
                 {
-                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
+                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos?.transform.rotation ?? new Quaternion(), 0),
                         true, false);
                 }
                 else
                 {
-                    var hero = SpawnService.Spawn<Hero>(position, pos.transform.rotation, preset);
+                    var hero = SpawnService.Spawn<Hero>(position, pos?.transform.rotation ?? new Quaternion(), preset);
                     component.SetMainObject(hero.transform.gameObject, true, false);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);

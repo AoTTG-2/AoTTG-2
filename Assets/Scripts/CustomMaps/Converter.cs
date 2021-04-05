@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Legacy.CustomMap;
+using Assets.Scripts.Services;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,10 +15,11 @@ namespace Assets.Scripts.CustomMaps
         public TextAsset AoTTGCustomMap;
         public TextAsset AoTTG2CustomMap;
 
-        public List<MapObject> LegacyObjects;
-        public List<MapTexture> LegacyTextures;
+        public CustomMapConfiguration Configuration;
 
         public bool LoadAoTTG2Map;
+
+        public CustomMapService Service;
 
         #region Legacy
         public void Awake()
@@ -40,7 +42,8 @@ namespace Assets.Scripts.CustomMaps
                     var rotation = GetRotation(attributes, type).eulerAngles;
                     var tiling = GetTiling(attributes, type);
                     var scale = GetScale(attributes, type);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture, tiling, scale));
+                    var color = GetColor(attributes, type);
+                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture, tiling, scale, color));
                 }
             }
 
@@ -52,7 +55,7 @@ namespace Assets.Scripts.CustomMaps
             {
                 //objects = AoTTG2CustomMap.text.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
                 objects = data.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
-                LoadCustomMap(objects);
+                Service.LoadCustomMap(objects);
             }
         }
 
@@ -61,14 +64,14 @@ namespace Assets.Scripts.CustomMaps
             var ground = GetLegacyMapObject("cuboid");
             if (ground != null)
             {
-                objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, ground.Name, "grass", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f)));
+                objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, ground.Name, "grass", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null));
             }
         }
 
         private MapObject GetLegacyMapObject(string legacyName)
         {
             if (legacyName == null) return null;
-            return LegacyObjects.SingleOrDefault(x => x.LegacyName == legacyName);
+            return Configuration.MapObjects.SingleOrDefault(x => x.LegacyName == legacyName);
         }
 
         private string GetModelName(string[] attributes, RcObjectType type)
@@ -84,7 +87,7 @@ namespace Assets.Scripts.CustomMaps
                 Debug.LogWarning($"Custom Map Converter: ModelName is not supported for {type}");
             }
 
-            if (LegacyObjects.Any(x => x.LegacyName == modelName)) return modelName;
+            if (Configuration.MapObjects.Any(x => x.LegacyName == modelName)) return modelName;
 
             Debug.LogWarning($"Custom Map Converter: Model {modelName} could not be found");
             return null;
@@ -103,7 +106,7 @@ namespace Assets.Scripts.CustomMaps
                 Debug.LogWarning($"Custom Map Converter: Texture is not supported for {type}");
             }
 
-            if (LegacyTextures.Any(x => x.LegacyName == texture)) return texture;
+            if (Configuration.MapTextures.Any(x => x.LegacyName == texture)) return texture;
             if (texture == "default") return null;
 
             Debug.LogWarning($"Custom Map Converter: Texture {texture} could not be found");
@@ -153,10 +156,34 @@ namespace Assets.Scripts.CustomMaps
             };
             if (tilingMap.Length == 0)
             {
-                Debug.LogWarning($"Custom Map: Tiling not supported for {type}");
+                Debug.LogWarning($"Custom Map Converter: Tiling not supported for {type}");
             }
 
             return new Vector2(Convert.ToSingle(mapData[tilingMap[0]]), Convert.ToSingle(mapData[tilingMap[1]]));
+        }
+
+        private static Color? GetColor(string[] mapData, RcObjectType type)
+        {
+            var colorMap = type switch
+            {
+                RcObjectType.Custom => new[] {6, 7, 8, 9},
+                _ => new int[0]
+            };
+            if (colorMap.Length == 0)
+            {
+                Debug.LogWarning($"Custom Map Converter: Color not supported for {type}");
+                return null;
+            }
+
+            if (int.TryParse(mapData[colorMap[0]], out var isEnabled) && isEnabled != 0)
+            {
+                if (float.TryParse(mapData[colorMap[1]], out var r) && float.TryParse(mapData[colorMap[2]], out var g) && float.TryParse(mapData[colorMap[3]], out var b))
+                {
+                    return new Color(r, g, b);
+                }
+            }
+
+            return null;
         }
 
         private static int[] GetPositionIndex(RcObjectType type)
@@ -195,61 +222,7 @@ namespace Assets.Scripts.CustomMaps
             }
         }
         #endregion
-
-        #region Custom Map
-        private void LoadCustomMap(string[] objects)
-        {
-            foreach (var item in objects)
-            {
-                var attributes = item.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
-                var mapItem = new CustomMapObject(attributes);
-                var mapObject = GetMapObject(mapItem.ModelName);
-                if (mapObject == null)
-                {
-                    Debug.LogWarning($"Custom Map: MODEL OBJECT {mapItem.ModelName} DOES NOT EXIST");
-                    continue;
-                }
-
-                var mapGameObject = Instantiate(mapObject.Prefab, mapItem.Position, Quaternion.Euler(mapItem.Rotation));
-                mapGameObject.name = mapItem.Identifier;
-                mapGameObject.transform.localScale = Vector3.Scale(mapGameObject.transform.localScale, mapItem.Scale);
-                if (GetMapTexture(mapItem.Texture, out var texture))
-                {
-                    foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
-                    {
-                        renderer.material = texture.Material;
-                        if (mapItem.Tiling.HasValue)
-                        {
-                            renderer.material.mainTextureScale = new Vector2(
-                                renderer.material.mainTextureScale.x * mapItem.Tiling.Value.x,
-                                renderer.material.mainTextureScale.y * mapItem.Tiling.Value.y);
-                            //renderer.material.mainTextureScale = Vector2.Scale(renderer.material.mainTextureScale, mapItem.Tiling.Value);
-                        }
-                    }
-                }
-            }
-        }
-
-        private MapObject GetMapObject(string objectName)
-        {
-            if (objectName == null) return null;
-            return LegacyObjects.SingleOrDefault(x => x.Name == objectName);
-        }
-
-        private bool GetMapTexture(string textureName, out MapTexture texture)
-        {
-            texture = null;
-            if (textureName == null) return false;
-            texture = LegacyTextures.SingleOrDefault(x => x.Name == textureName);
-            return texture != null;
-        }
-
-        #endregion
-
-
-
-
-
+        
 
         private struct LegacyObject
         {
@@ -263,6 +236,7 @@ namespace Assets.Scripts.CustomMaps
             private string Texture { get; set; }
             private Vector3 Scale { get; set; }
             private Vector2 Tiling { get; set; }
+            private Color? Color { get; }
 
             public LegacyObject(string identifier, Vector3 position)
             {
@@ -273,6 +247,7 @@ namespace Assets.Scripts.CustomMaps
                 Texture = null;
                 Scale = Vector3.one;
                 Tiling = Vector2.one;
+                Color = null;
             }
 
             public LegacyObject(string identifier, Vector3 position, Vector3 rotation, string modelName, string texture) : this(identifier, position)
@@ -282,13 +257,14 @@ namespace Assets.Scripts.CustomMaps
                 Texture = texture;
             }
 
-            public LegacyObject(string identifier, Vector3 position, Vector3 rotation, string modelName, string texture, Vector2 tiling, Vector3 scale) : this(identifier, position)
+            public LegacyObject(string identifier, Vector3 position, Vector3 rotation, string modelName, string texture, Vector2 tiling, Vector3 scale, Color? color) : this(identifier, position)
             {
                 Rotation = rotation;
                 ModelName = modelName;
                 Texture = texture;
                 Tiling = tiling;
                 Scale = scale;
+                Color = color;
             }
 
             public override string ToString()
@@ -309,64 +285,11 @@ namespace Assets.Scripts.CustomMaps
                         builder.Append($"t:{Texture};");
                         if (Tiling != Vector2.one) builder.Append($"til:{Tiling.x},{Tiling.y};");
                     }
+
+                    if (Color.HasValue) builder.Append($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)};");
                 }
 
                 return builder.ToString();
-            }
-        }
-
-        private struct CustomMapObject
-        {
-            public string Identifier { get; }
-            public Vector3 Position { get; }
-
-
-            public string ModelName { get; }
-            public string Texture { get; }
-            public Vector3 Rotation { get; }
-            public Vector3 Scale { get; }
-            public Vector2? Tiling { get; }
-
-            public CustomMapObject(string[] attributes)
-            {
-                var id = attributes.SingleOrDefault(x => x.Contains("i:"))?.Split(':')[1];
-                Identifier = id;
-
-                Position = ToVector3(attributes, "pos") ?? Vector3.zero;
-                Rotation = ToVector3(attributes, "rot") ?? Vector3.zero;
-                Scale = ToVector3(attributes, "scl") ?? Vector3.one;
-
-                ModelName = attributes.SingleOrDefault(x => x.StartsWith("m:"))?.Split(':')[1];
-                Texture = attributes.SingleOrDefault(x => x.StartsWith("t:"))?.Split(':')[1];
-                Tiling = ToVector2(attributes, "til");
-            }
-
-            private static Vector3? ToVector3(string[] attributes, string attributeName)
-            {
-                var data = attributes.SingleOrDefault(x => x.Contains($"{attributeName}:"))?.Split(':')[1];
-                if (data == null) return null;
-
-                var xyz = data.Split(',');
-                if (xyz.Length != 3) return null;
-                if (float.TryParse(xyz[0], out var x) && float.TryParse(xyz[1], out var y) && float.TryParse(xyz[2], out var z))
-                {
-                    return new Vector3(x, y, z);
-                }
-                return null;
-            }
-
-            private static Vector2? ToVector2(string[] attributes, string attributeName)
-            {
-                var data = attributes.SingleOrDefault(x => x.Contains($"{attributeName}:"))?.Split(':')[1];
-                if (data == null) return null;
-
-                var xy = data.Split(',');
-                if (xy.Length != 2) return null;
-                if (float.TryParse(xy[0], out var x) && float.TryParse(xy[1], out var y))
-                {
-                    return new Vector2(x, y);
-                }
-                return null;
             }
         }
     }

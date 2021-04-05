@@ -3,6 +3,8 @@ using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Settings.Titans;
 using System.Collections.Generic;
+using Assets.Scripts.CustomMaps;
+using Assets.Scripts.Services;
 
 namespace Assets.Scripts.Room
 {
@@ -21,25 +23,47 @@ namespace Assets.Scripts.Room
 
         private static void AddCustomMaps()
         {
-            foreach (var level in LevelHelper.GetAll())
+            //foreach (var level in LevelHelper.GetAll())
+            //{
+            //    _levels.Add(new Level
+            //    {
+            //        Name = level.Split('_')[0],
+            //        SceneName = null,
+            //        AssetBundle = level,
+            //        IsCustom = true,
+            //        Gamemodes = new List<GamemodeSettings>
+            //    {
+            //        new RacingSettings(),
+            //        new KillTitansSettings(),
+            //        new WaveGamemodeSettings(),
+            //        new InfectionGamemodeSettings(),
+            //        new CaptureGamemodeSettings(),
+            //        new RushSettings(),
+            //        new EndlessSettings(),
+            //        new PvPAhssSettings()
+            //    }
+            //    });
+            //}
+
+            var maps = Service.Map.GetCustomMaps();
+            foreach (var map in maps)
             {
                 _levels.Add(new Level
                 {
-                    Name = level.Split('_')[0],
-                    SceneName = null,
-                    AssetBundle = level,
-                    IsCustom = true,
+                    Name = map.Name,
+                    SceneName = "Custom",
+                    Type = CustomMapType.CustomMap,
                     Gamemodes = new List<GamemodeSettings>
-                {
-                    new RacingSettings(),
-                    new KillTitansSettings(),
-                    new WaveGamemodeSettings(),
-                    new InfectionGamemodeSettings(),
-                    new CaptureGamemodeSettings(),
-                    new RushSettings(),
-                    new EndlessSettings(),
-                    new PvPAhssSettings()
-                }
+                        {
+                            new RacingSettings(),
+                            new KillTitansSettings(),
+                            new WaveGamemodeSettings(),
+                            new InfectionGamemodeSettings(),
+                            new CaptureGamemodeSettings(),
+                            new RushSettings(),
+                            new EndlessSettings(),
+                            new PvPAhssSettings()
+                        }
                 });
             }
         }
@@ -51,11 +75,11 @@ namespace Assets.Scripts.Room
                 Name = "The City - Classic",
                 Description = "Classic City Map from AoTTG",
                 SceneName = "The City I",
- 
+
                 Gamemodes = new List<GamemodeSettings>
                 {
 
-                    
+
                     new KillTitansSettings
                     {
                         GamemodeType = GamemodeType.Titans,
