@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.Controls
 {
-    public class ControlsMenu : UiMenu
+    public class ControlsMenu : MonoBehaviour
     {
         public GameObject TabViewContent;
         public Button TabViewButton;
@@ -16,9 +16,6 @@ namespace Assets.Scripts.UI.InGame.Controls
 
         private void Awake()
         {
-            AddChild(GeneralControlsPage);
-            AddChild(RebindsPage);
-
             var inputEnums = new List<Type>
             {
                 typeof(InputCannon),
@@ -43,14 +40,14 @@ namespace Assets.Scripts.UI.InGame.Controls
 
         public void ShowGeneralControlsPage()
         {
-            RebindsPage.Hide();
-            GeneralControlsPage.Show();
+            GeneralControlsPage.gameObject.SetActive(true);
+            RebindsPage.gameObject.SetActive(false);
         }
 
         public void ShowRebindPage(Type type)
         {
-            GeneralControlsPage.Hide();
-            RebindsPage.Show();
+            GeneralControlsPage.gameObject.SetActive(false);
+            RebindsPage.gameObject.SetActive(true);
             RebindsPage.ShowRebinds(type);
         }
     }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
-    public class AccountPanel : UiContainer
+    public class AccountPanel : MonoBehaviour
     {
         public TextMeshProUGUI DatabaseStatus;
         public Button LoginButton;

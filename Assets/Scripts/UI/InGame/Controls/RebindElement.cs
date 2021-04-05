@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.Controls
 {
-    public class RebindElement : UiElement
+    public class RebindElement : MonoBehaviour
     {
         public Text Label;
         public Button InputKey;

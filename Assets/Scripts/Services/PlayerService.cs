@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Events;
 using Assets.Scripts.Events.Args;
 using Assets.Scripts.Services.Interface;
@@ -10,7 +11,6 @@ namespace Assets.Scripts.Services
         public event OnTitanDamaged OnTitanDamaged;
         public event OnTitanHit OnTitanHit;
         public event OnHeroHit OnHeroHit;
-        public event OnHeroKill OnHeroKill;
 
         /// <inheritdoc/>
         public void TitanDamaged(TitanDamagedEvent titanDamagedEvent)
@@ -25,15 +25,9 @@ namespace Assets.Scripts.Services
         }
 
         /// <inheritdoc/>
-        public void HeroHit(HeroHitEvent heroHitEvent)
+        public void HeroHit(HeroKillEvent heroKillEvent)
         {
-            OnHeroHit?.Invoke(heroHitEvent);
-        }
-
-        /// <inheritdoc/>
-        public void HeroKill(HeroKillEvent heroKillEvent)
-        {
-            OnHeroKill?.Invoke(heroKillEvent);
+            OnHeroHit?.Invoke(heroKillEvent);
         }
 
         public void OnRestart()

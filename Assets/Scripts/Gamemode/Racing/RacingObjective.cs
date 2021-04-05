@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Characters.Humans;
-using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 
@@ -8,10 +7,10 @@ namespace Assets.Scripts.Gamemode.Racing
     public class RacingObjective : MonoBehaviour
     {
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
-        public enum ObjectiveState { Queue, Taken, Current, Next }
+        private enum ObjectiveState { Taken, Current, Next, Queue }
 
         private ObjectiveState _state;
-        public ObjectiveState State
+        private ObjectiveState State
         {
             get
             {
@@ -58,7 +57,7 @@ namespace Assets.Scripts.Gamemode.Racing
             {
                 var materialBlock = new MaterialPropertyBlock();
                 renderers[i].GetPropertyBlock(materialBlock);
-                materialBlock.SetColor("_BaseColor", i % 2 == 0 ? evenColor : unevenColor);
+                materialBlock.SetColor("_Color", i % 2 == 0 ? evenColor : unevenColor);
                 renderers[i].SetPropertyBlock(materialBlock);
             }
         }
@@ -71,18 +70,15 @@ namespace Assets.Scripts.Gamemode.Racing
             State = ObjectiveState.Current;
         }
 
-        public void Queue()
-        {
-            State = ObjectiveState.Queue;
-        }
-
         private void Start()
         {
-            OnStateChanged(_state);
             if (Gamemode == null)
             {
                 Destroy(gameObject.transform.parent.gameObject);
+                return;
             }
+            Gamemode.Objectives.Add(this);
+            State = ObjectiveState.Queue;
         }
 
         private void OnDestroy()
@@ -102,7 +98,7 @@ namespace Assets.Scripts.Gamemode.Racing
                 {
                     this.hint.transform.position = Hero.transform.position + Vector3.up * 0.5f;
                     Vector3 vector = NextObjective.transform.position - this.hint.transform.position;
-                    float num = Mathf.Atan2(-vector.z, vector.x) * Mathf.Rad2Deg;
+                    float num = Mathf.Atan2(-vector.z, vector.x) * 57.29578f;
                     this.hint.transform.rotation = Quaternion.Euler(-90f, num + 180f, 0f);
                 }
                 else if (this.hint != null)
@@ -119,10 +115,11 @@ namespace Assets.Scripts.Gamemode.Racing
             if (!hero.photonView.isMine) return;
             State = ObjectiveState.Taken;
             Hero = hero;
-	        if (audioSource) audioSource.Play();          
+            audioSource.Play();
+            
 
             FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
-            hero.FillGas();
+            hero.fillGas();
 
             if (NextObjective != null)
             {
@@ -132,7 +129,7 @@ namespace Assets.Scripts.Gamemode.Racing
                 this.hint.transform.parent = Hero.transform;
                 this.hint.transform.position = Hero.transform.position + Vector3.up * 0.5f;
                 Vector3 vector = base.transform.position - this.hint.transform.position;
-                float num = Mathf.Atan2(-vector.z, vector.x) * Mathf.Rad2Deg;
+                float num = Mathf.Atan2(-vector.z, vector.x) * 57.29578f;
                 this.hint.transform.rotation = Quaternion.Euler(-90f, num + 180f, 0f);
             }
             else

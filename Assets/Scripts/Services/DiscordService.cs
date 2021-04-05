@@ -2,6 +2,7 @@
 using Assets.Scripts.Services.Interface;
 using Discord;
 using Photon;
+using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
@@ -26,13 +27,13 @@ namespace Assets.Scripts.Services
 
         private void Awake()
         {
-            discord = new Discord.Discord(AppID, (ulong) CreateFlags.NoRequireDiscord);
+            discord = new Discord.Discord(AppID, (UInt64) Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
 
             activityManager.OnActivityJoin += JoinViaDiscord;
             SceneManager.activeSceneChanged += OnSceneChanged;
             
-            activityManager.OnActivityJoinRequest += (ref User user) =>
+            activityManager.OnActivityJoinRequest += (ref Discord.User user) =>
             {
                 FengGameManagerMKII.instance.chatRoom.OutputSystemMessage($"{user.Username}#{user.Discriminator} has requested to join the game");    //Refactor, when ChatService implemented.
             };
@@ -67,7 +68,8 @@ namespace Assets.Scripts.Services
 
         private void JoinViaDiscord(string roomID)
         {
-            Service.Photon.Connect();
+            Service.Photon.UpdateConnectionType(false);
+            Service.Photon.Initialize();
             if (joiningRoutine != null)
                 StopCoroutine(joiningRoutine);
 
@@ -77,7 +79,8 @@ namespace Assets.Scripts.Services
         private IEnumerator JoinRoutine(string roomID)
         {
             float startTime = Time.time;
-            Service.Photon.Connect();
+            Service.Photon.UpdateConnectionType(false);
+            Service.Photon.Initialize();
 
             while (!isJoinedLobby)
             {

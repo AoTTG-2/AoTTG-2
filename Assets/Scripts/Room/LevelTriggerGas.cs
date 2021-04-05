@@ -1,5 +1,4 @@
 using System;
-using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class LevelTriggerGas : MonoBehaviour
@@ -10,7 +9,7 @@ public class LevelTriggerGas : MonoBehaviour
         {
             if (other.gameObject.GetComponent<Hero>().photonView.isMine)
             {
-                other.gameObject.GetComponent<Hero>().FillGas();
+                other.gameObject.GetComponent<Hero>().fillGas();
                 UnityEngine.Object.Destroy(base.gameObject);
             }
         }

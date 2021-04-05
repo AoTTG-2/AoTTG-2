@@ -1,23 +1,20 @@
-using Assets.Scripts.Services;
-using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.Room;
+﻿using Assets.Scripts.Settings.Gamemodes;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class ServerSettingsPage : UiContainer
+    public class ServerSettingsPage : MonoBehaviour
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
         private List<Level> levels;
-        
+
         private Level selectedLevel;
         private GamemodeSettings selectedGamemode;
 
-        
-        
         private void Awake()
         {
             levels = LevelBuilder.GetAllLevels();
@@ -25,8 +22,6 @@ namespace Assets.Scripts.UI.InGame
 
         public void Start()
         {
-           
-            
             LevelDropdown.options = new List<Dropdown.OptionData>();
             foreach (var level in levels)
             {
@@ -64,14 +59,13 @@ namespace Assets.Scripts.UI.InGame
         {
             selectedGamemode = gamemode;
         }
-      
+
         public void Sync()
         {
             if (!PhotonNetwork.isMasterClient) return;
-            Service.Settings.SyncSettings();
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
             FengGameManagerMKII.NewRoundLevel = selectedLevel;
-            FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
+            FengGameManagerMKII.instance.photonView.RPC("Chat", PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
         }
     }
 }

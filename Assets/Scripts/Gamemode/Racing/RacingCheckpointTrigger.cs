@@ -1,5 +1,4 @@
 using Assets.Scripts;
-using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class RacingCheckpointTrigger : MonoBehaviour
@@ -13,7 +12,7 @@ public class RacingCheckpointTrigger : MonoBehaviour
             if (gameObject.GetPhotonView() != null && gameObject.GetPhotonView().isMine && gameObject.GetComponent<Hero>() != null)
             {
                 FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#00ff00>Checkpoint set.</color>");
-                gameObject.GetComponent<Hero>().FillGas();
+                gameObject.GetComponent<Hero>().fillGas();
                 FengGameManagerMKII.instance.racingSpawnPoint = base.gameObject.transform.position;
                 FengGameManagerMKII.instance.racingSpawnPointSet = true;
             }

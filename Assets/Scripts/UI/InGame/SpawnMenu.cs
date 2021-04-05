@@ -1,17 +1,16 @@
-﻿using Assets.Scripts.Characters.Humans.Equipment;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
-using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Settings;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Services;
+using Assets.Scripts.Services.Interface;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class SpawnMenu : UiMenu
+    public class SpawnMenu : MonoBehaviour
     {
         private ISpawnService SpawnService => Service.Spawn;
 
@@ -91,6 +90,16 @@ namespace Assets.Scripts.UI.InGame
                 }
             }
             return (num == num2);
+        }
+
+        private void OnEnable()
+        {
+            MenuManager.RegisterOpened();
+        }
+
+        private void OnDisable()
+        {
+            MenuManager.RegisterClosed();
         }
     }
 }

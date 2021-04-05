@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame.Controls
 {
-    public class RebindsPage : UiContainer
+    public class RebindsPage : MonoBehaviour
     {
         public GameObject RebindsViewContent;
         public RebindElement RebindElementPrefab;

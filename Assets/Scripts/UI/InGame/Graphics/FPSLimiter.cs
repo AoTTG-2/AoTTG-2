@@ -1,19 +1,25 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FPSLimiter : MonoBehaviour
 {
-    public InputField fpsLimiter;
-    public int limit;
 
-    public InputField FPSLimit { get; set; }
+
+    [SerializeField] public InputField fpsLimiter;
+
+    public InputField FPSLimit
+    {
+        get { return fpsLimiter; }
+        set { fpsLimiter = value; }
+    }
+
 
     private void Start()
     {
         if (FPSLimit.text == "")
         {
-            DefaultFPS();
+            Application.targetFrameRate = Screen.currentResolution.refreshRate;
         }
         else
         {
@@ -23,23 +29,19 @@ public class FPSLimiter : MonoBehaviour
 
     public void SetFPSLimit()
     {
-        FPSLimit = fpsLimiter;
         FPSLimit.interactable = true;
         var text = FPSLimit.text;
-        text = text.Replace("-", string.Empty);
-        int.TryParse(text, out limit);
-        Application.targetFrameRate = limit;
-        if (FPSLimit.text == "")
+        if (FPSLimit.contentType.Equals(InputField.ContentType.IntegerNumber))
         {
-            DefaultFPS();
+            int i;
+            Int32.TryParse(text.ToString(), out i);
+            Application.targetFrameRate = i;
+
         }
+
     }
 
-    public void DefaultFPS()
-    {
-        Application.targetFrameRate = Screen.currentResolution.refreshRate;
-    }
-
+    [Serializable]
     public struct FPSData
     {
         public string field;
@@ -49,4 +51,6 @@ public class FPSLimiter : MonoBehaviour
             this.field = toCopy.FPSLimit.text;
         }
     }
+
+
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Elements
@@ -7,22 +6,12 @@ namespace Assets.Scripts.UI.Elements
     public class UiDropdown : UiElement
     {
         public Dropdown Dropdown;
-
         public Text DisplayValue;
-        public Text LabelText;
         public Type Type;
+        public Text LabelText;
 
-        public int Value
-        {
-            get { return Dropdown.value; }
-            set { Dropdown.value = value; }
-        }
-
-        public string Label
-        {
-            get { return LabelText.text; }
-            set { LabelText.text = value; }
-        }
+        public int Value;
+        public string Label;
 
         public void Initialize(Type type)
         {
@@ -37,13 +26,8 @@ namespace Assets.Scripts.UI.Elements
                 Dropdown.value = Value;
                 DisplayValue.text = Dropdown.options[Value].text;
                 LabelText.text = Label;
+
             }
         }
-
-        private void Awake()
-        {
-            Dropdown.options = new List<Dropdown.OptionData>();
-        }
-
     }
 }

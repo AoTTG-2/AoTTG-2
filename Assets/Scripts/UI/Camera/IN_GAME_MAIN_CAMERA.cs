@@ -1,6 +1,5 @@
 using Assets.Scripts;
 using Assets.Scripts.Characters;
-using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
@@ -35,7 +34,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private Transform head;
     [SerializeField]
     private float heightMulti;
-    [Obsolete("This is always false")]
     public static bool isPausing;
     public static bool isTyping;
     private bool lockAngle;
@@ -68,7 +66,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     private bool isRestarting = true;
     private float startingTime;
     public bool IsSpecmode => (int) settings[0xf5] == 1;
-    public GameObject HUD;
+
     private void Awake()
     {
         EntityService.OnRegister += EntityService_OnRegistered;
@@ -154,7 +152,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         //GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
         //this.flashDuration = 2f;
     }
-    
+
     public GameObject SetMainObject(GameObject obj, bool resetRotation = true, bool lockAngle = false)
     {
         float num;
@@ -384,11 +382,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.F1))
-         {
-            ToggleHUD();
-         }
         SnapShotUpdate();
         if (flashDuration > 0f)
         {
@@ -668,10 +661,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         instance.chatRoom.OutputSystemMessage(message);
     }
 
-    public void ToggleHUD()
-    {
-       HUD.SetActive(!HUD.activeInHierarchy);
-    }
     public static void ToggleSpawnMenu()
     {
         var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
@@ -846,7 +835,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void Start()
     {
-        HUD =GameObject.Find("HUD");
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
 

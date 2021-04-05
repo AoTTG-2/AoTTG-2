@@ -14,7 +14,11 @@ namespace Assets.Scripts.Gamemode.Racing
             if (IsRacingOnly && GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)
             {
                 Destroy(gameObject);
+                yield break;
             }
+
+            var racingGamemode = (RacingGamemode) FengGameManagerMKII.Gamemode;
+            racingGamemode.StartBarriers.Add(this);
         }
 
         private void OnDestroy()

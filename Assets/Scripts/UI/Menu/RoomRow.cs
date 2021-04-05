@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
-    public class RoomRow : UiElement
+    public class RoomRow : MonoBehaviour
     {
         public Image PasswordIcon;
         public Image AccountIcon;

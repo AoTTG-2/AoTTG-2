@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Characters.Humans;
-using System;
+﻿using System;
 
 namespace Assets.Scripts.Events.Args
 {

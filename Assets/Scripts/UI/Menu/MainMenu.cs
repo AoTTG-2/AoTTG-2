@@ -1,8 +1,4 @@
 ﻿using Assets.Scripts.Services;
-#if UNITY_EDITOR
-#else
-using UnityEngine;
-#endif
 
 namespace Assets.Scripts.UI.Menu
 {
@@ -15,7 +11,13 @@ namespace Assets.Scripts.UI.Menu
 
         public void Multiplayer()
         {
-            Service.Photon.Connect();
+            Service.Photon.UpdateConnectionType(false);
+            Navigate(typeof(Lobby));
+        }
+
+        public void LAN()
+        {
+            Service.Photon.UpdateConnectionType(true);
             Navigate(typeof(Lobby));
         }
 
@@ -27,17 +29,6 @@ namespace Assets.Scripts.UI.Menu
         public void MapEditor()
         {
             //TODO: Switch to MapEditor scene
-        }
-
-        public void Quit()
-        {
-
-#if UNITY_EDITOR
-
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
         }
     }
 }

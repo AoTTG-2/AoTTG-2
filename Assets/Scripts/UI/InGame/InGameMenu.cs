@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class InGameMenu : UiMenu
+    public class InGameMenu : MonoBehaviour
     {
         public GameSettingMenu GameSettingsMenu;
+        public GameObject GraphicsView;
         public ControlsMenu ControlsMenu;
-        public GraphicSettingMenu GraphicsSettingsMenu;
 
         // Used by Button.
         public void Quit()
@@ -18,41 +18,34 @@ namespace Assets.Scripts.UI.InGame
         // Used by Button.
         public void ShowGameSettingsMenu()
         {
-            GameSettingsMenu.Show();
+            GameSettingsMenu.gameObject.SetActive(true);
         }
 
         // Used by Button.
         public void ShowGraphicSettingsMenu()
         {
-            GraphicsSettingsMenu.Show();
+            GraphicsView.gameObject.SetActive(true);
         }
 
         // Used by Button.
         public void ShowRebindsMenu()
         {
-            ControlsMenu.Show();
+            ControlsMenu.gameObject.SetActive(true);
         }
 
-        private void Awake()
+        private void OnEnable()
         {
-            AddChild(GameSettingsMenu);
-            AddChild(ControlsMenu);
-            AddChild(GraphicsSettingsMenu);
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
+            MenuManager.RegisterOpened();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
 
-        protected override void OnDisable()
+        private void OnDisable()
         {
-            base.OnDisable();
-            GameSettingsMenu.Hide();
-            GraphicsSettingsMenu.Hide();
-            ControlsMenu.Hide();
+            MenuManager.RegisterClosed();
+            GameSettingsMenu.gameObject.SetActive(false);
+            GraphicsView.gameObject.SetActive(false);
+            ControlsMenu.gameObject.SetActive(false);
         }
     }
 }

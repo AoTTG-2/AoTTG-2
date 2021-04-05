@@ -36,11 +36,6 @@ namespace Assets.Scripts.Services
             }
         }
 
-        public UiHandler GetUiHandler()
-        {
-            return MainUi;
-        }
-
         public void ResetMessage(LabelPosition label)
         {
             GetLabel(label).text = string.Empty;
@@ -63,12 +58,9 @@ namespace Assets.Scripts.Services
             GetLabel(label).text = message;
         }
 
-        private void OnLevelWasLoaded(int level)
+        public override void OnDisconnectedFromPhoton()
         {
-            if (level == 0)
-            {
-                MainUi.ShowMenu();
-            }
+            MainUi.ShowMenu();
         }
     }
 }

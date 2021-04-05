@@ -347,19 +347,18 @@ namespace Assets.Scripts.Characters.Titan
             Rigidbody.AddForce(direction * 50f, ForceMode.VelocityChange);
             if (this is MindlessTitan t)
             {
-                t.photonView.RPC(nameof(OnNapeHitRpc), PhotonTargets.All, attacker.photonView.viewID, damage);
+                t.OnNapeHitRpc(attacker.photonView.viewID, damage);
             }
             else
             {
-                photonView.RPC(nameof(OnNapeHitRpc), PhotonTargets.All, attacker.photonView.viewID, damage);
+                photonView.RPC(nameof(OnNapeHitRpc2), PhotonTargets.All, attacker.photonView.viewID, damage);
             }
         }
 
         [Obsolete("Blocking all damage for 0.2s isn't viable. Instead block this per view ID instead of all")]
         private float DamageTimer { get; set; }
-
         [PunRPC]
-        public virtual void OnNapeHitRpc(int viewId, int damage, PhotonMessageInfo info = new PhotonMessageInfo())
+        public virtual void OnNapeHitRpc2(int viewId, int damage, PhotonMessageInfo info)
         {
             if (!IsAlive) return;
             var view = PhotonView.Find(viewId);
@@ -383,7 +382,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (MaxHealth > 0)
             {
-                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
+                photonView.RPC(nameof(UpdateHealthLabelRpc2), PhotonTargets.All, Health, MaxHealth);
             }
 
             if (Health <= 0)
@@ -401,7 +400,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
-        protected void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
+        protected void UpdateHealthLabelRpc2(int currentHealth, int maxHealth)
         {
             if (currentHealth < 0)
             {
@@ -432,7 +431,7 @@ namespace Assets.Scripts.Characters.Titan
 
         #region Titan State Logic
 
-        public virtual void SetState(TitanState state)
+        protected virtual void SetState(TitanState state)
         {
             if (!IsAlive) return;
             if (state == State) return;

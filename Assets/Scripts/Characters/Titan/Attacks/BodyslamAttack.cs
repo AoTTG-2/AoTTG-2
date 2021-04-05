@@ -1,5 +1,4 @@
 ﻿using System;
-using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,7 +19,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (Titan.TargetDistance >= Titan.AttackDistance * 2) return false;
             if (IsDisabled()) return false;
             Vector3 vector18 = Titan.Target.transform.position - Titan.transform.position;
-            var angle = -Mathf.Atan2(vector18.z, vector18.x) * Mathf.Rad2Deg;
+            var angle = -Mathf.Atan2(vector18.z, vector18.x) * 57.29578f;
             var between = -Mathf.DeltaAngle(angle, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
             return Mathf.Abs(between) < 90f && between > 0 &&
                    Titan.TargetDistance < Titan.AttackDistance * 0.5f;
