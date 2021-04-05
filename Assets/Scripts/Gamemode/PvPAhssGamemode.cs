@@ -85,7 +85,7 @@ namespace Assets.Scripts.Gamemode
         //{
         //    FengGameManagerMKII.instance.gameEndCD = FengGameManagerMKII.instance.gameEndTotalCDtime;
         //    var parameters = new object[] { teamWinner };
-        //    FengGameManagerMKII.instance.photonView.RPC("netGameWin", PhotonTargets.Others, parameters);
+        //    FengGameManagerMKII.instance.photonView.RPC(nameof(netGameWin), PhotonTargets.Others, parameters);
         //    if (((int) FengGameManagerMKII.settings[0xf4]) == 1)
         //    {
         //        //this.chatRoom.addLINE("<color=#FFC000>(" + this.roundTime.ToString("F2") + ")</color> Round ended (game win).");

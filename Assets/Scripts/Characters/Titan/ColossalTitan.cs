@@ -2,6 +2,7 @@ using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
 using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
 
@@ -89,7 +90,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { (Vector3) ((vector.normalized * num) + (Vector3.up * 1f)) };
-                player.GetComponent<Hero>().photonView.RPC(nameof(Hero.blowAway), PhotonTargets.All, parameters);
+                player.GetComponent<Hero>().photonView.RPC(nameof(Hero.BlowAway), PhotonTargets.All, parameters);
             }
         }
 
@@ -128,7 +129,7 @@ namespace Assets.Scripts.Characters.Titan
                         }
                         return gameObject;
                     }
-                    if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                    if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible)
                     {
                         return gameObject;
                     }
@@ -143,7 +144,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { aniName, time };
-                base.photonView.RPC("netCrossFade", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, parameters);
             }
         }
 
@@ -194,9 +195,9 @@ namespace Assets.Scripts.Characters.Titan
                 Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
                 if (!hitHero.GetComponent<Hero>().HasDied())
                 {
-                    hitHero.GetComponent<Hero>().markDie();
+                    hitHero.GetComponent<Hero>().MarkDie();
                     object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Colossal Titan", true };
-                    hitHero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                    hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
                 }
             }
         }
@@ -249,7 +250,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (PhotonNetwork.isMasterClient && (((int) FengGameManagerMKII.settings[1]) == 1))
             {
-                base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x43] });
+                base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x43] });
             }
         }
 
@@ -366,7 +367,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { aniName };
-                base.photonView.RPC("netPlayAnimation", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, parameters);
             }
         }
 
@@ -377,7 +378,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { aniName, normalizedTime };
-                base.photonView.RPC("netPlayAnimationAt", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, parameters);
             }
         }
 
@@ -387,7 +388,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { sndname };
-                base.photonView.RPC("playsoundRPC", PhotonTargets.Others, parameters);
+                base.photonView.RPC(nameof(playsoundRPC), PhotonTargets.Others, parameters);
             }
         }
 
@@ -442,7 +443,7 @@ namespace Assets.Scripts.Characters.Titan
             if (base.photonView.isMine)
             {
                 //this.size = GameSettings.Titan.Colossal.Size.Value;
-                base.photonView.RPC("setSize", PhotonTargets.AllBuffered, new object[] { this.size });
+                base.photonView.RPC(nameof(setSize), PhotonTargets.AllBuffered, new object[] { this.size });
                 this.lagMax = 150f + (this.size * 3f);
                 this.healthTime = 0f;
                 this.maxHealth = Health;
@@ -452,7 +453,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
                 if (this.Health > 0)
                 {
-                    base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
+                    base.photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
                 }
                 this.loadskin();
             }
@@ -565,7 +566,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
-        public override void OnNapeHitRpc2(int viewID, int damage, PhotonMessageInfo info)
+        public override void OnNapeHitRpc(int viewID, int damage, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             Transform transform = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
             PhotonView view = PhotonView.Find(viewID);
@@ -580,7 +581,7 @@ namespace Assets.Scripts.Characters.Titan
                     }
                     if (this.maxHealth > 0f)
                     {
-                        base.photonView.RPC("labelRPC", PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
+                        base.photonView.RPC(nameof(labelRPC), PhotonTargets.AllBuffered, new object[] { this.Health, this.maxHealth });
                     }
                     this.neckSteam();
 
@@ -589,7 +590,7 @@ namespace Assets.Scripts.Characters.Titan
                         this.Health = 0;
                         if (!this.hasDie)
                         {
-                            base.photonView.RPC("netDie", PhotonTargets.OthersBuffered, new object[0]);
+                            base.photonView.RPC(nameof(netDie), PhotonTargets.OthersBuffered, new object[0]);
                             this.netDie();
                             manager.titanGetKill(view.owner, damage, base.name);
                         }
@@ -598,7 +599,7 @@ namespace Assets.Scripts.Characters.Titan
                     {
                         manager.sendKillInfo(false, (string) view.owner.CustomProperties[PhotonPlayerProperty.name], true, "Colossal Titan's neck", damage);
                         object[] parameters = new object[] { damage };
-                        manager.photonView.RPC("netShowDamage", view.owner, parameters);
+                        manager.photonView.RPC(nameof(FengGameManagerMKII.netShowDamage), view.owner, parameters);
                     }
                     this.healthTime = 0.2f;
                 }
@@ -783,7 +784,7 @@ namespace Assets.Scripts.Characters.Titan
                 else
                 {
                     Vector3 vector = this.myHero.transform.position - base.transform.position;
-                    float current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                    float current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
                     float f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                     this.myDistance = Mathf.Sqrt(((this.myHero.transform.position.x - base.transform.position.x) * (this.myHero.transform.position.x - base.transform.position.x)) + ((this.myHero.transform.position.z - base.transform.position.z) * (this.myHero.transform.position.z - base.transform.position.z)));
                     float num4 = this.myHero.transform.position.y - base.transform.position.y;

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-	public class QualitySwitcher : MonoBehaviour {
+	public class QualitySwitcher : UiElement {
 		public Text Label;
 		public Slider Slider;
 

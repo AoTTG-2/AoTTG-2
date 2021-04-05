@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Assets.Scripts.UI.Input;
 using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class Cannon : Photon.MonoBehaviour
@@ -44,7 +45,7 @@ public class Cannon : Photon.MonoBehaviour
                 if (FengGameManagerMKII.instance.allowedToCannon.ContainsKey(owner.ID))
                 {
                     this.settings = FengGameManagerMKII.instance.allowedToCannon[owner.ID].settings;
-                    base.photonView.RPC("SetSize", PhotonTargets.All, new object[] { this.settings });
+                    base.photonView.RPC(nameof(SetSize), PhotonTargets.All, new object[] { this.settings });
                     int viewID = FengGameManagerMKII.instance.allowedToCannon[owner.ID].viewID;
                     FengGameManagerMKII.instance.allowedToCannon.Remove(owner.ID);
                     CannonPropRegion component = PhotonView.Find(viewID).gameObject.GetComponent<CannonPropRegion>();
@@ -89,7 +90,7 @@ public class Cannon : Photon.MonoBehaviour
                 {
                     GameObject go = PhotonNetwork.Instantiate("RCAsset/" + strArray[1] + "Prop", new Vector3(Convert.ToSingle(strArray[12]), Convert.ToSingle(strArray[13]), Convert.ToSingle(strArray[14])), new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]), Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
                     go.GetComponent<CannonPropRegion>().settings = this.settings;
-                    go.GetPhotonView().RPC("SetSize", PhotonTargets.AllBuffered, new object[] { this.settings });
+                    go.GetPhotonView().RPC(nameof(SetSize), PhotonTargets.AllBuffered, new object[] { this.settings });
                 }
                 else
                 {
@@ -268,8 +269,8 @@ public class Cannon : Photon.MonoBehaviour
                     this.myHero.isCannon = false;
                     this.myHero.myCannonRegion = null;
                     Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(this.myHero.gameObject, true, false);
-                    this.myHero.baseRigidBody.velocity = Vector3.zero;
-                    this.myHero.photonView.RPC("ReturnFromCannon", PhotonTargets.Others, new object[0]);
+                    this.myHero.Rigidbody.velocity = Vector3.zero;
+                    this.myHero.photonView.RPC(nameof(Hero.ReturnFromCannon), PhotonTargets.Others, new object[0]);
                     this.myHero.skillCDLast = this.myHero.skillCDLastCannon;
                     this.myHero.skillCDDuration = this.myHero.skillCDLast;
                 }

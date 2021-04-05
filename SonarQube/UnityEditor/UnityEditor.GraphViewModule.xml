@@ -1,0 +1,3866 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<doc>
+  <members>
+    <assembly>
+      <name>UnityEditor.GraphViewModule</name>
+    </assembly>
+    <member name="T:UnityEditor.Experimental.GraphView.Attacher">
+      <summary>
+        <para>Helper object that attaches a visual element next to its target, regarless of their respective location in the visual tree hierarchy.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Attacher.alignment">
+      <summary>
+        <para>Relative alignment between the attached element and the target.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Attacher.distance">
+      <summary>
+        <para>The distance between the attached element and the target.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Attacher.element">
+      <summary>
+        <para>The element that is attached to the target element.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Attacher.offset">
+      <summary>
+        <para>An absolute offset added to the element position after placement.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Attacher.target">
+      <summary>
+        <para>The target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Attacher.#ctor(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.VisualElement,UnityEngine.SpriteAlignment)">
+      <summary>
+        <para>Attaches a visual element next to its target, regarless of their respective locations in the visual tree hierarchy.</para>
+      </summary>
+      <param name="anchored">The element that will be positioned alongside the target.</param>
+      <param name="target">The target element.</param>
+      <param name="alignment">Relative alignment between the attached element and the target.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Attacher.Detach">
+      <summary>
+        <para>Stop monitoring the target element and postioning the attached element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Attacher.Reattach">
+      <summary>
+        <para>Starts monitoring target element position changes and places the attached element accordingly.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Blackboard">
+      <summary>
+        <para>GraphElement that enables user to dynamically define members of a Graph (such as fields/properties) grouped by sections (BlackboardSection).</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.addItemRequested">
+      <summary>
+        <para>Called when user clicks on the Add button of this Blackboard.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.contentContainer">
+      <summary>
+        <para>The content container of this Blackboard.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.editTextRequested">
+      <summary>
+        <para>Called when user has edited the text of this BlackboardField.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.graphView">
+      <summary>
+        <para>The GraphView that the Blackboard is attached to.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.moveItemRequested">
+      <summary>
+        <para>Called when user has dragged and dropped a BlackboardField to a new location inside its BlackboardSection.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.scrollable">
+      <summary>
+        <para>Indicates whether the content of this Blackboard can be vertically scrolled by user. It is false by default.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.selection">
+      <summary>
+        <para>All selected elements in the GraphView that the Blackboard is attached to.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.subTitle">
+      <summary>
+        <para>The subtitle of this Blackboard.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.title">
+      <summary>
+        <para>The title of this Blackboard.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Blackboard.windowed">
+      <summary>
+        <para>Set to true when the Blackboard displays in a separate window. Set to false when the Blackboard displays in the GraphView.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Blackboard.AddToSelection(UnityEditor.Experimental.GraphView.ISelectable)">
+      <summary>
+        <para>Adds an element to the selection in the GraphView that the Blackboard is attached to.</para>
+      </summary>
+      <param name="selectable">Element to add to selection.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Blackboard.ClearSelection">
+      <summary>
+        <para>Clears the selection in the GraphView that the Blackboard is attached to.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Blackboard.#ctor()">
+      <summary>
+        <para>Constructs a Blackboard.</para>
+      </summary>
+      <param name="associatedGraphView"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Blackboard.RemoveFromSelection(UnityEditor.Experimental.GraphView.ISelectable)">
+      <summary>
+        <para>Removes an element from the selection in the GraphView that the Blackboard is attached to.</para>
+      </summary>
+      <param name="selectable">Element to remove from selection.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.BlackboardField">
+      <summary>
+        <para>GraphElement that represents a field of a Graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardField.blackboard">
+      <summary>
+        <para>The Blackboard that the field belongs to.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardField.highlighted">
+      <summary>
+        <para>The highlighted state of this BlackboardField.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardField.icon">
+      <summary>
+        <para>The icon of this BlackboardField.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardField.text">
+      <summary>
+        <para>The text of this BlackboardField.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardField.typeText">
+      <summary>
+        <para>The text that displays the data type of this BlackboardField.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.BlackboardField.BuildFieldContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)">
+      <summary>
+        <para>Called when the BlackboardField is asked to display the contextual menu.</para>
+      </summary>
+      <param name="evt"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.BlackboardField.#ctor">
+      <summary>
+        <para>Constructs a BlackboardField.</para>
+      </summary>
+      <param name="icon">The icon of this BlackboardField.</param>
+      <param name="text">The text of this BlackboardField.</param>
+      <param name="typeText">The text that displays the data type of this BlackboardField.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.BlackboardField.#ctor(UnityEngine.Texture,System.String,System.String)">
+      <summary>
+        <para>Constructs a BlackboardField.</para>
+      </summary>
+      <param name="icon">The icon of this BlackboardField.</param>
+      <param name="text">The text of this BlackboardField.</param>
+      <param name="typeText">The text that displays the data type of this BlackboardField.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.BlackboardField.OpenTextEditor">
+      <summary>
+        <para>Opens a TextField to edit the text in a BlackboardField.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.BlackboardRow">
+      <summary>
+        <para>Collapsible GraphElement that represents a row in a BlackboardSection.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardRow.expanded">
+      <summary>
+        <para>Indicates whether the BlackboardRow is expanded.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.BlackboardRow.#ctor(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>Constructs a BlackboardRow from a VisualElement and its associated property view. The VisualElement is usually a BlackboardField.</para>
+      </summary>
+      <param name="item">The item that fills the content of this BlackboardRow.</param>
+      <param name="propertyView">The property view related to the content of this BlackboardRow.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.BlackboardSection">
+      <summary>
+        <para>GraphElement that represents a section of members in a Blackboard.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardSection.canAcceptDrop">
+      <summary>
+        <para>Callback for indicating whether this BlackboardSection accepts the selected object.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardSection.contentContainer">
+      <summary>
+        <para>The content container of this BlackboardSection.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardSection.headerVisible">
+      <summary>
+        <para>Indicates whether the header of the BlackboardSection is visible.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.BlackboardSection.title">
+      <summary>
+        <para>The title of this BlackboardSection.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.BlackboardSection.CanAcceptDrop(System.Collections.Generic.List`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;)">
+      <summary>
+        <para>Indicates whether this BlackboardSection accepts the selected object.</para>
+      </summary>
+      <param name="selected">The selected object.</param>
+      <param name="selection"></param>
+      <returns>
+        <para>Returns true when the BlackboardSection accepts the selected object.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.BlackboardSection.CanAcceptDropDelegate">
+      <summary>
+        <para>Delegate for indicating whether this BlackboardSection accepts the selected object.</para>
+      </summary>
+      <param name="selected">The selected object.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.BlackboardSection.#ctor">
+      <summary>
+        <para>Constructs a BlackboardSection.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Capabilities">
+      <summary>
+        <para>Capabilities used by Manipulators to easily determine valid actions on a GraphElement.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Ascendable">
+      <summary>
+        <para>The GraphElement will be brought to the front of its layer when it is selected.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Collapsible">
+      <summary>
+        <para>The GraphElement can be collapsed.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Copiable">
+      <summary>
+        <para>The GraphElement can be copied.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Deletable">
+      <summary>
+        <para>The GraphElement can be deleted.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Droppable">
+      <summary>
+        <para>The GraphElement can be dragged and dropped (using the Drag&amp;Drop events).</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Groupable">
+      <summary>
+        <para>The GraphElement can be grouped.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Movable">
+      <summary>
+        <para>The GraphElement is movable.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Renamable">
+      <summary>
+        <para>The GraphElement is renamable.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Resizable">
+      <summary>
+        <para>The GraphElement is resizable.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Selectable">
+      <summary>
+        <para>The GraphElement is selectable.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Snappable">
+      <summary>
+        <para>When Graph Snapping is enabled in Preferences, other GraphElements align with this GraphElement when the user drags them.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Capabilities.Stackable">
+      <summary>
+        <para>The GraphElement can be placed in StackNode containers.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ClickSelector">
+      <summary>
+        <para>Selects element on single click.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ClickSelector.#ctor">
+      <summary>
+        <para>Constructor for ClickSelector.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ClickSelector.OnMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Called on mouse down event.</para>
+      </summary>
+      <param name="e"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ClickSelector.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ClickSelector.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ContentDragger">
+      <summary>
+        <para>Manipulator that allows mouse-dragging of one or more elements.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ContentDragger.clampToParentEdges">
+      <summary>
+        <para>If true, it does not allow the dragged element to exit the parent's edges.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ContentDragger.panSpeed">
+      <summary>
+        <para>When elements are dragged near the edges of the Graph, panning occurs. This controls the speed for said panning.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentDragger.CalculatePosition(System.Single,System.Single,System.Single,System.Single)">
+      <summary>
+        <para>Calculate new position of the dragged element.</para>
+      </summary>
+      <param name="x">New x position.</param>
+      <param name="y">New y position.</param>
+      <param name="width">Element width.</param>
+      <param name="height">Element height.</param>
+      <returns>
+        <para>Calculated and validated position.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentDragger.#ctor">
+      <summary>
+        <para>ContentDragger constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentDragger.OnMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Called on mouse down event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentDragger.OnMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Called on mouse move event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentDragger.OnMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Called on mouse up event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentDragger.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentDragger.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ContentZoomer">
+      <summary>
+        <para>Manipulator that allows zooming in GraphView.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ContentZoomer.keepPixelCacheOnZoom">
+      <summary>
+        <para>Optimization option to keep the old pixel cache while zooming and only updating it when zooming is finished (based on a timer).</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ContentZoomer.maxScale">
+      <summary>
+        <para>Max zoom level.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ContentZoomer.minScale">
+      <summary>
+        <para>Min zoom level.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ContentZoomer.referenceScale">
+      <summary>
+        <para>Reference zoom level.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ContentZoomer.scaleStep">
+      <summary>
+        <para>Zoom step: percentage of variation between a zoom level and the next. For example, with a value of 0.15, which represents 15%, a zoom level of 200% will become 230% when zooming in.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentZoomer.#ctor">
+      <summary>
+        <para>ContentZoomer constructor.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ContentZoomer.DefaultMaxScale">
+      <summary>
+        <para>Default max zoom level.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ContentZoomer.DefaultMinScale">
+      <summary>
+        <para>Default min zoom level.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ContentZoomer.DefaultReferenceScale">
+      <summary>
+        <para>Default reference zoom level.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ContentZoomer.DefaultScaleStep">
+      <summary>
+        <para>Default zoom step.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentZoomer.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ContentZoomer.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Direction">
+      <summary>
+        <para>Port direction (in or out).</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Direction.Input">
+      <summary>
+        <para>Port is an input port.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Direction.Output">
+      <summary>
+        <para>Port is an output port.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Dragger">
+      <summary>
+        <para>Base manipulator for mouse-dragging elements.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Dragger.clampToParentEdges">
+      <summary>
+        <para>If true, it does not allow the dragged element to exit the parent's edges.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Dragger.panSpeed">
+      <summary>
+        <para>When elements are dragged near the edges of the Graph, panning occurs. This controls the speed for said panning.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Dragger.CalculatePosition(System.Single,System.Single,System.Single,System.Single)">
+      <summary>
+        <para>Calculate new position of the dragged element.</para>
+      </summary>
+      <param name="x">New x position.</param>
+      <param name="y">New y position.</param>
+      <param name="width">Element width.</param>
+      <param name="height">Element height.</param>
+      <returns>
+        <para>Calculated and validated position.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Dragger.#ctor">
+      <summary>
+        <para>Dragger constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Dragger.OnMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Called on mouse down event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Dragger.OnMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Called on mouse move event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Dragger.OnMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Called on mouse up event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Dragger.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Dragger.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Edge">
+      <summary>
+        <para>The GraphView edge element.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.candidatePosition">
+      <summary>
+        <para>The edge's end position while it's being created.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.defaultColor">
+      <summary>
+        <para>Default edge color.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.edgeControl">
+      <summary>
+        <para>The VisualElement child of Edge that draws the lines and does the hit detection.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.edgeWidth">
+      <summary>
+        <para>Edge width.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.ghostColor">
+      <summary>
+        <para>The color of the ghost edge, which is the edge that appears snapped to a nearby port while an edge is being created.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.input">
+      <summary>
+        <para>Connected input port.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.isGhostEdge">
+      <summary>
+        <para>Is this edge a ghost edge, which is the edge that appears snapped to a nearby port while an edge is being created.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.output">
+      <summary>
+        <para>Connected output port.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.selectedColor">
+      <summary>
+        <para>Color of edge while selected.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.showInMiniMap">
+      <summary>
+        <para>Whether the GraphElement is shown in the minimap. For Edge, this property is always set to false.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.ContainsPoint(UnityEngine.Vector2)">
+      <summary>
+        <para>Checks if point is on top of edge.</para>
+      </summary>
+      <param name="localPoint">Point position.</param>
+      <returns>
+        <para>True if point is on top of edge. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.CreateEdgeControl">
+      <summary>
+        <para>Create the EdgeControl.</para>
+      </summary>
+      <returns>
+        <para>The created EdgeControl.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.#ctor">
+      <summary>
+        <para>Edge's constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.DrawEdge">
+      <summary>
+        <para>Draw the edge's lines.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.OnCustomStyleResolved(UnityEngine.UIElements.ICustomStyle)">
+      <summary>
+        <para>Called when the custom style properties are resolved.</para>
+      </summary>
+      <param name="styles"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.OnPortChanged(System.Boolean)">
+      <summary>
+        <para>Called when a port on the edge is changed.</para>
+      </summary>
+      <param name="isInput">True if the input port was changed. False if the output port was changed.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.Overlaps(UnityEngine.Rect)">
+      <summary>
+        <para>Check if edge overlaps rectangle.</para>
+      </summary>
+      <param name="rectangle">The rectangle.</param>
+      <returns>
+        <para>True if edge overlaps the rectangle.</para>
+      </returns>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Edge.PointsAndTangents">
+      <summary>
+        <para>The edge's points and tangents.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Edge.UpdateEdgeControl">
+      <summary>
+        <para>Update the edge's EdgeControl.</para>
+      </summary>
+      <returns>
+        <para>False if it failed to update the control. True if it succeeded.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.EdgeConnector">
+      <summary>
+        <para>Manipulator for creating new edges.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeConnector.edgeDragHelper">
+      <summary>
+        <para>Reference to the edge drag helper.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.EdgeConnector`1">
+      <summary>
+        <para>Manipulator for creating new edges.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeConnector_1.edgeDragHelper">
+      <summary>
+        <para>Reference to the edge drag helper.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeConnector_1.#ctor(UnityEditor.Experimental.GraphView.IEdgeConnectorListener)">
+      <summary>
+        <para>EdgeConnector's constructor.</para>
+      </summary>
+      <param name="listener">The IEdgeConnectorListener that will finalize the edges.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeConnector_1.OnMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Called on mouse down event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeConnector_1.OnMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Called on mouse move event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeConnector_1.OnMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Called on mouse up event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeConnector_1.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeConnector_1.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.EdgeControl">
+      <summary>
+        <para>VisualElement that draws the edge lines and detects if mouse is on top of edge.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.capRadius">
+      <summary>
+        <para>Radius of the edge's end caps.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.controlPoints">
+      <summary>
+        <para>Edge's control points.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.drawFromCap">
+      <summary>
+        <para>Whether or not to draw the From Cap.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.drawToCap">
+      <summary>
+        <para>Whether or not to draw the To Cap.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.edgeColor">
+      <summary>
+        <para>Edge's color.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.edgeWidth">
+      <summary>
+        <para>Edge's visible width.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.from">
+      <summary>
+        <para>Edge's From postion.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.fromCapColor">
+      <summary>
+        <para>The color of the cap color at the "from" end of the edge.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.inputColor">
+      <summary>
+        <para>Color on the edge's input.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.inputOrientation">
+      <summary>
+        <para>Edge input port orientation (vertical/horizontal).</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.interceptWidth">
+      <summary>
+        <para>Width that will be used for mouse hit detection.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.EdgeControl.k_MinEdgeWidth">
+      <summary>
+        <para>Min edge width.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.outputColor">
+      <summary>
+        <para>Color on the edge's output.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.outputOrientation">
+      <summary>
+        <para>Edge output port orientation (vertical/horizontal).</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.to">
+      <summary>
+        <para>Edge's To postion.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeControl.toCapColor">
+      <summary>
+        <para>The color of the cap color at the "to" end of the edge.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeControl.ComputeControlPoints">
+      <summary>
+        <para>Compute the edge's control points.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeControl.ContainsPoint(UnityEngine.Vector2)">
+      <summary>
+        <para>Check if point is on top of edge.</para>
+      </summary>
+      <param name="localPoint">The point's position.</param>
+      <returns>
+        <para>True if the point is on top of the edge.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeControl.#ctor">
+      <summary>
+        <para>EdgeControl's constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeControl.Overlaps(UnityEngine.Rect)">
+      <summary>
+        <para>Check if edge overlaps rectangle.</para>
+      </summary>
+      <param name="rect">The rectangle.</param>
+      <returns>
+        <para>True if the edge overlaps the rectangle.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeControl.PointsChanged">
+      <summary>
+        <para>Check if the edge points have changed.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeControl.UpdateLayout">
+      <summary>
+        <para>Update the edge layout.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeControl.UpdateRenderPoints">
+      <summary>
+        <para>Update the edge's render points.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.EdgeDragHelper">
+      <summary>
+        <para>EdgeDragHelper's constructor.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeDragHelper.draggedPort">
+      <summary>
+        <para>The port the edge is being dragged from.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeDragHelper.edgeCandidate">
+      <summary>
+        <para>The edge being dragged.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper.HandleMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Handle mouse down event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <returns>
+        <para>True if the drag has been started. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper.HandleMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Handle mouse move event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper.HandleMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Handle mouse up event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper.Reset(System.Boolean)">
+      <summary>
+        <para>Reset the state of the drag helper.</para>
+      </summary>
+      <param name="didConnect">Whether the connection was successful or not. View will not reset in this case.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.EdgeDragHelper`1">
+      <summary>
+        <para>Edge drag helper class.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.draggedPort">
+      <summary>
+        <para>The port the edge is being dragged from.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.edgeCandidate">
+      <summary>
+        <para>The edge being dragged.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.resetPositionOnPan">
+      <summary>
+        <para>True if it should reset position on pan if nothing is connected.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.#ctor(UnityEditor.Experimental.GraphView.IEdgeConnectorListener)">
+      <summary>
+        <para>EdgeDragHelper's constructor.</para>
+      </summary>
+      <param name="listener">The edge connector listener.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.HandleMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Handle mouse down event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <returns>
+        <para>True if the drag has been started. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.HandleMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Handle mouse move event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.HandleMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Handle mouse up event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeDragHelper_1.Reset(System.Boolean)">
+      <summary>
+        <para>Reset the state of the drag helper.</para>
+      </summary>
+      <param name="didConnect">Whether the connection was successful or not. View will not reset in this case.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.EdgeManipulator">
+      <summary>
+        <para>Edge manipulator used to drag edges off ports and reconnect them elsewhere.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeManipulator.#ctor">
+      <summary>
+        <para>EdgeManipulator's constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeManipulator.OnKeyDown(UnityEngine.UIElements.KeyDownEvent)">
+      <summary>
+        <para>Handle key down event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeManipulator.OnMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Handle mouse down event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeManipulator.OnMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Handle mouse move event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeManipulator.OnMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Handle mouse up event.</para>
+      </summary>
+      <param name="evt">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeManipulator.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.EdgeManipulator.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.EventPropagation">
+      <summary>
+        <para>Value that determines if a event handler stops propagation of events or allows it to continue.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.EventPropagation.Continue">
+      <summary>
+        <para>Continue event propagation after this handler.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.EventPropagation.Stop">
+      <summary>
+        <para>Stop event propagation after this handler.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.FreehandSelector">
+      <summary>
+        <para>Freehand selection tool.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.FreehandSelector.#ctor">
+      <summary>
+        <para>FreehandSelector constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.FreehandSelector.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Register callbacks on target VisualElement.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.FreehandSelector.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Unregister callbacks on target VisualElement.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphElement">
+      <summary>
+        <para>Base class for main GraphView VisualElements.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphElement.capabilities">
+      <summary>
+        <para>The GraphElement's capabilities.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphElement.elementTypeColor">
+      <summary>
+        <para>The color used for the MiniMap view.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphElement.layer">
+      <summary>
+        <para>The GraphElement's layer in the graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphElement.selected">
+      <summary>
+        <para>True if the GraphElement is currently selected.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphElement.showInMiniMap">
+      <summary>
+        <para>Whether the element is shown in the minimap.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphElement.title">
+      <summary>
+        <para>The GraphElement's title.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.GetGlobalCenter">
+      <summary>
+        <para>Get the GraphElement's center point.</para>
+      </summary>
+      <returns>
+        <para>Returns the center point.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.GetPosition">
+      <summary>
+        <para>Get the GraphElement position.</para>
+      </summary>
+      <returns>
+        <para>Returns the position and size rect.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.HitTest(UnityEngine.Vector2)">
+      <summary>
+        <para>See if point is over the GraphElement.</para>
+      </summary>
+      <param name="localPoint">The point.</param>
+      <returns>
+        <para>Returns true if point is over the GraphElement.  Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsAscendable">
+      <summary>
+        <para>Checks if the GraphElement is automatically brought to front when selected.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is automatically brought to front when selected. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsCopiable">
+      <summary>
+        <para>Checks whether the GraphElement is copiable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is copiable. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsDroppable">
+      <summary>
+        <para>The GraphElement is drag&amp;droppable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is droppable.  Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsGroupable">
+      <summary>
+        <para>Checks whether the GraphElement is groupable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is groupable. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsMovable">
+      <summary>
+        <para>The GraphElement is movable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is movable.  Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsRenamable">
+      <summary>
+        <para>The GraphElement is renamable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is renamable.  Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsResizable">
+      <summary>
+        <para>The GraphElement is resizable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is resizable.  Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsSelectable">
+      <summary>
+        <para>The GraphElement is selectable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is selectable.  Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsSelected(UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>The GraphElement is currently selected in specific container.</para>
+      </summary>
+      <param name="selectionContainer">The container.</param>
+      <returns>
+        <para>Returns true if the GraphElement is selected.  Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsSnappable">
+      <summary>
+        <para>Checks whether the GraphElement is snappable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is snappable. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.IsStackable">
+      <summary>
+        <para>Checks whether the GraphElement is stackable.</para>
+      </summary>
+      <returns>
+        <para>Returns true if the GraphElement is stackable. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.OnCustomStyleResolved(UnityEngine.UIElements.ICustomStyle)">
+      <summary>
+        <para>Called when the custom style properties are resolved.</para>
+      </summary>
+      <param name="style"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.OnSelected">
+      <summary>
+        <para>Called when the GraphElement is selected.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.OnUnselected">
+      <summary>
+        <para>Called when the GraphElement is unselected.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.ResetLayer">
+      <summary>
+        <para>Reset the GraphElement to its original layer.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.Select(UnityEngine.UIElements.VisualElement,System.Boolean)">
+      <summary>
+        <para>Select the GraphElement.</para>
+      </summary>
+      <param name="selectionContainer">Container in which the GraphElement is being selected.</param>
+      <param name="additive">True if selection is additive, false otherwise.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.SetPosition(UnityEngine.Rect)">
+      <summary>
+        <para>Set the GraphElement position.</para>
+      </summary>
+      <param name="newPos">New position.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElement.Unselect(UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>Deselect the GraphElement.</para>
+      </summary>
+      <param name="selectionContainer">Container in which the GraphElement was selected.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphElementScopeExtensions">
+      <summary>
+        <para>Set of extension methods useful for Scope.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphElementScopeExtensions.GetContainingScope(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Returns the scope containing the specified GraphElement.</para>
+      </summary>
+      <param name="element"></param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView">
+      <summary>
+        <para>Main GraphView class.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.canPasteSerializedData">
+      <summary>
+        <para>Ask whether or not the serialized data can be pasted.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.contentViewContainer">
+      <summary>
+        <para>Main content container.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.deleteSelection">
+      <summary>
+        <para>Delete selection callback.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.edges">
+      <summary>
+        <para>All edges in the graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.elementResized">
+      <summary>
+        <para>Element resized callback.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.elementsAddedToGroup">
+      <summary>
+        <para>Callback for when GraphElements are added to the group.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.elementsInsertedToStackNode">
+      <summary>
+        <para>Callback for when GraphElements are inserted into a StackNode.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.elementsRemovedFromGroup">
+      <summary>
+        <para>Callback for when GraphElements are removed from the group.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.elementsRemovedFromStackNode">
+      <summary>
+        <para>Callback for when GraphElements are removed from a StackNode.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.graphElements">
+      <summary>
+        <para>All GraphElements in the graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.graphViewChanged">
+      <summary>
+        <para>Callback for when certain changes have occured in the graph. See GraphViewChange.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.groupTitleChanged">
+      <summary>
+        <para>Callback for when a group title is changed.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.isReframable">
+      <summary>
+        <para>Whether or not the selection is reframable.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.maxScale">
+      <summary>
+        <para>Max zoom level.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.minScale">
+      <summary>
+        <para>Min zoom level.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.nodeCreationRequest">
+      <summary>
+        <para>Callback for when the user requests to display the node creation window.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.nodes">
+      <summary>
+        <para>All nodes currently in the graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.placematContainer">
+      <summary>
+        <para>The PlacematContainer used by the GraphView.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphView.ports">
+      <summary>
+        <para>All ports currently in the graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.referenceScale">
+      <summary>
+        <para>Reference zoom level.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.scale">
+      <summary>
+        <para>Current graph zoom level.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.scaleStep">
+      <summary>
+        <para>Zoom step. See Experimental.GraphView.ContentZoomer._scaleStep for details.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.selection">
+      <summary>
+        <para>All currently selected elements in the graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.serializeGraphElements">
+      <summary>
+        <para>Callback for serializing graph elements for copy/paste and other actions.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.supportsWindowedBlackboard">
+      <summary>
+        <para>Set to true when this GraphView supports windowed Blackboards. Set to false otherwise.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.unserializeAndPaste">
+      <summary>
+        <para>Callback for unserializing graph elements and adding them to the graph.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.viewport">
+      <summary>
+        <para>The graph's viewport. This is currently just itself.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.viewTransform">
+      <summary>
+        <para>Graph's view transform.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.viewTransformChanged">
+      <summary>
+        <para>View transform changed callback.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphView.zoomerMaxElementCountWithPixelCacheRegen">
+      <summary>
+        <para>Number of elements in the graph above which the zoom manipulator will turn off pixel cache regeneration on each tick to avoid performance drops.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.AddElement(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Add new GraphElement. Should use this instead of Add() for adding GraphElements.</para>
+      </summary>
+      <param name="graphElement">The element to add.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.AddLayer(System.Int32)">
+      <summary>
+        <para>Adds a new layer to the GraphView.</para>
+      </summary>
+      <param name="index">the index of the new layer.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.AddToSelection(UnityEditor.Experimental.GraphView.ISelectable)">
+      <summary>
+        <para>Add element to selection.</para>
+      </summary>
+      <param name="selectable">Element to add to selection.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.AskUser">
+      <summary>
+        <para>Whether or not to ask the user for certain actions like deleting selection.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphView.AskUser.AskUser">
+      <summary>
+        <para>Ask the user before doing certain actions like deleting selection.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphView.AskUser.DontAskUser">
+      <summary>
+        <para>Don't ask the user before doing certain actions like deleting selection.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)">
+      <summary>
+        <para>Add menu items to the contextual menu.</para>
+      </summary>
+      <param name="evt">The event holding the menu to populate.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.CalculateFrameTransform(UnityEngine.Rect,UnityEngine.Rect,System.Int32,UnityEngine.Vector3&amp;,UnityEngine.Vector3&amp;)">
+      <summary>
+        <para>Calculate the view transform based on zoom level and the size of the window or parent.</para>
+      </summary>
+      <param name="rectToFit">Rectangle to fit.</param>
+      <param name="clientRect">Parent rectangle.</param>
+      <param name="border">Border size.</param>
+      <param name="frameTranslation">Calculated translation.</param>
+      <param name="frameScaling">Calculated scaling.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.CalculateRectToFitAll(UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>Calculate the rectangle size and position to fit all elements in graph.</para>
+      </summary>
+      <param name="container">This should be the view container.</param>
+      <returns>
+        <para>The calculated rectangle.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.CanPasteSerializedData(System.String)">
+      <summary>
+        <para>Default method for checking if serialized data can be pasted.</para>
+      </summary>
+      <param name="data">Serialized graph element.</param>
+      <returns>
+        <para>True if it can be pasted.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.CanPasteSerializedDataDelegate">
+      <summary>
+        <para>Delegate for checking if serialized data can be pasted.</para>
+      </summary>
+      <param name="data">Serialized graph element.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.ClearSelection">
+      <summary>
+        <para>Clear selection.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.CollectElements(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;,System.Collections.Generic.HashSet`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;,System.Func`2&lt;UnityEditor.Experimental.GraphView.GraphElement,System.Boolean&gt;)">
+      <summary>
+        <para>Retrieves the set of elements that match a specified condition. The matching elements are selected from an enumerable of graph elements.</para>
+      </summary>
+      <param name="elements">The enumerable of graph elements to select from.</param>
+      <param name="collectedElementSet">The set of matching graph elements.</param>
+      <param name="conditionFunc">A function that determines whether a graph element is added to the set of matching graph elements.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.CreatePlacematContainer">
+      <summary>
+        <para>Override this method, in a derived class, to create a custom PlacematContainer.</para>
+      </summary>
+      <returns>
+        <para>Returns the created PlacematContainer.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.DeleteElements(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Remove elements from the graph view.</para>
+      </summary>
+      <param name="elementsToRemove">Elements to remove.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.DeleteSelection">
+      <summary>
+        <para>Delete selected elements.</para>
+      </summary>
+      <returns>
+        <para>Stop if no elements were selected. Continue otherwise.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.DeleteSelectionDelegate">
+      <summary>
+        <para>Delegate for deleting selection.</para>
+      </summary>
+      <param name="operationName">Name of operation for undo/redo labels.</param>
+      <param name="askUser">Whether or not to ask the user.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.DeleteSelectionOperation(System.String,UnityEditor.Experimental.GraphView.GraphView/AskUser)">
+      <summary>
+        <para>Default method for deleting selection.</para>
+      </summary>
+      <param name="operationName">Name of operation for undo/redo labels.</param>
+      <param name="askUser">Whether or not to ask the user.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.ElementResized">
+      <summary>
+        <para>Element resized delegate.</para>
+      </summary>
+      <param name="visualElement">Resized element.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.FrameAll">
+      <summary>
+        <para>Focus view all elements in the graph.</para>
+      </summary>
+      <returns>
+        <para>Should always be Stop.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.FrameNext">
+      <summary>
+        <para>Focus view on the next element after the one currently selected.</para>
+      </summary>
+      <param name="predicate">The predicate used to sort the list of all existing graph element.</param>
+      <returns>
+        <para>Continue if no elements in graph, Stop otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.FrameNext(System.Func`2&lt;UnityEditor.Experimental.GraphView.GraphElement,System.Boolean&gt;)">
+      <summary>
+        <para>Focus view on the next element after the one currently selected.</para>
+      </summary>
+      <param name="predicate">The predicate used to sort the list of all existing graph element.</param>
+      <returns>
+        <para>Continue if no elements in graph, Stop otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.FrameOrigin">
+      <summary>
+        <para>Focus view on the graph's origin.</para>
+      </summary>
+      <returns>
+        <para>Always returns Stop.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.FramePrev">
+      <summary>
+        <para>Focus view on the previous element before the one currently selected.</para>
+      </summary>
+      <param name="predicate">The predicate used to sort the list of all existing graph element.</param>
+      <returns>
+        <para>Continue if no elements in graph, Stop otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.FramePrev(System.Func`2&lt;UnityEditor.Experimental.GraphView.GraphElement,System.Boolean&gt;)">
+      <summary>
+        <para>Focus view on the previous element before the one currently selected.</para>
+      </summary>
+      <param name="predicate">The predicate used to sort the list of all existing graph element.</param>
+      <returns>
+        <para>Continue if no elements in graph, Stop otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.FrameSelection">
+      <summary>
+        <para>Focus view on currently selected elements.</para>
+      </summary>
+      <returns>
+        <para>Continue if no elements selected, Stop otherwise.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.FrameType">
+      <summary>
+        <para>Type of framing.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphView.FrameType.All">
+      <summary>
+        <para>Focus view on all elements.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphView.FrameType.Origin">
+      <summary>
+        <para>Focus view on origin.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphView.FrameType.Selection">
+      <summary>
+        <para>Focus view on selection.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.GetBlackboard">
+      <summary>
+        <para>Gets the blackboard associated with this GraphView.</para>
+      </summary>
+      <returns>
+        <para>Returns the associated blackboard. Returns null if the GraphView is not associated with a blackboard.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.GetCompatiblePorts(UnityEditor.Experimental.GraphView.Port,UnityEditor.Experimental.GraphView.NodeAdapter)">
+      <summary>
+        <para>Get all ports compatible with given port.</para>
+      </summary>
+      <param name="startPort">Start port to validate against.</param>
+      <param name="nodeAdapter">Node adapter.</param>
+      <returns>
+        <para>List of compatible ports.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.GetEdgeByGuid(System.String)">
+      <summary>
+        <para>Get edge by its GUID.</para>
+      </summary>
+      <param name="guid">The GUID.</param>
+      <returns>
+        <para>The first edge with given GUID. Null if none found.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.GetElementByGuid(System.String)">
+      <summary>
+        <para>Get any element with a given GUID.</para>
+      </summary>
+      <param name="guid">The GUID.</param>
+      <returns>
+        <para>The first element with the given GUID, within all of GraphView, not just elements contained in layers. Null if none found.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.GetNodeByGuid(System.String)">
+      <summary>
+        <para>Get node with a given GUID.</para>
+      </summary>
+      <param name="guid">The GUID.</param>
+      <returns>
+        <para>The first node with the given GUID. Null if none found.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.GetPortByGuid(System.String)">
+      <summary>
+        <para>Get port by its GUID.</para>
+      </summary>
+      <param name="guid">The GUID.</param>
+      <returns>
+        <para>The first port found with given GUID. Null if none found.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.GetPortCenterOverride(UnityEditor.Experimental.GraphView.Port,UnityEngine.Vector2&amp;)">
+      <summary>
+        <para>Gets another location for a specific port and checks if the port has an overridden position.</para>
+      </summary>
+      <param name="port">The specific port.</param>
+      <param name="overriddenPosition">The overridden position, if the port is overridden. Set to Vector2.zero otherwise.</param>
+      <returns>
+        <para>Returns true if the port center is overridden, false otherwise.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.GraphViewChanged">
+      <summary>
+        <para>Delegate used to indicate a change in GraphView usualy done by a Manipulator.</para>
+      </summary>
+      <param name="graphViewChange">The change struct.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.Layer">
+      <summary>
+        <para>The layer class for placing and interacting with graph elements in a GraphView.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.Layer.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.ReleaseBlackboard(UnityEditor.Experimental.GraphView.Blackboard)">
+      <summary>
+        <para>Releases an associated blackboard from this GraphView.</para>
+      </summary>
+      <param name="toRelease">The blackboard to release.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.RemoveElement(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Remove element from the graph.</para>
+      </summary>
+      <param name="graphElement">Element to remove.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.RemoveFromSelection(UnityEditor.Experimental.GraphView.ISelectable)">
+      <summary>
+        <para>Remove element from selection.</para>
+      </summary>
+      <param name="selectable">Element to remove from selection.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.SerializeGraphElements(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Default method for serializing graph elements.</para>
+      </summary>
+      <param name="elements">Elements to serialize.</param>
+      <returns>
+        <para>Serialized data.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.SerializeGraphElementsDelegate">
+      <summary>
+        <para>Delegate for serializing graph elements.</para>
+      </summary>
+      <param name="elements">Elements to serialize.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.SetupZoom(System.Single,System.Single)">
+      <summary>
+        <para>Setup zoom properties.</para>
+      </summary>
+      <param name="minScaleSetup">Min zoom level.</param>
+      <param name="maxScaleSetup">Max zoom level.</param>
+      <param name="scaleStepSetup">Zoom step.</param>
+      <param name="referenceScaleSetup">Reference zoom level.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.SetupZoom(System.Single,System.Single,System.Single,System.Single)">
+      <summary>
+        <para>Setup zoom properties.</para>
+      </summary>
+      <param name="minScaleSetup">Min zoom level.</param>
+      <param name="maxScaleSetup">Max zoom level.</param>
+      <param name="scaleStepSetup">Zoom step.</param>
+      <param name="referenceScaleSetup">Reference zoom level.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.UnserializeAndPasteDelegate">
+      <summary>
+        <para>Delegate for unserializing and pasting elements.</para>
+      </summary>
+      <param name="operationName">Name of operation for undo/redo labels.</param>
+      <param name="data">Serialized data.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.UnserializeAndPasteOperation(System.String,System.String)">
+      <summary>
+        <para>Default method for unserializing elements and pasting.</para>
+      </summary>
+      <param name="operationName">Name of operation for undo/redo labels.</param>
+      <param name="data">Serialized data.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.UpdateViewTransform(UnityEngine.Vector3,UnityEngine.Vector3)">
+      <summary>
+        <para>Update the viewport transform.</para>
+      </summary>
+      <param name="newPosition">New position.</param>
+      <param name="newScale">New scale.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphView.ValidateTransform">
+      <summary>
+        <para>Validate the view transform.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphView.ViewTransformChanged">
+      <summary>
+        <para>View transform changed (zoom) delegate.</para>
+      </summary>
+      <param name="graphView">GraphView reference.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphViewBlackboardWindow">
+      <summary>
+        <para>The base class for a floating window that contains a Blackboard.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewBlackboardWindow.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewBlackboardWindow.IsGraphViewSupported(UnityEditor.Experimental.GraphView.GraphView)">
+      <summary>
+        <para>Verifies whether the GraphView tool window supports a specific GraphView.</para>
+      </summary>
+      <param name="gv">A GraphView.</param>
+      <returns>
+        <para>Returns true if the GraphView tool window supports the specified GraphView. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewBlackboardWindow.OnGraphViewChanged">
+      <summary>
+        <para>Callback invoked when the GraphView has changed.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewBlackboardWindow.OnGraphViewChanging">
+      <summary>
+        <para>Callback invoked when the GraphView is about to change.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphViewBlackboardWindow.ToolName">
+      <summary>
+        <para>The tool window name.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphViewChange">
+      <summary>
+        <para>Set of changes in the graph that can be intercepted.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphViewChange.edgesToCreate">
+      <summary>
+        <para>Edges about to be created.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphViewChange.elementsToRemove">
+      <summary>
+        <para>Elements about to be removed.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphViewChange.movedElements">
+      <summary>
+        <para>Elements already moved.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.GraphViewChange.moveDelta">
+      <summary>
+        <para>The delta of the last move.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphViewEditorWindow">
+      <summary>
+        <para>Abstract base class for an editor window that contains a GraphView.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphViewEditorWindow.graphViews">
+      <summary>
+        <para>The enumeration of the GraphViews that belong to an editor window. In most cases, there is only one GraphView.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewEditorWindow.GetExtraPaneTypes">
+      <summary>
+        <para>Gets the extra panes associated with the editor window.</para>
+      </summary>
+      <returns>
+        <para>The extra panes that are specific to the window.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewEditorWindow.ShowGraphViewWindowWithTools">
+      <summary>
+        <para>Helper method that instantiates a GraphViewWindow of a specified type, an attached Blackboard, and an attached MiniMap.</para>
+      </summary>
+      <returns>
+        <para>The list of newly created windows.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphViewMinimapWindow">
+      <summary>
+        <para>A floating window containing a MiniMap.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewMinimapWindow.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewMinimapWindow.IsGraphViewSupported(UnityEditor.Experimental.GraphView.GraphView)">
+      <summary>
+        <para>Verifies whether the GraphView tool window supports a specific GraphView.</para>
+      </summary>
+      <param name="gv">A GraphView.</param>
+      <returns>
+        <para>Returns true if the GraphView tool window supports the specified GraphView. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewMinimapWindow.OnGraphViewChanged">
+      <summary>
+        <para>Callback invoked when the GraphView has changed.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewMinimapWindow.OnGraphViewChanging">
+      <summary>
+        <para>Callback invoked when the GraphView is about to change.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphViewMinimapWindow.ToolName">
+      <summary>
+        <para>The tool window name.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GraphViewToolWindow">
+      <summary>
+        <para>Abstract base class for a GraphView tool window.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewToolWindow.GetExtraPaneTypes">
+      <summary>
+        <para>Gets the extra panes associated with the window.</para>
+      </summary>
+      <returns>
+        <para>The extra panes that are specific to the window.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewToolWindow.IsGraphViewSupported(UnityEditor.Experimental.GraphView.GraphView)">
+      <summary>
+        <para>Verifies whether the GraphView tool window supports a specific GraphView.</para>
+      </summary>
+      <param name="gv">A GraphView.</param>
+      <returns>
+        <para>Returns true if the GraphView tool window supports the specified GraphView. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewToolWindow.OnEnable">
+      <summary>
+        <para>Base implementation of the Unity OnEnable event.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewToolWindow.OnGraphViewChanged">
+      <summary>
+        <para>Callback invoked when the GraphView has changed.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewToolWindow.OnGraphViewChanging">
+      <summary>
+        <para>Callback invoked when the GraphView is about to change.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GraphViewToolWindow.SelectGraphViewFromWindow(UnityEditor.Experimental.GraphView.GraphViewEditorWindow,UnityEditor.Experimental.GraphView.GraphView,System.Int32)">
+      <summary>
+        <para>Associate a GraphView, from a GraphViewEditorWindow, to this tool window.</para>
+      </summary>
+      <param name="window">The window containing the GraphView.</param>
+      <param name="graphView">The GraphView.</param>
+      <param name="graphViewIndexInWindow">The index of the GraphView in the window (defaults to 0).</param>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.GraphViewToolWindow.ToolName">
+      <summary>
+        <para>The tool window name.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.GridBackground">
+      <summary>
+        <para>Default GraphView background.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.GridBackground.#ctor">
+      <summary>
+        <para>GridBackground's constructor.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Group">
+      <summary>
+        <para>Allows interactive insertion of elements in a named scope.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Group.title">
+      <summary>
+        <para>Title of the group.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Group.AcceptsElement(UnityEditor.Experimental.GraphView.GraphElement,System.String&amp;)">
+      <summary>
+        <para>Whether an element can be added to this group.</para>
+      </summary>
+      <param name="element">The element to add.</param>
+      <param name="reasonWhyNotAccepted">The reason that indicates why the element is not accepted.</param>
+      <returns>
+        <para>Returns false if the specified element is a scope or group. Otherwise returns true.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Group.CollectElements(System.Collections.Generic.HashSet`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;,System.Func`2&lt;UnityEditor.Experimental.GraphView.GraphElement,System.Boolean&gt;)">
+      <summary>
+        <para>Retrieves a set of graph elements that match a specified condition. The matching graph elements are selected from this group.</para>
+      </summary>
+      <param name="collectedElementSet">The set of matching graph elements.</param>
+      <param name="conditionFunc">A function that determines whether a graph element is added to the set of matching graph elements.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Group.#ctor">
+      <summary>
+        <para>Group constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Group.FocusTitleTextField">
+      <summary>
+        <para>Focuses the title text field of this group, so that it's editable from the UI.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Group.OnElementsAdded(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Called when elements are added to this group.</para>
+      </summary>
+      <param name="elements">The added elements.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Group.OnElementsRemoved(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Called when elements are removed from this group.</para>
+      </summary>
+      <param name="elements">The removed elements.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Group.OnGroupRenamed(System.String,System.String)">
+      <summary>
+        <para>Called when this group is renamed.</para>
+      </summary>
+      <param name="oldName">The old name of the group.</param>
+      <param name="newName">The new name of the group.</param>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.ICollectibleElement">
+      <summary>
+        <para>CollectibleElement interface.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ICollectibleElement.CollectElements(System.Collections.Generic.HashSet`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;,System.Func`2&lt;UnityEditor.Experimental.GraphView.GraphElement,System.Boolean&gt;)">
+      <summary>
+        <para>Retrieves a set of graph elements that match a specified condition. The graph elements are collected from the elements associated with implementor of this interface.</para>
+      </summary>
+      <param name="collectedElementSet">The set of matching graph elements.</param>
+      <param name="conditionFunc">A function that determines whether a graph element is added to the set of matching graph elements.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.IconBadge">
+      <summary>
+        <para>A rectangular badge, usually attached to another visual element.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.IconBadge.alignment">
+      <summary>
+        <para>Relative alignment between the badge and its target. The alignment will influence icon and tip position.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.IconBadge.badgeText">
+      <summary>
+        <para>Text displayed next to the badge on mouse hover.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.IconBadge.distance">
+      <summary>
+        <para>Distance between the badge and its target element.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.IconBadge.target">
+      <summary>
+        <para>Target element to which this badge is attached.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.IconBadge.visualStyle">
+      <summary>
+        <para>The visual style for the badge. Built-in values are "error" and "comment".</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IconBadge.AttachTo(UnityEngine.UIElements.VisualElement,UnityEngine.SpriteAlignment)">
+      <summary>
+        <para>Attaches this badge to another element.</para>
+      </summary>
+      <param name="target">The target element to attach this badge to.</param>
+      <param name="align">Relative alignement of the badge.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IconBadge.CreateComment(System.String)">
+      <summary>
+        <para>Creates an IconBadge with the "comment" visual style.</para>
+      </summary>
+      <param name="message">Displayed comment message.</param>
+      <returns>
+        <para>The created badge.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IconBadge.CreateError(System.String)">
+      <summary>
+        <para>Creates an IconBadge with the "error" visual style.</para>
+      </summary>
+      <param name="message">Displayed error message.</param>
+      <returns>
+        <para>The created badge.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IconBadge.#ctor">
+      <summary>
+        <para>Creates a basic comment badge.</para>
+      </summary>
+      <param name="template"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IconBadge.#ctor(UnityEngine.UIElements.VisualTreeAsset)">
+      <summary>
+        <para>Creates a basic comment badge.</para>
+      </summary>
+      <param name="template"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IconBadge.Detach">
+      <summary>
+        <para>Detaches this badge from its target.</para>
+      </summary>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.IDroppable">
+      <summary>
+        <para>Droppable interface.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IDroppable.IsDroppable">
+      <summary>
+        <para>Check if element is droppable.</para>
+      </summary>
+      <returns>
+        <para>True if droppable. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.IDropTarget">
+      <summary>
+        <para>Drop target interface.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IDropTarget.CanAcceptDrop(System.Collections.Generic.List`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;)">
+      <summary>
+        <para>Indicates if the dragged source can be dropped on the target interface.</para>
+      </summary>
+      <param name="selection">Selected elements.</param>
+      <returns>
+        <para>Returns true if the dragged source can be dropped on the target interface. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IDropTarget.DragEnter(UnityEngine.UIElements.DragEnterEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>This method is automatically called when the dragged source intersects the drop target.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="enteredTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IDropTarget.DragExited">
+      <summary>
+        <para>This method is automatically called when dragging ends and the drag source is not over a valid drop target.</para>
+      </summary>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IDropTarget.DragLeave(UnityEngine.UIElements.DragLeaveEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>This method is automatically called when the dragged source no longer intersects the drop target.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="leftTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IDropTarget.DragPerform(UnityEngine.UIElements.DragPerformEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>"This method is automatically called when a drag is performed."</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="dropTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IDropTarget.DragUpdated(UnityEngine.UIElements.DragUpdatedEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>This method is automatically called when the drag source is updated.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="dropTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.IEdgeConnectorListener">
+      <summary>
+        <para>Used by EdgeConnector manipulator to finish the actual edge creation. Its an interface the user can override and create edges in a different way.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IEdgeConnectorListener.OnDrop(UnityEditor.Experimental.GraphView.GraphView,UnityEditor.Experimental.GraphView.Edge)">
+      <summary>
+        <para>Called when a new edge is dropped on a port.</para>
+      </summary>
+      <param name="graphView">Reference to the GraphView.</param>
+      <param name="edge">The edge being created.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IEdgeConnectorListener.OnDropOutsidePort(UnityEditor.Experimental.GraphView.Edge,UnityEngine.Vector2)">
+      <summary>
+        <para>Called when edge is dropped in empty space.</para>
+      </summary>
+      <param name="edge">The edge being dropped.</param>
+      <param name="position">The position in empty space the edge is dropped on.</param>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.IResizable">
+      <summary>
+        <para>Resizable interface.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IResizable.OnResized">
+      <summary>
+        <para>Called when resize is completed.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.IResizable.OnStartResize">
+      <summary>
+        <para>Called when resize is started.</para>
+      </summary>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.ISearchWindowProvider">
+      <summary>
+        <para>This interface describes methods to manage a search session for graph nodes.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISearchWindowProvider.CreateSearchTree(UnityEditor.Experimental.GraphView.SearchWindowContext)">
+      <summary>
+        <para>Generates data to populate the search window.</para>
+      </summary>
+      <param name="context">Contextual data initially passed the window when first created.</param>
+      <returns>
+        <para>Returns the list of SearchTreeEntry objects displayed in the search window.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISearchWindowProvider.OnSelectEntry(UnityEditor.Experimental.GraphView.SearchTreeEntry,UnityEditor.Experimental.GraphView.SearchWindowContext)">
+      <summary>
+        <para>Selects an entry in the search tree list.</para>
+      </summary>
+      <param name="SearchTreeEntry">The selected entry.</param>
+      <param name="context">Contextual data to pass to the search window when it is first created.</param>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.ISelectable">
+      <summary>
+        <para>Selectable interface.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelectable.HitTest(UnityEngine.Vector2)">
+      <summary>
+        <para>See if point is on target.</para>
+      </summary>
+      <param name="localPoint">The point.</param>
+      <returns>
+        <para>True if on target.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelectable.IsSelectable">
+      <summary>
+        <para>Check if element is selectable.</para>
+      </summary>
+      <returns>
+        <para>True if selectable. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelectable.IsSelected(UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>Check if element is selected.</para>
+      </summary>
+      <param name="selectionContainer">Container in which the selection is tracked.</param>
+      <returns>
+        <para>True if selected. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelectable.Overlaps(UnityEngine.Rect)">
+      <summary>
+        <para>Check if selection overlaps rectangle.</para>
+      </summary>
+      <param name="rectangle">Rectangle to check.</param>
+      <returns>
+        <para>True if it overlaps. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelectable.Select(UnityEngine.UIElements.VisualElement,System.Boolean)">
+      <summary>
+        <para>Select element.</para>
+      </summary>
+      <param name="selectionContainer">Container in which selection is tracked.</param>
+      <param name="additive">True if selection is additive. False otherwise.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelectable.Unselect(UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>Deselect element.</para>
+      </summary>
+      <param name="selectionContainer">Container in which selection is tracked.</param>
+    </member>
+    <member name="?:UnityEditor.Experimental.GraphView.ISelection">
+      <summary>
+        <para>Selection interface.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.ISelection.selection">
+      <summary>
+        <para>Get the selection.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelection.AddToSelection(UnityEditor.Experimental.GraphView.ISelectable)">
+      <summary>
+        <para>Add element to selection.</para>
+      </summary>
+      <param name="selectable">Selectable element to add.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelection.ClearSelection">
+      <summary>
+        <para>Clear selection.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ISelection.RemoveFromSelection(UnityEditor.Experimental.GraphView.ISelectable)">
+      <summary>
+        <para>Remove element from selection.</para>
+      </summary>
+      <param name="selectable">Selectable element to remove.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.MiniMap">
+      <summary>
+        <para>MiniMap.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.MiniMap.anchored">
+      <summary>
+        <para>True if the MiniMap is pinned or achored (non-movable). False if you can drag and move it around.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.MiniMap.graphView">
+      <summary>
+        <para>The GraphView that the MiniMap is attached to.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.MiniMap.maxHeight">
+      <summary>
+        <para>Max height.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.MiniMap.maxWidth">
+      <summary>
+        <para>Max width.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.MiniMap.windowed">
+      <summary>
+        <para>Set to true when the MiniMap displays in a separate window. Set to false when the MiniMap displays in the GraphView.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.MiniMap.zoomFactorTextChanged">
+      <summary>
+        <para>Callback for when the zoom factor text has changed.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.MiniMap.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)">
+      <summary>
+        <para>Add menu items to the MiniMap contextual menu.</para>
+      </summary>
+      <param name="evt">The event holding the menu to populate.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.MiniMap.#ctor">
+      <summary>
+        <para>MiniMap's constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.MiniMap.OnResized">
+      <summary>
+        <para>Call this method after a user has resized a MiniMap to let the MiniMap know it needs to get updated.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Node">
+      <summary>
+        <para>Main GraphView node class.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.expanded">
+      <summary>
+        <para>Is node expanded.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.extensionContainer">
+      <summary>
+        <para>Empty container used to display custom elements. After adding elements, call RefreshExpandedState in order to toggle this container visibility.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.inputContainer">
+      <summary>
+        <para>Input container used for input ports.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.mainContainer">
+      <summary>
+        <para>Main container that includes all other containers.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.outputContainer">
+      <summary>
+        <para>Outputs container, used for output ports.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.title">
+      <summary>
+        <para>Node's title element.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.titleButtonContainer">
+      <summary>
+        <para>Title bar button container. Contains the top right buttons.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.titleContainer">
+      <summary>
+        <para>Title bar container.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Node.topContainer">
+      <summary>
+        <para>Entire top area containing input and output containers.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)">
+      <summary>
+        <para>Add menu items to the node contextual menu.</para>
+      </summary>
+      <param name="evt">The event holding the menu to populate.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.CollectElements(System.Collections.Generic.HashSet`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;,System.Func`2&lt;UnityEditor.Experimental.GraphView.GraphElement,System.Boolean&gt;)">
+      <summary>
+        <para>Retrieves the set of edges that match a specified condition. The tested edges are connected to this node.</para>
+      </summary>
+      <param name="collectedElementSet">The set of matching edges.</param>
+      <param name="conditionFunc">A function that determines whether an edge is added to the set of matching edges.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.#ctor">
+      <summary>
+        <para>Node's constructor.</para>
+      </summary>
+      <param name="nodeOrientation">The orientation.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.#ctor">
+      <summary>
+        <para>Node's constructor.</para>
+      </summary>
+      <param name="nodeOrientation">The orientation.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.InstantiatePort">
+      <summary>
+        <para>Create a new port specific to this node.</para>
+      </summary>
+      <param name="orientation">Port's orientation.</param>
+      <param name="direction">Port's direction.</param>
+      <param name="type">Port's type.</param>
+      <param name="newPres">(obsolete).</param>
+      <returns>
+        <para>The new port.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.InstantiatePort">
+      <summary>
+        <para>Create a new port specific to this node.</para>
+      </summary>
+      <param name="orientation">Port's orientation.</param>
+      <param name="direction">Port's direction.</param>
+      <param name="type">Port's type.</param>
+      <param name="newPres">(obsolete).</param>
+      <returns>
+        <para>The new port.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.OnPortRemoved(UnityEditor.Experimental.GraphView.Port)">
+      <summary>
+        <para>Called when port is remove.</para>
+      </summary>
+      <param name="port">The removed port.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.RefreshExpandedState">
+      <summary>
+        <para>After adding custom elements to the extensionContainer, call this method in order for them to become visible.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.RefreshPorts">
+      <summary>
+        <para>Refresh the layout of the ports.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.SetPosition(UnityEngine.Rect)">
+      <summary>
+        <para>Set node position.</para>
+      </summary>
+      <param name="newPos">New position.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.ToggleCollapse">
+      <summary>
+        <para>Toggle node's collapse state.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Node.UseDefaultStyling">
+      <summary>
+        <para>Applies the default styling of Node. This must be explicitly called by Node subclasses that use their own uxml files.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.NodeCreationContext">
+      <summary>
+        <para>This struct represents the context when the user initiates creating a graph node.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.NodeCreationContext.index">
+      <summary>
+        <para>The index where the created node will be inserted.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.NodeCreationContext.screenMousePosition">
+      <summary>
+        <para>Position of the click that initiated the request to create a node, in the coordinate space of the screen.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.NodeCreationContext.target">
+      <summary>
+        <para>The VisualElement where the created node will be added.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Orientation">
+      <summary>
+        <para>Graph element orientation.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Orientation.Horizontal">
+      <summary>
+        <para>Horizontal orientation used for nodes and connections flowing to the left or right.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Orientation.Vertical">
+      <summary>
+        <para>Vertical orientation used for nodes and connections flowing up or down.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Pill">
+      <summary>
+        <para>The Pill class includes methods for creating and managing a VisualElement that resembles a capsule. The Pill class includes text, an icon, and two optional child VisualElements: one to the left of the pill, and one to the right of the pill.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Pill.highlighted">
+      <summary>
+        <para>Returns whether the pill is highlighted.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Pill.icon">
+      <summary>
+        <para>The icon of the pill.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Pill.left">
+      <summary>
+        <para>The VisualElement to the left of the pill.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Pill.right">
+      <summary>
+        <para>The VisualElement to the right of the pill.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Pill.text">
+      <summary>
+        <para>The text of the pill.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Pill.#ctor">
+      <summary>
+        <para>Constructs a pill with its optional left and right child VisualElements.</para>
+      </summary>
+      <param name="left"></param>
+      <param name="right"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Pill.#ctor(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>Constructs a pill with its optional left and right child VisualElements.</para>
+      </summary>
+      <param name="left"></param>
+      <param name="right"></param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Pill.UxmlFactory">
+      <summary>
+        <para>Instantiates a Pill using the data read from a UXML file.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Pill.UxmlFactory.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Pill.UxmlTraits">
+      <summary>
+        <para>Defines UxmlTraits for the Pill.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Pill.UxmlTraits.uxmlChildElementsDescription">
+      <summary>
+        <para>Returns an empty enumerable, as pill elements do not have children.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Pill.UxmlTraits.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Pill.UxmlTraits.Init(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.IUxmlAttributes,UnityEngine.UIElements.CreationContext)">
+      <summary>
+        <para>Initialize Pill properties using values from the attribute bag.</para>
+      </summary>
+      <param name="ve">The object to initialize.</param>
+      <param name="bag">The attribute bag.</param>
+      <param name="cc">The creation context; unused.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Placemat">
+      <summary>
+        <para>Allows interactive manipulation of elements (drag, hide) over a virtual placemat.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.title">
+      <summary>
+        <para>The title of the placemat.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Placemat.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)">
+      <summary>
+        <para>Adds menu items to the placemat contextual menu.</para>
+      </summary>
+      <param name="evt">The event for the contextual menu being populated.</param>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.Collapsed">
+      <summary>
+        <para>Whether the placemat is collapsed (true) or expanded (false).</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.CollapsedElements">
+      <summary>
+        <para>The list of elements hidden by the placemat when collapsed. The list is empty when the placemat is expanded.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.CollapsedSize">
+      <summary>
+        <para>The size of the placemat when collapsed.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.Color">
+      <summary>
+        <para>The color of the placemat.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Placemat.ComputeElementBounds(UnityEngine.Rect&amp;,System.Collections.Generic.List`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;,UnityEditor.Experimental.GraphView.Placemat/MinSizePolicy)">
+      <summary>
+        <para>Calculates the bounds of a list of graph elements.</para>
+      </summary>
+      <param name="pos">The position, if computed.</param>
+      <param name="elements">The list of elements.</param>
+      <param name="ensureMinSize">Whether to consider the minimum size of the placemat while computing the bounds.</param>
+      <returns>
+        <para>Returns true if bounds were computed, or false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Placemat.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.ExpandedPosition">
+      <summary>
+        <para>The rect representing the expanded placemat, regardless of the current collapsed state.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Placemat.MinSizePolicy">
+      <summary>
+        <para>Determines the behavior of the CalculateSelectedNodeBounds method.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Placemat.MinSizePolicy.DoNotEnsureMinSize">
+      <summary>
+        <para>Ignore the placemat minimum size when calculating the bounds.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Placemat.MinSizePolicy.EnsureMinSize">
+      <summary>
+        <para>Enforce the placemat minimum size when calculating the bounds.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Placemat.SetCollapsedElements(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Sets the list of collapsed elements. This method is not meant to be called.</para>
+      </summary>
+      <param name="collapsedElements">The list of elements to mark as collapsed.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Placemat.SetPosition(UnityEngine.Rect)">
+      <summary>
+        <para>Sets the placemat position</para>
+      </summary>
+      <param name="newPos">The new position.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Placemat.StartEditTitle">
+      <summary>
+        <para>Sets the focus to the title of placemat and sets the title for editing.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.UncollapsedSize">
+      <summary>
+        <para>The size of the placemat when expanded.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Placemat.ZOrder">
+      <summary>
+        <para>The Z order of the placemat in the PlacematContainer.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.PlacematContainer">
+      <summary>
+        <para>The GraphView layer for placemats.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.CreatePlacemat">
+      <summary>
+        <para>Creates and initializes a new placemat in this PlacematContainer.</para>
+      </summary>
+      <param name="placematPosition">The position of the new placemat.</param>
+      <param name="placematTitle">The title of the new placemat.</param>
+      <param name="creator">A function that creates a new placemat of type T.</param>
+      <returns>
+        <para>Returns the created placemat.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.CreatePlacemat">
+      <summary>
+        <para>Creates and initializes a new placemat in this PlacematContainer.</para>
+      </summary>
+      <param name="placematPosition">The position of the new placemat.</param>
+      <param name="placematTitle">The title of the new placemat.</param>
+      <param name="creator">A function that creates a new placemat of type T.</param>
+      <returns>
+        <para>Returns the created placemat.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.#ctor(UnityEditor.Experimental.GraphView.GraphView)">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+      <param name="graphView">The GraphView that uses this PlacematContainer.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.PlacematContainer.CycleDirection">
+      <summary>
+        <para>Use to set the placemat cycling direction.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.PlacematContainer.CycleDirection.Down">
+      <summary>
+        <para>Set the placemat cycle direction to down. Use when cycling a placemat down.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.PlacematContainer.CycleDirection.Up">
+      <summary>
+        <para>Set the placemat cycle direction to up. Use when cycling a placemat up.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.GetPortCenterOverride(UnityEditor.Experimental.GraphView.Port,UnityEngine.Vector2&amp;)">
+      <summary>
+        <para>Gets another location for a specific port and checks if the port has an overridden position.</para>
+      </summary>
+      <param name="port">The specific port.</param>
+      <param name="overriddenPosition">The overridden position, if the port is overridden. Set to Vector2.zero otherwise.</param>
+      <returns>
+        <para>Returns true if the port center is overridden. Returns false otherwise</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.GetTopZOrder">
+      <summary>
+        <para>Retrieves the ZOrder value greater than the top-most placemat. For example, if the top-most placemat has a ZOrder value of 10, this method returns 11.</para>
+      </summary>
+      <returns>
+        <para>Returns a ZOrder value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.HideCollapsedEdges">
+      <summary>
+        <para>Hides the edges that are hidden because of collapsed placemats.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.PlacematContainer.Placemats">
+      <summary>
+        <para>The enumeration of the placemats in this PlacematContainer.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.PlacematContainer.PlacematsLayer">
+      <summary>
+        <para>The layer index for placing a PlacematContainer in a GraphView.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.RemoveAllPlacemats">
+      <summary>
+        <para>Removes the placemats in this PlacematContainer.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PlacematContainer.UpdateElementsOrder">
+      <summary>
+        <para>Updates the list of collapsed elements. This method is not meant to be called.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Port">
+      <summary>
+        <para>GraphView Port class.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.allowMultiDrag">
+      <summary>
+        <para>When this property is set to true, you can select multiple edges connected to this port, and drag them all at the same time (for example, to disconnect them and reconnect them to another port). When this property is set to false, you can only drag one connected edge at a time.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.capacity">
+      <summary>
+        <para>Specify how many edges a port can have connected.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.collapsed">
+      <summary>
+        <para>Port's collapsed state.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.connected">
+      <summary>
+        <para>Port's connected state.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.connections">
+      <summary>
+        <para>All the port's current connections.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.direction">
+      <summary>
+        <para>Port's direction.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.disabledPortColor">
+      <summary>
+        <para>The color of the port when disabled.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.edgeConnector">
+      <summary>
+        <para>Reference to the edge connector.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.highlight">
+      <summary>
+        <para>Is the port highlighted.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.node">
+      <summary>
+        <para>Port's node.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.orientation">
+      <summary>
+        <para>Port's orientation.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.portCapLit">
+      <summary>
+        <para>Is the port cap lit or not.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.portColor">
+      <summary>
+        <para>The color of the port.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.portName">
+      <summary>
+        <para>Port name.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.portType">
+      <summary>
+        <para>Port type.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.showInMiniMap">
+      <summary>
+        <para>Whether the element is shown in the minimap. For Port, this property is always set to false.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.source">
+      <summary>
+        <para>Port's source.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Port.visualClass">
+      <summary>
+        <para>The name of the uss class to use to style the port.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Port.Capacity">
+      <summary>
+        <para>Specify how many edges a port can have connected.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Port.Capacity.Multi">
+      <summary>
+        <para>Port can have multiple connections.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.Port.Capacity.Single">
+      <summary>
+        <para>Port can only have a single connection.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.Connect(UnityEditor.Experimental.GraphView.Edge)">
+      <summary>
+        <para>Connect and edge to the port.</para>
+      </summary>
+      <param name="edge">The edge.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.ConnectTo(UnityEditor.Experimental.GraphView.Port)">
+      <summary>
+        <para>Creates an edge between this port and the 'other' port.</para>
+      </summary>
+      <param name="other">Other port to connect to.</param>
+      <returns>
+        <para>Newly created edge.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.ConnectTo(UnityEditor.Experimental.GraphView.Port)">
+      <summary>
+        <para>Creates an edge between this port and the 'other' port.</para>
+      </summary>
+      <param name="other">Other port to connect to.</param>
+      <returns>
+        <para>Newly created edge.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.ContainsPoint(UnityEngine.Vector2)">
+      <summary>
+        <para>Check if point is on top of port. Used for selection and hover.</para>
+      </summary>
+      <param name="localPoint">The point.</param>
+      <returns>
+        <para>True if the point is over the port.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.Create(UnityEditor.Experimental.GraphView.Orientation,UnityEditor.Experimental.GraphView.Direction,UnityEditor.Experimental.GraphView.Port/Capacity,System.Type)">
+      <summary>
+        <para>Factory method for creating a port.</para>
+      </summary>
+      <param name="presenter">(obsolete).</param>
+      <param name="orientation">Orientation.</param>
+      <param name="direction">Direction.</param>
+      <param name="capacity">Multi vs. Single.</param>
+      <param name="type">Port data type.</param>
+      <returns>
+        <para>The new port.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.Create">
+      <summary>
+        <para>Factory method for creating a port.</para>
+      </summary>
+      <param name="presenter">(obsolete).</param>
+      <param name="orientation">Orientation.</param>
+      <param name="direction">Direction.</param>
+      <param name="capacity">Multi vs. Single.</param>
+      <param name="type">Port data type.</param>
+      <returns>
+        <para>The new port.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.Disconnect(UnityEditor.Experimental.GraphView.Edge)">
+      <summary>
+        <para>Disconnect edge from port.</para>
+      </summary>
+      <param name="edge">The edge to disconnect.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.DisconnectAll">
+      <summary>
+        <para>Disconnect all edges from port.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.GetGlobalCenter">
+      <summary>
+        <para>Get the port's center.</para>
+      </summary>
+      <returns>
+        <para>The center point.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.OnCustomStyleResolved(UnityEngine.UIElements.ICustomStyle)">
+      <summary>
+        <para>Called when the custom style properties are resolved.</para>
+      </summary>
+      <param name="styles"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.OnStartEdgeDragging">
+      <summary>
+        <para>Called when an edge is dragged.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Port.OnStopEdgeDragging">
+      <summary>
+        <para>Called when an edge dragging ends.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.PortSource`1">
+      <summary>
+        <para>Port source.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.PortSource_1.#ctor">
+      <summary>
+        <para>Port source constructor.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.RectangleSelector">
+      <summary>
+        <para>Rectangle selection box manipulator.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectangleSelector.ComputeAxisAlignedBound(UnityEngine.Rect,UnityEngine.Matrix4x4)">
+      <summary>
+        <para>Computer the axis-aligned bound rectangle.</para>
+      </summary>
+      <param name="position">Rectangle to bound.</param>
+      <param name="transform">Transform.</param>
+      <returns>
+        <para>The axis-aligned bound.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectangleSelector.#ctor">
+      <summary>
+        <para>RectangleSelector's constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectangleSelector.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectangleSelector.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.RectUtils">
+      <summary>
+        <para>Utilities for rectangle selections.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectUtils.#ctor">
+      <summary>
+        <para>RectUtils' constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectUtils.Encompass(UnityEngine.Rect,UnityEngine.Rect)">
+      <summary>
+        <para>Create rectangle that encompasses two rectangles.</para>
+      </summary>
+      <param name="a">Rect a.</param>
+      <param name="b">Rect b.</param>
+      <returns>
+        <para>New rectangle.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectUtils.Inflate(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+      <summary>
+        <para>Creates and returns an enlarged copy of the specified rectangle. The copy is enlarged by the specified amounts.</para>
+      </summary>
+      <param name="a">The original rectangle.</param>
+      <param name="left">The amount to inflate the rectangle towards the left.</param>
+      <param name="top">The amount to inflate the rectangle towards the top.</param>
+      <param name="right">The amount to inflate the rectangle towards the right.</param>
+      <param name="bottom">The amount to inflate the rectangle towards the bottom.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.RectUtils.IntersectsSegment(UnityEngine.Rect,UnityEngine.Vector2,UnityEngine.Vector2)">
+      <summary>
+        <para>Check if a line segment overlaps a rectangle.</para>
+      </summary>
+      <param name="rect">Rectangle to check.</param>
+      <param name="p1">Line segment point 1.</param>
+      <param name="p2">Line segment point 2.</param>
+      <returns>
+        <para>True if line segment overlaps rectangle. False otherwise.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ResizableElement">
+      <summary>
+        <para>Instantiates a [ResizableElement] that you add as a child of the [VisualElement] that you want to resize.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ResizableElement.#ctor">
+      <summary>
+        <para>Constructor for ResizableElement.</para>
+      </summary>
+      <param name="uiFile">An optional UXML file path.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ResizableElement.#ctor(System.String)">
+      <summary>
+        <para>Constructor for ResizableElement.</para>
+      </summary>
+      <param name="uiFile">An optional UXML file path.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ResizableElement.UxmlFactory">
+      <summary>
+        <para>Instantiates a ResizableElement with the data read from a UXML file.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ResizableElement.UxmlFactory.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Resizer">
+      <summary>
+        <para>Resizer manipulator element.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Resizer.activateButton">
+      <summary>
+        <para>Mouse button to activate the resizer.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Resizer.#ctor">
+      <summary>
+        <para>Resizer's constructor.</para>
+      </summary>
+      <param name="minimumSize">Minimum element size.</param>
+      <param name="onResizedCallback"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Resizer.#ctor(UnityEngine.Vector2)">
+      <summary>
+        <para>Resizer's constructor.</para>
+      </summary>
+      <param name="minimumSize">Minimum element size.</param>
+      <param name="onResizedCallback"></param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ResizerDirection">
+      <summary>
+        <para>Enum that specifies in which direction to resize the element.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ResizerDirection.Bottom">
+      <summary>
+        <para>Resize the element from the bottom.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ResizerDirection.Left">
+      <summary>
+        <para>Resize the element to the left.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ResizerDirection.Right">
+      <summary>
+        <para>Resize the element to the right.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.ResizerDirection.Top">
+      <summary>
+        <para>Resize the element from the top.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.Scope">
+      <summary>
+        <para>This class allows for nodes to be grouped into a common area, or Scope. This class includes methods that automatically resize and position the Scope to encompass the group of nodes.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Scope.autoUpdateGeometry">
+      <summary>
+        <para>Enables or disables the automatic resizing and positioning of the Scope.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Scope.containedElements">
+      <summary>
+        <para>The list of GraphElements contained by the Scope.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Scope.containedElementsRect">
+      <summary>
+        <para>The rect containing the GraphElements encompassed by the Scope. The rect is expressed in local coordinates.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.Scope.headerContainer">
+      <summary>
+        <para>Returns the header container for the Scope. Use this header container to customizer the header of the Scope.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.AcceptsElement(UnityEditor.Experimental.GraphView.GraphElement,System.String&amp;)">
+      <summary>
+        <para>Whether the GraphElement can be added to this scope.</para>
+      </summary>
+      <param name="element">The element to add.</param>
+      <param name="reasonWhyNotAccepted">The reason why the specified element cannot be added to the Scope.</param>
+      <returns>
+        <para>Returns true if the specified element is accepted by the Scope. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.AddElement(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Adds a GraphElement to the Scope.</para>
+      </summary>
+      <param name="element">The element to add.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.AddElements(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Adds GraphElements to the Scope.</para>
+      </summary>
+      <param name="element">The elements to add.</param>
+      <param name="elements"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.ContainsElement(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Determines if the Scope contains the specified GraphElement.</para>
+      </summary>
+      <param name="element">The element.</param>
+      <returns>
+        <para>Returns true if the Scope contains the specified element. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.#ctor">
+      <summary>
+        <para>Scope constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.GetPosition">
+      <summary>
+        <para>Returns the geometry of the Scope.</para>
+      </summary>
+      <returns>
+        <para>The geometry.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.HitTest(UnityEngine.Vector2)">
+      <summary>
+        <para>Determines whether the specified point is within the selectable area of the Scope.</para>
+      </summary>
+      <param name="localPoint">The point in local coordinates.</param>
+      <returns>
+        <para>Returns true if the point is within the selectable area of the Scope. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.OnElementsAdded(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Called when GraphElements are added to the Scope.</para>
+      </summary>
+      <param name="elements">The added elements.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.OnElementsRemoved(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Called when GraphElements are removed from the Scope.</para>
+      </summary>
+      <param name="elements">The removed elements.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.Overlaps(UnityEngine.Rect)">
+      <summary>
+        <para>Determines whether the specified rect overlaps the Scope.</para>
+      </summary>
+      <param name="rectangle">The rect.</param>
+      <returns>
+        <para>Returns true when the specified rect overlaps the Scope.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.RemoveElement(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Removes an element from the Scope.</para>
+      </summary>
+      <param name="element">The element to remove.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.RemoveElements(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Removes elements from the Scope.</para>
+      </summary>
+      <param name="elements">The elements to remove.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.RemoveElementsWithoutNotification(System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;)">
+      <summary>
+        <para>Removes elements from the Scope but do not send a notification.</para>
+      </summary>
+      <param name="elements">The elements to remove.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.ScheduleUpdateGeometryFromContent">
+      <summary>
+        <para>Schedules the update of the size and position of the Scope based on its contents.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.SetPosition(UnityEngine.Rect)">
+      <summary>
+        <para>Sets the geometry of the Scope.</para>
+      </summary>
+      <param name="newPos">The new geometry.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.SetScopePositionOnly(UnityEngine.Rect)">
+      <summary>
+        <para>Change the position of the scope but does not move its elements.</para>
+      </summary>
+      <param name="newPos"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.Scope.UpdateGeometryFromContent">
+      <summary>
+        <para>Updates the size and position of the Scope based on its contents.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.SearchTreeEntry">
+      <summary>
+        <para>This class describes a search tree entry. The search window displays search tree entries in the GraphView.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.SearchTreeEntry.content">
+      <summary>
+        <para>The text and icon of the search entry.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.SearchTreeEntry.level">
+      <summary>
+        <para>The level of the entry in the search tree.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.SearchTreeEntry.name">
+      <summary>
+        <para>The string used for string comparison against the user filter.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.SearchTreeEntry.userData">
+      <summary>
+        <para>A user specified object for attaching application specific data to a search tree entry.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SearchTreeEntry.#ctor(UnityEngine.GUIContent)">
+      <summary>
+        <para></para>
+      </summary>
+      <param name="content">The text and icon of the item.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.SearchTreeGroupEntry">
+      <summary>
+        <para>This class describes group entries in the search tree. The search tree is displayed in the search window.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SearchTreeGroupEntry.#ctor(UnityEngine.GUIContent,System.Int32)">
+      <summary>
+        <para></para>
+      </summary>
+      <param name="content">The text and icon of the group entry.</param>
+      <param name="level">The level of the group entry.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.SearchWindow">
+      <summary>
+        <para>This subclass displays a searchable menu of available graph nodes.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SearchWindow.Open(UnityEditor.Experimental.GraphView.SearchWindowContext,T)">
+      <summary>
+        <para>Opens the search window above the Graph.</para>
+      </summary>
+      <param name="context">Structure of parameters that configure the search window.</param>
+      <param name="provider">Reference to the object that provides the search results.</param>
+      <returns>
+        <para>Returns true if the window opens successfully. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.SearchWindowContext">
+      <summary>
+        <para>This structure includes parameters for configuring the search window.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.SearchWindowContext.requestedHeight">
+      <summary>
+        <para>Requested height of the window. Set to 0.0f to use the default height.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.SearchWindowContext.requestedWidth">
+      <summary>
+        <para>Requested width of the window. Set to 0.0f to use the default width.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.SearchWindowContext.screenMousePosition">
+      <summary>
+        <para>The initial mouse event position that triggered opening the window, in the coordinate space of the screen.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SearchWindowContext.#ctor(UnityEngine.Vector2,System.Single,System.Single)">
+      <summary>
+        <para></para>
+      </summary>
+      <param name="requestedHeight">Requested height of the window. Set to 0.0f to use the default height.</param>
+      <param name="requestedWidth">Requested width of the window. Set to 0.0f to use the default width.</param>
+      <param name="screenMousePosition">The initial mouse event position that triggered opening the window, in the coordinate space of the screen.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.SelectionDragger">
+      <summary>
+        <para>Selection dragger manipulator.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDragger.#ctor">
+      <summary>
+        <para>SelectionDragger's constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDragger.OnMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Called on mouse down event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDragger.OnMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Called on mouse move event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDragger.OnMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Called on mouse up event.</para>
+      </summary>
+      <param name="e">The event.</param>
+      <param name="evt"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDragger.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDragger.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.SelectionDropper">
+      <summary>
+        <para>Selection drag&amp;drop manipulator.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.SelectionDropper.activateButton">
+      <summary>
+        <para>Mouse button used to activate the manipulator.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.SelectionDropper.clampToParentEdges">
+      <summary>
+        <para>Clamp element being dragged to the parent's (usually the graph) edges.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.SelectionDropper.panSpeed">
+      <summary>
+        <para>When elements are dragged near the edges of the Graph, panning occurs. This controls the speed for said panning.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDropper.#ctor">
+      <summary>
+        <para>SelectionDropper's constructor.</para>
+      </summary>
+      <param name="handler">The drop event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDropper.OnMouseDown(UnityEngine.UIElements.MouseDownEvent)">
+      <summary>
+        <para>Called on mouse down event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDropper.OnMouseMove(UnityEngine.UIElements.MouseMoveEvent)">
+      <summary>
+        <para>Called on mouse move event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDropper.OnMouseUp(UnityEngine.UIElements.MouseUpEvent)">
+      <summary>
+        <para>Called on mouse up event.</para>
+      </summary>
+      <param name="e">The event.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDropper.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.SelectionDropper.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ShortcutDelegate">
+      <summary>
+        <para>Shortcut event delegate.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.ShortcutHandler">
+      <summary>
+        <para>Shortcut handler.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ShortcutHandler.#ctor(System.Collections.Generic.Dictionary`2&lt;UnityEngine.Event,UnityEditor.Experimental.GraphView.ShortcutDelegate&gt;)">
+      <summary>
+        <para>ShortcutHandler's constructor.</para>
+      </summary>
+      <param name="dictionary">Dictionary of shortcuts and their actions.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ShortcutHandler.RegisterCallbacksOnTarget">
+      <summary>
+        <para>Called to register click event callbacks on the target element.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.ShortcutHandler.UnregisterCallbacksFromTarget">
+      <summary>
+        <para>Called to unregister event callbacks from the target element.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.StackNode">
+      <summary>
+        <para>Use this class to customize StackNodes and to manage dragging GraphElements over StackNodes.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StackNode.contentContainer">
+      <summary>
+        <para>The content container of this StackNode.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StackNode.dragEntered">
+      <summary>
+        <para>Indicates if items from this stack are currently being dragged.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StackNode.dropPreviewTemplate">
+      <summary>
+        <para>Use this property to customize the preview that appears when GraphElements are dragged over the StackNode.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StackNode.hasMultipleSelectionSupport">
+      <summary>
+        <para>Returns true if the StackNode supports multiselection.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StackNode.headerContainer">
+      <summary>
+        <para>Use this property to customize the header for this StackNode.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.AcceptsElement(UnityEditor.Experimental.GraphView.GraphElement,System.Int32&amp;,System.Int32)">
+      <summary>
+        <para>Checks whether the specified GraphElement can be added to this StackNode.</para>
+      </summary>
+      <param name="element">The element to add.</param>
+      <param name="proposedIndex">The index where the element would be added. This index can be overwritten.</param>
+      <param name="maxIndex">The maximum value of the index.</param>
+      <returns>
+        <para>Returns true if the specified GraphElement can be added. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.AddElement(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Adds the specified GraphElement to the StackNode.</para>
+      </summary>
+      <param name="element">The GraphElement to add.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.CanAcceptDrop(System.Collections.Generic.List`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;)">
+      <summary>
+        <para>Indicates whether this StackNode accepts the current drop event.</para>
+      </summary>
+      <param name="selection">"The selected GraphElements to be checked.</param>
+      <returns>
+        <para>Returns true if this StackNode accepts the current drop event. Returns false otherwise.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.CollectElements(System.Collections.Generic.HashSet`1&lt;UnityEditor.Experimental.GraphView.GraphElement&gt;,System.Func`2&lt;UnityEditor.Experimental.GraphView.GraphElement,System.Boolean&gt;)">
+      <summary>
+        <para>Retrieves the set of nodes contained in this stack and its edges. The retrieved graph elements match a specific condition.</para>
+      </summary>
+      <param name="collectedElementSet">The set of matching graph elements.</param>
+      <param name="conditionFunc">A function that determines whether a graph element is added to the set of matching graph elements.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.#ctor">
+      <summary>
+        <para>StackNode constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.DragEnter(UnityEngine.UIElements.DragEnterEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>This method is automatically called when a drag leave event occurs.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="enteredTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.DragExited">
+      <summary>
+        <para>This method is automatically called when a drag exit event occurs.</para>
+      </summary>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.DragLeave(UnityEngine.UIElements.DragLeaveEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>This method is automatically called when a drag leave event occurs.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="leftTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.DragPerform(UnityEngine.UIElements.DragPerformEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>This method is automatically called when a drop event occurs.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="dropTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.DragUpdated(UnityEngine.UIElements.DragUpdatedEvent,System.Collections.Generic.IEnumerable`1&lt;UnityEditor.Experimental.GraphView.ISelectable&gt;,UnityEditor.Experimental.GraphView.IDropTarget,UnityEditor.Experimental.GraphView.ISelection)">
+      <summary>
+        <para>This method is automatically called when a drag updated event occurs.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="selection">The selected elements.</param>
+      <param name="dropTarget">The drop target.</param>
+      <param name="dragSource">The drag source.</param>
+      <returns>
+        <para>Returns event propagation.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.GetInsertionIndex(UnityEngine.Vector2)">
+      <summary>
+        <para>Retrieves the insertion index in the StackNode if an item is dropped at the specified world position.</para>
+      </summary>
+      <param name="worldPosition">The world position to get an index from.</param>
+      <returns>
+        <para>Returns the insertion index.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.InsertElement(System.Int32,UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Inserts the specified GraphElement at the specified index in this StackNode.</para>
+      </summary>
+      <param name="index">The index where the specified GraphElement will be inserted.</param>
+      <param name="element">The GraphElement to insert.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.OnCustomStyleResolved(UnityEngine.UIElements.ICustomStyle)">
+      <summary>
+        <para>Called when the custom style properties are resolved.</para>
+      </summary>
+      <param name="styles"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.OnSeparatorContextualMenuEvent(UnityEngine.UIElements.ContextualMenuPopulateEvent,System.Int32)">
+      <summary>
+        <para>This method is automatically called when a contextual menu is about to appear on a StackNode separator.</para>
+      </summary>
+      <param name="evt">The event.</param>
+      <param name="separatorIndex">The index of the separator on which the menu was invoked.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.OnStartDragging(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>This method is automatically called when an element of the stack is about to be dragged out of it.</para>
+      </summary>
+      <param name="ge">The GraphElement that is being dragged out of the stack.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StackNode.RemoveElement(UnityEditor.Experimental.GraphView.GraphElement)">
+      <summary>
+        <para>Removes the specified GraphElement from this StackNode.</para>
+      </summary>
+      <param name="element">The GraphElement to remove.</param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.StickyNote">
+      <summary>
+        <para>Instantiates a [GraphElement] used for comment text.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StickyNote.contents">
+      <summary>
+        <para>The textual content of the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNote.defaultSize">
+      <summary>
+        <para>The default size of the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StickyNote.fontSize">
+      <summary>
+        <para>The font size of the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StickyNote.theme">
+      <summary>
+        <para>The visual theme of the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StickyNote.title">
+      <summary>
+        <para>The title of the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)">
+      <summary>
+        <para>Builds the [StickyNote] contextual menu.</para>
+      </summary>
+      <param name="evt"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.#ctor">
+      <summary>
+        <para>Constructor for [StickyNote].</para>
+      </summary>
+      <param name="uiFile">An optional UXML file path.</param>
+      <param name="position">The start position.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.#ctor(UnityEngine.Vector2)">
+      <summary>
+        <para>Constructor for [StickyNote].</para>
+      </summary>
+      <param name="uiFile">An optional UXML file path.</param>
+      <param name="position">The start position.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.#ctor">
+      <summary>
+        <para>Constructor for [StickyNote].</para>
+      </summary>
+      <param name="uiFile">An optional UXML file path.</param>
+      <param name="position">The start position.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.#ctor(System.String,UnityEngine.Vector2)">
+      <summary>
+        <para>Constructor for [StickyNote].</para>
+      </summary>
+      <param name="uiFile">An optional UXML file path.</param>
+      <param name="position">The start position.</param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.FitText(System.Boolean)">
+      <summary>
+        <para>Resizes the [StickyNote] so that its textual content is visible.</para>
+      </summary>
+      <param name="onlyIfSmaller"></param>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.GetPosition">
+      <summary>
+        <para>Gets the position of the [StickyNote].</para>
+      </summary>
+      <returns>
+        <para>Returns the [StickyNote] position as a xy position relative to the [GraphView].</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.OnResized">
+      <summary>
+        <para>Called when the [StickyNote] is about to be resized.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.OnStartResize">
+      <summary>
+        <para>Called when the [StickyNote] will be resized.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.SetPosition(UnityEngine.Rect)">
+      <summary>
+        <para>Sets the position of the [StickyNote].</para>
+      </summary>
+      <param name="rect"></param>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.StickyNote.UxmlFactory">
+      <summary>
+        <para>Instantiates a StickyNote with the data read from a UXML file.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNote.UxmlFactory.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.StickyNoteChange">
+      <summary>
+        <para>Enum that specifies the type of change to the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteChange.Contents">
+      <summary>
+        <para>Specify that the content of the [StickyNote] has changed.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteChange.FontSize">
+      <summary>
+        <para>Specify that the size of the font used by the [StickyNote] has changed.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteChange.Position">
+      <summary>
+        <para>Specify that the position of the [StickyNote] has changed.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteChange.Theme">
+      <summary>
+        <para>Specifies that the visual theme of the [StickyNote] has changed.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteChange.Title">
+      <summary>
+        <para>Specifies that the title of the [StickyNote] has changed.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.StickyNoteChangeEvent">
+      <summary>
+        <para>The event sent when a [StickyNote] was changed.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.StickyNoteChangeEvent.change">
+      <summary>
+        <para>The type of change that occured.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNoteChangeEvent.#ctor">
+      <summary>
+        <para>Constructor.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.StickyNoteChangeEvent.GetPooled">
+      <summary>
+        <para>Gets an event from the event pool and initializes it with the given values. Use this function instead of creating new events. Events obtained using this method need to be released back to the pool. You can use `Dispose()` to release them.</para>
+      </summary>
+      <param name="target">The target [StickyNote].</param>
+      <param name="change">The type of change.</param>
+      <returns>
+        <para>Returns an initialized event.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.StickyNoteFontSize">
+      <summary>
+        <para>Enum used to describe the font size used by the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteFontSize.Huge">
+      <summary>
+        <para>Huge font size.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteFontSize.Large">
+      <summary>
+        <para>Large font size.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteFontSize.Medium">
+      <summary>
+        <para>Medium font size.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteFontSize.Small">
+      <summary>
+        <para>Small font size.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.StickyNoteTheme">
+      <summary>
+        <para>Enum used to describe the visual theme used by the [StickyNote].</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteTheme.Black">
+      <summary>
+        <para>The dark theme.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.Experimental.GraphView.StickyNoteTheme.Classic">
+      <summary>
+        <para>The light, classic theme.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.Experimental.GraphView.TokenNode">
+      <summary>
+        <para>The TokenNode class includes methods for creating and managing a Node that resembles a capsule. The TokenNode class includes a title, an icon, one input Port, and one output Port.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.TokenNode.highlighted">
+      <summary>
+        <para>Returns whether the TokenNode is highlighted.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.TokenNode.icon">
+      <summary>
+        <para>The icon of the TokenNode.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.TokenNode.input">
+      <summary>
+        <para>The input Port of the TokenNode.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.Experimental.GraphView.TokenNode.output">
+      <summary>
+        <para>The output Port of the TokenNode.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.Experimental.GraphView.TokenNode.#ctor(UnityEditor.Experimental.GraphView.Port,UnityEditor.Experimental.GraphView.Port)">
+      <summary>
+        <para>Constructs a TokenNode with both input and output Ports.</para>
+      </summary>
+      <param name="input"></param>
+      <param name="output"></param>
+    </member>
+  </members>
+</doc>
