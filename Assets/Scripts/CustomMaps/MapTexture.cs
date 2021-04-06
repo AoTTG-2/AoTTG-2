@@ -13,7 +13,8 @@ namespace Assets.Scripts.CustomMaps
         /// Only used for MapTextures which did exist in AoTTG.
         /// </summary>
         public string LegacyName;
+        public Vector2 LegacyTiling = new Vector2(1f, 1f);
         public string Description;
-        public Material Material;
+        public Texture2D Texture;
     }
 }

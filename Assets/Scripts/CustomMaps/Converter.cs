@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Assets.Scripts.Legacy.CustomMap;
+using Assets.Scripts.Services;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Assets.Scripts.Legacy.CustomMap;
-using Assets.Scripts.Services;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace Assets.Scripts.CustomMaps
         public TextAsset AoTTG2CustomMap;
 
         public CustomMapConfiguration Configuration;
-        public MapTexture Transparent;
+        public MapMaterial Transparent;
 
         public bool LoadAoTTG2Map;
 
@@ -42,26 +42,57 @@ namespace Assets.Scripts.CustomMaps
                     var position = GetPosition(attributes, type);
                     var rotation = GetRotation(attributes, type).eulerAngles;
                     var tiling = GetTiling(attributes, type);
+
+                    if (texture != null && texture.LegacyTiling != Vector2.one)
+                    {
+                        tiling = Vector2.Scale(tiling, texture.LegacyTiling);
+                    }
+
                     var scale = GetScale(attributes, type);
                     var color = GetColor(attributes, type);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture, tiling, scale, color, null));
+                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture?.Name, tiling, scale, color, null));
                 } else if (attributes[0] == "racing")
                 {
                     type = RcObjectType.Racing;
 
                     var modelName = GetModelName(attributes, type);
-                    var texture = Transparent.Name;
+                    var material = Transparent.Name;
                     var position = GetPosition(attributes, type);
                     var rotation = GetRotation(attributes, type).eulerAngles;
                     var scale = GetScale(attributes, type);
 
                     var racingType = GetRacingType(attributes);
                     var color = GetColor(racingType);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture)
+                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
                     {
                         Scale = scale,
                         Color = color,
-                        Components = new List<string> { "Kill" }
+                        Components = new List<string> { "Kill" },
+                        Material = material
+                    });
+                } else if (attributes[0] == "misc")
+                {
+                    type = RcObjectType.Misc;
+
+                    var modelName = attributes[1] == "barrier" ? "cuboid" : "";
+
+                    if (modelName == "")
+                    {
+                        Debug.LogWarning($"Custom Map Converter: Misc type {attributes[1]} not mapped");
+                        continue;
+                    }
+
+                    var material = Transparent.Name;
+                    var position = GetPosition(attributes, type);
+                    var rotation = GetRotation(attributes, type).eulerAngles;
+                    var scale = GetScale(attributes, type);
+                    var color = new Color(0f, 234f / 255f, 1f, 82f / 255f);
+                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
+                    {
+                        Scale = scale,
+                        Color = color,
+                        Components = new List<string> { "Barrier" },
+                        Material = material
                     });
                 }
             }
@@ -98,7 +129,11 @@ namespace Assets.Scripts.CustomMaps
             var modelName = type switch
             {
                 RcObjectType.Custom => attributes[1],
-                RcObjectType.Racing => attributes[1].Replace("kill", string.Empty).ToLowerInvariant(),
+                RcObjectType.Racing => attributes[1].ToLowerInvariant()
+                    .Replace("kill", string.Empty)
+                    .Replace("checkpoint", string.Empty)
+                    .Replace("start", string.Empty)
+                    .Replace("end", string.Empty),
                 _ => null
             };
 
@@ -121,18 +156,36 @@ namespace Assets.Scripts.CustomMaps
                 return RacingType.Kill;
             }
 
+            if (racingType.Contains("checkpoint"))
+            {
+                return RacingType.Checkpoint;
+            }
+
+            if (racingType.Contains("start"))
+            {
+                return RacingType.Start;
+            }
+
+            if (racingType.Contains("end"))
+            {
+                return RacingType.Finish;
+            }
+
             Debug.LogWarning($"Custom Map Converter: Unable to determine racing type of {racingType}");
             return RacingType.Invalid;
         }
 
         private Color? GetColor(RacingType type)
         {
-            if (type == RacingType.Kill)
+            var alpha = 175f / 255f;
+            return type switch
             {
-                return new Color(1f, 0f, 0f, 130f / 255f);
-            }
-
-            return null;
+                RacingType.Kill => new Color(1f, 0f, 0f, alpha),
+                RacingType.Checkpoint => new Color(0f, 1f, 0f, alpha),
+                RacingType.Start => new Color(0f, 0f, 1f, alpha),
+                RacingType.Finish => new Color(1f, 1f, 0f, alpha),
+                _ => null
+            };
         }
 
         private string GetComponent(RacingType type)
@@ -145,7 +198,7 @@ namespace Assets.Scripts.CustomMaps
             return null;
         }
 
-        private string GetTexture(string[] attributes, RcObjectType type)
+        private MapTexture GetTexture(string[] attributes, RcObjectType type)
         {
             var texture = type switch
             {
@@ -158,7 +211,8 @@ namespace Assets.Scripts.CustomMaps
                 Debug.LogWarning($"Custom Map Converter: Texture is not supported for {type}");
             }
 
-            if (Configuration.MapTextures.Any(x => x.LegacyName == texture)) return texture;
+            var mapTexture = Configuration.MapTextures.SingleOrDefault(x => x.LegacyName == texture);
+            if (mapTexture != null) return mapTexture;
             if (texture == "default") return null;
 
             Debug.LogWarning($"Custom Map Converter: Texture {texture} could not be found");
@@ -177,6 +231,7 @@ namespace Assets.Scripts.CustomMaps
             {
                 RcObjectType.Custom => new[] { 3, 4, 5 },
                 RcObjectType.Racing => new[] {2, 3, 4},
+                RcObjectType.Misc => new[] { 2, 3, 4 },
                 _ => new int[0]
             };
             if (tilingMap.Length == 0)
@@ -296,6 +351,7 @@ namespace Assets.Scripts.CustomMaps
 
             private string ModelName { get; set; }
             private string Texture { get; set; }
+            public string Material { get; set; }
             public Vector3 Scale { get; set; }
             private Vector2 Tiling { get; set; }
             public Color? Color { get; set; }
@@ -308,6 +364,7 @@ namespace Assets.Scripts.CustomMaps
                 Rotation = Vector3.zero;
                 ModelName = null;
                 Texture = null;
+                Material = null;
                 Scale = Vector3.one;
                 Tiling = Vector2.one;
                 Color = null;
@@ -345,10 +402,16 @@ namespace Assets.Scripts.CustomMaps
                 {
                     builder.Append($"m:{ModelName};");
                     if (Scale != Vector3.one) builder.Append($"scl:{Scale.x},{Scale.y},{Scale.z};");
+
                     if (Texture != null)
                     {
                         builder.Append($"t:{Texture};");
                         if (Tiling != Vector2.one) builder.Append($"til:{Tiling.x},{Tiling.y};");
+                    }
+
+                    if (Material != null)
+                    {
+                        builder.Append($"mat:{Material};");
                     }
 
                     if (Color.HasValue) builder.Append($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)},{(int) (Color.Value.a * 255f)};");

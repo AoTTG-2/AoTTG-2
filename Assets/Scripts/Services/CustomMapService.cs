@@ -39,7 +39,7 @@ namespace Assets.Scripts.Services
             CurrentMap = GetCustomMaps().SingleOrDefault(x => x.Name == mapName);
             PhotonNetwork.LoadLevel("Custom");
         }
-        
+
         #region Custom Map Loading
         public void LoadCustomMap(string[] objects)
         {
@@ -60,13 +60,21 @@ namespace Assets.Scripts.Services
                 mapGameObject.name = mapItem.Identifier;
                 mapGameObject.transform.localScale = Vector3.Scale(mapGameObject.transform.localScale, mapItem.Scale);
                 mapGameObject.transform.parent = baseParent.transform; //TODO: Objects which do have parents, should not use this
-                if (GetMapTexture(mapItem.Texture, out var texture) || mapItem.Color.HasValue)
+
+                var material = GetMapMaterial(mapItem.Material);
+                var texture = GetMapTexture(mapItem.Texture);
+                if (material != null || texture != null || mapItem.Color.HasValue)
                 {
                     foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
                     {
+                        if (material != null)
+                        {
+                            renderer.material = Instantiate(material.Material);
+                        }
+
                         if (texture != null)
                         {
-                            renderer.material = texture.Material;
+                            renderer.material.mainTexture = texture.Texture;
                             if (mapItem.Tiling.HasValue)
                             {
                                 renderer.material.mainTextureScale = new Vector2(
@@ -75,6 +83,7 @@ namespace Assets.Scripts.Services
                             }
                         }
 
+                        //TODO: Only apply vertex coloring if a Vertex Shader is used
                         if (mapItem.Color.HasValue)
                         {
                             renderer.material.color = mapItem.Color.Value;
@@ -109,12 +118,18 @@ namespace Assets.Scripts.Services
             return Configuration.MapObjects.SingleOrDefault(x => x.Name == objectName);
         }
 
-        private bool GetMapTexture(string textureName, out MapTexture texture)
+        private MapMaterial GetMapMaterial(string materialName)
         {
-            texture = null;
-            if (textureName == null) return false;
-            texture = Configuration.MapTextures.SingleOrDefault(x => x.Name == textureName);
-            return texture != null;
+            if (materialName == null) return null;
+            var material = Configuration.MapMaterials.SingleOrDefault(x => x.Name == materialName);
+            return material == null ? null : material;
+        }
+
+        private MapTexture GetMapTexture(string textureName)
+        {
+            if (textureName == null) return null;
+            var texture = Configuration.MapTextures.SingleOrDefault(x => x.Name == textureName);
+            return texture == null ? null : texture;
         }
 
         private struct CustomMapObject
@@ -125,6 +140,7 @@ namespace Assets.Scripts.Services
 
             public string ModelName { get; }
             public string Texture { get; }
+            public string Material { get; }
             public Vector3 Rotation { get; }
             public Vector3 Scale { get; }
             public Vector2? Tiling { get; }
@@ -140,6 +156,7 @@ namespace Assets.Scripts.Services
                 Scale = ToVector3(attributes, "scl") ?? Vector3.one;
 
                 ModelName = attributes.SingleOrDefault(x => x.StartsWith("m:"))?.Split(':')[1];
+                Material = attributes.SingleOrDefault(x => x.StartsWith("mat:"))?.Split(':')[1];
                 Texture = attributes.SingleOrDefault(x => x.StartsWith("t:"))?.Split(':')[1];
                 Tiling = ToVector2(attributes, "til");
 
@@ -168,7 +185,7 @@ namespace Assets.Scripts.Services
                 var rgba = data.Split(',');
                 if (rgba.Length == 3)
                 {
-                    rgba = new[] {rgba[0], rgba[1], rgba[2], "255"};
+                    rgba = new[] { rgba[0], rgba[1], rgba[2], "255" };
                 }
 
                 if (rgba.Length != 4) return null;
