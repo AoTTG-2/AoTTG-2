@@ -16,6 +16,7 @@ namespace Assets.Scripts.CustomMaps
         public TextAsset AoTTG2CustomMap;
 
         public CustomMapConfiguration Configuration;
+        public MapTexture Transparent;
 
         public bool LoadAoTTG2Map;
 
@@ -43,7 +44,25 @@ namespace Assets.Scripts.CustomMaps
                     var tiling = GetTiling(attributes, type);
                     var scale = GetScale(attributes, type);
                     var color = GetColor(attributes, type);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture, tiling, scale, color));
+                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture, tiling, scale, color, null));
+                } else if (attributes[0] == "racing")
+                {
+                    type = RcObjectType.Racing;
+
+                    var modelName = GetModelName(attributes, type);
+                    var texture = Transparent.Name;
+                    var position = GetPosition(attributes, type);
+                    var rotation = GetRotation(attributes, type).eulerAngles;
+                    var scale = GetScale(attributes, type);
+
+                    var racingType = GetRacingType(attributes);
+                    var color = GetColor(racingType);
+                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture)
+                    {
+                        Scale = scale,
+                        Color = color,
+                        Components = new List<string> { "Kill" }
+                    });
                 }
             }
 
@@ -64,7 +83,7 @@ namespace Assets.Scripts.CustomMaps
             var ground = GetLegacyMapObject("cuboid");
             if (ground != null)
             {
-                objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, ground.Name, "grass", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null));
+                objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, ground.Name, "grass", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null, null));
             }
         }
 
@@ -79,6 +98,7 @@ namespace Assets.Scripts.CustomMaps
             var modelName = type switch
             {
                 RcObjectType.Custom => attributes[1],
+                RcObjectType.Racing => attributes[1].Replace("kill", string.Empty).ToLowerInvariant(),
                 _ => null
             };
 
@@ -90,6 +110,38 @@ namespace Assets.Scripts.CustomMaps
             if (Configuration.MapObjects.Any(x => x.LegacyName == modelName)) return modelName;
 
             Debug.LogWarning($"Custom Map Converter: Model {modelName} could not be found");
+            return null;
+        }
+
+        private RacingType GetRacingType(string[] attributes)
+        {
+            var racingType = attributes[1];
+            if (racingType.Contains("kill"))
+            {
+                return RacingType.Kill;
+            }
+
+            Debug.LogWarning($"Custom Map Converter: Unable to determine racing type of {racingType}");
+            return RacingType.Invalid;
+        }
+
+        private Color? GetColor(RacingType type)
+        {
+            if (type == RacingType.Kill)
+            {
+                return new Color(1f, 0f, 0f, 130f / 255f);
+            }
+
+            return null;
+        }
+
+        private string GetComponent(RacingType type)
+        {
+            if (type == RacingType.Kill)
+            {
+                return "killzone";
+            }
+
             return null;
         }
 
@@ -124,11 +176,13 @@ namespace Assets.Scripts.CustomMaps
             var tilingMap = type switch
             {
                 RcObjectType.Custom => new[] { 3, 4, 5 },
+                RcObjectType.Racing => new[] {2, 3, 4},
                 _ => new int[0]
             };
             if (tilingMap.Length == 0)
             {
                 Debug.LogWarning($"Custom Map: Tiling not supported for {type}");
+                return Vector3.one;
             }
 
             if (float.TryParse(mapData[tilingMap[0]], out var x) && float.TryParse(mapData[tilingMap[1]], out var y) && float.TryParse(mapData[tilingMap[2]], out var z))
@@ -157,6 +211,7 @@ namespace Assets.Scripts.CustomMaps
             if (tilingMap.Length == 0)
             {
                 Debug.LogWarning($"Custom Map Converter: Tiling not supported for {type}");
+                return Vector2.one;
             }
 
             return new Vector2(Convert.ToSingle(mapData[tilingMap[0]]), Convert.ToSingle(mapData[tilingMap[1]]));
@@ -222,11 +277,18 @@ namespace Assets.Scripts.CustomMaps
             }
         }
         #endregion
-        
+
+        private enum RacingType
+        {
+            Invalid,
+            Kill,
+            Start,
+            Checkpoint,
+            Finish
+        }
 
         private struct LegacyObject
         {
-
             private string Identifier { get; set; }
             private Vector3 Position { get; set; }
             private Vector3 Rotation { get; set; }
@@ -234,9 +296,10 @@ namespace Assets.Scripts.CustomMaps
 
             private string ModelName { get; set; }
             private string Texture { get; set; }
-            private Vector3 Scale { get; set; }
+            public Vector3 Scale { get; set; }
             private Vector2 Tiling { get; set; }
-            private Color? Color { get; }
+            public Color? Color { get; set; }
+            public List<string> Components { get; set; }
 
             public LegacyObject(string identifier, Vector3 position)
             {
@@ -248,6 +311,7 @@ namespace Assets.Scripts.CustomMaps
                 Scale = Vector3.one;
                 Tiling = Vector2.one;
                 Color = null;
+                Components = null;
             }
 
             public LegacyObject(string identifier, Vector3 position, Vector3 rotation, string modelName, string texture) : this(identifier, position)
@@ -257,7 +321,7 @@ namespace Assets.Scripts.CustomMaps
                 Texture = texture;
             }
 
-            public LegacyObject(string identifier, Vector3 position, Vector3 rotation, string modelName, string texture, Vector2 tiling, Vector3 scale, Color? color) : this(identifier, position)
+            public LegacyObject(string identifier, Vector3 position, Vector3 rotation, string modelName, string texture, Vector2 tiling, Vector3 scale, Color? color, List<string> components) : this(identifier, position)
             {
                 Rotation = rotation;
                 ModelName = modelName;
@@ -265,6 +329,7 @@ namespace Assets.Scripts.CustomMaps
                 Tiling = tiling;
                 Scale = scale;
                 Color = color;
+                Components = components;
             }
 
             public override string ToString()
@@ -286,7 +351,7 @@ namespace Assets.Scripts.CustomMaps
                         if (Tiling != Vector2.one) builder.Append($"til:{Tiling.x},{Tiling.y};");
                     }
 
-                    if (Color.HasValue) builder.Append($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)};");
+                    if (Color.HasValue) builder.Append($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)},{(int) (Color.Value.a * 255f)};");
                 }
 
                 return builder.ToString();

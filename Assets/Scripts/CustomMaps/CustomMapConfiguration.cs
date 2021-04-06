@@ -14,5 +14,8 @@ namespace Assets.Scripts.CustomMaps
         /// A list of all supported MapTextures
         /// </summary>
         public List<MapTexture> MapTextures;
+
+        ////TODO: Materials
+        //public List<Material> MapMaterials;
     }
 }
