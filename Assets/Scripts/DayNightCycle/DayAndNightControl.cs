@@ -168,13 +168,13 @@ namespace Assets.Scripts.DayNightCycle
             {
                 if (CurrentTime <= 5)
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
-                if (5 < CurrentTime && CurrentTime <= 8)
+                else if (5 < CurrentTime && CurrentTime <= 8)
                     RenderSettings.skybox = StaticDawnSkyboxMaterial;
-                if (8 < CurrentTime && CurrentTime <= 18)
+                else if (8 < CurrentTime && CurrentTime <= 18)
                     RenderSettings.skybox = StaticDaySkyboxMaterial;
-                if (17 < CurrentTime && CurrentTime <= 19)
+                else if (17 < CurrentTime && CurrentTime <= 19)
                     RenderSettings.skybox = StaticDuskSkyboxMaterial;
-                if (19 < CurrentTime )
+                else if (19 < CurrentTime )
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
             }
             else
