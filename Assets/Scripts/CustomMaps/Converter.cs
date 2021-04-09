@@ -123,7 +123,7 @@ namespace Assets.Scripts.CustomMaps
             var ground = GetLegacyMapObject("cuboid");
             if (ground != null)
             {
-                objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, ground.Name, "grass", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null, null));
+                objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, ground.Name, "grass1", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null, null));
             }
         }
 
