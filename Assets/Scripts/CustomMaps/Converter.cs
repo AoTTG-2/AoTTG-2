@@ -78,24 +78,27 @@ namespace Assets.Scripts.CustomMaps
                     else if (attributes[0] == "misc")
                     {
                         type = RcObjectType.Misc;
+                        var miscType = GetMiscType(attributes);
 
-                        var modelName = attributes[1] == "barrier" ? "cuboid" : "";
-
-                        if (modelName == "")
+                        if (miscType == MiscType.Invalid)
                         {
                             Debug.LogWarning($"Custom Map Converter: Misc type {attributes[1]} not mapped");
                             continue;
                         }
 
+                        var modelName = miscType == MiscType.Barrier ? "cuboid" : "";
                         var material = Transparent.Name;
                         var position = GetPosition(attributes, type);
                         var rotation = GetRotation(attributes, type).eulerAngles;
                         var scale = GetScale(attributes, type);
                         var color = new Color(0f, 234f / 255f, 1f, 82f / 255f);
+                        var layer = miscType == MiscType.Barrier ? 0 : (byte?)null;
+
                         legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
                         {
                             Scale = scale,
                             Color = color,
+                            Layer = layer,
                             Components = new List<string> { "Barrier" },
                             Material = material
                         });
@@ -152,6 +155,17 @@ namespace Assets.Scripts.CustomMaps
 
             Debug.LogWarning($"Custom Map Converter: Model {modelName} could not be found");
             return null;
+        }
+
+        private MiscType GetMiscType(string[] attributes)
+        {
+            var miscType = attributes[1];
+            if (miscType == "barrier")
+            {
+                return MiscType.Barrier;
+            }
+
+            return MiscType.Invalid;
         }
 
         private RacingType GetRacingType(string[] attributes)
@@ -348,6 +362,13 @@ namespace Assets.Scripts.CustomMaps
             Finish
         }
 
+        private enum MiscType
+        {
+            Invalid,
+            Barrier,
+            Cuboid
+        }
+
         private struct LegacyObject
         {
             private string Identifier { get; set; }
@@ -362,6 +383,7 @@ namespace Assets.Scripts.CustomMaps
             private Vector2 Tiling { get; set; }
             public Color? Color { get; set; }
             public List<string> Components { get; set; }
+            public byte? Layer { get; set; }
 
             public LegacyObject(string identifier, Vector3 position)
             {
@@ -375,6 +397,7 @@ namespace Assets.Scripts.CustomMaps
                 Tiling = Vector2.one;
                 Color = null;
                 Components = null;
+                Layer = null;
             }
 
             public LegacyObject(string identifier, Vector3 position, Vector3 rotation, string modelName, string texture) : this(identifier, position)
@@ -421,6 +444,7 @@ namespace Assets.Scripts.CustomMaps
                     }
 
                     if (Color.HasValue) builder.Append($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)},{(int) (Color.Value.a * 255f)};");
+                    if (Layer.HasValue) builder.Append($"l:{Layer.Value};");
                 }
 
                 return builder.ToString();

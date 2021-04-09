@@ -66,6 +66,8 @@ namespace Assets.Scripts.Services
                     mapGameObject.transform.parent =
                         baseParent.transform; //TODO: Objects which do have parents, should not use this
 
+                    if (mapItem.Layer.HasValue) mapGameObject.layer = mapItem.Layer.Value;
+
                     var material = GetMapMaterial(mapItem.Material);
                     var texture = GetMapTexture(mapItem.Texture);
                     if (material != null || texture != null || mapItem.Color.HasValue)
@@ -172,6 +174,7 @@ namespace Assets.Scripts.Services
             public Vector2? Tiling { get; }
             public Color? Color { get; }
             public string[] Components { get; }
+            public byte? Layer { get; }
 
             public CustomMapObject(string[] attributes)
             {
@@ -185,15 +188,17 @@ namespace Assets.Scripts.Services
                 ModelName = attributes.SingleOrDefault(x => x.StartsWith("m:"))?.Split(':')[1];
                 Material = attributes.SingleOrDefault(x => x.StartsWith("mat:"))?.Split(':')[1];
                 Texture = attributes.SingleOrDefault(x => x.StartsWith("t:"))?.Split(':')[1];
-                Components = new[] { attributes.SingleOrDefault(x => x.StartsWith("c:"))?.Split(':')[1] };
+                Components = attributes.Where(x => x.StartsWith("c:")).Select(x => x.Split(':')[1]).ToArray() ;
                 Tiling = ToVector2(attributes, "til");
 
                 Color = ToColor(attributes, "clr");
+                Layer = ToByte(attributes, "l");
+                if (Layer.HasValue && Layer.Value > 32) Layer = null;
             }
 
             private static Vector3? ToVector3(string[] attributes, string attributeName)
             {
-                var data = attributes.SingleOrDefault(x => x.Contains($"{attributeName}:"))?.Split(':')[1];
+                var data = attributes.SingleOrDefault(x => x.StartsWith($"{attributeName}:"))?.Split(':')[1];
                 if (data == null) return null;
 
                 var xyz = data.Split(',');
@@ -207,7 +212,7 @@ namespace Assets.Scripts.Services
 
             private static Color? ToColor(string[] attributes, string attributeName)
             {
-                var data = attributes.SingleOrDefault(x => x.Contains($"{attributeName}:"))?.Split(':')[1];
+                var data = attributes.SingleOrDefault(x => x.StartsWith($"{attributeName}:"))?.Split(':')[1];
                 if (data == null) return null;
 
                 var rgba = data.Split(',');
@@ -226,7 +231,7 @@ namespace Assets.Scripts.Services
 
             private static Vector2? ToVector2(string[] attributes, string attributeName)
             {
-                var data = attributes.SingleOrDefault(x => x.Contains($"{attributeName}:"))?.Split(':')[1];
+                var data = attributes.SingleOrDefault(x => x.StartsWith($"{attributeName}:"))?.Split(':')[1];
                 if (data == null) return null;
 
                 var xy = data.Split(',');
@@ -234,6 +239,18 @@ namespace Assets.Scripts.Services
                 if (float.TryParse(xy[0], out var x) && float.TryParse(xy[1], out var y))
                 {
                     return new Vector2(x, y);
+                }
+                return null;
+            }
+
+            private static byte? ToByte(string[] attributes, string attributeName)
+            {
+                var data = attributes.SingleOrDefault(x => x.StartsWith($"{attributeName}:"))?.Split(':')[1];
+                if (data == null) return null;
+
+                if (byte.TryParse(data, out var value))
+                {
+                    return value;
                 }
                 return null;
             }
