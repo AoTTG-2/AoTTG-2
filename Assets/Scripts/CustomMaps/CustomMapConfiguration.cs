@@ -18,5 +18,9 @@ namespace Assets.Scripts.CustomMaps
         /// A list of all supported MapMaterials
         /// </summary>
         public List<MapMaterial> MapMaterials;
+        /// <summary>
+        /// A list of all supported MapComponents
+        /// </summary>
+        public List<MapComponent> MapComponents;
     }
 }

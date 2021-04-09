@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1974933086}
   - component: {fileID: 1974933087}
   - component: {fileID: 1825475748394659375}
+  - component: {fileID: 2467458246908787602}
   m_Layer: 0
   m_Name: ServiceManager
   m_TagString: Untagged
@@ -136,3 +137,16 @@ MonoBehaviour:
   photonServerConfiguration:
   - {fileID: 11400000, guid: 4ac3a7df7a6a82b4f855fc9a477196c7, type: 2}
   - {fileID: 11400000, guid: 805974e8dcdc7ea478220a6d46e27889, type: 2}
+--- !u!114 &2467458246908787602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650797095130246453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce44190fc31178d4ea7e2ef3ba822ed8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Configuration: {fileID: 11400000, guid: 97350605dad5b0a4e83e6113e79023ea, type: 2}

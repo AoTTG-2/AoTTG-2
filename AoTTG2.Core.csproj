@@ -203,6 +203,7 @@
     <Compile Include="Assets\Scripts\Room\LevelTriggerCheckPoint.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\BeastTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\MapMaterial.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
@@ -476,7 +477,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\CustomMaps\MapMaterial.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\MapComponent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

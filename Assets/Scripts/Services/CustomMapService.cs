@@ -28,7 +28,7 @@ namespace Assets.Scripts.Services
             if (SceneManager.GetSceneByBuildIndex(level).name == "Custom")
             {
                 var content = File.ReadAllText(CurrentMap.Path);
-                var objects = content.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                var objects = content.Split(new[] { ";;" }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"{x.Trim()};").ToArray();
                 LoadCustomMap(objects);
                 FengGameManagerMKII.Level.LevelIsLoaded();
             }
@@ -44,71 +44,91 @@ namespace Assets.Scripts.Services
         public void LoadCustomMap(string[] objects)
         {
             var baseParent = new GameObject("Custom Map");
-
             foreach (var item in objects)
             {
-                var attributes = item.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
-                var mapItem = new CustomMapObject(attributes);
-                var mapObject = GetMapObject(mapItem.ModelName);
-                if (mapObject == null)
+                try
                 {
-                    Debug.LogWarning($"Custom Map: MODEL OBJECT {mapItem.ModelName} DOES NOT EXIST");
-                    continue;
-                }
-
-                var mapGameObject = Instantiate(mapObject.Prefab, mapItem.Position, Quaternion.Euler(mapItem.Rotation));
-                mapGameObject.name = mapItem.Identifier;
-                mapGameObject.transform.localScale = Vector3.Scale(mapGameObject.transform.localScale, mapItem.Scale);
-                mapGameObject.transform.parent = baseParent.transform; //TODO: Objects which do have parents, should not use this
-
-                var material = GetMapMaterial(mapItem.Material);
-                var texture = GetMapTexture(mapItem.Texture);
-                if (material != null || texture != null || mapItem.Color.HasValue)
-                {
-                    foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
+                    var attributes = item.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => x.Trim()).ToArray();
+                    var mapItem = new CustomMapObject(attributes);
+                    var mapObject = GetMapObject(mapItem.ModelName);
+                    if (mapObject == null)
                     {
-                        if (material != null)
-                        {
-                            renderer.material = Instantiate(material.Material);
-                        }
+                        Debug.LogWarning($"Custom Map Loader: MODEL OBJECT {mapItem.ModelName} DOES NOT EXIST");
+                        continue;
+                    }
 
-                        if (texture != null)
+                    var mapGameObject = Instantiate(mapObject.Prefab, mapItem.Position,
+                        Quaternion.Euler(mapItem.Rotation));
+                    mapGameObject.name = mapItem.Identifier;
+                    mapGameObject.transform.localScale =
+                        Vector3.Scale(mapGameObject.transform.localScale, mapItem.Scale);
+                    mapGameObject.transform.parent =
+                        baseParent.transform; //TODO: Objects which do have parents, should not use this
+
+                    var material = GetMapMaterial(mapItem.Material);
+                    var texture = GetMapTexture(mapItem.Texture);
+                    if (material != null || texture != null || mapItem.Color.HasValue)
+                    {
+                        foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
                         {
-                            renderer.material.mainTexture = texture.Texture;
-                            if (mapItem.Tiling.HasValue)
+                            if (material != null)
                             {
-                                renderer.material.mainTextureScale = new Vector2(
-                                    renderer.material.mainTextureScale.x * mapItem.Tiling.Value.x,
-                                    renderer.material.mainTextureScale.y * mapItem.Tiling.Value.y);
+                                renderer.material = Instantiate(material.Material);
                             }
-                        }
 
-                        //TODO: Only apply vertex coloring if a Vertex Shader is used
-                        if (mapItem.Color.HasValue)
+                            if (texture != null)
+                            {
+                                renderer.material.mainTexture = texture.Texture;
+                                if (mapItem.Tiling.HasValue)
+                                {
+                                    renderer.material.mainTextureScale = new Vector2(
+                                        renderer.material.mainTextureScale.x * mapItem.Tiling.Value.x,
+                                        renderer.material.mainTextureScale.y * mapItem.Tiling.Value.y);
+                                }
+                            }
+
+                            //TODO: Only apply vertex coloring if a Vertex Shader is used
+                            if (mapItem.Color.HasValue)
+                            {
+                                renderer.material.color = mapItem.Color.Value;
+                            }
+
+                            //if (mapItem.Color.HasValue)
+                            //{
+                            //    foreach (MeshFilter filter in mapGameObject.GetComponentsInChildren<MeshFilter>())
+                            //    {
+                            //        var mesh = filter.mesh;
+                            //        var colorArray = new Color[mesh.vertexCount];
+                            //        var targetColor = mapItem.Color.Value;
+                            //        var num8 = 0;
+                            //        while (num8 < mesh.vertexCount)
+                            //        {
+                            //            colorArray[num8] = targetColor;
+                            //            num8++;
+                            //        }
+
+                            //        mesh.colors = colorArray;
+                            //    }
+                            //}
+                            //}
+                        }
+                    }
+
+                    if (mapItem.Components.Length == 1)
+                    {
+                        var component = GetMapComponent(mapItem.Components[0]);
+                        if (component != null)
                         {
-                            renderer.material.color = mapItem.Color.Value;
+                            component.AddComponent(mapGameObject, mapObject, material, null);
                         }
                     }
                 }
-
-                //if (mapItem.Color.HasValue)
-                //{
-                //    foreach (MeshFilter filter in mapGameObject.GetComponentsInChildren<MeshFilter>())
-                //    {
-                //        var mesh = filter.mesh;
-                //        var colorArray = new Color[mesh.vertexCount];
-                //        var targetColor = mapItem.Color.Value;
-                //        var num8 = 0;
-                //        while (num8 < mesh.vertexCount)
-                //        {
-                //            colorArray[num8] = targetColor;
-                //            num8++;
-                //        }
-
-                //        mesh.colors = colorArray;
-                //    }
-                //}
-
+                catch (Exception e)
+                {
+                    Debug.LogError($"Custom Map Loader: Unhandled exception for {item}");
+                    Debug.LogError(e);
+                }
             }
         }
 
@@ -132,6 +152,12 @@ namespace Assets.Scripts.Services
             return texture == null ? null : texture;
         }
 
+        private MapComponent GetMapComponent(string componentName)
+        {
+            if (componentName == null) return null;
+            return Configuration.MapComponents.SingleOrDefault(x => x.Name == componentName);
+        }
+
         private struct CustomMapObject
         {
             public string Identifier { get; }
@@ -145,6 +171,7 @@ namespace Assets.Scripts.Services
             public Vector3 Scale { get; }
             public Vector2? Tiling { get; }
             public Color? Color { get; }
+            public string[] Components { get; }
 
             public CustomMapObject(string[] attributes)
             {
@@ -158,6 +185,7 @@ namespace Assets.Scripts.Services
                 ModelName = attributes.SingleOrDefault(x => x.StartsWith("m:"))?.Split(':')[1];
                 Material = attributes.SingleOrDefault(x => x.StartsWith("mat:"))?.Split(':')[1];
                 Texture = attributes.SingleOrDefault(x => x.StartsWith("t:"))?.Split(':')[1];
+                Components = new[] { attributes.SingleOrDefault(x => x.StartsWith("c:"))?.Split(':')[1] };
                 Tiling = ToVector2(attributes, "til");
 
                 Color = ToColor(attributes, "clr");

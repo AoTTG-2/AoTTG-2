@@ -18,6 +18,7 @@ namespace Assets.Scripts.CustomMaps
         public CustomMapConfiguration Configuration;
         public MapMaterial Transparent;
 
+        public bool ConvertLegacyMap;
         public bool LoadAoTTG2Map;
 
         public CustomMapService Service;
@@ -25,86 +26,91 @@ namespace Assets.Scripts.CustomMaps
         #region Legacy
         public void Awake()
         {
-            var objects = AoTTGCustomMap.text.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
-            HashSet<LegacyObject> legacyObjects = new HashSet<LegacyObject>();
-            AddDefaultRCObjects(legacyObjects);
-            for (var i = 0; i < objects.Length; i++)
+            if (ConvertLegacyMap)
             {
-                var attributes = objects[i].Split(',');
-                RcObjectType type;
-                if (attributes[0] == "custom")
+                var objects = AoTTGCustomMap.text.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                HashSet<LegacyObject> legacyObjects = new HashSet<LegacyObject>();
+                AddDefaultRCObjects(legacyObjects);
+                for (var i = 0; i < objects.Length; i++)
                 {
-                    type = RcObjectType.Custom;
-
-                    var modelName = GetModelName(attributes, type);
-                    if (modelName == null) continue;
-                    var texture = GetTexture(attributes, type);
-                    var position = GetPosition(attributes, type);
-                    var rotation = GetRotation(attributes, type).eulerAngles;
-                    var tiling = GetTiling(attributes, type);
-
-                    if (texture != null && texture.LegacyTiling != Vector2.one)
+                    var attributes = objects[i].Split(',');
+                    RcObjectType type;
+                    if (attributes[0] == "custom")
                     {
-                        tiling = Vector2.Scale(tiling, texture.LegacyTiling);
+                        type = RcObjectType.Custom;
+
+                        var modelName = GetModelName(attributes, type);
+                        if (modelName == null) continue;
+                        var texture = GetTexture(attributes, type);
+                        var position = GetPosition(attributes, type);
+                        var rotation = GetRotation(attributes, type).eulerAngles;
+                        var tiling = GetTiling(attributes, type);
+
+                        if (texture != null && texture.LegacyTiling != Vector2.one)
+                        {
+                            tiling = Vector2.Scale(tiling, texture.LegacyTiling);
+                        }
+
+                        var scale = GetScale(attributes, type);
+                        var color = GetColor(attributes, type);
+                        legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture?.Name, tiling, scale, color, null));
                     }
-
-                    var scale = GetScale(attributes, type);
-                    var color = GetColor(attributes, type);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture?.Name, tiling, scale, color, null));
-                } else if (attributes[0] == "racing")
-                {
-                    type = RcObjectType.Racing;
-
-                    var modelName = GetModelName(attributes, type);
-                    var material = Transparent.Name;
-                    var position = GetPosition(attributes, type);
-                    var rotation = GetRotation(attributes, type).eulerAngles;
-                    var scale = GetScale(attributes, type);
-
-                    var racingType = GetRacingType(attributes);
-                    var color = GetColor(racingType);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
+                    else if (attributes[0] == "racing")
                     {
-                        Scale = scale,
-                        Color = color,
-                        Components = new List<string> { "Kill" },
-                        Material = material
-                    });
-                } else if (attributes[0] == "misc")
-                {
-                    type = RcObjectType.Misc;
+                        type = RcObjectType.Racing;
 
-                    var modelName = attributes[1] == "barrier" ? "cuboid" : "";
+                        var modelName = GetModelName(attributes, type);
+                        var material = Transparent.Name;
+                        var position = GetPosition(attributes, type);
+                        var rotation = GetRotation(attributes, type).eulerAngles;
+                        var scale = GetScale(attributes, type);
 
-                    if (modelName == "")
-                    {
-                        Debug.LogWarning($"Custom Map Converter: Misc type {attributes[1]} not mapped");
-                        continue;
+                        var racingType = GetRacingType(attributes);
+                        var color = GetColor(racingType);
+                        legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
+                        {
+                            Scale = scale,
+                            Color = color,
+                            Components = new List<string> { "Kill" },
+                            Material = material
+                        });
                     }
-
-                    var material = Transparent.Name;
-                    var position = GetPosition(attributes, type);
-                    var rotation = GetRotation(attributes, type).eulerAngles;
-                    var scale = GetScale(attributes, type);
-                    var color = new Color(0f, 234f / 255f, 1f, 82f / 255f);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
+                    else if (attributes[0] == "misc")
                     {
-                        Scale = scale,
-                        Color = color,
-                        Components = new List<string> { "Barrier" },
-                        Material = material
-                    });
+                        type = RcObjectType.Misc;
+
+                        var modelName = attributes[1] == "barrier" ? "cuboid" : "";
+
+                        if (modelName == "")
+                        {
+                            Debug.LogWarning($"Custom Map Converter: Misc type {attributes[1]} not mapped");
+                            continue;
+                        }
+
+                        var material = Transparent.Name;
+                        var position = GetPosition(attributes, type);
+                        var rotation = GetRotation(attributes, type).eulerAngles;
+                        var scale = GetScale(attributes, type);
+                        var color = new Color(0f, 234f / 255f, 1f, 82f / 255f);
+                        legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
+                        {
+                            Scale = scale,
+                            Color = color,
+                            Components = new List<string> { "Barrier" },
+                            Material = material
+                        });
+                    }
                 }
+
+                var data = string.Join(";\n", legacyObjects.Select(x => x.ToString())) + ";";
+                File.WriteAllText(AssetDatabase.GetAssetPath(AoTTG2CustomMap), data);
+                EditorUtility.SetDirty(AoTTG2CustomMap);
             }
-
-            var data = string.Join(";\n", legacyObjects.Select(x => x.ToString())) + ";";
-            File.WriteAllText(AssetDatabase.GetAssetPath(AoTTG2CustomMap), data);
-            EditorUtility.SetDirty(AoTTG2CustomMap);
-
+            
             if (LoadAoTTG2Map)
             {
-                //objects = AoTTG2CustomMap.text.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
-                objects = data.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                var objects = AoTTG2CustomMap.text.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                //var objects = data.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
                 Service.LoadCustomMap(objects);
             }
         }
