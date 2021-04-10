@@ -1,4 +1,4 @@
-using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 public class RacingKillTrigger : MonoBehaviour
@@ -14,8 +14,8 @@ public class RacingKillTrigger : MonoBehaviour
                 Hero component = gameObject.GetComponent<Hero>();
                 if (component != null)
                 {
-                    component.markDie();
-                    component.photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Server" });
+                    component.MarkDie();
+                    component.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, new object[] { -1, "Server" });
                 }
             }
         }

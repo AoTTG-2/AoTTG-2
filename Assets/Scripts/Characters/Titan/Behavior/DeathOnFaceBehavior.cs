@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Characters.Humans;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
@@ -14,9 +15,9 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                 {
                     if (!hero.HasDied())
                     {
-                        hero.markDie();
+                        hero.MarkDie();
                         object[] objArray9 = new object[] { (Vector3)(((hero.transform.position - vector15) * 15f) * Titan.Size), true, Titan.photonView.viewID, Titan.name, true };
-                        hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray9);
+                        hero.photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, objArray9);
                         return true;
                     }
                 }
@@ -29,7 +30,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             float num = rad * size;
             foreach (Hero hero in EntityService.GetAll<Hero>())
             {
-                if (hero.GetComponent<ErenTitan>() == null && !hero.GetComponent<Hero>().isInvincible())
+                if (hero.GetComponent<ErenTitan>() == null && !hero.GetComponent<Hero>().IsInvincible)
                 {
                     float num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;
                     if (Vector3.Distance(hero.transform.position + ((Vector3)(Vector3.up * num3)), head.position - ((Vector3)((Vector3.up * 1.5f) * size))) < (num + num3))

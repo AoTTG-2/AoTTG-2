@@ -337,7 +337,7 @@ namespace Assets.Editor
                             //        new Quaternion(Convert.ToSingle(strArray[15]), Convert.ToSingle(strArray[0x10]),
                             //            Convert.ToSingle(strArray[0x11]), Convert.ToSingle(strArray[0x12])), 0);
                             //    go.GetComponent<CannonPropRegion>().settings = content[num];
-                            //    go.GetPhotonView().RPC("SetSize", PhotonTargets.AllBuffered,
+                            //    go.GetPhotonView().RPC(nameof(SetSize), PhotonTargets.AllBuffered,
                             //        new object[] {content[num]});
                             //}
                             //else
