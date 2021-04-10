@@ -20,7 +20,7 @@ namespace Assets.Editor
         {
             var layers = new List<(string name, int value)>();
 
-            for(var i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
                 var name = LayerMask.LayerToName(i);
                 if (!string.IsNullOrEmpty(name))
@@ -36,7 +36,7 @@ namespace Assets.Editor
 
             sb.AppendLine("namespace Assets.Scripts.Constants");
             sb.AppendLine("{");
-            
+
             sb.AppendLine("\t/// <summary>");
             sb.AppendLine("\t/// Use with <see cref=\"Layer.ToName(Layers)\"/>");
             sb.AppendLine("\t/// </summary>");
@@ -44,7 +44,7 @@ namespace Assets.Editor
             sb.AppendLine("\tpublic enum Layers");
             sb.AppendLine("\t{");
 
-            foreach(var l in layers)
+            foreach (var l in layers)
             {
                 sb.Append("\t\t").Append(l.name.Replace(" ", "_")).Append(" = ").Append(l.value).AppendLine(",");
             }
