@@ -223,6 +223,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\HUD.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\ControlSettings.cs" />
     <Compile Include="Assets\Scripts\Room\ChangeQuality.cs" />
+    <Compile Include="Assets\Scripts\CustomMaps\MapComponent.cs" />
     <Compile Include="Assets\Scripts\Events\SpawnEvents.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\ClothFactory.cs" />
     <Compile Include="Assets\Scripts\CustomMaps\Converter.cs" />
@@ -477,7 +478,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\CustomMaps\MapComponent.cs" />
+    <Compile Include="Assets\Scripts\Extensions\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

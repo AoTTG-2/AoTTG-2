@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Assets.Scripts.Gamemode.Racing;
+using Assets.Scripts.Room;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Extensions;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -55,6 +58,45 @@ namespace Assets.Scripts.CustomMaps
                     player.Play();
                     break;
                 case MapComponentType.Killzone:
+                    var colliders = gameObject.GetComponentsInChildren<Collider>();
+                    foreach (var collider in colliders)
+                    {
+                        collider.gameObject.AddComponent<RacingKillTrigger>();
+                    }
+                    break;
+                case MapComponentType.Start:
+                    gameObject.AddComponent<RacingStartBarrier>();
+                    break;
+                case MapComponentType.Checkpoint:
+                    colliders = gameObject.GetComponentsInChildren<Collider>();
+                    foreach (var collider in colliders)
+                    {
+                        collider.gameObject.AddComponent<RacingCheckpointTrigger>();
+                    }
+                    break;
+                case MapComponentType.Finish:
+                    colliders = gameObject.GetComponentsInChildren<Collider>();
+                    foreach (var collider in colliders)
+                    {
+                        collider.gameObject.AddComponent<LevelTriggerRacingEnd>();
+                    }
+                    break;
+                case MapComponentType.Trigger:
+                    colliders = gameObject.GetComponentsInChildren<Collider>();
+                    foreach (var collider in colliders)
+                    {
+                        if (collider is MeshCollider meshCollider)
+                        {
+                            meshCollider.convex = true;
+                        }
+                        collider.isTrigger = true;
+                    }
+                    break;
+                case MapComponentType.Spawner:
+                    var faction = args.GetCustomMapAttribute("f") ?? "0";
+                    var entityType = args.GetCustomMapAttribute("t") ?? "0";
+                    if (entityType == "1") gameObject.AddComponent<HumanSpawner>();
+                    if (entityType == "2") gameObject.AddComponent<TitanSpawner>();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -71,6 +113,11 @@ namespace Assets.Scripts.CustomMaps
     public enum MapComponentType
     {
         Video,
-        Killzone
+        Killzone,
+        Checkpoint,
+        Start,
+        Finish,
+        Trigger,
+        Spawner
     }
 }

@@ -66,7 +66,15 @@ namespace Assets.Scripts.Services
                     mapGameObject.transform.parent =
                         baseParent.transform; //TODO: Objects which do have parents, should not use this
 
-                    if (mapItem.Layer.HasValue) mapGameObject.layer = mapItem.Layer.Value;
+                    if (mapItem.Layer.HasValue)
+                    {
+                        mapGameObject.layer = mapItem.Layer.Value;
+                        foreach (Transform child in mapGameObject.transform)
+                        {
+                            if (child == null) continue;
+                            child.gameObject.layer = mapItem.Layer.Value;
+                        }
+                    }
 
                     var material = GetMapMaterial(mapItem.Material);
                     var texture = GetMapTexture(mapItem.Texture);
@@ -117,12 +125,12 @@ namespace Assets.Scripts.Services
                         }
                     }
 
-                    if (mapItem.Components.Length == 1)
+                    foreach (var component in mapItem.Components)
                     {
-                        var component = GetMapComponent(mapItem.Components[0]);
-                        if (component != null)
+                        var mapComponent = GetMapComponent(component.Name);
+                        if (mapComponent != null)
                         {
-                            component.AddComponent(mapGameObject, mapObject, material, null);
+                            mapComponent.AddComponent(mapGameObject, mapObject, material, component.Args);
                         }
                     }
                 }
@@ -173,7 +181,7 @@ namespace Assets.Scripts.Services
             public Vector3 Scale { get; }
             public Vector2? Tiling { get; }
             public Color? Color { get; }
-            public string[] Components { get; }
+            public List<CustomMapComponent> Components { get; }
             public byte? Layer { get; }
 
             public CustomMapObject(string[] attributes)
@@ -188,7 +196,31 @@ namespace Assets.Scripts.Services
                 ModelName = attributes.SingleOrDefault(x => x.StartsWith("m:"))?.Split(':')[1];
                 Material = attributes.SingleOrDefault(x => x.StartsWith("mat:"))?.Split(':')[1];
                 Texture = attributes.SingleOrDefault(x => x.StartsWith("t:"))?.Split(':')[1];
-                Components = attributes.Where(x => x.StartsWith("c:")).Select(x => x.Split(':')[1]).ToArray() ;
+                Components = new List<CustomMapComponent>();
+
+                var components = attributes.Where(x => x.StartsWith("c:")).Select(x => x.Split(new []{':'}, 2)[1]).ToArray();
+                foreach (var component in components)
+                {
+                    string[] args = null;
+                    if (component.Contains(','))
+                    {
+                        var componentSplit = component.Split(new [] {','}, 2);
+                        Components.Add(new CustomMapComponent
+                        {
+                            Name = componentSplit[0].Trim().ToLowerInvariant(),
+                            Args = componentSplit[1].Split(',').Select(x => x.Trim().ToLowerInvariant()).ToArray()
+                        });
+                    }
+                    else
+                    {
+                        Components.Add(new CustomMapComponent
+                        {
+                            Name = component,
+                            Args = null
+                        });
+                    }
+                }
+
                 Tiling = ToVector2(attributes, "til");
 
                 Color = ToColor(attributes, "clr");
@@ -254,6 +286,12 @@ namespace Assets.Scripts.Services
                 }
                 return null;
             }
+        }
+
+        private struct CustomMapComponent
+        {
+            public string Name { get; set; }
+            public string[] Args { get; set; }
         }
         #endregion
 

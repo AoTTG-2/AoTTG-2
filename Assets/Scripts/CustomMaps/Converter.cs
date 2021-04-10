@@ -17,6 +17,8 @@ namespace Assets.Scripts.CustomMaps
 
         public CustomMapConfiguration Configuration;
         public MapMaterial Transparent;
+        public MapObject SpawnTitan;
+        public MapObject SpawnHuman;
 
         public bool ConvertLegacyMap;
         public bool LoadAoTTG2Map;
@@ -33,7 +35,7 @@ namespace Assets.Scripts.CustomMaps
                 AddDefaultRCObjects(legacyObjects);
                 for (var i = 0; i < objects.Length; i++)
                 {
-                    var attributes = objects[i].Split(',');
+                    var attributes = objects[i].Split(',').Select(x => x.ToLowerInvariant()).ToArray();
                     RcObjectType type;
                     if (attributes[0] == "custom")
                     {
@@ -42,6 +44,20 @@ namespace Assets.Scripts.CustomMaps
                         var modelName = GetModelName(attributes, type);
                         if (modelName == null) continue;
                         var texture = GetTexture(attributes, type);
+                        var color = GetColor(attributes, type);
+                        string material = null;
+                        byte? layer = null;
+                        if (attributes[2] == "bombexplosiontex")
+                        {
+                            material = Transparent.Name;
+                            if (color.HasValue) color = new Color(color.Value.r, color.Value.g, color.Value.b, 200f / 255f);
+                        }
+
+                        if (attributes[2] == "cannonregionmat")
+                        {
+                            layer = 0;
+                        }
+
                         var position = GetPosition(attributes, type);
                         var rotation = GetRotation(attributes, type).eulerAngles;
                         var tiling = GetTiling(attributes, type);
@@ -52,8 +68,12 @@ namespace Assets.Scripts.CustomMaps
                         }
 
                         var scale = GetScale(attributes, type);
-                        var color = GetColor(attributes, type);
-                        legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture?.Name, tiling, scale, color, null));
+                        
+                        legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture?.Name, tiling, scale, color, null)
+                        {
+                            Material = material,
+                            Layer = layer
+                        });
                     }
                     else if (attributes[0] == "racing")
                     {
@@ -67,11 +87,12 @@ namespace Assets.Scripts.CustomMaps
 
                         var racingType = GetRacingType(attributes);
                         var color = GetColor(racingType);
+                        var component = GetComponent(racingType);
                         legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
                         {
                             Scale = scale,
                             Color = color,
-                            Components = new List<string> { "Kill" },
+                            Components = component?.ToList(),
                             Material = material
                         });
                     }
@@ -102,18 +123,37 @@ namespace Assets.Scripts.CustomMaps
                             Components = new List<string> { "Barrier" },
                             Material = material
                         });
+                    } else if (attributes[0] == "spawnpoint")
+                    {
+                        type = RcObjectType.Spawnpoint;
+                        var position = GetPosition(attributes, type);
+                        var rotation = GetRotation(attributes, type).eulerAngles;
+                        var spawnType = GetSpawnType(attributes);
+                        var modelName = spawnType == SpawnType.Titan ? SpawnTitan.Name : SpawnHuman.Name;
+                        byte? layer = 26;
+                        var component = GetComponent(spawnType);
+                        legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
+                        {
+                            Layer = layer,
+                            Components = component?.ToList()
+                        });
                     }
                 }
 
                 var data = string.Join(";\n", legacyObjects.Select(x => x.ToString())) + ";";
                 File.WriteAllText(AssetDatabase.GetAssetPath(AoTTG2CustomMap), data);
                 EditorUtility.SetDirty(AoTTG2CustomMap);
+
+                if (LoadAoTTG2Map)
+                {
+                    objects = data.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                    Service.LoadCustomMap(objects);
+                }
             }
             
-            if (LoadAoTTG2Map)
+            if (LoadAoTTG2Map && !ConvertLegacyMap)
             {
                 var objects = AoTTG2CustomMap.text.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
-                //var objects = data.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
                 Service.LoadCustomMap(objects);
             }
         }
@@ -133,6 +173,9 @@ namespace Assets.Scripts.CustomMaps
             return Configuration.MapObjects.SingleOrDefault(x => x.LegacyName == legacyName);
         }
 
+        private MapComponent GetMapComponent(MapComponentType type) =>
+            Configuration.MapComponents.SingleOrDefault(x => x.Type == type);
+
         private string GetModelName(string[] attributes, RcObjectType type)
         {
             var modelName = type switch
@@ -151,7 +194,8 @@ namespace Assets.Scripts.CustomMaps
                 Debug.LogWarning($"Custom Map Converter: ModelName is not supported for {type}");
             }
 
-            if (Configuration.MapObjects.Any(x => x.LegacyName == modelName)) return modelName;
+            var mapObject = Configuration.MapObjects.SingleOrDefault(x => x.LegacyName == modelName);
+            if (mapObject != null) return mapObject.Name;
 
             Debug.LogWarning($"Custom Map Converter: Model {modelName} could not be found");
             return null;
@@ -168,6 +212,7 @@ namespace Assets.Scripts.CustomMaps
             return MiscType.Invalid;
         }
 
+        #region Racing Objects
         private RacingType GetRacingType(string[] attributes)
         {
             var racingType = attributes[1];
@@ -208,15 +253,48 @@ namespace Assets.Scripts.CustomMaps
             };
         }
 
-        private string GetComponent(RacingType type)
+        private string[] GetComponent(RacingType type)
         {
-            if (type == RacingType.Kill)
+            var trigger = MapComponentType.Trigger.ToString();
+            return type switch
             {
-                return "killzone";
-            }
-
-            return null;
+                RacingType.Kill => new[] {trigger, MapComponentType.Killzone.ToString()},
+                RacingType.Start => new[] {trigger, MapComponentType.Start.ToString()},
+                RacingType.Finish => new[] { trigger, MapComponentType.Finish.ToString() },
+                RacingType.Checkpoint => new[] { trigger, MapComponentType.Checkpoint.ToString() },
+                _ => null
+            };
         }
+        #endregion
+
+        #region Spawners
+
+        private static SpawnType GetSpawnType(string[] attributes)
+        {
+            var spawnType = attributes[1];
+            return spawnType switch
+            {
+                "titan" => SpawnType.Titan,
+                "playerc" => SpawnType.PlayerCyan,
+                "playerm" => SpawnType.PlayerMagenta,
+                _ => SpawnType.Invalid
+            };
+        }
+
+        private string[] GetComponent(SpawnType type)
+        {
+            var spawner = GetMapComponent(MapComponentType.Spawner)?.Name;
+            return type switch
+            {
+                SpawnType.Titan => new[] { $"{spawner}, f:2, t:2" },
+                SpawnType.PlayerCyan => new[] { $"{spawner}, f:1, t:1" },
+                SpawnType.PlayerMagenta => new[] { $"{spawner}, f:2, t:1" },
+                _ => null
+            };
+        }
+
+        #endregion
+
 
         private MapTexture GetTexture(string[] attributes, RcObjectType type)
         {
@@ -369,6 +447,14 @@ namespace Assets.Scripts.CustomMaps
             Cuboid
         }
 
+        private enum SpawnType
+        {
+            Invalid,
+            Titan,
+            PlayerCyan,
+            PlayerMagenta
+        }
+
         private struct LegacyObject
         {
             private string Identifier { get; set; }
@@ -445,6 +531,14 @@ namespace Assets.Scripts.CustomMaps
 
                     if (Color.HasValue) builder.Append($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)},{(int) (Color.Value.a * 255f)};");
                     if (Layer.HasValue) builder.Append($"l:{Layer.Value};");
+                }
+
+                if (Components != null)
+                {
+                    foreach (var component in Components)
+                    {
+                        builder.Append($"c:{component};".ToLowerInvariant());
+                    }
                 }
 
                 return builder.ToString();
