@@ -15,22 +15,22 @@ MonoBehaviour:
   AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 0
+  HostType: 2
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 0
+  JoinLobby: 1
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
-  - backToHumanRPC
-  - badGuyReleaseMe
-  - blowAway
+  - BackToHumanRPC
+  - BadGuyReleaseMe
+  - BlowAway
   - changeDoor
   - changeHumanPt
   - changeState
@@ -54,7 +54,7 @@ MonoBehaviour:
   - hitByFTRPC
   - hitByTitanRPC
   - hitEyeRPC
-  - hookFail
+  - HookFail
   - ignorePlayer
   - ignorePlayerArray
   - InitializeRpc
@@ -66,24 +66,25 @@ MonoBehaviour:
   - launchRPC
   - loadskinE
   - loadskinRPC
-  - moveToRPC
   - myMasterIs
-  - net3DMGSMOKE
-  - netContinueAnimation
+  - Net3DMGSMOKE
   - netCrossFade
   - netDie
-  - netDie2
-  - netGrabbed
-  - netlaughAttack
+  - NetDie
+  - NetDie2
+  - NetGrabbed
+  - NetlaughAttack
   - netLaunch
-  - netPauseAnimation
   - netPlayAnimation
+  - NetPlayAnimation
   - netPlayAnimationAt
+  - NetPlayAnimationAt
   - netRefreshRacingResult
-  - netSetIsGrabbedFalse
+  - NetSetIsGrabbedFalse
   - netShowDamage
   - netTauntAttack
-  - netUngrabbed
+  - NetTauntAttack
+  - NetUngrabbed
   - netUpdateLeviSpiral
   - netUpdatePhase1
   - OnArrivedAtLastCheckpointRpc
@@ -110,6 +111,8 @@ MonoBehaviour:
   - rockPlayAnimation
   - RPCHookedByHuman
   - RPCLoadLevel
+  - SetAnimationSpeedRpc
+  - SetColorRpc
   - setDust
   - setHairPRC
   - setHairRPC2
@@ -117,16 +120,14 @@ MonoBehaviour:
   - setMasterRC
   - SetMyCannon
   - SetMyPhotonCamera
-  - setMyTeam
+  - SetMyTeam
   - setPhase
   - setSize
   - SetSize
   - setTeamRPC
   - setVelocityAndLeft
-  - showHitDamage
   - showResult
   - SpawnCannonRPC
-  - spawnPlayerAtRPC
   - SpawnPlayerTitanRpc
   - startMovingRock
   - startNeckSteam
@@ -140,5 +141,5 @@ MonoBehaviour:
   - UpdateHealthLabelRpc
   - updateKillInfo
   - verifyPlayerHasLeft
-  - whoIsMyErenTitan
+  - WhoIsMyErenTitan
   DisableAutoOpenWizard: 1

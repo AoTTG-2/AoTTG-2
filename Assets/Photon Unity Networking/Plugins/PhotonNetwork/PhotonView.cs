@@ -12,6 +12,7 @@ using System;
 using UnityEngine;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 using ExitGames.Client.Photon;
 
 #if UNITY_EDITOR
@@ -594,7 +595,47 @@ public class PhotonView : Photon.MonoBehaviour
     /// <param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
     public void RPC(string methodName, PhotonTargets target, params object[] parameters)
     {
-        PhotonNetwork.RPC(this, methodName, target, false, parameters);
+        PhotonNetwork.RPC(this, methodName, target, false, null, parameters);
+    }
+
+    /// <summary>
+    /// Call a RPC method of this GameObject on remote clients of this room (or on all, inclunding this client).
+    /// </summary>
+    /// <remarks>
+    /// [Remote Procedure Calls](@ref rpcManual) are an essential tool in making multiplayer games with PUN.
+    /// It enables you to make every client in a room call a specific method.
+    ///
+    /// RPC calls can target "All" or the "Others".
+    /// Usually, the target "All" gets executed locally immediately after sending the RPC.
+    /// The "*ViaServer" options send the RPC to the server and execute it on this client when it's sent back.
+    /// Of course, calls are affected by this client's lag and that of remote clients.
+    ///
+    /// Each call automatically is routed to the same PhotonView (and GameObject) that was used on the
+    /// originating client.
+    ///
+    /// See: [Remote Procedure Calls](@ref rpcManual).
+    /// </remarks>
+    /// <param name="methodName">The name of a fitting method that was has the RPC attribute.</param>
+    /// <param name="self">The object from which the distance should be calculated</param>
+    /// <param name="distance">The distance to which targets the RPC should be sent.</param>
+    /// <param name="objects">The target to which the RPC should be sent.</param>
+    /// <param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
+    public void RPC(string methodName, Photon.MonoBehaviour self, float distance, Photon.MonoBehaviour[] objects, params object[] parameters)
+    {
+        var targetIds = new HashSet<int>();
+        var selfId = self.photonView.ownerId;
+        for (var i = 0; i < objects.Length; i++)
+        {
+            var ownerId = objects[i].photonView.ownerId;
+            if (selfId == ownerId || targetIds.Contains(ownerId)) continue;
+            if (Vector3.Distance(self.transform.position, objects[i].transform.position) <= distance)
+            {
+                targetIds.Add(ownerId);
+            }
+        }
+
+        if (targetIds.Count == 0) return;
+        PhotonNetwork.RPC(this, methodName, PhotonTargets.Ranged, false, targetIds.ToArray(), parameters);
     }
 
     /// <summary>
@@ -620,7 +661,7 @@ public class PhotonView : Photon.MonoBehaviour
     ///<param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
     public void RpcSecure(string methodName, PhotonTargets target, bool encrypt, params object[] parameters)
     {
-        PhotonNetwork.RPC(this, methodName, target, encrypt, parameters);
+        PhotonNetwork.RPC(this, methodName, target, encrypt, null, parameters);
     }
 
     /// <summary>
