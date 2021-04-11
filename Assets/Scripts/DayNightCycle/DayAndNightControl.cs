@@ -182,8 +182,8 @@ namespace Assets.Scripts.DayNightCycle
         void UpdateLight()
         {
             bool isNightTime = (CurrentTime <= 6 || CurrentTime >= 18);
-            Sun.enabled = isNightTime ? false : true;
-            Moon.enabled = isNightTime ? true : false;
+            Sun.enabled = !isNightTime;
+            Moon.enabled = isNightTime;
 
             Quaternion tilt = Quaternion.AngleAxis(SunTilt, Vector3.forward);
             Quaternion rot = Quaternion.AngleAxis((CurrentTimeScale * 360) - 90, Vector3.right);
