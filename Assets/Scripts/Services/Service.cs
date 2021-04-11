@@ -7,6 +7,7 @@ namespace Assets.Scripts.Services
     {
         public static readonly IEntityService Entity = new EntityService();
         public static readonly IPlayerService Player = new PlayerService();
+        public static readonly ILevelService Level = new LevelService();
 
         public static AuthenticationService Authentication { get; private set; }
         public static IFactionService Faction { get; private set; }

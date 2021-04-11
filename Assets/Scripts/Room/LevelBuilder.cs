@@ -15,9 +15,9 @@ namespace Assets.Scripts.Room
         {
             if (_levels != null) return _levels;
             _levels = new List<Level>();
-            AddCustomMaps();
             AddClassicMaps();
             AddAoTTG2Maps();
+            AddCustomMaps();
             return _levels;
         }
 

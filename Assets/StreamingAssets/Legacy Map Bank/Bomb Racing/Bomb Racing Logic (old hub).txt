@@ -1,0 +1,516 @@
+//bomb stuff;
+
+//misc,region,MC,2147483647,2147483647,2147483647,0,0,0,0,0,0,1;
+
+//ToDo;
+//Magenta Spawn hub;
+//register player on titan kill;
+//if registered player is dead then spawn at hub;
+//find the /pos thing;
+
+//sudo;
+
+//onroundstart;
+//map="map";
+//if map = "akina" then checks = akina checkpoints;
+
+//ontitandie;
+//register the player;
+//get titan position;
+//if x > 100 and x < 100;
+//if y > 100 and y < 100;
+//spawn player at checkpoint1x;
+//repeat that 10 or so times;
+
+
+//onplayerdiebyplayer;
+//if the killed is magenta the spawn the player at their location;
+//if the killer is magenta then move them to magenta hub;
+
+
+//onupdate;
+//foreachplayer;
+//if team is magenta;
+//if player is dead;
+//spawn player at the sudo magenta spawn;
+
+
+
+OnRoundStart()
+{
+  VariableString.Set("map", "Eliope-Makina Royal");
+
+  VariableFloat.Set("magentaSpawnX", -2.5);
+  VariableFloat.Set("magentaSpawnY", -9985.0);
+  VariableFloat.Set("magentaSpawnZ", -2.5);
+
+
+  VariableInt.Set("totalPlayers", 0);
+  VariableInt.Set("timer", 0);
+
+  If (String.Equals(VariableString("map"),"Sylcium-Akina"))
+  {
+    VariableInt.Set("numberOfTitans", 6);
+    VariableFloat.Set("point1X", 0.0);
+    VariableFloat.Set("point1Y", -4.5);
+    VariableFloat.Set("point1Z", 0.0);
+
+    VariableFloat.Set("point2X", 200.0);
+    VariableFloat.Set("point2Y", 25.0);
+    VariableFloat.Set("point2Z", 600.0);
+
+    VariableFloat.Set("point3X", 210.0);
+    VariableFloat.Set("point3Y", 25.0);
+    VariableFloat.Set("point3Z", 1935.0);
+
+    VariableFloat.Set("point4X", 725.0);
+    VariableFloat.Set("point4Y", 25.0);
+    VariableFloat.Set("point4Z", 2387.5);
+
+    VariableFloat.Set("point5X", -216.0);
+    VariableFloat.Set("point5Y", 25.0);
+    VariableFloat.Set("point5Z", 3660.5);
+
+    VariableFloat.Set("point6X", 1690.0);
+    VariableFloat.Set("point6Y", 25.0);
+    VariableFloat.Set("point6Z", 3064.0);
+  }
+
+  If (String.Equals(VariableString("map"),"MB12-Tomb Escape"))
+  {
+    VariableInt.Set("numberOfTitans", 6);
+    VariableFloat.Set("point1X", -22.5);
+    VariableFloat.Set("point1Y", 6700.0);
+    VariableFloat.Set("point1Z", -73.8);
+
+    VariableFloat.Set("point2X", 39.0);
+    VariableFloat.Set("point2Y", 6700.0);
+    VariableFloat.Set("point2Z", 1115.5);
+
+    VariableFloat.Set("point3X", -1067.0);
+    VariableFloat.Set("point3Y", 6700.0);
+    VariableFloat.Set("point3Z", 1156.0);
+
+    VariableFloat.Set("point4X", -1292.5);
+    VariableFloat.Set("point4Y", 6700.0);
+    VariableFloat.Set("point4Z", 345.0);
+
+    VariableFloat.Set("point5X", 270.0);
+    VariableFloat.Set("point5Y", 6700.0);
+    VariableFloat.Set("point5Z", -914.5);
+
+    VariableFloat.Set("point6X", 1570.0);
+    VariableFloat.Set("point6Y", 6700.0);
+    VariableFloat.Set("point6Z", 1571.5);
+  }
+
+  If (String.Equals(VariableString("map"),"Eliope-The Way of the Racers"))
+  {
+    VariableInt.Set("numberOfTitans", 8);
+    VariableFloat.Set("point1X", 9.0);
+    VariableFloat.Set("point1Y", 22.6);
+    VariableFloat.Set("point1Z", -536.5);
+
+    VariableFloat.Set("point2X", 63.0);
+    VariableFloat.Set("point2Y", 35.5);
+    VariableFloat.Set("point2Z", 1721.0);
+
+    VariableFloat.Set("point3X", 1196.0);
+    VariableFloat.Set("point3Y", 10.0);
+    VariableFloat.Set("point3Z", -1491.0);
+
+    VariableFloat.Set("point4X", 361.5);
+    VariableFloat.Set("point4Y", 21.6);
+    VariableFloat.Set("point4Z", 1128.114);
+
+    VariableFloat.Set("point5X", 375.0);
+    VariableFloat.Set("point5Y", 46.0);
+    VariableFloat.Set("point5Z", -100.0);
+
+    VariableFloat.Set("point6X", 370.0);
+    VariableFloat.Set("point6Y", 5.5);
+    VariableFloat.Set("point6Z", -1460.0);
+
+    VariableFloat.Set("point7X", 0.0);
+    VariableFloat.Set("point7Y", 5.0);
+    VariableFloat.Set("point7Z", -3200.0);
+
+    VariableFloat.Set("point8X", -2.2);
+    VariableFloat.Set("point8Y", 152.0);
+    VariableFloat.Set("point8Z", -2317.5);
+  }
+
+  If (String.Equals(VariableString("map"),"Pixel-AWWG"))
+  {
+    VariableInt.Set("numberOfTitans", 7);
+    VariableFloat.Set("point1X", 1.0);
+    VariableFloat.Set("point1Y", 2.5);
+    VariableFloat.Set("point1Z", 197.5);
+
+    VariableFloat.Set("point2X", -381.3);
+    VariableFloat.Set("point2Y", -103.3);
+    VariableFloat.Set("point2Z", 676.0);
+
+    VariableFloat.Set("point3X", -711.22);
+    VariableFloat.Set("point3Y", 231.2);
+    VariableFloat.Set("point3Z", 5.68);
+
+    VariableFloat.Set("point4X", 692.5);
+    VariableFloat.Set("point4Y", 29.3);
+    VariableFloat.Set("point4Z", -181.5);
+
+    VariableFloat.Set("point5X", 612.5);
+    VariableFloat.Set("point5Y", 46.5);
+    VariableFloat.Set("point5Z", -1120.66);
+
+    VariableFloat.Set("point6X", -213.8);
+    VariableFloat.Set("point6Y", 210.55);
+    VariableFloat.Set("point6Z", -680.98);
+
+    VariableFloat.Set("point7X", 293.5);
+    VariableFloat.Set("point7Y", -104.5);
+    VariableFloat.Set("point7Z", -1230.0);
+  }
+  If (String.Equals(VariableString("map"),"Eliope-Makina Red"))
+  {
+    VariableInt.Set("numberOfTitans", 5);
+    VariableFloat.Set("point1X", 5.0);
+    VariableFloat.Set("point1Y", 50.92);
+    VariableFloat.Set("point1Z", -610.0);
+
+    VariableFloat.Set("point2X", -530.0);
+    VariableFloat.Set("point2Y", 59.98);
+    VariableFloat.Set("point2Z", -595.0);
+
+    VariableFloat.Set("point3X", 115.0);
+    VariableFloat.Set("point3Y", 267.2);
+    VariableFloat.Set("point3Z", 370.0);
+
+    VariableFloat.Set("point4X", 555.0);
+    VariableFloat.Set("point4Y", 39.1);
+    VariableFloat.Set("point4Z", -485.0);
+
+    VariableFloat.Set("point5X", 366.5);
+    VariableFloat.Set("point5Y", 89.9);
+    VariableFloat.Set("point5Z", 477.1);
+  }
+
+  If (String.Equals(VariableString("map"),"Eliope-Makina Royal"))
+  {
+    VariableInt.Set("numberOfTitans", 6);
+    VariableFloat.Set("point1X", -17.5);
+    VariableFloat.Set("point1Y", 1.5);
+    VariableFloat.Set("point1Z", -92.5);
+
+    VariableFloat.Set("point2X", -2.5);
+    VariableFloat.Set("point2Y", 40.5);
+    VariableFloat.Set("point2Z", -500.0);
+
+    VariableFloat.Set("point3X", 0.0);
+    VariableFloat.Set("point3Y", 100.0);
+    VariableFloat.Set("point3Z", -440.0);
+
+    VariableFloat.Set("point4X", 2.2);
+    VariableFloat.Set("point4Y", 205.0);
+    VariableFloat.Set("point4Z", 793.1);
+
+    VariableFloat.Set("point5X", 0.0);
+    VariableFloat.Set("point5Y", -240.0);
+    VariableFloat.Set("point5Z", -1295.0);
+
+    VariableFloat.Set("point6X", 0.0);
+    VariableFloat.Set("point6Y", -318.0);
+    VariableFloat.Set("point6Z", -3975.5);
+  }
+
+
+}
+
+OnChatInput("cmd")
+{
+  If (String.Equals(VariableString("cmd"),"/clear"))
+  {
+    Game.PrintMessage("space<size=1>111111</size>space")
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+    Game.PrintMessage("");
+  }
+
+  If (String.Equals(VariableString("cmd"),"/r"))
+  {
+    Game.Restart(true);
+  }
+
+
+  If (String.Equals(VariableString("cmd"),"/listPlayers"))
+  {
+    VariableInt.Set("1",0);
+    While(Int.LessThanOrEqual(VariableInt("i"),VariableInt("totalPlayers")))
+    {
+      VariableString.Set("player","p");
+      VariableString.Append("player", VariableInt("i").ConvertToString());
+
+      VariablePlayer.Set("p", VariablePlayer(VariableString("player")));
+
+      Game.PrintMessage(VariablePlayer("p").GetName());
+
+      VariableInt.Add("i",1);
+    }
+  }
+}
+
+
+
+
+
+OnTitanDie("t","player0")
+{
+
+  VariableBool.Set("playerRegistered", false);
+  VariableInt.Set("i",0);
+  While(Int.LessThanOrEqual(VariableInt("i"),VariableInt("totalPlayers")))
+  {
+    VariableString.Set("player","p");
+    VariableString.Append("player", VariableInt("i").ConvertToString());
+
+    VariablePlayer.Set("p", VariablePlayer(VariableString("player")));
+
+    If(String.Equals(VariablePlayer("p").GetName(),VariablePlayer("player0").GetName()))
+    {
+     VariableBool.Set("playerRegistered", true); 
+     VariableInt.Set("i", VariableInt("totalPlayers"));
+    }
+
+    VariableInt.Add("i",1);
+  }
+
+  If (Bool.Equals(VariableBool("playerRegistered"), false))
+  {
+    VariableString.Set("player","p");
+    VariableString.Append("player", VariableInt("totalPlayers").ConvertToString());
+
+    VariablePlayer.Set(VariableString("player"), VariablePlayer("player0"));
+
+    VariableInt.Add("totalPlayers", 1);
+
+    Game.PrintMessage("registered");
+
+  }
+
+  Player.SetCustomBool(VariablePlayer("player0"), true);
+
+
+  If (Float.LessThan(VariableTitan("t").GetPositionX(), 0.0))
+  {
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 82.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point1X"), VariableFloat("point1Y"), VariableFloat("point1Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 142.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point2X"), VariableFloat("point2Y"), VariableFloat("point2Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 202.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point3X"), VariableFloat("point3Y"), VariableFloat("point3Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 262.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point4X"), VariableFloat("point4Y"), VariableFloat("point4Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 322.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point5X"), VariableFloat("point5Y"), VariableFloat("point5Z"));
+      VariablePlayer.Set("e","ee");
+    }
+  }
+
+  If (Float.GreaterThan(VariableTitan("t").GetPositionX(), 0.0))
+  {
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 112.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point6X"), VariableFloat("point6Y"), VariableFloat("point6Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 172.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point7X"), VariableFloat("point7Y"), VariableFloat("point7Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 232.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point8X"), VariableFloat("point8Y"), VariableFloat("point8Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 292.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point9X"), VariableFloat("point9Y"), VariableFloat("point9Z"));
+      VariablePlayer.Set("e","ee");
+    }
+
+    If (Float.LessThan(VariableTitan("t").GetPositionZ(), 352.5))
+    {
+      Player.KillPlayer(VariablePlayer("player0"), "Moving_Player");
+      Player.SpawnPlayerAt(VariablePlayer("player0"), VariableFloat("point10X"), VariableFloat("point10Y"), VariableFloat("point10Z"));
+      VariablePlayer.Set("e","ee");
+    }
+  }
+
+
+}
+
+OnUpdate()
+{
+  VariableInt.Add("timer",1);
+  VariableInt.Set("i",0);
+  While(Int.LessThanOrEqual(VariableInt("i"),VariableInt("totalPlayers")))
+  {
+    VariableString.Set("player","p");
+    VariableString.Append("player", VariableInt("i").ConvertToString());
+
+    VariablePlayer.Set("p", VariablePlayer(VariableString("player")));
+
+    If (Integer.Equals(VariablePlayer("p").GetTeam(), 2))
+    {
+
+      If (Boolean.Equals(VariablePlayer("p").GetIsAlive(), true))
+      {
+
+        If (Float.GreaterThan(VariablePlayer("p").GetPositionY(), -9800.0))
+        {
+          If (Bool.Equals(VariablePlayer("p").GetCustomBool(), true))
+          {
+            VariableString.Set("playerX", VariableString("player"));
+            VariableString.Set("playerY", VariableString("player"));
+            VariableString.Set("playerZ", VariableString("player"));
+
+            VariableString.Append("playerX", "X");
+            VariableString.Append("playerY", "Y");
+            VariableString.Append("playerZ", "Z");
+
+            VariableFloat.Set(VariableString("playerX"), VariablePlayer("p").GetPositionX());
+            VariableFloat.Set(VariableString("playerY"), VariablePlayer("p").GetPositionY());
+            VariableFloat.Set(VariableString("playerZ"), VariablePlayer("p").GetPositionZ());
+          }
+
+          If (Bool.Equals(VariablePlayer("p").GetCustomBool(), false))
+          {
+            Player.MovePlayer(VariablePlayer("p"), VariableFloat("magentaSpawnX"), VariableFloat("magentaSpawnY"), VariableFloat("magentaSpawnZ"));
+            Player.SetCustomBool(VariablePlayer("p"), true);
+          }
+        }
+
+        If (Float.LessThanOrEqualTo(VariablePlayer("p").GetPositionY(), -9800.0))
+        {
+
+          If (Float.LessThanOrEqualTo(VariablePlayer("p").GetPositionZ(), -5.0))
+          {
+            VariableString.Set("playerX", VariableString("player"));
+            VariableString.Set("playerY", VariableString("player"));
+            VariableString.Set("playerZ", VariableString("player"));
+
+            VariableString.Append("playerX", "X");
+            VariableString.Append("playerY", "Y");
+            VariableString.Append("playerZ", "Z");
+
+            Player.KillPlayer(VariablePlayer("p"), "Moving_Player");
+            Player.SpawnPlayerAt(VariablePlayer("p"), VariableFloat(VariableString("playerX")), VariableFloat(VariableString("playerY")), VariableFloat(VariableString("playerZ")));
+            Player.SetCustomBool(VariablePlayer("p"), true);
+          }
+        }
+      }
+      If (Boolean.Equals(VariablePlayer("p").GetIsAlive(), false))
+      {
+        Player.SetCustomBool(VariablePlayer("p"), false);
+        Player.SpawnPlayerAt(VariablePlayer("p"), VariableFloat("magentaSpawnX"), VariableFloat("magentaSpawnY"), VariableFloat("magentaSpawnZ"));
+      }
+    }
+
+    VariableInt.Add("i",1);
+  }
+
+  If (Integer.Equals(VariableInt("timer"), 2))
+  {
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 0))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,-52.5,-9984.0,67.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 1))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,-52.5,-9984.0,127.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 2))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,-52.5,-9984.0,187.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 3))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,-52.5,-9984.0,247.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 4))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,-52.5,-9984.0,307.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 5))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,52.5,-9984.0,97.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 6))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,52.5,-9984.0,157.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 7))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,52.5,-9984.0,217.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 8))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,52.5,-9984.0,277.5);
+    }
+
+    If (Integer.GreaterThan(VariableInt("numberOfTitans"), 9))
+    {
+      Titan.SpawnTitanAt(0,3.0,0,1,52.5,-9984.0,337.5);
+    }
+  }
+}

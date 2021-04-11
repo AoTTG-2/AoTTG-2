@@ -1,9 +1,7 @@
 ﻿using Assets.Scripts.CustomMaps;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings.Gamemodes;
 using System.Collections.Generic;
-using Assets.Scripts.Events;
-using Assets.Scripts.Services;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Room
 {
@@ -18,8 +16,6 @@ namespace Assets.Scripts.Room
 
         public bool IsCustom => Type != CustomMapType.None;
 
-        public event OnLevelLoaded OnLevelLoaded;
-
         public void LoadLevel()
         {
             if (Type == CustomMapType.CustomMap)
@@ -30,11 +26,6 @@ namespace Assets.Scripts.Room
             {
 
             }
-        }
-
-        public void LevelIsLoaded()
-        {
-            OnLevelLoaded?.Invoke();
         }
     }
 }

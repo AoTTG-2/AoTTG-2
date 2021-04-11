@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 //[Obsolete]
@@ -1887,48 +1886,51 @@ namespace Assets.Scripts
                 {
                     await Task.Delay(500);
                 }
-                
-                var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
-                ui.ShowInGameUi();
-                ChangeQuality.setCurrentQuality();
-                foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-                {
-                    if (!((obj2.GetPhotonView() != null) && obj2.GetPhotonView().owner.isMasterClient))
-                    {
-                        UnityEngine.Object.Destroy(obj2);
-                    }
-                }
-                this.gameStart = true;
-                GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
-                UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
-                obj3.name = "MainCamera";
-                this.cache();
-                this.loadskin();
-                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
-                PVPcheckPoint.chkPts = new ArrayList();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
-                Camera.main.GetComponent<CameraShake>().enabled = false;
-                if (this.needChooseSide)
-                {
-                    //TODO: Show ChooseSide Message
-                    //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
-                }
-                else if (((int) settings[0xf5]) == 0)
-                {
-                    if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                    {
-                        SpawnService.Spawn<PlayerTitan>();
-                    }
-                    else
-                    {
-                        this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
-                    }
-                }
+            }
+        }
 
-                if (((int) settings[0xf5]) == 1)
+        private void Level_OnLevelLoaded()
+        {
+            var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
+            ui.ShowInGameUi();
+            ChangeQuality.setCurrentQuality();
+            foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
+            {
+                if (!((obj2.GetPhotonView() != null) && obj2.GetPhotonView().owner.isMasterClient))
                 {
-                    this.EnterSpecMode(true);
+                    UnityEngine.Object.Destroy(obj2);
                 }
+            }
+            this.gameStart = true;
+            GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
+            UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
+            obj3.name = "MainCamera";
+            this.cache();
+            this.loadskin();
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
+            PVPcheckPoint.chkPts = new ArrayList();
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
+            Camera.main.GetComponent<CameraShake>().enabled = false;
+            if (this.needChooseSide)
+            {
+                //TODO: Show ChooseSide Message
+                //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+            }
+            else if (((int) settings[0xf5]) == 0)
+            {
+                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
+                {
+                    SpawnService.Spawn<PlayerTitan>();
+                }
+                else
+                {
+                    this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
+                }
+            }
+
+            if (((int) settings[0xf5]) == 1)
+            {
+                this.EnterSpecMode(true);
             }
         }
 
@@ -2281,7 +2283,7 @@ namespace Assets.Scripts
             {
                 this.DestroyAllExistingCloths();
                 SetLevelAndGamemode();
-                if (PhotonNetwork.isMasterClient) LevelHelper.Load(Level);
+                if (PhotonNetwork.isMasterClient) Level.LoadLevel();
             }
             else if (PhotonNetwork.isMasterClient)
             {
@@ -2597,7 +2599,7 @@ namespace Assets.Scripts
         private void Start()
         {
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
-
+            Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log($"Version: {versionManager.Version}");
             instance = this;

@@ -1,0 +1,62 @@
+map,disablebounds;
+
+//---Basic map---;
+    //The entire floor is grapplable, it's the basic block of grass you can never remove;
+
+    //Central pillar in the center of the map;
+custom,cylinder,metal1,1,300,1,0,1,1,1,0.01,4.0,0,0,30,0,0,0,0;
+
+    //Spawn platform;
+custom,cuboid,metal1,10,0.5,10,0,1,1,1,1.0,1.0,0,0,-250,0,0,0,0;
+spawnpoint,playerC,0,4,-250,0,0,0,0;
+spawnpoint,playerM,0,4,-250,0,0,0,0;
+
+    //Kill Floor & ceiling;
+racing,killCuboid,140,0.1,140,0,0,0,0,0,0,0;
+racing,killCuboid,140,0.1,140,0,500,-75,0,0,0,0;
+
+
+
+//---Actual Obstacle---;
+    //
+    //Kill wall that you have to fly under (and green highlight for visibility);
+    //It gives you a 30 unit tall gap to get under;
+racing,killCuboid,100,50,0.3,0,280,620,0,0,0,0;
+custom,killCuboid,bombexplosiontex,100,0.4,0.2,1,0,0.8,0,9999,9999,0,30,620,0,0,0,0;
+
+    //Grapple wall for upward jump;
+    //100 units tall, you can't get much vertical momentum off of this;
+    //You have to grab this and the ground to redirect your momentum;
+    //This could easily be replaced by a single floating ball;
+custom,cuboid,metal1,100,10,0.2,0,1,1,1,1.0,1.0,0,50,700,0,0,0,0;
+
+    //Kill wall that keeps you from going past the grapple wall;
+racing,killCuboid,100,50,0.3,0,250,700,0,0,0,0;
+
+    //These are the inner "stalls" that prevent you from traveling horizontally down the grapple wall;
+    //Without these, you don't actually need to perform the double hook trick to make the jump;
+racing,killCuboid,0.5,10,8,100,50,660,0,0,0,0;
+custom,killCuboid,bombexplosiontex,0.4,10,0.4,1,0,0.8,0,9999,9999,100,50,620,0,0,0,0;
+racing,killCuboid,0.5,10,8,-100,50,660,0,0,0,0;
+custom,killCuboid,bombexplosiontex,0.4,10,0.4,1,0,0.8,0,9999,9999,-100,50,620,0,0,0,0;
+racing,killCuboid,0.5,10,8,300,50,660,0,0,0,0;
+custom,killCuboid,bombexplosiontex,0.4,10,0.4,1,0,0.8,0,9999,9999,300,50,620,0,0,0,0;
+racing,killCuboid,0.5,10,8,-300,50,660,0,0,0,0;
+custom,killCuboid,bombexplosiontex,0.4,10,0.4,1,0,0.8,0,9999,9999,-300,50,620,0,0,0,0;
+racing,killCuboid,0.5,10,8,500,50,660,0,0,0,0;
+custom,killCuboid,bombexplosiontex,0.4,10,0.4,1,0,0.8,0,9999,9999,500,50,620,0,0,0,0;
+racing,killCuboid,0.5,10,8,-500,50,660,0,0,0,0;
+custom,killCuboid,bombexplosiontex,0.4,10,0.4,1,0,0.8,0,9999,9999,-500,50,620,0,0,0,0;
+
+    //This is the long bar at the top of the jump;
+    //You can grab it to pull yourself up if you didn't maintain enough momentum;
+custom,cylinder,default,2,300,2,0,1,1,1,0.01,4.0,0,500,700,0,0,1,1;
+
+
+
+
+
+
+
+//Original map idea;
+//The whole thing would be a follow-the-pillar map, from the bottom.  You have to go up continually, going to the sides then going up through another obstacle to get to the next higher segment, where you return to the pillar (and a checkpoint).  Overall, it would be very very wide open.  Once at the top, you have to jump off the map entirely, then go under it, and back up, sweeping upwards (and grabbing segments of the map geometry) to get to the very top, where the pillar has become a checkpoint.  Also, start on the bottom, then go over the side.;

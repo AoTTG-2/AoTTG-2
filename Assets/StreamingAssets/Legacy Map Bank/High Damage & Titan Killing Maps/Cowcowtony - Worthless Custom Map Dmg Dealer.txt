@@ -1,0 +1,22 @@
+//Set titan size =20, use ONE PLAYER TITAN ONLY, NO other titans, respawn time =13s.;
+//Map script -; 
+
+custom,cuboid,default,0.2,0.2,0.2,0,0,0,0,1,1,0,20,960,0,1,0,1;
+map,disablebounds;
+custom,cuboid,default,100,1,8.2,0,0,0,0,1,1,0,5,1530,0,1,0,1;
+custom,cuboid,default,100,1,8.2,0,0,0,0,1,1,0,5,450,0,1,0,1;
+custom,cuboid,default,100,1,8.2,0,0,0,0,1,1,580,5,1000,0,1,0,0;
+custom,cuboid,default,100,1,8.2,0,0,0,0,1,1,-580,5,1000,0,1,0,0;
+custom,cuboid,default,20,1,10,0,0,0,0,1,1,100,5,1050,0,1,-0,-0.4142;
+custom,cuboid,default,20,1,10,0,0,0,0,1,1,100,5,930,0,1,0,0.4142;
+custom,cuboid,default,20,1,10,0,0,0,0,1,1,-100,5,1050,0,1,0,0.4142;
+custom,cuboid,default,20,1,10,0,0,0,0,1,1,-100,5,930,0,1,0,-0.4142;
+custom,cuboid,default,20,30,5,0,0,0,0,1,1,100,-150,1050,0,1,-0,-0.4142;
+custom,cuboid,default,20,30,5,0,0,0,0,1,1,100,-150,930,0,1,0,0.4142;
+custom,cuboid,default,20,30,5,0,0,0,0,1,1,-100,-150,1050,0,1,0,0.4142;
+custom,cuboid,default,20,30,5,0,0,0,0,1,1,-100,-150,930,0,1,0,-0.4142;
+custom,cuboid,default,0.2,0.2,0.2,0,0,0,0,1,1,0,-30,960,0,1,0,1;
+custom,cylinder,bombexplosiontex,16,1000,10,0,0,0,0,99999999,99999999,0,5000,990,0,1,0,0;
+spawnpoint,titan,0,-230,1000,0,1,0,0;
+custom,cuboid,grass3,800,10,800,0,0,0,0,1,1,0,-285,1000,0,1,0,0;
+spawnpoint,playerC,0,22,909.5,0,1,0,0;

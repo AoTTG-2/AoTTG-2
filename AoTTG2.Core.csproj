@@ -182,6 +182,7 @@
     <Compile Include="Assets\Scripts\UI\Camera\MaxCamera.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHairComponent.cs" />
     <Compile Include="Assets\Scripts\Room\TitanSpawnerType.cs" />
+    <Compile Include="Assets\Scripts\Services\LevelService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\RespawnMode.cs" />
     <Compile Include="Assets\Scripts\Interactable\Interactable.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingStartBarrier.cs" />
@@ -378,6 +379,7 @@
     <Compile Include="Assets\Scripts\Services\DiscordService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingObjective.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\ResolutionSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\ILevelService.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
     <Compile Include="Assets\Scripts\Effects\EMITTYPE.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\InRoomChat.cs" />
@@ -459,6 +461,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanType.cs" />
     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
     <Compile Include="Assets\Scripts\UI\CameraMode.cs" />
+    <Compile Include="Assets\Scripts\Extensions\StringExtensions.cs" />
     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
@@ -478,7 +481,6 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Extensions\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

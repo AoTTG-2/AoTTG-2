@@ -16,8 +16,9 @@ namespace Assets.Scripts.Services
         public List<CustomMap> GetCustomMaps()
         {
             var path = $"{Application.streamingAssetsPath}{Path.AltDirectorySeparatorChar}Custom Maps";
-            var files = Directory.GetFiles(path, "*.txt");
-            var customMaps = files.Select(x => new CustomMap(Path.GetFileName(x), x)).ToList();
+            var files = Directory.GetFiles(path, "*.txt", SearchOption.AllDirectories);
+            var customMaps = files.Select(x => 
+                new CustomMap($"{Path.GetFileName(Path.GetDirectoryName(x))}/{Path.GetFileNameWithoutExtension(x)}", x)).ToList();
             return customMaps;
         }
 
@@ -30,7 +31,7 @@ namespace Assets.Scripts.Services
                 var content = File.ReadAllText(CurrentMap.Path);
                 var objects = content.Split(new[] { ";;" }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"{x.Trim()};").ToArray();
                 LoadCustomMap(objects);
-                FengGameManagerMKII.Level.LevelIsLoaded();
+                Service.Level.InvokeLevelLoaded();
             }
         }
 
