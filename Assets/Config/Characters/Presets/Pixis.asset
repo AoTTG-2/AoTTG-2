@@ -1,3 +1,78 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:73dc71ff48d06f34b7951b33c20f9a3ca14a7731219735b083d0b5d4ccaf4497
-size 2138
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
+  m_Name: Pixis
+  m_EditorClassIdentifier: 
+  Name: Pixis
+  Description: 
+  CharacterOutfit:
+  - Name: Uniform
+    Gender: 0
+    Head:
+      Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
+      Texture: 3
+    Skin:
+      Skin: 0
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Hair:
+      Component: {fileID: 0}
+      Texture: 0
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Eyes:
+      Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+      Texture: 28
+    Glasses:
+      Component: {fileID: 0}
+      Texture: 0
+    Facial:
+      Component: {fileID: 11400000, guid: 549ec02307783b046ba76cd9f83a68c3, type: 2}
+      Texture: 19
+    Outfit:
+      Component: {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
+      Texture: 0
+      UseCapeEmblem: 0
+      EmblemFront:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
+      EmblemBack:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
+      EmblemRight:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
+      EmblemLeft:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 1
+    Cape:
+      Component: {fileID: 0}
+      Texture: 0
+    Headgear:
+      Component: {fileID: 0}
+      Texture: 0
+  CharacterBuild:
+  - Name: Garrison
+    Equipment: 0
+    EquipmentComponent:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+      HandGrid:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+    Stats:
+      Acceleration: 0
+      Speed: 0
+      Gas: 0
+      Equipment: 0
+    Skill: 3

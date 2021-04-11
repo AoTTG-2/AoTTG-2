@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:37d13541454c4a1e04720f4062e344affc9394543d3c304fed377cf462072597
-size 507
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfce1894df065f94f97a12176a256b26, type: 3}
+  m_Name: OAuth Local
+  m_EditorClassIdentifier: 
+  ClientId: AoTTG2
+  ClientSecret: 49C1A7E1-0C79-4A89-A3D6-A37998FB86B0
+  Endpoint: https://localhost:5001

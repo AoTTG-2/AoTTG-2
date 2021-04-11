@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &3
 GameObject:
   m_ObjectHideFlags: 0
@@ -29584,7 +29584,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 405154700}
-  m_IndirectSpecularColor: {r: 0.35838622, g: 0.4043839, b: 0.40420532, a: 1}
+  m_IndirectSpecularColor: {r: 0.10554765, g: 0.13596153, b: 0.13583472, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &1616
 LightmapSettings:
@@ -29789,17 +29789,17 @@ PrefabInstance:
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 451.5563
+      value: 117.869354
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 160.61386
+      value: 73.22093
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 354.02112
+      value: 880.1577
       objectReference: {fileID: 0}
     - target: {fileID: 3180873141467643437, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
@@ -29946,7 +29946,7 @@ Terrain:
   m_GameObject: {fileID: 1837111585}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 0}
+  m_TerrainData: {fileID: 15600000, guid: 8e0b9e30a2a4e49419a77a2df4f2b3af, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
