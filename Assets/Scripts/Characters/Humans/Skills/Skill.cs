@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Characters.Humans.Equipment;
-using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
@@ -37,10 +37,6 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
             switch (skill)
             {
-                case HeroSkill.Armin:
-                    break;
-                case HeroSkill.Marco:
-                    break;
                 case HeroSkill.Jean:
                     return new JeanSkill(hero);
                 case HeroSkill.Levi:
@@ -49,21 +45,10 @@ namespace Assets.Scripts.Characters.Humans.Skills
                     return new PetraSkill(hero);
                 case HeroSkill.Mikasa:
                     return new MikasaSkill(hero);
-                case HeroSkill.Eren:
-                    break;
-                case HeroSkill.Annie:
-                    break;
-                case HeroSkill.Reiner:
-                    break;
-                case HeroSkill.Bertholdt:
-                    break;
-                case HeroSkill.BombPvp:
-                    break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(skill), skill, null);
+                    Debug.LogWarning($"Hero Skill {skill} is not implemented. Using Levi Skill...");
+                    return new LeviSkill(hero);
             }
-
-            return null;
         }
     }
 }

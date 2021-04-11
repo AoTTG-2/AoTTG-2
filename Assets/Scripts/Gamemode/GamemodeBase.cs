@@ -79,6 +79,11 @@ namespace Assets.Scripts.Gamemode
             FactionService.OnFactionDefeated -= OnFactionDefeated;
         }
 
+        public override void OnDisconnectedFromPhoton()
+        {
+            Destroy(this);
+        }
+
         #region Events and Coroutines
         protected virtual IEnumerator OnUpdateEverySecond()
         {
