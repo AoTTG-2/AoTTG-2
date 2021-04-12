@@ -273,8 +273,8 @@
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\EncodeDepthNormalNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\SurfaceDepthNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\SimpleNodes\SimpleDivideOpNode.cs" />
-     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Operators\ComponentMaskNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Misc\LinearDepthNode.cs" />
+     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Operators\ComponentMaskNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Misc\GetLocalVarNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplateSubShader.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Master\CustomTagsHelper.cs" />
@@ -316,13 +316,13 @@
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Vertex\TexCoordVertexDataNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ColorNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Utils\CustomMaterialInspector.cs" />
-     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\DitheringNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\StickyNoteNode .cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplateMultiPassMasterNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\CustomDrawers\RemapSlidersFull.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Operators\Log2OpNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplatesManager.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Operators\DegreesOpNode.cs" />
+     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\DitheringNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Misc\AppendNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\LogicalOperators\Compare.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ShaderVariables\Transform\ViewProjectionMatrixNode.cs" />
@@ -376,9 +376,9 @@
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Operators\SinhOpNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ShaderVariables\Lighting\LightColorNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Vertex\TexCoord1VertexDataNode.cs" />
-     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\NodeUtils.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplateTagsModule.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplateFragmentDataNode.cs" />
+     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\NodeUtils.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\SurfaceShaderInputs\ColorInputsNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplateOptionsUI.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\ImageEffects\PosterizeNode.cs" />
@@ -436,8 +436,8 @@
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Master\RenderingOptionsOpHelper.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\SurfaceShaderInputs\WorldNormalInputsNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\DecodeLightmapHlpNode.cs" />
-     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\ImageEffects\HSVToRGBNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\DecodeDepthNormalNode.cs" />
+     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\ImageEffects\HSVToRGBNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Misc\VectorFromMatrixNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplateAdditionalDirectivesHelper.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\LogicalOperators\KeywordSwitchNode.cs" />
@@ -455,10 +455,10 @@
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Misc\WeightedAvgNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ShaderVariables\Transform\UnityProjectorClipMatrixNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\SignalGeneratorNode.cs" />
-     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ShaderVariables\Lighting\LightAttenuation.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\DoCreateFunction.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Master\MasterNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Menu\ConfirmationWindow.cs" />
+     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ShaderVariables\Lighting\LightAttenuation.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ShaderVariables\Transform\Texture3MatrixNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Menu\Tools\ToolsMenuButtonParent.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Templates\TemplateIdManager.cs" />
@@ -469,9 +469,9 @@
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Constants\ShaderVariables\CameraAndScreen\CameraProjectionNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Menu\ConsoleLogWindow.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Master\FallbackPickerHelper.cs" />
-     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\ComputeGrabScreenPosHlpNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Native\FallbackVariable.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Operators\VariablePortTypeOpNode.cs" />
+     <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\HelperFuncs\ComputeGrabScreenPosHlpNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Textures\SamplerNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Nodes\Operators\Exp2OpNode.cs" />
      <Compile Include="Assets\Resources\TheForestRevampedResources\Houses\NewModels\AmplifyShaderEditor\Plugins\Editor\Menu\NodeParametersWindow.cs" />
@@ -1301,11 +1301,11 @@
  <Reference Include="UnityEngine.UI">
  <HintPath>G:/AoTTG-2/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>G:/AoTTG-2/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.TestRunner">
  <HintPath>G:/AoTTG-2/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>G:/AoTTG-2/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
