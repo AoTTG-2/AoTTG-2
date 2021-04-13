@@ -1,7 +1,7 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
-i:spawnhuman_0;pos:500,825,0;rot:0,90,0;m:spawnhuman;l:26;c:spawner, f:2, t:1;;
-i:spawnhuman_1;pos:500,825,0;rot:0,90,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawntitan_3;pos:99999,2,99999;rot:0,180,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
+i:spawnhuman_0;pos:500,825,0;rot:0,90,0;m:spawnhuman;l:23;c:spawner, f:2, t:1;;
+i:spawnhuman_1;pos:500,825,0;rot:0,90,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawntitan_3;pos:99999,2,99999;rot:0,180,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
 i:cuboid_4;pos:394.8692,900,163.8126;rot:0,67.46874,0;m:cuboid;scl:17.92763,17.696,4.5;clr:193,121,62,255;;
 i:cuboid_5;pos:301.9582,900,302.6177;rot:0,44.9375,0;m:cuboid;scl:17.92763,17.696,4.5;clr:184,18,158,255;;
 i:cuboid_6;pos:162.9507,900,395.2256;rot:0,22.40625,0;m:cuboid;scl:17.92763,17.696,4.5;clr:179,17,181,255;;
@@ -432,8 +432,8 @@ i:cuboid_430;pos:-125.397,709.9923,202.8321;rot:40.74899,330.1444,159.4604;m:cub
 i:cuboid_431;pos:2.176192,647.1077,242.6356;rot:44.81128,0.5285956,180.3725;m:cuboid;scl:2.146489,3.89993,15;;
 i:cuboid_432;pos:129.4171,703.3901,208.1439;rot:40.48217,30.779,201.1407;m:cuboid;scl:5.55266,5.279366,15;;
 i:cuboid_433;pos:236.9014,718.475,175.2535;rot:29.6395,55.05935,215.2923;m:cuboid;scl:6.337291,6.615772,15;;
-i:cuboid_434;pos:430,900,0;rot:0,180,0;m:cuboid;scl:3,17,20;mat:transparent;clr:0,0,255,175;c:trigger;c:start;;
-i:cuboid_435;pos:-430,900,0;rot:0,180,0;m:cuboid;scl:3,17,20;mat:transparent;clr:255,255,0,175;c:trigger;c:finish;;
+i:cuboid_434;pos:430,900,0;rot:0,180,0;m:cuboid;scl:3,17,20;mat:transparent;clr:0,0,255,175;l:0;c:start;;
+i:cuboid_435;pos:-430,900,0;rot:0,180,0;m:cuboid;scl:3,17,20;mat:transparent;clr:255,255,0,175;l:0;c:trigger;c:finish;;
 i:cuboid_436;pos:0,1203,-20;rot:0,180,0;m:cuboid;scl:1,0.5,1;clr:109,10,208,255;;
-i:cuboid_437;pos:0,1215,-20;rot:0,180,0;m:cuboid;scl:0.8,3,0.8;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
+i:cuboid_437;pos:0,1215,-20;rot:0,180,0;m:cuboid;scl:0.8,3,0.8;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
 i:cuboid_438;pos:0,1230,-20;rot:0,180,0;m:cuboid;scl:1,0.5,1;clr:109,10,208,255;;

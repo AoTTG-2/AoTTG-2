@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cylinder_0;pos:0,65,0;rot:0,180,0;m:cylinder;scl:100,1,100;t:metal1;til:5,5;clr:255,0,0,255;;
 i:cylinder_1;pos:0,65.5,0;rot:0,180,0;m:cylinder;scl:90,1,90;t:metal1;til:5,5;clr:255,127,0,255;;
 i:cylinder_2;pos:0,66,0;rot:0,180,0;m:cylinder;scl:80,1,80;t:metal1;til:5,5;clr:255,255,0,255;;
@@ -255,9 +260,9 @@ i:cuboid_252;pos:-245.7456,125,-172.0729;rot:0,144.9999,0;m:cuboid;scl:12,14,2;t
 i:cuboid_253;pos:289.7778,125,-77.6458;rot:0,195.0053,0;m:cuboid;scl:22,14,2;t:stone4;til:2.4,3.6;;
 i:cuboid_254;pos:298.8584,125,26.1467;rot:0,174.9955,0;m:cuboid;scl:12,14,2;t:stone4;til:2.4,3.6;;
 i:cuboid_255;pos:245.7456,125,-172.0729;rot:0,215.0001,0;m:cuboid;scl:12,14,2;t:stone4;til:2.4,3.6;;
-i:spawnhuman_256;pos:179.6128,165,385.1808;rot:0,114.9976,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:cuboid_257;pos:114.9067,125,96.4181;rot:0,229.9993,0;m:cuboid;scl:2.7925,14,2;mat:transparent;clr:255,255,0,175;c:trigger;c:finish;;
-i:cuboid_258;pos:96.4181,125,114.9067;rot:0,220.003,0;m:cuboid;scl:2.7925,14,2;mat:transparent;clr:255,255,0,175;c:trigger;c:finish;;
-i:cuboid_259;pos:97.0571,125,362.2222;rot:0,105.0019,0;m:cuboid;scl:5,14,2;mat:transparent;clr:0,0,255,175;c:trigger;c:start;;
-i:cuboid_260;pos:0,185,0;rot:0,180,0;m:cuboid;scl:102,2,102;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
+i:spawnhuman_256;pos:179.6128,165,385.1808;rot:0,114.9976,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:cuboid_257;pos:114.9067,125,96.4181;rot:0,229.9993,0;m:cuboid;scl:2.7925,14,2;mat:transparent;clr:255,255,0,175;l:0;c:trigger;c:finish;;
+i:cuboid_258;pos:96.4181,125,114.9067;rot:0,220.003,0;m:cuboid;scl:2.7925,14,2;mat:transparent;clr:255,255,0,175;l:0;c:trigger;c:finish;;
+i:cuboid_259;pos:97.0571,125,362.2222;rot:0,105.0019,0;m:cuboid;scl:5,14,2;mat:transparent;clr:0,0,255,175;l:0;c:start;;
+i:cuboid_260;pos:0,185,0;rot:0,180,0;m:cuboid;scl:102,2,102;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;
 i:arena2_261;pos:0,75,0;rot:0,180,0;m:arena2;scl:0.6,0.6,0.6;;

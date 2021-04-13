@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Legacy.CustomMap;
+﻿using Assets.Scripts.Constants;
+using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
@@ -88,7 +89,8 @@ namespace Assets.Scripts.CustomMaps
         {
             var objects = rawData.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
             HashSet<LegacyObject> legacyObjects = new HashSet<LegacyObject>();
-            AddDefaultRCObjects(legacyObjects);
+            var disableBounds = objects.Contains("map,disablebounds");
+            AddDefaultRCObjects(legacyObjects, disableBounds);
             for (var i = 0; i < objects.Length; i++)
             {
                 var attributes = objects[i].Split(',').Select(x => x.ToLowerInvariant()).ToArray();
@@ -109,10 +111,11 @@ namespace Assets.Scripts.CustomMaps
                         if (color.HasValue) color = new Color(color.Value.r, color.Value.g, color.Value.b, 200f / 255f);
                     }
 
-                    if (attributes[2] == "cannonregionmat")
-                    {
-                        layer = 0;
-                    }
+                    //TODO: On Bug on the Rose (Hard) these require the GROUND layer
+                    //if (attributes[2] == "cannonregionmat")
+                    //{
+                    //    layer = (byte) Layers.Default;
+                    //}
 
                     var position = GetPosition(attributes, type);
                     var rotation = GetRotation(attributes, type).eulerAngles;
@@ -146,6 +149,7 @@ namespace Assets.Scripts.CustomMaps
                     var component = GetComponent(racingType);
                     legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
                     {
+                        Layer = (byte) Layers.Default,
                         Scale = scale,
                         Color = color,
                         Components = component?.ToList(),
@@ -169,7 +173,7 @@ namespace Assets.Scripts.CustomMaps
                     var rotation = GetRotation(attributes, type).eulerAngles;
                     var scale = GetScale(attributes, type);
                     var color = new Color(0f, 234f / 255f, 1f, 82f / 255f);
-                    var layer = miscType == MiscType.Barrier ? 0 : (byte?) null;
+                    var layer = miscType == MiscType.Barrier ? (byte)Layers.MapEditor : (byte?) null;
 
                     legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
                     {
@@ -187,7 +191,7 @@ namespace Assets.Scripts.CustomMaps
                     var rotation = GetRotation(attributes, type).eulerAngles;
                     var spawnType = GetSpawnType(attributes);
                     var modelName = spawnType == SpawnType.Titan ? SpawnTitan.Name : SpawnHuman.Name;
-                    byte? layer = 26;
+                    var layer = (byte) Layers.MapEditor;
                     var component = GetComponent(spawnType);
                     legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
                     {
@@ -201,13 +205,35 @@ namespace Assets.Scripts.CustomMaps
             return data;
         }
 
-        private void AddDefaultRCObjects(HashSet<LegacyObject> objects)
+        private void AddDefaultRCObjects(HashSet<LegacyObject> objects, bool disableBounds)
         {
-            var ground = GetLegacyMapObject("cuboid");
-            if (ground != null)
+            var cuboid = GetLegacyMapObject("cuboid");
+            if (cuboid == null) return;
+            objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, cuboid.Name, "grass1", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null, null));
+            if (disableBounds) return;
+
+            objects.Add(CreateBarrier("barrier_1", cuboid.Name, new Vector3(-700f, 745.795f, -1.525f),
+                new Vector3(10f, 160f, 160f)));
+            objects.Add(CreateBarrier("barrier_2", cuboid.Name, new Vector3(0f, 745.795f, -700f),
+                new Vector3(160f, 160f, 10f)));
+            objects.Add(CreateBarrier("barrier_3", cuboid.Name, new Vector3(0f, 745.795f, 700f),
+                new Vector3(160f, 160f, 10f)));
+            objects.Add(CreateBarrier("barrier_4", cuboid.Name, new Vector3(700f, 745.795f, -1.525f),
+                new Vector3(10f, 160f, 160f)));
+            objects.Add(CreateBarrier("barrier_5", cuboid.Name, new Vector3(-2.22f, 1253.08f, 17.87f),
+                new Vector3(160f, 10f, 160f)));
+        }
+
+        private LegacyObject CreateBarrier(string identifier, string model, Vector3 position, Vector3 scale)
+        {
+            return new LegacyObject(identifier, position)
             {
-                objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, ground.Name, "grass1", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null, null));
-            }
+                ModelName = model,
+                Scale = scale,
+                Layer = (byte) Layers.MapEditor,
+                Material = Transparent.Name,
+                Color = new Color(0f, 234f / 255f, 1f, 82f / 255f)
+            };
         }
 
         private MapObject GetLegacyMapObject(string legacyName)
@@ -302,7 +328,7 @@ namespace Assets.Scripts.CustomMaps
             return type switch
             {
                 RacingType.Kill => new[] {trigger, MapComponentType.Killzone.ToString()},
-                RacingType.Start => new[] {trigger, MapComponentType.Start.ToString()},
+                RacingType.Start => new[] {MapComponentType.Start.ToString()},
                 RacingType.Finish => new[] { trigger, MapComponentType.Finish.ToString() },
                 RacingType.Checkpoint => new[] { trigger, MapComponentType.Checkpoint.ToString() },
                 _ => null
@@ -505,7 +531,7 @@ namespace Assets.Scripts.CustomMaps
             private Vector3 Rotation { get; set; }
 
 
-            private string ModelName { get; set; }
+            public string ModelName { get; set; }
             private string Texture { get; set; }
             public string Material { get; set; }
             public Vector3 Scale { get; set; }

@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cylinder_0;pos:0,-99,0;rot:0,180,0;m:cylinder;scl:80,10,80;t:stone10;til:3,3;clr:178,51,25,255;;
 i:cuboid_1;pos:0,95,386.3703;rot:0,180,0;m:cuboid;scl:21,1,3;t:rock1;til:2.1,0.1;;
 i:cuboid_2;pos:-136.8081,95,375.877;rot:0,160.003,0;m:cuboid;scl:7.2431,1,3;t:metal4;til:0.1,0.1;;
@@ -1557,5 +1562,5 @@ i:cuboid_1587;pos:-119,130,-180.5;rot:0,90,0;m:cuboid;scl:3,0.5,3;t:ice1;til:0.2
 i:cylinder_1588;pos:0,99.9,-180.5;rot:0,90,0;m:cylinder;scl:3.6,0.5,3.6;t:metal1;til:1,5;;
 i:cylinder_1589;pos:0,99.8,-180.5;rot:0,90,0;m:cylinder;scl:3.4,0.5,3.4;t:metal2;til:0.2,1;;
 i:cylinder_1590;pos:0,99.5,-180.5;rot:0,90,0;m:cylinder;scl:3,0.5,3;t:ice1;til:0.2,1;;
-i:spawnhuman_1591;pos:0,20,600;rot:0,180,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawntitan_1592;pos:0,20,0;rot:0,180,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
+i:spawnhuman_1591;pos:0,20,600;rot:0,180,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawntitan_1592;pos:0,20,0;rot:0,180,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;

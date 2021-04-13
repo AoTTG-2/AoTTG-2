@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cuboid_0;pos:0,31.482,338.58;rot:0,180,0;m:cuboid;scl:15.08436,5.94,46.332;t:ice1;til:0.6348635,1.95;clr:204,204,255,255;;
 i:cuboid_1;pos:87.63095,31.482,327.0432;rot:0,195,0;m:cuboid;scl:15.08436,5.94,46.332;t:ice1;til:0.6348635,1.95;clr:204,204,255,255;;
 i:cuboid_2;pos:169.29,31.482,293.2189;rot:0,210,0;m:cuboid;scl:15.08436,5.94,46.332;t:ice1;til:0.6348635,1.95;clr:204,204,255,255;;
@@ -980,12 +985,12 @@ i:cuboid_1204;pos:0,75.6,135;rot:0,180,0;m:cuboid;scl:1.98,0.18,0.18;t:ice1;clr:
 i:cuboid_1205;pos:0,75.6,117;rot:0,180,0;m:cuboid;scl:1.98,0.18,0.18;t:ice1;clr:0,0,0,255;;
 i:cuboid_1206;pos:9,75.6,126;rot:0,180,0;m:cuboid;scl:0.18,0.18,1.98;t:ice1;clr:0,0,0,255;;
 i:cuboid_1207;pos:-9,75.6,126;rot:0,180,0;m:cuboid;scl:0.18,0.18,1.98;t:ice1;clr:0,0,0,255;;
-i:cuboid_1209;pos:0,75.6,126;rot:0,180,0;m:cuboid;scl:1.8,0.09,1.8;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
+i:cuboid_1209;pos:0,75.6,126;rot:0,180,0;m:cuboid;scl:1.8,0.09,1.8;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
 i:cuboid_1211;pos:0,75.6,-126;rot:0,180,0;m:cuboid;scl:1.8,0.072,1.8;clr:0,0,0,255;;
 i:cuboid_1212;pos:0,75.6,-135;rot:0,180,0;m:cuboid;scl:1.98,0.18,0.18;t:ice1;clr:0,0,0,255;;
 i:cuboid_1213;pos:0,75.6,-117;rot:0,180,0;m:cuboid;scl:1.98,0.18,0.18;t:ice1;clr:0,0,0,255;;
 i:cuboid_1214;pos:9,75.6,-126;rot:0,180,0;m:cuboid;scl:0.18,0.18,1.98;t:ice1;clr:0,0,0,255;;
 i:cuboid_1215;pos:-9,75.6,-126;rot:0,180,0;m:cuboid;scl:0.18,0.18,1.98;t:ice1;clr:0,0,0,255;;
-i:cuboid_1217;pos:0,75.6,-126;rot:0,180,0;m:cuboid;scl:1.8,0.09,1.8;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:spawnhuman_1219;pos:0,108,-180;rot:0,180,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawnhuman_1220;pos:0,108,180;rot:0,180,0;m:spawnhuman;l:26;c:spawner, f:2, t:1;;
+i:cuboid_1217;pos:0,75.6,-126;rot:0,180,0;m:cuboid;scl:1.8,0.09,1.8;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:spawnhuman_1219;pos:0,108,-180;rot:0,180,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawnhuman_1220;pos:0,108,180;rot:0,180,0;m:spawnhuman;l:23;c:spawner, f:2, t:1;;

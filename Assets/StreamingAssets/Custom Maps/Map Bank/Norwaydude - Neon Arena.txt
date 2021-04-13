@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cuboid_0;pos:82.74245,-20.04763,-11.87153;rot:0,89.98808,0;m:cuboid;scl:10,10,10;clr:0,0,0,255;;
 i:cuboid_1;pos:-67.34437,14.93753,88.0119;rot:0,0.06391612,0;m:cuboid;scl:40,3,10;clr:0,0,0,255;;
 i:cuboid_2;pos:-217.3344,14.94615,-161.6933;rot:0,270.0109,0;m:cuboid;scl:40,3,10;clr:0,0,0,255;;
@@ -104,9 +109,9 @@ i:cuboid_102;pos:-187.5865,55.4209,28.62768;rot:0,269.998,0;m:cuboid;scl:6,0.1,0
 i:cuboid_103;pos:-187.5699,55.44647,-92.5042;rot:0,270.0059,0;m:cuboid;scl:14,0.1,0.1;clr:255,0,0,255;;
 i:cuboid_104;pos:-186.5847,55.44163,-22.39026;rot:0,359.2166,0;m:cuboid;scl:0.3,0.1,0.1;clr:255,0,0,255;;
 i:cuboid_105;pos:-186.5943,55.44154,-1.133293;rot:0,359.8567,0;m:cuboid;scl:0.3,0.1,0.1;clr:255,0,0,255;;
-i:spawnhuman_106;pos:-117.703,59.90699,-11.68415;rot:0,179.2494,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawnhuman_107;pos:2.651379,29.6705,-120.2624;rot:0,271.6368,0;m:spawnhuman;l:26;c:spawner, f:2, t:1;;
-i:spawnhuman_108;pos:-74.61484,60.81933,67.86821;rot:0,180.1,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
+i:spawnhuman_106;pos:-117.703,59.90699,-11.68415;rot:0,179.2494,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawnhuman_107;pos:2.651379,29.6705,-120.2624;rot:0,271.6368,0;m:spawnhuman;l:23;c:spawner, f:2, t:1;;
+i:spawnhuman_108;pos:-74.61484,60.81933,67.86821;rot:0,180.1,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
 i:cuboid_109;pos:42.53638,42.3498,-132.8702;rot:0,89.95298,0;m:cuboid;scl:10,0.5,2;clr:0,0,0,255;;
 i:cuboid_110;pos:-37.1974,42.34941,-132.2183;rot:0,89.95301,0;m:cuboid;scl:10,0.5,2;clr:0,0,0,255;;
 i:cuboid_111;pos:3.561352,42.34938,-151.6286;rot:0,180.0731,0;m:cuboid;scl:10,0.5,2;clr:0,0,0,255;;
@@ -119,7 +124,7 @@ i:cuboid_117;pos:33.00442,44.40984,-121.6866;rot:0,89.96551,0;m:cuboid;scl:4.2,0
 i:cuboid_118;pos:-27.6366,40.31634,-121.6365;rot:0,269.9561,0;m:cuboid;scl:4.2,0.1,0.1;clr:0,255,0,255;;
 i:cuboid_119;pos:2.563962,40.31758,-142.1051;rot:0,180.0919,0;m:cuboid;scl:6.1,0.1,0.1;clr:0,255,0,255;;
 i:cuboid_120;pos:2.575372,44.38162,-101.1783;rot:0,0.002924845,0;m:cuboid;scl:6.1,0.1,0.1;clr:0,255,0,255;;
-i:spawnhuman_121;pos:-139.9401,2.056513,-116.9685;rot:0,0.4223527,0;m:spawnhuman;l:26;c:spawner, f:2, t:1;;
+i:spawnhuman_121;pos:-139.9401,2.056513,-116.9685;rot:0,0.4223527,0;m:spawnhuman;l:23;c:spawner, f:2, t:1;;
 i:cuboid_122;pos:7.741836,40.33236,-82.08209;rot:0,179.9926,0;m:cuboid;scl:11,0.1,0.1;clr:0,255,0,255;;
 i:cuboid_123;pos:-46.73019,40.33246,-136.7574;rot:0,89.95243,0;m:cuboid;scl:11,0.1,0.1;clr:0,255,0,255;;
 i:cuboid_124;pos:126.5156,101.5208,-45.73162;rot:0,89.97873,0;m:cuboid;scl:2,1.5,1;;
@@ -226,10 +231,10 @@ i:cuboid_224;pos:-52.11518,115.8443,83.80242;rot:0,270.0378,0;m:cuboid;scl:15,0.
 i:cuboid_225;pos:-81.18906,115.8442,83.78442;rot:0,270.0377,0;m:cuboid;scl:15,0.1,0.1;clr:255,78,0,255;;
 i:cuboid_226;pos:-210.6906,120.0043,-66.2768;rot:0,180.0378,0;m:cuboid;scl:15,0.1,0.1;clr:255,78,0,255;;
 i:cuboid_227;pos:-210.6218,115.8048,-37.17314;rot:0,180.0378,0;m:cuboid;scl:15,0.1,0.1;clr:255,78,0,255;;
-i:spawntitan_228;pos:-227.5497,120.218,-51.49026;rot:0,90.27811,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
-i:spawntitan_229;pos:-66.30235,120.9542,98.71476;rot:0,180.1063,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
-i:spawntitan_230;pos:93.54175,120.5914,-52.66958;rot:0,269.4438,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
-i:spawntitan_231;pos:-67.2916,120.491,-202.4161;rot:0,0.7700916,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
+i:spawntitan_228;pos:-227.5497,120.218,-51.49026;rot:0,90.27811,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
+i:spawntitan_229;pos:-66.30235,120.9542,98.71476;rot:0,180.1063,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
+i:spawntitan_230;pos:93.54175,120.5914,-52.66958;rot:0,269.4438,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
+i:spawntitan_231;pos:-67.2916,120.491,-202.4161;rot:0,0.7700916,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
 i:cuboid_232;pos:-10.43202,220.0289,-217.6826;rot:0,180.0186,0;m:cuboid;scl:50,20,1;clr:0,0,0,255;;
 i:cuboid_233;pos:-242.7226,218.8637,-123.5105;rot:0,269.9833,0;m:cuboid;scl:50,20,1;clr:0,0,0,255;;
 i:cuboid_234;pos:-74.09397,219.1665,113.7803;rot:0,359.984,0;m:cuboid;scl:50,20,1;clr:0,0,0,255;;
@@ -281,8 +286,8 @@ i:cuboid_280;pos:-115.8305,58.81533,-171.4908;rot:55.80004,176.8174,348.84;m:cub
 i:cuboid_281;pos:-105.8123,59.23747,-172.3127;rot:48.36007,183.8173,1.322262;m:cuboid;scl:1,0.1,0.1;clr:0,255,0,255;;
 i:cuboid_282;pos:-114.1207,58.58098,-168.3134;rot:40.78012,58.68744,11.69905;m:cuboid;scl:1,0.1,0.1;clr:0,255,0,255;;
 i:cuboid_283;pos:-107.5417,59.04925,-168.3885;rot:34.00007,133.7997,3.8;m:cuboid;scl:1,0.1,0.1;clr:0,255,0,255;;
-i:spawntitan_285;pos:-52.53333,89.95639,-170.3992;rot:0,0.02500852,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
-i:spawntitan_286;pos:-178.7951,30.09305,-71.33015;rot:0,90.03272,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
-i:spawntitan_287;pos:-166.3907,153.7582,36.20217;rot:0,135.7112,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
+i:spawntitan_285;pos:-52.53333,89.95639,-170.3992;rot:0,0.02500852,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
+i:spawntitan_286;pos:-178.7951,30.09305,-71.33015;rot:0,90.03272,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
+i:spawntitan_287;pos:-166.3907,153.7582,36.20217;rot:0,135.7112,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;
 i:cuboid_288;pos:-194.1196,159.2101,64.60742;rot:0,314.7174,0;m:cuboid;scl:0.45,1,0.45;clr:0,0,0,255;;
 i:cuboid_289;pos:-202.6861,159.7195,72.5976;rot:0,283.696,0;m:cuboid;;

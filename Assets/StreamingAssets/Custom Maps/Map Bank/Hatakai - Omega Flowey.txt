@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cuboid_0;pos:-18.6104,-3.908788,43.21526;rot:0,182.2421,0;m:cuboid;scl:100,1,100;clr:0,0,0,255;;
 i:cuboid_1;pos:-38.15134,120.2845,-437.4659;rot:0,90.68654,0;m:cuboid;scl:1,100,100;clr:0,0,0,255;;
 i:cuboid_2;pos:-515.0009,151.5766,40.20289;rot:2.135247,1.719604,0.9595993;m:cuboid;scl:1,100,100;clr:0,0,0,255;;
@@ -130,8 +135,8 @@ i:pyramid_131;pos:-389.9023,27.30672,-224.3523;rot:-4.37559E-06,354.9301,319.199
 i:pyramid_132;pos:-380.2026,77.30596,-127.6574;rot:1.600826E-06,4.179878,328.4;m:pyramid;clr:255,0,0,255;;
 i:pyramid_133;pos:-451.4257,25.02252,-343.5001;rot:-3.201651E-07,357.1784,314;m:pyramid;clr:255,0,0,255;;
 i:pyramid_134;pos:-502.784,23.25714,-399.1879;rot:-2.668043E-08,2.927158,13.80001;m:pyramid;clr:255,0,0,255;;
-i:cylinder_135;pos:-176.0591,159.2938,-102.0527;rot:-4.268868E-06,24.42615,310.9999;m:cylinder;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:cuboid_136;pos:11.35944,268.7353,137.8463;rot:23.88483,321.1323,349.977;m:cuboid;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:sphere_137;pos:79.6731,133.8762,229.0185;rot:0,2.174672,0;m:sphere;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:prism_138;pos:-153.2216,431.9932,188.4711;rot:0,186.6735,0;m:prism;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:capsule_139;pos:57.04539,399.7318,-143.9239;rot:0,228.6729,0;m:capsule;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
+i:cylinder_135;pos:-176.0591,159.2938,-102.0527;rot:-4.268868E-06,24.42615,310.9999;m:cylinder;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:cuboid_136;pos:11.35944,268.7353,137.8463;rot:23.88483,321.1323,349.977;m:cuboid;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:sphere_137;pos:79.6731,133.8762,229.0185;rot:0,2.174672,0;m:sphere;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:prism_138;pos:-153.2216,431.9932,188.4711;rot:0,186.6735,0;m:prism;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:capsule_139;pos:57.04539,399.7318,-143.9239;rot:0,228.6729,0;m:capsule;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;

@@ -1,9 +1,14 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:tube_0;pos:7.989728,7089.599,35.9136;rot:0,22.4066,0;m:tube;scl:80,1,80;t:metal3;;
 i:cone_1;pos:24.92229,6650.218,-12.52294;rot:359.9377,246.4828,179.97;m:cone;scl:20,5,20;t:metal4;;
 i:tube_2;pos:15.17729,6709.742,2.501256;rot:0,100.3029,0;m:tube;scl:80,1,80;t:metal4;;
 i:cylinder_3;pos:-11.40284,6831.394,21.44026;rot:0,249.7248,0;m:cylinder;scl:45,1,45;t:metal4;;
-i:cylinder_4;pos:5.389498,6831.239,12.49301;rot:-3.131893E-05,111.8153,-4.405697E-05;m:cylinder;scl:50,1,50;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
+i:cylinder_4;pos:5.389498,6831.239,12.49301;rot:-3.131893E-05,111.8153,-4.405697E-05;m:cylinder;scl:50,1,50;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
 i:tube_5;pos:-16.01334,6849.042,8.346436;rot:0,201.9635,0;m:tube;scl:50,5,50;t:metal4;;
 i:tube_6;pos:-18.36158,6830.901,21.99138;rot:0,269.4468,0;m:tube;scl:50,5,50;t:metal4;;
 i:cylinder_7;pos:87.95858,6877.686,248.3083;rot:0,201.6723,0;m:cylinder;scl:9,1,9;t:metal3;clr:14,20,20,255;;
@@ -25,5 +30,5 @@ i:cuboid_30;pos:73.30713,6972.664,-312.5078;rot:0,172.0809,0;m:cuboid;scl:0.2,2.
 i:cuboid_31;pos:57.78221,6972.424,-314.7096;rot:0,172.0809,0;m:cuboid;scl:0.2,2.3,0.2;clr:0,0,255,255;;
 i:cuboid_32;pos:70.03316,6976.468,-312.1986;rot:5.336086E-07,172.0809,25.80001;m:cuboid;scl:0.2,2,0.2;clr:0,0,255,255;;
 i:cuboid_33;pos:61.58677,6976.468,-313.897;rot:-1.067217E-06,172.0809,330.8;m:cuboid;scl:0.2,2,0.2;clr:0,0,255,255;;
-i:spawnhuman_35;pos:62.79733,6810.912,18.63238;rot:0,271.2457,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawnhuman_36;pos:64.78254,6810.432,18.58922;rot:0,271.2457,0;m:spawnhuman;l:26;c:spawner, f:2, t:1;;
+i:spawnhuman_35;pos:62.79733,6810.912,18.63238;rot:0,271.2457,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawnhuman_36;pos:64.78254,6810.432,18.58922;rot:0,271.2457,0;m:spawnhuman;l:23;c:spawner, f:2, t:1;;

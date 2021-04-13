@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cuboid_0;pos:0,-4.66,0;m:cuboid;scl:20,1,20;t:metal4;clr:127,127,127,255;;
 i:cuboid_2;pos:224.7947,-4.722755,-175.9292;rot:0,359.9915,0;m:cuboid;scl:20,1,30;t:metal4;clr:127,127,127,255;;
 i:cuboid_3;pos:174.6081,-4.778266,-225.2801;rot:0,269.8892,0;m:cuboid;scl:20,1,30;t:metal4;clr:127,127,127,255;;
@@ -8,7 +13,7 @@ i:cuboid_6;pos:-172.8083,-4.593597,224.6957;rot:0,90.48557,0;m:cuboid;scl:20,1,3
 i:cuboid_7;pos:-227.0786,-4.586176,174.479;rot:0,0.2444126,0;m:cuboid;scl:20,1,30;t:metal4;clr:127,127,127,255;;
 i:cuboid_8;pos:-230.3238,-4.803261,-174.1098;rot:0,0.3338294,0;m:cuboid;scl:20,1,30;t:metal4;clr:127,127,127,255;;
 i:cuboid_9;pos:-179.4674,-4.734781,-225.7661;rot:0,90.68334,0;m:cuboid;scl:20,1,30;t:metal4;clr:127,127,127,255;;
-i:cuboid_10;pos:0,-4.980002,0;m:cuboid;scl:65,1,65;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
+i:cuboid_10;pos:0,-4.980002,0;m:cuboid;scl:65,1,65;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
 i:cuboid_11;pos:-177.4952,46.62851,-306.3203;rot:-8.537737E-07,90.35212,19.2;m:cuboid;scl:1,10,30;t:metal4;clr:127,127,127,255;;
 i:cuboid_12;pos:174.6645,46.30809,-310.4601;rot:-8.537737E-07,269.76,339.36;m:cuboid;scl:1,10,30;t:metal4;clr:127,127,127,255;;
 i:cuboid_13;pos:-164.2812,46.47023,304.4731;rot:0.4199016,89.43163,333.8028;m:cuboid;scl:1,10,30;t:metal4;clr:127,127,127,255;;
@@ -25,12 +30,12 @@ i:cuboid_23;pos:-204.4091,90.90911,-334.9391;rot:0,90.3126,0;m:cuboid;scl:10,1,3
 i:cuboid_24;pos:199.5318,90.84701,-337.2991;rot:0,270.3516,0;m:cuboid;scl:10,1,35;t:metal4;clr:127,127,127,255;;
 i:cuboid_25;pos:203.3926,90.77438,327.4113;rot:0,270.0177,0;m:cuboid;scl:10,1,35;t:metal4;clr:127,127,127,255;;
 i:cuboid_26;pos:-189.114,90.81301,327.7763;rot:0,270.0631,0;m:cuboid;scl:10,1,35;t:metal4;clr:127,127,127,255;;
-i:cuboid_31;pos:-7.60346,138.2939,-284.2134;rot:0,90.40543,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
-i:cuboid_32;pos:-277.9523,138.2904,-0.763492;rot:0,180.7138,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
-i:cuboid_33;pos:-2.054193,134.1448,275.403;rot:0,270.1789,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
-i:cuboid_34;pos:270.4493,136.7448,-7.527196;rot:0,0.1789341,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
-i:spawnhuman_35;pos:-324.3471,104.1629,33.65622;rot:0,179.6435,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawnhuman_36;pos:313.6776,123.0551,45.49776;rot:0,179.643,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
+i:cuboid_31;pos:-7.60346,138.2939,-284.2134;rot:0,90.40543,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;
+i:cuboid_32;pos:-277.9523,138.2904,-0.763492;rot:0,180.7138,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;
+i:cuboid_33;pos:-2.054193,134.1448,275.403;rot:0,270.1789,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;
+i:cuboid_34;pos:270.4493,136.7448,-7.527196;rot:0,0.1789341,0;m:cuboid;scl:0.5,10,56;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;
+i:spawnhuman_35;pos:-324.3471,104.1629,33.65622;rot:0,179.6435,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawnhuman_36;pos:313.6776,123.0551,45.49776;rot:0,179.643,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
 i:cuboid_37;pos:-374.0323,61.79275,0.4932679;rot:0,180.8323,0;m:cuboid;scl:1,25,75;mat:transparent;clr:255,255,0,200;;
 i:cuboid_38;pos:-13.89341,61.48082,-380.8436;rot:0,90.32182,0;m:cuboid;scl:1,25,75;mat:transparent;clr:255,255,0,200;;
 i:cuboid_39;pos:4.485592,62.17484,369.5599;rot:0,90.49991,0;m:cuboid;scl:1,25,75;mat:transparent;clr:255,255,0,200;;

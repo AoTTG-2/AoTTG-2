@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:tower2_0;pos:-74.83935,-62.95816,408.7921;rot:0,357.4381,0;m:tower2;scl:1,5,1;clr:0,0,0,255;;
 i:tower2_1;pos:468.7154,-51.28158,-461.3343;rot:0,136.1867,0;m:tower2;scl:1,5,1;clr:0,0,0,255;;
 i:tower2_2;pos:221.9613,-47.07296,-437.288;rot:0,242.4352,0;m:tower2;scl:1,5,1;clr:0,0,0,255;;
@@ -81,8 +86,8 @@ i:leaf3_111;pos:452.8427,2.444719,-353.7283;rot:0,127.2961,0;m:leaf3;scl:5,5,5;c
 i:leaf3_112;pos:-444.4397,0.4873058,-372.3427;rot:0,232.5945,0;m:leaf3;scl:5,5,5;clr:0,0,0,255;;
 i:leaf3_113;pos:134.6799,0.5572374,-585.1882;rot:0,182.5394,0;m:leaf3;scl:5,5,5;clr:0,0,0,255;;
 i:leaf3_114;pos:-11.99707,0.0580782,-557.5584;rot:0,223.4894,0;m:leaf3;scl:5,5,5;clr:0,0,0,255;;
-i:sphere_115;pos:-623.2097,625.9666,596.9802;rot:0,124.3146,0;m:sphere;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:sphere_116;pos:-403.6021,652.152,246.5437;rot:-1.600826E-07,156.5618,356.2;m:sphere;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
+i:sphere_115;pos:-623.2097,625.9666,596.9802;rot:0,124.3146,0;m:sphere;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:sphere_116;pos:-403.6021,652.152,246.5437;rot:-1.600826E-07,156.5618,356.2;m:sphere;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
 i:tower5_117;pos:201.0299,0.828239,220.3912;rot:0,95.59895,0;m:tower5;scl:1,10,1;clr:0,0,0,255;;
 i:tower3_118;pos:-178.5903,-78.11071,-6.499072;rot:0,207.4968,0;m:tower3;scl:1,10,1;clr:0,0,0,255;;
 i:tower2_119;pos:118.6837,-691.1166,47.0212;rot:0,139.2437,0;m:tower2;scl:1,10,1;clr:0,0,0,255;;

@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cuboid_0;pos:100,50,100;rot:0,180,0;m:cuboid;scl:0.8,10,0.8;t:metal3;;
 i:cuboid_1;pos:-100,50,100;rot:0,180,0;m:cuboid;scl:0.8,10,0.8;t:metal3;;
 i:cuboid_2;pos:100,50,-100;rot:0,180,0;m:cuboid;scl:0.8,10,0.8;t:metal3;;
@@ -105,4 +110,4 @@ i:cuboid_143;pos:198.3357,15,-93.94032;rot:0,224.8077,0;m:cuboid;scl:1,5,10;t:ic
 i:cuboid_144;pos:94.3413,15,-197.5364;rot:0,224.8576,0;m:cuboid;scl:1,5,10;t:ice1;;
 i:cuboid_145;pos:-198.0648,15,-93.74102;rot:0,134.6868,0;m:cuboid;scl:1,5,10;t:ice1;;
 i:cuboid_146;pos:-93.38715,15,-198.0465;rot:0,135.4868,0;m:cuboid;scl:1,5,10;t:ice1;;
-i:cuboid_147;pos:0,3.08,0;rot:0,180,0;m:cuboid;scl:1000,1,1000;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
+i:cuboid_147;pos:0,3.08,0;rot:0,180,0;m:cuboid;scl:1000,1,1000;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;

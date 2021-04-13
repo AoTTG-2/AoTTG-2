@@ -26,8 +26,8 @@ i:cuboid_23;pos:-2156.689,56.77816,-2146.744;rot:0,359.4128,0;m:cuboid;scl:30,30
 i:cuboid_24;pos:540.7527,66.24569,-2481.919;rot:0,1.337148,0;m:cuboid;scl:30,30,115;t:stone4;til:3,3;;
 i:cuboid_25;pos:51.71849,67.43988,-2775.515;rot:272.7272,80.37952,189.2028;m:cuboid;scl:30,1,30;t:stone4;til:3,3;;
 i:tube_26;pos:216.8663,125.3816,-2896.177;rot:270.1887,322.1941,214.8951;m:tube;scl:5,5,5;t:stone4;til:3,3;;
-i:spawnhuman_27;pos:216.5346,107.1321,-2891.159;rot:0,178.5766,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:cuboid_28;pos:229.6585,40.73843,-2645.932;rot:270.0343,358.8339,0;m:cuboid;scl:35,1,35;mat:transparent;clr:0,0,255,175;c:trigger;c:start;;
+i:spawnhuman_27;pos:216.5346,107.1321,-2891.159;rot:0,178.5766,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:cuboid_28;pos:229.6585,40.73843,-2645.932;rot:270.0343,358.8339,0;m:cuboid;scl:35,1,35;mat:transparent;clr:0,0,255,175;l:0;c:start;;
 i:cuboid_29;pos:-619.5407,60.34295,-1352.62;rot:-0.004132475,179.7753,0.1599467;m:cuboid;scl:30,30,100;t:stone4;til:3,3;;
 i:cuboid_30;pos:-964.0898,59.0631,-2056.36;rot:0,87.61042,0;m:cuboid;scl:30,30,100;t:stone4;til:3,3;;
 i:cuboid_31;pos:-1384.299,59.44935,-2072.503;rot:2.790151E-08,87.71584,-4.398144E-09;m:cuboid;scl:30,30,100;t:stone4;til:3,3;;
@@ -41,6 +41,6 @@ i:cuboid_38;pos:-1865.094,34.25463,-2343.366;rot:271.4802,268.1883,-0.0001322193
 i:cuboid_39;pos:-1861.595,35.43665,-2842.717;rot:271.36,272.1745,179.999;m:cuboid;scl:35,1,35;t:stone4;til:3,3;;
 i:cuboid_40;pos:-462.083,36.77245,-2296.553;rot:271.0797,268.6642,0.002536496;m:cuboid;scl:35,1,35;t:stone4;til:3,3;;
 i:pyramid_41;pos:-243.8105,146.4997,-1861;rot:-8.537737E-07,175.906,272.2;m:pyramid;clr:0,255,0,255;;
-i:cuboid_44;pos:-1187.634,127.9249,-1025.571;rot:0,182.9754,0;m:cuboid;scl:20,20,100;mat:transparent;clr:255,255,0,175;c:trigger;c:finish;;
-i:cuboid_45;pos:-743.0081,200.7,-985.0316;rot:270,269.4886,0;m:cuboid;scl:2000,2000,1;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
-i:spawntitan_46;pos:-4196.37,-131.0977,-1412.273;rot:0,98.74694,0;m:spawntitan;l:26;c:spawner, f:2, t:2;;
+i:cuboid_44;pos:-1187.634,127.9249,-1025.571;rot:0,182.9754,0;m:cuboid;scl:20,20,100;mat:transparent;clr:255,255,0,175;l:0;c:trigger;c:finish;;
+i:cuboid_45;pos:-743.0081,200.7,-985.0316;rot:270,269.4886,0;m:cuboid;scl:2000,2000,1;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;
+i:spawntitan_46;pos:-4196.37,-131.0977,-1412.273;rot:0,98.74694,0;m:spawntitan;l:23;c:spawner, f:2, t:2;;

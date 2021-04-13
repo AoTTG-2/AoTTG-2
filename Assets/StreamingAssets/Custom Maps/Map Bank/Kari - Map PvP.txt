@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cylinder_0;pos:-11.66952,1.723946,-10.62093;rot:0,179.2447,0;m:cylinder;scl:12,1,12;t:stone9;;
 i:tube_1;pos:-14.44052,3.155687,-12.93497;rot:0,201.7394,0;m:tube;scl:12,3,12;t:stone4;til:3,3;;
 i:cylinder_2;pos:9.62207,46.15572,43.63059;rot:0,201.7394,0;m:cylinder;scl:1.7,5,1.7;t:stone1;;
@@ -12,8 +17,8 @@ i:arc180_9;pos:-14.37718,140.7913,-10.46982;rot:-1.707547E-05,291.9385,270;m:arc
 i:arc180_10;pos:-14.02316,139.7676,-12.69987;rot:3.415095E-06,157.6864,270;m:arc180;scl:8,3,8;t:stone1;;
 i:arc180_11;pos:-11.71321,140.3785,-13.73259;rot:-8.537737E-06,71.18587,269.8;m:arc180;scl:8,3,8;t:stone1;;
 i:boulder1_12;pos:-19.82326,-53.59373,-16.17099;rot:0,244.6503,0;m:boulder1;scl:10,5,10;t:grass4;;
-i:cuboid_13;pos:90.42179,0.7376482,-198.4175;rot:0,355.1354,0;m:cuboid;scl:300,1,300;mat:transparent;clr:0,234,255,82;l:0;c:barrier;;
-i:cylinder_14;pos:-17.81496,-41.63948,-43.49118;rot:0,285.3329,0;m:cylinder;scl:60,1,100;mat:transparent;clr:0,0,255,175;c:trigger;c:start;;
+i:cuboid_13;pos:90.42179,0.7376482,-198.4175;rot:0,355.1354,0;m:cuboid;scl:300,1,300;mat:transparent;clr:0,234,255,82;l:23;c:barrier;;
+i:cylinder_14;pos:-17.81496,-41.63948,-43.49118;rot:0,285.3329,0;m:cylinder;scl:60,1,100;mat:transparent;clr:0,0,255,175;l:0;c:start;;
 i:boulder2_15;pos:399.3173,-37.29213,-272.5923;rot:0,286.5591,0;m:boulder2;scl:10,7,10;t:grass4;;
 i:boulder1_16;pos:445.8001,-25.11761,-61.35846;rot:0,312.5579,0;m:boulder1;scl:10,7,10;t:grass4;;
 i:boulder3_17;pos:313.7069,-20.8115,119.5797;rot:0,233.5488,0;m:boulder3;scl:10,7,10;t:grass4;;
@@ -100,10 +105,10 @@ i:cylinder_97;pos:-372.7549,3.564164,453.2057;rot:0,334.636,0;m:cylinder;scl:15,
 i:tube_98;pos:-368.0894,5.564166,461.9972;rot:0,334.636,0;m:tube;scl:15,3,15;t:stone4;til:3,3;;
 i:cylinder_99;pos:-176.1078,5.190548,-510.3655;rot:0,92.37974,0;m:cylinder;scl:15,1,15;t:metal2;;
 i:tube_100;pos:-168.5445,7.320752,-509.5619;rot:0,87.37952,0;m:tube;scl:15,3,15;t:metal4;;
-i:cylinder_101;pos:-152.9658,21.98978,-433.7414;rot:0,272.6175,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:cylinder_102;pos:-13.41577,14.8447,-20.91094;rot:0,18.61489,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:cylinder_103;pos:429.397,27.07749,344.746;rot:0,39.10941,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:cylinder_104;pos:-391.3155,20.52223,385.9969;rot:0,286.1058,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
-i:spawnhuman_105;pos:4.799793,17.5463,0.07274818;rot:0,148.3546,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawnhuman_106;pos:4.313436,18.21143,0.6559611;rot:0,147.3546,0;m:spawnhuman;l:26;c:spawner, f:2, t:1;;
-i:cylinder_113;pos:-1.200533,607.3377,109.1389;rot:0,12.57822,0;m:cylinder;scl:0.5,0.3,0.5;mat:transparent;clr:0,255,0,175;c:trigger;c:checkpoint;;
+i:cylinder_101;pos:-152.9658,21.98978,-433.7414;rot:0,272.6175,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:cylinder_102;pos:-13.41577,14.8447,-20.91094;rot:0,18.61489,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:cylinder_103;pos:429.397,27.07749,344.746;rot:0,39.10941,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:cylinder_104;pos:-391.3155,20.52223,385.9969;rot:0,286.1058,0;m:cylinder;scl:1,0.5,1;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;
+i:spawnhuman_105;pos:4.799793,17.5463,0.07274818;rot:0,148.3546,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawnhuman_106;pos:4.313436,18.21143,0.6559611;rot:0,147.3546,0;m:spawnhuman;l:23;c:spawner, f:2, t:1;;
+i:cylinder_113;pos:-1.200533,607.3377,109.1389;rot:0,12.57822,0;m:cylinder;scl:0.5,0.3,0.5;mat:transparent;clr:0,255,0,175;l:0;c:trigger;c:checkpoint;;

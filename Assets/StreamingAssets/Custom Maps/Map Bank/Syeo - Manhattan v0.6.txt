@@ -1,4 +1,9 @@
 i:ground;pos:-6.8,-32,6.2;m:cuboid;scl:134.1,6.4,134.1;t:grass1;til:15,15;;
+i:barrier_1;pos:-700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_2;pos:0,745.795,-700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_3;pos:0,745.795,700;m:cuboid;scl:160,160,10;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_4;pos:700,745.795,-1.525;m:cuboid;scl:10,160,160;mat:transparent;clr:0,234,255,82;l:23;;
+i:barrier_5;pos:-2.22,1253.08,17.87;m:cuboid;scl:160,10,160;mat:transparent;clr:0,234,255,82;l:23;;
 i:cuboid_1;pos:-9.806515,3.801989,61.53654;rot:0,180.9775,0;m:cuboid;scl:3,1,10;t:stone6;til:10,10;clr:28,26,26,255;;
 i:cuboid_2;pos:-10.30586,3.682987,-78.07691;rot:0,180.8751,0;m:cuboid;scl:3,1,10;t:stone6;til:10,10;clr:28,26,26,255;;
 i:cuboid_3;pos:-3.620432,3.788813,260.3439;rot:0,1.973341,0;m:cuboid;scl:3,1,30;t:stone6;til:10,10;clr:28,26,26,255;;
@@ -406,8 +411,8 @@ i:cuboid_410;pos:-194.0244,3.469043,-211.3581;rot:0,86.92397,0;m:cuboid;scl:80,1
 i:cuboid_411;pos:222.3787,3.529975,-198.247;rot:0,358.2357,0;m:cuboid;scl:80,1,80;t:stone4;til:480,480;clr:101,101,101,255;;
 i:cuboid_412;pos:466.4631,31.78316,49.91785;rot:0,1.123536,0;m:cuboid;scl:5,40,5;t:metal4;clr:255,107,60,255;;
 i:cuboid_413;pos:-224.9769,3.601523,247.9986;rot:0,179.3209,0;m:cuboid;scl:80,1,80;t:stone4;til:480,480;clr:101,101,101,255;;
-i:spawnhuman_414;pos:289.8674,693.1847,-54.92809;rot:0,272.6932,0;m:spawnhuman;l:26;c:spawner, f:1, t:1;;
-i:spawnhuman_415;pos:-186.0453,554.5392,151.2954;rot:0,127.4891,0;m:spawnhuman;l:26;c:spawner, f:2, t:1;;
+i:spawnhuman_414;pos:289.8674,693.1847,-54.92809;rot:0,272.6932,0;m:spawnhuman;l:23;c:spawner, f:1, t:1;;
+i:spawnhuman_415;pos:-186.0453,554.5392,151.2954;rot:0,127.4891,0;m:spawnhuman;l:23;c:spawner, f:2, t:1;;
 i:cuboid_416;pos:-111.3577,18.05665,-71.58108;rot:0,272.2703,0;m:cuboid;scl:2,2,0.2;t:metal4;;
 i:pillar1_417;pos:-28.73921,7.435508,79.5546;rot:0,179.8944,0;m:pillar1;scl:0.1,0.3,0.1;clr:0,0,0,255;;
 i:pillar1_418;pos:-25.54514,7.683527,154.1729;rot:0,273.8916,0;m:pillar1;scl:0.1,0.3,0.1;clr:0,0,0,255;;
