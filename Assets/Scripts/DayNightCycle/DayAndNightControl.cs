@@ -36,15 +36,15 @@ namespace Assets.Scripts.DayNightCycle
         public float DayLength; 
         public bool Pause { get; set; }
         public float LightIntensity; //static variable to see what the main light's insensity is in the inspector
-
+        public string StaticSkyboxPlayerPref = "StaticSkybox";
         private int frames;
        
         void Start()
         {
             //loads static skybox if player has set so in graphics settings
-            if (PlayerPrefs.HasKey("StaticSkybox"))
+            if (PlayerPrefs.HasKey(StaticSkyboxPlayerPref))
             {
-                StaticSkybox = PlayerPrefs.GetInt("StaticSkybox") == 1;
+                StaticSkybox = PlayerPrefs.GetInt(StaticSkyboxPlayerPref) == 1;
             }
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             //Sets Scene variables to time settings
@@ -168,13 +168,13 @@ namespace Assets.Scripts.DayNightCycle
             {
                 if (CurrentTime <= 5)
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
-                else if (5 < CurrentTime && CurrentTime <= 8)
+                else if (CurrentTime > 5 && CurrentTime <= 8)
                     RenderSettings.skybox = StaticDawnSkyboxMaterial;
-                else if (8 < CurrentTime && CurrentTime <= 18)
+                else if (CurrentTime > 8 && CurrentTime <= 18)
                     RenderSettings.skybox = StaticDaySkyboxMaterial;
-                else if (17 < CurrentTime && CurrentTime <= 19)
+                else if (CurrentTime > 17 && CurrentTime <= 19)
                     RenderSettings.skybox = StaticDuskSkyboxMaterial;
-                else if (19 < CurrentTime )
+                else if (CurrentTime > 19 )
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
             }
             else
