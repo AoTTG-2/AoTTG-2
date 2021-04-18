@@ -13,6 +13,10 @@ namespace Assets.Scripts.CustomMaps
         /// Only used for MapObjects which did exist in AoTTG.
         /// </summary>
         public string LegacyName;
+        /// <summary>
+        /// Used for MapObjects which did have a different material in AoTTG.
+        /// </summary>
+        public MapMaterial LegacyMaterial;
         public string Description;
         public GameObject Prefab;
     }

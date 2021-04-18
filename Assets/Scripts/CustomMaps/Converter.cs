@@ -18,6 +18,7 @@ namespace Assets.Scripts.CustomMaps
 
         public CustomMapConfiguration Configuration;
         public MapMaterial Transparent;
+        public MapMaterial TransparentDoubleSided;
         public MapObject SpawnTitan;
         public MapObject SpawnHuman;
 
@@ -26,6 +27,8 @@ namespace Assets.Scripts.CustomMaps
         public bool IncludeMapBank;
 
         public CustomMapService Service;
+
+        private static readonly Color BarrierColor = new Color(0f, 234f / 255f, 1f, 82f / 255f);
 
         #region Legacy
         public void Awake()
@@ -77,7 +80,7 @@ namespace Assets.Scripts.CustomMaps
                     Service.LoadCustomMap(objects);
                 }
             }
-            
+
             if (LoadAoTTG2Map && !ConvertLegacyMap)
             {
                 var objects = AoTTG2CustomMap.text.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
@@ -87,7 +90,7 @@ namespace Assets.Scripts.CustomMaps
 
         protected string ConvertCustomMap(string rawData)
         {
-            var objects = rawData.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+            var objects = rawData.ToLowerInvariant().Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
             HashSet<LegacyObject> legacyObjects = new HashSet<LegacyObject>();
             var disableBounds = objects.Contains("map,disablebounds");
             AddDefaultRCObjects(legacyObjects, disableBounds);
@@ -99,18 +102,25 @@ namespace Assets.Scripts.CustomMaps
                 {
                     type = RcObjectType.Custom;
 
-                    var modelName = GetModelName(attributes, type);
-                    if (modelName == null) continue;
+                    var mapObject = GetMapObject(attributes, type);
+                    if (mapObject == null) continue;
                     var texture = GetTexture(attributes, type);
                     var color = GetColor(attributes, type);
-                    string material = null;
+                    var material = mapObject.LegacyMaterial?.Name;
+
                     byte? layer = null;
                     if (attributes[2] == "bombexplosiontex")
                     {
-                        material = Transparent.Name;
+                        material = TransparentDoubleSided.Name;
                         if (color.HasValue) color = new Color(color.Value.r, color.Value.g, color.Value.b, 200f / 255f);
                     }
 
+                    if (attributes[2] == "barriereditormat")
+                    {
+                        material = Transparent.Name;
+                        color = BarrierColor;
+                        texture = null;
+                    }
                     //TODO: On Bug on the Rose (Hard) these require the GROUND layer
                     //if (attributes[2] == "cannonregionmat")
                     //{
@@ -128,7 +138,7 @@ namespace Assets.Scripts.CustomMaps
 
                     var scale = GetScale(attributes, type);
 
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, texture?.Name, tiling, scale, color, null)
+                    legacyObjects.Add(new LegacyObject($"{mapObject.Name}_{i}", position, rotation, mapObject.Name, texture?.Name, tiling, scale, color, null)
                     {
                         Material = material,
                         Layer = layer
@@ -138,7 +148,7 @@ namespace Assets.Scripts.CustomMaps
                 {
                     type = RcObjectType.Racing;
 
-                    var modelName = GetModelName(attributes, type);
+                    var modelName = GetMapObject(attributes, type);
                     var material = Transparent.Name;
                     var position = GetPosition(attributes, type);
                     var rotation = GetRotation(attributes, type).eulerAngles;
@@ -147,7 +157,7 @@ namespace Assets.Scripts.CustomMaps
                     var racingType = GetRacingType(attributes);
                     var color = GetColor(racingType);
                     var component = GetComponent(racingType);
-                    legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
+                    legacyObjects.Add(new LegacyObject($"{modelName.Name}_{i}", position, rotation, modelName.Name, null)
                     {
                         Layer = (byte) Layers.Default,
                         Scale = scale,
@@ -173,7 +183,7 @@ namespace Assets.Scripts.CustomMaps
                     var rotation = GetRotation(attributes, type).eulerAngles;
                     var scale = GetScale(attributes, type);
                     var color = new Color(0f, 234f / 255f, 1f, 82f / 255f);
-                    var layer = miscType == MiscType.Barrier ? (byte)Layers.MapEditor : (byte?) null;
+                    var layer = miscType == MiscType.Barrier ? (byte) Layers.MapEditor : (byte?) null;
 
                     legacyObjects.Add(new LegacyObject($"{modelName}_{i}", position, rotation, modelName, null)
                     {
@@ -209,7 +219,7 @@ namespace Assets.Scripts.CustomMaps
         {
             var cuboid = GetLegacyMapObject("cuboid");
             if (cuboid == null) return;
-            objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, cuboid.Name, "grass1", new Vector2(15f, 15f),  new Vector3(134.1f, 6.4f, 134.1f), null, null));
+            objects.Add(new LegacyObject("ground", new Vector3(-6.8f, -32f, 6.2f), Vector3.zero, cuboid.Name, "grass1", new Vector2(15f, 15f), new Vector3(134.1f, 6.4f, 134.1f), null, null));
             if (disableBounds) return;
 
             objects.Add(CreateBarrier("barrier_1", cuboid.Name, new Vector3(-700f, 745.795f, -1.525f),
@@ -232,7 +242,7 @@ namespace Assets.Scripts.CustomMaps
                 Scale = scale,
                 Layer = (byte) Layers.MapEditor,
                 Material = Transparent.Name,
-                Color = new Color(0f, 234f / 255f, 1f, 82f / 255f)
+                Color = BarrierColor
             };
         }
 
@@ -245,7 +255,7 @@ namespace Assets.Scripts.CustomMaps
         private MapComponent GetMapComponent(MapComponentType type) =>
             Configuration.MapComponents.SingleOrDefault(x => x.Type == type);
 
-        private string GetModelName(string[] attributes, RcObjectType type)
+        private MapObject GetMapObject(string[] attributes, RcObjectType type)
         {
             var modelName = type switch
             {
@@ -264,7 +274,7 @@ namespace Assets.Scripts.CustomMaps
             }
 
             var mapObject = Configuration.MapObjects.SingleOrDefault(x => x.LegacyName == modelName);
-            if (mapObject != null) return mapObject.Name;
+            if (mapObject != null) return mapObject;
 
             Debug.LogWarning($"Custom Map Converter: Model {modelName} could not be found");
             return null;
@@ -327,8 +337,8 @@ namespace Assets.Scripts.CustomMaps
             var trigger = MapComponentType.Trigger.ToString();
             return type switch
             {
-                RacingType.Kill => new[] {trigger, MapComponentType.Killzone.ToString()},
-                RacingType.Start => new[] {MapComponentType.Start.ToString()},
+                RacingType.Kill => new[] { trigger, MapComponentType.Killzone.ToString() },
+                RacingType.Start => new[] { MapComponentType.Start.ToString() },
                 RacingType.Finish => new[] { trigger, MapComponentType.Finish.ToString() },
                 RacingType.Checkpoint => new[] { trigger, MapComponentType.Checkpoint.ToString() },
                 _ => null
@@ -397,7 +407,7 @@ namespace Assets.Scripts.CustomMaps
             var tilingMap = type switch
             {
                 RcObjectType.Custom => new[] { 3, 4, 5 },
-                RcObjectType.Racing => new[] {2, 3, 4},
+                RcObjectType.Racing => new[] { 2, 3, 4 },
                 RcObjectType.Misc => new[] { 2, 3, 4 },
                 _ => new int[0]
             };
@@ -427,7 +437,7 @@ namespace Assets.Scripts.CustomMaps
         {
             var tilingMap = type switch
             {
-                RcObjectType.Custom => new[] {10, 11},
+                RcObjectType.Custom => new[] { 10, 11 },
                 _ => new int[0]
             };
             if (tilingMap.Length == 0)
@@ -443,7 +453,7 @@ namespace Assets.Scripts.CustomMaps
         {
             var colorMap = type switch
             {
-                RcObjectType.Custom => new[] {6, 7, 8, 9},
+                RcObjectType.Custom => new[] { 6, 7, 8, 9 },
                 _ => new int[0]
             };
             if (colorMap.Length == 0)
