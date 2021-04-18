@@ -202,9 +202,8 @@ namespace Assets.Scripts.DayNightCycle
             }
             if (timecycle.overrideMoonlight && isNightTime)
             {
-                Light moonLight = Moon.GetComponent<Light>();
-                moonLight.color = timecycle.moonlightColor.Evaluate(CurrentTimeScale);
-                moonLight.intensity = timecycle.moonlightColor.Evaluate(CurrentTimeScale).a * timecycle.maxMoonlightIntensity;
+                Moon.color = timecycle.moonlightColor.Evaluate(CurrentTimeScale);
+                Moon.intensity = timecycle.moonlightColor.Evaluate(CurrentTimeScale).a * timecycle.maxMoonlightIntensity;
             }
 
             // Environment lighting
