@@ -135,7 +135,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 148458}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
@@ -237,7 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c27ea66d96f4c45bd49ec08a6dc519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Moon: {fileID: 148458}
+  Sun: {fileID: 10851780}
+  Moon: {fileID: 2693919023675462872}
   ReflectionProbe: {fileID: 3271152382635331567}
   SunTilt: -15
   timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
@@ -248,7 +249,6 @@ MonoBehaviour:
   MoonCamera: {fileID: 259637730578209515}
   MainCamera: {fileID: 0}
   CurrentDay: 0
-  DirectionalLight: {fileID: 10851780}
   DayLength: 300
   LightIntensity: 0
 --- !u!1 &190586
@@ -369,7 +369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5156324855798302335}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.674486, y: 3.872139, z: 12.674487}
+  m_LocalPosition: {x: -1.1076865, y: -4.2381883, z: 0.9036904}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 456198}
