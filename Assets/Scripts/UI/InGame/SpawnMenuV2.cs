@@ -20,8 +20,7 @@ namespace Assets.Scripts.UI.InGame
 
         public GameObject mainWindow;
 
-        [Space]
-        public List<CharacterPreset> Characters;
+        [Space] public CharacterList CharacterList;
         public CharacterPrefabs Prefabs;
         public TMP_Dropdown CharacterDropdown;
         public TMP_Dropdown OutfitDropdown;
@@ -36,19 +35,19 @@ namespace Assets.Scripts.UI.InGame
         public void Awake()
         {
             CharacterDropdown.ClearOptions();
-            var options = Characters.Select(x => new TMP_Dropdown.OptionData
+            var options = CharacterList.Characters.Select(x => new TMP_Dropdown.OptionData
             {
                 text = x.Name
             });
             CharacterDropdown.AddOptions(options.ToList());
-            OnCharacterChanged(Characters.First(), 0);
+            OnCharacterChanged(CharacterList.Characters.First(), 0);
 
-            CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(Characters[x], 0));
+            CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(CharacterList.Characters[x], 0));
         }
         
         public void OnEnable()
         {
-            OnCharacterChanged(Characters.First(), 0);
+            OnCharacterChanged(CharacterList.Characters.First(), 0);
             MenuManager.RegisterOpened(this);
         }
         
@@ -63,7 +62,7 @@ namespace Assets.Scripts.UI.InGame
         public void Spawn()
         {
             string selection = "23";
-            var selectedPreset = Characters[CharacterDropdown.value];
+            var selectedPreset = CharacterList.Characters[CharacterDropdown.value];
             selectedPreset.CurrentOutfit = selectedPreset.CharacterOutfit[OutfitDropdown.value];
             selectedPreset.CurrentBuild = selectedPreset.CharacterBuild[BuildDropdown.value];
             

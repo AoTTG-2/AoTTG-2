@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a51224f8c761ccc479a148e7e7af466a, type: 3}
+  m_Name: Uniform B - Male
+  m_EditorClassIdentifier: 
+  Model: {fileID: 3386359218058407558, guid: f932e8db20aaf864a9aee6b8e000763a, type: 3}
+  Textures:
+  - {fileID: 2800000, guid: dad8e4fa1b319b24096604526fdc861b, type: 3}
+  - {fileID: 2800000, guid: 1130831264c34c44d818161345ab4a98, type: 3}
+  - {fileID: 2800000, guid: 0b7fa354434306b41b772b2c214a77e3, type: 3}
+  Gender: 1
+  ArmLeft: {fileID: 11400000, guid: bffa667b31c1dd14b97f517d9949935f, type: 2}
+  ArmRight: {fileID: 11400000, guid: c3ba0139a0ce2754eb473088898080b0, type: 2}
+  Legs: {fileID: 3305592698201889044, guid: 64209cafbb4033341b59c3750bcc4894, type: 3}
+  EmblemFront: {fileID: 5829737728309230095, guid: cbf03e35b9f7ac64d983da68c123bd4b,
+    type: 3}
+  EmblemBack: {fileID: 4951063426726137778, guid: 9a86a5b13a51d8b46aefbfb5d0b7b646,
+    type: 3}

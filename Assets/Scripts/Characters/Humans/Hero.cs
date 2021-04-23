@@ -96,7 +96,8 @@ namespace Assets.Scripts.Characters.Humans
         public float facingDirection { get; set; }
         private Transform forearmL { get; set; }
         private Transform forearmR { get; set; }
-        private float gravity { get; set; } = 20f;
+        private float Gravity => 20f * gravityModifier;
+        private float gravityModifier = GameSettings.Global?.Gravity ?? 1;
         public bool grounded;
         private GameObject gunDummy { get; set; }
         private Vector3 gunTarget { get; set; }
@@ -240,9 +241,18 @@ namespace Assets.Scripts.Characters.Humans
             upperarmR = Body.upper_arm_R;
             Equipment = gameObject.AddComponent<Equipment.Equipment>();
             Faction = Service.Faction.GetHumanity();
+            Service.Settings.OnGlobalSettingsChanged += OnGlobalSettingsChanged;
             Service.Entity.Register(this);
 
             CustomAnimationSpeed();
+        }
+
+        public void OnGlobalSettingsChanged(GlobalSettings settings)
+        {
+            if (settings.Gravity.HasValue)
+            {
+                gravityModifier = settings.Gravity.Value;
+            }
         }
 
         private void Start()
@@ -282,7 +292,7 @@ namespace Assets.Scripts.Characters.Humans
 
             if (!photonView.isMine)
             {
-                gameObject.layer = Layers.NetworkObject.ToLayer();
+                gameObject.layer = (int) Layers.NetworkObject;
                 if (IN_GAME_MAIN_CAMERA.dayLight == DayLight.Night)
                 {
                     GameObject obj3 = Instantiate(Resources.Load<GameObject>("flashlight"));
@@ -1280,7 +1290,7 @@ namespace Assets.Scripts.Characters.Humans
                 Destroy(gunDummy);
             }
             ReleaseIfIHookSb();
-
+            Service.Settings.OnGlobalSettingsChanged -= OnGlobalSettingsChanged;
         }
 
         public void LateUpdate()
@@ -1715,7 +1725,7 @@ namespace Assets.Scripts.Characters.Humans
                             force = -Rigidbody.velocity;
                             force.y = num7;
                             float num8 = Vector3.Distance(myHorse.transform.position, transform.position);
-                            float num9 = ((0.6f * gravity) * num8) / 12f;
+                            float num9 = ((0.6f * Gravity) * num8) / 12f;
                             vector7 = myHorse.transform.position - transform.position;
                             force += (num9 * vector7.normalized);
                         }
@@ -1825,7 +1835,7 @@ namespace Assets.Scripts.Characters.Humans
                             if (Animation[HeroAnim.TO_ROOF].normalizedTime < 0.22f)
                             {
                                 Rigidbody.velocity = Vector3.zero;
-                                Rigidbody.AddForce(new Vector3(0f, gravity * Rigidbody.mass, 0f));
+                                Rigidbody.AddForce(new Vector3(0f, Gravity * Rigidbody.mass, 0f));
                             }
                             else
                             {
@@ -2006,7 +2016,7 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     else
                     {
-                        Rigidbody.AddForce(new Vector3(0f, -gravity * Rigidbody.mass, 0f));
+                        Rigidbody.AddForce(new Vector3(0f, -Gravity * Rigidbody.mass, 0f));
                     }
 
                     if (currentSpeed > 10f)
@@ -2073,7 +2083,7 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 //TODO: If this is a default preset, find a more efficient way
-                var config = JsonConvert.SerializeObject(preset, Formatting.Indented, new ColorJsonConverter());
+                var config = JsonConvert.SerializeObject(CustomizationNetworkObject.Convert(Prefabs, preset), Formatting.Indented, new ColorJsonConverter());
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
@@ -2091,7 +2101,8 @@ namespace Assets.Scripts.Characters.Humans
 
             if (info.sender.ID == photonView.ownerId)
             {
-                Initialize(JsonConvert.DeserializeObject<CharacterPreset>(characterPreset, new ColorJsonConverter()));
+                var config = JsonConvert.DeserializeObject<CustomizationNetworkObject>(characterPreset, new ColorJsonConverter());
+                Initialize(config.ToPreset(Prefabs));
             }
         }
 
