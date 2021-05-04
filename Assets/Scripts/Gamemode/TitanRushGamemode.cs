@@ -20,9 +20,9 @@ namespace Assets.Scripts.Gamemode
         private GameObject[] Spawns { get; set; }
         private List<RushBehavior> SubscribedEvents { get; } = new List<RushBehavior>();
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded()
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded();
             nextUpdate = default;
             SubscribedEvents.ForEach(x => x.OnCheckpointArrived -= OnCheckpointArrived);
             SubscribedEvents.Clear();

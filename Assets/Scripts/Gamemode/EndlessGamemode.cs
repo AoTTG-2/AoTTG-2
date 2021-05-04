@@ -13,7 +13,7 @@ namespace Assets.Scripts.Gamemode
 
         private int Score { get; set; }
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded()
         {
             if (!PhotonNetwork.isMasterClient) return;
             SpawnTitans(GameSettings.Titan.Start.Value);

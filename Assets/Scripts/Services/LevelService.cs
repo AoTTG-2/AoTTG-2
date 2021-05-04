@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Events;
 using Assets.Scripts.Services.Interface;
+using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
@@ -8,6 +9,7 @@ namespace Assets.Scripts.Services
         public event OnLevelLoaded OnLevelLoaded;
         public void InvokeLevelLoaded()
         {
+            Debug.Log("OnLevelLoaded()");
             OnLevelLoaded?.Invoke();
         }
     }

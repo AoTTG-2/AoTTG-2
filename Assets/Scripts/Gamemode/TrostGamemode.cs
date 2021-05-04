@@ -10,9 +10,9 @@ namespace Assets.Scripts.Gamemode
         public override GamemodeType GamemodeType { get; } = GamemodeType.Trost;
         private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded()
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded();
             GameObject.Find("playerRespawn").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawn"));
             GameObject.Find("rock").GetComponent<Animation>()["lift"].speed = 0f;

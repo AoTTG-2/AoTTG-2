@@ -80,9 +80,9 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded()
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded();
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
@@ -118,12 +118,11 @@ namespace Assets.Scripts.Gamemode
         
         private IEnumerator SpawnTitan(int titans)
         {
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
             for (var i = 0; i < titans; i++)
             {
                 if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
-                var randomSpawn = spawns[Random.Range(0, spawns.Length)];
-                SpawnService.Spawn<MindlessTitan>(randomSpawn.transform.position, randomSpawn.transform.rotation,
+                var randomSpawn = GetSpawnLocation();
+                SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
                     GetWaveTitanConfiguration());
                 yield return new WaitForEndOfFrame();
             }

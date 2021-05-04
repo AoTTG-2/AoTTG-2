@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
@@ -13,8 +14,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Events;
-using Assets.Scripts.Room;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,9 +21,7 @@ namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : PunBehaviour
     {
-        public event OnLevelLoaded OnLevelLoaded;
         public abstract GamemodeType GamemodeType { get; }
-
 
         private GamemodeSettings Settings => GameSettings.Gamemode;
 
@@ -45,7 +42,7 @@ namespace Assets.Scripts.Gamemode
 
         protected bool IsRoundOver { get; private set; }
 
-        protected virtual void OnLevelWasLoaded()
+        protected virtual void Level_OnLevelLoaded()
         {
             IsRoundOver = false;
             UiService.ResetMessagesAll();
@@ -67,8 +64,9 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        private void Start()
+        private void Awake()
         {
+            Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
             EntityService.OnRegister += OnEntityRegistered;
             EntityService.OnUnRegister += OnEntityUnRegistered;
             FactionService.OnFactionDefeated += OnFactionDefeated;
@@ -76,11 +74,22 @@ namespace Assets.Scripts.Gamemode
             StartCoroutine(OnUpdateEveryTenthSecond());
         }
 
+        //private void Start()
+        //{
+        //    EntityService.OnRegister += OnEntityRegistered;
+        //    EntityService.OnUnRegister += OnEntityUnRegistered;
+        //    FactionService.OnFactionDefeated += OnFactionDefeated;
+        //    StartCoroutine(OnUpdateEverySecond());
+        //    StartCoroutine(OnUpdateEveryTenthSecond());
+        //}
+
         private void OnDestroy()
         {
             EntityService.OnRegister -= OnEntityRegistered;
-            EntityService.OnUnRegister -= OnEntityUnRegistered;            
+            EntityService.OnUnRegister -= OnEntityUnRegistered;
             FactionService.OnFactionDefeated -= OnFactionDefeated;
+            Service.Level.OnLevelLoaded -= Level_OnLevelLoaded;
+            StopAllCoroutines();
         }
 
         public override void OnDisconnectedFromPhoton()
@@ -198,7 +207,7 @@ namespace Assets.Scripts.Gamemode
             }
             FengGameManagerMKII.instance.restartGame2();
         }
-        
+
         protected void SpawnTitans(int amount)
         {
             SpawnTitans(amount, GetTitanConfiguration);
@@ -206,7 +215,20 @@ namespace Assets.Scripts.Gamemode
 
         protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)
         {
-            StartCoroutine(SpawnTitan(amount, titanConfiguration));
+            Coroutines.Add(StartCoroutine(SpawnTitan(amount, titanConfiguration)));
+        }
+
+        protected virtual (Vector3 position, Quaternion rotation) GetSpawnLocation()
+        {
+            //TODO: Remove this once classic maps no longer rely on this.
+            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
+            if (!spawns.Any())
+            {
+                spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
+                    .ToList();
+            }
+
+            return spawns.Any() ? spawns[Random.Range(0, spawns.Count)] : Service.Spawn.GetRandomSpawnPosition();
         }
 
         private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
@@ -217,7 +239,7 @@ namespace Assets.Scripts.Gamemode
                 spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
                     .ToList();
             }
-            
+
             if (spawns.Any())
             {
                 for (var i = 0; i < amount; i++)
@@ -239,7 +261,7 @@ namespace Assets.Scripts.Gamemode
                 }
             }
         }
-        
+
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             var objArray = GameObject.FindGameObjectsWithTag(tag);
@@ -256,7 +278,7 @@ namespace Assets.Scripts.Gamemode
             }
             return "Humanity Win!\nGame Restart in " + ((int) timeUntilRestart) + "s\n\n";
         }
-        
+
         protected virtual void SetStatusTop()
         {
             var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} | " +
@@ -288,7 +310,7 @@ namespace Assets.Scripts.Gamemode
             var context = string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
             UiService.SetMessage(LabelPosition.TopRight, context);
         }
-        
+
         [PunRPC]
         public virtual void OnGameEndRpc(string raw, int humanScore, int titanScore, PhotonMessageInfo info)
         {

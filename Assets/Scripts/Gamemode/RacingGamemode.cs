@@ -30,10 +30,10 @@ namespace Assets.Scripts.Gamemode
         
         private bool IsLoaded;
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded()
         {
             IsLoaded = true;
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded();
             StartBarriers = GameObject.FindObjectsOfType<RacingStartBarrier>().ToList();
             HasStarted = false;
             TotalSpeed = 0;

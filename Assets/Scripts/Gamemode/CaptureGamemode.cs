@@ -120,9 +120,9 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded()
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded();
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)

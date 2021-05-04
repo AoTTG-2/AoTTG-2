@@ -30,9 +30,9 @@ namespace Assets.Scripts.Gamemode
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded()
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded();
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
