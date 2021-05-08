@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.UI.InGame.Controls;
-using UnityEngine;
 using Assets.Scripts.UI.InGame.HUD;
+using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {

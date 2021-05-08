@@ -1,14 +1,13 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Assets.Scripts.UI.InGame.HUD;
 
-namespace Assets.Scripts.UI.InGame
+namespace Assets.Scripts.UI.InGame.HUD
 {
     public class ChangeHudHandler : UiMenu
     {
         public InGameMenu menu;
-        public HUD.HUD HUD;
+        public HUD HUD;
         public GameObject[] HUDelements;
         public bool elementSelected = false;
         public GameObject selectedElement;
@@ -16,31 +15,23 @@ namespace Assets.Scripts.UI.InGame
         public TMP_Text elementLabel;
         public Toggle toggleVisibility;
         public bool hasChanged = false;
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-        }
-
-        protected override void OnDisable() {
-            base.OnDisable();
-		}
-
-
+        
         public void Update()
         {
-            if(HUD.inEditMode)
+            if (HUD.inEditMode)
             {
-                if(selectedElement != null)
+                if (selectedElement != null)
                 {
                     elementLabel.text = selectedElement.GetComponent<CustomizableHudElement>().elementName;
                     selectedElement.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, 1);
                     selectedElement.GetComponent<CustomizableHudElement>().isVisible = toggleVisibility.isOn;
-                } else
+                }
+                else
                 {
                     elementLabel.text = "Select an Element";
                 }
-            } else
+            }
+            else
             {
                 SetVisibility();
             }
@@ -48,7 +39,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void SetVisibility()
         {
-            foreach(GameObject element in HUDelements)
+            foreach (GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHudElement>().SetVisibility();
             }
@@ -59,14 +50,14 @@ namespace Assets.Scripts.UI.InGame
         {
             HUD.inEditMode = true;
 
-            foreach(GameObject element in HUDelements)
-            {   
+            foreach (GameObject element in HUDelements)
+            {
                 //You should want to always have the elements visible whenever you're on the edit mode.
                 element.GetComponent<CustomizableHudElement>().ShowElement();
                 element.GetComponent<CustomizableHudElement>().AnimateCustomization();
                 element.GetComponent<CustomizableHudElement>().SaveTempPosition();
             }
-            
+
             this.Show();
             menu.Hide();
         }
@@ -74,9 +65,9 @@ namespace Assets.Scripts.UI.InGame
         // Called when the user clicks "Save" after editing their HUD. 
         public void SaveHudLayout()
         {
-            if(hasChanged)
+            if (hasChanged)
             {
-                foreach(GameObject element in HUDelements)
+                foreach (GameObject element in HUDelements)
                 {
                     element.GetComponent<CustomizableHudElement>().SavePosition();
                     element.GetComponent<CustomizableHudElement>().StopCustomization();
@@ -85,9 +76,10 @@ namespace Assets.Scripts.UI.InGame
                 PlayerPrefs.SetInt("hasCustomHUD", 1);
 
                 hasChanged = false;
-            } else
+            }
+            else
             {
-                foreach(GameObject element in HUDelements)
+                foreach (GameObject element in HUDelements)
                 {
                     element.GetComponent<CustomizableHudElement>().StopCustomization();
                 }
@@ -102,7 +94,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void LoadDefaultHudLayout()
         {
-            foreach(GameObject element in HUDelements)
+            foreach (GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHudElement>().LoadDefault();
             }
@@ -112,7 +104,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void LoadCustomHudLayout()
         {
-            foreach(GameObject element in HUDelements)
+            foreach (GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHudElement>().LoadCustom();
             }
@@ -127,7 +119,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void CancelChanges()
         {
-            foreach(GameObject element in HUDelements)
+            foreach (GameObject element in HUDelements)
             {
                 element.GetComponent<CustomizableHudElement>().StopCustomization();
                 element.GetComponent<CustomizableHudElement>().LoadTempPosition();
@@ -138,6 +130,6 @@ namespace Assets.Scripts.UI.InGame
             menu.Show();
             ClearSelection();
         }
-        
+
     }
 }
