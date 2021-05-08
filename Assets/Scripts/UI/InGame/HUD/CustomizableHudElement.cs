@@ -1,6 +1,5 @@
-﻿using UnityEngine.EventSystems;
-using UnityEngine;
-using Assets.Scripts.UI.InGame;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 /* Any HUD element that is customizable should have this script attached */
 
@@ -11,7 +10,7 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         [Header("Settings:")]
         public string elementName;
-        public ChangeHudHandler handler;
+        public ChangeHudHandler2 handler;
         [HideInInspector]public bool isVisible = true;
         [HideInInspector]public GameObject selection;
         private bool beingDragged;

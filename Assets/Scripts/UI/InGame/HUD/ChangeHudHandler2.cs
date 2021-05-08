@@ -1,10 +1,10 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
-    public class ChangeHudHandler : UiMenu
+    public class ChangeHudHandler2 : UiMenu
     {
         public InGameMenu menu;
         public HUD HUD;
@@ -14,8 +14,8 @@ namespace Assets.Scripts.UI.InGame.HUD
         public Slider scaleSlider;
         public TMP_Text elementLabel;
         public Toggle toggleVisibility;
-        public bool hasChanged = false;
-        
+        public bool hasChanged;
+
         public void Update()
         {
             if (HUD.inEditMode)

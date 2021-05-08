@@ -9,7 +9,7 @@ namespace Assets.Scripts.UI.InGame
         public GameSettingMenu GameSettingsMenu;
         public ControlsMenu ControlsMenu;
         public GraphicSettingMenu GraphicsSettingsMenu;
-        public ChangeHudHandler ChangeHudHandler;
+        public ChangeHudHandler2 ChangeHudHandler;
 
         // Used by Button.
         public void Quit()

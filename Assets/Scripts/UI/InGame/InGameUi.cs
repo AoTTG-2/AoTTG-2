@@ -2,9 +2,8 @@ using Assets.Scripts.Room.Chat;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.Controls;
-using Assets.Scripts.UI.Input;
 using Assets.Scripts.UI.InGame.HUD;
-using UnityEngine;
+using Assets.Scripts.UI.Input;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -17,7 +16,7 @@ namespace Assets.Scripts.UI.InGame
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
         public PauseIndicator PauseIndicator;
-        public ChangeHudHandler ChangeHudMenu;
+        public ChangeHudHandler2 ChangeHudMenu;
         private static IPauseService PauseService => Service.Pause;
 
         public void TogglePauseMenu()
