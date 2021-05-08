@@ -355,19 +355,6 @@ namespace Assets.Scripts
         //[Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
         private void LateUpdate()
         {
-            // Update the players ping once every second. 
-            float timeSince = Time.time * 1000;
-            if(timeSince - pingTimeLast > 1000)
-            {
-                pingTimeLast = timeSince;
-                var hashtable = new Hashtable
-                {
-                    {PhotonPlayerProperty.ping, PhotonNetwork.GetPing().ToString()},
-                };
-                var propertiesToSet = hashtable;
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            }
-
             if (((int) settings[0x40]) >= 100)
             {
                 throw new NotImplementedException("Level editor is not implemented");
@@ -378,6 +365,19 @@ namespace Assets.Scripts
                 if (this.needChooseSide)
                 {
                     InGameUI.SpawnMenu.gameObject.SetActive(true);
+                }
+
+                // Update the players ping once every second. 
+                float timeSince = Time.time * 1000;
+                if (timeSince - pingTimeLast > 1000)
+                {
+                    pingTimeLast = timeSince;
+                    var hashtable = new Hashtable
+                    {
+                        {PhotonPlayerProperty.ping, PhotonNetwork.GetPing().ToString()},
+                    };
+                    var propertiesToSet = hashtable;
+                    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 }
 
                 int length;
@@ -2118,6 +2118,7 @@ namespace Assets.Scripts
 
         public void RecompilePlayerList(float time)
         {
+            Debug.Log("This shouldn't happen");
             if (!this.isRecompiling)
             {
                 this.isRecompiling = true;
