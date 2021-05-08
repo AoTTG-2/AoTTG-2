@@ -78,8 +78,16 @@ namespace Assets.Scripts.Room
 
                 Gamemodes = new List<GamemodeSettings>
                 {
-
-
+                    new CatchGamemodeSettings()
+                    {
+                        GamemodeType = GamemodeType.Catch,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
                     new KillTitansSettings
                     {
                         GamemodeType = GamemodeType.Titans,

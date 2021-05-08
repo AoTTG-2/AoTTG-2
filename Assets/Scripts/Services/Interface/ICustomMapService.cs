@@ -7,5 +7,6 @@ namespace Assets.Scripts.Services.Interface
     {
         List<CustomMap> GetCustomMaps();
         void Load(string mapName);
+        void LoadScene(string sceneName);
     }
 }

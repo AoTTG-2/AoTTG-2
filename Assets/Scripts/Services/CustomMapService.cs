@@ -33,12 +33,21 @@ namespace Assets.Scripts.Services
                 LoadCustomMap(objects);
                 Service.Level.InvokeLevelLoaded();
             }
+            else
+            {
+                Service.Level.InvokeLevelLoaded();
+            }
         }
 
         public void Load(string mapName)
         {
             CurrentMap = GetCustomMaps().SingleOrDefault(x => x.Name == mapName);
             PhotonNetwork.LoadLevel("Custom");
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            PhotonNetwork.LoadLevel(sceneName);
         }
 
         #region Custom Map Loading

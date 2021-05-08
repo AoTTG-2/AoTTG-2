@@ -9,15 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb1838fe8befb0429646b938e757ff3, type: 3}
-  m_Name: Dutch (nl)
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GAMEMODE_CATCH_nl
   m_EditorClassIdentifier: 
-  m_Identifier:
+  m_LocaleId:
     m_Code: nl
+  m_SharedData: {fileID: 11400000, guid: 9a44487fd5161e94a84321c3c80a64d1, type: 2}
   m_Metadata:
     m_Items: []
-  m_CustomFormatCultureCode: 
-  m_UseCustomFormatter: 0
-  m_SortOrder: 0
+  m_TableData:
+  - m_Id: 12971282432
+    m_Localized: Vang de bal! (Offline oefenen)
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

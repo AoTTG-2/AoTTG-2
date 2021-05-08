@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BiteAttack.cs" />
     <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
+    <Compile Include="Assets\Scripts\Settings\Gamemodes\CatchGamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\Room\Minimap\CatchDestroy.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleMessage.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GeneralGraphics.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\BUFF.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerPVPchkPtID.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\CommandsGUI.cs" />
+    <Compile Include="Assets\Scripts\Services\LocalizationService.cs" />
     <Compile Include="Assets\Scripts\Effects\EffectController.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\FPSLimiter.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
@@ -204,6 +206,7 @@
     <Compile Include="Assets\Scripts\Room\LevelTriggerCheckPoint.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\BeastTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\Catch\CatchGamemode.cs" />
     <Compile Include="Assets\Scripts\CustomMaps\MapMaterial.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
@@ -250,6 +253,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\CapeComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\MikasaSkill.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerGas.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\Catch\CatchSpawner.cs" />
     <Compile Include="Assets\Scripts\Serialization\ColorJsonConverter.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ErenTitan.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
@@ -388,6 +392,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterBuild.cs" />
     <Compile Include="Assets\Scripts\Items\FlareMovement.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\IN_GAME_MAIN_CAMERA.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\Catch\CatchBall.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\CameraShake.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindsPage.cs" />
     <Compile Include="Assets\Scripts\Room\Level.cs" />
@@ -407,6 +412,7 @@
     <Compile Include="Assets\Scripts\Settings\Gamemodes\RacingSettings.cs" />
     <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\HumanState.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\Catch\CatchMode.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\TitanBehavior.cs" />
     <Compile Include="Assets\Scripts\Serialization\SerializableColor.cs" />
@@ -481,6 +487,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\LanguageDropdown.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
@@ -1095,6 +1102,12 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>Library\ScriptAssemblies\Unity.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

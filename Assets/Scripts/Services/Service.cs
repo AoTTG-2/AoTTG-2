@@ -21,6 +21,7 @@ namespace Assets.Scripts.Services
         
         public static IPhotonService Photon { get; private set; }
         public static IDiscordService Discord { get; private set; }
+        public static LocalizationService Localization { get; private set; }
 
         private void Awake()
         {
@@ -34,6 +35,7 @@ namespace Assets.Scripts.Services
             Spawn = gameObject.AddComponent<SpawnService>();
             Time = gameObject.AddComponent<TimeService>();
             Ui = gameObject.GetComponent<UiService>();
+            Localization = gameObject.GetComponent<LocalizationService>();
 #if UNITY_INCLUDE_TESTS
             Discord = gameObject.AddComponent<DiscordTestService>();
 #else

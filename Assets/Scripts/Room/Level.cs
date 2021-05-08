@@ -24,7 +24,7 @@ namespace Assets.Scripts.Room
             }
             else
             {
-
+                Service.Map.LoadScene(SceneName);
             }
         }
     }
