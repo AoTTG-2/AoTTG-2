@@ -14,7 +14,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public Slider scaleSlider;
         public TMP_Text elementLabel;
         public Toggle toggleVisibility;
-        public bool hasChanged = false;
+        public bool hasChanged;
         
         public void Update()
         {
