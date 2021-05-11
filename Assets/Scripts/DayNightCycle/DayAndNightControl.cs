@@ -14,7 +14,8 @@ namespace Assets.Scripts.DayNightCycle
     /// </summary>
     public class DayAndNightControl : MonoBehaviour
     {
-        public GameObject Moon;
+        public Light Sun;
+        public Light Moon;
         public ReflectionProbe ReflectionProbe;
         public float SunTilt = -15f;
         [SerializeField] private TimecycleProfile timecycle = null;
@@ -28,7 +29,6 @@ namespace Assets.Scripts.DayNightCycle
         public Camera MoonCamera = null;
         public Camera MainCamera = null;
         public int CurrentDay = 0;
-        public Light DirectionalLight;
         public float DayLength; 
         public bool Pause { get; set; }
         public float LightIntensity; //static variable to see what the main light's insensity is in the inspector
@@ -48,7 +48,7 @@ namespace Assets.Scripts.DayNightCycle
                 Service.Settings.SyncSettings();
             }
             MoonCamera = GetComponentInChildren<Camera>();
-            LightIntensity = DirectionalLight.intensity; // What's the current intensity of the sunlight
+            LightIntensity = Sun.intensity; // What's the current intensity of the sunlight
 
             UpdateLightingSettings();
             UpdateLight(); // Initial lighting update.
@@ -149,14 +149,14 @@ namespace Assets.Scripts.DayNightCycle
 
         void UpdateMaterial()
         {
-            SkyboxMaterial.SetVector("_Axis", DirectionalLight.transform.right);
+            SkyboxMaterial.SetVector("_Axis", Sun.transform.right);
             SkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
         }
 
         void UpdateLightingSettings()
         {
             RenderSettings.skybox = SkyboxMaterial;
-            RenderSettings.sun = DirectionalLight; // Procedural skybox needs this to work
+            RenderSettings.sun = Sun; // Procedural skybox needs this to work
             RenderSettings.fog = true;
 
             if (!timecycle) return;
@@ -181,26 +181,29 @@ namespace Assets.Scripts.DayNightCycle
         
         void UpdateLight()
         {
+            bool isNightTime = (CurrentTime <= 6 || CurrentTime >= 18);
+            Sun.enabled = !isNightTime;
+            Moon.enabled = isNightTime;
+
             Quaternion tilt = Quaternion.AngleAxis(SunTilt, Vector3.forward);
             Quaternion rot = Quaternion.AngleAxis((CurrentTimeScale * 360) - 90, Vector3.right);
 
-            DirectionalLight.transform.rotation = tilt * rot; // Yes axial tilt
-            DirectionalLight.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
-            Moon.transform.forward = -DirectionalLight.transform.forward;
+            Sun.transform.rotation = tilt * rot; // Yes axial tilt
+            Sun.transform.Rotate(Vector3.up, sunRotationOffset - 90, Space.World);
+            Moon.transform.forward = -Sun.transform.forward;
 
             if (!timecycle) return;
             
             // Sun & moon's color and brightness
-            if (timecycle.overrideSunlight)
+            if (timecycle.overrideSunlight && !isNightTime)
             {
-                DirectionalLight.color = timecycle.sunlightColor.Evaluate(CurrentTimeScale);
-                DirectionalLight.intensity = timecycle.sunlightColor.Evaluate(CurrentTimeScale).a * timecycle.maxSunlightIntensity;
+                Sun.color = timecycle.sunlightColor.Evaluate(CurrentTimeScale);
+                Sun.intensity = timecycle.sunlightColor.Evaluate(CurrentTimeScale).a * timecycle.maxSunlightIntensity;
             }
-            if (timecycle.overrideMoonlight)
+            if (timecycle.overrideMoonlight && isNightTime)
             {
-                Light moonLight = Moon.GetComponent<Light>();
-                moonLight.color = timecycle.moonlightColor.Evaluate(CurrentTimeScale);
-                moonLight.intensity = timecycle.moonlightColor.Evaluate(CurrentTimeScale).a * timecycle.maxMoonlightIntensity;
+                Moon.color = timecycle.moonlightColor.Evaluate(CurrentTimeScale);
+                Moon.intensity = timecycle.moonlightColor.Evaluate(CurrentTimeScale).a * timecycle.maxMoonlightIntensity;
             }
 
             // Environment lighting
