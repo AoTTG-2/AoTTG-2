@@ -17,6 +17,7 @@ namespace Assets.Scripts.Settings
 
         public static PvPSettings PvP { get; private set; }
         public static GamemodeSettings Gamemode { get; private set; }
+        public static GlobalSettings Global { get; private set; }
 
         public static T DerivedGamemode<T>() where T : GamemodeSettings
         {
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Settings
         public static SettingsTitan Titan { get; private set; }
         public static HorseSettings Horse { get; private set; }
         public static RespawnSettings Respawn { get; private set; }
+        public static TimeSettings Time { get; private set; }
 
         [JsonProperty("Gamemodes")]
         private List<GamemodeSettings> ConfigGamemodes { get; set; }
@@ -41,20 +43,34 @@ namespace Assets.Scripts.Settings
         [JsonProperty("Respawn")]
         private RespawnSettings ConfigRespawn { get; set; }
 
+        [JsonProperty("Time")]
+        private TimeSettings ConfigTime { get; set; }
+
+        [JsonProperty("Global")]
+        private GlobalSettings ConfigGlobal { get; set; }
+
         /// <summary>
         /// Update the GameSettings based on the static definitions
         /// </summary>
         public void Update()
         {
             var gamemodes = ConfigGamemodes.ToList();
-            var gamemode = gamemodes.Single(x => x.GamemodeType == Gamemode.GamemodeType);
-            gamemodes.Remove(gamemode);
-            gamemodes.Add(Gamemode);
+            if (Gamemode != null)
+            {
+                
+                var gamemode = gamemodes.Single(x => x.GamemodeType == Gamemode.GamemodeType);
+                gamemodes.Remove(gamemode);
+                gamemodes.Add(Gamemode);
+            }
+            
             ConfigGamemodes = gamemodes;
             ConfigPvP = PvP;
             ConfigTitan = Titan;
             ConfigHorse = Horse;
             ConfigRespawn = Respawn;
+            Time.LastModified = DateTime.UtcNow;
+            ConfigTime = Time;
+            ConfigGlobal = Global;
         }
 
         /// <summary>
@@ -116,6 +132,26 @@ namespace Assets.Scripts.Settings
             SettingsService.SyncSettings();
         }
 
+        /// <summary>
+        /// Update the Time Settings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(TimeSettings settings)
+        {
+            Time = ConfigTime = settings;
+            SettingsService.SyncSettings();
+        }
+
+        /// <summary>
+        /// Update the Global Settings and synchronize to all players
+        /// </summary>
+        /// <param name="settings"></param>
+        public void Update(GlobalSettings settings)
+        {
+            Global = ConfigGlobal = settings;
+            SettingsService.SyncSettings();
+        }
+
         public void Initialize(GamemodeType type)
         {
             Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == type);
@@ -124,10 +160,10 @@ namespace Assets.Scripts.Settings
         public void Initialize(string json)
         {
             var gameSettings = JsonConvert.DeserializeObject<GameSettings>(json);
-            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn);
+            Initialize(gameSettings.ConfigGamemodes, gameSettings.ConfigPvP, gameSettings.ConfigTitan, gameSettings.ConfigHorse, gameSettings.ConfigRespawn, gameSettings.ConfigTime, gameSettings.ConfigGlobal);
         }
 
-        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn)
+        public void Initialize(List<GamemodeSettings> gamemodes, PvPSettings pvp, SettingsTitan titan, HorseSettings horse, RespawnSettings respawn, TimeSettings time, GlobalSettings global)
         {
             PvP = ConfigPvP = pvp;
             Titan = ConfigTitan = titan;
@@ -136,6 +172,8 @@ namespace Assets.Scripts.Settings
                 Gamemode = ConfigGamemodes.Single(x => x.GamemodeType == FengGameManagerMKII.Gamemode.GamemodeType);
             Horse = ConfigHorse = horse;
             Respawn = ConfigRespawn = respawn;
+            Time = ConfigTime = time;
+            Global = ConfigGlobal = global;
         }
         
         public void ChangeSettings(GamemodeSettings levelGamemode)
@@ -183,6 +221,7 @@ namespace Assets.Scripts.Settings
 
             Horse = CreateFromObjects(ConfigHorse, playerGamemodeSettings.Horse, levelGamemode.Horse);
             Respawn = CreateFromObjects(ConfigRespawn, playerGamemodeSettings.Respawn, levelGamemode.Respawn);
+            Time = CreateFromObjects(ConfigTime, playerGamemodeSettings.Time, levelGamemode.Time);
             FengGameManagerMKII.instance.OnRoomSettingsInitialized();
         }
 

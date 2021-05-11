@@ -1,54 +1,52 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FPSLimiter : MonoBehaviour {
+public class FPSLimiter : MonoBehaviour
+{
+    public InputField fpsLimiter;
+    public int limit;
 
-	
-	[SerializeField] public InputField fpsLimiter;
-	
-	public InputField FPSLimit
-	{
-		get { return fpsLimiter; }
-		set { fpsLimiter = value; }
-	}
-	
+    public InputField FPSLimit { get; set; }
 
-	private void Start() {
-		if (FPSLimit.text == "")
-		{
-			Application.targetFrameRate = Screen.currentResolution.refreshRate;
-		}
-		else
-		{
-			SetFPSLimit();
-		}
-	}
+    private void Start()
+    {
+        if (FPSLimit.text == "")
+        {
+            DefaultFPS();
+        }
+        else
+        {
+            SetFPSLimit();
+        }
+    }
 
-	public void SetFPSLimit()
-	{
-		FPSLimit.interactable = true;
-		var text = FPSLimit.text;
-		if (FPSLimit.contentType.Equals(InputField.ContentType.IntegerNumber))
-		{
-			int i;
-			Int32.TryParse(text.ToString(), out  i);
-			Application.targetFrameRate = i;
-			
-		}
-		
-	}
+    public void SetFPSLimit()
+    {
+        FPSLimit = fpsLimiter;
+        FPSLimit.interactable = true;
+        var text = FPSLimit.text;
+        text = text.Replace("-", string.Empty);
+        int.TryParse(text, out limit);
+        Application.targetFrameRate = limit;
+        if (FPSLimit.text == "")
+        {
+            DefaultFPS();
+        }
+    }
 
-	[Serializable]
-	public struct FPSData
-	{
-		public string field;
+    public void DefaultFPS()
+    {
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+    }
 
-		public FPSData(FPSLimiter toCopy)
-		{
-			this.field = toCopy.FPSLimit.text;
-		}
-	}
+    public struct FPSData
+    {
+        public string field;
 
-
+        public FPSData(FPSLimiter toCopy)
+        {
+            this.field = toCopy.FPSLimit.text;
+        }
+    }
 }

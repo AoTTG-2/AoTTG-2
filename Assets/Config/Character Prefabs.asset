@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f61c1d37c23b89542bca3cab971aacae, type: 3}
+  m_Name: Character Prefabs
+  m_EditorClassIdentifier: 
+  Base: {fileID: 1294453872417432465, guid: 75e933bcc11bd9e42a44a05190d259da, type: 3}
+  Head: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
+  Hair:
+  - {fileID: 11400000, guid: 3fe0d91badca68749a5bf4b6606ffcd3, type: 2}
+  - {fileID: 11400000, guid: a05f45de7187b00458e58febd4c05539, type: 2}
+  - {fileID: 11400000, guid: c3fcdf90b747b784c9107954ba039039, type: 2}
+  - {fileID: 11400000, guid: 3da6f03928a75fe4ba345e56791cec91, type: 2}
+  Eyes:
+  - {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+  Glasses:
+  - {fileID: 11400000, guid: 4579b42a6b696fc40aa02dda0613ccfb, type: 2}
+  Facial:
+  - {fileID: 11400000, guid: 549ec02307783b046ba76cd9f83a68c3, type: 2}
+  Headgear:
+  - {fileID: 11400000, guid: 53b1af9786fabc545b6374f96ef9b8f1, type: 2}
+  Outfits:
+  - {fileID: 11400000, guid: 5f9c5626be3076743b5ae77fdfe63789, type: 2}
+  - {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
+  - {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
+  Equipment:
+  - Name: Odm
+    HandLeft: {fileID: 956049245627132838, guid: 6da179af98527a34ea50fe8b39c9dbb1,
+      type: 3}
+    HandRight: {fileID: 5526407258255872838, guid: fdbf804ea5645b74db4883e30bc9706b,
+      type: 3}
+    AmmoLeft: {fileID: 4221614221113340878, guid: 64ef8986faead654e9749ffedfa5acf6,
+      type: 3}
+    AmmoRight: {fileID: 6610819512428143971, guid: ba04c9cc947be9b4fa9570ea6d927d6c,
+      type: 3}
+    WeaponLeft: {fileID: 5152706585247795694, guid: 45406ff98b8007f4ea943a76dedf38eb,
+      type: 3}
+    WeaponRight: {fileID: 3722587441551587726, guid: 3c29429c2149d604fa2757c0ca1ae5b6,
+      type: 3}
+    Equipment: {fileID: 4968137052330538378, guid: 40b0c590b89e5d344ab3d7cfdacf1421,
+      type: 3}
+    Extras:
+    - {fileID: 1956738631465821237, guid: 53c1946adfcb0004ab7c2ec62b7be3ab, type: 3}
+    EquipmentType: 0
+    EquipmentTextures:
+    - File: {fileID: 2800000, guid: c6130ce188a29ca49924adbac94dc5ae, type: 3}
+      Texture: 1
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 6b958d25f7cb65b4c9f9fc50c6227e9c, type: 3}
+      Texture: 1
+  - Name: Odm (AHSS)
+    HandLeft: {fileID: 5546613045034110971, guid: 8e5aecc917c7943499be36794b198d5c,
+      type: 3}
+    HandRight: {fileID: 7319715846295325891, guid: f8c6b5489a806f3488d9ae46c65c476f,
+      type: 3}
+    AmmoLeft: {fileID: 597459554847515780, guid: 4a7a31bb411fb1d428226c0d37c1e463,
+      type: 3}
+    AmmoRight: {fileID: 741190811112656293, guid: 0847ca3eb9e4f9a4293242cf546d426f,
+      type: 3}
+    WeaponLeft: {fileID: 9016748212667235426, guid: d173901e06353e5448328562cd6db309,
+      type: 3}
+    WeaponRight: {fileID: 3459695057023854892, guid: ad76402faa269cb419e9c4859868e8ad,
+      type: 3}
+    Equipment: {fileID: 1968309134548013, guid: 8258c6c181901e44680b2d13eed255ff,
+      type: 3}
+    Extras: []
+    EquipmentType: 1
+    EquipmentTextures:
+    - File: {fileID: 2800000, guid: 0cf3c719a8efa8144b4695d1cb81c75a, type: 3}
+      Texture: 2
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 0dd06f890da108b42a459f6ee3d96dc3, type: 3}
+      Texture: 2
+  - Name: Odm (AHSS)
+    HandLeft: {fileID: 5546613045034110971, guid: 8e5aecc917c7943499be36794b198d5c,
+      type: 3}
+    HandRight: {fileID: 7319715846295325891, guid: f8c6b5489a806f3488d9ae46c65c476f,
+      type: 3}
+    AmmoLeft: {fileID: 597459554847515780, guid: 4a7a31bb411fb1d428226c0d37c1e463,
+      type: 3}
+    AmmoRight: {fileID: 741190811112656293, guid: 0847ca3eb9e4f9a4293242cf546d426f,
+      type: 3}
+    WeaponLeft: {fileID: 0}
+    WeaponRight: {fileID: 0}
+    Equipment: {fileID: 1968309134548013, guid: 8258c6c181901e44680b2d13eed255ff,
+      type: 3}
+    Extras: []
+    EquipmentType: 2
+    EquipmentTextures:
+    - File: {fileID: 2800000, guid: 0cf3c719a8efa8144b4695d1cb81c75a, type: 3}
+      Texture: 2
+    HandGripTextures:
+    - File: {fileID: 2800000, guid: 6e54b1a1a98d77f4d9f4d0bab36fb727, type: 3}
+      Texture: 2
+  Skin:
+  - File: {fileID: 2800000, guid: 514583a8848f66b429ef5e9f4b35cc35, type: 3}
+    Skin: 0
+  - File: {fileID: 2800000, guid: 3f54f8f868c656944a75a1ff546ddff6, type: 3}
+    Skin: 1
+  Legs: {fileID: 3305592698201889044, guid: 64209cafbb4033341b59c3750bcc4894, type: 3}
+  Chest: {fileID: 8970167306454215815, guid: 0ac3eb3fa12e6a64b983276abb5cc436, type: 3}
+  Cape:
+  - {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
+  Emblem:
+    ArmLeft: {fileID: 4648260104365837487, guid: 0d879922fa1f9394799d877d71fbba53,
+      type: 3}
+    ArmRight: {fileID: 3119286009903484735, guid: 3bd398a8fbcf5e747a845c49c9aff038,
+      type: 3}
+    BackMale: {fileID: 4951063426726137778, guid: 9a86a5b13a51d8b46aefbfb5d0b7b646,
+      type: 3}
+    BackFemale: {fileID: 2942471716240817570, guid: 8e4f28afc76421a428b797fa719ef493,
+      type: 3}
+    ChestMale: {fileID: 5829737728309230095, guid: cbf03e35b9f7ac64d983da68c123bd4b,
+      type: 3}
+    ChestFemale: {fileID: 3186253259835440149, guid: 5a9c9bf5aa51a104daf62ac524616d7e,
+      type: 3}

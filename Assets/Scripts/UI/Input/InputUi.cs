@@ -10,6 +10,7 @@
         Camera,
         Pause,
         Restart,
-        InteractionWheel
+        InteractionWheel,
+        Screenshot
     }
 }

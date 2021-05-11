@@ -11,6 +11,8 @@ namespace Assets.Scripts.Services.Interface
         event OnHorseSettingsChanged OnHorseSettingsChanged;
         event OnRespawnSettingsChanged OnRespawnSettingsChanged;
         event OnTitanSettingsChanged OnTitanSettingsChanged;
+        event OnGlobalSettingsChanged OnGlobalSettingsChanged;
+        event OnTimeSettingsChanged OnTimeSettingsChanged;
 
         /// <summary>
         /// Returns the current GameSettings as an object

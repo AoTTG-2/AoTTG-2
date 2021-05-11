@@ -1,9 +1,12 @@
 using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Room;
+using Assets.Scripts.Room.Chat;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
@@ -68,7 +71,7 @@ namespace Assets.Scripts
         [Obsolete("Only used for Cannons. Remove in Issue #75")]
         public bool isRestarting;
         public bool isUnloading;
-        private ArrayList killInfoGO = new ArrayList();
+        private readonly List<GameObject> killInfoGO = new List<GameObject>();
         [Obsolete("Legacy method of keeping track of custom level scripts, which we no longer support")]
         public List<string[]> levelCache;
         public static ExitGames.Client.Photon.Hashtable[] linkHash;
@@ -80,8 +83,6 @@ namespace Assets.Scripts
         private IN_GAME_MAIN_CAMERA mainCamera;
         [Obsolete("Legacy method which appears to have been used to determine if a client is 'master' RC or not. This would have given special permissions, but the feature is only used within 2 locations and is obviously prone to cheating.")]
         public static bool masterRC;
-        [Obsolete("PhotonNetwork.room.MaxPlayers returns the max players. This was used to prevent clients from modifying the MaxRoom players, but may create an endless loop resulting into the MC crashing. Our PhotonServer should block any RoomProperty modifications and automatically server ban anyone who attempts to modify this without being MC")]
-        public int maxPlayers;
         [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
         private float maxSpeed;
         [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
@@ -153,7 +154,6 @@ namespace Assets.Scripts
             Level = PhotonNetwork.room.GetLevel();
             var gamemodeSettings = PhotonNetwork.room.GetGamemodeSetting(Level);
             SetGamemode(gamemodeSettings);
-            Service.Settings.SetGamemodeType(gamemodeSettings.GamemodeType);
         }
 
         private void cache()
@@ -179,7 +179,7 @@ namespace Assets.Scripts
 
         [Obsolete("This is a responsibility for the InRoomChat.")]
         [PunRPC]
-        private void Chat(string content, string sender, PhotonMessageInfo info)
+        public void Chat(string content, string sender, PhotonMessageInfo info)
         {
             if (sender != string.Empty)
             {
@@ -191,7 +191,7 @@ namespace Assets.Scripts
 
         [Obsolete("This is a responsibility for the InRoomChat.")]
         [PunRPC]
-        private void ChatPM(string sender, string content, PhotonMessageInfo info)
+        public void ChatPM(string sender, string content, PhotonMessageInfo info)
         {
             content = sender + ":" + content;
             content = "<color=#FFC000>FROM [" + Convert.ToString(info.sender.ID) + "]</color> " + content;
@@ -502,7 +502,7 @@ namespace Assets.Scripts
 
                 //    str11 = Gamemode.GetRoundEndedMessage();
                 //    object[] parameters = new object[] {str6, str7, str8, str9, str10, str11};
-                //    base.photonView.RPC("showResult", PhotonTargets.AllBuffered, parameters);
+                //    base.photonView.RPC(nameof(showResult), PhotonTargets.AllBuffered, parameters);
                 //}
             }
         }
@@ -531,7 +531,7 @@ namespace Assets.Scripts
         {
             if (enter)
             {
-                if (Service.Player.Self.photonView.isMine)
+                if (Service.Player.Self != null && Service.Player.Self.photonView.isMine)
                 {
                     PhotonNetwork.Destroy(Service.Player.Self.photonView);
                 }
@@ -540,13 +540,13 @@ namespace Assets.Scripts
                 GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
                 if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(obj4, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj4, true, false);
                 }
                 else
                 {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
+                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
                 }
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
                 base.StartCoroutine(this.reloadSky());
             }
@@ -557,12 +557,12 @@ namespace Assets.Scripts
                     GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
                 }
                 instance.needChooseSide = true;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
-    
+
         [Obsolete("Move into RacingGamemode")]
         [PunRPC]
         private void getRacingResult(string player, float time)
@@ -693,7 +693,7 @@ namespace Assets.Scripts
             {
                 PhotonNetwork.DestroyPlayerObjects(player);
                 PhotonNetwork.CloseConnection(player);
-                base.photonView.RPC("ignorePlayer", PhotonTargets.Others, new object[] { player.ID });
+                base.photonView.RPC(nameof(ignorePlayer), PhotonTargets.Others, new object[] { player.ID });
                 if (!ignoreList.Contains(player.ID))
                 {
                     ignoreList.Add(player.ID);
@@ -1027,11 +1027,6 @@ namespace Assets.Scripts
             {
                 objArray[0xea] = "None";
             }
-            Application.targetFrameRate = -1;
-            if (int.TryParse((string) objArray[0xb8], out num2) && (num2 > 0))
-            {
-                Application.targetFrameRate = num2;
-            }
             AudioListener.volume = PlayerPrefs.GetFloat("vol", 1f);
             linkHash = new ExitGames.Client.Photon.Hashtable[] { new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable(), new ExitGames.Client.Photon.Hashtable() };
             settings = objArray;
@@ -1078,7 +1073,7 @@ namespace Assets.Scripts
                 if (PhotonNetwork.isMasterClient)
                 {
                     oldScriptLogic = currentScriptLogic;
-                    base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
+                    base.photonView.RPC(nameof(setMasterRC), PhotonTargets.All, new object[0]);
                 }
                 logicLoaded = true;
                 this.racingSpawnPoint = new Vector3(0f, 0f, 0f);
@@ -1145,7 +1140,7 @@ namespace Assets.Scripts
                 //    }
                 //    else if (PhotonNetwork.isMasterClient)
                 //    {
-                //        base.photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
+                //        base.photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { n, url, str3, strArray3 });
                 //    }
                 //}
                 if (Level.Name.StartsWith("Custom"))
@@ -1179,7 +1174,7 @@ namespace Assets.Scripts
                             strArray3[num] = (string) settings[num + 0xaf];
                         }
                         strArray3[6] = (string) settings[0xa2];
-                        base.photonView.RPC("clearlevel", PhotonTargets.AllBuffered, new object[] { strArray3 });
+                        base.photonView.RPC(nameof(clearlevel), PhotonTargets.AllBuffered, new object[] { strArray3 });
                         if (oldScript != currentScript)
                         {
                             ExitGames.Client.Photon.Hashtable hashtable;
@@ -1701,7 +1696,7 @@ namespace Assets.Scripts
             else
             {
                 object[] parameters = new object[] { LoginFengKAI.player.name, time };
-                base.photonView.RPC("getRacingResult", PhotonTargets.MasterClient, parameters);
+                base.photonView.RPC(nameof(getRacingResult), PhotonTargets.MasterClient, parameters);
             }
         }
 
@@ -1731,8 +1726,8 @@ namespace Assets.Scripts
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
@@ -1749,8 +1744,8 @@ namespace Assets.Scripts
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setSpectorMode(true);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
+            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
@@ -1776,17 +1771,13 @@ namespace Assets.Scripts
             this.racingResult = new ArrayList();
             Debug.Log("OnCreatedRoom");
         }
-        
+
         public override void OnDisconnectedFromPhoton()
         {
             Debug.Log("OnDisconnectedFromPhoton");
             if (Application.loadedLevel != 0)
             {
                 Time.timeScale = 1f;
-                if (PhotonNetwork.connected)
-                {
-                    PhotonNetwork.Disconnect();
-                }
                 this.resetSettings(true);
                 this.loadconfig();
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
@@ -1795,7 +1786,7 @@ namespace Assets.Scripts
                 Application.LoadLevel(0);
             }
         }
-        
+
         private void SetGamemode(GamemodeSettings settings)
         {
             if (Gamemode == null)
@@ -1822,7 +1813,7 @@ namespace Assets.Scripts
         {
             Service.Settings.SetRoomPropertySettings();
             SetLevelAndGamemode();
-            this.maxPlayers = PhotonNetwork.room.MaxPlayers;
+            
             this.playerList = string.Empty;
             char[] separator = new char[] { "`"[0] };
             //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
@@ -1841,7 +1832,8 @@ namespace Assets.Scripts
             //{
             //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
             //}
-            LevelHelper.Load(Level);
+            if (PhotonNetwork.isMasterClient)
+                LevelHelper.Load(Level);
             GameCursor.CursorMode = CursorMode.Loading;
             var hashtable = new Hashtable
             {
@@ -1859,7 +1851,7 @@ namespace Assets.Scripts
             var propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.needChooseSide = true;
-            this.killInfoGO = new ArrayList();
+            this.ClearKillInfo();
             this.name = LoginFengKAI.player.name;
             var hashtable3 = new ExitGames.Client.Photon.Hashtable
             {
@@ -1870,6 +1862,8 @@ namespace Assets.Scripts
             {
                 ServerRequestAuthentication(PrivateServerAuthPass);
             }
+            
+            Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
         }
 
         public override void OnLeftLobby()
@@ -1890,9 +1884,7 @@ namespace Assets.Scripts
                 {
                     await Task.Delay(500);
                 }
-
-                SetLevelAndGamemode();
-
+                
                 var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
                 ui.ShowInGameUi();
                 ChangeQuality.setCurrentQuality();
@@ -1909,8 +1901,6 @@ namespace Assets.Scripts
                 obj3.name = "MainCamera";
                 this.cache();
                 this.loadskin();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().setDayLight(IN_GAME_MAIN_CAMERA.dayLight);
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
                 PVPcheckPoint.chkPts = new ArrayList();
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
@@ -1957,12 +1947,12 @@ namespace Assets.Scripts
                 if (!(this.gameTimesUp || !PhotonNetwork.isMasterClient))
                 {
                     this.restartGame2(true);
-                    base.photonView.RPC("setMasterRC", PhotonTargets.All, new object[0]);
+                    base.photonView.RPC(nameof(setMasterRC), PhotonTargets.All, new object[0]);
                 }
             }
             noRestart = false;
         }
-        
+
         public void OnPhotonCustomRoomPropertiesChanged()
         {
             if (PhotonNetwork.isMasterClient)
@@ -1975,14 +1965,6 @@ namespace Assets.Scripts
                 {
                     PhotonNetwork.room.IsVisible = true;
                 }
-                if (PhotonNetwork.room.MaxPlayers != this.maxPlayers)
-                {
-                    PhotonNetwork.room.MaxPlayers = this.maxPlayers;
-                }
-            }
-            else
-            {
-                this.maxPlayers = PhotonNetwork.room.MaxPlayers;
             }
         }
 
@@ -2018,9 +2000,9 @@ namespace Assets.Scripts
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     if ((ignoreList != null) && (ignoreList.Count > 0))
                     {
-                        photonView.RPC("ignorePlayerArray", player, new object[] { ignoreList.ToArray() });
+                        photonView.RPC(nameof(ignorePlayerArray), player, new object[] { ignoreList.ToArray() });
                     }
-                    photonView.RPC("setMasterRC", player, new object[0]);
+                    photonView.RPC(nameof(setMasterRC), player, new object[0]);
                 }
             }
             this.RecompilePlayerList(0.1f);
@@ -2035,7 +2017,7 @@ namespace Assets.Scripts
             InstantiateTracker.instance.TryRemovePlayer(player.ID);
             if (PhotonNetwork.isMasterClient)
             {
-                base.photonView.RPC("verifyPlayerHasLeft", PhotonTargets.All, new object[] { player.ID });
+                base.photonView.RPC(nameof(verifyPlayerHasLeft), PhotonTargets.All, new object[] { player.ID });
             }
             if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
             {
@@ -2101,7 +2083,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         public override void OnReceivedRoomListUpdate()
         {
         }
@@ -2145,7 +2127,7 @@ namespace Assets.Scripts
                 this.localRacingResult = this.localRacingResult + "\n";
             }
             object[] parameters = new object[] { this.localRacingResult };
-            base.photonView.RPC("netRefreshRacingResult", PhotonTargets.All, parameters);
+            base.photonView.RPC(nameof(netRefreshRacingResult), PhotonTargets.All, parameters);
         }
 
         public IEnumerator reloadSky()
@@ -2182,6 +2164,7 @@ namespace Assets.Scripts
             ignoreList = new List<int>();
             this.restartCount = new List<float>();
             heroHash = new ExitGames.Client.Photon.Hashtable();
+            needChooseSide = true;
         }
 
         [Obsolete("Move into a RespawnService")]
@@ -2221,7 +2204,7 @@ namespace Assets.Scripts
                     PhotonPlayer targetPlayer = PhotonNetwork.playerList[j];
                     if (((targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam] == null) && RCextensions.returnBoolFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
                     {
-                        this.photonView.RPC("respawnHeroInNewRound", targetPlayer, new object[0]);
+                        this.photonView.RPC(nameof(respawnHeroInNewRound), targetPlayer, new object[0]);
                     }
                 }
             }
@@ -2244,7 +2227,7 @@ namespace Assets.Scripts
             {
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
-                this.killInfoGO = new ArrayList();
+                this.ClearKillInfo();
                 this.racingResult = new ArrayList();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
@@ -2259,11 +2242,9 @@ namespace Assets.Scripts
 
         public void restartRC()
         {
-            Debug.Log("RestartRC");
-
             if (respawnCoroutine != null) 
                 StopCoroutine(respawnCoroutine);
-            
+
             if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
             {
                 Level = NewRoundLevel;
@@ -2274,7 +2255,6 @@ namespace Assets.Scripts
                     {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
                 };
                 PhotonNetwork.room.SetCustomProperties(hash);
-                LevelHelper.Load(Level);
             }
             else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
             {
@@ -2297,28 +2277,12 @@ namespace Assets.Scripts
             if (info.sender.isMasterClient)
             {
                 this.DestroyAllExistingCloths();
-                LevelHelper.Load(Level);
-                Level = PhotonNetwork.room.GetLevel();
+                SetLevelAndGamemode();
+                if (PhotonNetwork.isMasterClient) LevelHelper.Load(Level);
             }
             else if (PhotonNetwork.isMasterClient)
             {
                 this.kickPlayerRC(info.sender, true, "false restart.");
-            }
-            else if (!masterRC)
-            {
-                this.restartCount.Add(Time.time);
-                foreach (float num in this.restartCount)
-                {
-                    if ((Time.time - num) > 60f)
-                    {
-                        this.restartCount.Remove(num);
-                    }
-                }
-                if (this.restartCount.Count < 6)
-                {
-                    this.DestroyAllExistingCloths();
-                    LevelHelper.Load(Level);
-                }
             }
         }
 
@@ -2326,13 +2290,13 @@ namespace Assets.Scripts
         public void sendChatContentInfo(string content)
         {
             object[] parameters = new object[] { content, string.Empty };
-            base.photonView.RPC("Chat", PhotonTargets.All, parameters);
+            base.photonView.RPC(nameof(Chat), PhotonTargets.All, parameters);
         }
 
         public void sendKillInfo(bool t1, string killer, bool t2, string victim, int dmg = 0)
         {
             object[] parameters = new object[] { t1, killer, t2, victim, dmg };
-            base.photonView.RPC("updateKillInfo", PhotonTargets.All, parameters);
+            base.photonView.RPC(nameof(updateKillInfo), PhotonTargets.All, parameters);
         }
 
         public static void ServerCloseConnection(PhotonPlayer targetPlayer, bool requestIpBan, string inGameName = null)
@@ -2455,7 +2419,7 @@ namespace Assets.Scripts
                 {
                     if (obj2.GetPhotonView().isMine)
                     {
-                        base.photonView.RPC("labelRPC", PhotonTargets.All, new object[] { obj2.GetPhotonView().viewID });
+                        base.photonView.RPC(nameof(labelRPC), PhotonTargets.All, new object[] { obj2.GetPhotonView().viewID });
                     }
                 }
             }
@@ -2463,7 +2427,7 @@ namespace Assets.Scripts
 
         [Obsolete("Migrate to TeamService")]
         [PunRPC]
-        private void setTeamRPC(int setting, PhotonMessageInfo info)
+        public void setTeamRPC(int setting, PhotonMessageInfo info)
         {
             if (info.sender.isMasterClient || info.sender.isLocal)
             {
@@ -2519,7 +2483,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        
+
         [PunRPC]
         private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
         {
@@ -2535,10 +2499,10 @@ namespace Assets.Scripts
                 this.kickPlayerRC(t.sender, true, "false game end.");
             }
         }
-    
+
         //TODO: 184 - This gets called upon MapLoaded
         [Obsolete("Migrate into a SpawnService")]
-        public void SpawnPlayer(string id, string tag = "playerRespawn")
+        public void SpawnPlayer(string id, string tag = "playerRespawn", CharacterPreset preset = null)
         {
             if (id == null)
             {
@@ -2546,20 +2510,20 @@ namespace Assets.Scripts
             }
             myLastRespawnTag = tag;
             var location = Gamemode.GetPlayerSpawnLocation(tag);
-            SpawnPlayerAt2(id, location);
+            SpawnPlayerAt2(id, location, preset);
         }
 
         public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
         {
             Debug.LogError(data);
         }
-        
+
         [Obsolete("Migrate into a SpawnService")]
-        public void SpawnPlayerAt2(string id, GameObject pos)
+        public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)
         {
             // HACK
             if (false)
-                //if (!logicLoaded || !customLevelLoaded)
+            //if (!logicLoaded || !customLevelLoaded)
             {
                 this.NOTSpawnPlayerRC(id);
             }
@@ -2602,72 +2566,13 @@ namespace Assets.Scripts
                 this.myLastHero = id.ToUpper();
                 if (myLastHero == "ErenTitan")
                 {
-                    component.setMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
+                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
                         true, false);
                 }
                 else
                 {
-                    component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, pos.transform.rotation, 0),
-                        true, false);
-                    id = id.ToUpper();
-                    if (((id == "SET 1") || (id == "SET 2")) || (id == "SET 3") || true) //HACK
-                    {
-                        HeroCostume costume2 = CostumeConeveter.LocalDataToHeroCostume(id);
-                        costume2.checkstat();
-                        CostumeConeveter.HeroCostumeToLocalData(costume2, id);
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                        if (costume2 != null)
-                        {
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                costume2.stat;
-                        }
-                        else
-                        {
-                            costume2 = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume2;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                HeroStat.getInfo(costume2.name.ToUpper());
-                        }
-
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                    }
-                    else
-                    {
-                        for (int j = 0; j < HeroCostume.costume.Length; j++)
-                        {
-                            if (HeroCostume.costume[j].name.ToUpper() == id.ToUpper())
-                            {
-                                int num4 = HeroCostume.costume[j].id;
-                                if (id.ToUpper() != "AHSS")
-                                {
-                                    num4 += CheckBoxCostume.costumeSet - 1;
-                                }
-
-                                if (HeroCostume.costume[num4].name != HeroCostume.costume[j].name)
-                                {
-                                    num4 = HeroCostume.costume[j].id + 1;
-                                }
-
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume =
-                                    HeroCostume.costume[num4];
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat =
-                                    HeroStat.getInfo(HeroCostume.costume[num4].name.ToUpper());
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>()
-                                    .setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                                break;
-                            }
-                        }
-                    }
-
-                    CostumeConeveter.HeroCostumeToPhotonData2(
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume,
-                        PhotonNetwork.player);
+                    var hero = SpawnService.Spawn<Hero>(position, pos.transform.rotation, preset);
+                    component.SetMainObject(hero.transform.gameObject, true, false);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
                     ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
@@ -2679,7 +2584,6 @@ namespace Assets.Scripts
                 }
 
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
                 GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
@@ -2687,94 +2591,16 @@ namespace Assets.Scripts
             }
         }
 
-
-        [PunRPC]
-        [Obsolete("Migrate into a SpawnService")]
-        public void spawnPlayerAtRPC(float posX, float posY, float posZ, PhotonMessageInfo info)
-        {
-            if (info.sender.isMasterClient && logicLoaded && !this.needChooseSide && Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
-            {
-                Vector3 position = new Vector3(posX, posY, posZ);
-                IN_GAME_MAIN_CAMERA component = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>();
-                component.setMainObject(PhotonNetwork.Instantiate("AOTTG_HERO 1", position, new Quaternion(0f, 0f, 0f, 1f), 0), true, false);
-                string slot = this.myLastHero.ToUpper();
-                switch (slot)
-                {
-                    case "SET 1":
-                    case "SET 2":
-                    case "SET 3":
-                    {
-                        HeroCostume costume = CostumeConeveter.LocalDataToHeroCostume(slot);
-                        costume.checkstat();
-                        CostumeConeveter.HeroCostumeToLocalData(costume, slot);
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                        if (costume != null)
-                        {
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = costume.stat;
-                        }
-                        else
-                        {
-                            costume = HeroCostume.costumeOption[3];
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = costume;
-                            component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(costume.name.ToUpper());
-                        }
-                        component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                        component.main_object.GetComponent<Hero>().setStat2();
-                        component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                        break;
-                    }
-                    default:
-                        for (int i = 0; i < HeroCostume.costume.Length; i++)
-                        {
-                            if (HeroCostume.costume[i].name.ToUpper() == slot.ToUpper())
-                            {
-                                int id = HeroCostume.costume[i].id;
-                                if (slot.ToUpper() != "AHSS")
-                                {
-                                    id += CheckBoxCostume.costumeSet - 1;
-                                }
-                                if (HeroCostume.costume[id].name != HeroCostume.costume[i].name)
-                                {
-                                    id = HeroCostume.costume[i].id + 1;
-                                }
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().init();
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume = HeroCostume.costume[id];
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume.stat = HeroStat.getInfo(HeroCostume.costume[id].name.ToUpper());
-                                component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().setCharacterComponent();
-                                component.main_object.GetComponent<Hero>().setStat2();
-                                component.main_object.GetComponent<Hero>().setSkillHUDPosition2();
-                                break;
-                            }
-                        }
-                        break;
-                }
-                CostumeConeveter.HeroCostumeToPhotonData2(component.main_object.GetComponent<Hero>().GetComponent<HERO_SETUP>().myCostume, PhotonNetwork.player);
-                ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-                hashtable.Add("dead", false);
-                ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                hashtable = new ExitGames.Client.Photon.Hashtable();
-                hashtable.Add(PhotonPlayerProperty.isTitan, 1);
-                propertiesToSet = hashtable;
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().setHUDposition();
-                GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
-                GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
-                component.gameOver = false;
-            }
-        }
-        
         private void Start()
         {
+            Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log($"Version: {versionManager.Version}");
             instance = this;
             base.gameObject.name = "MultiplayerManager";
             CostumeHair.init();
             CharacterMaterials.init();
-            HeroCostume.init2();
             UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
             this.name = string.Empty;
             banHash = new ExitGames.Client.Photon.Hashtable();
@@ -2802,14 +2628,17 @@ namespace Assets.Scripts
             this.loadconfig();
             ChangeQuality.setCurrentQuality();
         }
-
+        
         [PunRPC]
         public void titanGetKill(PhotonPlayer player, int Damage, string name)
         {
             Damage = Mathf.Max(10, Damage);
             object[] parameters = new object[] { Damage };
-            base.photonView.RPC("netShowDamage", player, parameters);
-            this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+            base.photonView.RPC(nameof(netShowDamage), player, parameters);
+            if (!PhotonNetwork.offlineMode)
+            {
+                this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
+            }
             this.playerKillInfoUpdate(player, Damage);
         }
 
@@ -2830,33 +2659,41 @@ namespace Assets.Scripts
         }
 
         [PunRPC]
-        private void updateKillInfo(bool t1, string killer, bool t2, string victim, int dmg)
+        private void updateKillInfo(bool killerIsTitan, string killer, bool victimIsTitan, string victim, int dmg)
         {
-            GameObject obj4;
-            GameObject obj2 = GameObject.Find("KillFeed");
-            GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
-            for (int i = 0; i < this.killInfoGO.Count; i++)
+            var killFeed = GameObject.Find("KillFeed");
+            var newKillInfo = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("UI/KillInfo"));
+            foreach (var killInfo in killInfoGO)
             {
-                obj4 = (GameObject) this.killInfoGO[i];
-                if (obj4 != null)
+                if (killInfo != null)
                 {
-                    obj4.GetComponent<KillInfo>().MoveOn();
+                    killInfo.GetComponent<KillInfo>().MoveOn();
                 }
-            }
-            if (this.killInfoGO.Count > 4)
-            {
-                obj4 = (GameObject) this.killInfoGO[0];
-                if (obj4 != null)
-                {
-                    obj4.GetComponent<KillInfo>().Destroy();
-                }
-                this.killInfoGO.RemoveAt(0);
             }
 
-            obj3.transform.parent = obj2.transform;
-            obj3.transform.position = new Vector3();
-            obj3.GetComponent<KillInfo>().Show(t1, killer, t2, victim, dmg);
-            this.killInfoGO.Add(obj3);
+            if (killInfoGO.Count > 4)
+            {
+                var lastKillInfo = killInfoGO[0];
+                if (lastKillInfo != null)
+                {
+                    lastKillInfo.GetComponent<KillInfo>().Destroy();
+                }
+                killInfoGO.RemoveAt(0);
+            }
+
+            newKillInfo.transform.parent = killFeed.transform;
+            newKillInfo.transform.position = new Vector3();
+            newKillInfo.GetComponent<KillInfo>().Show(killerIsTitan, killer, victimIsTitan, victim, dmg);
+            killInfoGO.Add(newKillInfo);
+        }
+
+        private void ClearKillInfo()
+        {
+            foreach (var killInfo in killInfoGO)
+            {
+                Destroy(killInfo);
+            }
+            killInfoGO.Clear();
         }
 
         [PunRPC]
@@ -3028,7 +2865,7 @@ namespace Assets.Scripts
                             }
                             if (num12 > 0)
                             {
-                                this.photonView.RPC("setTeamRPC", player2, new object[] { num12 });
+                                this.photonView.RPC(nameof(setTeamRPC), player2, new object[] { num12 });
                             }
                         }
                     }
@@ -3064,7 +2901,7 @@ namespace Assets.Scripts
                                 }
                                 if (num13 > 0)
                                 {
-                                    this.photonView.RPC("setTeamRPC", player3, new object[] { num13 });
+                                    this.photonView.RPC(nameof(setTeamRPC), player3, new object[] { num13 });
                                 }
                             }
                         }
@@ -3263,14 +3100,14 @@ namespace Assets.Scripts
                         if (this.cyanKills >= GameSettings.Gamemode.PointMode)
                         {
                             object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
-                            this.photonView.RPC("Chat", PhotonTargets.All, parameters);
+                            this.photonView.RPC(nameof(Chat), PhotonTargets.All, parameters);
                             //TODO: 160, game won
                             //this.gameWin2();
                         }
                         else if (this.magentaKills >= GameSettings.Gamemode.PointMode)
                         {
                             objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
-                            this.photonView.RPC("Chat", PhotonTargets.All, objArray2);
+                            this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray2);
                             //TODO: 160, game won
                             //this.gameWin2();
                         }
@@ -3283,7 +3120,7 @@ namespace Assets.Scripts
                             if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= GameSettings.Gamemode.PointMode)
                             {
                                 object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
-                                this.photonView.RPC("Chat", PhotonTargets.All, objArray4);
+                                this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray4);
                                 //TODO: 160, game won
                                 //this.gameWin2();
                             }
@@ -3328,14 +3165,14 @@ namespace Assets.Scripts
                                 if (num24 == 0)
                                 {
                                     object[] objArray5 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
-                                    this.photonView.RPC("Chat", PhotonTargets.All, objArray5);
+                                    this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray5);
                                     //TODO: 160, game won
                                     //this.gameWin2();
                                 }
                                 else if (num25 == 0)
                                 {
                                     object[] objArray6 = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
-                                    this.photonView.RPC("Chat", PhotonTargets.All, objArray6);
+                                    this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray6);
                                     //TODO: 160, game won
                                     //this.gameWin2();
                                 }
@@ -3371,7 +3208,7 @@ namespace Assets.Scripts
                                     }
                                 }
                                 object[] objArray7 = new object[] { "<color=#FFCC00>" + text.hexColor() + " wins." + str4 + "</color>", string.Empty };
-                                this.photonView.RPC("Chat", PhotonTargets.All, objArray7);
+                                this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray7);
                                 //TODO: 160, game won
                                 //this.gameWin2();
                             }
