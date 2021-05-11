@@ -164,7 +164,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\BUFF.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerPVPchkPtID.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\CommandsGUI.cs" />
-    <Compile Include="Assets\Scripts\Services\LocalizationService.cs" />
+    <Compile Include="Assets\Scripts\Services\Localization.cs" />
     <Compile Include="Assets\Scripts\Effects\EffectController.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\FPSLimiter.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
@@ -218,6 +218,7 @@
     <Compile Include="Assets\Scripts\Constants\Layers.Enum.cs" />
     <Compile Include="Assets\Scripts\Legacy\SnapShotReview.cs" />
     <Compile Include="Assets\Scripts\CustomMaps\CustomMap.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\LanguageDropdown.cs" />
     <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatUtility.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPauseService.cs" />
@@ -487,7 +488,6 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\LanguageDropdown.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

@@ -1891,6 +1891,7 @@ namespace Assets.Scripts
 
         private void Level_OnLevelLoaded()
         {
+            //TODO: Don't do this ever on Scene 0
             var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
             ui.ShowInGameUi();
             ChangeQuality.setCurrentQuality();
@@ -2534,7 +2535,7 @@ namespace Assets.Scripts
             }
             else
             {
-                Vector3 position = pos?.transform.position ?? Vector3.zero;
+                Vector3 position = pos?.transform.position ?? new Vector3(0f, 5f, 0f);
                 if (this.racingSpawnPointSet)
                 {
                     position = this.racingSpawnPoint;
@@ -2576,7 +2577,7 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    var hero = SpawnService.Spawn<Hero>(position, pos?.transform.rotation ?? new Quaternion(), preset);
+                    var hero = SpawnService.Spawn<Hero>(position + new Vector3(0, 5f, 0), pos?.transform.rotation ?? new Quaternion(), preset);
                     component.SetMainObject(hero.transform.gameObject, true, false);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
@@ -2716,6 +2717,7 @@ namespace Assets.Scripts
         [Obsolete("Too high complexity. Refactor")]
         public IEnumerator WaitAndRecompilePlayerList(float time)
         {
+            Debug.Log("eeee");
             int num16;
             string str2;
             int num17;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Services;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -23,6 +24,7 @@ namespace Assets.Scripts.UI.Menu
         public void OnValueChanged(int value)
         {
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[value];
+            Service.Localization.ReloadLocalization();
         }
     }
 }

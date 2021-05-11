@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Gamemode
 
         protected override void SetStatusTopRight()
         {
-            var content = $"Time : {TimeService.GetRoundDisplayTime()}";
+            var content = $"{Localization.Common.GetEntry("TIME").GetLocalizedString()} : {TimeService.GetRoundDisplayTime()}";
             UiService.SetMessage(LabelPosition.TopRight, content);
         }
 
@@ -36,7 +37,8 @@ namespace Assets.Scripts.Gamemode
             if (faction == FactionService.GetHumanity())
             {
                 photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"Survived {Wave} Waves!\nRestarting in {{0}}s", HumanScore, TitanScore);
-            } else if (faction == FactionService.GetTitanity())
+            }
+            else if (faction == FactionService.GetTitanity())
             {
                 NextWave();
             }
@@ -62,7 +64,9 @@ namespace Assets.Scripts.Gamemode
 
             if (!((Settings.MaxWave.Value != 0 || Wave <= Settings.MaxWave.Value) && (Settings.MaxWave.Value <= 0 || Wave <= Settings.MaxWave.Value)))
             {
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"Survived All {Wave} Waves!\nRestarting in {{0}}s", HumanScore, TitanScore);
+                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All,
+                    Localization.Gamemode.WaveGamemode.GetEntry("COMPLETE").GetLocalizedString(Wave)
+                    + $"\nRestarting in {{0}}s", HumanScore, TitanScore);
             }
             else
             {
@@ -93,7 +97,7 @@ namespace Assets.Scripts.Gamemode
                 StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value));
             }
         }
-        
+
         public override void OnRestart()
         {
             Wave = Settings.StartWave.Value;
@@ -115,7 +119,7 @@ namespace Assets.Scripts.Gamemode
             configuration.ViewDistance = 999999f;
             return configuration;
         }
-        
+
         private IEnumerator SpawnTitan(int titans)
         {
             for (var i = 0; i < titans; i++)

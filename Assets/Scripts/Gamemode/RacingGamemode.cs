@@ -84,7 +84,7 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                UiService.SetMessage(LabelPosition.Center, $"RACE START IN {CountDownTimerLimit - TimeService.GetRoundTime():F1}s");
+                UiService.SetMessage(LabelPosition.Center, $"RACE START IN {CountDownTimerLimit - TimeService.GetRoundTime():F1}");
                 if (CountDownTimerLimit - TimeService.GetRoundTime() <= 0f)
                 {
                     HasStarted = true;

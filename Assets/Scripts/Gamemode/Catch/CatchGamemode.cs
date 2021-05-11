@@ -63,7 +63,7 @@ namespace Assets.Scripts.Gamemode.Catch
         protected override void SetStatusTop()
         {
             if (PhotonNetwork.offlineMode)
-                UiService.SetMessage(LabelPosition.Top, Service.Localization.CatchGamemode.GetEntry("OFFLINE_TOP").GetLocalizedString());
+                UiService.SetMessage(LabelPosition.Top, Localization.Gamemode.CatchGamemode.GetEntry("OFFLINE_TOP").GetLocalizedString());
         }
 
         protected override IEnumerator OnUpdateEverySecond()
