@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
-    public class ChangeHudHandler : UiMenu
+    public class ChangeHUDHandler : UiMenu
     {
         public InGameMenu menu;
         public HUD HUD;
