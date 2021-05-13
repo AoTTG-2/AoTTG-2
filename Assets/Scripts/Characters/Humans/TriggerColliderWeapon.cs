@@ -4,6 +4,7 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans
@@ -26,18 +27,15 @@ namespace Assets.Scripts.Characters.Humans
         public float scoreMulti = 1f;
         public Rigidbody body;
 
-        private FengGameManagerMKII manager;
-
-
         private void Start()
         {
             currentCamera = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
             body = currentCamera.main_object.GetComponent<Rigidbody>();
             Equipment = transform.root.GetComponent<Equipment.Equipment>();
             hero = currentCamera.main_object.GetComponent<Hero>();
-            manager = GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>();
         }
 
+        private Dictionary<GameObject, int> HitDetection = new Dictionary<GameObject, int>();
 
         public void ClearHits()
         {
@@ -66,6 +64,22 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
+        private void FixedUpdate()
+        {
+            foreach (var entry in HitDetection)
+            {
+                Debug.Log($"Hit Detection: {entry.Key.gameObject.name} - {entry.Value}");
+                if (entry.Value + 1 >= 1)
+                {
+                    Debug.Log($"Hit Detection: {entry.Key.gameObject.name} HIT!");
+                    OnTriggerStay(entry.Key.GetComponent<Collider>());
+                    HitDetection.Remove(entry.Key);
+                    continue;
+                }
+                HitDetection[entry.Key] = entry.Value + 1;
+            }
+        }
+
         private void OnTriggerStay(Collider collider)
         {
             if (!IsActive) return;
@@ -84,8 +98,11 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
 
-            if (currentHits.Contains(collider.gameObject))
+            if (!HitDetection.ContainsKey(collider.gameObject))
+            {
+                HitDetection.Add(collider.gameObject, 0);
                 return;
+            }
 
             switch (collider.gameObject.tag)
             {
@@ -247,6 +264,11 @@ namespace Assets.Scripts.Characters.Humans
                 default:
                     break;
             }
+        }
+
+        private void OnTriggerExit(Collider collider)
+        {
+            HitDetection.Remove(collider.gameObject);
         }
 
         private void ShowCriticalHitFX()
