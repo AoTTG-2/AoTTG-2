@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
@@ -21,14 +22,22 @@ namespace Assets.Scripts.Gamemode
 
         protected override void SetStatusTop()
         {
-            var content = $"Titan left: {FactionService.CountHostile(PlayerService.Self)} Wave : {Wave}";
+            var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", FactionService.CountHostile(PlayerService.Self))} | {Localization.Gamemode.Wave.GetLocalizedString("WAVE")} : {Wave}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
 
         protected override void SetStatusTopRight()
         {
-            var content = $"{Localization.Common.GetEntry("TIME").GetLocalizedString()} : {TimeService.GetRoundDisplayTime()}";
+            var content = $"{Localization.Common.GetLocalizedString("TIME")} : {TimeService.GetRoundDisplayTime()}";
             UiService.SetMessage(LabelPosition.TopRight, content);
+        }
+
+        private void RoundFinish(string translationKey)
+        {
+            photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All,
+                $"{Localization.Gamemode.Wave.GetLocalizedString(translationKey, Wave)}" +
+                $"\n{Localization.Gamemode.Shared.GetLocalizedString("RESTART_COUNTDOWN")}",
+                HumanScore, TitanScore);
         }
 
         protected override void OnFactionDefeated(Faction faction)
@@ -36,7 +45,7 @@ namespace Assets.Scripts.Gamemode
             if (!PhotonNetwork.isMasterClient) return;
             if (faction == FactionService.GetHumanity())
             {
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"Survived {Wave} Waves!\nRestarting in {{0}}s", HumanScore, TitanScore);
+                RoundFinish("FAILED");
             }
             else if (faction == FactionService.GetTitanity())
             {
@@ -64,9 +73,7 @@ namespace Assets.Scripts.Gamemode
 
             if (!((Settings.MaxWave.Value != 0 || Wave <= Settings.MaxWave.Value) && (Settings.MaxWave.Value <= 0 || Wave <= Settings.MaxWave.Value)))
             {
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All,
-                    Localization.Gamemode.WaveGamemode.GetEntry("COMPLETE").GetLocalizedString(Wave)
-                    + $"\nRestarting in {{0}}s", HumanScore, TitanScore);
+                RoundFinish("COMPLETE");
             }
             else
             {

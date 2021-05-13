@@ -2717,7 +2717,6 @@ namespace Assets.Scripts
         [Obsolete("Too high complexity. Refactor")]
         public IEnumerator WaitAndRecompilePlayerList(float time)
         {
-            Debug.Log("eeee");
             int num16;
             string str2;
             int num17;

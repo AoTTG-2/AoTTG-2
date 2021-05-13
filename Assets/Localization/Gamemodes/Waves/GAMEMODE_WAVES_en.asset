@@ -20,7 +20,7 @@ MonoBehaviour:
     - id: 0
   m_TableData:
   - m_Id: 173926383616
-    m_Localized: Survived All {0:Wave|Waves}!
+    m_Localized: Survived All {0:Wave|Wave|Waves}!
     m_Metadata:
       m_Items:
       - id: 0
@@ -28,9 +28,14 @@ MonoBehaviour:
     m_Localized: Wave
     m_Metadata:
       m_Items: []
+  - m_Id: 575185142022144
+    m_Localized: Survived {0:Wave|Wave|Waves}!
+    m_Metadata:
+      m_Items:
+      - id: 0
   references:
     version: 1
     00000000:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0000d27e28000000
+        m_Entries: 0000d27e28000000000012ba200b0200

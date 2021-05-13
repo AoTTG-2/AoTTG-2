@@ -14,6 +14,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Extensions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -272,18 +273,19 @@ namespace Assets.Scripts.Gamemode
         [Obsolete]
         public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
+            var winLocalizated = $"{Localization.Gamemode.Shared.GetLocalizedString("VICTORY", Localization.Common.GetLocalizedString("HUMANITY"))}";
             if (PhotonNetwork.offlineMode)
             {
-                return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
+                return $"{winLocalizated}\n {Localization.Gamemode.Shared.GetLocalizedString("RESTART_OFFLINE", InputManager.GetKey(InputUi.Restart).ToString())}\n\n\n";
             }
             return "Humanity Win!\nGame Restart in " + ((int) timeUntilRestart) + "s\n\n";
         }
 
         protected virtual void SetStatusTop()
         {
-            var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} | " +
-                          $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)} | " +
-                          $"Time: {TimeService.GetRoundDisplayTime()}";
+            var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", FactionService.CountHostile(Service.Player.Self))} | " +
+                          $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
+                          $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
 
@@ -297,17 +299,15 @@ namespace Assets.Scripts.Gamemode
                 var maxDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]);
                 var totalDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]);
 
-                var content = $"Kills: {kills}\n" +
-                              $"Deaths: {deaths}\n" +
-                              $"Max Damage: {maxDamage}\n" +
-                              $"Total Damage: {totalDamage}";
+                var content =
+                    Localization.Gamemode.Shared.GetLocalizedString("OFFLINE_STATS", kills, deaths, maxDamage, totalDamage);
                 UiService.SetMessage(LabelPosition.TopLeft, content);
             }
         }
 
         protected virtual void SetStatusTopRight()
         {
-            var context = string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
+            var context = string.Concat($"{Localization.Common.GetLocalizedString("HUMANITY")} ", HumanScore, $" : {Localization.Common.GetLocalizedString("TITANITY")} ", TitanScore, " ");
             UiService.SetMessage(LabelPosition.TopRight, context);
         }
 

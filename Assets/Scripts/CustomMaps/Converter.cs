@@ -68,6 +68,7 @@ namespace Assets.Scripts.CustomMaps
                 return;
             }
 
+#if UNITY_EDITOR
             if (ConvertLegacyMap)
             {
                 var data = ConvertCustomMap(AoTTGCustomMap.text);
@@ -80,7 +81,8 @@ namespace Assets.Scripts.CustomMaps
                     Service.LoadCustomMap(objects);
                 }
             }
-
+#endif
+            
             if (LoadAoTTG2Map && !ConvertLegacyMap)
             {
                 var objects = AoTTG2CustomMap.text.Split(new[] { ";;\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();

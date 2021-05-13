@@ -1928,8 +1928,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
         type: 3}
+      propertyPath: rushGamemodeTable.m_TableReference.m_TableCollectionName
+      value: GUID:d25bedce60a69f443b24b17f39261f41
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
+        type: 3}
       propertyPath: waveGamemodeTable.m_TableReference.m_TableCollectionName
       value: GUID:3afcd4554bcf8b445ab94ca7305ea6b9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
+        type: 3}
+      propertyPath: sharedGamemodeTable.m_TableReference.m_TableCollectionName
+      value: GUID:c2ae64d1d52689246ad40b03f2b46c42
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de197a6b7c13144e9b9b3816740e2e1, type: 3}

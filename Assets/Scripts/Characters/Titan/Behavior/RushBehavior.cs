@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Events;
 using System.Collections;
-using Assets.Scripts.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior

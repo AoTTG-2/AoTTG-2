@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Characters.Humans;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Services;
 using Assets.Scripts.UI.InGame.HUD;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Tables;
 
 namespace Assets.Scripts.Gamemode.Catch
 {
@@ -63,7 +62,7 @@ namespace Assets.Scripts.Gamemode.Catch
         protected override void SetStatusTop()
         {
             if (PhotonNetwork.offlineMode)
-                UiService.SetMessage(LabelPosition.Top, Localization.Gamemode.CatchGamemode.GetEntry("OFFLINE_TOP").GetLocalizedString());
+                UiService.SetMessage(LabelPosition.Top, Localization.Gamemode.Catch.GetLocalizedString("OFFLINE_TOP"));
         }
 
         protected override IEnumerator OnUpdateEverySecond()

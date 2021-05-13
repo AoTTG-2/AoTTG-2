@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Gamemode.Racing;
+﻿using Assets.Scripts.Extensions;
+using Assets.Scripts.Gamemode.Racing;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
@@ -7,7 +9,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 
 namespace Assets.Scripts.Gamemode
 {
@@ -79,12 +80,13 @@ namespace Assets.Scripts.Gamemode
                 TotalSpeed += currentSpeed;
                 TotalFrames++;
 
-                UiService.SetMessage(LabelPosition.Top, $"Time: {TimeService.GetRoundTime() - CountDownTimerLimit:F1} | " +
-                                                        $"Average Speed: {AverageSpeed:F1}");
+                UiService.SetMessage(LabelPosition.Top,
+                    $"{Localization.Common.GetLocalizedString("TIME")} : {TimeService.GetRoundTime() - CountDownTimerLimit:F1} | " + 
+                    $"{Localization.Gamemode.Racing.GetLocalizedString("AVERAGE_SPEED")} : {AverageSpeed:F1}");
             }
             else
             {
-                UiService.SetMessage(LabelPosition.Center, $"RACE START IN {CountDownTimerLimit - TimeService.GetRoundTime():F1}");
+                UiService.SetMessage(LabelPosition.Center, Localization.Gamemode.Racing.GetLocalizedString("START", $"{CountDownTimerLimit - TimeService.GetRoundTime():F1}"));
                 if (CountDownTimerLimit - TimeService.GetRoundTime() <= 0f)
                 {
                     HasStarted = true;

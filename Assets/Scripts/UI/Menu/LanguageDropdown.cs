@@ -1,10 +1,7 @@
 ﻿using Assets.Scripts.Services;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
 namespace Assets.Scripts.UI.Menu
@@ -12,11 +9,10 @@ namespace Assets.Scripts.UI.Menu
     public class LanguageDropdown : MonoBehaviour
     {
         public TMP_Dropdown Dropdown;
-        public List<Locale> Languages;
 
-        private IEnumerator Start()
+        private async void Start()
         {
-            yield return LocalizationSettings.InitializationOperation;
+            await LocalizationSettings.InitializationOperation.Task;
             var languages = LocalizationSettings.AvailableLocales.Locales;
             Dropdown.AddOptions(languages.Select(x => x.Identifier.CultureInfo.Name).ToList());
         }

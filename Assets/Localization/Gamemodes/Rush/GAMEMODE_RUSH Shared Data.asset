@@ -10,21 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: GAMEMODE_WAVES Shared Data
+  m_Name: GAMEMODE_RUSH Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: GAMEMODE_WAVE
-  m_TableCollectionNameGuidString: 3afcd4554bcf8b445ab94ca7305ea6b9
+  m_TableCollectionName: GAMEMODE_RUSH
+  m_TableCollectionNameGuidString: d25bedce60a69f443b24b17f39261f41
   m_Entries:
-  - m_Id: 173926383616
-    m_Key: COMPLETE
+  - m_Id: 24680464384
+    m_Key: OBJECTIVE_HUMANITY
     m_Metadata:
       m_Items: []
-  - m_Id: 5326398160896
-    m_Key: WAVE
+  - m_Id: 801369096192
+    m_Key: VICTORY_HUMANITY
     m_Metadata:
       m_Items: []
-  - m_Id: 575185142022144
-    m_Key: FAILED
+  - m_Id: 994030256128
+    m_Key: VICTORY_TITANITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11569451892736
+    m_Key: OBJECTIVE_WARNING
     m_Metadata:
       m_Items: []
   m_Metadata:
@@ -37,4 +41,4 @@ MonoBehaviour:
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
         asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1620762596485
+        m_CustomEpoch: 1620846123018

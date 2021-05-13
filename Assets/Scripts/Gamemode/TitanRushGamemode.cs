@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters;
+﻿using System;
+using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Settings;
@@ -6,7 +7,11 @@ using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Extensions;
+using Assets.Scripts.Services;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -49,8 +54,8 @@ namespace Assets.Scripts.Gamemode
 
         protected override void SetStatusTop()
         {
-            var content = $"Time : {TimeService.GetRoundDisplayTime()}" +
-                          $"\nDefeat the Colossal Titan.\nPrevent abnormal titan from running to the north gate";
+            var content = $"{Localization.Common.GetLocalizedString("TIME")} : {TimeService.GetRoundDisplayTime()}" +
+                          $"\n{Localization.Gamemode.Rush.GetLocalizedString("OBJECTIVE_HUMANITY")}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
 
@@ -60,7 +65,9 @@ namespace Assets.Scripts.Gamemode
             if (entity is ColossalTitan)
             {
                 HumanScore++;
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"The colossal titan has been defeated!\nRestarting in {{0}}s", HumanScore, TitanScore);
+                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, 
+                    $"{Localization.Gamemode.Rush.GetLocalizedString("VICTORY_HUMANITY")}\n{Localization.Gamemode.Shared.GetLocalizedString("RESTART_COUNTDOWN")}",
+                    HumanScore, TitanScore);
             }
         }
 
@@ -127,7 +134,9 @@ namespace Assets.Scripts.Gamemode
             if (!PhotonNetwork.isMasterClient) return;
             if (IsRoundOver) return;
             TitanScore++;
-            photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"The civilians have died!\nRestarting in {{0}}s", HumanScore, TitanScore);
+            photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All,
+                $"{Localization.Gamemode.Rush.GetLocalizedString("VICTORY_TITANITY")}\n{Localization.Gamemode.Shared.GetLocalizedString("RESTART_COUNTDOWN")}",
+                HumanScore, TitanScore);
         }
 
     }

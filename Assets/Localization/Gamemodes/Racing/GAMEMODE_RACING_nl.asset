@@ -16,11 +16,21 @@ MonoBehaviour:
     m_Code: nl
   m_SharedData: {fileID: 11400000, guid: 9da6af0dc24e65649994cadbe0ab893c, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - id: 0
   m_TableData:
   - m_Id: 165059624960
-    m_Localized: 'WEDSTRIJD BEGINT IN '
+    m_Localized: WEDSTRIJD BEGINT IN {0}
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 355105544208384
+    m_Localized: Gemiddelde Snelheid
     m_Metadata:
       m_Items: []
   references:
     version: 1
+    00000000:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0000526e26000000

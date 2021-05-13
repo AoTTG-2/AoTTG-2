@@ -10,21 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: GAMEMODE_WAVES Shared Data
+  m_Name: GAMEMODE_SHARED Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: GAMEMODE_WAVE
-  m_TableCollectionNameGuidString: 3afcd4554bcf8b445ab94ca7305ea6b9
+  m_TableCollectionName: GAMEMODE_SHARED
+  m_TableCollectionNameGuidString: c2ae64d1d52689246ad40b03f2b46c42
   m_Entries:
-  - m_Id: 173926383616
-    m_Key: COMPLETE
+  - m_Id: 4019113295872
+    m_Key: ENEMY_LEFT
     m_Metadata:
       m_Items: []
-  - m_Id: 5326398160896
-    m_Key: WAVE
+  - m_Id: 4158208999424
+    m_Key: FRIENDLY_LEFT
     m_Metadata:
       m_Items: []
-  - m_Id: 575185142022144
-    m_Key: FAILED
+  - m_Id: 4614792544256
+    m_Key: OFFLINE_STATS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 269938196480
+    m_Key: RESTART_COUNTDOWN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2154690641920
+    m_Key: RESTART_OFFLINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1690481852416
+    m_Key: TEAM_VICTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483520544768
+    m_Key: VICTORY
     m_Metadata:
       m_Items: []
   m_Metadata:
@@ -37,4 +53,4 @@ MonoBehaviour:
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
         asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1620762596485
+        m_CustomEpoch: 1620845508002
