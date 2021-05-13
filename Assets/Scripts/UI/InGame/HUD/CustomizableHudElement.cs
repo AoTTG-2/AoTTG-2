@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         [Header("Settings:")]
         public string elementName;
-        public ChangeHudHandler handler;
+        public ChangeHUDHandler handler;
         [HideInInspector]public bool isVisible = true;
         [HideInInspector]public GameObject selection;
         private bool beingDragged;
