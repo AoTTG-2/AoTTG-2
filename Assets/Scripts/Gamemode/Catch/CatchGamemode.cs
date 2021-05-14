@@ -4,6 +4,7 @@ using Assets.Scripts.Services;
 using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Room;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Catch
@@ -19,9 +20,9 @@ namespace Assets.Scripts.Gamemode.Catch
         private CatchSpawner[] Spawners = { };
         private HashSet<CatchBall> CatchBalls = new HashSet<CatchBall>();
 
-        protected override void Level_OnLevelLoaded()
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
-            base.Level_OnLevelLoaded();
+            base.Level_OnLevelLoaded(scene, level);
             Spawners = GameObject.FindObjectsOfType<CatchSpawner>();
 
             for (int i = 0; i < TotalBalls; i++)

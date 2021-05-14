@@ -31,11 +31,11 @@ namespace Assets.Scripts.Services
                 var content = File.ReadAllText(CurrentMap.Path);
                 var objects = content.Split(new[] { ";;" }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"{x.Trim()};").ToArray();
                 LoadCustomMap(objects);
-                Service.Level.InvokeLevelLoaded();
+                Service.Level.InvokeLevelLoaded(level, null);
             }
             else
             {
-                Service.Level.InvokeLevelLoaded();
+                Service.Level.InvokeLevelLoaded(level, null);
             }
         }
 

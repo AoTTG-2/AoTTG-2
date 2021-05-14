@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Extensions;
 using Assets.Scripts.Gamemode.Racing;
+using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
@@ -31,10 +32,10 @@ namespace Assets.Scripts.Gamemode
         
         private bool IsLoaded;
 
-        protected override void Level_OnLevelLoaded()
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             IsLoaded = true;
-            base.Level_OnLevelLoaded();
+            base.Level_OnLevelLoaded(scene, level);
             StartBarriers = GameObject.FindObjectsOfType<RacingStartBarrier>().ToList();
             HasStarted = false;
             TotalSpeed = 0;

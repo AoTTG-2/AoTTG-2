@@ -43,7 +43,7 @@ namespace Assets.Scripts.Gamemode
 
         protected bool IsRoundOver { get; private set; }
 
-        protected virtual void Level_OnLevelLoaded()
+        protected virtual void Level_OnLevelLoaded(int scene, Level level)
         {
             IsRoundOver = false;
             UiService.ResetMessagesAll();

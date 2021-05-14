@@ -66,18 +66,19 @@ namespace Assets.Scripts.Characters.Humans
 
         private void FixedUpdate()
         {
+            var removeItems = new List<GameObject>();
             foreach (var entry in HitDetection)
             {
-                Debug.Log($"Hit Detection: {entry.Key.gameObject.name} - {entry.Value}");
                 if (entry.Value + 1 >= 1)
                 {
-                    Debug.Log($"Hit Detection: {entry.Key.gameObject.name} HIT!");
                     OnTriggerStay(entry.Key.GetComponent<Collider>());
-                    HitDetection.Remove(entry.Key);
+                    removeItems.Add(entry.Key);
                     continue;
                 }
                 HitDetection[entry.Key] = entry.Value + 1;
             }
+
+            removeItems.ForEach(x => HitDetection.Remove(x));
         }
 
         private void OnTriggerStay(Collider collider)

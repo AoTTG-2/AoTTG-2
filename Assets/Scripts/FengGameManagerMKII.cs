@@ -1889,9 +1889,10 @@ namespace Assets.Scripts
             }
         }
 
-        private void Level_OnLevelLoaded()
+        private void Level_OnLevelLoaded(int scene, Level level)
         {
-            //TODO: Don't do this ever on Scene 0
+            // Scene 0 = Menu Scene
+            if (scene == 0) return;
             var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
             ui.ShowInGameUi();
             ChangeQuality.setCurrentQuality();

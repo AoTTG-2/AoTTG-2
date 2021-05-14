@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
@@ -91,9 +92,9 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        protected override void Level_OnLevelLoaded()
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
-            base.Level_OnLevelLoaded();
+            base.Level_OnLevelLoaded(scene, level);
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
