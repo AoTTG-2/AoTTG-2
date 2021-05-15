@@ -63,12 +63,6 @@ namespace Assets.Scripts.Services
                 PhotonNetwork.AuthValues = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
                 PhotonNetwork.AuthValues.AddAuthParameter("token", Service.Authentication.AccessToken);
             }
-            else
-            {
-                // PhotonServer complains about no UserId being set, temp fix
-                PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
-            }
-
             PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
         }
 

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI.Input;
+using Assets.Scripts.UI.Radial;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
@@ -7,23 +8,30 @@ namespace Assets.Scripts.UI
     {
         private GameObject interactionWheel;
 
+        public GameObject RadialMenu;
+
         private void Start()
         {
-            interactionWheel = gameObject.GetComponentInChildren<InteractionWheel>(true).gameObject;
+            interactionWheel = gameObject.GetComponentInChildren<RadialMenu>(true).gameObject;
         }
 
         private void Update()
         {
             if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
-                if (!interactionWheel.activeSelf)
+                if (!RadialMenu.activeSelf)
+                {
+                    RadialMenu.SetActive(true);
                     interactionWheel.SetActive(true);
+                }
+
+
             }
 
             if (InputManager.KeyUp(InputUi.InteractionWheel))
             {
-                if (interactionWheel.activeSelf)
-                    interactionWheel.SetActive(false);
+                if (RadialMenu.activeSelf)
+                    RadialMenu.SetActive(false);
             }
 
         }

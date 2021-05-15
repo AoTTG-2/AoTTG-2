@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Services;
 using UnityEngine;
 
@@ -41,7 +42,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             if (isCrawler)
             {
                 var vector14 = Titan.Target.transform.position - Titan.transform.position;
-                var current = -Mathf.Atan2(vector14.z, vector14.x) * 57.29578f;
+                var current = -Mathf.Atan2(vector14.z, vector14.x) * Mathf.Rad2Deg;
                 var f = -Mathf.DeltaAngle(current, Titan.gameObject.transform.rotation.eulerAngles.y - 90f);
                 if (Titan.TargetDistance < Titan.AttackDistance * 3f
                     && Mathf.Abs(f) < 90f
@@ -91,7 +92,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             var num = rad * titanSize;
             foreach (Hero hero in Service.Entity.GetAll<Hero>())
             {
-                if (hero.isInvincible()) continue;
+                if (hero.IsInvincible) continue;
                 var num3 = hero.GetComponent<CapsuleCollider>().height * 0.5f;
                 if (Vector3.Distance(hero.transform.position + Vector3.up * num3, head.position + Vector3.up * 1.5f * titanSize) < (num + num3))
                 {
@@ -168,7 +169,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                         var force = new Vector3(JumpPosition.x, velocity.y, JumpPosition.z) - velocity;
                         Titan.Rigidbody.AddForce(force, ForceMode.VelocityChange);
                         Titan.Rigidbody.AddForce(Vector3.up * num18, ForceMode.VelocityChange);
-                        var num22 = Mathf.Atan2(Titan.Target.transform.position.x - Titan.transform.position.x, Titan.Target.transform.position.z - Titan.transform.position.z) * 57.29578f;
+                        var num22 = Mathf.Atan2(Titan.Target.transform.position.x - Titan.transform.position.x, Titan.Target.transform.position.z - Titan.transform.position.z) * Mathf.Rad2Deg;
                         Titan.gameObject.transform.rotation = Quaternion.Euler(0f, num22, 0f);
                     }
                 }
@@ -186,9 +187,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     var vector13 = Titan.Body.Chest.position;
                     if (Titan.photonView.isMine || !hero.HasDied())
                     {
-                        hero.markDie();
+                        hero.MarkDie();
                         object[] objArray8 = { (hero.transform.position - vector13) * 15f * Titan.Size, true, Titan.photonView.viewID, Titan.name, true };
-                        hero.photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray8);
+                        hero.photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, objArray8);
                     }
 
                     AttackAnimation = AnimationFall;

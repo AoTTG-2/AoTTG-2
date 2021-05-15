@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
+  m_Name: Annie
+  m_EditorClassIdentifier: 
+  Name: Annie
+  Description: 
+  CharacterOutfit:
+  - Name: Training Corps
+    Gender: 2
+    Head:
+      Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
+      Texture: 0
+    Skin:
+      Skin: 0
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Hair:
+      Component: {fileID: 11400000, guid: 3da6f03928a75fe4ba345e56791cec91, type: 2}
+      Texture: 0
+      Color: {r: 0.9245283, g: 0.89021343, b: 0.58873266, a: 1}
+    Eyes:
+      Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+      Texture: 14
+    Glasses:
+      Component: {fileID: 0}
+      Texture: 0
+    Facial:
+      Component: {fileID: 0}
+      Texture: 0
+    Outfit:
+      Component: {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
+      Texture: 0
+      UseCapeEmblem: 0
+      EmblemFront:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 3
+      EmblemBack:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 3
+      EmblemRight:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 3
+      EmblemLeft:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 3
+    Cape:
+      Component: {fileID: 11400000, guid: 030363aeca14f504aa870fa2d459a56e, type: 2}
+      Texture: 0
+    Headgear:
+      Component: {fileID: 0}
+      Texture: 0
+  - Name: Military Police
+    Gender: 2
+    Head:
+      Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
+      Texture: 0
+    Skin:
+      Skin: 0
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Hair:
+      Component: {fileID: 11400000, guid: 3da6f03928a75fe4ba345e56791cec91, type: 2}
+      Texture: 0
+      Color: {r: 0.9245283, g: 0.89021343, b: 0.58873266, a: 1}
+    Eyes:
+      Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+      Texture: 14
+    Glasses:
+      Component: {fileID: 0}
+      Texture: 0
+    Facial:
+      Component: {fileID: 0}
+      Texture: 0
+    Outfit:
+      Component: {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
+      Texture: 0
+      UseCapeEmblem: 0
+      EmblemFront:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 2
+      EmblemBack:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 2
+      EmblemRight:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 2
+      EmblemLeft:
+        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
+        Texture: 2
+    Cape:
+      Component: {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
+      Texture: 2
+    Headgear:
+      Component: {fileID: 0}
+      Texture: 0
+  - Name: Casual
+    Gender: 2
+    Head:
+      Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
+      Texture: 0
+    Skin:
+      Skin: 0
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+    Hair:
+      Component: {fileID: 11400000, guid: 3da6f03928a75fe4ba345e56791cec91, type: 2}
+      Texture: 0
+      Color: {r: 0.9245283, g: 0.89021343, b: 0.58873266, a: 1}
+    Eyes:
+      Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
+      Texture: 14
+    Glasses:
+      Component: {fileID: 0}
+      Texture: 0
+    Facial:
+      Component: {fileID: 0}
+      Texture: 0
+    Outfit:
+      Component: {fileID: 11400000, guid: 5b73a22982cc41742bfb21f232d45d05, type: 2}
+      Texture: 0
+      UseCapeEmblem: 0
+      EmblemFront:
+        Component: {fileID: 0}
+        Texture: 2
+      EmblemBack:
+        Component: {fileID: 0}
+        Texture: 2
+      EmblemRight:
+        Component: {fileID: 0}
+        Texture: 2
+      EmblemLeft:
+        Component: {fileID: 0}
+        Texture: 2
+    Cape:
+      Component: {fileID: 11400000, guid: 030363aeca14f504aa870fa2d459a56e, type: 2}
+      Texture: 0
+    Headgear:
+      Component: {fileID: 0}
+      Texture: 0
+  CharacterBuild:
+  - Name: ODMG
+    Equipment: 0
+    EquipmentComponent:
+      Texture: 1
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+      HandGrid:
+        Texture: 1
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+    Stats:
+      Acceleration: 0
+      Speed: 0
+      Gas: 0
+      Equipment: 0
+    Skill: 4

@@ -30,11 +30,17 @@ namespace Assets.Scripts.Services
                 Time.timeScale = 1E-06f;
                 OnPaused?.Invoke(this, EventArgs.Empty);
             }
-            else if (!shouldPause && isPaused)
+            else if (!shouldPause && isPaused && !isUnpausing)
             {
                 isUnpausing = true;
                 PauseTimer = immediate ? 0f : DefaultPauseTime;
                 OnUnPaused?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                isUnpausing = false;
+                PauseTimer = float.MaxValue;
+                OnPaused?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -52,7 +58,7 @@ namespace Assets.Scripts.Services
             {
                 photonView.RPC(nameof(PauseRpc), newPlayer, true, true);
                 object[] parameters = new object[] { "<color=#FFCC00>MasterClient has paused the game.</color>", "" };
-                FengGameManagerMKII.instance.photonView.RPC("Chat", newPlayer, parameters);
+                FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), newPlayer, parameters);
             }
         }
 

@@ -2,6 +2,7 @@ using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
 using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
 
@@ -89,7 +90,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.isMasterClient)
             {
                 object[] parameters = new object[] { (Vector3) ((vector.normalized * num) + (Vector3.up * 1f)) };
-                player.GetComponent<Hero>().photonView.RPC(nameof(Hero.blowAway), PhotonTargets.All, parameters);
+                player.GetComponent<Hero>().photonView.RPC(nameof(Hero.BlowAway), PhotonTargets.All, parameters);
             }
         }
 
@@ -128,7 +129,7 @@ namespace Assets.Scripts.Characters.Titan
                         }
                         return gameObject;
                     }
-                    if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().isInvincible())
+                    if ((gameObject.GetComponent<Hero>() != null) && !gameObject.GetComponent<Hero>().IsInvincible)
                     {
                         return gameObject;
                     }
@@ -194,9 +195,9 @@ namespace Assets.Scripts.Characters.Titan
                 Vector3 position = base.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest").position;
                 if (!hitHero.GetComponent<Hero>().HasDied())
                 {
-                    hitHero.GetComponent<Hero>().markDie();
+                    hitHero.GetComponent<Hero>().MarkDie();
                     object[] parameters = new object[] { (Vector3) (((hitHero.transform.position - position) * 15f) * 4f), false, -1, "Colossal Titan", true };
-                    hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
+                    hitHero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
                 }
             }
         }
@@ -783,7 +784,7 @@ namespace Assets.Scripts.Characters.Titan
                 else
                 {
                     Vector3 vector = this.myHero.transform.position - base.transform.position;
-                    float current = -Mathf.Atan2(vector.z, vector.x) * 57.29578f;
+                    float current = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
                     float f = -Mathf.DeltaAngle(current, base.gameObject.transform.rotation.eulerAngles.y - 90f);
                     this.myDistance = Mathf.Sqrt(((this.myHero.transform.position.x - base.transform.position.x) * (this.myHero.transform.position.x - base.transform.position.x)) + ((this.myHero.transform.position.z - base.transform.position.z) * (this.myHero.transform.position.z - base.transform.position.z)));
                     float num4 = this.myHero.transform.position.y - base.transform.position.y;
