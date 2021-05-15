@@ -371,6 +371,74 @@ namespace Assets.Scripts.Room
                     },
                 }
             });
+            _levels.Add(new Level
+            {
+                Name = "The Forest Revamped",
+                Description = "Classic City Map from AoTTG",
+                SceneName = "The Forest Revamped",
+
+                Gamemodes = new List<GamemodeSettings>
+                {
+
+
+                    new KillTitansSettings
+                    {
+                        GamemodeType = GamemodeType.Titans,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new EndlessSettings
+                    {
+                        GamemodeType = GamemodeType.Endless,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new WaveGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new CaptureGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new RacingSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new InfectionGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                }
+            });
         }
     }
 }
