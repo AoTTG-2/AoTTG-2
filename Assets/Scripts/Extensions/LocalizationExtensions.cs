@@ -13,7 +13,8 @@ namespace Assets.Scripts.Extensions
         /// <returns></returns>
         public static string GetLocalizedString(this StringTable table, string key)
         {
-            return table.GetEntry(key).GetLocalizedString();
+            var entry = table.GetEntry(key);
+            return entry == null ? key : entry.GetLocalizedString();
         }
 
         /// <summary>
@@ -25,7 +26,8 @@ namespace Assets.Scripts.Extensions
         /// <returns></returns>
         public static string GetLocalizedString(this StringTable table, string key, params object[] args)
         {
-            return table.GetEntry(key).GetLocalizedString(args);
+            var entry = table.GetEntry(key);
+            return entry == null ? key : entry.GetLocalizedString(args);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Assets.Scripts.Services
         public static IFactionService Faction { get; private set; }
         public static IInventoryService Inventory { get; private set; }
         public static ICustomMapService Map { get; private set; }
+        public static IMessageService Message { get; private set; }
         public static IPauseService Pause { get; private set; }
         public static ISettingsService Settings { get; private set; }
         public static ISpawnService Spawn { get; private set; }
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Services
             Faction = gameObject.AddComponent<FactionService>();
             Inventory = gameObject.GetComponent<IInventoryService>();
             Map = gameObject.GetComponent<ICustomMapService>();
+            Message = gameObject.GetComponent<IMessageService>();
             Pause = gameObject.AddComponent<PauseService>();
             Settings = gameObject.AddComponent<SettingsService>();
             Spawn = gameObject.AddComponent<SpawnService>();

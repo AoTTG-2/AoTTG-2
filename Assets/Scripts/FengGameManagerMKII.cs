@@ -111,8 +111,6 @@ namespace Assets.Scripts
         [Obsolete("A value is never assigned")]
         public static string PrivateServerAuthPass;
         [Obsolete("Use RacingGamemode instead")]
-        private ArrayList racingResult;
-        [Obsolete("Use RacingGamemode instead")]
         public Vector3 racingSpawnPoint;
         [Obsolete("Use RacingGamemode instead")]
         public bool racingSpawnPointSet;
@@ -562,20 +560,7 @@ namespace Assets.Scripts
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
-
-        [Obsolete("Move into RacingGamemode")]
-        [PunRPC]
-        private void getRacingResult(string player, float time)
-        {
-            RacingResult result = new RacingResult
-            {
-                name = player,
-                time = time
-            };
-            this.racingResult.Add(result);
-            this.refreshRacingResult2();
-        }
-
+        
         [PunRPC]
         private void ignorePlayer(int ID, PhotonMessageInfo info)
         {
@@ -1684,29 +1669,7 @@ namespace Assets.Scripts
                 base.StartCoroutine(this.loadskinE(n, url, url2, skybox));
             }
         }
-
-        [Obsolete("Migrate to RacingGamemode")]
-        public void multiplayerRacingFinsih()
-        {
-            float time = Service.Time.GetRoundTime() - 20f;
-            if (PhotonNetwork.isMasterClient)
-            {
-                this.getRacingResult(LoginFengKAI.player.name, time);
-            }
-            else
-            {
-                object[] parameters = new object[] { LoginFengKAI.player.name, time };
-                base.photonView.RPC(nameof(getRacingResult), PhotonTargets.MasterClient, parameters);
-            }
-        }
-
-        [Obsolete("Migrate to RacingGamemode")]
-        [PunRPC]
-        private void netRefreshRacingResult(string tmp)
-        {
-            this.localRacingResult = tmp;
-        }
-
+        
         [PunRPC]
         public void netShowDamage(int damage)
         {
@@ -1768,7 +1731,6 @@ namespace Assets.Scripts
 
         public override void OnCreatedRoom()
         {
-            this.racingResult = new ArrayList();
             Debug.Log("OnCreatedRoom");
         }
 
@@ -2116,27 +2078,7 @@ namespace Assets.Scripts
                 base.StartCoroutine(this.WaitAndRecompilePlayerList(time));
             }
         }
-
-        [Obsolete("Migrate into RacingGamemode")]
-        private void refreshRacingResult2()
-        {
-            this.localRacingResult = "Result\n";
-            IComparer comparer = new IComparerRacingResult();
-            this.racingResult.Sort(comparer);
-            int num = Mathf.Min(this.racingResult.Count, 10);
-            for (int i = 0; i < num; i++)
-            {
-                string localRacingResult = this.localRacingResult;
-                object[] objArray2 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
-                this.localRacingResult = string.Concat(objArray2);
-                this.localRacingResult = this.localRacingResult + (this.racingResult[i] as RacingResult).name;
-                this.localRacingResult = this.localRacingResult + "   " + ((((int) ((this.racingResult[i] as RacingResult).time * 100f)) * 0.01f)).ToString() + "s";
-                this.localRacingResult = this.localRacingResult + "\n";
-            }
-            object[] parameters = new object[] { this.localRacingResult };
-            base.photonView.RPC(nameof(netRefreshRacingResult), PhotonTargets.All, parameters);
-        }
-
+        
         public IEnumerator reloadSky()
         {
             yield return new WaitForSeconds(0.5f);
@@ -2235,7 +2177,6 @@ namespace Assets.Scripts
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
                 this.ClearKillInfo();
-                this.racingResult = new ArrayList();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
                 PhotonNetwork.DestroyAll();

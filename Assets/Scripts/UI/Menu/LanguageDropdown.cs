@@ -23,8 +23,8 @@ namespace Assets.Scripts.UI.Menu
                 LocalizationSettings.SelectedLocale =
                     LocalizationSettings.AvailableLocales.Locales.SingleOrDefault(x => x.Identifier.Code == language);
                 Dropdown.value = languages.Select(x => x.Identifier.Code).ToList().IndexOf(language);
-                Service.Localization.ReloadLocalization();
             }
+            Service.Localization.ReloadLocalization();
         }
 
         public void OnValueChanged(int value)

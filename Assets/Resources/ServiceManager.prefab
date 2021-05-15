@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1825475748394659375}
   - component: {fileID: 2467458246908787602}
   - component: {fileID: 6383447370369808301}
+  - component: {fileID: 2527378413556133109}
   m_Layer: 0
   m_Name: ServiceManager
   m_TagString: Untagged
@@ -163,9 +164,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd762be17be46040989eeb6b8a014b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commonTable:
+    m_TableReference:
+      m_TableCollectionName: 
+  sharedGamemodeTable:
+    m_TableReference:
+      m_TableCollectionName: GUID:c2ae64d1d52689246ad40b03f2b46c42
   catchGamemodeTable:
     m_TableReference:
       m_TableCollectionName: GUID:9a44487fd5161e94a84321c3c80a64d1
   racingGamemodeTable:
     m_TableReference:
       m_TableCollectionName: GUID:9da6af0dc24e65649994cadbe0ab893c
+  rushGamemodeTable:
+    m_TableReference:
+      m_TableCollectionName: GUID:d25bedce60a69f443b24b17f39261f41
+  waveGamemodeTable:
+    m_TableReference:
+      m_TableCollectionName: GUID:3afcd4554bcf8b445ab94ca7305ea6b9
+--- !u!114 &2527378413556133109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650797095130246453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d699cd401c65bb8429403e9ddcdb3784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chat: {fileID: 0}

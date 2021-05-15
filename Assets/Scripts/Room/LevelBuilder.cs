@@ -72,6 +72,26 @@ namespace Assets.Scripts.Room
         {
             _levels.Add(new Level
             {
+                Name = "Akina",
+                Description = "Most famous racing map",
+                SceneName = "track - akina",
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new RacingSettings
+                    {
+                        IsPlayerTitanEnabled = false,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    }
+                },
+            });
+
+            _levels.Add(new Level
+            {
                 Name = "The City - Classic",
                 Description = "Classic City Map from AoTTG",
                 SceneName = "The City I",
@@ -215,26 +235,6 @@ namespace Assets.Scripts.Room
                         },
                     }
                 }
-            });
-
-            _levels.Add(new Level
-            {
-                Name = "Akina",
-                Description = "Most famous racing map",
-                SceneName = "track - akina",
-                Gamemodes = new List<GamemodeSettings>
-                {
-                    new RacingSettings
-                    {
-                        IsPlayerTitanEnabled = false,
-                        Time = new TimeSettings
-                        {
-                            CurrentTime = 12,
-                            DayLength = 300,
-                            Pause = true,
-                        },
-                    }
-                },
             });
 
             _levels.Add(new Level

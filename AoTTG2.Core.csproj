@@ -115,7 +115,6 @@
     <Compile Include="Assets\Scripts\Characters\HitBox.cs" />
     <Compile Include="Assets\Scripts\Effects\JetAffector.cs" />
     <Compile Include="Assets\Scripts\Room\DayLight.cs" />
-    <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerRacingResult.cs" />
     <Compile Include="Assets\Scripts\Time of Day\TimecycleProfile.cs" />
     <Compile Include="Assets\Scripts\Services\SettingsService.cs" />
     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
@@ -146,6 +145,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Crosshair.cs" />
     <Compile Include="Assets\Scripts\Effects\EffectLayer.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IDiscordService.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IMessageService.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleOptionsGUI.cs" />
     <Compile Include="Assets\Scripts\Services\InventoryService.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenu.cs" />
@@ -360,6 +360,7 @@
     <Compile Include="Assets\Scripts\Settings\Gamemodes\RushSettings.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiSlider.cs" />
     <Compile Include="Assets\Scripts\Room\HintType.cs" />
+    <Compile Include="Assets\Scripts\Services\MessageService.cs" />
     <Compile Include="Assets\Scripts\Settings\GlobalSettings.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />

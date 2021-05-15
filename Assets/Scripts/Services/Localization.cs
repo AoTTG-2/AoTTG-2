@@ -18,19 +18,14 @@ namespace Assets.Scripts.Services
         public static StringTable Common { get; set; }
         public static GamemodeLocalization Gamemode { get; set; } = new GamemodeLocalization();
 
-        private void Start()
+        public async void ReloadLocalization()
         {
-            commonTable.GetTable().Completed += (op) => { Common = op.Result; };
-            sharedGamemodeTable.GetTable().Completed += (op) => { Gamemode.Shared = op.Result; };
-            catchGamemodeTable.GetTable().Completed += (op) => { Gamemode.Catch = op.Result; };
-            racingGamemodeTable.GetTable().Completed += (op) => { Gamemode.Racing = op.Result; };
-            rushGamemodeTable.GetTable().Completed += (op) => { Gamemode.Rush = op.Result; };
-            waveGamemodeTable.GetTable().Completed += (op) => { Gamemode.Wave = op.Result; };
-        }
-
-        public void ReloadLocalization()
-        {
-            Start();
+            Common = await commonTable.GetTable().Task;
+            Gamemode.Shared = await sharedGamemodeTable.GetTable().Task;
+            Gamemode.Catch = await catchGamemodeTable.GetTable().Task;
+            Gamemode.Racing = await racingGamemodeTable.GetTable().Task;
+            Gamemode.Rush = await rushGamemodeTable.GetTable().Task;
+            Gamemode.Wave = await waveGamemodeTable.GetTable().Task;
         }
     }
 
