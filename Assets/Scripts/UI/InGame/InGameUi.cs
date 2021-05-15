@@ -17,7 +17,7 @@ namespace Assets.Scripts.UI.InGame
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
         public PauseIndicator PauseIndicator;
-        public ChangeHUDHandler ChangeHudMenu;
+        public ChangeHudHandler ChangeHudMenu;
         private static IPauseService PauseService => Service.Pause;
 
         public void TogglePauseMenu()
