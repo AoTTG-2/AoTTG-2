@@ -173,7 +173,7 @@ namespace Assets.Scripts.Characters.Humans
         public float skillCDLastCannon;
         public string skillIDHUD;
         public AudioSource slash;
-        public AudioSource slashHit;
+        public AudioSource[] slashHit;
 
         [Header("Particles")]
         [SerializeField] private ParticleSystem particle_Smoke_3dmg;

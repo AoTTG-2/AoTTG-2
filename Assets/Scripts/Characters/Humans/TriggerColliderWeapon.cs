@@ -77,7 +77,7 @@ namespace Assets.Scripts.Characters.Humans
                 if (collider.gameObject.transform.root.gameObject.CompareTag("titan"))
                 {
                     GameObject meat;
-                    hero.slashHit.Play();
+                    hero.slashHit[Random.Range(0,hero.slashHit.Length)].Play();
                     meat = PhotonNetwork.Instantiate("hitMeat", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
                     meat.transform.position = transform.position;
                     Equipment.Weapon.Use(0);
