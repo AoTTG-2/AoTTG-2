@@ -390,17 +390,6 @@ namespace Assets.Scripts.Room
                     new KillTitansSettings
                     {
                         GamemodeType = GamemodeType.Titans,
-                        Name = "Titans",
-                        Time = new TimeSettings
-                        {
-                            CurrentTime = 12,
-                            DayLength = 300,
-                            Pause = true,
-                        },
-                    },
-                    new KillTitansSettings
-                    {
-                        GamemodeType = GamemodeType.Titans,
                         Name = "Annie",
                         Description = "Classic map where you fight the Female Titan",
                         Titan = new SettingsTitan
