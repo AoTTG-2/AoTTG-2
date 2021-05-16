@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8900706102466670829}
   - component: {fileID: 983222709217371840}
   - component: {fileID: 4440718753059071427}
-  - component: {fileID: 4414381469821895219}
   - component: {fileID: -386457492866829988}
+  - component: {fileID: 4414381469821895219}
   m_Layer: 5
   m_Name: MessageContent
   m_TagString: Untagged
@@ -137,6 +137,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &-386457492866829988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375232931321056311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e907275c8fe2d6439c7876ce1fc176d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisMessage: {fileID: 4440718753059071427}
+  contextMenu: {fileID: 6798108117250523512, guid: a5ffd37f4c87c3a4ebdf525e7e72b88e,
+    type: 3}
 --- !u!114 &4414381469821895219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,15 +166,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &-386457492866829988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2375232931321056311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e966b0fc17907940b138f498fbbd4e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
