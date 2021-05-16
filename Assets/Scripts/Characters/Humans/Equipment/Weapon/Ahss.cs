@@ -125,7 +125,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         public override void UpdateSupplyUi(GameObject inGameUi)
         {
             var bladesUi = inGameUi.GetComponentInChildren<AHSS>();
-            bladesUi.SetAHSS(AmountLeft, AmountRight);
+            bladesUi?.SetAHSS(AmountLeft, AmountRight);
         }
 
         public override void Use(int amount = 0)

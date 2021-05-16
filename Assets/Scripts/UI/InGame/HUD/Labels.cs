@@ -1,13 +1,13 @@
-﻿using UnityEngine.UI;
+﻿using TMPro;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
     public class Labels : UiElement
     {
-        public Text Center;
-        public Text Top;
-        public Text TopRight;
-        public Text TopLeft;
+        public TMP_Text Center;
+        public TMP_Text Top;
+        public TMP_Text TopRight;
+        public TMP_Text TopLeft;
 
         public void Awake()
         {
