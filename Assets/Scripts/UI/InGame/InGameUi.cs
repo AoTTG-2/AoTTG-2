@@ -1,8 +1,9 @@
-﻿using Assets.Scripts.Room.Chat;
+using Assets.Scripts.Room.Chat;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.Controls;
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
@@ -11,10 +12,12 @@ namespace Assets.Scripts.UI.InGame
     {
         public HUD.HUD HUD;
         public InGameMenu Menu;
+        public Scoreboard.Scoreboard Scoreboard;
         public SpawnMenuV2 SpawnMenu;
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
         public PauseIndicator PauseIndicator;
+        public ChangeHudHandler ChangeHudMenu;
         private static IPauseService PauseService => Service.Pause;
 
         public void TogglePauseMenu()
@@ -37,8 +40,10 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
+
         private void Awake()
         {
+            AddChild(ChangeHudMenu);
             AddChild(HUD);
             AddChild(Menu);
             AddChild(SpawnMenu);
@@ -60,6 +65,8 @@ namespace Assets.Scripts.UI.InGame
             Menu.Hide();
             PauseIndicator.Hide();
             ControlsMenu.Hide();
+            Scoreboard.Hide();
+            ChangeHudMenu.Hide();
 
             PauseService.OnPaused += PauseService_OnPaused;
             PauseService.OnUnPaused += PauseService_OnUnPaused;
@@ -79,6 +86,12 @@ namespace Assets.Scripts.UI.InGame
             {
                 TogglePauseMenu();
             }
+            
+            //TODO: When the new InputSystem is implemented, redo this.
+            ///////// TEMPORARILY DISABLED SCOREBOARD //////////
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Show();
+            // if (UnityEngine.Input.GetKeyUp(KeyCode.Tab) && !MenuManager.IsMenuOpen(typeof(InRoomChat))) Scoreboard.Hide();
+            
         }
 
         private void OnDestroy()
