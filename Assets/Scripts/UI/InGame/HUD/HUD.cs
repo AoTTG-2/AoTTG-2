@@ -1,7 +1,8 @@
 ﻿using System;
+using Assets.Scripts.UI.InGame.HUD.Weapon;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
@@ -14,15 +15,8 @@ namespace Assets.Scripts.UI.InGame.HUD
         public bool inEditMode;
         public bool isActive = true;
         public Crosshair Crosshair;
+        public Weapons Weapons;
         
-        public void Update()
-        {
-            if(UnityEngine.Input.GetKeyDown(KeyCode.J))
-            {
-                SetDamage(UnityEngine.Random.Range(1000,5000));
-            }
-        }
-
         public void SetDamage(int damage)
         {
             var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();

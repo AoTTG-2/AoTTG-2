@@ -2068,7 +2068,7 @@ namespace Assets.Scripts.Characters.Humans
             Skill = Skill.Create(preset.CurrentBuild.Skill, this);
 
             EquipmentType = preset.CurrentBuild.Equipment;
-                                            Equipment.Initialize();
+            Equipment.Initialize();
 
             if (EquipmentType == EquipmentType.Ahss)
             {

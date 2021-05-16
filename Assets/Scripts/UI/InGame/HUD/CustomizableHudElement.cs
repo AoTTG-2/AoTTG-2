@@ -1,12 +1,10 @@
-﻿using UnityEngine.EventSystems;
-using UnityEngine;
-using Assets.Scripts.UI.InGame;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 /* Any HUD element that is customizable should have this script attached */
 
 namespace Assets.Scripts.UI.InGame.HUD
 {
-
     public class CustomizableHudElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
     {
         [Header("Settings:")]

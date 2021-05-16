@@ -5,13 +5,12 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.Camera;
+using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
-using Assets.Scripts.UI.InGame;
 using System;
 using UnityEngine;
 using static Assets.Scripts.FengGameManagerMKII;
 using Random = UnityEngine.Random;
-using Assets.Scripts.UI.InGame.HUD;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
@@ -156,7 +155,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         //GameObject.Find("flash").GetComponent<UISprite>().alpha = 1f;
         //this.flashDuration = 2f;
     }
-    
+
     public GameObject SetMainObject(GameObject obj, bool resetRotation = true, bool lockAngle = false)
     {
         float num;
@@ -671,18 +670,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public void ToggleHUD()
     {
-        if (HUD.GetComponent<HUD>().isActive)
-        {
-            HUD.GetComponent<HUD>().isActive = false;
-            HUD.transform.localScale = new Vector3(0, 0, 0);
-        }
-        else
-        {
-            HUD.GetComponent<HUD>().isActive = true;
-            HUD.transform.localScale = new Vector3(1, 1, 1);
-        }
+        HUD.transform.gameObject.SetActive(!HUD.transform.gameObject.activeInHierarchy);
     }
-    
+
     public static void ToggleSpawnMenu()
     {
         var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
@@ -753,10 +743,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
         float x;
 
-        if(!MenuManager.IsAnyMenuOpen)
+        if (!MenuManager.IsAnyMenuOpen)
         {
             x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / Screen.height) * 0.5f;
-        } else
+        }
+        else
         {
             x = 0f;
         }
@@ -812,7 +803,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private float GetSensitivityMulti()
     {
-        if(MenuManager.IsAnyMenuOpen)
+        if (MenuManager.IsAnyMenuOpen)
         {
             return 0f; //Prevents camera from moving when on menu
         }
@@ -824,7 +815,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private float GetSensitivityMultiWithDeltaTime()
     {
-        if(MenuManager.IsAnyMenuOpen)
+        if (MenuManager.IsAnyMenuOpen)
         {
             return 0f; //Prevents camera from moving when on menu
         }
@@ -882,7 +873,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().addCamera(this);
         isPausing = false;
-        HUD =GameObject.Find("HUD");
+        HUD = Service.Ui.GetUiHandler().InGameUi.HUD.transform.gameObject;
         // This doesn't exist in the scene and causes a NullReferenceException.
         // TODO: Fix titan locking
         locker = GameObject.Find("locker");

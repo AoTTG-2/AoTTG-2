@@ -6367,6 +6367,7 @@ MonoBehaviour:
   inEditMode: 0
   isActive: 1
   Crosshair: {fileID: 0}
+  Weapons: {fileID: 2567654348218330632}
 --- !u!1 &6835036326464312626
 GameObject:
   m_ObjectHideFlags: 0
@@ -7494,6 +7495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6835036327044348367}
+  - component: {fileID: 2567654348218330632}
   m_Layer: 5
   m_Name: Weapon
   m_TagString: Untagged
@@ -7522,6 +7524,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 15.07}
   m_SizeDelta: {x: 76.26944, y: 76.26944}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2567654348218330632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6835036327044348366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93c87ab1978b6f41a388c016ebdb66a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Blades: {fileID: 6835036325978799538}
+  AHSS: {fileID: 6835036326464312620}
 --- !u!1 &6835036327067596734
 GameObject:
   m_ObjectHideFlags: 0
@@ -7804,7 +7820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 164.22998, y: 0.00045776367}
+  m_AnchoredPosition: {x: 164.22998, y: 910.3755}
   m_SizeDelta: {x: 328.4641, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &6835036327192163781

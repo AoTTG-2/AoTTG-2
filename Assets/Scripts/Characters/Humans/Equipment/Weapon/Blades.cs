@@ -74,6 +74,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         public override void UpdateSupplyUi(GameObject inGameUi)
         {
             bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
+            if (bladesUi == null) return;
             if(Hero.currentBladeSta > 0) 
                 bladesUi.SetBlades(AmountLeft);
             //TODO: This is a temporary reference to bladeSta and gasSta of Hero;
