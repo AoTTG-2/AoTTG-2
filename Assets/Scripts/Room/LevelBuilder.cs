@@ -366,7 +366,7 @@ namespace Assets.Scripts.Room
                     {
                         Time = new TimeSettings
                         {
-                            CurrentTime = 12,
+                            CurrentTime = 24,
                             DayLength = 300,
                             Pause = true,
                         },
@@ -387,7 +387,7 @@ namespace Assets.Scripts.Room
                     {
                         Time = new TimeSettings
                         {
-                            CurrentTime = 12,
+                            CurrentTime = 24,
                             DayLength = 300,
                             Pause = true,
                         },
@@ -396,7 +396,7 @@ namespace Assets.Scripts.Room
                     {
                         Time = new TimeSettings
                         {
-                            CurrentTime = 12,
+                            CurrentTime = 24,
                             DayLength = 300,
                             Pause = true,
                         },

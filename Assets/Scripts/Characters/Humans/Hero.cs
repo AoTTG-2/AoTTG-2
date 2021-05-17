@@ -79,7 +79,7 @@ namespace Assets.Scripts.Characters.Humans
         private BUFF currentBuff { get; set; }
         public Camera currentCamera;
         public IN_GAME_MAIN_CAMERA currentInGameCamera;
-        private float currentGas { get; set; } = 100f;
+        public float currentGas { get; set; } = 100f;
         public float currentSpeed;
         public Vector3 currentV;
         private bool dashD { get; set; }
@@ -3927,6 +3927,7 @@ namespace Assets.Scripts.Characters.Humans
 
                 hookUI.crossImage.color = magnitude > 120f ? Color.red : Color.white;
                 hookUI.distanceLabel.transform.localPosition = hookUI.cross.localPosition;
+                hookUI.speedLabel.transform.localPosition = hookUI.cross.localPosition;
 
                 if (((int) FengGameManagerMKII.settings[0xbd]) == 1)
                 {
@@ -3937,6 +3938,7 @@ namespace Assets.Scripts.Characters.Humans
                     distance += "\n" + ((currentSpeed / 100f)).ToString("F1") + "K";
                 }
                 hookUI.distanceLabel.text = distance;
+                hookUI.speedLabel.text = ((currentSpeed / 100f)).ToString("F1") + "K";
 
                 Vector3 vector2 = new Vector3(0f, 0.4f, 0f);
                 vector2 -= (transform.right * 0.3f);
@@ -3978,21 +3980,8 @@ namespace Assets.Scripts.Characters.Humans
 
         private void ShowGas()
         {
-            float num = currentGas / totalGas;
             float num2 = currentBladeSta / totalBladeSta;
-            cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = currentGas / totalGas;
-            if (num <= 0.25f)
-            {
-                cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.red;
-            }
-            else if (num < 0.5f)
-            {
-                cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.yellow;
-            }
-            else
-            {
-                cachedSprites["GasLeft"].color = cachedSprites["GasRight"].color = Color.white;
-            }
+            cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = 1 - (currentGas / totalGas);
             Equipment.Weapon.UpdateSupplyUi(InGameUI);
         }
 

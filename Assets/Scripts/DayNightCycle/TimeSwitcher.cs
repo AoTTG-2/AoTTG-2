@@ -40,7 +40,10 @@ namespace Assets.Scripts.DayNightCycle
                 Service.Settings.SyncSettings();
             }
         }
-
+        void Start()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
         void Update()
         {
             TimeSlider.value = dayNightCycle.CurrentTimeScale;
@@ -71,7 +74,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             TimeSlider.value = dayNightCycle.CurrentTimeScale;
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            
             if (PhotonNetwork.isMasterClient)
             {
                 var se = new InputField.SubmitEvent();
@@ -90,11 +93,13 @@ namespace Assets.Scripts.DayNightCycle
         {
 
             TimeInput.text = "";
+        }
+        void OnApplicationQuit()
+        {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
-
-}
+    }
    
 
 }
