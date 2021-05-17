@@ -1,4 +1,6 @@
 ﻿using System;
+using Assets.Scripts.UI.InGame.HUD.Weapon;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +10,16 @@ namespace Assets.Scripts.UI.InGame.HUD
     {
         public GameObject Damage;
         public Labels Labels;
+        public GameObject BloodSmear;
+        public UnityEngine.Sprite[] BloodSmearSprite;
+        public bool inEditMode;
+        public bool isActive = true;
         public Crosshair Crosshair;
-
+        public Weapons Weapons;
+        
         public void SetDamage(int damage)
         {
-            var damageLabels = Damage.GetComponentsInChildren<Text>();
+            var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();
             foreach (var label in damageLabels)
             {
                 label.fontSize = ScaleDamageText(damage);
@@ -20,20 +27,33 @@ namespace Assets.Scripts.UI.InGame.HUD
             }
 
             ShowDamage();
+            ShowBloodSmear(damage);
         }
+
 
         public void ClearDamage()
         {
-            var damageLabels = Damage.GetComponentsInChildren<Text>();
+            var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();
             foreach (var label in damageLabels)
             {
-                label.text = string.Empty;
+                label.text = "";
             }
+            Damage.transform.localScale = new Vector3(0,0,1f);
         }
 
         private void ShowDamage()
         {
             Damage.GetComponent<Animator>().SetTrigger("ShowDamage");
+        }
+
+        private void ShowBloodSmear(int damage)
+        {
+            if(damage >= 1000)
+            {
+                GameObject BloodOverlay = Instantiate(BloodSmear, transform);
+                BloodOverlay.GetComponent<Image>().sprite = BloodSmearSprite[UnityEngine.Random.Range(0,BloodSmearSprite.Length)];
+                Destroy(BloodOverlay, 5f);
+            }
         }
 
         private int ScaleDamageText(int damage)
