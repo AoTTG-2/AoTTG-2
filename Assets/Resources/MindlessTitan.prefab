@@ -2151,6 +2151,7 @@ GameObject:
   - component: {fileID: 114288680120854022}
   - component: {fileID: 114021182772690314}
   - component: {fileID: 6694120659276232339}
+  - component: {fileID: -6264185045053856331}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2474,6 +2475,26 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-6264185045053856331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916a7e123a236544a8a09aa0a1e9673c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 7d386ad57bb442a48b6c87e130de4929, type: 3}
+  markerColor: {r: 0.5849056, g: 0, b: 0, a: 0}
+  isFlare: 0
+  isGlobal: 0
+  followAlways: 1
+  image: {fileID: 0}
+  position: {x: 0, y: 0}
+  markerID: 
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0

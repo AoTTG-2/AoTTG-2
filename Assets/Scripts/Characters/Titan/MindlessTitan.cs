@@ -459,6 +459,7 @@ namespace Assets.Scripts.Characters.Titan
             if (!Animation.IsPlaying(AnimationDeath))
             {
                 Destroy(minimapIcon.gameObject);
+                Destroy(GetComponent<CompassMarker>());
                 CrossFade(AnimationDeath, 0.05f);
             }
             var deathTime = Animation[AnimationDeath].normalizedTime;
