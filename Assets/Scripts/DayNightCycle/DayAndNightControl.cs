@@ -22,8 +22,12 @@ namespace Assets.Scripts.DayNightCycle
         [SerializeField] private float sunRotationOffset = 0f;
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
         [SerializeField] private int lightingUpdateInterval = 10;
-        public Material SkyboxMaterial;
-
+        public Material ProceduralSkyboxMaterial;
+        public Material StaticNightSkyboxMaterial;
+        public Material StaticDaySkyboxMaterial;
+        public Material StaticDawnSkyboxMaterial;
+        public Material StaticDuskSkyboxMaterial;
+        public bool StaticSkybox;
         [Range(0f, 24f)] public float CurrentTime;
         public float CurrentTimeScale => CurrentTime / 24;
         public Camera MoonCamera = null;
@@ -32,12 +36,16 @@ namespace Assets.Scripts.DayNightCycle
         public float DayLength; 
         public bool Pause { get; set; }
         public float LightIntensity; //static variable to see what the main light's insensity is in the inspector
-
+        public string StaticSkyboxPlayerPref = "StaticSkybox";
         private int frames;
        
         void Start()
         {
-            Pause=true;
+            //loads static skybox if player has set so in graphics settings
+            if (PlayerPrefs.HasKey(StaticSkyboxPlayerPref))
+            {
+                StaticSkybox = PlayerPrefs.GetInt(StaticSkyboxPlayerPref) == 1;
+            }
             Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             //Sets Scene variables to time settings
             if (PhotonNetwork.isMasterClient)
@@ -120,7 +128,8 @@ namespace Assets.Scripts.DayNightCycle
             {
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
             }
-
+            // StaticSkybox Skybox
+            UpdateSkybox();
             if (!Pause)
             {
                 CurrentTime += (Time.deltaTime / DayLength) * 24;
@@ -149,13 +158,33 @@ namespace Assets.Scripts.DayNightCycle
 
         void UpdateMaterial()
         {
-            SkyboxMaterial.SetVector("_Axis", Sun.transform.right);
-            SkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
+            ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTimeScale));
         }
+        void UpdateSkybox()
+        {
+            if (StaticSkybox)
+            {
+                if (CurrentTime <= 5)
+                    RenderSettings.skybox = StaticNightSkyboxMaterial;
+                else if (CurrentTime > 5 && CurrentTime <= 8)
+                    RenderSettings.skybox = StaticDawnSkyboxMaterial;
+                else if (CurrentTime > 8 && CurrentTime <= 18)
+                    RenderSettings.skybox = StaticDaySkyboxMaterial;
+                else if (CurrentTime > 17 && CurrentTime <= 19)
+                    RenderSettings.skybox = StaticDuskSkyboxMaterial;
+                else if (CurrentTime > 19 )
+                    RenderSettings.skybox = StaticNightSkyboxMaterial;
+            }
+            else
+            { 
+            RenderSettings.skybox = ProceduralSkyboxMaterial; 
+            ProceduralSkyboxMaterial.SetVector("_Axis", Sun.transform.right);
+            ProceduralSkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
+            }
 
+        }
         void UpdateLightingSettings()
         {
-            RenderSettings.skybox = SkyboxMaterial;
             RenderSettings.sun = Sun; // Procedural skybox needs this to work
             RenderSettings.fog = true;
 
@@ -229,6 +258,7 @@ namespace Assets.Scripts.DayNightCycle
                 RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTimeScale).a * timecycle.maxFogDensity;
             }
             
+            
         }
 
 #if UNITY_EDITOR
@@ -236,13 +266,15 @@ namespace Assets.Scripts.DayNightCycle
         {
             UpdateLightingSettings();
             UpdateLight();
+            ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTime));
             ReflectionProbe.RenderProbe();
             // Reflection Probes have limited range so we'll want it to follow the scene view's camera when previewing changes
             Vector3 sceneViewPosition = SceneView.lastActiveSceneView != null ? SceneView.lastActiveSceneView.camera.transform.position : Vector3.zero;
             // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
             ReflectionProbe.transform.position = new Vector3(sceneViewPosition.x, sceneViewPosition.y - 5f, sceneViewPosition.z);
+
         }
 #endif
-        }
     }
+}
 
