@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI.InGame.Controls;
+using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
@@ -8,6 +9,7 @@ namespace Assets.Scripts.UI.InGame
         public GameSettingMenu GameSettingsMenu;
         public ControlsMenu ControlsMenu;
         public GraphicSettingMenu GraphicsSettingsMenu;
+        public ChangeHudHandler ChangeHudHandler;
 
         // Used by Button.
         public void Quit()
@@ -33,11 +35,19 @@ namespace Assets.Scripts.UI.InGame
             ControlsMenu.Show();
         }
 
+        // Used by Button.
+        public void ShowCustomizeHUDMenu()
+        {
+            ChangeHudHandler.Show();
+            ChangeHudHandler.EnterEditMode();
+        }
+
         private void Awake()
         {
             AddChild(GameSettingsMenu);
             AddChild(ControlsMenu);
             AddChild(GraphicsSettingsMenu);
+            AddChild(ChangeHudHandler);
         }
 
         protected override void OnEnable()
