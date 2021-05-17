@@ -719,10 +719,12 @@ namespace Assets.Scripts.Characters.Titan
             {
                 RotationModifier = 0f;
             }
+            SetState(TitanState.Disabled);
         }
 
         private void LateUpdate()
         {
+            SetState(TitanState.Disabled);
             if (Target == null && State == TitanState.Attacking)
             {
                 SetState(TitanState.Wandering);
