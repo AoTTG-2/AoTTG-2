@@ -3578,7 +3578,6 @@ GameObject:
   - component: {fileID: 663113088}
   - component: {fileID: 663113087}
   - component: {fileID: 663113086}
-  - component: {fileID: 663113085}
   m_Layer: 4
   m_Name: river
   m_TagString: Untagged
@@ -3586,20 +3585,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &663113085
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663113084}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1123311982}
 --- !u!33 &663113086
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -9596,7 +9581,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh62482
+  m_Name: pb_Mesh99644
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11111,17 +11096,17 @@ PrefabInstance:
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 824.9585
+      value: 859.3886
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 36.00779
+      value: 300.5886
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 724.8269
+      value: 783.51697
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7496b60d927ab42ae88bede3e35b7c, type: 3}
@@ -64191,7 +64176,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 394462518343860719, guid: 3ac1d566081963442bea398ab440953f, type: 3}
+  m_Mesh: {fileID: 2189878462786173919, guid: 1c8848a910810be4a9d31f6af7a06acb, type: 3}
 --- !u!64 &9031444993905611413
 MeshCollider:
   m_ObjectHideFlags: 0
