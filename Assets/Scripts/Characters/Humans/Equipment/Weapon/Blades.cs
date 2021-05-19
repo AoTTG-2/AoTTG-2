@@ -6,6 +6,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
     {
         public override bool CanReload => AmountLeft < 5 || AmountRight < 5;
 
+        private Assets.Scripts.UI.InGame.Weapon.Blades bladesUi;
         public int TotalBlades => AmountLeft;
         private const int MaxAmmo = 5;
 
@@ -72,8 +73,13 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
         public override void UpdateSupplyUi(GameObject inGameUi)
         {
-            var bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
-            bladesUi.SetBlades(AmountLeft);
+            bladesUi = inGameUi.GetComponentInChildren<Assets.Scripts.UI.InGame.Weapon.Blades>();
+            if (bladesUi == null) return;
+            if(Hero.currentBladeSta > 0) 
+                bladesUi.SetBlades(AmountLeft);
+            //TODO: This is a temporary reference to bladeSta and gasSta of Hero;
+            bladesUi.bladeSta = Hero.currentBladeSta;
+            bladesUi.curGas = Hero.currentGas;
         }
 
         private void ThrowBlades()
@@ -115,6 +121,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
             if (Hero.currentBladeSta > 0f)
             {
                 Hero.currentBladeSta -= amount;
+                bladesUi.ShakeBlades();
                 if (Hero.currentBladeSta <= 0f)
                 {
                     if (Hero.photonView.isMine)
