@@ -244,13 +244,19 @@ MonoBehaviour:
   timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
   sunRotationOffset: 0
   lightingUpdateInterval: 1
-  SkyboxMaterial: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b, type: 2}
+  ProceduralSkyboxMaterial: {fileID: 0}
+  StaticNightSkyboxMaterial: {fileID: 0}
+  StaticDaySkyboxMaterial: {fileID: 0}
+  StaticDawnSkyboxMaterial: {fileID: 0}
+  StaticDuskSkyboxMaterial: {fileID: 0}
+  StaticSkybox: 0
   CurrentTime: 12
   MoonCamera: {fileID: 259637730578209515}
   MainCamera: {fileID: 0}
   CurrentDay: 0
   DayLength: 300
   LightIntensity: 0
+  StaticSkyboxPlayerPref: StaticSkybox
 --- !u!1 &190586
 GameObject:
   m_ObjectHideFlags: 0
