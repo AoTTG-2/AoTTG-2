@@ -1,40 +1,100 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using Assets.Scripts.Room.Chat;
+using UnityEngine.Localization.Settings;
+using Assets.Scripts.UI.InGame.Scoreboard;
 
 public class ChatMessage : Photon.MonoBehaviour
 {
 
     [SerializeField] private TMP_Text thisMessage;
-    [SerializeField] private GameObject contextMenu;
+    private string originalMessage;
+    private string translatedMessage;
+    private bool hasBeenTranslated = false;
+    private bool originalLang = true;
+    [SerializeField] private Button translateButton;
+    [SerializeField] private string playerID;
+    
 
-    //Detect right click
-    //Open a context menu with options (buttons?) like Copy and Translate
+    private void Start()
+    {
 
-    void Update()
+        translateButton.onClick.AddListener(TranslateThisText);
+        originalMessage = thisMessage.text;
+        string[] playersplit = thisMessage.text.Split(':');
+        playerID = playersplit[0];
+
+    }
+
+    public void TranslateThisText()
     {
 
         if (Cursor.visible)
         {
 
-            if (Input.GetMouseButtonDown(1))
+            if (!hasBeenTranslated)
             {
 
-                int line = TMP_TextUtilities.FindIntersectingLink(thisMessage, Input.mousePosition, null);
+                var line = TMP_TextUtilities.FindIntersectingLink(thisMessage, thisMessage.transform.position, null);
 
                 if (line > -1)
                 {
 
                     var text = thisMessage.textInfo.linkInfo[line];
-                    //Create the ContextMenu and set ContextMenu.clickedOver to text.GetLinkText()
+
+                    string langCode = LocalizationSettings.SelectedLocale.Identifier.CultureInfo.TwoLetterISOLanguageName;
+
+                    Debug.Log("Your language is: " + langCode);
+
+                    StartCoroutine(TextTranslator.Translate(text.GetLinkText(), "auto", langCode, results =>
+                    {
+
+                        if (results.Length > 1)
+                        {
+
+                            translatedMessage = playerID + ":  " + results[1];
+                            hasBeenTranslated = true;
+                            originalLang = true;
+                            UpdateChatBox();
+                            return;
+
+                        }
+                        else
+                        {
+
+                            Debug.LogError($"Translation Error: {results[0]}");
+
+                        }
+
+                    }));
 
                 }
-
             }
 
+            UpdateChatBox();
         }
-
-        return;
 
     }
 
+    private void UpdateChatBox()
+    {
+
+        if (originalLang)
+        {
+
+            thisMessage.text = translatedMessage;
+            originalLang = false;
+
+        }
+
+        else
+        {
+
+            thisMessage.text = originalMessage;
+            originalLang = true;
+
+        }
+
+    }
 }

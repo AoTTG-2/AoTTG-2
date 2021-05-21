@@ -228,6 +228,7 @@
     <Compile Include="Assets\Scripts\Effects\ScaleAffector.cs" />
     <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonValues.cs" />
+    <Compile Include="Assets\Scripts\DayNightCycle\ToggleStaticSkybox.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\ScrollingScrollView.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\MindlessTitanSettings.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="Assets\Scripts\Services\Interface\ITimeService.cs" />
     <Compile Include="Assets\Scripts\Services\UiService.cs" />
     <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
+    <Compile Include="Assets\Scripts\Room\Chat\ContextMenu.cs" />
     <Compile Include="Assets\Scripts\Services\Service.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Equipment.cs" />
     <Compile Include="Assets\Scripts\Effects\LinearForceAffector.cs" />
@@ -337,6 +339,7 @@
     <Compile Include="Assets\Scripts\Events\SettingEvents.cs" />
     <Compile Include="Assets\Scripts\Events\Args\HeroKillEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Radial\RadialMenu.cs" />
+    <Compile Include="Assets\Scripts\Room\Chat\ClipboardExtension.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevelOption.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\TitanSettings.cs" />
     <Compile Include="Assets\Scripts\iTween.cs" />
@@ -482,8 +485,6 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Room\Chat\ClipboardExtension.cs" />
-    <Compile Include="Assets\Scripts\Room\Chat\ContextMenu.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
@@ -1110,6 +1111,9 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>Library\ScriptAssemblies\Unity.Localization.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
