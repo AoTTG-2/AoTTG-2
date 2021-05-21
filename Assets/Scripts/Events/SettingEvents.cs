@@ -17,6 +17,4 @@ namespace Assets.Scripts.Events
     public delegate void OnRespawnSettingsChanged(RespawnSettings settings);
 
     public delegate void OnGlobalSettingsChanged(GlobalSettings settings);
-
-    public delegate void OnTranslateSettingsChanged(bool autoTranslate);
 }

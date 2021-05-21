@@ -5,26 +5,20 @@ using Assets.Scripts.Room.Chat;
 using UnityEngine.Localization.Settings;
 using System.Collections;
 using Assets.Scripts.UI.Input;
-using Assets.Scripts.Events;
 public class ChatMessage : Photon.MonoBehaviour
 {
 
     [SerializeField] private TMP_Text thisMessage;
-    private OnTranslateSettingsChanged translateSettingsChanged;
     public GameObject controlsPage;
     private string originalMessage;
     private string translatedMessage;
-    private bool hasBeenTranslated = false;
     private bool originalLang = true;
-    private bool sameLang = true;
     [SerializeField] private Button translateButton;
     [SerializeField] private string playerID;
 
 
     private void Start()
     {
-
-        translateSettingsChanged += OnSettingsChanged;
         translateButton.gameObject.SetActive(false);
         originalMessage = thisMessage.text;
         string[] playersplit = thisMessage.text.Split(':');
@@ -37,11 +31,6 @@ public class ChatMessage : Photon.MonoBehaviour
 
         }
 
-    }
-
-    private void OnSettingsChanged(bool autoTranslate)
-    {
-        Debug.Log($"Settings changed set to {InputManager.Settings.AutoTranslate}");
     }
 
     private IEnumerator DelayTranslate()
