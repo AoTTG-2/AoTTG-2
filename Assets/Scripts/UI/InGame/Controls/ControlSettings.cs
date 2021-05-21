@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.UI.InGame.Controls
+﻿using UnityEngine;
+
+namespace Assets.Scripts.UI.InGame.Controls
 {
     public class ControlSettings
     {
@@ -7,6 +9,7 @@
         public bool CameraTilt { get; set; }
         public bool MouseInvert { get; set; }
         public bool GasBurstDoubleTap { get; set; }
-        public bool AutoTranslate { get; set; }
+        public bool AutoTranslate { get { return AutoTranslate; } set { AutoTranslate = value;
+                Debug.Log($"Auto Translate is {value}"); } }
     }
 }

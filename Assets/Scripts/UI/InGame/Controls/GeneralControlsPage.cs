@@ -49,7 +49,9 @@ namespace Assets.Scripts.UI.InGame.Controls
                 MouseSensitivity = Convert.ToSingle(MouseSensitivity.Value),
                 CameraTilt = CameraTilt.Value,
                 MouseInvert = MouseInvert.Value,
-                GasBurstDoubleTap = GasBurstDoubleTap.Value
+                GasBurstDoubleTap = GasBurstDoubleTap.Value,
+                AutoTranslate = AutoTranslate.Value
+                
             };
             InputManager.SaveOtherPlayerPrefs();
         }
