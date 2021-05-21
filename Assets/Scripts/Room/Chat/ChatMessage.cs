@@ -3,77 +3,111 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.Room.Chat;
 using UnityEngine.Localization.Settings;
-using Assets.Scripts.UI.InGame.Scoreboard;
-
+using System.Collections;
+using Assets.Scripts.UI.Input;
+using Assets.Scripts.Events;
 public class ChatMessage : Photon.MonoBehaviour
 {
 
     [SerializeField] private TMP_Text thisMessage;
+    private OnTranslateSettingsChanged translateSettingsChanged;
+    public GameObject controlsPage;
     private string originalMessage;
     private string translatedMessage;
     private bool hasBeenTranslated = false;
     private bool originalLang = true;
+    private bool sameLang = true;
     [SerializeField] private Button translateButton;
     [SerializeField] private string playerID;
-    
+
 
     private void Start()
     {
 
-        translateButton.onClick.AddListener(TranslateThisText);
+        translateSettingsChanged += OnSettingsChanged;
+        translateButton.gameObject.SetActive(false);
         originalMessage = thisMessage.text;
         string[] playersplit = thisMessage.text.Split(':');
         playerID = playersplit[0];
+
+        if (InputManager.Settings.AutoTranslate)
+        {
+
+            StartCoroutine(DelayTranslate());
+
+        }
+
+    }
+
+    private void OnSettingsChanged(bool autoTranslate)
+    {
+        Debug.Log($"Settings changed set to {InputManager.Settings.AutoTranslate}");
+    }
+
+    private IEnumerator DelayTranslate()
+    {
+
+        yield return null;
+        TranslateThisText();
 
     }
 
     public void TranslateThisText()
     {
 
-        if (Cursor.visible)
+        if (!hasBeenTranslated)
         {
+            var line = TMP_TextUtilities.FindIntersectingLink(thisMessage, thisMessage.transform.position, null);
 
-            if (!hasBeenTranslated)
+            if (line > -1)
             {
 
-                var line = TMP_TextUtilities.FindIntersectingLink(thisMessage, thisMessage.transform.position, null);
+                var text = thisMessage.textInfo.linkInfo[line];
 
-                if (line > -1)
+                string langCode = LocalizationSettings.SelectedLocale.Identifier.CultureInfo.TwoLetterISOLanguageName;
+
+                StartCoroutine(TextTranslator.Translate(text.GetLinkText(), "auto", langCode, results =>
                 {
 
-                    var text = thisMessage.textInfo.linkInfo[line];
-
-                    string langCode = LocalizationSettings.SelectedLocale.Identifier.CultureInfo.TwoLetterISOLanguageName;
-
-                    Debug.Log("Your language is: " + langCode);
-
-                    StartCoroutine(TextTranslator.Translate(text.GetLinkText(), "auto", langCode, results =>
+                    if (results.Length > 1)
                     {
 
-                        if (results.Length > 1)
+                        if (langCode == results[0])
                         {
 
-                            translatedMessage = playerID + ":  " + results[1];
+                            translateButton.gameObject.SetActive(false);
                             hasBeenTranslated = true;
-                            originalLang = true;
-                            UpdateChatBox();
+                            sameLang = true;
+                            thisMessage.text = originalMessage;
                             return;
 
                         }
-                        else
-                        {
 
-                            Debug.LogError($"Translation Error: {results[0]}");
+                        translatedMessage = playerID + ":  " + results[1];
+                        hasBeenTranslated = true;
+                        originalLang = true;
+                        sameLang = false;
+                        translateButton.onClick.AddListener(TranslateThisText);
+                        translateButton.gameObject.SetActive(true);
+                        thisMessage.text = originalMessage;
+                        return;
 
-                        }
+                    }
+                    else
+                    {
 
-                    }));
+                        Debug.LogError($"Translation Error: {results[0]}");
+                        return;
 
-                }
+                    }
+
+                }));
+
             }
-
-            UpdateChatBox();
         }
+
+        if (!sameLang)
+            UpdateChatBox();
 
     }
 

@@ -7,5 +7,6 @@
         public bool CameraTilt { get; set; }
         public bool MouseInvert { get; set; }
         public bool GasBurstDoubleTap { get; set; }
+        public bool AutoTranslate { get; set; }
     }
 }
