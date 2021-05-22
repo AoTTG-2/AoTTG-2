@@ -19,17 +19,14 @@ public class ChatMessage : Photon.MonoBehaviour
 
     private void Start()
     {
+
         translateButton.gameObject.SetActive(false);
         originalMessage = thisMessage.text;
         string[] playersplit = thisMessage.text.Split(':');
         playerID = playersplit[0];
 
-        if (InputManager.Settings.AutoTranslate)
-        {
-
+        if(InputManager.Settings.Translate)
             StartCoroutine(DelayTranslate());
-
-        }
 
     }
 
@@ -71,7 +68,8 @@ public class ChatMessage : Photon.MonoBehaviour
                     originalLang = true;
                     translateButton.onClick.AddListener(ValidateCursor);
                     translateButton.gameObject.SetActive(true);
-                    UpdateChatBox();
+                    if (InputManager.Settings.AutoTranslate)
+                        UpdateChatBox();
                     return;
 
                 }
@@ -92,7 +90,7 @@ public class ChatMessage : Photon.MonoBehaviour
     private void ValidateCursor()
     {
 
-        if (Cursor.visible && InputManager.Settings.AutoTranslate)
+        if (Cursor.visible && InputManager.Settings.Translate)
         {
 
             UpdateChatBox();

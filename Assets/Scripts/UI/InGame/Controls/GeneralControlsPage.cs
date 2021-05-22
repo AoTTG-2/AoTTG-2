@@ -11,6 +11,7 @@ namespace Assets.Scripts.UI.InGame.Controls
         public UiCheckbox CameraTilt;
         public UiCheckbox MouseInvert;
         public UiCheckbox GasBurstDoubleTap;
+        public UiCheckbox Translate;
         public UiCheckbox AutoTranslate;
 
         private void Awake()
@@ -20,7 +21,7 @@ namespace Assets.Scripts.UI.InGame.Controls
             AddChild(CameraTilt);
             AddChild(MouseInvert);
             AddChild(GasBurstDoubleTap);
-            AddChild(AutoTranslate);
+            AddChild(Translate);
             LoadSettings();
         }
 
@@ -31,14 +32,16 @@ namespace Assets.Scripts.UI.InGame.Controls
             CameraTilt.Value = InputManager.Settings.CameraTilt;
             MouseInvert.Value = InputManager.Settings.MouseInvert;
             GasBurstDoubleTap.Value = InputManager.Settings.GasBurstDoubleTap;
+            Translate.Value = InputManager.Settings.Translate;
             AutoTranslate.Value = InputManager.Settings.AutoTranslate;
+            AutoTranslate.gameObject.SetActive(Translate.Value);
 
             CameraDistance.Initialize();
             MouseSensitivity.Initialize();
             CameraTilt.Initialize();
             MouseInvert.Initialize();
             GasBurstDoubleTap.Initialize();
-            AutoTranslate.Initialize();
+            Translate.Initialize();
         }
 
         public void Save()
@@ -50,9 +53,12 @@ namespace Assets.Scripts.UI.InGame.Controls
                 CameraTilt = CameraTilt.Value,
                 MouseInvert = MouseInvert.Value,
                 GasBurstDoubleTap = GasBurstDoubleTap.Value,
-                AutoTranslate = AutoTranslate.Value
-                
-            };
+                Translate = Translate.Value,
+                AutoTranslate = AutoTranslate.Value,
+
+        };
+
+            AutoTranslate.gameObject.SetActive(Translate.Value);
             InputManager.SaveOtherPlayerPrefs();
         }
 
