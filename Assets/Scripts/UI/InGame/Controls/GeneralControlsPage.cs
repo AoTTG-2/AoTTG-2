@@ -42,6 +42,7 @@ namespace Assets.Scripts.UI.InGame.Controls
             MouseInvert.Initialize();
             GasBurstDoubleTap.Initialize();
             Translate.Initialize();
+            AutoTranslate.Initialize();
         }
 
         public void Save()
