@@ -9,7 +9,6 @@ public class ChatMessage : Photon.MonoBehaviour
 {
 
     [SerializeField] private TMP_Text thisMessage;
-    public GameObject controlsPage;
     private string originalMessage;
     private string translatedMessage;
     private bool originalLang = true;
