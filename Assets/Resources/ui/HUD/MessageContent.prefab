@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8900706102466670829}
   - component: {fileID: 983222709217371840}
   - component: {fileID: 4440718753059071427}
-  - component: {fileID: -386457492866829988}
   - component: {fileID: 4414381469821895219}
+  - component: {fileID: 8048776759821969956}
   m_Layer: 5
   m_Name: MessageContent
   m_TagString: Untagged
@@ -138,23 +138,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &-386457492866829988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2375232931321056311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e907275c8fe2d6439c7876ce1fc176d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisMessage: {fileID: 4440718753059071427}
-  controlsPage: {fileID: 1049859588953354, guid: 05251fdb195b90249abd194082dc629a,
-    type: 3}
-  translateButton: {fileID: 1219027829584606131}
-  playerID: 
 --- !u!114 &4414381469821895219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +152,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &8048776759821969956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375232931321056311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e907275c8fe2d6439c7876ce1fc176d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisMessage: {fileID: 4440718753059071427}
+  translateButton: {fileID: 1219027829584606131}
 --- !u!1 &7177695997683501724
 GameObject:
   m_ObjectHideFlags: 0

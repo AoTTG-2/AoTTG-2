@@ -7,7 +7,7 @@ using Assets.Scripts.UI.Input;
 
 namespace Assets.Scripts.Room.Chat
 {
-    public class ChatMessage : Photon.MonoBehaviour
+    public class ChatMessage : MonoBehaviour
     {
 
         public TMP_Text thisMessage;
