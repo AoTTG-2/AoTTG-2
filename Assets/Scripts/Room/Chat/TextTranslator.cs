@@ -8,7 +8,7 @@ namespace Assets.Scripts.Room.Chat
     /// <summary>
     /// A text translation utility class that uses the Google Translate API.
     /// </summary>
-    public class TextTranslator
+    public static class TextTranslator
     {
         /// <summary>
         /// A Unity coroutine that takes in a string, an ISO 639-1 code to translate from (or "auto"), an ISO 639-1 code to translate to, and a callback action.
