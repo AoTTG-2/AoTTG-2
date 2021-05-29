@@ -102,19 +102,19 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _Dirt: 0.05
+    - _Dirt: 0
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Life: 0.66
+    - _Life: 0.18
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smallwavetilling: 15
+    - _Smallwavetilling: 8
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -122,9 +122,9 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _bigwavesdirection: 0
-    - _bigwavesflow: 0.561
-    - _bigwavesintensity: 1.44
+    - _bigwavesdirection: -86
+    - _bigwavesflow: 0.1
+    - _bigwavesintensity: 0.308
     - _bigwavesspeed: 5
     - _bigwavetilling: 0.8
     - _distortionintensity: 2
@@ -134,18 +134,18 @@ Material:
     - _foamspeed: 0.7
     - _foamtilling: 20
     - _smallwavesDirection: -180
-    - _smallwavesSpeed: 10
-    - _smallwavesflow: 0.601
-    - _smallwavesintensity: 0.85
-    - _waterabsorbtion: 50
+    - _smallwavesSpeed: 3
+    - _smallwavesflow: 0.1
+    - _smallwavesintensity: 0.621
+    - _waterabsorbtion: 10
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Dirtcolor: {r: 1, g: 1, b: 1, a: 1}
+    - _Dirtcolor: {r: 0.9858491, g: 0.9906972, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Lifecolor: {r: 1, g: 1, b: 1, a: 1}
+    - _Lifecolor: {r: 1, g: 0.9764151, b: 0.9909289, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _absorbedcolor: {r: 0.9803922, g: 0.9803922, b: 0.9803922, a: 1}
+    - _absorbedcolor: {r: 1, g: 0.97847766, b: 0.9669811, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &6721687679197727029
 MonoBehaviour:
