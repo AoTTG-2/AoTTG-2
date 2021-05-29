@@ -1855,6 +1855,36 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 26.03
       objectReference: {fileID: 0}
+    - target: {fileID: 7096326955254066279, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_Maskable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096326955254066279, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096326955254066279, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_verticalMapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096326955254066279, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_horizontalMapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096326955254066279, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096326955254066279, guid: 739f3587de222de419a53e81827c31b0,
+        type: 3}
+      propertyPath: m_useMaxVisibleDescender
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8839379401444479668, guid: 739f3587de222de419a53e81827c31b0,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2190,7 +2220,7 @@ PrefabInstance:
         type: 3}
       propertyPath: chat
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1456814050}
     - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
         type: 3}
       propertyPath: commonTable.m_TableReference.m_TableCollectionName

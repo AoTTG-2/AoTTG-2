@@ -15,6 +15,7 @@ namespace Assets.Scripts.UI.Menu
         {
             await LocalizationSettings.InitializationOperation.Task;
             var languages = LocalizationSettings.AvailableLocales.Locales;
+            Dropdown.options.Clear();
             Dropdown.AddOptions(languages.Select(x => x.Identifier.Code).ToList());
 
             var language = PlayerPrefs.GetString(LanguagePlayerPref);
