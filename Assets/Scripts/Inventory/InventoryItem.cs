@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Inventory
 {
+
     [System.Serializable]
     [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Items")]
     public class InventoryItem : ScriptableObject
