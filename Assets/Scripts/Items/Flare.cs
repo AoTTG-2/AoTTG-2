@@ -10,11 +10,11 @@ namespace Assets.Scripts.Items
     {
         private const float FlareCooldown = 30f;
         private float Cooldown { get; set; } = -FlareCooldown;
-        private readonly Color _color;
+        private readonly Color color;
 
         public Flare(Color color, FlareData data) : base(data)
         {
-            _color = color;
+            this.color = color;
         }
 
         public override void Use(Hero hero)
@@ -25,7 +25,7 @@ namespace Assets.Scripts.Items
             var flare = PhotonNetwork.Instantiate("FX/flare", hero.transform.position,
                 hero.transform.rotation, 0).GetComponent<FlareMovement>();
             flare.HideHint();
-            var json = JsonConvert.SerializeObject(_color, Formatting.Indented, new ColorJsonConverter());
+            var json = JsonConvert.SerializeObject(color, Formatting.Indented, new ColorJsonConverter());
             flare.photonView.RPC(nameof(FlareMovement.SetColorRpc), PhotonTargets.All, json);
         }
     }
