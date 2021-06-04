@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 namespace Assets.Scripts.Inventory
 {
@@ -9,8 +8,6 @@ namespace Assets.Scripts.Inventory
     public class InventoryItem : ScriptableObject
     {
 
-        public static UnityEvent<string> thisEvent;
-        [Tooltip("MUST MATCH NAME OF PHYSICAL ITEM")]
         public string itemName;
         public string itemDesc;
         public Image itemImage;
