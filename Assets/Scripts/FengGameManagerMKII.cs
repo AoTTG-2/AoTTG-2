@@ -1786,6 +1786,7 @@ namespace Assets.Scripts
             }
         }
 
+        //TODO: CustomMapService.OnLevelWasLoaded is called before OnJoinedRoom
         public override void OnJoinedRoom()
         {
             Service.Settings.SetRoomPropertySettings();
@@ -1854,18 +1855,7 @@ namespace Assets.Scripts
         {
             Debug.Log("OnLeftRoom");
         }
-
-        private async void OnLevelWasLoaded(int level)
-        {
-            if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
-            {
-                while (Service.Settings.Get() == null)
-                {
-                    await Task.Delay(500);
-                }
-            }
-        }
-
+        
         private void Level_OnLevelLoaded(int scene, Level level)
         {
             // Scene 0 = Menu Scene
@@ -2087,7 +2077,6 @@ namespace Assets.Scripts
 
         public void RecompilePlayerList(float time)
         {
-            Debug.Log("This shouldn't happen");
             if (!this.isRecompiling)
             {
                 this.isRecompiling = true;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Services;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame.HUD
@@ -19,16 +20,17 @@ namespace Assets.Scripts.UI.InGame.HUD
         [HideInInspector]public string markerID;
 
 
-        void Awake()
+        private void Awake()
         {
             //Generate a unique ID as a name for the compass controller to remove this exact marker and not another marker with the same name.
             System.Guid myGUID = System.Guid.NewGuid();
             markerID = myGUID.ToString();
+            Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
         }
 
-        void Start()
+        private void Level_OnLevelLoaded(int scene, Room.Level level)
         {
-            if(isFlare)
+            if (isFlare)
             {
                 ParticleSystem particle = GetComponent<ParticleSystem>();
                 markerColor = particle.main.startColor.color;
@@ -38,7 +40,8 @@ namespace Assets.Scripts.UI.InGame.HUD
             position = new Vector2(transform.position.x, transform.position.z);
         }
 
-        void Update()
+
+        private void Update()
         {
             if(followAlways)
             {
@@ -47,9 +50,12 @@ namespace Assets.Scripts.UI.InGame.HUD
         }
 
 
-        void OnDestroy()
+        private void OnDestroy()
         {
-            GameObject.Find("Compass").GetComponent<CompassController>().DeleteCompassMarker(this);
+            Service.Level.OnLevelLoaded -= Level_OnLevelLoaded;
+            var compass = GameObject.Find("Compass");
+            if (compass == null) return;
+            compass.GetComponent<CompassController>()?.DeleteCompassMarker(this);
         }
 
     }

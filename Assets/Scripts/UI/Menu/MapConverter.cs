@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.Services;
 using TMPro;
-using UnityEngine;
 
 namespace Assets.Scripts.UI.Menu
 {
@@ -12,5 +7,18 @@ namespace Assets.Scripts.UI.Menu
     {
         public TMP_InputField InputLegacyMap;
         public TMP_InputField Output;
+
+        public void Convert()
+        {
+            var convertedMap = Service.Map.ConvertLegacyMap(InputLegacyMap.text);
+            Output.text = convertedMap;
+        }
+
+        public override void Back()
+        {
+            InputLegacyMap.text = string.Empty;
+            Output.text = string.Empty;
+            base.Back();
+        }
     }
 }
