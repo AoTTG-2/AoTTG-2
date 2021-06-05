@@ -51,19 +51,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FlareMenu: {fileID: 7601428238892908685}
+  inventoryManager: {fileID: 1075608024208235481, guid: ed8c22a85d7d70c4c8acde9799e7d294,
+    type: 3}
   RadialElementPrefab: {fileID: 8254745153312676833, guid: 63a9d7c8e3a5f6f41955f337861fde0c,
     type: 3}
   GapWidthDegree: 1
   Distance: 200
   Label: {fileID: 4776046174214339169}
   Direction: {fileID: 1826165662537667092}
-  flares:
-  - {fileID: 11400000, guid: 2b1cac2cd17f2d94e90ef3052fd79713, type: 2}
-  - {fileID: 11400000, guid: 28d17b2f0e875c246953a53d7e634e4d, type: 2}
-  - {fileID: 11400000, guid: 586df2dbce068814bafed60e835d8baa, type: 2}
-  - {fileID: 11400000, guid: 3996373347d5caf4e936dc8297ce7f49, type: 2}
-  - {fileID: 11400000, guid: 60d310188e6795c4a8f7d52d5ce35210, type: 2}
-  - {fileID: 11400000, guid: 6f42279bfda11fa4b9761e7a6e6642d1, type: 2}
 --- !u!1 &1826165662537667092
 GameObject:
   m_ObjectHideFlags: 0

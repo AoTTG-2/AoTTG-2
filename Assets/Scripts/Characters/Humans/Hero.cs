@@ -19,6 +19,7 @@ using System.Linq;
 using Toorah.ScriptableVariables;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.Inventory;
 
 namespace Assets.Scripts.Characters.Humans
 {
@@ -206,6 +207,9 @@ namespace Assets.Scripts.Characters.Humans
 
         private readonly HookUI hookUI = new HookUI();
 
+        private PlayerInventory playerInventory;
+        private InventoryManager inventoryManager;
+
         #endregion
 
 
@@ -228,6 +232,7 @@ namespace Assets.Scripts.Characters.Humans
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             SmoothSync = GetComponent<SmoothSyncMovement>();
+            inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
 
             InGameUI = GameObject.Find("InGameUi");
             Cache();
@@ -268,6 +273,8 @@ namespace Assets.Scripts.Characters.Humans
             targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
             smoke_3dmg_em.enabled = false;
             sparks_em.enabled = false;
+
+            inventoryManager.CreateNewInventory(this);
 
             if (PhotonNetwork.isMasterClient)
             {

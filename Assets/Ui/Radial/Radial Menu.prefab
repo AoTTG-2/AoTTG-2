@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &664311828745941906
 RectTransform:
   m_ObjectHideFlags: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlareMenu: {fileID: 7601428238892908685, guid: 79119881ac5965f4292f890ddaa0461e,
     type: 3}
+  inventoryManager: {fileID: 0}
   RadialElementPrefab: {fileID: 8254745153312676833, guid: 63a9d7c8e3a5f6f41955f337861fde0c,
     type: 3}
   GapWidthDegree: 1

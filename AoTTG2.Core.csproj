@@ -139,6 +139,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenuV2.cs" />
     <Compile Include="Assets\Scripts\DayNightCycle\TimeSwitcher.cs" />
     <Compile Include="Assets\Scripts\Extensions\ListExtensions.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryItem.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ErenSkill.cs" />
     <Compile Include="Assets\Scripts\LoginFengKAI.cs" />
     <Compile Include="Assets\Scripts\Characters\EnemyfxIDcontainer.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\LabelPosition.cs" />
@@ -440,6 +442,7 @@
     <Compile Include="Assets\Scripts\UI\Input\InputUi.cs" />
     <Compile Include="Assets\Scripts\Characters\BloodSplatterScript.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\PetraSkill.cs" />
+    <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\Effects\BillboardScript.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Equipment.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanBase.cs" />
@@ -481,11 +484,8 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Inventory\InventoryManager.cs" />
-    <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
-    <Compile Include="Assets\Scripts\Inventory\InventoryItem.cs" />
-    <Compile Include="Assets\Scripts\Inventory\IFunctionality.cs" />
-    <Compile Include="Assets\Scripts\Inventory\PhysicalItems\Lantern.cs" />
+    <Compile Include="Assets\Scripts\Inventory\PhysicalItems\Flare.cs" />
+    <Compile Include="Assets\Scripts\Inventory\ItemFunctionality.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

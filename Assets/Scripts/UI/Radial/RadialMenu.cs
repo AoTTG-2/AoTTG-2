@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Assets.Scripts.Inventory;
+using Assets.Scripts.Services;
+using Assets.Scripts.Characters.Humans;
 
 namespace Assets.Scripts.UI.Radial
 {
@@ -41,6 +44,27 @@ namespace Assets.Scripts.UI.Radial
 
         protected virtual void Start()
         {
+
+            /*InventoryManager inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+
+            var hero = Service.Player.Self as Hero;
+
+            List<RadialElement> itemMenus = new List<RadialElement>();
+
+            foreach (InventoryItem item in inventoryManager.playerInventories[hero].myInventory)
+            {
+
+                if(item.itemMenu != null)
+                {
+
+                    Instantiate(item.radialElementPrefab, transform);
+                    item.radialElementPrefab.NextMenu = item.itemMenu;
+                    itemMenus.Add(item.radialElementPrefab);
+
+                }
+
+            }*/
+
             var flares = Instantiate(RadialElementPrefab, transform);
             flares.NextMenu = FlareMenu;
 
@@ -48,6 +72,8 @@ namespace Assets.Scripts.UI.Radial
             {
                 flares
             };
+
+            //Pieces = itemMenus.ToArray();
 
             StartCoroutine(SpawnButtons());
         }

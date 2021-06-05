@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using Assets.Scripts.Characters.Humans;
 
 namespace Assets.Scripts.Inventory
 {
@@ -9,22 +9,61 @@ namespace Assets.Scripts.Inventory
     public class InventoryManager : MonoBehaviour
     {
 
-        private void Start()
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
+        public PlayerInventory BaseInventory;
+        public Dictionary<Hero, PlayerInventory> playerInventories = new Dictionary<Hero, PlayerInventory>();
+        //public List<PlayerInventory> inventories = new List<PlayerInventory>();
 
-        public PlayerInventory playerInventory;
-
-        private void Update()
+        public void CreateNewInventory(Hero hero)
         {
 
-            if (Input.GetKeyDown(KeyCode.Space))  //Hard coded to test functionality
+            PlayerInventory newInv = ScriptableObject.CreateInstance<PlayerInventory>();
+
+            playerInventories.Add(hero, newInv);
+
+            foreach (InventoryItem item in BaseInventory.myInventory)
             {
 
-                playerInventory.myInventory[0].Use();
+                AddItemToInventory(hero, item);
 
             }
+
+            //Uncomment to look at the inventory values
+            /*foreach (PlayerInventory value in playerInventories.Values)
+            {
+
+                if (inventories.Contains(value))
+                    continue;
+
+                inventories.Add(value);
+
+            }*/
+
+        }
+
+        public void AddItemToInventory(Hero hero, InventoryItem item)
+        {
+
+            try
+            {
+
+                PlayerInventory thisInventory = playerInventories[hero];
+
+                thisInventory.myInventory.Add(item);
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+
+                Debug.LogError($"Could not find {hero}'s Inventory");
+
+            }
+        }
+
+        public void UseItem(InventoryItem item)
+        {
+
+            item.Use();
 
         }
 

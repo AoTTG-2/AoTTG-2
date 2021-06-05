@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.UI.Radial;
 
 namespace Assets.Scripts.Inventory
 {
@@ -11,14 +12,15 @@ namespace Assets.Scripts.Inventory
 
         public string itemName;
         public string itemDesc;
-        public Image itemImage;
+        public SpriteRenderer itemImage;
         public GameObject item;
+        public RadialMenu itemMenu;
+        public RadialElement radialElementPrefab;
 
         public void Use()
         {
 
-            Debug.Log($"Used the item: {itemName}");
-            item.GetComponent<IFunctionality>().Use();
+            item.GetComponent<ItemFunctionality>().Use();
 
         }
 
