@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5259066502604714083}
   - component: {fileID: 9175009517944438726}
   - component: {fileID: 6390847300598958860}
+  - component: {fileID: -5563029779356688635}
   m_Layer: 0
   m_Name: Rubble_4
   m_TagString: Untagged
@@ -81,3 +82,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &-5563029779356688635
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4877439844140755673}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
