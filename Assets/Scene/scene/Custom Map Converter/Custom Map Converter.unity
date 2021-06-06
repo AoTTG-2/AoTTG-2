@@ -329,13 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AoTTGCustomMap: {fileID: 4900000, guid: eb5972ec271f7824cbffd39022f5a5bf, type: 3}
   AoTTG2CustomMap: {fileID: 4900000, guid: af15823455919884d9fcfe794dccb16e, type: 3}
-  Configuration: {fileID: 11400000, guid: 97350605dad5b0a4e83e6113e79023ea, type: 2}
-  Transparent: {fileID: 11400000, guid: eb6045a79165c97469db031aa0db2a66, type: 2}
-  TransparentDoubleSided: {fileID: 11400000, guid: b9acdd67a420fd040a77fa56065de5b9,
-    type: 2}
-  SpawnTitan: {fileID: 11400000, guid: b352b560d0bef57449eb6ab17bad9083, type: 2}
-  SpawnHuman: {fileID: 11400000, guid: 52be1e339b2534c4394f103275a80e28, type: 2}
-  ConvertLegacyMap: 1
+  ConvertLegacyMap: 0
   LoadAoTTG2Map: 1
   IncludeMapBank: 0
   Service: {fileID: 495334460}
@@ -366,6 +360,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Configuration: {fileID: 11400000, guid: 97350605dad5b0a4e83e6113e79023ea, type: 2}
+  Transparent: {fileID: 11400000, guid: eb6045a79165c97469db031aa0db2a66, type: 2}
+  TransparentDoubleSided: {fileID: 11400000, guid: b9acdd67a420fd040a77fa56065de5b9,
+    type: 2}
+  SpawnTitan: {fileID: 11400000, guid: b352b560d0bef57449eb6ab17bad9083, type: 2}
+  SpawnHuman: {fileID: 11400000, guid: 52be1e339b2534c4394f103275a80e28, type: 2}
 --- !u!1001 &559865971
 PrefabInstance:
   m_ObjectHideFlags: 0

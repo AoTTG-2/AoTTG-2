@@ -48,7 +48,7 @@ namespace Assets.Scripts.Services
                 //TODO: What to do if the custom map doesn't exist?
                 var levelz = FengGameManagerMKII.Level;
                 RenderSettings.fog = false;
-                var content = File.ReadAllText($"{Application.streamingAssetsPath}{Path.AltDirectorySeparatorChar}{levelz.Name}.txt");
+                var content = File.ReadAllText($"{Application.streamingAssetsPath}{Path.AltDirectorySeparatorChar}Custom Maps{Path.AltDirectorySeparatorChar}{levelz.Name}.txt");
                 var objects = content.Split(new[] { ";;" }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"{x.Trim()};").ToArray();
                 LoadCustomMap(objects);
                 Service.Level.InvokeLevelLoaded(level, null);
@@ -75,101 +75,156 @@ namespace Assets.Scripts.Services
         public void LoadCustomMap(string[] objects)
         {
             var baseParent = new GameObject("Custom Map");
+            var prefabGameObjects = new Dictionary<string, GameObject>();
+            var prefabs = new List<CustomMapPrefab>();
+            CustomMapPrefab? currentPrefab = null;
             foreach (var item in objects)
             {
                 try
                 {
                     var attributes = item.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(x => x.Trim()).ToArray();
-                    var mapItem = new CustomMapObject(attributes);
-                    var mapObject = GetMapObject(mapItem.ModelName);
-                    if (mapObject == null)
+
+                    if (attributes[0] == "prefab")
                     {
-                        Debug.LogWarning($"Custom Map Loader: MODEL OBJECT {mapItem.ModelName} DOES NOT EXIST");
+                        currentPrefab = new CustomMapPrefab(attributes);
+                        continue;
+                    }
+                    
+                    if (attributes[0] == "prefabend")
+                    {
+                        var prefabValue = currentPrefab.Value;
+                        var prefabGameObject = Instantiate(new GameObject(prefabValue.Name));
+                        foreach (var prefabContent in currentPrefab.Value.Objects)
+                        {
+                            var prefabContentGameObject = CreateGameObject(prefabContent);
+                            prefabContentGameObject.transform.parent = prefabGameObject.transform;
+                        }
+
+                        prefabGameObjects.Add(prefabValue.Name, prefabGameObject);
+                        prefabs.Add(prefabValue);
+                        currentPrefab = null;
                         continue;
                     }
 
-                    var mapGameObject = Instantiate(mapObject.Prefab, mapItem.Position,
-                        Quaternion.Euler(mapItem.Rotation));
-                    mapGameObject.name = mapItem.Identifier;
-                    mapGameObject.transform.localScale =
-                        Vector3.Scale(mapGameObject.transform.localScale, mapItem.Scale);
-                    mapGameObject.transform.parent =
-                        baseParent.transform; //TODO: Objects which do have parents, should not use this
-
-                    if (mapItem.Layer.HasValue)
+                    var mapItem = new CustomMapObject(attributes);
+                    if (currentPrefab.HasValue)
                     {
-                        mapGameObject.layer = mapItem.Layer.Value;
-                        foreach (Transform child in mapGameObject.transform)
-                        {
-                            if (child == null) continue;
-                            child.gameObject.layer = mapItem.Layer.Value;
-                        }
+                        mapItem.SetPrefabOffset(currentPrefab.Value.Offset);
+                        currentPrefab.Value.Objects.Add(mapItem);
+                        continue;
                     }
 
-                    var material = GetMapMaterial(mapItem.Material);
-                    var texture = GetMapTexture(mapItem.Texture);
-                    if (material != null || texture != null || mapItem.Color.HasValue)
-                    {
-                        foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
-                        {
-                            if (material != null)
-                            {
-                                renderer.material = Instantiate(material.Material);
-                            }
-
-                            if (texture != null)
-                            {
-                                renderer.material.mainTexture = texture.Texture;
-                                if (mapItem.Tiling.HasValue)
-                                {
-                                    renderer.material.mainTextureScale = new Vector2(
-                                        renderer.material.mainTextureScale.x * mapItem.Tiling.Value.x,
-                                        renderer.material.mainTextureScale.y * mapItem.Tiling.Value.y);
-                                }
-                            }
-
-                            //TODO: Only apply vertex coloring if a Vertex Shader is used
-                            if (mapItem.Color.HasValue)
-                            {
-                                renderer.material.color = mapItem.Color.Value;
-                            }
-
-                            //if (mapItem.Color.HasValue)
-                            //{
-                            //    foreach (MeshFilter filter in mapGameObject.GetComponentsInChildren<MeshFilter>())
-                            //    {
-                            //        var mesh = filter.mesh;
-                            //        var colorArray = new Color[mesh.vertexCount];
-                            //        var targetColor = mapItem.Color.Value;
-                            //        var num8 = 0;
-                            //        while (num8 < mesh.vertexCount)
-                            //        {
-                            //            colorArray[num8] = targetColor;
-                            //            num8++;
-                            //        }
-
-                            //        mesh.colors = colorArray;
-                            //    }
-                            //}
-                            //}
-                        }
-                    }
-
-                    foreach (var component in mapItem.Components)
-                    {
-                        var mapComponent = GetMapComponent(component.Name);
-                        if (mapComponent != null)
-                        {
-                            mapComponent.AddComponent(mapGameObject, mapObject, material, component.Args);
-                        }
-                    }
+                    _ = CreateGameObject(mapItem);
                 }
                 catch (Exception e)
                 {
                     Debug.LogError($"Custom Map Loader: Unhandled exception for {item}");
                     Debug.LogError(e);
                 }
+            }
+
+            GameObject CreateGameObject(CustomMapObject mapItem)
+            {
+                GameObject mapGameObject;
+                var mapObject = GetMapObject(mapItem.ModelName);
+                if (mapItem.Prefab != null)
+                {
+                    if (prefabs.All(x => x.Name != mapItem.Prefab) || !prefabGameObjects.TryGetValue(mapItem.Prefab, out var prefabGameObject))
+                    {
+                        Debug.LogWarning($"Custom Map Loader: PREFAB {mapItem.Prefab} DOES NOT EXIST");
+                        return null;
+                    }
+                    var prefab = prefabs.SingleOrDefault(x => x.Name == mapItem.Prefab);
+                    mapGameObject = Instantiate(prefabGameObject, mapItem.Position, new Quaternion());
+                    mapGameObject.transform.rotation = Quaternion.Euler(mapItem.Rotation);
+                }
+                else
+                {
+                    if (mapObject == null)
+                    {
+                        Debug.LogWarning($"Custom Map Loader: MODEL OBJECT {mapItem.ModelName} DOES NOT EXIST");
+                        return null;
+                    }
+                    mapGameObject = Instantiate(mapObject.Prefab, mapItem.Position,
+                        Quaternion.Euler(mapItem.Rotation));
+                }
+
+                mapGameObject.name = mapItem.Identifier;
+                mapGameObject.transform.localScale =
+                    Vector3.Scale(mapGameObject.transform.localScale, mapItem.Scale);
+                mapGameObject.transform.parent =
+                    baseParent.transform; //TODO: Objects which do have parents, should not use this
+
+                if (mapItem.Layer.HasValue)
+                {
+                    mapGameObject.layer = mapItem.Layer.Value;
+                    foreach (Transform child in mapGameObject.transform)
+                    {
+                        if (child == null) continue;
+                        child.gameObject.layer = mapItem.Layer.Value;
+                    }
+                }
+
+                var material = GetMapMaterial(mapItem.Material);
+                var texture = GetMapTexture(mapItem.Texture);
+                if (material != null || texture != null || mapItem.Color.HasValue)
+                {
+                    foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
+                    {
+                        if (material != null)
+                        {
+                            renderer.material = Instantiate(material.Material);
+                        }
+
+                        if (texture != null)
+                        {
+                            renderer.material.mainTexture = texture.Texture;
+                            if (mapItem.Tiling.HasValue)
+                            {
+                                renderer.material.mainTextureScale = new Vector2(
+                                    renderer.material.mainTextureScale.x * mapItem.Tiling.Value.x,
+                                    renderer.material.mainTextureScale.y * mapItem.Tiling.Value.y);
+                            }
+                        }
+
+                        //TODO: Only apply vertex coloring if a Vertex Shader is used
+                        if (mapItem.Color.HasValue)
+                        {
+                            renderer.material.color = mapItem.Color.Value;
+                        }
+
+                        //if (mapItem.Color.HasValue)
+                        //{
+                        //    foreach (MeshFilter filter in mapGameObject.GetComponentsInChildren<MeshFilter>())
+                        //    {
+                        //        var mesh = filter.mesh;
+                        //        var colorArray = new Color[mesh.vertexCount];
+                        //        var targetColor = mapItem.Color.Value;
+                        //        var num8 = 0;
+                        //        while (num8 < mesh.vertexCount)
+                        //        {
+                        //            colorArray[num8] = targetColor;
+                        //            num8++;
+                        //        }
+
+                        //        mesh.colors = colorArray;
+                        //    }
+                        //}
+                        //}
+                    }
+                }
+
+                foreach (var component in mapItem.Components)
+                {
+                    var mapComponent = GetMapComponent(component.Name);
+                    if (mapComponent != null)
+                    {
+                        mapComponent.AddComponent(mapGameObject, mapObject, material, component.Args);
+                    }
+                }
+
+                return mapGameObject;
             }
         }
 
@@ -198,14 +253,48 @@ namespace Assets.Scripts.Services
             if (componentName == null) return null;
             return Configuration.MapComponents.SingleOrDefault(x => x.Name == componentName);
         }
+        
+        private interface ICustomMapItem
+        {
+            
+        }
 
-        private struct CustomMapObject
+        private struct CustomMapPrefab : ICustomMapItem
+        {
+            public string Name { get; }
+            public Vector3 Offset { get; }
+            public List<CustomMapObject> Objects { get; }
+
+            public CustomMapPrefab(string[] attributes)
+            {
+                Name = attributes.SingleOrDefault(x => x.Contains("n:"))?.Split(':')[1];
+                Offset = ToVector3(attributes, "off") ?? Vector3.zero;
+                Objects = new List<CustomMapObject>();
+            }
+
+            private static Vector3? ToVector3(string[] attributes, string attributeName)
+            {
+                var data = attributes.SingleOrDefault(x => x.StartsWith($"{attributeName}:"))?.Split(':')[1];
+                if (data == null) return null;
+
+                var xyz = data.Split(',');
+                if (xyz.Length != 3) return null;
+                if (float.TryParse(xyz[0], out var x) && float.TryParse(xyz[1], out var y) && float.TryParse(xyz[2], out var z))
+                {
+                    return new Vector3(x, y, z);
+                }
+                return null;
+            }
+        }
+
+        private struct CustomMapObject : ICustomMapItem
         {
             public string Identifier { get; }
-            public Vector3 Position { get; }
+            public Vector3 Position { get; private set; }
 
 
             public string ModelName { get; }
+            public string Prefab { get;  }
             public string Texture { get; }
             public string Material { get; }
             public Vector3 Rotation { get; }
@@ -225,6 +314,7 @@ namespace Assets.Scripts.Services
                 Scale = ToVector3(attributes, "scl") ?? Vector3.one;
 
                 ModelName = attributes.SingleOrDefault(x => x.StartsWith("m:"))?.Split(':')[1];
+                Prefab = ToString(attributes, "pre");
                 Material = attributes.SingleOrDefault(x => x.StartsWith("mat:"))?.Split(':')[1];
                 Texture = attributes.SingleOrDefault(x => x.StartsWith("t:"))?.Split(':')[1];
                 Components = new List<CustomMapComponent>();
@@ -257,6 +347,11 @@ namespace Assets.Scripts.Services
                 Color = ToColor(attributes, "clr");
                 Layer = ToByte(attributes, "l");
                 if (Layer.HasValue && Layer.Value > 32) Layer = null;
+            }
+
+            public void SetPrefabOffset(Vector3 offset)
+            {
+                Position += offset;
             }
 
             private static Vector3? ToVector3(string[] attributes, string attributeName)
@@ -316,6 +411,11 @@ namespace Assets.Scripts.Services
                     return value;
                 }
                 return null;
+            }
+
+            private static string ToString(string[] attributes, string attributeName)
+            {
+                return attributes.SingleOrDefault(x => x.StartsWith($"{attributeName}:"))?.Split(':')[1].Trim();
             }
         }
 
