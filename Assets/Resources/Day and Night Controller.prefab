@@ -244,11 +244,16 @@ MonoBehaviour:
   timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
   sunRotationOffset: 0
   lightingUpdateInterval: 1
-  ProceduralSkyboxMaterial: {fileID: 0}
-  StaticNightSkyboxMaterial: {fileID: 0}
-  StaticDaySkyboxMaterial: {fileID: 0}
-  StaticDawnSkyboxMaterial: {fileID: 0}
-  StaticDuskSkyboxMaterial: {fileID: 0}
+  ProceduralSkyboxMaterial: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b,
+    type: 2}
+  StaticNightSkyboxMaterial: {fileID: 2100000, guid: 08e25885d920efd439c030c7cd2c2d22,
+    type: 2}
+  StaticDaySkyboxMaterial: {fileID: 2100000, guid: 5336727d7be32404c9ac396789142e1c,
+    type: 2}
+  StaticDawnSkyboxMaterial: {fileID: 2100000, guid: b87cacf51931a5841b5931a664fd0730,
+    type: 2}
+  StaticDuskSkyboxMaterial: {fileID: 2100000, guid: 03389866351d19a47adc95c57d054097,
+    type: 2}
   StaticSkybox: 0
   CurrentTime: 12
   MoonCamera: {fileID: 259637730578209515}
@@ -375,7 +380,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5156324855798302335}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 941.53577, y: 33.462734, z: 3034.9216}
+  m_LocalPosition: {x: 1081.5168, y: 610.7217, z: 3605.3804}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 456198}
