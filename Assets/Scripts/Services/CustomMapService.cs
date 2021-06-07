@@ -1,14 +1,17 @@
 ﻿using Assets.Scripts.Constants;
 using Assets.Scripts.CustomMaps;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Legacy.CustomMap;
 using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Services
@@ -21,13 +24,17 @@ namespace Assets.Scripts.Services
         public MapObject SpawnTitan;
         public MapObject SpawnHuman;
         private static readonly Color BarrierColor = new Color(0f, 234f / 255f, 1f, 82f / 255f);
+        /// <summary>
+        /// Default value for float.TryParse
+        /// </summary>
+        private static readonly NumberStyles NumberStyles = NumberStyles.Float | NumberStyles.AllowThousands;
 
         public List<CustomMap> GetCustomMaps()
         {
             var path = $"{Application.streamingAssetsPath}{Path.AltDirectorySeparatorChar}Custom Maps";
             var files = Directory.GetFiles(path, "*.txt", SearchOption.AllDirectories);
             var customMaps = files.Select(x => 
-                new CustomMap($"{Path.GetFileName(Path.GetDirectoryName(x))}/{Path.GetFileNameWithoutExtension(x)}", x)).ToList();
+                new CustomMap($"{Path.GetFileNameWithoutExtension(x)}", x)).ToList();
             return customMaps;
         }
 
@@ -48,7 +55,8 @@ namespace Assets.Scripts.Services
                 //TODO: What to do if the custom map doesn't exist?
                 var levelz = FengGameManagerMKII.Level;
                 RenderSettings.fog = false;
-                var content = File.ReadAllText($"{Application.streamingAssetsPath}{Path.AltDirectorySeparatorChar}Custom Maps{Path.AltDirectorySeparatorChar}{levelz.Name}.txt");
+                CurrentMap = GetCustomMaps().SingleOrDefault(x => x.Name == levelz.Name);
+                var content = File.ReadAllText(CurrentMap.Path);
                 var objects = content.Split(new[] { ";;" }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"{x.Trim()};").ToArray();
                 LoadCustomMap(objects);
                 Service.Level.InvokeLevelLoaded(level, null);
@@ -115,7 +123,8 @@ namespace Assets.Scripts.Services
                         continue;
                     }
 
-                    _ = CreateGameObject(mapItem);
+                    var createdObject = CreateGameObject(mapItem);
+                    StaticBatchingUtility.Combine(createdObject);
                 }
                 catch (Exception e)
                 {
@@ -135,7 +144,6 @@ namespace Assets.Scripts.Services
                         Debug.LogWarning($"Custom Map Loader: PREFAB {mapItem.Prefab} DOES NOT EXIST");
                         return null;
                     }
-                    var prefab = prefabs.SingleOrDefault(x => x.Name == mapItem.Prefab);
                     mapGameObject = Instantiate(prefabGameObject, mapItem.Position, new Quaternion());
                     mapGameObject.transform.rotation = Quaternion.Euler(mapItem.Rotation);
                 }
@@ -168,6 +176,15 @@ namespace Assets.Scripts.Services
 
                 var material = GetMapMaterial(mapItem.Material);
                 var texture = GetMapTexture(mapItem.Texture);
+
+                //TODO: Should be moved into graphics settings
+                foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
+                {
+                    renderer.shadowCastingMode = ShadowCastingMode.Off;
+                    renderer.lightProbeUsage = LightProbeUsage.Off;
+                    renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
+                }
+
                 if (material != null || texture != null || mapItem.Color.HasValue)
                 {
                     foreach (var renderer in mapGameObject.GetComponentsInChildren<Renderer>())
@@ -279,7 +296,9 @@ namespace Assets.Scripts.Services
 
                 var xyz = data.Split(',');
                 if (xyz.Length != 3) return null;
-                if (float.TryParse(xyz[0], out var x) && float.TryParse(xyz[1], out var y) && float.TryParse(xyz[2], out var z))
+                if (float.TryParse(xyz[0], NumberStyles, CultureInfo.InvariantCulture, out var x) 
+                    && float.TryParse(xyz[1], NumberStyles, CultureInfo.InvariantCulture, out var y) 
+                    && float.TryParse(xyz[2], NumberStyles, CultureInfo.InvariantCulture, out var z))
                 {
                     return new Vector3(x, y, z);
                 }
@@ -361,7 +380,9 @@ namespace Assets.Scripts.Services
 
                 var xyz = data.Split(',');
                 if (xyz.Length != 3) return null;
-                if (float.TryParse(xyz[0], out var x) && float.TryParse(xyz[1], out var y) && float.TryParse(xyz[2], out var z))
+                if (float.TryParse(xyz[0], NumberStyles, CultureInfo.InvariantCulture, out var x) 
+                    && float.TryParse(xyz[1], NumberStyles, CultureInfo.InvariantCulture, out var y) 
+                    && float.TryParse(xyz[2], NumberStyles, CultureInfo.InvariantCulture, out var z))
                 {
                     return new Vector3(x, y, z);
                 }
@@ -380,7 +401,10 @@ namespace Assets.Scripts.Services
                 }
 
                 if (rgba.Length != 4) return null;
-                if (float.TryParse(rgba[0], out var r) && float.TryParse(rgba[1], out var g) && float.TryParse(rgba[2], out var b) && float.TryParse(rgba[3], out var a))
+                if (float.TryParse(rgba[0], NumberStyles, CultureInfo.InvariantCulture, out var r) 
+                    && float.TryParse(rgba[1], NumberStyles, CultureInfo.InvariantCulture, out var g) 
+                    && float.TryParse(rgba[2], NumberStyles, CultureInfo.InvariantCulture, out var b) 
+                    && float.TryParse(rgba[3], NumberStyles, CultureInfo.InvariantCulture, out var a))
                 {
                     return new Color(r / 255f, g / 255f, b / 255f, a / 255f);
                 }
@@ -394,7 +418,8 @@ namespace Assets.Scripts.Services
 
                 var xy = data.Split(',');
                 if (xy.Length != 2) return null;
-                if (float.TryParse(xy[0], out var x) && float.TryParse(xy[1], out var y))
+                if (float.TryParse(xy[0], NumberStyles, CultureInfo.InvariantCulture, out var x) 
+                    && float.TryParse(xy[1], NumberStyles, CultureInfo.InvariantCulture, out var y))
                 {
                     return new Vector2(x, y);
                 }
@@ -429,15 +454,15 @@ namespace Assets.Scripts.Services
         #region Legacy Map Conversion
         public string ConvertLegacyMap(string legacyMap)
         {
-            var objects = legacyMap.ToLowerInvariant().Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+            var objects = legacyMap.ToLowerInvariant().Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.TrimAll()).ToArray();
             HashSet<LegacyObject> legacyObjects = new HashSet<LegacyObject>();
             var disableBounds = objects.Contains("map,disablebounds");
             AddDefaultRCObjects(legacyObjects, disableBounds);
             for (var i = 0; i < objects.Length; i++)
             {
-                var attributes = objects[i].Split(',').Select(x => x.ToLowerInvariant()).ToArray();
+                var attributes = objects[i].Split(',').Select(x => x.ToLowerInvariant().Trim()).ToArray();
                 RcObjectType type;
-                if (attributes[0] == "custom")
+                if (attributes[0] == "custom" || attributes[0] == "customb")
                 {
                     type = RcObjectType.Custom;
 
@@ -729,7 +754,7 @@ namespace Assets.Scripts.Services
 
             var mapTexture = Configuration.MapTextures.SingleOrDefault(x => x.LegacyName == texture);
             if (mapTexture != null) return mapTexture;
-            if (texture == "default") return null;
+            if (texture == "default" || texture == "barriereditormat" || texture == "bombexplosiontex") return null;
 
             Debug.LogWarning($"Custom Map Converter: Texture {texture} could not be found");
             return null;
@@ -738,7 +763,8 @@ namespace Assets.Scripts.Services
         private static Vector3 GetPosition(string[] mapData, RcObjectType type)
         {
             var index = GetPositionIndex(type);
-            return new Vector3(Convert.ToSingle(mapData[index[0]]), Convert.ToSingle(mapData[index[1]]), Convert.ToSingle(mapData[index[2]]));
+            return new Vector3(Convert.ToSingle(mapData[index[0]], CultureInfo.InvariantCulture),
+                Convert.ToSingle(mapData[index[1]], CultureInfo.InvariantCulture), Convert.ToSingle(mapData[index[2]], CultureInfo.InvariantCulture));
         }
 
         private static Vector3 GetScale(string[] mapData, RcObjectType type)
@@ -756,7 +782,9 @@ namespace Assets.Scripts.Services
                 return Vector3.one;
             }
 
-            if (float.TryParse(mapData[tilingMap[0]], out var x) && float.TryParse(mapData[tilingMap[1]], out var y) && float.TryParse(mapData[tilingMap[2]], out var z))
+            if (float.TryParse(mapData[tilingMap[0]], NumberStyles, CultureInfo.InvariantCulture, out var x) 
+                && float.TryParse(mapData[tilingMap[1]], NumberStyles, CultureInfo.InvariantCulture, out var y) 
+                && float.TryParse(mapData[tilingMap[2]], NumberStyles, CultureInfo.InvariantCulture, out var z))
             {
                 return new Vector3(x, y, z);
             }
@@ -768,8 +796,8 @@ namespace Assets.Scripts.Services
         private static Quaternion GetRotation(string[] mapData, RcObjectType type)
         {
             var index = GetRotationIndex(type);
-            return new Quaternion(Convert.ToSingle(mapData[index[0]]), Convert.ToSingle(mapData[index[1]]),
-                Convert.ToSingle(mapData[index[2]]), Convert.ToSingle(mapData[index[3]]));
+            return new Quaternion(Convert.ToSingle(mapData[index[0]], CultureInfo.InvariantCulture), Convert.ToSingle(mapData[index[1]], CultureInfo.InvariantCulture),
+                Convert.ToSingle(mapData[index[2]], CultureInfo.InvariantCulture), Convert.ToSingle(mapData[index[3]], CultureInfo.InvariantCulture));
         }
 
         private static Vector2 GetTiling(string[] mapData, RcObjectType type)
@@ -785,7 +813,7 @@ namespace Assets.Scripts.Services
                 return Vector2.one;
             }
 
-            return new Vector2(Convert.ToSingle(mapData[tilingMap[0]]), Convert.ToSingle(mapData[tilingMap[1]]));
+            return new Vector2(Convert.ToSingle(mapData[tilingMap[0]], CultureInfo.InvariantCulture), Convert.ToSingle(mapData[tilingMap[1]], CultureInfo.InvariantCulture));
         }
 
         private static Color? GetColor(string[] mapData, RcObjectType type)
@@ -801,9 +829,11 @@ namespace Assets.Scripts.Services
                 return null;
             }
 
-            if (int.TryParse(mapData[colorMap[0]], out var isEnabled) && isEnabled != 0)
+            if (int.TryParse(mapData[colorMap[0]], NumberStyles.Integer, CultureInfo.InvariantCulture, out var isEnabled) && isEnabled != 0)
             {
-                if (float.TryParse(mapData[colorMap[1]], out var r) && float.TryParse(mapData[colorMap[2]], out var g) && float.TryParse(mapData[colorMap[3]], out var b))
+                if (float.TryParse(mapData[colorMap[1]], NumberStyles, CultureInfo.InvariantCulture, out var r) 
+                    && float.TryParse(mapData[colorMap[2]], NumberStyles, CultureInfo.InvariantCulture, out var g) 
+                    && float.TryParse(mapData[colorMap[3]], NumberStyles, CultureInfo.InvariantCulture, out var b))
                 {
                     return new Color(r, g, b);
                 }
@@ -923,22 +953,22 @@ namespace Assets.Scripts.Services
 
             public override string ToString()
             {
-                StringBuilder builder = new StringBuilder($"i:{Identifier};pos:{Position.x},{Position.y},{Position.z};");
+                StringBuilder builder = new StringBuilder(FormattableString.Invariant($"i:{Identifier};pos:{Position.x},{Position.y},{Position.z};"));
 
                 if (Rotation != Vector3.zero)
                 {
-                    builder.Append($"rot:{Rotation.x},{Rotation.y},{Rotation.z};");
+                    builder.Append(FormattableString.Invariant($"rot:{Rotation.x},{Rotation.y},{Rotation.z};"));
                 }
 
                 if (ModelName != null)
                 {
                     builder.Append($"m:{ModelName};");
-                    if (Scale != Vector3.one) builder.Append($"scl:{Scale.x},{Scale.y},{Scale.z};");
+                    if (Scale != Vector3.one) builder.Append(FormattableString.Invariant($"scl:{Scale.x},{Scale.y},{Scale.z};"));
 
                     if (Texture != null)
                     {
                         builder.Append($"t:{Texture};");
-                        if (Tiling != Vector2.one) builder.Append($"til:{Tiling.x},{Tiling.y};");
+                        if (Tiling != Vector2.one) builder.Append(FormattableString.Invariant($"til:{Tiling.x},{Tiling.y};"));
                     }
 
                     if (Material != null)
@@ -946,8 +976,8 @@ namespace Assets.Scripts.Services
                         builder.Append($"mat:{Material};");
                     }
 
-                    if (Color.HasValue) builder.Append($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)},{(int) (Color.Value.a * 255f)};");
-                    if (Layer.HasValue) builder.Append($"l:{Layer.Value};");
+                    if (Color.HasValue) builder.Append(FormattableString.Invariant($"clr:{(int) (Color.Value.r * 255f)},{(int) (Color.Value.g * 255f)},{(int) (Color.Value.b * 255f)},{(int) (Color.Value.a * 255f)};"));
+                    if (Layer.HasValue) builder.Append(FormattableString.Invariant($"l:{Layer.Value};"));
                 }
 
                 if (Components != null)

@@ -12,7 +12,7 @@ namespace Assets.Scripts.Gamemode.Catch
     public class CatchGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Catch;
-        public int TotalBalls = 250;
+        public int TotalBalls = 5;
         public static float BallSpeed = 150f;
         public static float BallSize = 25;
         public int PointLimit = 5;
