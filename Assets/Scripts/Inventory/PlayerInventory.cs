@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.Items;
+using Assets.Scripts.Inventory.Items;
 
 namespace Assets.Scripts.Inventory
 {

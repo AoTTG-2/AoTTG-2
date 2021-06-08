@@ -45,7 +45,7 @@ namespace Assets.Scripts.UI.Radial
         protected virtual void Start()
         {
 
-            /*InventoryManager inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+            InventoryManager inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
 
             var hero = Service.Player.Self as Hero;
 
@@ -57,23 +57,25 @@ namespace Assets.Scripts.UI.Radial
                 if(item.itemMenu != null)
                 {
 
-                    Instantiate(item.radialElementPrefab, transform);
-                    item.radialElementPrefab.NextMenu = item.itemMenu;
-                    itemMenus.Add(item.radialElementPrefab);
+                    RadialElement temp = Instantiate(RadialElementPrefab, transform);
+                    temp.NextMenu = item.itemMenu;
+                    itemMenus.Add(temp);
+                    temp.IconText.text = item.itemName;
 
                 }
 
-            }*/
+                else
+                {
 
-            var flares = Instantiate(RadialElementPrefab, transform);
-            flares.NextMenu = FlareMenu;
+                    RadialElement temp = Instantiate(RadialElementPrefab, transform);
+                    itemMenus.Add(temp);
+                    temp.IconText.text = item.itemName;
 
-            Pieces = new[]
-            {
-                flares
-            };
+                }
 
-            //Pieces = itemMenus.ToArray();
+            }
+
+            Pieces = itemMenus.ToArray();
 
             StartCoroutine(SpawnButtons());
         }

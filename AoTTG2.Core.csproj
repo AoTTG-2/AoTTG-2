@@ -176,10 +176,10 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Body\BeastTitanBody.cs" />
     <Compile Include="Assets\Scripts\FengGameManagerMKII.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanType.cs" />
-    <Compile Include="Assets\Scripts\Items\Data\ItemData.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Data\ItemData.cs" />
     <Compile Include="Assets\Scripts\Xft\SplineControlPoint.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ArmoredTitanBody.cs" />
-    <Compile Include="Assets\Scripts\Items\Item.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Item.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\DestroySelf.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\DummyTitan.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\MaxCamera.cs" />
@@ -317,7 +317,7 @@
     <Compile Include="Assets\Scripts\Effects\Affector.cs" />
     <Compile Include="Assets\Scripts\UI\Radial\RadialItem.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanComponent.cs" />
-    <Compile Include="Assets\Scripts\Items\Flare.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Flare.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\Skill.cs" />
     <Compile Include="Assets\Scripts\Events\FactionEvents.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\ServerSettingsPage.cs" />
@@ -348,7 +348,7 @@
     <Compile Include="Assets\Scripts\Effects\UVAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Configuration\TitanConfiguration.cs" />
-    <Compile Include="Assets\Scripts\Items\Data\FlareData.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Data\FlareData.cs" />
     <Compile Include="Assets\Scripts\Events\GamemodeEvents.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsEnums.cs" />
     <Compile Include="Assets\Scripts\Services\TimeService.cs" />
@@ -389,7 +389,7 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\Command.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterList.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterBuild.cs" />
-    <Compile Include="Assets\Scripts\Items\FlareMovement.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\FlareMovement.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\IN_GAME_MAIN_CAMERA.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\CameraShake.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindsPage.cs" />
@@ -484,8 +484,6 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Inventory\PhysicalItems\Flare.cs" />
-    <Compile Include="Assets\Scripts\Inventory\ItemFunctionality.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

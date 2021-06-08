@@ -13,16 +13,7 @@ namespace Assets.Scripts.Inventory
         public string itemName;
         public string itemDesc;
         public SpriteRenderer itemImage;
-        public GameObject item;
         public RadialMenu itemMenu;
-        public RadialElement radialElementPrefab;
-
-        public void Use()
-        {
-
-            item.GetComponent<ItemFunctionality>().Use();
-
-        }
 
     }
 

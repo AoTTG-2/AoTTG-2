@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Items.Data
+namespace Assets.Scripts.Inventory.Items.Data
 {
     [CreateAssetMenu(fileName = "Flare", menuName = "Items/Flare", order = 1)]
     public class FlareData : ItemData

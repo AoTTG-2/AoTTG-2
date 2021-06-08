@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Items;
-using Assets.Scripts.Items.Data;
+﻿using Assets.Scripts.Inventory.Items;
+using Assets.Scripts.Inventory.Items.Data;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Interface

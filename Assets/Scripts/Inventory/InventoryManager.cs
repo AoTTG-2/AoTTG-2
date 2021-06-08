@@ -60,13 +60,6 @@ namespace Assets.Scripts.Inventory
             }
         }
 
-        public void UseItem(InventoryItem item)
-        {
-
-            item.Use();
-
-        }
-
     }
 
 }

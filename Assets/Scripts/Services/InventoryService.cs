@@ -1,11 +1,11 @@
-﻿using Assets.Scripts.Items;
-using Assets.Scripts.Items.Data;
+﻿using Assets.Scripts.Inventory.Items;
+using Assets.Scripts.Inventory.Items.Data;
 using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Flare = Assets.Scripts.Items.Flare;
+using Flare = Assets.Scripts.Inventory.Items.Flare;
 
 namespace Assets.Scripts.Services
 {

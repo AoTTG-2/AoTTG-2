@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Items;
+using Assets.Scripts.Inventory.Items;
 using Assets.Scripts.Services;
 using System.Collections.Generic;
 

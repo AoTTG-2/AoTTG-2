@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Items.Data;
+using Assets.Scripts.Inventory.Items.Data;
 
-namespace Assets.Scripts.Items
+namespace Assets.Scripts.Inventory.Items
 {
     public abstract class Item
     {

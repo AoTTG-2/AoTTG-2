@@ -1,10 +1,10 @@
 ﻿using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Items.Data;
+using Assets.Scripts.Inventory.Items.Data;
 using Assets.Scripts.Serialization;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Assets.Scripts.Items
+namespace Assets.Scripts.Inventory.Items
 {
     public class Flare : Item
     {

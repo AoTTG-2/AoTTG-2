@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
-namespace Assets.Scripts.Items
+namespace Assets.Scripts.Inventory.Items
 {
     public class FlareMovement : MonoBehaviour
     {

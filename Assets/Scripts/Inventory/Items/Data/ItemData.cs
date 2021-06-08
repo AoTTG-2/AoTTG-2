@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Items.Data
+namespace Assets.Scripts.Inventory.Items.Data
 {
     public abstract class ItemData : ScriptableObject
     {

@@ -3896,7 +3896,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void ShootFlare(int type)
         {
-            var flare = Service.Inventory.GetItems<Items.Flare>()[type - 1];
+            var flare = Service.Inventory.GetItems<Inventory.Items.Flare>()[type - 1];
             flare.Use(this);
         }
 
