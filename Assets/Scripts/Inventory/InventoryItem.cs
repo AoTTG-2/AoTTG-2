@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Assets.Scripts.UI.Radial;
 
 namespace Assets.Scripts.Inventory
@@ -12,8 +11,10 @@ namespace Assets.Scripts.Inventory
 
         public string itemName;
         public string itemDesc;
-        public SpriteRenderer itemImage;
+        public UnityEngine.Sprite itemImage;
         public RadialMenu itemMenu;
+        public Items.Item thisItem;
+        public RadialElement thisElement;
 
     }
 

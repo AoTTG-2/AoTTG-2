@@ -1,9 +1,10 @@
 ﻿using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Inventory.Items.Data;
+using UnityEngine;
 
 namespace Assets.Scripts.Inventory.Items
 {
-    public abstract class Item
+    public abstract class Item: MonoBehaviour
     {
         /// <summary>
         /// A reference to the original ScriptableObject

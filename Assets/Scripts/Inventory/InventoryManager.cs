@@ -11,7 +11,7 @@ namespace Assets.Scripts.Inventory
 
         public PlayerInventory BaseInventory;
         public Dictionary<Hero, PlayerInventory> playerInventories = new Dictionary<Hero, PlayerInventory>();
-        //public List<PlayerInventory> inventories = new List<PlayerInventory>();
+        public List<PlayerInventory> inventories = new List<PlayerInventory>();
 
         public void CreateNewInventory(Hero hero)
         {
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Inventory
             }
 
             //Uncomment to look at the inventory values
-            /*foreach (PlayerInventory value in playerInventories.Values)
+            foreach (PlayerInventory value in playerInventories.Values)
             {
 
                 if (inventories.Contains(value))
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Inventory
 
                 inventories.Add(value);
 
-            }*/
+            }
 
         }
 

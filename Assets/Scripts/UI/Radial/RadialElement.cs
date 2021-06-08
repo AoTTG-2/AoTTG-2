@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.Inventory.Items;
 
 namespace Assets.Scripts.UI.Radial
 {
@@ -12,6 +13,7 @@ namespace Assets.Scripts.UI.Radial
         public TMP_Text IconText;
         public TMP_Text Number;
 
+        public Item thisItem;
         public RadialMenu NextMenu;
 
         private const float Speed = 8f;

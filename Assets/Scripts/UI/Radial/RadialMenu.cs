@@ -26,6 +26,8 @@ namespace Assets.Scripts.UI.Radial
 
         private bool IsReady { get; set; }
 
+        private List<RadialElement> itemMenus = new List<RadialElement>();
+
         private void OnEnable()
         {
             MenuManager.RegisterOpened(this);
@@ -45,22 +47,27 @@ namespace Assets.Scripts.UI.Radial
         protected virtual void Start()
         {
 
+            //TO DO: Implement logic to rebuild the radial when an item is added or removed
+
             InventoryManager inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
 
             var hero = Service.Player.Self as Hero;
 
-            List<RadialElement> itemMenus = new List<RadialElement>();
-
             foreach (InventoryItem item in inventoryManager.playerInventories[hero].myInventory)
             {
+
+                if (item == null)
+                    continue;
 
                 if(item.itemMenu != null)
                 {
 
                     RadialElement temp = Instantiate(RadialElementPrefab, transform);
                     temp.NextMenu = item.itemMenu;
-                    itemMenus.Add(temp);
                     temp.IconText.text = item.itemName;
+                    temp.thisItem = item.thisItem;
+                    item.thisElement = temp;
+                    itemMenus.Add(temp);
 
                 }
 
@@ -68,8 +75,10 @@ namespace Assets.Scripts.UI.Radial
                 {
 
                     RadialElement temp = Instantiate(RadialElementPrefab, transform);
-                    itemMenus.Add(temp);
+                    temp.thisItem = item.thisItem;
                     temp.IconText.text = item.itemName;
+                    item.thisElement = temp;
+                    itemMenus.Add(temp);
 
                 }
 
@@ -113,6 +122,14 @@ namespace Assets.Scripts.UI.Radial
 
         protected virtual void OnElementClicked(RadialElement element, int index)
         {
+            
+            if(element.NextMenu == null)
+            {
+
+                Hero hero = Service.Player.Self as Hero;
+                element.thisItem.Use(hero);
+
+            }
 
         }
 
