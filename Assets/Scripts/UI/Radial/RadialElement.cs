@@ -14,6 +14,7 @@ namespace Assets.Scripts.UI.Radial
         public TMP_Text Number;
 
         public Item thisItem;
+        public Inventory.InventoryItem thisInventoryItem;
         public RadialMenu NextMenu;
 
         private const float Speed = 8f;

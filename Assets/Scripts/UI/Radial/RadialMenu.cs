@@ -27,11 +27,13 @@ namespace Assets.Scripts.UI.Radial
         private bool IsReady { get; set; }
 
         private List<RadialElement> itemMenus = new List<RadialElement>();
+        InventoryManager inventoryManager;
 
         private void OnEnable()
         {
             MenuManager.RegisterOpened(this);
             Cursor.visible = false;
+            SyncWheel();
         }
 
         protected virtual void OnDisable()
@@ -48,18 +50,24 @@ namespace Assets.Scripts.UI.Radial
         {
 
             //TO DO: Implement logic to rebuild the radial when an item is added or removed
+            inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+            PopulateWheel();
 
-            InventoryManager inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        }
+
+        protected void SyncWheel()
+        {
 
             var hero = Service.Player.Self as Hero;
+            var playerInventory = inventoryManager.playerInventories[hero].myInventory;
 
-            foreach (InventoryItem item in inventoryManager.playerInventories[hero].myInventory)
+            foreach (InventoryItem item in playerInventory)
             {
 
-                if (item == null)
+                if (item == null || itemMenus.Contains(item.thisElement))
                     continue;
 
-                if(item.itemMenu != null)
+                if (item.itemMenu != null)
                 {
 
                     RadialElement temp = Instantiate(RadialElementPrefab, transform);
@@ -67,6 +75,7 @@ namespace Assets.Scripts.UI.Radial
                     temp.IconText.text = item.itemName;
                     temp.thisItem = item.thisItem;
                     item.thisElement = temp;
+                    temp.thisInventoryItem = item;
                     itemMenus.Add(temp);
 
                 }
@@ -78,6 +87,74 @@ namespace Assets.Scripts.UI.Radial
                     temp.thisItem = item.thisItem;
                     temp.IconText.text = item.itemName;
                     item.thisElement = temp;
+                    temp.thisInventoryItem = item;
+                    itemMenus.Add(temp);
+
+                }
+
+            }
+
+            CleanWheel();
+
+            Pieces = itemMenus.ToArray();
+            StartCoroutine(SpawnButtons());
+
+        }
+
+        protected void CleanWheel()
+        {
+
+            var hero = Service.Player.Self as Hero;
+            var playerInventory = inventoryManager.playerInventories[hero].myInventory;
+
+            foreach (RadialElement element in itemMenus.ToArray())
+            {
+
+                if (!playerInventory.Contains(element.thisInventoryItem))
+                {
+
+                    itemMenus.Remove(element);
+                    Destroy(element.gameObject);
+
+                }
+
+            }
+
+        }
+
+        protected void PopulateWheel()
+        {
+
+            var hero = Service.Player.Self as Hero;
+            var playerInventory = inventoryManager.playerInventories[hero].myInventory;
+
+            foreach (InventoryItem item in playerInventory)
+            {
+
+                if (item == null)
+                    continue;
+
+                if (item.itemMenu != null)
+                {
+
+                    RadialElement temp = Instantiate(RadialElementPrefab, transform);
+                    temp.NextMenu = item.itemMenu;
+                    temp.IconText.text = item.itemName;
+                    temp.thisItem = item.thisItem;
+                    item.thisElement = temp;
+                    temp.thisInventoryItem = item;
+                    itemMenus.Add(temp);
+
+                }
+
+                else
+                {
+
+                    RadialElement temp = Instantiate(RadialElementPrefab, transform);
+                    temp.thisItem = item.thisItem;
+                    temp.IconText.text = item.itemName;
+                    item.thisElement = temp;
+                    temp.thisInventoryItem = item;
                     itemMenus.Add(temp);
 
                 }
@@ -85,8 +162,8 @@ namespace Assets.Scripts.UI.Radial
             }
 
             Pieces = itemMenus.ToArray();
-
             StartCoroutine(SpawnButtons());
+
         }
 
         protected virtual IEnumerator SpawnButtons()

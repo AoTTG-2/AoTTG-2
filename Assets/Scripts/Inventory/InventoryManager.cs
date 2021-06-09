@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Characters.Humans;
+using UnityEngine.Events;
+using Assets.Scripts.UI.Radial;
 
 namespace Assets.Scripts.Inventory
 {
@@ -58,6 +60,27 @@ namespace Assets.Scripts.Inventory
                 Debug.LogError($"Could not find {hero}'s Inventory");
 
             }
+        }
+
+        public void RemoveItemFromInventory(Hero hero, InventoryItem item)
+        {
+
+            try
+            {
+
+                PlayerInventory thisInventory = playerInventories[hero];
+
+                thisInventory.myInventory.Remove(item);
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+
+                Debug.LogError($"Could not find {hero}'s Inventory");
+
+            }
+
         }
 
     }
