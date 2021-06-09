@@ -7,7 +7,7 @@ namespace Assets.Scripts.DayNightCycle
     {
         [Header("Sun and moon settings")]
         public bool overrideSunlight = false;
-        public float maxSunlightIntensity = 1.5f;
+        public float maxSunlightIntensity = 1f;
         public Gradient sunlightColor = new Gradient();
         [Space]
         public bool overrideMoonlight = false;
