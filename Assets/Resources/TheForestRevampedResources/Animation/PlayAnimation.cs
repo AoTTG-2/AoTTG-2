@@ -8,16 +8,17 @@ public class PlayAnimation : MonoBehaviour
 
     public GameObject Tree;
     public GameObject Particles;
+    public float distance = 15f;
+    
 
-    public void OnTriggerEnter(Collider other)
+    public void Update()
     {
-        if(other.tag == "Player")
+        if (Vector3.Distance(GameObject.FindWithTag("titan").transform.position, transform.position) <= distance)
         {
-            Debug.Log("Enemy has collided with tree");
+            Debug.Log("Titan has collided with tree");
             Particles.SetActive(true);
-            animationController.SetBool("playFall", true);
+            animationController.SetBool("playFall", true); 
             Invoke("DestroyTree", 4);
-
         }
     }
     public void DestroyTree(){
