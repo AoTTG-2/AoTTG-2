@@ -4396,8 +4396,8 @@ GameObject:
   - component: {fileID: 172383733}
   - component: {fileID: 172383732}
   - component: {fileID: 172383731}
-  - component: {fileID: 172383734}
   - component: {fileID: 172383730}
+  - component: {fileID: 172383734}
   - component: {fileID: 172383729}
   - component: {fileID: 172383728}
   m_Layer: 4
@@ -6291,11 +6291,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc980c8143098d448a3eb110e2473b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothness: 0.98
-  WaveIntensity: 5.49
-  SmallWaveIntensity: 0.47570243
-  MediumWaveIntensity: 0.68625
-  LargeWaveIntensity: 0.6364713
+  smoothness: 0.311
+  WaveIntensity: 9.31
+  SmallWaveIntensity: 0.54056656
+  MediumWaveIntensity: 1.16375
+  LargeWaveIntensity: 1.1995867
   WaveSpeed: 1
   SmallWavespeed: 0.15
   MediumWavespeed: 1
@@ -6303,19 +6303,19 @@ MonoBehaviour:
   WaterFlow: 1
   FlowDirection: 0
   WaveSize: 2
-  WaterColor: {r: 0, g: 0.09953794, b: 0.31132078, a: 1}
-  LifeColor: {r: 0, g: 1, b: 0, a: 1}
-  WaterDensity: 0.242
-  LifeDensity: 0
-  WaterTransparancy: 0.113
+  WaterColor: {r: 0, g: 0.12088945, b: 0.21698111, a: 1}
+  LifeColor: {r: 0.0074759745, g: 0.007962888, b: 0.2264151, a: 1}
+  WaterDensity: 0.261
+  LifeDensity: 0.225
+  WaterTransparancy: 0.563
   EdgeBlending: 0.286
-  EdgeFoamDistance: 0.136
-  WaveFoam: 0
-  FoamSoftness: 0.143
+  EdgeFoamDistance: 0.331
+  WaveFoam: 0.635
+  FoamSoftness: 0.316
   FoamTilling: 10
-  FoamColor: {r: 0, g: 0, b: 0, a: 1}
-  UnderWaterScatteringSize: 0.5
-  ScatteringBrightness: 0.14
+  FoamColor: {r: 1, g: 1, b: 1, a: 1}
+  UnderWaterScatteringSize: 0.758
+  ScatteringBrightness: 0.352
   Water: {fileID: 2100000, guid: 1738cfcc139a48943a0651b34ee4e1c0, type: 2}
 --- !u!1001 &176627343
 PrefabInstance:
@@ -23781,7 +23781,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh34118
+  m_Name: pb_Mesh34050
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -36810,18 +36810,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3481.8687
+      value: 3576.3174
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 410.5299
+      value: 1151.9475
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2999.4888
+      value: 3715.1667
+      objectReference: {fileID: 0}
+    - target: {fileID: 3271152382635331567, guid: 3e7496b60d927ab42ae88bede3e35b7c,
+        type: 3}
+      propertyPath: m_Resolution
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 3271152382635331567, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
@@ -40825,7 +40840,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee453d2f7b32d084b855fc85efe945f5, type: 2}
+  - {fileID: 2100000, guid: 1738cfcc139a48943a0651b34ee4e1c0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -50396,6 +50411,7 @@ GameObject:
   - component: {fileID: 1981637195}
   - component: {fileID: 1981637193}
   - component: {fileID: 1981637194}
+  - component: {fileID: 1981637196}
   m_Layer: 9
   m_Name: Terrain
   m_TagString: Untagged
@@ -50461,6 +50477,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 48.691, z: 0}
+--- !u!114 &1981637196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981637192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc980c8143098d448a3eb110e2473b7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothness: 0.98
+  WaveIntensity: 5.49
+  SmallWaveIntensity: 0
+  MediumWaveIntensity: 0
+  LargeWaveIntensity: 0
+  WaveSpeed: 1
+  SmallWavespeed: 0
+  MediumWavespeed: 0
+  LargeWavespeed: 0
+  WaterFlow: 1
+  FlowDirection: 0
+  WaveSize: 2
+  WaterColor: {r: 0, g: 0, b: 0, a: 1}
+  LifeColor: {r: 0, g: 1, b: 0, a: 1}
+  WaterDensity: 0.076
+  LifeDensity: 0.382
+  WaterTransparancy: 1
+  EdgeBlending: 0.286
+  EdgeFoamDistance: 0.136
+  WaveFoam: 0
+  FoamSoftness: 0.143
+  FoamTilling: 10
+  FoamColor: {r: 0, g: 0, b: 0, a: 1}
+  UnderWaterScatteringSize: 0.5
+  ScatteringBrightness: 0.14
+  Water: {fileID: 0}
 --- !u!1001 &1982035139
 PrefabInstance:
   m_ObjectHideFlags: 0

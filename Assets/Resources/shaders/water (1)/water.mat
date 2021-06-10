@@ -19,128 +19,46 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SmallWaves:
-        m_Texture: {fileID: 2800000, guid: b5a75b42868baad43aae83887c42341a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SmallWavesdetail:
-        m_Texture: {fileID: 2800000, guid: edcc3a8c156f0a1458b4590c1960448d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture0:
-        m_Texture: {fileID: 2800000, guid: 8f85cbbd1cdbbdc46aadefa0725f5a1b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample4:
-        m_Texture: {fileID: 2800000, guid: b5a75b42868baad43aae83887c42341a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _bigwaves:
-        m_Texture: {fileID: 2800000, guid: edcc3a8c156f0a1458b4590c1960448d, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _foamtexture:
-        m_Texture: {fileID: 2800000, guid: 59450d398c1a9fc4e972abad5fd2f7b3, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _smallwaves:
-        m_Texture: {fileID: 2800000, guid: b5a75b42868baad43aae83887c42341a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _Dirt: 0.05
-    - _DstBlend: 0
-    - _Float0: 30
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Life: 0.572
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _SSSpower: 3.07
-    - _SSSscale: 1.22
-    - _Smallwavetilling: 15
-    - _Smoothness: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _SubsurfaceDistortion: 0.084
-    - _TessValue: 32
-    - _UVSec: 0
-    - _WaveTesselationintensity: 0.014
-    - _WindDirection1: -27
-    - _WindSpeed1: 1
-    - _ZWrite: 1
-    - __dirty: 0
+    - _Dirt: 0
+    - _Life: 0
+    - _Smallwavetilling: 1
     - _bigwavesdirection: 0
-    - _bigwavesflow: 0.561
-    - _bigwavesintensity: 1.44
-    - _bigwavesspeed: 5
-    - _bigwavetilling: 0.8
-    - _distortionintensity: 1.85
-    - _edgeblending: 20
-    - _foamdirection: -30
-    - _foamintensity: 5
-    - _foamspeed: 0.7
-    - _foamtilling: 20
-    - _smallwavesDirection: -180
-    - _smallwavesSpeed: 10
-    - _smallwavesflow: 0.601
-    - _smallwavesflow1: 0.267
-    - _smallwavesintensity: 0.85
-    - _waterabsorbtion: 70
+    - _bigwavesflow: 1
+    - _bigwavesintensity: 1
+    - _bigwavesspeed: 0
+    - _bigwavetilling: 1
+    - _distortionintensity: 1
+    - _edgeblending: 0
+    - _foamdirection: 0
+    - _foamintensity: 0
+    - _foamspeed: 0
+    - _foamtilling: 1
+    - _smallwavesDirection: 0
+    - _smallwavesSpeed: 0
+    - _smallwavesflow: 1
+    - _smallwavesintensity: 1
+    - _waterabsorbtion: 100
     m_Colors:
-    - _AbsorbedColor: {r: 0.972549, g: 0.46274513, b: 0.5637599, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.9481131, g: 0.9829879, b: 1, a: 0}
-    - _Dirtcolor: {r: 0.94811314, g: 0.98298794, b: 1, a: 0}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Lifecolor: {r: 1, g: 0.9858491, b: 0.9945573, a: 0}
-    - _absorbedcolor: {r: 1, g: 0.9882353, b: 0.98039216, a: 1}
+    - _Dirtcolor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Lifecolor: {r: 0, g: 0, b: 0, a: 0}
+    - _absorbedcolor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
