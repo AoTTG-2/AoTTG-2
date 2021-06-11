@@ -13,9 +13,11 @@ namespace Assets.Scripts.UI.Radial
         public TMP_Text IconText;
         public TMP_Text Number;
 
-        public Item thisItem;
-        public Inventory.InventoryItem thisInventoryItem;
+        [HideInInspector] public Item thisItem;
+        [HideInInspector] public Inventory.InventoryItem thisInventoryItem;
+
         public RadialMenu NextMenu;
+        [HideInInspector] public RadialMenu PreviousMenu;
 
         private const float Speed = 8f;
 

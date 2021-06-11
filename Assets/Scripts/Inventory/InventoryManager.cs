@@ -14,6 +14,7 @@ namespace Assets.Scripts.Inventory
         public PlayerInventory BaseInventory;
         public Dictionary<Hero, PlayerInventory> playerInventories = new Dictionary<Hero, PlayerInventory>();
         public List<PlayerInventory> inventories = new List<PlayerInventory>();
+        [HideInInspector] public UnityEvent<Hero> onInventoryChange;
 
         public void CreateNewInventory(Hero hero)
         {
@@ -52,6 +53,8 @@ namespace Assets.Scripts.Inventory
 
                 thisInventory.myInventory.Add(item);
 
+                onInventoryChange?.Invoke(hero);
+
             }
 
             catch (KeyNotFoundException)
@@ -60,6 +63,7 @@ namespace Assets.Scripts.Inventory
                 Debug.LogError($"Could not find {hero}'s Inventory");
 
             }
+
         }
 
         public void RemoveItemFromInventory(Hero hero, InventoryItem item)
@@ -71,6 +75,8 @@ namespace Assets.Scripts.Inventory
                 PlayerInventory thisInventory = playerInventories[hero];
 
                 thisInventory.myInventory.Remove(item);
+
+                onInventoryChange?.Invoke(hero);
 
             }
 

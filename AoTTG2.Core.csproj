@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterPrefabs.cs" />
     <Compile Include="Assets\Scripts\Services\AuthenticationService.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\PlayerTitan.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Rifle.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\GeneralControlsPage.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Effects\VortexAffector.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Assets\Scripts\Events\SpawnEvents.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\ClothFactory.cs" />
     <Compile Include="Assets\Scripts\Gamemode\PvPAhssGamemode.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Data\RifleData.cs" />
     <Compile Include="Assets\Scripts\Effects\ScaleAffector.cs" />
     <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonValues.cs" />
@@ -352,6 +354,7 @@
     <Compile Include="Assets\Scripts\Events\GamemodeEvents.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsEnums.cs" />
     <Compile Include="Assets\Scripts\Services\TimeService.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Lantern.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\RushSettings.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\SortButton.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiSlider.cs" />
@@ -369,6 +372,7 @@
     <Compile Include="Assets\Scripts\Room\LevelTriggerHint.cs" />
     <Compile Include="Assets\Scripts\Xft\Spline.cs" />
     <Compile Include="Assets\Scripts\Characters\Entity.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Data\LanternData.cs" />
     <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
     <Compile Include="Assets\Scripts\Effects\AttractionForceAffector.cs" />
     <Compile Include="Assets\Scripts\Security\TokenResult.cs" />
@@ -484,10 +488,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Inventory\Items\Lantern.cs" />
-    <Compile Include="Assets\Scripts\Inventory\Items\Data\LanternData.cs" />
-    <Compile Include="Assets\Scripts\Inventory\Items\Data\RifleData.cs" />
-    <Compile Include="Assets\Scripts\Inventory\Items\Rifle.cs" />
+    <Compile Include="Assets\Scripts\Inventory\PhysicalItem.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

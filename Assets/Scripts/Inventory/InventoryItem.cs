@@ -14,7 +14,7 @@ namespace Assets.Scripts.Inventory
         public UnityEngine.Sprite itemImage;
         public RadialMenu itemMenu;
         public Items.Item thisItem;
-        public RadialElement thisElement;
+        [HideInInspector] public RadialElement thisElement;
 
     }
 

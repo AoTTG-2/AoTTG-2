@@ -11,7 +11,6 @@ namespace Assets.Scripts.UI.Radial
 {
     public class RadialMenu : MonoBehaviour, IUiContainer
     {
-        public FlareRadialMenu FlareMenu;
 
         public RadialElement RadialElementPrefab;
         public float GapWidthDegree = 1f;
@@ -33,7 +32,7 @@ namespace Assets.Scripts.UI.Radial
         {
             MenuManager.RegisterOpened(this);
             Cursor.visible = false;
-            SyncWheel();
+            PopulateWheel();
         }
 
         protected virtual void OnDisable()
@@ -49,16 +48,50 @@ namespace Assets.Scripts.UI.Radial
         protected virtual void Start()
         {
 
-            //TO DO: Implement logic to rebuild the radial when an item is added or removed
             inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+            inventoryManager.onInventoryChange.AddListener(SyncWheel);
             PopulateWheel();
 
         }
 
-        protected void SyncWheel()
+        protected void SyncWheel(Hero hero)
         {
 
-            var hero = Service.Player.Self as Hero;
+            CleanWheel(hero);
+
+        }
+
+        protected void CleanWheel(Hero hero)
+        {
+
+            var playerInventory = inventoryManager.playerInventories[hero].myInventory;
+
+            foreach (RadialElement element in itemMenus.ToArray())
+            {
+
+                if(element.thisInventoryItem == null)
+                    continue;
+
+                if (!playerInventory.Contains(element.thisInventoryItem))
+                {
+
+                    itemMenus.Remove(element);
+                    Destroy(element.gameObject);
+
+                }
+
+            }
+
+        }
+
+        protected void PopulateWheel(Hero hero = null)
+        {
+
+            if (hero == null)
+            {
+                hero = Service.Player.Self as Hero;
+            }
+
             var playerInventory = inventoryManager.playerInventories[hero].myInventory;
 
             foreach (InventoryItem item in playerInventory)
@@ -76,73 +109,7 @@ namespace Assets.Scripts.UI.Radial
                     temp.thisItem = item.thisItem;
                     item.thisElement = temp;
                     temp.thisInventoryItem = item;
-                    itemMenus.Add(temp);
-
-                }
-
-                else
-                {
-
-                    RadialElement temp = Instantiate(RadialElementPrefab, transform);
-                    temp.thisItem = item.thisItem;
-                    temp.IconText.text = item.itemName;
-                    item.thisElement = temp;
-                    temp.thisInventoryItem = item;
-                    itemMenus.Add(temp);
-
-                }
-
-            }
-
-            CleanWheel();
-
-            Pieces = itemMenus.ToArray();
-            StartCoroutine(SpawnButtons());
-
-        }
-
-        protected void CleanWheel()
-        {
-
-            var hero = Service.Player.Self as Hero;
-            var playerInventory = inventoryManager.playerInventories[hero].myInventory;
-
-            foreach (RadialElement element in itemMenus.ToArray())
-            {
-
-                if (!playerInventory.Contains(element.thisInventoryItem))
-                {
-
-                    itemMenus.Remove(element);
-                    Destroy(element.gameObject);
-
-                }
-
-            }
-
-        }
-
-        protected void PopulateWheel()
-        {
-
-            var hero = Service.Player.Self as Hero;
-            var playerInventory = inventoryManager.playerInventories[hero].myInventory;
-
-            foreach (InventoryItem item in playerInventory)
-            {
-
-                if (item == null)
-                    continue;
-
-                if (item.itemMenu != null)
-                {
-
-                    RadialElement temp = Instantiate(RadialElementPrefab, transform);
-                    temp.NextMenu = item.itemMenu;
-                    temp.IconText.text = item.itemName;
-                    temp.thisItem = item.thisItem;
-                    item.thisElement = temp;
-                    temp.thisInventoryItem = item;
+                    temp.PreviousMenu = this;
                     itemMenus.Add(temp);
 
                 }
