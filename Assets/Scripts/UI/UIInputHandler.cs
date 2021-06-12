@@ -21,6 +21,7 @@ namespace Assets.Scripts.UI
 
         private void Update()
         {
+
             if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
                 if (!RadialMenu.activeSelf)
@@ -29,7 +30,6 @@ namespace Assets.Scripts.UI
                     DetermineRadialMenu().SetActive(true);
 
                 }
-
 
             }
 
