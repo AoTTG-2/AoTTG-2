@@ -278,6 +278,7 @@
     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPlayerService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TitanHealthMode.cs" />
+    <Compile Include="Assets\Scripts\UI\Radial\InventoryRadialMenu.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IEntityService.cs" />
     <Compile Include="Assets\Scripts\Effects\STYPE.cs" />
     <Compile Include="Assets\Scripts\Gamemode\WaveGamemode.cs" />
@@ -479,6 +480,7 @@
     <Compile Include="Assets\Scripts\Characters\Horse\Horse.cs" />
     <Compile Include="Assets\Scripts\Effects\EanFile.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\HERO_DEAD_BODY_SETUP.cs" />
+    <Compile Include="Assets\Scripts\Inventory\PhysicalItem.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\ImportingContributorsList.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\ControlsMenu.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\Singleplayer.cs" />
@@ -488,8 +490,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Inventory\PhysicalItem.cs" />
-    <Compile Include="Assets\Scripts\UI\Radial\InventoryRadialMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\Radial\InteractRadialMenu.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

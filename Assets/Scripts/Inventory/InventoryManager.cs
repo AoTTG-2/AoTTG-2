@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Characters.Humans;
 using UnityEngine.Events;
-using Assets.Scripts.UI.Radial;
 
 namespace Assets.Scripts.Inventory
 {

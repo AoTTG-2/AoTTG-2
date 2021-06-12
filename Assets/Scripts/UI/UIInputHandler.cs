@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.UI.Input;
+﻿using Assets.Scripts.UI.Input;
 using Assets.Scripts.UI.Radial;
 using UnityEngine;
 
@@ -12,9 +11,11 @@ namespace Assets.Scripts.UI
 
         public GameObject RadialMenu;
 
+        public float interactionDistance = 10f;
+
         private void Start()
         {
-            interactionWheel = gameObject.GetComponentInChildren<RadialMenu>(true).gameObject;
+            interactionWheel = gameObject.GetComponentInChildren<InteractRadialMenu>(true).gameObject;
             inventoryWheel = gameObject.GetComponentInChildren<InventoryRadialMenu>(true).gameObject;
         }
 
@@ -27,8 +28,6 @@ namespace Assets.Scripts.UI
 
                     DetermineRadialMenu().SetActive(true);
 
-                    //RadialMenu.SetActive(true);
-                    //interactionWheel.SetActive(true);
                 }
 
 
@@ -46,28 +45,25 @@ namespace Assets.Scripts.UI
         {
 
             RaycastHit hit;
-            int layerMask = 1 << 25;
 
-            var hero = Services.Service.Player.Self as Hero;
+            int layerMask = 1 << 25; //Item Layer
 
-            Vector3 direction = Vector3.zero;
+            var camera = GameObject.Find("MainCamera").GetComponent<UnityEngine.Camera>();
 
-            direction = hero.transform.rotation * Vector3.forward;
+            Ray ray = camera.ScreenPointToRay(UnityEngine.Input.mousePosition);
 
-            if (Physics.Raycast(hero.transform.position, transform.TransformDirection(direction), out hit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask) && hit.distance < interactionDistance)
             {
 
-                Debug.DrawRay(hero.transform.position, transform.TransformDirection(direction) * hit.distance, Color.yellow, 10f);
-                Debug.Log("Hit something");
-
+                interactionWheel.GetComponent<InteractRadialMenu>().targetObject = hit.collider.gameObject;
                 interactionWheel.SetActive(true);
                 inventoryWheel.SetActive(false);
+
             }
 
             else
             {
 
-                Debug.DrawRay(hero.transform.position, transform.TransformDirection(direction) * 1000, Color.blue, 10f);
                 inventoryWheel.SetActive(true);
                 interactionWheel.SetActive(false);
                 

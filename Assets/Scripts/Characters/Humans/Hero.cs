@@ -276,6 +276,7 @@ namespace Assets.Scripts.Characters.Humans
 
             inventoryManager.CreateNewInventory(this);
 
+
             if (PhotonNetwork.isMasterClient)
             {
                 int iD = photonView.owner.ID;

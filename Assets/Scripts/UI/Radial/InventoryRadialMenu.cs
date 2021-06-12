@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Inventory;
@@ -26,8 +25,8 @@ namespace Assets.Scripts.UI.Radial
 
             inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
             inventoryManager.onInventoryChange.AddListener(SyncWheel);
-            var hero = Service.Player.Self as Hero;
-            PopulateWheel(hero);
+            PopulateWheel();
+            Label.text = "Inventory";
 
         }
 

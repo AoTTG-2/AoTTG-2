@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Assets.Scripts.Inventory;
 using Assets.Scripts.Services;
 using Assets.Scripts.Characters.Humans;
 

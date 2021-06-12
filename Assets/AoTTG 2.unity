@@ -2313,6 +2313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RadialMenu: {fileID: 1941849046}
+  interactionDistance: 12
 --- !u!4 &1962468207
 Transform:
   m_ObjectHideFlags: 0
@@ -2695,30 +2696,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1075608024208235481, guid: ed8c22a85d7d70c4c8acde9799e7d294,
         type: 3}
-      propertyPath: BaseInventory
+      propertyPath: inventoryMenu
       value: 
-      objectReference: {fileID: 11400000, guid: f4e44901cd1bfd64ebc6fbab980c1554,
-        type: 2}
-    - target: {fileID: 1075608024208235481, guid: ed8c22a85d7d70c4c8acde9799e7d294,
-        type: 3}
-      propertyPath: playerInventory.Array.size
-      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1075608024208235481, guid: ed8c22a85d7d70c4c8acde9799e7d294,
-        type: 3}
-      propertyPath: playerInventory.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: f4e44901cd1bfd64ebc6fbab980c1554,
-        type: 2}
     - target: {fileID: 1075608024208235486, guid: ed8c22a85d7d70c4c8acde9799e7d294,
         type: 3}
       propertyPath: m_Name
       value: InventoryManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1075608024208235486, guid: ed8c22a85d7d70c4c8acde9799e7d294,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed8c22a85d7d70c4c8acde9799e7d294, type: 3}
