@@ -115,7 +115,16 @@ namespace Assets.Scripts.Characters.Humans
 
                     titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                 }
-                break;
+                    else if (collider.gameObject.TryGetComponent(out HitBox hitBox1) && hitBox1.transform.root.TryGetComponent(out DummyTitan dummyTitan))
+                    {
+
+                        Vector3 velocity = body.velocity;
+                        int damage = Mathf.Max(10, (int)((velocity.magnitude * 10f) * scoreMulti));
+                        dummyTitan.GetHit(damage);
+
+                    }
+
+                    break;
             case "titaneye":
                 {
                     currentHits.Add(collider.gameObject);
