@@ -120,7 +120,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 148458}
-  m_LocalRotation: {x: -0.60876137, y: -0, z: -0, w: 0.7933534}
+  m_LocalRotation: {x: -0.31981435, y: 0.5475002, z: 0.23798701, w: 0.73574764}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -139,8 +139,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.18756726, g: 0.28717762, b: 0.37691456, a: 0}
-  m_Intensity: 0
+  m_Color: {r: 0.18721823, g: 0.28764948, b: 0.3771465, a: 0.2700544}
+  m_Intensity: 0.2700544
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -244,6 +244,7 @@ MonoBehaviour:
   timecycle: {fileID: 11400000, guid: 5d2441782fe59e14a839df6e4d2d18ac, type: 2}
   sunRotationOffset: 0
   lightingUpdateInterval: 1
+  ReflectionsFramePerSecond: 30
   ProceduralSkyboxMaterial: {fileID: 2100000, guid: 96af8c585359cd545a63c016712e3e6b,
     type: 2}
   StaticNightSkyboxMaterial: {fileID: 2100000, guid: 08e25885d920efd439c030c7cd2c2d22,
@@ -255,12 +256,13 @@ MonoBehaviour:
   StaticDuskSkyboxMaterial: {fileID: 2100000, guid: 03389866351d19a47adc95c57d054097,
     type: 2}
   StaticSkybox: 0
-  CurrentTime: 12
+  CurrentTime: 9.28
   MoonCamera: {fileID: 259637730578209515}
   MainCamera: {fileID: 0}
   CurrentDay: 0
   DayLength: 300
   LightIntensity: 0
+  StaticSkyboxPlayerPref: StaticSkybox
 --- !u!1 &190586
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +287,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190586}
-  m_LocalRotation: {x: 0.56098557, y: -0.56098557, z: 0.43045935, w: 0.43045935}
+  m_LocalRotation: {x: 0.37575555, y: -0.67584777, z: 0.20791791, w: 0.5990057}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -303,8 +305,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 0.99998665}
-  m_Intensity: 1.49998
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 0.8015994}
+  m_Intensity: 1.202399
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -379,7 +381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5156324855798302335}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.841338, y: 11.659737, z: 4.284421}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 456198}
@@ -396,9 +398,9 @@ ReflectionProbe:
   serializedVersion: 2
   m_Type: 0
   m_Mode: 1
-  m_RefreshMode: 1
-  m_TimeSlicingMode: 0
-  m_Resolution: 128
+  m_RefreshMode: 2
+  m_TimeSlicingMode: 1
+  m_Resolution: 512
   m_UpdateFrequency: 0
   m_BoxSize: {x: 5000, y: 5000, z: 5000}
   m_BoxOffset: {x: 0, y: 0, z: 0}
@@ -409,7 +411,7 @@ ReflectionProbe:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 768
   m_IntensityMultiplier: 1
   m_BlendDistance: 1
   m_HDR: 1

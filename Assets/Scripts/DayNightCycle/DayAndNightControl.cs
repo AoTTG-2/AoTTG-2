@@ -22,6 +22,9 @@ namespace Assets.Scripts.DayNightCycle
         [SerializeField] private float sunRotationOffset = 0f;
         [Tooltip("The amount of frames to wait before doing the next lighting update")]
         [SerializeField] private int lightingUpdateInterval = 10;
+        [Range(1, 60)]
+        [SerializeField] public float ReflectionsFramePerSecond = 30;
+        private float reflectionTimer;
         public Material ProceduralSkyboxMaterial;
         public Material StaticNightSkyboxMaterial;
         public Material StaticDaySkyboxMaterial;
@@ -128,8 +131,12 @@ namespace Assets.Scripts.DayNightCycle
             {
                 MoonCamera.fieldOfView = MainCamera.fieldOfView;
             }
+            //Reflections 
+            UpdateReflections();
+
             // StaticSkybox Skybox
             UpdateSkybox();
+            
             if (!Pause)
             {
                 CurrentTime += (Time.deltaTime / DayLength) * 24;
@@ -261,20 +268,35 @@ namespace Assets.Scripts.DayNightCycle
             
         }
 
-#if UNITY_EDITOR
+        void UpdateReflections()
+        {
+            reflectionTimer += Time.deltaTime;
+            if(reflectionTimer >= (1 / ReflectionsFramePerSecond))
+            {
+                ReflectionProbe.RenderProbe();
+                reflectionTimer = 0;
+            }
+        }
+
+
         void OnValidate()
         {
-            UpdateLightingSettings();
-            UpdateLight();
-            ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTime));
-            ReflectionProbe.RenderProbe();
-            // Reflection Probes have limited range so we'll want it to follow the scene view's camera when previewing changes
-            Vector3 sceneViewPosition = SceneView.lastActiveSceneView != null ? SceneView.lastActiveSceneView.camera.transform.position : Vector3.zero;
-            // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
-            ReflectionProbe.transform.position = new Vector3(sceneViewPosition.x, sceneViewPosition.y - 5f, sceneViewPosition.z);
+            if (!Application.isPlaying)
+            {
+                Debug.Log("sefklafjakfjaslfkjasfqeiwhefhdvjbwvbnwefgbwegfwgfw");
+                UpdateLightingSettings();
+                UpdateLight();
+                ProceduralSkyboxMaterial.SetFloat("_AtmosphereThickness", timecycle.atmosphereThickness.Evaluate(CurrentTime));
+                ReflectionProbe.RenderProbe();
+                // Reflection Probes have limited range so we'll want it to follow the scene view's camera when previewing changes
+                Vector3 sceneViewPosition = SceneView.lastActiveSceneView != null ? SceneView.lastActiveSceneView.camera.transform.position : Vector3.zero;
+                // Having it at the exact location of the scene view would be annoying because of the Reflection Probe gizmos
+                ReflectionProbe.transform.position = new Vector3(sceneViewPosition.x, sceneViewPosition.y - 5f, sceneViewPosition.z);
+            }
+            
 
         }
-#endif
+
     }
 }
 
