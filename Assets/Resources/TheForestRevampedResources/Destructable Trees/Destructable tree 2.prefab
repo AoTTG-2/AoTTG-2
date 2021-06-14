@@ -15,8 +15,7 @@ GameObject:
   - component: {fileID: 9020282126187925956}
   - component: {fileID: 7044206902951477211}
   - component: {fileID: 3914479702371252179}
-  - component: {fileID: 2332848319957166583}
-  - component: {fileID: 4695966402905471138}
+  - component: {fileID: 2476282042291212161}
   m_Layer: 9
   m_Name: Destructable tree 2
   m_TagString: Untagged
@@ -34,7 +33,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -20.329102, y: 44.628605, z: 136.5393}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 5332940412983758351}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -143,13 +143,13 @@ Animator:
   m_Controller: {fileID: 9100000, guid: b528fd0f3c2d26d41b547227b7459c41, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2332848319957166583
+--- !u!114 &2476282042291212161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,24 +158,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067961673174585071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e2780fac7268304eb1fd5f89bf302e1, type: 3}
+  m_Script: {fileID: 11500000, guid: c640f684078e6a048bf86fde0e721760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animationController: {fileID: 3914479702371252179}
   Tree: {fileID: 1067961673174585071}
   Particles: {fileID: 4720380250656967469, guid: d8b905e07378c0c42833d2cb06492d83,
     type: 3}
-  Branch1: {fileID: 919132149155446097, guid: ad23bb02436ef8c499b089f674fb72dc, type: 3}
---- !u!65 &4695966402905471138
-BoxCollider:
+  Leaves: {fileID: 3935498089218480187, guid: 8092dd660ccf3e940a51fe1d368f7da5, type: 3}
+  leafParticle: {fileID: 5216030054922126465}
+--- !u!1 &5216030054922126465
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067961673174585071}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 10.553379, y: 11.891852, z: 8.668446}
-  m_Center: {x: -1.8956156, y: 5.872867, z: -1.638717}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5332940412983758351}
+  m_Layer: 0
+  m_Name: particleLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5332940412983758351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5216030054922126465}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2, y: 9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2081305370645770063}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
