@@ -163,10 +163,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationController: {fileID: 3914479702371252179}
   Tree: {fileID: 1067961673174585071}
-  Particles: {fileID: 4720380250656967469, guid: d8b905e07378c0c42833d2cb06492d83,
+  dustParticles: {fileID: 4720380250656967469, guid: d8b905e07378c0c42833d2cb06492d83,
     type: 3}
   Leaves: {fileID: 3935498089218480187, guid: 8092dd660ccf3e940a51fe1d368f7da5, type: 3}
   leafParticle: {fileID: 5216030054922126465}
+  branchDebris: {fileID: 3690235220569315112, guid: 957ab0ffeb3cd1e4b87f8fff85c985b6,
+    type: 3}
 --- !u!1 &5216030054922126465
 GameObject:
   m_ObjectHideFlags: 0
