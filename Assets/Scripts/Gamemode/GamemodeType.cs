@@ -8,5 +8,6 @@
     Trost,
     TitanRush,
     PvpAhss,
-    Infection
+    Infection,
+    Training
 }

@@ -315,8 +315,16 @@ namespace Assets.Scripts.Room
                             DayLength = 300,
                             Pause = true,
                         },
-                    }
-
+                    },
+                    new TrainingSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
                 }
             });
         }

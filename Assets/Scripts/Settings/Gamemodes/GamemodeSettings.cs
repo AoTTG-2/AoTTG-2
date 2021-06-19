@@ -105,7 +105,8 @@ namespace Assets.Scripts.Settings.Gamemodes
                 new RacingSettings(difficulty),
                 new RushSettings(difficulty),
                 new TrostSettings(difficulty),
-                new WaveGamemodeSettings(difficulty)
+                new WaveGamemodeSettings(difficulty),
+                new TrainingSettings(difficulty),
             };
         }
 
@@ -131,6 +132,8 @@ namespace Assets.Scripts.Settings.Gamemodes
                     return typeof(PvPAhssGamemode);
                 case GamemodeType.Infection:
                     return typeof(InfectionGamemode);
+                case GamemodeType.Training:
+                    return typeof(TrainingGamemode);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

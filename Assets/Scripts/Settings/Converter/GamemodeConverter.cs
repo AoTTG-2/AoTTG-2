@@ -48,6 +48,8 @@ namespace Assets.Scripts.Settings.Converter
                     return JsonConvert.DeserializeObject<PvPAhssSettings>(jo.ToString(), SpecifiedSubclassConversion);
                 case GamemodeType.Infection:
                     return JsonConvert.DeserializeObject<InfectionGamemodeSettings>(jo.ToString(), SpecifiedSubclassConversion);
+                case GamemodeType.Training:
+                    return JsonConvert.DeserializeObject<TrainingSettings>(jo.ToString(), SpecifiedSubclassConversion);
                 default:
                     throw new Exception();
             }
