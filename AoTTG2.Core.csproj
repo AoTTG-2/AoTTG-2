@@ -415,6 +415,7 @@
     <Compile Include="Assets\Scripts\Settings\Gamemodes\RacingSettings.cs" />
     <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\HumanState.cs" />
+    <Compile Include="Assets\Scripts\UI\Radial\InteractRadialMenu.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\TitanBehavior.cs" />
     <Compile Include="Assets\Scripts\Serialization\SerializableColor.cs" />
@@ -490,7 +491,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\Radial\InteractRadialMenu.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Data\LanternLightBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
