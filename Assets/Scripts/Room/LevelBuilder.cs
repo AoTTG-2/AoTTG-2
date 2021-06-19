@@ -316,15 +316,6 @@ namespace Assets.Scripts.Room
                             Pause = true,
                         },
                     },
-                    new TrainingSettings
-                    {
-                        Time = new TimeSettings
-                        {
-                            CurrentTime = 12,
-                            DayLength = 300,
-                            Pause = true,
-                        },
-                    },
                 }
             });
         }
@@ -386,38 +377,8 @@ namespace Assets.Scripts.Room
                 SceneName = "Training Map",
                 Gamemodes = new List<GamemodeSettings>
                 {
-                    new WaveGamemodeSettings
+                    new TrainingSettings
                     {
-                        Time = new TimeSettings
-                        {
-                            CurrentTime = 12,
-                            DayLength = 300,
-                            Pause = true,
-                        },
-                    },
-                    new KillTitansSettings
-                    {
-                        GamemodeType = GamemodeType.Titans,
-                        Name = "Titans",
-                        Time = new TimeSettings
-                        {
-                            CurrentTime = 12,
-                            DayLength = 300,
-                            Pause = true,
-                        },
-                    },
-                    new KillTitansSettings
-                    {
-                        GamemodeType = GamemodeType.Titans,
-                        Name = "Annie",
-                        Description = "Classic map where you fight the Female Titan",
-                        Titan = new SettingsTitan
-                        {
-                            Mindless = new MindlessTitanSettings
-                            {
-                                Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
-                            }
-                        },
                         Time = new TimeSettings
                         {
                             CurrentTime = 12,

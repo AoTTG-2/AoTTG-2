@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Characters;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
@@ -19,7 +17,6 @@ namespace Assets.Scripts.Gamemode
         {
             Debug.Log("Level loaded");
             if (!PhotonNetwork.isMasterClient) return;
-            //Spawn dummies
         }
 
         public override void OnRestart()
@@ -28,16 +25,15 @@ namespace Assets.Scripts.Gamemode
             base.OnRestart();
         }
 
-        protected override void OnEntityUnRegistered(Entity entity)
-        {
-            //Score when dummie killed
-            // Score++;
-        }
-
         protected override void SetStatusTop()
         {
-            var content = $"Dummies Killed: {Score} Time : {TimeService.GetRoundTime()}";
+            var content = $"Dummies Killed: {Score}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
+
+        //TODO
+        //Score when dummie killed
+        //Respawn dummies when they have all been killed
+        
     }
 }
