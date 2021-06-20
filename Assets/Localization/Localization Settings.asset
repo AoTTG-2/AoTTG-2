@@ -24,32 +24,31 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
+      type: {class: SystemLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
+    00000001:
       type: {class: SpecificLocaleSelector, ns: UnityEngine.Localization.Settings,
         asm: Unity.Localization}
       data:
         m_LocaleId:
           m_Code: en
-    00000001:
-      type: {class: SystemLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
-      data:
-        dummyObject: 0
     00000002:
       type: {class: LocalesProvider, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
-      data:
-        dummyObject: 0
     00000003:
       type: {class: LocalizedAssetDatabase, ns: UnityEngine.Localization.Settings,
         asm: Unity.Localization}
       data:
         m_DefaultTableReference:
           m_TableCollectionName: 
+        m_UseFallback: 0
     00000004:
       type: {class: LocalizedStringDatabase, ns: UnityEngine.Localization.Settings,
         asm: Unity.Localization}
       data:
         m_DefaultTableReference:
           m_TableCollectionName: 
-        m_NoTranslationFoundFormat: No translation found for '{0}'
+        m_UseFallback: 1
+        m_MissingTranslationState: 1
+        m_NoTranslationFoundMessage: '{key}'
         m_SmartFormat:
           id: 5
     00000005:
@@ -108,23 +107,15 @@ MonoBehaviour:
     00000009:
       type: {class: DictionarySource, ns: UnityEngine.Localization.SmartFormat.Extensions,
         asm: Unity.Localization}
-      data:
-        dummyObject: 0
     0000000A:
       type: {class: XmlSource, ns: UnityEngine.Localization.SmartFormat.Extensions,
         asm: Unity.Localization}
-      data:
-        dummyObject: 0
     0000000B:
       type: {class: ReflectionSource, ns: UnityEngine.Localization.SmartFormat.Extensions,
         asm: Unity.Localization}
-      data:
-        dummyObject: 0
     0000000C:
       type: {class: DefaultSource, ns: UnityEngine.Localization.SmartFormat.Extensions,
         asm: Unity.Localization}
-      data:
-        dummyObject: 0
     0000000D:
       type: {class: PluralLocalizationFormatter, ns: UnityEngine.Localization.SmartFormat.Extensions,
         asm: Unity.Localization}

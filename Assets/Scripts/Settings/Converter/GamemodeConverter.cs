@@ -34,6 +34,8 @@ namespace Assets.Scripts.Settings.Converter
                     return JsonConvert.DeserializeObject<KillTitansSettings>(jo.ToString(), SpecifiedSubclassConversion);
                 case GamemodeType.Endless:
                     return JsonConvert.DeserializeObject<EndlessSettings>(jo.ToString(), SpecifiedSubclassConversion);
+                case GamemodeType.Catch:
+                    return JsonConvert.DeserializeObject<CatchGamemodeSettings>(jo.ToString(), SpecifiedSubclassConversion);
                 case GamemodeType.Capture:
                     return JsonConvert.DeserializeObject<CaptureGamemodeSettings>(jo.ToString(), SpecifiedSubclassConversion);
                 case GamemodeType.Wave:

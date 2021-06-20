@@ -6,6 +6,7 @@ using Assets.Scripts.UI.Elements;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Gamemode.Catch;
 
 namespace Assets.Scripts.Settings.Gamemodes
 {
@@ -107,6 +108,7 @@ namespace Assets.Scripts.Settings.Gamemodes
                 new TrostSettings(difficulty),
                 new WaveGamemodeSettings(difficulty),
                 new TrainingSettings(difficulty),
+                new CatchGamemodeSettings(difficulty)
             };
         }
 
@@ -134,6 +136,8 @@ namespace Assets.Scripts.Settings.Gamemodes
                     return typeof(InfectionGamemode);
                 case GamemodeType.Training:
                     return typeof(TrainingGamemode);
+                case GamemodeType.Catch:
+                    return typeof(CatchGamemode);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

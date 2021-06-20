@@ -27,6 +27,7 @@ namespace Assets.Scripts.UI.Menu
         public void MapEditor()
         {
             //TODO: Switch to MapEditor scene
+            Navigate(typeof(MapConverter));
         }
 
         public void Quit()

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using UnityEngine;
@@ -10,9 +11,9 @@ namespace Assets.Scripts.Gamemode
         public override GamemodeType GamemodeType { get; } = GamemodeType.Trost;
         private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded(scene, level);
             GameObject.Find("playerRespawn").SetActive(false);
             Object.Destroy(GameObject.Find("playerRespawn"));
             GameObject.Find("rock").GetComponent<Animation>()["lift"].speed = 0f;

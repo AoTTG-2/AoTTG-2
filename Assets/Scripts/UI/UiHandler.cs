@@ -45,6 +45,9 @@ namespace Assets.Scripts.UI
         public void ShowInGameUi()
         {
             InGameUi.gameObject.SetActive(true);
+            MenuUi.Singleplayer.gameObject.SetActive(false);
+            MenuUi.CreateRoom.gameObject.SetActive(false);
+            MenuUi.Lobby.gameObject.SetActive(false);
             MenuUi.gameObject.SetActive(false);
         }
 

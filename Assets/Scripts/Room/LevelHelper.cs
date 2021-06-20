@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using Assets.Scripts.CustomMaps;
 using UnityEngine;
 
 namespace Assets.Scripts.Room
@@ -26,8 +27,16 @@ namespace Assets.Scripts.Room
 
             if (level.IsCustom)
             {
-                CurrentAssetBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, Path.Combine("Custom Maps", level.AssetBundle + ".unity3d")));
-                level.SceneName = CurrentAssetBundle.GetAllScenePaths().FirstOrDefault();
+                if (level.Type == CustomMapType.CustomMap)
+                {
+
+                }
+                else
+                {
+                    CurrentAssetBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, Path.Combine("Custom Maps", level.AssetBundle + ".unity3d")));
+                    level.SceneName = CurrentAssetBundle.GetAllScenePaths().FirstOrDefault();
+                }
+                
             }
 
             PhotonNetwork.LoadLevel(level.SceneName);
