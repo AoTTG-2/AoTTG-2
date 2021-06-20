@@ -260,8 +260,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813783946394471498, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
         type: 3}
+      propertyPath: m_Mass
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813783946394471498, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+        type: 3}
       propertyPath: m_Interpolate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4813783946394471498, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
         type: 3}
