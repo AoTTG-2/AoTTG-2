@@ -137,7 +137,7 @@ namespace Assets.Scripts.Gamemode.Racing
             }
             else
             {
-                FengGameManagerMKII.instance.multiplayerRacingFinsih();
+                Gamemode.OnRacingFinished();
             }
         }
     }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
   m_DefaultGroup: 98a3b70dd87787d44a83b323155fbda4
+  m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
   m_DisableCatalogUpdateOnStart: 0
@@ -26,8 +27,8 @@ MonoBehaviour:
   m_overridePlayerVersion: 
   m_GroupAssets:
   - {fileID: 11400000, guid: 20171d2af1388a748b8b4e48bf8cc259, type: 2}
-  - {fileID: 11400000, guid: d3a5d85fb523bf248a3643563ba314a7, type: 2}
   - {fileID: 11400000, guid: 7fb070a1e9aebf54d93dfea75bdec808, type: 2}
+  - {fileID: 11400000, guid: d3a5d85fb523bf248a3643563ba314a7, type: 2}
   - {fileID: 11400000, guid: d51cecf9203c333469d7d89703fc653d, type: 2}
   - {fileID: 11400000, guid: f8e2bb800a2fac0429aff6259f1a6d80, type: 2}
   m_BuildSettings:
@@ -74,6 +75,7 @@ MonoBehaviour:
     - Locale
     - Locale-en
     - Locale-nl
+    - Locale-fr
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f34f6425a97f51c4f8750ccb5454f83f, type: 2}
