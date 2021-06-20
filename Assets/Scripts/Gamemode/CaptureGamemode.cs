@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
@@ -120,9 +121,9 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded(scene, level);
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)

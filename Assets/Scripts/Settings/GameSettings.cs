@@ -187,6 +187,9 @@ namespace Assets.Scripts.Settings
                 case GamemodeType.Endless:
                     Gamemode = CreateFromObjects(playerGamemodeSettings as EndlessSettings, levelGamemode as EndlessSettings);
                     break;
+                case GamemodeType.Catch:
+                    Gamemode = CreateFromObjects(playerGamemodeSettings as CatchGamemodeSettings, levelGamemode as CatchGamemodeSettings);
+                    break;
                 case GamemodeType.Capture:
                     Gamemode = CreateFromObjects(playerGamemodeSettings as CaptureGamemodeSettings, levelGamemode as CaptureGamemodeSettings);
                     break;
