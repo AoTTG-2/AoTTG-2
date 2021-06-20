@@ -85,6 +85,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
             {
                 case MindlessTitanType.Normal:
                     AnimationWalk = "run_walk";
+                    AnimationDeath = "die_front";
                     Attacks.Add(new ComboAttack());
                     Focus = 10f;
                     break;
@@ -138,7 +139,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 
         private void SetAbnormal()
         {
-            var walkingAnimations = new[] {"run_walk", "run_abnormal", "run_abnormal_1"};
+            var walkingAnimations = new[] { "run_walk", "run_abnormal", "run_abnormal_1" };
             var runningAnimations = new[] { "run_abnormal", "run_abnormal_1" };
             AnimationWalk = walkingAnimations[Random.Range(0, walkingAnimations.Length)];
             AnimationRun = runningAnimations[Random.Range(0, runningAnimations.Length)];

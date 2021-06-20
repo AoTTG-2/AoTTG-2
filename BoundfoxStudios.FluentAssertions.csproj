@@ -1,0 +1,935 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{4193CABC-37B8-30C1-2A2D-BF5915548D2C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>BoundfoxStudios.FluentAssertions</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>.</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_2020_2_5;UNITY_2020_2;UNITY_2020;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
+    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <UnityProjectGenerator>Package</UnityProjectGenerator>
+    <UnityProjectGeneratorVersion>2.0.7</UnityProjectGeneratorVersion>
+    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
+    <UnityVersion>2020.2.5f1</UnityVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\ExpressionExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\Execute.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\NullValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EquivalencyValidationContext.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\ConstructorInfoAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\Equivalency\Failure.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\ExceptionExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\AssertionOptions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\CustomAssertionAttribute.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Tracing\ITraceWriter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\AndWhichConstraint.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\PropertyInfoExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\NetStandardReflector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\IExtractExceptions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\DateTimeOffsetAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Matching\TryMatchByNameRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\NullableDateTimeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\ExecutionTimeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\StringValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\NUnitTestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\DateTimeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\ValueFormatterAttribute.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\DefaultValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\ExcludeMemberByPredicateSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\IncludeMemberByPathSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\MemberPath.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Events\EventRecorder.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\GuidValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\StringEqualityEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\MultidimensionalArrayFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XmlNodeFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Events\IMonitor.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IOrderingRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\ByteValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\IAssertionStrategy.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\OrderStrictness.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\MethodBaseAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\SimpleTimeSpanAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\CollectionMemberMemberInfo.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\SingleValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\ExcludeMemberByPathSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EnumEqualityStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\AssertionScope.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\NullableSimpleTimeSpanAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\TryConversionStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\IAssertionScope.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\MoreThan.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\Int64ValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\Continuation.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\TypeExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\CollectionMemberAssertionRuleDecorator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\MethodInfoExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\AssertionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Extensions\FluentDateTimeExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Numeric\NullableNumericAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IMemberSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\RunAllUserStepsEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\AssemblyAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\Equivalency\AttributeData.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EnumerableEquivalencyValidatorExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\EnumerableValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Events\EventHandlerFactory.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\DelegateAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IAssertionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\DoubleValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\TypeExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\ITestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\NumericAssertionsExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\ContinuedAssertionScope.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Events\EventMonitor.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\EquivalencyStepCollection.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\StringWildcardMatchingValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\NullableBooleanAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\FallbackTestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\SortOrder.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\EnumerableExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\DateTimeOffsetRangeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\Equivalency\Node.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\XUnit2TestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\DictionaryEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\PropertyInfoSelectorAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\PropertyInfoFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\ValueFormatterDetectionMode.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\Services.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\BooleanAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\ObjectAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EquivalencyValidationContextExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\MethodInfoSelector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Exactly.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Events\EventAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Ordering\MatchAllOrderingRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\Configuration.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\AllTypes.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Ordering\ByteArrayOrderingRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\TypeSelector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\CollectionMemberAssertionOptionsDecorator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\AssertionFailedException.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\ActionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\XUnitTestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\TimeSpanValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\MessageBuilder.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\IClock.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\CollectingAssertionStrategy.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\DateTimeRangeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\EventRaisingExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\WhichValueConstraint.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EquivalencyAssertionOptionsExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\AssertionResultSet.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\MSTestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XmlNodeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\StructuralEqualityEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\IncludeMemberByPredicateSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\TypeEnumerableExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\ConfigurationStoreExceptionInterceptor.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\SelectedMemberInfo.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\PropertyInfoAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\SByteValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\GenericAsyncFunctionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\GivenSelector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\ObjectExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Numeric\NumericAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\Equivalency\XmlIterator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\XAttributeValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\FullFrameworkReflector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\TaskExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\ContextDataItems.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\AsyncFunctionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\NestedSelectionContext.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IEquivalencyValidationContext.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\IValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\NoSynchronizationContextScope.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EquivalencyAssertionOptions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\CyclicReferenceHandling.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\NullConfigurationStore.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\DefaultAssertionStrategy.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\StringExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\NonGenericAsyncFunctionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EnumEquivalencyHandling.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\LateBoundTestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Ordering\PathBasedOrderingRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\SimpleEqualityEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\SelfReferencingCollectionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\ExceptionValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\UInt32ValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\GenericDictionaryEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\AssertionExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\CyclicReferenceDetector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XmlAssertionExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\AtLeast.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\MemberInfoSelectedMemberInfo.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\DateTimeExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\UInt16ValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\MultiDimensionalArrayEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\IConfigurationStore.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\Guard.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\ObjectAssertionsExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\Formatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IEquivalencyAssertionOptions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\FailReason.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\DateTimeOffsetValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\MethodInfoSelectorAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Events\IEventRecorder.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\StringCollectionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\MSpecFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\StringStartValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\CollectionMemberSelectionRuleDecorator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IAssertionContext.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\NullableGuidAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\TypeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\OccurrenceConstraint.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\DecimalValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\Int32ValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Numeric\ComparableTypeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\Equivalency\XmlReaderValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\ContinuationOfGiven.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\AssertionRuleEquivalencyStepAdapter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\SubjectInfoExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\TimeSpanCondition.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\GivenSelectorExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Ordering\PredicateBasedOrderingRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\ExpressionValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EquivalencyValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\AssertionContext.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\XDocumentValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XDocumentAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XElementAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\PropertySelectedMemberInfo.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\CallerIdentifier.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\GenericDictionaryAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\NullableDateTimeOffsetAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IMemberInfo.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EnumerableEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\ConversionSelector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\FluentActions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\GuidAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\GenericCollectionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\AttributeBasedFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\XElementValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\UInt64ValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\IReflector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IMemberMatchingRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\NSpec1Framework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\MemberInfoAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\IEquivalencyValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\IntegerExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\GallioTestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XmlNodeAssertionsofTSubjectTAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\ICloneable2.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\MbUnitTestFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\NonGenericCollectionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Extensions\FluentTimeSpanExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\PropertyInfoSelector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Ordering\CollectionMemberOrderingRuleDecorator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\StringValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\StringEqualityValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\SelfReferenceEquivalencyAssertionOptions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\TaskFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\Int16ValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Formatting\AggregateExceptionValueFormatter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\NegatedStringStartValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\OrderingRuleCollection.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Disposable.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\ReferenceEqualityEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\AssertionRuleEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\SelectMemberByPathSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Collections\CollectionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\AtMost.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\GenericEnumerableEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\AllPublicFieldsSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\AggregateExceptionExtractor.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\TimeSpanPredicate.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Matching\CollectionMemberMatchingRuleDecorator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\MethodInfoAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\CSharpAccessModifierExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\NSpecFramework.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Selection\AllPublicPropertiesSelectionRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\ValueTypeEquivalencyStep.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\EnumerableEquivalencyValidator.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\FieldSelectedMemberInfo.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\CSharpAccessModifier.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XAttributeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\ReferenceTypeAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\Clock.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\MSTestFrameworkV2.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\LessThan.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\UnityAdoption\AppSettingsConfigurationStore.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Common\NullReflector.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\FunctionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Types\TypeSelectorAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Events\RecordedEvent.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Xml\XmlElementAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Tracing\StringBuilderTraceWriter.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Execution\TestFrameworkProvider.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Specialized\ExceptionAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Primitives\StringAssertions.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\Matching\MustMatchByNameRule.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\Equivalency\ObjectReference.cs" />
+    <Compile Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\FluentAssertions\AndConstraint.cs" />
+  </ItemGroup>
+  <ItemGroup>
+     <None Include="Library\PackageCache\com.boundfoxstudios.fluentassertions@9468b214b4\Editor\BoundfoxStudios.FluentAssertions.asmdef" />
+    <Reference Include="UnityEngine">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ARModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ARModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AndroidJNIModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.AndroidJNIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DSPGraphModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.DSPGraphModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GIModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.GIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.LocalizationModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.LocalizationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ProfilerModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ProfilerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StreamingModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.StreamingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubsystemsModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubsystemsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextCoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TilemapModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsNativeModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsNativeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UNETModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UNETModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityCurlModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityCurlModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityTestProtocolModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VFXModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.VFXModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VehiclesModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VirtualTexturingModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WindModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.GraphViewModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.GraphViewModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.PackageManagerUIModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.PackageManagerUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SceneTemplateModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.SceneTemplateModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsSamplesModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsSamplesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIServiceModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIServiceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UnityConnectModule">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon3Unity3D">
+      <HintPath>Assets\Plugins\Photon3Unity3D.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets\Plugins\WebSocket\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>Library\PackageCache\com.unity.render-pipelines.core@10.3.1\Editor\ShaderGenerator\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Microsoft.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="System.AppContext">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Concurrent">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Collections.Concurrent.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.NonGeneric">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Collections.NonGeneric.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Specialized">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Collections.Specialized.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ComponentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.EventBasedAsync">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ComponentModel.EventBasedAsync.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.TypeConverter">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ComponentModel.TypeConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Console">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Common">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Contracts">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Debug">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.FileVersionInfo">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.FileVersionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Process">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.Process.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.StackTrace">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.StackTrace.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TextWriterTraceListener">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tools">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TraceSource">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Diagnostics.TraceSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Drawing.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Dynamic.Runtime">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Dynamic.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Calendars">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Globalization.Calendars.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Globalization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Extensions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Globalization.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.DriveInfo">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.FileSystem.DriveInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Watcher">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.FileSystem.Watcher.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.IsolatedStorage">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.IsolatedStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.MemoryMappedFiles">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.MemoryMappedFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipes">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.Pipes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.UnmanagedMemoryStream">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.IO.UnmanagedMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Expressions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Linq.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Parallel">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Linq.Parallel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Queryable">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Linq.Queryable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Rtc">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.Http.Rtc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NameResolution">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.NameResolution.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NetworkInformation">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.NetworkInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Ping">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.Ping.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Requests">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.Requests.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Security">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Sockets">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebHeaderCollection">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.WebHeaderCollection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebSockets.Client">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.WebSockets.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.WebSockets">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Net.WebSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ObjectModel">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Emit">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Reflection.Emit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Emit.ILGeneration">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Reflection.Emit.ILGeneration.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Emit.Lightweight">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Reflection.Emit.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Extensions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Reflection.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Reflection.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Reader">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Resources.Reader.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.ResourceManager">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Resources.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Writer">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Resources.Writer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.VisualC">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.CompilerServices.VisualC.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Handles">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.Handles.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.InteropServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Numerics">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.Serialization.Formatters.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Json">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.Serialization.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.Serialization.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Xml">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Runtime.Serialization.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Claims">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.Claims.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Csp">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.Cryptography.Csp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.Principal.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.SecureString">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Security.SecureString.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Duplex">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ServiceModel.Duplex.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Http">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ServiceModel.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.NetTcp">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ServiceModel.NetTcp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ServiceModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Security">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ServiceModel.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Text.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.Extensions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Text.Encoding.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Text.RegularExpressions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Overlapped">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Threading.Overlapped.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Parallel">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Threading.Tasks.Parallel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Thread">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Threading.Thread.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.ThreadPool">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Threading.ThreadPool.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Timer">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Threading.Timer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.ReaderWriter">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XDocument">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XmlDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlSerializer">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XmlSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XDocument">
+      <HintPath>D:\Unity\2020.2.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{F48FEAA8-69FC-031D-5964-6CF246A79041}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{942A0F05-622E-9EFE-5F45-448E11BDA08F}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
