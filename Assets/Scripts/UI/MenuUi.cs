@@ -7,6 +7,7 @@ namespace Assets.Scripts.UI
     {
         public MainMenu MainMenu;
         public Singleplayer Singleplayer;
+        public MapConverter MapConverter;
         public Lobby Lobby;
         public CreateRoom CreateRoom;
         public Credits Credits;
@@ -15,6 +16,7 @@ namespace Assets.Scripts.UI
         {
             MainMenu.gameObject.SetActive(true);
             Singleplayer.gameObject.SetActive(false);
+            MapConverter.gameObject.SetActive(false);
             Lobby.gameObject.SetActive(false);
             CreateRoom.gameObject.SetActive(false);
             Credits.gameObject.SetActive(false);

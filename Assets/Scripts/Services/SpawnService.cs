@@ -39,6 +39,7 @@ namespace Assets.Scripts.Services
         public T GetRandom<T>() where T : Spawner
         {
             var typedSpawners = GetAll<T>();
+            if (typedSpawners.Count == 0) return null;
             return typedSpawners[Random.Range(0, typedSpawners.Count)];
         }
         
@@ -50,6 +51,18 @@ namespace Assets.Scripts.Services
         public List<TitanSpawner> GetByType(TitanSpawnerType type)
         {
             return GetAll<TitanSpawner>().Where(x => x.Type == type).ToList();
+        }
+
+        public (Vector3 position, Quaternion rotation) GetRandomSpawnPosition()
+        {
+            var position = new Vector3(Random.Range(-550, 550f), 0f, Random.Range(-550f, 500f));
+            if (position.x >= 0f && position.x <= 50f) position.x = 50f;
+            if (position.x <= 0f && position.x >= -50f) position.x = -50f;
+            if (position.z >= 0f && position.z <= 50f) position.z = 50f;
+            if (position.z <= 0f && position.z >= -50f) position.z = -50f;
+
+            var rotation = new Vector3(0f, Random.Range(0, 360f), 0f);
+            return (position, Quaternion.Euler(rotation));
         }
 
         public void OnRestart()

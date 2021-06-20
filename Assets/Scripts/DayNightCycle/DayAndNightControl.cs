@@ -186,7 +186,7 @@ namespace Assets.Scripts.DayNightCycle
         void UpdateLightingSettings()
         {
             RenderSettings.sun = Sun; // Procedural skybox needs this to work
-            RenderSettings.fog = true;
+            //RenderSettings.fog = true;
 
             if (!timecycle) return;
             if (timecycle.overrideEnvironmentLighting)
