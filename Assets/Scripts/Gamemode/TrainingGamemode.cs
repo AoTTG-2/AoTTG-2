@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
-using UnityEngine;
+using Assets.Scripts.Room;
 
 
 namespace Assets.Scripts.Gamemode
@@ -13,9 +13,8 @@ namespace Assets.Scripts.Gamemode
 
         private int Score { get; set; }
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
-            Debug.Log("Level loaded");
             if (!PhotonNetwork.isMasterClient) return;
         }
 

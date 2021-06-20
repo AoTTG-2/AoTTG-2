@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{5811a758-78a0-3b3d-55a7-e8093ddfd643}</ProjectGuid>
+    <ProjectGuid>{010e63af-c0f9-3e8c-6b67-0a95bbe08b21}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>AoTTG2.Core</AssemblyName>
+    <AssemblyName>Unity.TextMeshPro.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -36,455 +36,54 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Security\AuthorizationResult.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\EnumNamedArrayAttribute.cs" />
-     <Compile Include="Assets\Scripts\Usable\CannonBall.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\HumanBody.cs" />
-     <Compile Include="Assets\Scripts\Settings\Titans\ColossalTitanSettings.cs" />
-     <Compile Include="Assets\Scripts\Events\HitEvents.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelTeleport.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BodyslamAttack.cs" />
-     <Compile Include="Assets\Scripts\Services\FactionService.cs" />
-     <Compile Include="Assets\Scripts\Room\RoomExtensions.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\CharacterMaterials.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\ErenTitanBody.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Constants\HeroAnim.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPcheckPoint.cs" />
-     <Compile Include="Assets\Scripts\Settings\Titans\FemaleTitanSettings.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Gender.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\CameraForLeftEye.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BiteAttack.cs" />
-     <Compile Include="Assets\Scripts\UI\UIInputHandler.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\CatchGamemodeSettings.cs" />
-     <Compile Include="Assets\Scripts\Room\Minimap\CatchDestroy.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleMessage.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GeneralGraphics.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\TrainingSettings.cs" />
-     <Compile Include="Assets\Scripts\Room\Chat\ChatCommands.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\CaptureBehavior.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\ColossalTitan.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\FemaleTitan.cs" />
-     <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
-     <Compile Include="Assets\Scripts\UI\UiMenuPUN.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterPrefabs.cs" />
-     <Compile Include="Assets\Scripts\Services\AuthenticationService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\PlayerTitan.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Controls\GeneralControlsPage.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapCamera.cs" />
-     <Compile Include="Assets\Scripts\Effects\VortexAffector.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\CustomizableHudElement.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\KickAttack.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanGlassesComponent.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\WaveGamemodeSettings.cs" />
-     <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeadgearComponent.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\AHSS.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeroStats.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Graphics\QualitySwitcher.cs" />
-     <Compile Include="Assets\Scripts\Effects\ORIPOINT.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\STEREO_3D_TYPE.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\BombPvpSkill.cs" />
-     <Compile Include="Assets\Scripts\Services\DiscordTestService.cs" />
-     <Compile Include="Assets\Scripts\DayNightCycle\DayLengthController.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelHelper.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\LeviSkill.cs" />
-     <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
-     <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TitanState.cs" />
-     <Compile Include="Assets\Scripts\Characters\HitBox.cs" />
-     <Compile Include="Assets\Scripts\Effects\JetAffector.cs" />
-     <Compile Include="Assets\Scripts\Room\DayLight.cs" />
-     <Compile Include="Assets\Scripts\Time of Day\TimecycleProfile.cs" />
-     <Compile Include="Assets\Scripts\Services\SettingsService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\RockScript.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Difficulty.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\GamemodeBase.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TITAN_SETUP.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\CommandHandler.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\TriggerColliderWeapon.cs" />
-     <Compile Include="Assets\Scripts\Services\PauseService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\DeathOnFaceBehavior.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelBottom.cs" />
-     <Compile Include="Assets\Scripts\UI\UiNavigationElement.cs" />
-     <Compile Include="Assets\Scripts\Legacy\RCRegionLabel.cs" />
-     <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IPhotonService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterOutfit.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\PlanetMouseOrbit.cs" />
-     <Compile Include="Assets\Scripts\Xft\XWeaponTrail.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\RegistrationCounter.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenuV2.cs" />
-     <Compile Include="Assets\Scripts\DayNightCycle\TimeSwitcher.cs" />
-     <Compile Include="Assets\Scripts\Extensions\ListExtensions.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ErenSkill.cs" />
-     <Compile Include="Assets\Scripts\LoginFengKAI.cs" />
-     <Compile Include="Assets\Scripts\CustomMaps\CustomMapConfiguration.cs" />
-     <Compile Include="Assets\Scripts\Characters\EnemyfxIDcontainer.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\Crosshair.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassMarker.cs" />
-     <Compile Include="Assets\Scripts\Effects\EffectLayer.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IDiscordService.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IMessageService.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleOptionsGUI.cs" />
-     <Compile Include="Assets\Scripts\Services\InventoryService.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenu.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\PvPAhssSettings.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TitanTrigger.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\ArmComponent.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\UiCheckbox.cs" />
-     <Compile Include="Assets\Scripts\EventManager.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IService.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingKillTrigger.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Legacy\Bomb.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\EmblemComponent.cs" />
-     <Compile Include="Assets\Scripts\Effects\ParticleScaling.cs" />
-     <Compile Include="Assets\Scripts\UI\GameCursor.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\BUFF.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Legacy\IComparerPVPchkPtID.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\CommandsGUI.cs" />
-     <Compile Include="Assets\Scripts\Services\Localization.cs" />
-     <Compile Include="Assets\Scripts\Effects\EffectController.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Graphics\FPSLimiter.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\CaptureGamemode.cs" />
-     <Compile Include="Assets\Scripts\Effects\EffectNode.cs" />
-     <Compile Include="Assets\Scripts\Settings\RespawnSettings.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Blades.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\BeastTitanBody.cs" />
-     <Compile Include="Assets\Scripts\FengGameManagerMKII.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TitanType.cs" />
-     <Compile Include="Assets\Scripts\Items\Data\ItemData.cs" />
-     <Compile Include="Assets\Scripts\Xft\SplineControlPoint.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\ArmoredTitanBody.cs" />
-     <Compile Include="Assets\Scripts\Items\Item.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\DestroySelf.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\DummyTitan.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\MaxCamera.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHairComponent.cs" />
-     <Compile Include="Assets\Scripts\Room\TitanSpawnerType.cs" />
-     <Compile Include="Assets\Scripts\Services\LevelService.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\RespawnMode.cs" />
-     <Compile Include="Assets\Scripts\Interactable\Interactable.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingStartBarrier.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\HeroSkill.cs" />
-     <Compile Include="Assets\Scripts\Settings\Setting.cs" />
-     <Compile Include="Assets\Scripts\UI\PlayerInfo.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelTriggerRacingEnd.cs" />
-     <Compile Include="Assets\Scripts\Effects\EanFrame.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ArminSkill.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\UiInput.cs" />
-     <Compile Include="Assets\Scripts\DayNightCycle\ToggleDayNightController.cs" />
-     <Compile Include="Assets\Scripts\Legacy\RCRegion.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\InGameUi.cs" />
-     <Compile Include="Assets\Scripts\UI\UiHandler.cs" />
-     <Compile Include="Assets\Scripts\Services\CustomMapService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Skin.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\TitanBody.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\MouseLook.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationManager.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelTriggerCheckPoint.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\BeastTitan.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchGamemode.cs" />
-     <Compile Include="Assets\Scripts\CustomMaps\MapMaterial.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
-     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\ICustomMapService.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\LabelPosition.cs" />
-     <Compile Include="Assets\Scripts\Settings\PvPSettings.cs" />
-     <Compile Include="Assets\Scripts\Constants\Layers.Enum.cs" />
-     <Compile Include="Assets\Scripts\Legacy\SnapShotReview.cs" />
-     <Compile Include="Assets\Scripts\CustomMaps\CustomMap.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\LanguageDropdown.cs" />
-     <Compile Include="Assets\Scripts\Extensions\LocalizationExtensions.cs" />
-     <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
-     <Compile Include="Assets\Scripts\Room\Chat\ChatUtility.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IPauseService.cs" />
-     <Compile Include="Assets\Scripts\Interactable\PlayerInteractable.cs" />
-     <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\SettingsGUI.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\HUD.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Controls\ControlSettings.cs" />
-     <Compile Include="Assets\Scripts\Room\ChangeQuality.cs" />
-     <Compile Include="Assets\Scripts\CustomMaps\MapComponent.cs" />
-     <Compile Include="Assets\Scripts\Events\SpawnEvents.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\ClothFactory.cs" />
-     <Compile Include="Assets\Scripts\CustomMaps\Converter.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\PvPAhssGamemode.cs" />
-     <Compile Include="Assets\Scripts\Effects\ScaleAffector.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
-     <Compile Include="Assets\Scripts\Usable\CannonValues.cs" />
-     <Compile Include="Assets\Scripts\DayNightCycle\ToggleStaticSkybox.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\ScrollingScrollView.cs" />
-     <Compile Include="Assets\Scripts\Settings\Titans\MindlessTitanSettings.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
-     <Compile Include="Assets\Scripts\UI\CursorMode.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanEyesComponent.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindCategory.cs" />
-     <Compile Include="Assets\Scripts\VersionFormatter.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\FemaleTitanBody.cs" />
-     <Compile Include="Assets\Scripts\Effects\Xffect.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\TrainingGamemode.cs" />
-     <Compile Include="Assets\Scripts\Startup.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\InGameMenu.cs" />
-     <Compile Include="Assets\Scripts\Interactable\SupplyStationInteractable.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\CapeComponent.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\MikasaSkill.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelTriggerGas.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchSpawner.cs" />
-     <Compile Include="Assets\Scripts\Serialization\ColorJsonConverter.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\ErenTitan.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
-     <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
-     <Compile Include="Assets\Scripts\Characters\BodyPushBox.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindElement.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\SortLabelIndicator.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\InfectionGamemode.cs" />
-     <Compile Include="Assets\Scripts\Services\EntityService.cs" />
-     <Compile Include="Assets\Scripts\Effects\STransform.cs" />
-     <Compile Include="Assets\Scripts\UI\Radial\Radial.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterPreset.cs" />
-     <Compile Include="Assets\Scripts\Settings\TimeSettings.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\TitanRushGamemode.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Human.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevel.cs" />
-     <Compile Include="Assets\Scripts\Room\HumanSpawner.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapFaceAttack.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\JeanSkill.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IFactionService.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Legacy\BombExplode.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassController.cs" />
-     <Compile Include="Assets\Scripts\Settings\CheckBoxCostume.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\EndlessGamemode.cs" />
-     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IPlayerService.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Options\TitanHealthMode.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IEntityService.cs" />
-     <Compile Include="Assets\Scripts\Effects\STYPE.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\WaveGamemode.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelMovingBrick.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\TrostGamemode.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\MindlessTitanBody.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\GameSettingMenu.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevelsGUI.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\RoomRow.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Body\BodyPart.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\RandomAttackBehavior.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\ISpawnService.cs" />
-     <Compile Include="Assets\Scripts\Legacy\CustomMap\RCLegacy.cs" />
-     <Compile Include="Assets\Scripts\Settings\GameSettings.cs" />
-     <Compile Include="Assets\Scripts\Settings\HorseSettings.cs" />
-     <Compile Include="Assets\Scripts\UI\IUiElement.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Weapon.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\FacialComponent.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\KillTitansSettings.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Ahss.cs" />
-     <Compile Include="Assets\Scripts\Usable\CannonPropRegion.cs" />
-     <Compile Include="Assets\Scripts\Room\PlayerSpawnType.cs" />
-     <Compile Include="Assets\Scripts\Legacy\CustomMap\RcObjectType.cs" />
-     <Compile Include="Assets\Scripts\SelfDestroy.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelBuilder.cs" />
-     <Compile Include="Assets\Scripts\UI\Radial\FlareRadialMenu.cs" />
-     <Compile Include="Assets\Scripts\Room\Chat\ChatCommandHandler.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\ITimeService.cs" />
-     <Compile Include="Assets\Scripts\Services\UiService.cs" />
-     <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
-     <Compile Include="Assets\Scripts\Services\Service.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Equipment.cs" />
-     <Compile Include="Assets\Scripts\Effects\LinearForceAffector.cs" />
-     <Compile Include="Assets\Scripts\VersionManager.cs" />
-     <Compile Include="Assets\Scripts\InstantiateTracker.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\CameraFacingBillboard.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Legacy\GAMETYPE.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\AccountPanel.cs" />
-     <Compile Include="Assets\Scripts\Effects\Affector.cs" />
-     <Compile Include="Assets\Scripts\UI\Radial\RadialItem.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanComponent.cs" />
-     <Compile Include="Assets\Scripts\Items\Flare.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\Skill.cs" />
-     <Compile Include="Assets\Scripts\Events\FactionEvents.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\ServerSettingsPage.cs" />
-     <Compile Include="Assets\Scripts\Effects\UVAffector.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\ParentFollow.cs" />
-     <Compile Include="Assets\Scripts\CustomMaps\MapObject.cs" />
-     <Compile Include="Assets\Scripts\Characters\EntityConfiguration.cs" />
-     <Compile Include="Assets\Scripts\Legacy\SnapShotSaves.cs" />
-     <Compile Include="Assets\Scripts\UI\Input\InputCannon.cs" />
-     <Compile Include="Assets\Scripts\UI\UiMenu.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingResult.cs" />
-     <Compile Include="Assets\Scripts\Settings\FengColor.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Weapons.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\State\TitanState.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleExtensions.cs" />
-     <Compile Include="Assets\Scripts\Effects\VertexPool.cs" />
-     <Compile Include="Assets\Scripts\Room\TitanSpawner.cs" />
-     <Compile Include="Assets\Scripts\UI\UiElement.cs" />
-     <Compile Include="Assets\Scripts\Events\SettingEvents.cs" />
-     <Compile Include="Assets\Scripts\Events\Args\HeroKillEvent.cs" />
-     <Compile Include="Assets\Scripts\UI\Radial\RadialMenu.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevelOption.cs" />
-     <Compile Include="Assets\Scripts\Settings\Titans\TitanSettings.cs" />
-     <Compile Include="Assets\Scripts\iTween.cs" />
-     <Compile Include="Assets\Scripts\Effects\RibbonTrail.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\RockThrow.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Bullet.cs" />
-     <Compile Include="Assets\Scripts\UI\UiContainer.cs" />
-     <Compile Include="Assets\Scripts\Effects\UVAnimation.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Configuration\TitanConfiguration.cs" />
-     <Compile Include="Assets\Scripts\Items\Data\FlareData.cs" />
-     <Compile Include="Assets\Scripts\Events\GamemodeEvents.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsEnums.cs" />
-     <Compile Include="Assets\Scripts\Services\TimeService.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\RushSettings.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\SortButton.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\UiSlider.cs" />
-     <Compile Include="Assets\Scripts\Room\HintType.cs" />
-     <Compile Include="Assets\Scripts\Services\MessageService.cs" />
-     <Compile Include="Assets\Scripts\Settings\GlobalSettings.cs" />
-     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
-     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />
-     <Compile Include="Assets\Scripts\Utility\StringExtensionMethods.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\ChangeHudHandler.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsController.cs" />
-     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\RockThrowSetting.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\FlexibleGridLayout.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
-     <Compile Include="Assets\Scripts\Room\LevelTriggerHint.cs" />
-     <Compile Include="Assets\Scripts\Xft\Spline.cs" />
-     <Compile Include="Assets\Scripts\Characters\Entity.cs" />
-     <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
-     <Compile Include="Assets\Scripts\Effects\AttractionForceAffector.cs" />
-     <Compile Include="Assets\Scripts\Security\TokenResult.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\CostumeHair.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\Scoreboard.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Eren\PunchAttack.cs" />
-     <Compile Include="Assets\Scripts\Settings\Converter\GamemodeConverter.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicSettingMenu.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\UiElementAttribute.cs" />
-     <Compile Include="Assets\Scripts\Room\InRoomRoundTimer.cs" />
-     <Compile Include="Assets\Scripts\DayNightCycle\DayAndNightControl.cs" />
-     <Compile Include="Assets\Scripts\Services\DiscordService.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingObjective.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Graphics\ResolutionSwitcher.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\ILevelService.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
-     <Compile Include="Assets\Scripts\Effects\EMITTYPE.cs" />
-     <Compile Include="Assets\Scripts\Room\Chat\InRoomChat.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\Command.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterList.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterBuild.cs" />
-     <Compile Include="Assets\Scripts\Items\FlareMovement.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\IN_GAME_MAIN_CAMERA.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchBall.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\CameraShake.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindsPage.cs" />
-     <Compile Include="Assets\Scripts\Room\Level.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\KillInfo.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\Labels.cs" />
-     <Compile Include="Assets\Scripts\Effects\COLOR_GRADUAL_TYPE.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HandGrip.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IUiService.cs" />
-     <Compile Include="Assets\Scripts\CustomMaps\MapTexture.cs" />
-     <Compile Include="Assets\Scripts\Services\ScreenshotService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Hero.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\GrabAttack.cs" />
-     <Compile Include="Assets\Scripts\Room\BottomType.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\TrostSettings.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Options\PvpMode.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\GasNotification.cs" />
-     <Compile Include="Assets\Scripts\UI\MenuUi.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\RacingSettings.cs" />
-     <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\HumanState.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchMode.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\MapConverter.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\TitanBehavior.cs" />
-     <Compile Include="Assets\Scripts\Serialization\SerializableColor.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\MarcoSkill.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\FPSCounter.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanOutfitComponent.cs" />
-     <Compile Include="Assets\Scripts\Settings\ColorSet.cs" />
-     <Compile Include="Assets\Scripts\Services\PlayerService.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\EndlessSettings.cs" />
-     <Compile Include="Assets\Scripts\UI\Camera\SpectatorMovement.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingCheckpointTrigger.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\PauseIndicator.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\KillTitansGamemode.cs" />
-     <Compile Include="Assets\Scripts\Services\SpawnService.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\InputLine.cs" />
-     <Compile Include="Assets\Scripts\Achievements\AchievementManager.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\MenuManager.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\CaptureGamemodeSettings.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\ISettingsService.cs" />
-     <Compile Include="Assets\Scripts\UI\Input\InputManager.cs" />
-     <Compile Include="Assets\Scripts\Achievements\Achievement.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapAttack.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\RushBehavior.cs" />
-     <Compile Include="Assets\Scripts\Effects\RSTYPE.cs" />
-     <Compile Include="Assets\Scripts\Effects\Emitter.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\ComboAttack.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Attack.cs" />
-     <Compile Include="Assets\Scripts\Gamemode\Capture\CheckPointState.cs" />
-     <Compile Include="Assets\Scripts\Effects\RotateAffector.cs" />
-     <Compile Include="Assets\Scripts\UI\Input\InputUi.cs" />
-     <Compile Include="Assets\Scripts\Characters\BloodSplatterScript.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\PetraSkill.cs" />
-     <Compile Include="Assets\Scripts\Effects\BillboardScript.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Equipment.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\TitanBase.cs" />
-     <Compile Include="Assets\Scripts\Characters\CheckHitGround.cs" />
-     <Compile Include="Assets\Scripts\Room\Spawner.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\EquipmentType.cs" />
-     <Compile Include="Assets\Scripts\Settings\GameSettingService.cs" />
-     <Compile Include="Assets\Scripts\UI\Radial\RadialElement.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\UiDropdown.cs" />
-     <Compile Include="Assets\Scripts\Security\OAuth.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\GamemodeSettings.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapIcon.cs" />
-     <Compile Include="Assets\Scripts\Services\Interface\IInventoryService.cs" />
-     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleCommands.cs" />
-     <Compile Include="Assets\Scripts\Characters\Faction.cs" />
-     <Compile Include="Assets\Scripts\Events\Args\TitanHitEvent.cs" />
-     <Compile Include="Assets\Scripts\Xft\VertexPool.cs" />
-     <Compile Include="Assets\Scripts\Effects\ColorAffector.cs" />
-     <Compile Include="Assets\Scripts\Settings\IGameSettingService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanType.cs" />
-     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
-     <Compile Include="Assets\Scripts\UI\CameraMode.cs" />
-     <Compile Include="Assets\Scripts\Extensions\StringExtensions.cs" />
-     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
-     <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
-     <Compile Include="Assets\Scripts\Characters\EnemyCheckCollider.cs" />
-     <Compile Include="Assets\Scripts\Settings\Gamemodes\InfectionGamemodeSettings.cs" />
-     <Compile Include="Assets\Scripts\UI\Input\InputTitan.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\SashaSkill.cs" />
-     <Compile Include="Assets\Scripts\Characters\Horse\Horse.cs" />
-     <Compile Include="Assets\Scripts\Effects\EanFile.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\HERO_DEAD_BODY_SETUP.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\ImportingContributorsList.cs" />
-     <Compile Include="Assets\Scripts\UI\InGame\Controls\ControlsMenu.cs" />
-     <Compile Include="Assets\Scripts\UI\Menu\Singleplayer.cs" />
-     <Compile Include="Assets\Scripts\Effects\Sprite.cs" />
-     <Compile Include="Assets\Scripts\Legacy\StylishComponent.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\WaveBehavior.cs" />
-     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
-     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
-     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_PackageUtilities.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_EditorPanel.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\DropdownOptionListDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_UIStyleManager.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_StyleAssetMenu.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_ProjectTextSettings.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_BitmapShaderGUI.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SubMeshUI_Editor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SpriteAssetEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_EditorCoroutine.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SpriteCharacterPropertyDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_FontAsset_CreationMenu.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_ColorGradientEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SerializedPropertyHolder.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_TextAlignmentDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_PostBuildProcessHandler.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_SortingLayerHelper.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_StyleSheetEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_GlyphPairAdjustmentRecordPropertyDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_InputFieldEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_BaseEditorPanel.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_ColorGradientAssetMenu.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_FontPlugin.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_CreateObjectMenu.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_EditorUtility.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SubMesh_Editor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\GlyphMetricsPropertyDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_EditorPanelUI.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_BaseShaderGUI.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_CharacterPropertyDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_EditorShaderUtilities.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SpriteAssetImporter.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\GlyphInfoDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SettingsEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SpriteGlyphPropertyDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_TextContainerEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_TexturePostProcessor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_FontAssetCreatorWindow.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_GlyphPropertyDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_FontAssetEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_MeshRendererEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_PreBuildProcessor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SpriteAssetMenu.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMPro_ContextMenus.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_ResourcesLoader.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\GlyphRectPropertyDrawer.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_DropdownEditor.cs" />
+     <Compile Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\Scripts\Editor\TMP_SDFShaderGUI.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/UnityInstalls/2020.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -727,6 +326,9 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
         <HintPath>D:/AOTTG2/project/AoTTG-2/Assets/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+        <HintPath>D:/AOTTG2/project/AoTTG-2/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
         <HintPath>C:/Program Files/UnityInstalls/2020.2.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -1075,14 +677,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{589d7ef8-bd43-4a84-c3ef-f506885cf63e}</Project>
-      <Name>PhotonUnityNetworking</Name>
-    </ProjectReference>
-    <ProjectReference Include="Discord.csproj">
-      <Project>{0a13fa90-2251-0f1c-fd74-9a363d15e5c2}</Project>
-      <Name>Discord</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
       <Project>{09c4564f-360e-8d62-7368-3d35752a351f}</Project>
       <Name>Unity.TextMeshPro</Name>
@@ -1095,21 +689,13 @@
       <Project>{050f2a94-2e62-fe9e-5f45-448e11bda08f}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="Toorah.ScribtableVariables.csproj">
-      <Project>{0bf0f856-c27c-8de4-6a57-2252e709b690}</Project>
-      <Name>Toorah.ScribtableVariables</Name>
+    <ProjectReference Include="UnityEditor.TestRunner.csproj">
+      <Project>{f44df9ed-db58-25fc-9486-79ae48ef288f}</Project>
+      <Name>UnityEditor.TestRunner</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Universal.Runtime.csproj">
-      <Project>{630f9dc8-6bdc-4394-00af-ef8013f76914}</Project>
-      <Name>Unity.RenderPipelines.Universal.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Localization.csproj">
-      <Project>{817266d1-f846-b666-75a7-2a64eaf28ff6}</Project>
-      <Name>Unity.Localization</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ResourceManager.csproj">
-      <Project>{0080681b-2e4e-fdf9-d5b0-cdc579f27403}</Project>
-      <Name>Unity.ResourceManager</Name>
+    <ProjectReference Include="UnityEngine.TestRunner.csproj">
+      <Project>{00568d21-72be-e515-28b9-923194b79988}</Project>
+      <Name>UnityEngine.TestRunner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
