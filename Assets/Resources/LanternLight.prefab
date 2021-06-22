@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 535035078685179787}
   - component: {fileID: 6692449766244543692}
   - component: {fileID: 1660029080775412582}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LanternLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,10 +45,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 25
+  m_Intensity: 400
   m_Range: 50
   m_SpotAngle: 100
-  m_InnerSpotAngle: 25
+  m_InnerSpotAngle: 100
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0

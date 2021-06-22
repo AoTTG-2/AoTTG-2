@@ -13,6 +13,7 @@ namespace Assets.Scripts.Inventory.Items
         private GameObject heroLight;
         private bool lightStatus;
         private PhotonView photonView;
+        private LanternLightBehaviour lightBehaviour;
 
         public override void Use(Hero hero)
         {
@@ -25,7 +26,7 @@ namespace Assets.Scripts.Inventory.Items
 
             }
 
-            photonView.RPC(nameof(LanternLightBehaviour.ToggleLight), PhotonTargets.All);
+            photonView.RPC(nameof(lightBehaviour.ToggleLight), PhotonTargets.All);
 
 
         }
@@ -36,12 +37,13 @@ namespace Assets.Scripts.Inventory.Items
             mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
             heroLight = PhotonNetwork.Instantiate(nameof(lanternLight), hero.transform.position, Quaternion.identity, 0);
 
-            Vector3 offset = new Vector3(0, 1.5f, 0);
+            Vector3 offset = new Vector3(0f, 1f, .5f);
             heroLight.transform.position += offset;
             heroLight.transform.parent = mainCamera.transform;
             photonView = heroLight.gameObject.GetComponent<PhotonView>();
+            lightBehaviour = heroLight.GetComponent<LanternLightBehaviour>();
 
-            photonView.RPC(nameof(LanternLightBehaviour.ToggleLight), PhotonTargets.All);
+            photonView.RPC(nameof(lightBehaviour.ToggleLight), PhotonTargets.All);
 
         }
 

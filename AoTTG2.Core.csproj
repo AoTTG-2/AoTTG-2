@@ -209,6 +209,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Body\TitanBody.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\MouseLook.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationManager.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Items\Data\LanternLightBehaviour.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerCheckPoint.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\BeastTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\ColossalTitanBody.cs" />
@@ -436,6 +437,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\HumanState.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchMode.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\MapConverter.cs" />
+    <Compile Include="Assets\Scripts\UI\Radial\InteractRadialMenu.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\TitanBehavior.cs" />
     <Compile Include="Assets\Scripts\Serialization\SerializableColor.cs" />
@@ -512,7 +514,6 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Weapons.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
