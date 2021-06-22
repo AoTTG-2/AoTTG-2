@@ -1,12 +1,31 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
+﻿using Assets.Scripts.CustomMaps;
+using Assets.Scripts.Services;
+using Assets.Scripts.Settings.Gamemodes;
 using System.Collections.Generic;
 
-public class Level
+namespace Assets.Scripts.Room
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string SceneName { get; set; }
-    public bool IsCustom { get; set; }
-    public string AssetBundle { get; set; }
-    public List<GamemodeSettings> Gamemodes { get; set; }
+    public class Level
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string SceneName { get; set; }
+        public CustomMapType Type { get; set; }
+        public string AssetBundle { get; set; }
+        public List<GamemodeSettings> Gamemodes { get; set; }
+
+        public bool IsCustom => Type != CustomMapType.None;
+
+        public void LoadLevel()
+        {
+            if (Type == CustomMapType.CustomMap)
+            {
+                Service.Map.Load(Name);
+            }
+            else
+            {
+                Service.Map.LoadScene(SceneName);
+            }
+        }
+    }
 }
