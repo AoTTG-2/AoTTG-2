@@ -15,14 +15,14 @@ MonoBehaviour:
   AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
@@ -43,7 +43,6 @@ MonoBehaviour:
   - DestroyRpc
   - endMovingRock
   - GetHit
-  - getRacingResult
   - Grab
   - grabbedTargetEscape
   - GrabEscapeRpc
@@ -79,7 +78,6 @@ MonoBehaviour:
   - NetPlayAnimation
   - netPlayAnimationAt
   - NetPlayAnimationAt
-  - netRefreshRacingResult
   - NetSetIsGrabbedFalse
   - netShowDamage
   - netTauntAttack
@@ -98,6 +96,7 @@ MonoBehaviour:
   - PunPickup
   - PunPickupSimple
   - PunRespawn
+  - RacingFinishRpc
   - RacingStartRpc
   - RefreshCaptureScore
   - removeMe
@@ -122,6 +121,7 @@ MonoBehaviour:
   - SetMyPhotonCamera
   - SetMyTeam
   - setPhase
+  - SetRacingResultsRpc
   - setSize
   - SetSize
   - setTeamRPC
@@ -142,6 +142,4 @@ MonoBehaviour:
   - updateKillInfo
   - verifyPlayerHasLeft
   - WhoIsMyErenTitan
-  - RacingFinishRpc
-  - SetRacingResultsRpc
   DisableAutoOpenWizard: 1
