@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6172538124608909145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5480480216098911199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d769059bd3f79784e8ed4dc10796bc5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &701818524308380412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +154,18 @@ MonoBehaviour:
   Prefabs: {fileID: 11400000, guid: 4056c982e63a9e8438745092b6188bc1, type: 2}
   Presets:
   - {fileID: 11400000, guid: 8b4e88e2d6b866f4ea290ac991063019, type: 2}
+--- !u!114 &6172538124608909145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480480216098911199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d769059bd3f79784e8ed4dc10796bc5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1010244701562288413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,6 +256,36 @@ PrefabInstance:
     - target: {fileID: 4764573620818537630, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781637592559344564, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781637592559344564, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 43891d0fdce219d4aaeb7a962f171b7a, type: 2}
+    - target: {fileID: 4782173162105868886, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782173162105868886, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 43891d0fdce219d4aaeb7a962f171b7a, type: 2}
+    - target: {fileID: 4813683804206839056, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813699611447899394, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
+        type: 3}
+      propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4813783946394471498, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
