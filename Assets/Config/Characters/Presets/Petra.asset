@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
-  m_Name: Armin
+  m_Name: Petra
   m_EditorClassIdentifier: 
-  Name: Armin
+  Name: Petra
   Description: 
   CharacterOutfit:
   - Name: Default
-    Gender: 1
+    Gender: 2
     Head:
       Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
       Texture: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
       Color: {r: 0, g: 0, b: 0, a: 0}
     Eyes:
       Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
-      Texture: 15
+      Texture: 24
     Glasses:
       Component: {fileID: 0}
       Texture: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
       Component: {fileID: 0}
       Texture: 0
     Outfit:
-      Component: {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
+      Component: {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
       Texture: 0
       UseCapeEmblem: 0
       EmblemFront:
@@ -75,20 +75,4 @@ MonoBehaviour:
       Speed: 0
       Gas: 0
       Equipment: 0
-    Skill: 0
-  - Name: AHSS
-    Equipment: 1
-    EquipmentComponent:
-      Texture: 2
-      CustomUrl: 
-      Color: {r: 0, g: 0, b: 0, a: 0}
-      HandGrid:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
-    Stats:
-      Acceleration: 0
-      Speed: 0
-      Gas: 0
-      Equipment: 0
-    Skill: 0
+    Skill: 4

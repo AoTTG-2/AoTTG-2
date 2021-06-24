@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
-  m_Name: Armin
+  m_Name: Jean
   m_EditorClassIdentifier: 
-  Name: Armin
+  Name: Jean
   Description: 
   CharacterOutfit:
   - Name: Default
@@ -30,7 +30,7 @@ MonoBehaviour:
       Color: {r: 0, g: 0, b: 0, a: 0}
     Eyes:
       Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
-      Texture: 15
+      Texture: 19
     Glasses:
       Component: {fileID: 0}
       Texture: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
       Speed: 0
       Gas: 0
       Equipment: 0
-    Skill: 0
+    Skill: 2
   - Name: AHSS
     Equipment: 1
     EquipmentComponent:
@@ -91,4 +91,4 @@ MonoBehaviour:
       Speed: 0
       Gas: 0
       Equipment: 0
-    Skill: 0
+    Skill: 2
