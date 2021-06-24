@@ -53,7 +53,7 @@ namespace Assets.Scripts.UI.InGame
                 text = x.Name
             });
             CharacterDropdown.AddOptions(options.ToList());
-            OnCharacterChanged(CharacterList.Characters.First(), 0);
+            OnCharacterChanged(CharacterList.Characters[CharacterDropdown.value], 0);
             MenuManager.RegisterOpened(this);
         }
         
