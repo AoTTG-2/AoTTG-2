@@ -47,6 +47,12 @@ namespace Assets.Scripts.UI.InGame
         
         public void OnEnable()
         {
+            CharacterDropdown.ClearOptions();
+            var options = CharacterList.Characters.Select(x => new TMP_Dropdown.OptionData
+            {
+                text = x.Name
+            });
+            CharacterDropdown.AddOptions(options.ToList());
             OnCharacterChanged(CharacterList.Characters.First(), 0);
             MenuManager.RegisterOpened(this);
         }
