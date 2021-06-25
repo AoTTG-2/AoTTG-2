@@ -36,10 +36,16 @@ namespace Assets.Scripts.UI.InGame
         {
             RecreateCharacterDropdown();
             OnCharacterChanged(CharacterList.Characters.First(), 0);
-
             CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(CharacterList.Characters[x], 0));
         }
 
+        
+        public void OnEnable()
+        {
+            RecreateCharacterDropdown();
+            OnCharacterChanged(CharacterList.Characters[CharacterDropdown.value], 0);
+            MenuManager.RegisterOpened(this);
+        }
         public void RecreateCharacterDropdown()
         {
             CharacterDropdown.ClearOptions();
@@ -49,14 +55,7 @@ namespace Assets.Scripts.UI.InGame
             });
             CharacterDropdown.AddOptions(options.ToList());
         }
-        
-        public void OnEnable()
-        {
-            RecreateCharacterDropdown();
-            OnCharacterChanged(CharacterList.Characters[CharacterDropdown.value], 0);
-            MenuManager.RegisterOpened(this);
-        }
-        
+
         public void OnDisable()
         {
             if (Character != null)
