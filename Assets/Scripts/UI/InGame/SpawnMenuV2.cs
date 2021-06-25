@@ -34,18 +34,13 @@ namespace Assets.Scripts.UI.InGame
 
         public void Awake()
         {
-            CharacterDropdown.ClearOptions();
-            var options = CharacterList.Characters.Select(x => new TMP_Dropdown.OptionData
-            {
-                text = x.Name
-            });
-            CharacterDropdown.AddOptions(options.ToList());
+            RecreateCharacterDropdown();
             OnCharacterChanged(CharacterList.Characters.First(), 0);
 
             CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(CharacterList.Characters[x], 0));
         }
-        
-        public void OnEnable()
+
+        public void RecreateCharacterDropdown()
         {
             CharacterDropdown.ClearOptions();
             var options = CharacterList.Characters.Select(x => new TMP_Dropdown.OptionData
@@ -53,6 +48,11 @@ namespace Assets.Scripts.UI.InGame
                 text = x.Name
             });
             CharacterDropdown.AddOptions(options.ToList());
+        }
+        
+        public void OnEnable()
+        {
+            RecreateCharacterDropdown();
             OnCharacterChanged(CharacterList.Characters[CharacterDropdown.value], 0);
             MenuManager.RegisterOpened(this);
         }
