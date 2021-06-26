@@ -24,7 +24,7 @@ namespace Assets.Scripts.UI.Radial
 
         private bool IsReady { get; set; }
 
-        private List<RadialElement> itemMenus = new List<RadialElement>();
+        protected List<RadialElement> itemMenus = new List<RadialElement>();
 
         private void OnEnable()
         {

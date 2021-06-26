@@ -35,7 +35,7 @@ namespace Assets.Scripts.Inventory.Items
         {
 
             mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-            heroLight = PhotonNetwork.Instantiate(nameof(lanternLight), hero.transform.position, Quaternion.identity, 0);
+            heroLight = PhotonNetwork.Instantiate(nameof(lanternLight), hero.transform.position, mainCamera.transform.rotation, 0);
 
             Vector3 offset = new Vector3(0f, 1f, .5f);
             heroLight.transform.position += offset;

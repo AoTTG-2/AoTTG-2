@@ -10,13 +10,14 @@ namespace Assets.Scripts.UI.Radial
     {
 
         InventoryManager inventoryManager;
-        private List<RadialElement> itemMenus = new List<RadialElement>();
+        private Hero thisHero;
         private void OnEnable()
         {
 
             MenuManager.RegisterOpened(this);
             Cursor.visible = false;
-            PopulateWheel();
+            thisHero = Service.Player.Self as Hero;
+            PopulateWheel(thisHero);
 
         }
 
@@ -25,18 +26,16 @@ namespace Assets.Scripts.UI.Radial
 
             inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
             inventoryManager.onInventoryChange.AddListener(SyncWheel);
-            PopulateWheel();
+            thisHero = Service.Player.Self as Hero;
+            PopulateWheel(thisHero);
             Label.text = "Inventory";
 
         }
 
-        protected void PopulateWheel(Hero hero = null)
+        protected void PopulateWheel(Hero hero)
         {
 
-            if (hero == null)
-            {
-                hero = Service.Player.Self as Hero;
-            }
+            if (hero == null) return;
 
             var playerInventory = inventoryManager.playerInventories[hero].myInventory;
 

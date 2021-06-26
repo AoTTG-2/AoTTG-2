@@ -1298,6 +1298,7 @@ namespace Assets.Scripts.Characters.Humans
                 Destroy(gunDummy);
             }
             ReleaseIfIHookSb();
+            inventoryManager.RemovePlayerInventory(this);
             Service.Settings.OnGlobalSettingsChanged -= OnGlobalSettingsChanged;
         }
 

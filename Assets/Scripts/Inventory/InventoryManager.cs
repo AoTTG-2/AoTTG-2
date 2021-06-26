@@ -30,6 +30,16 @@ namespace Assets.Scripts.Inventory
             }
 
             //Uncomment to look at the inventory values
+
+            ShowInventories();
+
+        }
+
+        public void ShowInventories()
+        {
+
+            inventories.Clear();
+
             foreach (PlayerInventory value in playerInventories.Values)
             {
 
@@ -85,6 +95,33 @@ namespace Assets.Scripts.Inventory
                 Debug.LogError($"Could not find {hero}'s Inventory");
 
             }
+
+        }
+
+        public void RemovePlayerInventory(Hero hero)
+        {
+
+            playerInventories.Remove(hero);
+            ShowInventories();
+
+        }
+
+        public void ClearAllInventories()
+        {
+
+            var keys = playerInventories.Keys;
+
+            foreach(Hero hero in keys)
+            {
+                playerInventories.Remove(hero);
+            }
+
+        }
+
+        void OnDestroy()
+        {
+
+            ClearAllInventories();
 
         }
 
