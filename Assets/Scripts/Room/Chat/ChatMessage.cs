@@ -105,7 +105,6 @@ namespace Assets.Scripts.Room.Chat
             {
 
                 thisMessage.text = translatedMessage;
-                originalLang = false;
 
             }
 
@@ -113,9 +112,10 @@ namespace Assets.Scripts.Room.Chat
             {
 
                 thisMessage.text = originalMessage;
-                originalLang = true;
 
             }
+
+            originalLang = !originalLang;
 
         }
     }
