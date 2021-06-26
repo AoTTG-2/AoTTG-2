@@ -40,26 +40,22 @@ MonoBehaviour:
     Outfit:
       Component: {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
       Texture: 1
+      UseCapeEmblem: 0
+      EmblemFront:
+        Component: {fileID: 0}
+        Texture: 0
+      EmblemBack:
+        Component: {fileID: 0}
+        Texture: 0
+      EmblemRight:
+        Component: {fileID: 0}
+        Texture: 0
+      EmblemLeft:
+        Component: {fileID: 0}
+        Texture: 0
     Cape:
       Component: {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
       Texture: 0
-    Advanced:
-      EmblemChest:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
-      EmblemBack:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
-      EmblemRightArm:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
-      EmblemLeftArm:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
     Headgear:
       Component: {fileID: 0}
       Texture: 0
@@ -88,26 +84,22 @@ MonoBehaviour:
     Outfit:
       Component: {fileID: 11400000, guid: 7f2f9077381c2d946a3167b34654a0c2, type: 2}
       Texture: 1
+      UseCapeEmblem: 0
+      EmblemFront:
+        Component: {fileID: 0}
+        Texture: 0
+      EmblemBack:
+        Component: {fileID: 0}
+        Texture: 0
+      EmblemRight:
+        Component: {fileID: 0}
+        Texture: 0
+      EmblemLeft:
+        Component: {fileID: 0}
+        Texture: 0
     Cape:
       Component: {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
       Texture: 0
-    Advanced:
-      EmblemChest:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
-      EmblemBack:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
-      EmblemRightArm:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
-      EmblemLeftArm:
-        Texture: 2
-        CustomUrl: 
-        Color: {r: 0, g: 0, b: 0, a: 0}
     Headgear:
       Component: {fileID: 11400000, guid: 53b1af9786fabc545b6374f96ef9b8f1, type: 2}
       Texture: 0
@@ -131,11 +123,11 @@ MonoBehaviour:
   - Name: AHSS
     Equipment: 1
     EquipmentComponent:
-      Texture: 1
+      Texture: 2
       CustomUrl: 
       Color: {r: 0, g: 0, b: 0, a: 0}
       HandGrid:
-        Texture: 1
+        Texture: 2
         CustomUrl: 
         Color: {r: 0, g: 0, b: 0, a: 0}
     Stats:

@@ -69,11 +69,11 @@ namespace Assets.Scripts.UI.InGame.HUD
 
             if (damage < highestDamageScaling)
             {
-                return (int) Math.Round(scale);
+                return (int) Math.Floor(scale);
             }
             else
             {
-                return (int) Math.Round(maxScaling);
+                return (int) Math.Floor(maxScaling);
             }
         }
     }
