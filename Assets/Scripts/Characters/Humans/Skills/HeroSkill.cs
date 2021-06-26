@@ -13,5 +13,6 @@
         Reiner,
         Bertholdt,
         BombPvp,
+        Sasha,
     }
 }
