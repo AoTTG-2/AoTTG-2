@@ -10,12 +10,12 @@ namespace Assets.Scripts.Room
 
         protected virtual void Awake()
         {
-            SpawnService.Add(this);
+            SpawnService?.Add(this);
         }
 
         protected virtual void OnDestroy()
         {
-            SpawnService.Remove(this);
+            SpawnService?.Remove(this);
         }
     }
 }

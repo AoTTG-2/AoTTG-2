@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: GAMEMODE_SHARED Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: GAMEMODE_SHARED
+  m_TableCollectionNameGuidString: c2ae64d1d52689246ad40b03f2b46c42
+  m_Entries:
+  - m_Id: 4019113295872
+    m_Key: ENEMY_LEFT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4158208999424
+    m_Key: FRIENDLY_LEFT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4614792544256
+    m_Key: OFFLINE_STATS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 269938196480
+    m_Key: RESTART_COUNTDOWN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2154690641920
+    m_Key: RESTART_OFFLINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1690481852416
+    m_Key: TEAM_VICTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483520544768
+    m_Key: VICTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 673810574770176
+    m_Key: INVALID_GAMEMODE
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1620845508002

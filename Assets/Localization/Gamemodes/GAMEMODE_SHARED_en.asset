@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GAMEMODE_SHARED_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: c2ae64d1d52689246ad40b03f2b46c42, type: 2}
+  m_Metadata:
+    m_Items:
+    - id: 0
+  m_TableData:
+  - m_Id: 269938196480
+    m_Localized: Restarting in {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483520544768
+    m_Localized: '{0} has won!'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 1690481852416
+    m_Localized: Team {0} has won!
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 2154690641920
+    m_Localized: Press {0} to Restart.
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 4019113295872
+    m_Localized: 'Enemies left: {0}'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 4158208999424
+    m_Localized: 'Friendly left: {0}'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 4614792544256
+    m_Localized: 'Kills: {0}
+
+      Deaths: {1}
+
+      Max Damage: {2}
+
+      Total
+      Damage: {3}'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 673810574770176
+    m_Localized: This level does not support the {0} gamemode!
+    m_Metadata:
+      m_Items:
+      - id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 00001294700000000000929889010000000092adf50100000000d2c5a703000000009228c803000000001277320400000080f4bfd3640200
