@@ -39,13 +39,13 @@ namespace Assets.Scripts.UI.InGame
             CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(CharacterList.Characters[x], 0));
         }
 
-        
         public void OnEnable()
         {
             RecreateCharacterDropdown();
             OnCharacterChanged(CharacterList.Characters[CharacterDropdown.value], 0);
             MenuManager.RegisterOpened(this);
         }
+
         public void RecreateCharacterDropdown()
         {
             CharacterDropdown.ClearOptions();
