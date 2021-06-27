@@ -2,6 +2,7 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
@@ -13,6 +14,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Extensions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -41,7 +43,7 @@ namespace Assets.Scripts.Gamemode
 
         protected bool IsRoundOver { get; private set; }
 
-        protected virtual void OnLevelWasLoaded()
+        protected virtual void Level_OnLevelLoaded(int scene, Level level)
         {
             IsRoundOver = false;
             UiService.ResetMessagesAll();
@@ -63,8 +65,9 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        private void Start()
+        private void Awake()
         {
+            Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
             EntityService.OnRegister += OnEntityRegistered;
             EntityService.OnUnRegister += OnEntityUnRegistered;
             FactionService.OnFactionDefeated += OnFactionDefeated;
@@ -72,11 +75,22 @@ namespace Assets.Scripts.Gamemode
             StartCoroutine(OnUpdateEveryTenthSecond());
         }
 
+        //private void Start()
+        //{
+        //    EntityService.OnRegister += OnEntityRegistered;
+        //    EntityService.OnUnRegister += OnEntityUnRegistered;
+        //    FactionService.OnFactionDefeated += OnFactionDefeated;
+        //    StartCoroutine(OnUpdateEverySecond());
+        //    StartCoroutine(OnUpdateEveryTenthSecond());
+        //}
+
         private void OnDestroy()
         {
             EntityService.OnRegister -= OnEntityRegistered;
-            EntityService.OnUnRegister -= OnEntityUnRegistered;            
+            EntityService.OnUnRegister -= OnEntityUnRegistered;
             FactionService.OnFactionDefeated -= OnFactionDefeated;
+            Service.Level.OnLevelLoaded -= Level_OnLevelLoaded;
+            StopAllCoroutines();
         }
 
         public override void OnDisconnectedFromPhoton()
@@ -194,7 +208,7 @@ namespace Assets.Scripts.Gamemode
             }
             FengGameManagerMKII.instance.restartGame2();
         }
-        
+
         protected void SpawnTitans(int amount)
         {
             SpawnTitans(amount, GetTitanConfiguration);
@@ -202,42 +216,76 @@ namespace Assets.Scripts.Gamemode
 
         protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)
         {
-            StartCoroutine(SpawnTitan(amount, titanConfiguration));
+            Coroutines.Add(StartCoroutine(SpawnTitan(amount, titanConfiguration)));
+        }
+
+        protected virtual (Vector3 position, Quaternion rotation) GetSpawnLocation()
+        {
+            //TODO: Remove this once classic maps no longer rely on this.
+            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
+            if (!spawns.Any())
+            {
+                spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
+                    .ToList();
+            }
+
+            return spawns.Any() ? spawns[Random.Range(0, spawns.Count)] : Service.Spawn.GetRandomSpawnPosition();
         }
 
         private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
         {
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
-            for (var i = 0; i < amount; i++)
+            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
+            if (!spawns.Any())
             {
-                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
-                var randomSpawn = spawns[Random.Range(0, spawns.Length)].transform;
-                SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
-                yield return new WaitForEndOfFrame();
+                spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
+                    .ToList();
+            }
+
+            if (spawns.Any())
+            {
+                for (var i = 0; i < amount; i++)
+                {
+                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
+                    var randomSpawn = spawns[Random.Range(0, spawns.Count)];
+                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+            else
+            {
+                for (var i = 0; i < amount; i++)
+                {
+                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
+                    var randomSpawn = Service.Spawn.GetRandomSpawnPosition();
+                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    yield return new WaitForEndOfFrame();
+                }
             }
         }
-        
+
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             var objArray = GameObject.FindGameObjectsWithTag(tag);
+            if (objArray.Length == 0) return null;
             return objArray[Random.Range(0, objArray.Length)];
         }
 
         [Obsolete]
         public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
+            var winLocalizated = $"{Localization.Gamemode.Shared.GetLocalizedString("VICTORY", Localization.Common.GetLocalizedString("HUMANITY"))}";
             if (PhotonNetwork.offlineMode)
             {
-                return $"Humanity Win!\n Press {InputManager.GetKey(InputUi.Restart)} to Restart.\n\n\n";
+                return $"{winLocalizated}\n {Localization.Gamemode.Shared.GetLocalizedString("RESTART_OFFLINE", InputManager.GetKey(InputUi.Restart).ToString())}\n\n\n";
             }
             return "Humanity Win!\nGame Restart in " + ((int) timeUntilRestart) + "s\n\n";
         }
-        
+
         protected virtual void SetStatusTop()
         {
-            var content = $"Enemy left: {FactionService.CountHostile(Service.Player.Self)} | " +
-                          $"Friendly left: { FactionService.CountFriendly(Service.Player.Self)} | " +
-                          $"Time: {TimeService.GetRoundDisplayTime()}";
+            var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", FactionService.CountHostile(Service.Player.Self))} | " +
+                          $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
+                          $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
 
@@ -251,20 +299,18 @@ namespace Assets.Scripts.Gamemode
                 var maxDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]);
                 var totalDamage = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]);
 
-                var content = $"Kills: {kills}\n" +
-                              $"Deaths: {deaths}\n" +
-                              $"Max Damage: {maxDamage}\n" +
-                              $"Total Damage: {totalDamage}";
+                var content =
+                    Localization.Gamemode.Shared.GetLocalizedString("OFFLINE_STATS", kills, deaths, maxDamage, totalDamage);
                 UiService.SetMessage(LabelPosition.TopLeft, content);
             }
         }
 
         protected virtual void SetStatusTopRight()
         {
-            var context = string.Concat("Humanity ", HumanScore, " : Titan ", TitanScore, " ");
+            var context = string.Concat($"{Localization.Common.GetLocalizedString("HUMANITY")} ", HumanScore, $" : {Localization.Common.GetLocalizedString("TITANITY")} ", TitanScore, " ");
             UiService.SetMessage(LabelPosition.TopRight, context);
         }
-        
+
         [PunRPC]
         public virtual void OnGameEndRpc(string raw, int humanScore, int titanScore, PhotonMessageInfo info)
         {

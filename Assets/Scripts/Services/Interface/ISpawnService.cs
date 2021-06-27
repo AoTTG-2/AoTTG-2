@@ -15,6 +15,11 @@ namespace Assets.Scripts.Services.Interface
         T GetRandom<T>() where T : Spawner;
         List<HumanSpawner> GetByType(PlayerSpawnType type);
         List<TitanSpawner> GetByType(TitanSpawnerType type);
+        /// <summary>
+        /// Used for Custom maps
+        /// </summary>
+        /// <returns></returns>
+        (Vector3 position, Quaternion rotation) GetRandomSpawnPosition();
 
         T Spawn<T>() where T : Entity;
         T Spawn<T>(EntityConfiguration configuration) where T : Entity;

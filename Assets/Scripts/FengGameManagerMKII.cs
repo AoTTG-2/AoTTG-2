@@ -111,8 +111,6 @@ namespace Assets.Scripts
         [Obsolete("A value is never assigned")]
         public static string PrivateServerAuthPass;
         [Obsolete("Use RacingGamemode instead")]
-        private ArrayList racingResult;
-        [Obsolete("Use RacingGamemode instead")]
         public Vector3 racingSpawnPoint;
         [Obsolete("Use RacingGamemode instead")]
         public bool racingSpawnPointSet;
@@ -577,20 +575,7 @@ namespace Assets.Scripts
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
-
-        [Obsolete("Move into RacingGamemode")]
-        [PunRPC]
-        private void getRacingResult(string player, float time)
-        {
-            RacingResult result = new RacingResult
-            {
-                name = player,
-                time = time
-            };
-            this.racingResult.Add(result);
-            this.refreshRacingResult2();
-        }
-
+        
         [PunRPC]
         private void ignorePlayer(int ID, PhotonMessageInfo info)
         {
@@ -1699,29 +1684,7 @@ namespace Assets.Scripts
                 base.StartCoroutine(this.loadskinE(n, url, url2, skybox));
             }
         }
-
-        [Obsolete("Migrate to RacingGamemode")]
-        public void multiplayerRacingFinsih()
-        {
-            float time = Service.Time.GetRoundTime() - 20f;
-            if (PhotonNetwork.isMasterClient)
-            {
-                this.getRacingResult(LoginFengKAI.player.name, time);
-            }
-            else
-            {
-                object[] parameters = new object[] { LoginFengKAI.player.name, time };
-                base.photonView.RPC(nameof(getRacingResult), PhotonTargets.MasterClient, parameters);
-            }
-        }
-
-        [Obsolete("Migrate to RacingGamemode")]
-        [PunRPC]
-        private void netRefreshRacingResult(string tmp)
-        {
-            this.localRacingResult = tmp;
-        }
-
+        
         [PunRPC]
         public void netShowDamage(int damage)
         {
@@ -1783,7 +1746,6 @@ namespace Assets.Scripts
 
         public override void OnCreatedRoom()
         {
-            this.racingResult = new ArrayList();
             Debug.Log("OnCreatedRoom");
         }
 
@@ -1824,6 +1786,7 @@ namespace Assets.Scripts
             }
         }
 
+        //TODO: CustomMapService.OnLevelWasLoaded is called before OnJoinedRoom
         public override void OnJoinedRoom()
         {
             Service.Settings.SetRoomPropertySettings();
@@ -1848,7 +1811,9 @@ namespace Assets.Scripts
             //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
             //}
             if (PhotonNetwork.isMasterClient)
-                LevelHelper.Load(Level);
+            {
+                Level.LoadLevel();
+            }
             GameCursor.CursorMode = CursorMode.Loading;
             var hashtable = new Hashtable
             {
@@ -1890,57 +1855,51 @@ namespace Assets.Scripts
         {
             Debug.Log("OnLeftRoom");
         }
-
-        private async void OnLevelWasLoaded(int level)
+        
+        private void Level_OnLevelLoaded(int scene, Level level)
         {
-            if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
+            // Scene 0 = Menu Scene
+            if (scene == 0) return;
+            var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
+            ui.ShowInGameUi();
+            ChangeQuality.setCurrentQuality();
+            foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
             {
-                while (Service.Settings.Get() == null)
+                if (!((obj2.GetPhotonView() != null) && obj2.GetPhotonView().owner.isMasterClient))
                 {
-                    await Task.Delay(500);
+                    UnityEngine.Object.Destroy(obj2);
                 }
-                
-                var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
-                ui.ShowInGameUi();
-                ChangeQuality.setCurrentQuality();
-                foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
+            }
+            this.gameStart = true;
+            GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
+            UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
+            obj3.name = "MainCamera";
+            this.cache();
+            this.loadskin();
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
+            PVPcheckPoint.chkPts = new ArrayList();
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
+            Camera.main.GetComponent<CameraShake>().enabled = false;
+            if (this.needChooseSide)
+            {
+                //TODO: Show ChooseSide Message
+                //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+            }
+            else if (((int) settings[0xf5]) == 0)
+            {
+                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                 {
-                    if (!((obj2.GetPhotonView() != null) && obj2.GetPhotonView().owner.isMasterClient))
-                    {
-                        UnityEngine.Object.Destroy(obj2);
-                    }
+                    SpawnService.Spawn<PlayerTitan>();
                 }
-                this.gameStart = true;
-                GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
-                UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
-                obj3.name = "MainCamera";
-                this.cache();
-                this.loadskin();
-                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
-                PVPcheckPoint.chkPts = new ArrayList();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
-                Camera.main.GetComponent<CameraShake>().enabled = false;
-                if (this.needChooseSide)
+                else
                 {
-                    //TODO: Show ChooseSide Message
-                    //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+                    this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
                 }
-                else if (((int) settings[0xf5]) == 0)
-                {
-                    if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                    {
-                        SpawnService.Spawn<PlayerTitan>();
-                    }
-                    else
-                    {
-                        this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
-                    }
-                }
+            }
 
-                if (((int) settings[0xf5]) == 1)
-                {
-                    this.EnterSpecMode(true);
-                }
+            if (((int) settings[0xf5]) == 1)
+            {
+                this.EnterSpecMode(true);
             }
         }
 
@@ -2118,34 +2077,13 @@ namespace Assets.Scripts
 
         public void RecompilePlayerList(float time)
         {
-            Debug.Log("This shouldn't happen");
             if (!this.isRecompiling)
             {
                 this.isRecompiling = true;
                 base.StartCoroutine(this.WaitAndRecompilePlayerList(time));
             }
         }
-
-        [Obsolete("Migrate into RacingGamemode")]
-        private void refreshRacingResult2()
-        {
-            this.localRacingResult = "Result\n";
-            IComparer comparer = new IComparerRacingResult();
-            this.racingResult.Sort(comparer);
-            int num = Mathf.Min(this.racingResult.Count, 10);
-            for (int i = 0; i < num; i++)
-            {
-                string localRacingResult = this.localRacingResult;
-                object[] objArray2 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
-                this.localRacingResult = string.Concat(objArray2);
-                this.localRacingResult = this.localRacingResult + (this.racingResult[i] as RacingResult).name;
-                this.localRacingResult = this.localRacingResult + "   " + ((((int) ((this.racingResult[i] as RacingResult).time * 100f)) * 0.01f)).ToString() + "s";
-                this.localRacingResult = this.localRacingResult + "\n";
-            }
-            object[] parameters = new object[] { this.localRacingResult };
-            base.photonView.RPC(nameof(netRefreshRacingResult), PhotonTargets.All, parameters);
-        }
-
+        
         public IEnumerator reloadSky()
         {
             yield return new WaitForSeconds(0.5f);
@@ -2244,7 +2182,6 @@ namespace Assets.Scripts
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
                 this.ClearKillInfo();
-                this.racingResult = new ArrayList();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
                 PhotonNetwork.DestroyAll();
@@ -2294,7 +2231,7 @@ namespace Assets.Scripts
             {
                 this.DestroyAllExistingCloths();
                 SetLevelAndGamemode();
-                if (PhotonNetwork.isMasterClient) LevelHelper.Load(Level);
+                if (PhotonNetwork.isMasterClient) Level.LoadLevel();
             }
             else if (PhotonNetwork.isMasterClient)
             {
@@ -2545,7 +2482,7 @@ namespace Assets.Scripts
             }
             else
             {
-                Vector3 position = pos.transform.position;
+                Vector3 position = pos?.transform.position ?? new Vector3(0f, 5f, 0f);
                 if (this.racingSpawnPointSet)
                 {
                     position = this.racingSpawnPoint;
@@ -2556,7 +2493,7 @@ namespace Assets.Scripts
                     {
                         if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                         {
-                            position = SpawnService.GetRandom<HumanSpawner>().gameObject.transform.position;
+                            position = SpawnService.GetRandom<HumanSpawner>()?.gameObject.transform.position ?? new Vector3();
                         }
                         else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                         {
@@ -2582,12 +2519,12 @@ namespace Assets.Scripts
                 this.myLastHero = id.ToUpper();
                 if (myLastHero == "ErenTitan")
                 {
-                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
+                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos?.transform.rotation ?? new Quaternion(), 0),
                         true, false);
                 }
                 else
                 {
-                    var hero = SpawnService.Spawn<Hero>(position, pos.transform.rotation, preset);
+                    var hero = SpawnService.Spawn<Hero>(position + new Vector3(0, 5f, 0), pos?.transform.rotation ?? new Quaternion(), preset);
                     component.SetMainObject(hero.transform.gameObject, true, false);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
@@ -2610,7 +2547,7 @@ namespace Assets.Scripts
         private void Start()
         {
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
-
+            Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log($"Version: {versionManager.Version}");
             instance = this;

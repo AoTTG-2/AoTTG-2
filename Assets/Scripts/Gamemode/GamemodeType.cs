@@ -3,6 +3,7 @@
     Titans,
     Endless,
     Capture,
+    Catch,
     Wave,
     Racing,
     Trost,

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using UnityEngine;
@@ -30,9 +31,9 @@ namespace Assets.Scripts.Gamemode
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
-        protected override void OnLevelWasLoaded()
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
-            base.OnLevelWasLoaded();
+            base.Level_OnLevelLoaded(scene, level);
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
