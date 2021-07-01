@@ -35,7 +35,7 @@ namespace Assets.Scripts.UI.Radial
         protected void PopulateWheel(Hero hero)
         {
 
-            if (hero == null) return;
+            if (hero == null || inventoryManager == null) return;
 
             var playerInventory = inventoryManager.playerInventories[hero].myInventory;
 

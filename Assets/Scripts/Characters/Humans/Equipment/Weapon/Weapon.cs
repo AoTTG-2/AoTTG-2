@@ -19,6 +19,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         public string HookForward;
 
         public abstract bool CanReload { get; }
+        public abstract EquipmentType ThisType { get; }
 
         public abstract void PlayReloadAnimation();
         /// <summary>

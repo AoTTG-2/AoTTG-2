@@ -4,6 +4,7 @@
     {
         Blades,
         Ahss,
-        ThunderSpear
+        ThunderSpear,
+        Rifle
     }
 }

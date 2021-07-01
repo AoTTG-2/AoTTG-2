@@ -8,6 +8,9 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
         private Assets.Scripts.UI.InGame.Weapon.Blades bladesUi;
         public int TotalBlades => AmountLeft;
+
+        public override EquipmentType ThisType => EquipmentType.Blades;
+
         private const int MaxAmmo = 5;
 
         public Blades()
