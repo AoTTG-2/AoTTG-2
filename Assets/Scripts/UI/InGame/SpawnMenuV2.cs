@@ -67,18 +67,15 @@ namespace Assets.Scripts.UI.InGame
             selectedPreset.CurrentBuild = selectedPreset.CharacterBuild[BuildDropdown.value];
             
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
+            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
             if (((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture)
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())
                 {
                     GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
                 }
             }
-            else
-            {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
-            }
+
             IN_GAME_MAIN_CAMERA.usingTitan = false;
             Hashtable hashtable = new Hashtable();
             hashtable.Add(PhotonPlayerProperty.character, selection);
