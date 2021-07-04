@@ -12,7 +12,9 @@ namespace Assets.Scripts.Inventory
 
         public PlayerInventory BaseInventory;
         public Dictionary<Hero, PlayerInventory> playerInventories = new Dictionary<Hero, PlayerInventory>();
+#if UNITY_EDITOR
         public List<PlayerInventory> inventories = new List<PlayerInventory>();
+#endif
         [HideInInspector] public UnityEvent<Hero> onInventoryChange;
 
         public void CreateNewInventory(Hero hero)
@@ -29,10 +31,9 @@ namespace Assets.Scripts.Inventory
 
             }
 
-            //Uncomment to look at the inventory values
-
+#if UNITY_EDITOR
             ShowInventories();
-
+#endif
         }
 
         public void ShowInventories()
@@ -102,7 +103,6 @@ namespace Assets.Scripts.Inventory
         {
 
             playerInventories.Remove(hero);
-            ShowInventories();
 
         }
 

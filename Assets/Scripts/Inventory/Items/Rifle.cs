@@ -9,9 +9,15 @@ namespace Assets.Scripts.Inventory.Items
     {
 
         private Weapon thisWeapon;
+        private bool equipped = false;
 
         public override void Use(Hero hero)
         {
+
+            if (equipped)
+            {
+
+            }
 
             if(thisWeapon == null) thisWeapon = new Characters.Humans.Equipment.Weapon.Rifle();
             var equipment = hero.EquipmentType;
