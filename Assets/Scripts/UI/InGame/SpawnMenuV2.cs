@@ -34,23 +34,28 @@ namespace Assets.Scripts.UI.InGame
 
         public void Awake()
         {
+            RecreateCharacterDropdown();
+            OnCharacterChanged(CharacterList.Characters.First(), 0);
+            CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(CharacterList.Characters[x], 0));
+        }
+
+        public void OnEnable()
+        {
+            RecreateCharacterDropdown();
+            OnCharacterChanged(CharacterList.Characters[CharacterDropdown.value], 0);
+            MenuManager.RegisterOpened(this);
+        }
+
+        public void RecreateCharacterDropdown()
+        {
             CharacterDropdown.ClearOptions();
             var options = CharacterList.Characters.Select(x => new TMP_Dropdown.OptionData
             {
                 text = x.Name
             });
             CharacterDropdown.AddOptions(options.ToList());
-            OnCharacterChanged(CharacterList.Characters.First(), 0);
+        }
 
-            CharacterDropdown.onValueChanged.AddListener(x => OnCharacterChanged(CharacterList.Characters[x], 0));
-        }
-        
-        public void OnEnable()
-        {
-            OnCharacterChanged(CharacterList.Characters.First(), 0);
-            MenuManager.RegisterOpened(this);
-        }
-        
         public void OnDisable()
         {
             if (Character != null)
