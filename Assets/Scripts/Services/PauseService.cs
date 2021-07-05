@@ -28,6 +28,7 @@ namespace Assets.Scripts.Services
                 isUnpausing = false;
                 PauseTimer = float.MaxValue;
                 Time.timeScale = 1E-06f;
+                GameObject.Find("Gamemode").GetComponent<Gamemode.RacingGamemode>().enabled = false;
                 OnPaused?.Invoke(this, EventArgs.Empty);
             }
             else if (!shouldPause && isPaused && !isUnpausing)
@@ -82,6 +83,7 @@ namespace Assets.Scripts.Services
                     Time.timeScale = 1f;
                     isUnpausing = false;
                     isPaused = false;
+                    GameObject.Find("Gamemode").GetComponent<Gamemode.RacingGamemode>().enabled = true;
                 }
             }
         }
