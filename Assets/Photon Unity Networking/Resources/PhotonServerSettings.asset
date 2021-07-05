@@ -15,17 +15,48 @@ MonoBehaviour:
   AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 0
+  HostType: 2
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 0
+  JoinLobby: 1
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
   RunInBackground: 1
-  RpcList: []
-  DisableAutoOpenWizard: 0
+  RpcList:
+  - BackToHumanRPC
+  - BadGuyReleaseMe
+  - BlowAway
+  - changeDoor
+  - changeHumanPt
+  - changeState
+  - changeTitanPt
+  - Chat
+  - ChatPM
+  - ClearChat
+  - clearlevel
+  - CrossFadeRpc
+  - DestroyRpc
+  - endMovingRock
+  - GetHit
+  - getRacingResult
+  - Grab
+  - grabbedTargetEscape
+  - GrabEscapeRpc
+  - grabToLeft
+  - grabToRight
+  - hitAnkleLRPC
+  - hitAnkleRRPC
+  - hitByFTRPC
+  - hitByTitanRPC
+  - hitEyeRPC
+  - HookFail
+  - ignorePlayer
+  - ignorePlayerArray
+  - InitializeRpc
+  - InitializeRPC
+  - initRPC
