@@ -1,47 +1,124 @@
 fileFormatVersion: 2
 guid: ce45c556fc400734cb34abefa889e663
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: Area
-    100002: Body
-    100004: Camera
-    100006: Cannon
-    100008: Capsquare
-    100010: //RootNode
-    100012: Object001
-    100014: Wheels
-    400000: Area
-    400002: Body
-    400004: Camera
-    400006: Cannon
-    400008: Capsquare
-    400010: //RootNode
-    400012: Object001
-    400014: Wheels
-    2000000: Camera
-    2100000: iron texture
-    2100002: Barrel
-    2100004: wood texture
-    2300000: Body
-    2300002: Cannon
-    2300004: Capsquare
-    2300006: Object001
-    2300008: Wheels
-    3300000: Body
-    3300002: Cannon
-    3300004: Capsquare
-    3300006: Object001
-    3300008: Wheels
-    4300000: Capsquare
-    4300002: Body
-    4300004: Wheels
-    4300006: Cannon
-    4300008: Object001
-    10800000: Area
-  externalObjects: {}
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Area
+  - first:
+      1: 100002
+    second: Body
+  - first:
+      1: 100004
+    second: Camera
+  - first:
+      1: 100006
+    second: Cannon
+  - first:
+      1: 100008
+    second: Capsquare
+  - first:
+      1: 100010
+    second: //RootNode
+  - first:
+      1: 100012
+    second: Object001
+  - first:
+      1: 100014
+    second: Wheels
+  - first:
+      4: 400000
+    second: Area
+  - first:
+      4: 400002
+    second: Body
+  - first:
+      4: 400004
+    second: Camera
+  - first:
+      4: 400006
+    second: Cannon
+  - first:
+      4: 400008
+    second: Capsquare
+  - first:
+      4: 400010
+    second: //RootNode
+  - first:
+      4: 400012
+    second: Object001
+  - first:
+      4: 400014
+    second: Wheels
+  - first:
+      20: 2000000
+    second: Camera
+  - first:
+      21: 2100000
+    second: iron texture
+  - first:
+      21: 2100002
+    second: Barrel
+  - first:
+      21: 2100004
+    second: wood texture
+  - first:
+      23: 2300000
+    second: Body
+  - first:
+      23: 2300002
+    second: Cannon
+  - first:
+      23: 2300004
+    second: Capsquare
+  - first:
+      23: 2300006
+    second: Object001
+  - first:
+      23: 2300008
+    second: Wheels
+  - first:
+      33: 3300000
+    second: Body
+  - first:
+      33: 3300002
+    second: Cannon
+  - first:
+      33: 3300004
+    second: Capsquare
+  - first:
+      33: 3300006
+    second: Object001
+  - first:
+      33: 3300008
+    second: Wheels
+  - first:
+      43: 4300000
+    second: Capsquare
+  - first:
+      43: 4300002
+    second: Body
+  - first:
+      43: 4300004
+    second: Wheels
+  - first:
+      43: 4300006
+    second: Cannon
+  - first:
+      43: 4300008
+    second: Object001
+  - first:
+      108: 10800000
+    second: Area
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Barrel
+    second: {fileID: 2100000, guid: 03084e24b984f9643a7a71c727b2eaa4, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -58,6 +135,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -72,21 +150,31 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -94,10 +182,13 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -107,14 +198,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
