@@ -1,39 +1,100 @@
 fileFormatVersion: 2
 guid: 4b7e688b7aadb83449c3056dd42f528e
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: Base
-    100002: Cannon
-    100004: Extender
-    100006: Mount
-    100008: //RootNode
-    100010: Supplies
-    400000: Base
-    400002: Cannon
-    400004: Extender
-    400006: Mount
-    400008: //RootNode
-    400010: Supplies
-    2100000: 09 - Default
-    2300000: Base
-    2300002: Cannon
-    2300004: Extender
-    2300006: Mount
-    2300008: Supplies
-    3300000: Base
-    3300002: Cannon
-    3300004: Extender
-    3300006: Mount
-    3300008: Supplies
-    4300000: Base
-    4300002: Mount
-    4300004: Extender
-    4300006: Supplies
-    4300008: Cannon
-  externalObjects: {}
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Base
+  - first:
+      1: 100002
+    second: Cannon
+  - first:
+      1: 100004
+    second: Extender
+  - first:
+      1: 100006
+    second: Mount
+  - first:
+      1: 100008
+    second: //RootNode
+  - first:
+      1: 100010
+    second: Supplies
+  - first:
+      4: 400000
+    second: Base
+  - first:
+      4: 400002
+    second: Cannon
+  - first:
+      4: 400004
+    second: Extender
+  - first:
+      4: 400006
+    second: Mount
+  - first:
+      4: 400008
+    second: //RootNode
+  - first:
+      4: 400010
+    second: Supplies
+  - first:
+      21: 2100000
+    second: 09 - Default
+  - first:
+      23: 2300000
+    second: Base
+  - first:
+      23: 2300002
+    second: Cannon
+  - first:
+      23: 2300004
+    second: Extender
+  - first:
+      23: 2300006
+    second: Mount
+  - first:
+      23: 2300008
+    second: Supplies
+  - first:
+      33: 3300000
+    second: Base
+  - first:
+      33: 3300002
+    second: Cannon
+  - first:
+      33: 3300004
+    second: Extender
+  - first:
+      33: 3300006
+    second: Mount
+  - first:
+      33: 3300008
+    second: Supplies
+  - first:
+      43: 4300000
+    second: Base
+  - first:
+      43: 4300002
+    second: Mount
+  - first:
+      43: 4300004
+    second: Extender
+  - first:
+      43: 4300006
+    second: Supplies
+  - first:
+      43: 4300008
+    second: Cannon
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 09 - Default
+    second: {fileID: 2100000, guid: 24a290d747be6074691d4f76c480e02e, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -50,6 +111,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -64,21 +126,31 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -86,10 +158,13 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -99,14 +174,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
