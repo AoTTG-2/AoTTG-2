@@ -1,0 +1,762 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Attack&lt;T&gt;
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Attack&lt;T&gt;
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1">
+  
+  
+  <h1 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1" class="text-break">Class Attack&lt;T&gt;
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Attack&lt;T&gt;</span></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.BodySlamAttack.html">BodySlamAttack</a></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.BoomAttack.html">BoomAttack</a></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.ComboAttack.html">ComboAttack</a></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.Eren.PunchAttack.html">PunchAttack</a></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.GrabAttack.html">GrabAttack</a></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.JumpAttack.html">JumpAttack</a></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.RockThrowAttack.html">RockThrowAttack</a></div>
+      <div class="level2"><a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.SlapAttack.html">SlapAttack</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Assets.Scripts.Characters.Titan.Attacks.html">Assets.Scripts.Characters.Titan.Attacks</a></h6>
+  <h6><strong>Assembly</strong>: AoTTG2.Core.dll</h6>
+  <h5 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Attack&lt;T&gt;
+    where T : TitanBase</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_AttackAnimation.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.AttackAnimation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L12">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_AttackAnimation_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.AttackAnimation*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_AttackAnimation" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.AttackAnimation">AttackAnimation</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string AttackAnimation { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_BodyParts.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.BodyParts%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L16">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_BodyParts_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.BodyParts*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_BodyParts" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.BodyParts">BodyParts</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BodyPart[] BodyParts { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.BodyPart.html">BodyPart</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_Cooldown.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.Cooldown%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L15">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Cooldown_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Cooldown*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Cooldown" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Cooldown">Cooldown</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Cooldown { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_Damage.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.Damage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L20">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Damage_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Damage*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Damage" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Damage">Damage</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Damage { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsFinished.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.IsFinished%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L14">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsFinished_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsFinished*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsFinished" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsFinished">IsFinished</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsFinished { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_Stamina.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.Stamina%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L17">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Stamina_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Stamina*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Stamina" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Stamina">Stamina</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Stamina { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_TargetTypes.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.TargetTypes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L19">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_TargetTypes_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.TargetTypes*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_TargetTypes" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.TargetTypes">TargetTypes</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Type[] TargetTypes { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_Titan.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.Titan%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L22">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Titan_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Titan*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Titan" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Titan">Titan</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected T Titan { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_CanAttack.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.CanAttack%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L34">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_CanAttack_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.CanAttack*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_CanAttack" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.CanAttack">CanAttack()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool CanAttack()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_CanAttack_Assets_Scripts_Characters_Titan_PlayerTitan_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.CanAttack(Assets.Scripts.Characters.Titan.PlayerTitan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L44">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_CanAttack_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.CanAttack*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_CanAttack_Assets_Scripts_Characters_Titan_PlayerTitan_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.CanAttack(Assets.Scripts.Characters.Titan.PlayerTitan)">CanAttack(PlayerTitan)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete]
+public virtual bool CanAttack(PlayerTitan titan)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.PlayerTitan.html">PlayerTitan</a></td>
+        <td><span class="parametername">titan</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_checkIfHitHand_Transform_System_Single_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.checkIfHitHand(Transform%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L60">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_checkIfHitHand_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.checkIfHitHand*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_checkIfHitHand_Transform_System_Single_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.checkIfHitHand(Transform,System.Single)">checkIfHitHand(Transform, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Replace with IsEntityHit&quot;)]
+protected GameObject checkIfHitHand(Transform hand, float titanSize)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Transform</span></td>
+        <td><span class="parametername">hand</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">titanSize</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_Execute.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.Execute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L51">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Execute_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Execute*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Execute" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Execute">Execute()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void Execute()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_HitEntity_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.HitEntity(Assets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L117">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_HitEntity_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.HitEntity*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_HitEntity_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.HitEntity(Assets.Scripts.Characters.Entity)">HitEntity(Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void HitEntity(Entity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_Initialize_Assets_Scripts_Characters_Titan_TitanBase_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.Initialize(Assets.Scripts.Characters.Titan.TitanBase)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L55">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Initialize_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Initialize*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_Initialize_Assets_Scripts_Characters_Titan_TitanBase_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.Initialize(Assets.Scripts.Characters.Titan.TitanBase)">Initialize(TitanBase)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void Initialize(TitanBase titan)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.TitanBase.html">TitanBase</a></td>
+        <td><span class="parametername">titan</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsDisabled.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.IsDisabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L24">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsDisabled_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsDisabled*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsDisabled" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsDisabled">IsDisabled()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool IsDisabled()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsDisabled_Assets_Scripts_Characters_Titan_BodyPart_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.IsDisabled(Assets.Scripts.Characters.Titan.BodyPart)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L29">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsDisabled_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsDisabled*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsDisabled_Assets_Scripts_Characters_Titan_BodyPart_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsDisabled(Assets.Scripts.Characters.Titan.BodyPart)">IsDisabled(BodyPart)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool IsDisabled(BodyPart bodyPart)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.BodyPart.html">BodyPart</a></td>
+        <td><span class="parametername">bodyPart</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsEntityHit_Transform_System_Collections_Generic_HashSet_Assets_Scripts_Characters_Entity___.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601.IsEntityHit(Transform%2CSystem.Collections.Generic.HashSet%7BAssets.Scripts.Characters.Entity%7D%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L89">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsEntityHit_" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsEntityHit*"></a>
+  <h4 id="Assets_Scripts_Characters_Titan_Attacks_Attack_1_IsEntityHit_Transform_System_Collections_Generic_HashSet_Assets_Scripts_Characters_Entity___" data-uid="Assets.Scripts.Characters.Titan.Attacks.Attack`1.IsEntityHit(Transform,System.Collections.Generic.HashSet{Assets.Scripts.Characters.Entity}@)">IsEntityHit(Transform, out HashSet&lt;Entity&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool IsEntityHit(Transform bodyPart, out HashSet&lt;Entity&gt; entities)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Transform</span></td>
+        <td><span class="parametername">bodyPart</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.HashSet</span>&lt;<a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a>&gt;</td>
+        <td><span class="parametername">entities</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/65960fef395a31e109b67276a72f0a3c7613a337/apiSpec/new?filename=Assets_Scripts_Characters_Titan_Attacks_Attack_1.md&amp;value=---%0Auid%3A%20Assets.Scripts.Characters.Titan.Attacks.Attack%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/65960fef395a31e109b67276a72f0a3c7613a337/Assets/Scripts/Characters/Titan/Attacks/Attack.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
