@@ -1,9 +1,11 @@
-﻿using Assets.Scripts.Characters.Humans.Customization;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Menu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -13,6 +15,9 @@ using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.UI.InGame
 {
+    /// <summary>
+    /// The new SpawnMenu, used to select the preferred character or player titan.
+    /// </summary>
     public class SpawnMenuV2 : MonoBehaviour, IUiContainer
     {
         private ISpawnService SpawnService => Service.Spawn;
@@ -27,7 +32,7 @@ namespace Assets.Scripts.UI.InGame
         public TMP_Dropdown BuildDropdown;
 
         /// <summary>
-        /// The Area in the UI where the character model will be loaded
+        /// The Area in the UI where the character model will be loaded. Currently this is unused
         /// </summary>
         public GameObject HeroLocation;
         private GameObject Character { get; set; }
@@ -46,6 +51,9 @@ namespace Assets.Scripts.UI.InGame
             MenuManager.RegisterOpened(this);
         }
 
+        /// <summary>
+        /// Clears the <see cref="CharacterDropdown"/> and initializes it again
+        /// </summary>
         public void RecreateCharacterDropdown()
         {
             CharacterDropdown.ClearOptions();
@@ -64,6 +72,9 @@ namespace Assets.Scripts.UI.InGame
             MenuManager.RegisterClosed(this);
         }
 
+        /// <summary>
+        /// Spawns the player in the game as a <see cref="Hero"/>
+        /// </summary>
         public void Spawn()
         {
             string selection = "23";
@@ -86,6 +97,9 @@ namespace Assets.Scripts.UI.InGame
             gameObject.SetActive(false);
         }
 
+        /// <summary>
+        /// Spawns the player in the game as a <see cref="PlayerTitan"/>
+        /// </summary>
         public void SpawnPlayerTitan()
         {
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
@@ -93,6 +107,7 @@ namespace Assets.Scripts.UI.InGame
             gameObject.SetActive(false);
         }
 
+        [Obsolete("Legacy way of determining if all human players are dead. Use FactionService instead for get team information")]
         private static bool isPlayerAllDead2()
         {
             int num = 0;

@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Utility
 {
+    /// <summary>
+    /// Extension methods which are used for Chat formatting.
+    /// </summary>
     public static class StringExtensionMethods
     {
         public static string Color(this string text, float r, float g, float b, float a = 1)

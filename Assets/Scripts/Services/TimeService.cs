@@ -5,6 +5,7 @@ using UnityEngine;
 using Assets.Scripts.DayNightCycle;
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="TimeService"/>
     public class TimeService : PunBehaviour, ITimeService
     {
         private DateTime CreationTime { get; set; }

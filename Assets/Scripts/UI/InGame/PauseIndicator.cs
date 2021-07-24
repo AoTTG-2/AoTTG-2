@@ -1,9 +1,11 @@
 ﻿using Assets.Scripts.Services;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
+    /// <summary>
+    /// A popup indicating that the game is paused or is about to get unpaused
+    /// </summary>
     public class PauseIndicator : UiElement
     {
         private bool UnPausing { get; set; }
@@ -27,7 +29,7 @@ namespace Assets.Scripts.UI.InGame
         {
             UnPausing = true;
         }
-        
+
         // Update is called once per frame
         private void Update()
         {

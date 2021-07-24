@@ -1,5 +1,8 @@
 ﻿namespace Assets.Scripts.UI.Input
 {
+    /// <summary>
+    /// Rebind enum used for Humans / Heros
+    /// </summary>
     public enum InputHuman
     {
         Forward,

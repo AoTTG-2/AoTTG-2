@@ -334,7 +334,7 @@ namespace Assets.Scripts.Gamemode
 
             if (PhotonNetwork.isMasterClient)
             {
-                FengGameManagerMKII.instance.restartRC();
+                FengGameManagerMKII.instance.RestartRound();
             }
         }
     }

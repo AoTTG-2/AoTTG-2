@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    /// <summary>
+    /// Used to format a branch name from <see cref="VersionManager"/>
+    /// </summary>
     [Serializable]
     public sealed class VersionFormatter
     {
@@ -11,7 +14,7 @@ namespace Assets.Scripts
         private string issueRegex = "#(?<issue>\\d+)";
 
         [SerializeField]
-        private string versionPattern = "Alpha-Issue#<issue>";
+        private string versionPattern = "Alpha-Issue<issue>";
 
         public VersionFormatter()
         {
