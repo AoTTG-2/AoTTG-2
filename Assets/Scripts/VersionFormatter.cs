@@ -14,7 +14,7 @@ namespace Assets.Scripts
         private string issueRegex = "#(?<issue>\\d+)";
 
         [SerializeField]
-        private string versionPattern = "Alpha-Issue<issue>";
+        private string versionPattern = "Alpha-Issue#<issue>";
 
         public VersionFormatter()
         {
