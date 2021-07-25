@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Scripts.Characters.Titan
 {
     /// <summary>
-    /// Titan Detection is used by Titans to "detect" an enemy. Once an enemy is detecting, it will start chasing & attacking it.
+    /// Titan Detection is used by Titans to "detect" an enemy. Once an enemy is detecting, it will start chasing and attacking it.
     /// </summary>
     public class TitanDetection : MonoBehaviour
     {

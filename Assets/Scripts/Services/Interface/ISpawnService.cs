@@ -63,7 +63,7 @@ namespace Assets.Scripts.Services.Interface
         /// <returns></returns>
         T Spawn<T>(EntityConfiguration configuration) where T : Entity;
         /// <summary>
-        /// Spawns an entity with configuration & spawn coordinates.
+        /// Spawns an entity with configuration and spawn coordinates.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="position"></param>
@@ -72,7 +72,7 @@ namespace Assets.Scripts.Services.Interface
         /// <returns></returns>
         T Spawn<T>(Vector3 position, Quaternion rotation, EntityConfiguration configuration) where T : Entity;
         /// <summary>
-        /// Spawns a human with the preset & spawn coordinates
+        /// Spawns a human with the preset and spawn coordinates
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="position"></param>

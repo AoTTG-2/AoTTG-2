@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 namespace Assets.Scripts.Characters.Humans.Customization
 {
     /// <summary>
-    /// A ScriptableObject which contains the Outfits & Builds for a single character
+    /// A ScriptableObject which contains the Outfits and Builds for a single character
     /// </summary>
     [CreateAssetMenu(fileName = "New Character Preset", menuName = "Character/Character Preset")]
     public class CharacterPreset : ScriptableObject

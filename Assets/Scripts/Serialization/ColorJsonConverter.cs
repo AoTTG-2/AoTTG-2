@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Scripts.Serialization
 {
     /// <summary>
-    /// Converts a <see cref="Color"/> to a <see cref="SerializableColor"/>
+    /// Converts a Color to a <see cref="SerializableColor"/>
     /// </summary>
     public class ColorJsonConverter : JsonConverter<Color>
     {

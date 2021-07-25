@@ -2,7 +2,6 @@
 
 namespace Assets.Scripts.Characters.Titan.Body
 {
-    /// <inheritdoc />
     public class ColossalTitanBody : TitanBody
     {
         [Header("Colossal Titan Body Components")]

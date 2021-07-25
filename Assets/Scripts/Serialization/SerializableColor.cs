@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Scripts.Serialization
 {
     /// <summary>
-    /// A <see cref="Color"/> that can be serialized for multiplayer
+    /// A Color that can be serialized for multiplayer
     /// </summary>
     [Serializable]
     public struct SerializableColor

@@ -2,7 +2,6 @@
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    /// <inheritdoc />
     public class BiteAttack : BoomAttack
     {
         protected override string Effect { get; set; } = "fx/bite";

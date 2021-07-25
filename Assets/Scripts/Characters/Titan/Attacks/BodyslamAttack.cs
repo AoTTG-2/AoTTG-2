@@ -5,7 +5,6 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    /// <inheritdoc />
     public class BodySlamAttack : Attack<MindlessTitan>
     {
         private readonly string _startAnimation = "attack_abnormal_jump";
