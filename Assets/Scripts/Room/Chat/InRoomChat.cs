@@ -11,6 +11,9 @@ using static Assets.Scripts.Room.Chat.ChatUtility;
 
 namespace Assets.Scripts.Room.Chat
 {
+    /// <summary>
+    /// Controls the ChatBox in the HUD
+    /// </summary>
     public class InRoomChat : Photon.MonoBehaviour, IUiElement
     {
         private const int MaxStoredMessages = 100;

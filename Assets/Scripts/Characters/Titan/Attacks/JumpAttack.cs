@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
+    /// <inheritdoc />
     public class JumpAttack : Attack<MindlessTitan>
     {
         public override Type[] TargetTypes { get; } = { typeof(Human) };

@@ -8,6 +8,7 @@ using TMPro;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="IUiService"/>
     public class UiService : PunBehaviour, IUiService
     {
         public UiHandler MainUi;

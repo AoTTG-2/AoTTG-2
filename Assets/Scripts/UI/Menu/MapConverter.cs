@@ -3,6 +3,9 @@ using TMPro;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI Class for the "Map Converter" page
+    /// </summary>
     public class MapConverter : UiNavigationElement
     {
         public TMP_InputField InputLegacyMap;

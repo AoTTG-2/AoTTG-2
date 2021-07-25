@@ -2,6 +2,9 @@ using System;
 using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+/// <summary>
+/// If a <see cref="Hero"/> touches this, they will either die or get teleported. Teleportion functionality was only used in AoTTG1's tutorial, and I don't think we use this anywhere else.
+/// </summary>
 public class LevelBottom : MonoBehaviour
 {
     public GameObject link;

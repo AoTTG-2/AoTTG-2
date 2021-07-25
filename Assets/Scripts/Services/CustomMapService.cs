@@ -16,6 +16,7 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="ICustomMapService"/>
     public class CustomMapService : MonoBehaviour, ICustomMapService
     {
         public CustomMapConfiguration Configuration;

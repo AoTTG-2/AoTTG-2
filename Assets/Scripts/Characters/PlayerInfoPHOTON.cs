@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Obsolete("Appears to be unused")]
 public class PlayerInfoPHOTON
 {
     public int airKills;

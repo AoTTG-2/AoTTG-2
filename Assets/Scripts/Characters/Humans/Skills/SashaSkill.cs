@@ -2,6 +2,7 @@
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
+    /// <inheritdoc />
     public class SashaSkill : Skill
     {
         public SashaSkill(Hero hero) : base(hero)

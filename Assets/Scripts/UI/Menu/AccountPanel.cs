@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.Services;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI Panel related to Account Information
+    /// </summary>
     public class AccountPanel : UiContainer
     {
         public TextMeshProUGUI DatabaseStatus;
@@ -28,6 +30,9 @@ namespace Assets.Scripts.UI.Menu
         }
 
         // ReSharper disable once UnusedMember.Global
+        /// <summary>
+        /// Used by the <see cref="LoginButton"/>, will attempt to Login the user via <see cref="AuthenticationService.LoginAsync"/>
+        /// </summary>
         public async void Login()
         {
             if (await AuthenticationService.LoginAsync())
@@ -39,6 +44,9 @@ namespace Assets.Scripts.UI.Menu
         }
 
         // ReSharper disable once UnusedMember.Global
+        /// <summary>
+        /// Used by the <see cref="LogoutButton"/>, will attempt to Login the user via <see cref="AuthenticationService.LogoutAsync"/>
+        /// </summary>
         public async void Logout()
         {
             if (await AuthenticationService.LogoutAsync())

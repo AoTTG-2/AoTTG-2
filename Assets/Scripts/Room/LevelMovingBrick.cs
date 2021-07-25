@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Moves a GameObject from <see cref="pointGOA"/> to <see cref="pointGOB"/> with <see cref="speed"/> units per second.
+/// </summary>
 public class LevelMovingBrick : MonoBehaviour
 {
     private Vector3 pointA;

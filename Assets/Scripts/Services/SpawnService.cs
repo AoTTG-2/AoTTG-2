@@ -14,6 +14,7 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="ISpawnService"/>
     public class SpawnService : MonoBehaviour, ISpawnService
     {
         private IEntityService EntityService => Service.Entity;

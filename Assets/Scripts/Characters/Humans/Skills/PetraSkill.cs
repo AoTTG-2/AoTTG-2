@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
+    /// <inheritdoc />
     public class PetraSkill : Skill
     {
         private const float CooldownLimit = 3.5f;

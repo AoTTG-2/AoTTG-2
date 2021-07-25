@@ -2,10 +2,13 @@
 
 namespace Assets.Scripts.Settings
 {
+    /// <summary>
+    /// Contains configuration settings for a PhotonServer
+    /// </summary>
     [CreateAssetMenu(fileName = "PhotonServerConfig", menuName = "ScriptableObjects/PhotonServerConfig", order = 1)]
     public class PhotonServerConfig : ScriptableObject
     {
-        [Tooltip("This display name of this Photon Server")]
+        [Tooltip("The display name of this Photon Server")]
         public string Name;
         [Tooltip("This IPv4 / IPv6 address of this Photon Server")]
         public string IpAddress;

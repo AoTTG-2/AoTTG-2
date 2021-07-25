@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="ILevelService"/>
     public class LevelService : ILevelService
     {
         public event OnLevelLoaded OnLevelLoaded;

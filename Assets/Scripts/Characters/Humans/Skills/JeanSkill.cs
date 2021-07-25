@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
+    /// <inheritdoc />
     public class JeanSkill : Skill
     {
         public JeanSkill(Hero hero) : base(hero)

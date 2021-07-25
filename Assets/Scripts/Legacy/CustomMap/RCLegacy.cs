@@ -5,7 +5,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Legacy.CustomMap
 {
-
+    /// <summary>
+    /// A scriptable object which contains a list of all AoTTG RC 2015 prefabs
+    /// </summary>
     [CreateAssetMenu(fileName = "RC Legacy Prefabs", menuName = "Legacy/ScriptableObjects/RCLegacyPrefab", order = 1)]
     public class RCLegacy : ScriptableObject
     {

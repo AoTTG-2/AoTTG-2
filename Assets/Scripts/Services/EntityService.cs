@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="IEntityService"/>
     public class EntityService : IEntityService
     {
         private readonly HashSet<Entity> entities = new HashSet<Entity>();

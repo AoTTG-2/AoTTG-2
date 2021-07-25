@@ -1,6 +1,9 @@
 using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+/// <summary>
+/// The horse is a vehicle that can be controller by a <see cref="Human"/> once mounted. Current implementation is broken as its an incomplete version of #116
+/// </summary>
 public sealed class Horse : PhotonView
 {
     private new Animation animation;

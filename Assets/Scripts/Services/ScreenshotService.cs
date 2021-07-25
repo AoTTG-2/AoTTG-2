@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
+    /// <summary>
+    /// A simple service which manages the Screenshot functionality
+    /// </summary>
     public class ScreenshotService : MonoBehaviour
     {
         private const string ScreenDirectory = "Screenshots";

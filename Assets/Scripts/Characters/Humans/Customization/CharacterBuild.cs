@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Customization
 {
+    /// <summary>
+    /// A character build is the combination of equipment, stats and a skill
+    /// </summary>
     [Serializable]
     //TODO: This may be made a struct again after equipment migration
     public class CharacterBuild

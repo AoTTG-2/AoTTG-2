@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Room
 {
+    /// <summary>
+    /// Contains settings related to a Level.
+    /// </summary>
     public class Level
     {
         public string Name { get; set; }

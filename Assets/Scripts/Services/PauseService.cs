@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="IPauseService"/>
     public class PauseService : PunBehaviour, IPauseService
     {
         private const float DefaultPauseTime = 3f;

@@ -14,6 +14,9 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan
 {
+    /// <summary>
+    /// TitanBase is the abstract Titan class. It provides a basic implementation for titans, that can be further extended or overriden.
+    /// </summary>
     public abstract class TitanBase : Entity
     {
         protected readonly IFactionService FactionService = Service.Faction;
@@ -21,21 +24,31 @@ namespace Assets.Scripts.Characters.Titan
 
         public GameObject HealthLabel;
 
+        /// <summary>
+        /// A reference to the TitanBody component, which contains references to all Titan body parts. Always use this, and NEVER use GameObject.Find()
+        /// </summary>
         public TitanBody Body { get; protected set; }
+        /// <summary>
+        /// A reference to the Rigidbody component
+        /// </summary>
         public Rigidbody Rigidbody { get; protected set; }
 
         public TitanState State { get; protected set; } = TitanState.Wandering;
         public TitanState PreviousState { get; protected set; }
         public TitanState NextState { get; protected set; }
 
-
+        /// <summary>
+        /// The ENUM value of the Titan. This should match with the implemetation type.
+        /// </summary>
         public TitanType Type { get; set; }
+        [Obsolete("Rather use Settings instead of the hardcoded difficulty. Should change for 608")]
         public Difficulty Difficulty { get; set; } = Difficulty.Normal;
 
-
         #region Animations
+        /// <summary>
+        /// Reference to the Animation component
+        /// </summary>
         public Animation Animation { get; protected set; }
-
 
         protected string AnimationTurnLeft { get; set; }
         protected string AnimationTurnRight { get; set; }
@@ -49,6 +62,11 @@ namespace Assets.Scripts.Characters.Titan
 
         protected string CurrentAnimation { get; set; } = "idle";
 
+        /// <summary>
+        /// Used to CrossFade the titans animation, while also doing various sanity checks. If the player owns the titan object, it will also send the <see cref="CrossFadeRpc"/>
+        /// </summary>
+        /// <param name="newAnimation"></param>
+        /// <param name="fadeLength"></param>
         public virtual void CrossFade(string newAnimation, float fadeLength = 0.1f)
         {
             if (string.IsNullOrWhiteSpace(newAnimation)) return;
@@ -60,6 +78,12 @@ namespace Assets.Scripts.Characters.Titan
             photonView.RPC(nameof(CrossFadeRpc), PhotonTargets.Others, newAnimation, fadeLength);
         }
 
+        /// <summary>
+        /// RPC for <see cref="CrossFade"/>
+        /// </summary>
+        /// <param name="newAnimation"></param>
+        /// <param name="fadeLength"></param>
+        /// <param name="info"></param>
         [PunRPC]
         protected void CrossFadeRpc(string newAnimation, float fadeLength, PhotonMessageInfo info)
         {
@@ -72,9 +96,22 @@ namespace Assets.Scripts.Characters.Titan
 
         #endregion
 
+        /// <summary>
+        /// A list of attacks which the titan can use
+        /// </summary>
         public Attack<TitanBase>[] Attacks { get; protected set; }
+        /// <summary>
+        /// The current attack the titan is using
+        /// </summary>
         public Attack<TitanBase> CurrentAttack { get; set; }
+        /// <summary>
+        /// A list of behaviors which the titan uses
+        /// </summary>
         protected TitanBehavior[] Behaviors { get; set; }
+        //TODO: 608: Add a setting which can disable the NavMeshAgent even on maps that do support it.
+        /// <summary>
+        /// The NavMesh agent should be used on maps that support NavMeshes.
+        /// </summary>
         public NavMeshAgent NavMeshAgent;
 
         #region Properties
@@ -158,8 +195,14 @@ namespace Assets.Scripts.Characters.Titan
 
         public bool IsAlive => State != TitanState.Dead;
         public bool IsHealthEnabled => HealthLimit > 0;
+        /// <summary>
+        /// Returns true if the titan has a Target.
+        /// </summary>
         public bool IsTarget => Target != null;
 
+        /// <summary>
+        /// Executes the formula which is used to determine what the next target should be. This should not be used OnUpdate or OnFixedUpdate
+        /// </summary>
         protected virtual void OnTargetRefresh()
         {
             var hostiles = FactionService.GetAllHostile(this);
@@ -181,11 +224,20 @@ namespace Assets.Scripts.Characters.Titan
             FocusTimer = 0f;
         }
 
+        /// <summary>
+        /// Returns the distance between the Titan and its current <see cref="Target"/>
+        /// </summary>
+        /// <returns></returns>
         protected virtual float GetTargetDistance()
         {
             return GetTargetDistance(Target);
         }
 
+        /// <summary>
+        /// Returns the distance between the Titan and an entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         protected virtual float GetTargetDistance(Entity entity)
         {
             return entity == null
@@ -217,6 +269,10 @@ namespace Assets.Scripts.Characters.Titan
             Body = GetComponent<TitanBody>();
         }
 
+        /// <summary>
+        /// Initializes the titan with its configuration
+        /// </summary>
+        /// <param name="configuration"></param>
         public abstract void Initialize(TitanConfiguration configuration);
 
         protected virtual void Update()

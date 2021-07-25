@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.UI
 {
+    /// <summary>
+    /// Same as <see cref="UiMenuPUN"/>, but then it implements <see cref="PunBehaviour"/> and thus it has access to PUN events
+    /// </summary>
     public class UiMenuPUN : PunBehaviour, IUiContainer
     {
         public virtual bool IsVisible() => gameObject.activeSelf;

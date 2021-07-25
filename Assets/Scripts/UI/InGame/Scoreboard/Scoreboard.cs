@@ -5,6 +5,9 @@ using TMPro;
 
 namespace Assets.Scripts.UI.InGame.Scoreboard
 {
+    /// <summary>
+    /// The UI Scoreboard class, which is used to display various details of the round
+    /// </summary>
     public class Scoreboard : UiMenu
     {
         public GameObject playerInfoPrefab;

@@ -7,6 +7,9 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.Characters.Humans.Customization
 {
+    /// <summary>
+    /// A ScriptableObject which contains the Outfits & Builds for a single character
+    /// </summary>
     [CreateAssetMenu(fileName = "New Character Preset", menuName = "Character/Character Preset")]
     public class CharacterPreset : ScriptableObject
     {
@@ -15,7 +18,13 @@ namespace Assets.Scripts.Characters.Humans.Customization
         [SerializeField] public List<CharacterOutfit> CharacterOutfit;
         [SerializeField] public List<CharacterBuild> CharacterBuild;
 
+        /// <summary>
+        /// The currently equipped outfit
+        /// </summary>
         public CharacterOutfit CurrentOutfit { get; set; }
+        /// <summary>
+        /// The currently equipped build
+        /// </summary>
         public CharacterBuild CurrentBuild { get; set; }
 
         private CharacterPrefabs Prefabs;

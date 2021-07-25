@@ -2,6 +2,9 @@
 
 namespace Assets.Scripts.Characters.Humans
 {
+    /// <summary>
+    /// Contains references for all human bodyparts that are used. Always use this class instead of GameObject.Find()!
+    /// </summary>
     public class HumanBody : MonoBehaviour
     {
 

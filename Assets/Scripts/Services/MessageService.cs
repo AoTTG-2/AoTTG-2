@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc cref="IMessageService"/>
     public class MessageService : MonoBehaviour, IMessageService
     {
         [SerializeField] private InRoomChat chat;

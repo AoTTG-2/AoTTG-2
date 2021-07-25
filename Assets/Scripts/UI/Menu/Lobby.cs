@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI class for the "Lobby" which contains a list of all available rooms.
+    /// </summary>
     public class Lobby : UiNavigationElement
     {
         public GameObject ScrollViewContent;
@@ -14,6 +17,9 @@ namespace Assets.Scripts.UI.Menu
 
         private RoomRow selectedRoom;
 
+        /// <summary>
+        /// Returns the room that is currently selected
+        /// </summary>
         public RoomRow SelectedRoom
         {
             get { return selectedRoom; }
