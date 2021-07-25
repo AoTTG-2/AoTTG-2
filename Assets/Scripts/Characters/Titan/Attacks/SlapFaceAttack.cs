@@ -2,6 +2,7 @@
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
+    /// <inheritdoc />
     public class SlapFaceAttack : BoomAttack
     {
         public SlapFaceAttack()

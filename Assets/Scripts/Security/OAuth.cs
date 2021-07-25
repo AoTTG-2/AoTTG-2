@@ -8,6 +8,9 @@ namespace Assets.Scripts.Security
 {
 
     // Based on: https://developer.okta.com/blog/2020/08/21/unity-csharp-games-security
+    /// <summary>
+    /// ScriptableObject which contains configuration for an OAuth client. <see href="https://github.com/AoTTG-2/AoTTG-2-API"></see>
+    /// </summary>
     [CreateAssetMenu, ExecuteInEditMode]
     public class OAuth : ScriptableObject
     {

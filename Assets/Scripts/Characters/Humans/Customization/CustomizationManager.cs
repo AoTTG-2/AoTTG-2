@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Customization
 {
+    /// <summary>
+    /// Used to test the Character Customization functionality in a scene
+    /// </summary>
     public class CustomizationManager : MonoBehaviour
     {
         public CharacterPrefabs Prefabs;

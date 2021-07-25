@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Gamemode;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
+    /// <summary>
+    /// Influences the Titans <see cref="TitanState.Chase"/> state for the <see cref="CaptureGamemode"/>
+    /// </summary>
     public class CaptureBehavior : TitanBehavior
     {
         public CaptureBehavior(PVPcheckPoint checkpoint)

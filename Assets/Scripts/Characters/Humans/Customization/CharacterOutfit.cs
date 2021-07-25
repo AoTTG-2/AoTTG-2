@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Customization
 {
+    /// <summary>
+    /// Contains of the human
+    /// </summary>
     [Serializable]
     //TODO: This may be made a struct again after equipment migration
     public class CharacterOutfit

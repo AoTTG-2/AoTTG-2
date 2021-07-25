@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Obsolete("Will be removed as per #604")]
 public class ChangeQuality : MonoBehaviour
 {
     private bool init;

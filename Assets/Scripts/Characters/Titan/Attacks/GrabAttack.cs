@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
+    /// <inheritdoc />
     public class GrabAttack : Attack<MindlessTitan>
     {
         public GrabAttack()

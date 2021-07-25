@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
+    /// <inheritdoc />
     public abstract class BoomAttack : Attack<MindlessTitan>
     {
         protected bool HasExploded { get; set; }

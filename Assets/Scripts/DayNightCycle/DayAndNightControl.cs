@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
+using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Rendering.Universal;
-using UnityEditor;
-using Assets.Scripts.Services;
-using Assets.Scripts.Settings;
 
 namespace Assets.Scripts.DayNightCycle
 {
@@ -33,12 +33,12 @@ namespace Assets.Scripts.DayNightCycle
         public Camera MoonCamera = null;
         public Camera MainCamera = null;
         public int CurrentDay = 0;
-        public float DayLength; 
+        public float DayLength;
         public bool Pause { get; set; }
         public float LightIntensity; //static variable to see what the main light's insensity is in the inspector
         public string StaticSkyboxPlayerPref = "StaticSkybox";
         private int frames;
-       
+
         void Start()
         {
             //loads static skybox if player has set so in graphics settings
@@ -50,9 +50,9 @@ namespace Assets.Scripts.DayNightCycle
             //Sets Scene variables to time settings
             if (PhotonNetwork.isMasterClient)
             {
-                CurrentTime = (float)GameSettings.Time.CurrentTime;
-                DayLength = (float)GameSettings.Time.DayLength;
-                Pause = (bool)GameSettings.Time.Pause;
+                CurrentTime = (float) GameSettings.Time.CurrentTime;
+                DayLength = (float) GameSettings.Time.DayLength;
+                Pause = (bool) GameSettings.Time.Pause;
                 Service.Settings.SyncSettings();
             }
             MoonCamera = GetComponentInChildren<Camera>();
@@ -83,19 +83,20 @@ namespace Assets.Scripts.DayNightCycle
             }
         }
 
-     
+
         private void Settings_OnTimeSettingsChanged(TimeSettings settings)
         {
-            CurrentTime = (float) GameSettings.Time.CurrentTime; 
+            CurrentTime = (float) GameSettings.Time.CurrentTime;
             //additional check to ensure MC cant set non-MC daylengths to less than 60
-            if ((float)GameSettings.Time.DayLength > 60)
+            if ((float) GameSettings.Time.DayLength > 60)
             {
                 DayLength = (float) GameSettings.Time.DayLength;
             }
-            else {
+            else
+            {
                 DayLength = 60;
                 GameSettings.Time.DayLength = DayLength;
-                 }
+            }
             Pause = (bool) GameSettings.Time.Pause;
 
             if (!Pause)
@@ -106,7 +107,7 @@ namespace Assets.Scripts.DayNightCycle
                 //time according to a 24h time range
                 if (CurrentTime > 24)
                 {
-                    CurrentTime -= (24 * (int)Math.Floor(CurrentTime/24));
+                    CurrentTime -= (24 * (int) Math.Floor(CurrentTime / 24));
                 }
             }
         }
@@ -118,7 +119,7 @@ namespace Assets.Scripts.DayNightCycle
 
         void Update()
         {
-            
+
             // This is to prevent null reference errors because non-MCs needs a few frames before the camera will be available.
             if (MainCamera == null)
             {
@@ -172,14 +173,14 @@ namespace Assets.Scripts.DayNightCycle
                     RenderSettings.skybox = StaticDaySkyboxMaterial;
                 else if (CurrentTime > 17 && CurrentTime <= 19)
                     RenderSettings.skybox = StaticDuskSkyboxMaterial;
-                else if (CurrentTime > 19 )
+                else if (CurrentTime > 19)
                     RenderSettings.skybox = StaticNightSkyboxMaterial;
             }
             else
-            { 
-            RenderSettings.skybox = ProceduralSkyboxMaterial; 
-            ProceduralSkyboxMaterial.SetVector("_Axis", Sun.transform.right);
-            ProceduralSkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
+            {
+                RenderSettings.skybox = ProceduralSkyboxMaterial;
+                ProceduralSkyboxMaterial.SetVector("_Axis", Sun.transform.right);
+                ProceduralSkyboxMaterial.SetFloat("_Angle", -CurrentTimeScale * 360f);
             }
 
         }
@@ -205,9 +206,9 @@ namespace Assets.Scripts.DayNightCycle
             {
                 RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
             }
-            
+
         }
-        
+
         void UpdateLight()
         {
             bool isNightTime = (CurrentTime <= 6 || CurrentTime >= 18);
@@ -222,7 +223,7 @@ namespace Assets.Scripts.DayNightCycle
             Moon.transform.forward = -Sun.transform.forward;
 
             if (!timecycle) return;
-            
+
             // Sun & moon's color and brightness
             if (timecycle.overrideSunlight && !isNightTime)
             {
@@ -257,8 +258,8 @@ namespace Assets.Scripts.DayNightCycle
                 RenderSettings.fogColor = timecycle.fogColor.Evaluate(CurrentTimeScale);
                 RenderSettings.fogDensity = timecycle.fogColor.Evaluate(CurrentTimeScale).a * timecycle.maxFogDensity;
             }
-            
-            
+
+
         }
 
 #if UNITY_EDITOR

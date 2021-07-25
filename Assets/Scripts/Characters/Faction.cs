@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters
 {
+    /// <summary>
+    /// Each entity has a faction, which is used to determine which other entities are friendly or hostile. Not being in a faction means that they are hostile to all.
+    /// </summary>
     public class Faction
     {
         public string Name { get; set; }

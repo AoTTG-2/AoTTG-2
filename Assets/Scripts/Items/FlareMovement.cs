@@ -5,6 +5,9 @@ using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Items
 {
+    /// <summary>
+    /// Influences the behavior of a <see cref="Flare"/> after its been fired.
+    /// </summary>
     public class FlareMovement : MonoBehaviour
     {
         public string color;

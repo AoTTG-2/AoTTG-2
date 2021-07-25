@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.CustomMaps
 {
+    /// <summary>
+    /// Used to test the map converter functionality in an empty scene
+    /// </summary>
     public class Converter : MonoBehaviour
     {
         public TextAsset AoTTGCustomMap;

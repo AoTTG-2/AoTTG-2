@@ -22,6 +22,9 @@ namespace Assets.Scripts.Gamemode
 {
     public abstract class GamemodeBase : PunBehaviour
     {
+        /// <summary>
+        /// An ENUM for the current gamemode
+        /// </summary>
         public abstract GamemodeType GamemodeType { get; }
 
         private GamemodeSettings Settings => GameSettings.Gamemode;
@@ -33,7 +36,13 @@ namespace Assets.Scripts.Gamemode
         protected ITimeService TimeService => Service.Time;
         protected IUiService UiService => Service.Ui;
 
+        /// <summary>
+        /// The current score of the Humanity faction
+        /// </summary>
         public int HumanScore { get; set; }
+        /// <summary>
+        /// The current score of the Titanity faction
+        /// </summary>
         public int TitanScore { get; set; }
 
         /// <summary>
@@ -41,6 +50,9 @@ namespace Assets.Scripts.Gamemode
         /// </summary>
         protected List<Coroutine> Coroutines { get; set; } = new List<Coroutine>();
 
+        /// <summary>
+        /// True if the round has ended
+        /// </summary>
         protected bool IsRoundOver { get; private set; }
 
         protected virtual void Level_OnLevelLoaded(int scene, Level level)
@@ -99,6 +111,10 @@ namespace Assets.Scripts.Gamemode
         }
 
         #region Events and Coroutines
+        /// <summary>
+        /// An IEnumerator which runs every second
+        /// </summary>
+        /// <returns></returns>
         protected virtual IEnumerator OnUpdateEverySecond()
         {
             while (true)
@@ -110,6 +126,10 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
+        /// <summary>
+        /// An IEnumerator which runs every tenth of a second (0.1s)
+        /// </summary>
+        /// <returns></returns>
         protected virtual IEnumerator OnUpdateEveryTenthSecond()
         {
             while (true)

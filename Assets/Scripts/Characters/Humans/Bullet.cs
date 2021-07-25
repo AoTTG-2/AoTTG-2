@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans
 {
+    /// <summary>
+    /// A "Bullet" is the hook that is fired with the ODMG
+    /// </summary>
     public class Bullet : Photon.MonoBehaviour
     {
         private bool isdestroying;

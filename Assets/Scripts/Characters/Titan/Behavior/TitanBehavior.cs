@@ -4,6 +4,9 @@ using System;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
+    /// <summary>
+    /// An abstract class which is used to override various states of the Titans behavior.
+    /// </summary>
     public abstract class TitanBehavior
     {
         protected IEntityService EntityService => Service.Entity;
@@ -15,6 +18,10 @@ namespace Assets.Scripts.Characters.Titan.Behavior
         }
         protected MindlessTitan Titan { get; set; }
 
+        /// <summary>
+        /// Returns true if the behavior should be overriden, and thus the <see cref="TitanBase.Update"/> will be cancelled. If false, then the <see cref="TitanBase.Update"/> will be used
+        /// </summary>
+        /// <returns></returns>
         public bool OnUpdate()
         {
             switch (Titan.State)
@@ -44,6 +51,10 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             return false;
         }
 
+        /// <summary>
+        /// Returns true if the behavior should be overriden, and thus the <see cref="TitanBase.FixedUpdate"/> will be cancelled. If false, then the <see cref="TitanBase.FixedUpdate"/> will be used
+        /// </summary>
+        /// <returns></returns>
         public bool OnFixedUpdate()
         {
             switch (Titan.State)
@@ -72,6 +83,10 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             return false;
         }
 
+        /// <summary>
+        /// Returns true if the behavior should be overriden, and thus the <see cref="TitanBase.UpdateEverySecond"/> will be cancelled. If false, then the <see cref="TitanBase.UpdateEverySecond"/> will be used
+        /// </summary>
+        /// <returns></returns>
         public bool OnUpdateEverySecond(int seconds)
         {
             switch (Titan.State)
