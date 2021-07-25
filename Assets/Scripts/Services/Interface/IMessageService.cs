@@ -3,7 +3,7 @@
 namespace Assets.Scripts.Services.Interface
 {
     /// <summary>
-    /// A Service for notifications & chat messages
+    /// A Service for notifications and chat messages
     /// </summary>
     public interface IMessageService
     {

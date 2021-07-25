@@ -9,7 +9,6 @@ using Flare = Assets.Scripts.Items.Flare;
 
 namespace Assets.Scripts.Services
 {
-    /// <inheritdoc cref="IInventoryService"/>
     public class InventoryService : MonoBehaviour, IInventoryService
     {
         [SerializeField] private List<FlareData> flares;

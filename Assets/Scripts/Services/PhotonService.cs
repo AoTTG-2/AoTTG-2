@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
-    /// <inheritdoc cref="IPhotonService"/>
     public class PhotonService : PunBehaviour, IPhotonService
     {
         public VersionManager VersionManager;

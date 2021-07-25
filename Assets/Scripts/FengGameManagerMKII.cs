@@ -545,7 +545,7 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// Restarts the room to start a new round. If a new level or gamemode was setup by the MC, additional steps will be taken to replace these settings & load the new level.
+        /// Restarts the room to start a new round If a new level or gamemode was setup by the MC, additional steps will be taken to replace these settings and load the new level.
         /// </summary>
         public void RestartRound()
         {
@@ -579,7 +579,7 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// Mostly contains obsolete logic, yet this is currently used to setup the right Level & Gamemode Settings for a non-MC.
+        /// Mostly contains obsolete logic, yet this is currently used to setup the right Level and Gamemode Settings for a non-MC.
         /// </summary>
         /// <param name="info"></param>
         [PunRPC]
@@ -1038,7 +1038,7 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// Will look for all <see cref="Cloth"/> objects and try to dispose them via the <see cref="ClothFactory.DisposeObject"/>
+        /// Will look for all Cloth objects and try to dispose them via the <see cref="ClothFactory.DisposeObject"/>
         /// </summary>
         public void DestroyAllExistingCloths()
         {
@@ -1830,7 +1830,7 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// Legacy IEnumerator for <see cref="loadskin"/>. It was used in AoTTG to replace the skybox, and certain textures from the City & Forest maps. No longer used thus obsolete.
+        /// Legacy IEnumerator for <see cref="loadskin"/>. It was used in AoTTG to replace the skybox, and certain textures from the City and Forest maps. No longer used thus obsolete.
         /// </summary>
         /// <param name="n"></param>
         /// <param name="url"></param>
@@ -2219,7 +2219,7 @@ namespace Assets.Scripts
         }
 
         [PunRPC]
-        [Obsolete("The RPC for the obsolete loadskin & loadSkinE methods")]
+        [Obsolete("The RPC for the obsolete loadskin and loadSkinE methods")]
         private void loadskinRPC(string n, string url, string url2, string[] skybox, PhotonMessageInfo info)
         {
             if ((((int) settings[2]) == 1) && info.sender.isMasterClient)
@@ -2748,7 +2748,7 @@ namespace Assets.Scripts
             }
         }
 
-        [Obsolete("A way too complicated, and extremely inefficient way to generate a player list. Should be moved to the respective UI class & refactored (Using StringBuilder for massive performance improvements)")]
+        [Obsolete("A way too complicated, and extremely inefficient way to generate a player list. Should be moved to the respective UI class and refactored (Using StringBuilder for massive performance improvements)")]
         public IEnumerator WaitAndRecompilePlayerList(float time)
         {
             int num16;

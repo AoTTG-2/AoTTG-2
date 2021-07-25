@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
 {
-    /// <inheritdoc />
     public class RockThrowAttack : Attack<MindlessTitan>
     {
         public RockThrowAttack()

@@ -2,7 +2,6 @@
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
-    /// <inheritdoc />
     public class ErenSkill : Skill
     {
         public ErenSkill(Hero hero) : base(hero)

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Assets.Scripts.Characters.Humans.Customization
 {
     /// <summary>
-    /// Uses an enum for <see cref="PropertyAttribute"/>
+    /// Uses an enum for Unity.PropertyAttribute
     /// </summary>
     public class EnumNamedArrayAttribute : PropertyAttribute
     {

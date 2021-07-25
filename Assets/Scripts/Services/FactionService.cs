@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
-    /// <inheritdoc cref="IFactionService"/>
     public class FactionService : PunBehaviour, IFactionService
     {
         public event OnFactionDefeated OnFactionDefeated;
