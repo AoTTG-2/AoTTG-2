@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// A static MenuManager which keeps track over how many menus are open. This is used to determine cursor behavior
+/// </summary>
 public static class MenuManager
 {
     private static readonly RegistrationCounter menuCounter = new RegistrationCounter();

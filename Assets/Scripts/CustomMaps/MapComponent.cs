@@ -9,6 +9,9 @@ using UnityEngine.Video;
 
 namespace Assets.Scripts.CustomMaps
 {
+    /// <summary>
+    /// A MapComponent is the equivalent of Unity's Components which can be attached to a GameObject, but then used for Custom Maps
+    /// </summary>
     [CreateAssetMenu(fileName = "Map Component", menuName = "Custom Map/Component")]
     public class MapComponent : ScriptableObject
     {

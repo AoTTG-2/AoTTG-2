@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Room
 {
+    /// <summary>
+    /// Abstract spawner class which will automatically register itself to the <see cref="ISpawnService"/>
+    /// </summary>
     public abstract class Spawner : MonoBehaviour
     {
         protected ISpawnService SpawnService => Service.Spawn;

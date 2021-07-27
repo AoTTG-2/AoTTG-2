@@ -278,7 +278,7 @@ public static class ChatCommandHandler
 
         var chatMessage = new object[] { FormatSystemMessage("MasterClient has restarted the game!"), string.Empty };
         instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
-        instance.restartRC();
+        instance.RestartRound();
     }
 
     private static void SendPrivateMessage(string[] parameters)

@@ -11,6 +11,9 @@ using System.Runtime.CompilerServices;
 using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+/// <summary>
+/// The female titan. This class needs to be refactored.
+/// </summary>
 public class FemaleTitan : TitanBase
 {
     private GamemodeBase Gamemode { get; set; }

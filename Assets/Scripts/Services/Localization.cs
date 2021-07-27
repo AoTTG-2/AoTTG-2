@@ -4,6 +4,9 @@ using UnityEngine.Localization.Tables;
 
 namespace Assets.Scripts.Services
 {
+    /// <summary>
+    /// A class which can give convenient static access to localization tables
+    /// </summary>
     public class Localization : MonoBehaviour
     {
         [SerializeField] private LocalizedStringTable commonTable;

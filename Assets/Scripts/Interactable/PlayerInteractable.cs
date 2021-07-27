@@ -1,8 +1,12 @@
-﻿using Assets.Scripts.Constants;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Constants;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// An interactable attached to a <see cref="Hero"/>. Doesn't do anything yet, but was used to test the interactable system.
+/// </summary>
 public class PlayerInteractable : Interactable
 {
 

@@ -1,5 +1,8 @@
 ﻿namespace Assets.Scripts.UI.Input
 {
+    /// <summary>
+    /// Rebind enum used for Titans
+    /// </summary>
     public enum InputTitan
     {
         Forward,

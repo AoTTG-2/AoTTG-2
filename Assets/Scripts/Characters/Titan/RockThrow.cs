@@ -1,7 +1,11 @@
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Attacks;
 using UnityEngine;
 
+/// <summary>
+/// The logic for a rock that has been thrown by the <see cref="RockThrowAttack"/>. Needs to be refactored to improve performance
+/// </summary>
 public class RockThrow : Photon.MonoBehaviour
 {
     private bool launched;

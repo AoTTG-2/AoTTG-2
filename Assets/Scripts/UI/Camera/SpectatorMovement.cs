@@ -67,7 +67,7 @@ public class SpectatorMovement : MonoBehaviour
 
             if (InputManager.KeyDown(InputUi.Restart) && PhotonNetwork.offlineMode && !isRestarting)
             {
-                FengGameManagerMKII.instance.restartRC();
+                FengGameManagerMKII.instance.RestartRound();
             }
             if (num3 > 0f)
             {

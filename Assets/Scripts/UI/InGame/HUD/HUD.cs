@@ -16,7 +16,7 @@ namespace Assets.Scripts.UI.InGame.HUD
         public bool isActive = true;
         public Crosshair Crosshair;
         public Weapons Weapons;
-        
+
         public void SetDamage(int damage)
         {
             var damageLabels = Damage.GetComponentsInChildren<TMP_Text>();

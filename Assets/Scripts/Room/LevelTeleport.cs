@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Teleports the player from Location A to B.
+/// </summary>
 public class LevelTeleport : MonoBehaviour
 {
     public string levelname = string.Empty;

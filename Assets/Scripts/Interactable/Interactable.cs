@@ -1,6 +1,9 @@
 ﻿using Assets.Scripts.Constants;
 using UnityEngine;
 
+/// <summary>
+/// Abstract class for the "Interactables" functionality. Allows players to interact with various objects in the world
+/// </summary>
 public abstract class Interactable : MonoBehaviour
 {
     private CapsuleCollider collider;

@@ -6,6 +6,9 @@ using UnityEngine.Localization.Settings;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI Dropdown class for Language selection
+    /// </summary>
     public class LanguageDropdown : MonoBehaviour
     {
         public TMP_Dropdown Dropdown;

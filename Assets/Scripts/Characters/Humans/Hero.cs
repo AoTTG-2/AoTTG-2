@@ -22,6 +22,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Characters.Humans
 {
+    /// <summary>
+    /// The GOD class for ODMG & Player controllers humans. Very inefficient and poorly written, and requires a lot of refactoring
+    /// </summary>
     public class Hero : Human
     {
         public CharacterPrefabs Prefabs;
