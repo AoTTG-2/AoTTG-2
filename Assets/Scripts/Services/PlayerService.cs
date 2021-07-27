@@ -5,6 +5,7 @@ using Assets.Scripts.Services.Interface;
 
 namespace Assets.Scripts.Services
 {
+    /// <inheritdoc/>
     public class PlayerService : IPlayerService
     {
         public event OnTitanDamaged OnTitanDamaged;

@@ -7,12 +7,14 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Customization
 {
+    /// <summary>
+    /// A ScriptableObject which contains references to all character component prefabs
+    /// </summary>
     [CreateAssetMenu(fileName = "New Character Prefabs", menuName = "Character/Character Prefabs")]
     public class CharacterPrefabs : ScriptableObject
     {
         [SerializeField] public GameObject Base;
         [Header("Face")]
-
 
         [SerializeField] public HumanHeadComponent Head;
         [SerializeField] public List<HumanHairComponent> Hair;

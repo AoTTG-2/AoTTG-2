@@ -1,5 +1,8 @@
 namespace Assets.Scripts.Characters.Humans
 {
+    /// <summary>
+    /// The states in which a Human can be
+    /// </summary>
     public enum HumanState
     {
         Idle,

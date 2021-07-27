@@ -14,6 +14,9 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan
 {
+    /// <summary>
+    /// The normal titan in AoTTG2.
+    /// </summary>
     public class MindlessTitan : TitanBase
     {
         public AudioSource AudioSourceFoot;

@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
+    [Obsolete("Use SpawnMenuV2 instead. Once this class can be deleted, rename the SpawnMenuV2 to SpawnMenu")]
     public class SpawnMenu : UiMenu
     {
         private ISpawnService SpawnService => Service.Spawn;
@@ -33,6 +34,9 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
+        /// <summary>
+        /// The complex and confusing way of how AoTTG determined when the spawn a character
+        /// </summary>
         public void Spawn()
         {
             string selection = "23";

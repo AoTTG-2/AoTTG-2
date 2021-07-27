@@ -8,6 +8,9 @@ using Assets.Scripts.Services;
 
 namespace Assets.Scripts.Room
 {
+    /// <summary>
+    /// Current way how levels are displayed. Will be replaced with #604 (Level and Settings: ScriptableObjects)
+    /// </summary>
     public static class LevelBuilder
     {
         private static List<Level> _levels;

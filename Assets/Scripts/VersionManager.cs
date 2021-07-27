@@ -5,6 +5,9 @@ using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts
 {
+    /// <summary>
+    /// An Unity Editor ScriptableObject used to automatically set the AoTTG2 version to your branch name
+    /// </summary>
     [CreateAssetMenu, ExecuteInEditMode]
     public sealed class VersionManager : ScriptableObject
     {

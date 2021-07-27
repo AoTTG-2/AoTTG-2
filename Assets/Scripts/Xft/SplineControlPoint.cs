@@ -4,6 +4,9 @@ namespace Xft
     using UnityEngine;
 
     //TODO: Remove this for #223
+    /// <summary>
+    /// Part of the "XTF" package that AoTTG used for WeaponTrails, in AoTTG2 we will use a different package, so eventually these classes will be deleted.
+    /// </summary>
     public class SplineControlPoint
     {
         public int ControlPointIndex = -1;

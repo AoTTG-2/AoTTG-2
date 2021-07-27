@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
 {
+    /// <summary>
+    /// Abstract class for the HERO skills
+    /// </summary>
     public abstract class Skill
     {
         protected readonly Hero Hero;
@@ -17,12 +20,25 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public float Cooldown { get; set; }
 
+        /// <summary>
+        /// Returns true if the Skill is currently used
+        /// </summary>
         public bool IsActive { get; protected set; }
+        /// <summary>
+        /// Logic when the skill is used
+        /// </summary>
+        /// <returns></returns>
         public abstract bool Use();
+        /// <summary>
+        /// Determines what should happen to the skill on <see cref="Hero.Update"/>
+        /// </summary>
         public abstract void OnUpdate();
-
+        /// <summary>
+        /// Determines what should happen to this skill on <see cref="Hero.FixedUpdate"/>
+        /// </summary>
         public virtual void OnFixedUpdate() { }
 
+        //TODO
         // Skills seem to check on Hero State:
         // Grabbed: Jean & Eren
         // Idle: Eren, Marco, Armin, Sasha, Mikasa, Levi, Petra

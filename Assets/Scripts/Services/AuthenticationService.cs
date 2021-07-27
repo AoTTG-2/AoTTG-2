@@ -50,6 +50,10 @@ namespace Assets.Scripts.Services
             await OAuth.SetEndpointsViaDiscoveryDocumentAsync();
         }
 
+        /// <summary>
+        /// Attempts to login the user with the configured <see cref="OAuth"/> Identity Provider
+        /// </summary>
+        /// <returns>A bool indicating if the login attempt was successful</returns>
         public async Task<bool> LoginAsync()
         {
             var authorizationResult = await GetAuthorizationCode();
@@ -69,6 +73,10 @@ namespace Assets.Scripts.Services
             return true;
         }
 
+        /// <summary>
+        /// Attempts to logout the user from the configured <see cref="OAuth"/> Identity Provider
+        /// </summary>
+        /// <returns>A bool indicating if the logout attempt was successful</returns>
         public async Task<bool> LogoutAsync()
         {
             var requestUri = $"{OAuth.EndSessionEndpoint}" +
@@ -77,6 +85,10 @@ namespace Assets.Scripts.Services
             return true;
         }
 
+        /// <summary>
+        /// Returns a HttpResponseMessage containing HealthCheck information
+        /// </summary>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> GetHealthCheckResponse()
         {
             var client = new HttpClient();
@@ -181,7 +193,7 @@ namespace Assets.Scripts.Services
             return true;
         }
 
-        public async Task<bool> SetAccessToken(AuthorizationResult authorizationResult)
+        private async Task<bool> SetAccessToken(AuthorizationResult authorizationResult)
         {
             // builds the  request
             var tokenRequestBody =

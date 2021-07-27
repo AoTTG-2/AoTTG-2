@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[Obsolete]
+[Obsolete("Was used in AoTTG1 to calculate stylish points. Not sure what we will do with this in AoTTG2.")]
 public class StylishComponent : MonoBehaviour
 {
     public GameObject bar;

@@ -2,6 +2,9 @@
 
 namespace Assets.Scripts.DayNightCycle
 {
+    /// <summary>
+    /// ScriptableObject containing settings for the time cycle. Used within <see cref="DayAndNightControl"/>
+    /// </summary>
     [CreateAssetMenu(fileName = "New Timecycle Profile", menuName = "Timecycle Profile")]
     public class TimecycleProfile : ScriptableObject
     {

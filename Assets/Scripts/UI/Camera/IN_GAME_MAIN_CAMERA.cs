@@ -509,7 +509,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
             if (InputManager.KeyDown(InputUi.Restart) && PhotonNetwork.offlineMode && !isRestarting)
             {
-                FengGameManagerMKII.instance.restartRC();
+                FengGameManagerMKII.instance.RestartRound();
             }
             if (main_object != null)
             {

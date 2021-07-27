@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
 {
+    /// <summary>
+    /// Contains a references to all body parts of a titan. It also contains logic for limb dismemberment. Always use this class instead of GameObject.Find() !
+    /// </summary>
     public class TitanBody : Photon.MonoBehaviour
     {
         public Transform AABB;
