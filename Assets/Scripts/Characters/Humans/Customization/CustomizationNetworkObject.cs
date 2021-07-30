@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Customization
 {
+    /// <summary>
+    /// A struct which converts a <see cref="CharacterOutfit"/> to an object which can be sent over the network
+    /// </summary>
     public struct CustomizationNetworkObject
     {
 
@@ -55,6 +58,11 @@ namespace Assets.Scripts.Characters.Humans.Customization
             return data;
         }
 
+        /// <summary>
+        /// Converts the CustomizationNetworkObject to a <see cref="CharacterPreset"/>
+        /// </summary>
+        /// <param name="prefabs">A reference to the <see cref="CharacterPrefabs"/></param>
+        /// <returns></returns>
         public CharacterPreset ToPreset(CharacterPrefabs prefabs)
         {
             var data = new CharacterPreset
@@ -119,9 +127,21 @@ namespace Assets.Scripts.Characters.Humans.Customization
     [Serializable]
     public struct CustomizationItem
     {
+        /// <summary>
+        /// The index of the prefab within the <see cref="CharacterPrefabs"/>. This keeps the <see cref="CustomizationNetworkObject"/> lightweight
+        /// </summary>
         public int PrefabIndex;
+        /// <summary>
+        /// The index of the texture within the <see cref="CharacterPrefabs"/> texture. This keeps the <see cref="CustomizationNetworkObject"/> lightweight
+        /// </summary>
         public int PrefabTextureIndex;
+        /// <summary>
+        /// A color which can be sent over the network
+        /// </summary>
         public SerializableColor Color;
+        /// <summary>
+        /// If this is not null, then the texture will be downloaded instead of using the <see cref="PrefabTextureIndex"/>
+        /// </summary>
         public string CustomTexture;
 
         public CustomizationItem(int prefabIndex, int prefabTextureIndex)

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
+    /// <summary>
+    /// Server Settings UI Page within the in-game settings overview
+    /// </summary>
     public class ServerSettingsPage : UiContainer
     {
         public Dropdown LevelDropdown;

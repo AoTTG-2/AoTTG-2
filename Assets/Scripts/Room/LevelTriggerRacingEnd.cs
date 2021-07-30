@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Room
 {
+    /// <summary>
+    /// Used only in the racing gamemode. If this is triggered, the player has finished the race.
+    /// </summary>
     public class LevelTriggerRacingEnd : MonoBehaviour
     {
         private bool disable;

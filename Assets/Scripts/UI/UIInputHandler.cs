@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
+    /// <summary>
+    /// A component attached to the Canvas GameObject, which controls the Radial Menu
+    /// </summary>
     public class UIInputHandler : MonoBehaviour
     {
         private GameObject interactionWheel;

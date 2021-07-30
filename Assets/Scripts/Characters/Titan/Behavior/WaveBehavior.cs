@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Gamemode;
+using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
+    /// <summary>
+    /// Overrides the Titans state behavior for the <see cref="WaveGamemode"/>
+    /// </summary>
     public class WaveBehavior : TitanBehavior
     {
         protected override bool OnChasingUpdateEverySecond(int seconds)

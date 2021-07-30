@@ -2,6 +2,9 @@ using System;
 using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+/// <summary>
+/// Will refill the <see cref="Hero"/> gas once touched
+/// </summary>
 public class LevelTriggerGas : MonoBehaviour
 {
     private void OnTriggerStay(Collider other)

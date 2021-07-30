@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[Obsolete]
+[Obsolete("Logic regarding the snapshots. This has been mostly disabled, but needs to be re-enabled again")]
 public class SnapShotSaves
 {
     private static int currentIndex;

@@ -2,8 +2,11 @@ using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using System.Collections;
 using Assets.Scripts.Characters.Humans;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+[Obsolete("AoTTG class which used to contain the titans configuration. Currently it's still used for the hair colors, but it should be refactored.")]
 public class TITAN_SETUP : Photon.MonoBehaviour
 {
     public GameObject eye;

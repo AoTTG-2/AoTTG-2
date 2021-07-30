@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.CustomMaps
 {
+    /// <summary>
+    /// A ScriptableObject which contains references to all MapObjects, MapTextures, MapMaterials and MapComponents available for the Custom Maps functionality
+    /// </summary>
     [CreateAssetMenu(fileName = "Custom Map Configuration", menuName = "Custom Map/Configuration")]
     public class CustomMapConfiguration : ScriptableObject
     {

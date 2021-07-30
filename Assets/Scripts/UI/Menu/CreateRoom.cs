@@ -13,6 +13,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI Class for the "Create Room" functionality
+    /// </summary>
     public class CreateRoom : UiNavigationElement
     {
         public Dropdown LevelDropdown;
@@ -87,6 +90,9 @@ namespace Assets.Scripts.UI.Menu
             Account.isOn = false;
         }
 
+        /// <summary>
+        /// Creates a new multiplayer room with the configured settings.
+        /// </summary>
         public void Create()
         {
             if (DifficultyDropdown.captionText.text.StartsWith(CustomDifficultyPrefix))

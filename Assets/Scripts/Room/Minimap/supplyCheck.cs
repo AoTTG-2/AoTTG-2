@@ -2,6 +2,7 @@ using System;
 using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+[Obsolete("Use in AoTTG1 for the Supply Station. Rather the interactable.")]
 public class supplyCheck : MonoBehaviour
 {
     private float elapsedTime;

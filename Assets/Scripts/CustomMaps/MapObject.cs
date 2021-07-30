@@ -2,6 +2,9 @@
 
 namespace Assets.Scripts.CustomMaps
 {
+    /// <summary>
+    /// A MapMaterial is the equivalent of to Unity's Prefabs, but then used for Custom Maps
+    /// </summary>
     [CreateAssetMenu(fileName = "Map Object", menuName = "Custom Map/Map Object")]
     public class MapObject : ScriptableObject
     {

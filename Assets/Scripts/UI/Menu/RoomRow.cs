@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI Class for a Room, as displayed in the <see cref="Lobby"/>
+    /// </summary>
     public class RoomRow : UiElement
     {
         public Image PasswordIcon;
@@ -10,7 +13,13 @@ namespace Assets.Scripts.UI.Menu
         public GameObject PasswordPanel;
         public InputField PasswordInputField;
 
+        /// <summary>
+        /// The name of the Room. This is in a GUID format and is always unique per room
+        /// </summary>
         public string Room;
+        /// <summary>
+        /// The human-readable non-unique display name for the Room. Use <see cref="Room"/> when attempting to connect to a specific room.
+        /// </summary>
         public string DisplayName;
 
         private bool isPasswordRequired;
