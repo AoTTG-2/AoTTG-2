@@ -30,6 +30,8 @@ namespace Assets.Scripts.Settings.Converter
             var jo = JObject.Load(reader);
             switch ((GamemodeType) jo["GamemodeType"].Value<int>())
             {
+                case GamemodeType.Bomb:
+                    return JsonConvert.DeserializeObject<BombGamemodeSettings>(jo.ToString(), SpecifiedSubclassConversion);
                 case GamemodeType.Titans:
                     return JsonConvert.DeserializeObject<KillTitansSettings>(jo.ToString(), SpecifiedSubclassConversion);
                 case GamemodeType.Endless:
