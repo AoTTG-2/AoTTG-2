@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace Assets.Scripts.Characters.Humans.Skills
 {
     /// <summary>
     /// Abstract class for the HERO skills
     /// </summary>
+ 
     public abstract class Skill
     {
         protected readonly Hero Hero;
@@ -52,19 +54,23 @@ namespace Assets.Scripts.Characters.Humans.Skills
         public static Skill Create(HeroSkill skill, Hero hero)
         {
             switch (skill)
-            {
-                case HeroSkill.Jean:
-                    return new JeanSkill(hero);
-                case HeroSkill.Levi:
-                    return new LeviSkill(hero);
-                case HeroSkill.Petra:
-                    return new PetraSkill(hero);
-                case HeroSkill.Mikasa:
-                    return new MikasaSkill(hero);
-                default:
-                    Debug.LogWarning($"Hero Skill {skill} is not implemented. Using Levi Skill...");
-                    return new LeviSkill(hero);
+                {
+                /*
+                    case HeroSkill.BombPvp:
+                        return new BombPvpSkill(hero);
+                */
+                    case HeroSkill.Jean:
+                        return new JeanSkill(hero);
+                    case HeroSkill.Levi:
+                        return new BombPvpSkill(hero); //Only for testing
+                    case HeroSkill.Petra:
+                        return new PetraSkill(hero);
+                    case HeroSkill.Mikasa:
+                        return new MikasaSkill(hero);
+                    default:
+                        Debug.LogWarning($"Hero Skill {skill} is not implemented. Using Levi Skill...");
+                        return new LeviSkill(hero);
+                }
             }
         }
     }
-}

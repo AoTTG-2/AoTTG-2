@@ -4112,7 +4112,11 @@ namespace Assets.Scripts.Characters.Humans
                         myBomb.Explode(bombRadius);
                     }
                     detonate = false;
-                    skillCDDuration = bombCD;
+                    skillCDDuration = 5;
+                    bombTimeMax = ((5 * 60f) + 200f) / ((5 * 60f) + 200f);
+                    bombRadius = (5 * 4f) + 20f;
+                    bombCD = (5 * -0.4f) + 5f;
+                    bombSpeed = (5 * 60f) + 200f;
                     RaycastHit hitInfo = new RaycastHit();
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();

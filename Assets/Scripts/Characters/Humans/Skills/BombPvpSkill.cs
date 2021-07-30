@@ -10,12 +10,11 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override void OnUpdate()
         {
-            throw new NotImplementedException();
         }
     }
 }
