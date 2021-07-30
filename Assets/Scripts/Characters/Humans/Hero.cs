@@ -144,7 +144,7 @@ namespace Assets.Scripts.Characters.Humans
         public GameObject maincamera;
         public float maxVelocityChange = 10f;
         public AudioSource meatDie;
-        public Bomb myBomb;
+        public Gamemode.Bomb myBomb;
         public GameObject myCannon;
         public Transform myCannonBase;
         public Transform myCannonPlayer;
@@ -4126,7 +4126,7 @@ namespace Assets.Scripts.Characters.Humans
                     Vector3 vector = Vector3.Normalize(targetV - currentV);
                     GameObject obj2 = PhotonNetwork.Instantiate(bombMainPath, currentV + ((vector * 4f)), new Quaternion(0f, 0f, 0f, 1f), 0);
                     obj2.GetComponent<Rigidbody>().velocity = (vector * bombSpeed);
-                    myBomb = obj2.GetComponent<Bomb>();
+                    myBomb = obj2.GetComponent<Gamemode.Bomb>();
                     bombTime = 0f;
                 }
                 else if ((myBomb != null) && !myBomb.disabled)

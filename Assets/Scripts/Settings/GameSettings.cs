@@ -181,6 +181,9 @@ namespace Assets.Scripts.Settings
             var playerGamemodeSettings = ConfigGamemodes.Single(x => x.GamemodeType == levelGamemode.GamemodeType);
             switch (levelGamemode.GamemodeType)
             {
+                case GamemodeType.Bomb:
+                    Gamemode = Gamemode = CreateFromObjects(playerGamemodeSettings as BombGamemodeSettings, levelGamemode as BombGamemodeSettings);
+                    break;
                 case GamemodeType.Titans:
                     Gamemode = CreateFromObjects(playerGamemodeSettings as KillTitansSettings, levelGamemode as KillTitansSettings);
                     break;

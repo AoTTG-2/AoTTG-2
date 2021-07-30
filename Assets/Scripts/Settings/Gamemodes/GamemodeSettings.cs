@@ -98,6 +98,7 @@ namespace Assets.Scripts.Settings.Gamemodes
         {
             return new List<GamemodeSettings>
             {
+                new BombGamemodeSettings(difficulty),
                 new CaptureGamemodeSettings(difficulty),
                 new EndlessSettings(difficulty),
                 new InfectionGamemodeSettings(difficulty),
@@ -115,6 +116,8 @@ namespace Assets.Scripts.Settings.Gamemodes
         {
             switch (GamemodeType)
             {
+                case GamemodeType.Bomb:
+                    return typeof(Bomb);
                 case GamemodeType.Titans:
                     return typeof(KillTitansGamemode);
                 case GamemodeType.Endless:

@@ -177,6 +177,10 @@ namespace Assets.Scripts.Room
                 SceneName = "The Forest",
                 Gamemodes = new List<GamemodeSettings>
                 {
+                    new BombGamemodeSettings
+                    {
+                        GamemodeType = GamemodeType.Bomb,
+                    },
                     new WaveGamemodeSettings
                     {
                         Time = new TimeSettings
