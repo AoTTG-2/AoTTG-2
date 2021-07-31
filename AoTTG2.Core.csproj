@@ -201,6 +201,7 @@
     <Compile Include="Assets\Scripts\Services\CustomMapService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Skin.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\TitanBody.cs" />
+    <Compile Include="Assets\Scripts\Settings\Gamemodes\BombGamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\MouseLook.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationManager.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerCheckPoint.cs" />
@@ -497,7 +498,6 @@
     <Compile Include="Assets\Scripts\Room\Minimap\supplyCheck.cs" />
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\Gamemodes\BombGamemodeSettings.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
