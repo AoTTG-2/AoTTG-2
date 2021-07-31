@@ -86,6 +86,7 @@ namespace Assets.Scripts.Gamemode
             base.GetComponent<Rigidbody>().velocity = Vector3.zero;
             Vector3 position = base.transform.position;
             this.myExplosion = PhotonNetwork.Instantiate(bombExplodePath, position, Quaternion.Euler(0f, 0f, 0f), 0);
+            BombExplode.size = radius;
             foreach (Hero hero in EntityService.GetAll<Hero>())
             {
                 GameObject heroGO = hero.gameObject;

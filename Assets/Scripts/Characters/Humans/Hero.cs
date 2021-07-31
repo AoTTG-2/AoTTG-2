@@ -4107,6 +4107,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (InputManager.KeyDown(InputHuman.AttackSpecial) && (skillCDDuration <= 0f))
                 {
+                    bombRadius = (5 * 4f) + 20f;
                     if (!((myBomb == null) || myBomb.disabled))
                     {
                         myBomb.Explode(bombRadius);
@@ -4114,7 +4115,6 @@ namespace Assets.Scripts.Characters.Humans
                     detonate = false;
                     skillCDDuration = 5;
                     bombTimeMax = ((5 * 60f) + 200f) / ((5 * 60f) + 200f);
-                    bombRadius = (5 * 4f) + 20f;
                     bombCD = (5 * -0.4f) + 5f;
                     bombSpeed = (5 * 60f) + 200f;
                     RaycastHit hitInfo = new RaycastHit();
