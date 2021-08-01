@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{58A71158-A078-3D3B-55A7-E8093DDFD643}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\Controls\GeneralControlsPage.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Effects\VortexAffector.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\BaseSettings.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\CustomizableHudElement.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\KickAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanGlassesComponent.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
     <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Setting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanState.cs" />
     <Compile Include="Assets\Scripts\Characters\HitBox.cs" />
     <Compile Include="Assets\Scripts\Effects\JetAffector.cs" />
@@ -165,6 +168,7 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\CommandsGUI.cs" />
     <Compile Include="Assets\Scripts\Services\Localization.cs" />
     <Compile Include="Assets\Scripts\Effects\EffectController.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\BoolSetting.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\FPSLimiter.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
     <Compile Include="Assets\Scripts\Gamemode\CaptureGamemode.cs" />
@@ -372,18 +376,20 @@
     <Compile Include="Assets\Scripts\Services\MessageService.cs" />
     <Compile Include="Assets\Scripts\Settings\GlobalSettings.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
+    <Compile Include="Assets\Scripts\UI\Elements\UiToggleButton.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\DebugSettings.cs" />
     <Compile Include="Assets\Scripts\Utility\StringExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\ChangeHudHandler.cs" />
-    <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsController.cs" />
+    <Compile Include="Assets\Scripts\UI\DragWindow.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\RockThrowSetting.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\FlexibleGridLayout.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerHint.cs" />
     <Compile Include="Assets\Scripts\Xft\Spline.cs" />
     <Compile Include="Assets\Scripts\Characters\Entity.cs" />
+    <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsController.cs" />
     <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
     <Compile Include="Assets\Scripts\Effects\AttractionForceAffector.cs" />
     <Compile Include="Assets\Scripts\Security\TokenResult.cs" />
@@ -505,12 +511,12 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\BaseSettings.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Types\BoolSetting.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Setting.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipSystem.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
+    <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -1139,6 +1145,13 @@
       <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
       <Name>Discord</Name>
     </ProjectReference>
+    <ProjectReference Include="LeanTween.csproj">
+      <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
+      <Name>LeanTween</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Scripts\UI\Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

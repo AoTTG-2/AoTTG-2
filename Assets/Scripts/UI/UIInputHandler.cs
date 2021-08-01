@@ -12,6 +12,7 @@ namespace Assets.Scripts.UI
         private GameObject interactionWheel;
 
         public GameObject RadialMenu;
+        public GameObject DebugMenu;
 
         private void Start()
         {
@@ -20,6 +21,11 @@ namespace Assets.Scripts.UI
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
+            {
+                DebugMenu.SetActive(!DebugMenu.activeInHierarchy);
+            }
+            
             if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
                 if (!RadialMenu.activeSelf)

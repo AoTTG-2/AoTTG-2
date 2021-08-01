@@ -793,6 +793,10 @@
       <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
       <Name>Discord</Name>
     </ProjectReference>
+    <ProjectReference Include="LeanTween.csproj">
+      <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
+      <Name>LeanTween</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
