@@ -56,6 +56,7 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\Settings\BaseSettingsEditor.cs" />
     <Compile Include="Assets\Editor\ObjectBrowser.cs" />
     <Compile Include="Assets\Editor\DrawerEnumNamedArray.cs" />
     <Compile Include="Assets\Editor\HumanSelectedComponentDrawer.cs" />
@@ -828,6 +829,10 @@
     <ProjectReference Include="Discord.csproj">
       <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
       <Name>Discord</Name>
+    </ProjectReference>
+    <ProjectReference Include="LeanTween.csproj">
+      <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
+      <Name>LeanTween</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

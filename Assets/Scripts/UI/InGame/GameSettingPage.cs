@@ -30,10 +30,9 @@ namespace Assets.Scripts.UI.InGame
 
         private void SetSettings()
         {
-            var properties = Data.GetType().
-                                  GetProperties().
-                                  Where(prop => Attribute.IsDefined(prop, typeof(UiElementAttribute))).
-                                  OrderBy(x => ((UiElementAttribute)x.GetCustomAttributes(typeof(UiElementAttribute), true)[0]).Category);
+            var properties = Data.GetType().GetProperties()
+                .Where(prop => Attribute.IsDefined(prop, typeof(UiElementAttribute)));
+                                  //OrderBy(x => ((UiElementAttribute)x.GetCustomAttributes(typeof(UiElementAttribute), true)[0]).Category);
 
             foreach (var property in properties)
             {
@@ -44,10 +43,10 @@ namespace Assets.Scripts.UI.InGame
 
         private void CreateUiElement(PropertyInfo property, UiElementAttribute attribute)
         {
-            if (attribute.Category != category)
-            {
-                CreateCategory(attribute.Category);
-            }
+            //if (attribute.Category != category)
+            //{
+            //    CreateCategory(attribute.Category);
+            //}
 
             GameObject uiObject = null;
             if (property.PropertyType == typeof(bool))

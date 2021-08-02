@@ -30,16 +30,16 @@ namespace Assets.Scripts.Settings.Gamemodes
         [UiElement("Lava mode", "The floor is lava! Touching the floor means that you will die...")]
         public bool? LavaMode { get; set; }
 
-        [UiElement("Team mode", "Enable teams", SettingCategory.Pvp)]
+        [UiElement("Team mode", "Enable teams")]
         public TeamMode TeamMode { get; set; }
 
         [UiElement("Save KDR on DC", "When a player disconnects, should their KDR be saved?")]
         public bool? SaveKDROnDisconnect { get; set; } = true;
 
-        [UiElement("Point mode", "", SettingCategory.Advanced)]
+        [UiElement("Point mode", "")]
         public int? PointMode { get; set; }
 
-        [UiElement("ImpactForce", "", SettingCategory.Advanced)]
+        [UiElement("ImpactForce", "")]
         public int? ImpactForce { get; set; }
 
         public bool? Supply { get; set; }

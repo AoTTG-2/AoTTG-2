@@ -26,10 +26,11 @@
     Kick,
     Ban,
     Banlist,
+    Teleport,
     Clear,
     ClearAll,
     None = 0,
     Cyan = 1,
-    Magenta = 2
+    Magenta = 2,
 }
 

@@ -17039,6 +17039,7 @@ GameObject:
   - component: {fileID: 4865041098875735080}
   - component: {fileID: 4813783946394471498}
   - component: {fileID: 4894091188459476194}
+  - component: {fileID: 2620334365897627989}
   m_Layer: 8
   m_Name: HumanBase2
   m_TagString: Player
@@ -17193,6 +17194,20 @@ CapsuleCollider:
   m_Height: 1.7
   m_Direction: 1
   m_Center: {x: 0, y: 0.85, z: 0}
+--- !u!114 &2620334365897627989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4759177353935902774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df50f69b2415dc54a94477c053450d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color: {r: 0.735849, g: 0.71228117, b: 0.2256141, a: 0.5882353}
+  Material: {fileID: 2100000, guid: 6ade4bf5cbf618f43bd5a70fc275f96d, type: 2}
 --- !u!1 &4759248361373675086
 GameObject:
   m_ObjectHideFlags: 0
