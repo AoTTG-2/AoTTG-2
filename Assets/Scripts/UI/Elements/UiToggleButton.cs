@@ -35,5 +35,10 @@ namespace Assets.Scripts.UI.Elements
                 Button.image.color = value ? EnabledColor : DisabledColor;
             }
         }
+
+        private void OnDisable()
+        {
+            TooltipTrigger.OnPointerExit(null);
+        }
     }
 }

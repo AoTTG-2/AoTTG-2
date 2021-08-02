@@ -1447,6 +1447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartupObjects:
+  - {fileID: 1069373753}
   - {fileID: 769891554}
   - {fileID: 451858195}
   - {fileID: 1974933085}
@@ -1776,10 +1777,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1962468207}
     m_Modifications:
+    - target: {fileID: 3857328992618307550, guid: 3a856065d07cf2d40aaf8973febb7239,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3857328994016608912, guid: 3a856065d07cf2d40aaf8973febb7239,
         type: 3}
       propertyPath: m_Name
       value: Debug Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857328994016608912, guid: 3a856065d07cf2d40aaf8973febb7239,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3857328994016608916, guid: 3a856065d07cf2d40aaf8973febb7239,
         type: 3}

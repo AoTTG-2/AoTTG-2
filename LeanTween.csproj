@@ -56,15 +56,15 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\External\LeanTween\Framework\LeanTest.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LeanAudio.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LTDescrOptional.cs" />
     <Compile Include="Assets\External\LeanTween\Framework\LeanTween.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LeanSmooth.cs" />
     <Compile Include="Assets\External\LeanTween\Framework\LTDescr.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LTSeq.cs" />
-    <Compile Include="Assets\External\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
     <Compile Include="Assets\External\LeanTween\Framework\LeanTweenExt.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LTSeq.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LTDescrOptional.cs" />
+    <Compile Include="Assets\External\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LeanAudio.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LeanSmooth.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LeanTest.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\External\LeanTween\LeanTween.asmdef" />

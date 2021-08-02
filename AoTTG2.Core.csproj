@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{58A71158-A078-3D3B-55A7-E8093DDFD643}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -147,6 +146,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassMarker.cs" />
     <Compile Include="Assets\Scripts\Effects\EffectLayer.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IDiscordService.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipSystem.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IMessageService.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleOptionsGUI.cs" />
     <Compile Include="Assets\Scripts\Services\InventoryService.cs" />
@@ -284,6 +284,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\JeanSkill.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IFactionService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Legacy\BombExplode.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipTrigger.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\CompassController.cs" />
     <Compile Include="Assets\Scripts\Settings\CheckBoxCostume.cs" />
     <Compile Include="Assets\Scripts\Gamemode\EndlessGamemode.cs" />
@@ -375,10 +376,10 @@
     <Compile Include="Assets\Scripts\Room\HintType.cs" />
     <Compile Include="Assets\Scripts\Services\MessageService.cs" />
     <Compile Include="Assets\Scripts\Settings\GlobalSettings.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiToggleButton.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />
-    <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\DebugSettings.cs" />
     <Compile Include="Assets\Scripts\Utility\StringExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\ChangeHudHandler.cs" />
@@ -511,12 +512,9 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
-    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipSystem.cs" />
-    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
+     <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -1149,9 +1147,6 @@
       <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
       <Name>LeanTween</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Scripts\UI\Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

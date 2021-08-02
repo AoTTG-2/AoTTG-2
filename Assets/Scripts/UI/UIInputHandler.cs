@@ -23,7 +23,7 @@ namespace Assets.Scripts.UI
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
             {
-                DebugMenu.SetActive(!DebugMenu.activeInHierarchy);
+                DebugMenu.SetActive(!DebugMenu.activeSelf);
             }
             
             if (InputManager.KeyDown(InputUi.InteractionWheel))

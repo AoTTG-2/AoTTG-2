@@ -1,10 +1,7 @@
-﻿using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Constants;
-using Assets.Scripts.Services;
+﻿using Assets.Scripts.Services;
 using Assets.Scripts.Settings.New;
 using Assets.Scripts.Settings.New.Types;
 using Assets.Scripts.UI.Elements;
-using ICSharpCode.NRefactory.Ast;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -34,7 +31,7 @@ namespace Assets.Scripts.UI.InGame.DebugWindow
                 CreateUiElement(field, settings, attribute);
             }
         }
-
+        
         private void CreateUiElement(FieldInfo field, BaseSettings setting, UiElementAttribute attribute)
         {
             GameObject uiObject = null;
@@ -59,45 +56,6 @@ namespace Assets.Scripts.UI.InGame.DebugWindow
                 uiObject.transform.localScale = new Vector3(1, 1, 1);
                 uiObject.SetActive(true);
             }
-        }
-        
-        private int? defaultHeroLayer;
-        public void NoClip()
-        {
-            if (!PhotonNetwork.isMasterClient) return;
-
-            Setting.Debug.NoClip.Value = !Setting.Debug.NoClip.Value;
-
-            if (Service.Player.Self == null)
-            {
-                //TODO: Localized message
-                Debug.LogWarning("Player Object is null");
-                return;
-            }
-
-            if (Service.Player.Self is Hero hero)
-            {
-                defaultHeroLayer ??= hero.gameObject.layer;
-                DebugSettings.IsNoClip = !DebugSettings.IsNoClip;
-                hero.gameObject.layer = DebugSettings.IsNoClip ? (int) Layers.Default : defaultHeroLayer.Value;
-            }
-        }
-
-        public void TitanMovement()
-        {
-            if (!PhotonNetwork.isMasterClient) return;
-            Setting.Debug.TitanMovement.Value = !Setting.Debug.TitanMovement.Value;
-        }
-
-        public void TitanAttacks()
-        {
-            if (!PhotonNetwork.isMasterClient) return;
-            Setting.Debug.TitanAttacks.Value = !Setting.Debug.TitanAttacks.Value;
-        }
-
-        public void ToggleColliders()
-        {
-            Setting.Debug.ShowColliders.Value = !Setting.Debug.ShowColliders.Value;
         }
     }
 }
