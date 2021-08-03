@@ -4,6 +4,7 @@ using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
 using Newtonsoft.Json;
 using System;
@@ -295,6 +296,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 if (base.photonView.isMine)
                 {
+                    if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
                     targetHeadRotation = Body.Head.rotation;
                     bool flag2 = false;
                     if (State == TitanState.Chase && TargetDistance < 100f && Target != null)
@@ -540,6 +542,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void Turn(float degrees)
         {
+            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true) return;
             SetState(TitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
             CrossFade(CurrentAnimation, 0.0f);
@@ -765,6 +768,9 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CurrentAnimation = AnimationWalk;
             }
+
+            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true)
+                CurrentAnimation = AnimationIdle;
             CrossFade(CurrentAnimation, 0.1f);
 
             FocusTimer += Time.deltaTime;
@@ -782,6 +788,7 @@ namespace Assets.Scripts.Characters.Titan
             var availableAttacks = Attacks.Where(x => x.CanAttack()).ToArray();
             if (availableAttacks.Length > 0)
             {
+                if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
                 CurrentAttack = availableAttacks[Random.Range(0, availableAttacks.Length)];
                 SetState(TitanState.Attacking);
             }
@@ -881,7 +888,9 @@ namespace Assets.Scripts.Characters.Titan
 
         protected override void OnWandering()
         {
-            CurrentAnimation = AnimationWalk;
+            CurrentAnimation = PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true
+                ? AnimationIdle
+                : AnimationWalk;
             if (!Animation.IsPlaying(CurrentAnimation))
             {
                 CrossFade(CurrentAnimation, 0.5f);
@@ -925,6 +934,7 @@ namespace Assets.Scripts.Characters.Titan
             //    Rigidbody.AddForce(vector11, ForceMode.VelocityChange);
             //}
 
+            if (Setting.Debug.TitanMovement == true && PhotonNetwork.isMasterClient) return;
             if (State == TitanState.Wandering)
             {
                 if (IsStuck())

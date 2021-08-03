@@ -8,6 +8,7 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Serialization;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using Assets.Scripts.Utility;
@@ -221,8 +222,7 @@ namespace Assets.Scripts.Characters.Humans
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
         [SerializeField] StringVariable bombMainPath;
-
-
+        
         #region Unity Methods
 
         protected override void Awake()
@@ -248,6 +248,17 @@ namespace Assets.Scripts.Characters.Humans
             Service.Entity.Register(this);
 
             CustomAnimationSpeed();
+            Setting.Debug.NoClip.OnValueChanged += NoClip_OnValueChanged;
+            if (Setting.Debug.NoClip == true)
+                NoClip_OnValueChanged(true);
+        }
+
+        private void NoClip_OnValueChanged(bool value)
+        {
+            if (photonView.isMine && PhotonNetwork.isMasterClient)
+            {
+                gameObject.GetComponent<CapsuleCollider>().enabled = !value; // Inverted as NoClip enabled = no collider
+            }
         }
 
         public void OnGlobalSettingsChanged(GlobalSettings settings)
@@ -1294,6 +1305,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             ReleaseIfIHookSb();
             Service.Settings.OnGlobalSettingsChanged -= OnGlobalSettingsChanged;
+            Setting.Debug.NoClip.OnValueChanged -= NoClip_OnValueChanged;
         }
 
         public void LateUpdate()
@@ -2056,8 +2068,6 @@ namespace Assets.Scripts.Characters.Humans
 
         #endregion
 
-
-
         public void Initialize(CharacterPreset preset)
         {
             //TODO: Remove hack
@@ -2224,7 +2234,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         #endregion
-
+        
         public void AttackAccordingToMouse()
         {
             if (Input.mousePosition.x < (Screen.width * 0.5))
