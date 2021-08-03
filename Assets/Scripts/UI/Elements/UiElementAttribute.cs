@@ -1,21 +1,24 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
 using System;
 
 namespace Assets.Scripts.UI.Elements
 {
-
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class UiElementAttribute : Attribute
     {
+        [Obsolete("Use HEADER instead")]
         public string Label { get; private set; }
-        public string Description { get; private set; }
-        public SettingCategory Category { get; set; }
 
-        public UiElementAttribute(string label, string description, SettingCategory category = SettingCategory.General)
+        public string Header { get; private set; }
+        public string Description { get; private set; }
+        public LocalizationEnum Localization { get; set; }
+        
+        public UiElementAttribute(string label, string description, LocalizationEnum localization = LocalizationEnum.Setting)
         {
-            Label = label;
+            Header = label;
             Description = description;
-            Category = category;
+            Localization = localization;
         }
 
     }

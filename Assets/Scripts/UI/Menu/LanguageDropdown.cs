@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Services;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -28,14 +29,14 @@ namespace Assets.Scripts.UI.Menu
                     LocalizationSettings.AvailableLocales.Locales.SingleOrDefault(x => x.Identifier.Code == language);
                 Dropdown.value = languages.Select(x => x.Identifier.Code).ToList().IndexOf(language);
             }
-            Service.Localization.ReloadLocalization();
+            await Service.Localization.ReloadLocalization();
         }
 
         public void OnValueChanged(int value)
         {
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[value];
             PlayerPrefs.SetString(LanguagePlayerPref, LocalizationSettings.SelectedLocale.Identifier.Code);
-            Service.Localization.ReloadLocalization();
+            Task.Run(() => Service.Localization.ReloadLocalization());
         }
     }
 }

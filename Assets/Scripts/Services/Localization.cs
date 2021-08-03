@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 
@@ -10,6 +11,7 @@ namespace Assets.Scripts.Services
     public class Localization : MonoBehaviour
     {
         [SerializeField] private LocalizedStringTable commonTable;
+        [SerializeField] private LocalizedStringTable settingTable;
 
         [Header("Gamemodes")] 
         [SerializeField] private LocalizedStringTable sharedGamemodeTable;
@@ -19,17 +21,51 @@ namespace Assets.Scripts.Services
         [SerializeField] private LocalizedStringTable waveGamemodeTable;
 
         public static StringTable Common { get; set; }
+        public static StringTable Setting { get; set; }
         public static GamemodeLocalization Gamemode { get; set; } = new GamemodeLocalization();
 
-        public async void ReloadLocalization()
+        public static StringTable GetStringTable(LocalizationEnum localizationEnum)
+        {
+            return localizationEnum switch
+            {
+                LocalizationEnum.Common => Common,
+                LocalizationEnum.Setting => Setting,
+                LocalizationEnum.Shared => Gamemode.Shared,
+                LocalizationEnum.Catch => Gamemode.Catch,
+                LocalizationEnum.Racing => Gamemode.Racing,
+                LocalizationEnum.Wave => Gamemode.Wave,
+                _ => Common
+            };
+        }
+
+        private async void Awake()
+        {
+            await ReloadLocalization();
+        }
+
+        public async Task ReloadLocalization()
         {
             Common = await commonTable.GetTable().Task;
+            Setting = await settingTable.GetTable().Task;
             Gamemode.Shared = await sharedGamemodeTable.GetTable().Task;
             Gamemode.Catch = await catchGamemodeTable.GetTable().Task;
             Gamemode.Racing = await racingGamemodeTable.GetTable().Task;
             Gamemode.Rush = await rushGamemodeTable.GetTable().Task;
             Gamemode.Wave = await waveGamemodeTable.GetTable().Task;
         }
+    }
+
+    public enum LocalizationEnum
+    {
+        Common,
+        Setting,
+        /// <summary>
+        /// Shared gamemode localizations
+        /// </summary>
+        Shared,
+        Catch,
+        Racing,
+        Wave
     }
 
     public class GamemodeLocalization
@@ -55,4 +91,6 @@ namespace Assets.Scripts.Services
         /// </summary>
         public StringTable Wave { get; set; }
     }
+
+
 }

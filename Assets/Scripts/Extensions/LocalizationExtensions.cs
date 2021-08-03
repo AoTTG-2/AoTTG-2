@@ -1,4 +1,5 @@
 ﻿using UnityEngine.Localization.Tables;
+using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts.Extensions
 {
@@ -13,6 +14,11 @@ namespace Assets.Scripts.Extensions
         /// <returns></returns>
         public static string GetLocalizedString(this StringTable table, string key)
         {
+            if (table == null)
+            {
+                Debug.LogWarning("StringTable is not defined.");
+                return key;
+            }
             var entry = table.GetEntry(key);
             return entry == null ? key : entry.GetLocalizedString();
         }

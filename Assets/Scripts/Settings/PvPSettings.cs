@@ -19,7 +19,7 @@ namespace Assets.Scripts.Settings
         [UiElement("PvP win on enemies killed", "Does the round end if all PvP enemies are dead?")]
         public bool? PvPWinOnEnemiesDead { get; set; }
 
-        [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?", SettingCategory.Pvp)]
+        [UiElement("Ahss Air Reload", "Can AHSS reload in mid air?")]
         public bool? AhssAirReload { get; set; }
 
         public PvPSettings() { }
