@@ -35,6 +35,11 @@ namespace Assets.Scripts.UI.Elements
                 columns = Mathf.CeilToInt(sqrRt);
             }
 
+            if (fitType == FitType.FixedColumns && !fitY)
+            {
+                rectTransform.sizeDelta = new Vector2(0, (cellSize.y + spacing.y ) * rectChildren.Count + padding.bottom + padding.top);
+            }
+
             if (fitType == FitType.Width || fitType == FitType.FixedColumns || fitType == FitType.Uniform)
             {
                 rows = Mathf.CeilToInt(transform.childCount / (float) columns);

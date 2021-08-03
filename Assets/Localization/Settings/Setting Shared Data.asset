@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Setting Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Setting
+  m_TableCollectionNameGuidString: 0e464773dc844634fbcc2f64952cce4d
+  m_Entries:
+  - m_Id: 44325793792
+    m_Key: DEBUG_NOCLIP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 111925391360
+    m_Key: DEBUG_NOCLIP_DESC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9310121467904
+    m_Key: DEBUG_COLLIDER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9395085484032
+    m_Key: DEBUG_COLLIDER_DESC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9638652911616
+    m_Key: DEBUG_TITAN_ATTACK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9742864588800
+    m_Key: DEBUG_TITAN_ATTACK_DESC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9812271931392
+    m_Key: DEBUG_TITAN_MOVEMENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9872892207104
+    m_Key: DEBUG_TITAN_MOVEMENT_DESC
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1627817165435
