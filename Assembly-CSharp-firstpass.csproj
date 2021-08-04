@@ -801,6 +801,7 @@
     <ProjectReference Include="LeanTween.csproj">
       <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
       <Name>LeanTween</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
