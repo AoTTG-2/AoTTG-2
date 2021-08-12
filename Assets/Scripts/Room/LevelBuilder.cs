@@ -406,12 +406,11 @@ namespace Assets.Scripts.Room
                     },
                 }
             });
-
             _levels.Add(new Level
             {
-                Name = "Standoff",
-                Description = "Standoff gamemode",
-                SceneName = "Standoff_proper",
+                Name = "The Forest Revamped",
+                Description = "Classic City Map from AoTTG",
+                SceneName = "The Forest Revamped",
 
                 Gamemodes = new List<GamemodeSettings>
                 {
