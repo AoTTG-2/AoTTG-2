@@ -1,6 +1,9 @@
 ﻿using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+/// <summary>
+/// Supply Station interactable
+/// </summary>
 public class SupplyStationInteractable : Interactable
 {
 

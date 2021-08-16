@@ -1,5 +1,6 @@
 using System;
 
+[Obsolete("Photon Player properties which were used in AoTTG1. For AoTTG2 most of these are/should be located at the class which uses them.")]
 public class PhotonPlayerProperty
 {
     public static string beard_texture_id = "beard_texture_id";

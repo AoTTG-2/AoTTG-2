@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
+    /// <summary>
+    /// Container class which contains references to all Main Menu UI elements
+    /// </summary>
     public class MenuUi : MonoBehaviour
     {
         public MainMenu MainMenu;

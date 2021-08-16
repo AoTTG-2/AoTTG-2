@@ -278,7 +278,7 @@ public static class ChatCommandHandler
 
         var chatMessage = new object[] { FormatSystemMessage("MasterClient has restarted the game!"), string.Empty };
         instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
-        instance.restartRC();
+        instance.RestartRound();
     }
 
     private static void SendPrivateMessage(string[] parameters)
@@ -529,6 +529,43 @@ public static class ChatCommandHandler
     }
 
     /// <summary>
+    /// Teleports the player. MC only
+    /// </summary>
+    /// <param name="cords"></param>
+    private static void Teleport(string[] parameters)
+    {
+        if (!PhotonNetwork.isMasterClient)
+        {
+            instance.chatRoom.UpdateChat("Only the MasterClient can teleport themselves");
+            return;
+        }
+
+        if (parameters.Length != 4)
+        {
+            instance.chatRoom.UpdateChat("Invalid syntax. Correct syntax: /teleport X Y Z");
+            return;
+        }
+
+        var player = Service.Player.Self;
+        if (Service.Player.Self == null)
+        {
+            instance.chatRoom.UpdateChat("Cannot use teleport if the player hasn't spawned yet!");
+            return;
+        }
+
+        if (float.TryParse(parameters[1], out var x) 
+            && float.TryParse(parameters[2], out var y) 
+            && float.TryParse(parameters[3], out var z))
+        {
+            player.transform.position = new Vector3(x, y, z);
+        }
+        else
+        {
+            instance.chatRoom.UpdateChat("Invalid parameters. Assure that all parameters are valid numbers!");
+        }
+    }
+
+    /// <summary>
     /// Handle commands in chat
     /// </summary>
     /// <param name="chatCommand"></param>
@@ -627,6 +664,9 @@ public static class ChatCommandHandler
                 break;
             case ChatCommand.ClearAll:
                 ClearChatAll();
+                break;
+            case ChatCommand.Teleport:
+                Teleport(commands);
                 break;
             default:
                 break;

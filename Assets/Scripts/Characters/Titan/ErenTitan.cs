@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
 {
+    /// <summary>
+    /// The Eren Titan. Requires refactoring
+    /// </summary>
     public class ErenTitan : TitanBase
     {
         public new ErenTitanBody Body { get; protected set; }

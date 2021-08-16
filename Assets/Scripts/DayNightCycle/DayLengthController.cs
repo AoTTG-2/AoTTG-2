@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using Assets.Scripts.Services;
+﻿using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 namespace Assets.Scripts.DayNightCycle
 {
     /// <summary>
@@ -24,17 +25,17 @@ namespace Assets.Scripts.DayNightCycle
         /// SubmitDayLength is the method used to change the DayLength in DayAndNightControl.cs via the DayLengthInput Input Field UI component
         /// </summary>
         private void SubmitDayLength(string daylength)
-        {      
-                if ( float.TryParse(daylength, out var dayLength) && PhotonNetwork.isMasterClient )
+        {
+            if (float.TryParse(daylength, out var dayLength) && PhotonNetwork.isMasterClient)
+            {
+                if (dayLength < 60)
                 {
-                    if (dayLength < 60)
-                    {
-                        dayLength = 60;
-                    }
-                    dayNightCycle.DayLength = dayLength;
-                    GameSettings.Time.DayLength = dayLength;
-                    Service.Settings.SyncSettings();
+                    dayLength = 60;
                 }
+                dayNightCycle.DayLength = dayLength;
+                GameSettings.Time.DayLength = dayLength;
+                Service.Settings.SyncSettings();
+            }
         }
 
         //grabbing the local scene's DayAndNightControl script, and adding a scene changed listener
@@ -58,7 +59,7 @@ namespace Assets.Scripts.DayNightCycle
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             DayLengthInput.text = "";
-            
+
         }
 
         void OnApplicationQuit()

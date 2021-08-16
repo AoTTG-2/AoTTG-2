@@ -1,9 +1,12 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Serialization
 {
+    /// <summary>
+    /// A Color that can be serialized for multiplayer
+    /// </summary>
     [Serializable]
     public struct SerializableColor
     {

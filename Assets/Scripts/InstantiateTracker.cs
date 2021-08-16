@@ -1,7 +1,9 @@
 using Assets.Scripts;
 using Assets.Scripts.Settings;
+using System;
 using UnityEngine;
 
+[Obsolete("AoTTG1 Client side Anti Cheat measures. Declared as obsolete since these should all be handled by the server.")]
 public class InstantiateTracker
 {
     public static readonly InstantiateTracker instance = new InstantiateTracker();

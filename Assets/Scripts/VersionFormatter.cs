@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    /// <summary>
+    /// Used to format a branch name from <see cref="VersionManager"/>
+    /// </summary>
     [Serializable]
     public sealed class VersionFormatter
     {

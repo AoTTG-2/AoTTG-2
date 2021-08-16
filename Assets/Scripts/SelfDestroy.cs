@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// AoTTG1 script which will automatically destroy the gameObject after <see cref="CountDown"/>
+/// </summary>
 public class SelfDestroy : Photon.MonoBehaviour
 {
     public float CountDown = 5f;

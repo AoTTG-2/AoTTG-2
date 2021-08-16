@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans
 {
+    /// <summary>
+    /// Contains logic regarding the hit detection for the Blades weapon
+    /// </summary>
     public class TriggerColliderWeapon : MonoBehaviour
     {
         public Equipment.Equipment Equipment { get; set; }
