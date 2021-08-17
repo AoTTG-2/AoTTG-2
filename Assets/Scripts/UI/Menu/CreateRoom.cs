@@ -27,9 +27,9 @@ namespace Assets.Scripts.UI.Menu
 
         public Toggle Account;
 
-        private List<Level> levels;
+        private List<LegacyLevel> levels;
 
-        private Level selectedLevel;
+        private LegacyLevel selectedLevel;
         private GamemodeSettings selectedGamemode;
         private Dictionary<string, string> CustomDifficulties { get; } = new Dictionary<string, string>();
         private const string CustomDifficultyPrefix = "*-";
@@ -153,7 +153,7 @@ namespace Assets.Scripts.UI.Menu
             SceneManager.sceneLoaded += SceneLoaded;
         }
 
-        private void OnLevelSelected(Level level)
+        private void OnLevelSelected(LegacyLevel level)
         {
             selectedLevel = level;
             GamemodeDropdown.options = new List<Dropdown.OptionData>();

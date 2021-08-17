@@ -11,7 +11,7 @@ namespace Assets.Scripts.Gamemode
         public override GamemodeType GamemodeType { get; } = GamemodeType.Trost;
         private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             base.Level_OnLevelLoaded(scene, level);
             GameObject.Find("playerRespawn").SetActive(false);

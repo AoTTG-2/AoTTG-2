@@ -13,11 +13,11 @@ namespace Assets.Scripts.Room
     /// </summary>
     public static class LevelBuilder
     {
-        private static List<Level> _levels;
-        public static List<Level> GetAllLevels()
+        private static List<LegacyLevel> _levels;
+        public static List<LegacyLevel> GetAllLevels()
         {
             if (_levels != null) return _levels;
-            _levels = new List<Level>();
+            _levels = new List<LegacyLevel>();
             AddClassicMaps();
             AddAoTTG2Maps();
             AddCustomMaps();
@@ -51,7 +51,7 @@ namespace Assets.Scripts.Room
             var maps = Service.Map.GetCustomMaps();
             foreach (var map in maps)
             {
-                _levels.Add(new Level
+                _levels.Add(new LegacyLevel
                 {
                     Name = map.Name,
                     SceneName = "Custom",
@@ -73,7 +73,7 @@ namespace Assets.Scripts.Room
 
         private static void AddClassicMaps()
         {
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "Akina",
                 Description = "Most famous racing map",
@@ -93,7 +93,7 @@ namespace Assets.Scripts.Room
                 },
             });
 
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "The City - Classic",
                 Description = "Classic City Map from AoTTG",
@@ -170,7 +170,7 @@ namespace Assets.Scripts.Room
                 }
             });
 
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "The Forest - Classic",
                 Description = "Classic forest map",
@@ -208,7 +208,7 @@ namespace Assets.Scripts.Room
                 }
             });
 
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "Trost - Classic",
                 Description = "Classic trost map",
@@ -240,7 +240,7 @@ namespace Assets.Scripts.Room
                 }
             });
 
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "Outside the Walls",
                 Description = "Classic Outside the Walls map",
@@ -265,7 +265,7 @@ namespace Assets.Scripts.Room
                 }
             });
 
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "Cave Fight",
                 Description = "***Spoiler Alarm!***",
@@ -285,7 +285,7 @@ namespace Assets.Scripts.Room
                 }
             });
 
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "House Fight",
                 Description = "***Spoiler Alarm!***",
@@ -305,7 +305,7 @@ namespace Assets.Scripts.Room
                 }
             });
 
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "Test Zone",
                 Description = "Classic City Map from AoTTG",
@@ -358,7 +358,7 @@ namespace Assets.Scripts.Room
 
         private static void AddAoTTG2Maps()
         {
-            _levels.Add(new Level
+            _levels.Add(new LegacyLevel
             {
                 Name = "Utgard Castle",
                 Description = "",

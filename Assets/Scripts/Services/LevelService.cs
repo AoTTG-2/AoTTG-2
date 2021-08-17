@@ -8,7 +8,7 @@ namespace Assets.Scripts.Services
     public class LevelService : ILevelService
     {
         public event OnLevelLoaded OnLevelLoaded;
-        public void InvokeLevelLoaded(int scene, Level level)
+        public void InvokeLevelLoaded(int scene, LegacyLevel level)
         {
             Debug.Log("OnLevelLoaded()");
             OnLevelLoaded?.Invoke(scene, level);

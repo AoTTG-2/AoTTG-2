@@ -36,11 +36,11 @@ namespace Assets.Scripts.Room
         }
 
         /// <summary>
-        /// Returns the current level was a <see cref="Level"/> object of the room
+        /// Returns the current level was a <see cref="LegacyLevel"/> object of the room
         /// </summary>
         /// <param name="room"></param>
         /// <returns></returns>
-        public static Level GetLevel(this global::Room room)
+        public static LegacyLevel GetLevel(this global::Room room)
         {
             var level = room.CustomProperties["level"].ToString();
             return LevelBuilder.GetAllLevels().Single(x => x.Name == level);
@@ -74,7 +74,7 @@ namespace Assets.Scripts.Room
         /// <param name="room"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        public static GamemodeSettings GetGamemodeSetting(this global::Room room, Level level)
+        public static GamemodeSettings GetGamemodeSetting(this global::Room room, LegacyLevel level)
         {
             var gamemode = room.CustomProperties["gamemode"].ToString();
             return level.Gamemodes.Single(x => x.Name == gamemode);

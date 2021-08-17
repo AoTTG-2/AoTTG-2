@@ -145,12 +145,12 @@ namespace Assets.Scripts
         /// <summary>
         /// A static accessor to the current loaded Level
         /// </summary>
-        public static Level Level { get; set; }
+        public static LegacyLevel Level { get; set; }
 
         /// <summary>
         /// A static accessor to the Level that should be loaded on a new round
         /// </summary>
-        public static Level NewRoundLevel { get; set; }
+        public static LegacyLevel NewRoundLevel { get; set; }
         /// <summary>
         /// A static accessor to the Gamemode settings that should be loaded on a new round
         /// </summary>
@@ -498,7 +498,7 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="scene">Index of the scene that was loaded</param>
         /// <param name="level">The level that was loaded</param>
-        private void Level_OnLevelLoaded(int scene, Level level)
+        private void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             // Scene 0 = Menu Scene
             if (scene == 0) return;

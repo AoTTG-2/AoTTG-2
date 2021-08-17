@@ -14,7 +14,7 @@ namespace Assets.Scripts.Gamemode
 
         private int Score { get; set; }
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             if (!PhotonNetwork.isMasterClient) return;
             SpawnTitans(GameSettings.Titan.Start.Value);

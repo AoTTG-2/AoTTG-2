@@ -28,7 +28,7 @@ namespace Assets.Scripts.UI.InGame.HUD
             Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
         }
 
-        private void Level_OnLevelLoaded(int scene, Room.Level level)
+        private void Level_OnLevelLoaded(int scene, Room.LegacyLevel level)
         {
             if (isFlare)
             {

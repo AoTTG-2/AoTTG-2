@@ -92,7 +92,7 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             base.Level_OnLevelLoaded(scene, level);
             if (!PhotonNetwork.isMasterClient) return;

@@ -1,29 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Assets.Scripts.Settings.New.Types
 {
     [Serializable]
-    public class BoolSetting
+    [JsonConverter(typeof(BoolSettingConverter))]
+    public class BoolSetting : AbstractSetting<bool>
     {
-        [SerializeField]
-        private bool value;
-        public bool Value
-        {
-            get => value;
-            set
-            {
-                this.value = value;
-                OnValueChanged?.Invoke(value);
-            }
-        }
-
-
-        /// <summary>
-        /// Event is thrown if the <see cref="Value"/> has changed
-        /// </summary>
-        public event Action<bool> OnValueChanged;
-
         #region Overrides
         protected bool Equals(BoolSetting other)
         {
@@ -58,5 +41,33 @@ namespace Assets.Scripts.Settings.New.Types
             return left?.Value != right;
         }
         #endregion
+    }
+
+    public class BoolSettingConverter : JsonConverter<BoolSetting>
+    {
+        public override void WriteJson(JsonWriter writer, BoolSetting value, JsonSerializer serializer)
+        {
+            if (value.HasValue)
+            {
+                serializer.Serialize(writer, value.Value);
+            }
+            else
+            {
+                serializer.Serialize(writer, null);
+            }
+        }
+
+        public override BoolSetting ReadJson(JsonReader reader, Type objectType, BoolSetting existingValue, bool hasExistingValue,
+            JsonSerializer serializer)
+        {
+            if (reader.Value is bool value)
+            {
+                return new BoolSetting
+                {
+                    Value = value
+                };
+            }
+            return null;
+        }
     }
 }

@@ -14,9 +14,9 @@ namespace Assets.Scripts.UI.InGame
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
-        private List<Level> levels;
+        private List<LegacyLevel> levels;
         
-        private Level selectedLevel;
+        private LegacyLevel selectedLevel;
         private GamemodeSettings selectedGamemode;
 
         
@@ -51,7 +51,7 @@ namespace Assets.Scripts.UI.InGame
             OnLevelSelected(levels[0]);
         }
 
-        private void OnLevelSelected(Level level)
+        private void OnLevelSelected(LegacyLevel level)
         {
             selectedLevel = level;
             GamemodeDropdown.options = new List<Dropdown.OptionData>();

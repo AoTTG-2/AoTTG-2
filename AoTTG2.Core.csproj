@@ -248,6 +248,7 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
     <Compile Include="Assets\Scripts\UI\CursorMode.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\GamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanEyesComponent.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Assets\Scripts\VersionFormatter.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\FemaleTitanBody.cs" />
     <Compile Include="Assets\Scripts\Effects\Xffect.cs" />
+    <Compile Include="Assets\Scripts\Room\Level.cs" />
     <Compile Include="Assets\Scripts\Startup.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\InGameMenu.cs" />
     <Compile Include="Assets\Scripts\Interactable\SupplyStationInteractable.cs" />
@@ -378,8 +380,10 @@
     <Compile Include="Assets\Scripts\Settings\GlobalSettings.cs" />
     <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\IntSetting.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiToggleButton.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\RangeSetting.cs" />
     <Compile Include="Assets\Scripts\Utility\StringExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\ChangeHudHandler.cs" />
@@ -418,7 +422,7 @@
     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchBall.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\CameraShake.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindsPage.cs" />
-    <Compile Include="Assets\Scripts\Room\Level.cs" />
+    <Compile Include="Assets\Scripts\Room\LegacyLevel.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\KillInfo.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Labels.cs" />
     <Compile Include="Assets\Scripts\Effects\COLOR_GRADUAL_TYPE.cs" />
@@ -480,6 +484,7 @@
     <Compile Include="Assets\Scripts\UI\Radial\RadialElement.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiDropdown.cs" />
     <Compile Include="Assets\Scripts\Security\OAuth.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\MultipleEnumSetting.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\GamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapIcon.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IInventoryService.cs" />
@@ -494,6 +499,7 @@
     <Compile Include="Assets\Scripts\UI\CameraMode.cs" />
     <Compile Include="Assets\Scripts\Extensions\StringExtensions.cs" />
     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\EnumSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
     <Compile Include="Assets\Scripts\Characters\EnemyCheckCollider.cs" />
@@ -512,6 +518,7 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\AbstractSetting.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

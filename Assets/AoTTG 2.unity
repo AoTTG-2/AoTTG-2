@@ -1138,6 +1138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultDebug: {fileID: 11400000, guid: a253b9efb4df3524586a49e544ba1bc0, type: 2}
+  Test: {fileID: 0}
   CurrentDebugSettings: {fileID: 0}
 --- !u!1 &1165643512
 GameObject:
@@ -2163,6 +2164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2027999946}
   - component: {fileID: 2027999945}
+  - component: {fileID: 2027999947}
   m_Layer: 5
   m_Name: Camera
   m_TagString: Untagged
@@ -2227,6 +2229,38 @@ Transform:
   m_Father: {fileID: 1305}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2027999947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027999944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &2095214015 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3857328994016608912, guid: 3a856065d07cf2d40aaf8973febb7239,

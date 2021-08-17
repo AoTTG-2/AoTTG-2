@@ -25,7 +25,7 @@ namespace Assets.Scripts.Gamemode
         private GameObject[] Spawns { get; set; }
         private List<RushBehavior> SubscribedEvents { get; } = new List<RushBehavior>();
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             base.Level_OnLevelLoaded(scene, level);
             nextUpdate = default;

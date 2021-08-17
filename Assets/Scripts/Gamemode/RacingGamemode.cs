@@ -72,7 +72,7 @@ namespace Assets.Scripts.Gamemode
 
         #region Overrides
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             isValid = false;
             IsLoaded = true;

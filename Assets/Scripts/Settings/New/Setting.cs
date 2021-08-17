@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
 namespace Assets.Scripts.Settings.New
@@ -15,6 +16,7 @@ namespace Assets.Scripts.Settings.New
         //TODO: Game Settings (GameMode ect), Graphic Settings, UI Settings (UI customization)
         
         public DebugSettings DefaultDebug;
+        public GamemodeSetting Test;
 
 #if UNITY_EDITOR
         [Header("Debugging")]
@@ -23,6 +25,10 @@ namespace Assets.Scripts.Settings.New
 
         private void Awake()
         {
+            var data = new GamemodeSetting();
+            data.Load("20210811193424");
+
+            Test.LavaMode = null;
             if (Self != null) return;
             Self = this;
 

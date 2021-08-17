@@ -9,5 +9,5 @@ namespace Assets.Scripts.Events
     /// <summary>
     /// Event is fired whenever a Level has been loaded. Use this method over OnLevelWasLoaded or SceneManager.OnLoaded as it will only trigger after a map, including CustomMap has been loaded
     /// </summary>
-    public delegate void OnLevelLoaded(int scene, Level level);
+    public delegate void OnLevelLoaded(int scene, LegacyLevel level);
 }

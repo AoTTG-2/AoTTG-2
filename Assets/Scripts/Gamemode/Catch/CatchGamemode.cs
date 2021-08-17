@@ -20,7 +20,7 @@ namespace Assets.Scripts.Gamemode.Catch
         private CatchSpawner[] Spawners = { };
         private HashSet<CatchBall> CatchBalls = new HashSet<CatchBall>();
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             base.Level_OnLevelLoaded(scene, level);
             Spawners = GameObject.FindObjectsOfType<CatchSpawner>();

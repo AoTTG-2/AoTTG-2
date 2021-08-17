@@ -121,7 +121,7 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
         {
             base.Level_OnLevelLoaded(scene, level);
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
