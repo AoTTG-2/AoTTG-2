@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿using Assets.Scripts.Settings.New.Gamemodes;
 using UnityEngine;
 using MonoBehaviour = Photon.MonoBehaviour;
 
@@ -13,22 +13,20 @@ namespace Assets.Scripts.Settings.New
 
 
         public static DebugSettings Debug { get; private set; }
+        public static GamemodeSetting GamemodeSetting { get; private set; }
         //TODO: Game Settings (GameMode ect), Graphic Settings, UI Settings (UI customization)
         
         public DebugSettings DefaultDebug;
-        public GamemodeSetting Test;
+        public GamemodeSetting DefaultGamemodeSetting;
 
 #if UNITY_EDITOR
         [Header("Debugging")]
         [SerializeField] private DebugSettings CurrentDebugSettings;
+        [SerializeField] private GamemodeSetting CurrentGamemodeSettings;
 #endif
 
         private void Awake()
         {
-            var data = new GamemodeSetting();
-            data.Load("20210811193424");
-
-            Test.LavaMode = null;
             if (Self != null) return;
             Self = this;
 
@@ -38,9 +36,11 @@ namespace Assets.Scripts.Settings.New
                 Quit();
             }
             Debug = Instantiate(DefaultDebug);
+            GamemodeSetting = Instantiate(DefaultGamemodeSetting);
 
 #if UNITY_EDITOR
             CurrentDebugSettings = Debug;
+            CurrentGamemodeSettings = GamemodeSetting;
 #endif
 
             static void Quit()

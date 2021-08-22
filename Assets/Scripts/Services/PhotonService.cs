@@ -2,6 +2,7 @@
 using Assets.Scripts.Settings;
 using Photon;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Assets.Scripts.Services
 
         private static string IpAddress { get; set; }
         private bool isRegionChanging;
+        private bool isJoinedLobby;
 
         #region MonoBehavior
         private void Awake()
@@ -40,6 +42,18 @@ namespace Assets.Scripts.Services
                 isRegionChanging = false;
             }
         }
+
+        public override void OnJoinedLobby()
+        {
+            base.OnJoinedLobby();
+            isJoinedLobby = true;
+        }
+
+        public override void OnCreatedRoom()
+        {
+            isStatelesslyConnected = true;
+        }
+
         #endregion
 
         public bool IsChangingRegion() => isRegionChanging;
@@ -65,6 +79,33 @@ namespace Assets.Scripts.Services
             }
             PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
         }
+
+        public void StatelessLocalCreate()
+        {
+            PhotonNetwork.offlineMode = true;
+            Connect();
+            StartCoroutine(JoinRoutine("123456"));
+        }
+        private IEnumerator JoinRoutine(string roomID)
+        {
+            float startTime = Time.time;
+            Service.Photon.Connect();
+
+            while (!isJoinedLobby)
+            {
+                yield return new WaitForSeconds(0.2f);
+                if (Time.time - startTime > 3)
+                {
+                    break;
+                }
+            }
+
+            if (isJoinedLobby)
+                PhotonNetwork.CreateRoom(roomID);
+        }
+
+        private bool isStatelesslyConnected = false;
+        public bool IsStatelesslyConnected() => isStatelesslyConnected;
 
         public void ChangePhotonServer(PhotonServerConfig server)
         {

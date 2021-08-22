@@ -59,6 +59,11 @@ namespace Assets.Scripts.Settings.New
         /// <param name="settings"></param>
         public abstract void Override(BaseSettings settings);
 
+        /// <summary>
+        /// Initializes properties with optional validation attributes
+        /// </summary>
+        public abstract void Initialize();
+
 #if UNITY_EDITOR
         /// <summary>
         /// Editor-only. Forces the existing Setting to be overridden by the current selected ScriptableObject

@@ -175,6 +175,7 @@
     <Compile Include="Assets\Scripts\Effects\EffectNode.cs" />
     <Compile Include="Assets\Scripts\Settings\RespawnSettings.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Blades.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\AbstractSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\RockThrowAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Body\BeastTitanBody.cs" />
     <Compile Include="Assets\Scripts\FengGameManagerMKII.cs" />
@@ -248,7 +249,7 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
     <Compile Include="Assets\Scripts\UI\CursorMode.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\GamemodeSetting.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Gamemodes\GamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanEyesComponent.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
@@ -325,6 +326,7 @@
     <Compile Include="Assets\Scripts\Services\Interface\ITimeService.cs" />
     <Compile Include="Assets\Scripts\Services\UiService.cs" />
     <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Validation\ValidationAttribute.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\DebugToolsPanel.cs" />
     <Compile Include="Assets\Scripts\Services\Service.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\Equipment.cs" />
@@ -367,6 +369,7 @@
     <Compile Include="Assets\Scripts\UI\UiContainer.cs" />
     <Compile Include="Assets\Scripts\Effects\UVAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Validation\IntValidationAttribute.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Configuration\TitanConfiguration.cs" />
     <Compile Include="Assets\Scripts\Items\Data\FlareData.cs" />
     <Compile Include="Assets\Scripts\Events\GamemodeEvents.cs" />
@@ -487,6 +490,7 @@
     <Compile Include="Assets\Scripts\Settings\New\Types\MultipleEnumSetting.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\GamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapIcon.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\ISetting.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IInventoryService.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleCommands.cs" />
     <Compile Include="Assets\Scripts\Characters\Faction.cs" />
@@ -518,7 +522,10 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Types\AbstractSetting.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Validation\StringValidationAttribute.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Validation\FloatValidationAttribute.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\FloatSetting.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Gamemodes\WaveGamemodeSetting.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

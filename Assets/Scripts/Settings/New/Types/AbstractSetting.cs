@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Settings.New.Types
 {
-    public abstract class AbstractSetting<T>
+    public abstract class AbstractSetting<T> : ISetting
     {
         [SerializeField] protected T value;
         [SerializeField] protected bool hasValue;
@@ -16,7 +16,7 @@ namespace Assets.Scripts.Settings.New.Types
             set
             {
                 this.value = value;
-                
+                OnValueChanged?.Invoke(value);
             }
         }
 

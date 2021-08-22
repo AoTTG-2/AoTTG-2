@@ -14,11 +14,15 @@ namespace Assets.Scripts.Settings.New.Types
 
     public class EnumSettingConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is EnumSetting<TeamMode> {HasValue: true} team)
+            var valueType = value.GetType();
+            var hasValue = valueType.GetField("hasValue", BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(value);
+            var enumValue = valueType.GetField("value", BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(value);
+
+            if (hasValue is bool boolValue && boolValue && enumValue is Enum @enum)
             {
-                serializer.Serialize(writer, team.Value.ToString());
+                serializer.Serialize(writer, @enum.ToString());
             }
             else
             {
@@ -26,14 +30,11 @@ namespace Assets.Scripts.Settings.New.Types
             }
         }
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (!(reader.Value is string valueString)) return null;
             //if (objectType != typeof(EnumSetting<>)) throw new ArgumentException("Type is not supported!", nameof(objectType));
             var enumType = objectType.GetTypeInfo().GenericTypeArguments[0];
-
-
-
             BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic;
             var result = Enum.Parse(enumType, valueString);
 
@@ -46,17 +47,6 @@ namespace Assets.Scripts.Settings.New.Types
 
             valueProp.SetValue(setting, result);
             hasValueProp.SetValue(setting, true);
-
-
-
-            //if (objectType == typeof(EnumSetting<TeamMode>) && Enum.TryParse(valueString, out TeamMode value))
-            //{
-            //    return new EnumSetting<TeamMode>
-            //    {
-            //        Value = value
-            //    };
-            //}
-
             return setting;
         }
 

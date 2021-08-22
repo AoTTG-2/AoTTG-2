@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.CustomMaps;
+using Assets.Scripts.Settings.New.Gamemodes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Room
@@ -9,6 +11,7 @@ namespace Assets.Scripts.Room
         public string Name;
         public string Description;
         public string SceneName;
+        public List<GamemodeSetting> Gamemodes;
         
         public bool IsCustom => Type == null || Type == CustomMapType.None;
         public CustomMapType? Type { get; private set; }

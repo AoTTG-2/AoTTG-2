@@ -9,23 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94317acfa269a2a4cbfd5b564ef2df14, type: 3}
-  m_Name: Gamemode
+  m_Script: {fileID: 11500000, guid: 05fa15911aac03640a9770f0cd8aedd5, type: 3}
+  m_Name: Forest Waves
   m_EditorClassIdentifier: 
-  Name: 20210811193424
-  name: 
+  Name: 
   Description:
-    value: Hello World
-    hasValue: 1
+    value: 
+    hasValue: 0
   LavaMode:
     value: 0
     hasValue: 0
   Single:
-    value: 2
-    hasValue: 1
+    value: 0
+    hasValue: 0
   TeamMode:
-    value: 00000000010000000300000002000000
-    hasValue: 1
+    value: 
+    hasValue: 0
   Test:
-    value: 5
+    value: 0
+    hasValue: 0
+  StartWave:
+    value: 1
+    hasValue: 1
+  MaxWave:
+    value: 20
     hasValue: 1

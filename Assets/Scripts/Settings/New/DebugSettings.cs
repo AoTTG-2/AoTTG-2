@@ -38,5 +38,10 @@ namespace Assets.Scripts.Settings.New
             if (debug.TitanAttacks != null) TitanAttacks.Value = debug.TitanAttacks.Value;
             if (debug.TitanMovement != null) TitanMovement.Value = debug.TitanMovement.Value;
         }
+
+        public override void Initialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

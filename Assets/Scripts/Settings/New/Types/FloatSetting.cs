@@ -6,18 +6,18 @@ using UnityEngine;
 namespace Assets.Scripts.Settings.New.Types
 {
     [Serializable]
-    [JsonConverter(typeof(IntSettingConverter))]
-    public class IntSetting : ISetting
+    [JsonConverter(typeof(FloatSettingConverter))]
+    public class FloatSetting : ISetting
     {
-        [SerializeField] protected int value;
+        [SerializeField] protected float value;
         [SerializeField] protected bool hasValue;
 
-        public int? MinValue { get; private set; }
-        public int? MaxValue { get; private set; }
-        public int? Default { get; private set; }
+        public float? MinValue { get; private set; }
+        public float? MaxValue { get; private set; }
+        public float? Default { get; private set; }
 
         [JsonIgnore]
-        public virtual int Value
+        public virtual float Value
         {
             get => value;
             set
@@ -40,9 +40,9 @@ namespace Assets.Scripts.Settings.New.Types
         /// <summary>
         /// Event is thrown if the <see cref="Value"/> has changed
         /// </summary>
-        public event Action<int> OnValueChanged;
+        public event Action<float> OnValueChanged;
 
-        public void Setup(int? minValue, int? maxValue, int? @default)
+        public void Setup(float? minValue, float? maxValue, float? @default)
         {
             MinValue = minValue;
             MaxValue = maxValue;
@@ -50,9 +50,9 @@ namespace Assets.Scripts.Settings.New.Types
         }
     }
 
-    public class IntSettingConverter : JsonConverter<IntSetting>
+    public class FloatSettingConverter : JsonConverter<FloatSetting>
     {
-        public override void WriteJson(JsonWriter writer, IntSetting value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, FloatSetting value, JsonSerializer serializer)
         {
             if (value.HasValue)
             {
@@ -64,22 +64,22 @@ namespace Assets.Scripts.Settings.New.Types
             }
         }
 
-        public override IntSetting ReadJson(JsonReader reader, Type objectType, IntSetting existingValue, bool hasExistingValue,
+        public override FloatSetting ReadJson(JsonReader reader, Type objectType, FloatSetting existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
-            if (reader.Value is int value)
+            if (reader.Value is float value)
             {
-                return new IntSetting
+                return new FloatSetting
                 {
                     Value = value
                 };
             }
 
-            if (reader.Value is long longValue)
+            if (reader.Value is decimal longValue)
             {
-                return new IntSetting
+                return new FloatSetting
                 {
-                    Value = (int)longValue
+                    Value = (float) longValue
                 };
             }
             return null;
