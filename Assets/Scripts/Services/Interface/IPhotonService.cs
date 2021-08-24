@@ -39,7 +39,7 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         void Connect();
 
-        void StatelessLocalCreate();
+        void StatelessLocalCreate(string levelName, string gamemodeName);
 
         bool IsStatelesslyConnected();
     }

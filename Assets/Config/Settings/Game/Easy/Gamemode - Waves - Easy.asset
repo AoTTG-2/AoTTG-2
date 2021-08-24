@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05fa15911aac03640a9770f0cd8aedd5, type: 3}
+  m_Name: Gamemode - Waves - Easy
+  m_EditorClassIdentifier: 
+  Name: Gamemode - Waves - Easy
+  Description:
+    value: 
+    hasValue: 1
+  MOTD:
+    value: 
+    hasValue: 1
+  LavaMode:
+    value: 0
+    hasValue: 1
+  TeamMode:
+    value: 0
+    hasValue: 1
+  SaveKDROnDisconnect:
+    value: 0
+    hasValue: 1
+  PointMode:
+    value: 0
+    hasValue: 1
+  ImpactForce:
+    value: 0
+    hasValue: 1
+  Supply:
+    value: 1
+    hasValue: 1
+  IsPlayerTitanEnabled:
+    value: 1
+    hasValue: 1
+  PlayerShifers:
+    value: 1
+    hasValue: 1
+  RestartOnCompleted:
+    value: 1
+    hasValue: 1
+  PvP: {fileID: 0}
+  Titan: {fileID: 0}
+  Horse: {fileID: 0}
+  Respawn: {fileID: 11400000, guid: c2fcc85cacb4638479230afd4866dd48, type: 2}
+  Time: {fileID: 0}
+  StartWave:
+    value: 1
+    hasValue: 1
+  MaxWave:
+    value: 20
+    hasValue: 1
+  WaveIncrement:
+    value: 2
+    hasValue: 1
+  BossWave:
+    value: 5
+    hasValue: 1
+  BossType:
+    value: 3
+    hasValue: 1

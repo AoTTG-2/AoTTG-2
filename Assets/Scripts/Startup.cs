@@ -1,9 +1,11 @@
 ﻿using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.New;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.Input;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MonoBehaviour = UnityEngine.MonoBehaviour;
@@ -22,6 +24,11 @@ namespace Assets.Scripts
         public Setting Settings;
         public Service Services;
         public FengGameManagerMKII GameManager;
+
+        public UiHandler UIHandler;
+        public UIInputHandler UIInputHandler;
+        public IN_GAME_MAIN_CAMERA MainCamera;
+
 
         [Tooltip("Assure that the StartupObjects are all disabled in the Unity Editor!")]
         public List<GameObject> StartupObjects;
@@ -67,7 +74,7 @@ namespace Assets.Scripts
         {
             if (!IsOffline)
             {
-                Debug.LogError("Multiplayer is not yet supported!");
+                Debug.LogError("Startup: Multiplayer is not yet supported!");
                 yield break;
             }
 
@@ -75,14 +82,25 @@ namespace Assets.Scripts
             Setup(Settings.gameObject);
             Setup(Services.gameObject); // Relies on InputManager
             Setup(GameManager.gameObject);
+            Setup(MainCamera.gameObject);
+            Setup(UIHandler.gameObject);
+            Setup(UIInputHandler.gameObject);
+
+            var level = Settings.DefaultLevels.FirstOrDefault(x => x.SceneName == SceneManager.GetActiveScene().name);
+            if (level == null)
+            {
+                Debug.LogError($"Startup: Level with SceneName {SceneManager.GetActiveScene().name} does not exist in Settings.Levels");
+                yield break;
+            }
 
             // Joins a lobby & creates a room
-            Service.Photon.StatelessLocalCreate();
+            Service.Photon.StatelessLocalCreate(level.Name, level.Gamemodes[0].Name);
             while (!Service.Photon.IsStatelesslyConnected())
             {
                 yield return new WaitForSeconds(0.2f);
             }
 
+            Service.Ui.GetUiHandler().ShowInGameUi();
             //
             Debug.Log("Startup successful");
         }

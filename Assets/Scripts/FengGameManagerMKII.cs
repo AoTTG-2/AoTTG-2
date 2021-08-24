@@ -11,6 +11,8 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.New;
+using Assets.Scripts.Settings.New.Game.Gamemodes;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
@@ -142,15 +144,13 @@ namespace Assets.Scripts
         /// A static accessor to the current Gamemode
         /// </summary>
         public static GamemodeBase Gamemode { get; set; }
-        /// <summary>
-        /// A static accessor to the current loaded Level
-        /// </summary>
-        public static LegacyLevel Level { get; set; }
+
+        public static Level Level { get; set; }
 
         /// <summary>
         /// A static accessor to the Level that should be loaded on a new round
         /// </summary>
-        public static LegacyLevel NewRoundLevel { get; set; }
+        public static Level NewRoundLevel { get; set; }
         /// <summary>
         /// A static accessor to the Gamemode settings that should be loaded on a new round
         /// </summary>
@@ -471,13 +471,13 @@ namespace Assets.Scripts
         /// Removes an existing <see cref="GamemodeBase"/> component from the GameObject, and adds a new <see cref="GamemodeBase"/> based on <paramref name="settings"/>
         /// </summary>
         /// <param name="settings">The settings on which a new <see cref="GamemodeBase"/> will be initialized</param>
-        private void SetGamemode(GamemodeSettings settings)
+        private void SetGamemode(GamemodeSetting settings)
         {
             if (Gamemode == null)
             {
-                Service.Settings.Get().ChangeSettings(settings);
+                Setting.GamemodeSetting.Override(settings);
                 var gamemodeObject = GameObject.Find("Gamemode");
-                Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
+                Gamemode = (GamemodeBase) gamemodeObject.AddComponent<WaveGamemode>(); //TODO: Gamemode
             }
             else
             {
@@ -552,27 +552,28 @@ namespace Assets.Scripts
             if (respawnCoroutine != null)
                 StopCoroutine(respawnCoroutine);
 
-            if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
-            {
-                Level = NewRoundLevel;
-                SetGamemode(NewRoundGamemode);
-                var hash = new ExitGames.Client.Photon.Hashtable
-                {
-                    {"level", Level.Name},
-                    {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
-                };
-                PhotonNetwork.room.SetCustomProperties(hash);
-            }
-            else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
-            {
-                SetGamemode(NewRoundGamemode);
-                var hash = new ExitGames.Client.Photon.Hashtable
-                {
-                    {"level", Level.Name},
-                    {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
-                };
-                PhotonNetwork.room.SetCustomProperties(hash);
-            }
+            //TODO: Gamemode Switch on New Round
+            //if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
+            //{
+            //    Level = NewRoundLevel;
+            //    SetGamemode(NewRoundGamemode);
+            //    var hash = new ExitGames.Client.Photon.Hashtable
+            //    {
+            //        {"level", Level.Name},
+            //        {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
+            //    };
+            //    PhotonNetwork.room.SetCustomProperties(hash);
+            //}
+            //else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
+            //{
+            //    SetGamemode(NewRoundGamemode);
+            //    var hash = new ExitGames.Client.Photon.Hashtable
+            //    {
+            //        {"level", Level.Name},
+            //        {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
+            //    };
+            //    PhotonNetwork.room.SetCustomProperties(hash);
+            //}
 
             Service.Entity.OnRestart();
             EventManager.OnRestart.Invoke();
@@ -2760,7 +2761,7 @@ namespace Assets.Scripts
             object[] objArray2;
             yield return new WaitForSeconds(time);
             string iteratorVariable1 = string.Empty;
-            if (GameSettings.Gamemode.TeamMode == TeamMode.Disabled)
+            if (Setting.GamemodeSetting.TeamMode == TeamMode.Disabled)
             {
                 foreach (PhotonPlayer player7 in PhotonNetwork.playerList)
                 {
@@ -3133,6 +3134,7 @@ namespace Assets.Scripts
             if (PhotonNetwork.isMasterClient && (/*(!this.isWinning && !this.isLosing) &&*/ Service.Time.GetRoundTime() >= 5f))
             {
                 int num22;
+                yield break; //TODO: Game Settings
                 if (GameSettings.Gamemode.PointMode > 0)
                 {
                     if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)

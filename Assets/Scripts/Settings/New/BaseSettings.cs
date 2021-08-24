@@ -1,6 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Assets.Scripts.Settings.New.Types;
+using Assets.Scripts.Settings.New.Validation;
+using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Settings.New
@@ -62,7 +65,55 @@ namespace Assets.Scripts.Settings.New
         /// <summary>
         /// Initializes properties with optional validation attributes
         /// </summary>
-        public abstract void Initialize();
+        public void Initialize()
+        {
+            var properties = GetType().GetFields()
+                .Where(prop => Attribute.IsDefined(prop, typeof(ValidationAttribute)));
+
+            foreach (var field in properties)
+            {
+                var fieldType = field.FieldType;
+                if (fieldType == typeof(IntSetting))
+                {
+                    var attribute = (IntValidationAttribute) Attribute.GetCustomAttribute(field, typeof(IntValidationAttribute));
+                    if (attribute == null) continue;
+                    var method = fieldType.GetMethod(nameof(IntSetting.Setup));
+                    if (method == null)
+                    {
+                        Debug.LogError($"Settings: Could not find method {nameof(IntSetting.Setup)}");
+                        continue;
+                    }
+
+                    var value = field.GetValue(this);
+                    if (value == null) continue;
+                    method.Invoke(value, new object[] { attribute.MinValue, attribute.MaxValue, attribute.Default });
+                }
+                else if (fieldType == typeof(StringSetting))
+                {
+                    var attribute = (StringValidationAttribute) Attribute.GetCustomAttribute(field, typeof(StringValidationAttribute));
+                    if (attribute == null) continue;
+                    var method = fieldType.GetMethod(nameof(StringSetting.Setup));
+                    if (method == null)
+                    {
+                        Debug.LogError($"Settings: Could not find method {nameof(StringSetting.Setup)}");
+                        continue;
+                    }
+
+                    var value = field.GetValue(this);
+                    if (value == null) continue;
+                    method.Invoke(value, new object[] { attribute.MaxLength });
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns a copy by using Unity's <see cref="UnityEngine.Object.Instantiate"/>
+        /// </summary>
+        /// <returns></returns>
+        public virtual BaseSettings Copy()
+        {
+            return Instantiate(this);
+        }
 
 #if UNITY_EDITOR
         /// <summary>

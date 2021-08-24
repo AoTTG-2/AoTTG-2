@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.CustomMaps;
-using Assets.Scripts.Settings.New.Gamemodes;
+using Assets.Scripts.Settings.New.Game.Gamemodes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,5 +16,10 @@ namespace Assets.Scripts.Room
         public bool IsCustom => Type == null || Type == CustomMapType.None;
         public CustomMapType? Type { get; private set; }
         public string AssetBundle { get; private set; }
+
+        public void LoadLevel()
+        {
+
+        }
     }
 }

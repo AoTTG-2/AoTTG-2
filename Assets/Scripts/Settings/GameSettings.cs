@@ -11,6 +11,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts.Settings
 {
+    [Obsolete("Use Setting.Gamemode", false)]
     public class GameSettings
     {
         protected ISettingsService SettingsService => Service.Settings;

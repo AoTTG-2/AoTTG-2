@@ -9,7 +9,15 @@ namespace Assets.Scripts.Settings.New.Types
     [JsonConverter(typeof(EnumSettingConverter))]
     public class EnumSetting<T> : AbstractSetting<T> where T : Enum
     {
+        public static bool operator ==(EnumSetting<T> left, T right)
+        {
+            return left != null && Convert.ToInt32(left.Value) == Convert.ToInt32(right);
+        }
 
+        public static bool operator !=(EnumSetting<T> left, T right)
+        {
+            return left != null && Convert.ToInt32(left.Value) != Convert.ToInt32(right);
+        }
     }
 
     public class EnumSettingConverter : JsonConverter

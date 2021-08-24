@@ -80,13 +80,13 @@ namespace Assets.Scripts.Services
             PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
         }
 
-        public void StatelessLocalCreate()
+        public void StatelessLocalCreate(string levelName, string gamemodeName)
         {
             PhotonNetwork.offlineMode = true;
             Connect();
-            StartCoroutine(JoinRoutine("123456"));
+            StartCoroutine(JoinRoutine("123456", levelName, gamemodeName));
         }
-        private IEnumerator JoinRoutine(string roomID)
+        private IEnumerator JoinRoutine(string roomID, string levelName, string gamemodeName)
         {
             float startTime = Time.time;
             Service.Photon.Connect();
@@ -100,8 +100,22 @@ namespace Assets.Scripts.Services
                 }
             }
 
+            var roomOptions = new RoomOptions
+            {
+                IsVisible = true,
+                IsOpen = true,
+                MaxPlayers = 10,
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+                {
+                    { "name", "Singleplayer" },
+                    { "level", levelName},
+                    { "gamemode", gamemodeName }
+                },
+                CustomRoomPropertiesForLobby = new[] { "name", "level", "gamemode" }
+            };
+
             if (isJoinedLobby)
-                PhotonNetwork.CreateRoom(roomID);
+                PhotonNetwork.CreateRoom(roomID, roomOptions, TypedLobby.Default);
         }
 
         private bool isStatelesslyConnected = false;

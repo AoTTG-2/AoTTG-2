@@ -61,8 +61,10 @@
     <Compile Include="Assets\Scripts\Usable\CannonBall.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\HumanBody.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\ColossalTitanSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\Gamemodes\KillTitansGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Events\HitEvents.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTeleport.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Validation\FloatValidationAttribute.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BodyslamAttack.cs" />
     <Compile Include="Assets\Scripts\Services\FactionService.cs" />
     <Compile Include="Assets\Scripts\Room\RoomExtensions.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GeneralGraphics.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatCommands.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\CaptureBehavior.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\Gamemodes\WaveGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ColossalTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\FemaleTitan.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\SettingsTitan.cs" />
@@ -249,7 +252,7 @@
     <Compile Include="Assets\Scripts\UI\CommandLine\EMCli.cs" />
     <Compile Include="Assets\Scripts\UI\CursorMode.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Gamemodes\GamemodeSetting.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\Gamemodes\GamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanEyesComponent.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
@@ -267,6 +270,7 @@
     <Compile Include="Assets\Scripts\Room\LevelTriggerGas.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchSpawner.cs" />
     <Compile Include="Assets\Scripts\Serialization\ColorJsonConverter.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Types\FloatSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ErenTitan.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
     <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
@@ -401,6 +405,7 @@
     <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
     <Compile Include="Assets\Scripts\Effects\AttractionForceAffector.cs" />
     <Compile Include="Assets\Scripts\Security\TokenResult.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Validation\StringValidationAttribute.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\CostumeHair.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\Scoreboard.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Eren\PunchAttack.cs" />
@@ -490,6 +495,7 @@
     <Compile Include="Assets\Scripts\Settings\New\Types\MultipleEnumSetting.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\GamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapIcon.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\GameSettingsNew.cs" />
     <Compile Include="Assets\Scripts\Settings\New\Types\ISetting.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IInventoryService.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleCommands.cs" />
@@ -522,10 +528,15 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Validation\StringValidationAttribute.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Validation\FloatValidationAttribute.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Types\FloatSetting.cs" />
-    <Compile Include="Assets\Scripts\Settings\New\Gamemodes\WaveGamemodeSetting.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\Titans\BaseTitanSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\TimeSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\Titans\FemaleTitanSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\RespawnSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\TitanSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\Titans\MindlessTitanSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\PvPSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\HorseSettings.cs" />
+    <Compile Include="Assets\Scripts\Settings\New\Game\GlobalSettings.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
