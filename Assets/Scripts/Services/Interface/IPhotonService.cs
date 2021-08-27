@@ -39,7 +39,14 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         void Connect();
 
-        void StatelessLocalCreate(string levelName, string gamemodeName);
+        /// <summary>
+        /// Used by <see cref="Startup"/> to statelessly create to a room on either offlineMode or multiplayer
+        /// </summary>
+        /// <param name="isOffline"></param>
+        /// <param name="roomName"></param>
+        /// <param name="levelName"></param>
+        /// <param name="gamemodeName"></param>
+        void StatelessConnect(bool isOffline, string roomName, string levelName, string gamemodeName);
 
         bool IsStatelesslyConnected();
     }

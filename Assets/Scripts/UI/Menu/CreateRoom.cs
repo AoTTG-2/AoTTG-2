@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Gamemode;
-using Assets.Scripts.Room;
+﻿using Assets.Scripts.Room;
 using Assets.Scripts.Services;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
@@ -27,16 +27,16 @@ namespace Assets.Scripts.UI.Menu
 
         public Toggle Account;
 
-        private List<LegacyLevel> levels;
+        private List<Level> levels;
 
-        private LegacyLevel selectedLevel;
-        private GamemodeSettings selectedGamemode;
+        private Level selectedLevel;
+        private GamemodeSetting selectedGamemode;
         private Dictionary<string, string> CustomDifficulties { get; } = new Dictionary<string, string>();
         private const string CustomDifficultyPrefix = "*-";
 
         private void Awake()
         {
-            levels = LevelBuilder.GetAllLevels();
+            levels = Setting.Levels;
         }
 
         protected override void OnEnable()
@@ -65,12 +65,13 @@ namespace Assets.Scripts.UI.Menu
 
             OnLevelSelected(levels[0]);
 
-            DifficultyDropdown.options = new List<Dropdown.OptionData>();
-            foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
-            {
-                DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
-            }
-            DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
+            //TODO: GameSetting
+            //DifficultyDropdown.options = new List<Dropdown.OptionData>();
+            //foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
+            //{
+            //    DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
+            //}
+            //DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
 
             var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
             foreach (var file in files)
@@ -105,8 +106,8 @@ namespace Assets.Scripts.UI.Menu
             }
             else
             {
-                var difficulty = (Difficulty) DifficultyDropdown.value;
-                Service.Settings.SyncSettings(difficulty);
+                //var difficulty = (Difficulty) DifficultyDropdown.value;
+                //Service.Settings.SyncSettings(difficulty);
             }
 
             var roomNameInput = RoomName.text.Trim();
@@ -153,7 +154,7 @@ namespace Assets.Scripts.UI.Menu
             SceneManager.sceneLoaded += SceneLoaded;
         }
 
-        private void OnLevelSelected(LegacyLevel level)
+        private void OnLevelSelected(Level level)
         {
             selectedLevel = level;
             GamemodeDropdown.options = new List<Dropdown.OptionData>();
@@ -164,7 +165,7 @@ namespace Assets.Scripts.UI.Menu
             GamemodeDropdown.captionText.text = GamemodeDropdown.options[0].text;
         }
 
-        private void OnGamemodeSelected(GamemodeSettings gamemode)
+        private void OnGamemodeSelected(GamemodeSetting gamemode)
         {
             selectedGamemode = gamemode;
         }

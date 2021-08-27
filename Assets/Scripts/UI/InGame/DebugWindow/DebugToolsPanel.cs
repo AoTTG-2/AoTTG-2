@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Services;
-using Assets.Scripts.Settings.New;
-using Assets.Scripts.Settings.New.Types;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Types;
 using Assets.Scripts.UI.Elements;
 using System.Linq;
 using System.Reflection;

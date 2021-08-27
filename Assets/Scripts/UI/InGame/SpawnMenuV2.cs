@@ -84,7 +84,7 @@ namespace Assets.Scripts.UI.InGame
             
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
-            if ((((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture) && isPlayerAllDead2())
+            if ((((Setting.Gamemode.GamemodeType == GamemodeType.TitanRush) || (Setting.Gamemode.GamemodeType == GamemodeType.Trost)) || Setting.Gamemode.GamemodeType == GamemodeType.Capture) && isPlayerAllDead2())
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
             }

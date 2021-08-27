@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Settings.New;
+﻿using Assets.Scripts.Settings;
 using UnityEditor;
 using UnityEngine;
 

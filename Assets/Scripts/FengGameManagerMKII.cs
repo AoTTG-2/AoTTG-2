@@ -10,9 +10,7 @@ using Assets.Scripts.Room.Chat;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.Settings.New;
-using Assets.Scripts.Settings.New.Game.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
@@ -154,7 +152,7 @@ namespace Assets.Scripts
         /// <summary>
         /// A static accessor to the Gamemode settings that should be loaded on a new round
         /// </summary>
-        public static GamemodeSettings NewRoundGamemode { get; set; }
+        public static GamemodeSetting NewRoundGamemode { get; set; }
 
         /// <summary>
         /// We store this in a variable to make sure the Coroutine is killed if the game 
@@ -203,6 +201,7 @@ namespace Assets.Scripts
         //TODO: CustomMapService.OnLevelWasLoaded is called before OnJoinedRoom
         public override void OnJoinedRoom()
         {
+            Debug.Log("OnJoinedRoom");
             Service.Settings.SetRoomPropertySettings();
             SetLevelAndGamemode();
 
@@ -229,10 +228,12 @@ namespace Assets.Scripts
                 Level.LoadLevel();
             }
             GameCursor.CursorMode = CursorMode.Loading;
+
+            this.name = "GUEST";
             var hashtable = new Hashtable
             {
-                {PhotonPlayerProperty.name, LoginFengKAI.player.name},
-                {PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname},
+                {PhotonPlayerProperty.name, this.name},
+                {PhotonPlayerProperty.guildName, "Default"},
                 {PhotonPlayerProperty.kills, 0},
                 {PhotonPlayerProperty.max_dmg, 0},
                 {PhotonPlayerProperty.total_dmg, 0},
@@ -246,7 +247,6 @@ namespace Assets.Scripts
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             this.needChooseSide = true;
             this.ClearKillInfo();
-            this.name = LoginFengKAI.player.name;
             var hashtable3 = new ExitGames.Client.Photon.Hashtable
             {
                 {PhotonPlayerProperty.name, this.name}
@@ -279,7 +279,7 @@ namespace Assets.Scripts
                     this.restartingMC = true;
                 }
                 this.resetSettings(false);
-                if (!GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
+                if (!Setting.Gamemode.IsPlayerTitanEnabled.Value)
                 {
                     ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
                     propertiesToSet.Add(PhotonPlayerProperty.isTitan, 1);
@@ -319,7 +319,7 @@ namespace Assets.Scripts
                         this.kickPlayerRC(player, true, "excessive stats.");
                         return;
                     }
-                    if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
+                    if (Setting.Gamemode.SaveKDROnDisconnect.Value)
                     {
                         base.StartCoroutine(this.WaitAndReloadKDR(player));
                     }
@@ -345,7 +345,7 @@ namespace Assets.Scripts
             {
                 base.photonView.RPC(nameof(verifyPlayerHasLeft), PhotonTargets.All, new object[] { player.ID });
             }
-            if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
+            if (Setting.Gamemode.SaveKDROnDisconnect.Value)
             {
                 string key = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
                 if (this.PreservedPlayerKDR.ContainsKey(key))
@@ -419,7 +419,7 @@ namespace Assets.Scripts
 
         #endregion
 
-        private void Start()
+        private void Awake()
         {
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
             Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
@@ -475,7 +475,7 @@ namespace Assets.Scripts
         {
             if (Gamemode == null)
             {
-                Setting.GamemodeSetting.Override(settings);
+                Setting.Gamemode.Override(settings);
                 var gamemodeObject = GameObject.Find("Gamemode");
                 Gamemode = (GamemodeBase) gamemodeObject.AddComponent<WaveGamemode>(); //TODO: Gamemode
             }
@@ -498,10 +498,12 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="scene">Index of the scene that was loaded</param>
         /// <param name="level">The level that was loaded</param>
-        private void Level_OnLevelLoaded(int scene, LegacyLevel level)
+        private void Level_OnLevelLoaded(int scene, Level level)
         {
             // Scene 0 = Menu Scene
             if (scene == 0) return;
+
+            Debug.Log("Level: OnLevelLoaded");
             var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
             ui.ShowInGameUi();
             ChangeQuality.setCurrentQuality();
@@ -560,17 +562,17 @@ namespace Assets.Scripts
             //    var hash = new ExitGames.Client.Photon.Hashtable
             //    {
             //        {"level", Level.Name},
-            //        {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
+            //        {"gamemode", Setting.Gamemode.Gamemode.GamemodeType.ToString()}
             //    };
             //    PhotonNetwork.room.SetCustomProperties(hash);
             //}
-            //else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
+            //else if (NewRoundGamemode != null && Setting.Gamemode.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
             //{
             //    SetGamemode(NewRoundGamemode);
             //    var hash = new ExitGames.Client.Photon.Hashtable
             //    {
             //        {"level", Level.Name},
-            //        {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
+            //        {"gamemode", Setting.Gamemode.Gamemode.GamemodeType.ToString()}
             //    };
             //    PhotonNetwork.room.SetCustomProperties(hash);
             //}
@@ -608,17 +610,17 @@ namespace Assets.Scripts
             {
                 mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
             }
-            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
+            if (Setting.Gamemode.Respawn.Mode == RespawnMode.Endless)
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
-                StartCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
+                StopCoroutine(respawnE(Setting.Gamemode.Respawn.ReviveTime.Value));
+                StartCoroutine(respawnE(Setting.Gamemode.Respawn.ReviveTime.Value));
             }
             else
             {
-                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
+                StopCoroutine(respawnE(Setting.Gamemode.Respawn.ReviveTime.Value));
             }
 
-            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+            if (Setting.Gamemode.TeamMode != TeamMode.Disabled)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                 {
@@ -631,17 +633,17 @@ namespace Assets.Scripts
             }
 
 
-            if (GameSettings.Gamemode.GamemodeType == GamemodeType.Infection)
+            if (Setting.Gamemode.GamemodeType == GamemodeType.Infection)
             {
-                var gamemodeInfection = GameSettings.DerivedGamemode<InfectionGamemodeSettings>();
-                if (gamemodeInfection.Infected > 0)
-                {
-                    var hashtable = new ExitGames.Client.Photon.Hashtable();
-                    hashtable.Add(PhotonPlayerProperty.RCteam, 0);
-                    PhotonNetwork.player.SetCustomProperties(hashtable);
-                    this.chatRoom.AddMessage($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
-                }
-                else
+                //var gamemodeInfection = Setting.Gamemode.DerivedGamemode<InfectionGamemodeSettings>();
+                //if (gamemodeInfection.Infected > 0)
+                //{
+                //    var hashtable = new ExitGames.Client.Photon.Hashtable();
+                //    hashtable.Add(PhotonPlayerProperty.RCteam, 0);
+                //    PhotonNetwork.player.SetCustomProperties(hashtable);
+                //    this.chatRoom.AddMessage($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
+                //}
+                //else
                 {
                     var hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add(PhotonPlayerProperty.isTitan, 1);
@@ -893,13 +895,13 @@ namespace Assets.Scripts
                 {
                     this.coreadd();
                     Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
-                    if ((((Camera.main != null) && (GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)) &&
+                    if ((((Camera.main != null) && (Setting.Gamemode.GamemodeType != GamemodeType.Racing)) &&
                          (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
                         (((int) settings[0xf5]) == 0))
                     {
-                        if (GameSettings.Respawn.Mode == RespawnMode.Endless ||
-                            !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
-                                ? (GameSettings.Gamemode.PointMode <= 0)
+                        if (Setting.Gamemode.Respawn.Mode == RespawnMode.Endless ||
+                            !(((/*Setting.Gamemode.PvP.Bomb.Value) || (*/Setting.Gamemode.PvP.Mode != PvpMode.Disabled))
+                                ? (Setting.Gamemode.PointMode.Value <= 0)
                                 : true))
                         {
                             this.myRespawnTime += Time.deltaTime;
@@ -910,9 +912,9 @@ namespace Assets.Scripts
                                 endlessMode = 10;
                             }
 
-                            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
+                            if (Setting.Gamemode.Respawn.Mode == RespawnMode.Endless)
                             {
-                                endlessMode = GameSettings.Respawn.ReviveTime.Value;
+                                endlessMode = Setting.Gamemode.Respawn.ReviveTime.Value;
                             }
 
                             //TODO
@@ -937,7 +939,7 @@ namespace Assets.Scripts
                     }
                 }
 
-                if (GameSettings.Gamemode.GamemodeType == GamemodeType.Racing)
+                if (Setting.Gamemode.GamemodeType == GamemodeType.Racing)
                 {
                     if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
                         !mainCamera.IsSpecmode)
@@ -966,7 +968,7 @@ namespace Assets.Scripts
                 //{
                 //    this.timeElapse--;
                 //    var content = Gamemode.GetGamemodeStatusTop((int) timeTotalServer, time);
-                //    if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+                //    if (Setting.Gamemode.Gamemode.TeamMode != TeamMode.Disabled)
                 //    {
                 //        content +=
                 //            $"\n<color=#00ffff>Cyan: {cyanKills}</color><color=#ff00ff>       Magenta: {magentaKills}</color>";
@@ -1282,7 +1284,7 @@ namespace Assets.Scripts
             }
         }
 
-        [Obsolete("Replaced by the GameSettings classes.")]
+        [Obsolete("Replaced by the Setting.Gamemode classes.")]
         private void loadconfig()
         {
             int num;
@@ -2761,7 +2763,7 @@ namespace Assets.Scripts
             object[] objArray2;
             yield return new WaitForSeconds(time);
             string iteratorVariable1 = string.Empty;
-            if (Setting.GamemodeSetting.TeamMode == TeamMode.Disabled)
+            if (Setting.Gamemode.TeamMode == TeamMode.Disabled)
             {
                 foreach (PhotonPlayer player7 in PhotonNetwork.playerList)
                 {
@@ -2875,7 +2877,7 @@ namespace Assets.Scripts
                 this.magentaKills = num3;
                 if (PhotonNetwork.isMasterClient)
                 {
-                    if (GameSettings.Gamemode.TeamMode == TeamMode.LockBySize)
+                    if (Setting.Gamemode.TeamMode == TeamMode.LockBySize)
                     {
                         foreach (PhotonPlayer player2 in PhotonNetwork.playerList)
                         {
@@ -2910,7 +2912,7 @@ namespace Assets.Scripts
                             }
                         }
                     }
-                    else if (GameSettings.Gamemode.TeamMode == TeamMode.LockBySkill)
+                    else if (Setting.Gamemode.TeamMode == TeamMode.LockBySkill)
                     {
                         foreach (PhotonPlayer player3 in PhotonNetwork.playerList)
                         {
@@ -3134,19 +3136,18 @@ namespace Assets.Scripts
             if (PhotonNetwork.isMasterClient && (/*(!this.isWinning && !this.isLosing) &&*/ Service.Time.GetRoundTime() >= 5f))
             {
                 int num22;
-                yield break; //TODO: Game Settings
-                if (GameSettings.Gamemode.PointMode > 0)
+                if (Setting.Gamemode.PointMode.Value > 0)
                 {
-                    if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+                    if (Setting.Gamemode.TeamMode != TeamMode.Disabled)
                     {
-                        if (this.cyanKills >= GameSettings.Gamemode.PointMode)
+                        if (this.cyanKills >= Setting.Gamemode.PointMode.Value)
                         {
                             object[] parameters = new object[] { "<color=#00FFFF>Team Cyan wins! </color>", string.Empty };
                             this.photonView.RPC(nameof(Chat), PhotonTargets.All, parameters);
                             //TODO: 160, game won
                             //this.gameWin2();
                         }
-                        else if (this.magentaKills >= GameSettings.Gamemode.PointMode)
+                        else if (this.magentaKills >= Setting.Gamemode.PointMode.Value)
                         {
                             objArray2 = new object[] { "<color=#FF00FF>Team Magenta wins! </color>", string.Empty };
                             this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray2);
@@ -3154,12 +3155,12 @@ namespace Assets.Scripts
                             //this.gameWin2();
                         }
                     }
-                    else if (GameSettings.Gamemode.TeamMode == TeamMode.Disabled)
+                    else if (Setting.Gamemode.TeamMode == TeamMode.Disabled)
                     {
                         for (num22 = 0; num22 < PhotonNetwork.playerList.Length; num22++)
                         {
                             PhotonPlayer player9 = PhotonNetwork.playerList[num22];
-                            if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= GameSettings.Gamemode.PointMode)
+                            if (RCextensions.returnIntFromObject(player9.CustomProperties[PhotonPlayerProperty.kills]) >= Setting.Gamemode.PointMode.Value)
                             {
                                 object[] objArray4 = new object[] { "<color=#FFCC00>" + RCextensions.returnStringFromObject(player9.CustomProperties[PhotonPlayerProperty.name]).hexColor() + " wins!</color>", string.Empty };
                                 this.photonView.RPC(nameof(Chat), PhotonTargets.All, objArray4);
@@ -3169,11 +3170,11 @@ namespace Assets.Scripts
                         }
                     }
                 }
-                else if ((GameSettings.Gamemode.PointMode <= 0) && ((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled)))
+                else if ((Setting.Gamemode.PointMode.Value <= 0) && ((/*Setting.Gamemode.PvP.Bomb.Value) || */(Setting.Gamemode.PvP.Mode != PvpMode.Disabled))))
                 {
-                    if (GameSettings.PvP.PvPWinOnEnemiesDead.Value)
+                    if (Setting.Gamemode.PvP.PvPWinOnEnemiesDead.Value)
                     {
-                        if ((GameSettings.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
+                        if ((Setting.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
                         {
                             int num24 = 0;
                             int num25 = 0;
@@ -3220,7 +3221,7 @@ namespace Assets.Scripts
                                 }
                             }
                         }
-                        else if ((GameSettings.Gamemode.TeamMode == TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
+                        else if ((Setting.Gamemode.TeamMode == TeamMode.Disabled) && (PhotonNetwork.playerList.Length > 1))
                         {
                             int num28 = 0;
                             string text = "Nobody";

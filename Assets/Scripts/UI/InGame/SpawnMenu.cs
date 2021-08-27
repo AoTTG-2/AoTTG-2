@@ -28,7 +28,7 @@ namespace Assets.Scripts.UI.InGame
             }
             EquipmentDropdown.captionText.text = EquipmentDropdown.options[0].text;
 
-            if (!GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
+            if (!Setting.Gamemode.IsPlayerTitanEnabled.Value)
             {
                 PlayerTitanButton.SetActive(false);
             }
@@ -52,7 +52,7 @@ namespace Assets.Scripts.UI.InGame
             //        GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
             //    }
             //}
-            if (((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture)
+            if (((Setting.Gamemode.GamemodeType == GamemodeType.TitanRush) || (Setting.Gamemode.GamemodeType == GamemodeType.Trost)) || Setting.Gamemode.GamemodeType == GamemodeType.Capture)
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
                 if (isPlayerAllDead2())

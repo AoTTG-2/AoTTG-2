@@ -4,7 +4,6 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace Assets.Scripts.Gamemode
     public class CaptureGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Capture;
-        private CaptureGamemodeSettings Settings => GameSettings.Gamemode as CaptureGamemodeSettings;
+        //private CaptureGamemodeSettings Settings => Setting.Gamemode.Gamemode as CaptureGamemodeSettings;
 
         public int PvpTitanScore { get; set; }
         public int PvpHumanScore { get; set; }
@@ -23,15 +22,16 @@ namespace Assets.Scripts.Gamemode
 
         protected override void SetStatusTop()
         {
-            var content = "| ";
-            foreach (PVPcheckPoint checkpoint in PVPcheckPoint.chkPts)
-            {
-                content = content + checkpoint.getStateString() + " ";
-            }
-            content = $"| {Settings.PvpTitanScoreLimit - PvpTitanScore} {content} {Settings.PvpHumanScoreLimit - PvpHumanScore} \n" +
-                      $"Time : {TimeService.GetRoundDisplayTime()}";
+            return;
+            //var content = "| ";
+            //foreach (PVPcheckPoint checkpoint in PVPcheckPoint.chkPts)
+            //{
+            //    content = content + checkpoint.getStateString() + " ";
+            //}
+            //content = $"| {Settings.PvpTitanScoreLimit - PvpTitanScore} {content} {Settings.PvpHumanScoreLimit - PvpHumanScore} \n" +
+            //          $"Time : {TimeService.GetRoundDisplayTime()}";
 
-            UiService.SetMessage(LabelPosition.Top, content);
+            //UiService.SetMessage(LabelPosition.Top, content);
         }
         
         public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
@@ -86,27 +86,28 @@ namespace Assets.Scripts.Gamemode
 
         private void CheckWinConditions()
         {
-            if (PhotonNetwork.isMasterClient)
-            {
-                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, PvpHumanScore, PvpTitanScore);
-            }
+            return;
+            //if (PhotonNetwork.isMasterClient)
+            //{
+            //    photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, PvpHumanScore, PvpTitanScore);
+            //}
 
-            string winner = null;
-            if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
-            {
-                TitanScore++;
-                winner = "Titanity";
-            }
-            else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
-            {
-                HumanScore++;
-                winner = "Humanity";
-            }
+            //string winner = null;
+            //if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
+            //{
+            //    TitanScore++;
+            //    winner = "Titanity";
+            //}
+            //else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
+            //{
+            //    HumanScore++;
+            //    winner = "Humanity";
+            //}
 
-            if (winner != null && PhotonNetwork.isMasterClient)
-            {
-                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
-            }
+            //if (winner != null && PhotonNetwork.isMasterClient)
+            //{
+            //    photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
+            //}
         }
 
         public void AddHumanScore(int score)
@@ -121,7 +122,7 @@ namespace Assets.Scripts.Gamemode
             CheckWinConditions();
         }
 
-        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)

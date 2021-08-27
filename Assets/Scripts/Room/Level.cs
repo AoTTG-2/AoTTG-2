@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.CustomMaps;
-using Assets.Scripts.Settings.New.Game.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using System.Collections.Generic;
 using UnityEngine;
 

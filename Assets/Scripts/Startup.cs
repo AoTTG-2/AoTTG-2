@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.New;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Input;
 using System.Collections;
@@ -38,6 +38,8 @@ namespace Assets.Scripts
         public string RoomName;
         public PhotonServerConfig Region;
 
+        public GamemodeSetting SelectedGamemode;
+
         private void Awake()
         {
             if (HasLoaded)
@@ -72,17 +74,12 @@ namespace Assets.Scripts
 
         private IEnumerator TryLoadStatelessScene()
         {
-            if (!IsOffline)
-            {
-                Debug.LogError("Startup: Multiplayer is not yet supported!");
-                yield break;
-            }
-
             Setup(InputManager.gameObject); // Doesn't have any dependencies itself
             Setup(Settings.gameObject);
             Setup(Services.gameObject); // Relies on InputManager
             Setup(GameManager.gameObject);
-            Setup(MainCamera.gameObject);
+            //MainCamera.gameObject.SetActive(true);
+            //Setup(MainCamera.gameObject);
             Setup(UIHandler.gameObject);
             Setup(UIInputHandler.gameObject);
 
@@ -92,15 +89,16 @@ namespace Assets.Scripts
                 Debug.LogError($"Startup: Level with SceneName {SceneManager.GetActiveScene().name} does not exist in Settings.Levels");
                 yield break;
             }
-
+            
             // Joins a lobby & creates a room
-            Service.Photon.StatelessLocalCreate(level.Name, level.Gamemodes[0].Name);
+            Service.Photon.StatelessConnect(IsOffline, RoomName, level.Name, SelectedGamemode.Name);
             while (!Service.Photon.IsStatelesslyConnected())
             {
                 yield return new WaitForSeconds(0.2f);
             }
 
-            Service.Ui.GetUiHandler().ShowInGameUi();
+            Service.Level.InvokeLevelLoaded(SceneManager.GetActiveScene().buildIndex, level);
+
             //
             Debug.Log("Startup successful");
         }

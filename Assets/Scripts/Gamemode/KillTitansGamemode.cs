@@ -2,7 +2,7 @@
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -10,7 +10,7 @@ namespace Assets.Scripts.Gamemode
     public class KillTitansGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Titans;
-        private KillTitansSettings Settings => GameSettings.Gamemode as KillTitansSettings;
+        private KillTitansGamemodeSetting Settings => Setting.Gamemode as KillTitansGamemodeSetting;
 
         protected override void OnFactionDefeated(Faction faction)
         {
@@ -31,17 +31,17 @@ namespace Assets.Scripts.Gamemode
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
-        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
             if (!PhotonNetwork.isMasterClient) return;
-            if (GameSettings.Gamemode.Name.Contains("Annie"))
+            if (Setting.Gamemode.Name.Contains("Annie")) //TODO: Make this a setting
             {
                 var ftSpawn = GameObject.Find("titanRespawn").transform;
                 SpawnService.Spawn<FemaleTitan>(ftSpawn.position, ftSpawn.rotation, new TitanConfiguration());
             }
             //TODO: 160 Experimentation
-            //else if (GameSettings.Gamemode.Name.Contains("Test") || true)
+            //else if (Setting.Gamemode.Gamemode.Name.Contains("Test") || true)
             //{
             //    var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
             //    for (var i = 0; i < 1; i++)
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Gamemode
             //}
             else
             {
-                SpawnTitans(GameSettings.Titan.Start.Value);
+                SpawnTitans(Setting.Gamemode.Titan.Start.Value);
             }
         }
     }

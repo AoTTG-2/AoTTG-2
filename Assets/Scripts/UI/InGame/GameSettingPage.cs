@@ -20,7 +20,6 @@ namespace Assets.Scripts.UI.InGame
         public GameObject EmptyGridItem;
 
         public object Data;
-        private SettingCategory category = SettingCategory.None;
         private readonly int _columnCount = 3;
 
         public void Initialize()
@@ -87,27 +86,6 @@ namespace Assets.Scripts.UI.InGame
                 uiObject.transform.localScale = new Vector3(1 , 1 ,1);
                 uiObject.SetActive(true);
             }
-        }
-
-        private void CreateCategory(SettingCategory settingCategory)
-        {
-            category = settingCategory;
-            var childCount = Content.transform.childCount;
-            var categoryUi = Instantiate(Category);
-            categoryUi.GetComponentInChildren<Text>().text = category.ToString();
-
-            if (childCount == 0)
-            {
-                CreateEmptyGridItem();
-                categoryUi.transform.SetParent(Content.transform);
-                CreateEmptyGridItem();
-                return;
-            }
-
-            var currentColumn = childCount % _columnCount;
-            CreateEmptyGridItem(4 - currentColumn);
-            categoryUi.transform.SetParent(Content.transform);
-            CreateEmptyGridItem();
         }
 
         private void CreateEmptyGridItem(int amount = 1)

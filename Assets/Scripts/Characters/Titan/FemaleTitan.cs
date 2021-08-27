@@ -1303,14 +1303,14 @@ public class FemaleTitan : TitanBase
         this.size = 4f;
         if (base.photonView.isMine)
         {
-            //size = GameSettings.Titan.Female.Size.Value;
+            //size = Setting.Gamemode.Titan.Female.Size.Value;
             base.photonView.RPC(nameof(setSize), PhotonTargets.AllBuffered, new object[] { this.size });
             this.lagMax = 150f + (this.size * 3f);
             this.healthTime = 0f;
             this.maxHealth = this.Health;
-            if (GameSettings.Titan.Female.HealthMode != TitanHealthMode.Disabled)
+            if (Setting.Gamemode.Titan.FemaleTitan.HealthMode != TitanHealthMode.Disabled)
             {
-                this.maxHealth = this.Health = GameSettings.Titan.Female.Health;
+                this.maxHealth = this.Health = Setting.Gamemode.Titan.FemaleTitan.Health;
             }
             if (this.Health > 0)
             {
@@ -1356,7 +1356,7 @@ public class FemaleTitan : TitanBase
         this.AnkleRHP = 50;
         this.AnkleLHPMAX = 50;
         this.AnkleRHPMAX = 50;
-        var flag = GameSettings.Respawn.Mode == RespawnMode.Never;
+        var flag = Setting.Gamemode.Respawn.Mode == RespawnMode.Never;
         this.Health = 1000;
         this.AnkleLHP = this.AnkleLHPMAX = 50;
         this.AnkleRHP = this.AnkleRHPMAX = 50;
@@ -1432,7 +1432,7 @@ public class FemaleTitan : TitanBase
             Vector3 vector = view.gameObject.transform.position - transform.transform.position;
             if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
             {
-                if (speed >= GameSettings.Titan.MinimumDamage.Value)
+                if (speed >= Setting.Gamemode.Titan.MinimumDamage.Value)
                 {
                     this.Health -= speed;
                 }
@@ -1502,7 +1502,7 @@ public class FemaleTitan : TitanBase
                 if (base.GetComponent<Animation>()["ft_die_0"].normalizedTime >= 1f)
                 {
                     this.playAnimation("ft_die_cry");
-                    if (GameSettings.Titan.Female.SpawnTitansOnDefeat.Value)
+                    if (Setting.Gamemode.Titan.FemaleTitan.SpawnTitansOnDefeat.Value)
                     {
                         for (int i = 0; i < 15; i++)
                         {
@@ -1519,7 +1519,7 @@ public class FemaleTitan : TitanBase
                         PhotonNetwork.Instantiate("FX/FXtitanDie1", base.transform.Find("Amarture/Core/Controller_Body/hip").position, Quaternion.Euler(-90f, 0f, 0f), 0).transform.localScale = base.transform.localScale;
                     }
                 }
-                if (this.dieTime > GameSettings.Titan.Female.DespawnTimer.Value)
+                if (this.dieTime > Setting.Gamemode.Titan.FemaleTitan.DespawnTimer.Value)
                 {
                     if (base.photonView.isMine)
                     {

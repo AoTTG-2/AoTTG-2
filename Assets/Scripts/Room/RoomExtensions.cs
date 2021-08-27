@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.Settings.New;
-using Assets.Scripts.Settings.New.Game.Gamemodes;
+﻿using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using System.Linq;
 
 namespace Assets.Scripts.Room

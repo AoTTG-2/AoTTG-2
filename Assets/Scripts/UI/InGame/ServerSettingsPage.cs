@@ -1,6 +1,7 @@
-using Assets.Scripts.Services;
-using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Room;
+using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
@@ -14,16 +15,14 @@ namespace Assets.Scripts.UI.InGame
     {
         public Dropdown LevelDropdown;
         public Dropdown GamemodeDropdown;
-        private List<LegacyLevel> levels;
+        private List<Level> levels;
         
-        private LegacyLevel selectedLevel;
-        private GamemodeSettings selectedGamemode;
-
-        
+        private Level selectedLevel;
+        private GamemodeSetting selectedGamemode;
         
         private void Awake()
         {
-            levels = LevelBuilder.GetAllLevels();
+            levels = Setting.Levels;
         }
 
         public void Start()
@@ -51,7 +50,7 @@ namespace Assets.Scripts.UI.InGame
             OnLevelSelected(levels[0]);
         }
 
-        private void OnLevelSelected(LegacyLevel level)
+        private void OnLevelSelected(Level level)
         {
             selectedLevel = level;
             GamemodeDropdown.options = new List<Dropdown.OptionData>();
@@ -63,7 +62,7 @@ namespace Assets.Scripts.UI.InGame
             OnGamemodeSelected(level.Gamemodes[0]);
         }
 
-        private void OnGamemodeSelected(GamemodeSettings gamemode)
+        private void OnGamemodeSelected(GamemodeSetting gamemode)
         {
             selectedGamemode = gamemode;
         }

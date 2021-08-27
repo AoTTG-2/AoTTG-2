@@ -32,7 +32,7 @@ public class Bomb : Photon.MonoBehaviour
             this.correctPlayerPos = base.transform.position;
             this.correctPlayerRot = Quaternion.identity;
             PhotonPlayer owner = base.photonView.owner;
-            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+            if (Setting.Gamemode.TeamMode != TeamMode.Disabled)
             {
                 int num = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                 if (num == 1)
@@ -85,7 +85,7 @@ public class Bomb : Photon.MonoBehaviour
             if (((Vector3.Distance(heroGO.transform.position, position) < radius) && !heroGO.GetPhotonView().isMine) && !hero.bombImmune)
             {
                 PhotonPlayer owner = heroGO.GetPhotonView().owner;
-                if (((GameSettings.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                if (((Setting.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                 {
                     int num = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                     int num2 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);

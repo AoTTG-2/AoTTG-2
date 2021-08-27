@@ -6,7 +6,7 @@ using Assets.Scripts.Extensions;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace Assets.Scripts.Gamemode
     public class WaveGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Wave;
-        private WaveGamemodeSettings Settings => GameSettings.Gamemode as WaveGamemodeSettings;
+        private WaveGamemodeSetting Settings => Setting.Gamemode as WaveGamemodeSetting;
 
         private int HighestWave { get; set; } = 1;
         public int Wave { get; set; } = 1;
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Gamemode
             if (Wave > HighestWave)
                 HighestWave = Wave;
 
-            if (GameSettings.Respawn.Mode == RespawnMode.NewRound)
+            if (Setting.Gamemode.Respawn.Mode == RespawnMode.NewRound)
             {
                 foreach (var player in PhotonNetwork.playerList)
                 {
@@ -87,22 +87,35 @@ namespace Assets.Scripts.Gamemode
                 }
                 else
                 {
-                    StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value + Wave * Settings.WaveIncrement.Value));
+                    StartCoroutine(SpawnTitan(Setting.Gamemode.Titan.Start.Value + Wave * Settings.WaveIncrement.Value));
                 }
             }
         }
 
-        protected override void Level_OnLevelLoaded(int scene, LegacyLevel level)
+        protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
             if (!PhotonNetwork.isMasterClient) return;
-            if (GameSettings.Gamemode.Name.Contains("Annie"))
+
+            Wave = Settings.StartWave.Value;
+
+            if (Setting.Gamemode.Name.Contains("Annie"))
             {
                 PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
             }
             else
             {
-                StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value));
+                if (Wave % Settings.BossWave.Value == 0)
+                {
+                    for (var i = 0; i < Wave / Settings.BossWave.Value; i++)
+                    {
+                        SpawnService.Spawn<MindlessTitan>(GetWaveTitanConfiguration(Settings.BossType.Value));
+                    }
+                }
+                else
+                {
+                    StartCoroutine(SpawnTitan(Setting.Gamemode.Titan.Start.Value));
+                }
             }
         }
 
@@ -132,7 +145,7 @@ namespace Assets.Scripts.Gamemode
         {
             for (var i = 0; i < titans; i++)
             {
-                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
+                if (EntityService.Count<MindlessTitan>() >= Setting.Gamemode.Titan.Limit.Value) break;
                 var randomSpawn = GetSpawnLocation();
                 SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
                     GetWaveTitanConfiguration());

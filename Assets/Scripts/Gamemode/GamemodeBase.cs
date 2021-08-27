@@ -6,7 +6,6 @@ using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using Photon;
@@ -15,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Gamemode
         /// </summary>
         public abstract GamemodeType GamemodeType { get; }
 
-        private GamemodeSettings Settings => GameSettings.Gamemode;
+        private GamemodeSetting Settings => Setting.Gamemode;
 
         protected IEntityService EntityService => Service.Entity;
         protected IFactionService FactionService => Service.Faction;
@@ -55,18 +55,18 @@ namespace Assets.Scripts.Gamemode
         /// </summary>
         protected bool IsRoundOver { get; private set; }
 
-        protected virtual void Level_OnLevelLoaded(int scene, LegacyLevel level)
+        protected virtual void Level_OnLevelLoaded(int scene, Level level)
         {
             IsRoundOver = false;
             UiService.ResetMessagesAll();
             Coroutines.ForEach(StopCoroutine);
 
-            if (!GameSettings.Gamemode.Supply.Value)
+            if (!Setting.Gamemode.Supply)
             {
                 Destroy(GameObject.Find("aot_supply"));
             }
 
-            if (GameSettings.Gamemode.LavaMode.Value)
+            if (Setting.Gamemode.LavaMode.Value)
             {
                 Instantiate(Resources.Load("levelBottom"), new Vector3(0f, -29.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
                 var lavaSupplyStation = GameObject.Find("aot_supply_lava_position");
@@ -150,7 +150,7 @@ namespace Assets.Scripts.Gamemode
 
         private MindlessTitanType GetTitanTypeFromDictionary(Dictionary<MindlessTitanType, float> titanRatio)
         {
-            foreach (var disabledTitanType in GameSettings.Titan.Mindless.Disabled)
+            foreach (var disabledTitanType in Setting.Gamemode.Titan.MindlessTitan.Disabled.Value)
             {
                 titanRatio.Remove(disabledTitanType);
             }
@@ -178,7 +178,8 @@ namespace Assets.Scripts.Gamemode
 
         protected MindlessTitanType GetDefaultTitanType()
         {
-            return GetTitanTypeFromDictionary(GameSettings.Titan.Mindless.TypeRatio);
+            return MindlessTitanType.Abberant;
+            //return GetTitanTypeFromDictionary(Setting.Gamemode.Titan.MindlessTitan.TypeRatio);
         }
 
         public virtual TitanConfiguration GetPlayerTitanConfiguration()
@@ -213,7 +214,7 @@ namespace Assets.Scripts.Gamemode
         {
             if (PhotonNetwork.isMasterClient)
                 PhotonNetwork.RemoveRPCs(photonView);
-            if (Settings.PointMode > 0)
+            if (Settings.PointMode.Value > 0)
             {
                 for (int i = 0; i < PhotonNetwork.playerList.Length; i++)
                 {
@@ -265,7 +266,7 @@ namespace Assets.Scripts.Gamemode
             {
                 for (var i = 0; i < amount; i++)
                 {
-                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
+                    if (EntityService.Count<MindlessTitan>() >= Settings.Titan.Limit.Value) break;
                     var randomSpawn = spawns[Random.Range(0, spawns.Count)];
                     SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
                     yield return new WaitForEndOfFrame();
@@ -275,7 +276,7 @@ namespace Assets.Scripts.Gamemode
             {
                 for (var i = 0; i < amount; i++)
                 {
-                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
+                    if (EntityService.Count<MindlessTitan>() >= Settings.Titan.Limit.Value) break;
                     var randomSpawn = Service.Spawn.GetRandomSpawnPosition();
                     SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
                     yield return new WaitForEndOfFrame();

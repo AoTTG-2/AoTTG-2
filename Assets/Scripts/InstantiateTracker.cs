@@ -33,14 +33,14 @@ public class InstantiateTracker
         {
             case "rcasset/bombmain":
             case "rcasset/bombexplodemain":
-                if (!GameSettings.PvP.Bomb.Value)
-                {
-                    if (PhotonNetwork.isMasterClient)
-                    {
-                        FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning bomb item (" + key + ").");
-                    }
-                    return false;
-                }
+                //if (!Setting.Gamemode.PvP.Bomb.Value)
+                //{
+                //    if (PhotonNetwork.isMasterClient)
+                //    {
+                //        FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning bomb item (" + key + ").");
+                //    }
+                //    return false;
+                //}
                 return this.Instantiated(photonPlayer, GameResource.bomb);
 
             case "hook":
@@ -70,11 +70,11 @@ public class InstantiateTracker
             case "fx/boom5":
             case "fx/rockthrow":
             case "fx/bite":
-                if (GameSettings.Gamemode.IsPlayerTitanEnabled.Value || GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
+                if (Setting.Gamemode.IsPlayerTitanEnabled.Value || Setting.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 {
                     return this.Instantiated(photonPlayer, GameResource.effect);
                 }
-                if (PhotonNetwork.isMasterClient && !GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
+                if (PhotonNetwork.isMasterClient && !Setting.Gamemode.IsPlayerTitanEnabled.Value)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, false, "spawning titan effects.");
                 }
@@ -110,7 +110,7 @@ public class InstantiateTracker
             case "titan_eren":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if(!GameSettings.Gamemode.PlayerShifters.Value)
+                    if(!Setting.Gamemode.PlayerShifers.Value)
                     {
                         if (PhotonNetwork.isMasterClient)
                         {
@@ -134,7 +134,7 @@ public class InstantiateTracker
             case "hitmeatbig":
                 if (!(RCextensions.returnStringFromObject(photonPlayer.CustomProperties[PhotonPlayerProperty.character]).ToUpper() != "EREN"))
                 {
-                    if (!GameSettings.Gamemode.PlayerShifters.Value)
+                    if (!Setting.Gamemode.PlayerShifers.Value)
                     {
                         if (PhotonNetwork.isMasterClient)
                         {
@@ -153,7 +153,7 @@ public class InstantiateTracker
             case "fx/colossal_steam_dmg":
             case "fx/colossal_steam":
             case "fx/boom1_ct_kick":
-                if (!PhotonNetwork.isMasterClient || (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush))
+                if (!PhotonNetwork.isMasterClient || (Setting.Gamemode.GamemodeType == GamemodeType.TitanRush))
                 {
                     return this.Instantiated(photonPlayer, GameResource.effect);
                 }
@@ -161,7 +161,7 @@ public class InstantiateTracker
                 return false;
 
             case "rock":
-                if (!PhotonNetwork.isMasterClient || (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush))
+                if (!PhotonNetwork.isMasterClient || (Setting.Gamemode.GamemodeType == GamemodeType.TitanRush))
                 {
                     return this.Instantiated(photonPlayer, GameResource.general);
                 }
@@ -169,11 +169,11 @@ public class InstantiateTracker
                 return false;
 
             case "horse":
-                if (GameSettings.Horse.Enabled.Value)
+                if (Setting.Gamemode.Horse.Enabled.Value)
                 {
                     return this.Instantiated(photonPlayer, GameResource.general);
                 }
-                if (PhotonNetwork.isMasterClient && !GameSettings.Horse.Enabled.Value)
+                if (PhotonNetwork.isMasterClient && !Setting.Gamemode.Horse.Enabled.Value)
                 {
                     FengGameManagerMKII.instance.kickPlayerRC(photonPlayer, true, "spawning horse (" + key + ").");
                 }
@@ -183,7 +183,7 @@ public class InstantiateTracker
                 int num4;
                 //if (!PhotonNetwork.isMasterClient)
                 //{
-                //    if (FengGameManagerMKII.masterRC && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
+                //    if (FengGameManagerMKII.masterRC && (Setting.Gamemode.Gamemode.GamemodeType != GamemodeType.TitanRush))
                 //    {
                 //        num4 = 0;
                 //        foreach (MindlessTitan titan in  FengGameManagerMKII.instance.getTitans())
@@ -200,9 +200,9 @@ public class InstantiateTracker
                 //    }
                 //    break;
                 //}
-                //if (GameSettings.Gamemode.IsPlayerTitanEnabled.Value || GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
+                //if (Setting.Gamemode.Gamemode.IsPlayerTitanEnabled.Value || Setting.Gamemode.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 //{
-                //    if (GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush)
+                //    if (Setting.Gamemode.Gamemode.GamemodeType == GamemodeType.TitanRush)
                 //    {
                 //        break;
                 //    }
