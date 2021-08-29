@@ -26,8 +26,8 @@ namespace Assets.Scripts.Settings
         //TODO: Game Settings (GameMode ect), Graphic Settings, UI Settings (UI customization)
 
         public DebugSettings DefaultDebug;
-        public GamemodeSetting DefaultGamemodeSetting;
         public GameSettings DefaultGameSetting;
+        public GamemodeSetting DefaultGamemodeSetting;
         public List<Level> DefaultLevels;
         public List<RuleSet> RuleSets;
 
@@ -37,6 +37,14 @@ namespace Assets.Scripts.Settings
         [SerializeField] private GamemodeSetting CurrentGamemodeSettings;
         [SerializeField] private GameSettings CurrentGameSettings;
 #endif
+
+        private GamemodeSetting statelessGamemode;
+        private List<RuleSet> statelessRuleSets;
+        public void SetStatelessSettings(GamemodeSetting gamemode, List<RuleSet> ruleSets)
+        {
+            statelessGamemode = gamemode;
+            statelessRuleSets = ruleSets ?? new List<RuleSet>();
+        }
 
         private void Awake()
         {
@@ -53,7 +61,10 @@ namespace Assets.Scripts.Settings
             Game = DefaultGameSetting.Copy() as GameSettings;
 
             RuleSets ??= new List<RuleSet>();
-            Gamemode = Game.Setup<WaveGamemodeSetting>(RuleSets, Levels[0].Gamemodes[0] as WaveGamemodeSetting);
+
+            Gamemode = statelessGamemode != null 
+                ? Game.Setup(statelessGamemode, statelessRuleSets) 
+                : Game.Setup(DefaultGamemodeSetting, RuleSets);
 
 #if UNITY_EDITOR
             CurrentDebugSettings = Debug;

@@ -477,7 +477,7 @@ namespace Assets.Scripts
             {
                 Setting.Gamemode.Override(settings);
                 var gamemodeObject = GameObject.Find("Gamemode");
-                Gamemode = (GamemodeBase) gamemodeObject.AddComponent<WaveGamemode>(); //TODO: Gamemode
+                Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
             }
             else
             {

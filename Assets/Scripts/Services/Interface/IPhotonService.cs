@@ -46,7 +46,7 @@ namespace Assets.Scripts.Services.Interface
         /// <param name="roomName"></param>
         /// <param name="levelName"></param>
         /// <param name="gamemodeName"></param>
-        void StatelessConnect(bool isOffline, string roomName, string levelName, string gamemodeName);
+        void StatelessConnect(bool isOffline, string roomName, string levelName, string gamemodeName, PhotonServerConfig config);
 
         bool IsStatelesslyConnected();
     }

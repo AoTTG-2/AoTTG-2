@@ -2,10 +2,12 @@
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using Photon;
@@ -13,8 +15,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Extensions;
-using Assets.Scripts.Settings.Game.Gamemodes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -148,7 +148,7 @@ namespace Assets.Scripts.Gamemode
             return GetDefaultTitanType();
         }
 
-        private MindlessTitanType GetTitanTypeFromDictionary(Dictionary<MindlessTitanType, float> titanRatio)
+        private MindlessTitanType GetTitanTypeFromDictionary(IDictionary<MindlessTitanType, float> titanRatio)
         {
             foreach (var disabledTitanType in Setting.Gamemode.Titan.MindlessTitan.Disabled.Value)
             {
@@ -178,8 +178,7 @@ namespace Assets.Scripts.Gamemode
 
         protected MindlessTitanType GetDefaultTitanType()
         {
-            return MindlessTitanType.Abberant;
-            //return GetTitanTypeFromDictionary(Setting.Gamemode.Titan.MindlessTitan.TypeRatio);
+            return GetTitanTypeFromDictionary(Setting.Gamemode.Titan.MindlessTitan.TypeRatio.Value);
         }
 
         public virtual TitanConfiguration GetPlayerTitanConfiguration()

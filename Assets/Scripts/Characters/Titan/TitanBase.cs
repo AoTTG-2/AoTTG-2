@@ -419,7 +419,7 @@ namespace Assets.Scripts.Characters.Titan
             var view = PhotonView.Find(viewId);
             if (view == null || !IsAlive || Time.time - DamageTimer < 0.2f) return;
             if (damage < Setting.Gamemode.Titan.MinimumDamage.Value) return;
-            if (damage > Setting.Gamemode.Titan.MaximumDamage.Value)
+            if (damage > Setting.Gamemode.Titan.MaximumDamage && Setting.Gamemode.Titan.MaximumDamage > 10)
             {
                 damage = Setting.Gamemode.Titan.MaximumDamage.Value;
             }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CustomMaps;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings.Game.Gamemodes;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,14 @@ namespace Assets.Scripts.Room
 
         public void LoadLevel()
         {
-
+            if (Type == CustomMapType.CustomMap)
+            {
+                Service.Map.Load(Name);
+            }
+            else
+            {
+                Service.Map.LoadScene(SceneName);
+            }
         }
     }
 }

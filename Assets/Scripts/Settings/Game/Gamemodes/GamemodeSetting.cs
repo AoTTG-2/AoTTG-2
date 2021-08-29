@@ -1,5 +1,8 @@
-﻿using Assets.Scripts.Gamemode.Options;
+﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Catch;
+using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings.Types;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Settings.Game.Gamemodes
@@ -78,6 +81,16 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
             if (Respawn != null) setting.Respawn = Respawn.Copy() as RespawnSettings;
             if (Time != null) setting.Time = Time.Copy() as TimeSettings;
             return setting;
+        }
+
+        public Type GetGamemodeFromSettings()
+        {
+            return this switch
+            {
+                WaveGamemodeSetting _ => typeof(WaveGamemode),
+                KillTitansGamemodeSetting _ => typeof(KillTitansGamemode),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }

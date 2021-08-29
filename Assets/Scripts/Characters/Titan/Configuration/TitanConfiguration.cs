@@ -2,9 +2,7 @@
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Game;
 using Assets.Scripts.Settings.Game.Titans;
-using Assets.Scripts.Settings.Titans;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +16,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
     public class TitanConfiguration : EntityConfiguration
     {
         private MindlessTitanSettings Settings => Setting.Gamemode.Titan.MindlessTitan;
-        //private TitanSettings TypeSettings { get; set; }
+        private BaseTitanSettings TypeSettings { get; set; }
 
         public int Health { get; set; } = 5000;
         public int HealthRegeneration { get; set; } = 10;
@@ -49,10 +47,9 @@ namespace Assets.Scripts.Characters.Titan.Configuration
         public TitanConfiguration(int healthRegeneration, int limbHealth, float viewDistance, MindlessTitanType type)
         {
             Type = type;
-            //TODO: MindlessTitan type settings
-            //Settings.TypeSettings.TryGetValue(type, out var typeSettings);
-            //TypeSettings = typeSettings;
-            Size = /*TypeSettings?.Size ??*/ Settings.Size.Value;
+            Settings.TypeSettings.Value.TryGetValue(type, out var typeSettings);
+            TypeSettings = typeSettings;
+            Size = TypeSettings?.Size ?? Settings.Size.Value;
             Health = SetHealth();
             HealthRegeneration = healthRegeneration;
             LimbHealth = limbHealth;
@@ -66,7 +63,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 
         private int SetHealth()
         {
-            var healthMode = /*TypeSettings?.HealthMode ?? */Settings.HealthMode;
+            var healthMode = TypeSettings?.HealthMode ?? Settings.HealthMode;
             switch (healthMode.Value)
             {
                 case TitanHealthMode.Fixed:
@@ -83,9 +80,9 @@ namespace Assets.Scripts.Characters.Titan.Configuration
 
         private void SetMindlessTitanType(MindlessTitanType type)
         {
-            Idle = /*TypeSettings?.Idle ?? */Settings.Idle.Value;
-            Speed = /*TypeSettings?.Speed ?? */Settings.Speed.Value;
-            RunSpeed = /*TypeSettings?.RunSpeed ?? */Speed;
+            Idle = TypeSettings?.Idle?.Value ?? Settings.Idle.Value;
+            Speed = TypeSettings?.Speed?.Value ?? Settings.Speed.Value;
+            RunSpeed = TypeSettings?.RunSpeed?.Value ?? Speed;
 
             switch (type)
             {

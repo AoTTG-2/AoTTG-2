@@ -44,10 +44,11 @@ namespace Assets.Scripts.Services
         {
             if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
             {
-                while (Service.Settings.Get() == null)
-                {
-                    await Task.Delay(500);
-                }
+                //TODO: Await until settings are synced?
+                //while (Service.Settings.Get() == null)
+                //{
+                //    await Task.Delay(500);
+                //}
             }
 
             if (SceneManager.GetSceneByBuildIndex(level).name == "Custom")

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings.Game.Gamemodes;
+﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,19 +38,17 @@ namespace Assets.Scripts.Settings.Game
             return setting;
         }
 
-        public GamemodeSetting Setup<T>(List<RuleSet> ruleSets, T levelSetting) where T : GamemodeSetting
+        public GamemodeSetting Setup(GamemodeSetting levelSetting, List<RuleSet> ruleSets)
         {
-            var type = typeof(T);
-            GamemodeSetting currentSetting;
-            if (type == typeof(WaveGamemodeSetting))
+            GamemodeSetting currentGamemode = levelSetting switch
             {
-                currentSetting = Instantiate(gamemodes.Wave);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+                WaveGamemodeSetting _ => gamemodes.Wave,
+                KillTitansGamemodeSetting _ => gamemodes.KillTitans,
+                _ => throw new NotImplementedException($"Gamemode: {levelSetting.GetType()} is not implemented")
+            };
 
+            // 1. Create a Gamemode Setting based on the GameSettings
+            var currentSetting = Instantiate(currentGamemode);
             currentSetting.PvP = PvP;
             currentSetting.Horse = Horse;
             currentSetting.Global = Global;
@@ -57,13 +56,18 @@ namespace Assets.Scripts.Settings.Game
             currentSetting.Time = Time;
             currentSetting.Respawn = Respawn;
 
-            currentSetting.Override(gamemodes.Wave);
+            // 2. Override the Settings with the gamemode specific settings
+            currentSetting.Override(currentGamemode);
+
+            // 3. Override the Settings with RuleSets
             foreach (var ruleSet in ruleSets)
             {
                 currentSetting.Override(ruleSet);
             }
+
+            // 4. Override the Settings with the Level Settings
             currentSetting.Override(levelSetting);
-            return currentSetting as T;
+            return currentSetting;
         }
     }
 

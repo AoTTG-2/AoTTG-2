@@ -47,6 +47,26 @@ namespace Assets.Scripts.Settings.Types
             MaxValue = maxValue;
             Default = @default;
         }
+
+        public static bool operator >(IntSetting left, int right)
+        {
+            return left.HasValue && left.Value > right;
+        }
+
+        public static bool operator >(int left, IntSetting right)
+        {
+            return right.HasValue && left > right.Value;
+        }
+
+        public static bool operator <(IntSetting left, int right)
+        {
+            return left.HasValue && left.Value < right;
+        }
+
+        public static bool operator <(int left, IntSetting right)
+        {
+            return right.HasValue && left < right.Value;
+        }
     }
 
     public class IntSettingConverter : JsonConverter<IntSetting>

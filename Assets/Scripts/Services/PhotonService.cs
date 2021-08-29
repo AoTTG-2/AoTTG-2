@@ -87,7 +87,7 @@ namespace Assets.Scripts.Services
             PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
         }
 
-        public void StatelessConnect(bool offline, string roomName, string levelName, string gamemodeName)
+        public void StatelessConnect(bool offline, string roomName, string levelName, string gamemodeName, PhotonServerConfig config)
         {
             if (offline)
             {
@@ -96,6 +96,7 @@ namespace Assets.Scripts.Services
             }
             else
             {
+                currentServerConfig = config;
                 StartCoroutine(CreateOnlineRoom(roomName, levelName, gamemodeName));
             }
         }
@@ -127,7 +128,7 @@ namespace Assets.Scripts.Services
         private IEnumerator CreateOnlineRoom(string roomName, string levelName, string gamemodeName)
         {
             float startTime = Time.time;
-            Service.Photon.Connect();
+            Connect();
 
             while (!isJoinedLobby)
             {
