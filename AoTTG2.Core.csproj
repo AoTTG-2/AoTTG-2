@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Effects\VortexAffector.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\CustomizableHudElement.cs" />
+    <Compile Include="Assets\Scripts\Settings\Types\DictionarySetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\KickAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanGlassesComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeadgearComponent.cs" />
@@ -358,6 +359,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\RockThrow.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Bullet.cs" />
     <Compile Include="Assets\Scripts\UI\UiContainer.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\RuleSet.cs" />
     <Compile Include="Assets\Scripts\Effects\UVAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\HookUI.cs" />
     <Compile Include="Assets\Scripts\Settings\Validation\IntValidationAttribute.cs" />
@@ -507,8 +509,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\Game\RuleSet.cs" />
-    <Compile Include="Assets\Scripts\Settings\Types\DictionarySetting.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
