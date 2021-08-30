@@ -4,6 +4,7 @@ using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Credits;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
@@ -197,6 +198,8 @@ namespace Assets.Scripts.Characters.Titan
         /// Returns true if the titan has a Target.
         /// </summary>
         public bool IsTarget => Target != null;
+
+        public Contributor Contributor;
 
         /// <summary>
         /// Executes the formula which is used to determine what the next target should be. This should not be used OnUpdate or OnFixedUpdate
@@ -457,6 +460,14 @@ namespace Assets.Scripts.Characters.Titan
         [PunRPC]
         protected void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
         {
+            if (Contributor != null && HealthLabel != null)
+            {
+                name = Contributor.Name;
+                HealthLabel.GetComponent<TextMesh>().text =
+                    $"<color=#{ColorUtility.ToHtmlStringRGB(Contributor.Color)}>{Contributor.Name}</color>\n{Contributor.Role}";
+                return;
+            }
+
             if (currentHealth < 0)
             {
                 if (HealthLabel != null)

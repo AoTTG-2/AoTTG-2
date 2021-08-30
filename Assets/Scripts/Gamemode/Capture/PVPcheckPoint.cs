@@ -2,6 +2,7 @@ using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -156,8 +157,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.state = CheckPointState.Human;
             object[] parameters = new object[] { 1 };
             base.photonView.RPC(nameof(changeState), PhotonTargets.All, parameters);
-            //TODO: Capture
-            if (true)
+            if (Setting.Gamemode is CaptureGamemodeSetting captureSetting && captureSetting.CheckpointSupplyStation.Value)
             {
                 supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
             }

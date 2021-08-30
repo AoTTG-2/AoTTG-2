@@ -96,6 +96,26 @@ namespace Assets.Scripts.Services
             throw new ArgumentException($"{type} is not implemented");
         }
 
+        public T Spawn<T>(Vector3 position, Quaternion rotation) where T : Entity
+        {
+            var type = typeof(T);
+            if (type == typeof(MindlessTitan))
+            {
+                return SpawnTitan("MindlessTitan", position, rotation, null) as T;
+            }
+
+            if (type == typeof(FemaleTitan))
+                return SpawnTitan("FemaleTitan", position, rotation, null) as T;
+
+            if (type == typeof(ColossalTitan))
+                return SpawnTitan("ColossalTitan", position, rotation, null) as T;
+
+            if (type == typeof(ErenTitan))
+                return SpawnTitan("ErenTitan", position, rotation, null) as T;
+
+            throw new ArgumentException($"{type} is not implemented");
+        }
+
         public T Spawn<T>(Vector3 position, Quaternion rotation, EntityConfiguration configuration) where T : Entity
         {
             var type = typeof(T);
@@ -152,7 +172,10 @@ namespace Assets.Scripts.Services
         private TitanBase SpawnTitan(string prefab, Vector3 position, Quaternion rotation, TitanConfiguration configuration)
         {
             var titan = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<TitanBase>();
-            titan.Initialize(configuration);
+            if (configuration != null)
+            {
+                titan.Initialize(configuration);
+            }
             return titan;
         }
 
@@ -179,13 +202,6 @@ namespace Assets.Scripts.Services
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             return playerTitan;
-        }
-
-
-
-        private void LateUpdate()
-        {
-
         }
     }
 }

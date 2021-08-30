@@ -55,6 +55,11 @@ namespace Assets.Scripts.Gamemode
         /// </summary>
         protected bool IsRoundOver { get; private set; }
 
+        /// <summary>
+        /// When set to false, any logic regarding the gamemode should be ignored because the gamemode is not valid on the current map
+        /// </summary>
+        protected bool IsValid { get; set; }
+
         protected virtual void Level_OnLevelLoaded(int scene, Level level)
         {
             IsRoundOver = false;

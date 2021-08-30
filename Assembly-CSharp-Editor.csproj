@@ -814,6 +814,10 @@
       <Project>{52D2F37C-0CD0-14C2-FFEB-9C57B7B31CA0}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="SerializableDictionary.Editor.csproj">
+      <Project>{934D1680-A642-A101-775D-99D4175E5D46}</Project>
+      <Name>SerializableDictionary.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="AoTTG2.Core.csproj">
       <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
       <Name>AoTTG2.Core</Name>
@@ -837,10 +841,6 @@
     <ProjectReference Include="LeanTween.csproj">
       <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
       <Name>LeanTween</Name>
-    </ProjectReference>
-    <ProjectReference Include="SerializableDictionary.Editor.csproj">
-      <Project>{934D1680-A642-A101-775D-99D4175E5D46}</Project>
-      <Name>SerializableDictionary.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Gamemode;
-using Assets.Scripts.Settings.Game.Gamemodes;
+﻿using Assets.Scripts.Settings.Game.Gamemodes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,11 +43,13 @@ namespace Assets.Scripts.Settings.Game
             {
                 WaveGamemodeSetting _ => gamemodes.Wave,
                 KillTitansGamemodeSetting _ => gamemodes.KillTitans,
+                CaptureGamemodeSetting _ => gamemodes.Capture,
+                CreditsGamemodeSetting _ => null,
                 _ => throw new NotImplementedException($"Gamemode: {levelSetting.GetType()} is not implemented")
             };
 
             // 1. Create a Gamemode Setting based on the GameSettings
-            var currentSetting = Instantiate(currentGamemode);
+            var currentSetting = Instantiate(currentGamemode ?? levelSetting);
             currentSetting.PvP = PvP;
             currentSetting.Horse = Horse;
             currentSetting.Global = Global;
@@ -57,7 +58,7 @@ namespace Assets.Scripts.Settings.Game
             currentSetting.Respawn = Respawn;
 
             // 2. Override the Settings with the gamemode specific settings
-            currentSetting.Override(currentGamemode);
+            if (currentGamemode != null) currentSetting.Override(currentGamemode);
 
             // 3. Override the Settings with RuleSets
             foreach (var ruleSet in ruleSets)
@@ -76,5 +77,6 @@ namespace Assets.Scripts.Settings.Game
     {
         public WaveGamemodeSetting Wave;
         public KillTitansGamemodeSetting KillTitans;
+        public CaptureGamemodeSetting Capture;
     }
 }

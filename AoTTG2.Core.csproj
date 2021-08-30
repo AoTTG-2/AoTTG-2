@@ -186,6 +186,7 @@
     <Compile Include="Assets\Scripts\UI\Camera\MaxCamera.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHairComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\Types\StringSetting.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\CaptureGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Room\TitanSpawnerType.cs" />
     <Compile Include="Assets\Scripts\Services\LevelService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\RespawnMode.cs" />
@@ -509,6 +510,9 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\Credits\Contributor.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\CreditsGamemodeSetting.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\CreditsGamemode.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

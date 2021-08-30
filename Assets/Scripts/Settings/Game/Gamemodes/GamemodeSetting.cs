@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Gamemode;
-using Assets.Scripts.Gamemode.Catch;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings.Types;
 using System;
@@ -89,6 +88,8 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
             {
                 WaveGamemodeSetting _ => typeof(WaveGamemode),
                 KillTitansGamemodeSetting _ => typeof(KillTitansGamemode),
+                CaptureGamemodeSetting _ => typeof(CaptureGamemode),
+                CreditsGamemodeSetting _ => typeof(CreditsGamemode),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

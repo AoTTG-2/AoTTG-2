@@ -2,9 +2,14 @@
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Room;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.InGame.HUD;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -12,7 +17,7 @@ namespace Assets.Scripts.Gamemode
     public class CaptureGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Capture;
-        //private CaptureGamemodeSettings Settings => Setting.Gamemode.Gamemode as CaptureGamemodeSettings;
+        private CaptureGamemodeSetting Settings => Setting.Gamemode as CaptureGamemodeSetting;
 
         public int PvpTitanScore { get; set; }
         public int PvpHumanScore { get; set; }
@@ -22,16 +27,16 @@ namespace Assets.Scripts.Gamemode
 
         protected override void SetStatusTop()
         {
-            return;
-            //var content = "| ";
-            //foreach (PVPcheckPoint checkpoint in PVPcheckPoint.chkPts)
-            //{
-            //    content = content + checkpoint.getStateString() + " ";
-            //}
-            //content = $"| {Settings.PvpTitanScoreLimit - PvpTitanScore} {content} {Settings.PvpHumanScoreLimit - PvpHumanScore} \n" +
-            //          $"Time : {TimeService.GetRoundDisplayTime()}";
+            if (!IsValid) return;
+            var content = "| ";
+            foreach (PVPcheckPoint checkpoint in PVPcheckPoint.chkPts)
+            {
+                content = content + checkpoint.getStateString() + " ";
+            }
+            content = $"| {Settings.PvPTitanScoreLimit.Value - PvpTitanScore} {content} {Settings.PvPHumanScoreLimit.Value - PvpHumanScore} \n" +
+                      $"Time : {TimeService.GetRoundDisplayTime()}";
 
-            //UiService.SetMessage(LabelPosition.Top, content);
+            UiService.SetMessage(LabelPosition.Top, content);
         }
         
         public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
@@ -86,28 +91,29 @@ namespace Assets.Scripts.Gamemode
 
         private void CheckWinConditions()
         {
-            return;
-            //if (PhotonNetwork.isMasterClient)
-            //{
-            //    photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, PvpHumanScore, PvpTitanScore);
-            //}
+            if (!Settings.RestartOnCompleted.Value) return;
 
-            //string winner = null;
-            //if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
-            //{
-            //    TitanScore++;
-            //    winner = "Titanity";
-            //}
-            //else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
-            //{
-            //    HumanScore++;
-            //    winner = "Humanity";
-            //}
+            if (PhotonNetwork.isMasterClient)
+            {
+                photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, PvpHumanScore, PvpTitanScore);
+            }
 
-            //if (winner != null && PhotonNetwork.isMasterClient)
-            //{
-            //    photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
-            //}
+            string winner = null;
+            if (PvpTitanScore >= Settings.PvPTitanScoreLimit)
+            {
+                TitanScore++;
+                winner = "Titanity";
+            }
+            else if (PvpHumanScore >= Settings.PvPHumanScoreLimit)
+            {
+                HumanScore++;
+                winner = "Humanity";
+            }
+
+            if (winner != null && PhotonNetwork.isMasterClient)
+            {
+                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
+            }
         }
 
         public void AddHumanScore(int score)
@@ -149,6 +155,16 @@ namespace Assets.Scripts.Gamemode
                     var configuration = GetTitanConfiguration(MindlessTitanType.Crawler);
                     SpawnService.Spawn<MindlessTitan>(respawn.transform.position, respawn.transform.rotation, configuration);
                 }
+            }
+
+            var checkpoints = FindObjectsOfType<PVPcheckPoint>();
+            IsValid = checkpoints.Length >= 2;
+            if (!IsValid)
+            {
+                var message = Localization.Gamemode.Shared.GetLocalizedString("INVALID_GAMEMODE",
+                    GamemodeType.ToString());
+                Service.Message.Local(message, DebugLevel.Critical);
+                Service.Ui.SetMessage(LabelPosition.Top, message);
             }
         }
         
