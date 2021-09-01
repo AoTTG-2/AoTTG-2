@@ -167,6 +167,7 @@ namespace Assets.Scripts.Characters.Humans
         public int rightBulletLeft = 7;
         public bool rightGunHasBullet = true;
         public AudioSource rope;
+        public AudioSource ropeNoGas;
         private float rTapTime { get; set; } = -1f;
         private GameObject skillCD { get; set; }
         public float skillCDDuration;
@@ -1213,6 +1214,10 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             rope.Play();
                         }
+                        else
+                        {
+                            ropeNoGas.Play();
+                        }
                     }
                 }
                 else
@@ -1250,6 +1255,10 @@ namespace Assets.Scripts.Characters.Humans
                         if (currentGas > 0)
                         {
                             rope.Play();
+                        }
+                        else
+                        {
+                            ropeNoGas.Play();
                         }
                     }
                 }
@@ -1289,7 +1298,11 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             rope.Play();
                         }
-                        
+                        else
+                        {
+                            ropeNoGas.Play();
+                        }
+
                     }
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
