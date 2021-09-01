@@ -7,13 +7,11 @@ namespace Assets.Scripts.Inventory.Items
 {
     public class Rifle : Item
     {
-
         private Weapon thisWeapon;
         private bool equipped = false;
 
         public override void Use(Hero hero)
         {
-
             if (equipped)
             {
 

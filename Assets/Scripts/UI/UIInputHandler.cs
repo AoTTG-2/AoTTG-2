@@ -25,6 +25,11 @@ namespace Assets.Scripts.UI
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
+            {
+                DebugMenu.SetActive(!DebugMenu.activeSelf);
+            }
+
             if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
                 if (!RadialMenu.activeSelf)
@@ -57,19 +62,15 @@ namespace Assets.Scripts.UI
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask) && hit.distance < interactionDistance)
             {
-
                 interactionWheel.GetComponent<InteractRadialMenu>().targetObject = hit.collider.gameObject;
                 interactionWheel.SetActive(true);
                 inventoryWheel.SetActive(false);
-
             }
 
             else
             {
-
                 inventoryWheel.SetActive(true);
                 interactionWheel.SetActive(false);
-                
             }
 
             return RadialMenu;

@@ -6,15 +6,13 @@ namespace Assets.Scripts.UI.Radial
 {
     public class InteractRadialMenu : RadialMenu
     {
-
         public GameObject targetObject;
         private InventoryManager inventoryManager;
 
         protected override void Start()
         {
-
-            Label.text = "Interact";
             inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+            Label.text = "Interact";
 
             var PickUp = Instantiate(RadialElementPrefab, transform);
             var Examine = Instantiate(RadialElementPrefab, transform);
@@ -31,7 +29,6 @@ namespace Assets.Scripts.UI.Radial
             };
 
             StartCoroutine(SpawnButtons());
-
         }
 
         protected override void OnElementClicked(RadialElement element, int index)
@@ -39,16 +36,17 @@ namespace Assets.Scripts.UI.Radial
             var item = targetObject.GetComponent<PhysicalItem>();
             switch (index)
             {
-
                 case 0:
                     var hero = Services.Service.Player.Self as Hero;
                     inventoryManager.AddItemToInventory(hero, item.myInventoryItem);
                     Destroy(item.gameObject);
-                    break;
+                    return;
                 case 1:
                     Debug.Log(item.myInventoryItem.itemDesc); //TODO Logic for displaying the item desciption
-                    break;
-
+                    return;
+                default:
+                    Debug.LogError("[Interact Radial]: You pressed the nonexistant third button.");
+                    return;
             }
 
         }

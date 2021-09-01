@@ -45,8 +45,6 @@ namespace Assets.Scripts.UI.Radial
         protected virtual void Start()
         {
 
-
-
         }
 
         protected virtual IEnumerator SpawnButtons()
@@ -82,13 +80,10 @@ namespace Assets.Scripts.UI.Radial
 
         protected virtual void OnElementClicked(RadialElement element, int index)
         {
-            
             if(element.NextMenu == null)
             {
-
                 Hero hero = Service.Player.Self as Hero;
                 element.thisItem.Use(hero);
-
             }
 
         }

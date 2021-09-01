@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Inventory.Items
 {
+    /// <summary>
+    /// A base class for ingame items.
+    /// </summary>
     public abstract class Item: MonoBehaviour
     {
         /// <summary>
