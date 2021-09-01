@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.DayNightCycle
 {
+    /// <summary>
+    /// UI class to enable / disable the static skybox functionality
+    /// </summary>
     public class ToggleStaticSkybox : MonoBehaviour
     {
         public Toggle ToggleStatic;

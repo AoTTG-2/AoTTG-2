@@ -11,6 +11,9 @@ using static Assets.Scripts.Room.Chat.ChatUtility;
 
 namespace Assets.Scripts.Room.Chat
 {
+    /// <summary>
+    /// Controls the ChatBox in the HUD
+    /// </summary>
     public class InRoomChat : Photon.MonoBehaviour, IUiElement
     {
         private const int MaxStoredMessages = 100;
@@ -154,7 +157,7 @@ namespace Assets.Scripts.Room.Chat
                         }
                         else
                         {
-                            ChatAll($"  {chat.inputLine}"); // Two spaces to separate playerId and their message. 
+                            ChatAll($"  <link=message>{chat.inputLine}</link>"); // Two spaces to separate playerId and their message. 
                         }
                     }
                     chat.inputLine = string.Empty;

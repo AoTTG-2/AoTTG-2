@@ -7,10 +7,22 @@ using UnityEngine;
 
 namespace Assets.Scripts.Room
 {
+    /// <summary>
+    /// The TitanSpawner will act as a spawnpoint for a <see cref="TitanBase"/>, based on <see cref="Type"/>.
+    /// </summary>
     public class TitanSpawner : Spawner
     {
+        /// <summary>
+        /// After how many seconds the titan should be spawned. Does nothing when the <see cref="Type"/> is <see cref="TitanSpawnerType.None"/>
+        /// </summary>
         public float Delay = 30f;
+        /// <summary>
+        /// When true, the spawner will keep spawning titans per <see cref="Delay"/> until the spawn limit has been reached.
+        /// </summary>
         public bool Endless;
+        /// <summary>
+        /// If the Type == None, then no titan will automatically be spawned.
+        /// </summary>
         public TitanSpawnerType Type;
         private float Timer { get; set; }
 

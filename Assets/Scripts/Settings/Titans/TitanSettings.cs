@@ -21,27 +21,27 @@ namespace Assets.Scripts.Settings.Titans
             return AttackSettings.Single(x => x.GetType() == typeof(T)) as T;
         }
 
-        [UiElement("Min Size", "Minimal titan size", SettingCategory.Titans)]
+        [UiElement("Min Size", "Minimal titan size")]
         public float? SizeMinimum { get; set; }
 
-        [UiElement("Max size", "Maximum titan size", SettingCategory.Titans)]
+        [UiElement("Max size", "Maximum titan size")]
         public float? SizeMaximum { get; set; }
 
-        [UiElement("Titan Chase Distance", "", SettingCategory.Titans)]
+        [UiElement("Titan Chase Distance", "")]
         public float? ChaseDistance { get; set; }
 
-        [UiElement("Titan Health Mode", "", SettingCategory.Titans)]
+        [UiElement("Titan Health Mode", "")]
         public TitanHealthMode? HealthMode { get; set; }
 
-        [UiElement("Titan Minimum Health", "", SettingCategory.Titans)]
+        [UiElement("Titan Minimum Health", "")]
         public int? HealthMinimum { get; set; }
 
-        [UiElement("Titan Maximum Health", "", SettingCategory.Titans)]
+        [UiElement("Titan Maximum Health", "")]
         public int? HealthMaximum { get; set; }
 
         public int? HealthRegeneration { get; set; }
 
-        [UiElement("Explode mode", "", SettingCategory.Titans)]
+        [UiElement("Explode mode", "")]
         public int? ExplodeMode { get; set; }
 
         public float? Idle { get; set; }

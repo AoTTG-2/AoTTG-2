@@ -1,10 +1,11 @@
 ﻿using Assets.Scripts.Services;
-using UnityEngine;
-using UnityEngine.UI;
 using Assets.Scripts.Settings;
-using UnityEngine.EventSystems;
 using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 namespace Assets.Scripts.DayNightCycle
 {
     /// <summary>
@@ -54,16 +55,16 @@ namespace Assets.Scripts.DayNightCycle
         /// </summary>
         private void SubmitTime(string time)
         {
-           
-                //only inputs with ":" and no negatives allowed, "-12:00" is an easter egg
-                if (PhotonNetwork.isMasterClient && TimeSpan.TryParse(time, out var timeSpan) && time.Contains(":") && !time.Contains("-") || time.Contains("-12:00"))
-                {
-                    double seconds = timeSpan.TotalSeconds;
-                    TimeSlider.value = (float) (seconds / 86400);
-                    dayNightCycle.CurrentTime = (float) (24 * seconds / 86400);
-                    GameSettings.Time.CurrentTime = dayNightCycle.CurrentTime;
-                    Service.Settings.SyncSettings();
-                }
+
+            //only inputs with ":" and no negatives allowed, "-12:00" is an easter egg
+            if (PhotonNetwork.isMasterClient && TimeSpan.TryParse(time, out var timeSpan) && time.Contains(":") && !time.Contains("-") || time.Contains("-12:00"))
+            {
+                double seconds = timeSpan.TotalSeconds;
+                TimeSlider.value = (float) (seconds / 86400);
+                dayNightCycle.CurrentTime = (float) (24 * seconds / 86400);
+                GameSettings.Time.CurrentTime = dayNightCycle.CurrentTime;
+                Service.Settings.SyncSettings();
+            }
         }
 
 
@@ -74,7 +75,7 @@ namespace Assets.Scripts.DayNightCycle
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
             TimeSlider.value = dayNightCycle.CurrentTimeScale;
-            
+
             if (PhotonNetwork.isMasterClient)
             {
                 var se = new InputField.SubmitEvent();
@@ -100,7 +101,7 @@ namespace Assets.Scripts.DayNightCycle
         }
 
     }
-   
+
 
 }
 

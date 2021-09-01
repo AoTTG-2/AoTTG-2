@@ -2,11 +2,14 @@
 
 namespace Assets.Scripts.CustomMaps
 {
+    /// <summary>
+    /// A MapTexture is the equivalent of to Unity's Texture2D, but then used for Custom Maps
+    /// </summary>
     [CreateAssetMenu(fileName = "Map Texture", menuName = "Custom Map/Texture")]
     public class MapTexture : ScriptableObject
     {
         /// <summary>
-        /// The name of the MapTexture that is used within the Custom Map File. Changing this can cause compatibility issues, so a new migration tool needs to be created.
+        /// The name of the MapTexture that is used within the Custom Map File. Changing this can cause compatibility issues, so a new migration tool needs to be created
         /// </summary>
         public string Name;
         /// <summary>

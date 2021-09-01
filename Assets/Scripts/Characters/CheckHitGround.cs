@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Used to determine if a titan is on the ground or not
+/// </summary>
 public class CheckHitGround : MonoBehaviour
 {
     public bool isGrounded;

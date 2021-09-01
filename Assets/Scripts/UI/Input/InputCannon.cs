@@ -1,5 +1,8 @@
 ﻿namespace Assets.Scripts.UI.Input
 {
+    /// <summary>
+    /// Rebind enum used for Cannons
+    /// </summary>
     public enum InputCannon
     {
         Up,

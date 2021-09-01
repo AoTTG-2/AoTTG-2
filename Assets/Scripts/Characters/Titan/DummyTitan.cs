@@ -4,6 +4,9 @@ using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
+/// <summary>
+/// The dummy titan. Hasn't been touched since May 2020, so should be updated to match the new standards
+/// </summary>
 public class DummyTitan : Photon.MonoBehaviour
 {
     protected readonly IEntityService EntityService = Service.Entity;

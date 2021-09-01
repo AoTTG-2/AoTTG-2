@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// The script for the rock that is thrown after the Trost gate is destroyed on the Colossal Titan map
+/// </summary>
 public class RockScript : MonoBehaviour
 {
     private Vector3 desPt = new Vector3(-200f, 0f, -280f);

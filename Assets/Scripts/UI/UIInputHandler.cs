@@ -4,12 +4,16 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
+    /// <summary>
+    /// A component attached to the Canvas GameObject, which controls the Radial Menu
+    /// </summary>
     public class UIInputHandler : MonoBehaviour
     {
         private GameObject interactionWheel;
         private GameObject inventoryWheel;
 
         public GameObject RadialMenu;
+        public GameObject DebugMenu;
 
         public float interactionDistance = 10f;
 
@@ -21,7 +25,6 @@ namespace Assets.Scripts.UI
 
         private void Update()
         {
-
             if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
                 if (!RadialMenu.activeSelf)

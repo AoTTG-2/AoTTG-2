@@ -2,6 +2,9 @@
 
 namespace Assets.Scripts.Room.Minimap
 {
+    /// <summary>
+    /// Controls the camera which is used to render the minimap
+    /// </summary>
     public class MinimapCamera : MonoBehaviour
     {
         public int Height = 500;

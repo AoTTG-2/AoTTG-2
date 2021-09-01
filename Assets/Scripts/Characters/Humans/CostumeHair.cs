@@ -2,7 +2,7 @@ using System;
 
 namespace Assets.Scripts.Characters.Humans
 {
-    [Obsolete]
+    [Obsolete("No longer used for Humans, however Titan hair does still rely on this. Should thus be refactored.")]
     public class CostumeHair
     {
         public string hair = string.Empty;
