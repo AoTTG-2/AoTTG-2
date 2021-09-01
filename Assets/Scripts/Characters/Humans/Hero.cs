@@ -1209,7 +1209,10 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        if (currentGas > 0)
+                        {
+                            rope.Play();
+                        }
                     }
                 }
                 else
@@ -1244,7 +1247,10 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        if (currentGas > 0)
+                        {
+                            rope.Play();
+                        }
                     }
                 }
                 else
@@ -1279,7 +1285,11 @@ namespace Assets.Scripts.Characters.Humans
                             LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                             LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                         }
-                        rope.Play();
+                        if(currentGas > 0)
+                        {
+                            rope.Play();
+                        }
+                        
                     }
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
