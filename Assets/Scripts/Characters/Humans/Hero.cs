@@ -1216,7 +1216,11 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         else
                         {
-                            ropeNoGas.Play();
+                            if (InputManager.KeyDown(InputHuman.HookLeft))
+                            {
+                                ropeNoGas.Play();
+                            }
+
                         }
                     }
                 }
@@ -1258,7 +1262,11 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         else
                         {
-                            ropeNoGas.Play();
+                            if (InputManager.KeyDown(InputHuman.HookRight))
+                            {
+                                ropeNoGas.Play();
+                            }
+
                         }
                     }
                 }
@@ -1294,13 +1302,17 @@ namespace Assets.Scripts.Characters.Humans
                             LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                             LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                         }
-                        if(currentGas > 0)
+                        if (currentGas > 0)
                         {
                             rope.Play();
                         }
                         else
                         {
-                            ropeNoGas.Play();
+                            if (InputManager.KeyDown(InputHuman.HookBoth))
+                            {
+                                ropeNoGas.Play();
+                            }
+
                         }
 
                     }
