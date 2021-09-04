@@ -167,6 +167,7 @@ namespace Assets.Scripts.Characters.Humans
         public int rightBulletLeft = 7;
         public bool rightGunHasBullet = true;
         public AudioSource rope;
+        public AudioSource ropeNoGas;
         private float rTapTime { get; set; } = -1f;
         private GameObject skillCD { get; set; }
         public float skillCDDuration;
@@ -1209,7 +1210,8 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        if (currentGas > 0) rope.Play();
+                        else if (InputManager.KeyDown(InputHuman.HookLeft)) ropeNoGas.Play();
                     }
                 }
                 else
@@ -1244,7 +1246,8 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        if (currentGas > 0) rope.Play();
+                        else if (InputManager.KeyDown(InputHuman.HookRight)) ropeNoGas.Play();
                     }
                 }
                 else
@@ -1279,7 +1282,8 @@ namespace Assets.Scripts.Characters.Humans
                             LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                             LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                         }
-                        rope.Play();
+                        if (currentGas > 0) rope.Play();
+                        else if (InputManager.KeyDown(InputHuman.HookBoth)) ropeNoGas.Play();
                     }
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
