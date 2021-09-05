@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4101526838392018656
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70afe9e12c7a7ed47911bb608a23a8ff, type: 3}
-  m_Name: SplitToning
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  shadows:
-    m_OverrideState: 1
-    m_Value: {r: 0.5849056, g: 0.5605037, b: 0.493859, a: 1}
-    hdr: 0
-    showAlpha: 0
-    showEyeDropper: 1
-  highlights:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    hdr: 0
-    showAlpha: 0
-    showEyeDropper: 1
-  balance:
-    m_OverrideState: 1
-    m_Value: 18.3
-    min: -100
-    max: 100
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,7 +15,6 @@ MonoBehaviour:
   components:
   - {fileID: 2673425400240199345}
   - {fileID: 4125567043327989615}
-  - {fileID: -4101526838392018656}
 --- !u!114 &2673425400240199345
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -143,8 +111,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.36607143
-          value: 0.44131458
+          time: 0.3609831
+          value: 0.37142855
           inSlope: 1
           outSlope: 1
           tangentMode: 0
