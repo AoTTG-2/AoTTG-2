@@ -379,6 +379,7 @@
     <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiToggleButton.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\ServerSelector.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />
     <Compile Include="Assets\Scripts\Utility\StringExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
@@ -512,7 +513,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\ServerSelector.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
