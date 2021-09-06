@@ -8,9 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
-    <ProjectGuid>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</ProjectGuid>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{908D02B1-2287-7B51-4F3B-60721C088E3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>LeanTween</AssemblyName>
@@ -57,20 +56,20 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\External\LeanTween\Framework\LeanTest.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LeanAudio.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LTDescrOptional.cs" />
     <Compile Include="Assets\External\LeanTween\Framework\LeanTween.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LeanSmooth.cs" />
     <Compile Include="Assets\External\LeanTween\Framework\LTDescr.cs" />
-    <Compile Include="Assets\External\LeanTween\Framework\LTSeq.cs" />
-    <Compile Include="Assets\External\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
     <Compile Include="Assets\External\LeanTween\Framework\LeanTweenExt.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LTSeq.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LTDescrOptional.cs" />
+    <Compile Include="Assets\External\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LeanAudio.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LeanSmooth.cs" />
+    <Compile Include="Assets\External\LeanTween\Framework\LeanTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\External\LeanTween\LeanTween.asmdef" />
-    <None Include="Assets\External\LeanTween\ReadMe.txt" />
-    <None Include="Assets\External\LeanTween\License.txt" />
+     <None Include="Assets\External\LeanTween\LeanTween.asmdef" />
+     <None Include="Assets\External\LeanTween\ReadMe.txt" />
+     <None Include="Assets\External\LeanTween\License.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

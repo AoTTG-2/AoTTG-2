@@ -18,6 +18,11 @@ namespace Assets.Scripts.UI.Menu
 
         public void Multiplayer()
         {
+            Navigate(typeof(ServerSelector));
+        }
+
+        public void MultiplayerLobby()
+        {
             Service.Photon.Connect();
             Navigate(typeof(Lobby));
         }
