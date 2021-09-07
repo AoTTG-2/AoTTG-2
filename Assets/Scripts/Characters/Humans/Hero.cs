@@ -372,7 +372,7 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     Skill.OnUpdate();
                 }
-                else if (InputManager.KeyDown(InputHuman.AttackSpecial))
+                else if (InputManager.KeyDown(InputHuman.AttackSpecial) && !isMounted)
                 {
                     if (!Skill.Use() && _state == HumanState.Idle)
                     {
