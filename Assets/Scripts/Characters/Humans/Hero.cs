@@ -58,6 +58,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
+        public bool UseWeaponTrail = true; //TODO Add a check in the graphic menu to enable and disable weapon trail//
         private bool almostSingleHook { get; set; }
         public string attackAnimation { get; set; }
         public int attackLoop { get; set; }
@@ -135,8 +136,8 @@ namespace Assets.Scripts.Characters.Humans
         private bool leanLeft { get; set; }
         private bool leftArmAim { get; set; }
 
-        public MeleeWeaponTrail left_blade;
-        public MeleeWeaponTrail right_blade;
+        public MeleeWeaponTrail leftweapontrail;
+        public MeleeWeaponTrail rightweapontrail;
     
         [Obsolete("Should be within AHSS.cs")]
         public int leftBulletLeft = 7;
@@ -873,12 +874,11 @@ namespace Assets.Scripts.Characters.Humans
                                     checkBoxLeft.IsActive = true;
                                     if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                     {
-                                        /*
-                                                leftbladetrail2.Activate();
-                                                rightbladetrail2.Activate();
-                                                leftbladetrail.Activate();
-                                                rightbladetrail.Activate();
-                                                */
+                                        if (UseWeaponTrail) 
+                                        { 
+                                        rightweapontrail.enabled = true;
+                                        leftweapontrail.enabled = true;
+                                        }
                                     }
                                     Rigidbody.velocity = (-Vector3.up * 30f);
                                 }
@@ -894,12 +894,8 @@ namespace Assets.Scripts.Characters.Humans
                                 checkBoxRight.IsActive = false;
                                 checkBoxLeft.ClearHits();
                                 checkBoxRight.ClearHits();
-                                /*
-                                        leftbladetrail.StopSmoothly(0.1f);
-                                        rightbladetrail.StopSmoothly(0.1f);
-                                        leftbladetrail2.StopSmoothly(0.1f);
-                                        rightbladetrail2.StopSmoothly(0.1f);
-                                        */
+                                rightweapontrail.enabled = false;
+                                leftweapontrail.enabled = false;
                             }
                         }
                         else
@@ -949,10 +945,11 @@ namespace Assets.Scripts.Characters.Humans
                                     slash.Play();
                                     if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
                                     {
-                                        //leftbladetrail2.Activate();
-                                        //rightbladetrail2.Activate();
-                                        //leftbladetrail.Activate();
-                                        //rightbladetrail.Activate();
+                                        if (UseWeaponTrail)
+                                        {
+                                            rightweapontrail.enabled = true;
+                                            leftweapontrail.enabled = true;
+                                        }
                                     }
                                 }
                                 if (!checkBoxRight.IsActive)
@@ -966,10 +963,8 @@ namespace Assets.Scripts.Characters.Humans
                                 checkBoxRight.IsActive = false;
                                 checkBoxLeft.ClearHits();
                                 checkBoxRight.ClearHits();
-                                //leftbladetrail2.StopSmoothly(0.1f);
-                                //rightbladetrail2.StopSmoothly(0.1f);
-                                //leftbladetrail.StopSmoothly(0.1f);
-                                //rightbladetrail.StopSmoothly(0.1f);
+                                rightweapontrail.enabled = false;
+                                leftweapontrail.enabled = false;
                             }
                             if ((attackLoop > 0) && (Animation[attackAnimation].normalizedTime > num))
                             {
@@ -2691,12 +2686,9 @@ namespace Assets.Scripts.Characters.Humans
                 meatDie.Play();
                 if ((photonView.isMine) && !useGun)
                 {
-                    /*
-                leftbladetrail.Deactivate();
-                rightbladetrail.Deactivate();
-                leftbladetrail2.Deactivate();
-                rightbladetrail2.Deactivate();
-                */
+                    rightweapontrail.enabled = false;
+                    leftweapontrail.enabled = false;
+
                 }
                 BreakApart(v, isBite);
                 currentInGameCamera.gameOver = true;
@@ -3529,12 +3521,8 @@ namespace Assets.Scripts.Characters.Humans
             meatDie.Play();
             if (!(useGun || (!photonView.isMine)))
             {
-                /*
-            leftbladetrail.Deactivate();
-            rightbladetrail.Deactivate();
-            leftbladetrail2.Deactivate();
-            rightbladetrail2.Deactivate();
-            */
+                rightweapontrail.enabled = false;
+                leftweapontrail.enabled = false;
             }
             FalseAttack();
             BreakApart(v, isBite);
