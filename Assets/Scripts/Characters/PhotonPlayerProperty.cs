@@ -1,5 +1,6 @@
 using System;
 
+[Obsolete("Photon Player properties which were used in AoTTG1. For AoTTG2 most of these are/should be located at the class which uses them.")]
 public class PhotonPlayerProperty
 {
     public static string beard_texture_id = "beard_texture_id";
@@ -49,5 +50,6 @@ public class PhotonPlayerProperty
     public static string team = "team";
     public static string total_dmg = "total_dmg";
     public static string uniform_type = "uniform_type";
+    public static string ping = "ping";
 }
 

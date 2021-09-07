@@ -1,6 +1,10 @@
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
+/// <summary>
+/// Used by Titan attacks to determine if it killed a <see cref="Human"/> or not
+/// </summary>
 public class EnemyCheckCollider : Photon.MonoBehaviour
 {
     public bool active_me;
@@ -46,25 +50,25 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                         float num3 = 5f;
                         if (num2 > 0f)
                         {
-                            num3 = Mathf.Max((float) 5f, (float) (num2 - vector.magnitude));
+                            num3 = Mathf.Max(5f, num2 - vector.magnitude);
                         }
 
-                        object[] parameters = new object[] { (Vector3) ((vector.normalized * num3) + (Vector3.up * 1f)) };
-                        component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.blowAway), PhotonTargets.All, parameters);
+                        object[] parameters = { (vector.normalized * num3) + (Vector3.up * 1f) };
+                        component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.BlowAway), PhotonTargets.All, parameters);
                     }
-                    else if (!component.transform.root.GetComponent<Hero>().isInvincible())
+                    else if (!component.transform.root.GetComponent<Hero>().IsInvincible)
                     {
                         if (PhotonNetwork.offlineMode)
                         {
-                            if (!component.transform.root.GetComponent<Hero>().isGrabbed)
+                            if (!component.transform.root.GetComponent<Hero>().IsGrabbed)
                             {
                                 Vector3 vector4 = component.transform.root.transform.position - base.transform.position;
-                                component.transform.root.GetComponent<Hero>().die((Vector3) (((vector4.normalized * b) * 1000f) + (Vector3.up * 50f)), this.isThisBite);
+                                component.transform.root.GetComponent<Hero>().Die(((vector4.normalized * b) * 1000f) + (Vector3.up * 50f), this.isThisBite);
                             }
                         }
-                        else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        else if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().IsGrabbed)
                         {
-                            component.transform.root.GetComponent<Hero>().markDie();
+                            component.transform.root.GetComponent<Hero>().MarkDie();
                             int myOwnerViewID = -1;
                             string titanName = string.Empty;
                             if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
@@ -72,14 +76,14 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
                                 myOwnerViewID = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID;
                                 titanName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
                             }
-                            object[] objArray2 = new object[5];
                             Vector3 vector5 = component.transform.root.position - base.transform.position;
-                            objArray2[0] = (Vector3) (((vector5.normalized * b) * 1000f) + (Vector3.up * 50f));
-                            objArray2[1] = this.isThisBite;
-                            objArray2[2] = myOwnerViewID;
-                            objArray2[3] = titanName;
-                            objArray2[4] = true;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, objArray2);
+                            object[] netDieParameters = new object[5];
+                            netDieParameters[0] = ((vector5.normalized * b) * 1000f) + (Vector3.up * 50f);
+                            netDieParameters[1] = this.isThisBite;
+                            netDieParameters[2] = myOwnerViewID;
+                            netDieParameters[3] = titanName;
+                            netDieParameters[4] = true;
+                            component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, netDieParameters);
                         }
                     }
                 }

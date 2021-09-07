@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// The GameCursor class managed logic related to the behavior of the cursor
+/// </summary>
 public class GameCursor : MonoBehaviour
 {
     private const string CameraModeKey = "cameraType";
@@ -10,18 +13,27 @@ public class GameCursor : MonoBehaviour
 
     private static bool _forceFreeCursor = false;
 
+    /// <summary>
+    /// The current CameraMode
+    /// </summary>
     public static CameraMode CameraMode
     {
         get { return _cameraMode; }
         set { SetCameraMode(value); }
     }
 
+    /// <summary>
+    /// The current CursorMode
+    /// </summary>
     public static CursorMode CursorMode
     {
         get { return _cursorMode; }
         set { SetCursorMode(value); }
     }
 
+    /// <summary>
+    /// Forces the Cursor to be visible in a non-locked state
+    /// </summary>
     public static bool ForceFreeCursor
     {
         get
@@ -35,7 +47,7 @@ public class GameCursor : MonoBehaviour
 
             if (value)
                 ApplyFreeCursor();
-            else if (MenuManager.IsMenuOpen)
+            else if (MenuManager.IsAnyMenuOpen)
                 ApplyCursorMode();
             else
                 ApplyCameraMode();
@@ -52,6 +64,9 @@ public class GameCursor : MonoBehaviour
         SetCursorMode(CursorMode);
     }
 
+    /// <summary>
+    /// Changes the Current CameraMode
+    /// </summary>
     public static void Cycle()
     {
         switch (CameraMode)
@@ -153,7 +168,7 @@ public class GameCursor : MonoBehaviour
     {
         if (hasFocus)
         {
-            if (MenuManager.IsMenuOpen)
+            if (MenuManager.IsAnyMenuOpen)
                 ApplyCursorMode();
             else
                 ApplyCameraMode();
@@ -174,7 +189,7 @@ public class GameCursor : MonoBehaviour
 
     private void OnLevelWasLoaded()
     {
-        if (MenuManager.IsMenuOpen)
+        if (MenuManager.IsAnyMenuOpen)
             CursorMode = CursorMode.Menu;
     }
 

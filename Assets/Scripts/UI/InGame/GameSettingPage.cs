@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class GameSettingPage : MonoBehaviour
+    public class GameSettingPage : UiContainer
     {
         public GameObject Content;
 
@@ -30,24 +30,23 @@ namespace Assets.Scripts.UI.InGame
 
         private void SetSettings()
         {
-            var properties = Data.GetType().GetProperties().Where(
-                    prop => Attribute.IsDefined(prop, typeof(UiElementAttribute)))
-                .OrderBy(x =>
-                    ((UiElementAttribute)x.GetCustomAttributes(typeof(UiElementAttribute), true)[0]).Category);
+            var properties = Data.GetType().GetProperties()
+                .Where(prop => Attribute.IsDefined(prop, typeof(UiElementAttribute)));
+                                  //OrderBy(x => ((UiElementAttribute)x.GetCustomAttributes(typeof(UiElementAttribute), true)[0]).Category);
+
             foreach (var property in properties)
             {
-                var attribute = (UiElementAttribute)
-                    Attribute.GetCustomAttribute(property, typeof(UiElementAttribute), true);
+                var attribute = (UiElementAttribute)Attribute.GetCustomAttribute(property, typeof(UiElementAttribute), true);
                 CreateUiElement(property, attribute);
             }
         }
 
         private void CreateUiElement(PropertyInfo property, UiElementAttribute attribute)
         {
-            if (attribute.Category != category)
-            {
-                CreateCategory(attribute.Category);
-            }
+            //if (attribute.Category != category)
+            //{
+            //    CreateCategory(attribute.Category);
+            //}
 
             GameObject uiObject = null;
             if (property.PropertyType == typeof(bool))
@@ -59,6 +58,7 @@ namespace Assets.Scripts.UI.InGame
                 checkbox.Value = (bool) property.GetValue(Data);
                 checkbox.gameObject.name = property.Name;
                 checkbox.Initialize();
+                AddChild(checkbox);
             } else if (property.PropertyType == typeof(string) 
                     || property.PropertyType == typeof(int) 
                     || property.PropertyType == typeof(float))
@@ -69,6 +69,7 @@ namespace Assets.Scripts.UI.InGame
                 input.Value = property.GetValue(Data);
                 input.gameObject.name = property.Name;
                 input.Initialize();
+                AddChild(input);
             } else if (property.PropertyType.IsEnum)
             {
                 uiObject = Instantiate(Dropdown.gameObject);
@@ -77,6 +78,7 @@ namespace Assets.Scripts.UI.InGame
                 input.Value = (int) property.GetValue(Data);
                 input.gameObject.name = property.Name;
                 input.Initialize(property.PropertyType);
+                AddChild(input);
             }
 
             if (uiObject != null)
@@ -93,6 +95,7 @@ namespace Assets.Scripts.UI.InGame
             var childCount = Content.transform.childCount;
             var categoryUi = Instantiate(Category);
             categoryUi.GetComponentInChildren<Text>().text = category.ToString();
+
             if (childCount == 0)
             {
                 CreateEmptyGridItem();
@@ -100,6 +103,7 @@ namespace Assets.Scripts.UI.InGame
                 CreateEmptyGridItem();
                 return;
             }
+
             var currentColumn = childCount % _columnCount;
             CreateEmptyGridItem(4 - currentColumn);
             categoryUi.transform.SetParent(Content.transform);

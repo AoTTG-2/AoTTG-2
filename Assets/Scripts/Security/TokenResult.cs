@@ -2,6 +2,9 @@
 
 namespace Assets.Scripts.Security
 {
+    /// <summary>
+    /// An object for the OAuth Token endpoint
+    /// </summary>
     public class TokenResult
     {
 

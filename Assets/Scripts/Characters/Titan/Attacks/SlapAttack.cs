@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Attacks
@@ -73,9 +74,9 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 Vector3 vector4 = Titan.Body.Chest.position;
                 if (!((!Titan.photonView.isMine) || obj7.GetComponent<Hero>().HasDied()))
                 {
-                    obj7.GetComponent<Hero>().markDie();
+                    obj7.GetComponent<Hero>().MarkDie();
                     object[] objArray5 = new object[] { (Vector3)(((obj7.transform.position - vector4) * 15f) * Titan.Size), false, Titan.photonView.viewID, Titan.name, true };
-                    obj7.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, objArray5);
+                    obj7.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, objArray5);
                 }
             }
         }

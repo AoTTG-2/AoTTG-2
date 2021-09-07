@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-[Obsolete]
+[Obsolete("Various extension methods which were created for the RC mod, however these are very poorly optimized and should not be used.")]
 public static class RCextensions
 {
     public static void Add<T>(ref T[] source, T value)
@@ -191,6 +191,23 @@ public static class RCextensions
             }
         }
         return string.Empty;
+    }
+
+    //Converter for PlayerPrefs
+    public static int boolToInt(bool val)
+    {
+        if (val)
+            return 1;
+        else
+            return 0;
+    }
+
+    public static bool intToBool(int val)
+    {
+        if (val != 0)
+            return true;
+        else
+            return false;
     }
 }
 

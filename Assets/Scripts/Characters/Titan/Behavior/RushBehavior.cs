@@ -1,10 +1,13 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Gamemode;
 using System.Collections;
-using Assets.Scripts.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
+    /// <summary>
+    /// Overrides the titans state behavior for the <see cref="TitanRushGamemode"/>
+    /// </summary>
     public class RushBehavior : TitanBehavior
     {
         public RushBehavior(ArrayList route)
@@ -25,7 +28,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
             if (checkPoints.Count > 1)
             {
-                if (Vector3.Distance((Vector3)checkPoints[0], Titan.transform.position) > activeRad)
+                if (Vector3.Distance((Vector3) checkPoints[0], Titan.transform.position) > activeRad)
                 {
                     TargetLocation = (Vector3) checkPoints[0];
                     IsGoingToCheckpoint = true;
@@ -44,7 +47,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                     }
                     else
                     {
-                        TargetLocation = (Vector3)checkPoints[0];
+                        TargetLocation = (Vector3) checkPoints[0];
                     }
                 }
             }
@@ -53,7 +56,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
         protected override bool OnChase()
         {
-            Titan.ChangeState(TitanState.Wandering);
+            Titan.SetState(TitanState.Wandering);
             return true;
         }
 
@@ -68,7 +71,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
             Titan.Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
             Vector3 vector17 = TargetLocation - Titan.transform.position;
-            var current = -Mathf.Atan2(vector17.z, vector17.x) * 57.29578f;
+            var current = -Mathf.Atan2(vector17.z, vector17.x) * Mathf.Rad2Deg;
             float num4 = -Mathf.DeltaAngle(current, Titan.transform.rotation.eulerAngles.y - 90f);
             Titan.transform.rotation = Quaternion.Lerp(Titan.transform.rotation, Quaternion.Euler(0f, Titan.transform.rotation.eulerAngles.y + num4, 0f), ((Titan.Speed * 0.5f) * Time.deltaTime) / Titan.Size);
             return true;

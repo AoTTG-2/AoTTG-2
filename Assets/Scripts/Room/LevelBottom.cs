@@ -1,6 +1,10 @@
 using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+/// <summary>
+/// If a <see cref="Hero"/> touches this, they will either die or get teleported. Teleportion functionality was only used in AoTTG1's tutorial, and I don't think we use this anywhere else.
+/// </summary>
 public class LevelBottom : MonoBehaviour
 {
     public GameObject link;
@@ -16,7 +20,7 @@ public class LevelBottom : MonoBehaviour
                 {
                     if (other.gameObject.GetPhotonView().isMine)
                     {
-                        other.gameObject.GetComponent<Hero>().netDieLocal((Vector3) (base.GetComponent<Rigidbody>().velocity * 50f), false, -1, string.Empty, true);
+                        other.gameObject.GetComponent<Hero>().NetDieLocal(base.GetComponent<Rigidbody>().velocity * 50f, false, -1, string.Empty, true);
                     }
                 }
             }

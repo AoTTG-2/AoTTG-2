@@ -4,7 +4,7 @@ using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Photon;
 using System;
-using UnityEngine.UI;
+using TMPro;
 
 namespace Assets.Scripts.Services
 {
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Services
             Ui = MainUi.InGameUi.GetComponent<InGameUi>();
         }
 
-        private Text GetLabel(LabelPosition label)
+        private TMP_Text GetLabel(LabelPosition label)
         {
             var labels = Ui.HUD.Labels;
             switch (label)
@@ -34,6 +34,11 @@ namespace Assets.Scripts.Services
                 default:
                     throw new ArgumentOutOfRangeException(nameof(label), label, null);
             }
+        }
+
+        public UiHandler GetUiHandler()
+        {
+            return MainUi;
         }
 
         public void ResetMessage(LabelPosition label)
@@ -58,9 +63,12 @@ namespace Assets.Scripts.Services
             GetLabel(label).text = message;
         }
 
-        public override void OnDisconnectedFromPhoton()
+        private void OnLevelWasLoaded(int level)
         {
-            MainUi.ShowMenu();
+            if (level == 0)
+            {
+                MainUi.ShowMenu();
+            }
         }
     }
 }

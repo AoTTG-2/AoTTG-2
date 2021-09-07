@@ -1,7 +1,14 @@
 ﻿using Assets.Scripts.Services;
+#if UNITY_EDITOR
+#else
+using UnityEngine;
+#endif
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI Container class which is used to navigate to all the Main menu UI elements
+    /// </summary>
     public class MainMenu : UiNavigationElement
     {
         public void Singleplayer()
@@ -11,13 +18,7 @@ namespace Assets.Scripts.UI.Menu
 
         public void Multiplayer()
         {
-            Service.Photon.UpdateConnectionType(false);
-            Navigate(typeof(Lobby));
-        }
-
-        public void LAN()
-        {
-            Service.Photon.UpdateConnectionType(true);
+            Service.Photon.Connect();
             Navigate(typeof(Lobby));
         }
 
@@ -29,6 +30,18 @@ namespace Assets.Scripts.UI.Menu
         public void MapEditor()
         {
             //TODO: Switch to MapEditor scene
+            Navigate(typeof(MapConverter));
+        }
+
+        public void Quit()
+        {
+
+#if UNITY_EDITOR
+
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }

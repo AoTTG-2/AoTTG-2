@@ -8,9 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: tree leaf
-  m_Shader: {fileID: 4800000, guid: 85bf9b74e3072b64e8f7e15a84fbfa2e, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e36c0f912681efa4cbdcb44f7bb81876,
+    type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -19,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_25178ff292704519be6bf248432699ea:
+        m_Texture: {fileID: 2800000, guid: 2a9f26be88435804794ff9ebf60e2cea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -31,7 +36,21 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_56a3f02f1ad84ea397100557cd67acf1: 0
+    - Vector1_a7c1439ff6b94dd390a5751f9f09c077: 0
     - _AO: 3.146269
     - _BaseLight: 0
     - _Blend: 0.5
@@ -39,7 +58,7 @@ Material:
     - _EmissionLM: 0
     - _EmissiveIntensity: 1
     - _Focus: -100
-    - _Glossiness: 0.5
+    - _Glossiness: 0.05
     - _InvFade: 1.527313
     - _NormalIntensity: 1
     - _Occlusion: 9.589552

@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.Input
 {
+    /// <summary>
+    /// The InputManager, manages logic related to Input. It also loads / saves rebind settings.
+    /// </summary>
     public class InputManager : MonoBehaviour
     {
         private static KeyCode[] _cannonKeys;
@@ -34,7 +37,6 @@ namespace Assets.Scripts.UI.Input
             Menu = KeyCode.Escape;
 #endif
         }
-
 
         public static ControlSettings Settings;
 
@@ -158,8 +160,11 @@ namespace Assets.Scripts.UI.Input
                 [InputUi.Camera] = KeyCode.C,
                 [InputUi.Pause] = KeyCode.P,
                 [InputUi.Restart] = KeyCode.T,
-                [InputUi.InteractionWheel] = KeyCode.Tab,
-                [InputUi.Screenshot] = KeyCode.F12,
+                [InputUi.InteractionWheel] = KeyCode.I, //was Tab
+                [InputUi.Screenshot] = KeyCode.F2,
+                [InputUi.HideHUD] = KeyCode.F1,
+                [InputUi.Scoreboard] = KeyCode.Tab,
+                [InputUi.HideHooks] = KeyCode.H
             };
 
             _uiKeys = uiKeys.Values.ToArray();
@@ -356,7 +361,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputCannon input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_cannonKeys[index])
                 ? IsScrolling(_cannonKeys[index])
@@ -365,7 +370,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputHuman input)
         {
-            if (input != InputHuman.Item1 && MenuManager.IsMenuOpen) return false;
+            if (input != InputHuman.Item1 && MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_humanKeys[index])
                 ? IsScrolling(_humanKeys[index])
@@ -374,7 +379,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputHorse input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_horseKeys[index])
                 ? IsScrolling(_horseKeys[index])
@@ -383,7 +388,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputTitan input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_titanKeys[index])
                 ? IsScrolling(_titanKeys[index])
@@ -392,7 +397,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyDown(InputUi input)
         {
-            if (input != InputUi.Chat && input != InputUi.Screenshot && MenuManager.IsMenuOpen) return false;
+            if (input != InputUi.Chat && input != InputUi.Screenshot && MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])
@@ -405,7 +410,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool Key(InputCannon input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_cannonKeys[index])
                 ? IsScrolling(_cannonKeys[index])
@@ -414,7 +419,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool Key(InputHuman input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_humanKeys[index])
                 ? IsScrolling(_humanKeys[index])
@@ -423,7 +428,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool Key(InputHorse input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_horseKeys[index])
                 ? IsScrolling(_horseKeys[index])
@@ -432,7 +437,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool Key(InputTitan input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_titanKeys[index])
                 ? IsScrolling(_titanKeys[index])
@@ -441,7 +446,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool Key(InputUi input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])
@@ -454,7 +459,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp(InputCannon input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_cannonKeys[index])
                 ? IsScrolling(_cannonKeys[index])
@@ -463,7 +468,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp(InputHuman input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_humanKeys[index])
                 ? IsScrolling(_humanKeys[index])
@@ -472,7 +477,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp(InputHorse input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_horseKeys[index])
                 ? IsScrolling(_horseKeys[index])
@@ -481,7 +486,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp(InputTitan input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_titanKeys[index])
                 ? IsScrolling(_titanKeys[index])
@@ -490,7 +495,7 @@ namespace Assets.Scripts.UI.Input
 
         public static bool KeyUp(InputUi input)
         {
-            if (MenuManager.IsMenuOpen) return false;
+            if (input != InputUi.InteractionWheel && MenuManager.IsAnyMenuOpen) return false;
             var index = (int) input;
             return IsMouseScrollKeyCode(_uiKeys[index])
                 ? IsScrolling(_uiKeys[index])

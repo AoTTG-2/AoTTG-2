@@ -1,8 +1,11 @@
-using System;
-
-public class RacingResult
+namespace Assets.Scripts.Gamemode.Racing
 {
-    public string name;
-    public float time;
+    public struct RacingResult
+    {
+        public string Name { get; set; }
+        public float Time { get; set; }
+        public float AverageSpeed { get; set; }
+        public int Deaths { get; set; }
+    }
 }
 

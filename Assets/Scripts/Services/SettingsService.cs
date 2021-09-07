@@ -23,12 +23,16 @@ namespace Assets.Scripts.Services
         public event OnHorseSettingsChanged OnHorseSettingsChanged;
         public event OnRespawnSettingsChanged OnRespawnSettingsChanged;
         public event OnTitanSettingsChanged OnTitanSettingsChanged;
+        public event OnTimeSettingsChanged OnTimeSettingsChanged;
+        public event OnGlobalSettingsChanged OnGlobalSettingsChanged;
 
+        /// <inheritdoc/>
         public GameSettings Get()
         {
             return Settings;
         }
 
+        /// <inheritdoc/>
         public void SetRoomPropertySettings()
         {
             if (PhotonNetwork.offlineMode) return;
@@ -43,15 +47,18 @@ namespace Assets.Scripts.Services
                 var json = (string) PhotonNetwork.room.CustomProperties["Settings"];
                 Settings = new GameSettings();
                 Settings.Initialize(json);
+                OnSettingsChanged();
             }
         }
 
+        /// <inheritdoc/>
         public void SetGamemodeType(GamemodeType type)
         {
             Settings.Initialize(type);
             OnGamemodeSettingsChanged?.Invoke(GameSettings.Gamemode);
         }
 
+        /// <inheritdoc/>
         public void SyncSettings(GameSettings settings)
         {
             if (!PhotonNetwork.isMasterClient) return;
@@ -61,6 +68,7 @@ namespace Assets.Scripts.Services
             SyncSettings();
         }
 
+        /// <inheritdoc/>
         public void SyncSettings(string json)
         {
             if (!PhotonNetwork.isMasterClient) return;
@@ -70,6 +78,7 @@ namespace Assets.Scripts.Services
             SyncSettings();
         }
 
+        /// <inheritdoc/>
         public void SyncSettings()
         {
             if (!PhotonNetwork.isMasterClient) return;
@@ -82,7 +91,8 @@ namespace Assets.Scripts.Services
             });
             photonView.RPC(nameof(SyncSettingsRpc), PhotonTargets.Others, json);
         }
-        
+
+        /// <inheritdoc/>
         public void SyncSettings(Difficulty difficulty)
         {
             Settings = new GameSettings();
@@ -100,7 +110,9 @@ namespace Assets.Scripts.Services
                     Eren = new TitanSettings(difficulty)
                 },
                 new HorseSettings(difficulty),
-                new RespawnSettings(difficulty)
+                new RespawnSettings(difficulty),
+                new TimeSettings(),
+                new GlobalSettings(difficulty)
             );
 
             if (!PhotonNetwork.isMasterClient) return;
@@ -135,6 +147,8 @@ namespace Assets.Scripts.Services
             OnHorseSettingsChanged?.Invoke(GameSettings.Horse);
             OnRespawnSettingsChanged?.Invoke(GameSettings.Respawn);
             OnTitanSettingsChanged?.Invoke(GameSettings.Titan);
+            OnGlobalSettingsChanged?.Invoke(GameSettings.Global);
+            OnTimeSettingsChanged?.Invoke(GameSettings.Time);
         }
     }
 }

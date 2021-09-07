@@ -1,16 +1,18 @@
-﻿using Assets.Scripts.Settings;
-using ExitGames.Client.Photon;
-using System;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Settings;
+using ExitGames.Client.Photon;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class SpawnMenu : MonoBehaviour
+    [Obsolete("Use SpawnMenuV2 instead. Once this class can be deleted, rename the SpawnMenuV2 to SpawnMenu")]
+    public class SpawnMenu : UiMenu
     {
         private ISpawnService SpawnService => Service.Spawn;
 
@@ -32,6 +34,9 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
+        /// <summary>
+        /// The complex and confusing way of how AoTTG determined when the spawn a character
+        /// </summary>
         public void Spawn()
         {
             string selection = "23";
@@ -90,16 +95,6 @@ namespace Assets.Scripts.UI.InGame
                 }
             }
             return (num == num2);
-        }
-
-        private void OnEnable()
-        {
-            MenuManager.RegisterOpened();
-        }
-
-        private void OnDisable()
-        {
-            MenuManager.RegisterClosed();
         }
     }
 }

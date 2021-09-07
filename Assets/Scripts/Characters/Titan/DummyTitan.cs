@@ -1,7 +1,12 @@
-﻿using Assets.Scripts.Services;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
+using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
+/// <summary>
+/// The dummy titan. Hasn't been touched since May 2020, so should be updated to match the new standards
+/// </summary>
 public class DummyTitan : Photon.MonoBehaviour
 {
     protected readonly IEntityService EntityService = Service.Entity;
@@ -13,6 +18,7 @@ public class DummyTitan : Photon.MonoBehaviour
     public bool canRotate = true;
     public TextMesh healthLabel;
     public TextMesh healthLabel2;
+    public MinimapIcon minimapIcon;
 
     public float speed = 3.0f;
 
@@ -76,6 +82,8 @@ public class DummyTitan : Photon.MonoBehaviour
     {
         if (!dead)
         {
+            Destroy(minimapIcon.gameObject);
+
             Transform body = pivot.transform.Find("Body");
             body.transform.parent = null;
             Rigidbody rb = body.gameObject.AddComponent<Rigidbody>();

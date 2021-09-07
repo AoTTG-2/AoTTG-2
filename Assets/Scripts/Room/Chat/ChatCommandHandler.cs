@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Gamemode.Options;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
@@ -7,6 +8,7 @@ using System;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Assets.Scripts;
 using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
@@ -39,7 +41,7 @@ public static class ChatCommandHandler
             else if (!(OnPrivateServer || isMasterClient))
             {
                 var chatMessage = new object[] { $"/ban #{playerId}", LoginFengKAI.player.name };
-                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
             }
             else
             {
@@ -53,7 +55,7 @@ public static class ChatCommandHandler
 
                 instance.kickPlayerRC(playerToBan, true, string.Empty);
                 var chatMessage = new object[] { FormatSystemMessage($"{GetPlayerName(playerToBan)} has been banned from the server!"), string.Empty };
-                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
             }
         }
         else
@@ -78,7 +80,7 @@ public static class ChatCommandHandler
             else if (!(OnPrivateServer || isMasterClient))
             {
                 var chatMessage = new object[] { $"/kick #{playerId}", LoginFengKAI.player.name };
-                instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
             }
             else
             {
@@ -97,7 +99,7 @@ public static class ChatCommandHandler
                 {
                     instance.kickPlayerRC(playerToKick, false, string.Empty);
                     var chatMessage = new object[] { FormatSystemMessage($"{GetPlayerName(playerToKick)} has been kicked from the server!"), string.Empty };
-                    instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                    instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
                 }
 
             }
@@ -141,7 +143,7 @@ public static class ChatCommandHandler
                 if (banHash.ContainsKey(key))
                 {
                     var chatMessage = new object[] { $"{banHash[key]} has been unbanned from the server.", string.Empty };
-                    instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+                    instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
                     banHash.Remove(key);
                 }
                 else
@@ -169,12 +171,12 @@ public static class ChatCommandHandler
         }
 
         var chatMessage = new object[] { FormatSystemMessage("All players have been revived."), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+        instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
         foreach (PhotonPlayer player in playerList)
         {
             if ((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
             {
-                instance.photonView.RPC("respawnHeroInNewRound", player, new object[0]);
+                instance.photonView.RPC(nameof(FengGameManagerMKII.respawnHeroInNewRound), player, new object[0]);
             }
         }
 
@@ -197,7 +199,7 @@ public static class ChatCommandHandler
             {
                 var message = $"Player {playerId} has been revived.";
                 instance.chatRoom.OutputSystemMessage(message);
-                instance.photonView.RPC("RespawnRpc", player);
+                instance.photonView.RPC(nameof(FengGameManagerMKII.RespawnRpc), player);
             }
         }
         else
@@ -275,8 +277,8 @@ public static class ChatCommandHandler
         }
 
         var chatMessage = new object[] { FormatSystemMessage("MasterClient has restarted the game!"), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
-        instance.restartRC();
+        instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
+        instance.RestartRound();
     }
 
     private static void SendPrivateMessage(string[] parameters)
@@ -292,7 +294,7 @@ public static class ChatCommandHandler
             {
                 chatMessage.Append(parameters[messageIndex] + " ");
             }
-            instance.photonView.RPC("ChatPM", targetPlayer, new object[] { GetPlayerName(player), chatMessage.ToString() });
+            instance.photonView.RPC(nameof(FengGameManagerMKII.ChatPM), targetPlayer, new object[] { GetPlayerName(player), chatMessage.ToString() });
 
             var message = $"TO [{targetPlayer.ID}] {GetPlayerName(targetPlayer)}:{chatMessage}";
             instance.chatRoom.AddMessage(message);
@@ -357,7 +359,7 @@ public static class ChatCommandHandler
     {
         room.MaxPlayers = maxPlayers;
         var chatMessage = new object[] { FormatSystemMessage($"Max players changed to {maxPlayers}!"), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+        instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
     }
 
     private static void OutputIgnoreList()
@@ -389,9 +391,17 @@ public static class ChatCommandHandler
             return;
         }
 
-        Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All);
-        var chatMessage = Service.Pause.IsPaused() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
-        instance.photonView.RPC("Chat", PhotonTargets.All, new object[] { FormatSystemMessage(chatMessage), string.Empty });
+
+        if (PhotonNetwork.offlineMode)
+        {
+            instance.InGameUI.TogglePauseMenu();
+        } 
+        else
+        {
+            Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All, !Service.Pause.IsPaused(), false);
+            var chatMessage = Service.Pause.IsPaused() && !Service.Pause.IsUnpausing() ? "MasterClient has paused the game." : "MasterClient has unpaused the game.";
+            instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, new object[] { FormatSystemMessage(chatMessage), string.Empty });
+        }
     }
 
     private static void TogglePreserveKdr(string parameter)
@@ -445,7 +455,7 @@ public static class ChatCommandHandler
             player.SetCustomProperties(hashTable);
         }
         var chatMessage = new object[] { FormatSystemMessage("All stats have been reset."), string.Empty };
-        instance.photonView.RPC("Chat", PhotonTargets.All, chatMessage);
+        instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
 
     }
 
@@ -497,7 +507,7 @@ public static class ChatCommandHandler
             return;
         }
 
-        instance.photonView.RPC("ClearChat", PhotonTargets.All);
+        instance.photonView.RPC(nameof(ClearChat), PhotonTargets.All);
     }
 
     private static void ClearChat()
@@ -507,14 +517,51 @@ public static class ChatCommandHandler
 
     private static void SwitchTeam(int team)
     {
-        instance.photonView.RPC("setTeamRPC", player, new object[] { team });
+        instance.photonView.RPC(nameof(FengGameManagerMKII.setTeamRPC), player, new object[] { team });
         foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Player"))
         {
             if (gameObject.GetPhotonView().isMine)
             {
-                gameObject.GetComponent<Hero>().markDie();
-                gameObject.GetComponent<Hero>().photonView.RPC("netDie2", PhotonTargets.All, new object[] { -1, "Team Switch" });
+                gameObject.GetComponent<Hero>().MarkDie();
+                gameObject.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, new object[] { -1, "Team Switch" });
             }
+        }
+    }
+
+    /// <summary>
+    /// Teleports the player. MC only
+    /// </summary>
+    /// <param name="cords"></param>
+    private static void Teleport(string[] parameters)
+    {
+        if (!PhotonNetwork.isMasterClient)
+        {
+            instance.chatRoom.UpdateChat("Only the MasterClient can teleport themselves");
+            return;
+        }
+
+        if (parameters.Length != 4)
+        {
+            instance.chatRoom.UpdateChat("Invalid syntax. Correct syntax: /teleport X Y Z");
+            return;
+        }
+
+        var player = Service.Player.Self;
+        if (Service.Player.Self == null)
+        {
+            instance.chatRoom.UpdateChat("Cannot use teleport if the player hasn't spawned yet!");
+            return;
+        }
+
+        if (float.TryParse(parameters[1], out var x) 
+            && float.TryParse(parameters[2], out var y) 
+            && float.TryParse(parameters[3], out var z))
+        {
+            player.transform.position = new Vector3(x, y, z);
+        }
+        else
+        {
+            instance.chatRoom.UpdateChat("Invalid parameters. Assure that all parameters are valid numbers!");
         }
     }
 
@@ -617,6 +664,9 @@ public static class ChatCommandHandler
                 break;
             case ChatCommand.ClearAll:
                 ClearChatAll();
+                break;
+            case ChatCommand.Teleport:
+                Teleport(commands);
                 break;
             default:
                 break;

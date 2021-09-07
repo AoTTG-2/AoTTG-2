@@ -10,6 +10,9 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan.Configuration
 {
+    /// <summary>
+    /// Contains the Configuration of the Titan. All these settings will determine how the titan will behave and act
+    /// </summary>
     public class TitanConfiguration : EntityConfiguration
     {
         private MindlessTitanSettings Settings => GameSettings.Titan.Mindless;
@@ -85,6 +88,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
             {
                 case MindlessTitanType.Normal:
                     AnimationWalk = "run_walk";
+                    AnimationDeath = "die_front";
                     Attacks.Add(new ComboAttack());
                     Focus = 10f;
                     break;

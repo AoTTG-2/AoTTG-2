@@ -1,17 +1,22 @@
-using Assets.Scripts.UI.Input;
-using System;
-using System.Collections;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Attacks.Eren;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.UI.Input;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
 {
+    /// <summary>
+    /// The Eren Titan. Requires refactoring
+    /// </summary>
     public class ErenTitan : TitanBase
     {
         public new ErenTitanBody Body { get; protected set; }
+        public AudioSource AudioSourceFoot;
 
         private string attackAnimation;
         private Transform attackBox;
@@ -146,7 +151,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.connected && photonView.isMine)
             {
                 object[] parameters = new object[] { aniName, time };
-                photonView.RPC("netCrossFade", PhotonTargets.Others, parameters);
+                photonView.RPC(nameof(netCrossFade), PhotonTargets.Others, parameters);
             }
         }
 
@@ -271,12 +276,12 @@ namespace Assets.Scripts.Characters.Titan
                                 {
                                     Vector3 vector7 = new Vector3(x, 0f, z);
                                     float y = currentCamera.transform.rotation.eulerAngles.y;
-                                    float num4 = Mathf.Atan2(z, x) * 57.29578f;
+                                    float num4 = Mathf.Atan2(z, x) * Mathf.Rad2Deg;
                                     num4 = -num4 + 90f;
                                     float num5 = y + num4;
                                     float num6 = -num5 + 90f;
-                                    float num7 = Mathf.Cos(num6 * 0.01745329f);
-                                    float num8 = Mathf.Sin(num6 * 0.01745329f);
+                                    float num7 = Mathf.Cos(num6 * Mathf.Deg2Rad);
+                                    float num8 = Mathf.Sin(num6 * Mathf.Deg2Rad);
                                     zero = new Vector3(num7, 0f, num8);
                                     float num9 = (vector7.magnitude <= 0.95f) ? ((vector7.magnitude >= 0.25f) ? vector7.magnitude : 0f) : 1f;
                                     zero = (Vector3) (zero * num9);
@@ -327,16 +332,16 @@ namespace Assets.Scripts.Characters.Titan
                                 {
                                     Vector3 vector11 = new Vector3(x, 0f, z);
                                     float num10 = currentCamera.transform.rotation.eulerAngles.y;
-                                    float num11 = Mathf.Atan2(z, x) * 57.29578f;
+                                    float num11 = Mathf.Atan2(z, x) * Mathf.Rad2Deg;
                                     num11 = -num11 + 90f;
                                     float num12 = num10 + num11;
                                     float num13 = -num12 + 90f;
-                                    float num14 = Mathf.Cos(num13 * 0.01745329f);
-                                    float num15 = Mathf.Sin(num13 * 0.01745329f);
+                                    float num14 = Mathf.Cos(num13 * Mathf.Deg2Rad);
+                                    float num15 = Mathf.Sin(num13 * Mathf.Deg2Rad);
                                     Vector3 vector13 = new Vector3(num14, 0f, num15);
                                     float num16 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
-                                    vector13 = (Vector3) (vector13 * num16);
-                                    vector13 = (Vector3) (vector13 * (speed * 2f));
+                                    vector13 = (vector13 * num16);
+                                    vector13 = (vector13 * (speed * 2f));
                                     if ((x == 0f) && (z == 0f))
                                     {
                                         num12 = -874f;
@@ -422,7 +427,7 @@ namespace Assets.Scripts.Characters.Titan
         public void hitByFTByServer(int phase)
         {
             object[] parameters = new object[] { phase };
-            photonView.RPC("hitByFTRPC", PhotonTargets.All, parameters);
+            photonView.RPC(nameof(hitByFTRPC), PhotonTargets.All, parameters);
         }
 
         [PunRPC]
@@ -450,7 +455,7 @@ namespace Assets.Scripts.Characters.Titan
                     //TODO: 160, game lose
                     //this.gameWin2();
                     object[] parameters = new object[] { "set" };
-                    photonView.RPC("rockPlayAnimation", PhotonTargets.All, parameters);
+                    photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, parameters);
                 }
                 else
                 {
@@ -465,7 +470,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public void hitByTitanByServer()
         {
-            photonView.RPC("hitByTitanRPC", PhotonTargets.All, new object[0]);
+            photonView.RPC(nameof(hitByTitanRPC), PhotonTargets.All, new object[0]);
         }
 
         [PunRPC]
@@ -495,7 +500,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (photonView.isMine && (((int) FengGameManagerMKII.settings[1]) == 1))
             {
-                photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x41] });
+                photonView.RPC(nameof(loadskinRPC), PhotonTargets.AllBuffered, new object[] { (string) FengGameManagerMKII.settings[0x41] });
             }
         }
 
@@ -593,7 +598,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.connected && photonView.isMine)
             {
                 object[] parameters = new object[] { aniName };
-                photonView.RPC("netPlayAnimation", PhotonTargets.Others, parameters);
+                photonView.RPC(nameof(netPlayAnimation), PhotonTargets.Others, parameters);
             }
         }
 
@@ -604,7 +609,7 @@ namespace Assets.Scripts.Characters.Titan
             if (PhotonNetwork.connected && photonView.isMine)
             {
                 object[] parameters = new object[] { aniName, normalizedTime };
-                photonView.RPC("netPlayAnimationAt", PhotonTargets.Others, parameters);
+                photonView.RPC(nameof(netPlayAnimationAt), PhotonTargets.Others, parameters);
             }
         }
 
@@ -698,7 +703,7 @@ namespace Assets.Scripts.Characters.Titan
                             rockPhase++;
                             crossFade("rock_lift", 0.1f);
                             object[] parameters = new object[] { "lift" };
-                            photonView.RPC("rockPlayAnimation", PhotonTargets.All, parameters);
+                            photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, parameters);
                             waitCounter = 0f;
                             targetCheckPt = (Vector3) checkPoints[0];
                         }
@@ -713,10 +718,10 @@ namespace Assets.Scripts.Characters.Titan
                             rockPhase++;
                             crossFade("rock_walk", 0.1f);
                             object[] objArray3 = new object[] { "move" };
-                            photonView.RPC("rockPlayAnimation", PhotonTargets.All, objArray3);
+                            photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, objArray3);
                             rock.GetComponent<Animation>()["move"].normalizedTime = GetComponent<Animation>()["rock_walk"].normalizedTime;
                             waitCounter = 0f;
-                            photonView.RPC("startMovingRock", PhotonTargets.All, new object[0]);
+                            photonView.RPC(nameof(startMovingRock), PhotonTargets.All, new object[0]);
                         }
                     }
                     else if (rockPhase == 5)
@@ -791,7 +796,7 @@ namespace Assets.Scripts.Characters.Titan
                         GetComponent<Rigidbody>().AddForce(vector12, ForceMode.VelocityChange);
                         GetComponent<Rigidbody>().AddForce(new Vector3(0f, -gravity * GetComponent<Rigidbody>().mass, 0f));
                         Vector3 vector13 = targetCheckPt - transform.position;
-                        float current = -Mathf.Atan2(vector13.z, vector13.x) * 57.29578f;
+                        float current = -Mathf.Atan2(vector13.z, vector13.x) * Mathf.Rad2Deg;
                         float num4 = -Mathf.DeltaAngle(current, gameObject.transform.rotation.eulerAngles.y - 90f);
                         gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, gameObject.transform.rotation.eulerAngles.y + num4, 0f), 0.8f * Time.deltaTime);
                     }
@@ -803,8 +808,8 @@ namespace Assets.Scripts.Characters.Titan
                         rockPhase++;
                         crossFade("rock_fix_hole", 0.1f);
                         object[] objArray4 = new object[] { "set" };
-                        photonView.RPC("rockPlayAnimation", PhotonTargets.All, objArray4);
-                        photonView.RPC("endMovingRock", PhotonTargets.All, new object[0]);
+                        photonView.RPC(nameof(rockPlayAnimation), PhotonTargets.All, objArray4);
+                        photonView.RPC(nameof(endMovingRock), PhotonTargets.All, new object[0]);
                     }
                     else if (rockPhase == 7)
                     {
@@ -895,6 +900,15 @@ namespace Assets.Scripts.Characters.Titan
             isROCKMOVE = true;
         }
 
+        #region Animation Events
+
+        public void Footstep()
+        {
+            AudioSourceFoot.PlayOneShot(AudioSourceFoot.clip);
+        }
+
+        #endregion
+
         protected override void Update()
         {
             base.Update();
@@ -926,7 +940,7 @@ namespace Assets.Scripts.Characters.Titan
                         {
                             if (realBody != null)
                             {
-                                realBody.GetComponent<Hero>().backToHuman();
+                                realBody.GetComponent<Hero>().BackToHuman();
                                 realBody.transform.position = transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position + ((Vector3)(Vector3.up * 2f));
                                 realBody = null;
                             }
@@ -1218,7 +1232,7 @@ namespace Assets.Scripts.Characters.Titan
                                     if (PhotonNetwork.isMasterClient)
                                     {
                                         object[] parameters = new object[] { 10f, 500f };
-                                        photonView.RPC("netTauntAttack", PhotonTargets.MasterClient, parameters);
+                                        photonView.RPC(nameof(netTauntAttack), PhotonTargets.MasterClient, parameters);
                                     }
                                     else
                                     {

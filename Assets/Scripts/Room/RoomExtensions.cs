@@ -5,21 +5,41 @@ namespace Assets.Scripts.Room
 {
     public static class RoomExtensions
     {
+        /// <summary>
+        /// Returns the display name of the room
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
         public static string GetName(this RoomInfo room)
         {
             return room.CustomProperties["name"].ToString();
         }
 
+        /// <summary>
+        /// Returns the current level of the room
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
         public static string GetLevel(this RoomInfo room)
         {
             return room.CustomProperties["level"].ToString();
         }
 
+        /// <summary>
+        /// Returns the current gamemode of the room
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
         public static string GetGamemode(this RoomInfo room)
         {
             return room.CustomProperties["gamemode"].ToString();
         }
 
+        /// <summary>
+        /// Returns the current level was a <see cref="Level"/> object of the room
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
         public static Level GetLevel(this global::Room room)
         {
             var level = room.CustomProperties["level"].ToString();
@@ -48,7 +68,12 @@ namespace Assets.Scripts.Room
             return (bool) room.CustomProperties["account"];
         }
 
-
+        /// <summary>
+        /// Returns the <see cref="GamemodeSettings"/> of the room
+        /// </summary>
+        /// <param name="room"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
         public static GamemodeSettings GetGamemodeSetting(this global::Room room, Level level)
         {
             var gamemode = room.CustomProperties["gamemode"].ToString();

@@ -2,14 +2,14 @@
 using Photon;
 using System;
 using UnityEngine;
-
+using Assets.Scripts.DayNightCycle;
 namespace Assets.Scripts.Services
 {
     public class TimeService : PunBehaviour, ITimeService
     {
         private DateTime CreationTime { get; set; }
         private DateTime RoundTime { get; set; }
-
+        DayAndNightControl dayNightCycle;
         public float GetRoomTime()
         {
             return (float) DateTime.UtcNow.Subtract(CreationTime).TotalSeconds;
@@ -34,5 +34,8 @@ namespace Assets.Scripts.Services
         {
             RoundTime = DateTime.UtcNow;
         }
+
+        
+        
     }
 }

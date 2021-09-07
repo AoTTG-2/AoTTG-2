@@ -1,6 +1,8 @@
 using System;
+using Assets.Scripts.Characters.Humans;
 using UnityEngine;
 
+[Obsolete("Use in AoTTG1 for the Supply Station. Rather the interactable.")]
 public class supplyCheck : MonoBehaviour
 {
     private float elapsedTime;
@@ -23,7 +25,7 @@ public class supplyCheck : MonoBehaviour
                 {
                     if (obj2.GetPhotonView().isMine && (Vector3.Distance(obj2.transform.position, base.transform.position) < 1.5f))
                     {
-                        obj2.GetComponent<Hero>().getSupply();
+                        obj2.GetComponent<Hero>().GetSupply();
                     }
                 }
             }

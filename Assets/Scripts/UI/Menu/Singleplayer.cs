@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings.Gamemodes;
 using ExitGames.Client.Photon;
@@ -12,6 +13,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// The singleplayer version of <see cref="CreateRoom"/>. Mostly similar, yet does have some minor differences such as not requiring a lobby
+    /// </summary>
     public class Singleplayer : UiNavigationElement
     {
         public Dropdown LevelDropdown;

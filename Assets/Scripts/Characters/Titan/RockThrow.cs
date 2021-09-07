@@ -1,6 +1,11 @@
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Characters.Titan.Attacks;
 using UnityEngine;
 
+/// <summary>
+/// The logic for a rock that has been thrown by the <see cref="RockThrowAttack"/>. Needs to be refactored to improve performance
+/// </summary>
 public class RockThrow : Photon.MonoBehaviour
 {
     private bool launched;
@@ -33,11 +38,11 @@ public class RockThrow : Photon.MonoBehaviour
 
     private void hitPlayer(GameObject hero)
     {
-        if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isInvincible())
+        if (((hero != null) && !hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().IsInvincible)
         {
-            if ((!hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().isGrabbed)
+            if ((!hero.GetComponent<Hero>().HasDied()) && !hero.GetComponent<Hero>().IsGrabbed)
             {
-                hero.GetComponent<Hero>().markDie();
+                hero.GetComponent<Hero>().MarkDie();
                 int myOwnerViewID = -1;
                 string titanName = string.Empty;
                 if (base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>() != null)
@@ -47,7 +52,7 @@ public class RockThrow : Photon.MonoBehaviour
                 }
                 Debug.Log("rock hit player " + titanName);
                 object[] parameters = new object[] { (Vector3) ((this.v.normalized * 1000f) + (Vector3.up * 50f)), false, myOwnerViewID, titanName, true };
-                hero.GetComponent<Hero>().photonView.RPC("netDie", PhotonTargets.All, parameters);
+                hero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
             }
         }
     }
@@ -70,7 +75,7 @@ public class RockThrow : Photon.MonoBehaviour
         if (PhotonNetwork.isMasterClient)
         {
             object[] parameters = new object[] { this.v, this.oldP };
-            base.photonView.RPC("launchRPC", PhotonTargets.Others, parameters);
+            base.photonView.RPC(nameof(launchRPC), PhotonTargets.Others, parameters);
         }
     }
 
@@ -138,7 +143,7 @@ public class RockThrow : Photon.MonoBehaviour
                                 hero.GetComponent<ErenTitan>().hitByTitan();
                             }
                         }
-                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().isInvincible())
+                        else if ((hero.GetComponent<Hero>() != null) && !hero.GetComponent<Hero>().IsInvincible)
                         {
                             this.hitPlayer(hero);
                         }

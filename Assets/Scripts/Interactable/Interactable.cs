@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Constants;
+using UnityEngine;
 
+/// <summary>
+/// Abstract class for the "Interactables" functionality. Allows players to interact with various objects in the world
+/// </summary>
 public abstract class Interactable : MonoBehaviour
 {
     private CapsuleCollider collider;
@@ -13,7 +17,7 @@ public abstract class Interactable : MonoBehaviour
     void Awake()
     {
 		var interactableObject = new GameObject("Interactable");
-        interactableObject.layer = LayerMask.NameToLayer(Layer.Interactable);
+        interactableObject.layer = (int)Layers.Interactable;
         collider = interactableObject.AddComponent<CapsuleCollider>();
         collider.radius = Radius;
         collider.isTrigger = true;

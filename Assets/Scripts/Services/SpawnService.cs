@@ -7,6 +7,8 @@ using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Customization;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,7 +20,7 @@ namespace Assets.Scripts.Services
 
         private readonly List<Spawner> spawners = new List<Spawner>();
         private static GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
-
+        
         public void Add(Spawner spawner)
         {
             spawners.Add(spawner);
@@ -37,6 +39,7 @@ namespace Assets.Scripts.Services
         public T GetRandom<T>() where T : Spawner
         {
             var typedSpawners = GetAll<T>();
+            if (typedSpawners.Count == 0) return null;
             return typedSpawners[Random.Range(0, typedSpawners.Count)];
         }
         
@@ -48,6 +51,18 @@ namespace Assets.Scripts.Services
         public List<TitanSpawner> GetByType(TitanSpawnerType type)
         {
             return GetAll<TitanSpawner>().Where(x => x.Type == type).ToList();
+        }
+
+        public (Vector3 position, Quaternion rotation) GetRandomSpawnPosition()
+        {
+            var position = new Vector3(Random.Range(-550, 550f), 0f, Random.Range(-550f, 500f));
+            if (position.x >= 0f && position.x <= 50f) position.x = 50f;
+            if (position.x <= 0f && position.x >= -50f) position.x = -50f;
+            if (position.z >= 0f && position.z <= 50f) position.z = 50f;
+            if (position.z <= 0f && position.z >= -50f) position.z = -50f;
+
+            var rotation = new Vector3(0f, Random.Range(0, 360f), 0f);
+            return (position, Quaternion.Euler(rotation));
         }
 
         public void OnRestart()
@@ -99,6 +114,27 @@ namespace Assets.Scripts.Services
                 return SpawnTitan("ErenTitan", position, rotation, null) as T;
 
             throw new ArgumentException($"{type} is not implemented");
+        }
+
+        public T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human
+        {
+            var type = typeof(T);
+            if (type == typeof(Hero))
+            {
+                return SpawnHero("Hero", position, rotation, preset) as T;
+            }
+
+            throw new ArgumentException($"{type} is not implemented");
+        }
+
+        private CharacterPreset LastUsedPreset { get; set; }
+        private Hero SpawnHero(string prefab, Vector3 position, Quaternion rotation, CharacterPreset preset)
+        {
+            preset ??= LastUsedPreset;
+            var human = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<Hero>();
+            human.Initialize(preset);
+            LastUsedPreset = preset;
+            return human;
         }
 
         private TitanBase SpawnTitan(string prefab, TitanConfiguration configuration)

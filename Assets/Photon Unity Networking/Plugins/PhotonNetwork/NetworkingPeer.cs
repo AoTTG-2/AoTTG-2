@@ -3825,7 +3825,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
     private readonly Hashtable reusedRpcEvent = new Hashtable();
 
-    internal void RPC(PhotonView view, string methodName, PhotonTargets target, PhotonPlayer player, bool encrypt, params object[] parameters)
+    internal void RPC(PhotonView view, string methodName, PhotonTargets target, PhotonPlayer player, bool encrypt, int[] targetIds = null, params object[] parameters)
     {
         if (this.blockSendingGroups.Contains(view.group))
         {
@@ -3900,6 +3900,13 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
         else if (target == PhotonTargets.Others)
         {
             RaiseEventOptions options = new RaiseEventOptions() { InterestGroup = (byte)view.group, Encrypt = encrypt };
+            this.OpRaiseEvent(PunEvent.RPC, rpcEvent, true, options);
+        }
+        else if (target == PhotonTargets.Ranged)
+        {
+            if (targetIds == null || targetIds.Length == 0) return;
+            RaiseEventOptions options = new RaiseEventOptions() { InterestGroup = (byte) view.group, Encrypt = encrypt, TargetActors = targetIds};
+
             this.OpRaiseEvent(PunEvent.RPC, rpcEvent, true, options);
         }
         else if (target == PhotonTargets.AllBuffered)

@@ -6,16 +6,16 @@ namespace Assets.Scripts.Settings.Titans
 {
     public class SettingsTitan
     {
-        [UiElement("Start Titans", "The amount of titans that will spawn at the start", SettingCategory.Titans)]
+        [UiElement("Start Titans", "The amount of titans that will spawn at the start")]
         public int? Start { get; set; }
 
-        [UiElement("Titan Limit", "The max amount of titans", SettingCategory.Titans)]
+        [UiElement("Titan Limit", "The max amount of titans")]
         public int? Limit { get; set; }
 
-        [UiElement("Minimum Damage Mode", "Minimum damage you need to do", SettingCategory.Titans)]
+        [UiElement("Minimum Damage Mode", "Minimum damage you need to do")]
         public int? MinimumDamage { get; set; }
 
-        [UiElement("Maximum Damage Mode", "Maximum damage that can be dealt", SettingCategory.Titans)]
+        [UiElement("Maximum Damage Mode", "Maximum damage that can be dealt")]
         public int? MaximumDamage { get; set; }
 
         public MindlessTitanSettings Mindless { get; set; }

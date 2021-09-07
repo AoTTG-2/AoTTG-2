@@ -1,9 +1,13 @@
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode.Options;
-using System.Collections;
 using Assets.Scripts.Settings;
+using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// AHSS Collider logic
+/// </summary>
 public class AHSSShotGunCollider : MonoBehaviour
 {
     public bool active_me;
@@ -48,11 +52,11 @@ public class AHSSShotGunCollider : MonoBehaviour
                     float b = 1f - (Vector3.Distance(other.gameObject.transform.position, base.transform.position) * 0.05f);
                     b = Mathf.Min(1f, b);
                     HitBox component = other.gameObject.GetComponent<HitBox>();
-                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().isInvincible())
+                    if ((((component != null) && (component.transform.root != null)) && (component.transform.root.GetComponent<Hero>().myTeam != this.myTeam)) && !component.transform.root.GetComponent<Hero>().IsInvincible)
                     {
-                        if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().isGrabbed)
+                        if ((!component.transform.root.GetComponent<Hero>().HasDied()) && !component.transform.root.GetComponent<Hero>().IsGrabbed)
                         {
-                            component.transform.root.GetComponent<Hero>().markDie();
+                            component.transform.root.GetComponent<Hero>().MarkDie();
                             object[] parameters = new object[5];
                             Vector3 vector2 = component.transform.root.position - base.transform.position;
                             parameters[0] = (Vector3) (((vector2.normalized * b) * 1000f) + (Vector3.up * 50f));
@@ -60,7 +64,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             parameters[2] = this.viewID;
                             parameters[3] = this.ownerName;
                             parameters[4] = false;
-                            component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.netDie), PhotonTargets.All, parameters);
+                            component.transform.root.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
                         }
                     }
                 }
@@ -92,7 +96,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnNapeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnNapeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                     }
                     else if (!PhotonNetwork.isMasterClient)
@@ -128,7 +132,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                             {
                                 GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(item.transform.position, num7, null, 0.02f);
                             }
-                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc2(base.transform.root.gameObject.GetPhotonView().viewID, num7, new PhotonMessageInfo());
+                            item.transform.root.GetComponent<FemaleTitan>().OnNapeHitRpc(base.transform.root.gameObject.GetPhotonView().viewID, num7);
                         }
                     }
                     else if ((item.transform.root.GetComponent<ColossalTitan>() != null) && !item.transform.root.GetComponent<ColossalTitan>().hasDie)
@@ -140,7 +144,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         {
                             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().StartSnapShot2(item.transform.position, num8, null, 0.02f);
                         }
-                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc2(transform.root.gameObject.GetPhotonView().viewID, num8, new PhotonMessageInfo());
+                        item.transform.root.GetComponent<ColossalTitan>().OnNapeHitRpc(transform.root.gameObject.GetPhotonView().viewID, num8);
                     }
                     this.showCriticalHitFX(other.gameObject.transform.position);
                 }
@@ -178,7 +182,7 @@ public class AHSSShotGunCollider : MonoBehaviour
                         }
                         else
                         {
-                            mindlessTitan.photonView.RPC("OnEyeHitRpc", mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                            mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnEyeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                         }
                         this.showCriticalHitFX(other.gameObject.transform.position);
                     }

@@ -1,177 +1,232 @@
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.UI.Menu;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityEngine;
+using TMPro;
 using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 
-public class InRoomChat : Photon.MonoBehaviour
+namespace Assets.Scripts.Room.Chat
 {
-    private const int MaxStoredMessages = 100;
-    private const int MaxMessageLength = 1000;
-    public static readonly string ChatRPC = "Chat";
-    private string inputLine = string.Empty;
-    public bool IsVisible = true;
-    private readonly List<string> messages = new List<string>();
-    public InputField ChatInputField;
-    public Text ChatText;
-    private bool IsChatOpen { get; set; }
-
-    private void Update()
+    /// <summary>
+    /// Controls the ChatBox in the HUD
+    /// </summary>
+    public class InRoomChat : Photon.MonoBehaviour, IUiElement
     {
-        if (!IsVisible || (PhotonNetwork.connectionState != ConnectionState.Connected))
+        private const int MaxStoredMessages = 100;
+        private const int MaxMessageLength = 1000;
+        public static readonly string ChatRPC = "Chat";
+        private string inputLine = string.Empty;
+        private readonly List<string> messages = new List<string>();
+        public TMP_InputField ChatInputField;
+        public TMP_Text ChatText;
+        public GameObject messagePrefab;
+        public GameObject messagePrefabParent;
+        private bool IsChatOpen { get; set; }
+        private readonly Regex openingTag = new Regex(@"<([a-z]*)(?:=.+?)?>");
+        private readonly Regex closingTag = new Regex( @"</([a-z]*)>");
+
+        public bool IsVisible()
         {
-            return;
+            return gameObject.activeSelf;
         }
-        
-        HandleChatInput(this);
 
-        UpdateChat(this);
-    }
-
-    public void ClearMessages()
-    {
-        messages.Clear();
-    }
-
-    public void AddMessage(string message)
-    {
-        TrimMessage(message);
-        if (message.Count() > MaxMessageLength)
+        public void Show()
         {
-            OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
-            return;
+            gameObject.SetActive(true);
         }
-        RemoveMessageIfMoreThanMax();
-        messages.Add(message);
-    }
 
-    private void TrimMessage(string message)
-    {
-        message.Trim();
-    }
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
 
-    private void RemoveMessageIfMoreThanMax()
-    {
-        if (messages.Count() == MaxStoredMessages)
+        public void ClearMessages()
         {
-            messages.RemoveAt(0);
-        }
-    }
-
-    private void ChatAll(string message)
-    {
-        if (message.Count() > MaxMessageLength)
-        {
-            OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
-            return;
-        }
-        if (MarkupIsOk(message))
-        {
-            var chatMessage = new object[] { message, GetPlayerName(PhotonNetwork.player) };
-            instance.photonView.RPC(ChatRPC, PhotonTargets.All, chatMessage);
-        }
-        else
-        {
-            OutputErrorMessage("Bad markup. Make sure your tags are balanced.");
-        }
-    }
-
-    private void HandleChatInput(InRoomChat chat)
-    {
-        if (InputManager.KeyDown(InputUi.Chat))
-        {
-            if (MenuManager.IsMenuOpen && IsChatOpen)
+            messages.Clear();
+            foreach(Transform child in messagePrefabParent.transform)
             {
-                if (!string.IsNullOrEmpty(inputLine))
+                Destroy(child.gameObject);
+            }
+        }
+
+        public void AddMessage(string message)
+        {
+            TrimMessage(message);
+            if (message.Count() > MaxMessageLength)
+            {
+                OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
+                return;
+            }
+            RemoveMessageIfMoreThanMax();
+            messages.Add(message);
+            
+            UpdateChat(message);
+        }
+        public void OutputSystemMessage(string input)
+        {
+            var message = $"<color=#FFCC00>{input}</color>";
+            instance.chatRoom.AddMessage(message);
+        }
+
+        /// <summary>
+        /// Formats text as <color=#FF0000>Error: {input}</color> and outputs to chat
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public void OutputErrorMessage(string input)
+        {
+            var message = $"<color=#FF0000>Error: {input}</color>";
+            instance.chatRoom.AddMessage(message);
+
+        }
+
+        /// <summary>
+        /// Outputs Not Master Client Error to chat
+        /// </summary>
+        public void OutputErrorNotMasterClient()
+        {
+            OutputErrorMessage("Not Master Client");
+        }
+
+        /// <summary>
+        /// Outputs Flayer Not Found Error to chat
+        /// </summary>
+        /// <param name="playerId"></param>
+        public void OutputErrorPlayerNotFound(string playerId)
+        {
+            OutputErrorMessage($"No player with ID #{playerId} could be found.");
+        }
+
+        private void Update()
+        {
+            if (!IsVisible() || PhotonNetwork.connectionState != ConnectionState.Connected)
+            {
+                return;
+            }
+
+            HandleChatInput(this);
+            inputLine = ChatInputField?.text;
+        }
+
+        private void TrimMessage(string message)
+        {
+            message.Trim();
+        }
+
+        private void RemoveMessageIfMoreThanMax()
+        {
+            if(messagePrefabParent.transform.childCount >= MaxStoredMessages)
+            {
+                Destroy(messagePrefabParent.transform.GetChild(0).gameObject);
+            }
+        }
+
+        private void ChatAll(string message)
+        {
+            if (message.Count() > MaxMessageLength)
+            {
+                OutputErrorMessage($"Message can not have more than {MaxMessageLength} characters");
+                return;
+            }
+            if (MarkupIsOk(message))
+            {
+                var chatMessage = new object[] { message, GetPlayerName(PhotonNetwork.player) };
+                instance.photonView.RPC(ChatRPC, PhotonTargets.All, chatMessage);
+            }
+            else
+            {
+                OutputErrorMessage("Bad markup. Make sure your tags are balanced.");
+            }
+        }
+
+        private void HandleChatInput(InRoomChat chat)
+        {
+            if (InputManager.KeyDown(InputUi.Chat))
+            {
+                if (MenuManager.IsAnyMenuOpen && IsChatOpen)
                 {
-                    if (inputLine.StartsWith("/"))
+                    if (!string.IsNullOrEmpty(inputLine))
                     {
-                        CommandHandler(chat.inputLine);
+                        if (inputLine.StartsWith("/"))
+                        {
+                            CommandHandler(chat.inputLine);
+                        }
+                        else
+                        {
+                            ChatAll($"  <link=message>{chat.inputLine}</link>"); // Two spaces to separate playerId and their message. 
+                        }
                     }
-                    else
-                    {
-                        ChatAll(chat.inputLine);
-                    }
+                    chat.inputLine = string.Empty;
+                    chat.ChatInputField.text = string.Empty;
+                    EventSystem.current.SetSelectedGameObject(null);
+                    IsChatOpen = false;
+                    MenuManager.RegisterClosed(this);
                 }
-                chat.inputLine = string.Empty;
-                chat.ChatInputField.text = string.Empty;
-                EventSystem.current.SetSelectedGameObject(null);
-                IsChatOpen = false;
-                MenuManager.RegisterClosed();
-            }
-            else if (!MenuManager.IsMenuOpen)
-            {
-                chat.ChatInputField?.Select();
-                MenuManager.RegisterOpened();
-                IsChatOpen = true;
+                else if (!MenuManager.IsAnyMenuOpen)
+                {
+                    chat.ChatInputField?.Select();
+                    MenuManager.RegisterOpened(this);
+                    IsChatOpen = true;
+                }
             }
         }
-    }
 
-    private void UpdateChat(InRoomChat chat)
-    {
-        StringBuilder messageHandler = new StringBuilder();
-        foreach (string message in messages)
+        public void UpdateChat(string message)
         {
-            messageHandler.AppendLine(message);
+            GameObject newMessage = Instantiate(messagePrefab, messagePrefabParent.transform);
+            newMessage.GetComponent<TMP_Text>().text = message;
         }
 
-        if (ChatText != null)
+        private void CommandHandler(string input)
         {
-            chat.ChatText.text = messageHandler.ToString();
+            ChatCommandHandler.CommandHandler(input);
         }
-
-        chat.inputLine = chat.ChatInputField?.text;
-    }
-
-    private void CommandHandler(string input)
-    {
-        ChatCommandHandler.CommandHandler(input);
-    }
 
     private bool MarkupIsOk(string message)
     {
-        var countOpeningTags = Regex.Matches(message, @"<\w+.{0,2}\w+>").Count;
-        var countClosingTags =  Regex.Matches(message, @"<\W{1}\w+>").Count;
+        var openingTags = openingTag.Matches(message);
+        var closingTags =  closingTag.Matches(message);
+        Dictionary<string, int> openCount = new Dictionary<string, int>();
+        Dictionary<string, int> closeCount = new Dictionary<string, int>();
 
-        return countOpeningTags == countClosingTags;
+        for(int i = 0; i < openingTags.Count; i++)
+        {
+            var match = openingTags[i];
+            var m = match.Groups[1].Value;
+
+            if (openCount.ContainsKey(m))
+                openCount[m] += 1;
+            else
+                openCount.Add(m, 1);
+        }
+        for (int i = 0; i < closingTags.Count; i++)
+        {
+            var match = closingTags[i];
+            var m = match.Groups[1].Value;
+
+            if (closeCount.ContainsKey(m))
+                closeCount[m] += 1;
+            else
+                closeCount.Add(m, 1);
+        }
+
+        if (openCount.Keys.Count != closeCount.Keys.Count)
+            return false;
+
+        foreach(var key in openCount.Keys)
+        {
+            if (openCount[key] == closeCount[key])
+                continue;
+
+            return false;
+        }
+
+        return true;
     }
 
-    public void OutputSystemMessage(string input)
-    {
-        var message = $"<color=#FFCC00>{input}</color>"; ;
-        instance.chatRoom.AddMessage(message);
-    }
-
-    /// <summary>
-    /// Formats text as <color=#FF0000>Error: {input}</color> and outputs to chat
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public void OutputErrorMessage(string input)
-    {
-        var message = $"<color=#FF0000>Error: {input}</color>";
-        instance.chatRoom.AddMessage(message);
-    }
-
-    /// <summary>
-    /// Outputs Not Master Client Error to chat
-    /// </summary>
-    public void OutputErrorNotMasterClient()
-    {
-        OutputErrorMessage("Not Master Client");
-    }
-
-    /// <summary>
-    /// Outputs Flayer Not Found Error to chat
-    /// </summary>
-    /// <param name="playerId"></param>
-    public void OutputErrorPlayerNotFound(string playerId)
-    {
-        OutputErrorMessage($"No player with ID #{playerId} could be found.");
     }
 }
