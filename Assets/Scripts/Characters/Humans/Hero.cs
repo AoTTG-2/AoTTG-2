@@ -134,10 +134,10 @@ namespace Assets.Scripts.Characters.Humans
         public Vector3 launchPointRight { get; private set; }
         private bool leanLeft { get; set; }
         private bool leftArmAim { get; set; }
-        /*
-    public XWeaponTrail leftbladetrail;
-    public XWeaponTrail leftbladetrail2;
-    */
+
+        public MeleeWeaponTrail left_blade;
+        public MeleeWeaponTrail right_blade;
+    
         [Obsolete("Should be within AHSS.cs")]
         public int leftBulletLeft = 7;
         public bool leftGunHasBullet = true;
