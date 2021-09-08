@@ -177,7 +177,6 @@ namespace Assets.Scripts
 
         public override void OnConnectionFail(DisconnectCause cause)
         {
-            PhotonNetwork.ReconnectAndRejoin();
             Debug.Log("OnConnectionFail : " + cause.ToString());
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
         }
@@ -198,6 +197,11 @@ namespace Assets.Scripts
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
                 this.DestroyAllExistingCloths();
                 Application.LoadLevel(0);
+               
+                //this part is not finished yet
+                OnConnectedToMaster();
+                PhotonNetwork.ReconnectAndRejoin();
+                //
             }
         }
 
