@@ -122,7 +122,7 @@ namespace Assets.Scripts.UI.Menu
                 IsVisible = true,
                 IsOpen = true,
                 MaxPlayers = 10,
-                PlayerTtl = 600000000,
+                PlayerTtl = 60000,
                 CustomRoomProperties = new Hashtable
                 {
                     { "name", roomName },
