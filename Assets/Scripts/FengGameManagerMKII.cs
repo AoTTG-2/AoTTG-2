@@ -141,6 +141,8 @@ namespace Assets.Scripts
         /// <summary>
         /// A static accessor to the current Gamemode
         /// </summary>
+
+        public bool IsReconnecting = false;
         public static GamemodeBase Gamemode { get; set; }
         /// <summary>
         /// A static accessor to the current loaded Level
@@ -182,8 +184,7 @@ namespace Assets.Scripts
             
             if(cause is DisconnectCause.DisconnectByClientTimeout)
             {
-                PhotonNetwork.ReconnectAndRejoin();
-                Debug.Log("reconnection is called");
+                IsReconnecting = true;
             }
 
         }
@@ -204,7 +205,11 @@ namespace Assets.Scripts
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
                 this.DestroyAllExistingCloths();
                 Application.LoadLevel(0);
-
+                if (IsReconnecting) 
+                {
+                    PhotonNetwork.ReconnectAndRejoin();
+                    IsReconnecting = false;
+                }
 
             }
         }
