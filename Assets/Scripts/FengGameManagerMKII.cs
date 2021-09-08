@@ -197,11 +197,7 @@ namespace Assets.Scripts
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
                 this.DestroyAllExistingCloths();
                 Application.LoadLevel(0);
-               
-                //this part is not finished yet
-                OnConnectedToMaster();
                 PhotonNetwork.ReconnectAndRejoin();
-                //
             }
         }
 
