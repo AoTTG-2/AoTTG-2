@@ -872,14 +872,14 @@ namespace Assets.Scripts.Characters.Humans
                                 if (!checkBoxLeft.IsActive)
                                 {
                                     checkBoxLeft.IsActive = true;
-                                    if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
-                                    {
+                                    
+
                                         if (UseWeaponTrail) 
                                         { 
                                         rightweapontrail.enabled = true;
                                         leftweapontrail.enabled = true;
                                         }
-                                    }
+
                                     Rigidbody.velocity = (-Vector3.up * 30f);
                                 }
                                 if (!checkBoxRight.IsActive)
@@ -943,14 +943,12 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     checkBoxLeft.IsActive = true;
                                     slash.Play();
-                                    if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
-                                    {
+                                    
                                         if (UseWeaponTrail)
                                         {
                                             rightweapontrail.enabled = true;
                                             leftweapontrail.enabled = true;
                                         }
-                                    }
                                 }
                                 if (!checkBoxRight.IsActive)
                                 {
