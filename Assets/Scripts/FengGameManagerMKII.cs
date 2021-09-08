@@ -179,6 +179,13 @@ namespace Assets.Scripts
         {
             Debug.Log("OnConnectionFail : " + cause.ToString());
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
+            
+            if(cause is DisconnectCause.DisconnectByClientTimeout)
+            {
+                PhotonNetwork.ReconnectAndRejoin();
+                Debug.Log("reconnection is called");
+            }
+
         }
 
         public override void OnCreatedRoom()
@@ -197,7 +204,8 @@ namespace Assets.Scripts
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
                 this.DestroyAllExistingCloths();
                 Application.LoadLevel(0);
-                PhotonNetwork.ReconnectAndRejoin();
+
+
             }
         }
 
