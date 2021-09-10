@@ -1454,7 +1454,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         grounded = false;
                     }
-                    Debug.Log(Skill.IsActive);
+
                     if (Skill.IsActive)
                     {
                         Skill.OnFixedUpdate();
@@ -3999,7 +3999,6 @@ namespace Assets.Scripts.Characters.Humans
         {
             float num2 = currentBladeSta / totalBladeSta;
             cachedSprites["GasLeft"].fillAmount = cachedSprites["GasRight"].fillAmount = 1 - (currentGas / totalGas);
-            Debug.Log(InGameUI);
             Equipment.Weapon.UpdateSupplyUi(InGameUI);
         }
 
