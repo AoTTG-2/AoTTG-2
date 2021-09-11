@@ -23,6 +23,8 @@ namespace Assets.Scripts.Characters.Humans.Equipment
                     Weapon.WeaponRight = Hero.Body.hand_R.Find("character_blade_r(Clone)").gameObject;
                     Weapon.WeaponLeftPrefab = equipment.WeaponLeft;
                     Weapon.WeaponRightPrefab = equipment.WeaponRight;
+                    Hero.rightweapontrail = Weapon.WeaponRight.GetComponentInChildren<MeleeWeaponTrail>();
+                    Hero.leftweapontrail = Weapon.WeaponLeft.GetComponentInChildren<MeleeWeaponTrail>();
                     break;
                 case EquipmentType.Ahss:
                     Weapon = new Ahss();
