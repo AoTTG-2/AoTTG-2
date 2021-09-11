@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>7.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{5CC0871D-87F8-8E95-B993-7ADEF5C4CC62}</ProjectGuid>
+    <ProjectGuid>{58A71158-A078-3D3B-55A7-E8093DDFD643}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>AoTTG2.Core</AssemblyName>
@@ -52,9 +52,6 @@
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2020.2.7f1</UnityVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Security\AuthorizationResult.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\EnumNamedArrayAttribute.cs" />
@@ -132,8 +129,8 @@
     <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPhotonService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterOutfit.cs" />
-    <Compile Include="Assets\Scripts\UI\Camera\PlanetMouseOrbit.cs" />
     <Compile Include="Assets\Scripts\Xft\XWeaponTrail.cs" />
+    <Compile Include="Assets\Scripts\UI\Camera\PlanetMouseOrbit.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\RegistrationCounter.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenuV2.cs" />
     <Compile Include="Assets\Scripts\DayNightCycle\TimeSwitcher.cs" />
@@ -379,6 +376,7 @@
     <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiToggleButton.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\ServerSelector.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />
     <Compile Include="Assets\Scripts\Utility\StringExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
@@ -512,7 +510,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\ServerSelector.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
@@ -743,9 +740,6 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
       <HintPath>Assets\Plugins\Photon3Unity3D.dll</HintPath>
@@ -1131,15 +1125,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{BA409E3E-26DA-94E4-1AC2-CFB458ABFB37}</Project>
+      <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
     <ProjectReference Include="Discord.csproj">
-      <Project>{F54107F2-A38A-9E77-35E3-BED81A07F907}</Project>
+      <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
       <Name>Discord</Name>
     </ProjectReference>
     <ProjectReference Include="LeanTween.csproj">
-      <Project>{908D02B1-2287-7B51-4F3B-60721C088E3C}</Project>
+      <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
       <Name>LeanTween</Name>
     </ProjectReference>
   </ItemGroup>

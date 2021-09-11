@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>7.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{ABCF3B26-55E4-3599-27E6-2A4FDE421277}</ProjectGuid>
+    <ProjectGuid>{03703236-5BA2-85B1-01CE-FADAAD146C1F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>PlayMode</AssemblyName>
@@ -52,9 +52,6 @@
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2020.2.7f1</UnityVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Tests\PlayMode\MainSceneTests.cs" />
   </ItemGroup>
@@ -645,7 +642,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="AoTTG2.Core.csproj">
-      <Project>{5CC0871D-87F8-8E95-B993-7ADEF5C4CC62}</Project>
+      <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
       <Name>AoTTG2.Core</Name>
     </ProjectReference>
   </ItemGroup>
