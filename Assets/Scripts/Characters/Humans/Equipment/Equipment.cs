@@ -33,17 +33,6 @@ namespace Assets.Scripts.Characters.Humans.Equipment
                     Weapon.WeaponLeftPrefab = equipment.WeaponLeft;
                     Weapon.WeaponRightPrefab = equipment.WeaponRight;
                     break;
-
-                case EquipmentType.Rifle:
-                    Weapon = new Rifle();
-                    //TODO: new animation for holding rifle? are not gonna be holding two rifles one on each hand.
-                    // USING BLADES FOR TESTING
-                    Weapon.WeaponLeft = Hero.Body.hand_L.Find("character_blade_l(Clone)").gameObject;
-                    Weapon.WeaponRight = Hero.Body.hand_R.Find("character_blade_r(Clone)").gameObject;
-                    Weapon.WeaponLeftPrefab = equipment.WeaponLeft;
-                    Weapon.WeaponRightPrefab = equipment.WeaponRight;
-
-                    break;
                 default:
                     Weapon = new Blades();
                     break;
@@ -70,8 +59,8 @@ namespace Assets.Scripts.Characters.Humans.Equipment
 
                 case EquipmentType.Rifle:
                     Weapon = weaponTo;
-
                     break;
+
                 default:
                     Weapon = new Blades();
                     break;
