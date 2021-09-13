@@ -502,9 +502,7 @@ namespace Assets.Scripts.Characters.Titan
             if (!IsAlive) return;
             if (state == State) return;
 
-            if ((State == TitanState.Attacking)
-                && state != TitanState.Dead
-                && PreviousState != TitanState.Idle)
+            if ((State == TitanState.Attacking) && state != TitanState.Dead && PreviousState != TitanState.Idle)
             {
                 PreviousState = State;
                 NextState = state;
@@ -744,32 +742,34 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CurrentAttack.IsFinished = false;
                 Stamina -= CurrentAttack.Stamina;
-                switch (Difficulty)
-                {
-                    case Gamemode.Difficulty.Easy:
-                        attackCooldown = 2f;
-                        break;
-
-                    case Gamemode.Difficulty.Normal:
-                        attackCooldown = 1.5f;
-                        break;
-
-                    case Gamemode.Difficulty.Hard:
-                        attackCooldown = 1f;
-                        break;
-
-                    case Gamemode.Difficulty.Abnormal:
-                        attackCooldown = 0.75f;
-                        break;
-
-                    case Gamemode.Difficulty.Realism:
-                        attackCooldown = 0.5f;
-                        break;
-                }
                 SetState(TitanState.Chase);
                 return;
             }
+            switch (Difficulty)
+            {
+                case Gamemode.Difficulty.Easy:
+                    attackCooldown = 2f;
+                    break;
+
+                case Gamemode.Difficulty.Normal:
+                    attackCooldown = 1.5f;
+                    break;
+
+                case Gamemode.Difficulty.Hard:
+                    attackCooldown = 1f;
+                    break;
+
+                case Gamemode.Difficulty.Abnormal:
+                    attackCooldown = 0.75f;
+                    break;
+
+                case Gamemode.Difficulty.Realism:
+                    attackCooldown = 0.5f;
+                    break;
+            }
             CurrentAttack.Execute();
+
+
         }
 
         protected override void OnChasing()
