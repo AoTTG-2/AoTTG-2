@@ -1,0 +1,76 @@
+.dottedNavbar{
+    position: fixed;
+    top: 50%; right: 30px;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+.dottedNavbar ul{
+    list-style: none;
+    padding: 0; margin: 0;
+}
+.dottedNavbar ul li{
+    width: 200px;
+    position: relative;
+    text-align: right;
+}
+.dottedNavbar ul li .dot{
+    color: #fff;
+    display: block;
+    padding: 5px 0;
+}
+.dottedNavbar ul li .dot span{
+    display: inline-block;
+    background: transparent;
+    letter-spacing: 1px;
+    padding: 5px 25px;
+    margin-right: 30px;
+    border-radius: 3px;
+    border: #fff solid 1px;
+    transform: translateX(30px);
+    opacity: 0;
+}
+.dottedNavbar ul li:hover .dot span{
+    transform: translateX(0px);
+    opacity: 1;
+}
+.dottedNavbar ul li .dot span::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translate(70px, -50%);
+    border-left: 7px solid #fff;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    display: block;
+    opacity: 0;
+}
+.dottedNavbar ul li .dot::before,
+.dottedNavbar ul li .dot::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    border-radius: 50%;
+    display: block;
+    transition: .2s ease-out;
+}
+.dottedNavbar ul li .dot::before{
+    height: 5px; width: 5px;
+    border: 2px solid rgb(133, 133, 133);
+    right: 0;
+    transform: translateY(-50%);
+}
+.dottedNavbar ul li .dot.active::before,
+.dottedNavbar ul li:hover .dot::before{
+    border-color: #fff;
+    background: #fff;
+}
+.dottedNavbar ul li .dot::after{
+    height: 15px; width: 15px;
+    border: 2px solid rgb(133, 133, 133);
+    right: -5px;
+    transform: translateY(-50%) scale(0);
+}
+.dottedNavbar ul li .dot.active::after,
+.dottedNavbar ul li:hover .dot::after{
+    transform: translateY(-50%) scale(1);
+}

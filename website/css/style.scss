@@ -1,0 +1,122 @@
+html {
+  font-size: 90.5%;
+  scroll-behavior: smooth;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  transition: all .2s linear;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  background-color: rgb(44, 44, 44) !important;
+  background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(../resources/AOTTG_2_Promotional_Art_Landscape_III_1.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+@import "_dottedNav";
+@import "_teamcards";
+
+#home{
+	background-size: cover;
+	background-position: center;
+	color: #efefef !important;
+	background-attachment: fixed;
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+#home h1{
+    justify-content: center;
+    text-align: center;
+    font-family: 'Special Elite', cursive;
+    font-size: 10em;
+}
+#home .baixar{
+    position: absolute;
+	top: 52%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+    font-size: 20px !important;
+    padding: 5px 30px !important;
+    font-family: 'Jura', sans-serif;
+}
+@media (max-width: 1024px){
+    #home .baixar{
+        opacity: 0;
+    }
+}
+
+.misc{
+    margin-top: 150px;
+    background-color: rgba(255, 255, 255, 0) !important;
+    padding-bottom: 50px;
+}
+.misc h1{
+    color: white;
+    text-align: center;
+    font-family: 'Special Elite', cursive;
+    margin-bottom: 50px;
+}
+.card{
+    background-color: transparent !important;
+    color: #fff;
+    font-family: 'Jura', sans-serif;
+    border: transparent solid 0 !important;
+}
+.card .card-title{
+    color: rgb(34, 202, 214) !important;
+}
+.img-thumbnail{
+    margin-left: 10px;
+    background-color: transparent !important;
+    border: rgb(34, 202, 214) solid 1px !important;
+}
+
+.card .card-body .story-para{
+    width: 90% !important;
+    text-align: center;
+    margin-left: 60px;
+}
+@media (max-width: 800px){
+    .card .card-body .story-para{
+        width: 90% !important;
+        text-align: center;
+        margin-left: 30px;
+    }
+}
+@media (max-width: 400px){
+    .card .card-body .story-para{
+        width: 90% !important;
+        text-align: center;
+        margin-left: 20px;
+    }
+}
+
+.team{
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(../resources/AOTTG_2_Landscape_2_II.png);
+    background-size: cover;
+    width: 100%;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+}
+.team .container .row .btn-team{
+    margin-top: 20px;
+}
+
+.navbar{
+    background-color: rgba(0, 0, 0, 0.253);
+    font-family: 'Jura', sans-serif;
+}
+.navbar a{
+    color: #fff !important;
+}

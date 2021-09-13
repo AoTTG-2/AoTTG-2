@@ -14,14 +14,15 @@
           ]
         }
       ],
-      "dest": "obj/api"
+      "dest": "obj/website"
     }
   ],
   "build": {
     "content": [
       {
         "files": [
-          "api/**.yml"
+          "api/**.yml",
+          "website/**.php"
         ],
         "cwd": "obj"
       },
@@ -29,7 +30,9 @@
         "files": [
           "api/*.md",
           "toc.yml",
-          "*.md"
+          "*.md",
+          "*.php",
+          "website/*.php"
         ],
         "exclude": [
           "obj/**",
