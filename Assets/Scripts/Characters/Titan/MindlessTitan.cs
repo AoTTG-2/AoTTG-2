@@ -502,12 +502,14 @@ namespace Assets.Scripts.Characters.Titan
             if (!IsAlive) return;
             if (state == State) return;
 
-            if ((State == TitanState.Attacking) && state != TitanState.Dead && PreviousState != TitanState.Idle)
+            if ((State == TitanState.Attacking || State == TitanState.Chase) && state != TitanState.Dead && PreviousState != TitanState.Idle)
             {
                 PreviousState = State;
                 NextState = state;
                 State = TitanState.Idle;
-                IdleTimer = Idle;
+                IdleTimer = State == TitanState.Attacking 
+                    ? Idle 
+                    : 0.5f; //exact value for switching from TitanState.Chase subject to change
                 CrossFade(AnimationIdle, 0.2f);
                 return;
             }
