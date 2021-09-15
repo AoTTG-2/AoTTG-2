@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
+    public static AudioController Instance { get; private set; }
+
     public AudioMixerGroup neutralMixerGroup;
     public AudioMixerGroup combatMixerGroup;
 
@@ -13,6 +15,18 @@ public class AudioController : MonoBehaviour
     public AudioSource neutralAudioSource;
     public AudioSource combatAudioSource;
     void Awake()
+    {
+        CheckSingleton();
+        LoadAudioSources();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    private void LoadAudioSources()
     {
         neutralAudioSource = gameObject.AddComponent<AudioSource>();
         neutralAudioSource.playOnAwake = false;
@@ -23,9 +37,17 @@ public class AudioController : MonoBehaviour
         combatAudioSource.outputAudioMixerGroup = combatMixerGroup;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckSingleton()
     {
-
+        if (Instance == null)
+        {
+            Instance = this;
+            Debug.Log(gameObject);
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
