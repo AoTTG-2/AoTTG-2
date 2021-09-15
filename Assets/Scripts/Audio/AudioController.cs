@@ -12,7 +12,10 @@ public class AudioController : MonoBehaviour
     void Awake()
     {
         neutralAudioSource = gameObject.AddComponent<AudioSource>();
+        neutralAudioSource.playOnAwake = false;
+
         combatAudioSource = gameObject.AddComponent<AudioSource>();
+        combatAudioSource.playOnAwake = false;
     }
 
     // Update is called once per frame
