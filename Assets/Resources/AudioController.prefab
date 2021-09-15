@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076508099050654392}
-  - component: {fileID: -8803207813304171801}
+  - component: {fileID: 1055948025725530710}
   m_Layer: 0
   m_Name: AudioController
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8803207813304171801
+--- !u!114 &1055948025725530710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +43,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3554dc411304934daf19091dc2551c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neutralPlaylist: {fileID: 11400000, guid: 8b9ce9eca3c1e7448a20e99f13c7d194, type: 2}
-  combatPlaylist: {fileID: 11400000, guid: 819883045b8d2f54b9bce17d49fc10d4, type: 2}
-  neutralAudioSource: {fileID: 0}
-  combatAudioSource: {fileID: 0}
