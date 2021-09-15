@@ -3037,7 +3037,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
             RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
-            bool didHit = Physics.Raycast(gameObject.transform.position + ((Vector3.up * 0.1f)), -Vector3.up, out hit,  (float) 0.3f, mask.value);
+            bool didHit = Physics.Raycast(gameObject.transform.position + (Vector3.up * 0.1f), -Vector3.up, out hit, 0.3f, mask.value);
             return didHit;
         }
 
