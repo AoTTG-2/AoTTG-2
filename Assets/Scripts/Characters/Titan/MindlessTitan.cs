@@ -514,7 +514,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (State == TitanState.Idle) {}
+            //if (State == TitanState.Idle) {}      wasn't doing anything, I'll keep it commented in case somebody will use it later on
 
             PreviousState = State == TitanState.Idle 
                 ? TitanState.Chase
@@ -876,6 +876,14 @@ namespace Assets.Scripts.Characters.Titan
             if (NextState == TitanState.Eat)
             {
                 IdleTimer = 0;
+            }
+
+            if (NextState == TitanState.Attacking)
+            {
+                if(!CurrentAttack.CanAttack())
+                {
+                    SetState(TitanState.Chase);
+                }
             }
 
             if (IdleTimer <= 0)
