@@ -3,127 +3,104 @@ using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
 
+[System.Serializable]
+public class Channel
+{
+    public int index;
+    public AudioMixerGroup mixerGroup;
+    public AudioMixerSnapshot snapshot;
+    public Playlist playlist;
+    public int playlistIndex;
+    public AudioSource audioSource;
+    public Coroutine fadeInCo = null;
+}
+
 public class AudioController : MonoBehaviour
 {
     public static AudioController Instance { get; private set; }
 
+    public Channel[] channels = new Channel[4];
+    private Channel currentChannel;
+
     public float transitionTime = 1.5f; //Duration of the transition between neutral and combat snapshots
 
-    public AudioMixerGroup neutralMixerGroup;
-    public AudioMixerGroup combatMixerGroup;
-    public AudioMixerSnapshot neutralSnapshot;
-    public AudioMixerSnapshot combatSnapshot;
-    private AudioMixerSnapshot currentSnapshot;
-
-    public Playlist neutralPlaylist;
-    public Playlist combatPlaylist;
-    private int neutralPlaylistIndex = 0;
-    private int combatPlaylistIndex = 0;
-    public AudioSource neutralAudioSource;
-    public AudioSource combatAudioSource;
     void Awake()
     {
         CheckSingleton();
-        LoadAudioSources();
-        currentSnapshot = neutralSnapshot;
+        currentChannel = GetChannel(ChannelTypes.MainMenu);
     }
 
     private void Start()
     {
-        PlaySong("neutral", 0);
-        PlaySong("combat", 0);
+        PlayRandomSong(channels[0]);
+        PlayRandomSong(channels[1]);
+        PlayRandomSong(channels[2]);
+        PlayRandomSong(channels[3]);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (HasSongEnded(neutralAudioSource)) //Loops the songs in the playlists
+        for(int i = 0; i < channels.Length; i++)
         {
-            PlayNextSong("neutral");
-        }
-        if (HasSongEnded(combatAudioSource))
-        {
-            PlayNextSong("combat");
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) NeutralCombatSwap(); //DEBUGGING, DELETE IT
-        if (Input.GetKeyDown(KeyCode.Alpha2)) PlayNextSong("neutral"); //DEBUGGING, DELETE IT
-    }
-
-    public void PlayNextSong(string type) //Play next song in playlist where type is neutral or combat playlist
-    {
-        PlaySong(type, (type == "neutral" ? neutralPlaylistIndex : combatPlaylistIndex) + 1);
-    }
-
-    public void SwitchMusic(AudioMixerSnapshot snapshot) //Select snapshot to transition between neutral and combat
-    {
-        currentSnapshot = snapshot;
-        currentSnapshot.TransitionTo(transitionTime);
-    }
-
-    private bool HasSongEnded(AudioSource audioS)
-    {
-        return (!audioS.isPlaying);
-    }
-
-    public void NeutralCombatSwap() //Uses opposite snapshot of currently playing
-    {
-        SwitchMusic(currentSnapshot == neutralSnapshot ? combatSnapshot : neutralSnapshot);
-    }
-
-    public void LoadPlaylist(string type, Playlist playlist) //Load different playlist, mostly used when changing scenes with own playlists
-    {
-        if (type == "neutral") //Play the playlist from the beginning
-        {
-            neutralPlaylist = playlist;
-            neutralPlaylistIndex = 0;
-            combatPlaylistIndex = 0;
-        }
-        else if (type == "combat")
-        {
-            combatPlaylist = playlist;
-            neutralPlaylistIndex = 0;
-            combatPlaylistIndex = 0;
-        }
-        PlaySong("neutral", 0);
-        PlaySong("combat", 0);
-        currentSnapshot = neutralSnapshot;
-        SwitchMusic(currentSnapshot);
-    }
-
-    public void PlaySong(string type, int index) {
-        if (type == "neutral")
-        {
-            neutralPlaylistIndex = index;
-            neutralPlaylistIndex = neutralPlaylistIndex % neutralPlaylist.songs.Length;
-        } else if (type == "combat")
-        {
-            combatPlaylistIndex = index;
-            combatPlaylistIndex = combatPlaylistIndex % combatPlaylist.songs.Length;
+            if (HasSongEnded(channels[i])) //Loops the songs in the playlists
+            {
+                PlayNextSong(channels[i]);
+            }
         }
 
-        LoadSongSettings(type);
-        (type == "neutral" ? neutralAudioSource : combatAudioSource).Play();
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchMusic(channels[(currentChannel.index + 1) % channels.Length]); //DEBUGGING, DELETE IT
+        if (Input.GetKeyDown(KeyCode.Alpha2)) PlayRandomSong(currentChannel); //DEBUGGING, DELETE IT
     }
 
-    private void LoadSongSettings(string type) //Load volume, clip etc. for current song
+    public void PlayNextSong(Channel channel) //Play next song in playlist where type is neutral or combat playlist
+    {
+        PlaySong(channel, channel.playlistIndex + 1);
+    }
+
+    public void PlayRandomSong(Channel channel) //Play random song in playlist where type is neutral or combat playlist
+    {
+        int randomInt = Random.Range(0, channel.playlist.songs.Length);
+        if (randomInt == channel.playlistIndex) randomInt++;
+        PlaySong(channel, randomInt);
+    }
+
+    private bool HasSongEnded(Channel channel)
+    {
+        return (!channel.audioSource.isPlaying);
+    }
+
+    public void LoadPlaylist(Channel channel, Playlist playlist) //Load different playlist, mostly used when changing scenes with own playlists
+    {
+        channel.playlist = playlist;
+        channel.playlistIndex = 0;
+        PlaySong(channel, channel.playlistIndex);
+
+        SwitchMusic(channel);
+    }
+
+    public void SwitchMusic(Channel channel) //Select snapshot to transition between neutral and combat
+    {
+        currentChannel = channel;
+        channel.snapshot.TransitionTo(transitionTime);
+    }
+
+    public void PlaySong(Channel channel, int index) {
+        channel.playlistIndex = index;
+        channel.playlistIndex = channel.playlistIndex % channel.playlist.songs.Length;
+
+        LoadSongSettings(channel);
+        channel.audioSource.Play();
+    }
+
+    private void LoadSongSettings(Channel channel) //Load volume, clip etc. for current song
     {
         Song currentSong;
-        switch (type)
-        {
-            case "neutral":
-                currentSong = neutralPlaylist.songs[neutralPlaylistIndex];
-                neutralAudioSource.volume = 0f;
-                StartCoroutine(FadeIn(neutralAudioSource, currentSong.volume)); //Fade in the volume of song
-                neutralAudioSource.clip = currentSong.clip;
-                break;
-            case "combat":
-                currentSong = combatPlaylist.songs[combatPlaylistIndex];
-                combatAudioSource.volume = 0f;
-                StartCoroutine(FadeIn(combatAudioSource, currentSong.volume));
-                combatAudioSource.clip = currentSong.clip;
-                break;
-        }
+        currentSong = channel.playlist.songs[channel.playlistIndex];
+        channel.audioSource.volume = 0f;
+        if (channel.fadeInCo != null) StopCoroutine(channel.fadeInCo);
+        channel.fadeInCo = StartCoroutine(FadeIn(channel.audioSource, currentSong.volume));
+        channel.audioSource.clip = currentSong.clip;
     }
 
     IEnumerator FadeIn(AudioSource audioSource, float target, float time = 2f)
@@ -140,17 +117,6 @@ public class AudioController : MonoBehaviour
         yield break;
     }
 
-    private void LoadAudioSources()
-    {
-        neutralAudioSource = gameObject.AddComponent<AudioSource>();
-        neutralAudioSource.playOnAwake = false;
-        neutralAudioSource.outputAudioMixerGroup = neutralMixerGroup;
-
-        combatAudioSource = gameObject.AddComponent<AudioSource>();
-        combatAudioSource.playOnAwake = false;
-        combatAudioSource.outputAudioMixerGroup = combatMixerGroup;
-    }
-
     private void CheckSingleton()
     {
         if (Instance == null)
@@ -164,4 +130,17 @@ public class AudioController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private Channel GetChannel(ChannelTypes type)
+    {
+        return channels[(int) type];
+    }
+}
+
+enum ChannelTypes
+{
+    MainMenu,
+    Combat,
+    Neutral,
+    Ambient
 }
