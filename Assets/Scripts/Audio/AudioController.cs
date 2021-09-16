@@ -52,7 +52,7 @@ public class AudioController : MonoBehaviour
 
     private void Start()
     {
-        checkStateCo = StartCoroutine(CheckState(1f));
+        checkStateCo = StartCoroutine(CheckState(0.5f));
 
         PlayRandomSong(channels[0]); //Start song for every channel
         PlayRandomSong(channels[1]);
@@ -202,6 +202,10 @@ public class AudioController : MonoBehaviour
             }
         }
         LoadPlaylistPack(scenePlaylists[0]);
+        stateLayers[0] = false;
+        stateLayers[1] = false;
+        stateLayers[2] = false;
+        stateLayers[3] = true;
     }
 
     private void LoadPlaylistPack(PlaylistPack pack)
