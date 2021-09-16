@@ -4,35 +4,41 @@ using UnityEngine.Audio;
 using UnityEngine;
 
 [System.Serializable]
-public class Channel
+public class Channel //Each channel holds it's own references, thanks to that every method can just take in channel as a parameter and not worry which one it is
 {
-    public int index;
+    public int index; //Remembers it's own index in the channels array INDEX HAS TO MATCH CHANNELTYPE ORDER
     public AudioMixerGroup mixerGroup;
     public AudioMixerSnapshot snapshot;
     public Playlist playlist;
     public int playlistIndex;
     public AudioSource audioSource;
-    public Coroutine fadeInCo = null;
+    public Coroutine fadeInCo = null; //Made so coroutine can be stopped if song is changed during it
 }
 
 public class AudioController : MonoBehaviour
 {
     public static AudioController Instance { get; private set; }
 
-    public Channel[] channels = new Channel[4];
+    public Channel[] channels = new Channel[4]; //Channels for: MainMenu, Combat, Neutral, Ambient
     private Channel currentChannel;
 
-    public float transitionTime = 1.5f; //Duration of the transition between neutral and combat snapshots
+    public float transitionTime = 1.5f; //Duration of the transition between snapshots
+
+    private Coroutine checkStateCo;
+
+    public bool[] stateLayers = { true, false, false, true };
 
     void Awake()
     {
-        CheckSingleton();
-        currentChannel = GetChannel(ChannelTypes.MainMenu);
+        CheckSingleton(); //Delete itself if AudioController exists
+        currentChannel = GetChannel(ChannelTypes.MainMenu); //Set default current channel to main menu
     }
 
     private void Start()
     {
-        PlayRandomSong(channels[0]);
+        checkStateCo = StartCoroutine(CheckState(1f));
+
+        PlayRandomSong(channels[0]); //Start song for every channel
         PlayRandomSong(channels[1]);
         PlayRandomSong(channels[2]);
         PlayRandomSong(channels[3]);
@@ -51,6 +57,11 @@ public class AudioController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchMusic(channels[(currentChannel.index + 1) % channels.Length]); //DEBUGGING, DELETE IT
         if (Input.GetKeyDown(KeyCode.Alpha2)) PlayRandomSong(currentChannel); //DEBUGGING, DELETE IT
+
+        if (Input.GetKeyDown(KeyCode.Alpha5)) SwapState(ChannelTypes.MainMenu); //DEBUGGING, DELETE IT
+        if (Input.GetKeyDown(KeyCode.Alpha6)) SwapState(ChannelTypes.Combat); //DEBUGGING, DELETE IT
+        if (Input.GetKeyDown(KeyCode.Alpha7)) SwapState(ChannelTypes.Neutral); //DEBUGGING, DELETE IT
+        if (Input.GetKeyDown(KeyCode.Alpha8)) SwapState(ChannelTypes.Ambient); //DEBUGGING, DELETE IT
     }
 
     public void PlayNextSong(Channel channel) //Play next song in playlist where type is neutral or combat playlist
@@ -79,7 +90,7 @@ public class AudioController : MonoBehaviour
         SwitchMusic(channel);
     }
 
-    public void SwitchMusic(Channel channel) //Select snapshot to transition between neutral and combat
+    private void SwitchMusic(Channel channel) //Select snapshot to transition between neutral and combat
     {
         currentChannel = channel;
         channel.snapshot.TransitionTo(transitionTime);
@@ -117,6 +128,41 @@ public class AudioController : MonoBehaviour
         yield break;
     }
 
+    IEnumerator CheckState(float interval)
+    {
+        int stateIndex;
+
+        while (true)
+        {
+            stateIndex = GetStateIndex();
+            if (currentChannel.index != stateIndex)
+            {
+                SwitchMusic(channels[stateIndex]);
+            }
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    private int GetStateIndex()
+    {
+        for(int i = 0; i < stateLayers.Length; i++)
+        {
+            if (stateLayers[i]) return i;
+        }
+        return stateLayers.Length-1;
+    }
+
+    public void SetState(ChannelTypes type, bool value)
+    {
+        stateLayers[(int) type] = value;
+    }
+
+    public void SwapState(ChannelTypes type)
+    {
+        bool currentState = stateLayers[(int) type];
+        SetState(type, !currentState);
+    }
+
     private void CheckSingleton()
     {
         if (Instance == null)
@@ -137,7 +183,7 @@ public class AudioController : MonoBehaviour
     }
 }
 
-enum ChannelTypes
+public enum ChannelTypes
 {
     MainMenu,
     Combat,
