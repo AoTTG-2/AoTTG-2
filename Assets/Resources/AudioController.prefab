@@ -82,6 +82,22 @@ MonoBehaviour:
     audioSource: {fileID: 2265047114070745549}
   transitionTime: 1.5
   stateLayers: 01000001
+  scenePlaylists:
+  - sceneName: DefaultPlaylist
+    menuPlaylist: {fileID: 11400000, guid: ef7ff7eb11c8bac449d6a9578237ff5b, type: 2}
+    combatPlaylist: {fileID: 11400000, guid: 716cb7b16b6594a4eb6b5e43a6c401a6, type: 2}
+    neutralPlaylist: {fileID: 11400000, guid: c9e7f612bb1d0d14690e108e13da0f55, type: 2}
+    ambientPlaylist: {fileID: 11400000, guid: 918400e853bc40a44938330551a56431, type: 2}
+  - sceneName: AoTTG 2
+    menuPlaylist: {fileID: 11400000, guid: ef7ff7eb11c8bac449d6a9578237ff5b, type: 2}
+    combatPlaylist: {fileID: 11400000, guid: 716cb7b16b6594a4eb6b5e43a6c401a6, type: 2}
+    neutralPlaylist: {fileID: 11400000, guid: c9e7f612bb1d0d14690e108e13da0f55, type: 2}
+    ambientPlaylist: {fileID: 11400000, guid: 918400e853bc40a44938330551a56431, type: 2}
+  - sceneName: The City I
+    menuPlaylist: {fileID: 11400000, guid: 716cb7b16b6594a4eb6b5e43a6c401a6, type: 2}
+    combatPlaylist: {fileID: 11400000, guid: 918400e853bc40a44938330551a56431, type: 2}
+    neutralPlaylist: {fileID: 11400000, guid: 716cb7b16b6594a4eb6b5e43a6c401a6, type: 2}
+    ambientPlaylist: {fileID: 11400000, guid: 716cb7b16b6594a4eb6b5e43a6c401a6, type: 2}
 --- !u!82 &7943433378601785112
 AudioSource:
   m_ObjectHideFlags: 0

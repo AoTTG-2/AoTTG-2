@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Channel //Each channel holds it's own references, thanks to that every method can just take in channel as a parameter and not worry which one it is
@@ -13,6 +14,17 @@ public class Channel //Each channel holds it's own references, thanks to that ev
     public int playlistIndex;
     public AudioSource audioSource;
     public Coroutine fadeInCo = null; //Made so coroutine can be stopped if song is changed during it
+}
+
+[System.Serializable]
+public class PlaylistPack
+{
+    public string sceneName;
+
+    public Playlist menuPlaylist;
+    public Playlist combatPlaylist;
+    public Playlist neutralPlaylist;
+    public Playlist ambientPlaylist;
 }
 
 public class AudioController : MonoBehaviour
@@ -28,8 +40,12 @@ public class AudioController : MonoBehaviour
 
     public bool[] stateLayers = { true, false, false, true };
 
+
+    public PlaylistPack[] scenePlaylists = new PlaylistPack[0];
+
     void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         CheckSingleton(); //Delete itself if AudioController exists
         currentChannel = GetChannel(ChannelTypes.MainMenu); //Set default current channel to main menu
     }
@@ -79,15 +95,6 @@ public class AudioController : MonoBehaviour
     private bool HasSongEnded(Channel channel)
     {
         return (!channel.audioSource.isPlaying);
-    }
-
-    public void LoadPlaylist(Channel channel, Playlist playlist) //Load different playlist, mostly used when changing scenes with own playlists
-    {
-        channel.playlist = playlist;
-        channel.playlistIndex = 0;
-        PlaySong(channel, channel.playlistIndex);
-
-        SwitchMusic(channel);
     }
 
     private void SwitchMusic(Channel channel) //Select snapshot to transition between neutral and combat
@@ -175,6 +182,50 @@ public class AudioController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        for (int i = 0; i < scenePlaylists.Length; i++)
+        {
+            if (scene.name == scenePlaylists[i].sceneName)
+            {
+                LoadPlaylistPack(scenePlaylists[i]);
+                stateLayers[0] = false;
+                stateLayers[1] = false;
+                stateLayers[2] = false;
+                stateLayers[3] = true;
+
+                if (scene.name == "AoTTG 2") stateLayers[0] = true;
+
+                return;
+            }
+        }
+        LoadPlaylistPack(scenePlaylists[0]);
+    }
+
+    private void LoadPlaylistPack(PlaylistPack pack)
+    {
+        if(pack.menuPlaylist == null || pack.combatPlaylist == null || pack.neutralPlaylist == null || pack.ambientPlaylist == null)
+        {
+            Debug.LogWarning("Missing Playlists in scenePlaylistPack");
+            channels[0].playlist = scenePlaylists[0].menuPlaylist;
+            channels[1].playlist = scenePlaylists[0].combatPlaylist;
+            channels[2].playlist = scenePlaylists[0].neutralPlaylist;
+            channels[3].playlist = scenePlaylists[0].ambientPlaylist;
+        }
+        else
+        {
+            channels[0].playlist = pack.menuPlaylist;
+            channels[1].playlist = pack.combatPlaylist;
+            channels[2].playlist = pack.neutralPlaylist;
+            channels[3].playlist = pack.ambientPlaylist;
+        }
+
+        PlayRandomSong(channels[0]);
+        PlayRandomSong(channels[1]);
+        PlayRandomSong(channels[2]);
+        PlayRandomSong(channels[3]);
     }
 
     private Channel GetChannel(ChannelTypes type)
