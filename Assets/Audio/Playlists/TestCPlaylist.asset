@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a23d5c2677dd8458e140da320c49f0, type: 3}
   m_Name: TestCPlaylist
   m_EditorClassIdentifier: 
-  playlistName: 
-  songs: []
-  type: neutral
+  playlistName: TestCombatPlaylist
+  songs:
+  - {fileID: 11400000, guid: 826cd4071163ee84bbb4eebf20742f60, type: 2}
+  - {fileID: 11400000, guid: 3a2657fd007134e4486d3cc9ff7b3f6a, type: 2}
+  type: combat
