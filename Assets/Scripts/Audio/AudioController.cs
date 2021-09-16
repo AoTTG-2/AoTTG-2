@@ -128,9 +128,12 @@ public class AudioController : MonoBehaviour
 
     IEnumerator FadeIn(AudioSource audioSource, float target, float time = 2f)
     {
-        while(audioSource.volume < target)
+        float progress = 0f;
+        while(progress < 1f)
         {
-            audioSource.volume += (Time.deltaTime / time) * target;
+            progress += (Time.deltaTime / time);
+            audioSource.volume = (progress * progress) * target;
+
             yield return null;
         }
         audioSource.volume = target;
