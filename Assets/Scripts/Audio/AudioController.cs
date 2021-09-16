@@ -7,7 +7,7 @@ public class AudioController : MonoBehaviour
 {
     public static AudioController Instance { get; private set; }
 
-    public float transitionTime = 1.5f;
+    public float transitionTime = 1.5f; //Duration of the transition between neutral and combat snapshots
 
     public AudioMixerGroup neutralMixerGroup;
     public AudioMixerGroup combatMixerGroup;
@@ -18,9 +18,9 @@ public class AudioController : MonoBehaviour
     public Playlist neutralPlaylist;
     public Playlist combatPlaylist;
     private int neutralPlaylistIndex = 0;
+    private int combatPlaylistIndex = 0;
     public AudioSource neutralAudioSource;
     public AudioSource combatAudioSource;
-    private int combatPlaylistIndex = 0;
     void Awake()
     {
         CheckSingleton();
@@ -37,7 +37,7 @@ public class AudioController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (HasSongEnded(neutralAudioSource))
+        if (HasSongEnded(neutralAudioSource)) //Loops the songs in the playlists
         {
             PlayNextSong("neutral");
         }
@@ -45,14 +45,17 @@ public class AudioController : MonoBehaviour
         {
             PlayNextSong("combat");
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) NeutralCombatSwap(); //DEBUGGING, DELETE IT
+        if (Input.GetKeyDown(KeyCode.Alpha2)) PlayNextSong("neutral"); //DEBUGGING, DELETE IT
     }
 
-    public void PlayNextSong(string type)
+    public void PlayNextSong(string type) //Play next song in playlist where type is neutral or combat playlist
     {
         PlaySong(type, (type == "neutral" ? neutralPlaylistIndex : combatPlaylistIndex) + 1);
     }
 
-    public void SwitchMusic(AudioMixerSnapshot snapshot)
+    public void SwitchMusic(AudioMixerSnapshot snapshot) //Select snapshot to transition between neutral and combat
     {
         currentSnapshot = snapshot;
         currentSnapshot.TransitionTo(transitionTime);
@@ -63,14 +66,14 @@ public class AudioController : MonoBehaviour
         return (!audioS.isPlaying);
     }
 
-    public void NeutralCombatSwap()
+    public void NeutralCombatSwap() //Uses opposite snapshot of currently playing
     {
         SwitchMusic(currentSnapshot == neutralSnapshot ? combatSnapshot : neutralSnapshot);
     }
 
-    public void LoadPlaylist(string type, Playlist playlist)
+    public void LoadPlaylist(string type, Playlist playlist) //Load different playlist, mostly used when changing scenes with own playlists
     {
-        if (type == "neutral")
+        if (type == "neutral") //Play the playlist from the beginning
         {
             neutralPlaylist = playlist;
             neutralPlaylistIndex = 0;
@@ -84,6 +87,8 @@ public class AudioController : MonoBehaviour
         }
         PlaySong("neutral", 0);
         PlaySong("combat", 0);
+        currentSnapshot = neutralSnapshot;
+        SwitchMusic(currentSnapshot);
     }
 
     public void PlaySong(string type, int index) {
@@ -101,36 +106,35 @@ public class AudioController : MonoBehaviour
         (type == "neutral" ? neutralAudioSource : combatAudioSource).Play();
     }
 
-    private void LoadSongSettings(string type)
+    private void LoadSongSettings(string type) //Load volume, clip etc. for current song
     {
         Song currentSong;
         switch (type)
         {
             case "neutral":
                 currentSong = neutralPlaylist.songs[neutralPlaylistIndex];
-                neutralAudioSource.volume = currentSong.volume;
+                neutralAudioSource.volume = 0f;
+                StartCoroutine(FadeIn(neutralAudioSource, currentSong.volume)); //Fade in the volume of song
                 neutralAudioSource.clip = currentSong.clip;
                 break;
             case "combat":
                 currentSong = combatPlaylist.songs[combatPlaylistIndex];
-                combatAudioSource.volume = currentSong.volume;
+                combatAudioSource.volume = 0f;
+                StartCoroutine(FadeIn(combatAudioSource, currentSong.volume));
                 combatAudioSource.clip = currentSong.clip;
                 break;
         }
     }
-    private void PlayMusic()
+
+    IEnumerator FadeIn(AudioSource audioSource, float target, float time = 2f)
     {
-        Song currentNeutralSong = neutralPlaylist.songs[neutralPlaylistIndex];
-        Song currentCombatSong = combatPlaylist.songs[combatPlaylistIndex];
-
-        neutralAudioSource.volume = currentNeutralSong.volume;
-        combatAudioSource.volume = currentCombatSong.volume;
-
-        neutralAudioSource.clip = currentNeutralSong.clip;
-        combatAudioSource.clip = currentCombatSong.clip;
-
-        neutralAudioSource.Play();
-        combatAudioSource.Play();
+        while(audioSource.volume < target)
+        {
+            audioSource.volume += (Time.deltaTime / time) * target;
+            yield return null;
+        }
+        audioSource.volume = target;
+        yield break;
     }
 
     private void LoadAudioSources()
