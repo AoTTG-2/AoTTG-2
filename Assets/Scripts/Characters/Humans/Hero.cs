@@ -138,7 +138,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public MeleeWeaponTrail leftweapontrail;
         public MeleeWeaponTrail rightweapontrail;
-    
+
         [Obsolete("Should be within AHSS.cs")]
         public int leftBulletLeft = 7;
         public bool leftGunHasBullet = true;
@@ -224,7 +224,7 @@ namespace Assets.Scripts.Characters.Humans
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
         [SerializeField] StringVariable bombMainPath;
-        
+
         #region Unity Methods
 
         protected override void Awake()
@@ -872,13 +872,13 @@ namespace Assets.Scripts.Characters.Humans
                                 if (!checkBoxLeft.IsActive)
                                 {
                                     checkBoxLeft.IsActive = true;
-                                    
 
-                                        if (UseWeaponTrail) 
-                                        { 
+
+                                    if (UseWeaponTrail)
+                                    {
                                         rightweapontrail.enabled = true;
                                         leftweapontrail.enabled = true;
-                                        }
+                                    }
 
                                     Rigidbody.velocity = (-Vector3.up * 30f);
                                 }
@@ -943,12 +943,12 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     checkBoxLeft.IsActive = true;
                                     slash.Play();
-                                    
-                                        if (UseWeaponTrail)
-                                        {
-                                            rightweapontrail.enabled = true;
-                                            leftweapontrail.enabled = true;
-                                        }
+
+                                    if (UseWeaponTrail)
+                                    {
+                                        rightweapontrail.enabled = true;
+                                        leftweapontrail.enabled = true;
+                                    }
                                 }
                                 if (!checkBoxRight.IsActive)
                                 {
@@ -2104,7 +2104,6 @@ namespace Assets.Scripts.Characters.Humans
             but for now it would probably make life easier for the testers.*/
 
             EntityService.Register(this);
-            Debug.Log("Mass of character: " + Rigidbody.mass);
         }
 
         [PunRPC]
@@ -2238,7 +2237,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         #endregion
-        
+
         public void AttackAccordingToMouse()
         {
             if (Input.mousePosition.x < (Screen.width * 0.5))
