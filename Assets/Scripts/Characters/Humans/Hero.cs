@@ -2097,9 +2097,11 @@ namespace Assets.Scripts.Characters.Humans
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
-            //float acl = to be implemented
-            Rigidbody.mass = 0.45f; /*0.5f - (acl - 100f) * 0.001f;         <- according to antigasp and Order, this is the formula for character mass
-            I was asked by antigasp to use 0.45 (corresponding to ACL 150) as a placeholder because most testers are used to playing as Levi and it'd be
+            /*int index = EquipmentType == EquipmentType.Ahss ? 1 : 0;              
+            float acl = preset.CharacterBuild[index].Stats.Acceleration;
+            Rigidbody.mass = 0.5f - (acl - 100f) * 0.001f;*/      //<-once correct character presets are implemented, uncomment these value assignation
+            Rigidbody.mass = 0.45f;                               //and delete this one
+            /*I was asked by antigasp to use 0.45 (corresponding to ACL 150) as a placeholder because most testers are used to playing as Levi and it'd be
             easier for them to spot if something is wrong. Obviously this is going to have to be reworked once character-speficic stats are implemented,
             but for now it would probably make life easier for the testers.*/
 
