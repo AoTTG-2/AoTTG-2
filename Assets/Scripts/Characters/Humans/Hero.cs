@@ -139,7 +139,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public MeleeWeaponTrail leftweapontrail;
         public MeleeWeaponTrail rightweapontrail;
-    
+
         [Obsolete("Should be within AHSS.cs")]
         public int leftBulletLeft = 7;
         public bool leftGunHasBullet = true;
@@ -225,7 +225,7 @@ namespace Assets.Scripts.Characters.Humans
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
         [SerializeField] StringVariable bombMainPath;
-        
+
         #region Unity Methods
 
         protected override void Awake()
@@ -873,13 +873,13 @@ namespace Assets.Scripts.Characters.Humans
                                 if (!checkBoxLeft.IsActive)
                                 {
                                     checkBoxLeft.IsActive = true;
-                                    
 
-                                        if (UseWeaponTrail) 
-                                        { 
+
+                                    if (UseWeaponTrail)
+                                    {
                                         rightweapontrail.enabled = true;
                                         leftweapontrail.enabled = true;
-                                        }
+                                    }
 
                                     Rigidbody.velocity = (-Vector3.up * 30f);
                                 }
@@ -944,12 +944,12 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     checkBoxLeft.IsActive = true;
                                     slash.Play();
-                                    
-                                        if (UseWeaponTrail)
-                                        {
-                                            rightweapontrail.enabled = true;
-                                            leftweapontrail.enabled = true;
-                                        }
+
+                                    if (UseWeaponTrail)
+                                    {
+                                        rightweapontrail.enabled = true;
+                                        leftweapontrail.enabled = true;
+                                    }
                                 }
                                 if (!checkBoxRight.IsActive)
                                 {
@@ -2102,6 +2102,14 @@ namespace Assets.Scripts.Characters.Humans
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
+            /*int index = EquipmentType == EquipmentType.Ahss ? 1 : 0;              
+            float acl = preset.CharacterBuild[index].Stats.Acceleration;
+            Rigidbody.mass = 0.5f - (acl - 100f) * 0.001f;*/      //<-once correct character presets are implemented, uncomment these value assignation
+            Rigidbody.mass = 0.45f;                               //and delete this one
+            /*I was asked by antigasp to use 0.45 (corresponding to ACL 150) as a placeholder because most testers are used to playing as Levi and it'd be
+            easier for them to spot if something is wrong. Obviously this is going to have to be reworked once character-speficic stats are implemented,
+            but for now it would probably make life easier for the testers.*/
+
             EntityService.Register(this);
         }
 
@@ -2236,7 +2244,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         #endregion
-        
+
         public void AttackAccordingToMouse()
         {
             if (Input.mousePosition.x < (Screen.width * 0.5))
