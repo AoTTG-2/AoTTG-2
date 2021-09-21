@@ -104,6 +104,7 @@ namespace Assets.Scripts.Characters.Humans
         private float Gravity => 20f * gravityModifier;
         private float gravityModifier = GameSettings.Global?.Gravity ?? 1;
         public bool grounded;
+        public bool regrounded; //Was falling down or not grounded for at least one frame
         private GameObject gunDummy { get; set; }
         private Vector3 gunTarget { get; set; }
         private Transform handL { get; set; }
@@ -1446,6 +1447,7 @@ namespace Assets.Scripts.Characters.Humans
                     else
                     {
                         grounded = false;
+                        regrounded = false;
                     }
 
                     if (Skill.IsActive)
@@ -1727,9 +1729,12 @@ namespace Assets.Scripts.Characters.Humans
                         force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
                         force.z = Mathf.Clamp(force.z, -maxVelocityChange, maxVelocityChange);
                         force.y = 0f;
-                        if (Animation.IsPlaying(HeroAnim.JUMP) && (Animation[HeroAnim.JUMP].normalizedTime > 0.18f))
+
+                        if (velocity.y <= 0f) regrounded = false;
+                        if (Animation.IsPlaying(HeroAnim.JUMP) && (Animation[HeroAnim.JUMP].normalizedTime > 0.18f) && !regrounded)
                         {
-                            force.y += 8f;
+                            regrounded = true;
+                            force.y += 16f;
                         }
                         if ((Animation.IsPlaying(HeroAnim.HORSE_GET_ON) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime > 0.18f)) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime < 1f))
                         {
@@ -3031,7 +3036,9 @@ namespace Assets.Scripts.Characters.Humans
         public bool IsGrounded()
         {
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-            return Physics.Raycast(gameObject.transform.position + ((Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask.value);
+            RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
+            bool didHit = Physics.Raycast(gameObject.transform.position + (Vector3.up * 0.1f), -Vector3.up, out hit, 0.3f, mask.value);
+            return didHit;
         }
 
 
