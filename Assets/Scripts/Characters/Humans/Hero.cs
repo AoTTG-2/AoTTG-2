@@ -104,6 +104,7 @@ namespace Assets.Scripts.Characters.Humans
         private float Gravity => 20f * gravityModifier;
         private float gravityModifier = GameSettings.Global?.Gravity ?? 1;
         public bool grounded;
+        public bool regrounded; //Was falling down or not grounded for at least one frame
         private GameObject gunDummy { get; set; }
         private Vector3 gunTarget { get; set; }
         private Transform handL { get; set; }
@@ -138,7 +139,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public MeleeWeaponTrail leftweapontrail;
         public MeleeWeaponTrail rightweapontrail;
-    
+
         [Obsolete("Should be within AHSS.cs")]
         public int leftBulletLeft = 7;
         public bool leftGunHasBullet = true;
@@ -224,7 +225,7 @@ namespace Assets.Scripts.Characters.Humans
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
         [SerializeField] StringVariable bombMainPath;
-        
+
         #region Unity Methods
 
         protected override void Awake()
@@ -872,13 +873,13 @@ namespace Assets.Scripts.Characters.Humans
                                 if (!checkBoxLeft.IsActive)
                                 {
                                     checkBoxLeft.IsActive = true;
-                                    
 
-                                        if (UseWeaponTrail) 
-                                        { 
+
+                                    if (UseWeaponTrail)
+                                    {
                                         rightweapontrail.enabled = true;
                                         leftweapontrail.enabled = true;
-                                        }
+                                    }
 
                                     Rigidbody.velocity = (-Vector3.up * 30f);
                                 }
@@ -943,12 +944,12 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     checkBoxLeft.IsActive = true;
                                     slash.Play();
-                                    
-                                        if (UseWeaponTrail)
-                                        {
-                                            rightweapontrail.enabled = true;
-                                            leftweapontrail.enabled = true;
-                                        }
+
+                                    if (UseWeaponTrail)
+                                    {
+                                        rightweapontrail.enabled = true;
+                                        leftweapontrail.enabled = true;
+                                    }
                                 }
                                 if (!checkBoxRight.IsActive)
                                 {
@@ -1446,6 +1447,7 @@ namespace Assets.Scripts.Characters.Humans
                     else
                     {
                         grounded = false;
+                        regrounded = false;
                     }
 
                     if (Skill.IsActive)
@@ -1727,9 +1729,12 @@ namespace Assets.Scripts.Characters.Humans
                         force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
                         force.z = Mathf.Clamp(force.z, -maxVelocityChange, maxVelocityChange);
                         force.y = 0f;
-                        if (Animation.IsPlaying(HeroAnim.JUMP) && (Animation[HeroAnim.JUMP].normalizedTime > 0.18f))
+
+                        if (velocity.y <= 0f) regrounded = false;
+                        if (Animation.IsPlaying(HeroAnim.JUMP) && (Animation[HeroAnim.JUMP].normalizedTime > 0.18f) && !regrounded)
                         {
-                            force.y += 8f;
+                            regrounded = true;
+                            force.y += 16f;
                         }
                         if ((Animation.IsPlaying(HeroAnim.HORSE_GET_ON) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime > 0.18f)) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime < 1f))
                         {
@@ -2097,6 +2102,14 @@ namespace Assets.Scripts.Characters.Humans
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
+            /*int index = EquipmentType == EquipmentType.Ahss ? 1 : 0;              
+            float acl = preset.CharacterBuild[index].Stats.Acceleration;
+            Rigidbody.mass = 0.5f - (acl - 100f) * 0.001f;*/      //<-once correct character presets are implemented, uncomment these value assignation
+            Rigidbody.mass = 0.45f;                               //and delete this one
+            /*I was asked by antigasp to use 0.45 (corresponding to ACL 150) as a placeholder because most testers are used to playing as Levi and it'd be
+            easier for them to spot if something is wrong. Obviously this is going to have to be reworked once character-speficic stats are implemented,
+            but for now it would probably make life easier for the testers.*/
+
             EntityService.Register(this);
         }
 
@@ -2231,7 +2244,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         #endregion
-        
+
         public void AttackAccordingToMouse()
         {
             if (Input.mousePosition.x < (Screen.width * 0.5))
@@ -3031,7 +3044,9 @@ namespace Assets.Scripts.Characters.Humans
         public bool IsGrounded()
         {
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-            return Physics.Raycast(gameObject.transform.position + ((Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask.value);
+            RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
+            bool didHit = Physics.Raycast(gameObject.transform.position + (Vector3.up * 0.1f), -Vector3.up, out hit, 0.3f, mask.value);
+            return didHit;
         }
 
 

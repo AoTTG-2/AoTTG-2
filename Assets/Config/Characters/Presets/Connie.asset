@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb26d3a3e9d5d2a40b9ff5439b712001, type: 3}
-  m_Name: Pixis
+  m_Name: Connie
   m_EditorClassIdentifier: 
-  Name: Pixis
+  Name: Connie
   Description: 
   CharacterOutfit:
-  - Name: Uniform
+  - Name: Default
     Gender: 1
     Head:
       Component: {fileID: 11400000, guid: f7eb2a5aff4e05641845ba41b152e07a, type: 2}
-      Texture: 3
+      Texture: 0
     Skin:
       Skin: 0
       CustomUrl: 
@@ -30,37 +30,37 @@ MonoBehaviour:
       Color: {r: 0, g: 0, b: 0, a: 0}
     Eyes:
       Component: {fileID: 11400000, guid: 008d3cefc23b49e489b206ee351a25f0, type: 2}
-      Texture: 28
+      Texture: 16
     Glasses:
       Component: {fileID: 0}
       Texture: 0
     Facial:
-      Component: {fileID: 11400000, guid: 549ec02307783b046ba76cd9f83a68c3, type: 2}
-      Texture: 19
+      Component: {fileID: 0}
+      Texture: 0
     Outfit:
       Component: {fileID: 11400000, guid: ed44eebc3ebf0f342a698aa0e91fc9d2, type: 2}
       Texture: 0
       UseCapeEmblem: 0
       EmblemFront:
-        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
-        Texture: 1
+        Component: {fileID: 0}
+        Texture: 0
       EmblemBack:
-        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
-        Texture: 1
+        Component: {fileID: 0}
+        Texture: 0
       EmblemRight:
-        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
-        Texture: 1
+        Component: {fileID: 0}
+        Texture: 0
       EmblemLeft:
-        Component: {fileID: 11400000, guid: 3ce27986b3617a943b29a637165d4ca1, type: 2}
-        Texture: 1
+        Component: {fileID: 0}
+        Texture: 0
     Cape:
-      Component: {fileID: 0}
+      Component: {fileID: 11400000, guid: b8fb0de4ac7dbc843b73e82b5d03125f, type: 2}
       Texture: 0
     Headgear:
       Component: {fileID: 0}
       Texture: 0
   CharacterBuild:
-  - Name: Garrison
+  - Name: Blades
     Equipment: 0
     EquipmentComponent:
       Texture: 1
@@ -75,4 +75,20 @@ MonoBehaviour:
       Speed: 0
       Gas: 0
       Equipment: 0
-    Skill: 3
+    Skill: 0
+  - Name: AHSS
+    Equipment: 1
+    EquipmentComponent:
+      Texture: 2
+      CustomUrl: 
+      Color: {r: 0, g: 0, b: 0, a: 0}
+      HandGrid:
+        Texture: 2
+        CustomUrl: 
+        Color: {r: 0, g: 0, b: 0, a: 0}
+    Stats:
+      Acceleration: 0
+      Speed: 0
+      Gas: 0
+      Equipment: 0
+    Skill: 0
