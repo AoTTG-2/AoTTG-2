@@ -126,7 +126,7 @@ public class AudioController : MonoBehaviour
         float progress = 0f;
         while(progress < 1f)
         {
-            progress += (Time.deltaTime / time);
+            progress += (0.016f / time);
             audioSource.volume = (progress * progress) * target;
 
             yield return null;
