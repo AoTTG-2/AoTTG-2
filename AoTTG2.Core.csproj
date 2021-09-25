@@ -198,6 +198,7 @@
     <Compile Include="Assets\Scripts\Settings\Setting.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInfo.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerRacingEnd.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\RacingGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Gamemode\CreditsGamemode.cs" />
     <Compile Include="Assets\Scripts\Effects\EanFrame.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ArminSkill.cs" />
@@ -513,7 +514,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\RacingGamemodeSetting.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
@@ -1152,6 +1152,10 @@
     <ProjectReference Include="RotaryHeart.SerializableDictionary.csproj">
       <Project>{4B1B01E9-9303-3FAA-8639-59EBAF90A1FB}</Project>
       <Name>RotaryHeart.SerializableDictionary</Name>
+    </ProjectReference>
+    <ProjectReference Include="MeleeWeaponTrail.csproj">
+      <Project>{A4F8BB4D-5B91-E7A6-F7B6-E22B79D89FFB}</Project>
+      <Name>MeleeWeaponTrail</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
