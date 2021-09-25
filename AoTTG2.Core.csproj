@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Room\LevelTeleport.cs" />
     <Compile Include="Assets\Scripts\Settings\Validation\FloatValidationAttribute.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BodyslamAttack.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\Credits\Contributor.cs" />
     <Compile Include="Assets\Scripts\Services\FactionService.cs" />
     <Compile Include="Assets\Scripts\Room\RoomExtensions.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\CharacterMaterials.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Assets\Scripts\Settings\Setting.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInfo.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerRacingEnd.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\CreditsGamemode.cs" />
     <Compile Include="Assets\Scripts\Effects\EanFrame.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ArminSkill.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiInput.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Assets\Scripts\Settings\CheckBoxCostume.cs" />
     <Compile Include="Assets\Scripts\Gamemode\EndlessGamemode.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHuman.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\CreditsGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPlayerService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TitanHealthMode.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IEntityService.cs" />
@@ -510,9 +513,7 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Gamemode\Credits\Contributor.cs" />
-    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\CreditsGamemodeSetting.cs" />
-    <Compile Include="Assets\Scripts\Gamemode\CreditsGamemode.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\RacingGamemodeSetting.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
