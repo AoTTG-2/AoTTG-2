@@ -39,6 +39,5 @@ namespace Assets.Scripts.Characters.Humans.Skills
         /// Fires a bomb, only used in the Bomb Pvp mode
         /// </summary>
         BombPvp,
-        Sasha,
     }
 }
