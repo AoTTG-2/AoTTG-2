@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wood
+  m_Name: house_2
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON
+  m_ShaderKeywords: _ALPHATEST_ON _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
@@ -21,11 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: a56841a522c939c4eb177ee3cce037ae, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2713cd6ece88d404096138fb0d5b6737, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 42ac2e0d13d9491449929e4bcc6960fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -45,15 +45,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a56841a522c939c4eb177ee3cce037ae, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2713cd6ece88d404096138fb0d5b6737, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8ebba44c12e97324f8ddfb0477575e08, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7d2e8644f45bd7d418dde9f009d04a5a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -82,19 +82,18 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 0
+    - _Cull: 2
     - _Cutoff: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _GlossMapScale: 1
+    - _GlossMapScale: 0
     - _Glossiness: 0
-    - _GlossyReflections: 1
+    - _GlossyReflections: 0
     - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
+    - _OcclusionStrength: 0
+    - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0
@@ -102,7 +101,6 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _UVSec: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -111,7 +109,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &204124294447522871
+--- !u!114 &5361604772439035741
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
