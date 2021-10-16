@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6059380537205859806}
   - component: {fileID: 6041106180727021533}
   - component: {fileID: 172375458777604912}
+  - component: {fileID: 4284157228759993413}
   m_Layer: 9
   m_Name: Plane
   m_TagString: Untagged
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4284157228759993413
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011216670615116944}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -462981019419857548, guid: 9964575e97774d541a5cae0ce38a16fb, type: 3}
 --- !u!1 &2069794374567591099
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +105,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1725639145340249601}
-  - component: {fileID: 6379100603840464124}
   m_Layer: 9
   m_Name: bunkbed
   m_TagString: Untagged
@@ -115,20 +129,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 12.69, z: 0}
---- !u!64 &6379100603840464124
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069794374567591099}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -462981019419857548, guid: 9964575e97774d541a5cae0ce38a16fb, type: 3}
 --- !u!1 &2501948173053998922
 GameObject:
   m_ObjectHideFlags: 0
