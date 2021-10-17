@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3113740230215578293}
   - component: {fileID: 5439640546994562581}
   - component: {fileID: 6309835924160530442}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: liltree2_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4071588277887252798}
-  m_LocalRotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 683.185, y: 34.81899, z: 163.81245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &6632315795462758123
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 142ba7e01af34a742987ea2fb88c55a0, type: 2}
+  - {fileID: 2100000, guid: 77d69108f3dbcaa4f8d0d33eda702ea2, type: 2}
   - {fileID: 2100000, guid: fa9a3684a9bdbdc46869a7855ec9afa2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
