@@ -354,6 +354,31 @@ namespace Assets.Scripts.Room
 
                 }
             });
+
+            _levels.Add(new Level
+            {
+                Name = "Outside the Walls Extended",
+                Description = "Classic Outside the Walls map",
+                SceneName = "OutSide The Walls Extended",
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new CaptureGamemodeSettings
+                    {
+                        Horse = new HorseSettings
+                        {
+                            Enabled = true
+                        },
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                        Supply = true,
+                        SpawnSupplyStationOnHumanCapture = true
+                    }
+                }
+            });
         }
 
         private static void AddAoTTG2Maps()
