@@ -34,8 +34,6 @@ namespace Assets.Scripts.UI.Menu
         private Dictionary<string, string> CustomDifficulties { get; } = new Dictionary<string, string>();
         private const string CustomDifficultyPrefix = "*-";
 
-        public int PlayerTtl;
-
         private void Awake()
         {
             levels = LevelBuilder.GetAllLevels();
