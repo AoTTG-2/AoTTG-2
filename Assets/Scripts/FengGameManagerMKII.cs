@@ -207,8 +207,8 @@ namespace Assets.Scripts
                 Application.LoadLevel(0);
                 if (IsReconnecting) 
                 {
-                    PhotonNetwork.ReconnectAndRejoin();
                     IsReconnecting = false;
+                    PhotonNetwork.ReconnectAndRejoin();
                 }
 
             }
