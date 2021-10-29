@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1781221862972414693}
   - component: {fileID: 8165538640616045462}
   - component: {fileID: 5712238660507435708}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Chimney 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4805691190607686185}
   m_LocalRotation: {x: -0.50000006, y: -0.4999999, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 617.57416, y: -0.00010871887, z: 340.6}
-  m_LocalScale: {x: 76.31783, y: 76.31783, z: 76.31783}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4805691190607686185}
-  m_Mesh: {fileID: 7485190727152227337, guid: b80a24486787949409c93358e894c349, type: 3}
+  m_Mesh: {fileID: 7485190727152227337, guid: beecf48584d50bd4fa2a6e7b79f3221f, type: 3}
 --- !u!23 &8165538640616045462
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -95,4 +95,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -5685984998773119963, guid: b80a24486787949409c93358e894c349, type: 3}
+  m_Mesh: {fileID: -5685984998773119963, guid: beecf48584d50bd4fa2a6e7b79f3221f, type: 3}
