@@ -207,7 +207,7 @@ namespace Assets.Scripts.Characters.Humans
         private bool wallJump { get; set; }
         private float wallRunTime { get; set; }
 
-        private System.Diagnostics.Stopwatch burstCD = new System.Diagnostics.Stopwatch();
+        private readonly System.Diagnostics.Stopwatch burstCD = new System.Diagnostics.Stopwatch();
 
         public bool IsGrabbed => state == HumanState.Grab;
         public bool IsInvincible => (invincible > 0f);
