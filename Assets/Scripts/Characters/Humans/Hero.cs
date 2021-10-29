@@ -213,6 +213,8 @@ namespace Assets.Scripts.Characters.Humans
 
         private readonly HookUI hookUI = new HookUI();
 
+        private System.Diagnostics.Stopwatch ReloadCD = new System.Diagnostics.Stopwatch();
+
         #endregion
 
 
@@ -2490,9 +2492,16 @@ namespace Assets.Scripts.Characters.Humans
         {
             if ((!useGun || grounded) || GameSettings.PvP.AhssAirReload.Value)
             {
+                if(ReloadCD.ElapsedMilliseconds > 0 && ReloadCD.ElapsedMilliseconds < 1000)
+                {
+                    return;
+                }
+                ReloadCD.Reset();
+                ReloadCD.Start();
                 state = HumanState.ChangeBlade;
                 throwedBlades = false;
                 Equipment.Weapon.PlayReloadAnimation();
+
             }
         }
 
