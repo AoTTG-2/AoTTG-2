@@ -80,8 +80,10 @@ MonoBehaviour:
   DefaultGamemodeSetting: {fileID: 11400000, guid: 32da44c3b9968b042ad526cf7ba4fd05,
     type: 2}
   DefaultLevels:
-  - {fileID: 11400000, guid: ad173e78b709034439916457b5bb8bda, type: 2}
   - {fileID: 11400000, guid: 4f3fa57d9d8a15c439d5760107d872e6, type: 2}
+  - {fileID: 11400000, guid: 159310b0e6b0ce14297f366df5ea31c8, type: 2}
+  - {fileID: 11400000, guid: 856f96d72d0b2f0469e41b7211d05da0, type: 2}
+  - {fileID: 11400000, guid: ad173e78b709034439916457b5bb8bda, type: 2}
   - {fileID: 11400000, guid: 20fc42ca4a8929245ba3e467ceba32ed, type: 2}
   RuleSets:
   - {fileID: 11400000, guid: bd9726b7b078cbe41a1b42da51779c2d, type: 2}
@@ -681,6 +683,11 @@ PrefabInstance:
         type: 3}
       propertyPath: instantiationId
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7229022285566000013, guid: 907fcb748e567c248a8cf1fdfac83435,
+        type: 3}
+      propertyPath: ownershipTransfer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 907fcb748e567c248a8cf1fdfac83435, type: 3}

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gamemode;
+using Assets.Scripts.Gamemode.Catch;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings.Types;
 using System;
@@ -9,7 +10,6 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
     public abstract class GamemodeSetting : BaseSettings
     {
         public GamemodeType GamemodeType { get; protected set; }
-
 
         public StringSetting Description;
         public StringSetting MOTD;
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
         public BoolSetting IsPlayerTitanEnabled;
         public BoolSetting PlayerShifers;
         [Tooltip("Determines whether or not the round should automatically restart if a win/lose condition has occurred. Setting this to false will only allow a manual restart by the MC.")]
-        public BoolSetting RestartOnCompleted;
+        public BoolSetting Endless;
 
         [Header("Gamemode Override (optional)")]
         public PvPSettings PvP;
@@ -58,7 +58,7 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
                         if (gamemode.Supply.HasValue) Supply.Value = gamemode.Supply.Value;
                         if (gamemode.IsPlayerTitanEnabled.HasValue) IsPlayerTitanEnabled.Value = gamemode.IsPlayerTitanEnabled.Value;
                         if (gamemode.PlayerShifers.HasValue) PlayerShifers.Value = gamemode.PlayerShifers.Value;
-                        if (gamemode.RestartOnCompleted.HasValue) RestartOnCompleted.Value = gamemode.RestartOnCompleted.Value;
+                        if (gamemode.Endless.HasValue) Endless.Value = gamemode.Endless.Value;
 
                         if (gamemode.PvP != null) PvP.Override(gamemode.PvP);
                         if (gamemode.Titan != null) Titan.Override(gamemode.Titan);
@@ -86,10 +86,16 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
         {
             return this switch
             {
-                WaveGamemodeSetting _ => typeof(WaveGamemode),
-                KillTitansGamemodeSetting _ => typeof(KillTitansGamemode),
                 CaptureGamemodeSetting _ => typeof(CaptureGamemode),
+                CatchGamemodeSetting _ => typeof(CatchGamemode),
                 CreditsGamemodeSetting _ => typeof(CreditsGamemode),
+                InfectionGamemodeSetting _ => typeof(InfectionGamemode),
+                KillTitansGamemodeSetting _ => typeof(KillTitansGamemode),
+                PlayerVersusPlayerGamemodeSetting _ => typeof(PvPAhssGamemode),
+                RacingGamemodeSetting _ => typeof(RacingGamemode),
+                RushGamemodeSetting _ => typeof(TitanRushGamemode),
+                TrostGamemodeSetting _ => typeof(TrostGamemode),
+                WaveGamemodeSetting _ => typeof(WaveGamemode),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

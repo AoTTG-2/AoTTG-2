@@ -10,7 +10,6 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
         [Tooltip("A list of all the awesome people who developed AoTTG2 & noticeable people from AoTTG1")]
         public List<Contributor> Contributors;
 
-
         public override void Override(BaseSettings settings)
         {
             base.Override(settings);

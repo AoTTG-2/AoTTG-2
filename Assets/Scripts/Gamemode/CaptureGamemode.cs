@@ -91,7 +91,7 @@ namespace Assets.Scripts.Gamemode
 
         private void CheckWinConditions()
         {
-            if (!Settings.RestartOnCompleted.Value) return;
+            if (!Settings.Endless.Value) return;
 
             if (PhotonNetwork.isMasterClient)
             {

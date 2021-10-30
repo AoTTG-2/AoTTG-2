@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game;
 using Assets.Scripts.Settings.Game.Gamemodes;
 using ExitGames.Client.Photon;
 using System;
@@ -22,6 +23,7 @@ namespace Assets.Scripts.UI.Menu
         public Dropdown GamemodeDropdown;
         public Dropdown DifficultyDropdown;
         private List<Level> levels;
+        private List<GameSettings> difficulties;
 
         private Level selectedLevel;
         private GamemodeSetting selectedGamemode;
@@ -31,6 +33,7 @@ namespace Assets.Scripts.UI.Menu
         private void Awake()
         {
             levels = Setting.Levels;
+            difficulties = new List<GameSettings> { Setting.Game };
         }
 
         protected override void OnEnable()
@@ -61,20 +64,20 @@ namespace Assets.Scripts.UI.Menu
 
             OnLevelSelected(levels[0]);
 
-            //DifficultyDropdown.options = new List<Dropdown.OptionData>();
-            //foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
-            //{
-            //    DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
-            //}
-            //DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
-
-            var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
-            foreach (var file in files)
+            DifficultyDropdown.options = new List<Dropdown.OptionData>();
+            foreach (var difficulty in difficulties)
             {
-                var fileName = file.Split(Path.DirectorySeparatorChar).Last().Replace(".json", string.Empty);
-                CustomDifficulties.Add(fileName, file);
-                DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
+                DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.Name));
             }
+            DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
+
+            //var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
+            //foreach (var file in files)
+            //{
+            //    var fileName = file.Split(Path.DirectorySeparatorChar).Last().Replace(".json", string.Empty);
+            //    CustomDifficulties.Add(fileName, file);
+            //    DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
+            //}
         }
 
         private void Refresh()
@@ -103,6 +106,7 @@ namespace Assets.Scripts.UI.Menu
             }
             else
             {
+                //TODO: Change difficulty logic
                 //var difficulty = (Difficulty) DifficultyDropdown.value;
                 //Service.Settings.SyncSettings(difficulty);
             }

@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 034ec6219f2495b409b1f2cbc041fad3, type: 3}
-  m_Name: Akina
+  m_Name: Trost - Classic
   m_EditorClassIdentifier: 
-  Name: AKINA
-  Description: AKINA_DESC
-  SceneName: track - akina
-  Gamemodes: []
+  Name: TROST_CLASSIC
+  Description: TROST_CLASSIC_DESC
+  SceneName: ColossalTitan
+  Gamemodes:
+  - {fileID: 11400000, guid: 4064ab8ae78d1f74bb1194be57823c88, type: 2}
+  - {fileID: 11400000, guid: 9141c47b0d2017c4bb1646ab867955c5, type: 2}

@@ -32,19 +32,30 @@ namespace Assets.Scripts.Settings.Game
             setting.Respawn = Respawn.Copy() as RespawnSettings;
             setting.Time = Time.Copy() as TimeSettings;
             setting.Global = Global.Copy() as GlobalSettings;
-            setting.gamemodes.Wave = setting.gamemodes.Wave.Copy() as WaveGamemodeSetting;
+            setting.gamemodes.Capture = setting.gamemodes.Capture.Copy() as CaptureGamemodeSetting;
+            setting.gamemodes.Catch = setting.gamemodes.Catch.Copy() as CatchGamemodeSetting;
+            setting.gamemodes.Infection = setting.gamemodes.Infection.Copy() as InfectionGamemodeSetting;
             setting.gamemodes.KillTitans = setting.gamemodes.KillTitans.Copy() as KillTitansGamemodeSetting;
+            setting.gamemodes.PvP = setting.gamemodes.PvP.Copy() as PlayerVersusPlayerGamemodeSetting;
+            setting.gamemodes.Racing = setting.gamemodes.Racing.Copy() as RacingGamemodeSetting;
+            setting.gamemodes.Rush = setting.gamemodes.Rush.Copy() as RushGamemodeSetting;
+            setting.gamemodes.Trost = setting.gamemodes.Trost.Copy() as TrostGamemodeSetting;
+            setting.gamemodes.Wave = setting.gamemodes.Wave.Copy() as WaveGamemodeSetting;
             return setting;
         }
-
+        
         public GamemodeSetting Setup(GamemodeSetting levelSetting, List<RuleSet> ruleSets)
         {
             GamemodeSetting currentGamemode = levelSetting switch
             {
-                WaveGamemodeSetting _ => gamemodes.Wave,
-                KillTitansGamemodeSetting _ => gamemodes.KillTitans,
                 CaptureGamemodeSetting _ => gamemodes.Capture,
-                CreditsGamemodeSetting _ => null,
+                InfectionGamemodeSetting _ => gamemodes.Infection,
+                KillTitansGamemodeSetting _ => gamemodes.KillTitans,
+                RacingGamemodeSetting _ => gamemodes.Racing,
+                RushGamemodeSetting _ => gamemodes.Rush,
+                TrostGamemodeSetting _ => gamemodes.Trost,
+                WaveGamemodeSetting _ => gamemodes.Wave,
+                CreditsGamemodeSetting _ => null, // Credits is a special gamemode
                 _ => throw new NotImplementedException($"Gamemode: {levelSetting.GetType()} is not implemented")
             };
 
@@ -75,8 +86,14 @@ namespace Assets.Scripts.Settings.Game
     [Serializable]
     public struct GamemodeConfiguration
     {
-        public WaveGamemodeSetting Wave;
-        public KillTitansGamemodeSetting KillTitans;
         public CaptureGamemodeSetting Capture;
+        public CatchGamemodeSetting Catch;
+        public InfectionGamemodeSetting Infection;
+        public KillTitansGamemodeSetting KillTitans;
+        public PlayerVersusPlayerGamemodeSetting PvP;
+        public RacingGamemodeSetting Racing;
+        public RushGamemodeSetting Rush;
+        public TrostGamemodeSetting Trost;
+        public WaveGamemodeSetting Wave;
     }
 }

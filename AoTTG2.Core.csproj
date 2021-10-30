@@ -230,6 +230,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatUtility.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPauseService.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\TrostGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Interactable\PlayerInteractable.cs" />
     <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
     <Compile Include="Assets\Scripts\Settings\DebugSettings.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\ClothFactory.cs" />
     <Compile Include="Assets\Scripts\CustomMaps\Converter.cs" />
     <Compile Include="Assets\Scripts\Gamemode\PvPAhssGamemode.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\InfectionGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Effects\ScaleAffector.cs" />
     <Compile Include="Assets\Scripts\Gamemode\GamemodeType.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonValues.cs" />
@@ -313,6 +315,7 @@
     <Compile Include="Assets\Scripts\UI\IUiElement.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Weapon.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\FacialComponent.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\PlayerVersusPlayerGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Ahss.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonPropRegion.cs" />
     <Compile Include="Assets\Scripts\Room\PlayerSpawnType.cs" />
@@ -467,6 +470,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\ComboAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Attack.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\CheckPointState.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\RushGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\Effects\RotateAffector.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputUi.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\PetraSkill.cs" />
@@ -514,6 +518,7 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\CatchGamemodeSetting.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
