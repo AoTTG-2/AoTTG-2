@@ -204,6 +204,10 @@ namespace Assets.Scripts.Characters.Humans
         private bool wallJump { get; set; }
         private float wallRunTime { get; set; }
 
+        private readonly System.Diagnostics.Stopwatch burstCD = new System.Diagnostics.Stopwatch();
+        private const int BurstCDmin = 1;
+        private const int BurstCDmax = 300;
+
         public bool IsGrabbed => state == HumanState.Grab;
         public bool IsInvincible => (invincible > 0f);
 
@@ -2649,8 +2653,9 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Dash(float horizontal, float vertical)
         {
-            if (((dashTime <= 0f) && (currentGas > 0f)) && !isMounted)
+            if (((dashTime <= 0f) && (currentGas > 0f)) && !isMounted && (burstCD.ElapsedMilliseconds <= BurstCDmin || burstCD.ElapsedMilliseconds >= BurstCDmax))
             {
+                burstCD.Reset();
                 UseGas(totalGas * 0.04f);
                 facingDirection = GetGlobalFacingDirection(horizontal, vertical);
                 dashV = GetGlobaleFacingVector3(facingDirection);
@@ -2665,6 +2670,7 @@ namespace Assets.Scripts.Characters.Humans
                 state = HumanState.AirDodge;
                 FalseAttack();
                 Rigidbody.AddForce((dashV * 40f), ForceMode.VelocityChange);
+                burstCD.Start();
             }
         }
 
