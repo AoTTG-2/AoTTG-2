@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1598267886039894673}
   - component: {fileID: 144869090975723038}
   - component: {fileID: 7558572767250287633}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TEMPORARY_IMPORT_NAMESPACE_____MeshSh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4312827241259452624}
-  m_Layer: 0
+  - component: {fileID: 5386140961109852436}
+  m_Layer: 9
   m_Name: officer's desk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,3 +113,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &5386140961109852436
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3499839150462702186}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
