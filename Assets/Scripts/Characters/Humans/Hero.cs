@@ -12,6 +12,7 @@ using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using Assets.Scripts.Utility;
+using Assets.Scripts.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
