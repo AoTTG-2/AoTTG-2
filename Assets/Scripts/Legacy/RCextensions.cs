@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -169,6 +170,27 @@ public static class RCextensions
             return (float) obj;
         }
         return 0f;
+    }
+
+    public static T SafeGet<T, T1, T2>(this IDictionary<T1, T2> h, T1 key) where T : new()
+    {
+        if (!h.ContainsKey(key))
+            return new T();
+        object o = h[key];
+        return (o != null && o is T ? (T) o : new T());
+    }
+
+    public static T SafeGet<T, T1, T2>(this IDictionary<T1, T2> h, T1 key, T defaultValue)
+    {
+        if (!h.ContainsKey(key))
+            return defaultValue;
+        object o = h[key];
+        return (o != null && o is T ? (T) o : defaultValue);
+    }
+
+    public static bool Between<T>(this T val, T min, T max) where T : IComparable
+    {
+        return (val.CompareTo(max) + min.CompareTo(val))<0;
     }
 
     public static int returnIntFromObject(object obj)
