@@ -88,6 +88,7 @@ namespace Assets.Scripts.Characters.Humans
         public IN_GAME_MAIN_CAMERA currentInGameCamera;
         public float currentGas { get; set; } = 100f;
         public float currentSpeed;
+        private Vector3 cachedVelocity;
         public Vector3 currentV;
         private bool dashD { get; set; }
         public Vector3 dashDirection { get; set; }
@@ -1416,14 +1417,15 @@ namespace Assets.Scripts.Characters.Humans
             if (!photonView.isMine) return;
             if ((!titanForm && !isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
             {
-                currentSpeed = Rigidbody.velocity.magnitude;
+                cachedVelocity = Rigidbody.velocity;
+                currentSpeed = cachedVelocity.magnitude;
                 if (!((Animation.IsPlaying(HeroAnim.ATTACK3_2) || Animation.IsPlaying(HeroAnim.ATTACK5)) || Animation.IsPlaying(HeroAnim.SPECIAL_PETRA)))
                 {
                     Rigidbody.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 6f);
                 }
                 if (state == HumanState.Grab)
                 {
-                    Rigidbody.AddForce(-Rigidbody.velocity, ForceMode.VelocityChange);
+                    Rigidbody.AddForce(-cachedVelocity, ForceMode.VelocityChange);
                 }
                 else
                 {
@@ -1490,10 +1492,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             z = -1f;
                         }
-                        else
-                        {
-                            z = 0f;
-                        }
+
                         if (InputManager.Key(InputHuman.Left))
                         {
                             x = -1f;
@@ -1502,10 +1501,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             x = 1f;
                         }
-                        else
-                        {
-                            x = 0f;
-                        }
+
                     }
                     bool flag2 = false;
                     bool flag3 = false;
@@ -4192,6 +4188,23 @@ namespace Assets.Scripts.Characters.Humans
         {
             eren_titan = PhotonView.Find(id).gameObject.GetComponent<ErenTitan>();
             titanForm = true;
+        }
+
+        private IEnumerator reprocessImpact(Vector3 collision_velocity)
+        {
+            yield return new WaitForFixedUpdate();
+            var current_velocity = this.Rigidbody.velocity;
+            var angle = Vector3.Angle(collision_velocity, current_velocity);
+            var speed_multiplier = (1 + Mathf.Cos(angle))/2;
+            var speed_proportion = Mathf.Sqrt(current_velocity.sqrMagnitude / collision_velocity.sqrMagnitude);
+            var correction = Mathf.Lerp(1, speed_multiplier, speed_proportion);
+            this.Rigidbody.velocity = current_velocity * correction;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {   
+            if (this.photonView.isMine)
+                StartCoroutine(reprocessImpact(this.cachedVelocity));
         }
     }
 }
