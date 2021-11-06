@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1157943553011908259}
   - component: {fileID: 7338167497393619116}
   - component: {fileID: 3946736311114277086}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bigtree4_LOD0 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8676412702588606392}
-  m_LocalRotation: {x: -6.123234e-17, y: 1, z: -0.000000081460335, w: 4.988007e-24}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 744.0305, y: 30.548302, z: 160.33882}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &369333355039066993
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1444460858095362738, guid: fdd19817cde630d43b0c883b8e88b127, type: 3}
+  - {fileID: 2100000, guid: 77d69108f3dbcaa4f8d0d33eda702ea2, type: 2}
   - {fileID: 2100000, guid: fa9a3684a9bdbdc46869a7855ec9afa2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

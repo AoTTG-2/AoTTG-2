@@ -58,6 +58,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
+        public bool UseWeaponTrail = true; //TODO Add a check in the graphic menu to enable and disable weapon trail//
         private bool almostSingleHook { get; set; }
         public string attackAnimation { get; set; }
         public int attackLoop { get; set; }
@@ -103,6 +104,7 @@ namespace Assets.Scripts.Characters.Humans
         private float Gravity => 20f * gravityModifier;
         private float gravityModifier = GameSettings.Global?.Gravity ?? 1;
         public bool grounded;
+        public bool regrounded; //Was falling down or not grounded for at least one frame
         private GameObject gunDummy { get; set; }
         private Vector3 gunTarget { get; set; }
         private Transform handL { get; set; }
@@ -134,10 +136,10 @@ namespace Assets.Scripts.Characters.Humans
         public Vector3 launchPointRight { get; private set; }
         private bool leanLeft { get; set; }
         private bool leftArmAim { get; set; }
-        /*
-    public XWeaponTrail leftbladetrail;
-    public XWeaponTrail leftbladetrail2;
-    */
+
+        public MeleeWeaponTrail leftweapontrail;
+        public MeleeWeaponTrail rightweapontrail;
+
         [Obsolete("Should be within AHSS.cs")]
         public int leftBulletLeft = 7;
         public bool leftGunHasBullet = true;
@@ -167,6 +169,7 @@ namespace Assets.Scripts.Characters.Humans
         public int rightBulletLeft = 7;
         public bool rightGunHasBullet = true;
         public AudioSource rope;
+        public AudioSource ropeNoGas;
         private float rTapTime { get; set; } = -1f;
         private GameObject skillCD { get; set; }
         public float skillCDDuration;
@@ -204,6 +207,10 @@ namespace Assets.Scripts.Characters.Humans
         private bool wallJump { get; set; }
         private float wallRunTime { get; set; }
 
+        private readonly System.Diagnostics.Stopwatch burstCD = new System.Diagnostics.Stopwatch();
+        private const int BurstCDmin = 1;
+        private const int BurstCDmax = 300;
+
         public bool IsGrabbed => state == HumanState.Grab;
         public bool IsInvincible => (invincible > 0f);
 
@@ -222,7 +229,7 @@ namespace Assets.Scripts.Characters.Humans
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
         [SerializeField] StringVariable bombMainPath;
-        
+
         #region Unity Methods
 
         protected override void Awake()
@@ -371,7 +378,7 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     Skill.OnUpdate();
                 }
-                else if (InputManager.KeyDown(InputHuman.AttackSpecial))
+                else if (InputManager.KeyDown(InputHuman.AttackSpecial) && !isMounted)
                 {
                     if (!Skill.Use() && _state == HumanState.Idle)
                     {
@@ -870,15 +877,14 @@ namespace Assets.Scripts.Characters.Humans
                                 if (!checkBoxLeft.IsActive)
                                 {
                                     checkBoxLeft.IsActive = true;
-                                    if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
+
+
+                                    if (UseWeaponTrail)
                                     {
-                                        /*
-                                                leftbladetrail2.Activate();
-                                                rightbladetrail2.Activate();
-                                                leftbladetrail.Activate();
-                                                rightbladetrail.Activate();
-                                                */
+                                        rightweapontrail.enabled = true;
+                                        leftweapontrail.enabled = true;
                                     }
+
                                     Rigidbody.velocity = (-Vector3.up * 30f);
                                 }
                                 if (!checkBoxRight.IsActive)
@@ -893,12 +899,8 @@ namespace Assets.Scripts.Characters.Humans
                                 checkBoxRight.IsActive = false;
                                 checkBoxLeft.ClearHits();
                                 checkBoxRight.ClearHits();
-                                /*
-                                        leftbladetrail.StopSmoothly(0.1f);
-                                        rightbladetrail.StopSmoothly(0.1f);
-                                        leftbladetrail2.StopSmoothly(0.1f);
-                                        rightbladetrail2.StopSmoothly(0.1f);
-                                        */
+                                rightweapontrail.enabled = false;
+                                leftweapontrail.enabled = false;
                             }
                         }
                         else
@@ -946,12 +948,11 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     checkBoxLeft.IsActive = true;
                                     slash.Play();
-                                    if (((int) FengGameManagerMKII.settings[0x5c]) == 0)
+
+                                    if (UseWeaponTrail)
                                     {
-                                        //leftbladetrail2.Activate();
-                                        //rightbladetrail2.Activate();
-                                        //leftbladetrail.Activate();
-                                        //rightbladetrail.Activate();
+                                        rightweapontrail.enabled = true;
+                                        leftweapontrail.enabled = true;
                                     }
                                 }
                                 if (!checkBoxRight.IsActive)
@@ -965,10 +966,8 @@ namespace Assets.Scripts.Characters.Humans
                                 checkBoxRight.IsActive = false;
                                 checkBoxLeft.ClearHits();
                                 checkBoxRight.ClearHits();
-                                //leftbladetrail2.StopSmoothly(0.1f);
-                                //rightbladetrail2.StopSmoothly(0.1f);
-                                //leftbladetrail.StopSmoothly(0.1f);
-                                //rightbladetrail.StopSmoothly(0.1f);
+                                rightweapontrail.enabled = false;
+                                leftweapontrail.enabled = false;
                             }
                             if ((attackLoop > 0) && (Animation[attackAnimation].normalizedTime > num))
                             {
@@ -1209,7 +1208,8 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        if (currentGas > 0) rope.Play();
+                        else if (InputManager.KeyDown(InputHuman.HookLeft)) ropeNoGas.Play();
                     }
                 }
                 else
@@ -1244,7 +1244,8 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
                         }
-                        rope.Play();
+                        if (currentGas > 0) rope.Play();
+                        else if (InputManager.KeyDown(InputHuman.HookRight)) ropeNoGas.Play();
                     }
                 }
                 else
@@ -1279,7 +1280,8 @@ namespace Assets.Scripts.Characters.Humans
                             LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                             LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
                         }
-                        rope.Play();
+                        if (currentGas > 0) rope.Play();
+                        else if (InputManager.KeyDown(InputHuman.HookBoth)) ropeNoGas.Play();
                     }
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
@@ -1449,6 +1451,7 @@ namespace Assets.Scripts.Characters.Humans
                     else
                     {
                         grounded = false;
+                        regrounded = false;
                     }
 
                     if (Skill.IsActive)
@@ -1730,9 +1733,12 @@ namespace Assets.Scripts.Characters.Humans
                         force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
                         force.z = Mathf.Clamp(force.z, -maxVelocityChange, maxVelocityChange);
                         force.y = 0f;
-                        if (Animation.IsPlaying(HeroAnim.JUMP) && (Animation[HeroAnim.JUMP].normalizedTime > 0.18f))
+
+                        if (velocity.y <= 0f) regrounded = false;
+                        if (Animation.IsPlaying(HeroAnim.JUMP) && (Animation[HeroAnim.JUMP].normalizedTime > 0.18f) && !regrounded)
                         {
-                            force.y += 8f;
+                            regrounded = true;
+                            force.y += 16f;
                         }
                         if ((Animation.IsPlaying(HeroAnim.HORSE_GET_ON) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime > 0.18f)) && (Animation[HeroAnim.HORSE_GET_ON].normalizedTime < 1f))
                         {
@@ -2100,6 +2106,14 @@ namespace Assets.Scripts.Characters.Humans
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
+            /*int index = EquipmentType == EquipmentType.Ahss ? 1 : 0;              
+            float acl = preset.CharacterBuild[index].Stats.Acceleration;
+            Rigidbody.mass = 0.5f - (acl - 100f) * 0.001f;*/      //<-once correct character presets are implemented, uncomment these value assignation
+            Rigidbody.mass = 0.45f;                               //and delete this one
+            /*I was asked by antigasp to use 0.45 (corresponding to ACL 150) as a placeholder because most testers are used to playing as Levi and it'd be
+            easier for them to spot if something is wrong. Obviously this is going to have to be reworked once character-speficic stats are implemented,
+            but for now it would probably make life easier for the testers.*/
+
             EntityService.Register(this);
         }
 
@@ -2234,7 +2248,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         #endregion
-        
+
         public void AttackAccordingToMouse()
         {
             if (Input.mousePosition.x < (Screen.width * 0.5))
@@ -2649,8 +2663,9 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Dash(float horizontal, float vertical)
         {
-            if (((dashTime <= 0f) && (currentGas > 0f)) && !isMounted)
+            if (((dashTime <= 0f) && (currentGas > 0f)) && !isMounted && (burstCD.ElapsedMilliseconds <= BurstCDmin || burstCD.ElapsedMilliseconds >= BurstCDmax))
             {
+                burstCD.Reset();
                 UseGas(totalGas * 0.04f);
                 facingDirection = GetGlobalFacingDirection(horizontal, vertical);
                 dashV = GetGlobaleFacingVector3(facingDirection);
@@ -2665,6 +2680,7 @@ namespace Assets.Scripts.Characters.Humans
                 state = HumanState.AirDodge;
                 FalseAttack();
                 Rigidbody.AddForce((dashV * 40f), ForceMode.VelocityChange);
+                burstCD.Start();
             }
         }
 
@@ -2687,12 +2703,9 @@ namespace Assets.Scripts.Characters.Humans
                 meatDie.Play();
                 if ((photonView.isMine) && !useGun)
                 {
-                    /*
-                leftbladetrail.Deactivate();
-                rightbladetrail.Deactivate();
-                leftbladetrail2.Deactivate();
-                rightbladetrail2.Deactivate();
-                */
+                    rightweapontrail.enabled = false;
+                    leftweapontrail.enabled = false;
+
                 }
                 BreakApart(v, isBite);
                 currentInGameCamera.gameOver = true;
@@ -3037,7 +3050,9 @@ namespace Assets.Scripts.Characters.Humans
         public bool IsGrounded()
         {
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-            return Physics.Raycast(gameObject.transform.position + ((Vector3.up * 0.1f)), -Vector3.up, (float) 0.3f, mask.value);
+            RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
+            bool didHit = Physics.Raycast(gameObject.transform.position + (Vector3.up * 0.1f), -Vector3.up, out hit, 0.3f, mask.value);
+            return didHit;
         }
 
 
@@ -3525,12 +3540,8 @@ namespace Assets.Scripts.Characters.Humans
             meatDie.Play();
             if (!(useGun || (!photonView.isMine)))
             {
-                /*
-            leftbladetrail.Deactivate();
-            rightbladetrail.Deactivate();
-            leftbladetrail2.Deactivate();
-            rightbladetrail2.Deactivate();
-            */
+                rightweapontrail.enabled = false;
+                leftweapontrail.enabled = false;
             }
             FalseAttack();
             BreakApart(v, isBite);
