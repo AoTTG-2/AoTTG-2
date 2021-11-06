@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\UI\Menu\Lobby.cs" />
     <Compile Include="Assets\Scripts\Settings\Game\PvPSettings.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\ConsoleMessage.cs" />
+    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\CatchGamemodeSetting.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GeneralGraphics.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatCommands.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\CaptureBehavior.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\TriggerColliderWeapon.cs" />
     <Compile Include="Assets\Scripts\Services\PauseService.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\DeathOnFaceBehavior.cs" />
+    <Compile Include="Assets\Scripts\Extensions\ComparableExtensions.cs" />
     <Compile Include="Assets\Scripts\Room\LevelBottom.cs" />
     <Compile Include="Assets\Scripts\UI\UiNavigationElement.cs" />
     <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
@@ -218,6 +220,7 @@
     <Compile Include="Assets\Scripts\CustomMaps\MapMaterial.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
+    <Compile Include="Assets\Scripts\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\ICustomMapService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
@@ -518,7 +521,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\Game\Gamemodes\CatchGamemodeSetting.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
