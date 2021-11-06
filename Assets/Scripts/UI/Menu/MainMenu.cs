@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Services;
+using UnityEngine;
 #if UNITY_EDITOR
 #else
-using UnityEngine;
 #endif
 
 namespace Assets.Scripts.UI.Menu
@@ -11,6 +11,24 @@ namespace Assets.Scripts.UI.Menu
     /// </summary>
     public class MainMenu : UiNavigationElement
     {
+        [SerializeField]
+        private float onButtonHoverScaleIncrease,
+            onButtonHoverScaleTime;
+        [SerializeField]
+        private Vector3 buttonDefaultScale;
+
+        public void OnButtonTriggerEnter(GameObject button)
+        {
+            LeanTween.scale(button, buttonDefaultScale * onButtonHoverScaleIncrease,
+                onButtonHoverScaleTime);
+        }
+
+        public void OnButtonTriggerExit(GameObject button)
+        {
+            LeanTween.scale(button, buttonDefaultScale,
+                onButtonHoverScaleTime);
+        }
+
         public void Singleplayer()
         {
             Navigate(typeof(Singleplayer));

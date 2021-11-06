@@ -1126,51 +1126,6 @@ Transform:
   m_Father: {fileID: 2124731207}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &82808857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323642728378253458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Stop
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &85726071
 GameObject:
   m_ObjectHideFlags: 0
@@ -3555,51 +3510,6 @@ Transform:
   m_Father: {fileID: 167364427}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.00002390566}
---- !u!114 &305856536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323642727574648343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Stop
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &323208830
 GameObject:
   m_ObjectHideFlags: 0
@@ -4277,51 +4187,6 @@ Transform:
   m_Father: {fileID: 971907208}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -16.996393, y: -17.769382, z: 50.19217}
---- !u!114 &443576693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322057609093030392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Stop
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &451858195 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6008966858294587076, guid: 28f403c3ed4eb6a47a5dbab01b4938e4,
@@ -5557,6 +5422,7 @@ GameObject:
   - component: {fileID: 616420481}
   - component: {fileID: 616420480}
   - component: {fileID: 616420483}
+  - component: {fileID: 616420479}
   m_Layer: 5
   m_Name: Asia_BTN
   m_TagString: Untagged
@@ -5584,6 +5450,22 @@ RectTransform:
   m_AnchoredPosition: {x: -685.05634, y: 196.9856}
   m_SizeDelta: {x: 549.8873, y: 80.2251}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &616420479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616420477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc5729f9aec9ae45ac97afbef53dde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeIncrease: 1.1
+  scaleTime: 0.06
+  soundDelay: 0.04
+  enterSound: {fileID: 1948094583}
 --- !u!114 &616420480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13540,51 +13422,6 @@ Transform:
   m_Father: {fileID: 339246187}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1533628515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323642729110324224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Stop
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1542757696
 GameObject:
   m_ObjectHideFlags: 0
@@ -15085,51 +14922,6 @@ Transform:
   m_Father: {fileID: 1467387391}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 30.251497, y: 27.670658, z: 48.106373}
---- !u!114 &1707944668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323642727833537682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1948094583}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Stop
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1712523840
 GameObject:
   m_ObjectHideFlags: 0
@@ -20482,7 +20274,7 @@ GameObject:
   - component: {fileID: 533945732795303432}
   - component: {fileID: 426268137429099850}
   - component: {fileID: 426268013140356954}
-  - component: {fileID: 443576693}
+  - component: {fileID: 322057609093030393}
   m_Layer: 5
   m_Name: SingleplayerButton
   m_TagString: Untagged
@@ -20490,6 +20282,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &322057609093030393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322057609093030392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc5729f9aec9ae45ac97afbef53dde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeIncrease: 1.1
+  scaleTime: 0.06
+  soundDelay: 0.04
+  enterSound: {fileID: 1948094583}
 --- !u!1 &322057609109427108
 GameObject:
   m_ObjectHideFlags: 0
@@ -23573,6 +23381,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19614b1237f46134ab7aab82574e4556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onButtonHoverScaleIncrease: 0
+  onButtonHoverScaleTime: 0
+  buttonDefaultScale: {x: 0, y: 0, z: 0}
 --- !u!224 &323642727375847066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23605,7 +23416,6 @@ GameObject:
   m_Component:
   - component: {fileID: 323642727375847066}
   - component: {fileID: 323642727375847065}
-  - component: {fileID: 323642727375847068}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -23613,18 +23423,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &323642727375847068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323642727375847067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c9c5635e8b93e342a72ca2cc3ad055f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &323642727377119868
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26698,7 +26496,7 @@ GameObject:
   - component: {fileID: 323642727574648339}
   - component: {fileID: 323642727574648340}
   - component: {fileID: 323642727574648341}
-  - component: {fileID: 305856536}
+  - component: {fileID: 323642727574648344}
   m_Layer: 5
   m_Name: CreditsButton
   m_TagString: Untagged
@@ -26706,6 +26504,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &323642727574648344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323642727574648343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc5729f9aec9ae45ac97afbef53dde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeIncrease: 1.1
+  scaleTime: 0.06
+  soundDelay: 0.04
+  enterSound: {fileID: 1948094583}
 --- !u!224 &323642727580060016
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29871,7 +29685,7 @@ GameObject:
   - component: {fileID: 323642727833537694}
   - component: {fileID: 323642727833537695}
   - component: {fileID: 323642727833537680}
-  - component: {fileID: 1707944668}
+  - component: {fileID: 323642727833537683}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -29879,6 +29693,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &323642727833537683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323642727833537682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc5729f9aec9ae45ac97afbef53dde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeIncrease: 1.1
+  scaleTime: 0.06
+  soundDelay: 0.04
+  enterSound: {fileID: 1948094583}
 --- !u!222 &323642727833537694
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38648,7 +38478,7 @@ GameObject:
   - component: {fileID: 323642728378253470}
   - component: {fileID: 323642728378253471}
   - component: {fileID: 323642728378253456}
-  - component: {fileID: 82808857}
+  - component: {fileID: 323642728378253459}
   m_Layer: 5
   m_Name: MapEditorButton
   m_TagString: Untagged
@@ -38656,6 +38486,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &323642728378253459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323642728378253458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc5729f9aec9ae45ac97afbef53dde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeIncrease: 1.1
+  scaleTime: 0.06
+  soundDelay: 0.04
+  enterSound: {fileID: 1948094583}
 --- !u!222 &323642728378253470
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -50108,7 +49954,7 @@ GameObject:
   - component: {fileID: 323642729110324236}
   - component: {fileID: 323642729110324237}
   - component: {fileID: 323642729110324238}
-  - component: {fileID: 1533628515}
+  - component: {fileID: 323642729110324225}
   m_Layer: 5
   m_Name: MultiplayerButton
   m_TagString: Untagged
@@ -50116,6 +49962,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &323642729110324225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323642729110324224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc5729f9aec9ae45ac97afbef53dde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeIncrease: 1.1
+  scaleTime: 0.06
+  soundDelay: 0.04
+  enterSound: {fileID: 1948094583}
 --- !u!222 &323642729110324236
 CanvasRenderer:
   m_ObjectHideFlags: 0
