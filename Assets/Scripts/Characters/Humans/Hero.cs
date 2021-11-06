@@ -12,6 +12,7 @@ using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using Assets.Scripts.Utility;
+using Assets.Scripts.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -20,6 +21,7 @@ using System.Linq;
 using Toorah.ScriptableVariables;
 using UnityEngine;
 using UnityEngine.UI;
+using PhotonHash = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Characters.Humans
 {
@@ -878,7 +880,6 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     checkBoxLeft.IsActive = true;
 
-
                                     if (UseWeaponTrail)
                                     {
                                         rightweapontrail.enabled = true;
@@ -895,12 +896,9 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else if (checkBoxLeft.IsActive)
                             {
-                                checkBoxLeft.IsActive = false;
-                                checkBoxRight.IsActive = false;
+                                this.activeBoxes(false);
                                 checkBoxLeft.ClearHits();
                                 checkBoxRight.ClearHits();
-                                rightweapontrail.enabled = false;
-                                leftweapontrail.enabled = false;
                             }
                         }
                         else
@@ -942,7 +940,7 @@ namespace Assets.Scripts.Characters.Humans
                                 num2 = 0.5f;
                                 num = 0.85f;
                             }
-                            if ((Animation[attackAnimation].normalizedTime > num2) && (Animation[attackAnimation].normalizedTime < num))
+                            if (Animation[attackAnimation].normalizedTime.Between(num2,num))
                             {
                                 if (!checkBoxLeft.IsActive)
                                 {
@@ -962,12 +960,9 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else if (checkBoxLeft.IsActive)
                             {
-                                checkBoxLeft.IsActive = false;
-                                checkBoxRight.IsActive = false;
+                                this.activeBoxes(false);
                                 checkBoxLeft.ClearHits();
                                 checkBoxRight.ClearHits();
-                                rightweapontrail.enabled = false;
-                                leftweapontrail.enabled = false;
                             }
                             if ((attackLoop > 0) && (Animation[attackAnimation].normalizedTime > num))
                             {
@@ -1075,19 +1070,11 @@ namespace Assets.Scripts.Characters.Humans
                                 obj4 = Instantiate(Resources.Load<GameObject>(prefabName), ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
                             }
                         }
-                        if (Animation[attackAnimation].normalizedTime >= 1f)
+                        if (Animation[attackAnimation].normalizedTime >= 1f || 
+                            !Animation.IsPlaying(attackAnimation))
                         {
                             FalseAttack();
                             Idle();
-                            checkBoxLeft.IsActive = false;
-                            checkBoxRight.IsActive = false;
-                        }
-                        if (!Animation.IsPlaying(attackAnimation))
-                        {
-                            FalseAttack();
-                            Idle();
-                            checkBoxLeft.IsActive = false;
-                            checkBoxRight.IsActive = false;
                         }
                     }
                 }
@@ -2419,7 +2406,7 @@ namespace Assets.Scripts.Characters.Humans
             //    bombRadius = (num * 4f) + 20f;
             //    bombCD = (num4 * -0.4f) + 5f;
             //    bombSpeed = (num3 * 60f) + 200f;
-            //    ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+            //    PhotonHash propertiesToSet = new PhotonHash();
             //    propertiesToSet.Add(PhotonPlayerProperty.RCBombR, (float) FengGameManagerMKII.settings[0xf6]);
             //    propertiesToSet.Add(PhotonPlayerProperty.RCBombG, (float) FengGameManagerMKII.settings[0xf7]);
             //    propertiesToSet.Add(PhotonPlayerProperty.RCBombB, (float) FengGameManagerMKII.settings[0xf8]);
@@ -2715,7 +2702,7 @@ namespace Assets.Scripts.Characters.Humans
                 audioDie.parent = null;
                 audioDie.GetComponent<AudioSource>().Play();
 
-                var propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                var propertiesToSet = new PhotonHash();
                 propertiesToSet.Add(PhotonPlayerProperty.deaths, (int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths] + 1);
                 photonView.owner.SetCustomProperties(propertiesToSet);
 
@@ -2808,6 +2795,15 @@ namespace Assets.Scripts.Characters.Humans
             smoke_3dmg_em.enabled = false;
         }
 
+        private void activeBoxes(bool val)
+        {
+            checkBoxLeft.IsActive = val;
+            checkBoxRight.IsActive = val;
+            val &= UseWeaponTrail;
+            rightweapontrail.enabled = val;
+            leftweapontrail.enabled = val;
+        }
+
         public void FalseAttack()
         {
             if (useGun)
@@ -2822,8 +2818,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 if (photonView.isMine)
                 {
-                    checkBoxLeft.IsActive = false;
-                    checkBoxRight.IsActive = false;
+                    this.activeBoxes(false);
                     checkBoxLeft.ClearHits();
                     checkBoxRight.ClearHits();
                 }
@@ -3350,10 +3345,10 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 PhotonNetwork.RemoveRPCs(photonView);
-                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                PhotonHash propertiesToSet = new PhotonHash();
                 propertiesToSet.Add(PhotonPlayerProperty.dead, true);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                propertiesToSet = new PhotonHash();
                 propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 if (viewID != -1)
@@ -3362,7 +3357,7 @@ namespace Assets.Scripts.Characters.Humans
                     if (view2 != null)
                     {
                         FengGameManagerMKII.instance.sendKillInfo(killByTitan, $"[{info.sender.ID.ToString().Color("ffc000")}] {RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name])}", false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
-                        propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                        propertiesToSet = new PhotonHash();
                         propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                         view2.owner.SetCustomProperties(propertiesToSet);
                     }
@@ -3462,10 +3457,10 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 PhotonNetwork.RemoveRPCs(photonView);
-                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                PhotonHash propertiesToSet = new PhotonHash();
                 propertiesToSet.Add(PhotonPlayerProperty.dead, true);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                propertiesToSet = new PhotonHash();
                 propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int) PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 if (viewID != -1)
@@ -3474,7 +3469,7 @@ namespace Assets.Scripts.Characters.Humans
                     if (view2 != null)
                     {
                         FengGameManagerMKII.instance.sendKillInfo(true, $"{info.sender.ID.ToString().Color("ffc000")} {RCextensions.returnStringFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.name])}", false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
-                        propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                        propertiesToSet = new PhotonHash();
                         propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view2.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
                         view2.owner.SetCustomProperties(propertiesToSet);
                     }
@@ -3516,24 +3511,24 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     eren_titan.lifeTime = 0.1f;
                 }
-                if (myBomb != null)
+                if (myBomb)
                 {
                     myBomb.destroyMe();
                 }
-                if (myCannon != null)
+                if (myCannon)
                 {
                     PhotonNetwork.Destroy(myCannon);
                 }
-                if (skillCD != null)
+                if (skillCD)
                 {
                     skillCD.transform.localPosition = vector;
                 }
             }
-            if (hookLeft != null)
+            if (hookLeft)
             {
                 hookLeft.removeMe();
             }
-            if (hookRight != null)
+            if (hookRight)
             {
                 hookRight.removeMe();
             }
@@ -3559,11 +3554,11 @@ namespace Assets.Scripts.Characters.Humans
             if (photonView.isMine)
             {
                 PhotonNetwork.RemoveRPCs(photonView);
-                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                propertiesToSet.Add(PhotonPlayerProperty.dead, true);
-                PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                propertiesToSet.Add(PhotonPlayerProperty.deaths, RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
+                PhotonHash propertiesToSet = new PhotonHash()
+                {
+                    { PhotonPlayerProperty.dead, true},
+                    { PhotonPlayerProperty.deaths, PhotonNetwork.player.CustomProperties.SafeGet(PhotonPlayerProperty.deaths,0) + 1}
+                };
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
                 if (viewID != -1)
                 {
@@ -3571,18 +3566,18 @@ namespace Assets.Scripts.Characters.Humans
                     if (view != null)
                     {
                         FengGameManagerMKII.instance.sendKillInfo(killByTitan, RCextensions.returnStringFromObject(view.owner.CustomProperties[PhotonPlayerProperty.name]), false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
-                        propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                        propertiesToSet.Add(PhotonPlayerProperty.kills, RCextensions.returnIntFromObject(view.owner.CustomProperties[PhotonPlayerProperty.kills]) + 1);
-                        view.owner.SetCustomProperties(propertiesToSet);
+                        view.owner.SetCustomProperties(new PhotonHash()
+                        {
+                            {PhotonPlayerProperty.kills,
+                                view.owner.CustomProperties.SafeGet(PhotonPlayerProperty.kills,0)+1 }
+                        });
                     }
                 }
                 else
                 {
                     FengGameManagerMKII.instance.sendKillInfo(!(titanName == string.Empty), titanName, false, RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]), 0);
                 }
-            }
-            if (photonView.isMine)
-            {
+
                 PhotonNetwork.Destroy(photonView);
             }
             if (PhotonNetwork.isMasterClient)
@@ -3901,7 +3896,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 object[] parameters = new object[] { team };
                 photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, parameters);
-                ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                PhotonHash propertiesToSet = new PhotonHash();
                 propertiesToSet.Add(PhotonPlayerProperty.team, team);
                 PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             }

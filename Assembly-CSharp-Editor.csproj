@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{57807AFD-EF8B-143A-0DB7-8175F43A05CC}</ProjectGuid>
+    <ProjectGuid>{CF90C27D-39FC-CF4B-F1E0-95D84108642B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -293,6 +293,9 @@
     </Reference>
     <Reference Include="UnityEditor.Graphs">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
@@ -681,11 +684,11 @@
     <Reference Include="com.unity.quicksearch">
       <HintPath>Library\ScriptAssemblies\com.unity.quicksearch.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Addressables">
       <HintPath>Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Toorah.ScribtableVariables">
       <HintPath>Library\ScriptAssemblies\Toorah.ScribtableVariables.dll</HintPath>
@@ -801,36 +804,36 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{71BB6D56-7DEA-A4D9-6C81-85E7735664B4}</Project>
+      <Project>{52B85106-4402-77E3-45B7-F4F0FF81598D}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{88CBB8E7-AA84-314B-4CCA-E4ED35A14BD5}</Project>
+      <Project>{52D2F37C-0CD0-14C2-FFEB-9C57B7B31CA0}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
     <ProjectReference Include="AoTTG2.Core.csproj">
-      <Project>{5CC0871D-87F8-8E95-B993-7ADEF5C4CC62}</Project>
+      <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
       <Name>AoTTG2.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="MeleeWeaponTrail.csproj">
+      <Project>{A4F8BB4D-5B91-E7A6-F7B6-E22B79D89FFB}</Project>
+      <Name>MeleeWeaponTrail</Name>
+    </ProjectReference>
     <ProjectReference Include="Discord.csproj">
-      <Project>{F54107F2-A38A-9E77-35E3-BED81A07F907}</Project>
+      <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
       <Name>Discord</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
-      <Project>{63A6B674-DE6C-973E-E2B5-5C128155EAAB}</Project>
+      <Project>{A50E6B69-C0E9-D48F-30FD-CE50EAFBEE57}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{BA409E3E-26DA-94E4-1AC2-CFB458ABFB37}</Project>
+      <Project>{F87E9D58-43BD-844A-C3EF-F506885CF63E}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
     <ProjectReference Include="LeanTween.csproj">
-      <Project>{908D02B1-2287-7B51-4F3B-60721C088E3C}</Project>
+      <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
       <Name>LeanTween</Name>
-    </ProjectReference>
-    <ProjectReference Include="MeleeWeaponTrail.csproj">
-      <Project>{FCDFF9BA-4E19-8B16-ADD1-649825BA986A}</Project>
-      <Name>MeleeWeaponTrail</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
