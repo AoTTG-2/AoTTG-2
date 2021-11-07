@@ -28,6 +28,7 @@ namespace Assets.Scripts.UI.Menu
                 LeanTween.delayedCall(initialDelay, () =>
                 {
                     LeanTween.move(rightPanel, rightPanelEndPosition, panelEnterAnimationTime);
+                    rightPanel.GetComponent<AudioSource>().Play();
                     LeanTween.move(accountPanel, accountPanelEndPosition, panelEnterAnimationTime);
                 });
 

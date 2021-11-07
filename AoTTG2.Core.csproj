@@ -266,6 +266,7 @@
     <Compile Include="Assets\Scripts\Serialization\ColorJsonConverter.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ErenTitan.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\MapButtonAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
     <Compile Include="Assets\Scripts\Characters\BodyPushBox.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindElement.cs" />
@@ -514,7 +515,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\MapButtonAnimation.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
