@@ -14884,7 +14884,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 557fc5029518fa34089ae3d2fc2a9a1c, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -20751,6 +20751,7 @@ MonoBehaviour:
   accountPanelEndPosition: {x: -200, y: -300, z: 0}
   initialDelay: 4.5
   panelEnterAnimationTime: 0.9
+  renderTarget: {fileID: 323642728835109290}
 --- !u!224 &323642727375847066
 RectTransform:
   m_ObjectHideFlags: 0

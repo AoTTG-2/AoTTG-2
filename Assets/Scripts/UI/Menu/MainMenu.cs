@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Services;
 using System.Linq;
 using UnityEngine;
+using UCamera = UnityEngine.Camera;
 #if UNITY_EDITOR
 #else
 #endif
@@ -19,8 +20,15 @@ namespace Assets.Scripts.UI.Menu
 
         [SerializeField]
         private Vector3 rightPanelEndPosition, accountPanelEndPosition;
+        
         [SerializeField]
         private float initialDelay,panelEnterAnimationTime;
+
+        [SerializeField]
+        private UnityEngine.UI.RawImage renderTarget;
+
+        private RenderTexture sceneRender;
+        private UCamera blenderCam;
 
         private void Awake()
         {
@@ -46,8 +54,38 @@ namespace Assets.Scripts.UI.Menu
                 GameObject.FindObjectsOfType<Animator>().First(
                     (a) => a.name.Equals("Main Menu"))?.Play("Base Layer.Idle", 0, 0f);
             }
+
+            this.blenderCam = GameObject.Find("Camera").GetComponent<UCamera>();
+            this.setCameraResolution();
         }
 
+        private void setCameraResolution()
+        {
+            if(this.sceneRender == null)
+            {
+                this.sceneRender = new RenderTexture(Screen.width, Screen.height, 24);
+            }
+            else
+            {
+                this.sceneRender.Release();
+                this.sceneRender.width = Screen.width;
+                this.sceneRender.height = Screen.height;
+            }
+            this.sceneRender.Create();
+
+            blenderCam.targetTexture = this.sceneRender;
+            renderTarget.texture = this.sceneRender;
+            blenderCam.aspect = (float)sceneRender.width / sceneRender.height;
+
+            Debug.Log("RESETTING RENDER TO " + this.sceneRender.width + "x" + this.sceneRender.height);
+
+        }
+
+        private void Update()
+        {
+            if (sceneRender.width != Screen.width || sceneRender.height != Screen.height)
+                setCameraResolution();
+        }
 
         public void Singleplayer()
         {
@@ -79,6 +117,7 @@ namespace Assets.Scripts.UI.Menu
         private void OnApplicationFocus(bool focus)
         {
             Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
             Cursor.lockState = CursorLockMode.None;
         }
 
