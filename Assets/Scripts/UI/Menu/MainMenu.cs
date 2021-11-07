@@ -46,6 +46,9 @@ namespace Assets.Scripts.UI.Menu
 
         private void OnEnable()
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.None;
             if (!isFirstLaunch)
             {
                 rightPanel.anchoredPosition = rightPanelEndPosition;
@@ -114,13 +117,16 @@ namespace Assets.Scripts.UI.Menu
             Navigate(typeof(MapConverter));
         }
 
+        /*
+        since unity is kinda dumb, sometimes this don't work
+
         private void OnApplicationFocus(bool focus)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.lockState = CursorLockMode.None;
         }
-
+        */
         public void Quit()
         {
 
