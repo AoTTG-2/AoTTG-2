@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Services;
+using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR
 #else
@@ -30,16 +31,23 @@ namespace Assets.Scripts.UI.Menu
                     LeanTween.move(rightPanel, rightPanelEndPosition, panelEnterAnimationTime);
                     rightPanel.GetComponent<AudioSource>().Play();
                     LeanTween.move(accountPanel, accountPanelEndPosition, panelEnterAnimationTime);
+                    isFirstLaunch = false;
                 });
-
-                isFirstLaunch = false;
             }
-            else
+        }
+
+        private void OnEnable()
+        {
+            if (!isFirstLaunch)
             {
                 rightPanel.anchoredPosition = rightPanelEndPosition;
                 accountPanel.anchoredPosition = accountPanelEndPosition;
+                rightPanel.GetComponent<AudioSource>().Play();
+                GameObject.FindObjectsOfType<Animator>().First(
+                    (a) => a.name.Equals("Main Menu"))?.Play("Base Layer.Idle", 0, 0f);
             }
         }
+
 
         public void Singleplayer()
         {
@@ -66,6 +74,12 @@ namespace Assets.Scripts.UI.Menu
         {
             //TODO: Switch to MapEditor scene
             Navigate(typeof(MapConverter));
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         public void Quit()
