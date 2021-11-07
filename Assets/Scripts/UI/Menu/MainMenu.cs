@@ -11,22 +11,33 @@ namespace Assets.Scripts.UI.Menu
     /// </summary>
     public class MainMenu : UiNavigationElement
     {
-        [SerializeField]
-        private float onButtonHoverScaleIncrease,
-            onButtonHoverScaleTime;
-        [SerializeField]
-        private Vector3 buttonDefaultScale;
+        private static bool isFirstLaunch = true;
 
-        public void OnButtonTriggerEnter(GameObject button)
-        {
-            LeanTween.scale(button, buttonDefaultScale * onButtonHoverScaleIncrease,
-                onButtonHoverScaleTime);
-        }
+        [SerializeField]
+        RectTransform rightPanel,accountPanel;
 
-        public void OnButtonTriggerExit(GameObject button)
+        [SerializeField]
+        private Vector3 rightPanelEndPosition, accountPanelEndPosition;
+        [SerializeField]
+        private float initialDelay,panelEnterAnimationTime;
+
+        private void Awake()
         {
-            LeanTween.scale(button, buttonDefaultScale,
-                onButtonHoverScaleTime);
+            if (isFirstLaunch)
+            {
+                LeanTween.delayedCall(initialDelay, () =>
+                {
+                    LeanTween.move(rightPanel, rightPanelEndPosition, panelEnterAnimationTime);
+                    LeanTween.move(accountPanel, accountPanelEndPosition, panelEnterAnimationTime);
+                });
+
+                isFirstLaunch = false;
+            }
+            else
+            {
+                rightPanel.anchoredPosition = rightPanelEndPosition;
+                accountPanel.anchoredPosition = accountPanelEndPosition;
+            }
         }
 
         public void Singleplayer()
