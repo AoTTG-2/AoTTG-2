@@ -748,7 +748,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
             switch (Difficulty)
-            {
+            { //small comment to see if this lets me fetch dev branch again
                 case Gamemode.Difficulty.Easy:
                     attackCooldown = 2f;
                     break;
