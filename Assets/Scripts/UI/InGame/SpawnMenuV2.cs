@@ -12,7 +12,6 @@ using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using MonoBehaviour = Photon.MonoBehaviour;
-using static Assets.Scripts.FengGameManagerMKII;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -83,7 +82,7 @@ namespace Assets.Scripts.UI.InGame
             var selectedPreset = CharacterList.Characters[CharacterDropdown.value];
             selectedPreset.CurrentOutfit = selectedPreset.CharacterOutfit[OutfitDropdown.value];
             selectedPreset.CurrentBuild = selectedPreset.CharacterBuild[BuildDropdown.value];
-            
+
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
             if ((((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture) && isPlayerAllDead2())
@@ -98,7 +97,7 @@ namespace Assets.Scripts.UI.InGame
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             gameObject.SetActive(false);
 
-            settings[0xf5] = 0; //Reset spectator mode
+            SpectatorMode.Enable(); //Reset spectator mode
         }
 
         /// <summary>
@@ -129,7 +128,7 @@ namespace Assets.Scripts.UI.InGame
             }
             return (num == num2);
         }
-        
+
         private void OnCharacterChanged(CharacterPreset preset, int outfit)
         {
             SetDropdownOptions(preset);

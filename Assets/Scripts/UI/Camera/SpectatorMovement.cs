@@ -2,6 +2,7 @@ using Assets.Scripts;
 using Assets.Scripts.UI.Input;
 using UnityEngine;
 
+// Call with GameObject.Find("MainCamera").GetComponent<SpectatorMovement>()
 public class SpectatorMovement : MonoBehaviour
 {
     public bool disable;
@@ -12,15 +13,16 @@ public class SpectatorMovement : MonoBehaviour
     private void Awake()
     {
         startingTime = Time.time;
+        SpectatorMode.Initialize();
     }
 
     private void Update()
     {
-        if (!this.disable)
+        if (!disable)
         {
             float num2;
             float num3;
-            float speed = this.speed;
+            var speed = this.speed;
 
             if (InputManager.Key(InputHuman.Jump))
             {
@@ -39,16 +41,16 @@ public class SpectatorMovement : MonoBehaviour
             {
                 num2 = 0f;
             }
-    
+
             if (InputManager.Key(InputHuman.Left))
             {
                 num3 = -1f;
-            }      
+            }
             else if (InputManager.Key(InputHuman.Right))
             {
                 num3 = 1f;
             }
-        
+
             else
             {
                 num3 = 0f;
@@ -87,5 +89,6 @@ public class SpectatorMovement : MonoBehaviour
             }
         }
     }
+
 }
 

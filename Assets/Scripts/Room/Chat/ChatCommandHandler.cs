@@ -261,10 +261,9 @@ public static class ChatCommandHandler
 
     private static void ToggleSpecMode()
     {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        SpectatorMode.Toggle();
+        instance.EnterSpecMode(!SpectatorMode.IsDisable());
+        string message = SpectatorMode.IsDisable() ? "You have exited spectator mode." : "You have entered spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
     }
 
@@ -395,7 +394,7 @@ public static class ChatCommandHandler
         if (PhotonNetwork.offlineMode)
         {
             instance.InGameUI.TogglePauseMenu();
-        } 
+        }
         else
         {
             Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All, !Service.Pause.IsPaused(), false);
@@ -553,8 +552,8 @@ public static class ChatCommandHandler
             return;
         }
 
-        if (float.TryParse(parameters[1], out var x) 
-            && float.TryParse(parameters[2], out var y) 
+        if (float.TryParse(parameters[1], out var x)
+            && float.TryParse(parameters[2], out var y)
             && float.TryParse(parameters[3], out var z))
         {
             player.transform.position = new Vector3(x, y, z);

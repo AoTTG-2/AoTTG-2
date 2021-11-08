@@ -68,7 +68,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool usingTitan;
     private bool isRestarting = true;
     private float startingTime;
-    public bool IsSpecmode => (int) settings[0xf5] == 1;
     public GameObject HUD;
     private void Awake()
     {
@@ -661,10 +660,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public static void ToggleSpecMode()
     {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        SpectatorMode.Toggle();
+        instance.EnterSpecMode(!SpectatorMode.IsDisable());
+        string message = SpectatorMode.IsDisable() ? "You have exited spectator mode." : "You have entered spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
     }
 

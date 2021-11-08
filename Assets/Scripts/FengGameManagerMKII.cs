@@ -181,8 +181,8 @@ namespace Assets.Scripts
         {
             Debug.Log("OnConnectionFail : " + cause.ToString());
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-            
-            if(cause is DisconnectCause.DisconnectByClientTimeout)
+
+            if (cause is DisconnectCause.DisconnectByClientTimeout)
             {
                 IsReconnecting = true;
             }
@@ -205,7 +205,7 @@ namespace Assets.Scripts
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
                 this.DestroyAllExistingCloths();
                 Application.LoadLevel(0);
-                if (IsReconnecting) 
+                if (IsReconnecting)
                 {
                     IsReconnecting = false;
                     PhotonNetwork.ReconnectAndRejoin();
@@ -540,7 +540,7 @@ namespace Assets.Scripts
                 //TODO: Show ChooseSide Message
                 //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
             }
-            else if (((int) settings[0xf5]) == 0)
+            else if (SpectatorMode.IsDisable())
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                 {
@@ -552,7 +552,7 @@ namespace Assets.Scripts
                 }
             }
 
-            if (((int) settings[0xf5]) == 1)
+            if (!SpectatorMode.IsDisable())
             {
                 this.EnterSpecMode(true);
             }
@@ -908,7 +908,7 @@ namespace Assets.Scripts
                     Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
                     if ((((Camera.main != null) && (GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)) &&
                          (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
-                        (((int) settings[0xf5]) == 0))
+                        SpectatorMode.IsDisable())
                     {
                         if (GameSettings.Respawn.Mode == RespawnMode.Endless ||
                             !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
@@ -953,7 +953,7 @@ namespace Assets.Scripts
                 if (GameSettings.Gamemode.GamemodeType == GamemodeType.Racing)
                 {
                     if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
-                        !mainCamera.IsSpecmode)
+                        SpectatorMode.IsDisable())
                     {
                         this.myRespawnTime += Time.deltaTime;
                         if (this.myRespawnTime > 1.5f)
@@ -1543,7 +1543,7 @@ namespace Assets.Scripts
             objArray[0xf2] = PlayerPrefs.GetString("hjump", "Q");
             objArray[0xf3] = PlayerPrefs.GetString("hmount", "LeftControl");
             objArray[0xf4] = PlayerPrefs.GetInt("chatfeed", 0);
-            objArray[0xf5] = 0;
+            objArray[0xf5] = null;
             objArray[0xf6] = PlayerPrefs.GetFloat("bombR", 1f);
             objArray[0xf7] = PlayerPrefs.GetFloat("bombG", 1f);
             objArray[0xf8] = PlayerPrefs.GetFloat("bombB", 1f);
