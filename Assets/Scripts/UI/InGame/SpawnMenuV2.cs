@@ -12,6 +12,7 @@ using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using MonoBehaviour = Photon.MonoBehaviour;
+using static Assets.Scripts.FengGameManagerMKII;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -95,6 +96,8 @@ namespace Assets.Scripts.UI.InGame
             Hashtable propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             gameObject.SetActive(false);
+
+            settings[0xf5] = (int) 0; //Reset spectator mode
         }
 
         /// <summary>
