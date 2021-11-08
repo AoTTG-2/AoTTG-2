@@ -104,7 +104,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             SetMainObjectAsTitan(pt.gameObject);
             enabled = true;
-            GetComponent<SpectatorMovement>().disable = true;
+            SpectatorMode.Disable();
             GetComponent<MouseLook>().disable = true;
             gameOver = false;
         }
@@ -217,11 +217,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         return obj;
     }
 
-    public void SetSpectorMode(bool valuse)
+    public void SetSpectorMode(bool value)
     {
-        spectatorMode = valuse;
-        GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !valuse;
-        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !valuse;
+        spectatorMode = value;
+        SpectatorMode.SetState(value);
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !value;
     }
     public void SnapShot2(int index)
     {

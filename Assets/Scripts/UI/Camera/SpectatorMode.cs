@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Assets.Scripts.FengGameManagerMKII;
 
 namespace Assets.Scripts.Utility
 {
@@ -36,9 +35,13 @@ namespace Assets.Scripts.Utility
 
         public static void Enable()
         {
-            _specMovement.enabled = false;
+            _specMovement.disable = false;
         }
 
+        public static void SetState(bool value)
+        {
+            _specMovement.disable = !value;
+        }
     }
 
 }

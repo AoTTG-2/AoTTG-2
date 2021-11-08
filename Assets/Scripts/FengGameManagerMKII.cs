@@ -1609,7 +1609,7 @@ namespace Assets.Scripts
                         UnityEngine.Object.Destroy(obj3);
                     }
                 }
-                Camera.main.GetComponent<SpectatorMovement>().disable = true;
+                SpectatorMode.Disable();
                 Camera.main.GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
             }
             else
@@ -2671,7 +2671,7 @@ namespace Assets.Scripts
                 }
 
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
+                SpectatorMode.Disable();
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
                 Service.Player.Self = component.main_object.GetComponent<Entity>();
