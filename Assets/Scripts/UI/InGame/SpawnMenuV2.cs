@@ -76,6 +76,7 @@ namespace Assets.Scripts.UI.InGame
         /// <summary>
         /// Spawns the player in the game as a <see cref="Hero"/>
         /// </summary>
+        [Obsolete]
         public void Spawn()
         {
             string selection = "23";
@@ -97,7 +98,7 @@ namespace Assets.Scripts.UI.InGame
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             gameObject.SetActive(false);
 
-            settings[0xf5] = (int) 0; //Reset spectator mode
+            settings[0xf5] = 0; //Reset spectator mode
         }
 
         /// <summary>
