@@ -5,6 +5,7 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Menu;
+using Assets.Scripts.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +98,7 @@ namespace Assets.Scripts.UI.InGame
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             gameObject.SetActive(false);
 
-            SpectatorMode.Enable(); //Reset spectator mode
+            SpectatorMode.Disable(); //Reset spectator mode
         }
 
         /// <summary>

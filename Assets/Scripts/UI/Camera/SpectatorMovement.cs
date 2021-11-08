@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.Utility;
 using UnityEngine;
 
 // Call with GameObject.Find("MainCamera").GetComponent<SpectatorMovement>()

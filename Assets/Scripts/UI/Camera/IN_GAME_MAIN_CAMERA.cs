@@ -5,8 +5,10 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.Camera;
+using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.Utility;
 using System;
 using UnityEngine;
 using static Assets.Scripts.FengGameManagerMKII;
@@ -662,8 +664,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     {
         SpectatorMode.Toggle();
         instance.EnterSpecMode(!SpectatorMode.IsDisable());
-        string message = SpectatorMode.IsDisable() ? "You have exited spectator mode." : "You have entered spectator mode.";
-        instance.chatRoom.OutputSystemMessage(message);
     }
 
     public void ToggleHUD()

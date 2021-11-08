@@ -15,6 +15,7 @@ using Assets.Scripts.UI;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.Utility;
 using Photon;
 using System;
 using System.Collections;
