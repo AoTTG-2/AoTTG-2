@@ -7,7 +7,7 @@ using UnityEngine;
 public class SpectatorMovement : MonoBehaviour
 {
     public bool disable;
-    private float speed = 100f;
+    private readonly float baseSpeed = 100f;
     private bool isRestarting = true;
     private float startingTime;
 
@@ -23,7 +23,7 @@ public class SpectatorMovement : MonoBehaviour
         {
             float num2;
             float num3;
-            var speed = this.speed;
+            var speed = baseSpeed;
 
             if (InputManager.Key(InputHuman.Jump))
             {

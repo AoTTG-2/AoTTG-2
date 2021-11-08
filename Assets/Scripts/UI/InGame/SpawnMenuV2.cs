@@ -76,7 +76,6 @@ namespace Assets.Scripts.UI.InGame
         /// <summary>
         /// Spawns the player in the game as a <see cref="Hero"/>
         /// </summary>
-        [Obsolete]
         public void Spawn()
         {
             string selection = "23";

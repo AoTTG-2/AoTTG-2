@@ -4,7 +4,7 @@ using static Assets.Scripts.FengGameManagerMKII;
 namespace Assets.Scripts.Utility
 {
 
-    public class SpectatorMode
+    public static class SpectatorMode
     {
 
         private static SpectatorMovement _specMovement;
