@@ -1,10 +1,9 @@
 ﻿using Assets.Scripts.Services;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UCamera = UnityEngine.Camera;
-#if UNITY_EDITOR
-#else
-#endif
 
 namespace Assets.Scripts.UI.Menu
 {
@@ -27,6 +26,7 @@ namespace Assets.Scripts.UI.Menu
         [SerializeField]
         private UnityEngine.UI.RawImage renderTarget;
 
+        private Volume postProcess;
         private RenderTexture sceneRender;
         private UCamera blenderCam;
 
@@ -44,11 +44,15 @@ namespace Assets.Scripts.UI.Menu
             }
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
+            //hacky code to workaround unity buggy behaviour with cursor
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.lockState = CursorLockMode.None;
+            
             if (!isFirstLaunch)
             {
                 rightPanel.anchoredPosition = rightPanelEndPosition;
@@ -59,12 +63,21 @@ namespace Assets.Scripts.UI.Menu
             }
 
             this.blenderCam = GameObject.Find("Camera").GetComponent<UCamera>();
+            this.postProcess = GameObject.FindObjectOfType<Volume>();
             this.setCameraResolution();
         }
 
-        private void setCameraResolution()
+        private void recalculatePostRenderEffects()
         {
-            if(this.sceneRender == null)
+            if(this.postProcess.profile.TryGet<DepthOfField>(out var depthEffect))
+            {
+                depthEffect.focalLength.value = 75+Mathf.Log(Screen.height / 1080f, 2)*20;
+            }
+        }
+
+        private void recalculateSceneRenderer()
+        {
+            if (this.sceneRender == null)
             {
                 this.sceneRender = new RenderTexture(Screen.width, Screen.height, 24);
             }
@@ -78,10 +91,23 @@ namespace Assets.Scripts.UI.Menu
 
             blenderCam.targetTexture = this.sceneRender;
             renderTarget.texture = this.sceneRender;
-            blenderCam.aspect = (float)sceneRender.width / sceneRender.height;
+        }
 
+        private void setCameraResolution()
+        {
+            this.recalculateSceneRenderer();
+            var aspectRatio = (float)sceneRender.width / sceneRender.height;
+            blenderCam.aspect = aspectRatio;
+            
+            //super ultra wide monitor ratio goes up to ~3.5 (32/9)
+            //and the default considered is the ~1.7 (16/9) standard
+            float capped_normalized_ratio = (Mathf.Max(Mathf.Min(aspectRatio, 3.5f), 1.5f)-1.5f)/2f;
+            blenderCam.focalLength = Mathf.Lerp(90, 40, capped_normalized_ratio);
+            this.recalculatePostRenderEffects();
+
+#if UNITY_EDITOR
             Debug.Log("RESETTING RENDER TO " + this.sceneRender.width + "x" + this.sceneRender.height);
-
+#endif
         }
 
         private void Update()
@@ -117,16 +143,6 @@ namespace Assets.Scripts.UI.Menu
             Navigate(typeof(MapConverter));
         }
 
-        /*
-        since unity is kinda dumb, sometimes this don't work
-
-        private void OnApplicationFocus(bool focus)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.lockState = CursorLockMode.None;
-        }
-        */
         public void Quit()
         {
 
