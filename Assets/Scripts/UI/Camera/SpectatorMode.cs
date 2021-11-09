@@ -70,7 +70,7 @@ namespace Assets.Scripts.Utility
             {
                 if (GameObject.Find("cross1") != null)
                 {
-                    GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
+                    GameObject.Find("cross1").transform.localPosition = (Vector3.up * 5000f);
                 }
                 instance.needChooseSide = true; // FengCode
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
