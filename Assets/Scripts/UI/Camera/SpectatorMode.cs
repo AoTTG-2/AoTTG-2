@@ -64,7 +64,6 @@ namespace Assets.Scripts.Utility
                 }
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
                 Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-                instance.StartCoroutine(instance.reloadSky()); // FengCode
             }
             else
             {
