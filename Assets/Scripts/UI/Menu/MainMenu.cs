@@ -37,8 +37,8 @@ namespace Assets.Scripts.UI.Menu
                 LeanTween.delayedCall(initialDelay, () =>
                 {
                     LeanTween.move(rightPanel, rightPanelEndPosition, panelEnterAnimationTime);
-                    rightPanel.GetComponent<AudioSource>().Play();
                     LeanTween.move(accountPanel, accountPanelEndPosition, panelEnterAnimationTime);
+                    rightPanel.GetComponent<AudioSource>().Play();
                     isFirstLaunch = false;
                 });
             }
@@ -57,7 +57,6 @@ namespace Assets.Scripts.UI.Menu
             {
                 rightPanel.anchoredPosition = rightPanelEndPosition;
                 accountPanel.anchoredPosition = accountPanelEndPosition;
-                rightPanel.GetComponent<AudioSource>().Play();
                 GameObject.FindObjectsOfType<Animator>().First(
                     (a) => a.name.Equals("Main Menu"))?.Play("Base Layer.Idle", 0, 0f);
             }
