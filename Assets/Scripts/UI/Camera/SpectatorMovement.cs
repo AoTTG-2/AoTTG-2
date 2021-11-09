@@ -6,7 +6,7 @@ using UnityEngine;
 // Call with GameObject.Find("MainCamera").GetComponent<SpectatorMovement>()
 public class SpectatorMovement : MonoBehaviour
 {
-    public bool disable = false;
+    public bool disable = true;
     private readonly float baseSpeed = 100f;
     private bool isRestarting = true;
     private float startingTime;
@@ -14,11 +14,11 @@ public class SpectatorMovement : MonoBehaviour
     private void Awake()
     {
         startingTime = Time.time;
-        SpectatorMode.Initialize();
     }
 
     private void Update()
     {
+        SpectatorMode.Initialize();
         if (!disable)
         {
             float num2;

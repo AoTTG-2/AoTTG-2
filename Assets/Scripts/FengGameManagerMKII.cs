@@ -555,7 +555,7 @@ namespace Assets.Scripts
 
             if (!SpectatorMode.IsDisable())
             {
-                this.EnterSpecMode(true);
+                SpectatorMode.EnterSpecMode(true);
             }
         }
 
@@ -1067,43 +1067,6 @@ namespace Assets.Scripts
             }
         }
 
-        [Obsolete("GameManager logic to enter a spectator mode when the map is loaded. Should be moved somewhere else")]
-        public void EnterSpecMode(bool enter)
-        {
-            if (enter)
-            {
-                if (Service.Player.Self != null && Service.Player.Self.photonView.isMine)
-                {
-                    PhotonNetwork.Destroy(Service.Player.Self.photonView);
-                }
-                instance.needChooseSide = false;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-                GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
-                if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
-                {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj4, true, false);
-                }
-                else
-                {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-                }
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-                base.StartCoroutine(this.reloadSky());
-            }
-            else
-            {
-                if (GameObject.Find("cross1") != null)
-                {
-                    GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
-                }
-                instance.needChooseSide = true;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-            }
-        }
-
         /// <summary>
         /// The master client will send a RPC to another players, telling them to ignore a specific player. Do we even need this in AoTTG2? Think this was needed in AoTTG as there wasn't a reliable way to kick a player
         /// </summary>
@@ -1544,7 +1507,8 @@ namespace Assets.Scripts
             objArray[0xf2] = PlayerPrefs.GetString("hjump", "Q");
             objArray[0xf3] = PlayerPrefs.GetString("hmount", "LeftControl");
             objArray[0xf4] = PlayerPrefs.GetInt("chatfeed", 0);
-            objArray[0xf5] = null;
+            objArray[0xf5] = null; // Is no longer in the code
+            SpectatorMode.Initialize();
             objArray[0xf6] = PlayerPrefs.GetFloat("bombR", 1f);
             objArray[0xf7] = PlayerPrefs.GetFloat("bombG", 1f);
             objArray[0xf8] = PlayerPrefs.GetFloat("bombB", 1f);

@@ -663,7 +663,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static void ToggleSpecMode()
     {
         SpectatorMode.Toggle();
-        instance.EnterSpecMode(!SpectatorMode.IsDisable());
+        bool specMode = !SpectatorMode.IsDisable();
+        SpectatorMode.EnterSpecMode(specMode);
+        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        instance.chatRoom.OutputSystemMessage(message);
     }
 
     public void ToggleHUD()
