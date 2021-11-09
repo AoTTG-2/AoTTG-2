@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7444315291455049446}
   - component: {fileID: 5633922845198529605}
   - component: {fileID: 6662986064019905567}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3233524495304125603}
-  m_LocalRotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 804.2113, y: 40.07144, z: 751.9928}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &7444315291455049446
 MeshFilter:
   m_ObjectHideFlags: 0
