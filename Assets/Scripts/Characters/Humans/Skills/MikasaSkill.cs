@@ -27,8 +27,12 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override void OnFixedUpdate()
         {
-            if (!Hero.grounded) return;
+            /*if ((Hero.hookLeft || Hero.hookRight))
+            {
+                IsActive = false;
+            }*/
 
+            if (!Hero.grounded) return;
             if (Hero._state == HumanState.Attack && Hero.attackAnimation == HeroAnim.ATTACK3_1 &&
                 Hero.Animation[Hero.attackAnimation].normalizedTime >= 1f)
             {
@@ -38,6 +42,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 Hero.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.2f, 0.3f, 0.95f);
                 IsActive = false;
             }
+
+            
         }
     }
 }
