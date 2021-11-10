@@ -1137,7 +1137,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416271399273010}
-  m_LocalRotation: {x: -0.00000002266894, y: -0.1201, z: 0.00000002635808, w: 0.9927618}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.08502664, y: 0.000000006419322, z: 0.000000005064066}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1146,7 +1146,7 @@ Transform:
   - {fileID: 4086958985851326}
   m_Father: {fileID: 4615471509580868}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2.672457, y: -12.1901045, z: -6.1314154}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &136190944230954764
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2337,7 +2337,10 @@ MonoBehaviour:
   minimapIcon: {fileID: 4261993353365951143}
   PreviousState: 0
   NextState: 0
+  CurrentState: 0
   MindlessType: 0
+  headVectorOffset: {x: 0, y: 8.36, z: 0}
+  lookatTarget: {fileID: 0}
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:
@@ -2837,13 +2840,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735526763489876}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.70710677}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.59130967, y: 0, z: 0, w: 0.8064446}
+  m_LocalPosition: {x: 0, y: 0.77, z: -4.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4970633147100212}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -72.5, y: 0, z: 0}
 --- !u!33 &33500653383487702
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2947,13 +2950,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775255539694528}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.040742204, y: 0, z: 0, w: 0.9991697}
+  m_LocalPosition: {x: 0, y: -4.5, z: -0.09}
   m_LocalScale: {x: 0.2351299, y: 0.2351299, z: 0.2351299}
   m_Children: []
   m_Father: {fileID: 4970633147100212}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 4.67, y: 0, z: 0}
 --- !u!137 &137069697741953780
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

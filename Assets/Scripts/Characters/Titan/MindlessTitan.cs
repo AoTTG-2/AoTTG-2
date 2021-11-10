@@ -28,6 +28,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public TitanState PreviousState;
         public TitanState NextState;
+        public TitanState CurrentState;
         public MindlessTitanType MindlessType;
 
         private float turnDeg;
@@ -290,6 +291,20 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        private void OnDrawGizmos()
+        {
+            if (Target != null)
+            {
+                //Gizmos.color = Color.red;
+                //Gizmos.DrawLine(Body.Head.transform.position, Target.transform.position, Color.yellow);
+                //Gizmos.DrawRay(Body.Head.transform.position, Vector3.forward);
+            }
+        }
+
+        public Vector3 headVectorOffset;    //Needed as the vector originates at the parent bone, which is in the neck, while the vector needs to originate approximately from eye position
+        public Quaternion headRotationTemp;
+        public Transform lookatTarget;
+
         private void HeadMovement()
         {
             if (State != TitanState.Dead)
@@ -299,21 +314,56 @@ namespace Assets.Scripts.Characters.Titan
                     if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
                     targetHeadRotation = Body.Head.rotation;
                     bool flag2 = false;
-                    if (State == TitanState.Chase && TargetDistance < 100f && Target != null)
+                    if (TargetDistance < 100f && Target != null)
                     {
-                        var vector = Target.transform.position - transform.position;
-                        var angle = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
-                        float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
-                        num = Mathf.Clamp(num, -40f, 40f);
-                        float y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                        float num3 = Mathf.Atan2(y, TargetDistance) * Mathf.Rad2Deg;
-                        num3 = Mathf.Clamp(num3, -40f, 30f);
-                        targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num3,
-                            Body.Head.rotation.eulerAngles.y + num, Body.Head.rotation.eulerAngles.z);
+                        var vectorToTarget = Target.transform.position - (Body.Head.transform.position + headVectorOffset);                            //Creates a vector leading to the target from the transform.position (which, is at the feet ironically)
+                        var horizontalTargetAngle = Mathf.Atan2(vectorToTarget.z, vectorToTarget.y) * Mathf.Rad2Deg;   //Finds horizontal angle to the target, and angle of 90 means it is directly infront
+                        var verticalTargetAngle = Mathf.Atan2(vectorToTarget.x, vectorToTarget.y) * Mathf.Rad2Deg;                   //Finds vertical angle to the target. An angle of 0 means pretty much on the floor 
+
+                        float shortestRotAngle = -Mathf.DeltaAngle(horizontalTargetAngle, base.transform.rotation.eulerAngles.y - 90f);//Finding the shortest angle between target and head angle (Figuring out if to rotate left or right)
+                        shortestRotAngle = Mathf.Clamp(shortestRotAngle, -40f, 40f);                                              //Clamping between +/- 40 degrees
+
+
+
+                        /* targetHeadRotation = Quaternion.Euler(                                  //Sets the head rotation to the following values
+                             Body.Head.rotation.eulerAngles.x + verticalTargetAngle,             //Up and down rotation
+                             Body.Head.rotation.eulerAngles.y + shortestRotAngle,                //Left and right rotation
+                             Body.Head.rotation.eulerAngles.z);                                  //Don't touch this unless you want eldritch horrors*/
+
+                        /*targetHeadRotation = Quaternion.Euler(                                  //Sets the head rotation to the following values
+                            verticalTargetAngle,                                                //Up and down rotation
+                            shortestRotAngle,                                                   //Left and right rotation
+                            Body.Head.rotation.eulerAngles.z);                                  //Don't touch this unless you want eldritch horrors*/
+
+                        var horizontalTargetAngleClamped = Mathf.Clamp(horizontalTargetAngle, -57f, 57f);
+                        var verticalTargetAngleClamped = Mathf.Clamp(verticalTargetAngle, -35f, 27f);
+
+                        //Body.Head.transform.eulerAngles = new Vector3(horizontalTargetAngle, Body.Head.localEulerAngles.y, Body.Head.localEulerAngles.z);
+                        targetHeadRotation = headRotationTemp;
+
+
+                        //Vector3 lineToPlayer = (Body.Head.transform.position + headVectorOffset) - Target.transform.position;
+                        //Debug.DrawLine(Body.Head.transform.position + headVectorOffset,Target.transform.position);
+
+                        //Quaternion lookRotation = Quaternion.LookRotation(lineToPlayer);
+                        //Body.Head.rotation = lookRotation * Body.Head.rotation;
+
+                        //lookatTarget = Target.transform;
+                        //Body.Head.transform.LookAt(lookatTarget);
+                        Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
+                        Debug.DrawRay((Body.Head.transform.position + headVectorOffset), vectorToTarget);
+                        Debug.Log(
+                                   "vectorToTarget = " + vectorToTarget +
+                                   " horizontalTargetAngle = " + horizontalTargetAngle +
+                                   " verticalTargetAngle = " + verticalTargetAngle +
+                                   " horizontalTargetAngleClamped = " + horizontalTargetAngleClamped +
+                                   " verticalTargetAngleClamped = " + verticalTargetAngleClamped
+                                   );
+
                         if (!this.asClientLookTarget)
                         {
                             this.asClientLookTarget = true;
-                            object[] parameters = new object[] {true};
+                            object[] parameters = new object[] { true };
                             base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, parameters);
                         }
 
@@ -678,6 +728,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            CurrentState = State;
 
             switch (State)
             {
@@ -686,20 +737,25 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 case TitanState.Idle:
                     OnIdle();
+                    HeadMovement();
                     break;
                 case TitanState.Dead:
                     break;
                 case TitanState.Wandering:
                     OnWandering();
+                    HeadMovement();
                     break;
                 case TitanState.Turning:
                     OnTurning();
+                    HeadMovement();
                     break;
                 case TitanState.Chase:
                     OnChasing();
+                    HeadMovement();
                     break;
                 case TitanState.Attacking:
                     OnAttacking();
+                    HeadMovement();
                     break;
                 case TitanState.Recovering:
                     OnRecovering();
@@ -733,8 +789,6 @@ namespace Assets.Scripts.Characters.Titan
             {
                 SetState(TitanState.Wandering);
             }
-
-            HeadMovement();
         }
 
 
