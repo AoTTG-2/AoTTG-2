@@ -80,10 +80,17 @@ namespace Assets.Scripts.UI.Menu
         {
             try
             {
-                var new_render_texture = RenderTexture.GetTemporary(Screen.width, Screen.height);
-                if (this.sceneRender != null)
-                    RenderTexture.ReleaseTemporary(this.sceneRender);
-                this.sceneRender = new_render_texture;
+                if (this.sceneRender == null)
+                {
+                    this.sceneRender = new RenderTexture(Screen.width, Screen.height, 24);
+                }
+                else
+                {
+                    this.sceneRender.Release();
+                    this.sceneRender.width = Screen.width;
+                    this.sceneRender.height = Screen.height;
+                }
+                this.sceneRender.Create();
             }
             catch { }
 
