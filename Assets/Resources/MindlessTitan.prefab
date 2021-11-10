@@ -2335,9 +2335,16 @@ MonoBehaviour:
   Body: {fileID: 114021182772690314}
   SetupScript: {fileID: 114986312314889836}
   minimapIcon: {fileID: 4261993353365951143}
-  PreviousState: 0
-  NextState: 0
+  PreviousState: 4
+  NextState: 4
+  CurrentState: 4
   MindlessType: 0
+  titanSenseRange: 100
+  minHeadRotVertical: 13
+  maxHeadRotVertical: 23
+  minHeadRotHorizontal: 25
+  maxHeadRotHorizontal: 25
+  lookatTarget: {fileID: 0}
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:

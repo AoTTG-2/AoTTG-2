@@ -28,6 +28,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public TitanState PreviousState;
         public TitanState NextState;
+        public TitanState CurrentState;
         public MindlessTitanType MindlessType;
 
         private float turnDeg;
@@ -35,6 +36,15 @@ namespace Assets.Scripts.Characters.Titan
         private int nextUpdate = 1;
         private float attackCooldown;
         private float staminaLimit;
+
+        [Header("Titan Chase Variables")]
+        [SerializeField] private float titanLookAtRange = 100f;      //Range at which titans start looking at the player
+
+        [Header("Head Rotation Variables")]
+        [SerializeField] private float minHeadRotVertical = 30f;     //Max values to which the head can turn during HeadMovement()
+        [SerializeField] private float maxHeadRotVertical = 40f;
+        [SerializeField] private float minHeadRotHorizontal = 40f;
+        [SerializeField] private float maxHeadRotHorizontal = 40f;
 
         private float FocusTimer { get; set; }
         private bool isHooked;
@@ -290,54 +300,34 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public Vector3 headVectorOffset;    //Needed as the vector originates at the parent bone, which is in the neck, while the vector needs to originate approximately from eye position
-        public Quaternion headRotationTemp;
         public Transform lookatTarget;
-
-        /*
-        private void HeadMovement()
-        {
-            Transform headTransform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
-            Transform neckTransform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
-
-            var gunTarget = this.Target.transform.position;
-            Vector3 vector5 = gunTarget - base.transform.position;
-            vector5.y = 0;
-            float x = vector5.magnitude;
-            float current = -Mathf.Atan2(vector5.z, vector5.x) * 57.29578f;
-            float _yRotationAdd = Mathf.Clamp(-Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f), -40f, 40f);
-            float _xRotationAdd = Mathf.Clamp(Mathf.Atan2(neckTransform.position.y - gunTarget.y, x) * 57.29578f, -40f, 30f);
-            Quaternion targetHeadRotation = Quaternion.Euler(headTransform.rotation.eulerAngles.x + _xRotationAdd, headTransform.rotation.eulerAngles.y + _yRotationAdd, headTransform.rotation.eulerAngles.z);
-            this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, targetHeadRotation, Time.deltaTime * 60f);
-            headTransform.rotation = this.oldHeadRotation;
-        }
-        */
 
 
         private void calculateHeadRotation()
         {
-            var relative_position = Target.transform.position - transform.position;
-            var global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;
-            float relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
-            relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -40f, 40f);
-            float relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-            float vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;
-            vertical_angle = Mathf.Clamp(vertical_angle, -40f, 30f);
-            this.targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + vertical_angle,
-                Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
-                Body.Head.rotation.eulerAngles.z);
+            var     relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
+            var     global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
+            float   relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
+                    relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
+
+            float   relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+            float   vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;                              //Find angle vertically
+                    vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);                 //Clamp dat boi
+
+            this.targetHeadRotation = Quaternion.Euler(                                                                     //Assemble angle needed to look at target
+                 Body.Head.rotation.eulerAngles.x + vertical_angle,   
+                 Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
+                 Body.Head.rotation.eulerAngles.z
+                 );
 
 #if DEBUG
             Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
-            //Debug.DrawRay((Body.Head.transform.position + headVectorOffset), vectorToTarget);
-            Debug.Log(
-                       " relative_horizontal_angle = " + relative_horizontal_angle +
+            Debug.Log( "relative_horizontal_angle = " + relative_horizontal_angle +
                        " vertical_angle = " + vertical_angle
-                       );
+                      );
 #endif
         }
 
-        
         private void HeadMovement()
         {
             if (State != TitanState.Dead)
@@ -348,11 +338,11 @@ namespace Assets.Scripts.Characters.Titan
                 if (base.photonView.isMine)
                 {
                     if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
-                    bool haveToUpdateHead = TargetDistance < 100f && Target;
+                    bool haveToUpdateHead = TargetDistance < titanLookAtRange && Target;
                     if (haveToUpdateHead)
                         this.calculateHeadRotation();
 
-                    //whenever the two are different it update the target for clients
+                    //whenever haveToUpdateHead and asClientLookTarget are different it updates the target for clients
                     if (haveToUpdateHead ^ this.asClientLookTarget)
                     {
                         this.asClientLookTarget = haveToUpdateHead;
@@ -369,7 +359,7 @@ namespace Assets.Scripts.Characters.Titan
                         this.calculateHeadRotation();
                 }
 
-                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, 
+                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, //Lerp towards the new head angle by interpolation velocity amount
                     Time.deltaTime * interpolation_velocity);
                 Body.Head.rotation = this.oldHeadRotation;
             }
@@ -679,6 +669,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            CurrentState = State;
 
             switch (State)
             {
