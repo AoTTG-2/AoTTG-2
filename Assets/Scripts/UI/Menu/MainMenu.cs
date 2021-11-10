@@ -26,8 +26,10 @@ namespace Assets.Scripts.UI.Menu
         [SerializeField]
         private UnityEngine.UI.RawImage renderTarget;
 
-        private Volume postProcess;
+        [SerializeField]
         private RenderTexture sceneRender;
+
+        private Volume postProcess;
         private UCamera blenderCam;
 
         private void Awake()
@@ -76,9 +78,14 @@ namespace Assets.Scripts.UI.Menu
 
         private void recalculateSceneRenderer()
         {
-            if (this.sceneRender != null)
-                RenderTexture.ReleaseTemporary(this.sceneRender);
-            this.sceneRender = RenderTexture.GetTemporary(Screen.width, Screen.height);
+            try
+            {
+                var new_render_texture = RenderTexture.GetTemporary(Screen.width, Screen.height);
+                if (this.sceneRender != null)
+                    RenderTexture.ReleaseTemporary(this.sceneRender);
+                this.sceneRender = new_render_texture;
+            }
+            catch { }
 
             blenderCam.targetTexture = this.sceneRender;
             renderTarget.texture = this.sceneRender;
