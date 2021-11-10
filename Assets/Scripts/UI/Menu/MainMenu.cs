@@ -76,37 +76,14 @@ namespace Assets.Scripts.UI.Menu
 
         private void recalculateSceneRenderer()
         {
-            if (this.sceneRender == null)
-            {
-                var possible_format = new RenderTextureFormat[]
-                {
-                    RenderTextureFormat.RGB565,RenderTextureFormat.BGRA32,  RenderTextureFormat.BGR101010_XR, RenderTextureFormat.ARGB32,
-                    RenderTextureFormat.RGBAUShort, RenderTextureFormat.DefaultHDR, RenderTextureFormat.RGB111110Float,  RenderTextureFormat.Default
-                };
-
-                RenderTextureFormat format = RenderTextureFormat.Default;
-
-                foreach(var _format in possible_format)
-                {
-                    if (SystemInfo.SupportsRenderTextureFormat(_format))
-                    {
-                        format = _format;
-                        break;
-                    }
-                }
-
-                this.sceneRender = new RenderTexture(Screen.width, Screen.height, 24, format);
-            }
-            else
-            {
-                this.sceneRender.Release();
-                this.sceneRender.width = Screen.width;
-                this.sceneRender.height = Screen.height;
-            }
-            this.sceneRender.Create();
+            if (this.sceneRender != null)
+                RenderTexture.ReleaseTemporary(this.sceneRender);
+            this.sceneRender = RenderTexture.GetTemporary(Screen.width, Screen.height);
 
             blenderCam.targetTexture = this.sceneRender;
             renderTarget.texture = this.sceneRender;
+
+            this.recalculatePostRenderEffects();
         }
 
         private void setCameraResolution()
@@ -119,7 +96,6 @@ namespace Assets.Scripts.UI.Menu
             //and the default considered is the ~1.7 (16/9) standard
             float capped_normalized_ratio = (Mathf.Max(Mathf.Min(aspectRatio, 3.5f), 1.5f)-1.5f)/2f;
             blenderCam.focalLength = Mathf.Lerp(90, 40, capped_normalized_ratio);
-            this.recalculatePostRenderEffects();
 
 #if UNITY_EDITOR
             Debug.Log("RESETTING RENDER TO " + this.sceneRender.width + "x" + this.sceneRender.height);
