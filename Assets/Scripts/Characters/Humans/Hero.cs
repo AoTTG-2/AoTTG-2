@@ -61,6 +61,7 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         public bool UseWeaponTrail = true; //TODO Add a check in the graphic menu to enable and disable weapon trail//
+        private float acl;
         private bool almostSingleHook { get; set; }
         public string attackAnimation { get; set; }
         public int attackLoop { get; set; }
@@ -1897,8 +1898,7 @@ namespace Assets.Scripts.Characters.Humans
                             Vector3 vector12 = GetGlobaleFacingVector3(num12);
                             float num13 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
                             vector12 = (vector12 * num13);
-                            //TODO: ACL
-                            vector12 = (vector12 * ((/*(float)setup.myCostume.stat.ACL) */ 125f / 10f) * 2f));
+                            vector12 = (vector12 * (( acl / 10f) * 2f));
                             if ((x == 0f) && (z == 0f))
                             {
                                 if (state == HumanState.Attack)
@@ -2094,9 +2094,9 @@ namespace Assets.Scripts.Characters.Humans
             }
 
             /*int index = EquipmentType == EquipmentType.Ahss ? 1 : 0;              
-            float acl = preset.CharacterBuild[index].Stats.Acceleration;
-            Rigidbody.mass = 0.5f - (acl - 100f) * 0.001f;*/      //<-once correct character presets are implemented, uncomment these value assignation
-            Rigidbody.mass = 0.45f;                               //and delete this one
+            acl = preset.CharacterBuild[index].Stats.Acceleration;*/                //<-once correct character presets are implemented, uncomment this value assignation
+            acl = 150f;                                                             //<-and delete this one, but leave the formula below intact
+            Rigidbody.mass = 0.5f - (acl - 100f) * 0.001f;      
             /*I was asked by antigasp to use 0.45 (corresponding to ACL 150) as a placeholder because most testers are used to playing as Levi and it'd be
             easier for them to spot if something is wrong. Obviously this is going to have to be reworked once character-speficic stats are implemented,
             but for now it would probably make life easier for the testers.*/
