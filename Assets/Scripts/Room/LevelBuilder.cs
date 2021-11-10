@@ -474,6 +474,43 @@ namespace Assets.Scripts.Room
                     },
                 }
             });
+            _levels.Add(new Level
+            {
+                Name = "Standoff",
+                Description = "Multiple player challenge map",
+                SceneName = "Standoff_proper",
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new WaveGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new KillTitansSettings
+                    {
+                        GamemodeType = GamemodeType.Titans,
+                        Name = "Annie",
+                        Description = "Classic map where you fight the Female Titan",
+                        Titan = new SettingsTitan
+                        {
+                            Mindless = new MindlessTitanSettings
+                            {
+                                Disabled = new List<MindlessTitanType> {MindlessTitanType.Punk}
+                            }
+                        },
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    }
+                }
+            });
         }
     }
 }
