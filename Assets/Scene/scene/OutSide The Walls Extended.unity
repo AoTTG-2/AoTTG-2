@@ -38199,7 +38199,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 1101858064}
   m_IndirectSpecularColor: {r: 0.17413183, g: 0.21775186, b: 0.2999484, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!136 &2406
@@ -39230,7 +39230,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442487252092374, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_Name
-      value: Checkpoint 2 Set 9
+      value: Checkpoint 9 Set 2
       objectReference: {fileID: 0}
     - target: {fileID: 4502824244231980, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_RootOrder
@@ -40078,7 +40078,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442487252092374, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_Name
-      value: Checkpoint 2 Set 4
+      value: Checkpoint 4 Set 2
       objectReference: {fileID: 0}
     - target: {fileID: 4502824244231980, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_RootOrder
@@ -40727,7 +40727,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442487252092374, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_Name
-      value: Checkpoint 2 Set 8
+      value: Checkpoint 8 Set 2
       objectReference: {fileID: 0}
     - target: {fileID: 4502824244231980, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_RootOrder
@@ -42418,7 +42418,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442487252092374, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_Name
-      value: Checkpoint 2 Set 7
+      value: Checkpoint 7 Set 2
       objectReference: {fileID: 0}
     - target: {fileID: 4502824244231980, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_RootOrder
@@ -42622,7 +42622,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442487252092374, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_Name
-      value: Checkpoint 2 Set 3
+      value: Checkpoint 3 Set 2
       objectReference: {fileID: 0}
     - target: {fileID: 4502824244231980, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_RootOrder
@@ -42682,12 +42682,12 @@ PrefabInstance:
         type: 3}
       propertyPath: nextCheckpoints.Array.data[0]
       value: 
-      objectReference: {fileID: 1423109131}
+      objectReference: {fileID: 1439123130}
     - target: {fileID: 114168851362562138, guid: 3522603dcbc71ec4b8e071b9002d5349,
         type: 3}
       propertyPath: nextCheckpoints.Array.data[1]
       value: 
-      objectReference: {fileID: 197482216}
+      objectReference: {fileID: 807076746}
     - target: {fileID: 114168851362562138, guid: 3522603dcbc71ec4b8e071b9002d5349,
         type: 3}
       propertyPath: nextCheckpoints.Array.data[2]
@@ -42736,7 +42736,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442487252092374, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_Name
-      value: Checkpoint 2 Set 6
+      value: Checkpoint 6 Set 2
       objectReference: {fileID: 0}
     - target: {fileID: 4502824244231980, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_RootOrder
@@ -44190,17 +44190,17 @@ PrefabInstance:
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1409.4027
+      value: -8.7715435
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 443.46085
+      value: 1243.8701
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3624.4216
+      value: 2602.4053
       objectReference: {fileID: 0}
     - target: {fileID: 3180873141467643437, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
@@ -44214,6 +44214,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7496b60d927ab42ae88bede3e35b7c, type: 3}
+--- !u!108 &1101858064 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 10851780, guid: 3e7496b60d927ab42ae88bede3e35b7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1101858063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1104827530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44315,7 +44321,7 @@ GameObject:
   - component: {fileID: 1137391928}
   - component: {fileID: 1137391927}
   - component: {fileID: 1137391926}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Outside The Walls Extended
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45488,7 +45494,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442487252092374, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_Name
-      value: Checkpoint 2 Set 5
+      value: Checkpoint 5 Set 2
       objectReference: {fileID: 0}
     - target: {fileID: 4502824244231980, guid: 3522603dcbc71ec4b8e071b9002d5349, type: 3}
       propertyPath: m_RootOrder
@@ -45751,7 +45757,7 @@ PrefabInstance:
     - target: {fileID: 114168851362562138, guid: 3522603dcbc71ec4b8e071b9002d5349,
         type: 3}
       propertyPath: nextCheckpoints.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114168851362562138, guid: 3522603dcbc71ec4b8e071b9002d5349,
         type: 3}
