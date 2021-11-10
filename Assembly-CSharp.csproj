@@ -858,6 +858,10 @@
       <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
       <Name>AoTTG2.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="MeleeWeaponTrail.csproj">
+      <Project>{A4F8BB4D-5B91-E7A6-F7B6-E22B79D89FFB}</Project>
+      <Name>MeleeWeaponTrail</Name>
+    </ProjectReference>
     <ProjectReference Include="Discord.csproj">
       <Project>{90FA130A-5122-1C0F-FD74-9A363D15E5C2}</Project>
       <Name>Discord</Name>
@@ -873,10 +877,6 @@
     <ProjectReference Include="LeanTween.csproj">
       <Project>{06448DDC-AB3D-AD12-CCC0-90254E61AF5E}</Project>
       <Name>LeanTween</Name>
-    </ProjectReference>
-    <ProjectReference Include="MeleeWeaponTrail.csproj">
-      <Project>{A4F8BB4D-5B91-E7A6-F7B6-E22B79D89FFB}</Project>
-      <Name>MeleeWeaponTrail</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

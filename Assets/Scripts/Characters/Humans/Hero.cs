@@ -1446,6 +1446,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         Skill.OnFixedUpdate();
                     }
+                    Skill.OnAlwaysUpdate();
 
                     if (hookSomeOne)
                     {
@@ -2477,7 +2478,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void ChangeBlade()
+        public void ChangeBlade()
         {
             if ((!useGun || grounded) || GameSettings.PvP.AhssAirReload.Value)
             {
