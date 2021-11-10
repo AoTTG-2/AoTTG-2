@@ -31,9 +31,36 @@ namespace Assets.Scripts.UI.Menu
 
         private Volume postProcess;
         private UCamera blenderCam;
+        private bool anyFormatSupported = false;
+        private RenderTextureFormat supportedFormat;
+
+        private void checkSupportedRenderFormat()
+        {
+            RenderTextureFormat[] possible_formats = new RenderTextureFormat[]
+            {
+                RenderTextureFormat.Default, RenderTextureFormat.ARGB32, RenderTextureFormat.BGR101010_XR,
+                RenderTextureFormat.DefaultHDR,  RenderTextureFormat.RGB111110Float, RenderTextureFormat.RGB565,
+                RenderTextureFormat.ARGBHalf,  RenderTextureFormat.ARGB2101010, RenderTextureFormat.ARGB4444,
+                RenderTextureFormat.ARGB1555, RenderTextureFormat.ARGBInt, RenderTextureFormat.ARGBFloat,
+                RenderTextureFormat.ARGB64, RenderTextureFormat.BGRA10101010_XR, RenderTextureFormat.BGRA32,
+                RenderTextureFormat.RGBAUShort
+            };
+
+            foreach( var format in possible_formats)
+            {
+                if (SystemInfo.SupportsRenderTextureFormat(format))
+                {
+                    this.supportedFormat = format;
+                    anyFormatSupported = true;
+                    break;
+                }
+            }
+        }
 
         private void Awake()
         {
+            this.checkSupportedRenderFormat();
+
             if (isFirstLaunch)
             {
                 LeanTween.delayedCall(initialDelay, () =>
@@ -78,26 +105,19 @@ namespace Assets.Scripts.UI.Menu
 
         private void recalculateSceneRenderer()
         {
-            try
+            if (anyFormatSupported)
             {
-                if (this.sceneRender == null)
-                {
-                    this.sceneRender = new RenderTexture(Screen.width, Screen.height, 24);
-                }
-                else
-                {
-                    this.sceneRender.Release();
-                    this.sceneRender.width = Screen.width;
-                    this.sceneRender.height = Screen.height;
-                }
+                this.sceneRender.Release();
+                this.sceneRender.width = Screen.width;
+                this.sceneRender.height = Screen.height;
+                this.sceneRender.format = supportedFormat;
                 this.sceneRender.Create();
+
+                blenderCam.targetTexture = this.sceneRender;
+                renderTarget.texture = this.sceneRender;
+
+                this.recalculatePostRenderEffects();
             }
-            catch { }
-
-            blenderCam.targetTexture = this.sceneRender;
-            renderTarget.texture = this.sceneRender;
-
-            this.recalculatePostRenderEffects();
         }
 
         private void setCameraResolution()
