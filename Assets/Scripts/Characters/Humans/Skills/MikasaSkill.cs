@@ -27,12 +27,15 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override void OnFixedUpdate()
         {
-            /*if ((Hero.hookLeft || Hero.hookRight))
+
+            // Used to determine if the hero state changes at any time during the skill. If so then the skill is no longer active
+            if (IsActive == true && Hero._state != HumanState.Attack)
             {
                 IsActive = false;
-            }*/
+            }
 
             if (!Hero.grounded) return;
+
             if (Hero._state == HumanState.Attack && Hero.attackAnimation == HeroAnim.ATTACK3_1 &&
                 Hero.Animation[Hero.attackAnimation].normalizedTime >= 1f)
             {

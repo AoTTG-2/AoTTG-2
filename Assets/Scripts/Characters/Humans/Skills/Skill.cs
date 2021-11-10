@@ -23,7 +23,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         /// <summary>
         /// Returns true if the Skill is currently used
         /// </summary>
-        public bool IsActive { get;  set; }
+        public bool IsActive { get; protected set; }
         /// <summary>
         /// Logic when the skill is used
         /// </summary>

@@ -214,8 +214,6 @@ namespace Assets.Scripts.Characters.Humans
         private const int BurstCDmin = 1;
         private const int BurstCDmax = 300;
 
-        // Used to check if a hook has been shot from the player
-        public bool hooksPresent = false;
         public bool IsGrabbed => state == HumanState.Grab;
         public bool IsInvincible => (invincible > 0f);
 
@@ -2672,12 +2670,6 @@ namespace Assets.Scripts.Characters.Humans
                 FalseAttack();
                 Rigidbody.AddForce((dashV * 40f), ForceMode.VelocityChange);
                 burstCD.Start();
-
-                // Disrupts the skill so that it doesnt continue being used in the OnFixedUpdate of that particular Skill (ie. Mikasa skill being disrupted
-                if (Skill.IsActive)
-                {
-                    Skill.IsActive = false;
-                }
             }
         }
 
@@ -3193,10 +3185,7 @@ namespace Assets.Scripts.Characters.Humans
             if (currentGas != 0f)
             {
                 UseGas(0f);
-                hookLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
-                
-                //there is a hook in use
-                hooksPresent = true;
+                hookLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();              
 
                 GameObject obj2 = !useGun ? hookRefL1 : hookRefL2;
                 string str = !useGun ? "hookRefL1" : "hookRefL2";
@@ -3222,9 +3211,6 @@ namespace Assets.Scripts.Characters.Humans
             {
                 UseGas(0f);
                 hookRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
-
-                //there is a hook in use
-                hooksPresent = true;
 
                 GameObject obj2 = !useGun ? hookRefR1 : hookRefR2;
                 string str = !useGun ? "hookRefR1" : "hookRefR2";
