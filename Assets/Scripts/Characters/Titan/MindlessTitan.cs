@@ -300,9 +300,6 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public Transform lookatTarget;
-
-
         private void calculateHeadRotation()
         {
             var     relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
@@ -319,13 +316,6 @@ namespace Assets.Scripts.Characters.Titan
                  Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
                  Body.Head.rotation.eulerAngles.z
                  );
-
-#if DEBUG
-            //Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
-            //Debug.Log( "relative_horizontal_angle = " + relative_horizontal_angle +
-            //           " vertical_angle = " + vertical_angle
-            //          );
-#endif
         }
 
         private void HeadMovement()
