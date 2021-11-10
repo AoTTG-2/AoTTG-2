@@ -78,7 +78,24 @@ namespace Assets.Scripts.UI.Menu
         {
             if (this.sceneRender == null)
             {
-                this.sceneRender = new RenderTexture(Screen.width, Screen.height, 24);
+                var possible_format = new RenderTextureFormat[]
+                {
+                    RenderTextureFormat.RGB565,RenderTextureFormat.BGRA32,  RenderTextureFormat.BGR101010_XR, RenderTextureFormat.ARGB32,
+                    RenderTextureFormat.RGBAUShort, RenderTextureFormat.DefaultHDR, RenderTextureFormat.RGB111110Float,  RenderTextureFormat.Default
+                };
+
+                RenderTextureFormat format = RenderTextureFormat.Default;
+
+                foreach(var _format in possible_format)
+                {
+                    if (SystemInfo.SupportsRenderTextureFormat(_format))
+                    {
+                        format = _format;
+                        break;
+                    }
+                }
+
+                this.sceneRender = new RenderTexture(Screen.width, Screen.height, 24, format);
             }
             else
             {
