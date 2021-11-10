@@ -553,9 +553,9 @@ namespace Assets.Scripts
                 }
             }
 
-            if (!SpectatorMode.IsDisable())
+            if (SpectatorMode.IsEnable())
             {
-                SpectatorMode.EnterSpecMode(true);
+                SpectatorMode.UpdateSpecMode();
             }
         }
 
@@ -1507,7 +1507,6 @@ namespace Assets.Scripts
             objArray[0xf2] = PlayerPrefs.GetString("hjump", "Q");
             objArray[0xf3] = PlayerPrefs.GetString("hmount", "LeftControl");
             objArray[0xf4] = PlayerPrefs.GetInt("chatfeed", 0);
-            objArray[0xf5] = null; // Is no longer in the code
             SpectatorMode.Initialize();
             objArray[0xf6] = PlayerPrefs.GetFloat("bombR", 1f);
             objArray[0xf7] = PlayerPrefs.GetFloat("bombG", 1f);

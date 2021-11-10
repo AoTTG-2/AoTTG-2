@@ -263,9 +263,8 @@ public static class ChatCommandHandler
     private static void ToggleSpecMode()
     {
         SpectatorMode.Toggle();
-        bool specMode = !SpectatorMode.IsDisable();
-        SpectatorMode.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        SpectatorMode.UpdateSpecMode();
+        string message = SpectatorMode.IsEnable() ? "You have entered spectator mode." : "You have exited spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
     }
 
