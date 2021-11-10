@@ -321,10 +321,10 @@ namespace Assets.Scripts.Characters.Titan
                  );
 
 #if DEBUG
-            Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
-            Debug.Log( "relative_horizontal_angle = " + relative_horizontal_angle +
-                       " vertical_angle = " + vertical_angle
-                      );
+            //Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
+            //Debug.Log( "relative_horizontal_angle = " + relative_horizontal_angle +
+            //           " vertical_angle = " + vertical_angle
+            //          );
 #endif
         }
 
