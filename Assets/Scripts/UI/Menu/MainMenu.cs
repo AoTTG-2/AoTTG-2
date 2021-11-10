@@ -38,8 +38,8 @@ namespace Assets.Scripts.UI.Menu
                 {
                     LeanTween.move(rightPanel, rightPanelEndPosition, panelEnterAnimationTime);
                     LeanTween.move(accountPanel, accountPanelEndPosition, panelEnterAnimationTime);
-                    rightPanel.GetComponent<AudioSource>().Play();
-                    isFirstLaunch = false;
+                    this.rightPanel.GetComponent<AudioSource>().Play();
+                    MainMenu.isFirstLaunch = false;
                 });
             }
         }
