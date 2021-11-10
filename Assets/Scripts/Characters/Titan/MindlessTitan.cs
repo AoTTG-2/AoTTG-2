@@ -28,7 +28,6 @@ namespace Assets.Scripts.Characters.Titan
 
         public TitanState PreviousState;
         public TitanState NextState;
-        public TitanState CurrentState;
         public MindlessTitanType MindlessType;
 
         private float turnDeg;
@@ -291,135 +290,87 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        private void OnDrawGizmos()
-        {
-            if (Target != null)
-            {
-                //Gizmos.color = Color.red;
-                //Gizmos.DrawLine(Body.Head.transform.position, Target.transform.position, Color.yellow);
-                //Gizmos.DrawRay(Body.Head.transform.position, Vector3.forward);
-            }
-        }
-
         public Vector3 headVectorOffset;    //Needed as the vector originates at the parent bone, which is in the neck, while the vector needs to originate approximately from eye position
         public Quaternion headRotationTemp;
         public Transform lookatTarget;
 
+        /*
+        private void HeadMovement()
+        {
+            Transform headTransform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck/head");
+            Transform neckTransform = base.transform.Find("Amarture/Controller_Body/hip/spine/chest/neck");
+
+            var gunTarget = this.Target.transform.position;
+            Vector3 vector5 = gunTarget - base.transform.position;
+            vector5.y = 0;
+            float x = vector5.magnitude;
+            float current = -Mathf.Atan2(vector5.z, vector5.x) * 57.29578f;
+            float _yRotationAdd = Mathf.Clamp(-Mathf.DeltaAngle(current, base.transform.rotation.eulerAngles.y - 90f), -40f, 40f);
+            float _xRotationAdd = Mathf.Clamp(Mathf.Atan2(neckTransform.position.y - gunTarget.y, x) * 57.29578f, -40f, 30f);
+            Quaternion targetHeadRotation = Quaternion.Euler(headTransform.rotation.eulerAngles.x + _xRotationAdd, headTransform.rotation.eulerAngles.y + _yRotationAdd, headTransform.rotation.eulerAngles.z);
+            this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, targetHeadRotation, Time.deltaTime * 60f);
+            headTransform.rotation = this.oldHeadRotation;
+        }
+        */
+
+
+        private void calculateHeadRotation()
+        {
+            var relative_position = Target.transform.position - transform.position;
+            var global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;
+            float relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
+            relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -40f, 40f);
+            float relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+            float vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;
+            vertical_angle = Mathf.Clamp(vertical_angle, -40f, 30f);
+            this.targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + vertical_angle,
+                Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
+                Body.Head.rotation.eulerAngles.z);
+
+#if DEBUG
+            Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
+            //Debug.DrawRay((Body.Head.transform.position + headVectorOffset), vectorToTarget);
+            Debug.Log(
+                       " relative_horizontal_angle = " + relative_horizontal_angle +
+                       " vertical_angle = " + vertical_angle
+                       );
+#endif
+        }
+
+        
         private void HeadMovement()
         {
             if (State != TitanState.Dead)
             {
+                float interpolation_velocity = 10f;
+                this.targetHeadRotation = Body.Head.rotation;
+
                 if (base.photonView.isMine)
                 {
                     if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
-                    targetHeadRotation = Body.Head.rotation;
-                    bool flag2 = false;
-                    if (TargetDistance < 100f && Target != null)
+                    bool haveToUpdateHead = TargetDistance < 100f && Target;
+                    if (haveToUpdateHead)
+                        this.calculateHeadRotation();
+
+                    //whenever the two are different it update the target for clients
+                    if (haveToUpdateHead ^ this.asClientLookTarget)
                     {
-                        var vectorToTarget = Target.transform.position - (Body.Head.transform.position + headVectorOffset);                            //Creates a vector leading to the target from the transform.position (which, is at the feet ironically)
-                        var horizontalTargetAngle = Mathf.Atan2(vectorToTarget.z, vectorToTarget.y) * Mathf.Rad2Deg;   //Finds horizontal angle to the target, and angle of 90 means it is directly infront
-                        var verticalTargetAngle = Mathf.Atan2(vectorToTarget.x, vectorToTarget.y) * Mathf.Rad2Deg;                   //Finds vertical angle to the target. An angle of 0 means pretty much on the floor 
-
-                        float shortestRotAngle = -Mathf.DeltaAngle(horizontalTargetAngle, base.transform.rotation.eulerAngles.y - 90f);//Finding the shortest angle between target and head angle (Figuring out if to rotate left or right)
-                        shortestRotAngle = Mathf.Clamp(shortestRotAngle, -40f, 40f);                                              //Clamping between +/- 40 degrees
-
-
-
-                        /* targetHeadRotation = Quaternion.Euler(                                  //Sets the head rotation to the following values
-                             Body.Head.rotation.eulerAngles.x + verticalTargetAngle,             //Up and down rotation
-                             Body.Head.rotation.eulerAngles.y + shortestRotAngle,                //Left and right rotation
-                             Body.Head.rotation.eulerAngles.z);                                  //Don't touch this unless you want eldritch horrors*/
-
-                        /*targetHeadRotation = Quaternion.Euler(                                  //Sets the head rotation to the following values
-                            verticalTargetAngle,                                                //Up and down rotation
-                            shortestRotAngle,                                                   //Left and right rotation
-                            Body.Head.rotation.eulerAngles.z);                                  //Don't touch this unless you want eldritch horrors*/
-
-                        var horizontalTargetAngleClamped = Mathf.Clamp(horizontalTargetAngle, -57f, 57f);
-                        var verticalTargetAngleClamped = Mathf.Clamp(verticalTargetAngle, -35f, 27f);
-
-                        //Body.Head.transform.eulerAngles = new Vector3(horizontalTargetAngle, Body.Head.localEulerAngles.y, Body.Head.localEulerAngles.z);
-                        targetHeadRotation = headRotationTemp;
-
-
-                        //Vector3 lineToPlayer = (Body.Head.transform.position + headVectorOffset) - Target.transform.position;
-                        //Debug.DrawLine(Body.Head.transform.position + headVectorOffset,Target.transform.position);
-
-                        //Quaternion lookRotation = Quaternion.LookRotation(lineToPlayer);
-                        //Body.Head.rotation = lookRotation * Body.Head.rotation;
-
-                        //lookatTarget = Target.transform;
-                        //Body.Head.transform.LookAt(lookatTarget);
-                        Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
-                        Debug.DrawRay((Body.Head.transform.position + headVectorOffset), vectorToTarget);
-                        Debug.Log(
-                                   "vectorToTarget = " + vectorToTarget +
-                                   " horizontalTargetAngle = " + horizontalTargetAngle +
-                                   " verticalTargetAngle = " + verticalTargetAngle +
-                                   " horizontalTargetAngleClamped = " + horizontalTargetAngleClamped +
-                                   " verticalTargetAngleClamped = " + verticalTargetAngleClamped
-                                   );
-
-                        if (!this.asClientLookTarget)
-                        {
-                            this.asClientLookTarget = true;
-                            object[] parameters = new object[] { true };
-                            base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, parameters);
-                        }
-
-                        flag2 = true;
+                        this.asClientLookTarget = haveToUpdateHead;
+                        base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, this.asClientLookTarget);
                     }
 
-                    if (!(flag2 || !this.asClientLookTarget))
-                    {
-                        this.asClientLookTarget = false;
-                        object[] objArray3 = new object[] {false};
-                        base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, objArray3);
-                    }
-
-                    if (State == TitanState.Attacking)
-                    {
-                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 20f);
-                    }
-                    else
-                    {
-                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 10f);
-                    }
+                    if(State == TitanState.Attacking)
+                        interpolation_velocity = 20f;
                 }
                 else
                 {
-                    var hasTarget = Target != null;
-                    if (hasTarget)
-                    {
-                        TargetDistance = Mathf.Sqrt(
-                            ((Target.transform.position.x - transform.position.x) *
-                             (Target.transform.position.x - transform.position.x)) +
-                            ((Target.transform.position.z - transform.position.z) *
-                             (Target.transform.position.z - transform.position.z)));
-                    }
-                    else
-                    {
-                        TargetDistance = float.MaxValue;
-                    }
-
-                    this.targetHeadRotation = Body.Head.rotation;
-                    if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
-                    {
-                        var vector2 = Target.transform.position - transform.position;
-                        var angle = -Mathf.Atan2(vector2.z, vector2.x) * Mathf.Rad2Deg;
-                        float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
-                        num4 = Mathf.Clamp(num4, -40f, 40f);
-                        float num5 = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-                        float num6 = Mathf.Atan2(num5, TargetDistance) * Mathf.Rad2Deg;
-                        num6 = Mathf.Clamp(num6, -40f, 30f);
-                        this.targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num6,
-                            Body.Head.rotation.eulerAngles.y + num4, Body.Head.rotation.eulerAngles.z);
-                    }
-
-                    this.oldHeadRotation = Quaternion.Slerp(this.oldHeadRotation, this.targetHeadRotation,
-                        Time.deltaTime * 10f);
+                    TargetDistance = this.GetTargetDistance();
+                    if (this.asClientLookTarget && TargetDistance < 100f)
+                        this.calculateHeadRotation();
                 }
 
+                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, 
+                    Time.deltaTime * interpolation_velocity);
                 Body.Head.rotation = this.oldHeadRotation;
             }
             if (!base.GetComponent<Animation>().IsPlaying("die_headOff"))
@@ -427,7 +378,7 @@ namespace Assets.Scripts.Characters.Titan
                 Body.Head.localScale = this.headscale;
             }
         }
-
+        
         public void OnAnkleHit(int viewId, int damage) { }
 
         private float bodyPartDamageTimer;
@@ -728,7 +679,6 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            CurrentState = State;
 
             switch (State)
             {
@@ -737,25 +687,25 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 case TitanState.Idle:
                     OnIdle();
-                    HeadMovement();
+                    //HeadMovement();
                     break;
                 case TitanState.Dead:
                     break;
                 case TitanState.Wandering:
                     OnWandering();
-                    HeadMovement();
+                    //HeadMovement();
                     break;
                 case TitanState.Turning:
                     OnTurning();
-                    HeadMovement();
+                    //HeadMovement();
                     break;
                 case TitanState.Chase:
                     OnChasing();
-                    HeadMovement();
+                    //HeadMovement();
                     break;
                 case TitanState.Attacking:
                     OnAttacking();
-                    HeadMovement();
+                   // HeadMovement();
                     break;
                 case TitanState.Recovering:
                     OnRecovering();
@@ -785,10 +735,16 @@ namespace Assets.Scripts.Characters.Titan
 
         private void LateUpdate()
         {
-            if (Target == null && State == TitanState.Attacking)
+            if (Target)
+            {
+                this.HeadMovement();
+            }
+            else if (State == TitanState.Attacking)
             {
                 SetState(TitanState.Wandering);
             }
+
+            HeadMovement();
         }
 
 
