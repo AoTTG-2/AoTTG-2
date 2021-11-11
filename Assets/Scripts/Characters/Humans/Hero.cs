@@ -1446,7 +1446,6 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         Skill.OnFixedUpdate();
                     }
-                    Skill.OnAlwaysUpdate();
 
                     if (hookSomeOne)
                     {

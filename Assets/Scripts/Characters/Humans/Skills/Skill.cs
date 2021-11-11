@@ -37,11 +37,6 @@ namespace Assets.Scripts.Characters.Humans.Skills
         /// Determines what should happen to this skill on <see cref="Hero.FixedUpdate"/>
         /// </summary>
         public virtual void OnFixedUpdate() { }
-        /// <summary>
-        /// Determines what should happen to this skill on <see cref="Hero.FixedUpdate"/>
-        /// This function will update even if the skill is not active
-        /// </summary>
-        public virtual void OnAlwaysUpdate() { }
 
         //TODO
         // Skills seem to check on Hero State:

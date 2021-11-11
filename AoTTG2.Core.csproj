@@ -109,6 +109,7 @@
     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\LeviSkill.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Skills\ThrownBlade.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
     <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
     <Compile Include="Assets\Scripts\Settings\New\Setting.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="Assets\Scripts\UI\IUiElement.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Weapon.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\FacialComponent.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Skills\BladeThrowSkill.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\KillTitansSettings.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Equipment\Weapon\Ahss.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonPropRegion.cs" />
@@ -514,8 +516,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Skills\BladeThrowSkill.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Skills\BladeThrow.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

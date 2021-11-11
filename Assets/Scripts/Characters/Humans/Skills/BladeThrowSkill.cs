@@ -9,14 +9,11 @@ namespace Assets.Scripts.Characters.Humans.Skills
     {
         private const float CooldownLimit = 3.5f;
         private const float BladeSpeed = 150f;
-        private const float BladeRotationSpeed = 1000f; // In degrees
         private bool UsePhysics { get; set; }
 
         private Ray ray;
         private Vector3 velocity;
         private bool bladeThrown;
-        private List<GameObject> leftBlades = new List<GameObject>();
-        private List<GameObject> rightBlades = new List<GameObject>();
 
         public BladeThrowSkill(Hero hero) : base(hero)
         {
@@ -66,38 +63,6 @@ namespace Assets.Scripts.Characters.Humans.Skills
             UsePhysics = false;
         }
 
-        public override void OnAlwaysUpdate()
-        {
-            ThrownBladesUpdate();
-        }
-
-        private void ThrownBladesUpdate()
-        {
-            List<GameObject> removing = new List<GameObject>();
-            for (int i = 0; i < leftBlades.Count; i++)
-            {
-                leftBlades[i].GetComponent<Rigidbody>().transform.position += velocity * Time.deltaTime;
-                rightBlades[i].GetComponent<Rigidbody>().transform.position += velocity * Time.deltaTime;
-                leftBlades[i].GetComponent<Rigidbody>().transform.Rotate(new Vector3(0, 0, 1), BladeRotationSpeed * Time.deltaTime);
-                rightBlades[i].GetComponent<Rigidbody>().transform.Rotate(new Vector3(0, 0, 1), BladeRotationSpeed * Time.deltaTime);
-                if (BladeHit(leftBlades[i]) || BladeHit(rightBlades[i]))
-                {
-                    removing.Add(leftBlades[i]);
-                    removing.Add(rightBlades[i]);
-                }
-            }
-            for (int i = 0; i < removing.Count; i++)
-            {
-                leftBlades.Remove(removing[i]);
-                leftBlades.Remove(removing[i]);
-            }
-        }
-
-        private bool BladeHit(GameObject blade)
-        {
-            return false;
-        }
-
         private void ThrowBlade()
         {
             if (!Hero.Equipment.Weapon.WeaponLeft.GetActive() && !Hero.Equipment.Weapon.WeaponLeft.GetActive()) return;
@@ -105,8 +70,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
             Hero.Equipment.Weapon.WeaponLeft.SetActive(false);
             Hero.Equipment.Weapon.WeaponRight.SetActive(false);
             Hero.currentBladeSta = 0f;
-            //Hero.Equipment.Weapon.AmountLeft--;
-            //Hero.Equipment.Weapon.AmountRight--;
+            Hero.Equipment.Weapon.AmountLeft--;
+            Hero.Equipment.Weapon.AmountRight--;
 
             RaycastHit hit;
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
@@ -120,12 +85,17 @@ namespace Assets.Scripts.Characters.Humans.Skills
             }
             Transform leftTransform = Hero.Equipment.Weapon.WeaponLeft.transform;
             Transform rightTransform = Hero.Equipment.Weapon.WeaponRight.transform;
-            GameObject leftBlade = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), leftTransform.position, leftTransform.rotation);
-            GameObject rightBlade = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), rightTransform.position, rightTransform.rotation);
-            leftBlade.GetComponent<Rigidbody>().isKinematic = true;
-            rightBlade.GetComponent<Rigidbody>().isKinematic = true;
-            leftBlades.Add(leftBlade);
-            rightBlades.Add(rightBlade);
+            GameObject leftBlade = PhotonNetwork.Instantiate("fx/thrownBladeL", leftTransform.position, leftTransform.rotation, 0);
+            GameObject rightBlade = PhotonNetwork.Instantiate("fx/thrownBladeR", rightTransform.position, rightTransform.rotation, 0);
+            if (PhotonNetwork.connected && Hero.photonView.isMine)
+            {
+                object[] objArray7 = new object[] { Hero.photonView.viewID, leftBlade.transform.position, velocity, Hero.myTeam };
+                leftBlade.GetPhotonView().RPC(nameof(ThrownBlade.InitRPC), PhotonTargets.Others, objArray7);
+                objArray7 = new object[] { Hero.photonView.viewID, rightBlade.transform.position, velocity, Hero.myTeam };
+                rightBlade.GetPhotonView().RPC(nameof(ThrownBlade.InitRPC), PhotonTargets.Others, objArray7);
+            }
+            leftBlade.GetComponent<ThrownBlade>().SetVelocity(velocity);
+            rightBlade.GetComponent<ThrownBlade>().SetVelocity(velocity);
         }
 
     }
