@@ -2133,7 +2133,6 @@ namespace Assets.Scripts.Characters.Humans
 
         private void SetAnimationSpeed(string animationName, float animationSpeed = 1f)
         {
-            //Debug.Log($"Calling SetSpeed: {animationName}");
             Animation[animationName].speed = animationSpeed;
             if (!photonView.isMine) return;
 

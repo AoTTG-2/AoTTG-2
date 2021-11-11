@@ -29,7 +29,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
         {
 
             // Used to determine if the hero state changes at any time during the skill. If so then the skill is no longer active
-            if (IsActive == true && Hero._state != HumanState.Attack)
+            if (IsActive && Hero._state != HumanState.Attack)
             {
                 IsActive = false;
             }
