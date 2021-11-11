@@ -94,8 +94,10 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 objArray7 = new object[] { Hero.photonView.viewID, rightBlade.transform.position, velocity, Hero.myTeam };
                 rightBlade.GetPhotonView().RPC(nameof(ThrownBlade.InitRPC), PhotonTargets.Others, objArray7);
             }
-            leftBlade.GetComponent<ThrownBlade>().SetVelocity(velocity);
-            rightBlade.GetComponent<ThrownBlade>().SetVelocity(velocity);
+            float scoreMulti = Hero.totalBladeSta / 100f * 0.4f + 0.1f;
+            float bodyVel = Hero.GetComponent<Rigidbody>().velocity.magnitude;
+            leftBlade.GetComponent<ThrownBlade>().Initialize(Hero, scoreMulti, bodyVel, velocity);
+            rightBlade.GetComponent<ThrownBlade>().Initialize(Hero, scoreMulti, bodyVel, velocity);
         }
 
     }
