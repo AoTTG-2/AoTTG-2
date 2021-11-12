@@ -1,17 +1,16 @@
 ﻿using Assets.Scripts.Services;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UCamera = UnityEngine.Camera;
 
 namespace Assets.Scripts.UI.Menu
 {
     /// <summary>
     /// UI Container class which is used to navigate to all the Main menu UI elements
     /// </summary>
-    public class MainMenu : UiNavigationElement
+    public partial class MainMenu : UiNavigationElement
     {
+
         private static bool isFirstLaunch = true;
 
         [SerializeField]
@@ -24,42 +23,13 @@ namespace Assets.Scripts.UI.Menu
         private float initialDelay,panelEnterAnimationTime;
 
         [SerializeField]
-        private UnityEngine.UI.RawImage renderTarget;
-
-        [SerializeField]
         private RenderTexture sceneRender;
 
-        private Volume postProcess;
-        private UCamera blenderCam;
-        private bool anyFormatSupported = false;
-        private RenderTextureFormat supportedFormat;
-
-        private void checkSupportedRenderFormat()
-        {
-            RenderTextureFormat[] possible_formats = new RenderTextureFormat[]
-            {
-                RenderTextureFormat.Default, RenderTextureFormat.ARGB32, RenderTextureFormat.BGR101010_XR,
-                RenderTextureFormat.DefaultHDR,  RenderTextureFormat.RGB111110Float, RenderTextureFormat.RGB565,
-                RenderTextureFormat.ARGBHalf,  RenderTextureFormat.ARGB2101010, RenderTextureFormat.ARGB4444,
-                RenderTextureFormat.ARGB1555, RenderTextureFormat.ARGBInt, RenderTextureFormat.ARGBFloat,
-                RenderTextureFormat.ARGB64, RenderTextureFormat.BGRA10101010_XR, RenderTextureFormat.BGRA32,
-                RenderTextureFormat.RGBAUShort
-            };
-
-            foreach( var format in possible_formats)
-            {
-                if (SystemInfo.SupportsRenderTextureFormat(format))
-                {
-                    this.supportedFormat = format;
-                    anyFormatSupported = true;
-                    break;
-                }
-            }
-        }
+        private QualityAdaptator adaptator;
 
         private void Awake()
         {
-            this.checkSupportedRenderFormat();
+            this.adaptator = new QualityAdaptator(this.sceneRender);
 
             if (isFirstLaunch)
             {
@@ -90,56 +60,19 @@ namespace Assets.Scripts.UI.Menu
                     (a) => a.name.Equals("Main Menu"))?.Play("Base Layer.Idle", 0, 0f);
             }
 
-            this.blenderCam = GameObject.Find("Camera").GetComponent<UCamera>();
-            this.postProcess = GameObject.FindObjectOfType<Volume>();
-            this.setCameraResolution();
+            this.adaptator.findComponentReferences();
+            this.adaptator.setCameraResolution();
+            this.adaptator.useCamera(true);
         }
 
-        private void recalculatePostRenderEffects()
+        private void OnDisable()
         {
-            if(this.postProcess.profile.TryGet<DepthOfField>(out var depthEffect))
-            {
-                depthEffect.focalLength.value = 75+Mathf.Log(Screen.height / 1080f, 2)*20;
-            }
-        }
-
-        private void recalculateSceneRenderer()
-        {
-            if (anyFormatSupported)
-            {
-                this.sceneRender.Release();
-                this.sceneRender.width = Screen.width;
-                this.sceneRender.height = Screen.height;
-                this.sceneRender.format = supportedFormat;
-                this.sceneRender.Create();
-
-                blenderCam.targetTexture = this.sceneRender;
-                renderTarget.texture = this.sceneRender;
-
-                this.recalculatePostRenderEffects();
-            }
-        }
-
-        private void setCameraResolution()
-        {
-            this.recalculateSceneRenderer();
-            var aspectRatio = (float)sceneRender.width / sceneRender.height;
-            blenderCam.aspect = aspectRatio;
-            
-            //super ultra wide monitor ratio goes up to ~3.5 (32/9)
-            //and the default considered is the ~1.7 (16/9) standard
-            float capped_normalized_ratio = (Mathf.Max(Mathf.Min(aspectRatio, 3.5f), 1.5f)-1.5f)/2f;
-            blenderCam.focalLength = Mathf.Lerp(90, 40, capped_normalized_ratio);
-
-#if UNITY_EDITOR
-            Debug.Log("RESETTING RENDER TO " + this.sceneRender.width + "x" + this.sceneRender.height);
-#endif
+            this.adaptator.useCamera(true);
         }
 
         private void Update()
         {
-            if (sceneRender.width != Screen.width || sceneRender.height != Screen.height)
-                setCameraResolution();
+            this.adaptator.checkResolution();
         }
 
         public void Singleplayer()
