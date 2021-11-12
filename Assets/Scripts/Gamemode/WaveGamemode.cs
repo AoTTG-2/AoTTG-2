@@ -80,14 +80,11 @@ namespace Assets.Scripts.Gamemode
             {
                 if (Wave % Settings.BossWave.Value == 0)
                 {
-                    for (var i = 0; i < Wave / Settings.BossWave.Value; i++)
-                    {
-                        SpawnService.Spawn<MindlessTitan>(GetWaveTitanConfiguration(Settings.BossType.Value));
-                    }
+                    StartCoroutine(SpawnBossTitan(Wave / Settings.BossWave.Value));
                 }
                 else
                 {
-                    StartCoroutine(SpawnTitan(Setting.Gamemode.Titan.Start.Value + Wave * Settings.WaveIncrement.Value));
+                    StartCoroutine(SpawnTitan(Setting.Gamemode.Titan.Start.Value + (Wave - 1) * Settings.WaveIncrement.Value));
                 }
             }
         }
@@ -149,6 +146,18 @@ namespace Assets.Scripts.Gamemode
                 var randomSpawn = GetSpawnLocation();
                 SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
                     GetWaveTitanConfiguration());
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        private IEnumerator SpawnBossTitan(int titans)
+        {
+            for (var i = 0; i < titans; i++)
+            {
+                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
+                var randomSpawn = GetSpawnLocation();
+                SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
+                    GetWaveTitanConfiguration(Settings.BossType.Value));
                 yield return new WaitForEndOfFrame();
             }
         }
