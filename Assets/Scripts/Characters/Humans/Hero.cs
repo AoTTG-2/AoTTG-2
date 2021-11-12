@@ -378,17 +378,13 @@ namespace Assets.Scripts.Characters.Humans
             }
 
             //input for Reeling now in Update to make scroll reeling more consistent (default setup)
-            if (InputManager.KeyDown(InputHuman.ReelIn))
+            if (InputManager.Key(InputHuman.ReelIn))
             {
                 reelForce = -1f;
             }
-            else if (InputManager.KeyDown(InputHuman.ReelOut))
+            else if (InputManager.Key(InputHuman.ReelOut))
             {
                 reelForce = 1f;
-            }
-            else if (InputManager.KeyUp(InputHuman.ReelIn) || InputManager.KeyUp(InputHuman.ReelOut))
-            {
-                reelForce = 0f;
             }
             else if (Input.mouseScrollDelta.y != 0)
             {
@@ -1982,7 +1978,6 @@ namespace Assets.Scripts.Characters.Humans
                         vector14.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector14 * num14);
-
                     }
                     else if (canReelOffLeftHook)
                     {
@@ -2002,14 +1997,12 @@ namespace Assets.Scripts.Characters.Humans
                         vector16.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector16 * num17);
-
                     }
                     else if (canReelOffRightHook)
                     {
                         float num20 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector17 = hookRight.transform.position - transform.position;
-
                         if (reelForce < 0)
                         {
                             reelForce = Mathf.Clamp(reelForce, -0.8f, 0f);
