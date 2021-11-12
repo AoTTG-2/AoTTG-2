@@ -194,6 +194,8 @@ namespace Assets.Scripts.Characters.Humans
         public bool spinning;
 
         public float reelForce;
+        public float scrollWheelWait = 0f;
+        public float scrollWheelWaitValue = 0.05f;
 
         private string standAnimation { get; set; } = HeroAnim.STAND;
         private Quaternion targetHeadRotation { get; set; }
@@ -386,12 +388,25 @@ namespace Assets.Scripts.Characters.Humans
             {
                 reelForce = 1f;
             }
-            else if (Input.mouseScrollDelta.y != 0)
-            {
-                reelForce = Input.mouseScrollDelta.y;
-            } else
+            else if (InputManager.KeyUp(InputHuman.ReelIn) || InputManager.KeyUp(InputHuman.ReelOut))
             {
                 reelForce = 0f;
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                reelForce = Input.GetAxis("Mouse ScrollWheel") * 5555f;
+                scrollWheelWait = scrollWheelWaitValue;
+            } 
+            else
+            {
+                if (scrollWheelWait > 0)
+                {
+                    scrollWheelWait -= Time.deltaTime;
+                }
+                else
+                {
+                    reelForce = 0f;
+                }
             }
 
             if (Skill != null)
@@ -1964,15 +1979,8 @@ namespace Assets.Scripts.Characters.Humans
                         float num14 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector13 = (((hookRight.transform.position + hookLeft.transform.position) * 0.5f)) - transform.position;
+                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
 
-                        if (reelForce < 0)
-                        {
-                            reelForce = Mathf.Clamp(reelForce, -0.8f, 0f);
-                        }
-                        else if (reelForce > 0)
-                        {
-                            reelForce = Mathf.Clamp(reelForce, 0f, 0.8f);
-                        }
                         float num16 = 1f + reelForce;
                         Vector3 vector14 = Vector3.RotateTowards(vector13, Rigidbody.velocity, 1.53938f * num16, 1.53938f * num16);
                         vector14.Normalize();
@@ -1983,15 +1991,9 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         float num17 = currentSpeed + 0.1f;
                         AddRightForce();
-                        Vector3 vector15 = hookLeft.transform.position - transform.position;                        
-                        if (reelForce < 0)
-                        {
-                            reelForce = Mathf.Clamp(reelForce, -0.8f, 0f);
-                        } 
-                        else if (reelForce > 0)
-                        {
-                            reelForce = Mathf.Clamp(reelForce, 0f, 0.8f);
-                        }
+                        Vector3 vector15 = hookLeft.transform.position - transform.position;
+                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+
                         float num19 = 1f + reelForce;
                         Vector3 vector16 = Vector3.RotateTowards(vector15, Rigidbody.velocity, 1.53938f * num19, 1.53938f * num19);
                         vector16.Normalize();
@@ -2003,14 +2005,8 @@ namespace Assets.Scripts.Characters.Humans
                         float num20 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector17 = hookRight.transform.position - transform.position;
-                        if (reelForce < 0)
-                        {
-                            reelForce = Mathf.Clamp(reelForce, -0.8f, 0f);
-                        }
-                        else if (reelForce > 0)
-                        {
-                            reelForce = Mathf.Clamp(reelForce, 0f, 0.8f);
-                        }
+                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+
                         float num22 = 1f + reelForce;
                         Vector3 vector18 = Vector3.RotateTowards(vector17, Rigidbody.velocity, 1.53938f * num22, 1.53938f * num22);
                         vector18.Normalize();
