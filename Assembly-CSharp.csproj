@@ -52,9 +52,12 @@
      <Compile Include="Assets\PhotonChatApi\ChatUserStatus.cs" />
      <Compile Include="Assets\PhotonChatApi\ChatState.cs" />
      <Compile Include="Assets\PhotonChatApi\ChannelWellKnownProperties.cs" />
+     <Compile Include="Assets\AutoLOD\Scripts\Tools\AutoLODProperties.cs" />
      <Compile Include="Assets\Resources\Training Map Resources\Destructable Trees\Destructable Trees\Animation\PlayAnimation.cs" />
+     <Compile Include="Assets\AutoLOD\Scripts\Tools\MeshUtility.cs" />
      <Compile Include="Assets\PhotonChatApi\ChatClient.cs" />
      <Compile Include="Assets\Resources\Training Map Resources\Destructable Trees\Destructable Trees\Animation\DestroyParticles.cs" />
+     <Compile Include="Assets\AutoLOD\Scripts\Tools\MeshDecimatorUnityEngine.cs" />
      <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
      <Compile Include="Assets\PhotonChatApi\ChatEventCode.cs" />
      <Compile Include="Assets\PhotonChatApi\ChatOperationCode.cs" />
@@ -62,6 +65,7 @@
      <Compile Include="Assets\PhotonChatApi\ChannelCreationOptions.cs" />
      <Compile Include="Assets\Resources\Training Map Resources\Venetian Water System\Script\VenetianWaterSystem.cs" />
      <Compile Include="Assets\PhotonChatApi\ChatPeer.cs" />
+     <Compile Include="Assets\AutoLOD\Scripts\AutoLOD.cs" />
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
@@ -369,6 +373,9 @@
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Assets/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ </Reference>
+ <Reference Include="MeshDecimator">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Assets/AutoLOD/Plugins/MeshDecimator.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.2.7f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
