@@ -194,7 +194,6 @@ namespace Assets.Scripts.Characters.Humans
         public bool spinning;
 
         public float reelForce;
-        public float scrollWheelDisipation = 2f;
 
         private string standAnimation { get; set; } = HeroAnim.STAND;
         private Quaternion targetHeadRotation { get; set; }
@@ -348,7 +347,6 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
         }
-
         public void Update()
         {
             // Upon spawning, we cannot be damaged for 3s
@@ -380,17 +378,24 @@ namespace Assets.Scripts.Characters.Humans
             }
 
             //input for Reeling now in Update to make scroll reeling more consistent (default setup)
-            if (InputManager.Key(InputHuman.ReelIn))
+            if (InputManager.KeyDown(InputHuman.ReelIn))
             {
                 reelForce = -1f;
             }
-            else if (InputManager.Key(InputHuman.ReelOut))
+            else if (InputManager.KeyDown(InputHuman.ReelOut))
             {
                 reelForce = 1f;
             }
-            else if (Input.GetAxis("Mouse ScrollWheel") != 0)
+            else if (InputManager.KeyUp(InputHuman.ReelIn) || InputManager.KeyUp(InputHuman.ReelOut))
             {
-                reelForce += Input.GetAxis("Mouse ScrollWheel") * 5555f;
+                reelForce = 0f;
+            }
+            else if (Input.mouseScrollDelta.y != 0)
+            {
+                reelForce = Input.mouseScrollDelta.y;
+            } else
+            {
+                reelForce = 0f;
             }
 
             if (Skill != null)
@@ -887,7 +892,6 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else if (Animation[attackAnimation].normalizedTime >= 0.32f && Animation[attackAnimation].speed > 0f)
                             {
-                                Debug.Log("Trying to freeze");
                                 SetAnimationSpeed(attackAnimation, 0f);
                             }
                         }
@@ -1526,7 +1530,7 @@ namespace Assets.Scripts.Characters.Humans
                             x = 0f;
                         }
                     }
-
+                    
                     bool canUseGas = false;
                     bool canReelOffLeftHook = false;
                     bool canReelOffRightHook = false;
@@ -1959,57 +1963,66 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     spinning = false;
 
-                    //Used to keep input values for reeling to reduce the lack of consistency using default layouts and scrolling
-                    reelForce -= reelForce / scrollWheelDisipation;
-
                     if (canReelOffLeftHook && canReelOffRightHook)
                     {
                         float num14 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector13 = (((hookRight.transform.position + hookLeft.transform.position) * 0.5f)) - transform.position;
-                        
-                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+
+                        if (reelForce < 0)
+                        {
+                            reelForce = Mathf.Clamp(reelForce, -0.8f, 0f);
+                        }
+                        else if (reelForce > 0)
+                        {
+                            reelForce = Mathf.Clamp(reelForce, 0f, 0.8f);
+                        }
                         float num16 = 1f + reelForce;
                         Vector3 vector14 = Vector3.RotateTowards(vector13, Rigidbody.velocity, 1.53938f * num16, 1.53938f * num16);
                         vector14.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector14 * num14);
-                        
-                        //Resets Force once reeled to keep from over-reeling
-                        reelForce = 0f;
 
                     }
                     else if (canReelOffLeftHook)
                     {
                         float num17 = currentSpeed + 0.1f;
                         AddRightForce();
-                        Vector3 vector15 = hookLeft.transform.position - transform.position;
-                        
-                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+                        Vector3 vector15 = hookLeft.transform.position - transform.position;                        
+                        if (reelForce < 0)
+                        {
+                            reelForce = Mathf.Clamp(reelForce, -0.8f, 0f);
+                        } 
+                        else if (reelForce > 0)
+                        {
+                            reelForce = Mathf.Clamp(reelForce, 0f, 0.8f);
+                        }
                         float num19 = 1f + reelForce;
                         Vector3 vector16 = Vector3.RotateTowards(vector15, Rigidbody.velocity, 1.53938f * num19, 1.53938f * num19);
                         vector16.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector16 * num17);
 
-                        //Resets Force once reeled to keep from over-reeling
-                        reelForce = 0f;
                     }
                     else if (canReelOffRightHook)
                     {
                         float num20 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector17 = hookRight.transform.position - transform.position;
-                        
-                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+
+                        if (reelForce < 0)
+                        {
+                            reelForce = Mathf.Clamp(reelForce, -0.8f, 0f);
+                        }
+                        else if (reelForce > 0)
+                        {
+                            reelForce = Mathf.Clamp(reelForce, 0f, 0.8f);
+                        }
                         float num22 = 1f + reelForce;
                         Vector3 vector18 = Vector3.RotateTowards(vector17, Rigidbody.velocity, 1.53938f * num22, 1.53938f * num22);
                         vector18.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector18 * num20);
-
-                        //Resets Force once reeled to keep from over-reeling
-                        reelForce = 0f;
 
                     }
                     bool flag7 = false;
@@ -2137,7 +2150,6 @@ namespace Assets.Scripts.Characters.Humans
 
         private void SetAnimationSpeed(string animationName, float animationSpeed = 1f)
         {
-            Debug.Log($"Calling SetSpeed: {animationName}");
             Animation[animationName].speed = animationSpeed;
             if (!photonView.isMine) return;
 
