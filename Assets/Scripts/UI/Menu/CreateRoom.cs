@@ -120,6 +120,7 @@ namespace Assets.Scripts.UI.Menu
                 IsVisible = true,
                 IsOpen = true,
                 MaxPlayers = 10,
+                PlayerTtl = 120000,
                 CustomRoomProperties = new Hashtable
                 {
                     { "name", roomName },
@@ -147,6 +148,8 @@ namespace Assets.Scripts.UI.Menu
                 lobbyOptions.Add("account");
                 roomOptions.CustomRoomPropertiesForLobby = lobbyOptions.ToArray();
             }
+
+            
 
             PhotonNetwork.PhotonServerSettings.JoinLobby = true;
             PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);
