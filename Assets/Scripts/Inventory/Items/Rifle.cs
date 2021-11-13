@@ -14,12 +14,17 @@ namespace Assets.Scripts.Inventory.Items
         {
             if (equipped)
             {
-
+                Debug.Log("Unequipped Rifle");
+                equipped = false;
+                return;
             }
 
             if(thisWeapon == null) thisWeapon = new Characters.Humans.Equipment.Weapon.Rifle();
             var equipment = hero.EquipmentType;
             hero.Equipment.ChangeWeapon(equipment, thisWeapon);
+            Debug.Log("Equipped Rifle");
+
+            equipped = true;
             //TO DO: have the rifle become equipped on hero and set their limiations while it is equipped
         }
 

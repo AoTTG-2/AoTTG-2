@@ -12,9 +12,9 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         {
 
             //USING BLADE ANIMATIONS FOR TESTING, CANNOT USE 3DMG WHILE USING THIS ITEM
-            HookForwardLeft = "air_hook_l";
-            HookForwardRight = "air_hook_r";
-            HookForward = "air_hook";
+            HookForwardLeft = "";
+            HookForwardRight = "";
+            HookForward = "";
 
             currentBullets = MaxAmmo;
 

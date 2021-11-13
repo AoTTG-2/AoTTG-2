@@ -1,5 +1,6 @@
 using UnityEngine;
 using Assets.Scripts.UI.Radial;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Inventory
 {
@@ -12,7 +13,7 @@ namespace Assets.Scripts.Inventory
     {
         public string itemName;
         public string itemDesc;
-        public UnityEngine.Sprite itemImage;
+        public Image itemImage;
         public RadialMenu itemMenu;
         public Items.Item thisItem;
         [HideInInspector] public RadialElement thisElement;

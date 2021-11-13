@@ -59,6 +59,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment
 
                 case EquipmentType.Rifle:
                     Weapon = weaponTo;
+                    Hero.SetIdleAnim(Constants.HeroAnim.RIFLE_IDLE);
                     break;
 
                 default:

@@ -17,7 +17,6 @@ namespace Assets.Scripts.Inventory.Items
 
         public override void Use(Hero hero)
         {
-
             if (heroLight == null)
             {
 
@@ -27,13 +26,10 @@ namespace Assets.Scripts.Inventory.Items
             }
 
             photonView.RPC(nameof(lightBehaviour.ToggleLight), PhotonTargets.All);
-
-
         }
 
         void SetUpLight(Hero hero)
         {
-
             mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
             heroLight = PhotonNetwork.Instantiate($"Inventory/{nameof(lanternLight)}", hero.transform.position, mainCamera.transform.rotation, 0);
 
@@ -44,7 +40,6 @@ namespace Assets.Scripts.Inventory.Items
             lightBehaviour = heroLight.GetComponent<LanternLightBehaviour>();
 
             photonView.RPC(nameof(lightBehaviour.ToggleLight), PhotonTargets.All);
-
         }
 
         public Lantern(LanternData data) : base(data)

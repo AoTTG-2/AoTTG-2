@@ -77,5 +77,9 @@ namespace Assets.Scripts.Characters.Humans.Constants
         public const string SLIDE = "slide";
         public const string TO_ROOF = "toRoof";
         public const string WALL_RUN = "wallrun";
+
+        public const string RIFLE_IDLE = "rifle_idle";
+        public const string RIFLE_RUN = "rifle_run";
+        public const string RIFLE_ATTACK = "rifle_attack";
     }
 }

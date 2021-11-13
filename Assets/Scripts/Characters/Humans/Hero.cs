@@ -21,11 +21,8 @@ using System.Linq;
 using Toorah.ScriptableVariables;
 using UnityEngine;
 using UnityEngine.UI;
-<<<<<<< HEAD
 using Assets.Scripts.Inventory;
-=======
 using PhotonHash = ExitGames.Client.Photon.Hashtable;
->>>>>>> development
 
 namespace Assets.Scripts.Characters.Humans
 {
@@ -239,6 +236,11 @@ namespace Assets.Scripts.Characters.Humans
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
         [SerializeField] StringVariable bombMainPath;
+
+        public void SetIdleAnim(string anim)
+        {
+            standAnimation = anim;
+        }
 
         #region Unity Methods
 
@@ -553,312 +555,321 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     if ((!isMounted && (InputManager.KeyDown(InputHuman.Attack) || InputManager.KeyDown(InputHuman.AttackSpecial))) && !useGun)
                     {
-                        bool flag3 = false;
-                        if (InputManager.KeyDown(InputHuman.AttackSpecial))
+
+                        switch (EquipmentType)
                         {
-                            if ((skillCDDuration > 0f) || flag3)
-                            {
-                                flag3 = true;
-                            }
-                            else
-                            {
-                                skillCDDuration = skillCDLast;
-                                //TODO: Eren Skill
-                                if (Skill is ErenSkill)
+                            case EquipmentType.Blades:
+                                bool flag3 = false;
+                                if (InputManager.KeyDown(InputHuman.AttackSpecial))
                                 {
-                                    ErenTransform();
-                                    return;
-                                }
-                                //TODO: Marco Skill
-                                if (Skill is MarcoSkill)
-                                {
-                                    if (IsGrounded())
-                                    {
-                                        attackAnimation = (UnityEngine.Random.Range(0, 2) != 0) ? HeroAnim.SPECIAL_MARCO_1 : HeroAnim.SPECIAL_MARCO_0;
-                                        PlayAnimation(attackAnimation);
-                                    }
-                                    else
+                                    if ((skillCDDuration > 0f) || flag3)
                                     {
                                         flag3 = true;
-                                        skillCDDuration = 0f;
-                                    }
-                                }
-                                //TODO: Armin Skill
-                                else if (Skill is ArminSkill)
-                                {
-                                    if (IsGrounded())
-                                    {
-                                        attackAnimation = HeroAnim.SPECIAL_ARMIN;
-                                        PlayAnimation(HeroAnim.SPECIAL_ARMIN);
                                     }
                                     else
                                     {
-                                        flag3 = true;
-                                        skillCDDuration = 0f;
+                                        skillCDDuration = skillCDLast;
+                                        //TODO: Eren Skill
+                                        if (Skill is ErenSkill)
+                                        {
+                                            ErenTransform();
+                                            return;
+                                        }
+                                        //TODO: Marco Skill
+                                        if (Skill is MarcoSkill)
+                                        {
+                                            if (IsGrounded())
+                                            {
+                                                attackAnimation = (UnityEngine.Random.Range(0, 2) != 0) ? HeroAnim.SPECIAL_MARCO_1 : HeroAnim.SPECIAL_MARCO_0;
+                                                PlayAnimation(attackAnimation);
+                                            }
+                                            else
+                                            {
+                                                flag3 = true;
+                                                skillCDDuration = 0f;
+                                            }
+                                        }
+                                        //TODO: Armin Skill
+                                        else if (Skill is ArminSkill)
+                                        {
+                                            if (IsGrounded())
+                                            {
+                                                attackAnimation = HeroAnim.SPECIAL_ARMIN;
+                                                PlayAnimation(HeroAnim.SPECIAL_ARMIN);
+                                            }
+                                            else
+                                            {
+                                                flag3 = true;
+                                                skillCDDuration = 0f;
+                                            }
+                                        }
+                                        //TODO: Sasha Skill
+                                        else if (Skill is SashaSkill)
+                                        {
+                                            if (IsGrounded())
+                                            {
+                                                attackAnimation = HeroAnim.SPECIAL_SASHA;
+                                                PlayAnimation(HeroAnim.SPECIAL_SASHA);
+                                                currentBuff = BUFF.SpeedUp;
+                                                buffTime = 10f;
+                                            }
+                                            else
+                                            {
+                                                flag3 = true;
+                                                skillCDDuration = 0f;
+                                            }
+                                        }
                                     }
                                 }
-                                //TODO: Sasha Skill
-                                else if (Skill is SashaSkill)
+                                else if (InputManager.KeyDown(InputHuman.Attack))
                                 {
-                                    if (IsGrounded())
+                                    if (needLean)
                                     {
-                                        attackAnimation = HeroAnim.SPECIAL_SASHA;
-                                        PlayAnimation(HeroAnim.SPECIAL_SASHA);
-                                        currentBuff = BUFF.SpeedUp;
-                                        buffTime = 10f;
+                                        if (InputManager.Key(InputHuman.Left))
+                                        {
+                                            attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_L1 : HeroAnim.ATTACK1_HOOK_L2;
+                                        }
+                                        else if (InputManager.Key(InputHuman.Right))
+                                        {
+                                            attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_R1 : HeroAnim.ATTACK1_HOOK_R2;
+                                        }
+                                        else if (leanLeft)
+                                        {
+                                            attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_L1 : HeroAnim.ATTACK1_HOOK_L2;
+                                        }
+                                        else
+                                        {
+                                            attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_R1 : HeroAnim.ATTACK1_HOOK_R2;
+                                        }
+                                    }
+                                    else if (InputManager.Key(InputHuman.Left))
+                                    {
+                                        attackAnimation = HeroAnim.ATTACK2;
+                                    }
+                                    else if (InputManager.Key(InputHuman.Right))
+                                    {
+                                        attackAnimation = HeroAnim.ATTACK1;
+                                    }
+                                    else if (lastHook != null && lastHook.TryGetComponent<TitanBase>(out var titan))
+                                    {
+                                        if (titan.Body.Neck != null)
+                                        {
+                                            AttackAccordingToTarget(titan.Body.Neck);
+                                        }
+                                        else
+                                        {
+                                            flag3 = true;
+                                        }
+                                    }
+                                    else if ((hookLeft != null) && (hookLeft.transform.parent != null))
+                                    {
+                                        Transform a = hookLeft.transform.parent.transform.root.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
+                                        if (a != null)
+                                        {
+                                            AttackAccordingToTarget(a);
+                                        }
+                                        else
+                                        {
+                                            AttackAccordingToMouse();
+                                        }
+                                    }
+                                    else if ((hookRight != null) && (hookRight.transform.parent != null))
+                                    {
+                                        Transform transform2 = hookRight.transform.parent.transform.root.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
+                                        if (transform2 != null)
+                                        {
+                                            AttackAccordingToTarget(transform2);
+                                        }
+                                        else
+                                        {
+                                            AttackAccordingToMouse();
+                                        }
                                     }
                                     else
                                     {
-                                        flag3 = true;
-                                        skillCDDuration = 0f;
+                                        GameObject obj2 = FindNearestTitan();
+                                        if (obj2 != null)
+                                        {
+                                            Transform transform3 = obj2.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
+                                            if (transform3 != null)
+                                            {
+                                                AttackAccordingToTarget(transform3);
+                                            }
+                                            else
+                                            {
+                                                AttackAccordingToMouse();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            AttackAccordingToMouse();
+                                        }
                                     }
                                 }
-                            }
-                        }
-                        else if (InputManager.KeyDown(InputHuman.Attack))
-                        {
-                            if (needLean)
-                            {
-                                if (InputManager.Key(InputHuman.Left))
+                                if (!flag3)
                                 {
-                                    attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_L1 : HeroAnim.ATTACK1_HOOK_L2;
-                                }
-                                else if (InputManager.Key(InputHuman.Right))
-                                {
-                                    attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_R1 : HeroAnim.ATTACK1_HOOK_R2;
-                                }
-                                else if (leanLeft)
-                                {
-                                    attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_L1 : HeroAnim.ATTACK1_HOOK_L2;
-                                }
-                                else
-                                {
-                                    attackAnimation = (UnityEngine.Random.Range(0, 100) >= 50) ? HeroAnim.ATTACK1_HOOK_R1 : HeroAnim.ATTACK1_HOOK_R2;
-                                }
-                            }
-                            else if (InputManager.Key(InputHuman.Left))
-                            {
-                                attackAnimation = HeroAnim.ATTACK2;
-                            }
-                            else if (InputManager.Key(InputHuman.Right))
-                            {
-                                attackAnimation = HeroAnim.ATTACK1;
-                            }
-                            else if (lastHook != null && lastHook.TryGetComponent<TitanBase>(out var titan))
-                            {
-                                if (titan.Body.Neck != null)
-                                {
-                                    AttackAccordingToTarget(titan.Body.Neck);
-                                }
-                                else
-                                {
-                                    flag3 = true;
-                                }
-                            }
-                            else if ((hookLeft != null) && (hookLeft.transform.parent != null))
-                            {
-                                Transform a = hookLeft.transform.parent.transform.root.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                                if (a != null)
-                                {
-                                    AttackAccordingToTarget(a);
-                                }
-                                else
-                                {
-                                    AttackAccordingToMouse();
-                                }
-                            }
-                            else if ((hookRight != null) && (hookRight.transform.parent != null))
-                            {
-                                Transform transform2 = hookRight.transform.parent.transform.root.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                                if (transform2 != null)
-                                {
-                                    AttackAccordingToTarget(transform2);
-                                }
-                                else
-                                {
-                                    AttackAccordingToMouse();
-                                }
-                            }
-                            else
-                            {
-                                GameObject obj2 = FindNearestTitan();
-                                if (obj2 != null)
-                                {
-                                    Transform transform3 = obj2.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                                    if (transform3 != null)
+                                    checkBoxLeft.ClearHits();
+                                    checkBoxRight.ClearHits();
+                                    if (grounded)
                                     {
-                                        AttackAccordingToTarget(transform3);
+                                        Rigidbody.AddForce((gameObject.transform.forward * 200f));
+                                    }
+                                    PlayAnimation(attackAnimation);
+                                    Animation[attackAnimation].time = 0f;
+                                    buttonAttackRelease = false;
+                                    state = HumanState.Attack;
+                                    if ((grounded || (attackAnimation == HeroAnim.ATTACK3_1)) || ((attackAnimation == HeroAnim.ATTACK5) || (attackAnimation == HeroAnim.SPECIAL_PETRA)))
+                                    {
+                                        attackReleased = true;
+                                        buttonAttackRelease = true;
                                     }
                                     else
                                     {
-                                        AttackAccordingToMouse();
+                                        attackReleased = false;
                                     }
+                                    sparks_em.enabled = false;
                                 }
-                                else
+                                break;
+
+                            case EquipmentType.Ahss:
+                                if (InputManager.Key(InputHuman.AttackSpecial))
                                 {
-                                    AttackAccordingToMouse();
-                                }
-                            }
-                        }
-                        if (!flag3)
-                        {
-                            checkBoxLeft.ClearHits();
-                            checkBoxRight.ClearHits();
-                            if (grounded)
-                            {
-                                Rigidbody.AddForce((gameObject.transform.forward * 200f));
-                            }
-                            PlayAnimation(attackAnimation);
-                            Animation[attackAnimation].time = 0f;
-                            buttonAttackRelease = false;
-                            state = HumanState.Attack;
-                            if ((grounded || (attackAnimation == HeroAnim.ATTACK3_1)) || ((attackAnimation == HeroAnim.ATTACK5) || (attackAnimation == HeroAnim.SPECIAL_PETRA)))
-                            {
-                                attackReleased = true;
-                                buttonAttackRelease = true;
-                            }
-                            else
-                            {
-                                attackReleased = false;
-                            }
-                            sparks_em.enabled = false;
-                        }
-                    }
-                    if (useGun)
-                    {
-                        if (InputManager.Key(InputHuman.AttackSpecial))
-                        {
-                            leftArmAim = true;
-                            rightArmAim = true;
-                        }
-                        else if (InputManager.Key(InputHuman.Attack))
-                        {
-                            if (leftGunHasBullet)
-                            {
-                                leftArmAim = true;
-                                rightArmAim = false;
-                            }
-                            else
-                            {
-                                leftArmAim = false;
-                                if (rightGunHasBullet)
-                                {
+                                    leftArmAim = true;
                                     rightArmAim = true;
                                 }
-                                else
+                                else if (InputManager.Key(InputHuman.Attack))
                                 {
-                                    rightArmAim = false;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            leftArmAim = false;
-                            rightArmAim = false;
-                        }
-                        if (leftArmAim || rightArmAim)
-                        {
-                            RaycastHit hit3;
-                            Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-                            if (Physics.Raycast(ray3, out hit3, 1E+07f, mask.value))
-                            {
-                                gunTarget = hit3.point;
-                            }
-                        }
-                        bool flag4 = false;
-                        bool flag5 = false;
-                        bool flag6 = false;
-                        //TODO: AHSS skill dual shot
-                        if (InputManager.KeyUp(InputHuman.AttackSpecial) && (!(Skill is BombPvpSkill)))
-                        {
-                            if (leftGunHasBullet && rightGunHasBullet)
-                            {
-                                if (grounded)
-                                {
-                                    attackAnimation = HeroAnim.AHSS_SHOOT_BOTH;
-                                }
-                                else
-                                {
-                                    attackAnimation = HeroAnim.AHSS_SHOOT_BOTH_AIR;
-                                }
-                                flag4 = true;
-                            }
-                            else if (!(leftGunHasBullet || rightGunHasBullet))
-                            {
-                                flag5 = true;
-                            }
-                            else
-                            {
-                                flag6 = true;
-                            }
-                        }
-                        if (flag6 || InputManager.KeyUp(InputHuman.Attack))
-                        {
-                            if (grounded)
-                            {
-                                if (leftGunHasBullet && rightGunHasBullet)
-                                {
-                                    if (isLeftHandHooked)
+                                    if (leftGunHasBullet)
                                     {
-                                        attackAnimation = HeroAnim.AHSS_SHOOT_R;
+                                        leftArmAim = true;
+                                        rightArmAim = false;
                                     }
                                     else
                                     {
-                                        attackAnimation = HeroAnim.AHSS_SHOOT_L;
+                                        leftArmAim = false;
+                                        if (rightGunHasBullet)
+                                        {
+                                            rightArmAim = true;
+                                        }
+                                        else
+                                        {
+                                            rightArmAim = false;
+                                        }
                                     }
-                                }
-                                else if (leftGunHasBullet)
-                                {
-                                    attackAnimation = HeroAnim.AHSS_SHOOT_L;
-                                }
-                                else if (rightGunHasBullet)
-                                {
-                                    attackAnimation = HeroAnim.AHSS_SHOOT_R;
-                                }
-                            }
-                            else if (leftGunHasBullet && rightGunHasBullet)
-                            {
-                                if (isLeftHandHooked)
-                                {
-                                    attackAnimation = HeroAnim.AHSS_SHOOT_R_AIR;
                                 }
                                 else
                                 {
-                                    attackAnimation = HeroAnim.AHSS_SHOOT_L_AIR;
+                                    leftArmAim = false;
+                                    rightArmAim = false;
                                 }
-                            }
-                            else if (leftGunHasBullet)
-                            {
-                                attackAnimation = HeroAnim.AHSS_SHOOT_L_AIR;
-                            }
-                            else if (rightGunHasBullet)
-                            {
-                                attackAnimation = HeroAnim.AHSS_SHOOT_R_AIR;
-                            }
-                            if (leftGunHasBullet || rightGunHasBullet)
-                            {
-                                flag4 = true;
-                            }
-                            else
-                            {
-                                flag5 = true;
-                            }
-                        }
-                        if (flag4)
-                        {
-                            state = HumanState.Attack;
-                            CrossFade(attackAnimation, 0.05f);
-                            gunDummy.transform.position = transform.position;
-                            gunDummy.transform.rotation = transform.rotation;
-                            gunDummy.transform.LookAt(gunTarget);
-                            attackReleased = false;
-                            facingDirection = gunDummy.transform.rotation.eulerAngles.y;
-                            targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
-                        }
-                        else if (flag5 && (grounded || (GameSettings.PvP.AhssAirReload.Value)))
-                        {
-                            ChangeBlade();
+                                if (leftArmAim || rightArmAim)
+                                {
+                                    RaycastHit hit3;
+                                    Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                                    LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+                                    if (Physics.Raycast(ray3, out hit3, 1E+07f, mask.value))
+                                    {
+                                        gunTarget = hit3.point;
+                                    }
+                                }
+                                bool flag4 = false;
+                                bool flag5 = false;
+                                bool flag6 = false;
+                                //TODO: AHSS skill dual shot
+                                if (InputManager.KeyUp(InputHuman.AttackSpecial) && (!(Skill is BombPvpSkill)))
+                                {
+                                    if (leftGunHasBullet && rightGunHasBullet)
+                                    {
+                                        if (grounded)
+                                        {
+                                            attackAnimation = HeroAnim.AHSS_SHOOT_BOTH;
+                                        }
+                                        else
+                                        {
+                                            attackAnimation = HeroAnim.AHSS_SHOOT_BOTH_AIR;
+                                        }
+                                        flag4 = true;
+                                    }
+                                    else if (!(leftGunHasBullet || rightGunHasBullet))
+                                    {
+                                        flag5 = true;
+                                    }
+                                    else
+                                    {
+                                        flag6 = true;
+                                    }
+                                }
+                                if (flag6 || InputManager.KeyUp(InputHuman.Attack))
+                                {
+                                    if (grounded)
+                                    {
+                                        if (leftGunHasBullet && rightGunHasBullet)
+                                        {
+                                            if (isLeftHandHooked)
+                                            {
+                                                attackAnimation = HeroAnim.AHSS_SHOOT_R;
+                                            }
+                                            else
+                                            {
+                                                attackAnimation = HeroAnim.AHSS_SHOOT_L;
+                                            }
+                                        }
+                                        else if (leftGunHasBullet)
+                                        {
+                                            attackAnimation = HeroAnim.AHSS_SHOOT_L;
+                                        }
+                                        else if (rightGunHasBullet)
+                                        {
+                                            attackAnimation = HeroAnim.AHSS_SHOOT_R;
+                                        }
+                                    }
+                                    else if (leftGunHasBullet && rightGunHasBullet)
+                                    {
+                                        if (isLeftHandHooked)
+                                        {
+                                            attackAnimation = HeroAnim.AHSS_SHOOT_R_AIR;
+                                        }
+                                        else
+                                        {
+                                            attackAnimation = HeroAnim.AHSS_SHOOT_L_AIR;
+                                        }
+                                    }
+                                    else if (leftGunHasBullet)
+                                    {
+                                        attackAnimation = HeroAnim.AHSS_SHOOT_L_AIR;
+                                    }
+                                    else if (rightGunHasBullet)
+                                    {
+                                        attackAnimation = HeroAnim.AHSS_SHOOT_R_AIR;
+                                    }
+                                    if (leftGunHasBullet || rightGunHasBullet)
+                                    {
+                                        flag4 = true;
+                                    }
+                                    else
+                                    {
+                                        flag5 = true;
+                                    }
+                                }
+                                if (flag4)
+                                {
+                                    state = HumanState.Attack;
+                                    CrossFade(attackAnimation, 0.05f);
+                                    gunDummy.transform.position = transform.position;
+                                    gunDummy.transform.rotation = transform.rotation;
+                                    gunDummy.transform.LookAt(gunTarget);
+                                    attackReleased = false;
+                                    facingDirection = gunDummy.transform.rotation.eulerAngles.y;
+                                    targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
+                                }
+                                else if (flag5 && (grounded || (GameSettings.PvP.AhssAirReload.Value)))
+                                {
+                                    ChangeBlade();
+                                }
+                                break;
+
+                            case EquipmentType.Rifle:
+                                break;
                         }
                     }
                 }
