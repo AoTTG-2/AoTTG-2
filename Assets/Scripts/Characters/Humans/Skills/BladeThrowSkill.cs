@@ -74,6 +74,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
             Hero.Equipment.Weapon.AmountRight--;
 
             RaycastHit hit;
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
             if (Physics.Raycast(ray, out hit, float.MaxValue, mask.value))
             {

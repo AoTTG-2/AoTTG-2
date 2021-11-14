@@ -25,8 +25,6 @@ public class ThrownBlade : Photon.MonoBehaviour
     private float bodyVelocity;
     private Vector3 velocity;
 
-    private float afterHitDistance = -1f;
-
     [PunRPC]
     public void InitRPC(int viewID, Vector3 pos, int myTeam)
     {
@@ -54,33 +52,23 @@ public class ThrownBlade : Photon.MonoBehaviour
         if (PhotonNetwork.isMasterClient)
         {
             transform.position += velocity * Time.deltaTime;
-            transform.Rotate(new Vector3(0, 0, 1), BladeRotationSpeed * Time.deltaTime);
+            transform.RotateAround(transform.Find("Pivot").transform.position, transform.Find("Pivot").transform.up, BladeRotationSpeed * Time.deltaTime);
         }
 
         bool objectHit = false;
         LayerMask mask = Layers.Ground.ToLayer() | Layers.PlayerHitBox.ToLayer() | Layers.EnemyHitBox.ToLayer() | Layers.EnemyBox.ToLayer();
-        foreach (RaycastHit hit in Physics.BoxCastAll(transform.position, GetComponent<BoxCollider>().size * 2, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
         {
-            ObjectHit(hit.collider.gameObject);
             objectHit = true;
         }
-
-        /// To help the blade hit deeper
-        /// This will be removed once I have 2 colliders one that damage others
-        /// And one that destroy the blades when collide
-        if (afterHitDistance >= 0)
-        {
-            afterHitDistance += velocity.magnitude * Time.deltaTime;
-            Debug.Log(velocity.magnitude * Time.deltaTime);
-            if (afterHitDistance >= 5f)
-            {
-                Destroy();
-            }
-        }
-
         if (objectHit)
         {
-            afterHitDistance = 0f;
+            Vector3 p = transform.position + velocity.normalized * 0.03f;
+            foreach (RaycastHit hit in Physics.BoxCastAll(p, GetComponent<BoxCollider>().size, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+            {
+                ObjectHit(hit.collider.gameObject);
+            }
+            Destroy();
         }
     }
 
