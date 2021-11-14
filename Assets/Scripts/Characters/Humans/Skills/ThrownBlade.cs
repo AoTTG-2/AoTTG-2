@@ -45,6 +45,7 @@ public class ThrownBlade : Photon.MonoBehaviour
             this.viewID = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().myOwnerViewID;
             this.ownerName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
         }
+        transform.Find("weapontrail").GetComponent<MeleeWeaponTrail>().enabled = true;
     }
 
     private void Update()
@@ -57,7 +58,7 @@ public class ThrownBlade : Photon.MonoBehaviour
 
         bool objectHit = false;
         LayerMask mask = Layers.Ground.ToLayer() | Layers.PlayerHitBox.ToLayer() | Layers.EnemyHitBox.ToLayer() | Layers.EnemyBox.ToLayer();
-        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size / 2, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
         {
             objectHit = true;
         }
@@ -74,7 +75,6 @@ public class ThrownBlade : Photon.MonoBehaviour
 
     private void ObjectHit(GameObject gameObject)
     {
-        Debug.Log(gameObject.tag);
         switch (gameObject.tag)
         {
             case "playerHitbox":
