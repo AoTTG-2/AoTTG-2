@@ -22,7 +22,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override bool Use()
         {
-            if (Hero._state != HumanState.Idle || Hero.totalBladeSta <= 0f) return false;
+            if (Hero._state != HumanState.Idle || Hero.currentBladeSta <= 0f) return false;
 
             Hero.attackAnimation = HeroAnim.ATTACK1;
             Hero.PlayAnimation(HeroAnim.ATTACK1);
@@ -69,7 +69,6 @@ namespace Assets.Scripts.Characters.Humans.Skills
             bladeThrown = true;
             Hero.Equipment.Weapon.WeaponLeft.SetActive(false);
             Hero.Equipment.Weapon.WeaponRight.SetActive(false);
-            Hero.currentBladeSta = 0f;
             Hero.Equipment.Weapon.AmountLeft--;
             Hero.Equipment.Weapon.AmountRight--;
 
@@ -95,7 +94,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 objArray7 = new object[] { Hero.photonView.viewID, rightBlade.transform.position, velocity, Hero.myTeam };
                 rightBlade.GetPhotonView().RPC(nameof(ThrownBlade.InitRPC), PhotonTargets.Others, objArray7);
             }
-            float scoreMulti = Hero.totalBladeSta / 100f * 0.4f + 0.1f;
+            float scoreMulti = Hero.currentBladeSta / Hero.totalBladeSta * 0.4f + 0.1f;
+            Hero.currentBladeSta = 0f;
             float bodyVel = Hero.GetComponent<Rigidbody>().velocity.magnitude;
             leftBlade.GetComponent<ThrownBlade>().Initialize(Hero, scoreMulti, bodyVel, velocity);
             rightBlade.GetComponent<ThrownBlade>().Initialize(Hero, scoreMulti, bodyVel, velocity);
