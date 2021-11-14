@@ -57,9 +57,14 @@ public class ThrownBlade : Photon.MonoBehaviour
         }
 
         bool objectHit = false;
-        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+        LayerMask mask = Layers.Ground.ToLayer();
         // I use smaller hitbox for these because they might destroy the blades before they hit.
-        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size / 2, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size * 0.4f, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+        {
+            objectHit = true;
+        }
+        mask = Layers.EnemyBox.ToLayer();
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size * 0.6f, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
         {
             objectHit = true;
         }
@@ -68,6 +73,7 @@ public class ThrownBlade : Photon.MonoBehaviour
         {
             objectHit = true;
         }
+        mask = Layers.PlayerHitBox.ToLayer() | Layers.EnemyHitBox.ToLayer() | Layers.EnemyBox.ToLayer();
         if (objectHit)
         {
             Vector3 p = transform.position + velocity.normalized * 0.03f;
@@ -170,6 +176,7 @@ public class ThrownBlade : Photon.MonoBehaviour
                         {
                             mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnBodyPartHitRpc), mindlessTitan.photonView.owner, body, damage);
                         }
+                        ShowCriticalHitFX();
                     }
                 }
                 break;
