@@ -57,8 +57,14 @@ public class ThrownBlade : Photon.MonoBehaviour
         }
 
         bool objectHit = false;
-        LayerMask mask = Layers.Ground.ToLayer() | Layers.PlayerHitBox.ToLayer() | Layers.EnemyHitBox.ToLayer() | Layers.EnemyBox.ToLayer();
+        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+        // I use smaller hitbox for these because they might destroy the blades before they hit.
         if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size / 2, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+        {
+            objectHit = true;
+        }
+        mask = Layers.PlayerHitBox.ToLayer() | Layers.EnemyHitBox.ToLayer();
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
         {
             objectHit = true;
         }
