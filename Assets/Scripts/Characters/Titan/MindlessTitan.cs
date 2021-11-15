@@ -323,7 +323,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (State != TitanState.Dead)
             {
-                float interpolation_velocity = 10f;
+                interpolation_velocity = 10f;
                 this.targetHeadRotation = Body.Head.rotation;
 
                 if (base.photonView.isMine)
