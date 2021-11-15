@@ -94,6 +94,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private bool asClientLookTarget;
         private Quaternion oldHeadRotation;
+        private Quaternion targetHeadRotation;
         private Vector3 headscale;
 
         protected override void Awake()
@@ -302,7 +303,6 @@ namespace Assets.Scripts.Characters.Titan
 
         private Quaternion CalculateHeadRotation()
         {
-
             var     relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
             var     global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
             float   relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
@@ -668,20 +668,25 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 case TitanState.Idle:
                     OnIdle();
+                    //HeadMovement();
                     break;
                 case TitanState.Dead:
                     break;
                 case TitanState.Wandering:
                     OnWandering();
+                    //HeadMovement();
                     break;
                 case TitanState.Turning:
                     OnTurning();
+                    //HeadMovement();
                     break;
                 case TitanState.Chase:
                     OnChasing();
+                    //HeadMovement();
                     break;
                 case TitanState.Attacking:
                     OnAttacking();
+                   // HeadMovement();
                     break;
                 case TitanState.Recovering:
                     OnRecovering();
