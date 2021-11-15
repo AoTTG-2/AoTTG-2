@@ -193,9 +193,9 @@ namespace Assets.Scripts.Characters.Humans
         public GameObject speedFX1;
         public bool spinning;
 
-        public float reelForce;
-        public float scrollWheelWait = 0f;
-        public float scrollWheelWaitValue = 0.05f;
+        private float reelForce;
+        private float scrollWheelWait = 0f;
+        public float scrollWheelWaitValue = 0.05f;      // Set this value higher if you want to smooth out scrolling more
 
         private string standAnimation { get; set; } = HeroAnim.STAND;
         private Quaternion targetHeadRotation { get; set; }
@@ -379,35 +379,7 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
 
-            //input for Reeling now in Update to make scroll reeling more consistent (default setup)
-            if (InputManager.Key(InputHuman.ReelIn))
-            {
-                reelForce = -1f;
-            }
-            else if (InputManager.Key(InputHuman.ReelOut))
-            {
-                reelForce = 1f;
-            }
-            else if (InputManager.KeyUp(InputHuman.ReelIn) || InputManager.KeyUp(InputHuman.ReelOut))
-            {
-                reelForce = 0f;
-            }
-            else if (Input.GetAxis("Mouse ScrollWheel") != 0)
-            {
-                reelForce = Input.GetAxis("Mouse ScrollWheel") * 5555f;
-                scrollWheelWait = scrollWheelWaitValue;
-            } 
-            else
-            {
-                if (scrollWheelWait > 0)
-                {
-                    scrollWheelWait -= Time.deltaTime;
-                }
-                else
-                {
-                    reelForce = 0f;
-                }
-            }
+            CheckForScrollingInput();
 
             if (Skill != null)
             {
@@ -974,7 +946,7 @@ namespace Assets.Scripts.Characters.Humans
                                 num2 = 0.5f;
                                 num = 0.85f;
                             }
-                            if (Animation[attackAnimation].normalizedTime.Between(num2,num))
+                            if (Animation[attackAnimation].normalizedTime.Between(num2, num))
                             {
                                 if (!checkBoxLeft.IsActive)
                                 {
@@ -1104,7 +1076,7 @@ namespace Assets.Scripts.Characters.Humans
                                 obj4 = Instantiate(Resources.Load<GameObject>(prefabName), ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
                             }
                         }
-                        if (Animation[attackAnimation].normalizedTime >= 1f || 
+                        if (Animation[attackAnimation].normalizedTime >= 1f ||
                             !Animation.IsPlaying(attackAnimation))
                         {
                             FalseAttack();
@@ -1314,6 +1286,37 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
+        private void CheckForScrollingInput()
+        {
+            if (InputManager.Key(InputHuman.ReelIn))
+            {
+                reelForce = -1f;
+            }
+            else if (InputManager.Key(InputHuman.ReelOut))
+            {
+                reelForce = 1f;
+            }
+            else if (InputManager.KeyUp(InputHuman.ReelIn) || InputManager.KeyUp(InputHuman.ReelOut))
+            {
+                reelForce = 0f;
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                reelForce = Input.GetAxis("Mouse ScrollWheel") * 5555f;
+                scrollWheelWait = scrollWheelWaitValue;
+            }
+            else
+            {
+                if (scrollWheelWait > 0)
+                {
+                    scrollWheelWait -= Time.deltaTime;
+                }
+                else
+                {
+                    reelForce = 0f;
+                }
+            }
+        }
 
         protected override void OnDestroy()
         {
@@ -1973,6 +1976,7 @@ namespace Assets.Scripts.Characters.Humans
                         }
                     }
                     spinning = false;
+                    CheckForScrollingInput();
 
                     if (canReelOffLeftHook && canReelOffRightHook)
                     {
