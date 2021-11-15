@@ -301,7 +301,10 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        private Quaternion CalculateHeadRotation()
+        public Transform lookatTarget;
+
+
+        private void calculateHeadRotation()
         {
             var     relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
             var     global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
@@ -317,6 +320,13 @@ namespace Assets.Scripts.Characters.Titan
                  Body.Head.rotation.eulerAngles.y + clamped_relative_horizontal_angle,
                  Body.Head.rotation.eulerAngles.z
                  );
+
+#if DEBUG
+            //Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
+            //Debug.Log( "relative_horizontal_angle = " + relative_horizontal_angle +
+            //           " vertical_angle = " + vertical_angle
+            //          );
+#endif
         }
 
         private void HeadMovement()
