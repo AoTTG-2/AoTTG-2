@@ -41,10 +41,11 @@ namespace Assets.Scripts.Characters.Titan
         [SerializeField] private float titanLookAtRange = 100f;      //Range at which titans start looking at the player
 
         [Header("Head Rotation Variables")]
-        [SerializeField] private float minHeadRotVertical = 30f;     //Max values to which the head can turn during HeadMovement()
-        [SerializeField] private float maxHeadRotVertical = 40f;
-        [SerializeField] private float minHeadRotHorizontal = 40f;
-        [SerializeField] private float maxHeadRotHorizontal = 40f;
+        [SerializeField] private float minHeadRotVertical = 9.5f;     //Max values to which the head can turn during HeadMovement()
+        [SerializeField] private float maxHeadRotVertical = 5f;
+        [SerializeField] private float minHeadRotHorizontal = 10f;
+        [SerializeField] private float maxHeadRotHorizontal = 10f;
+        [SerializeField] public float interpolation_velocity = 10f;     //Value by which head movement is Lerped over time
 
         private float FocusTimer { get; set; }
         private bool isHooked;
@@ -93,7 +94,6 @@ namespace Assets.Scripts.Characters.Titan
 
         private bool asClientLookTarget;
         private Quaternion oldHeadRotation;
-        private Quaternion targetHeadRotation;      //SonarCloud will bitch about this line. Do not give into the machine. Fight it, it must not win.
         private Vector3 headscale;
 
         protected override void Awake()
@@ -300,21 +300,21 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        private void calculateHeadRotation()
+        private Quaternion CalculateHeadRotation()
         {
 
             var     relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
             var     global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
             float   relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
-                    relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
+            float   clamped_relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
 
             float   relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
             float   vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;                              //Find angle vertically
-                    vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);                 //Clamp dat boi
+            float   clamped_vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);         //Clamp dat boi
 
-            this.targetHeadRotation = Quaternion.Euler(                                                                     //Assemble angle needed to look at target
-                 Body.Head.rotation.eulerAngles.x + vertical_angle,   
-                 Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
+            return Quaternion.Euler(                                                                                       //Assemble angle needed to look at target
+                 Body.Head.rotation.eulerAngles.x + clamped_vertical_angle,   
+                 Body.Head.rotation.eulerAngles.y + clamped_relative_horizontal_angle,
                  Body.Head.rotation.eulerAngles.z
                  );
         }
@@ -323,15 +323,14 @@ namespace Assets.Scripts.Characters.Titan
         {
             if (State != TitanState.Dead)
             {
-                float interpolation_velocity = 10f;
-                this.targetHeadRotation = Body.Head.rotation;
-
+                Body.Head.rotation = CalculateHeadRotation();
+                interpolation_velocity = 10f;
                 if (base.photonView.isMine)
                 {
                     if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
                     bool haveToUpdateHead = TargetDistance < titanLookAtRange && Target;
                     if (haveToUpdateHead)
-                        this.calculateHeadRotation();
+                        this.CalculateHeadRotation();
 
                     //whenever haveToUpdateHead and asClientLookTarget are different it updates the target for clients
                     if (haveToUpdateHead ^ this.asClientLookTarget)
@@ -340,17 +339,17 @@ namespace Assets.Scripts.Characters.Titan
                         base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, this.asClientLookTarget);
                     }
 
-                    if(State == TitanState.Attacking)
-                        interpolation_velocity = 20f;
+                    if (State == TitanState.Attacking)
+                    { interpolation_velocity = 20f; }
                 }
                 else
                 {
                     TargetDistance = this.GetTargetDistance();
                     if (this.asClientLookTarget && TargetDistance < 100f)
-                        this.calculateHeadRotation();
+                        this.CalculateHeadRotation();
                 }
 
-                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, //Lerp towards the new head angle by interpolation velocity amount
+                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, CalculateHeadRotation(), //Lerp towards the new head angle by interpolation velocity amount
                     Time.deltaTime * interpolation_velocity);
                 Body.Head.rotation = this.oldHeadRotation;
             }
@@ -787,6 +786,7 @@ namespace Assets.Scripts.Characters.Titan
                 if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
                 {
                     Turn(between);
+                    interpolation_velocity = 40f;
                 }
             }
         }
