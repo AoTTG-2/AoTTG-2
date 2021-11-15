@@ -2339,12 +2339,11 @@ MonoBehaviour:
   NextState: 4
   CurrentState: 4
   MindlessType: 0
-  titanSenseRange: 100
-  minHeadRotVertical: 13
-  maxHeadRotVertical: 23
-  minHeadRotHorizontal: 25
-  maxHeadRotHorizontal: 25
-  lookatTarget: {fileID: 0}
+  titanLookAtRange: 100
+  minHeadRotVertical: 9.5
+  maxHeadRotVertical: 5
+  minHeadRotHorizontal: 10
+  maxHeadRotHorizontal: 10
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:
