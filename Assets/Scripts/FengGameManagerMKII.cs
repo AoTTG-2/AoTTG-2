@@ -141,6 +141,8 @@ namespace Assets.Scripts
         /// <summary>
         /// A static accessor to the current Gamemode
         /// </summary>
+
+        public bool IsReconnecting = false;
         public static GamemodeBase Gamemode { get; set; }
         /// <summary>
         /// A static accessor to the current loaded Level
@@ -179,6 +181,12 @@ namespace Assets.Scripts
         {
             Debug.Log("OnConnectionFail : " + cause.ToString());
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
+            
+            if(cause is DisconnectCause.DisconnectByClientTimeout)
+            {
+                IsReconnecting = true;
+            }
+
         }
 
         public override void OnCreatedRoom()
@@ -197,6 +205,12 @@ namespace Assets.Scripts
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
                 this.DestroyAllExistingCloths();
                 Application.LoadLevel(0);
+                if (IsReconnecting) 
+                {
+                    IsReconnecting = false;
+                    PhotonNetwork.ReconnectAndRejoin();
+                }
+
             }
         }
 

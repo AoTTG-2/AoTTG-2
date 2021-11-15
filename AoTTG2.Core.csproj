@@ -60,9 +60,9 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\EnumNamedArrayAttribute.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonBall.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\HumanBody.cs" />
+    <Compile Include="Assets\Scripts\Settings\Titans\ColossalTitanSettings.cs" />
     <Compile Include="Assets\Scripts\Events\HitEvents.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTeleport.cs" />
-    <Compile Include="Assets\Scripts\Settings\Titans\ColossalTitanSettings.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BodyslamAttack.cs" />
     <Compile Include="Assets\Scripts\Services\FactionService.cs" />
     <Compile Include="Assets\Scripts\Room\RoomExtensions.cs" />
@@ -88,16 +88,16 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterPrefabs.cs" />
     <Compile Include="Assets\Scripts\Services\AuthenticationService.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\PlayerTitan.cs" />
+    <Compile Include="Assets\Scripts\UI\InGame\Controls\GeneralControlsPage.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Effects\VortexAffector.cs" />
-    <Compile Include="Assets\Scripts\UI\InGame\Controls\GeneralControlsPage.cs" />
     <Compile Include="Assets\Scripts\Settings\New\BaseSettings.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\CustomizableHudElement.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\KickAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanGlassesComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\WaveGamemodeSettings.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeadgearComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeadgearComponent.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\AHSS.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeroStats.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\QualitySwitcher.cs" />
@@ -107,8 +107,8 @@
     <Compile Include="Assets\Scripts\Services\DiscordTestService.cs" />
     <Compile Include="Assets\Scripts\DayNightCycle\DayLengthController.cs" />
     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
-    <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\LeviSkill.cs" />
+    <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
     <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
     <Compile Include="Assets\Scripts\Settings\New\Setting.cs" />
@@ -180,8 +180,8 @@
     <Compile Include="Assets\Scripts\FengGameManagerMKII.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanType.cs" />
     <Compile Include="Assets\Scripts\Items\Data\ItemData.cs" />
-    <Compile Include="Assets\Scripts\Characters\Titan\Body\ArmoredTitanBody.cs" />
     <Compile Include="Assets\Scripts\Xft\SplineControlPoint.cs" />
+    <Compile Include="Assets\Scripts\Characters\Titan\Body\ArmoredTitanBody.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\DestroySelf.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\DummyTitan.cs" />
@@ -218,8 +218,8 @@
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\ICustomMapService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
-    <Compile Include="Assets\Scripts\Settings\PvPSettings.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\LabelPosition.cs" />
+    <Compile Include="Assets\Scripts\Settings\PvPSettings.cs" />
     <Compile Include="Assets\Scripts\Constants\Layers.Enum.cs" />
     <Compile Include="Assets\Scripts\Legacy\SnapShotReview.cs" />
     <Compile Include="Assets\Scripts\CustomMaps\CustomMap.cs" />
@@ -279,10 +279,10 @@
     <Compile Include="Assets\Scripts\Settings\TimeSettings.cs" />
     <Compile Include="Assets\Scripts\Gamemode\TitanRushGamemode.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Human.cs" />
+    <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevel.cs" />
     <Compile Include="Assets\Scripts\Room\HumanSpawner.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SlapFaceAttack.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\JeanSkill.cs" />
-    <Compile Include="Assets\Scripts\UI\CommandLine\DebugLevel.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IFactionService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Legacy\BombExplode.cs" />
     <Compile Include="Assets\Scripts\UI\Tooltip\TooltipTrigger.cs" />
@@ -387,11 +387,11 @@
     <Compile Include="Assets\Scripts\UI\DragWindow.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\RockThrowSetting.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\FlexibleGridLayout.cs" />
+    <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
     <Compile Include="Assets\Scripts\Room\LevelTriggerHint.cs" />
     <Compile Include="Assets\Scripts\Xft\Spline.cs" />
     <Compile Include="Assets\Scripts\Characters\Entity.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\GraphicsController.cs" />
-    <Compile Include="Assets\Scripts\Characters\Titan\Attacks\JumpAttack.cs" />
     <Compile Include="Assets\Scripts\Events\Args\HeroHitEvent.cs" />
     <Compile Include="Assets\Scripts\Effects\AttractionForceAffector.cs" />
     <Compile Include="Assets\Scripts\Security\TokenResult.cs" />
@@ -413,9 +413,9 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterList.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\TabPanel.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterBuild.cs" />
+    <Compile Include="Assets\Scripts\Items\FlareMovement.cs" />
     <Compile Include="Assets\Scripts\Settings\New\DebugSettings.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\IN_GAME_MAIN_CAMERA.cs" />
-    <Compile Include="Assets\Scripts\Items\FlareMovement.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchBall.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\CameraShake.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindsPage.cs" />
@@ -513,6 +513,8 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Assets\Scripts\Extensions\ComparableExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
@@ -743,6 +745,9 @@
     </Reference>
     <Reference Include="UnityEditor.OSXStandalone.Extensions">
       <HintPath>D:\unity\2020.2.7f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>D:\unity\2020.2.7f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>

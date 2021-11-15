@@ -20,7 +20,7 @@ namespace Assets.Scripts.Settings.Gamemodes
             Respawn.Mode = RespawnMode.NewRound;
             StartWave = 1;
             MaxWave = 20;
-            WaveIncrement = 2;
+            WaveIncrement = 1;
             BossWave = 5;
             BossType = MindlessTitanType.Punk;
 
