@@ -8,8 +8,10 @@ namespace Assets.Scripts.Characters.Humans.Skills
     public class BladeThrowSkill : Skill
     {
         private const float CooldownLimit = 3.5f;
-        private const float BladeSpeed = 150f;
+        private const float BaseBladeSpeed = 100f;
         private bool UsePhysics { get; set; }
+
+        public static float GetBaseBladeSpeed => BaseBladeSpeed;
 
         private Ray ray;
         private Vector3 velocity;
@@ -75,13 +77,14 @@ namespace Assets.Scripts.Characters.Humans.Skills
             RaycastHit hit;
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+            float speed = BaseBladeSpeed + Hero.GetComponent<Rigidbody>().velocity.magnitude;
             if (Physics.Raycast(ray, out hit, float.MaxValue, mask.value))
             {
-                velocity = Vector3.Normalize(hit.point - Hero.transform.position) * BladeSpeed;
+                velocity = Vector3.Normalize(hit.point - Hero.transform.position) * speed;
             }
             else
             {
-                velocity = Vector3.Normalize(ray.direction) * BladeSpeed;
+                velocity = Vector3.Normalize(ray.direction) * speed;
             }
             Transform leftTransform = Hero.Equipment.Weapon.WeaponLeft.transform;
             Transform rightTransform = Hero.Equipment.Weapon.WeaponRight.transform;
@@ -94,11 +97,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 objArray7 = new object[] { Hero.photonView.viewID, rightBlade.transform.position, velocity, Hero.myTeam };
                 rightBlade.GetPhotonView().RPC(nameof(ThrownBlade.InitRPC), PhotonTargets.Others, objArray7);
             }
-            float scoreMulti = Hero.currentBladeSta / Hero.totalBladeSta * 0.4f + 0.1f;
-            Hero.currentBladeSta = 0f;
-            float bodyVel = Hero.GetComponent<Rigidbody>().velocity.magnitude;
-            leftBlade.GetComponent<ThrownBlade>().Initialize(Hero, scoreMulti, bodyVel, velocity);
-            rightBlade.GetComponent<ThrownBlade>().Initialize(Hero, scoreMulti, bodyVel, velocity);
+            leftBlade.GetComponent<ThrownBlade>().Initialize(Hero, velocity);
+            rightBlade.GetComponent<ThrownBlade>().Initialize(Hero, velocity);
         }
 
     }

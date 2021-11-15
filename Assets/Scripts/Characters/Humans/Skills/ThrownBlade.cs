@@ -1,4 +1,5 @@
 using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters.Humans.Skills;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Constants;
 using Assets.Scripts.Events.Args;
@@ -15,15 +16,15 @@ public class ThrownBlade : Photon.MonoBehaviour
 {
 
     private const float BladeRotationSpeed = 1000f; // In degrees
+    private const float BladeLifeTime = 10f; // In seconds
 
     private int viewID;
     private string ownerName;
     private int myTeam;
 
     private Hero owner;
-    private float scoreMulti;
-    private float bodyVelocity;
-    private Vector3 velocity;
+    private float lifeTime;
+    private Vector3 baseVelocity;
 
     [PunRPC]
     public void InitRPC(int viewID, Vector3 pos, int myTeam)
@@ -46,36 +47,43 @@ public class ThrownBlade : Photon.MonoBehaviour
             this.ownerName = base.transform.root.gameObject.GetComponent<EnemyfxIDcontainer>().titanName;
         }
         transform.Find("weapontrail").GetComponent<MeleeWeaponTrail>().enabled = true;
+        lifeTime = BladeLifeTime;
     }
 
     private void Update()
     {
         if (PhotonNetwork.isMasterClient)
         {
-            transform.position += velocity * Time.deltaTime;
+            transform.position += GetVelocity() * Time.deltaTime;
             transform.RotateAround(transform.Find("Pivot").transform.position, transform.Find("Pivot").transform.up, BladeRotationSpeed * Time.deltaTime);
         }
 
         bool objectHit = false;
         LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
         // I use smaller hitbox for these because they might destroy the blades before they hit.
-        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size * 0.4f, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size * 0.4f, GetVelocity(), transform.rotation, GetVelocity().magnitude * Time.deltaTime, (int) mask))
         {
             objectHit = true;
         }
         mask = Layers.PlayerHitBox.ToLayer() | Layers.EnemyHitBox.ToLayer();
-        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+        if (Physics.BoxCast(transform.position, GetComponent<BoxCollider>().size, GetVelocity(), transform.rotation, GetVelocity().magnitude * Time.deltaTime, (int) mask))
         {
             objectHit = true;
         }
         mask = Layers.PlayerHitBox.ToLayer() | Layers.EnemyHitBox.ToLayer() | Layers.EnemyBox.ToLayer();
         if (objectHit)
         {
-            Vector3 p = transform.position + velocity.normalized * 0.03f;
-            foreach (RaycastHit hit in Physics.BoxCastAll(p, GetComponent<BoxCollider>().size, velocity, transform.rotation, velocity.magnitude * Time.deltaTime, (int) mask))
+            Vector3 p = transform.position + GetVelocity().normalized * 0.03f;
+            foreach (RaycastHit hit in Physics.BoxCastAll(p, GetComponent<BoxCollider>().size, GetVelocity(), transform.rotation, GetVelocity().magnitude * Time.deltaTime, (int) mask))
             {
                 ObjectHit(hit.collider.gameObject);
             }
+            Destroy();
+        }
+
+        lifeTime -= Time.deltaTime;
+        if (lifeTime <= 0)
+        {
             Destroy();
         }
     }
@@ -102,12 +110,16 @@ public class ThrownBlade : Photon.MonoBehaviour
                     if (Vector3.Angle(-titanBase.Body.Head.forward, transform.position - titanBase.Body.Head.position) >= 70f)
                         break;
 
-                    int damage = Mathf.Max(10, (int) ((bodyVelocity * 10f) * scoreMulti));
+                    int damage = (int) Mathf.Max(10, GetDamage());
 
                     Service.Player.TitanDamaged(new TitanDamagedEvent(titanBase, owner, damage));
                     Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, owner, false));
 
-                    titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                    if (damage > 100 * titanBase.Size)
+                    {
+                        titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                    }
+                    ShowCriticalHitFX();
                 }
                 break;
             case "titaneye":
@@ -133,12 +145,13 @@ public class ThrownBlade : Photon.MonoBehaviour
                             {
                                 femaleTitan.hitEyeRPC(transform.root.gameObject.GetPhotonView().viewID);
                             }
+                            ShowCriticalHitFX();
                         }
                         else if (titan is MindlessTitan)
                         {
                             var mindlessTitan = titan as MindlessTitan;
 
-                            int damage = Mathf.Max(10, (int) ((bodyVelocity * 10f) * scoreMulti));
+                            int damage = (int) Mathf.Max(10, GetDamage());
 
                             if (PhotonNetwork.isMasterClient)
                             {
@@ -159,7 +172,7 @@ public class ThrownBlade : Photon.MonoBehaviour
 
                     if (rootObject.TryGetComponent(out MindlessTitan mindlessTitan))
                     {
-                        int damage = Mathf.Max(10, (int) ((bodyVelocity * 10f) * scoreMulti));
+                        int damage = (int) Mathf.Max(10, GetDamage());
                         BodyPart body = mindlessTitan.Body.GetBodyPart(gameObject.transform);
 
                         Service.Player.TitanHit(new TitanHitEvent(mindlessTitan, body, owner, false));
@@ -179,7 +192,7 @@ public class ThrownBlade : Photon.MonoBehaviour
                 {
                     GameObject rootObj = gameObject.transform.root.gameObject;
 
-                    int damage = Mathf.Max(10, (int) ((bodyVelocity * 10f) * scoreMulti));
+                    int damage = (int) Mathf.Max(10, GetDamage());
 
                     if (rootObj.TryGetComponent(out TitanBase titan))
                     {
@@ -233,13 +246,23 @@ public class ThrownBlade : Photon.MonoBehaviour
         }
     }
 
+    private Vector3 GetVelocity()
+    {
+        return baseVelocity * lifeTime / BladeLifeTime;
+    }
+
+    private int GetDamage()
+    {
+        return (int) ((baseVelocity.magnitude - BladeThrowSkill.GetBaseBladeSpeed) * lifeTime / BladeLifeTime * 5f);
+    }
+
     private void HeroHit(Hero hero)
     {
         if (((hero != null) && !hero.HasDied()))
         {
             hero.GetComponent<Hero>().MarkDie();
             Debug.Log("blade hit player " + ownerName);
-            object[] parameters = new object[] { (velocity.normalized * 1000f) + (Vector3.up * 50f), false, viewID, ownerName, true };
+            object[] parameters = new object[] { (GetVelocity().normalized * 1000f) + (Vector3.up * 50f), false, viewID, ownerName, true };
             hero.GetComponent<Hero>().photonView.RPC(nameof(Hero.NetDie), PhotonTargets.All, parameters);
         }
     }
@@ -256,12 +279,10 @@ public class ThrownBlade : Photon.MonoBehaviour
         Destroy(this.transform.root.gameObject);
     }
 
-    public void Initialize(Hero owner, float scoreMulti, float bodyVelocity, Vector3 vel)
+    public void Initialize(Hero owner, Vector3 vel)
     {
         this.owner = owner;
-        this.scoreMulti = scoreMulti;
-        this.bodyVelocity = bodyVelocity;
-        velocity = vel;
+        baseVelocity = vel;
     }
 
 }
