@@ -2341,9 +2341,10 @@ MonoBehaviour:
   MindlessType: 0
   titanLookAtRange: 100
   minHeadRotVertical: 9.5
-  maxHeadRotVertical: 5
+  maxHeadRotVertical: 20
   minHeadRotHorizontal: 10
   maxHeadRotHorizontal: 10
+  interpolation_velocity: 10
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:

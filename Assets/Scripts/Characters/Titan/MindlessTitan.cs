@@ -94,7 +94,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private bool asClientLookTarget;
         private Quaternion oldHeadRotation;
-        private Quaternion targetHeadRotation;
+        private Quaternion targetHeadRotation;      //SonarCloud will bitch about this line. Do not give into the machine. Fight it, it must not win.
         private Vector3 headscale;
 
         protected override void Awake()
@@ -301,46 +301,37 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        public Transform lookatTarget;
-
-
         private void calculateHeadRotation()
         {
             var     relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
             var     global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
             float   relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
-            float   clamped_relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
+                    relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
 
             float   relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
             float   vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;                              //Find angle vertically
-            float   clamped_vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);         //Clamp dat boi
+                    vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);                 //Clamp dat boi
 
-            return Quaternion.Euler(                                                                                       //Assemble angle needed to look at target
-                 Body.Head.rotation.eulerAngles.x + clamped_vertical_angle,   
-                 Body.Head.rotation.eulerAngles.y + clamped_relative_horizontal_angle,
+            this.targetHeadRotation = Quaternion.Euler(                                                                     //Assemble angle needed to look at target
+                 Body.Head.rotation.eulerAngles.x + vertical_angle,   
+                 Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
                  Body.Head.rotation.eulerAngles.z
                  );
-
-#if DEBUG
-            //Debug.Log("Head rotation is " + Body.Head.transform.eulerAngles);
-            //Debug.Log( "relative_horizontal_angle = " + relative_horizontal_angle +
-            //           " vertical_angle = " + vertical_angle
-            //          );
-#endif
         }
 
         private void HeadMovement()
         {
             if (State != TitanState.Dead)
             {
-                Body.Head.rotation = CalculateHeadRotation();
-                interpolation_velocity = 10f;
+                float interpolation_velocity = 10f;
+                this.targetHeadRotation = Body.Head.rotation;
+
                 if (base.photonView.isMine)
                 {
                     if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
                     bool haveToUpdateHead = TargetDistance < titanLookAtRange && Target;
                     if (haveToUpdateHead)
-                        this.CalculateHeadRotation();
+                        this.calculateHeadRotation();
 
                     //whenever haveToUpdateHead and asClientLookTarget are different it updates the target for clients
                     if (haveToUpdateHead ^ this.asClientLookTarget)
@@ -349,17 +340,17 @@ namespace Assets.Scripts.Characters.Titan
                         base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, this.asClientLookTarget);
                     }
 
-                    if (State == TitanState.Attacking)
-                    { interpolation_velocity = 20f; }
+                    if(State == TitanState.Attacking)
+                        interpolation_velocity = 20f;
                 }
                 else
                 {
                     TargetDistance = this.GetTargetDistance();
                     if (this.asClientLookTarget && TargetDistance < 100f)
-                        this.CalculateHeadRotation();
+                        this.calculateHeadRotation();
                 }
 
-                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, CalculateHeadRotation(), //Lerp towards the new head angle by interpolation velocity amount
+                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, //Lerp towards the new head angle by interpolation velocity amount
                     Time.deltaTime * interpolation_velocity);
                 Body.Head.rotation = this.oldHeadRotation;
             }
@@ -678,25 +669,20 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 case TitanState.Idle:
                     OnIdle();
-                    //HeadMovement();
                     break;
                 case TitanState.Dead:
                     break;
                 case TitanState.Wandering:
                     OnWandering();
-                    //HeadMovement();
                     break;
                 case TitanState.Turning:
                     OnTurning();
-                    //HeadMovement();
                     break;
                 case TitanState.Chase:
                     OnChasing();
-                    //HeadMovement();
                     break;
                 case TitanState.Attacking:
                     OnAttacking();
-                   // HeadMovement();
                     break;
                 case TitanState.Recovering:
                     OnRecovering();
