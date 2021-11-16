@@ -2182,6 +2182,7 @@ GameObject:
   - component: {fileID: 114021182772690314}
   - component: {fileID: 6694120659276232339}
   - component: {fileID: -6264185045053856331}
+  - component: {fileID: 4256177354525064873}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2525,6 +2526,19 @@ MonoBehaviour:
   image: {fileID: 0}
   position: {x: 0, y: 0}
   markerID: 
+--- !u!135 &4256177354525064873
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 500
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0

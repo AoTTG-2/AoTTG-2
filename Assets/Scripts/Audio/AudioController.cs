@@ -71,6 +71,8 @@ public class AudioController : MonoBehaviour
             }
         }
 
+        
+
         if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchMusic(channels[(currentChannel.index + 1) % channels.Length]); //DEBUGGING, DELETE IT
         if (Input.GetKeyDown(KeyCode.Alpha2)) PlayRandomSong(currentChannel); //DEBUGGING, DELETE IT
 

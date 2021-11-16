@@ -4192,5 +4192,24 @@ namespace Assets.Scripts.Characters.Humans
             eren_titan = PhotonView.Find(id).gameObject.GetComponent<ErenTitan>();
             titanForm = true;
         }
+
+        private void OnTriggerEnter(Collider collision)
+        {
+            if (collision.gameObject.CompareTag("titan"))
+            {
+                AudioController.Instance.SetState(ChannelTypes.Combat, true);
+                Debug.Log("entered");
+            }
+        }
+
+        private void OnTriggerExit(Collider collision)
+        {
+            if (collision.gameObject.CompareTag("titan"))
+            {
+                AudioController.Instance.SetState(ChannelTypes.Combat, false);
+                AudioController.Instance.SetState(ChannelTypes.Neutral, true);
+                Debug.Log("exited");
+            }
+        }
     }
 }
