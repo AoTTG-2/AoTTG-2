@@ -2,23 +2,32 @@
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Events.Args;
+using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Characters;
+using System.Collections.Generic;
+using Assets.Scripts.Characters.Titan.Behavior;
+using Newtonsoft.Json;
 using UnityEngine;
+
 
 /// <summary>
 /// The dummy titan. Hasn't been touched since May 2020, so should be updated to match the new standards
 /// </summary>
-public class DummyTitan : Photon.MonoBehaviour
+public class DummyTitan : TitanBase
 {
-    protected readonly IEntityService EntityService = Service.Entity;
+    private readonly IPlayerService playerService = Service.Player;
 
-    public int health = 300;
     public GameObject myHero;
     public Transform pivot;
-    public bool dead = false;
     public bool canRotate = true;
-    public TextMesh healthLabel;
+    private bool ankleEnabled = true;
+    private float timeTillRotate = 0f;
+    private float timeTillRotateValue = 4f;
     public TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
+    public Transform headPos;
 
     public float speed = 3.0f;
 
@@ -26,14 +35,13 @@ public class DummyTitan : Photon.MonoBehaviour
 
     private void Start()
     {
-        pivot = transform.Find("BodyPivot");
-        healthLabel = pivot.Find("Body/HealthLabel").gameObject.GetComponent<TextMesh>();
-        healthLabel2 = pivot.Find("Body/HealthLabel2").gameObject.GetComponent<TextMesh>();
+        playerService.OnTitanHit += AnkleHit;
+        Initialize(new TitanConfiguration(0, 0, 0, MindlessTitanType.DummyTitan));
     }
 
-    void Update()
+    protected override void Update()
     {
-        if(canRotate)
+        if (canRotate)
         {
             if (myHero)
             {
@@ -46,7 +54,76 @@ public class DummyTitan : Photon.MonoBehaviour
                 myHero = GetNearestHero();
             }
         }
-        healthLabel.text = healthLabel2.text = health.ToString();
+
+        if (ankleEnabled && timeTillRotate > 0)
+        {
+            timeTillRotate -= Time.deltaTime;
+        }
+        else if (ankleEnabled && timeTillRotate <= 0)
+        {
+            canRotate = true;
+        }
+
+        healthLabel2.text = HealthLabel.GetComponent<TextMesh>().text;
+
+    }
+    protected override void FixedUpdate() { }
+
+    public override void Initialize(TitanConfiguration configuration)
+    {
+        Type = TitanType.DummyTitan;
+        State = TitanState.Idle;
+        Health = configuration.Health;
+        MaxHealth = configuration.Health;
+        Size = configuration.Size;
+        AnimationDeath = configuration.AnimationDeath;
+        AnimationRecovery = configuration.AnimationRecovery;
+        Body = gameObject.GetComponent<TitanBody>();
+        Body.Head = headPos;
+        HealthLabel = pivot.Find("BodyPivot/Body/HealthLabel").gameObject;
+        healthLabel2 = pivot.Find("BodyPivot/Body/HealthLabel2").GetComponent<TextMesh>();
+
+        transform.localScale = new Vector3(Size, Size, Size);
+
+        if (photonView.isMine)
+        {
+            configuration.Behaviors = new List<TitanBehavior>();
+            var config = JsonConvert.SerializeObject(configuration);
+            photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
+
+            if (Health > 0)
+            {
+                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
+            }
+        }
+
+        EntityService.Register(this);
+    }
+
+    [PunRPC]
+    public void InitializeRpc(string titanConfiguration, PhotonMessageInfo info)
+    {
+        if (info.sender.ID == photonView.ownerId)
+        {
+            Initialize(JsonConvert.DeserializeObject<TitanConfiguration>(titanConfiguration));
+        }
+    }
+
+    public override void OnHit(Entity attacker, int damage)
+    {
+        base.OnHit(attacker, damage);
+    }
+
+    [PunRPC]
+    public void AnkleHit(TitanHitEvent ev)
+    {
+        if (ev.PartHit == BodyPart.Ankle)
+        {
+            canRotate = false;
+            timeTillRotate = timeTillRotateValue;
+        }
+
+        
     }
 
     private GameObject GetNearestHero()
@@ -67,33 +144,31 @@ public class DummyTitan : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void GetHit(int dmg)
+    protected override void OnDeath()
     {
-        if(health != 0)
-        {
-            if(dmg >= health)
-            {
-                Die();
-            }
-        }
+        canRotate = false;
+        ankleEnabled = false;
+
+        //CrossFade(AnimationDeath, 0f);
+        Invoke("OnRecovering", 5.683f);
     }
 
-    public void Die()
+    [PunRPC]
+    protected override void OnRecovering()
     {
-        if (!dead)
-        {
-            Destroy(minimapIcon.gameObject);
-
-            Transform body = pivot.transform.Find("Body");
-            body.transform.parent = null;
-            Rigidbody rb = body.gameObject.AddComponent<Rigidbody>();
-            rb.useGravity = true;
-            rb.mass = 15;
-            body.GetComponent<MeshCollider>().convex = true;
-
-            Destroy(body.gameObject, 3);
-            Destroy(gameObject, 3);
-            dead = true;
-        }
+        State = TitanState.Recovering;
+        SetStateAnimation(TitanState.Recovering);
+        Invoke("ResetDummy", 3.125f);
     }
+    private void ResetDummy()
+    {
+        State = TitanState.Idle;
+        Health = MaxHealth;
+        canRotate = true;
+        ankleEnabled = true;
+        timeTillRotate = 0f;
+        photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
+
+    }
+
 }

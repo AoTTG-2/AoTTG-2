@@ -68,6 +68,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void OnTriggerStay(Collider collider)
         {
+
             if (!IsActive) return;
 
             if (!currentHitsII.Contains(collider.gameObject))
@@ -86,7 +87,6 @@ namespace Assets.Scripts.Characters.Humans
 
             if (currentHits.Contains(collider.gameObject))
                 return;
-
             switch (collider.gameObject.tag)
             {
                 case "playerHitbox":
@@ -103,7 +103,6 @@ namespace Assets.Scripts.Characters.Humans
                 case "titanneck":
                     if (collider.gameObject.TryGetComponent(out HitBox hitBox) && hitBox.transform.root.TryGetComponent(out TitanBase titanBase))
                     {
-
                         if (Vector3.Angle(-titanBase.Body.Head.forward, transform.position - titanBase.Body.Head.position) >= 70f)
                             break;
 
@@ -189,6 +188,7 @@ namespace Assets.Scripts.Characters.Humans
                         currentHits.Add(collider.gameObject);
                         GameObject rootObj = collider.gameObject.transform.root.gameObject;
                         Vector3 velocity = Vector3.zero;
+                        Debug.Log("test1");
 
                         if (rootObj.TryGetComponent(out Rigidbody rigidbody))//patch for dummy titan
                         {
@@ -206,6 +206,10 @@ namespace Assets.Scripts.Characters.Humans
                                 var mindlessTitan = titan as MindlessTitan;
 
                                 mindlessTitan.OnAnkleHit(transform.root.gameObject.GetPhotonView().viewID, damage);
+                                ShowCriticalHitFX();
+                            }
+                            else if (titan is DummyTitan)
+                            {
                                 ShowCriticalHitFX();
                             }
                             else if (titan is FemaleTitan)
@@ -237,10 +241,6 @@ namespace Assets.Scripts.Characters.Humans
                                 }
                                 ShowCriticalHitFX();
                             }
-                        }
-                        else if (rootObj.TryGetComponent(out DummyTitan dummyTitan))
-                        {
-                            ShowCriticalHitFX();
                         }
                     }
                     break;

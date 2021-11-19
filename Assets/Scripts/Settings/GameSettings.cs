@@ -211,6 +211,9 @@ namespace Assets.Scripts.Settings
                 case GamemodeType.Infection:
                     Gamemode = CreateFromObjects(playerGamemodeSettings as InfectionGamemodeSettings, levelGamemode as InfectionGamemodeSettings);
                     break;
+                case GamemodeType.NoTitan:
+                    Gamemode = CreateFromObjects(playerGamemodeSettings as NoTitanSettings, levelGamemode as NoTitanSettings);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(levelGamemode.GetType().ToString());
             }

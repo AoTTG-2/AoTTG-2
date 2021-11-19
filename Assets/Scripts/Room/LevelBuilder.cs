@@ -166,7 +166,7 @@ namespace Assets.Scripts.Room
                             DayLength = 300,
                             Pause = true,
                         },
-                    },
+                    }
                 }
             });
 
@@ -178,6 +178,15 @@ namespace Assets.Scripts.Room
                 Gamemodes = new List<GamemodeSettings>
                 {
                     new WaveGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new NoTitanSettings
                     {
                         Time = new TimeSettings
                         {

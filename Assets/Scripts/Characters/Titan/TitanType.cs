@@ -8,6 +8,7 @@
         Dummy,
         Eren,
         Female,
-        Mindless
+        Mindless,
+        DummyTitan
     }
 }
