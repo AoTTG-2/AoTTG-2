@@ -108,7 +108,6 @@ namespace Assets.Scripts.Settings.Gamemodes
                 new TrostSettings(difficulty),
                 new WaveGamemodeSettings(difficulty),
                 new CatchGamemodeSettings(difficulty),
-                new NoTitanSettings(difficulty)              
             };
         }
 
@@ -136,8 +135,6 @@ namespace Assets.Scripts.Settings.Gamemodes
                     return typeof(InfectionGamemode);
                 case GamemodeType.Catch:
                     return typeof(CatchGamemode);
-                case GamemodeType.NoTitan:
-                    return typeof(NoTitanGamemode);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

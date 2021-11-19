@@ -186,15 +186,6 @@ namespace Assets.Scripts.Room
                             Pause = true,
                         },
                     },
-                    new NoTitanSettings
-                    {
-                        Time = new TimeSettings
-                        {
-                            CurrentTime = 12,
-                            DayLength = 300,
-                            Pause = true,
-                        },
-                    },
                     new KillTitansSettings
                     {
                         GamemodeType = GamemodeType.Titans,
