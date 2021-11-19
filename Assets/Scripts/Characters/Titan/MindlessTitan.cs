@@ -115,7 +115,7 @@ namespace Assets.Scripts.Characters.Titan
             obj2.transform.parent = Body.AABB;
             obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
         }
-        
+
         public override void Initialize(TitanConfiguration configuration)
         {
             Health = configuration.Health;
@@ -212,16 +212,16 @@ namespace Assets.Scripts.Characters.Titan
         private void LoadSkin()
         {
             var eye = false;
-            if (!((base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
+            if (!((base.photonView.isMine) ? (((int) FengGameManagerMKII.settings[1]) != 1) : true))
             {
-                int index = (int)UnityEngine.Random.Range((float)86f, (float)90f);
+                int index = (int) UnityEngine.Random.Range((float) 86f, (float) 90f);
                 int num2 = index - 60;
-                if (((int)FengGameManagerMKII.settings[0x20]) == 1)
+                if (((int) FengGameManagerMKII.settings[0x20]) == 1)
                 {
                     num2 = UnityEngine.Random.Range(0x1a, 30);
                 }
-                string body = (string)FengGameManagerMKII.settings[index];
-                string eyes = (string)FengGameManagerMKII.settings[num2];
+                string body = (string) FengGameManagerMKII.settings[index];
+                string eyes = (string) FengGameManagerMKII.settings[num2];
                 var skin = index;
                 if ((eyes.EndsWith(".jpg") || eyes.EndsWith(".png")) || eyes.EndsWith(".jpeg"))
                 {
@@ -313,7 +313,7 @@ namespace Assets.Scripts.Characters.Titan
                         if (!this.asClientLookTarget)
                         {
                             this.asClientLookTarget = true;
-                            object[] parameters = new object[] {true};
+                            object[] parameters = new object[] { true };
                             base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, parameters);
                         }
 
@@ -323,7 +323,7 @@ namespace Assets.Scripts.Characters.Titan
                     if (!(flag2 || !this.asClientLookTarget))
                     {
                         this.asClientLookTarget = false;
-                        object[] objArray3 = new object[] {false};
+                        object[] objArray3 = new object[] { false };
                         base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, objArray3);
                     }
 
@@ -453,7 +453,7 @@ namespace Assets.Scripts.Characters.Titan
                 if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
                 {
                     player.MarkDie();
-                    player.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All,  -1, "Server ");
+                    player.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, -1, "Server ");
                 }
             }
         }
@@ -514,9 +514,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (State == TitanState.Idle) {}
+            if (State == TitanState.Idle) { }
 
-            PreviousState = State == TitanState.Idle 
+            PreviousState = State == TitanState.Idle
                 ? TitanState.Chase
                 : State;
             State = state;
@@ -550,6 +550,14 @@ namespace Assets.Scripts.Characters.Titan
             this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
         }
 
+        private void SmallTurn(float degrees)
+        {
+            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true) return;
+            this.turnDeg = (degrees > 0f ? 15 : -15) * Time.deltaTime;
+            gameObject.transform.Rotate(0, this.turnDeg, 0);
+            this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
+        }
+
         private bool Between(float value, float min = -1f, float max = 1f)
         {
             return value > min && value < max;
@@ -558,11 +566,11 @@ namespace Assets.Scripts.Characters.Titan
         public bool IsStuck()
         {
             var velocity = Rigidbody.velocity;
-            return Between(velocity.z, -Speed / 4, Speed / 4) 
-                   && Between(velocity.x, -Speed / 4, Speed / 4) 
+            return Between(velocity.z, -Speed / 4, Speed / 4)
+                   && Between(velocity.x, -Speed / 4, Speed / 4)
                    && Animation[CurrentAnimation].normalizedTime > 2f;
         }
-        
+
         private void CheckColliders()
         {
             if (!IsHooked && !IsLooked && !IsColliding)
@@ -617,7 +625,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
             }
         }
-        
+
         private void Pathfinding()
         {
             Vector3 forwardDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
@@ -629,7 +637,7 @@ namespace Assets.Scripts.Characters.Titan
                 Vector3 rightDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
                 RaycastHit leftHit;
                 RaycastHit rightHit;
-                Physics.Raycast(Body.Hip.transform.position, leftDirection, out leftHit, 250 , mask);
+                Physics.Raycast(Body.Hip.transform.position, leftDirection, out leftHit, 250, mask);
                 Physics.Raycast(Body.Hip.transform.position, rightDirection, out rightHit, 250, mask);
 
                 if (leftHit.distance < rightHit.distance)
@@ -678,6 +686,10 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            if (Target != null)
+            {
+                GetNavigator().Navigate(Target.transform.position);
+            }
 
             switch (State)
             {
@@ -794,12 +806,20 @@ namespace Assets.Scripts.Characters.Titan
             }
             else
             {
-                Vector3 vector18 = Target.transform.position - transform.position;
-                var angle = -Mathf.Atan2(vector18.z, vector18.x) * Mathf.Rad2Deg;
+                Vector3 movingDirection = Target.transform.position - transform.position;
+                if (GetNavigator().GetNavDir().magnitude > 0)
+                {
+                    movingDirection = GetNavigator().GetNavDir();
+                }
+                var angle = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg;
                 var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
                 if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
                 {
                     Turn(between);
+                }
+                else
+                {
+                    SmallTurn(between);
                 }
             }
         }
@@ -967,11 +987,22 @@ namespace Assets.Scripts.Characters.Titan
                 vector14.y = 0f;
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
-                var vector17 = Target.transform.position - transform.position;
-                var current = -Mathf.Atan2(vector17.z, vector17.x) * Mathf.Rad2Deg + RotationModifier;
+                var movingDirection = Target.transform.position - transform.position;
+                if (GetNavigator().GetNavDir().magnitude > 0)
+                {
+                    movingDirection = GetNavigator().GetNavDir();
+                }
+                var current = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg + RotationModifier;
                 float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);
             }
         }
+
+        private FlatNavigator GetNavigator()
+        {
+            return gameObject.GetComponentInChildren<FlatNavigator>();
+        }
+
+
     }
 }
