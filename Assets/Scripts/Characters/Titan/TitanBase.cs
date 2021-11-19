@@ -186,7 +186,7 @@ namespace Assets.Scripts.Characters.Titan
         public float ViewDistance { get; protected set; }
         #endregion
 
-        private float FocusTimer { get; set; }
+        public float FocusTimer { get; set; }
         private float HealthLimit { get; set; }
         private float HealthRegenerationTimer { get; set; }
         private float IdleTimer { get; set; }

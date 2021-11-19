@@ -188,7 +188,6 @@ namespace Assets.Scripts.Characters.Humans
                         currentHits.Add(collider.gameObject);
                         GameObject rootObj = collider.gameObject.transform.root.gameObject;
                         Vector3 velocity = Vector3.zero;
-                        Debug.Log("test1");
 
                         if (rootObj.TryGetComponent(out Rigidbody rigidbody))//patch for dummy titan
                         {

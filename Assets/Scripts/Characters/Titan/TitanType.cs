@@ -5,10 +5,8 @@
         Armored,
         Beast,
         Colossal,
-        Dummy,
         Eren,
         Female,
-        Mindless,
-        DummyTitan
+        Mindless
     }
 }

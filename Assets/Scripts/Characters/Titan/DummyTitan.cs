@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Services;
+﻿using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.Characters.Titan;
@@ -19,15 +18,14 @@ public class DummyTitan : TitanBase
 {
     private readonly IPlayerService playerService = Service.Player;
 
-    public GameObject myHero;
     public Transform pivot;
-    public bool canRotate = true;
     private bool ankleEnabled = true;
     private float timeTillRotate = 0f;
     private float timeTillRotateValue = 4f;
-    public TextMesh healthLabel2;
+    private TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
     public Transform headPos;
+    public MindlessTitanType MindlessType;
 
     public float speed = 3.0f;
 
@@ -41,50 +39,57 @@ public class DummyTitan : TitanBase
 
     protected override void Update()
     {
-        if (canRotate)
+        if (ankleEnabled && State == TitanState.Chase)
         {
-            if (myHero)
-            {
-                lookAtRotation = Quaternion.LookRotation(myHero.transform.position - pivot.position);
-                Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
-                pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
-            }
-            else
-            {
-                myHero = GetNearestHero();
-            }
+            lookAtRotation = Quaternion.LookRotation(Target.transform.position - pivot.position);
+            Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
+            pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
         }
 
-        if (ankleEnabled && timeTillRotate > 0)
+        FocusTimer += Time.deltaTime;
+
+        if (FocusTimer > Focus && FactionService.GetAllHostile(this).Count > 0)
+        {
+            OnTargetRefresh();
+        }
+
+        if (timeTillRotate > 0)
         {
             timeTillRotate -= Time.deltaTime;
         }
-        else if (ankleEnabled && timeTillRotate <= 0)
+        else if (timeTillRotate <= 0 && (State != TitanState.Dead || State != TitanState.Recovering))
         {
-            canRotate = true;
+            ankleEnabled = true;
         }
-
-        //healthLabel2.text = HealthLabel.GetComponent<TextMesh>().text;
-
     }
     protected override void FixedUpdate() { }
 
     public override void Initialize(TitanConfiguration configuration)
     {
-        Type = TitanType.DummyTitan;
         State = TitanState.Idle;
         Health = configuration.Health;
         MaxHealth = configuration.Health;
         Size = configuration.Size;
+        Focus = configuration.Focus;
+        FocusTimer = configuration.Focus;
+        ViewDistance = configuration.ViewDistance;
+
+        MindlessType = configuration.Type;
+        name = MindlessType.ToString();
+
         AnimationDeath = configuration.AnimationDeath;
         AnimationRecovery = configuration.AnimationRecovery;
+
         Body = gameObject.GetComponent<TitanBody>();
         Body.Head = headPos;
+
         HealthLabel = pivot.Find("BodyPivot/Body/HealthLabel").gameObject;
         healthLabel2 = pivot.Find("BodyPivot/Body/HealthLabel2").GetComponent<TextMesh>();
 
         transform.localScale = new Vector3(Size, Size, Size);
 
+        photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
+        /*
         if (photonView.isMine)
         {
             configuration.Behaviors = new List<TitanBehavior>();
@@ -95,19 +100,17 @@ public class DummyTitan : TitanBase
             {
                 photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
             }
-        }
-
-        //EntityService.Register(this);
+        }*/
     }
 
-    [PunRPC]
+    /*[PunRPC]
     public void InitializeRpc(string titanConfiguration, PhotonMessageInfo info)
     {
         if (info.sender.ID == photonView.ownerId)
         {
             Initialize(JsonConvert.DeserializeObject<TitanConfiguration>(titanConfiguration));
         }
-    }
+    }*/
 
     public override void OnHit(Entity attacker, int damage)
     {
@@ -119,37 +122,28 @@ public class DummyTitan : TitanBase
     {
         if (ev.PartHit == BodyPart.Ankle)
         {
-            canRotate = false;
+            ankleEnabled = false;
             timeTillRotate = timeTillRotateValue;
-        }
-
-        
+        }        
     }
 
-    private GameObject GetNearestHero()
+    protected override void OnTargetRefresh()
     {
-        GameObject obj2 = null;
-        float positiveInfinity = float.PositiveInfinity;
-        foreach (Hero hero in EntityService.GetAll<Hero>())
+        base.OnTargetRefresh();
+
+        if (State == TitanState.Idle && TargetDistance < ViewDistance)
         {
-            GameObject gameObject = hero.gameObject;
-            float num2 = Vector3.Distance(gameObject.transform.position, transform.position);
-            if (num2 < positiveInfinity)
-            {
-                obj2 = gameObject;
-                positiveInfinity = num2;
-            }
+            State = TitanState.Chase;
+        } else
+        {
+            State = TitanState.Idle;
         }
-        return obj2;
     }
 
     [PunRPC]
     protected override void OnDeath()
     {
-        canRotate = false;
         ankleEnabled = false;
-
-        //CrossFade(AnimationDeath, 0f);
         Invoke("OnRecovering", 5.683f);
     }
 
@@ -164,12 +158,10 @@ public class DummyTitan : TitanBase
     {
         State = TitanState.Idle;
         Health = MaxHealth;
-        canRotate = true;
         ankleEnabled = true;
         timeTillRotate = 0f;
+        FocusTimer = Focus;
         photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
-        HealthLabel = pivot.Find("BodyPivot/Body/HealthLabel").gameObject;
-
     }
 
     [PunRPC]
@@ -198,6 +190,4 @@ public class DummyTitan : TitanBase
 
         healthLabel2.text = HealthLabel.GetComponent<TextMesh>().text;
     }
-
-
 }

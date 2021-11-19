@@ -35,6 +35,9 @@
         /// A titan which has randomized behavior and attacks. An abnormal, you don't know what you will encounter with these
         /// </summary>
         Abnormal,
+        /// <summary>
+        /// Dummy Titan used for Training primarily
+        /// </summary>
         DummyTitan
     }
 }
