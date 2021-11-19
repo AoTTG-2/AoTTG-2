@@ -5,9 +5,6 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Events.Args;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Characters;
-using System.Collections.Generic;
-using Assets.Scripts.Characters.Titan.Behavior;
-using Newtonsoft.Json;
 using UnityEngine;
 
 
@@ -36,14 +33,19 @@ public class DummyTitan : TitanBase
         playerService.OnTitanHit += AnkleHit;
         Initialize(new TitanConfiguration(0, 0, 0, MindlessTitanType.DummyTitan));
     }
+    [PunRPC]
+    private void Rotate()
+    {
+        lookAtRotation = Quaternion.LookRotation(Target.transform.position - pivot.position);
+        Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
+        pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
+    }
 
     protected override void Update()
     {
         if (ankleEnabled && State == TitanState.Chase)
         {
-            lookAtRotation = Quaternion.LookRotation(Target.transform.position - pivot.position);
-            Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
-            pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
+            photonView.RPC(nameof(Rotate), PhotonTargets.All);
         }
 
         FocusTimer += Time.deltaTime;
@@ -89,28 +91,8 @@ public class DummyTitan : TitanBase
         transform.localScale = new Vector3(Size, Size, Size);
 
         photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
-        /*
-        if (photonView.isMine)
-        {
-            configuration.Behaviors = new List<TitanBehavior>();
-            var config = JsonConvert.SerializeObject(configuration);
-            photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
 
-            if (Health > 0)
-            {
-                photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
-            }
-        }*/
     }
-
-    /*[PunRPC]
-    public void InitializeRpc(string titanConfiguration, PhotonMessageInfo info)
-    {
-        if (info.sender.ID == photonView.ownerId)
-        {
-            Initialize(JsonConvert.DeserializeObject<TitanConfiguration>(titanConfiguration));
-        }
-    }*/
 
     public override void OnHit(Entity attacker, int damage)
     {
@@ -134,7 +116,8 @@ public class DummyTitan : TitanBase
         if (State == TitanState.Idle && TargetDistance < ViewDistance)
         {
             State = TitanState.Chase;
-        } else
+        }
+        if (TargetDistance > ViewDistance)
         {
             State = TitanState.Idle;
         }
