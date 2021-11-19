@@ -1003,6 +1003,5 @@ namespace Assets.Scripts.Characters.Titan
             return gameObject.GetComponentInChildren<FlatNavigator>();
         }
 
-
     }
 }
