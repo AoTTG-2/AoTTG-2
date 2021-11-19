@@ -10,7 +10,10 @@ public class SpawnDummyTitan : Spawner
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.Instantiate("DummyTitanPrefab", transform.position, transform.rotation, 0);
+        if (PhotonNetwork.isMasterClient)
+        {
+            PhotonNetwork.Instantiate("DummyTitanPrefab", transform.position, transform.rotation, 0);
+        }
     }
 
     // Update is called once per frame

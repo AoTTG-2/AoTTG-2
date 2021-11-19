@@ -64,7 +64,7 @@ public class DummyTitan : TitanBase
             canRotate = true;
         }
 
-        healthLabel2.text = HealthLabel.GetComponent<TextMesh>().text;
+        //healthLabel2.text = HealthLabel.GetComponent<TextMesh>().text;
 
     }
     protected override void FixedUpdate() { }
@@ -97,7 +97,7 @@ public class DummyTitan : TitanBase
             }
         }
 
-        EntityService.Register(this);
+        //EntityService.Register(this);
     }
 
     [PunRPC]
@@ -168,7 +168,36 @@ public class DummyTitan : TitanBase
         ankleEnabled = true;
         timeTillRotate = 0f;
         photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
+        HealthLabel = pivot.Find("BodyPivot/Body/HealthLabel").gameObject;
 
     }
+
+    [PunRPC]
+    protected override void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
+    {
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
+        
+        var color = "7FFF00";
+        var num2 = ((float) currentHealth) / ((float) maxHealth);
+        if ((num2 < 0.75f) && (num2 >= 0.5f))
+        {
+            color = "f2b50f";
+        }
+        else if ((num2 < 0.5f) && (num2 >= 0.25f))
+        {
+            color = "ff8100";
+        }
+        else if (num2 < 0.25f)
+        {
+            color = "ff3333";
+        }
+        HealthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{currentHealth}</color>";
+
+        healthLabel2.text = HealthLabel.GetComponent<TextMesh>().text;
+    }
+
 
 }
