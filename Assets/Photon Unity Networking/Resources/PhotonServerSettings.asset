@@ -22,13 +22,12 @@ MonoBehaviour:
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
-  - AnkleHit
   - BackToHumanRPC
   - BadGuyReleaseMe
   - BlowAway
@@ -43,6 +42,7 @@ MonoBehaviour:
   - CrossFadeRpc
   - DestroyRpc
   - endMovingRock
+  - GetHit
   - Grab
   - grabbedTargetEscape
   - GrabEscapeRpc
@@ -87,11 +87,9 @@ MonoBehaviour:
   - netUpdatePhase1
   - OnArrivedAtLastCheckpointRpc
   - OnBodyPartHitRpc
-  - OnDeath
   - OnEyeHitRpc
   - OnGameEndRpc
   - OnNapeHitRpc
-  - OnRecovering
   - PauseRpc
   - PickupItemInit
   - playsoundRPC
@@ -144,8 +142,4 @@ MonoBehaviour:
   - updateKillInfo
   - verifyPlayerHasLeft
   - WhoIsMyErenTitan
-  - Rotate
-  - RPC_AnkleBoolChange
-  - RPC_Rotate
-  - ChangeState
   DisableAutoOpenWizard: 1

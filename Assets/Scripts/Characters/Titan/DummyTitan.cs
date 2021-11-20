@@ -1,27 +1,24 @@
-﻿using Assets.Scripts.Services;
+﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.HUD;
-using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Events.Args;
-using Assets.Scripts.Characters.Titan.Configuration;
-using Assets.Scripts.Characters;
 using UnityEngine;
 
-
 /// <summary>
-/// The dummy titan. Rotates to find nearest player. Will switch players if another is closer after the focus time. Also can be disabled via hitting the ankle
+/// The dummy titan. Hasn't been touched since May 2020, so should be updated to match the new standards
 /// </summary>
-public class DummyTitan : TitanBase
+public class DummyTitan : Photon.MonoBehaviour
 {
-    private readonly IPlayerService playerService = Service.Player;
+    protected readonly IEntityService EntityService = Service.Entity;
 
-    private MindlessTitanType mindlessType;
+    public int health = 300;
+    public GameObject myHero;
     public Transform pivot;
-    private float timeTillRotate = 0f;
-    private float timeTillRotateValue = 4f;
-    private TextMesh healthLabel2;
+    public bool dead = false;
+    public bool canRotate = true;
+    public TextMesh healthLabel;
+    public TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
-    public Transform headPos;
 
     public float speed = 3.0f;
 
@@ -29,153 +26,74 @@ public class DummyTitan : TitanBase
 
     private void Start()
     {
-        playerService.OnTitanHit += AnkleHit;
-        Initialize(new TitanConfiguration(0, 0, 0, MindlessTitanType.DummyTitan));
+        pivot = transform.Find("BodyPivot");
+        healthLabel = pivot.Find("Body/HealthLabel").gameObject.GetComponent<TextMesh>();
+        healthLabel2 = pivot.Find("Body/HealthLabel2").gameObject.GetComponent<TextMesh>();
     }
 
-    protected override void Update()
+    void Update()
     {
-        if (State == TitanState.Chase)
+        if(canRotate)
         {
-            lookAtRotation = Quaternion.LookRotation(Target.transform.position - pivot.position);
-            Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
-            pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
+            if (myHero)
+            {
+                lookAtRotation = Quaternion.LookRotation(myHero.transform.position - pivot.position);
+                Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
+                pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
+            }
+            else
+            {
+                myHero = GetNearestHero();
+            }
         }
-
-        FocusTimer += Time.deltaTime;
-
-        if (FocusTimer > Focus && FactionService.GetAllHostile(this).Count > 0)
-        {
-            OnTargetRefresh();
-        }
-
-        if (timeTillRotate > 0)
-        {
-            timeTillRotate -= Time.deltaTime;
-        }
-        else if (timeTillRotate <= 0 && State == TitanState.Disabled)
-        {
-            photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Idle);
-            OnTargetRefresh();
-        }
-
-    }
-    protected override void FixedUpdate() { }
-
-    public override void Initialize(TitanConfiguration configuration)
-    {
-        State = TitanState.Idle;
-        Health = configuration.Health;
-        MaxHealth = configuration.Health;
-        Size = configuration.Size;
-        Focus = configuration.Focus;
-        FocusTimer = configuration.Focus;
-        ViewDistance = configuration.ViewDistance;
-
-        mindlessType = configuration.Type;
-        name = mindlessType.ToString();
-
-        AnimationDeath = configuration.AnimationDeath;
-        AnimationRecovery = configuration.AnimationRecovery;
-
-        Body = gameObject.GetComponent<TitanBody>();
-        Body.Head = headPos;
-
-        HealthLabel = pivot.Find("BodyPivot/Body/HealthLabel").gameObject;
-        healthLabel2 = pivot.Find("BodyPivot/Body/HealthLabel2").GetComponent<TextMesh>();
-
-        transform.localScale = new Vector3(Size, Size, Size);
-
-        photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
-        
+        healthLabel.text = healthLabel2.text = health.ToString();
     }
 
-    public override void OnHit(Entity attacker, int damage)
+    private GameObject GetNearestHero()
     {
-        base.OnHit(attacker, damage);
-    }
-
-    public void AnkleHit(TitanHitEvent ev)
-    {
-        if (ev.PartHit == BodyPart.Ankle)
+        GameObject obj2 = null;
+        float positiveInfinity = float.PositiveInfinity;
+        foreach (Hero hero in EntityService.GetAll<Hero>())
         {
-            photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Disabled);
-        }        
-    }
-
-    protected override void OnTargetRefresh()
-    {
-        base.OnTargetRefresh();
-
-        if (State == TitanState.Idle && TargetDistance < ViewDistance)
-        {
-            State = TitanState.Chase;
+            GameObject gameObject = hero.gameObject;
+            float num2 = Vector3.Distance(gameObject.transform.position, transform.position);
+            if (num2 < positiveInfinity)
+            {
+                obj2 = gameObject;
+                positiveInfinity = num2;
+            }
         }
-        if (TargetDistance > ViewDistance)
-        {
-            State = TitanState.Idle;
-        }
+        return obj2;
     }
 
     [PunRPC]
-    private void ChangeState(TitanState newState)
+    public void GetHit(int dmg)
     {
-        State = newState;
-
-        if (State == TitanState.Disabled)
+        if(health != 0)
         {
-            timeTillRotate = timeTillRotateValue;
+            if(dmg >= health)
+            {
+                Die();
+            }
         }
     }
 
-    [PunRPC]
-    protected override void OnDeath()
+    public void Die()
     {
-        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Dead);
-        SetStateAnimation(TitanState.Dead);
-        Invoke(nameof(OnRecovering), 5.683f);
-    }
+        if (!dead)
+        {
+            Destroy(minimapIcon.gameObject);
 
-    [PunRPC]
-    protected override void OnRecovering()
-    {
-        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Recovering);
-        SetStateAnimation(TitanState.Recovering);
-        Invoke(nameof(ResetDummy), 3.125f);
-    }
-    private void ResetDummy()
-    {
-        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Idle);
-        Health = MaxHealth;
-        timeTillRotate = 0f;
-        FocusTimer = Focus;
-        photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
-    }
+            Transform body = pivot.transform.Find("Body");
+            body.transform.parent = null;
+            Rigidbody rb = body.gameObject.AddComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.mass = 15;
+            body.GetComponent<MeshCollider>().convex = true;
 
-    [PunRPC]
-    protected override void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
-    {
-        if (currentHealth < 0)
-        {
-            currentHealth = 0;
+            Destroy(body.gameObject, 3);
+            Destroy(gameObject, 3);
+            dead = true;
         }
-        
-        var color = "7FFF00";
-        var num2 = ((float) currentHealth) / ((float) maxHealth);
-        if ((num2 < 0.75f) && (num2 >= 0.5f))
-        {
-            color = "f2b50f";
-        }
-        else if ((num2 < 0.5f) && (num2 >= 0.25f))
-        {
-            color = "ff8100";
-        }
-        else if (num2 < 0.25f)
-        {
-            color = "ff3333";
-        }
-        HealthLabel.GetComponent<TextMesh>().text = $"<color=#{color}>{currentHealth}</color>";
-
-        healthLabel2.text = HealthLabel.GetComponent<TextMesh>().text;
     }
 }

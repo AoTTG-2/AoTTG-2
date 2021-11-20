@@ -186,7 +186,7 @@ namespace Assets.Scripts.Characters.Titan
         public float ViewDistance { get; protected set; }
         #endregion
 
-        public float FocusTimer { get; set; }
+        private float FocusTimer { get; set; }
         private float HealthLimit { get; set; }
         private float HealthRegenerationTimer { get; set; }
         private float IdleTimer { get; set; }
@@ -309,9 +309,9 @@ namespace Assets.Scripts.Characters.Titan
                 case TitanState.Attacking:
                     OnAttacking();
                     break;
-                case TitanState.Recovering:
-                    OnRecovering();
-                    break;
+                //case TitanState.Recovering:
+                //    OnRecovering();
+                //    break;
                 //case TitanState.Eat:
                 //    OnGrabbing();
                 //    break;
@@ -397,11 +397,6 @@ namespace Assets.Scripts.Characters.Titan
             base.OnDestroy();
         }
 
-        protected virtual void OnRecovering()
-        {
-
-        }
-
         public override void OnHit(Entity attacker, int damage)
         {
             var direction = (transform.position - attacker.transform.position).normalized;
@@ -423,7 +418,6 @@ namespace Assets.Scripts.Characters.Titan
         public virtual void OnNapeHitRpc(int viewId, int damage, PhotonMessageInfo info = new PhotonMessageInfo())
         {
             if (!IsAlive) return;
-
             var view = PhotonView.Find(viewId);
             if (view == null || !IsAlive || Time.time - DamageTimer < 0.2f) return;
             if (damage < GameSettings.Titan.MinimumDamage.Value) return;
@@ -463,7 +457,7 @@ namespace Assets.Scripts.Characters.Titan
         }
 
         [PunRPC]
-        protected virtual void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
+        protected void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
         {
             if (currentHealth < 0)
             {
@@ -535,9 +529,6 @@ namespace Assets.Scripts.Characters.Titan
                     CrossFade("idle", 0.2f);
                     break;
                 case TitanState.Attacking:
-                    break;
-                case TitanState.Recovering:
-                    CrossFade(AnimationRecovery);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

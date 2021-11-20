@@ -11,7 +11,6 @@
         Jumper,
         Punk,
         Crawler,
-        Annie,
-        DummyTitan
+        Annie
     }
 }
