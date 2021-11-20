@@ -1296,10 +1296,6 @@ namespace Assets.Scripts.Characters.Humans
             {
                 reelForce = 1f;
             }
-            else if (InputManager.KeyUp(InputHuman.ReelIn) || InputManager.KeyUp(InputHuman.ReelOut))
-            {
-                reelForce = 0f;
-            }
             else if (Input.GetAxis("Mouse ScrollWheel") != 0)
             {
                 reelForce = Input.GetAxis("Mouse ScrollWheel") * 5555f;
