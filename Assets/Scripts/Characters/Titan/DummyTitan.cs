@@ -9,20 +9,19 @@ using UnityEngine;
 
 
 /// <summary>
-/// The dummy titan. Hasn't been touched since May 2020, so should be updated to match the new standards
+/// The dummy titan. Rotates to find nearest player. Will switch players if another is closer after the focus time. Also can be disabled via hitting the ankle
 /// </summary>
 public class DummyTitan : TitanBase
 {
     private readonly IPlayerService playerService = Service.Player;
 
+    private MindlessTitanType mindlessType;
     public Transform pivot;
-    private bool ankleEnabled = true;
     private float timeTillRotate = 0f;
     private float timeTillRotateValue = 4f;
     private TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
     public Transform headPos;
-    public MindlessTitanType MindlessType;
 
     public float speed = 3.0f;
 
@@ -33,19 +32,14 @@ public class DummyTitan : TitanBase
         playerService.OnTitanHit += AnkleHit;
         Initialize(new TitanConfiguration(0, 0, 0, MindlessTitanType.DummyTitan));
     }
-    [PunRPC]
-    private void Rotate()
-    {
-        lookAtRotation = Quaternion.LookRotation(Target.transform.position - pivot.position);
-        Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
-        pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
-    }
 
     protected override void Update()
     {
-        if (ankleEnabled && State == TitanState.Chase)
+        if (State == TitanState.Chase)
         {
-            photonView.RPC(nameof(Rotate), PhotonTargets.All);
+            lookAtRotation = Quaternion.LookRotation(Target.transform.position - pivot.position);
+            Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
+            pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
         }
 
         FocusTimer += Time.deltaTime;
@@ -59,10 +53,12 @@ public class DummyTitan : TitanBase
         {
             timeTillRotate -= Time.deltaTime;
         }
-        else if (timeTillRotate <= 0 && (State != TitanState.Dead || State != TitanState.Recovering))
+        else if (timeTillRotate <= 0 && State == TitanState.Disabled)
         {
-            ankleEnabled = true;
+            photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Idle);
+            OnTargetRefresh();
         }
+
     }
     protected override void FixedUpdate() { }
 
@@ -76,8 +72,8 @@ public class DummyTitan : TitanBase
         FocusTimer = configuration.Focus;
         ViewDistance = configuration.ViewDistance;
 
-        MindlessType = configuration.Type;
-        name = MindlessType.ToString();
+        mindlessType = configuration.Type;
+        name = mindlessType.ToString();
 
         AnimationDeath = configuration.AnimationDeath;
         AnimationRecovery = configuration.AnimationRecovery;
@@ -91,7 +87,7 @@ public class DummyTitan : TitanBase
         transform.localScale = new Vector3(Size, Size, Size);
 
         photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
-
+        
     }
 
     public override void OnHit(Entity attacker, int damage)
@@ -99,13 +95,11 @@ public class DummyTitan : TitanBase
         base.OnHit(attacker, damage);
     }
 
-    [PunRPC]
     public void AnkleHit(TitanHitEvent ev)
     {
         if (ev.PartHit == BodyPart.Ankle)
         {
-            ankleEnabled = false;
-            timeTillRotate = timeTillRotateValue;
+            photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Disabled);
         }        
     }
 
@@ -124,24 +118,35 @@ public class DummyTitan : TitanBase
     }
 
     [PunRPC]
+    private void ChangeState(TitanState newState)
+    {
+        State = newState;
+
+        if (State == TitanState.Disabled)
+        {
+            timeTillRotate = timeTillRotateValue;
+        }
+    }
+
+    [PunRPC]
     protected override void OnDeath()
     {
-        ankleEnabled = false;
-        Invoke("OnRecovering", 5.683f);
+        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Dead);
+        SetStateAnimation(TitanState.Dead);
+        Invoke(nameof(OnRecovering), 5.683f);
     }
 
     [PunRPC]
     protected override void OnRecovering()
     {
-        State = TitanState.Recovering;
+        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Recovering);
         SetStateAnimation(TitanState.Recovering);
-        Invoke("ResetDummy", 3.125f);
+        Invoke(nameof(ResetDummy), 3.125f);
     }
     private void ResetDummy()
     {
-        State = TitanState.Idle;
+        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Idle);
         Health = MaxHealth;
-        ankleEnabled = true;
         timeTillRotate = 0f;
         FocusTimer = Focus;
         photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);

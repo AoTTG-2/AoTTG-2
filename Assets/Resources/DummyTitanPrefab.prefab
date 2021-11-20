@@ -502,23 +502,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthLabel: {fileID: 0}
   NavMeshAgent: {fileID: 0}
-  animator: {fileID: 0}
-  startingHealth: 300
-  myHero: {fileID: 0}
   pivot: {fileID: 926367227958233011}
-  dying: 0
-  dead: 0
-  raiseUp: 0
-  canRotate: 1
-  timeTillRotate: 0
-  timeTillRotateValue: 4
-  healthLabel: {fileID: 0}
-  healthLabel2: {fileID: 0}
   minimapIcon: {fileID: 3476172462877597475}
   headPos: {fileID: 4942015851931286}
+  MindlessType: 8
   speed: 20
-  timeForNextDamage: 0.2
-  timeForNextDamageValue: 0.2
 --- !u!23 &23113927604975928
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -604,12 +592,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 114324798256833590}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
