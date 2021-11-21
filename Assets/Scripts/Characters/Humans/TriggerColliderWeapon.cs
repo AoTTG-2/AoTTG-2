@@ -68,6 +68,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void OnTriggerStay(Collider collider)
         {
+
             if (!IsActive) return;
 
             if (!currentHitsII.Contains(collider.gameObject))
@@ -86,7 +87,6 @@ namespace Assets.Scripts.Characters.Humans
 
             if (currentHits.Contains(collider.gameObject))
                 return;
-
             switch (collider.gameObject.tag)
             {
                 case "playerHitbox":
@@ -103,7 +103,6 @@ namespace Assets.Scripts.Characters.Humans
                 case "titanneck":
                     if (collider.gameObject.TryGetComponent(out HitBox hitBox) && hitBox.transform.root.TryGetComponent(out TitanBase titanBase))
                     {
-
                         if (Vector3.Angle(-titanBase.Body.Head.forward, transform.position - titanBase.Body.Head.position) >= 70f)
                             break;
 
@@ -208,6 +207,15 @@ namespace Assets.Scripts.Characters.Humans
                                 mindlessTitan.OnAnkleHit(transform.root.gameObject.GetPhotonView().viewID, damage);
                                 ShowCriticalHitFX();
                             }
+                            else if (titan is DummyTitan)
+                            {
+                                ShowCriticalHitFX();
+
+                                var dummyTitan = titan as DummyTitan;
+
+                                dummyTitan.photonView.RPC(nameof(dummyTitan.ChangeState), PhotonTargets.MasterClient, TitanState.Disabled);
+
+                            }
                             else if (titan is FemaleTitan)
                             {
                                 var femaleTitan = titan as FemaleTitan;
@@ -237,10 +245,6 @@ namespace Assets.Scripts.Characters.Humans
                                 }
                                 ShowCriticalHitFX();
                             }
-                        }
-                        else if (rootObj.TryGetComponent(out DummyTitan dummyTitan))
-                        {
-                            ShowCriticalHitFX();
                         }
                     }
                     break;
