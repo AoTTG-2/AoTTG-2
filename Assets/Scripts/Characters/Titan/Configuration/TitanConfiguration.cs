@@ -127,6 +127,14 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                     Behaviors = new List<TitanBehavior> { new DeathOnFaceBehavior() };
                     Focus = 2f;
                     break;
+                case MindlessTitanType.DummyTitan:
+                    AnimationDeath = "dummy_falling_down";
+                    AnimationRecovery = "dummy_standing_up";
+                    ViewDistance = 100f;
+                    Focus = 5f;
+                    Health = 500;
+                    Size = 20;
+                    break;
                 case MindlessTitanType.Stalker:
                     Focus = 200f;
                     break;

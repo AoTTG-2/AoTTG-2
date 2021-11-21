@@ -107,7 +107,7 @@ namespace Assets.Scripts.Settings.Gamemodes
                 new RushSettings(difficulty),
                 new TrostSettings(difficulty),
                 new WaveGamemodeSettings(difficulty),
-                new CatchGamemodeSettings(difficulty)
+                new CatchGamemodeSettings(difficulty),
             };
         }
 
