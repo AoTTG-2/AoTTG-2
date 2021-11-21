@@ -772,6 +772,8 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            // if (CurrentAnimation != AnimationBendDown)
+            // {
             if (CanRun())
             {
                 CurrentAnimation = AnimationRun;
@@ -781,6 +783,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CurrentAnimation = AnimationWalk;
             }
+            // }
 
             if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true)
                 CurrentAnimation = AnimationIdle;
@@ -976,6 +979,8 @@ namespace Assets.Scripts.Characters.Titan
 
             if (State == TitanState.Chase)
             {
+                // Disabled for now (Use this code make the titan bend down when they should)
+                /*
                 if (CanBendDown())
                 {
                     if (CurrentAnimation != AnimationBendDown)
@@ -995,6 +1000,7 @@ namespace Assets.Scripts.Characters.Titan
                         CrossFade(CurrentAnimation, 0.5f);
                     }
                 }
+                */
 
                 if (Target == null) return;
                 var speed = CanRun()
@@ -1024,6 +1030,8 @@ namespace Assets.Scripts.Characters.Titan
             return gameObject.GetComponentInChildren<FlatNavigator>();
         }
 
+        // Disabled for now (Use this to check if the titan should bend down.)
+        /*
         private bool CanBendDown()
         {
             BoxCollider canDetector = transform.root.Find("Navigator").Find("CanBendDownDetector").GetComponent<BoxCollider>();
@@ -1039,6 +1047,7 @@ namespace Assets.Scripts.Characters.Titan
             }
             return false;
         }
+        */
 
     }
 }

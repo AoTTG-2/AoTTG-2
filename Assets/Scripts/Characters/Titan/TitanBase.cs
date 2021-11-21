@@ -59,7 +59,7 @@ namespace Assets.Scripts.Characters.Titan
         protected string AnimationIdle { get; set; } = "idle_2";
         protected string AnimationCover { get; set; } = "idle_recovery";
         protected string AnimationEyes { get; set; } = "hit_eye";
-        protected string AnimationBendDown { get; set; } = "crawler_run";
+        // protected string AnimationBendDown { get; set; } = "crawler_run";
 
         protected string CurrentAnimation { get; set; } = "idle";
 
@@ -260,7 +260,7 @@ namespace Assets.Scripts.Characters.Titan
                 Stamina = StaminaLimit;
             }
         }
-        
+
         protected override void Awake()
         {
             base.Awake();
@@ -313,12 +313,12 @@ namespace Assets.Scripts.Characters.Titan
                 case TitanState.Attacking:
                     OnAttacking();
                     break;
-                //case TitanState.Recovering:
-                //    OnRecovering();
-                //    break;
-                //case TitanState.Eat:
-                //    OnGrabbing();
-                //    break;
+                    //case TitanState.Recovering:
+                    //    OnRecovering();
+                    //    break;
+                    //case TitanState.Eat:
+                    //    OnGrabbing();
+                    //    break;
             }
 
         }
@@ -550,7 +550,7 @@ namespace Assets.Scripts.Characters.Titan
             }
             CurrentAttack.Execute();
         }
-        
+
         protected virtual void OnChasing()
         {
             if (Target == null/* || ViewDistance < TargetDistance*/)
