@@ -17,6 +17,7 @@ public class ThrownBlade : Photon.MonoBehaviour
 
     private const float BladeRotationSpeed = 1000f; // In degrees
     private const float BladeLifeTime = 10f; // In seconds
+    private const int MinDamage = 200;
 
     private int viewID;
     private string ownerName;
@@ -115,7 +116,7 @@ public class ThrownBlade : Photon.MonoBehaviour
                     Service.Player.TitanDamaged(new TitanDamagedEvent(titanBase, owner, damage));
                     Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, owner, false));
 
-                    if (damage > 100 * titanBase.Size)
+                    if (damage > MinDamage)
                     {
                         titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
                     }
