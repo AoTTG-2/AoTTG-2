@@ -59,6 +59,7 @@ namespace Assets.Scripts.Characters.Titan
         protected string AnimationIdle { get; set; } = "idle_2";
         protected string AnimationCover { get; set; } = "idle_recovery";
         protected string AnimationEyes { get; set; } = "hit_eye";
+        protected string AnimationBendDown { get; set; } = "crawler_run";
 
         protected string CurrentAnimation { get; set; } = "idle";
 
@@ -302,6 +303,9 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 //case TitanState.Turning:
                 //    OnTurning();
+                //    break;
+                //case TitanState.BendingDown:
+                //    OnBendingDown();
                 //    break;
                 case TitanState.Chase:
                     OnChasing();

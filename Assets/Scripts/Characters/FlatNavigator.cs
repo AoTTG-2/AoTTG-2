@@ -1,3 +1,4 @@
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Constants;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +12,21 @@ public class FlatNavigator : MonoBehaviour
     private List<GameObject> visibleNavigations = new List<GameObject>();
     private bool display = true;
 
-    private const int MaxNav = 15;
-    private List<Vector2> navStarts = new List<Vector2>();
-    private List<Vector2> navEnds = new List<Vector2>();
+    private CapsuleCollider navBox;
+
+    private const int MaxNav = 20;
+    private const float BaseMaxNavLength = 120;
+    private float maxNavLength;
+    private List<Vector2> navPoints = new List<Vector2>();
 
     public void Start()
     {
-        navStarts.Add(ToVec2(GetNavigatorBox().transform.position));
+        navBox = gameObject.GetComponent<CapsuleCollider>();
+        navBox.height *= gameObject.transform.lossyScale.y;
+        navBox.radius *= gameObject.transform.lossyScale.y;
+
+        navPoints.Add(ToVec2(GetNavigatorBox().transform.position));
+        maxNavLength = BaseMaxNavLength + 50 * transform.root.gameObject.GetComponent<TitanBase>().Size;
     }
 
     public void Update()
@@ -30,16 +39,9 @@ public class FlatNavigator : MonoBehaviour
 
         if (display)
         {
-            for (int i = 0; i < navStarts.Count; i++)
+            for (int i = 0; i < navPoints.Count - 1; i++)
             {
-                if (navEnds.Count > i)
-                {
-                    RenderNavigation(navStarts[i], navEnds[i]);
-                }
-                else
-                {
-                    RenderNavigation(navStarts[i], navStarts[i]);
-                }
+                RenderNavigation(navPoints[i], navPoints[i + 1]);
             }
         }
     }
@@ -79,116 +81,145 @@ public class FlatNavigator : MonoBehaviour
         // Find Navigation Route
         Vector2 targetPos = ToVec2(targetPosition);
         bool canNavigate = false;
-        for (int i = 0; i < navStarts.Count; i++)
+        for (int i = 0; i < navPoints.Count; i++)
         {
-            if (CanNavigate(navStarts[i], targetPos))
+            if (CanNavigate(navPoints[i], targetPos))
             {
-                for (int j = i + 1; j < navStarts.Count; j++)
+                for (int j = i + 1; j < navPoints.Count; j++)
                 {
-                    RemoveFromNavStarts(i + 1);
-                    RemoveFromNavEnds(i + 1);
+                    RemoveFromNavPoints(i + 1);
                 }
-                RemoveFromNavEnds(i);
-                AddToNavEnds(targetPos);
+                AddToNavPoints(targetPos);
                 canNavigate = true;
                 break;
             }
         }
-
-        if (!canNavigate)
+        if (!canNavigate && (navPoints[navPoints.Count - 1] - targetPos).magnitude > GetNavigatorBox().radius)
         {
-            if (navEnds.Count > 0 && (navEnds[navEnds.Count - 1] - navStarts[navEnds.Count - 1]).magnitude > GetNavigatorBox().radius)
+            AddToNavPoints(targetPos);
+        }
+        if (navPoints.Count > 0)
+        {
+            navPoints[0] = ToVec2(GetNavigatorBox().transform.position);
+            if (navPoints.Count > 1 && (navPoints[0] - navPoints[1]).magnitude < GetNavigatorBox().radius)
             {
-                AddToNavStarts(navEnds[navEnds.Count - 1]);
+                RemoveFromNavPoints(1);
             }
         }
 
-        if (navStarts.Count > 0)
+        // Environmental Adaptation
+        if (!IsOverlapping(navPoints[navPoints.Count - 1]))
         {
-            navStarts[0] = ToVec2(GetNavigatorBox().transform.position);
-            if (navStarts.Count > 1 && (navStarts[0] - navEnds[0]).magnitude < GetNavigatorBox().radius)
+            List<Vector3> addition = new List<Vector3>(); // z value is used for setting the index of the navPoint
+            for (int i = 1; i < navPoints.Count; i++)
             {
-                RemoveFromNavStarts(1);
-                RemoveFromNavEnds(0);
+                foreach (RaycastHit interuption in NavigationInteruptions(navPoints[i - 1], navPoints[i]))
+                {
+                    if (interuption.collider == null) continue;
+                    Vector2 interuptionPos = ToVec2(interuption.point);
+                    if ((interuptionPos - navPoints[i]).magnitude > GetNavigatorBox().radius && (interuptionPos - navPoints[i - 1]).magnitude > GetNavigatorBox().radius && (interuptionPos - navPoints[i]).magnitude + (interuptionPos - navPoints[i - 1]).magnitude < GetNavigatorBox().radius + (navPoints[i - 1] - navPoints[i]).magnitude)
+                    {
+                        addition.Add(new Vector3(interuptionPos.x, interuptionPos.y, i));
+                    }
+                }
             }
-        }
-        if (navEnds.Count < navStarts.Count)
-        {
-            AddToNavEnds(targetPos);
+            for (int i = addition.Count - 1; i >= 0; i--)
+            {
+                AddToNavPoints((int) addition[i].z, new Vector2(addition[i].x, addition[i].y));
+            }
         }
 
         // Fix Navigation
-        for (int i = 0; i < navEnds.Count - 1; i++)
+        if (!IsOverlapping(navPoints[navPoints.Count - 1]))
         {
-            if (IsOverlapping(navEnds[i]))
+            for (int i = 1; i < navPoints.Count - 1; i++)
             {
-                Vector2 newEnd;
-                Vector2[] adds = new Vector2[] { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, 1), new Vector2(1, -1), new Vector2(-1, -1) };
-                foreach (Vector2 add in adds)
+                if (IsOverlapping(navPoints[i]))
                 {
-                    if (!IsOverlapping(newEnd = navEnds[i] + add * GetNavigatorBox().radius))
+                    Vector2 newEnd;
+                    Vector2[] adds = new Vector2[] { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, 1), new Vector2(1, -1), new Vector2(-1, -1) };
+                    foreach (Vector2 add in adds)
                     {
-                        navEnds[i] = newEnd;
-                        navStarts[i + 1] = newEnd;
-                        break;
+                        if (!IsOverlapping(newEnd = navPoints[i] + add * GetNavigatorBox().radius))
+                        {
+                            navPoints[i] = newEnd;
+                            break;
+                        }
                     }
                 }
             }
         }
 
         // Shorten Navigation Route
-        for (int i = 1; i < navEnds.Count; i++)
+        for (int i = 2; i < navPoints.Count; i++)
         {
-            if ((navStarts[i - 1] - navEnds[i - 1]).magnitude > GetNavigatorBox().radius)
+            if ((navPoints[i - 2] - navPoints[i - 1]).magnitude > GetNavigatorBox().radius)
             {
-                Vector2 shortStart = navStarts[i] + (navStarts[i - 1] - navEnds[i - 1]).normalized * GetNavigatorBox().radius;
-                if (CanNavigate(shortStart, navEnds[i]))
+                Vector2 shortStart = navPoints[i - 1] + (navPoints[i - 2] - navPoints[i - 1]).normalized * GetNavigatorBox().radius;
+                if (CanNavigate(shortStart, navPoints[i]))
                 {
-                    navStarts[i] = shortStart;
-                    navEnds[i - 1] = shortStart;
+                    navPoints[i - 1] = shortStart;
                 }
+            }
+        }
+
+        // Reset Navigation When Reach Max Length
+        float length = 0;
+        for (int i = 1; i < navPoints.Count; i++)
+        {
+            if ((length += (navPoints[i] - navPoints[i - 1]).magnitude) > maxNavLength)
+            {
+                navPoints.Clear();
+                navPoints.Add(ToVec2(GetNavigatorBox().transform.position));
+                break;
             }
         }
     }
 
     public Vector3 GetNavDir()
     {
-        if (navEnds.Count > 0)
+        // When The Titan Cannot Reach The Player
+        if (IsOverlapping(navPoints[navPoints.Count - 1]))
         {
-            return ToVec3(navEnds[0] - navStarts[0]);
+            float minDistance = (navPoints[0] - navPoints[navPoints.Count - 1]).magnitude;
+            for (int i = 1; i < navPoints.Count - 1; i++)
+            {
+                if ((navPoints[i] - navPoints[navPoints.Count - 1]).magnitude < minDistance)
+                {
+                    return ToVec3(navPoints[i] - navPoints[0]);
+                }
+            }
+            return ToVec3(navPoints[navPoints.Count - 1] - navPoints[0]);
+        }
+
+        if (navPoints.Count > 1)
+        {
+            return ToVec3(navPoints[1] - navPoints[0]);
         }
         return new Vector3(0, 0, 0);
     }
 
-    private void AddToNavStarts(Vector2 v)
+    private void AddToNavPoints(Vector2 v)
     {
-        if (navStarts.Count <= MaxNav)
+        if (navPoints.Count <= MaxNav)
         {
-            navStarts.Add(v);
+            navPoints.Add(v);
         }
     }
 
-    private void AddToNavEnds(Vector2 v)
+    private void AddToNavPoints(int index, Vector2 v)
     {
-        if (navEnds.Count <= MaxNav)
+        if (navPoints.Count <= MaxNav)
         {
-            navEnds.Add(v);
+            navPoints.Insert(index, v);
         }
     }
 
-    private void RemoveFromNavStarts(int index)
+    private void RemoveFromNavPoints(int index)
     {
-        if (navStarts.Count > index)
+        if (navPoints.Count > index)
         {
-            navStarts.RemoveAt(index);
-        }
-    }
-
-    private void RemoveFromNavEnds(int index)
-    {
-        if (navEnds.Count > index)
-        {
-            navEnds.RemoveAt(index);
+            navPoints.RemoveAt(index);
         }
     }
 
@@ -203,6 +234,17 @@ public class FlatNavigator : MonoBehaviour
         return !Physics.CapsuleCast(capsuleStart, capsuleEnd, capsule.radius, targetPos - start, out _, (targetPos - start).magnitude, mask);
     }
 
+    private RaycastHit[] NavigationInteruptions(Vector2 s, Vector2 e)
+    {
+        Vector3 start = ToVec3(s);
+        Vector3 targetPos = ToVec3(e);
+        LayerMask mask = Layers.Ground.ToLayer();
+        CapsuleCollider capsule = GetNavigatorBox();
+        Vector3 capsuleStart = start + new Vector3(0, capsule.height / 2 - capsule.radius, 0);
+        Vector3 capsuleEnd = start - new Vector3(0, capsule.height / 2 - capsule.radius, 0);
+        return Physics.CapsuleCastAll(capsuleStart, capsuleEnd, capsule.radius, targetPos - start, (targetPos - start).magnitude, mask);
+    }
+
     private bool IsOverlapping(Vector2 p)
     {
         Vector3 pos = ToVec3(p);
@@ -215,7 +257,7 @@ public class FlatNavigator : MonoBehaviour
 
     private CapsuleCollider GetNavigatorBox()
     {
-        return gameObject.GetComponent<CapsuleCollider>();
+        return navBox;
     }
 
     private float GetY()

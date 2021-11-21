@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
+using Assets.Scripts.Constants;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
@@ -563,7 +564,7 @@ namespace Assets.Scripts.Characters.Titan
             return value > min && value < max;
         }
 
-        public bool IsStuck()
+        public new bool IsStuck()
         {
             var velocity = Rigidbody.velocity;
             return Between(velocity.z, -Speed / 4, Speed / 4)
@@ -975,6 +976,26 @@ namespace Assets.Scripts.Characters.Titan
 
             if (State == TitanState.Chase)
             {
+                if (CanBendDown())
+                {
+                    if (CurrentAnimation != AnimationBendDown)
+                    {
+                        CurrentAnimation = AnimationBendDown;
+                        if (!Animation.IsPlaying(CurrentAnimation))
+                        {
+                            CrossFade(CurrentAnimation, 0.5f);
+                        }
+                    }
+                }
+                else if (CurrentAnimation == AnimationBendDown)
+                {
+                    CurrentAnimation = PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true ? AnimationIdle : AnimationWalk;
+                    if (!Animation.IsPlaying(CurrentAnimation))
+                    {
+                        CrossFade(CurrentAnimation, 0.5f);
+                    }
+                }
+
                 if (Target == null) return;
                 var speed = CanRun()
                     ? SpeedRun
@@ -1001,6 +1022,22 @@ namespace Assets.Scripts.Characters.Titan
         private FlatNavigator GetNavigator()
         {
             return gameObject.GetComponentInChildren<FlatNavigator>();
+        }
+
+        private bool CanBendDown()
+        {
+            BoxCollider canDetector = transform.root.Find("Navigator").Find("CanBendDownDetector").GetComponent<BoxCollider>();
+            LayerMask mask = Layers.Ground.ToLayer();
+            Vector3 extending = canDetector.size / 2;
+            extending.Scale(canDetector.gameObject.transform.lossyScale);
+            if (Physics.CheckBox(canDetector.transform.position, extending, canDetector.transform.rotation, mask))
+            {
+                BoxCollider cannotDetector = transform.root.Find("Navigator").Find("CannotBendDownDetector").GetComponent<BoxCollider>();
+                extending = cannotDetector.size / 2;
+                extending.Scale(cannotDetector.gameObject.transform.lossyScale);
+                return !Physics.CheckBox(cannotDetector.transform.position, extending, cannotDetector.transform.rotation, mask);
+            }
+            return false;
         }
 
     }
