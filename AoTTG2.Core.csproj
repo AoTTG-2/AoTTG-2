@@ -275,7 +275,6 @@
     <Compile Include="Assets\Scripts\Gamemode\InfectionGamemode.cs" />
     <Compile Include="Assets\Scripts\Services\EntityService.cs" />
     <Compile Include="Assets\Scripts\Effects\STransform.cs" />
-    <Compile Include="Assets\Scripts\Characters\FlatNavigator.cs" />
     <Compile Include="Assets\Scripts\UI\Radial\Radial.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterPreset.cs" />
     <Compile Include="Assets\Scripts\Settings\TimeSettings.cs" />
@@ -515,6 +514,7 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Characters\FlatNavigator.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

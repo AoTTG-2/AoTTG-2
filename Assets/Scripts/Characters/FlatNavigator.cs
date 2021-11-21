@@ -126,13 +126,13 @@ namespace Assets.Scripts.Characters.Titan
                 List<Vector3> addition = new List<Vector3>(); // z value is used for setting the index of the navPoint
                 for (int i = 1; i < navPoints.Count; i++)
                 {
-                    foreach (RaycastHit interuption in NavigationInteruptions(navPoints[i - 1], navPoints[i]))
+                    foreach (RaycastHit interruption in NavigationInterruptions(navPoints[i - 1], navPoints[i]))
                     {
-                        if (interuption.collider == null) continue;
-                        Vector2 interuptionPos = ToVec2(interuption.point);
-                        if ((interuptionPos - navPoints[i]).magnitude > navBox.radius && (interuptionPos - navPoints[i - 1]).magnitude > navBox.radius && (interuptionPos - navPoints[i]).magnitude + (interuptionPos - navPoints[i - 1]).magnitude < navBox.radius + (navPoints[i - 1] - navPoints[i]).magnitude)
+                        if (interruption.collider == null) continue;
+                        Vector2 interruptionPos = ToVec2(interruption.point);
+                        if ((interruptionPos - navPoints[i]).magnitude > navBox.radius && (interruptionPos - navPoints[i - 1]).magnitude > navBox.radius && (interruptionPos - navPoints[i]).magnitude + (interruptionPos - navPoints[i - 1]).magnitude < navBox.radius + (navPoints[i - 1] - navPoints[i]).magnitude)
                         {
-                            addition.Add(new Vector3(interuptionPos.x, interuptionPos.y, i));
+                            addition.Add(new Vector3(interruptionPos.x, interruptionPos.y, i));
                         }
                     }
                 }
@@ -259,7 +259,7 @@ namespace Assets.Scripts.Characters.Titan
             return !Physics.CapsuleCast(capsuleStart, capsuleEnd, capsule.radius, targetPos - start, out _, (targetPos - start).magnitude, mask);
         }
 
-        private RaycastHit[] NavigationInteruptions(Vector2 s, Vector2 e)
+        private RaycastHit[] NavigationInterruptions(Vector2 s, Vector2 e)
         {
             Vector3 start = ToVec3(s);
             Vector3 targetPos = ToVec3(e);
