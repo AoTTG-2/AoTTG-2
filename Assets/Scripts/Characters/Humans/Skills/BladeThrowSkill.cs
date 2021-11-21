@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans.Constants;
 using Assets.Scripts.Constants;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.Skills
@@ -67,7 +66,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         private void ThrowBlade()
         {
-            if (!Hero.Equipment.Weapon.WeaponLeft.GetActive() && !Hero.Equipment.Weapon.WeaponLeft.GetActive()) return;
+            if (!Hero.Equipment.Weapon.WeaponLeft.GetActive() && !Hero.Equipment.Weapon.WeaponRight.GetActive()) return;
             bladeThrown = true;
             Hero.Equipment.Weapon.WeaponLeft.SetActive(false);
             Hero.Equipment.Weapon.WeaponRight.SetActive(false);
