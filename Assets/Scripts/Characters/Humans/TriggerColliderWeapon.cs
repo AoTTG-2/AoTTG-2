@@ -210,6 +210,11 @@ namespace Assets.Scripts.Characters.Humans
                             else if (titan is DummyTitan)
                             {
                                 ShowCriticalHitFX();
+
+                                var dummyTitan = titan as DummyTitan;
+
+                                dummyTitan.photonView.RPC(nameof(dummyTitan.ChangeState), PhotonTargets.MasterClient, TitanState.Disabled);
+
                             }
                             else if (titan is FemaleTitan)
                             {

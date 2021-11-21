@@ -1,8 +1,5 @@
-﻿using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
-using Assets.Scripts.UI.InGame.HUD;
+﻿using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.Characters.Titan;
-using Assets.Scripts.Events.Args;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Characters;
 using UnityEngine;
@@ -13,29 +10,29 @@ using UnityEngine;
 /// </summary>
 public class DummyTitan : TitanBase
 {
-    private readonly IPlayerService playerService = Service.Player;
-
     private MindlessTitanType mindlessType;
     public Transform pivot;
     private float timeTillRotate = 0f;
     private float timeTillRotateValue = 4f;
+    public Collider napeCollider;
     private TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
     public Transform headPos;
-
     public float speed = 3.0f;
 
     Quaternion lookAtRotation;
 
     private void Start()
     {
-        playerService.OnTitanHit += AnkleHit;
+        //playerService.OnTitanHit += AnkleHit;
         Initialize(new TitanConfiguration(0, 0, 0, MindlessTitanType.DummyTitan));
     }
 
     protected override void Update()
     {
-        if (State == TitanState.Chase)
+        if (!photonView.isMine) return;
+
+        if (State == TitanState.Chase && Target)
         {
             lookAtRotation = Quaternion.LookRotation(Target.transform.position - pivot.position);
             Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
@@ -55,8 +52,18 @@ public class DummyTitan : TitanBase
         }
         else if (timeTillRotate <= 0 && State == TitanState.Disabled)
         {
-            photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Idle);
+            State = TitanState.Idle;
             OnTargetRefresh();
+        }
+
+        if (State == TitanState.Dead || State == TitanState.Recovering)
+        {
+            napeCollider.enabled = false;
+        } 
+        else
+        {
+            if (!napeCollider.enabled)
+                napeCollider.enabled = true;
         }
 
     }
@@ -95,14 +102,6 @@ public class DummyTitan : TitanBase
         base.OnHit(attacker, damage);
     }
 
-    public void AnkleHit(TitanHitEvent ev)
-    {
-        if (ev.PartHit == BodyPart.Ankle)
-        {
-            photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Disabled);
-        }        
-    }
-
     protected override void OnTargetRefresh()
     {
         base.OnTargetRefresh();
@@ -118,7 +117,7 @@ public class DummyTitan : TitanBase
     }
 
     [PunRPC]
-    private void ChangeState(TitanState newState)
+    public void ChangeState(TitanState newState)
     {
         State = newState;
 
@@ -128,28 +127,27 @@ public class DummyTitan : TitanBase
         }
     }
 
-    [PunRPC]
     protected override void OnDeath()
     {
-        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Dead);
+        photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Dead);
         SetStateAnimation(TitanState.Dead);
         Invoke(nameof(OnRecovering), 5.683f);
     }
 
-    [PunRPC]
     protected override void OnRecovering()
     {
-        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Recovering);
+        photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Recovering);
         SetStateAnimation(TitanState.Recovering);
         Invoke(nameof(ResetDummy), 3.125f);
     }
     private void ResetDummy()
     {
-        photonView.RPC(nameof(ChangeState), PhotonTargets.All, TitanState.Idle);
-        Health = MaxHealth;
+        ChangeState(TitanState.Idle);
+        Health = MaxHealth;      
         timeTillRotate = 0f;
         FocusTimer = Focus;
         photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
+        napeCollider.enabled = true;
     }
 
     [PunRPC]

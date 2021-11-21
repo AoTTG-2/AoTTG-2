@@ -133,7 +133,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                     ViewDistance = 100f;
                     Focus = 5f;
                     Health = 500;
-                    Size = 15;
+                    Size = 20;
                     break;
                 case MindlessTitanType.Stalker:
                     Focus = 200f;
