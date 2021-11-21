@@ -869,6 +869,7 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else if (Animation[attackAnimation].normalizedTime >= 0.32f && Animation[attackAnimation].speed > 0f)
                             {
+                                Debug.Log("Trying to freeze");
                                 SetAnimationSpeed(attackAnimation, 0f);
                             }
                         }
@@ -2130,6 +2131,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void SetAnimationSpeed(string animationName, float animationSpeed = 1f)
         {
+            Debug.Log($"Calling SetSpeed: {animationName}");
             Animation[animationName].speed = animationSpeed;
             if (!photonView.isMine) return;
 

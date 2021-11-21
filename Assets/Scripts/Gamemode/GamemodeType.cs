@@ -9,6 +9,5 @@
     Trost,
     TitanRush,
     PvpAhss,
-    Infection,
-    NoTitan
+    Infection
 }
