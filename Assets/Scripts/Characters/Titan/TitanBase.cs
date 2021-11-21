@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Assets.Scripts.Characters.Titan.Attacks;
+﻿using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Gamemode;
@@ -8,6 +6,8 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -59,6 +59,8 @@ namespace Assets.Scripts.Characters.Titan
         protected string AnimationIdle { get; set; } = "idle_2";
         protected string AnimationCover { get; set; } = "idle_recovery";
         protected string AnimationEyes { get; set; } = "hit_eye";
+        //TODO: Enable when add bend down animation
+        //TODO: Right now the bend down animation is the crawler animation, changes should be made
         // protected string AnimationBendDown { get; set; } = "crawler_run";
 
         protected string CurrentAnimation { get; set; } = "idle";

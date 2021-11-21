@@ -3,7 +3,6 @@ using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
-using Assets.Scripts.Constants;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
@@ -543,7 +542,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void Turn(float degrees)
         {
-            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true) return;
+            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement.Value) return;
             SetState(TitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
             CrossFade(CurrentAnimation, 0.0f);
@@ -553,7 +552,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void SmallTurn(float degrees)
         {
-            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true) return;
+            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement.Value) return;
             this.turnDeg = (degrees > 0f ? 15 : -15) * Time.deltaTime;
             gameObject.transform.Rotate(0, this.turnDeg, 0);
             this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
@@ -772,6 +771,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            //TODO: Enable when add bend down animation
             // if (CurrentAnimation != AnimationBendDown)
             // {
             if (CanRun())
@@ -979,6 +979,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (State == TitanState.Chase)
             {
+                //TODO: Enable when add bend down animation
                 // Disabled for now (Use this code make the titan bend down when they should)
                 /*
                 if (CanBendDown())
@@ -1030,6 +1031,7 @@ namespace Assets.Scripts.Characters.Titan
             return gameObject.GetComponentInChildren<FlatNavigator>();
         }
 
+        //TODO: Enable when add bend down animation
         // Disabled for now (Use this to check if the titan should bend down.)
         /*
         private bool CanBendDown()
