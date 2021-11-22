@@ -15,19 +15,27 @@ MonoBehaviour:
   AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
+  - DestroyRpc
+  - InstantiateRpc
+  - PickupItemInit
+  - PunPickup
+  - PunPickupSimple
+  - PunRespawn
+  - RequestForPickupItems
+  - RequestForPickupTimes
   - BackToHumanRPC
   - BadGuyReleaseMe
   - BlowAway
@@ -40,10 +48,8 @@ MonoBehaviour:
   - ClearChat
   - clearlevel
   - CrossFadeRpc
-  - DestroyRpc
   - endMovingRock
   - GetHit
-  - getRacingResult
   - Grab
   - grabbedTargetEscape
   - GrabEscapeRpc
@@ -60,7 +66,6 @@ MonoBehaviour:
   - InitializeRpc
   - InitializeRPC
   - initRPC
-  - InstantiateRpc
   - killObject
   - labelRPC
   - launchRPC
@@ -79,7 +84,6 @@ MonoBehaviour:
   - NetPlayAnimation
   - netPlayAnimationAt
   - NetPlayAnimationAt
-  - netRefreshRacingResult
   - NetSetIsGrabbedFalse
   - netShowDamage
   - netTauntAttack
@@ -93,17 +97,12 @@ MonoBehaviour:
   - OnGameEndRpc
   - OnNapeHitRpc
   - PauseRpc
-  - PickupItemInit
   - playsoundRPC
-  - PunPickup
-  - PunPickupSimple
-  - PunRespawn
+  - RacingFinishRpc
   - RacingStartRpc
   - RefreshCaptureScore
   - removeMe
   - RequestControlRPC
-  - RequestForPickupItems
-  - RequestForPickupTimes
   - RequestStatus
   - respawnHeroInNewRound
   - RespawnRpc
@@ -122,6 +121,7 @@ MonoBehaviour:
   - SetMyPhotonCamera
   - SetMyTeam
   - setPhase
+  - SetRacingResultsRpc
   - setSize
   - SetSize
   - setTeamRPC
@@ -142,6 +142,4 @@ MonoBehaviour:
   - updateKillInfo
   - verifyPlayerHasLeft
   - WhoIsMyErenTitan
-  - RacingFinishRpc
-  - SetRacingResultsRpc
   DisableAutoOpenWizard: 1
