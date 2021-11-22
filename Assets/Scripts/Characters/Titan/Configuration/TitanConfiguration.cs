@@ -130,7 +130,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                 case MindlessTitanType.DummyTitan:
                     AnimationDeath = "dummy_falling_down";
                     AnimationRecovery = "dummy_standing_up";
-                    ViewDistance = 100f;
+                    ViewDistance = 5f;
                     Focus = 5f;
                     Health = 500;
                     Size = 20;
