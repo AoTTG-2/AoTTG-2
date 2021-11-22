@@ -29,9 +29,6 @@ namespace Assets.Scripts.Gamemode
         protected override void OnEntityUnRegistered(Entity entity)
         {
             Score++;
-            if (entity is MindlessTitan)
-            {
-            }
         }
 
         protected override void SetStatusTop()
