@@ -11,5 +11,5 @@ public class Song : ScriptableObject
     public string type = "neutral";
 
     [Range(0f, 1f)]
-    public float volume = 1f;
+    public float volume = 0.5f;
 }

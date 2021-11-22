@@ -219,7 +219,7 @@ namespace Assets.Scripts.Characters.Humans
 
 
         private readonly HookUI hookUI = new HookUI();
-
+        private Coroutine CombatStateStart;
         #endregion
 
 
@@ -261,6 +261,7 @@ namespace Assets.Scripts.Characters.Humans
             Setting.Debug.NoClip.OnValueChanged += NoClip_OnValueChanged;
             if (Setting.Debug.NoClip == true)
                 NoClip_OnValueChanged(true);
+            CombatStateStart = StartCoroutine(CombatState(1f));
         }
 
         private void NoClip_OnValueChanged(bool value)
@@ -4210,6 +4211,16 @@ namespace Assets.Scripts.Characters.Humans
                 AudioController.Instance.SetState(ChannelTypes.Combat, false);
                 AudioController.Instance.SetState(ChannelTypes.Neutral, true);
                 Debug.Log("exited");
+            }
+        }
+
+        private IEnumerator CombatState(float interval)
+        {
+            if (gameObject.CompareTag("titan"))
+            {
+                AudioController.Instance.SetState(ChannelTypes.Combat, true);
+                Debug.Log("running the coroutine)");
+                yield return new WaitForEndOfFrame();
             }
         }
     }
