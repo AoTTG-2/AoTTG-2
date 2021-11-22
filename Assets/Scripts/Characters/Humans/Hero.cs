@@ -4197,23 +4197,22 @@ namespace Assets.Scripts.Characters.Humans
 
         private void OnTriggerEnter(Collider collision)
         {
-            if (collision.gameObject.CompareTag("titan"))
+            if (collision.CompareTag("SoundTrigger"))
             {
                 AudioController.Instance.SetState(ChannelTypes.Combat, true);
-                Debug.Log("entered");
             }
         }
 
         private void OnTriggerExit(Collider collision)
         {
-            if (collision.gameObject.CompareTag("titan"))
+            if (collision.CompareTag("SoundTrigger"))
             {
                 AudioController.Instance.SetState(ChannelTypes.Combat, false);
                 AudioController.Instance.SetState(ChannelTypes.Neutral, true);
-                Debug.Log("exited");
             }
         }
 
+        // Not currently using the Coroutine
         private IEnumerator CombatState(float interval)
         {
             if (gameObject.CompareTag("titan"))

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,9 +52,6 @@
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2020.2.7f1</UnityVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Security\AuthorizationResult.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\EnumNamedArrayAttribute.cs" />
@@ -127,6 +124,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\TriggerColliderWeapon.cs" />
     <Compile Include="Assets\Scripts\Services\PauseService.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\DeathOnFaceBehavior.cs" />
+    <Compile Include="Assets\Scripts\Extensions\ComparableExtensions.cs" />
     <Compile Include="Assets\Scripts\Room\LevelBottom.cs" />
     <Compile Include="Assets\Scripts\UI\UiNavigationElement.cs" />
     <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
@@ -215,6 +213,7 @@
     <Compile Include="Assets\Scripts\CustomMaps\MapMaterial.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CustomizationNetworkObject.cs" />
     <Compile Include="Assets\Scripts\Usable\Cannon.cs" />
+    <Compile Include="Assets\Scripts\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ArmoredTitan.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\ICustomMapService.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\PVPchkPtPreset.cs" />
@@ -512,8 +511,9 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Assets\Scripts\Extensions\ComparableExtensions.cs" />
+    <Compile Include="Assets\Scripts\Audio\Song.cs" />
+    <Compile Include="Assets\Scripts\Audio\Playlist.cs" />
+    <Compile Include="Assets\Scripts\Audio\AudioController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
@@ -742,14 +742,11 @@
     <Reference Include="UnityEditor.Graphs">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\MacStandaloneSupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\15.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
       <HintPath>Assets\Plugins\Photon3Unity3D.dll</HintPath>
