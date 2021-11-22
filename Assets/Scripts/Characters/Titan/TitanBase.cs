@@ -312,9 +312,6 @@ namespace Assets.Scripts.Characters.Titan
                 case TitanState.Recovering:
                     OnRecovering();
                     break;
-                //case TitanState.Eat:
-                //    OnGrabbing();
-                //    break;
             }
 
         }

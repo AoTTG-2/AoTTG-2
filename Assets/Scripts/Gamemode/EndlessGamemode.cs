@@ -31,7 +31,6 @@ namespace Assets.Scripts.Gamemode
             Score++;
             if (entity is MindlessTitan)
             {
-                //SpawnService.Spawn<MindlessTitan>(GetTitanConfiguration());
             }
         }
 
