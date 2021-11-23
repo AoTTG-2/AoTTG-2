@@ -41,6 +41,7 @@ namespace Assets.Scripts.Characters.Humans
 
         #region Properties
         public Equipment.Equipment Equipment { get; set; }
+        public bool WeaponDisabledOnReloading;        //Has the gameObject been disabled for reloading?(Usually reeanbled quickly after this, but can get stuck)
         public Skill Skill { get; set; }
         public HumanState State { get; protected set; } = HumanState.Idle;
         public HumanState _state { get; set; }
@@ -449,6 +450,15 @@ namespace Assets.Scripts.Characters.Humans
                 bool isLeftHookPressed;
                 BufferUpdate();
                 UpdateExt();
+                if (state != HumanState.ChangeBlade)
+                {
+                    if (WeaponDisabledOnReloading)
+                    {
+                        //If the reload animation is cancelled before the weapon has a chance to be reenabled, call this function to do that
+                        Equipment.Weapon.EnableWeapons();
+                    }
+                }
+
                 if (!grounded && (state != HumanState.AirDodge))
                 {
                     if (InputManager.Settings.GasBurstDoubleTap)
@@ -1082,9 +1092,14 @@ namespace Assets.Scripts.Characters.Humans
                 else if (state == HumanState.ChangeBlade)
                 {
                     Equipment.Weapon.Reload();
+
                     if (Animation[reloadAnimation].normalizedTime >= 1f)
                     {
                         Idle();
+                    }
+                    else if (Animation[CurrentAnimation] != Animation[reloadAnimation])
+                    {
+
                     }
                 }
                 else if (state == HumanState.Salute)
