@@ -35,7 +35,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                 WeaponRight.SetActive(true);
                 Hero.currentBladeSta = Hero.totalBladeSta;
                 bladesThrown = false;
-                Hero.WeaponDisabledOnReloading = true;
+                Hero.weaponDisabledOnReloading = true;
             }
         }
 
@@ -100,7 +100,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         private void ThrowBlades()
         {
             bladesThrown = true;
-            Hero.WeaponDisabledOnReloading = true;
+            Hero.weaponDisabledOnReloading = true;
             var transform = WeaponLeft.transform;
             var transform2 = WeaponRight.transform;
             var obj2 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
