@@ -123,7 +123,7 @@ public class AudioController : MonoBehaviour
         channel.audioSource.clip = currentSong.clip;
     }
 
-    IEnumerator FadeIn(AudioSource audioSource, float target, float time = 2f)
+    IEnumerator FadeIn(AudioSource audioSource, float target, float time = 4f)
     {
         float progress = 0f;
         while(progress < 1f)

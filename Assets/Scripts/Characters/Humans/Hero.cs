@@ -1280,6 +1280,19 @@ namespace Assets.Scripts.Characters.Humans
                     ShowAimUI();
                 }
             }
+
+            // Audio Controls. Will likely move to own class.
+            // Will deduct time off the engaged in combat timer till it reaches 0. After it reaches 0 it makes engaged in combat false and sets the audio to neutral
+            if (engagedInCombatTimer > 0)
+            {
+                engagedInCombatTimer -= Time.deltaTime;
+            } 
+            else
+            {
+                AudioController.Instance.SetState(ChannelTypes.Combat, false);
+                AudioController.Instance.SetState(ChannelTypes.Neutral, true);
+                engagedInCombat = false;
+            }
         }
 
 
@@ -4195,20 +4208,36 @@ namespace Assets.Scripts.Characters.Humans
             titanForm = true;
         }
 
+        private bool engagedInCombat = false;       // Used to check to see if you were in proximity to a titan. If so then you are engaged in combat with it keeping the combat music going
+        private float engagedInCombatTimer = 0f;    // Used to set the amount of time you are engaged in combat. The higher the value the longer you are in combat before the music goes back to neutral.
+
         private void OnTriggerEnter(Collider collision)
         {
             if (collision.CompareTag("SoundTrigger"))
             {
                 AudioController.Instance.SetState(ChannelTypes.Combat, true);
+                engagedInCombat = true;
             }
         }
 
         private void OnTriggerExit(Collider collision)
         {
-            if (collision.CompareTag("SoundTrigger"))
+            if (collision.CompareTag("SoundTrigger") && !engagedInCombat)
             {
                 AudioController.Instance.SetState(ChannelTypes.Combat, false);
                 AudioController.Instance.SetState(ChannelTypes.Neutral, true);
+            }
+        }
+
+        private void OnTriggerStay(Collider collision)
+        {
+            if (collision.CompareTag("SoundTrigger") && engagedInCombat)
+            {
+                // Checks the titans State to see if it is dead. If dead then will not set the engaged in combat tracker. If dead then the engaged in combat timer will go down if not around another titan.
+                if (collision.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
+                {
+                    engagedInCombatTimer = 5f;
+                }
             }
         }
 
