@@ -729,7 +729,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void LateUpdate()
         {
-            if (Target == null && State != TitanState.Attacking)
+            if (Target == null && State != TitanState.Attacking && State != TitanState.Eat)
             {
                 SetState(TitanState.Wandering);
             }
