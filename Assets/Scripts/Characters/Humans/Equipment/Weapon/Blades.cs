@@ -35,7 +35,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                 WeaponRight.SetActive(true);
                 Hero.currentBladeSta = Hero.totalBladeSta;
                 bladesThrown = false;
-                Hero.weaponDisabledOnReloading = true;
+                Hero.weaponDisabledOnReloading = false;
             }
         }
 
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                         ThrowBlades();
                     }
                 }
-                //Checks for how finished the "reload" animation is for blades. If it's more than 10% finished, it will restock the blades
+                //Checks for how finished the "reload" animation is for blades. If it's more than the float % finished, it will restock the blades
                 if (Hero.Animation[Hero.reloadAnimation].normalizedTime >= reloadAnimBladeEnableTimeNonGrounded && TotalBlades > 0 || Hero.Animation != Hero.Animation[Hero.reloadAnimation])
                 {
                     EnableWeapons();
@@ -71,7 +71,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                         ThrowBlades();
                     }
                 }
-                //Checks for how finished the "reload" animation is for blades. If it's more than 10% finished, it will restock the blades
+                //Checks for how finished the "reload" animation is for blades. If it's more than the float % finished, it will restock the blades
                 if (Hero.Animation[Hero.reloadAnimation].normalizedTime >= reloadAnimBladeEnableTimeGrounded && TotalBlades > 0)
                 {
                     EnableWeapons();
