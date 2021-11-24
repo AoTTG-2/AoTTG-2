@@ -50,7 +50,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                     Hero.throwedBlades = true;
                     if (WeaponLeft.activeSelf)
                     {
-                        ThrowBlades();
+                        DropBladesAndReload();
                     }
                 }
                 //Checks for how finished the "reload" animation is for blades. If it's more than the float % finished, it will restock the blades
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                     Hero.throwedBlades = true;
                     if (WeaponLeft.activeSelf)
                     {
-                        ThrowBlades();
+                        DropBladesAndReload();
                     }
                 }
                 //Checks for how finished the "reload" animation is for blades. If it's more than the float % finished, it will restock the blades
@@ -97,10 +97,15 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
             bladesUi.curGas = Hero.currentGas;
         }
 
-        private void ThrowBlades()
+        private void DropBladesAndReload()
+        {
+            Hero.weaponDisabledOnReloading = true;
+            DropBlades();
+        }
+
+        private void DropBlades()
         {
             bladesThrown = true;
-            Hero.weaponDisabledOnReloading = true;
             var transform = WeaponLeft.transform;
             var transform2 = WeaponRight.transform;
             var obj2 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
@@ -151,7 +156,7 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
                         Hero.checkBoxRight.GetComponent<TriggerColliderWeapon>().IsActive = false;
                     }
                     Hero.currentBladeSta = 0f;
-                    this.ThrowBlades();
+                    DropBlades();
                 }
             }
         }
