@@ -14,7 +14,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private readonly List<GameObject> visibleNavigations = new List<GameObject>();
 
-        private CapsuleCollider navBox;
+        private CapsuleCollider navBox; // Hitbox used for checking possible path.
 
         private const int MaxNav = 20;
         private const float BaseMaxNavLength = 120;
@@ -91,7 +91,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void FindNavigationRoute(Vector2 targetPos)
         {
-            bool canNavigate = false;
+            // Cut short any redundant point (Remove children points if parent point can reach targetPos)
             for (int i = 0; i < navPoints.Count; i++)
             {
                 if (CanNavigate(navPoints[i], targetPos))
@@ -100,15 +100,17 @@ namespace Assets.Scripts.Characters.Titan
                     {
                         RemoveFromNavPoints(i + 1);
                     }
-                    AddToNavPoints(targetPos);
-                    canNavigate = true;
                     break;
                 }
             }
-            if (!canNavigate && (navPoints[navPoints.Count - 1] - targetPos).magnitude > navBox.radius)
+            // Connect last point to the targetPos
+            if ((navPoints[navPoints.Count - 1] - targetPos).magnitude > navBox.radius)
             {
                 AddToNavPoints(targetPos);
             }
+
+            // Remove point if it gets too close to the entity (To stop the entity from targeting that point
+            // and avoid them standing at that point forever)
             if (navPoints.Count > 0)
             {
                 navPoints[0] = ToVec2(navBox.transform.position);
@@ -128,6 +130,7 @@ namespace Assets.Scripts.Characters.Titan
                 {
                     foreach (RaycastHit interruption in NavigationInterruptions(navPoints[i - 1], navPoints[i]))
                     {
+                        // Add another point at the position where it was interrupted
                         if (interruption.collider == null) continue;
                         Vector2 interruptionPos = ToVec2(interruption.point);
                         if ((interruptionPos - navPoints[i]).magnitude > navBox.radius && (interruptionPos - navPoints[i - 1]).magnitude > navBox.radius && (interruptionPos - navPoints[i]).magnitude + (interruptionPos - navPoints[i - 1]).magnitude < navBox.radius + (navPoints[i - 1] - navPoints[i]).magnitude)
@@ -136,6 +139,7 @@ namespace Assets.Scripts.Characters.Titan
                         }
                     }
                 }
+                // Actually adding them in
                 for (int i = addition.Count - 1; i >= 0; i--)
                 {
                     AddToNavPoints((int) addition[i].z, new Vector2(addition[i].x, addition[i].y));
@@ -149,9 +153,11 @@ namespace Assets.Scripts.Characters.Titan
             {
                 for (int i = 1; i < navPoints.Count - 1; i++)
                 {
+                    // Move any point that is overlapping the environment
                     if (IsOverlapping(navPoints[i]))
                     {
                         Vector2 newEnd;
+                        // Possible directions to move the point
                         Vector2[] adds = new Vector2[] { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 1), new Vector2(-1, 1), new Vector2(1, -1), new Vector2(-1, -1) };
                         foreach (Vector2 add in adds)
                         {
@@ -167,6 +173,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        // Shorten the navigation length when possible to optimize movement
         private void ShortenNavigation()
         {
             for (int i = 2; i < navPoints.Count; i++)
@@ -182,6 +189,7 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
+        // Reset the navigation when the max length is reached
         private void NavigationResetCheck()
         {
             length = 0;
@@ -190,20 +198,24 @@ namespace Assets.Scripts.Characters.Titan
                 if ((length += (navPoints[i] - navPoints[i - 1]).magnitude) > maxNavLength)
                 {
                     navPoints.Clear();
-                    navPoints.Add(ToVec2(navBox.transform.position));
+                    navPoints.Add(ToVec2(navBox.transform.position)); // The first point must be the entiy position
                     break;
                 }
             }
         }
 
+        // Return the current direction of movement
         public Vector3 GetNavDir()
         {
+            // Move toward the target if the navigation length 5 times is longer than moving straight toward the target
             if (length > 5 * (navPoints[0] - navPoints[navPoints.Count - 1]).magnitude)
             {
                 return ToVec3(navPoints[navPoints.Count - 1] - navPoints[0]);
             }
 
             // When The Titan Cannot Reach The Player
+            // This behavior stop the titan from moving away from the player when the player is hiding
+            // in somewhere the titan cannot reach
             if (IsOverlapping(navPoints[navPoints.Count - 1]))
             {
                 float minDistance = (navPoints[0] - navPoints[navPoints.Count - 1]).magnitude;
@@ -217,6 +229,8 @@ namespace Assets.Scripts.Characters.Titan
                 return ToVec3(navPoints[navPoints.Count - 1] - navPoints[0]);
             }
 
+            // Finally return the current direction when none of the case above is true
+            // The titan won't follow the displayed navigation line if one of the case above is true
             if (navPoints.Count > 1)
             {
                 return ToVec3(navPoints[1] - navPoints[0]);
