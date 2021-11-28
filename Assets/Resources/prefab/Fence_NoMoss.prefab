@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2066201378506002960}
   - component: {fileID: 3099396429631380917}
   - component: {fileID: 929909658370058623}
-  - component: {fileID: -8694927884181561066}
+  - component: {fileID: -556756311873822827}
   m_Layer: 0
   m_Name: Fence_NoMoss
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-8694927884181561066
-MeshCollider:
+--- !u!65 &-556756311873822827
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,7 +92,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6807533893737061721, guid: e2575d75b1f03474c97c76f485acf80a, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.002641005, y: 0.033503443, z: 0.00948066}
+  m_Center: {x: -0.0003231127, y: 0.013369088, z: 0.0047403276}

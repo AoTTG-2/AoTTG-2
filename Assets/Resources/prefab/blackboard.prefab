@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5798215146594072110}
   - component: {fileID: 7482940108556499339}
   - component: {fileID: 4628654953380482369}
-  m_Layer: 0
+  - component: {fileID: 4587200471566988927}
+  m_Layer: 9
   m_Name: blackboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4587200471566988927
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574328946600914068}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0060386895, y: 0.020000003, z: 0.026936844}
+  m_Center: {x: 0.00698066, y: 3.3774317e-10, z: -0.0034684201}

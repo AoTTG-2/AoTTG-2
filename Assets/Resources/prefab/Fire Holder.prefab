@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7681444062098109146}
   - component: {fileID: 3102148137908740622}
   - component: {fileID: 888442671765815897}
-  - component: {fileID: 8846337859268917587}
+  - component: {fileID: -2609771430574527893}
   m_Layer: 9
   m_Name: Fire Holder
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8846337859268917587
-MeshCollider:
+--- !u!65 &-2609771430574527893
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,7 +92,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 302932420231958505, guid: 09bf693ba5dfbad46bb48f5998e4e619, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.0072606024, y: 0.0073816245, z: 0.010415622}
+  m_Center: {x: -0.00023277817, y: 0.00006291761, z: -0.0008164177}

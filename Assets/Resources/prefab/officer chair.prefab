@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1373158484574688593}
   - component: {fileID: 7706540553730401231}
   - component: {fileID: 2302795328394526480}
-  - component: {fileID: 5973869967407988191}
+  - component: {fileID: -1054169988048374906}
   m_Layer: 9
   m_Name: officer chair
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5973869967407988191
-MeshCollider:
+--- !u!65 &-1054169988048374906
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,7 +92,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: 52484042c1cbd284cabec4f4cd843470, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.08851798, y: 0.07464403, z: 0.1160787}
+  m_Center: {x: -4.4172806e-13, y: 0.015893871, z: 0.021866936}

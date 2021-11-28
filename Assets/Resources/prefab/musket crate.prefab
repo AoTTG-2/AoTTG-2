@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1114751345309411876}
   - component: {fileID: 1615368830833142932}
   - component: {fileID: 1706163859330567539}
-  - component: {fileID: 690218783532338028}
+  - component: {fileID: 2257334230226517938}
   m_Layer: 9
-  m_Name: Box (7)
+  m_Name: musket crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &690218783532338028
-MeshCollider:
+--- !u!65 &2257334230226517938
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,7 +92,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 9009893830714642796, guid: a0ac858534a2bb24b8386ffb66f2ffa0, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.0217941, y: 0.021794097, z: 0.021794096}
+  m_Center: {x: 0, y: 0, z: 0.009999998}
