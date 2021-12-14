@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2232916158502693513}
   - component: {fileID: 2977779850204898604}
   - component: {fileID: 1060533626046222822}
-  - component: {fileID: -4120571107224209667}
+  - component: {fileID: -8705108475369288856}
   m_Layer: 9
   m_Name: Rope_Fence_Single
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-4120571107224209667
-MeshCollider:
+--- !u!65 &-8705108475369288856
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,7 +92,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 9091874763089778162, guid: f5ec26bdad659274f8a3025569ddc546, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2.0443661, z: 1.4419678}
+  m_Center: {x: -0.00000038743056, y: -0.9611275, z: -0.72215694}
