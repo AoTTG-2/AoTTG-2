@@ -12,7 +12,12 @@ ModelImporter:
   - first:
       74: 31683092375573364
     second: Armature.001|idle_F
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Thunderspears
+    second: {fileID: 2100000, guid: 04bf9641c18453a42980b410c57b2ac1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

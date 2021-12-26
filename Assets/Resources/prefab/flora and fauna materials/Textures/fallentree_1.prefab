@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 440203688560621278}
   - component: {fileID: 8952340664813423330}
   - component: {fileID: 5358462069012232283}
+  - component: {fileID: -6234239652314242149}
   m_Layer: 0
   m_Name: fallentree_1
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2295699958525706655, guid: 0bf8d1f6d9e69094a93981fbff0dc683, type: 3}
+  - {fileID: 2100000, guid: 3511a52fb54af634fabc316da737299c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-6234239652314242149
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682155529636262861}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7909174798116672502, guid: 0bf8d1f6d9e69094a93981fbff0dc683, type: 3}
