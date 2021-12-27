@@ -147,6 +147,34 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         return $"<color=#{ColorSet.color_D}>_</color>[-]";
     }
 
+    /// <summary>
+    /// Finds and returns the intersection of the ground and the current capture point to spawn the supply object.
+    /// </summary>
+    /// <param name="cpPosition">Vector3 position of the checkpoint.</param>
+    /// <returns>Vector3 position to spawn the supply point.</returns>
+    private Vector3 calculateSupplySpawnPosition(Vector3 cpPosition)
+    {
+        var hits = Physics.RaycastAll(cpPosition, Vector3.down, 200);
+
+        if (hits.Length > 0)
+        {
+            Vector3 supplyPos = hits[0].point;
+            return supplyPos;
+        }
+        else
+        {
+            hits = Physics.RaycastAll(cpPosition, Vector3.up, 200);
+
+            if (hits.Length > 0)
+            {
+                Vector3 supplyPos = hits[0].point;
+                supplyPos.y += 5; // Add a little bit to the upward cast to see if that bumps it above the terrain height.
+                return supplyPos;
+            }
+        }
+        return cpPosition;
+    }
+
     private void humanGetsPoint()
     {
         if (this.humanPt >= this.humanPtMax)
@@ -159,9 +187,9 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             base.photonView.RPC(nameof(changeState), PhotonTargets.All, parameters);
             if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().SpawnSupplyStationOnHumanCapture.Value)
             {
-                supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
+                Vector3 supplyPos = this.calculateSupplySpawnPosition(transform.position);
+                supply = PhotonNetwork.Instantiate("aot_supply", supplyPos, transform.rotation, 0);
             }
-            
             gamemode.AddHumanScore(2);
             if (this.checkIfHumanWins() && PhotonNetwork.isMasterClient)
             {
@@ -196,7 +224,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
 
     private void newTitan()
     {
-        gamemode.SpawnCheckpointTitan(this, base.transform.position - ((Vector3)(Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation);
+        gamemode.SpawnCheckpointTitan(this, base.transform.position - ((Vector3) (Vector3.up * (base.transform.position.y - this.getHeight(base.transform.position)))), base.transform.rotation);
     }
 
     private void Start()

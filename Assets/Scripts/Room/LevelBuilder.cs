@@ -382,7 +382,7 @@ namespace Assets.Scripts.Room
                             DayLength = 300,
                             Pause = true,
                         },
-                        SpawnSupplyStationOnHumanCapture = false,
+                        SpawnSupplyStationOnHumanCapture = true,
                         PvpHumanScoreLimit = 400,
                         PvpTitanScoreLimit = 400
                     },
