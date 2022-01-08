@@ -3,7 +3,12 @@ guid: c6a337f048e57fc4d885ec258fecc11e
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TarpFence
+    second: {fileID: 2100000, guid: 000bede74bebf0f4b97cd7aefae6ae3f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
