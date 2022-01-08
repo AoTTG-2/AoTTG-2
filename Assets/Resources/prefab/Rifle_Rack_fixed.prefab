@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 230039689637898466}
   - component: {fileID: 9060159845755971734}
   - component: {fileID: 462507883616742749}
-  - component: {fileID: -8726785342369411468}
   m_Layer: 9
   m_Name: Rifle_Rack_fixed
   m_TagString: Untagged
@@ -82,16 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-8726785342369411468
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5665571625023613398}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.019999998, y: 0.019999996, z: 0.2456895}
-  m_Center: {x: 0, y: -2.0045257e-16, z: 0.11284474}
