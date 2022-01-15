@@ -811,9 +811,10 @@ namespace Assets.Scripts.Characters.Titan
             else
             {
                 Vector3 movingDirection = Target.transform.position - transform.position;
-                if (GetNavigator().GetNavDir().magnitude > 0)
+                Vector3 navDir = GetNavigator().GetNavDir();
+                if (new Vector2(navDir.x, navDir.z).magnitude > 0)
                 {
-                    movingDirection = GetNavigator().GetNavDir();
+                    movingDirection = navDir;
                 }
                 var angle = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg;
                 var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
@@ -1016,9 +1017,10 @@ namespace Assets.Scripts.Characters.Titan
                 Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
                 var movingDirection = Target.transform.position - transform.position;
-                if (GetNavigator().GetNavDir().magnitude > 0)
+                Vector3 navDir = GetNavigator().GetNavDir();
+                if (new Vector2(navDir.x, navDir.z).magnitude > 0)
                 {
-                    movingDirection = GetNavigator().GetNavDir();
+                    movingDirection = navDir;
                 }
                 var current = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg + RotationModifier;
                 float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);

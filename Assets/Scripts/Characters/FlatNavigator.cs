@@ -10,7 +10,7 @@ namespace Assets.Scripts.Characters.Titan
 
         public Color Color;
         public Material Material;
-        public bool display = false; // Tick this to display path
+        public bool display = false; // Tick this in the inspector to display path
 
         private readonly List<GameObject> visibleNavigations = new List<GameObject>();
 
@@ -109,6 +109,16 @@ namespace Assets.Scripts.Characters.Titan
                 AddToNavPoints(targetPos);
             }
 
+            // Merge points if they are in close proximity
+            for (int i = 1; i < navPoints.Count - 1; i++)
+            {
+                if ((navPoints[i] - navPoints[i + 1]).magnitude < navBox.radius)
+                {
+                    navPoints[i] = (navPoints[i] + navPoints[i + 1]) / 2;
+                    RemoveFromNavPoints(i + 1);
+                }
+            }
+
             // Remove point if it gets too close to the entity (To stop the entity from targeting that point
             // and avoid them standing at that point forever)
             if (navPoints.Count > 0)
@@ -128,11 +138,10 @@ namespace Assets.Scripts.Characters.Titan
                 List<Vector3> addition = new List<Vector3>(); // z value is used for setting the index of the navPoint
                 for (int i = 1; i < navPoints.Count; i++)
                 {
-                    foreach (RaycastHit interruption in NavigationInterruptions(navPoints[i - 1], navPoints[i]))
+                    if (CanNavigate(navPoints[i - 1], navPoints[i]) || IsOverlapping(navPoints[i - 1]) || IsOverlapping(navPoints[i]))
                     {
                         // Add another point at the position where it was interrupted
-                        if (interruption.collider == null) continue;
-                        Vector2 interruptionPos = ToVec2(interruption.point);
+                        Vector2 interruptionPos = (navPoints[i] + navPoints[i - 1]) / 2;
                         if ((interruptionPos - navPoints[i]).magnitude > navBox.radius && (interruptionPos - navPoints[i - 1]).magnitude > navBox.radius && (interruptionPos - navPoints[i]).magnitude + (interruptionPos - navPoints[i - 1]).magnitude < navBox.radius + (navPoints[i - 1] - navPoints[i]).magnitude)
                         {
                             addition.Add(new Vector3(interruptionPos.x, interruptionPos.y, i));
@@ -207,7 +216,7 @@ namespace Assets.Scripts.Characters.Titan
         // Return the current direction of movement
         public Vector3 GetNavDir()
         {
-            // Move toward the target if the navigation length 5 times is longer than moving straight toward the target
+            // Move toward the target if the navigation length is 5 times longer than moving straight toward the target
             if (length > 5 * (navPoints[0] - navPoints[navPoints.Count - 1]).magnitude)
             {
                 return ToVec3(navPoints[navPoints.Count - 1] - navPoints[0]);
@@ -271,17 +280,6 @@ namespace Assets.Scripts.Characters.Titan
             Vector3 capsuleStart = start + new Vector3(0, capsule.height / 2 - capsule.radius, 0);
             Vector3 capsuleEnd = start - new Vector3(0, capsule.height / 2 - capsule.radius, 0);
             return !Physics.CapsuleCast(capsuleStart, capsuleEnd, capsule.radius, targetPos - start, out _, (targetPos - start).magnitude, mask);
-        }
-
-        private RaycastHit[] NavigationInterruptions(Vector2 s, Vector2 e)
-        {
-            Vector3 start = ToVec3(s);
-            Vector3 targetPos = ToVec3(e);
-            LayerMask mask = Layers.Ground.ToLayer();
-            CapsuleCollider capsule = navBox;
-            Vector3 capsuleStart = start + new Vector3(0, capsule.height / 2 - capsule.radius, 0);
-            Vector3 capsuleEnd = start - new Vector3(0, capsule.height / 2 - capsule.radius, 0);
-            return Physics.CapsuleCastAll(capsuleStart, capsuleEnd, capsule.radius, targetPos - start, (targetPos - start).magnitude, mask);
         }
 
         private bool IsOverlapping(Vector2 p)
