@@ -2182,6 +2182,7 @@ GameObject:
   - component: {fileID: 114021182772690314}
   - component: {fileID: 6694120659276232339}
   - component: {fileID: -6264185045053856331}
+  - component: {fileID: 8256805048288674642}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2525,6 +2526,20 @@ MonoBehaviour:
   image: {fileID: 0}
   position: {x: 0, y: 0}
   markerID: 
+--- !u!182 &8256805048288674642
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_Mode: 1
+  m_Radius: 35
+  m_WindMain: 200
+  m_WindTurbulence: 1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 0.01
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0
