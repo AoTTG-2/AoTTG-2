@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 248355779423777193}
   - component: {fileID: 2636471696469050723}
   - component: {fileID: 2543855410487818899}
-  - component: {fileID: 411289282625726262}
+  - component: {fileID: 141652255438301999}
   m_Layer: 9
   m_Name: lantern2
   m_TagString: Untagged
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.00324372, y: 0.0061602998, z: 0.003}
   m_Center: {x: 2.9932818e-12, y: 0.00305673, z: 0.000100440055}
---- !u!108 &411289282625726262
+--- !u!108 &141652255438301999
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,9 +107,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.8584906, g: 0.6818206, b: 0.23082057, a: 1}
-  m_Intensity: 20
-  m_Range: 10
+  m_Color: {r: 0.6981132, g: 0.5997956, b: 0.28648987, a: 1}
+  m_Intensity: 15
+  m_Range: 15
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
