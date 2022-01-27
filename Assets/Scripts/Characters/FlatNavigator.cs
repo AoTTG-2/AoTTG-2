@@ -138,10 +138,11 @@ namespace Assets.Scripts.Characters.Titan
                 List<Vector3> addition = new List<Vector3>(); // z value is used for setting the index of the navPoint
                 for (int i = 1; i < navPoints.Count; i++)
                 {
-                    if (CanNavigate(navPoints[i - 1], navPoints[i]) || IsOverlapping(navPoints[i - 1]) || IsOverlapping(navPoints[i]))
+                    foreach (RaycastHit interruption in NavigationInterruptions(navPoints[i - 1], navPoints[i]))
                     {
                         // Add another point at the position where it was interrupted
-                        Vector2 interruptionPos = (navPoints[i] + navPoints[i - 1]) / 2;
+                        if (interruption.collider == null) continue;
+                        Vector2 interruptionPos = ToVec2(interruption.point);
                         if ((interruptionPos - navPoints[i]).magnitude > navBox.radius && (interruptionPos - navPoints[i - 1]).magnitude > navBox.radius && (interruptionPos - navPoints[i]).magnitude + (interruptionPos - navPoints[i - 1]).magnitude < navBox.radius + (navPoints[i - 1] - navPoints[i]).magnitude)
                         {
                             addition.Add(new Vector3(interruptionPos.x, interruptionPos.y, i));
@@ -269,6 +270,17 @@ namespace Assets.Scripts.Characters.Titan
             {
                 navPoints.RemoveAt(index);
             }
+        }
+
+        private RaycastHit[] NavigationInterruptions(Vector2 s, Vector2 e)
+        {
+            Vector3 start = ToVec3(s);
+            Vector3 targetPos = ToVec3(e);
+            LayerMask mask = Layers.Ground.ToLayer();
+            CapsuleCollider capsule = navBox;
+            Vector3 capsuleStart = start + new Vector3(0, capsule.height / 2 - capsule.radius, 0);
+            Vector3 capsuleEnd = start - new Vector3(0, capsule.height / 2 - capsule.radius, 0);
+            return Physics.CapsuleCastAll(capsuleStart, capsuleEnd, capsule.radius, targetPos - start, (targetPos - start).magnitude, mask);
         }
 
         private bool CanNavigate(Vector2 s, Vector2 e)

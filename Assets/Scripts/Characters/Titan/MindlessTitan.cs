@@ -763,6 +763,7 @@ namespace Assets.Scripts.Characters.Titan
             CurrentAttack.Execute();
         }
 
+        private bool Stuck = false;
         protected override void OnChasing()
         {
             if (Target == null || ViewDistance < TargetDistance)
@@ -774,7 +775,11 @@ namespace Assets.Scripts.Characters.Titan
             //TODO: Enable when add bend down animation
             // if (CurrentAnimation != AnimationBendDown)
             // {
-            if (CanRun())
+            if (IsStuck() || Stuck)
+            {
+                CurrentAnimation = AnimationIdle;
+            }
+            else if (CanRun())
             {
                 CurrentAnimation = AnimationRun;
                 Stamina -= Time.deltaTime * 2;
@@ -821,6 +826,7 @@ namespace Assets.Scripts.Characters.Titan
                 if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
                 {
                     Turn(between);
+                    Stuck = false;
                 }
                 else
                 {
@@ -962,12 +968,6 @@ namespace Assets.Scripts.Characters.Titan
             if (Setting.Debug.TitanMovement == true && PhotonNetwork.isMasterClient) return;
             if (State == TitanState.Wandering)
             {
-                if (IsStuck())
-                {
-                    Turn(Random.Range(-270, 270));
-                    return;
-                }
-
                 var runModifier = 1f;
                 var vector12 = transform.forward * Speed * runModifier;
                 var vector14 = vector12 - Rigidbody.velocity;
@@ -1004,27 +1004,43 @@ namespace Assets.Scripts.Characters.Titan
                 }
                 */
 
+                if (IsStuck())
+                {
+                    if (CurrentAnimation != AnimationIdle)
+                    {
+                        CurrentAnimation = AnimationIdle;
+                        if (!Animation.IsPlaying(CurrentAnimation))
+                        {
+                            CrossFade(CurrentAnimation, 0.5f);
+                        }
+                    }
+                    Stuck = true;
+                }
+
                 if (Target == null) return;
                 var speed = CanRun()
                     ? SpeedRun
                     : Speed;
 
-                var vector12 = transform.forward * speed;
-                var vector14 = vector12 - Rigidbody.velocity;
-                vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
-                vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
-                vector14.y = 0f;
-                Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
-
-                var movingDirection = Target.transform.position - transform.position;
-                Vector3 navDir = GetNavigator().GetNavDir();
-                if (new Vector2(navDir.x, navDir.z).magnitude > 0)
+                if (!Stuck)
                 {
-                    movingDirection = navDir;
+                    var vector12 = transform.forward * speed;
+                    var vector14 = vector12 - Rigidbody.velocity;
+                    vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
+                    vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
+                    vector14.y = 0f;
+                    Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
+
+                    var movingDirection = Target.transform.position - transform.position;
+                    Vector3 navDir = GetNavigator().GetNavDir();
+                    if (new Vector2(navDir.x, navDir.z).magnitude > 0)
+                    {
+                        movingDirection = navDir;
+                    }
+                    var current = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg + RotationModifier;
+                    float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);
                 }
-                var current = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg + RotationModifier;
-                float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);
             }
         }
 
