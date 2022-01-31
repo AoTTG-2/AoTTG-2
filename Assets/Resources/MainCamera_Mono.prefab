@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114083221314651414}
   - component: {fileID: 114263758633935216}
   - component: {fileID: 6751414761138738067}
+  - component: {fileID: -3781248990859997291}
   m_Layer: 0
   m_Name: MainCamera_Mono
   m_TagString: MainCamera
@@ -289,6 +290,35 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &-3781248990859997291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843893240112004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6aed63a24771964788a0097ec994e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - name: Foundation
+    preview: {fileID: 569521029534530017, guid: 6399467297e12524e8f8ebcab53e274c,
+      type: 3}
+    gold: 0
+  currentobject:
+    name: 
+    preview: {fileID: 0}
+    gold: 0
+  currentpreview: {fileID: 0}
+  cam: {fileID: 4469376160704160}
+  layer:
+    serializedVersion: 2
+    m_Bits: 512
+  offset: 200
+  gridSize: 1
+  IsBuilding: 1
 --- !u!1 &7809218471229476924
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class BasicBuildSystem : MonoBehaviour
     public float offset = 1.0f;
     public float gridSize = 1.0f;
 
+    public bool IsBuilding;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,14 @@ public class BasicBuildSystem : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+    void Update()
+    {
+        if (IsBuilding)
+            startPreview ();
+
+    }
+
+
     public void changeCurrentBuilding() 
     {
         GameObject curprev = Instantiate(currentobject.preview, currentpos, Quaternion.identity) as GameObject;
@@ -31,7 +41,7 @@ public class BasicBuildSystem : MonoBehaviour
     }
     public void startPreview()
     {
-        if(Physics.Raycast(cam.position, cam.forward, out hit, 10, layer))
+        if(Physics.Raycast(cam.position, cam.forward, out hit, 40, layer))
         
               if (hit.transform != this.transform)
             showPreview(hit);
@@ -56,7 +66,8 @@ public class buildObjects
 {
     public string name;
     public GameObject preview;
-    public int gold;
+    public int resources;
 
 }
+
 
