@@ -34,13 +34,13 @@ public class BasicBuildSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
             Build();
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) 
+        if (Input.GetKeyDown("0") || Input.GetKeyDown("1") || Input.GetKeyDown("2"));
             switchCurrentBuilding();
     }
 
     public void switchCurrentBuilding()
     {
-        for(int i = 1; 1 <3; i ++)
+        for(int i = 0; i <3; i ++)
         {
             if (Input.GetKeyDown("" + i))
                 changeCurrentBuilding(i);
