@@ -7,6 +7,7 @@ public class BasicBuildSystem : MonoBehaviour
     public List<buildObjects> objects = new List<buildObjects>();
     public buildObjects currentobject;
     private Vector3 currentpos;
+    private Vector3 currentrot;
     public Transform currentpreview;
     public Transform cam;
     public RaycastHit hit;
@@ -20,8 +21,8 @@ public class BasicBuildSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentobject = objects[0];
-        changeCurrentBuilding();
+        
+        changeCurrentBuilding(0);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -29,15 +30,32 @@ public class BasicBuildSystem : MonoBehaviour
     void Update()
     {
         if (IsBuilding)
-            startPreview ();
-        if (Input.GetButtonDown("Fire1"))
+            startPreview();
+        if (Input.GetKeyDown(KeyCode.UpArrow))
             Build();
+
+        if (Input.GetKeyDown(KeyCode.DownArrow)) 
+            switchCurrentBuilding();
     }
 
-
-    public void changeCurrentBuilding() 
+    public void switchCurrentBuilding()
     {
-        GameObject curprev = Instantiate(currentobject.preview, currentpos, Quaternion.identity) as GameObject;
+        for(int i = 1; 1 <3; i ++)
+        {
+            if (Input.GetKeyDown("" + i))
+                changeCurrentBuilding(i);
+
+        }
+
+
+    }
+
+    public void changeCurrentBuilding(int cur) 
+    {
+        currentobject = objects[cur];
+        if (currentpreview != null)
+            Destroy(currentpreview.gameObject);
+        GameObject curprev = Instantiate(currentobject.preview, currentpos, Quaternion.Euler (currentrot)) as GameObject;
         currentpreview = curprev.transform;
     }
     public void startPreview()
@@ -58,7 +76,11 @@ public class BasicBuildSystem : MonoBehaviour
         currentpos *= gridSize;
         currentpos += Vector3.one * offset;
         currentpreview.position = currentpos;
-     
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            currentrot += new Vector3(0, 45, 0);
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            currentrot -= new Vector3(0, 45, 0);
+        currentpreview.localEulerAngles = currentrot;
     }
 
     public void Build()
@@ -66,7 +88,7 @@ public class BasicBuildSystem : MonoBehaviour
         PreviewObject PO = currentpreview.GetComponent<PreviewObject>();
         if(PO.IsBuildable)
         {
-            Instantiate(currentobject.prefab, currentpos, Quaternion.identity );
+            Instantiate(currentobject.prefab, currentpos, Quaternion.Euler(currentrot));
         }
 
     }

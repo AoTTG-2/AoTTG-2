@@ -303,10 +303,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objects:
+  - name: Foundation
+    prefab: {fileID: 8093004684000891306, guid: df64469240b38774dbdb6505e9990136,
+      type: 3}
+    preview: {fileID: 5946817259722257769, guid: 6399467297e12524e8f8ebcab53e274c,
+      type: 3}
+    resources: 0
   - name: Supplies
     prefab: {fileID: 7665116553546959828, guid: 53e7e99b663f17f45bf439fc6da7811e,
       type: 3}
-    preview: {fileID: 5017039199178378141, guid: 9400ca853265b424295b891e72f6167f,
+    preview: {fileID: 9200125064209493576, guid: 9400ca853265b424295b891e72f6167f,
       type: 3}
     resources: 0
   currentobject:

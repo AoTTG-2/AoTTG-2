@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class PreviewObject : MonoBehaviour
 {
-
-    public bool foundation;
     public List<Collider> col = new List<Collider>();
+    public objectsorts sort;
     public Material green;
     public Material red;
     public bool IsBuildable;
 
+    public bool second;
+
+    public PreviewObject childcol;
+
+    public Transform graphics;
+
     void OnTriggerEnter(Collider other)
     {
 
-        if (other.gameObject.layer == 26 && foundation)
+        if (other.gameObject.layer == 26)
             col.Add(other);
     }
 
     void OnTriggerExit(Collider other)
     {
 
-        if (other.gameObject.layer == 26 && foundation)
+        if (other.gameObject.layer == 26)
             col.Remove(other);
 
     }
@@ -34,14 +39,24 @@ public class PreviewObject : MonoBehaviour
 
     public void changecolour()
     {
-        if (col.Count == 0)
-            IsBuildable = true;
+        if(sort == objectsorts.foundation)
+        {
+            if (col.Count == 0)
+                IsBuildable = true;
+            else
+                IsBuildable = false;
+        }
         else
-            IsBuildable = false;
+        {
+            if (col.Count == 0 && childcol.col.Count > 0)
+                IsBuildable = true;
+            else
+                IsBuildable = false;
+        }
 
         if (IsBuildable)
         {
-            foreach (Transform child in this.transform)
+            foreach (Transform child in graphics)
             {
                 child.GetComponent<Renderer>().material = green;
 
@@ -52,7 +67,7 @@ public class PreviewObject : MonoBehaviour
         }
         else
         {
-            foreach (Transform child in this.transform)
+            foreach (Transform child in graphics)
             {
                 child.GetComponent<Renderer>().material = red;
 
@@ -64,7 +79,14 @@ public class PreviewObject : MonoBehaviour
 
     }
 
+    public enum objectsorts
+    {
+        normal,
+        foundation,
+        floor
 
+
+    }
 
 
  
