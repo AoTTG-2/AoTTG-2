@@ -157,7 +157,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4519703
+    m_Bits: 105182999
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -303,14 +303,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objects:
-  - name: Foundation
-    preview: {fileID: 569521029534530017, guid: 6399467297e12524e8f8ebcab53e274c,
+  - name: SupplyStation
+    prefab: {fileID: 2061411556781091506, guid: 53e7e99b663f17f45bf439fc6da7811e,
       type: 3}
-    gold: 0
+    preview: {fileID: 2429654422629883795, guid: 9400ca853265b424295b891e72f6167f,
+      type: 3}
+    resources: 0
   currentobject:
     name: 
+    prefab: {fileID: 0}
     preview: {fileID: 0}
-    gold: 0
+    resources: 0
   currentpreview: {fileID: 0}
   cam: {fileID: 4469376160704160}
   layer:

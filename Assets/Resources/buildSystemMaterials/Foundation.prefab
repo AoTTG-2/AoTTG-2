@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3509580974640942761}
   - component: {fileID: 8856860335629113089}
   - component: {fileID: 2774673532155070623}
-  m_Layer: 4
+  - component: {fileID: 175865038357152876}
+  m_Layer: 25
   m_Name: Foundation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.9, y: 1, z: 3.9}
-  m_Center: {x: 0, y: 0.25, z: 0}
+  m_Size: {x: 3.9, y: 0.4, z: 3.9}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2774673532155070623
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -62,6 +63,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &175865038357152876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569521029534530017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c903f8808943d49839f34c6c0ea8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foundation: 1
+  col: []
+  green: {fileID: 2100000, guid: 6ae95a16e6bca1949b5379fc35b00aaf, type: 2}
+  red: {fileID: 2100000, guid: d3e761cd30280e64da697b96944baa27, type: 2}
+  IsBuildable: 0
 --- !u!1 &6775793086899762358
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +92,7 @@ GameObject:
   - component: {fileID: 3225737348923592365}
   - component: {fileID: 7036326243121477101}
   - component: {fileID: 2968903966447300992}
-  m_Layer: 4
+  m_Layer: 25
   m_Name: TestCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 6775793086899762358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.2, z: 1}
+  m_LocalScale: {x: 3.9, y: 0.4, z: 3.9}
   m_Children: []
   m_Father: {fileID: 3509580974640942761}
   m_RootOrder: 0

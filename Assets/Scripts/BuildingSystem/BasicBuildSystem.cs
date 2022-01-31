@@ -30,7 +30,8 @@ public class BasicBuildSystem : MonoBehaviour
     {
         if (IsBuilding)
             startPreview ();
-
+        if (Input.GetButtonDown("Fire1"))
+            Build();
     }
 
 
@@ -59,12 +60,23 @@ public class BasicBuildSystem : MonoBehaviour
         currentpreview.position = currentpos;
      
     }
+
+    public void Build()
+    {
+        PreviewObject PO = currentpreview.GetComponent<PreviewObject>();
+        if(PO.IsBuildable)
+        {
+            Instantiate(currentobject.prefab, currentpos, Quaternion.identity );
+        }
+
+    }
 }
 
 [System.Serializable]
 public class buildObjects
 {
     public string name;
+    public GameObject prefab;
     public GameObject preview;
     public int resources;
 

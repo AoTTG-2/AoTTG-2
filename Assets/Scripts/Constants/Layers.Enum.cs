@@ -30,5 +30,7 @@ namespace Assets.Scripts.Constants
 		TitanDetection = 22,
 		MapEditor = 23,
 		Moon = 24,
+		BuildPreview = 25,
+		Buildable = 26,
 	}
 }
