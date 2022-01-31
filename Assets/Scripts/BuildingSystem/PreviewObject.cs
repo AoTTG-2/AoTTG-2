@@ -21,7 +21,7 @@ public class PreviewObject : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
 
-        if (other.gameObject.layer == 25 && foundation)
+        if (other.gameObject.layer == 26 && foundation)
             col.Remove(other);
 
     }
